@@ -114,7 +114,7 @@ function Breather(closure, baseline, delta, period, wait) {
   var period_in_seconds = period || time.breathePeriod;
   this.period = 2 * Math.PI * 1000 * period_in_seconds;
 
-  this.interpolationFunction = TWEEN.Easing.Wave.Triangle;
+  this.interpolationFunction = TWEEN.Easing.Cubic.EaseInOut;
 
   if (wait) {
     var _this = this;

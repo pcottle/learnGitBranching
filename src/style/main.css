@@ -1,0 +1,19 @@
+html,body {
+    overflow:hidden;
+
+  background: -moz-radial-gradient(center, ellipse cover, #0066cc 0%, #000000 90%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#0066cc), color-stop(90%,#000000));
+  background: -webkit-radial-gradient(center, ellipse cover, #0066cc 0%,#000 90%);
+  background: -o-radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
+  background: -ms-radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
+  background: radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
+  -webkit-perspective:600px;
+  font-family: 'Lato', Times, 'Times New Roman', serif;
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  
+  color: #eee;
+  
+}
+
