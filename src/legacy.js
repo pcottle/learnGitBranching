@@ -39,7 +39,7 @@ Renderer = function(canvas) {
     resize: function(){
       var w = $(window).width(),
           h = $(window).height();
-      // resize the canvas element to fill the screen
+      // resize the canvas element to fill the screen TODO -- fix this
       canvas.width = w; canvas.height = h;
       // inform the system so it can map coords for us
       particleSystem.screenSize(w,h);
@@ -96,19 +96,10 @@ Renderer = function(canvas) {
   return that;
 }
 
-function makeEdgeAddClosure(sys, node1, node2) {
-  var c = function() {
-    var e = sys.addEdge(node1, node2);
-    if (e) {
-      e.afterConstruct();
-    }
-  };
-  return c;
-}
-
 var Maps = function(elt){
-  sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet')
-  sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
+  sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
+  sys.renderer = Renderer("#viewport");
+  // our newly created renderer will have its .init() method called shortly by sys...
 
   // Add some random nodes and edges to the graph!
   nodes = [];

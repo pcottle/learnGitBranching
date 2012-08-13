@@ -1,4 +1,3 @@
-
 /**
  * Globals
  */
@@ -8,24 +7,26 @@ var engine = null;
 var graphicsEffects = {};
 
 $(document).ready(function(){
-  engine = new Engine();
-  ee = new EventEmitter();
+  if (false) {
+    engine = new Engine();
+    ee = new EventEmitter();
 
-  var mcp = Maps("#maps");
+    var mcp = Maps("#maps");
 
-  var repulsionBreathe = function(r) {
-    sys.parameters({repulsion: r});
-  };
-  var b = new Breather(repulsionBreathe, 6050, 4000);
+    var repulsionBreathe = function(r) {
+      sys.parameters({repulsion: r});
+    };
+    var b = new Breather(repulsionBreathe, 6050, 4000);
 
-  graphicsEffects.edgeStrokeEffect = new GraphicsEffect('edgeStroke', {wait: 1000});
+    graphicsEffects.edgeStrokeEffect = new GraphicsEffect('edgeStroke', {wait: 1000});
+  }
 });
+
+
 /**
- * Extend the Arbiter classes below with my own custom functionality to
- * stop this horrible object cross link stuff
+ * Extend the Arbiter classes below with my own custom functionality.
  */
 Node.prototype.afterConstruct = function() {
-  this.positions = [];
 };
 
 Node.prototype.draw = function(ctx, pt) {
@@ -49,7 +50,6 @@ Node.prototype.drawCircleNode = function(ctx, pt) {
  * Edge
  */
 Edge.prototype.afterConstruct = function() {
-  //this.pastEdges = [];
 };
 
 Edge.prototype.draw = function(ctx, pt1, pt2) {
@@ -71,6 +71,9 @@ Edge.prototype.drawLine = function(ctx, pt1, pt2, opacityPercent) {
 };
 
 
+/**
+ * class GraphicsEffect
+ */
 function GraphicsEffect(gKey, options) {
   this.baseColor = graphics[gKey];
 
@@ -101,7 +104,7 @@ GraphicsEffect.prototype.resume = function() {
 };
 
 /**
- * Breather
+ * class Breather
  */
 function Breather(closure, baseline, delta, period, wait) {
   this.delta = delta;
@@ -132,10 +135,11 @@ Breather.prototype.start = function() {
 };
 
 Breather.prototype.next = function() {
-  var _this = this;
-  this.timeout = setTimeout(function() {
-    _this.breathe();
-  }, this.interval);
+  this.timeout = setTimeout(
+    $.proxy(function() {
+      this.breathe();
+    }, this),
+  this.interval);
 };
 
 Breather.prototype.stop = function() {
@@ -200,62 +204,4 @@ Engine.prototype.resetEdges = function() {
   this.edgeClosures = [];
   this.addEdgeTimeout = null;
 };
-
-/**
- * Cover Photo
- */
-function CoverPhoto(id, profile_pic_src, cover_photo_src) {
-  this.pp_src = profile_pic_src;
-  this.cp_src = cover_photo_src;
-  this.profile_id = id;
-
-  // this is where I _should_ use templating... but i wont :P
-  this.html = '' +
-  '<div id="' + id + 'coverphoto" class="coverPhotoWrapper">' +
-    '<div class="coverPhotoDiv">' +
-      '<img src="' + this.cp_src + '"/>' +
-    '</div>' +
-  '</div>' +
-  '<div id="' + id + 'profilepic" class="profilePicCenter">' + 
-    '<div class="profilePicDiv">' +
-      '<img src="' + this.pp_src + '"/>' +
-    '</div>' +
-  '</div>'
-  ;
-
-  $('body').append(this.html);
-  this.cp_node = $('#' + id + 'coverphoto')[0];
-  this.pp_node = $('#' + id + 'profilepic')[0];
-};
-
-CoverPhoto.prototype.show = function() {
-  var _this = this;
-  // let it get drawn first so it animates
-  setTimeout(function() {
-    _this.toggleShow(true);
-  }, 10);
-};
-
-CoverPhoto.prototype.hide = function() {
-  this.toggleShow(false);
-};
-
-CoverPhoto.prototype.toggle = function() {
-  $(this.cp_node).toggleClass('visible');
-  $(this.pp_node).toggleClass('visible');
-};
-
-CoverPhoto.prototype.toggleShow = function(bool) {
-  $(this.cp_node).toggleClass('visible', bool);
-  $(this.pp_node).toggleClass('visible', bool);
-};
-
-var profile_pic_src = 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/368844_545515979_1956877679_n.jpg';
-var cover_photo_src = 'https://fbcdn-sphotos-a.akamaihd.net/hphotos-ak-ash3/c0.0.851.315/p851x315/564389_10150741774845980_1149055874_n.jpg';
-var c = new CoverPhoto('pcottle', profile_pic_src, cover_photo_src);
-
-c.show();
-setTimeout(function() {
-  c.hide();
-}, 2000);
 
