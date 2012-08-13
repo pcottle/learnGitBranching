@@ -4,32 +4,29 @@
 
 
 /**
- * Particle System Engine
+ * Particle System AsyncEngine
  *
  * Handles async stuff like adding the edges, etc
  */
-function Engine() {
+function AsyncEngine() {
   this.addEdgeTimeout = null;
   this.edgeClosures = [];
 }
 
-Engine.prototype.addEdge = function(node1, node2) {
+AsyncEngine.prototype.addEdge = function(node1, node2) {
   this.touchEdgeTimer();
 
   this.edgeClosures.push(this.edgeClosureFactory(node1, node2));
 };
 
-Engine.prototype.edgeClosureFactory = function(node1, node2) {
+AsyncEngine.prototype.edgeClosureFactory = function(node1, node2) {
   var c = function() {
     var e = sys.addEdge(node1, node2);
-    if (e) {
-      e.afterConstruct();
-    }
   };
   return c;
 };
 
-Engine.prototype.touchEdgeTimer = function(key) {
+AsyncEngine.prototype.touchEdgeTimer = function(key) {
   if (this.addEdgeTimeout) {
     return;
   }
@@ -40,7 +37,7 @@ Engine.prototype.touchEdgeTimer = function(key) {
   }, 100);
 };
 
-Engine.prototype.startEdgeScheduler = function() {
+AsyncEngine.prototype.startEdgeScheduler = function() {
   // start scheduler
   var s = new Scheduler(this.edgeClosures, time.edgeAddInterval, 'add_edge');
   s.start();
@@ -48,7 +45,7 @@ Engine.prototype.startEdgeScheduler = function() {
   this.resetEdges();
 };
 
-Engine.prototype.resetEdges = function() {
+AsyncEngine.prototype.resetEdges = function() {
   this.edgeClosures = [];
   this.addEdgeTimeout = null;
 };
@@ -77,10 +74,10 @@ Scheduler.prototype.start = function() {
 };
 
 Scheduler.prototype.setNext = function(interval) {
-  var _this = this;
-  this.timeOut = setTimeout(function() {
-    _this.step();
-  }, interval || this.interval);
+  this.timeOut = setTimeout(_.bind(function() {
+      this.step();
+  }, this),
+  interval || this.interval);
 };
 
 Scheduler.prototype.stopSchedule = function(type) {
@@ -142,7 +139,7 @@ Breather.prototype.start = function() {
 
 Breather.prototype.next = function() {
   this.timeout = setTimeout(
-    $.proxy(function() {
+    _.bind(function() {
       this.breathe();
     }, this),
   this.interval);

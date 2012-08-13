@@ -106,7 +106,6 @@ var Maps = function(elt){
   for (var i = 0; i < 15; i++) {
     var id = randomString(8);
     var node = sys.addNode(id);
-    node.afterConstruct();
     nodes.push(node);
   }
 

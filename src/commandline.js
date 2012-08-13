@@ -44,16 +44,16 @@ Command.prototype.parse = function(str) {
   this.command = str.slice(4);
 
   //TODO: underscore.js here
-  for (var method in this.getRegexMap()) {
-    var regex = this.getRegexMap()[method];
+  _.each(this.getRegexMap(), function(regex, method) {
     if (regex.exec(this.command)) {
-      this.options = this.comand.slice(method.length + 1);
+      this.options = this.command.slice(method.length + 1);
       // break out here
-      return this[method]();
+      this[method]();
+      return false;
     }
-  }
+  }, this);
 
-  this.results.msgs.push('The git command "' + command +
+  this.results.msgs.push('The git command "' + this.command +
     '" is not supported, sorry!');
 };
 
@@ -65,7 +65,7 @@ Command.prototype.nonGitCommand = function() {
 
 Command.prototype.commit = function() {
   this.results.msgs.push(
-    'Commiting with options "' + this.options + '"
+    'Commiting with options "' + this.options + '"'
   );
 
   // commit for us means simply either ammending the current commit
@@ -121,22 +121,18 @@ OptionParser.prototype.explodeAndSet = function() {
   var exploded = this.str.split(' ');
   var options =[]; 
 
-  // TODO: underscore
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];  
+  _.each(exploded, function(part) {
     if (part.slice(0,1) == '-') {
       options.push(part);
     }
-  }
-  // TODO: undersore
-  for (var i = 0; i < options.length; i++) {
-    var option = options[i];
+  });
+  _.each(options, function(option) {
     if (this.supportedMap[option] !== undefined) {
       this.supportedMap[option] = true;
     } else {
       this.results.unsupportedOptions.push(option);
     }
-  }
+  }, this);
   // done!
 };
 

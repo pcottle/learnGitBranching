@@ -5,11 +5,13 @@ var ee = null;
 var sys = null;
 var engine = null;
 var graphicsEffects = {};
+var gitEngine = null;
 
 $(document).ready(function(){
   if (false) {
-    engine = new Engine();
+    engine = new AsyncEngine();
     ee = new EventEmitter();
+    gitEngine = new GitEngine();
 
     var mcp = Maps("#maps");
 
@@ -26,8 +28,6 @@ $(document).ready(function(){
 /**
  * Extend the Arbiter classes below with my own custom functionality.
  */
-Node.prototype.afterConstruct = function() {
-};
 
 Node.prototype.draw = function(ctx, pt) {
   this.drawCircleNode(ctx, pt);
@@ -43,15 +43,11 @@ Node.prototype.drawCircleNode = function(ctx, pt) {
   ctx.closePath();
   ctx.stroke();
   ctx.fill();
-
 };
 
 /**
  * Edge
  */
-Edge.prototype.afterConstruct = function() {
-};
-
 Edge.prototype.draw = function(ctx, pt1, pt2) {
    this.drawLine(ctx, pt1, pt2); 
 };
@@ -153,55 +149,5 @@ Breather.prototype.breathe = function() {
   this.closure(value);
 
   this.next();
-};
-
-/**
- * Particle System Engine
- *
- * Handles async stuff like adding the edges, etc
- */
-function Engine() {
-  this.addEdgeTimeout = null;
-  this.edgeClosures = [];
-}
-
-Engine.prototype.addEdge = function(node1, node2) {
-  this.touchEdgeTimer();
-
-  this.edgeClosures.push(this.edgeClosureFactory(node1, node2));
-};
-
-Engine.prototype.edgeClosureFactory = function(node1, node2) {
-  var c = function() {
-    var e = sys.addEdge(node1, node2);
-    if (e) {
-      e.afterConstruct();
-    }
-  };
-  return c;
-};
-
-Engine.prototype.touchEdgeTimer = function(key) {
-  if (this.addEdgeTimeout) {
-    return;
-  }
-
-  var _this = this;
-  this.addEdgeTimeout = setTimeout(function() {
-    _this.startEdgeScheduler();
-  }, 100);
-};
-
-Engine.prototype.startEdgeScheduler = function() {
-  // start scheduler
-  var s = new Scheduler(this.edgeClosures, time.edgeAddInterval, 'add_edge');
-  s.start();
-
-  this.resetEdges();
-};
-
-Engine.prototype.resetEdges = function() {
-  this.edgeClosures = [];
-  this.addEdgeTimeout = null;
 };
 
