@@ -96,11 +96,7 @@ Renderer = function(canvas) {
   return that;
 }
 
-var Maps = function(elt){
-  sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
-  sys.renderer = Renderer("#viewport");
-  // our newly created renderer will have its .init() method called shortly by sys...
-
+function addRandom() {
   // Add some random nodes and edges to the graph!
   nodes = [];
   for (var i = 0; i < 15; i++) {
@@ -123,13 +119,13 @@ var Maps = function(elt){
     while (node1 === node2) {
       node2 = randNode();
     }
-    engine.addEdge(node1, node2);
+    sys.addEdge(node1, node2);
   }
   for (var i = 0; i < nodes.length; i++) {
     var node2 = randNode();
     while (nodes[i] === node2) {
       node2 = randNode();
     }
-    engine.addEdge(nodes[i], node2);
+    sys.addEdge(nodes[i], node2);
   }
 }

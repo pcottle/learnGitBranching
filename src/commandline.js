@@ -3,7 +3,6 @@
  * @desc A parser for commands given
  */
 function Command(str) {
-  this.rawCommand = str;
   this.results = {
     msgs: []
   };
@@ -14,26 +13,32 @@ function Command(str) {
 
 Command.prototype.getShortcutMap = function() {
   return {
-    gc: 'git commit',
-    ga: 'git add',
-    gchk: 'git checkout',
-    gr: 'git rebase'
+    'git commit': /^gc/,
+    'git add': /^ga/,
+    'git checkout': /^gchk/,
+    'git rebase': /^gr/
   };
 };
 
 Command.prototype.getRegexMap = function() {
   return {
-    commit: /^commit /,
-    add: /^add /,
-    checkout: /^checkout /,
-    rebase: /^rebase /,
-    reset: /^reset /
+    commit: /^commit\s*/,
+    add: /^add\s*/,
+    checkout: /^checkout\s*/,
+    rebase: /^rebase\s*/,
+    reset: /^reset\s*/
   };
 };
 
 Command.prototype.parse = function(str) {
-  // first check if shortcut exists, and replace
-  str = this.getShortcutMap()[str] || str;
+  // first check if shortcut exists, and replace, but
+  // preserve options
+  _.each(this.getShortcutMap(), function(regex, method) {
+    var results = regex.exec(str);
+    if (results) {
+      str = method + str.slice(results[0].length);
+    }
+  });
 
   // see if begins with git
   if (str.slice(0,3) !== 'git') {
@@ -43,18 +48,21 @@ Command.prototype.parse = function(str) {
   // now slice off command part
   this.command = str.slice(4);
 
-  //TODO: underscore.js here
+  var matched = false;
   _.each(this.getRegexMap(), function(regex, method) {
     if (regex.exec(this.command)) {
       this.options = this.command.slice(method.length + 1);
-      // break out here
       this[method]();
-      return false;
+      // we should stop iterating, but the regex will only match
+      // one command in practice
+      matched = true;
     }
   }, this);
 
-  this.results.msgs.push('The git command "' + this.command +
-    '" is not supported, sorry!');
+  if (!matched) {
+    this.results.msgs.push('The git command "' + this.command +
+      '" is not supported, sorry!');
+  }
 };
 
 Command.prototype.nonGitCommand = function() {

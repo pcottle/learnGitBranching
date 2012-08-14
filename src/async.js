@@ -3,67 +3,23 @@
  */
 
 
-/**
- * Particle System AsyncEngine
- *
- * Handles async stuff like adding the edges, etc
- */
-function AsyncEngine() {
-  this.addEdgeTimeout = null;
-  this.edgeClosures = [];
-}
-
-AsyncEngine.prototype.addEdge = function(node1, node2) {
-  this.touchEdgeTimer();
-
-  this.edgeClosures.push(this.edgeClosureFactory(node1, node2));
-};
-
-AsyncEngine.prototype.edgeClosureFactory = function(node1, node2) {
-  var c = function() {
+/* 
     var e = sys.addEdge(node1, node2);
-  };
-  return c;
-};
+*/
 
-AsyncEngine.prototype.touchEdgeTimer = function(key) {
-  if (this.addEdgeTimeout) {
-    return;
-  }
-
-  var _this = this;
-  this.addEdgeTimeout = setTimeout(function() {
-    _this.startEdgeScheduler();
-  }, 100);
-};
-
-AsyncEngine.prototype.startEdgeScheduler = function() {
-  // start scheduler
-  var s = new Scheduler(this.edgeClosures, time.edgeAddInterval, 'add_edge');
-  s.start();
-
-  this.resetEdges();
-};
-
-AsyncEngine.prototype.resetEdges = function() {
-  this.edgeClosures = [];
-  this.addEdgeTimeout = null;
-};
-
-
-function Scheduler(closures, interval, type) {
-  if (!closures || !closures.length || !interval || !type) {
+function Scheduler(closures, options) {
+  if (!closures || !closures.length) {
     throw new Error('invalid params');
   }
 
-  this.done = false;
   this.closures = closures;
-  this.interval = interval;
-  this.type = type;
+
+  this.options = options || {};
+  this.interval = this.options.interval || 400;
+
+  this.done = false;
   this.timeOut = null;
   this.index = 0;
-
-  ee.addListener('scheduler_stop', this.stopSchedule, this);
 }
 
 Scheduler.prototype.start = function() {
@@ -80,12 +36,13 @@ Scheduler.prototype.setNext = function(interval) {
   interval || this.interval);
 };
 
-Scheduler.prototype.stopSchedule = function(type) {
-  console.log('received event signal');
-  if (type == 'all' || type == this.type) {
-    // either of these should work...
-    this.done = true;
-    clearTimeout(this.timeOut);
+Scheduler.prototype.finish = function() {
+  this.done = true;
+  clearTimeout(this.timeOut);
+  this.timeOut = null;
+
+  if (this.options.callback) {
+    this.options.callback();
   }
 };
 
@@ -98,7 +55,7 @@ Scheduler.prototype.step = function() {
   this.index++;
 
   if (results.done || this.index >= this.closures.length) {
-    this.done = true;
+    this.finish();
     return;
   }
   this.setNext(results.interval);
@@ -123,10 +80,9 @@ function Breather(closure, baseline, delta, period, wait) {
   this.interpolationFunction = TWEEN.Easing.Cubic.EaseInOut;
 
   if (wait) {
-    var _this = this;
-    setTimeout(function() {
-      _this.start();
-    }, wait);
+    setTimeout(_.bind(function() {
+      this.start();
+    }, this), wait);
   } else {
     this.start();
   }

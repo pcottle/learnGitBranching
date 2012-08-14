@@ -3,25 +3,22 @@
  */
 var ee = null;
 var sys = null;
-var engine = null;
 var graphicsEffects = {};
 var gitEngine = null;
 
 $(document).ready(function(){
-  if (false) {
-    engine = new AsyncEngine();
-    ee = new EventEmitter();
-    gitEngine = new GitEngine();
+  gitEngine = new GitEngine();
+  ee = new EventEmitter();
 
-    var mcp = Maps("#maps");
+  sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
+  sys.renderer = Renderer('#viewport');
 
-    var repulsionBreathe = function(r) {
-      sys.parameters({repulsion: r});
-    };
-    var b = new Breather(repulsionBreathe, 6050, 4000);
+  var repulsionBreathe = function(r) {
+    sys.parameters({repulsion: r});
+  };
+  var b = new Breather(repulsionBreathe, 6050, 4000);
 
-    graphicsEffects.edgeStrokeEffect = new GraphicsEffect('edgeStroke', {wait: 1000});
-  }
+  graphicsEffects.edgeStrokeEffect = new GraphicsEffect('edgeStroke', {wait: 1000});
 });
 
 
