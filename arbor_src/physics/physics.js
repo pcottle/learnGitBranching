@@ -175,7 +175,6 @@
           // zero out the velocity from one tick to the next
           pt.v.x = pt.v.y = 0           
         })
-
       },
       
       

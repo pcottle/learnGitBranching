@@ -43,7 +43,7 @@ var Commit = Backbone.Model.extend({
     this.set('node', sys.addNode(this.get('id')));
 
     if (this.get('rootCommit')) {
-      // TODO
+      // TODO -- fix this node in place
       // this.get('node').fixed = true;
       // this.get('node').p = {x: 0, y: 0};
     } else {
