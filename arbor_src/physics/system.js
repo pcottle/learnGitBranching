@@ -102,10 +102,9 @@
           state.names[name] = node
           state.nodes[node._id] = node;
 
-          _changes.push({t:"addNode", id:node._id, m:node.mass, x:x, y:y, f:fixed})
+          _changes.push({t:"addNode", id:node._id, m:node.mass, x:x, y:y, f:fixed});
           that._notify();
           return node;
-
         }
       },
 

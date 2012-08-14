@@ -317,7 +317,6 @@
         var topleft = null        
         
         $.each(active.particles, function(i, point) {
-
           // move the node to its new position
           if (that.integrator=='euler'){
             point.p = point.p.add(point.v.multiply(timestep));

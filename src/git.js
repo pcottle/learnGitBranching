@@ -33,17 +33,23 @@ GitEngine.prototype.getClosuresForCommand = function(command) {
 var Commit = Backbone.Model.extend({
   initialize: function() {
     // validation / defaults
-    if (!this.get('name')) {
-      this.set('name', _.uniqueId('C'));
+    if (!this.get('id')) {
+      this.set('id', _.uniqueId('C'));
     }
-    if (!this.get('parent') && !this.get('rootCommit')) {
+    if (!this.get('parentCommit') && !this.get('rootCommit')) {
       throw new Error('needs parent commit');
     }
-    // make a node and start drawing? this is a major TODO
-  },
 
-  draw: function() {
+    this.set('node', sys.addNode(this.get('id')));
 
+    if (this.get('rootCommit')) {
+      // TODO
+      // this.get('node').fixed = true;
+      // this.get('node').p = {x: 0, y: 0};
+    } else {
+      var parentNode = this.get('parentCommit').get('node');
+      sys.addEdge(parentNode, this.get('node'));
+    }
   }
 });
 
