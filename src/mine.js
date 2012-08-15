@@ -7,11 +7,11 @@ var graphicsEffects = {};
 var gitEngine = null;
 
 $(document).ready(function(){
-  gitEngine = new GitEngine();
   ee = new EventEmitter();
-
   sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
   sys.renderer = Renderer('#viewport');
+
+  gitEngine = new GitEngine();
 
   var repulsionBreathe = function(r) {
     sys.parameters({repulsion: r});

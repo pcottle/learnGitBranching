@@ -1,9 +1,98 @@
+
+// backbone or something uses _.uniqueId, so we make our own here
+var uniqueId = (function() {
+  var n = 0;
+  return function(prepend) {
+    return prepend? prepend + n++ : n++;
+  };
+})();
+
 function GitEngine() {
-  this.detachedHead = false;
+  this.rootCommit = null;
+  this.refs = {};
+  this.HEAD = null;
+  this.id_gen = 0;
+
+  this.init();
 }
 
-GitEngine.prototype.commit = function() {
+GitEngine.prototype.init = function() {
+  // make an initial commit and a master branch
+  this.rootCommit = new Commit({rootCommit: true});
+  this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
+  var master = this.makeBranch('master', this.rootCommit);
+  this.HEAD = new Ref({
+    id: 'HEAD',
+    target: master
+  });
+  this.refs[this.HEAD.get('id')] = this.HEAD;
+
+  // commit once to get things going
+  this.commit();
+};
+
+GitEngine.prototype.getDetachedHead = function() {
+  // detached head is if HEAD points to a commit instead of a branch...
+  var target = this.HEAD.get('target');
+  var targetType = target.get('type');
+  return targetType !== 'branch';
+};
+
+GitEngine.prototype.makeBranch = function(id, target) {
+  var branch = new Branch({
+    target: target,
+    id: id
+  });
+  this.refs[branch.get('id')] = branch;
+  return branch;
+};
+
+GitEngine.prototype.makeCommit = function(parent) {
+  var commit = new Commit({
+    parents: [parent]
+  });
+  this.refs[commit.get('id')] = commit;
+  return commit;
+};
+
+GitEngine.prototype.commit = function() {
+  if (this.getDetachedHead()) {
+    throw new Error('you are in detached head state!');
+  }
+
+  // commits are always done on head
+  var targetBranch = this.HEAD.get('target');
+  var targetCommit = targetBranch.get('target');
+
+  var newCommit = this.makeCommit(targetCommit);
+  targetBranch.set('target', newCommit);
+};
+
+GitEngine.prototype.resolveId = function(idOrTarget) {
+  if (typeof idOrTarget !== 'string') {
+    return idOrTarget;
+  }
+  return this.resolveStringRef(idOrTarget);
+};
+
+GitEngine.prototype.resolveStringRef = function(ref) {
+  var target = this.refs[ref];
+  if (!target) {
+    throw new Error('that ref ' + idOrTarget + ' does not exist');
+  }
+  return target;
+};
+
+GitEngine.prototype.checkout = function(idOrTarget) {
+  var target = this.resolveId(idOrTarget);
+  var type = target.get('type');
+
+  if (type !== 'branch' && type !== 'commit') {
+    throw new Error('can only checkout branches and commits!');
+  }
+
+  this.HEAD.set('target', target);
 };
 
 GitEngine.prototype.execute = function(command, callback) {
@@ -30,91 +119,68 @@ GitEngine.prototype.getClosuresForCommand = function(command) {
   return closures;
 };
 
-var Commit = Backbone.Model.extend({
+var Ref = Backbone.Model.extend({
   initialize: function() {
-    // validation / defaults
+    if (!this.get('target')) {
+      throw new Error('must be initialized with target');
+    }
     if (!this.get('id')) {
-      this.set('id', _.uniqueId('C'));
+      throw new Error('must be given an id');
     }
-    if (!this.get('parentCommit') && !this.get('rootCommit')) {
-      throw new Error('needs parent commit');
-    }
+    this.set('type', 'general ref');
+  },
 
-    this.set('node', sys.addNode(this.get('id')));
-
-    if (this.get('rootCommit')) {
-      // TODO -- fix this node in place
-      // this.get('node').fixed = true;
-      // this.get('node').p = {x: 0, y: 0};
-    } else {
-      var parentNode = this.get('parentCommit').get('node');
-      sys.addEdge(parentNode, this.get('node'));
-    }
+  toString: function() {
+    return 'a ' + this.get('type') + 'pointing to ' + String(this.get('target'));
   }
 });
 
-
-function CommandQueue() {
-  this.commands = [];
-  this.consumeTimeout = null;
-
-  this.initialDelay = 400;
-}
-
-CommandQueue.prototype.add = function(command) {
-  this.commands.push(command);
-  this.touchTimer();
-};
-
-CommandQueue.prototype.touchTimer = function() {
-  if (this.consumeTimeout) {
-    return;
+var Branch  = Ref.extend({
+  initialize: function() {
+    Ref.prototype.initialize.call(this);
+    this.set('type', 'branch');
   }
-  this.consumeTimeout = setTimeout(_.bind(function() {
-    this.next();
-  }, this), this.initialDelay);
-};
+});
 
-CommandQueue.prototype.reset = function() {
-  this.consumeTimeout = null;
-};
+var Commit = Backbone.Model.extend({
+  validateAtInit: function() {
+    if (!this.get('id')) {
+      this.set('id', uniqueId('C'));
+    }
+    this.set('type', 'commit');
 
-CommandQueue.prototype.next = function() {
-  if (this.commands.length == 0) {
-    this.reset();
-    return;
+    // root commits have no parents
+    if (this.get('rootCommit')) {
+      this.set('parents', []);
+    } else {
+      if (!this.get('parents') || !this.get('parents').length) {
+        throw new Error('needs parents');
+      }
+    }
+  },
+
+  addNodeToVisuals: function() {
+    // TODO: arbor stuff
+    // this.set('node', sys.addNode(this.get('id')));
+  },
+
+  addEdgeToVisuals: function(parent) {
+
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    this.addNodeToVisuals();
+    console.log('MAKING NEW COMMIT', this.get('id'));
+
+
+    _.each(this.get('parents'), function(parent) {
+      if (parent.get('child')) {
+        console.warn('overwriting child for ', parent, ' to this', this);
+      }
+      parent.set('child', this);
+      this.addEdgeToVisuals(parent);
+    }, this);
   }
+});
 
-  // execute the top command by passing it into the engine
-  var toExecute = this.commands.shift(0);
-  var callback = _.bind(function() {
-    this.next();
-  }, this);
-  gitEngine.execute(toExecute, callback);
-};
-
-
-
-/******************
- * Planning:
-
- here is the major flow:
-
- someone types in a command ->
-  make a new command object. if error, give immediate feedback, dont append to queue
-  if not error ->
-    append command object to queue
-
-
-  Command Queue ->
-    consume commands at a certain rate (either instantly if just added, or with an interval
-    Execute command -> (usually a git engine thing)
-    Wait for git engine command to finish
-    when done, execute next command (if more)
-
-  so two levels of Async-ness:
-    command queue slowly consumes commands
-
-  GitEngine executes commands, which will have async bits to them (such as popping off commits for a
-  rebase)
-*/

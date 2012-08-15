@@ -58,7 +58,7 @@ Renderer = function(canvas) {
         var p = {x:e.pageX-pos.left, y:e.pageY-pos.top};
         selected = nearest = dragged = particleSystem.nearest(p);
 
-        if (selected.node !== null){
+        if (selected && selected.node !== null){
           dragged.node.tempMass = constants.clickDragMass;
           dragged.node.fixed = true;
         }
