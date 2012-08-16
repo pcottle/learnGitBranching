@@ -39,7 +39,19 @@ GitEngine.prototype.getDetachedHead = function() {
   return targetType !== 'branch';
 };
 
+GitEngine.prototype.validateBranchName = function(name) {
+  name = name.replace(/\s/g, ''); 
+  if (!/^[a-zA-Z0-9]+$/.test(name)) {
+    throw new Error('woah bad branch name!! This is not ok: ' + name);
+  }
+  if (/[hH][eE][aA][dD]/.test(name)) {
+    throw new Error('branch name of "head" is ambiguous, dont name it that');
+  }
+  return name;
+};
+
 GitEngine.prototype.makeBranch = function(id, target) {
+  id = this.validateBranchName(id);
   var branch = new Branch({
     target: target,
     id: id
@@ -57,13 +69,14 @@ GitEngine.prototype.makeCommit = function(parent) {
 };
 
 GitEngine.prototype.commit = function() {
+  var targetCommit = null;
   if (this.getDetachedHead()) {
-    throw new Error('you are in detached head state!');
+    // in detached head mode, must warn user TODO
+    targetCommit = this.HEAD.get('target');
+  } else {
+    var targetBranch = this.HEAD.get('target');
+    targetCommit = targetBranch.get('target');
   }
-
-  // commits are always done on head
-  var targetBranch = this.HEAD.get('target');
-  var targetCommit = targetBranch.get('target');
 
   var newCommit = this.makeCommit(targetCommit);
   targetBranch.set('target', newCommit);
@@ -77,11 +90,49 @@ GitEngine.prototype.resolveId = function(idOrTarget) {
 };
 
 GitEngine.prototype.resolveStringRef = function(ref) {
-  var target = this.refs[ref];
-  if (!target) {
-    throw new Error('that ref ' + idOrTarget + ' does not exist');
+  if (this.refs[ref]) {
+    return this.refs[ref];
   }
-  return target;
+
+  // may be something like HEAD~2 or master^^
+  var relativeRefs = [
+    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
+      return parseInt(matches[2]);
+    }],
+    [/^([a-zA-Z0-9]+)([^]+)\s*$/, function(matches) {
+      return matches[2].length;
+    }]
+  ];
+
+  var branchName = null;
+  var numBack = null;
+  _.each(relativeRefs, function(config) {
+    console.log('testing this regex');
+    var regex = config[0];
+    var parse = config[1];
+    if (regex.test(ref)) {
+      var matches = regex.exec(ref);
+      numBack = parse(matches);
+      branchName = matches[1];
+    }
+  }, this);
+
+  if (!branchName) {
+    throw new Error('unknown ref ' + ref);
+  }
+  branchName = this.validateBranchName(branchName);
+  if (!this.refs[branchName]) {
+    throw new Error('the branch you referenced (' + branchName +
+      ') does not exist.');
+  }
+
+  var finish = this.refs[branchName];
+  for (var i = 0; i < numBack; i++) {
+    // merge commits will have two parents, but whatever
+    finish = finish.get('parents')[0];
+  }
+
+  return finish;
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
