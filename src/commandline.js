@@ -15,7 +15,8 @@ Command.prototype.getShortcutMap = function() {
     'git commit': /^gc/,
     'git add': /^ga/,
     'git checkout': /^gchk/,
-    'git rebase': /^gr/
+    'git rebase': /^gr/,
+    'git branch': /^gb/
   };
 };
 
@@ -28,6 +29,7 @@ Command.prototype.getRegexMap = function() {
     checkout: /^checkout($|\s)/,
     rebase: /^rebase($|\s)/,
     reset: /^reset($|\s)/,
+    branch: /^branch($|\s)/,
     revert: /^revert($|\s)/
   };
 };
@@ -75,7 +77,9 @@ Command.prototype.parse = function(str) {
  * OptionParser
  */
 function OptionParser(method, options) {
-  this.method = metho;d
+  this.method = method;
+  this.options = options;
+
   this.supportedMap = this.getMasterOptionMap()[method];
   this.unsupportedOptions = [];
 
@@ -87,15 +91,19 @@ function OptionParser(method, options) {
 }
 
 OptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a pass-through
-  // option. If the value is not here (aka will be undefined later), we do not
-  // support it
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
   return {
     commit: {
       '--amend': false,
       '-a': false
     },
     add: {},
+    branch: {
+      '-d': false,
+      '-D': false
+    },
     checkout: {},
     reset: {
       '--hard': false,
@@ -106,7 +114,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
 };
 
 OptionParser.prototype.explodeAndSet = function() {
-  var exploded = this.str.split(' ');
+  var exploded = this.options.split(' ');
   var options =[]; 
 
   _.each(exploded, function(part) {
