@@ -1,16 +1,18 @@
 /**
  * Globals
  */
-var ee = null;
+var events = _.clone(Backbone.Events);
 var sys = null;
 var graphicsEffects = {};
 var gitEngine = null;
 
 $(document).ready(function(){
-  ee = new EventEmitter();
   sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
   sys.renderer = Renderer('#viewport');
 
+  new CommandLineView({
+    el: $('#commandLineBar')
+  });
   gitEngine = new GitEngine();
 
   var repulsionBreathe = function(r) {

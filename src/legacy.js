@@ -1,3 +1,8 @@
+/*
+ * this code is adapted from the excellent ArborJS tutorial by
+ * Samizdat Drafting Co
+ */
+
 Renderer = function(canvas) {
   canvas = $(canvas).get(0);
   var ctx = canvas.getContext("2d");
@@ -37,8 +42,8 @@ Renderer = function(canvas) {
     },
     
     resize: function(){
-      var w = $(window).width(),
-          h = $(window).height();
+      var w = $(canvas).width(),
+          h = $(canvas).height();
       // resize the canvas element to fill the screen TODO -- fix this
       canvas.width = w; canvas.height = h;
       // inform the system so it can map coords for us

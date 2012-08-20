@@ -14,6 +14,17 @@ html,body {
   letter-spacing: -0.02em;
   
   color: #eee;
-  
 }
 
+#controls {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 50%;
+  height: 100%;
+  -webkit-box-orientation: vertical;
+}
+
+#commandTextField {
+  width: 100%;
+}
