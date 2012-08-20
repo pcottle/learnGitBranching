@@ -249,6 +249,13 @@ GitEngine.prototype._deleteBranch = function(name) {
   delete this.refs[id];
 };
 
+GitEngine.prototype.add = function() {
+  throw new Error(
+    "This demo is meant to demonstrate git branching, so don't worry about " +
+    "adding / staging files. Just go ahead and commit away!"
+  );
+};
+
 GitEngine.prototype.execute = function(command, callback) {
   // execute command, and when it's finished, call the callback
   // we still need to figure this out
