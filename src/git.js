@@ -12,16 +12,17 @@ function GitEngine() {
   this.refs = {};
   this.HEAD = null;
   this.id_gen = 0;
+  this.branches = [];
 
-  this.init();
+  this._init();
 }
 
-GitEngine.prototype.init = function() {
+GitEngine.prototype._init = function() {
   // make an initial commit and a master branch
   this.rootCommit = new Commit({rootCommit: true});
   this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
-  var master = this.makeBranch('master', this.rootCommit);
+  var master = this._makeBranch('master', this.rootCommit);
   this.HEAD = new Ref({
     id: 'HEAD',
     target: master
@@ -39,7 +40,7 @@ GitEngine.prototype.getDetachedHead = function() {
   return targetType !== 'branch';
 };
 
-GitEngine.prototype.validateBranchName = function(name) {
+GitEngine.prototype._validateBranchName = function(name) {
   name = name.replace(/\s/g, ''); 
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new Error('woah bad branch name!! This is not ok: ' + name);
@@ -50,17 +51,40 @@ GitEngine.prototype.validateBranchName = function(name) {
   return name;
 };
 
-GitEngine.prototype.makeBranch = function(id, target) {
-  id = this.validateBranchName(id);
+GitEngine.prototype._makeBranch = function(id, target) {
+  id = this._validateBranchName(id);
+  if (this.refs[id]) {
+    throw new Error('that branch id already exists!');
+  }
+
   var branch = new Branch({
     target: target,
     id: id
   });
+  this.branches.push(branch);
   this.refs[branch.get('id')] = branch;
   return branch;
 };
 
-GitEngine.prototype.makeCommit = function(parent) {
+GitEngine.prototype.getBranches = function() {
+  var toReturn = [];
+  _.each(this.branches, function(branch) {
+    toReturn.push({
+      id: branch.get('id'),
+      selected: this.HEAD.get('target') === branch
+    });
+  }, this);
+  return toReturn;
+};
+
+GitEngine.prototype.printBranches = function() {
+  var branches = this.getBranches();
+  _.each(branches, function(branch) {
+    console.log((branch.selected ? '* ' : '') + branch.id);
+  });
+};
+
+GitEngine.prototype._makeCommit = function(parent) {
   var commit = new Commit({
     parents: [parent]
   });
@@ -78,18 +102,18 @@ GitEngine.prototype.commit = function() {
     targetCommit = targetBranch.get('target');
   }
 
-  var newCommit = this.makeCommit(targetCommit);
+  var newCommit = this._makeCommit(targetCommit);
   targetBranch.set('target', newCommit);
 };
 
-GitEngine.prototype.resolveId = function(idOrTarget) {
+GitEngine.prototype._resolveId = function(idOrTarget) {
   if (typeof idOrTarget !== 'string') {
     return idOrTarget;
   }
-  return this.resolveStringRef(idOrTarget);
+  return this._resolveStringRef(idOrTarget);
 };
 
-GitEngine.prototype.resolveStringRef = function(ref) {
+GitEngine.prototype._resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
   }
@@ -99,51 +123,131 @@ GitEngine.prototype.resolveStringRef = function(ref) {
     [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
       return parseInt(matches[2]);
     }],
-    [/^([a-zA-Z0-9]+)([^]+)\s*$/, function(matches) {
+    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
       return matches[2].length;
     }]
   ];
 
-  var branchName = null;
+  var startRef = null;
   var numBack = null;
   _.each(relativeRefs, function(config) {
-    console.log('testing this regex');
     var regex = config[0];
     var parse = config[1];
     if (regex.test(ref)) {
       var matches = regex.exec(ref);
       numBack = parse(matches);
-      branchName = matches[1];
+      startRef = matches[1];
     }
   }, this);
 
-  if (!branchName) {
+  if (!startRef) {
     throw new Error('unknown ref ' + ref);
   }
-  branchName = this.validateBranchName(branchName);
-  if (!this.refs[branchName]) {
-    throw new Error('the branch you referenced (' + branchName +
-      ') does not exist.');
+  if (!this.refs[startRef]) {
+    throw new Error('the ref ' + startRef +' does not exist.');
+  }
+  var commit = this._getCommitFromRef(startRef);
+
+  return this._numBackFrom(commit, numBack);
+};
+
+GitEngine.prototype._getCommitFromRef = function(ref) {
+  var start = this._resolveId(ref);
+  // works for both HEAD and just a single layer. aka branch
+  while (start.get('type') !== 'commit') {
+    start = start.get('target');
+  }
+  return start;
+};
+
+GitEngine.prototype._numBackFrom = function(commit, numBack) {
+  // going back '3' from a given ref is not trivial, for you might have
+  // a bunch of merge commits and such. like this situation:
+  //
+  //      * merge master into new
+  //      |\
+  //      | \* commit here
+  //      |* \ commit there
+  //      |  |* commit here
+  //      \ /
+  //       | * root
+  //
+  //
+  // hence we need to do a BFS search, with the commit date being the
+  // value to sort off of (rather than just purely the level)
+  if (numBack == 0) {
+    return commit;
   }
 
-  var finish = this.refs[branchName];
-  for (var i = 0; i < numBack; i++) {
-    // merge commits will have two parents, but whatever
-    finish = finish.get('parents')[0];
+  var sortFunc = function(cA, cB) {
+    // why cant parse int handle leading characters? :(
+    var numA = parseInt(cA.get('id').slice(1));
+    var numB = parseInt(cB.get('id').slice(1));
+    return numA - numB;
+  };
+
+  var pQueue = [].concat(commit.get('parents'));
+  pQueue.sort(sortFunc);
+  numBack--;
+
+  while (pQueue.length && numBack !== 0) {
+    var popped = pQueue.shift(0);
+    pQueue = pQueue.concat(popped.get('parents'));
+    pQueue.sort(sortFunc);
+    numBack--;
   }
 
-  return finish;
+  if (numBack !== 0 || pQueue.length == 0) {
+    throw new Error('exhausted search, sorry');
+  }
+  return pQueue.shift(0);
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
-  var target = this.resolveId(idOrTarget);
-  var type = target.get('type');
+  var target = this._resolveId(idOrTarget);
+  if (target.get('id') === 'HEAD') {
+    // meaningless command but i used to do this back in the day
+    return;
+  }
 
+  var type = target.get('type');
   if (type !== 'branch' && type !== 'commit') {
     throw new Error('can only checkout branches and commits!');
   }
 
   this.HEAD.set('target', target);
+};
+
+GitEngine.prototype.branch = function(name, ref, options) {
+  ref = ref || 'HEAD';
+  options = options || {};
+
+  if (options['-d'] || options['-D']) {
+    this._deleteBranch(name);
+    return;
+   }
+
+  var target = this._getCommitFromRef(ref);
+  this._makeBranch(name, target);
+};
+
+GitEngine.prototype._deleteBranch = function(name) {
+  // trying to delete, lets check our refs
+  var target = this._resolveId(name);
+  if (target.get('type') !== 'branch') {
+    throw new Error("You can't delete things that arent branches with -d");
+  }
+
+  if (target.get('id') == 'master') {
+    throw new Error("You can't delete the master branch!");
+  }
+
+  if (this.HEAD.get('target') === target) {
+    // we need to change HEAD to a commit then
+  }
+
+  this.refs[id].delete();
+  delete this.refs[id];
 };
 
 GitEngine.prototype.execute = function(command, callback) {
@@ -183,6 +287,10 @@ var Ref = Backbone.Model.extend({
 
   toString: function() {
     return 'a ' + this.get('type') + 'pointing to ' + String(this.get('target'));
+  },
+
+  delete: function() {
+    console.log('DELETING ' + this.get('type') + ' ' + this.get('id'));
   }
 });
 
@@ -199,6 +307,7 @@ var Commit = Backbone.Model.extend({
       this.set('id', uniqueId('C'));
     }
     this.set('type', 'commit');
+    this.set('children', []);
 
     // root commits have no parents
     if (this.get('rootCommit')) {
@@ -224,12 +333,8 @@ var Commit = Backbone.Model.extend({
     this.addNodeToVisuals();
     console.log('MAKING NEW COMMIT', this.get('id'));
 
-
     _.each(this.get('parents'), function(parent) {
-      if (parent.get('child')) {
-        console.warn('overwriting child for ', parent, ' to this', this);
-      }
-      parent.set('child', this);
+      parent.get('children').push(this);
       this.addEdgeToVisuals(parent);
     }, this);
   }
