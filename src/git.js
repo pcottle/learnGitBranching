@@ -235,18 +235,17 @@ GitEngine.prototype._deleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this._resolveId(name);
   if (target.get('type') !== 'branch') {
-    throw new Error("You can't delete things that arent branches with -d");
+    throw new Error("You can't delete things that arent branches with branch command");
   }
-
   if (target.get('id') == 'master') {
     throw new Error("You can't delete the master branch!");
   }
-
   if (this.HEAD.get('target') === target) {
-    // we need to change HEAD to a commit then
+    throw new Error("Cannot delete the branch you are currently on");
   }
 
-  this.refs[id].delete();
+  var id = target.get('id');
+  target.delete();
   delete this.refs[id];
 };
 
