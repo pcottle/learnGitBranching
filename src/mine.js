@@ -13,6 +13,10 @@ $(document).ready(function(){
   new CommandLineView({
     el: $('#commandLineBar')
   });
+  new CommandLineHistoryView({
+    el: $('#commandLineHistory')
+  });
+
   gitEngine = new GitEngine();
 
   var repulsionBreathe = function(r) {

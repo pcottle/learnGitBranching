@@ -249,6 +249,11 @@ GitEngine.prototype._deleteBranch = function(name) {
   delete this.refs[id];
 };
 
+GitEngine.prototype.dispatch = function(commandObj) {
+  // TODO: parse arguments
+  this[commandObj.method](); 
+};
+
 GitEngine.prototype.add = function() {
   throw new Error(
     "This demo is meant to demonstrate git branching, so don't worry about " +
