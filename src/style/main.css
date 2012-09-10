@@ -39,7 +39,7 @@ p.commandResult {
   color: blue;
 }
 
-p.commandError {
+p.commandError, p.errorResult {
   color: red;
 }
 

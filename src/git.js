@@ -206,8 +206,11 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
+  console.log('the target', idOrTarget);
   var target = this.resolveId(idOrTarget);
+  console.log(target);
   if (target.get('id') === 'HEAD') {
+    // git checkout HEAD is a
     // meaningless command but i used to do this back in the day
     return;
   }
@@ -253,6 +256,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 
 GitEngine.prototype.dispatch = function(commandObj) {
   // TODO: parse arguments as well
+  console.log(commandObj);
   this[commandObj.method](); 
 };
 
@@ -333,12 +337,11 @@ var Commit = Backbone.Model.extend({
   },
 
   addNodeToVisuals: function() {
-    // TODO: arbor stuff
-    // this.set('node', sys.addNode(this.get('id')));
+    this.set('arborNode', sys.addNode(this.get('id')));
   },
 
   addEdgeToVisuals: function(parent) {
-
+    sys.addEdge(this.get('arborNode'), parent.get('arborNode'));
   },
 
   initialize: function() {

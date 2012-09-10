@@ -122,7 +122,6 @@ function OptionParser(method, options) {
   this.options = options;
 
   this.supportedMap = this.getMasterOptionMap()[method];
-  this.unsupportedOptions = [];
 
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
@@ -167,7 +166,8 @@ OptionParser.prototype.explodeAndSet = function() {
     if (this.supportedMap[option] !== undefined) {
       this.supportedMap[option] = true;
     } else {
-      this.unsupportedOptions.push(option);
+      // this option is not supported
+      throw new CommandProcessError('The option "' + option + '" is not supported');
     }
   }, this);
   // done!
