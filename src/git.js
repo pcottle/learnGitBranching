@@ -14,15 +14,17 @@ function GitEngine() {
   this.id_gen = 0;
   this.branches = [];
 
-  this._init();
+  events.on('gitCommandReady', _.bind(this.dispatch, this));
+
+  this.init();
 }
 
-GitEngine.prototype._init = function() {
+GitEngine.prototype.init = function() {
   // make an initial commit and a master branch
   this.rootCommit = new Commit({rootCommit: true});
   this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
-  var master = this._makeBranch('master', this.rootCommit);
+  var master = this.makeBranch('master', this.rootCommit);
   this.HEAD = new Ref({
     id: 'HEAD',
     target: master
@@ -40,7 +42,7 @@ GitEngine.prototype.getDetachedHead = function() {
   return targetType !== 'branch';
 };
 
-GitEngine.prototype._validateBranchName = function(name) {
+GitEngine.prototype.validateBranchName = function(name) {
   name = name.replace(/\s/g, ''); 
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new Error('woah bad branch name!! This is not ok: ' + name);
@@ -51,8 +53,8 @@ GitEngine.prototype._validateBranchName = function(name) {
   return name;
 };
 
-GitEngine.prototype._makeBranch = function(id, target) {
-  id = this._validateBranchName(id);
+GitEngine.prototype.makeBranch = function(id, target) {
+  id = this.validateBranchName(id);
   if (this.refs[id]) {
     throw new Error('that branch id already exists!');
   }
@@ -84,7 +86,7 @@ GitEngine.prototype.printBranches = function() {
   });
 };
 
-GitEngine.prototype._makeCommit = function(parent) {
+GitEngine.prototype.makeCommit = function(parent) {
   var commit = new Commit({
     parents: [parent]
   });
@@ -102,18 +104,18 @@ GitEngine.prototype.commit = function() {
     targetCommit = targetBranch.get('target');
   }
 
-  var newCommit = this._makeCommit(targetCommit);
+  var newCommit = this.makeCommit(targetCommit);
   targetBranch.set('target', newCommit);
 };
 
-GitEngine.prototype._resolveId = function(idOrTarget) {
+GitEngine.prototype.resolveId = function(idOrTarget) {
   if (typeof idOrTarget !== 'string') {
     return idOrTarget;
   }
-  return this._resolveStringRef(idOrTarget);
+  return this.resolveStringRef(idOrTarget);
 };
 
-GitEngine.prototype._resolveStringRef = function(ref) {
+GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
   }
@@ -146,13 +148,13 @@ GitEngine.prototype._resolveStringRef = function(ref) {
   if (!this.refs[startRef]) {
     throw new Error('the ref ' + startRef +' does not exist.');
   }
-  var commit = this._getCommitFromRef(startRef);
+  var commit = this.getCommitFromRef(startRef);
 
-  return this._numBackFrom(commit, numBack);
+  return this.numBackFrom(commit, numBack);
 };
 
-GitEngine.prototype._getCommitFromRef = function(ref) {
-  var start = this._resolveId(ref);
+GitEngine.prototype.getCommitFromRef = function(ref) {
+  var start = this.resolveId(ref);
   // works for both HEAD and just a single layer. aka branch
   while (start.get('type') !== 'commit') {
     start = start.get('target');
@@ -160,7 +162,7 @@ GitEngine.prototype._getCommitFromRef = function(ref) {
   return start;
 };
 
-GitEngine.prototype._numBackFrom = function(commit, numBack) {
+GitEngine.prototype.numBackFrom = function(commit, numBack) {
   // going back '3' from a given ref is not trivial, for you might have
   // a bunch of merge commits and such. like this situation:
   //
@@ -204,7 +206,7 @@ GitEngine.prototype._numBackFrom = function(commit, numBack) {
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
-  var target = this._resolveId(idOrTarget);
+  var target = this.resolveId(idOrTarget);
   if (target.get('id') === 'HEAD') {
     // meaningless command but i used to do this back in the day
     return;
@@ -223,17 +225,17 @@ GitEngine.prototype.branch = function(name, ref, options) {
   options = options || {};
 
   if (options['-d'] || options['-D']) {
-    this._deleteBranch(name);
+    this.deleteBranch(name);
     return;
    }
 
-  var target = this._getCommitFromRef(ref);
-  this._makeBranch(name, target);
+  var target = this.getCommitFromRef(ref);
+  this.makeBranch(name, target);
 };
 
-GitEngine.prototype._deleteBranch = function(name) {
+GitEngine.prototype.deleteBranch = function(name) {
   // trying to delete, lets check our refs
-  var target = this._resolveId(name);
+  var target = this.resolveId(name);
   if (target.get('type') !== 'branch') {
     throw new Error("You can't delete things that arent branches with branch command");
   }
@@ -250,7 +252,7 @@ GitEngine.prototype._deleteBranch = function(name) {
 };
 
 GitEngine.prototype.dispatch = function(commandObj) {
-  // TODO: parse arguments
+  // TODO: parse arguments as well
   this[commandObj.method](); 
 };
 

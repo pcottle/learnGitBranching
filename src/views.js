@@ -28,24 +28,36 @@ var CommandLineView = Backbone.View.extend({
     this.submit();
   },
 
+  processError: function(err) {
+    // in this demo, every command that's not a git command will
+    // throw an exception. Some of these errors might be just to
+    // short-circuit the normal programatic flow, so we handle them
+    // here
+    if (err instanceof CommandProcessError) {
+        events.trigger('commandProcessError', err);
+    } else if (err instanceof CommandResult) {
+        events.trigger('commandResultPrint', err);
+    } else {
+      throw err;
+    }
+  },
+
   submit: function() {
     var value = this.$('#commandTextField').val();
     this.$('#commandTextField').val('');
-    events.trigger('commandConsumed', value);
-
-    if (!value.length) {
-      // return early, just want a blank line
-    }
-    console.log('the value');
-    console.log(value);
-
     try {
       var command = new Command(value);
       console.log(command);
-      // immediately execute for now TODO
-      gitEngine.dispatch(command);
-    } catch (e) {
-      alert('Error with that command: ' + String(e));
+      // immediately execute for now, will change later
+      events.trigger('gitCommandReady', command);
+    } catch (err) {
+      if (err instanceof CommandProcessError) {
+        events.trigger('commandProcessError', err);
+      } else if (err instanceof CommandResultError) {
+
+      } else {
+        throw err;
+      }
     }
   }
 });
@@ -56,11 +68,25 @@ var CommandLineHistoryView = Backbone.View.extend({
       this.addCommand, this
     ));
 
+    events.on('commandProcessError', _.bind(
+      this.commandError, this
+    ));
+
+    events.on('commandResultPrint', _.bind(
+      this.commandResultPrint, this
+    ));
+
     this.commandTemplate = ' \
-      <p class="commandLine <%= name %>"> \
+      <p class="commandLine <%= class %>"> \
         <span class="arrows">&gt; &gt; &gt;</span> \
         <%= command %>  \
       </p> \
+    ';
+
+    this.resultTemplate = ' \
+      <p class="commandResult <%= class %>"> \
+        <%= result %>
+      </p>
     ';
   },
 
@@ -71,6 +97,30 @@ var CommandLineHistoryView = Backbone.View.extend({
         {
           class: 'pastCommand',
           command: commandText
+        }
+      )
+    );
+  },
+
+  commandError: function(err) {
+    this.$('#commandDisplay').append(
+      _.template(
+        this.resultTemplate,
+        {
+          class: 'errorResult',
+          result: err.toResult()
+        }
+      )
+    );
+  },
+
+  commandResultPrint: function(err) {
+    this.$('#commandDisplay').append(
+      _.template(
+        this.resultTemplate,
+        {
+          class; 'commandResult',
+          result: err.toResult()
         }
       )
     );
