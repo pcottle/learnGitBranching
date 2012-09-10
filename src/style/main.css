@@ -35,6 +35,14 @@ p.commandLine {
   margin: 2px;
 }
 
+p.commandResult {
+  color: blue;
+}
+
+p.commandError {
+  color: red;
+}
+
 span.arrows {
   color: greenyellow;
   font-weight: bold;

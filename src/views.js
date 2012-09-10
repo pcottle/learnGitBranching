@@ -81,7 +81,7 @@ var CommandLineHistoryView = Backbone.View.extend({
     ';
 
     this.resultTemplate = ' \
-      <p class="commandResult <%= className %>"> \
+      <p class="commandLine <%= className %>"> \
         <%= result %> \
       </p> \
     ';

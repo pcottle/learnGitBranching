@@ -47,11 +47,12 @@ Command.prototype.getSandboxCommands = function() {
       ");
     }],
     [/^git$/, function() {
-      throw new CommandResult("\
-        Git Version PCOTTLE.1.0\
-        Usage:\
+      throw new CommandResult(_.escape("\
+        Git Version \n \
+        PCOTTLE.1.0 \
+        Usage: \n \
           git <command> [<args>] \
-      ");
+      "));
     }]
   ];
 };
