@@ -43,21 +43,18 @@ var CommandLineView = Backbone.View.extend({
   },
 
   submit: function() {
-    var value = this.$('#commandTextField').val();
+    var value = this.$('#commandTextField').val().replace('\n', '');
     this.$('#commandTextField').val('');
+
+    events.trigger('commandConsumed', value);
+
     try {
       var command = new Command(value);
       console.log(command);
       // immediately execute for now, will change later
       events.trigger('gitCommandReady', command);
     } catch (err) {
-      if (err instanceof CommandProcessError) {
-        events.trigger('commandProcessError', err);
-      } else if (err instanceof CommandResultError) {
-
-      } else {
-        throw err;
-      }
+      this.processError(err);
     }
   }
 });
@@ -77,16 +74,16 @@ var CommandLineHistoryView = Backbone.View.extend({
     ));
 
     this.commandTemplate = ' \
-      <p class="commandLine <%= class %>"> \
+      <p class="commandLine <%= className %>"> \
         <span class="arrows">&gt; &gt; &gt;</span> \
         <%= command %>  \
       </p> \
     ';
 
     this.resultTemplate = ' \
-      <p class="commandResult <%= class %>"> \
-        <%= result %>
-      </p>
+      <p class="commandResult <%= className %>"> \
+        <%= result %> \
+      </p> \
     ';
   },
 
@@ -95,7 +92,7 @@ var CommandLineHistoryView = Backbone.View.extend({
       _.template(
         this.commandTemplate,
         {
-          class: 'pastCommand',
+          className: 'pastCommand',
           command: commandText
         }
       )
@@ -107,7 +104,7 @@ var CommandLineHistoryView = Backbone.View.extend({
       _.template(
         this.resultTemplate,
         {
-          class: 'errorResult',
+          className: 'errorResult',
           result: err.toResult()
         }
       )
@@ -115,11 +112,15 @@ var CommandLineHistoryView = Backbone.View.extend({
   },
 
   commandResultPrint: function(err) {
+    if (!err.msg.length) {
+      // blank lines
+      return;
+    }
     this.$('#commandDisplay').append(
       _.template(
         this.resultTemplate,
         {
-          class; 'commandResult',
+          className: 'commandResult',
           result: err.toResult()
         }
       )

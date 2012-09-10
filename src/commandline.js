@@ -34,8 +34,43 @@ Command.prototype.getRegexMap = function() {
   };
 };
 
+Command.prototype.getSandboxCommands = function() {
+  return [
+    [/^ls/, function() {
+      throw new CommandResult("\
+        DontWorryAboutFilesInThisDemo.txt\
+      ");
+    }],
+    [/^cd/, function() {
+      throw new CommandResult("\
+        Directory Changed to '/directories/dont/matter/in/this/demo' \
+      ");
+    }],
+    [/^git$/, function() {
+      throw new CommandResult("\
+        Git Version PCOTTLE.1.0\
+        Usage:\
+          git <command> [<args>] \
+      ");
+    }]
+  ];
+};
+
 Command.prototype.parse = function(str) {
-  // first check if shortcut exists, and replace, but
+  // first if the string is empty, they just want a blank line
+  if (!str.length) {
+    throw new CommandResult("");
+  }
+
+  // then check if it's one of our sandbox commands
+  _.each(this.getSandboxCommands(), function(tuple) {
+    var regex = tuple[0];
+    if (regex.exec(str)) {
+      tuple[1]();
+    }
+  });
+
+  // then check if shortcut exists, and replace, but
   // preserve options if so
   _.each(this.getShortcutMap(), function(regex, method) {
     var results = regex.exec(str);
@@ -46,9 +81,14 @@ Command.prototype.parse = function(str) {
 
   // see if begins with git
   if (str.slice(0,3) !== 'git') {
-    throw new Error('Git commands only, sorry!');
+    throw new CommandProcessError('Git commands only, sorry!');
   }
 
+  // ok, we have a (probably) valid command. actually parse it
+  this.gitParse(str);
+};
+
+Command.prototype.gitParse = function(str) {
   // now slice off command part
   this.fullCommand = str.slice('git '.length);
 
@@ -65,7 +105,7 @@ Command.prototype.parse = function(str) {
   }, this);
 
   if (!matched) {
-    throw new Error(
+    throw new CommandProcessError(
       "Sorry, this demo does not support that git command: " + this.fullCommand
     );
   }
