@@ -69,6 +69,10 @@ var CommandLineHistoryView = Backbone.View.extend({
       this.commandError, this
     ));
 
+    events.on('commandProcessWarn', _.bind(
+      this.commandWarn, this
+    ));
+
     events.on('commandResultPrint', _.bind(
       this.commandResultPrint, this
     ));
@@ -106,6 +110,18 @@ var CommandLineHistoryView = Backbone.View.extend({
         {
           className: 'errorResult',
           result: err.toResult()
+        }
+      )
+    );
+  },
+
+  commandWarn: function(msg) {
+    this.$('#commandDisplay').append(
+      _.template(
+        this.resultTemplate,
+        {
+          className: 'commandWarn',
+          result: msg
         }
       )
     );

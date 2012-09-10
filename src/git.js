@@ -14,6 +14,10 @@ function GitEngine() {
   this.id_gen = 0;
   this.branches = [];
 
+  // global variable to keep track of the options given
+  // along with the command call.
+  this.currentOptions = {};
+
   events.on('gitCommandReady', _.bind(this.dispatch, this));
 
   this.init();
@@ -95,17 +99,20 @@ GitEngine.prototype.makeCommit = function(parent) {
 };
 
 GitEngine.prototype.commit = function() {
-  var targetCommit = null;
-  if (this.getDetachedHead()) {
-    // in detached head mode, must warn user TODO
-    targetCommit = this.HEAD.get('target');
-  } else {
-    var targetBranch = this.HEAD.get('target');
-    targetCommit = targetBranch.get('target');
+  var targetCommit = this.getCommitFromRef(this.HEAD);
+  // if we want to ammend, go one above
+  if (this.currentOptions['--amend']) {
+    targetCommit = this.resolveId('HEAD~1');
   }
 
   var newCommit = this.makeCommit(targetCommit);
-  targetBranch.set('target', newCommit);
+
+  if (this.getDetachedHead()) {
+    events.trigger('commandProcessWarn', "Warning!! Detached HEAD state");
+  } else {
+    var targetBranch = this.HEAD.get('target');
+    targetBranch.set('target', newCommit);
+  }
 };
 
 GitEngine.prototype.resolveId = function(idOrTarget) {
@@ -255,8 +262,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 };
 
 GitEngine.prototype.dispatch = function(commandObj) {
-  // TODO: parse arguments as well
-  console.log(commandObj);
+  this.currentOptions = commandObj.optionParser.supportedMap;
   this[commandObj.method](); 
 };
 
