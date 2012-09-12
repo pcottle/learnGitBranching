@@ -119,14 +119,14 @@ Command.prototype.gitParse = function(str) {
  */
 function OptionParser(method, options) {
   this.method = method;
-  this.options = options;
+  this.rawOptions = options;
 
   this.supportedMap = this.getMasterOptionMap()[method];
-
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
 
+  this.generalArgs = [];
   this.explodeAndSet();
 }
 
@@ -137,14 +137,17 @@ OptionParser.prototype.getMasterOptionMap = function() {
   return {
     commit: {
       '--amend': false,
-      '-a': false
+      '-a': false,
+      '-am': false
     },
     add: {},
     branch: {
       '-d': false,
       '-D': false
     },
-    checkout: {},
+    checkout: {
+      '-b': false
+    },
     reset: {
       '--hard': false,
     },
@@ -154,22 +157,39 @@ OptionParser.prototype.getMasterOptionMap = function() {
 };
 
 OptionParser.prototype.explodeAndSet = function() {
-  var exploded = this.options.split(' ');
-  var options =[]; 
-
-  _.each(exploded, function(part) {
-    if (part.slice(0,1) == '-') {
-      options.push(part);
-    }
+  // split on spaces, except when inside quotes, and strip quotes after.
+  // for some reason the regex includes the quotes even if i move the parantheses
+  // inside
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+  _.each(exploded, function(part, i) {
+    exploded[i] = part.replace(/['"]/g, '');
   });
-  _.each(options, function(option) {
-    if (this.supportedMap[option] !== undefined) {
-      this.supportedMap[option] = true;
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError('The option "' + part + '" is not supported');
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
     } else {
-      // this option is not supported
-      throw new CommandProcessError('The option "' + option + '" is not supported');
+      // must be a general arg
+      this.generalArgs.push(part);
     }
-  }, this);
+  }
+
   // done!
 };
 

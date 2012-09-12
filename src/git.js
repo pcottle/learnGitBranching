@@ -16,7 +16,8 @@ function GitEngine() {
 
   // global variable to keep track of the options given
   // along with the command call.
-  this.currentOptions = {};
+  this.commandOptions = {};
+  this.generalArgs = [];
 
   events.on('gitCommandReady', _.bind(this.dispatch, this));
 
@@ -98,18 +99,31 @@ GitEngine.prototype.makeCommit = function(parent) {
   return commit;
 };
 
+GitEngine.prototype.acceptNoGeneralArgs = function() {
+  if (this.generalArgs.length) {
+    throw new GitError("That command accepts no general arguments");
+  }
+};
+
+GitEngine.prototype.commitStarter = function() {
+  this.acceptNoGeneralArgs();
+  if (this.commandOptions['-a']) {
+    events.trigger('commandProcessWarn', 'No need to add files in this demo');
+  }
+  if (this.commandOptions['-am']) {
+    events.trigger('commandProcessWarn', "Don't worry about adding files or commit messages in this demo");
+  }
+  this.commit();
+};
+
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
   // if we want to ammend, go one above
-  if (this.currentOptions['--amend']) {
+  if (this.commandOptions['--amend']) {
     targetCommit = this.resolveId('HEAD~1');
-  }
-  if (this.currentOptions['-a']) {
-    events.trigger('commandProcessWarn', 'No need to add files in this demo');
   }
 
   var newCommit = this.makeCommit(targetCommit);
-
   if (this.getDetachedHead()) {
     events.trigger('commandProcessWarn', 'Warning!! Detached HEAD state');
   } else {
@@ -215,6 +229,14 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   return pQueue.shift(0);
 };
 
+GitEngine.prototype.checkoutStarter = function() {
+  if (this.generalArgs.length != 1) {
+    throw new GitError('I expect one argument along with git checkout (dont reference files)');
+  }
+
+  this.checkout(this.generalArgs[0]);
+};
+
 GitEngine.prototype.checkout = function(idOrTarget) {
   console.log('the target', idOrTarget);
   var target = this.resolveId(idOrTarget);
@@ -233,15 +255,36 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   this.HEAD.set('target', target);
 };
 
-GitEngine.prototype.branch = function(name, ref, options) {
-  ref = ref || 'HEAD';
-  options = options || {};
-
-  if (options['-d'] || options['-D']) {
-    this.deleteBranch(name);
+GitEngine.prototype.branchStarter = function() {
+  // handle deletion first
+  if (this.commandOptions['-d'] || this.commandOptions['-D']) {
+    if (!this.generalArgs.length) {
+      throw new GitError('I expect branch names when deleting');
+    }
+    _.each(this.generalArgs, function(name) {
+      this.deleteBranch(name);
+    });
     return;
-   }
+  }
 
+  var len = this.generalArgs.length;
+  if (len > 2) {
+    throw new GitError('git branch with more than two general args does not make sense!');
+  }
+  if (len == 0) {
+    throw new Error('going to implement eventually');
+    //TODO: print branches, etc
+    return;
+  }
+  
+  if (len == 1) {
+    // making a branch from where we are now
+    this.generalArgs.push('HEAD');
+  }
+  this.branch(this.generalArgs[0], this.generalArgs[1]);
+};
+
+GitEngine.prototype.branch = function(name, ref) {
   var target = this.getCommitFromRef(ref);
   this.makeBranch(name, target);
 };
@@ -250,13 +293,13 @@ GitEngine.prototype.deleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveId(name);
   if (target.get('type') !== 'branch') {
-    throw new Error("You can't delete things that arent branches with branch command");
+    throw new GitError("You can't delete things that arent branches with branch command");
   }
   if (target.get('id') == 'master') {
-    throw new Error("You can't delete the master branch!");
+    throw new GitError("You can't delete the master branch!");
   }
   if (this.HEAD.get('target') === target) {
-    throw new Error("Cannot delete the branch you are currently on");
+    throw new GitError("Cannot delete the branch you are currently on");
   }
 
   var id = target.get('id');
@@ -265,8 +308,10 @@ GitEngine.prototype.deleteBranch = function(name) {
 };
 
 GitEngine.prototype.dispatch = function(commandObj) {
-  this.currentOptions = commandObj.optionParser.supportedMap;
-  this[commandObj.method](); 
+  this.commandOptions = commandObj.optionParser.supportedMap;
+  this.generalArgs = commandObj.optionParser.generalArgs;
+
+  this[commandObj.method + 'Starter'](); 
 };
 
 GitEngine.prototype.add = function() {

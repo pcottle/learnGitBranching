@@ -21,3 +21,11 @@ CommandResult.prototype.toString = function() {
 CommandResult.prototype.toResult = function() {
   return this.msg.replace('\n', '</br>');
 };
+
+function GitError(msg) {
+  this.msg = msg;
+}
+
+GitError.prototype.toString = function() {
+  return 'Git Error: ' + this.msg;
+};

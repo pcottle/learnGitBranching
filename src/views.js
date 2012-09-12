@@ -13,9 +13,8 @@ var CommandLineView = Backbone.View.extend({
   },
 
   keyUp: function(e) {
-    console.log(e);
-
-    // we need to capture some of these events
+    // we need to capture some of these events.
+    // WARNING: this key map is not internationalized :(
     var keyMap = {
       // enter
       13: _.bind(function() {
