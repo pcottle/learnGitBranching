@@ -104,11 +104,14 @@ GitEngine.prototype.commit = function() {
   if (this.currentOptions['--amend']) {
     targetCommit = this.resolveId('HEAD~1');
   }
+  if (this.currentOptions['-a']) {
+    events.trigger('commandProcessWarn', 'No need to add files in this demo');
+  }
 
   var newCommit = this.makeCommit(targetCommit);
 
   if (this.getDetachedHead()) {
-    events.trigger('commandProcessWarn', "Warning!! Detached HEAD state");
+    events.trigger('commandProcessWarn', 'Warning!! Detached HEAD state');
   } else {
     var targetBranch = this.HEAD.get('target');
     targetBranch.set('target', newCommit);

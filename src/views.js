@@ -1,10 +1,15 @@
 var CommandLineView = Backbone.View.extend({
   initialize: function(options) {
     this.commands = [];
+    this.index = -1;
 
     this.$('#commandTextField').keyup(
       $.proxy(this.keyUp, this)
     );
+
+    events.on('commandConsumed', _.bind(
+      this.parseOrCatch, this
+    ));
   },
 
   keyUp: function(e) {
@@ -12,8 +17,17 @@ var CommandLineView = Backbone.View.extend({
 
     // we need to capture some of these events
     var keyMap = {
+      // enter
       13: _.bind(function() {
         this.submit();
+      }, this),
+      // up
+      38: _.bind(function() {
+        this.commandSelectChange(1);
+      }, this),
+      // down
+      40: _.bind(function() {
+        this.commandSelectChange(-1);
       }, this)
     };
 
@@ -23,9 +37,18 @@ var CommandLineView = Backbone.View.extend({
     }
   },
 
-  addCommand: function(e) {
-    e.preventDefault();
-    this.submit();
+  commandSelectChange: function(delta) {
+    this.index += delta;
+    
+    // if we are over / under, display blank line
+    if (this.index >= this.commands.length || this.index < 0) {
+      this.clear();
+      this.index = -1;
+      return;
+    }
+
+    // yay! we actually can display something
+    this.setTextField(this.commands[this.index]);
   },
 
   processError: function(err) {
@@ -42,16 +65,30 @@ var CommandLineView = Backbone.View.extend({
     }
   },
 
+  setTextField: function(value) {
+    this.$('#commandTextField').val(value);
+  },
+
+  clear: function() {
+    this.setTextField('');
+  },
+
   submit: function() {
     var value = this.$('#commandTextField').val().replace('\n', '');
-    this.$('#commandTextField').val('');
+    this.clear();
+
+    if (value.length) {
+      this.commands.unshift(value);
+    }
+    this.index = -1;
 
     events.trigger('commandConsumed', value);
+  },
 
+  parseOrCatch: function(value) {
     try {
       var command = new Command(value);
       console.log(command);
-      // immediately execute for now, will change later
       events.trigger('gitCommandReady', command);
     } catch (err) {
       this.processError(err);
@@ -77,6 +114,7 @@ var CommandLineHistoryView = Backbone.View.extend({
       this.commandResultPrint, this
     ));
 
+    // TODO: move these to a real template system
     this.commandTemplate = ' \
       <p class="commandLine <%= className %>"> \
         <span class="arrows">&gt; &gt; &gt;</span> \
