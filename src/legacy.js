@@ -36,9 +36,12 @@ Renderer = function(canvas) {
         return;
       }
 
+      events.trigger('fixNodePositions', particleSystem);
+
       ctx.clearRect(0,0, canvas.width, canvas.height);
       particleSystem.eachEdge(this.drawEdge);
       particleSystem.eachNode(this.drawNode);
+
       events.trigger('drawGitVisuals', particleSystem, ctx, canvas);
     },
     

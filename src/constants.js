@@ -29,6 +29,7 @@ var graphics = {
   // ref names
   refFont: '14pt Courier New',
   refFontFill: '#FFF',
+  refSelectedFontFill: 'rgb(255, 30, 10)',
 
   // ref arrows
   arrowFill: '#FFF',

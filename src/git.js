@@ -116,9 +116,15 @@ GitEngine.prototype.logBranches = function() {
   });
 };
 
-GitEngine.prototype.makeCommit = function(parent) {
+GitEngine.prototype.makeCommit = function() {
+  // manually copy arguments
+  var parents = [];
+  _.each(arguments, function(arg) {
+    parents.push(arg);
+  });
+
   var commit = new Commit({
-    parents: [parent]
+    parents: parents
   });
   this.refs[commit.get('id')] = commit;
   this.collection.add(commit);
@@ -154,6 +160,7 @@ GitEngine.prototype.commit = function() {
   var newCommit = this.makeCommit(targetCommit);
   if (this.getDetachedHead()) {
     events.trigger('commandProcessWarn', 'Warning!! Detached HEAD state');
+    this.HEAD.set('target', newCommit);
   } else {
     var targetBranch = this.HEAD.get('target');
     targetBranch.set('target', newCommit);
@@ -218,6 +225,14 @@ GitEngine.prototype.getCommitFromRef = function(ref) {
   return start;
 };
 
+GitEngine.prototype.getOneBeforeCommit = function(ref) {
+  var start = this.resolveId(ref);
+  if (start === this.HEAD) {
+    start = start.get('target');
+  }
+  return start;
+};
+
 GitEngine.prototype.numBackFrom = function(commit, numBack) {
   // going back '3' from a given ref is not trivial, for you might have
   // a bunch of merge commits and such. like this situation:
@@ -250,6 +265,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
 
   while (pQueue.length && numBack !== 0) {
     var popped = pQueue.shift(0);
+    console.log(popped);
     pQueue = pQueue.concat(popped.get('parents'));
     pQueue.sort(sortFunc);
     numBack--;
@@ -263,20 +279,92 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   return pQueue.shift(0);
 };
 
+GitEngine.prototype.mergeStarter = function() {
+  if (this.generalArgs.length > 2) {
+    throw new GitError({
+      msg: 'merge with more than 2 arguments doesnt make sense!'
+    });
+  }
+  if (!this.generalArgs.length) {
+    throw new GitError({
+      msg: 'Give me a branch to merge into!'
+    });
+  }
+  if (this.generalArgs.length == 1) {
+    this.generalArgs.push('HEAD');
+  }
+
+  if (_.include(this.generalArgs, 'HEAD') && this.getDetachedHead()) {
+    throw new GitError({
+      msg: 'Cant merge things referencing HEAD when you are in detached head!'
+    });
+  }
+
+  this.merge(this.generalArgs[0], this.generalArgs[1]);
+};
+
+GitEngine.prototype.merge = function(targetSource, currentLocation) {
+  // first some conditions
+  if (this.isUpstreamOf(targetSource, currentLocation)) {
+    throw new CommandResult({
+      msg: 'Branch already up-to-date'
+    });
+  }
+
+  if (this.isUpstreamOf(currentLocation, targetSource)) {
+    // just set the target of this current location to the source
+    var currLoc = this.getOneBeforeCommit(currentLocation);
+    currLoc.set('target', this.getCommitFromRef(targetSource));
+    throw new CommandResult({
+      msg: 'Fast-forwarding...'
+    });
+  }
+
+  // now the part of making a merge commit
+  var parent1 = this.getCommitFromRef(currentLocation);
+  var parent2 = this.getCommitFromRef(targetSource);
+
+  var commit = this.makeCommit(parent1, parent2);
+  var currLoc = this.getOneBeforeCommit(currentLocation);
+  currLoc.set('target', commit);
+};
+
 GitEngine.prototype.checkoutStarter = function() {
+  if (this.commandOptions['-b']) {
+    // the user is really trying to just make a branch and then switch to it. so first:
+    var args = this.commandOptions['-b'];
+    if (!args.length) {
+      throw new GitError({
+        msg: 'I expect a branch name with "checkout -b"!!'
+      });
+    }
+    if (args.length > 2) {
+      throw new GitError({
+        msg: 'Only two args max with checkout -b please (the new name and target branch)'
+      });
+    }
+
+    // we are good!
+    if (args.length == 1) {
+      args.push('HEAD');
+    }
+    this.branch(args[0], args[1]);
+    this.checkout(args[0]);
+    return;
+  }
+
   if (this.generalArgs.length != 1) {
     throw new GitError({
       msg: 'I expect one argument along with git checkout (dont reference files)'
     });
   }
-
   this.checkout(this.generalArgs[0]);
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
   console.log('the target', idOrTarget);
   var target = this.resolveId(idOrTarget);
-  console.log(target);
+  console.log('the result', target);
   if (target.get('id') === 'HEAD') {
     // git checkout HEAD is a
     // meaningless command but i used to do this back in the day
@@ -363,36 +451,58 @@ GitEngine.prototype.dispatch = function(commandObj) {
   this[commandObj.method + 'Starter'](); 
 };
 
-GitEngine.prototype.add = function() {
+GitEngine.prototype.addStarter = function() {
   throw new CommandResult({
     msg: "This demo is meant to demonstrate git branching, so don't worry about " +
          "adding / staging files. Just go ahead and commit away!"
   });
 };
 
-GitEngine.prototype.execute = function(command, callback) {
-  // execute command, and when it's finished, call the callback
-  // we still need to figure this out
+GitEngine.prototype.getCommonAncestor = function(cousin, ancestor) {
+  if (this.isUpstreamOf(cousin, ancestor)) {
+    throw new Error('Dont use common ancestor if we are upstream!');
+  }
 
-  var closures = this.getClosuresForCommand(command);
-  // make a scheduler based on all the closures, and pass in our callback
-  var s = new Scheduler(closures, {
-    callback: callback
-  });
-  s.start();
+  var upstreamSet = this.getUpstreamSet(ancestor);
+  // now BFS off of cousin until you find something
+
+  var queue = [this.getCommitFromRef(cousin)];
+  while (queue.length) {
+    var here = queue.pop();
+    if (upstreamSet[here.get('id')]) {
+      return here;
+    }
+    queue.concat(here.get('parents'));
+  }
+  throw new Error('something has gone very wrong... two nodes arent connected!');
 };
 
-GitEngine.prototype.getClosuresForCommand = function(command) {
-  var numbers = [1,2,3,4,5,6,7,8,9,10];
-  var closures = [];
-  _.each(numbers, function(num) {
-    var c = function() {
-      console.log(num);
-    };
-    closures.push(c);
-  });
-  return closures;
+GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
+  child = this.getCommitFromRef(child);
+
+  // basically just do a completely BFS search on ancestor to the root, then
+  // check for membership of child in that set of explored nodes
+  var upstream = this.getUpstreamSet(ancestor);
+  return upstream[child.get('id')] !== undefined;
 };
+
+GitEngine.prototype.getUpstreamSet = function(ancestor) {
+  var commit = this.getCommitFromRef(ancestor);
+  var queue = [commit];
+
+  var exploredSet = {};
+  while (queue.length) {
+    var here = queue.pop();
+    var rents = here.get('parents');
+
+    _.each(rents, function(rent) {
+      exploredSet[rent.get('id')] = true;
+      queue.push(rent);
+    });
+  }
+  return exploredSet;
+};
+
 
 var Ref = Backbone.Model.extend({
   initialize: function() {
@@ -422,12 +532,15 @@ var Branch  = Ref.extend({
 });
 
 var Commit = Backbone.Model.extend({
+  defaults: {
+    type: 'commit',
+    children: []
+  },
+
   validateAtInit: function() {
     if (!this.get('id')) {
       this.set('id', uniqueId('C'));
     }
-    this.set('type', 'commit');
-    this.set('children', []);
 
     // root commits have no parents
     if (this.get('rootCommit')) {

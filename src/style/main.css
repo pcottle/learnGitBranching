@@ -1,5 +1,5 @@
-html,body {
-    overflow:hidden;
+html, body {
+  overflow:hidden;
 
   background: -moz-radial-gradient(center, ellipse cover, #0066cc 0%, #000000 90%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#0066cc), color-stop(90%,#000000));
@@ -54,7 +54,7 @@ span.arrows {
 
 #commandLineHistory {
   width: 100%;
-  height: 500px;
+  height: 200px;
   overflow-y: scroll;
   background: #000;
   opacity: 0.85;

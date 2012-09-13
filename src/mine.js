@@ -8,7 +8,7 @@ var gitEngine = null;
 var gitVisuals = null;
 
 $(document).ready(function(){
-  sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
+  sys = arbor.ParticleSystem(4000, 200, 0.5, false, 55, 0.005, 'verlet');
   sys.renderer = Renderer('#viewport');
 
   new CommandLineView({
@@ -24,7 +24,8 @@ $(document).ready(function(){
   var repulsionBreathe = function(r) {
     sys.parameters({repulsion: r});
   };
-  var b = new Breather(repulsionBreathe, 6050, 4000);
+  // TODO: decide on breather
+  // var b = new Breather(repulsionBreathe, 6050, 4000);
 
   graphicsEffects.edgeStrokeEffect = new GraphicsEffect('edgeStroke', {wait: 1000});
 });

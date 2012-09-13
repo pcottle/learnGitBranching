@@ -12,11 +12,11 @@ function Command(str) {
 
 Command.prototype.getShortcutMap = function() {
   return {
-    'git commit': /^gc/,
-    'git add': /^ga/,
-    'git checkout': /^gchk/,
-    'git rebase': /^gr/,
-    'git branch': /^gb/
+    'git commit': /^gc($|\s)/,
+    'git add': /^ga($|\s)/,
+    'git checkout': /^gchk($|\s)/,
+    'git rebase': /^gr($|\s)/,
+    'git branch': /^gb($|\s)/
   };
 };
 
@@ -30,7 +30,8 @@ Command.prototype.getRegexMap = function() {
     rebase: /^rebase($|\s)/,
     reset: /^reset($|\s)/,
     branch: /^branch($|\s)/,
-    revert: /^revert($|\s)/
+    revert: /^revert($|\s)/,
+    merge: /^merge($|\s)/
   };
 };
 
@@ -78,7 +79,7 @@ Command.prototype.parse = function(str) {
   _.each(this.getShortcutMap(), function(regex, method) {
     var results = regex.exec(str);
     if (results) {
-      str = method + str.slice(results[0].length);
+      str = method + ' ' + str.slice(results[0].length);
     }
   });
 
@@ -155,6 +156,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     reset: {
       '--hard': false,
     },
+    merge: {},
     rebase: {},
     revert: {}
   };
