@@ -37,22 +37,24 @@ Command.prototype.getRegexMap = function() {
 Command.prototype.getSandboxCommands = function() {
   return [
     [/^ls/, function() {
-      throw new CommandResult("\
-        DontWorryAboutFilesInThisDemo.txt\
-      ");
+      throw new CommandResult({
+        msg: "DontWorryAboutFilesInThisDemo.txt"
+      });
     }],
     [/^cd/, function() {
-      throw new CommandResult("\
-        Directory Changed to '/directories/dont/matter/in/this/demo' \
-      ");
+      throw new CommandResult({
+        msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+      });
     }],
     [/^git$/, function() {
-      throw new CommandResult(_.escape("\
-        Git Version \n \
-        PCOTTLE.1.0 \
-        Usage: \n \
-          git <command> [<args>] \
-      "));
+      throw new CommandResult({
+        msg: _.escape("\
+          Git Version \n \
+          PCOTTLE.1.0 \
+          Usage: \n \
+            git <command> [<args>] \
+        ")
+      });
     }]
   ];
 };
@@ -60,7 +62,7 @@ Command.prototype.getSandboxCommands = function() {
 Command.prototype.parse = function(str) {
   // first if the string is empty, they just want a blank line
   if (!str.length) {
-    throw new CommandResult("");
+    throw new CommandResult({msg: ""});
   }
 
   // then check if it's one of our sandbox commands
@@ -82,7 +84,9 @@ Command.prototype.parse = function(str) {
 
   // see if begins with git
   if (str.slice(0,3) !== 'git') {
-    throw new CommandProcessError('Git commands only, sorry!');
+    throw new CommandProcessError({
+      msg: 'Git commands only, sorry!'
+    });
   }
 
   // ok, we have a (probably) valid command. actually parse it
@@ -106,9 +110,9 @@ Command.prototype.gitParse = function(str) {
   }, this);
 
   if (!matched) {
-    throw new CommandProcessError(
-      "Sorry, this demo does not support that git command: " + this.fullCommand
-    );
+    throw new CommandProcessError({
+      msg: "Sorry, this demo does not support that git command: " + this.fullCommand
+    });
   }
 
   this.optionParser = new OptionParser(this.method, this.options);
@@ -170,7 +174,9 @@ OptionParser.prototype.explodeAndSet = function() {
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError('The option "' + part + '" is not supported');
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
       }
 
       // go through and include all the next args until we hit another option or the end

@@ -20,10 +20,21 @@ var graphics = {
   edgeStroke: 'rgba(94%, 96%, 98%, 0.5)', // '#EFF5FB',
   nodeEdge: 'rgba(94%, 96%, 98%, 0.9)', // '#EFF5FB',
   nodeFill: '#0066cc',
+  nodeRadius: 10,
 
   // widths
   nodeStrokeWidth: 15,
   edgeWidth: 2,
+
+  // ref names
+  refFont: '14pt Courier New',
+  refFontFill: '#FFF',
+
+  // ref arrows
+  arrowFill: '#FFF',
+  arrowStroke: '#000',
+  arrowWidth: 4,
+  arrowHeadWidth: 5
 };
 
 function randomString(string_length) {

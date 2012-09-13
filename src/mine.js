@@ -5,6 +5,7 @@ var events = _.clone(Backbone.Events);
 var sys = null;
 var graphicsEffects = {};
 var gitEngine = null;
+var gitVisuals = null;
 
 $(document).ready(function(){
   sys = arbor.ParticleSystem(4000, 500, 0.5, false, 55, 0.005, 'verlet');
@@ -18,6 +19,7 @@ $(document).ready(function(){
   });
 
   gitEngine = new GitEngine();
+  gitVisuals = new GitVisuals();
 
   var repulsionBreathe = function(r) {
     sys.parameters({repulsion: r});
@@ -40,9 +42,10 @@ Node.prototype.drawCircleNode = function(ctx, pt) {
   ctx.strokeStyle = graphics.nodeEdge;
   ctx.lineWidth = graphics.nodeStrokeWidth;
   ctx.fillStyle = graphics.nodeFill;
+  var radius = graphics.nodeRadius;
 
   ctx.beginPath();
-  ctx.arc(pt.x, pt.y, 10, 0, Math.PI*2, true);
+  ctx.arc(pt.x, pt.y, radius, 0, Math.PI*2, true);
   ctx.closePath();
   ctx.stroke();
   ctx.fill();

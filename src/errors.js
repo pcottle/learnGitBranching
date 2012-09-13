@@ -1,31 +1,35 @@
-function CommandProcessError(msg) {
-  this.msg = msg; 
-}
+var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
 
-CommandProcessError.prototype.toString = function() {
-  return 'Command Process Error: ' + this.msg;
-};
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
 
-CommandProcessError.prototype.toResult = function() {
-  return this.msg.replace('\n', '</br>');
-};
+  toResult: function() {
+    return this.get('msg').replace('\n', '</br>');
+  }
+});
 
-function CommandResult(msg) {
-  this.msg = msg; 
-}
+var CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
 
-CommandResult.prototype.toString = function() {
-  return 'Command Result: ' + this.msg;
-};
+var CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
 
-CommandResult.prototype.toResult = function() {
-  return this.msg.replace('\n', '</br>');
-};
-
-function GitError(msg) {
-  this.msg = msg;
-}
-
-GitError.prototype.toString = function() {
-  return 'Git Error: ' + this.msg;
-};
+var GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});

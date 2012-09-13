@@ -7,7 +7,7 @@ var CommandLineView = Backbone.View.extend({
       $.proxy(this.keyUp, this)
     );
 
-    events.on('commandConsumed', _.bind(
+    events.on('commandReadyForProcess', _.bind(
       this.parseOrCatch, this
     ));
   },
@@ -53,8 +53,8 @@ var CommandLineView = Backbone.View.extend({
   processError: function(err) {
     // in this demo, every command that's not a git command will
     // throw an exception. Some of these errors might be just to
-    // short-circuit the normal programatic flow, so we handle them
-    // here
+    // short-circuit the normal programatic flow and print stuff,
+    // so we handle them here
     if (err instanceof CommandProcessError) {
         events.trigger('commandProcessError', err);
     } else if (err instanceof CommandResult) {
@@ -81,13 +81,13 @@ var CommandLineView = Backbone.View.extend({
     }
     this.index = -1;
 
-    events.trigger('commandConsumed', value);
+    events.trigger('commandSubmitted', value);
+    events.trigger('commandReadyForProcess', value);
   },
 
   parseOrCatch: function(value) {
     try {
       var command = new Command(value);
-      console.log(command);
       events.trigger('gitCommandReady', command);
     } catch (err) {
       this.processError(err);
@@ -97,7 +97,7 @@ var CommandLineView = Backbone.View.extend({
 
 var CommandLineHistoryView = Backbone.View.extend({
   initialize: function(options) {
-    events.on('commandConsumed', _.bind(
+    events.on('commandSubmitted', _.bind(
       this.addCommand, this
     ));
 
@@ -165,7 +165,8 @@ var CommandLineHistoryView = Backbone.View.extend({
   },
 
   commandResultPrint: function(err) {
-    if (!err.msg.length) {
+    if (!err.get('msg') || !err.get('msg').length) {
+      console.log(err);
       // blank lines
       return;
     }

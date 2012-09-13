@@ -13,6 +13,7 @@ function GitEngine() {
   this.HEAD = null;
   this.id_gen = 0;
   this.branches = [];
+  this.collection = commitCollection;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -27,6 +28,8 @@ function GitEngine() {
 GitEngine.prototype.init = function() {
   // make an initial commit and a master branch
   this.rootCommit = new Commit({rootCommit: true});
+  commitCollection.add(this.rootCommit);
+
   this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
   var master = this.makeBranch('master', this.rootCommit);
@@ -50,10 +53,14 @@ GitEngine.prototype.getDetachedHead = function() {
 GitEngine.prototype.validateBranchName = function(name) {
   name = name.replace(/\s/g, ''); 
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
-    throw new Error('woah bad branch name!! This is not ok: ' + name);
+    throw new GitError({
+      msg: 'woah bad branch name!! This is not ok: ' + name
+    });
   }
   if (/[hH][eE][aA][dD]/.test(name)) {
-    throw new Error('branch name of "head" is ambiguous, dont name it that');
+    throw new GitError({
+      msg: 'branch name of "head" is ambiguous, dont name it that'
+    });
   }
   return name;
 };
@@ -61,7 +68,9 @@ GitEngine.prototype.validateBranchName = function(name) {
 GitEngine.prototype.makeBranch = function(id, target) {
   id = this.validateBranchName(id);
   if (this.refs[id]) {
-    throw new Error('that branch id already exists!');
+    throw new GitError({
+      msg: 'that branch id already exists!'
+    });
   }
 
   var branch = new Branch({
@@ -73,18 +82,34 @@ GitEngine.prototype.makeBranch = function(id, target) {
   return branch;
 };
 
+GitEngine.prototype.getHead = function() {
+  return _.clone(this.HEAD);
+};
+
 GitEngine.prototype.getBranches = function() {
   var toReturn = [];
   _.each(this.branches, function(branch) {
     toReturn.push({
       id: branch.get('id'),
-      selected: this.HEAD.get('target') === branch
+      selected: this.HEAD.get('target') === branch,
+      target: branch.get('target')
     });
   }, this);
   return toReturn;
 };
 
 GitEngine.prototype.printBranches = function() {
+  var branches = this.getBranches();
+  var result = '';
+  _.each(branches, function(branch) {
+    result += (branch.selected ? '* ' : '') + branch.id + '\n';
+  });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.logBranches = function() {
   var branches = this.getBranches();
   _.each(branches, function(branch) {
     console.log((branch.selected ? '* ' : '') + branch.id);
@@ -96,12 +121,15 @@ GitEngine.prototype.makeCommit = function(parent) {
     parents: [parent]
   });
   this.refs[commit.get('id')] = commit;
+  this.collection.add(commit);
   return commit;
 };
 
 GitEngine.prototype.acceptNoGeneralArgs = function() {
   if (this.generalArgs.length) {
-    throw new GitError("That command accepts no general arguments");
+    throw new GitError({
+      msg: "That command accepts no general arguments"
+    });
   }
 };
 
@@ -167,10 +195,14 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   }, this);
 
   if (!startRef) {
-    throw new Error('unknown ref ' + ref);
+    throw new GitError({
+      msg: 'unknown ref ' + ref
+    });
   }
   if (!this.refs[startRef]) {
-    throw new Error('the ref ' + startRef +' does not exist.');
+    throw new GitError({
+      msg: 'the ref ' + startRef +' does not exist.'
+    });
   }
   var commit = this.getCommitFromRef(startRef);
 
@@ -224,14 +256,18 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   }
 
   if (numBack !== 0 || pQueue.length == 0) {
-    throw new Error('exhausted search, sorry');
+    throw new GitError({
+      msg: "Sorry, I can't go that many commits back"
+    });
   }
   return pQueue.shift(0);
 };
 
 GitEngine.prototype.checkoutStarter = function() {
   if (this.generalArgs.length != 1) {
-    throw new GitError('I expect one argument along with git checkout (dont reference files)');
+    throw new GitError({
+      msg: 'I expect one argument along with git checkout (dont reference files)'
+    });
   }
 
   this.checkout(this.generalArgs[0]);
@@ -249,7 +285,9 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 
   var type = target.get('type');
   if (type !== 'branch' && type !== 'commit') {
-    throw new Error('can only checkout branches and commits!');
+    throw new GitError({
+      msg: 'can only checkout branches and commits!'
+    });
   }
 
   this.HEAD.set('target', target);
@@ -259,7 +297,9 @@ GitEngine.prototype.branchStarter = function() {
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     if (!this.generalArgs.length) {
-      throw new GitError('I expect branch names when deleting');
+      throw new GitError({
+        msg: 'I expect branch names when deleting'
+      });
     }
     _.each(this.generalArgs, function(name) {
       this.deleteBranch(name);
@@ -269,11 +309,14 @@ GitEngine.prototype.branchStarter = function() {
 
   var len = this.generalArgs.length;
   if (len > 2) {
-    throw new GitError('git branch with more than two general args does not make sense!');
+    throw new GitError({
+      msg: 'git branch with more than two general args does not make sense!'
+    });
   }
+
+
   if (len == 0) {
-    throw new Error('going to implement eventually');
-    //TODO: print branches, etc
+    this.printBranches();
     return;
   }
   
@@ -293,13 +336,19 @@ GitEngine.prototype.deleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveId(name);
   if (target.get('type') !== 'branch') {
-    throw new GitError("You can't delete things that arent branches with branch command");
+    throw new GitError({
+      msg: "You can't delete things that arent branches with branch command"
+    });
   }
   if (target.get('id') == 'master') {
-    throw new GitError("You can't delete the master branch!");
+    throw new GitError({
+      msg: "You can't delete the master branch!"
+    });
   }
   if (this.HEAD.get('target') === target) {
-    throw new GitError("Cannot delete the branch you are currently on");
+    throw new GitError({
+      msg: "Cannot delete the branch you are currently on"
+    });
   }
 
   var id = target.get('id');
@@ -315,10 +364,10 @@ GitEngine.prototype.dispatch = function(commandObj) {
 };
 
 GitEngine.prototype.add = function() {
-  throw new Error(
-    "This demo is meant to demonstrate git branching, so don't worry about " +
-    "adding / staging files. Just go ahead and commit away!"
-  );
+  throw new CommandResult({
+    msg: "This demo is meant to demonstrate git branching, so don't worry about " +
+         "adding / staging files. Just go ahead and commit away!"
+  });
 };
 
 GitEngine.prototype.execute = function(command, callback) {
@@ -401,7 +450,6 @@ var Commit = Backbone.Model.extend({
   initialize: function() {
     this.validateAtInit();
     this.addNodeToVisuals();
-    console.log('MAKING NEW COMMIT', this.get('id'));
 
     _.each(this.get('parents'), function(parent) {
       parent.get('children').push(this);
