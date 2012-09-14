@@ -252,22 +252,15 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     return commit;
   }
 
-  var sortFunc = function(cA, cB) {
-    // why cant parse int handle leading characters? :(
-    var numA = parseInt(cA.get('id').slice(1));
-    var numB = parseInt(cB.get('id').slice(1));
-    return numA - numB;
-  };
-
   var pQueue = [].concat(commit.get('parents'));
-  pQueue.sort(sortFunc);
+  pQueue.sort(this.idSortFunc);
   numBack--;
 
   while (pQueue.length && numBack !== 0) {
     var popped = pQueue.shift(0);
     console.log(popped);
     pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(sortFunc);
+    pQueue.sort(this.idSortFunc);
     numBack--;
   }
 
@@ -277,6 +270,88 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     });
   }
   return pQueue.shift(0);
+};
+
+GitEngine.prototype.idSortFunc = function(cA, cB) {
+  // commit IDs can come in many forms:
+  //  C4
+  //  C4' (from a rebase)
+  //  C4'' (from multiple rebases)
+  //  C4'^3 (from a BUNCH of rebases)
+
+  var scale = 1000;
+
+  var regexMap = [
+    [/^C(\d)+$/, function(bits) {
+      // return the 4 from C4
+      return scale * bits[1];
+    }],
+    [/^C(\d)([']+)$/, function(bits) {
+      // return the 4 from C4, plus the length of the quotes
+      return scale * bits[1] + bits[2].length;
+    }],
+    [/^C(\d)['][^](\d+)$/, function(bits) {
+      return scale * bits[1] + bits[2];
+    }]
+  ];
+
+  var getNumToSort = function(id) {
+    for (var i = 0; i < regexMap.length; i++) {
+      var regex = regexMap[i][0];
+      var func = regexMap[i][1];
+      var results = regex.exec(id);
+      if (results) {
+        return func(results);
+      }
+    }
+    throw new Error('Could not parse commit ID ' + id);
+  }
+
+  return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
+};
+
+GitEngine.prototype.rebaseStarter = function() {
+  if (this.generalArgs.length > 2) {
+    throw new GitError({
+      msg: 'rebase with more than 2 arguments doesnt make sense!'
+    });
+  }
+  if (!this.generalArgs.length) {
+    throw new GitError({
+      msg: 'Give me a branch to rebase onto!'
+    });
+  }
+  if (this.generalArgs.length == 1) {
+    this.generalArgs.push('HEAD');
+  }
+  this.rebase(generalArgs[0], generalArgs[1]);
+};
+
+GitEngine.prototype.rebase = function(targetSource, currentLocation) {
+  // first some conditions
+  if (this.isUpstreamOf(targetSource, currentLocation)) {
+    throw new CommandResult({
+      msg: 'Branch already up-to-date'
+    });
+  }
+  if (this.isUpstreamOf(currentLocation, targetSource)) {
+    // just set the target of this current location to the source
+    var currLoc = this.getOneBeforeCommit(currentLocation);
+    currLoc.set('target', this.getCommitFromRef(targetSource));
+    throw new CommandResult({
+      msg: 'Fast-forwarding...'
+    });
+  }
+
+  // now the part of actually rebasing.
+  // We need to get the downstream set of targetSource first.
+  // then we BFS from currentLocation, using the downstream set as our stopping point.
+  // we need to BFS because we need to include all commits below
+  // pop these commits on top of targetSource and modify their ids with quotes
+
+  var commonAncestor = this.getCommonAncestor(targetSource, currentLocation)
+  // now BFS from 
+
 };
 
 GitEngine.prototype.mergeStarter = function() {
@@ -362,9 +437,7 @@ GitEngine.prototype.checkoutStarter = function() {
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
-  console.log('the target', idOrTarget);
   var target = this.resolveId(idOrTarget);
-  console.log('the result', target);
   if (target.get('id') === 'HEAD') {
     // git checkout HEAD is a
     // meaningless command but i used to do this back in the day
@@ -458,7 +531,7 @@ GitEngine.prototype.addStarter = function() {
   });
 };
 
-GitEngine.prototype.getCommonAncestor = function(cousin, ancestor) {
+GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
   if (this.isUpstreamOf(cousin, ancestor)) {
     throw new Error('Dont use common ancestor if we are upstream!');
   }
