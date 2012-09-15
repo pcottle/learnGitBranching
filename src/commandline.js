@@ -156,7 +156,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     },
     reset: {
       '--hard': false,
-      '--soft': false, // this will raise and error but we catch it in gitEngine
+      '--soft': false, // this will raise an error but we catch it in gitEngine
     },
     merge: {},
     rebase: {},

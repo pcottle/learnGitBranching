@@ -134,6 +134,51 @@ GitEngine.prototype.acceptNoGeneralArgs = function() {
   }
 };
 
+GitEngine.prototype.revertStarter = function() {
+  if (this.generalArgs.length !== 1) {
+    throw new GitError({
+      msg: "Specify the commit to revert to"
+    });
+  }
+  if (this.generalArgs[0] == 'HEAD') {
+    throw new GitError({
+      msg: "Can't revert to HEAD! That's where you are now"
+    });
+    return;
+  }
+  this.revert(this.generalArgs[0]);
+};
+
+GitEngine.prototype.revert = function(whichCommit) {
+  // first get that commit
+  var targetLocation = this.getCommitFromRef(whichCommit);
+  var here = this.getCommitFromRef('HEAD');
+  // then BFS from here to that commit
+  var toUndo = [];
+  var queue = [here];
+  while (queue.length) {
+    var popped = queue.pop();
+    if (popped.get('id') == targetLocation.get('id')) {
+      // we got all that we needed to get
+      break;
+    }
+    toUndo.push(popped);
+    queue = queue.concat(popped.get('parents'));
+    queue.sort(this.idSortFunc);
+  }
+
+  // now make a bunch of commits on top of where we are
+  var base = here;
+  toUndo.sort(this.idSortFunc);
+  for (var i = 0; i < toUndo.length; i++) {
+    var newId = this.rebaseAltId(toUndo[i].get('id'));
+    var newCommit = this.makeCommit([base], newId);
+    base = newCommit;
+  }
+  // done! update our location
+  this.setLocationTarget('HEAD', base);
+};
+
 GitEngine.prototype.resetStarter = function() {
   if (this.commandOptions['--soft']) {
     throw new GitError({
@@ -294,7 +339,6 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
 
   while (pQueue.length && numBack !== 0) {
     var popped = pQueue.shift(0);
-    console.log(popped);
     pQueue = pQueue.concat(popped.get('parents'));
     pQueue.sort(this.idSortFunc);
     numBack--;
@@ -559,14 +603,16 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 GitEngine.prototype.branchStarter = function() {
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
-    if (!this.generalArgs.length) {
+    var names = this.commandOptions['-d'];
+    names.concat(this.commandOptions['-D']);
+    if (!names.length) {
       throw new GitError({
         msg: 'I expect branch names when deleting'
       });
     }
-    _.each(this.generalArgs, function(name) {
+    _.each(names, _.bind(function(name) {
       this.deleteBranch(name);
-    });
+    }, this));
     return;
   }
 
@@ -617,6 +663,16 @@ GitEngine.prototype.deleteBranch = function(name) {
   var id = target.get('id');
   target.delete();
   delete this.refs[id];
+  // delete from array
+  var toDelete = -1;
+  _.each(this.branches, function(branch, index) {
+    console.log(branch);
+    console.log(id);
+    if (branch.get('id') == id) {
+      toDelete = index;
+    }
+  });
+  this.branches.splice(toDelete, 1);
 };
 
 GitEngine.prototype.dispatch = function(commandObj) {
