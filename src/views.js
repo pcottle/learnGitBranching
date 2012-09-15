@@ -76,13 +76,20 @@ var CommandLineView = Backbone.View.extend({
     var value = this.$('#commandTextField').val().replace('\n', '');
     this.clear();
 
+    // if we are entering a real command, add it to our history
     if (value.length) {
       this.commands.unshift(value);
     }
     this.index = -1;
 
-    events.trigger('commandSubmitted', value);
-    events.trigger('commandReadyForProcess', value);
+    _.each(value.split(';'), function(command) {
+      command = command.replace(/^(\s+)/, '');
+      command = command.replace(/(\s+)$/, '');
+      if (command.length) {
+        events.trigger('commandSubmitted', command);
+        events.trigger('commandReadyForProcess', command);
+      }
+    });
   },
 
   parseOrCatch: function(value) {

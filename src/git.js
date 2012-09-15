@@ -116,15 +116,10 @@ GitEngine.prototype.logBranches = function() {
   });
 };
 
-GitEngine.prototype.makeCommit = function() {
-  // manually copy arguments
-  var parents = [];
-  _.each(arguments, function(arg) {
-    parents.push(arg);
-  });
-
+GitEngine.prototype.makeCommit = function(parents, id) {
   var commit = new Commit({
-    parents: parents
+    parents: parents,
+    id: id
   });
   this.refs[commit.get('id')] = commit;
   this.collection.add(commit);
@@ -137,6 +132,10 @@ GitEngine.prototype.acceptNoGeneralArgs = function() {
       msg: "That command accepts no general arguments"
     });
   }
+};
+
+GitEngine.prototype.resetStarter = function() {
+
 };
 
 GitEngine.prototype.commitStarter = function() {
@@ -157,7 +156,7 @@ GitEngine.prototype.commit = function() {
     targetCommit = this.resolveId('HEAD~1');
   }
 
-  var newCommit = this.makeCommit(targetCommit);
+  var newCommit = this.makeCommit([targetCommit]);
   if (this.getDetachedHead()) {
     events.trigger('commandProcessWarn', 'Warning!! Detached HEAD state');
     this.HEAD.set('target', newCommit);
@@ -225,9 +224,17 @@ GitEngine.prototype.getCommitFromRef = function(ref) {
   return start;
 };
 
+GitEngine.prototype.setLocationTarget = function(ref, target) {
+  var ref = this.getOneBeforeCommit(ref);
+  ref.set('target', target);
+}
+
 GitEngine.prototype.getOneBeforeCommit = function(ref) {
+  // you can call this command on HEAD in detached, HEAD, or on a branch
+  // and it will return the ref that is one above a commit. aka
+  // it resolves HEAD to something that we can move the ref with
   var start = this.resolveId(ref);
-  if (start === this.HEAD) {
+  if (start === this.HEAD && !this.getDetachedHead()) {
     start = start.get('target');
   }
   return start;
@@ -272,6 +279,34 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   return pQueue.shift(0);
 };
 
+GitEngine.prototype.rebaseAltId = function(id) {
+  // this function alters an ID to add a quote to the end,
+  // indicating that it was rebased.
+  var regexMap = [
+    [/^C(\d+)[']{0,2}$/, function(bits) {
+      // this id can use another quote, so just add it
+      return bits[0] + "'";
+    }],
+    [/^C(\d+)[']{3}$/, function(bits) {
+      // here we switch from C''' to C'^4
+      return bits[0].slice(0, -3) + "'^4";
+    }],
+    [/^C(\d+)['][^](\d+)$/, function(bits) {
+      return 'C' + String(bits[1]) + "'^" + String(bits[2] + 1);
+    }]
+  ];
+
+  for (var i = 0; i < regexMap.length; i++) {
+    var regex = regexMap[i][0];
+    var func = regexMap[i][1];
+    var results = regex.exec(id);
+    if (results) {
+      return func(results);
+    }
+  }
+  throw new Error('could not modify the id ' + id);
+};
+
 GitEngine.prototype.idSortFunc = function(cA, cB) {
   // commit IDs can come in many forms:
   //  C4
@@ -282,16 +317,16 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
   var scale = 1000;
 
   var regexMap = [
-    [/^C(\d)+$/, function(bits) {
+    [/^C(\d+)$/, function(bits) {
       // return the 4 from C4
       return scale * bits[1];
     }],
-    [/^C(\d)([']+)$/, function(bits) {
+    [/^C(\d+)([']+)$/, function(bits) {
       // return the 4 from C4, plus the length of the quotes
       return scale * bits[1] + bits[2].length;
     }],
-    [/^C(\d)['][^](\d+)$/, function(bits) {
-      return scale * bits[1] + bits[2];
+    [/^C(\d+)['][^](\d+)$/, function(bits) {
+      return scale * bits[1] + Number(bits[2]);
     }]
   ];
 
@@ -324,7 +359,7 @@ GitEngine.prototype.rebaseStarter = function() {
   if (this.generalArgs.length == 1) {
     this.generalArgs.push('HEAD');
   }
-  this.rebase(generalArgs[0], generalArgs[1]);
+  this.rebase(this.generalArgs[0], this.generalArgs[1]);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -336,8 +371,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   }
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
-    var currLoc = this.getOneBeforeCommit(currentLocation);
-    currLoc.set('target', this.getCommitFromRef(targetSource));
+    this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
     throw new CommandResult({
       msg: 'Fast-forwarding...'
     });
@@ -349,9 +383,50 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
 
-  var commonAncestor = this.getCommonAncestor(targetSource, currentLocation)
-  // now BFS from 
+  var stopSet = this.getUpstreamSet(targetSource)
 
+  // now BFS from here on out
+  var toRebaseRough = [];
+  var pQueue = [this.getCommitFromRef(currentLocation)];
+
+  while (pQueue.length) {
+    var popped = pQueue.pop();
+
+    // if its in the set, dont add it
+    if (stopSet[popped.get('id')]) {
+      continue;
+    }
+    // it's not in the set, so we need to rebase this commit
+    toRebaseRough.push(popped);
+    // keep searching
+    pQueue = pQueue.concat(popped.get('parents'));
+    pQueue.sort(this.idSortFunc);
+  }
+
+  // now we have the all the commits between currentLocation and the set of target.
+  // we need to throw out merge commits
+  var toRebase = [];
+  _.each(toRebaseRough, function(commit) {
+    if (commit.get('parents').length == 1) {
+      toRebase.push(commit);
+    }
+  });
+
+  // now sort
+  toRebase.sort(this.idSortFunc);
+  // now pop all of these commits onto targetLocation
+  var base = this.getCommitFromRef(targetSource);
+
+  for (var i = 0; i < toRebase.length; i++) {
+    var old = toRebase[i];
+    var newId = this.rebaseAltId(old.get('id'));
+    var newCommit = this.makeCommit([base], newId);
+    base = newCommit;
+  }
+
+  // now we just need to update where we are
+  this.setLocationTarget(currentLocation, base);
+  // done! haha
 };
 
 GitEngine.prototype.mergeStarter = function() {
@@ -388,8 +463,7 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
 
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
-    var currLoc = this.getOneBeforeCommit(currentLocation);
-    currLoc.set('target', this.getCommitFromRef(targetSource));
+    this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
     throw new CommandResult({
       msg: 'Fast-forwarding...'
     });
@@ -399,9 +473,8 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
   var parent1 = this.getCommitFromRef(currentLocation);
   var parent2 = this.getCommitFromRef(targetSource);
 
-  var commit = this.makeCommit(parent1, parent2);
-  var currLoc = this.getOneBeforeCommit(currentLocation);
-  currLoc.set('target', commit);
+  var commit = this.makeCommit([parent1, parent2]);
+  this.setLocationTarget(currentLocation, commit)
 };
 
 GitEngine.prototype.checkoutStarter = function() {

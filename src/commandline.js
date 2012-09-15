@@ -48,6 +48,7 @@ Command.prototype.getSandboxCommands = function() {
       });
     }],
     [/^git$/, function() {
+      // TODO better git description. also help, hint, etc
       throw new CommandResult({
         msg: _.escape("\
           Git Version \n \
