@@ -7,9 +7,10 @@ var constants = {
   baseMass: 1,
 };
 
-var time = {
-  edgeAddInterval: 200,
-  breathePeriod: 0.3
+var TIME = {
+  betweenCommandsDelay: 400,
+  commandShow: 300,
+  reflowGuess: 100
 };
 
 /**

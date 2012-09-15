@@ -16,6 +16,15 @@ html, body {
   color: #eee;
 }
 
+/* Transition */
+.transitionBackground {
+  -webkit-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -moz-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -ms-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -o-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
 #controls {
   position: absolute;
   top: 0px;
@@ -29,10 +38,21 @@ html, body {
   width: 90%;
 }
 
-p.commandLine {
+p.commandLine, p.commandLineResult {
   opacity: 1;
   font-size: 18px;
   margin: 2px;
+  background-color: black;
+}
+
+p.commandLine.inqueue {
+  background-color: yellow;
+  color: black;
+}
+
+p.commandLine.finished {
+  background-color: #0066cc;
+  color: white;
 }
 
 p.commandResult {

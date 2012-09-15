@@ -44,14 +44,16 @@
 
   <!-- Templates -->
   <script type="text/html" id="command-template">
-    <p class="commandLine <%= status %>">
-      <span class="arrows">&gt; &gt; &gt;</span>
-      <%= rawStr %>
-    </p>
+    <div class="wrapper" style="display:none">
+      <p class="commandLine transitionBackground <%= status %>">
+        <span class="arrows">&gt; &gt; &gt;</span>
+        <%= rawStr %>
+      </p>
 
-    <p class="commandLine <%= resultType %>">
-      <%= result %>
-    </p>
+      <p class="commandLineResult <%= resultType %>">
+        <%= result %>
+      </p>
+    </div>
   </script>
 
   <!-- My files! -->

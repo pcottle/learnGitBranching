@@ -20,7 +20,7 @@ var CommandBuffer = Backbone.Model.extend({
 
     this.buffer = [];
     this.timeout = null;
-    this.delay = 300;
+    this.delay = TIME.betweenCommandsDelay;
   },
 
   addCommand: function(command) {
@@ -47,19 +47,22 @@ var CommandBuffer = Backbone.Model.extend({
   setTimeout: function() {
     this.timeout = setTimeout(_.bind(function() {
         this.sipFromBuffer();
-    }, this), 300);
+    }, this), this.delay);
   },
 
   popAndProcess: function() {
     var popped = this.buffer.pop();
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
 
     // find a command with no error
     while (popped.get('error') && this.buffer.length) {
       popped = buffer.pop();
     }
-    // process it if theres no error
     if (!popped.get('error')) {
-      events.trigger('processCommand', popped);
+      // pass in a callback, so when this command is "done" we will process the next.
+      events.trigger('processCommand', popped, callback);
     }
   },
 
@@ -75,9 +78,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     this.popAndProcess();
-    if (this.buffer.length) {
-      this.setTimeout();
-    } else {
+    if (!this.buffer.length) {
       this.clear();
     }
   },

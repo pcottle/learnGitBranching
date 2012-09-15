@@ -103,8 +103,35 @@ var CommandView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.model.bind('change', this.render, this);
+    this.model.bind('change', this.wasChanged, this);
     this.model.bind('destroy', this.remove, this);
+  },
+
+  wasChanged: function(model, changeEvent) {
+    // for changes that are just comestic, we actually only want to toggle classes
+    // with jquery rather than brutally delete a html of HTML
+    var changes = changeEvent.changes;
+    var changeKeys = _.keys(changes);
+    if (_.difference(changeKeys, ['status']) == 0) {
+      this.updateStatus();
+    } else {
+      this.render();
+    }
+  },
+
+  updateStatus: function() {
+    var statuses = ['inqueue', 'processing', 'finished'];
+    var toggleMap = {};
+    _.each(statuses, function(status) {
+      toggleMap[status] = false;
+    });
+    toggleMap[this.model.get('status')] = true;
+
+    var query = this.$('p.commandLine');
+
+    _.each(toggleMap, function(value, key) {
+      query.toggleClass(key, value);
+    });
   },
 
   render: function() {
@@ -115,7 +142,13 @@ var CommandView = Backbone.View.extend({
       },
       this.model.toJSON()
     );
+
     this.$el.html(this.template(json));
+
+    // we need to show ourselves after a reflow
+    setTimeout(_.bind(function() {
+      this.$('.wrapper').slideDown(TIME.commandShow);
+    }, this), TIME.reflowGuess);
     return this;
   },
 

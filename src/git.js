@@ -675,14 +675,23 @@ GitEngine.prototype.deleteBranch = function(name) {
   this.branches.splice(toDelete, 1);
 };
 
-GitEngine.prototype.dispatch = function(command) {
+GitEngine.prototype.dispatch = function(command, callback) {
   // current command, options, and args are stored in the gitEngine
   // for easy reference during processing.
   this.command = command;
   this.commandOptions = command.get('supportedMap');
   this.generalArgs = command.get('generalArgs');
 
+  command.set('status', 'processing');
   this[command.get('method') + 'Starter'](); 
+
+  // TODO: move into animation thing
+  var whenDone = _.bind(function() {
+    command.set('status', 'finished');
+    callback();
+  }, this);
+  whenDone();
+
 };
 
 GitEngine.prototype.addStarter = function() {
