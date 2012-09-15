@@ -143,7 +143,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
   return {
     commit: {
       '--amend': false,
-      '-a': false,
+      '-a': false, // warning
       '-am': false
     },
     add: {},
@@ -156,6 +156,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     },
     reset: {
       '--hard': false,
+      '--soft': false, // this will raise and error but we catch it in gitEngine
     },
     merge: {},
     rebase: {},

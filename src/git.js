@@ -135,7 +135,36 @@ GitEngine.prototype.acceptNoGeneralArgs = function() {
 };
 
 GitEngine.prototype.resetStarter = function() {
+  if (this.commandOptions['--soft']) {
+    throw new GitError({
+      msg: "You can't use --soft because there is no concept of stashing" +
+           " changes or staging files, so you will lose your progress." +
+           " Try using interactive rebasing (or just rebasing) to move commits."
+    });
+  }
+  if (this.commandOptions['--hard']) {
+    events.trigger('commandProcessWarn',
+      'Nice! You are using --hard. The default behavior is a hard reset in ' +
+      "this demo, so don't worry about specifying the option explicity"
+    );
+    // dont absorb the arg off of --hard
+    this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
+  }
+  if (this.generalArgs.length !== 1) {
+    throw new GitError({
+      msg: "Specify the commit to reset to (1 argument)"
+    });
+  }
+  if (this.getDetachedHead()) {
+    throw new GitError({
+      msg: "Cant reset in detached head! Use checkout if you want to move"
+    });
+  }
+  this.reset(this.generalArgs[0]);
+};
 
+GitEngine.prototype.reset = function(target) {
+  this.setLocationTarget('HEAD', this.getCommitFromRef(target));
 };
 
 GitEngine.prototype.commitStarter = function() {
