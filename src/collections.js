@@ -2,26 +2,28 @@ var CommitCollection = Backbone.Collection.extend({
   model: Commit
 });
 
-var commitCollection = new CommitCollection();
-
 var CommandCollection = Backbone.Collection.extend({
   model: Command
 });
 
 var CommandBuffer = Backbone.Model.extend({
-  initialize: function() {
+  defaults: {
+    collection: null,
+  },
+
+  initialize: function(options) {
     events.on('gitCommandReady', _.bind(
       this.addCommand, this
     ));
 
-    this.collection = new CommandCollection();
+    options.collection.bind('add', this.addCommand, this);
+
     this.buffer = [];
     this.timeout = null;
     this.delay = 300;
   },
 
   addCommand: function(command) {
-    this.collection.add(command);
     this.buffer.push(command);
     this.touchBuffer();
   },
@@ -50,7 +52,15 @@ var CommandBuffer = Backbone.Model.extend({
 
   popAndProcess: function() {
     var popped = this.buffer.pop();
-    events.trigger('processCommand', popped);
+
+    // find a command with no error
+    while (popped.get('error') && this.buffer.length) {
+      popped = buffer.pop();
+    }
+    // process it if theres no error
+    if (!popped.get('error')) {
+      events.trigger('processCommand', popped);
+    }
   },
 
   clear: function() {
@@ -71,7 +81,5 @@ var CommandBuffer = Backbone.Model.extend({
       this.clear();
     }
   },
-
 });
 
-var commandBuffer = new CommandBuffer();

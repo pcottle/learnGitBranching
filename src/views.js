@@ -1,15 +1,8 @@
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
+    this.collection = options.collection;
     this.commands = [];
     this.index = -1;
-
-    events.on('commandSubmitted', _.bind(
-      this.parseOrCatch, this
-    ));
-
-    events.on('processErrorGeneral', _.bind(
-      this.processError, this
-    ));
   },
 
   events: {
@@ -55,24 +48,6 @@ var CommandPromptView = Backbone.View.extend({
     this.setTextField(this.commands[this.index]);
   },
 
-  processError: function(err) {
-    // TODO move this somewhere else!!! it's awkward here
-
-    // in this demo, every command that's not a git command will
-    // throw an exception. Some of these errors might be just to
-    // short-circuit the normal programatic flow and print stuff,
-    // so we handle them here
-    if (err instanceof CommandProcessError) {
-        events.trigger('commandProcessError', err);
-    } else if (err instanceof CommandResult) {
-        events.trigger('commandResultPrint', err);
-    } else if (err instanceof GitError) {
-        events.trigger('commandGitError', err);
-    } else {
-      throw err;
-    }
-  },
-
   setTextField: function(value) {
     this.$('#commandTextField').val(value);
   },
@@ -92,27 +67,20 @@ var CommandPromptView = Backbone.View.extend({
     this.index = -1;
 
     // split commands on semicolon
-    _.each(value.split(';'), function(command) {
+    _.each(value.split(';'), _.bind(function(command) {
       command = command.replace(/^(\s+)/, '');
       command = command.replace(/(\s+)$/, '');
       if (command.length) {
-        events.trigger('commandSubmitted', command);
+        this.addToCollection(command);
       }
-    });
+    }, this));
   },
 
-  parseOrCatch: function(value) {
-    // TODO: move this also
-    try {
-      // parse validation
-      var command = new Command({
-        rawStr: value
-      });
-      // gitCommandReady actually gives it to the gitEngine for dispatch
-      events.trigger('gitCommandReady', command);
-    } catch (err) {
-      events.trigger('processErrorGeneral', err);
-    }
+  addToCollection: function(value) {
+    var command = new Command({
+      rawStr: value
+    });
+    this.collection.add(command);
   }
 });
 
@@ -127,10 +95,12 @@ var CommandView = Backbone.View.extend({
   template: _.template($('#command-template').html()),
 
   events: {
-    'click': 'alert'
+    'click': 'clicked'
   },
 
-  alert: function() { alert('clicked!' + this.get('status')); },
+  clicked: function(e) {
+    console.log('was clicked');
+  },
 
   initialize: function() {
     this.model.bind('change', this.render, this);
@@ -157,92 +127,21 @@ var CommandView = Backbone.View.extend({
 
 var CommandLineHistoryView = Backbone.View.extend({
   initialize: function(options) {
-    events.on('commandSubmitted', _.bind(
-      this.addCommand, this
-    ));
+    this.collection = options.collection;
 
-    events.on('commandProcessError', _.bind(
-      this.commandError, this
-    ));
-
-    // TODO special errors for git?
-    events.on('commandGitError', _.bind(
-      this.commandError, this
-    ));
-
-    events.on('commandProcessWarn', _.bind(
-      this.commandWarn, this
-    ));
-
-    events.on('commandResultPrint', _.bind(
-      this.commandResultPrint, this
-    ));
-
-    // TODO: move these to a real template system
-    this.commandTemplate = ' \
-      <p class="commandLine <%= className %>"> \
-        <span class="arrows">&gt; &gt; &gt;</span> \
-        <%= command %>  \
-      </p> \
-    ';
-
-    this.resultTemplate = ' \
-      <p class="commandLine <%= className %>"> \
-        <%= result %> \
-      </p> \
-    ';
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.on('all', this.render, this);
   },
 
-  addCommand: function(commandText) {
-    this.$('#commandDisplay').append(
-      _.template(
-        this.commandTemplate,
-        {
-          className: 'pastCommand',
-          command: commandText
-        }
-      )
-    );
+  addOne: function(command) {
+    var view = new CommandView({
+      model: command
+    });
+    this.$('#commandDisplay').append(view.render().el);
   },
 
-  commandError: function(err) {
-    this.$('#commandDisplay').append(
-      _.template(
-        this.resultTemplate,
-        {
-          className: 'errorResult',
-          result: err.toResult()
-        }
-      )
-    );
-  },
-
-  commandWarn: function(msg) {
-    this.$('#commandDisplay').append(
-      _.template(
-        this.resultTemplate,
-        {
-          className: 'commandWarn',
-          result: msg
-        }
-      )
-    );
-  },
-
-  commandResultPrint: function(err) {
-    if (!err.get('msg') || !err.get('msg').length) {
-      console.log(err);
-      // blank lines
-      return;
-    }
-    this.$('#commandDisplay').append(
-      _.template(
-        this.resultTemplate,
-        {
-          className: 'commandResult',
-          result: err.toResult()
-        }
-      )
-    );
+  addAll: function() {
+    this.collection.each(this.addOne);
   }
 });

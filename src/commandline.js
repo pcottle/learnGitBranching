@@ -1,10 +1,13 @@
 var Command = Backbone.Model.extend({
   defaults: {
     status: 'inqueue',
+    result: null,
+    error: null,
     generalArgs: [],
     supportedMap: {},
     options: null,
     method: null,
+    createTime: null,
     rawStr: null
   },
 
@@ -12,11 +15,28 @@ var Command = Backbone.Model.extend({
     if (!this.get('rawStr')) {
       throw new Error('Give me a string!');
     }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
   },
 
   initialize: function() {
     this.validateAtInit();
-    this.parse();
+    this.parseOrCatch();
+  },
+
+  parseOrCatch: function() {
+    try {
+      this.parse();
+    } catch (err) {
+      if (err instanceof CommandProcessError ||
+          err instanceof CommandResult ||
+          err instanceof GitError) {
+        this.set('error', err);
+      } else {
+        throw err;
+      }
+    }
   },
 
   getShortcutMap: function() {

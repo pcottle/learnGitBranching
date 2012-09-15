@@ -105,36 +105,3 @@ Renderer = function(canvas) {
   return that;
 }
 
-function addRandom() {
-  // Add some random nodes and edges to the graph!
-  nodes = [];
-  for (var i = 0; i < 15; i++) {
-    var id = randomString(8);
-    var node = sys.addNode(id);
-    nodes.push(node);
-  }
-
-  var randNode = function() {
-    var length = nodes.length;
-    var index = Math.floor(Math.random() * length);
-    return nodes[index];
-  };
-
-  var closures = [];
-  for (var i = 0; i < 20; i++) {
-    var node1 = randNode();
-    var node2 = randNode();
-    // lol will it ever end?
-    while (node1 === node2) {
-      node2 = randNode();
-    }
-    sys.addEdge(node1, node2);
-  }
-  for (var i = 0; i < nodes.length; i++) {
-    var node2 = randNode();
-    while (nodes[i] === node2) {
-      node2 = randNode();
-    }
-    sys.addEdge(nodes[i], node2);
-  }
-}
