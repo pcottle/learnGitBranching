@@ -1,7 +1,4 @@
 function GitVisuals() {
-  this.collection = commitCollection;
-
-  this.collection.on('change', _.bind(this.collectionChanged, this));
   events.on('drawGitVisuals', _.bind(this.drawVisuals, this));
   events.on('fixNodePositions', _.bind(this.fixNodes, this));
 }
@@ -72,10 +69,6 @@ GitVisuals.prototype.drawArrow = function(ctx, start, end, headWidth, offset) {
   ctx.lineTo(end.x, end.y);
 
   ctx.stroke();
-};
-
-GitVisuals.prototype.collectionChanged = function() {
-  // redo the algorithms
 };
 
 GitVisuals.prototype.fixRootCommit = function(sys) {

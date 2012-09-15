@@ -43,7 +43,7 @@ p.commandError, p.errorResult {
   color: red;
 }
 
-span.arrows {
+p.commandLine span.arrows {
   color: greenyellow;
   font-weight: bold;
 }

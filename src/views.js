@@ -1,15 +1,19 @@
-var CommandLineView = Backbone.View.extend({
+var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
     this.commands = [];
     this.index = -1;
 
-    this.$('#commandTextField').keyup(
-      $.proxy(this.keyUp, this)
-    );
-
-    events.on('commandReadyForProcess', _.bind(
+    events.on('commandSubmitted', _.bind(
       this.parseOrCatch, this
     ));
+
+    events.on('processErrorGeneral', _.bind(
+      this.processError, this
+    ));
+  },
+
+  events: {
+    'keyup #commandTextField': 'keyUp'
   },
 
   keyUp: function(e) {
@@ -39,7 +43,8 @@ var CommandLineView = Backbone.View.extend({
   commandSelectChange: function(delta) {
     this.index += delta;
     
-    // if we are over / under, display blank line
+    // if we are over / under, display blank line. yes this eliminates your
+    // partially written command, but i doubt that is much in this demo
     if (this.index >= this.commands.length || this.index < 0) {
       this.clear();
       this.index = -1;
@@ -51,6 +56,8 @@ var CommandLineView = Backbone.View.extend({
   },
 
   processError: function(err) {
+    // TODO move this somewhere else!!! it's awkward here
+
     // in this demo, every command that's not a git command will
     // throw an exception. Some of these errors might be just to
     // short-circuit the normal programatic flow and print stuff,
@@ -59,6 +66,8 @@ var CommandLineView = Backbone.View.extend({
         events.trigger('commandProcessError', err);
     } else if (err instanceof CommandResult) {
         events.trigger('commandResultPrint', err);
+    } else if (err instanceof GitError) {
+        events.trigger('commandGitError', err);
     } else {
       throw err;
     }
@@ -82,25 +91,69 @@ var CommandLineView = Backbone.View.extend({
     }
     this.index = -1;
 
+    // split commands on semicolon
     _.each(value.split(';'), function(command) {
       command = command.replace(/^(\s+)/, '');
       command = command.replace(/(\s+)$/, '');
       if (command.length) {
         events.trigger('commandSubmitted', command);
-        events.trigger('commandReadyForProcess', command);
       }
     });
   },
 
   parseOrCatch: function(value) {
+    // TODO: move this also
     try {
-      var command = new Command(value);
+      // parse validation
+      var command = new Command({
+        rawStr: value
+      });
+      // gitCommandReady actually gives it to the gitEngine for dispatch
       events.trigger('gitCommandReady', command);
     } catch (err) {
-      this.processError(err);
+      events.trigger('processErrorGeneral', err);
     }
   }
 });
+
+
+// This is the view for all commands -- it will represent
+// their status (inqueue, processing, finished, error),
+// their value ("git commit --amend"),
+// and the result (either errors or warnings or whatever)
+var CommandView = Backbone.View.extend({
+  tagName: 'div',
+  model: Command,
+  template: _.template($('#command-template').html()),
+
+  events: {
+    'click': 'alert'
+  },
+
+  alert: function() { alert('clicked!' + this.get('status')); },
+
+  initialize: function() {
+    this.model.bind('change', this.render, this);
+    this.model.bind('destroy', this.remove, this);
+  },
+
+  render: function() {
+    var json = _.extend(
+      {
+        resultType: '',
+        result: ''
+      },
+      this.model.toJSON()
+    );
+    this.$el.html(this.template(json));
+    return this;
+  },
+
+  remove: function() {
+    $(this.el).hide();
+  }
+});
+
 
 var CommandLineHistoryView = Backbone.View.extend({
   initialize: function(options) {
@@ -109,6 +162,11 @@ var CommandLineHistoryView = Backbone.View.extend({
     ));
 
     events.on('commandProcessError', _.bind(
+      this.commandError, this
+    ));
+
+    // TODO special errors for git?
+    events.on('commandGitError', _.bind(
       this.commandError, this
     ));
 

@@ -11,7 +11,7 @@ $(document).ready(function(){
   sys = arbor.ParticleSystem(4000, 200, 0.5, false, 55, 0.005, 'verlet');
   sys.renderer = Renderer('#viewport');
 
-  new CommandLineView({
+  new CommandPromptView({
     el: $('#commandLineBar')
   });
   new CommandLineHistoryView({
@@ -20,14 +20,6 @@ $(document).ready(function(){
 
   gitEngine = new GitEngine();
   gitVisuals = new GitVisuals();
-
-  var repulsionBreathe = function(r) {
-    sys.parameters({repulsion: r});
-  };
-  // TODO: decide on breather
-  // var b = new Breather(repulsionBreathe, 6050, 4000);
-
-  graphicsEffects.edgeStrokeEffect = new GraphicsEffect('edgeStroke', {wait: 1000});
 });
 
 
@@ -71,90 +63,5 @@ Edge.prototype.drawLine = function(ctx, pt1, pt2, opacityPercent) {
   ctx.moveTo(pt1.x, pt1.y);
   ctx.lineTo(pt2.x, pt2.y);
   ctx.stroke();
-};
-
-
-/**
- * class GraphicsEffect
- */
-function GraphicsEffect(gKey, options) {
-  this.baseColor = graphics[gKey];
-
-  this.closure = (function(base_color) {
-    var oSetter = function(o) {
-      var color = new Color(base_color);
-      color.a *= o;
-      graphics[gKey] = color.toRGBA();
-    };
-    return oSetter;
-  })(this.baseColor);
-
-  this.breather = new Breather(
-    this.closure,
-    options.midpoint || 0.9,
-    options.amp || 0.85,
-    options.period || 0.1,
-    options.wait || 0
-  );
-}
-
-GraphicsEffect.prototype.pause = function() {
-  this.breather.stop();
-};
-
-GraphicsEffect.prototype.resume = function() {
-  this.breather.next();
-};
-
-/**
- * class Breather
- */
-function Breather(closure, baseline, delta, period, wait) {
-  this.delta = delta;
-  this.baseline = baseline;
-  this.closure = closure;
-
-  this.t = 0;
-  this.interval = 1/40 * 1000; // 40fps
-
-  var period_in_seconds = period || time.breathePeriod;
-  this.period = 2 * Math.PI * 1000 * period_in_seconds;
-
-  this.interpolationFunction = TWEEN.Easing.Cubic.EaseInOut;
-
-  if (wait) {
-    var _this = this;
-    setTimeout(function() {
-      _this.start();
-    }, wait);
-  } else {
-    this.start();
-  }
-}
-
-Breather.prototype.start = function() {
-  this.t = 0;
-  this.next();
-};
-
-Breather.prototype.next = function() {
-  this.timeout = setTimeout(
-    $.proxy(function() {
-      this.breathe();
-    }, this),
-  this.interval);
-};
-
-Breather.prototype.stop = function() {
-  clearTimeout(this.timeout);
-};
-
-Breather.prototype.breathe = function() {
-  this.t += this.interval;
-
-  var value = Math.sin(this.t / this.period) * this.delta + this.baseline;
-  this.closure(value);
-
-  this.next();
 };
 

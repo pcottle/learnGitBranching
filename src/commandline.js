@@ -1,124 +1,140 @@
-/**
- * class Command
- * @desc A parser for commands given
- */
-function Command(str) {
-  this.fullCommand = null;
-  this.options = null;
-  this.method = null;
+var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    generalArgs: [],
+    supportedMap: {},
+    options: null,
+    method: null,
+    rawStr: null
+  },
 
-  this.parse(str);
-}
-
-Command.prototype.getShortcutMap = function() {
-  return {
-    'git commit': /^gc($|\s)/,
-    'git add': /^ga($|\s)/,
-    'git checkout': /^gchk($|\s)/,
-    'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/
-  };
-};
-
-Command.prototype.getRegexMap = function() {
-  return {
-    // ($|\s) means that we either have to end the string
-    // after the command or there needs to be a space for options
-    commit: /^commit($|\s)/,
-    add: /^add($|\s)/,
-    checkout: /^checkout($|\s)/,
-    rebase: /^rebase($|\s)/,
-    reset: /^reset($|\s)/,
-    branch: /^branch($|\s)/,
-    revert: /^revert($|\s)/,
-    merge: /^merge($|\s)/
-  };
-};
-
-Command.prototype.getSandboxCommands = function() {
-  return [
-    [/^ls/, function() {
-      throw new CommandResult({
-        msg: "DontWorryAboutFilesInThisDemo.txt"
-      });
-    }],
-    [/^cd/, function() {
-      throw new CommandResult({
-        msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-      });
-    }],
-    [/^git$/, function() {
-      // TODO better git description. also help, hint, etc
-      throw new CommandResult({
-        msg: _.escape("\
-          Git Version \n \
-          PCOTTLE.1.0 \
-          Usage: \n \
-            git <command> [<args>] \
-        ")
-      });
-    }]
-  ];
-};
-
-Command.prototype.parse = function(str) {
-  // first if the string is empty, they just want a blank line
-  if (!str.length) {
-    throw new CommandResult({msg: ""});
-  }
-
-  // then check if it's one of our sandbox commands
-  _.each(this.getSandboxCommands(), function(tuple) {
-    var regex = tuple[0];
-    if (regex.exec(str)) {
-      tuple[1]();
+  validateAtInit: function() {
+    if (!this.get('rawStr')) {
+      throw new Error('Give me a string!');
     }
-  });
+  },
 
-  // then check if shortcut exists, and replace, but
-  // preserve options if so
-  _.each(this.getShortcutMap(), function(regex, method) {
-    var results = regex.exec(str);
-    if (results) {
-      str = method + ' ' + str.slice(results[0].length);
+  initialize: function() {
+    this.validateAtInit();
+    this.parse();
+  },
+
+  getShortcutMap: function() {
+    return {
+      'git commit': /^gc($|\s)/,
+      'git add': /^ga($|\s)/,
+      'git checkout': /^gchk($|\s)/,
+      'git rebase': /^gr($|\s)/,
+      'git branch': /^gb($|\s)/
+    };
+  },
+
+  getRegexMap: function() {
+    return {
+      // ($|\s) means that we either have to end the string
+      // after the command or there needs to be a space for options
+      commit: /^commit($|\s)/,
+      add: /^add($|\s)/,
+      checkout: /^checkout($|\s)/,
+      rebase: /^rebase($|\s)/,
+      reset: /^reset($|\s)/,
+      branch: /^branch($|\s)/,
+      revert: /^revert($|\s)/,
+      merge: /^merge($|\s)/
+    };
+  },
+
+  getSandboxCommands: function() {
+    return [
+      [/^ls/, function() {
+        throw new CommandResult({
+          msg: "DontWorryAboutFilesInThisDemo.txt"
+        });
+      }],
+      [/^cd/, function() {
+        throw new CommandResult({
+          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+        });
+      }],
+      [/^git$/, function() {
+        // TODO better git description. also help, hint, etc
+        throw new CommandResult({
+          msg: _.escape("\
+            Git Version \n \
+            PCOTTLE.1.0 \
+            Usage: \n \
+              git <command> [<args>] \
+          ")
+        });
+      }]
+    ];
+  },
+
+  parse: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
     }
-  });
 
-  // see if begins with git
-  if (str.slice(0,3) !== 'git') {
-    throw new CommandProcessError({
-      msg: 'Git commands only, sorry!'
+    // then check if it's one of our sandbox commands
+    _.each(this.getSandboxCommands(), function(tuple) {
+      var regex = tuple[0];
+      if (regex.exec(str)) {
+        tuple[1]();
+      }
     });
-  }
 
-  // ok, we have a (probably) valid command. actually parse it
-  this.gitParse(str);
-};
-
-Command.prototype.gitParse = function(str) {
-  // now slice off command part
-  this.fullCommand = str.slice('git '.length);
-
-  // see if we support this particular command
-  var matched = false;
-  _.each(this.getRegexMap(), function(regex, method) {
-    if (regex.exec(this.fullCommand)) {
-      this.options = this.fullCommand.slice(method.length + 1);
-      this.method = method;
-      // we should stop iterating, but the regex will only match
-      // one command in practice
-      matched = true;
-    }
-  }, this);
-
-  if (!matched) {
-    throw new CommandProcessError({
-      msg: "Sorry, this demo does not support that git command: " + this.fullCommand
+    // then check if shortcut exists, and replace, but
+    // preserve options if so
+    _.each(this.getShortcutMap(), function(regex, method) {
+      var results = regex.exec(str);
+      if (results) {
+        str = method + ' ' + str.slice(results[0].length);
+      }
     });
-  }
 
-  this.optionParser = new OptionParser(this.method, this.options);
-};
+    // see if begins with git
+    if (str.slice(0,3) !== 'git') {
+      throw new CommandProcessError({
+        msg: 'Git commands only, sorry!'
+      });
+    }
+
+    // ok, we have a (probably) valid command. actually parse it
+    this.gitParse(str);
+  },
+
+  gitParse: function(str) {
+    // now slice off command part
+    var fullCommand = str.slice('git '.length);
+
+    // see if we support this particular command
+    _.each(this.getRegexMap(), function(regex, method) {
+      if (regex.exec(fullCommand)) {
+        this.set('options', fullCommand.slice(method.length + 1));
+        this.set('method', method);
+        // we should stop iterating, but the regex will only match
+        // one command in practice. we could stop iterating if we used
+        // jqeurys for each but im using underscore (for no real reason other
+        // than style)
+      }
+    }, this);
+
+    if (!this.get('method')) {
+      throw new CommandProcessError({
+        msg: "Sorry, this demo does not support that git command: " + fullCommand
+      });
+    }
+
+    // parse off the options and assemble the map / general args
+    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+
+    // steal these away so we can be completely JSON
+    this.set('generalArgs', optionParser.generalArgs);
+    this.set('supportedMap', optionParser.supportedMap);
+  },
+});
 
 /**
  * OptionParser
@@ -202,5 +218,4 @@ OptionParser.prototype.explodeAndSet = function() {
 
   // done!
 };
-
 

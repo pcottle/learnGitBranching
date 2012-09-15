@@ -42,6 +42,18 @@
   <script src="../lib/underscore-min.js"></script>
   <script src="../lib/backbone-min.js"></script>
 
+  <!-- Templates -->
+  <script type="text/html" id="command-template">
+    <p class="commandLine <%= status %>">
+      <span class="arrows">&gt; &gt; &gt;</span>
+      <%= rawStr %>
+    </p>
+
+    <p class="commandLine <%= resultType %>">
+      <%= result %>
+    </p>
+  </script>
+
   <!-- My files! -->
   <script src="async.js"></script>
   <script src="mine.js"></script>

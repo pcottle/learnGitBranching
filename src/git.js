@@ -20,7 +20,7 @@ function GitEngine() {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  events.on('gitCommandReady', _.bind(this.dispatch, this));
+  events.on('processCommand', _.bind(this.dispatch, this));
 
   this.init();
 }
@@ -675,11 +675,14 @@ GitEngine.prototype.deleteBranch = function(name) {
   this.branches.splice(toDelete, 1);
 };
 
-GitEngine.prototype.dispatch = function(commandObj) {
-  this.commandOptions = commandObj.optionParser.supportedMap;
-  this.generalArgs = commandObj.optionParser.generalArgs;
+GitEngine.prototype.dispatch = function(command) {
+  // current command, options, and args are stored in the gitEngine
+  // for easy reference during processing.
+  this.command = command;
+  this.commandOptions = command.get('supportedMap');
+  this.generalArgs = command.get('generalArgs');
 
-  this[commandObj.method + 'Starter'](); 
+  this[command.get('method') + 'Starter'](); 
 };
 
 GitEngine.prototype.addStarter = function() {
