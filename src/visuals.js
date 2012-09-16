@@ -1,5 +1,5 @@
-function GitVisuals() {
-  this.collection = commitCollection;
+function GitVisuals(options) {
+  this.collection = options.collection;
 
   this.collection.on('change', _.bind(this.collectionChanged, this));
   events.on('drawGitVisuals', _.bind(this.drawVisuals, this));

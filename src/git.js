@@ -7,13 +7,13 @@ var uniqueId = (function() {
   };
 })();
 
-function GitEngine() {
+function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
   this.HEAD = null;
   this.id_gen = 0;
   this.branches = [];
-  this.collection = commitCollection;
+  this.collection = options.collection;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -28,7 +28,7 @@ function GitEngine() {
 GitEngine.prototype.init = function() {
   // make an initial commit and a master branch
   this.rootCommit = new Commit({rootCommit: true});
-  commitCollection.add(this.rootCommit);
+  this.collection.add(this.rootCommit);
 
   this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
