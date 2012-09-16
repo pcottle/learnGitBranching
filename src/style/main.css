@@ -8,11 +8,9 @@ html, body {
   background: -ms-radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
   background: radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
   -webkit-perspective:600px;
-  font-family: 'Lato', Times, 'Times New Roman', serif;
-  font-size: 36px;
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  
+
+  font-family: Monaco, Courier, font-monospace;
+  font-size: 1.4em;
   color: #eee;
 }
 
@@ -23,6 +21,14 @@ html, body {
   -ms-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -o-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+.transitionOpacity {
+  -webkit-transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -moz-transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -ms-transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -o-transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
 #controls {
@@ -43,6 +49,22 @@ p.commandLine, p.commandLineResult {
   font-size: 18px;
   margin: 2px;
   background-color: black;
+}
+
+p.commandLine span.icons {
+  float: right;
+  margin-right: 5px;
+}
+
+p.commandLine span.icons i {
+  opacity: 0;
+}
+
+p.commandLine.inqueue span.icons i.icon-check-empty,
+p.commandLine.error span.icons i.icon-exclamation-sign,
+p.commandLine.processing span.icons i.icon-retweet,
+p.commandLine.finished span.icons i.icon-check {
+  opacity: 1;
 }
 
 p.commandLine.error {
