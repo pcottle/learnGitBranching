@@ -20,7 +20,6 @@ var CommandBuffer = Backbone.Model.extend({
 
     this.buffer = [];
     this.timeout = null;
-    this.delay = TIME.betweenCommandsDelay;
   },
 
   addCommand: function(command) {
@@ -43,7 +42,7 @@ var CommandBuffer = Backbone.Model.extend({
   setTimeout: function() {
     this.timeout = setTimeout(_.bind(function() {
         this.sipFromBuffer();
-    }, this), this.delay);
+    }, this), TIME.betweenCommandsDelay);
   },
 
   popAndProcess: function() {
