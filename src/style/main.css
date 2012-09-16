@@ -45,6 +45,10 @@ p.commandLine, p.commandLineResult {
   background-color: black;
 }
 
+p.commandLine.error {
+  background-color: red;
+}
+
 p.commandLine.inqueue {
   background-color: yellow;
   color: black;

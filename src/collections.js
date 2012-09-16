@@ -3,7 +3,7 @@ var CommitCollection = Backbone.Collection.extend({
 });
 
 var CommandCollection = Backbone.Collection.extend({
-  model: Command
+  model: Command,
 });
 
 var CommandBuffer = Backbone.Model.extend({
@@ -36,10 +36,6 @@ var CommandBuffer = Backbone.Model.extend({
       // timeout existence implies its being processed
       return;
     }
-
-    // process first element now
-    this.popAndProcess();
-    // always set the timeout, regardless of buffer size
     this.setTimeout();
   },
 
@@ -51,7 +47,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   popAndProcess: function() {
-    var popped = this.buffer.pop();
+    var popped = this.buffer.shift(0);
     var callback = _.bind(function() {
       this.setTimeout();
     }, this);

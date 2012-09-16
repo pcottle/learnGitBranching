@@ -33,6 +33,7 @@ var Command = Backbone.Model.extend({
           err instanceof CommandResult ||
           err instanceof GitError) {
         this.set('error', err);
+        this.set('status', 'error');
       } else {
         throw err;
       }

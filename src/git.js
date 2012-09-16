@@ -682,16 +682,24 @@ GitEngine.prototype.dispatch = function(command, callback) {
   this.commandOptions = command.get('supportedMap');
   this.generalArgs = command.get('generalArgs');
 
-  command.set('status', 'processing');
-  this[command.get('method') + 'Starter'](); 
-
-  // TODO: move into animation thing
+  // set up the animation queue
   var whenDone = _.bind(function() {
     command.set('status', 'finished');
     callback();
   }, this);
-  whenDone();
+  this.animationQueue = new AnimationQueue({
+    callback: whenDone
+  });
 
+  command.set('status', 'processing');
+  this[command.get('method') + 'Starter'](); 
+
+  // TODO (get rid of)
+  for (var i = 0; i < 10; i++) {
+    this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));
+  }
+
+  this.animationQueue.start();
 };
 
 GitEngine.prototype.addStarter = function() {
