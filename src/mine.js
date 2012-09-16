@@ -9,7 +9,6 @@ var graphicsEffects = {};
 var gitEngine = null;
 var gitVisuals = null;
 
-var commitCollection = null;
 var commandCollection = null;
 var commandBuffer = null;
 
@@ -18,7 +17,7 @@ $(document).ready(function(){
   sys.renderer = Renderer('#viewport');
 
   // the two major collections that affect everything
-  commitCollection = new CommitCollection();  
+  var commitCollection = new CommitCollection();  
   commandCollection = new CommandCollection();
 
   commandBuffer = new CommandBuffer({
