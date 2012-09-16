@@ -10,7 +10,6 @@ html, body {
   -webkit-perspective:600px;
 
   font-family: Monaco, Courier, font-monospace;
-  font-size: 1.4em;
   color: #eee;
 }
 
@@ -46,7 +45,7 @@ html, body {
 
 p.commandLine, p.commandLineResult {
   opacity: 1;
-  font-size: 18px;
+  font-size: 16px;
   margin: 2px;
   background-color: black;
 }

@@ -33,9 +33,12 @@ var CommandBuffer = Backbone.Model.extend({
     // processed. if it's not, we immediately process the first item
     // and then set the timeout.
     if (this.timeout) {
+      console.log('timeout exists abort');
       // timeout existence implies its being processed
       return;
     }
+    console.log(this.timeout);
+    console.log('setting timeout');
     this.setTimeout();
   },
 
@@ -74,9 +77,6 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     this.popAndProcess();
-    if (!this.buffer.length) {
-      this.clear();
-    }
   },
 });
 
