@@ -694,11 +694,6 @@ GitEngine.prototype.dispatch = function(command, callback) {
   command.set('status', 'processing');
   this[command.get('method') + 'Starter'](); 
 
-  // TODO (get rid of)
-  for (var i = 0; i < 10; i++) {
-    this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));
-  }
-
   this.animationQueue.start();
 };
 

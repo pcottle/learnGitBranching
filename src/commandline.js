@@ -1,7 +1,7 @@
 var Command = Backbone.Model.extend({
   defaults: {
     status: 'inqueue',
-    result: null,
+    result: '',
     error: null,
     generalArgs: [],
     supportedMap: {},
@@ -30,14 +30,21 @@ var Command = Backbone.Model.extend({
       this.parse();
     } catch (err) {
       if (err instanceof CommandProcessError ||
-          err instanceof CommandResult ||
           err instanceof GitError) {
-        this.set('error', err);
+        this.formatError(err);
         this.set('status', 'error');
+      } else if (err instanceof CommandResult) {
+        this.formatError(err);
+        this.set('status', 'finished');
       } else {
         throw err;
       }
     }
+  },
+
+  formatError: function(err) {
+    this.set('error', err);
+    this.set('result', err.toResult());
   },
 
   getShortcutMap: function() {

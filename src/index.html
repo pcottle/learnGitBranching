@@ -7,6 +7,7 @@
   <title>Learn Git Branching</title>
 	<meta name="author" content="Peter Cottle">
 	<link rel="stylesheet" href="style/main.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
   <canvas id="viewport" width="800" height="600"></canvas>
@@ -14,7 +15,6 @@
   <div id="controls">
     <div id="commandLineHistory">
       <div id="commandDisplay">
-        
       </div>
     </div>
     <div id="commandLineBar">
@@ -44,16 +44,17 @@
 
   <!-- Templates -->
   <script type="text/html" id="command-template">
-    <div class="wrapper" style="display:none">
       <p class="commandLine transitionBackground <%= status %>">
         <span class="arrows">&gt; &gt; &gt;</span>
         <%= rawStr %>
+        <span class="icons">
+
+        </span>
       </p>
 
       <p class="commandLineResult <%= resultType %>">
         <%= result %>
       </p>
-    </div>
   </script>
 
   <!-- My files! -->

@@ -54,6 +54,11 @@ p.commandLine.inqueue {
   color: black;
 }
 
+p.commandLine.processing {
+  background-color: #57EE6F;
+  color: white;
+}
+
 p.commandLine.finished {
   background-color: #0066cc;
   color: white;

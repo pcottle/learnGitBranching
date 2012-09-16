@@ -144,11 +144,6 @@ var CommandView = Backbone.View.extend({
     );
 
     this.$el.html(this.template(json));
-
-    // we need to show ourselves after a reflow
-    setTimeout(_.bind(function() {
-      this.$('.wrapper').slideDown(TIME.commandShow);
-    }, this), TIME.reflowGuess);
     return this;
   },
 
@@ -167,11 +162,17 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.on('all', this.render, this);
   },
 
+  scrollDown: function() {
+    var el = $('#commandLineHistory')[0];
+    el.scrollTop = el.scrollHeight;
+  },
+
   addOne: function(command) {
     var view = new CommandView({
       model: command
     });
     this.$('#commandDisplay').append(view.render().el);
+    this.scrollDown();
   },
 
   addAll: function() {
