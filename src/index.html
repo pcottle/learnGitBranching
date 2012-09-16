@@ -10,23 +10,34 @@
 	<link rel="stylesheet" href="style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
-  <canvas id="viewport" width="800" height="600"></canvas>
+  
+  <div id="interfaceWrapper" class="box horizontal flex1">
+    <div id="controls" class="box vertical flex1">
+      <div id="hintsEtc" class="box vertical flex3">
+      </div>
 
-  <div id="controls">
-    <div id="commandLineHistory">
-      <div id="commandDisplay">
+      <div id="commandLineHistory" class="box vertical flex3">
+        <div id="commandDisplay">
+        </div>
+      </div>
+
+      <div id="commandLineBar" class="box vertical flex0">
+        <textarea id="commandTextField"></textarea>
       </div>
     </div>
-    <div id="commandLineBar">
-      <textarea id="commandTextField"></textarea>
+
+    <div id="canvasWrapper" class="box flex1">
+      <canvas id="treeCanvas" width="20" height="20"></canvas>
     </div>
   </div>
 
+  <!-- *******************************************
+       Scripts from here on out
+       ****************************************** -->
   <script src="../lib/jquery-1.8.0.min.js"></script>
-
-  <script src="../lib/Tween.js"></script>
   <script src="../lib/underscore-min.js"></script>
   <script src="../lib/backbone-min.js"></script>
+  <script src="../lib/raphael-min.js"></script>
 
   <!-- Templates -->
   <script type="text/html" id="command-template">
@@ -47,15 +58,24 @@
   </script>
 
   <!-- My files! -->
-  <script src="async.js"></script>
   <script src="main.js"></script>
+
+  <script src="async.js"></script>
   <script src="constants.js"></script>
-  <script src="git.js"></script>
-  <script src="commandline.js"></script>
-  <script src="views.js"></script>
   <script src="errors.js"></script>
+
+  <!-- the beefy git engine -->
+  <script src="git.js"></script>
+
+  <!-- command line -->
+  <script src="commandModel.js"></script>
+  <script src="commandViews.js"></script>
+
+
+  <!-- vis -->
   <script src="collections.js"></script>
   <script src="visuals.js"></script>
   <script src="tree.js"></script>
+
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
   var n = 0;
@@ -799,7 +798,8 @@ var Branch  = Ref.extend({
 var Commit = Backbone.Model.extend({
   defaults: {
     type: 'commit',
-    children: []
+    children: [],
+    parents: []
   },
 
   validateAtInit: function() {
@@ -808,9 +808,7 @@ var Commit = Backbone.Model.extend({
     }
 
     // root commits have no parents
-    if (this.get('rootCommit')) {
-      this.set('parents', []);
-    } else {
+    if (!this.get('rootCommit')) {
       if (!this.get('parents') || !this.get('parents').length) {
         throw new Error('needs parents');
       }
