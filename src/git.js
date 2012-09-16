@@ -692,7 +692,21 @@ GitEngine.prototype.dispatch = function(command, callback) {
   });
 
   command.set('status', 'processing');
-  this[command.get('method') + 'Starter'](); 
+  try {
+    this[command.get('method') + 'Starter'](); 
+  } catch (err) {
+    if (err instanceof GitError ||
+        err instanceof CommandResult) {
+
+      // short circuit animation by just setting error and returning
+      command.set('error', err);
+      callback();
+      return;
+
+    } else {
+      throw err;
+    }
+  }
 
   // TODO (get rid of)
   for (var i = 0; i < 3; i++) {

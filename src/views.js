@@ -108,12 +108,16 @@ var CommandView = Backbone.View.extend({
   },
 
   wasChanged: function(model, changeEvent) {
+    console.log('command changed', model, changeEvent);
     // for changes that are just comestic, we actually only want to toggle classes
     // with jquery rather than brutally delete a html of HTML
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
     if (_.difference(changeKeys, ['status']) == 0) {
       this.updateStatus();
+    } else if (_.difference(changeKeys, ['error']) == 0) {
+      // the above will 
+      this.render();
     } else {
       this.render();
     }
@@ -160,6 +164,8 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
     this.collection.on('all', this.render, this);
+
+    this.collection.on('change', this.scrollDown, this);
   },
 
   scrollDown: function() {

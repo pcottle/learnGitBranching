@@ -36,6 +36,8 @@ $(document).ready(function(){
 
   gitEngine = new GitEngine();
   gitVisuals = new GitVisuals();
+
+  $('#commandTextField').focus();
 });
 
 

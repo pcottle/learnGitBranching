@@ -7,7 +7,6 @@ function GitVisuals() {
 }
 
 GitVisuals.prototype.drawVisuals = function(sys, ctx, canvas) {
-
   this.drawRefs(sys, ctx, canvas);
 };
 

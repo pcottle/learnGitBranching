@@ -33,12 +33,9 @@ var CommandBuffer = Backbone.Model.extend({
     // processed. if it's not, we immediately process the first item
     // and then set the timeout.
     if (this.timeout) {
-      console.log('timeout exists abort');
       // timeout existence implies its being processed
       return;
     }
-    console.log(this.timeout);
-    console.log('setting timeout');
     this.setTimeout();
   },
 
@@ -57,11 +54,13 @@ var CommandBuffer = Backbone.Model.extend({
 
     // find a command with no error
     while (popped.get('error') && this.buffer.length) {
-      popped = buffer.pop();
+      popped = this.buffer.pop();
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
       events.trigger('processCommand', popped, callback);
+    } else {
+      this.clear();
     }
   },
 

@@ -18,6 +18,7 @@ var Command = Backbone.Model.extend({
     if (!this.get('createTime')) {
       this.set('createTime', new Date().toString());
     }
+    this.on('change:error', this.errorChanged, this);
   },
 
   initialize: function() {
@@ -31,20 +32,25 @@ var Command = Backbone.Model.extend({
     } catch (err) {
       if (err instanceof CommandProcessError ||
           err instanceof GitError) {
-        this.formatError(err);
         this.set('status', 'error');
+        this.set('error', err);
       } else if (err instanceof CommandResult) {
-        this.formatError(err);
         this.set('status', 'finished');
+        this.set('error', err);
       } else {
         throw err;
       }
     }
   },
 
-  formatError: function(err) {
-    this.set('error', err);
-    this.set('result', err.toResult());
+  errorChanged: function(model, err) {
+    this.set('err', err);
+    this.set('status', 'error');
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('err').toResult());
   },
 
   getShortcutMap: function() {
