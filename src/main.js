@@ -10,9 +10,6 @@ var commandCollection = null;
 var commandBuffer = null;
 
 $(document).ready(function(){
-  sys = arbor.ParticleSystem(4000, 200, 0.5, false, 55, 0.005, 'verlet');
-  sys.renderer = Renderer('#viewport');
-
   // the two major collections that affect everything
   var commitCollection = new CommitCollection();  
   commandCollection = new CommandCollection();
