@@ -33,10 +33,11 @@ $(document).ready(function(){
     collection: commandCollection
   });
 
-  gitEngine = new GitEngine({
+  gitVisuals = new GitVisuals({
     collection: commitCollection
   });
-  gitVisuals = new GitVisuals({
+
+  gitEngine = new GitEngine({
     collection: commitCollection
   });
 

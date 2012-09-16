@@ -818,11 +818,12 @@ var Commit = Backbone.Model.extend({
   },
 
   addNodeToVisuals: function() {
-    this.set('arborNode', sys.addNode(this.get('id')));
+    var visNode = gitVisuals.addNode(this.get('id'));
+    this.set('visNode', visNode);
   },
 
   addEdgeToVisuals: function(parent) {
-    sys.addEdge(this.get('arborNode'), parent.get('arborNode'));
+    gitVisuals.addEdge(this.get('id'), parent.get('id'));
   },
 
   initialize: function() {
