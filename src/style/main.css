@@ -66,9 +66,16 @@ div.horizontal {
   transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-#treeCanvas {
+.transitionAllSlow {
+  -webkit-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -moz-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -ms-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -o-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+#canvasWrapper {
   box-shadow: 0px 0px 3px black inset;
-  position: absolute;
 }
 
 #interfaceWrapper {
@@ -165,13 +172,19 @@ div.controls div.box.flex1 div.plus {
 p.commandLine, p.commandLineResult {
   opacity: 1;
   font-size: 16px;
-  margin: 2px;
-  background-color: black;
+  margin: 0px;
 }
 
 p.commandLine span.icons {
   float: right;
+}
+
+p.commandLine span.icons i:last-child {
   margin-right: 5px;
+}
+
+p.commandLine span.icons i:first-child {
+  margin-left: 5px;
 }
 
 p.commandLine span.icons i {
@@ -185,23 +198,23 @@ p.commandLine.finished span.icons i.icon-check {
   opacity: 1;
 }
 
-p.commandLine.error {
-  background-color: red;
-}
-
-p.commandLine.inqueue {
+p.commandLine.inqueue span.icons {
   background-color: #EBEB24;
   color: black;
 }
 
-p.commandLine.processing {
-  background-color: #36AD49;
+p.commandLine.processing span.icons {
+  background-color: #88E748;
+  color: black;
+}
+
+p.commandLine.finished span.icons {
+  background-color: #0066cc;
   color: white;
 }
 
-p.commandLine.finished {
-  background-color: #0066cc;
-  color: white;
+p.commandLine.error span.icons {
+  background-color: red;
 }
 
 p.commandResult {
@@ -215,10 +228,6 @@ p.commandError, p.errorResult {
 p.commandLine span.prompt {
   color: greenyellow;
   font-weight: bold;
-}
-
-p.commandLine.inqueue span.prompt {
-  color: black;
 }
 
 #commandLineBar {

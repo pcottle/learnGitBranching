@@ -9,6 +9,8 @@ var gitVisuals = null;
 var commandCollection = null;
 var commandBuffer = null;
 
+var paper = null;
+
 $(document).ready(function(){
   // the two major collections that affect everything
   var commitCollection = new CommitCollection();  
@@ -37,12 +39,28 @@ $(document).ready(function(){
 
   $('#commandTextField').focus();
 
+  // make the canvas for us
+  paper = Raphael(10, 10, 200, 200);
+
   $(window).resize(windowResize);
   windowResize();
   setTimeout(windowResize, 50);
 });
 
 function windowResize() {
-  var el = $('#canvasWrapper')[0];
-  $('#treeCanvas').height(el.clientHeight - 10).width(el.clientWidth - 10);
+  if (paper && paper.canvas) {
+    var el = $('#canvasWrapper')[0];
+
+    var left = el.offsetLeft;
+    var top = el.offsetTop;
+    var width = el.clientWidth;
+    var height = el.clientHeight;
+
+    $(paper.canvas).css({
+      left: left + 'px',
+      top: top + 'px'
+    });
+    paper.setSize(width, height);
+  }
+  events.trigger('windowResize');
 }
