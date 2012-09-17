@@ -24,10 +24,8 @@ function GitVisuals(options) {
 GitVisuals.prototype.getScreenBounds = function() {
   // for now we return the node radius subtracted from the walls
   return {
-    minWidth: GRAPHICS.nodeRadius,
-    widthSubtract: GRAPHICS.nodeRadius,
-    minHeight: GRAPHICS.nodeRadius,
-    heightSubtract: GRAPHICS.nodeRadius
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
   };
 };
 
@@ -37,15 +35,136 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   }
   var bounds = this.getScreenBounds();
 
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
+  };
+
   return {
-    x: pos.x * (this.paperWidth - bounds.widthSubtract) + bounds.minWidth,
-    y: pos.y * (this.paperHeight - bounds.heightSubtract) + bounds.minHeight,
+    x: shrink(pos.x, this.paperWidth, bounds.widthPadding),
+    y: shrink(pos.y, this.paperHeight, bounds.heightPadding)
   };
 };
 
+/***************************************
+     == Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.refreshTree = function() {
+  this.calculateTreeCoords();
+  this.animateNodePositions();
+};
+
 GitVisuals.prototype.calculateTreeCoords = function() {
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
 
+  this.calcDepth();
+  this.calcWidth();
+};
 
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+  
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    var childWidth = this.maxWidthRecursive(child);
+    childrenTotalWidth += childWidth;
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length == 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    totalFlex += child.get('visNode').get('maxWidth');
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle
+  _.each(children, function(child) {
+    var flex = child.get('visNode').get('maxWidth');
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+GitVisuals.prototype.animateNodePositions = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    console.log(visNode);
+    visNode.animateUpdatedPosition();
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  console.log('calculating depth recursive for ', commit);
+
+  commit.get('visNode').set('depth', depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  for (var i = 0; i < children.length; i++) {
+    var d = this.calcDepthRecursive(children[i], depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }
+
+  return maxDepth;
+  // TODO for merge commits, a specific fancy schamncy "main" commit line
 };
 
 GitVisuals.prototype.canvasResize = function(width, height) {
@@ -55,7 +174,7 @@ GitVisuals.prototype.canvasResize = function(width, height) {
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
-  if (commit.get('roomCommit')) {
+  if (commit.get('rootCommit')) {
     this.rootCommit = commit;
   }
 
@@ -98,7 +217,6 @@ GitVisuals.prototype.collectionChanged = function() {
 };
 
 GitVisuals.prototype.drawTreeFirstTime = function() {
-  this.calculateTreeCoords();
   this.paperReady = true;
   _.each(this.visNodeMap, function(visNode) {
     visNode.genGraphics(paper);

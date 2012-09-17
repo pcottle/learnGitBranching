@@ -798,14 +798,15 @@ var Branch  = Ref.extend({
 var Commit = Backbone.Model.extend({
   defaults: {
     type: 'commit',
-    children: [],
-    parents: []
+    children: null,
+    parents: null,
   },
 
   validateAtInit: function() {
     if (!this.get('id')) {
       this.set('id', uniqueId('C'));
     }
+    this.set('children', []);
 
     // root commits have no parents
     if (!this.get('rootCommit')) {

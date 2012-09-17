@@ -1,8 +1,11 @@
 var VisNode = Backbone.Model.extend({
   defaults: {
+    depth: undefined,
     id: null,
     pos: null,
-    commit: null
+    commit: null,
+    animationSpeed: 300,
+    animationEasing: 'easeInOut'
   },
 
   validateAtInit: function() {
@@ -16,7 +19,7 @@ var VisNode = Backbone.Model.extend({
     if (!this.get('pos')) {
       this.set('pos', {
         x: Math.random(),
-        y: Math.random(),
+        y: Math.random()
       });
     }
   },
@@ -27,6 +30,25 @@ var VisNode = Backbone.Model.extend({
 
   calcPositionInTree: function() {
 
+  },
+
+  setDepthBasedOn: function(depthIncrement) {
+    if (this.get('depth') === undefined) {
+      throw new Error('no depth yet!');
+    }
+    var pos = this.get('pos');
+    pos.y = this.get('depth') * depthIncrement;
+  },
+
+  animateUpdatedPosition: function() {
+    var pos = this.getScreenCoords();
+    this.get('circle').animate({
+        cx: pos.x,
+        cy: pos.y
+      },
+      this.get('animationSpeed'),
+      this.get('animationEasing')
+    );
   },
 
   getScreenCoords: function() {
@@ -67,8 +89,8 @@ var VisEdge = Backbone.Model.extend({
     var tailPos = this.get('tail').getScreenCoords();
     var headPos = this.get('head').getScreenCoords();
     var pathString = constructPathStringFromCoords([tailPos, headPos]);
-    var path = cutePath(paper, pathString);
-    this.set('path', path);
+    // var path = cutePath(paper, pathString);
+    // this.set('path', path);
   },
 
 });
