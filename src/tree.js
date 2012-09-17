@@ -3,9 +3,10 @@ var VisNode = Backbone.Model.extend({
     depth: undefined,
     id: null,
     pos: null,
+    radius: null,
     commit: null,
-    animationSpeed: 300,
-    animationEasing: 'easeInOut'
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
   },
 
   validateAtInit: function() {
@@ -28,10 +29,6 @@ var VisNode = Backbone.Model.extend({
     this.validateAtInit();
   },
 
-  calcPositionInTree: function() {
-
-  },
-
   setDepthBasedOn: function(depthIncrement) {
     if (this.get('depth') === undefined) {
       throw new Error('no depth yet!');
@@ -40,14 +37,14 @@ var VisNode = Backbone.Model.extend({
     pos.y = this.get('depth') * depthIncrement;
   },
 
-  animateUpdatedPosition: function() {
+  animateUpdatedPosition: function(speed, easing) {
     var pos = this.getScreenCoords();
     this.get('circle').animate({
         cx: pos.x,
         cy: pos.y
       },
-      this.get('animationSpeed'),
-      this.get('animationEasing')
+      speed || this.get('animationSpeed'),
+      easing || this.get('animationEasing')
     );
   },
 
@@ -56,11 +53,14 @@ var VisNode = Backbone.Model.extend({
     return gitVisuals.toScreenCoords(pos);
   },
 
+  getRadius: function() {
+    return this.get('radius') || GRAPHICS.nodeRadius;
+  },
+
   genGraphics: function(paper) {
     var pos = this.getScreenCoords();
-    //var circle = paper.circle(pos.x, pos.y, GRAPHICS.nodeRadius);
     var circle = cuteSmallCircle(paper, pos.x, pos.y, {
-      radius: GRAPHICS.nodeRadius
+      radius: this.getRadius()
     });
     this.set('circle', circle);
   }
@@ -69,7 +69,9 @@ var VisNode = Backbone.Model.extend({
 var VisEdge = Backbone.Model.extend({
   defaults: {
     tail: null,
-    head: null
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
   },
 
   validateAtInit: function() {
@@ -85,12 +87,59 @@ var VisEdge = Backbone.Model.extend({
     this.validateAtInit();
   },
 
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+
+    // first offset tail and head by radii
+
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, offset) {
+      offset = offset || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + GRAPHICS.curveControlPointOffset * dir
+      };
+    };
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
   genGraphics: function(paper) {
-    var tailPos = this.get('tail').getScreenCoords();
-    var headPos = this.get('head').getScreenCoords();
-    var pathString = constructPathStringFromCoords([tailPos, headPos]);
-    // var path = cutePath(paper, pathString);
-    // this.set('path', path);
+    var pathString = this.getBezierCurve();
+    var path = cutePath(paper, pathString);
+    this.set('path', path);
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var newPath = this.getBezierCurve();
+    this.get('path').toBack();
+    this.get('path').animate({
+        path: newPath
+      },
+      speed || this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
   },
 
 });

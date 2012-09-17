@@ -707,6 +707,11 @@ GitEngine.prototype.dispatch = function(command, callback) {
     }
   }
 
+  this.animationQueue.add(new Animation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  }));
   // TODO (get rid of)
   for (var i = 0; i < 3; i++) {
     this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));

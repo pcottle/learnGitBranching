@@ -65,6 +65,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 GitVisuals.prototype.refreshTree = function() {
   this.calculateTreeCoords();
   this.animateNodePositions();
+  this.animateEdges();
 };
 
 GitVisuals.prototype.calculateTreeCoords = function() {
@@ -99,6 +100,8 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // I always center myself within my bounds
   var myWidthPos = (min + max) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
+  // TODO get rid of
+  // commit.get('visNode').get('pos').x = Math.random();
 
   if (commit.get('children').length == 0) {
     return;
@@ -137,10 +140,33 @@ GitVisuals.prototype.calcDepth = function() {
   }, this);
 };
 
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
 GitVisuals.prototype.animateNodePositions = function() {
   _.each(this.visNodeMap, function(visNode) {
     console.log(visNode);
     visNode.animateUpdatedPosition();
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function() {
+  this.edgeCollection.each(function(edge) {
+    edge.animateUpdatedPath();
   }, this);
 };
 
