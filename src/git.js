@@ -816,7 +816,7 @@ var Commit = Backbone.Model.extend({
   },
 
   addNodeToVisuals: function() {
-    var visNode = gitVisuals.addNode(this.get('id'));
+    var visNode = gitVisuals.addNode(this.get('id'), this);
     this.set('visNode', visNode);
   },
 

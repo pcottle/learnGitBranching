@@ -21,12 +21,13 @@ var Animation = Backbone.Model.extend({
 
 var AnimationQueue = Backbone.Model.extend({
   defaults: {
-    animations: [],
+    animations: null,
     index: 0,
     callback: null
   },
 
   initialize: function(options) {
+    this.set('animations', []);
     if (!options.callback) {
       console.warn('no callback');
     }

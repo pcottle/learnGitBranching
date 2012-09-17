@@ -108,7 +108,6 @@ var CommandView = Backbone.View.extend({
   },
 
   wasChanged: function(model, changeEvent) {
-    console.log('command changed', model, changeEvent);
     // for changes that are just comestic, we actually only want to toggle classes
     // with jquery rather than brutally delete a html of HTML
     var changes = changeEvent.changes;

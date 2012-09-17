@@ -13,6 +13,10 @@ var TIME = {
   reflowGuess: 100
 };
 
+var GRAPHICS = {
+  nodeRadius: 15
+};
+
 /**
  * Graphics style
  */

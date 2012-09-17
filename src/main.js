@@ -40,7 +40,12 @@ $(document).ready(function(){
   $('#commandTextField').focus();
 
   // make the canvas for us
-  paper = Raphael(10, 10, 200, 200);
+  Raphael(10, 10, 200, 200, function() {
+    paper = this;
+    // needs to be called before raphael ready
+    windowResize();
+    events.trigger('raphaelReady');
+  });
 
   $(window).resize(windowResize);
   windowResize();
@@ -48,19 +53,23 @@ $(document).ready(function(){
 });
 
 function windowResize() {
+  var smaller = 10;
+
   if (paper && paper.canvas) {
     var el = $('#canvasWrapper')[0];
 
     var left = el.offsetLeft;
     var top = el.offsetTop;
-    var width = el.clientWidth;
-    var height = el.clientHeight;
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
 
+    console.log('setting to', left, top, width, height);
     $(paper.canvas).css({
       left: left + 'px',
       top: top + 'px'
     });
     paper.setSize(width, height);
+    events.trigger('canvasResize', width, height);
   }
-  events.trigger('windowResize');
 }
+

@@ -75,7 +75,8 @@ div.horizontal {
 }
 
 #canvasWrapper {
-  box-shadow: 0px 0px 3px black inset;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8) inset;
+  background-color: #4183C4;
 }
 
 #interfaceWrapper {
@@ -84,7 +85,8 @@ div.horizontal {
 
 #controls {
   max-width: 400px;
-  background: #4183C4;
+  /* background: #4183C4; */
+  background: #EEE;
 }
 
 #canvasWrapper {
