@@ -12,7 +12,7 @@ var Command = Backbone.Model.extend({
   },
 
   validateAtInit: function() {
-    if (!this.get('rawStr')) {
+    if (this.get('rawStr') === null) {
       throw new Error('Give me a string!');
     }
     if (!this.get('createTime')) {

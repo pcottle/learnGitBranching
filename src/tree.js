@@ -129,6 +129,7 @@ var VisEdge = Backbone.Model.extend({
   genGraphics: function(paper) {
     var pathString = this.getBezierCurve();
     var path = cutePath(paper, pathString);
+    path.toBack();
     this.set('path', path);
   },
 

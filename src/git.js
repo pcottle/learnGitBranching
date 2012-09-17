@@ -42,7 +42,10 @@ GitEngine.prototype.init = function() {
   this.commit();
 
   // update tree
-  events.trigger('treeRefresh');
+  // TODO make async, not async
+  setTimeout(function() {
+    events.trigger('treeRefresh');
+  }, 100);
 };
 
 GitEngine.prototype.getDetachedHead = function() {
