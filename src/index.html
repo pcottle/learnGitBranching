@@ -13,11 +13,33 @@
   
   <div id="interfaceWrapper" class="box horizontal flex1">
     <div id="controls" class="box vertical flex1">
-      <div id="hintsEtc" class="box vertical flex3">
+      <div id="hintsEtc" class="box vertical">
       </div>
 
       <div id="commandLineHistory" class="box vertical flex3">
-        <div id="commandDisplay">
+          <div class="toolbar box vertical">
+            <div class="controls box horizontal">
+              <div class="box flex1">
+                <div class="close">
+                </div>
+              </div>
+              <div class="box flex1">
+                <div class="minimize">
+                </div>
+              </div>
+              <div class="box flex1">
+                <div class="plus">
+                </div>
+              </div>
+            </div>
+            <div>
+              <i class="icon-home"></i>
+              Learn Git Branching
+            </div>
+          </div>
+        <div id="terminal" class="box flex1 vertical">
+          <div id="commandDisplay">
+          </div>
         </div>
       </div>
 
@@ -27,7 +49,7 @@
     </div>
 
     <div id="canvasWrapper" class="box flex1">
-      <canvas id="treeCanvas" width="20" height="20"></canvas>
+      <canvas id="treeCanvas" class="box"></canvas>
     </div>
   </div>
 
@@ -42,7 +64,7 @@
   <!-- Templates -->
   <script type="text/html" id="command-template">
       <p class="commandLine transitionBackground <%= status %>">
-        <span class="arrows">$</span>
+        <span class="prompt">$</span>
         <%= rawStr %>
         <span class="icons transitionOpacity">
           <i class="icon-exclamation-sign"></i>

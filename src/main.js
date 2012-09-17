@@ -36,5 +36,13 @@ $(document).ready(function(){
   });
 
   $('#commandTextField').focus();
+
+  $(window).resize(windowResize);
+  windowResize();
+  setTimeout(windowResize, 50);
 });
 
+function windowResize() {
+  var el = $('#canvasWrapper')[0];
+  $('#treeCanvas').height(el.clientHeight - 10).width(el.clientWidth - 10);
+}

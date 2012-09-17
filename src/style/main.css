@@ -9,14 +9,6 @@ body {
 }
 
 html, body {
-  /*
-  background: -moz-radial-gradient(center, ellipse cover, #0066cc 0%, #000000 90%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#0066cc), color-stop(90%,#000000));
-  background: -webkit-radial-gradient(center, ellipse cover, #0066cc 0%,#000 90%);
-  background: -o-radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
-  background: -ms-radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%);
-  background: radial-gradient(center, ellipse cover, #0066cc 0%,#000000 90%); */
-
   -webkit-perspective: 600px;
 
   font-family: Monaco, Courier, font-monospace;
@@ -75,7 +67,8 @@ div.horizontal {
 }
 
 #treeCanvas {
-  border: 3px solid black;
+  box-shadow: 0px 0px 3px black inset;
+  position: absolute;
 }
 
 #interfaceWrapper {
@@ -83,6 +76,8 @@ div.horizontal {
 }
 
 #controls {
+  max-width: 400px;
+  background: #4183C4;
 }
 
 #canvasWrapper {
@@ -90,6 +85,82 @@ div.horizontal {
 
 #commandTextField {
 }
+
+/* Toolbar */
+
+div.toolbar {
+  /* borrowed from try.github.com along with a bunch of other things */
+  background-image: -webkit-linear-gradient(top, #EFEDEE, #C1C1C1);
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 1px solid #6287A4;
+  border-bottom: 0;
+  height: 30px;
+  position: relative;
+  text-align: center;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: black;
+  -webkit-box-pack: center;
+}
+
+div.toolbar div.controls {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  width: 57px;
+  height: 13px;
+  -webkit-box-pack: justify;
+}
+
+div.toolbar div.controls div i {
+  text-shadow: 0.1em 0.1em rgba(255, 255, 255, 0.5);
+}
+
+div.toolbar div.controls div.box.flex1 {
+  text-align: center;
+}
+
+div.toolbar div.controls div.box.flex1 div {
+  width: 12px;
+  height: 11px;
+  border-radius: 24px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.7) inset;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-top: 1px solid #413838;
+  border-bottom: 1px solid #8B8B8B;
+  cursor: pointer;
+}
+
+div.controls div.box.flex1 div.close {
+  background: #ed7171;
+  background: -webkit-gradient(linear, left top, left bottom, from(#960000), to(#ed7171));
+  background: -webkit-linear-gradient(top, #960000, #ed7171);
+  background: -moz-linear-gradient(top, #960000, #ed7171);
+  background: -ms-linear-gradient(top, #960000, #ed7171);
+  background: -o-linear-gradient(top, #960000, #ed7171);
+}
+
+div.controls div.box.flex1 div.minimize {
+  background: #e2ed93;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e6f51b), to(#e2ed93));
+  background: -webkit-linear-gradient(top, #e6f51b, #e2ed93);
+  background: -moz-linear-gradient(top, #e6f51b, #e2ed93);
+  background: -ms-linear-gradient(top, #e6f51b, #e2ed93);
+  background: -o-linear-gradient(top, #e6f51b, #e2ed93);
+}
+
+div.controls div.box.flex1 div.plus {
+  background: #75e86f;
+  background: -webkit-gradient(linear, left top, left bottom, from(#36b309), to(#75e86f));
+  background: -webkit-linear-gradient(top, #36b309, #75e86f);
+  background: -moz-linear-gradient(top, #36b309, #75e86f);
+  background: -ms-linear-gradient(top, #36b309, #75e86f);
+  background: -o-linear-gradient(top, #36b309, #75e86f);
+}
+
+/* Command Line */
 
 p.commandLine, p.commandLineResult {
   opacity: 1;
@@ -119,12 +190,12 @@ p.commandLine.error {
 }
 
 p.commandLine.inqueue {
-  background-color: yellow;
+  background-color: #EBEB24;
   color: black;
 }
 
 p.commandLine.processing {
-  background-color: #57EE6F;
+  background-color: #36AD49;
   color: white;
 }
 
@@ -141,9 +212,13 @@ p.commandError, p.errorResult {
   color: red;
 }
 
-p.commandLine span.arrows {
+p.commandLine span.prompt {
   color: greenyellow;
   font-weight: bold;
+}
+
+p.commandLine.inqueue span.prompt {
+  color: black;
 }
 
 #commandLineBar {
@@ -151,8 +226,15 @@ p.commandLine span.arrows {
 }
 
 #commandLineHistory {
-  overflow-y: scroll;
-  background: #000;
-  opacity: 0.85;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3) inset;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
 }
+
+#terminal {
+  background: #424242;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3) inset;
+  border: 1px solid #6287A4;
+  border-radius: 0 0 5px 5px;
+}
+
