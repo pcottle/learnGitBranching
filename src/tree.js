@@ -39,7 +39,7 @@ var VisNode = Backbone.Model.extend({
 
   animateUpdatedPosition: function(speed, easing) {
     var pos = this.getScreenCoords();
-    this.get('circle').animate({
+    this.get('circle').stop().animate({
         cx: pos.x,
         cy: pos.y
       },
@@ -90,9 +90,6 @@ var VisEdge = Backbone.Model.extend({
   genSmoothBezierPathString: function(tail, head) {
     var tailPos = tail.getScreenCoords();
     var headPos = head.getScreenCoords();
-
-    // first offset tail and head by radii
-
     // we need to generate the path and control points for the bezier. format
     // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
     // the control points have to be __below__ to get the curve starting off straight.
@@ -100,13 +97,17 @@ var VisEdge = Backbone.Model.extend({
     var coords = function(pos) {
       return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
     };
-    var offset = function(pos, dir, offset) {
-      offset = offset || GRAPHICS.curveControlPointOffset;
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
       return {
         x: pos.x,
-        y: pos.y + GRAPHICS.curveControlPointOffset * dir
+        y: pos.y + delta * dir
       };
     };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, tail.getRadius());
+    headPos = offset(headPos, 1, head.getRadius());
 
     var str = '';
     // first move to bottom of tail
@@ -134,7 +135,7 @@ var VisEdge = Backbone.Model.extend({
   animateUpdatedPath: function(speed, easing) {
     var newPath = this.getBezierCurve();
     this.get('path').toBack();
-    this.get('path').animate({
+    this.get('path').stop().animate({
         path: newPath
       },
       speed || this.get('animationSpeed'),

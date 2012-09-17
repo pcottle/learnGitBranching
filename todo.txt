@@ -1,0 +1,3 @@
+SAFE calling on tree animation -- so it will update when necessary (AnimationArbiter class)
+
+

@@ -100,6 +100,12 @@ var Command = Backbone.Model.extend({
               git <command> [<args>] \
           ")
         });
+      }],
+      [/^refresh$/, function() {
+        events.trigger('refreshTree');
+        throw new CommandResult({
+          msg: "Refreshing tree..."
+        });
       }]
     ];
   },

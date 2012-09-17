@@ -63,7 +63,6 @@ function windowResize() {
     var width = el.clientWidth - smaller;
     var height = el.clientHeight - smaller;
 
-    console.log('setting to', left, top, width, height);
     $(paper.canvas).css({
       left: left + 'px',
       top: top + 'px'

@@ -1,5 +1,4 @@
 function GitVisuals(options) {
-  // the 
   this.commitCollection = options.collection;
   this.visNodeMap = {};
   this.edgeCollection = new VisEdgeCollection();
@@ -18,6 +17,9 @@ function GitVisuals(options) {
   ));
   events.on('raphaelReady', _.bind(
     this.drawTreeFirstTime, this
+  ));
+  events.on('refreshTree', _.bind(
+    this.refreshTree, this
   ));
 }
 
@@ -63,6 +65,8 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
  **************************************/
 
 GitVisuals.prototype.refreshTree = function() {
+  if (!this.paperReady) { return; }
+
   this.calculateTreeCoords();
   this.animateNodePositions();
   this.animateEdges();
@@ -159,7 +163,6 @@ GitVisuals.prototype.calcDepth = function() {
 
 GitVisuals.prototype.animateNodePositions = function() {
   _.each(this.visNodeMap, function(visNode) {
-    console.log(visNode);
     visNode.animateUpdatedPosition();
   }, this);
 };
@@ -178,8 +181,6 @@ GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
 };
 
 GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
-  console.log('calculating depth recursive for ', commit);
-
   commit.get('visNode').set('depth', depth);
 
   var children = commit.get('children');
@@ -196,6 +197,8 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = function(width, height) {
   this.paperWidth = width;
   this.paperHeight = height;
+  // TODO figure out whether we are animating or not and possibly delay this
+  this.refreshTree();
 };
 
 GitVisuals.prototype.addNode = function(id, commit) {

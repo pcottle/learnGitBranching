@@ -40,6 +40,9 @@ GitEngine.prototype.init = function() {
 
   // commit once to get things going
   this.commit();
+
+  // update tree
+  events.trigger('treeRefresh');
 };
 
 GitEngine.prototype.getDetachedHead = function() {
@@ -713,7 +716,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
     }
   }));
   // TODO (get rid of)
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 1; i++) {
     this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));
   }
 
