@@ -104,6 +104,12 @@ var VisEdge = Backbone.Model.extend({
         y: pos.y + delta * dir
       };
     };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
 
     // first offset tail and head by radii
     tailPos = offset(tailPos, -1, tail.getRadius());
@@ -119,6 +125,14 @@ var VisEdge = Backbone.Model.extend({
     str += coords(offset(headPos, 1)) + ' ';
     // now finish
     str += coords(headPos);
+
+    // arrow head
+    // TODO default sizing
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
     return str;
   },
 
