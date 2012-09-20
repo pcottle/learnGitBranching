@@ -6,6 +6,10 @@ var CommandCollection = Backbone.Collection.extend({
   model: Command,
 });
 
+var BranchCollection = Backbone.Collection.extend({
+  model: Branch
+});
+
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
     collection: null,

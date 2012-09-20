@@ -1,7 +1,10 @@
 function GitVisuals(options) {
-  this.commitCollection = options.collection;
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
+
   this.edgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
 
   this.commitMap = {};
   this.rootCommit = null;
@@ -11,6 +14,9 @@ function GitVisuals(options) {
   this.paperHeight = null;
 
   this.commitCollection.on('change', this.collectionChanged, this);
+
+  this.branchCollection.on('add', this.addBranch, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
   
   events.on('canvasResize', _.bind(
     this.canvasResize, this
@@ -70,6 +76,7 @@ GitVisuals.prototype.refreshTree = function() {
   this.calculateTreeCoords();
   this.animateNodePositions();
   this.animateEdges();
+  this.animateRefs();
 };
 
 GitVisuals.prototype.calculateTreeCoords = function() {
@@ -104,8 +111,6 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // I always center myself within my bounds
   var myWidthPos = (min + max) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
-  // TODO get rid of
-  // commit.get('visNode').get('pos').x = Math.random();
 
   if (commit.get('children').length == 0) {
     return;
@@ -164,6 +169,22 @@ GitVisuals.prototype.calcDepth = function() {
 GitVisuals.prototype.animateNodePositions = function() {
   _.each(this.visNodeMap, function(visNode) {
     visNode.animateUpdatedPosition();
+  }, this);
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch
+  });
+  this.visBranchCollection.add(visBranch);
+  if (this.paperReady) {
+    visBranch.genGraphics();
+  }
+};
+
+GitVisuals.prototype.animateRefs = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(paper);
   }, this);
 };
 
@@ -253,6 +274,10 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
 
   this.edgeCollection.each(function(edge) {
     edge.genGraphics(paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(paper);
   }, this);
 };
 

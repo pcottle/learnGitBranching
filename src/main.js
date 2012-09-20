@@ -15,6 +15,7 @@ $(document).ready(function(){
   // the two major collections that affect everything
   var commitCollection = new CommitCollection();  
   commandCollection = new CommandCollection();
+  var branchCollection = new BranchCollection();
 
   commandBuffer = new CommandBuffer({
     collection: commandCollection
@@ -30,11 +31,13 @@ $(document).ready(function(){
   });
 
   gitVisuals = new GitVisuals({
-    collection: commitCollection
+    commitCollection: commitCollection,
+    branchCollection: branchCollection
   });
 
   gitEngine = new GitEngine({
-    collection: commitCollection
+    collection: commitCollection,
+    branches: branchCollection
   });
 
   $('#commandTextField').focus();

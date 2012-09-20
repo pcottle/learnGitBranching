@@ -11,7 +11,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.id_gen = 0;
-  this.branches = [];
+  this.branches = options.branches;
   this.collection = options.collection;
 
   // global variable to keep track of the options given
@@ -82,7 +82,7 @@ GitEngine.prototype.makeBranch = function(id, target) {
     target: target,
     id: id
   });
-  this.branches.push(branch);
+  this.branches.add(branch);
   this.refs[branch.get('id')] = branch;
   return branch;
 };
@@ -93,7 +93,7 @@ GitEngine.prototype.getHead = function() {
 
 GitEngine.prototype.getBranches = function() {
   var toReturn = [];
-  _.each(this.branches, function(branch) {
+  this.branches.each(function(branch) {
     toReturn.push({
       id: branch.get('id'),
       selected: this.HEAD.get('target') === branch,
@@ -669,6 +669,7 @@ GitEngine.prototype.deleteBranch = function(name) {
   target.delete();
   delete this.refs[id];
   // delete from array
+  // TODO
   var toDelete = -1;
   _.each(this.branches, function(branch, index) {
     console.log(branch);
@@ -799,7 +800,7 @@ var Ref = Backbone.Model.extend({
   }
 });
 
-var Branch  = Ref.extend({
+var Branch = Ref.extend({
   initialize: function() {
     Ref.prototype.initialize.call(this);
     this.set('type', 'branch');

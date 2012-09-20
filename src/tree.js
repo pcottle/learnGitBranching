@@ -1,3 +1,60 @@
+var VisBranch = Backbone.Model.extend({
+  defaults: {
+    pos: null
+  },
+
+  validateAtInit: function() {
+    if (!this.get('branch')) {
+      throw new Error('need a branch!');
+    }
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+  },
+
+  getPosition: function() {
+    var commit = this.get('branch').get('target');
+    var visNode = commit.get('visNode');
+    var pos = visNode.getScreenCoords();
+    return {
+      x: pos.x + 30,
+      y: pos.y
+    };
+  },
+
+  genGraphics: function(paper) {
+    var pos = this.getPosition();
+    if (!paper) {
+      console.log('no paper');
+      return;
+    }
+    var name = this.get('branch').get('id');
+    var circle = paper.text(pos.x, pos.y, String(name));
+    this.set('text', circle);
+  },
+
+  animateUpdatedPos: function(paper) {
+    var pos = this.getPosition();
+    var t = this.get('text');
+    if (!t) {
+      this.genGraphics(paper);
+      t = this.get('text');
+      // TODO HACKY
+    }
+    this.get('text').toFront().stop().animate({
+        x: pos.x,
+        y: pos.y
+      },
+      300,
+      'easeInOut'
+    );
+  }
+});
+
+
+
+
 var VisNode = Backbone.Model.extend({
   defaults: {
     depth: undefined,
@@ -162,4 +219,8 @@ var VisEdge = Backbone.Model.extend({
 
 var VisEdgeCollection = Backbone.Collection.extend({
   model: VisEdge
+});
+
+var VisBranchCollection = Backbone.Collection.extend({
+  model: VisBranch
 });
