@@ -585,6 +585,8 @@ GitEngine.prototype.checkoutStarter = function() {
     });
   }
   this.checkout(this.generalArgs[0]);
+
+  events.trigger('treeRefresh');
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
