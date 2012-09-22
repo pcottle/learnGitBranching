@@ -30,8 +30,11 @@ var VisBranch = Backbone.Model.extend({
       return;
     }
     var name = this.get('branch').get('id');
-    var circle = paper.text(pos.x, pos.y, String(name));
-    this.set('text', circle);
+    var text = paper.text(pos.x, pos.y, String(name));
+    text.attr({
+      'font-size': 16
+    });
+    this.set('text', text);
   },
 
   animateUpdatedPos: function(paper) {
