@@ -31,11 +31,9 @@ var Command = Backbone.Model.extend({
       this.parse();
     } catch (err) {
       if (err instanceof CommandProcessError ||
-          err instanceof GitError) {
-        this.set('status', 'error');
-        this.set('error', err);
-      } else if (err instanceof CommandResult) {
-        this.set('status', 'finished');
+          err instanceof GitError ||
+          err instanceof CommandResult) {
+      // erroChanged() will handle status and all of that
         this.set('error', err);
       } else {
         throw err;
@@ -44,13 +42,17 @@ var Command = Backbone.Model.extend({
   },
 
   errorChanged: function(model, err) {
-    this.set('err', err);
-    this.set('status', 'error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    }
     this.formatError();
   },
 
   formatError: function() {
-    this.set('result', this.get('err').toResult());
+    this.set('result', this.get('error').toResult());
   },
 
   getShortcutMap: function() {

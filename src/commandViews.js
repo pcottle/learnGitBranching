@@ -143,6 +143,7 @@ var CommandView = Backbone.View.extend({
       },
       this.model.toJSON()
     );
+    console.log('rendering', this.model.toJSON());
 
     this.$el.html(this.template(json));
     return this;

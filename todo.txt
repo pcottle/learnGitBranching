@@ -1,3 +1,9 @@
 SAFE calling on tree animation -- so it will update when necessary (AnimationArbiter class)
 
+Real refs -- by putting in labels and background box and everything. also highlight with head
 
+The Tree.Snapshot() idea
+
+closures on animations
+
+you name it!
