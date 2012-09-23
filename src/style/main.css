@@ -177,7 +177,22 @@ p.commandLine, div.commandLineResult {
   margin: 0px;
 }
 
-p.commandLine div.commandLineWarnings p i.icon-exclamation-point {
+div.commandLineWarnings p,
+div.commandLineResult p {
+  margin: 0px;
+}
+
+div.commandLineResult p:first-child,
+div.commandLineWarnings p:first-child {
+  padding-top: 8px;
+}
+
+div.commandLineResult p:last-child,
+div.commandLineWarnings p:last-child {
+  padding-bottom: 8px;
+}
+
+div.commandLineWarnings p i.icon-exclamation-sign {
   color: yellow;
   margin-right: 5px;
 }

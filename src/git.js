@@ -861,7 +861,9 @@ var Commit = Backbone.Model.extend({
     return [
       'Author: ' + this.get('author'),
       'Date: ' + this.get('createTime'),
+      '<br/>',
       this.get('commitMessage'),
+      '<br/>',
       'Commit: ' + this.get('id')
     ].join('\n' ) + '\n';
   },

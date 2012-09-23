@@ -192,7 +192,7 @@ GitVisuals.prototype.addBranch = function(branch) {
   });
   this.visBranchCollection.add(visBranch);
   if (this.paperReady) {
-    visBranch.genGraphics();
+    visBranch.genGraphics(paper);
   }
 };
 
