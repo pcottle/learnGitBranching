@@ -17,7 +17,10 @@ var GRAPHICS = {
   nodeRadius: 15,
   curveControlPointOffset: 50,
   defaultEasing: 'easeInOut',
-  defaultAnimationTime: 300
+  defaultAnimationTime: 300,
+  rectFill: '#FF3A3A',
+  rectStroke: '#FFF',
+  rectStrokeWidth: '3'
 };
 
 /**

@@ -2,6 +2,16 @@ var VisBranch = Backbone.Model.extend({
   defaults: {
     pos: null,
     text: null,
+    rect: null,
+    arrow: null,
+    offsetX: GRAPHICS.nodeRadius * 4.75,
+    offsetY: 0,
+    arrowInnerMargin: 8,
+    arrowLength: 15,
+    arrowRatio: 3.5,
+    arrowEdgeHeight: 5,
+    vPad: 5,
+    hPad: 5,
     animationSpeed: GRAPHICS.defaultAnimationTime,
     animationEasing: GRAPHICS.defaultEasing
   },
@@ -16,41 +26,158 @@ var VisBranch = Backbone.Model.extend({
     this.validateAtInit();
   },
 
-  getPosition: function() {
+  getCommitPosition: function() {
     var commit = this.get('branch').get('target');
     var visNode = commit.get('visNode');
-    var pos = visNode.getScreenCoords();
+    return visNode.getScreenCoords();
+  },
+
+  getTextPosition: function() {
+    var pos = this.getCommitPosition();
     return {
-      x: pos.x + 30,
-      y: pos.y
+      x: pos.x + this.get('offsetX'),
+      y: pos.y + this.get('offsetY')
     };
   },
 
-  genGraphics: function(paper) {
-    var pos = this.getPosition();
-    var name = this.get('branch').get('id');
-    var text = paper.text(pos.x, pos.y, String(name));
+  getRectPosition: function() {
+    var pos = this.getTextPosition();
+    // first get text width and height
+    var textSize = this.getTextSize();
+    return {
+      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
+      y: pos.y - 0.5 * textSize.h - this.get('vPad')
+    }
+  },
 
+  getArrowPath: function() {
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+
+
+    // worst variable names evar
+    // start at rect corner
+    var overlap = 5;
+    var startPos = offset2d(this.getRectPosition(), overlap, this.get('arrowInnerMargin'));
+    // first the beginning of the head
+    var next = offset2d(startPos, -this.get('arrowLength'), 0);
+    // head side point
+    var next2 = offset2d(next, 0, -this.get('arrowEdgeHeight'));
+    // head point
+    var next3 = offset2d(this.getTextPosition(),
+      -this.get('arrowLength') * this.get('arrowRatio'), 0);
+
+    // get the next three points in backwards order
+    var end = offset2d(this.getRectPosition(), overlap, this.getRectSize().h - this.get('arrowInnerMargin'));
+    var beforeEnd = offset2d(end, -this.get('arrowLength'), 0);
+    var beforeBeforeEnd = offset2d(beforeEnd, 0, this.get('arrowEdgeHeight'));
+
+    var pathStr = '';
+    pathStr += 'M' + coords(startPos) + ' ';
+    _.each([next, next2, next3, beforeBeforeEnd, beforeEnd, end], function(pos) {
+      pathStr += 'L' + coords(pos) + ' ';
+    }, this);
+    pathStr += 'z';
+    return pathStr;
+  },
+
+  getTextSize: function() {
+    var textNode = this.get('text').node;
+    var w = textNode.clientWidth;
+    var h = textNode.clientHeight;
+    return {
+      w: textNode.clientWidth,
+      h: textNode.clientHeight
+    };
+  },
+
+  getRectSize: function() {
+    var textSize = this.getTextSize();
+    // enforce padding
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h + hPad * 2
+    };
+  },
+
+  getName: function() {
+    var name = this.get('branch').get('id');
+    var selected = gitEngine.HEAD.get('target').get('id');
+
+    var add = (selected == name) ? '*' : '';
+    return name + add;
+  },
+
+  genGraphics: function(paper) {
+    var textPos = this.getTextPosition();
+
+    var name = this.getName();
+    var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 16
     });
     this.set('text', text);
+
+    var rectPos = this.getRectPosition();
+    var sizeOfRect = this.getRectSize();
+    var rect = paper.rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8);
+    rect.attr({
+      fill: GRAPHICS.rectFill,
+      stroke: GRAPHICS.rectStroke,
+      'stroke-width': GRAPHICS.rectStrokeWidth
+    });
+    this.set('rect', rect);
+
+    var arrowPath = this.getArrowPath();
+    var arrow = paper.path(arrowPath);
+    arrow.attr({
+      fill: GRAPHICS.rectFill,
+      stroke: GRAPHICS.rectStroke,
+      'stroke-width': GRAPHICS.rectStrokeWidth
+    });
+    this.set('arrow', arrow);
+
+    rect.toFront();
+    text.toFront();
   },
 
   animateUpdatedPos: function(speed, easing) {
-    var pos = this.getPosition();
-    this.get('text').toFront().stop().animate({
-        x: pos.x,
-        y: pos.y
-      },
-      // speed can be 0 when we want a harsh animation
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    var textPos = this.getTextPosition();
+    this.get('text').attr({
+      text: this.getName()
+    });
+    this.get('text').stop().animate({
+      x: textPos.x,
+      y: textPos.y
+    }, s, e);
+
+    var rectPos = this.getRectPosition();
+    var rectSize = this.getRectSize();
+    this.get('rect').stop().animate({
+      x: rectPos.x,
+      y: rectPos.y,
+      width: rectSize.w,
+      height: rectSize.h
+    }, s, e);
+
+    var arrowPath = this.getArrowPath();
+    this.get('arrow').stop().animate({
+      path: arrowPath
+    }, s, e);
   }
 });
-
-
 
 
 var VisNode = Backbone.Model.extend({

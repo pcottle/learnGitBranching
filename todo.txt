@@ -1,9 +1,21 @@
-SAFE calling on tree animation -- so it will update when necessary (AnimationArbiter class)
-
-Real refs -- by putting in labels and background box and everything. also highlight with head
-
 The Tree.Snapshot() idea
 
-closures on animations
+closures on animations with those snapshots
 
-you name it!
+integrate animation into all git commands
+
+animation factory? stuff like:
+
+-commitBirthAnimation(snapshotBefore, snapshotAfter, commit)
+-highlightCommit(50, 'targetColor') // during search
+-clearHighlightsAllNodes
+
+
+
+ALSO other big things:
+
+- Text on commit nodes
+- Division in their rings based on how many / what branches they are part of
+
+- Commits go transparent when no longer downstream of anything (also their weights are adjusted? and sent to back?)
+

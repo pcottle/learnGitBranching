@@ -857,7 +857,9 @@ var Commit = Backbone.Model.extend({
   },
 
  getLogEntry: function() {
-    // for now we are just joining all these things with newlines...
+    // for now we are just joining all these things with newlines which
+    // will get placed by paragraph tags. Not really a fan of this, but
+    // it's better than making an entire template and all that jazz
     return [
       'Author: ' + this.get('author'),
       'Date: ' + this.get('createTime'),
