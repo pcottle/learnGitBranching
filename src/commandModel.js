@@ -38,15 +38,18 @@ var Command = Backbone.Model.extend({
   },
 
   addWarning: function(msg) {
-    this.set('warnings', this.get('warnings').push(msg));
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
   },
 
   getFormattedWarnings: function() {
     if (!this.get('warnings').length) {
       return '';
     }
-
-    return '<p>' + this.get('warnings').join('</p><p>') + '</p>';
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
   },
 
   initialize: function() {

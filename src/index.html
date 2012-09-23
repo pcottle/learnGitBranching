@@ -62,7 +62,7 @@
 
   <!-- Templates -->
   <script type="text/html" id="command-template">
-      <p class="commandLine transitionBackground <%= status %>">
+       <p class="commandLine transitionBackground <%= status %>">
         <span class="prompt">$</span>
         <%= rawStr %>
         <span class="icons transitionAllSlow">
@@ -73,17 +73,13 @@
         </span>
       </p>
 
-      <p class="commandLineResult <%= resultType %>">
-        <div class="commandLineResultWrapper">
-          <%= result %>
-        </div>
-      </p>
+      <div class="commandLineResult <%= resultType %>">
+        <%= result %>
+      </div>
 
-      <p class="commandLineWarnings">
-        <div class="commandLineWarningsWrapper">
-          <%= warnings %>
-        </div>
-      </p>
+      <div class="commandLineWarnings">
+        <%= formattedWarnings %>
+      </div>
   </script>
 
   <!-- My files! -->

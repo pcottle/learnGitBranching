@@ -171,10 +171,15 @@ div.controls div.box.flex1 div.plus {
 
 /* Command Line */
 
-p.commandLine, p.commandLineResult {
+p.commandLine, div.commandLineResult {
   opacity: 1;
   font-size: 16px;
   margin: 0px;
+}
+
+p.commandLine div.commandLineWarnings p i.icon-exclamation-point {
+  color: yellow;
+  margin-right: 5px;
 }
 
 p.commandLine span.icons {

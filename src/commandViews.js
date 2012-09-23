@@ -67,9 +67,14 @@ var CommandPromptView = Backbone.View.extend({
     this.index = -1;
 
     // split commands on semicolon
-    _.each(value.split(';'), _.bind(function(command) {
+    _.each(value.split(';'), _.bind(function(command, index) {
       command = command.replace(/^(\s+)/, '');
       command = command.replace(/(\s+)$/, '');
+
+      if (index > 0 && !command.length) {
+        return;
+      }
+
       this.addToCollection(command);
     }, this));
   },
@@ -140,7 +145,7 @@ var CommandView = Backbone.View.extend({
       {
         resultType: '',
         result: '',
-        warnings: ''
+        formattedWarnings: this.model.getFormattedWarnings()
       },
       this.model.toJSON()
     );
@@ -169,7 +174,6 @@ var CommandLineHistoryView = Backbone.View.extend({
   },
 
   addWarning: function(msg) {
-    console.log('here', arguments);
     var err = new Warning({
       msg: msg
     });
@@ -183,8 +187,20 @@ var CommandLineHistoryView = Backbone.View.extend({
   },
 
   scrollDown: function() {
-    var el = $('#commandLineHistory')[0];
-    el.scrollTop = el.scrollHeight;
+    // if commandDisplay is ever bigger than #terminal, we need to
+    // add overflow-y to terminal and scroll down
+    var cD = $('#commandDisplay')[0];
+    var t = $('#terminal')[0];
+
+    if ($(t).hasClass('scrolling')) {
+      t.scrollTop = t.scrollHeight;
+      return;
+    }
+    if (cD.clientHeight > t.clientHeight) {
+      $(t).css('overflow-y', 'scroll');
+      $(t).addClass('scrolling');
+      t.scrollTop = t.scrollHeight;
+    }
   },
 
   addOne: function(command) {
