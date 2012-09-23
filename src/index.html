@@ -74,7 +74,15 @@
       </p>
 
       <p class="commandLineResult <%= resultType %>">
-        <%= result %>
+        <div class="commandLineResultWrapper">
+          <%= result %>
+        </div>
+      </p>
+
+      <p class="commandLineWarnings">
+        <div class="commandLineWarningsWrapper">
+          <%= warnings %>
+        </div>
       </p>
   </script>
 
@@ -92,11 +100,11 @@
   <script src="commandModel.js"></script>
   <script src="commandViews.js"></script>
 
-
   <!-- vis -->
   <script src="collections.js"></script>
   <script src="visuals.js"></script>
   <script src="tree.js"></script>
+  <script src="animationFactory.js"></script>
 
 </body>
 </html>

@@ -139,11 +139,11 @@ var CommandView = Backbone.View.extend({
     var json = _.extend(
       {
         resultType: '',
-        result: ''
+        result: '',
+        warnings: ''
       },
       this.model.toJSON()
     );
-    console.log('rendering', this.model.toJSON());
 
     this.$el.html(this.template(json));
     return this;
@@ -164,6 +164,22 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.on('all', this.render, this);
 
     this.collection.on('change', this.scrollDown, this);
+
+    events.on('issueWarning', this.addWarning, this);
+  },
+
+  addWarning: function(msg) {
+    console.log('here', arguments);
+    var err = new Warning({
+      msg: msg
+    });
+
+    var command = new Command({
+      error: err,
+      rawStr: 'Warning:'
+    });
+
+    this.collection.add(command);
   },
 
   scrollDown: function() {

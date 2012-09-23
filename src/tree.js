@@ -1,6 +1,9 @@
 var VisBranch = Backbone.Model.extend({
   defaults: {
-    pos: null
+    pos: null,
+    text: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
   },
 
   validateAtInit: function() {
@@ -37,20 +40,14 @@ var VisBranch = Backbone.Model.extend({
     this.set('text', text);
   },
 
-  animateUpdatedPos: function(paper) {
+  animateUpdatedPos: function(speed, easing) {
     var pos = this.getPosition();
-    var t = this.get('text');
-    if (!t) {
-      this.genGraphics(paper);
-      t = this.get('text');
-      // TODO HACKY
-    }
     this.get('text').toFront().stop().animate({
         x: pos.x,
         y: pos.y
       },
-      300,
-      'easeInOut'
+      speed || this.get('animationSpeed'),
+      easing || this.get('animationEasing')
     );
   }
 });

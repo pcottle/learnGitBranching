@@ -12,7 +12,7 @@ var MyError = Backbone.Model.extend({
   },
 
   toResult: function() {
-    return this.get('msg').replace('\n', '</br>');
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
   }
 });
 
@@ -25,6 +25,12 @@ var CommandProcessError = MyError.extend({
 var CommandResult = MyError.extend({
   defaults: {
     type: 'Command Result'
+  }
+});
+
+var Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
   }
 });
 

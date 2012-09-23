@@ -195,9 +195,15 @@ p.commandLine span.icons i {
 
 p.commandLine.inqueue span.icons i.icon-check-empty,
 p.commandLine.error span.icons i.icon-exclamation-sign,
+p.commandLine.warning span.icons i.icon-exclamation-sign,
 p.commandLine.processing span.icons i.icon-retweet,
 p.commandLine.finished span.icons i.icon-check {
   opacity: 1;
+}
+
+p.commandLine.warning span.icons {
+  background-color: #E0FF00;
+  color: black;
 }
 
 p.commandLine.inqueue span.icons {

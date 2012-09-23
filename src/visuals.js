@@ -71,12 +71,19 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
  **************************************/
 
 GitVisuals.prototype.refreshTree = function() {
-  if (!this.paperReady) { return; }
+  if (!this.paperReady) { console.warn('called refresh tree when not ready yet'); return; }
 
   this.calculateTreeCoords();
   this.animateNodePositions();
   this.animateEdges();
   this.animateRefs();
+};
+
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.calculateTreeCoords();
+
+  this.animateEdges();
+  this.animateNodePositions();
 };
 
 GitVisuals.prototype.calculateTreeCoords = function() {
@@ -142,6 +149,13 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
 
 GitVisuals.prototype.calcDepth = function() {
   var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    events.trigger('issueWarning',
+      'Max Depth Exceeded! Visuals may degrade here. ' +
+      'Please start fresh or use reset to reduce the max depth'
+    );
+  }
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
   _.each(this.visNodeMap, function(visNode) {
@@ -279,6 +293,8 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.genGraphics(paper);
   }, this);
+
+  this.refreshTree();
 };
 
 

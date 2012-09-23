@@ -1,24 +1,52 @@
 var Command = Backbone.Model.extend({
   defaults: {
     status: 'inqueue',
+    rawStr: null,
     result: '',
+
     error: null,
-    generalArgs: [],
-    supportedMap: {},
+    warnings: null,
+
+    generalArgs: null,
+    supportedMap: null,
     options: null,
     method: null,
-    createTime: null,
-    rawStr: null
+
+    createTime: null
   },
 
   validateAtInit: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+
     if (this.get('rawStr') === null) {
       throw new Error('Give me a string!');
     }
     if (!this.get('createTime')) {
       this.set('createTime', new Date().toString());
     }
+
+
     this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+  },
+
+  addWarning: function(msg) {
+    this.set('warnings', this.get('warnings').push(msg));
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+
+    return '<p>' + this.get('warnings').join('</p><p>') + '</p>';
   },
 
   initialize: function() {
@@ -32,8 +60,9 @@ var Command = Backbone.Model.extend({
     } catch (err) {
       if (err instanceof CommandProcessError ||
           err instanceof GitError ||
-          err instanceof CommandResult) {
-      // erroChanged() will handle status and all of that
+          err instanceof CommandResult ||
+          err instanceof Warning) {
+        // errorChanged() will handle status and all of that
         this.set('error', err);
       } else {
         throw err;
@@ -41,12 +70,15 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  errorChanged: function(model, err) {
+  errorChanged: function() {
+    var err = this.get('error');
     if (err instanceof CommandProcessError ||
         err instanceof GitError) {
       this.set('status', 'error');
     } else if (err instanceof CommandResult) {
       this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
     }
     this.formatError();
   },
@@ -76,6 +108,7 @@ var Command = Backbone.Model.extend({
       reset: /^reset($|\s)/,
       branch: /^branch($|\s)/,
       revert: /^revert($|\s)/,
+      log: /^log($|\s)/,
       merge: /^merge($|\s)/
     };
   },
@@ -204,6 +237,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
       '-a': false, // warning
       '-am': false
     },
+    log: {},
     add: {},
     branch: {
       '-d': false,

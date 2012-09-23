@@ -40,12 +40,6 @@ GitEngine.prototype.init = function() {
 
   // commit once to get things going
   this.commit();
-
-  // update tree
-  // TODO make async, not async
-  setTimeout(function() {
-    events.trigger('treeRefresh');
-  }, 100);
 };
 
 GitEngine.prototype.getDetachedHead = function() {
@@ -193,7 +187,7 @@ GitEngine.prototype.resetStarter = function() {
     });
   }
   if (this.commandOptions['--hard']) {
-    events.trigger('commandProcessWarn',
+    this.command.addWarning(
       'Nice! You are using --hard. The default behavior is a hard reset in ' +
       "this demo, so don't worry about specifying the option explicity"
     );
@@ -220,10 +214,10 @@ GitEngine.prototype.reset = function(target) {
 GitEngine.prototype.commitStarter = function() {
   this.acceptNoGeneralArgs();
   if (this.commandOptions['-a']) {
-    events.trigger('commandProcessWarn', 'No need to add files in this demo');
+    this.command.addWarning('No need to add files in this demo');
   }
   if (this.commandOptions['-am']) {
-    events.trigger('commandProcessWarn', "Don't worry about adding files or commit messages in this demo");
+    this.command.addWarning("Don't worry about adding files or commit messages in this demo");
   }
   this.commit();
 };
@@ -237,7 +231,7 @@ GitEngine.prototype.commit = function() {
 
   var newCommit = this.makeCommit([targetCommit]);
   if (this.getDetachedHead()) {
-    events.trigger('commandProcessWarn', 'Warning!! Detached HEAD state');
+    this.command.addWarning('Warning!! Detached HEAD state');
     this.HEAD.set('target', newCommit);
   } else {
     var targetBranch = this.HEAD.get('target');
@@ -611,7 +605,7 @@ GitEngine.prototype.branchStarter = function() {
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     var names = this.commandOptions['-d'];
-    names.concat(this.commandOptions['-D']);
+    names = names.concat(this.commandOptions['-D']);
     if (!names.length) {
       throw new GitError({
         msg: 'I expect branch names when deleting'
@@ -726,7 +720,50 @@ GitEngine.prototype.dispatch = function(command, callback) {
     this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));
   }
 
+  // animation queue will call the callback when its done
   this.animationQueue.start();
+};
+
+GitEngine.prototype.logStarter = function() {
+  if (this.generalArgs.length > 1) {
+    throw new GitError({
+      msg: "git log with more than 1 argument doesn't make sense"
+    });
+  }
+  if (this.generalArgs.length == 0) {
+    this.generalArgs.push('HEAD');
+  }
+  this.log(this.generalArgs[0]);
+};
+
+GitEngine.prototype.log = function(ref) {
+  // first get the commit we referenced
+  var commit = this.getCommitFromRef(ref);
+
+  // then get as many far back as we can from here, order by commit date
+  var toDump = [];
+  var pQueue = [commit];
+
+  while (pQueue.length) {
+    var popped = pQueue.shift(0);
+    toDump.push(popped);
+
+    if (popped.get('parents') && popped.get('parents').length) {
+      pQueue = pQueue.concat(popped.get('parents'));
+    }
+    pQueue.sort(this.idSortFunc);
+  }
+
+  toDump.reverse();
+  // now go through and collect logs
+  var bigLogStr = '';
+  _.each(toDump, function(c) {
+    bigLogStr += c.getLogEntry();
+  }, this);
+
+  throw new CommandResult({
+    msg: bigLogStr
+  });
 };
 
 GitEngine.prototype.addStarter = function() {
@@ -750,7 +787,7 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
     if (upstreamSet[here.get('id')]) {
       return here;
     }
-    queue.concat(here.get('parents'));
+    queue = queue.concat(here.get('parents'));
   }
   throw new Error('something has gone very wrong... two nodes arent connected!');
 };
@@ -814,12 +851,32 @@ var Commit = Backbone.Model.extend({
     type: 'commit',
     children: null,
     parents: null,
+    author: 'Peter Cottle',
+    createTime: null,
+    commitMessage: null
+  },
+
+ getLogEntry: function() {
+    // for now we are just joining all these things with newlines...
+    return [
+      'Author: ' + this.get('author'),
+      'Date: ' + this.get('createTime'),
+      this.get('commitMessage'),
+      'Commit: ' + this.get('id')
+    ].join('\n' ) + '\n';
   },
 
   validateAtInit: function() {
     if (!this.get('id')) {
       this.set('id', uniqueId('C'));
     }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+    if (!this.get('commitMessage')) {
+      this.set('commitMessage', 'Quick Commit. Go Bears!');
+    }
+
     this.set('children', []);
 
     // root commits have no parents

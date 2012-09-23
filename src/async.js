@@ -71,3 +71,4 @@ var AnimationQueue = Backbone.Model.extend({
     }, this), duration);
   },
 });
+
