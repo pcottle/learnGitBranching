@@ -28,12 +28,9 @@ var VisBranch = Backbone.Model.extend({
 
   genGraphics: function(paper) {
     var pos = this.getPosition();
-    if (!paper) {
-      console.log('no paper');
-      return;
-    }
     var name = this.get('branch').get('id');
     var text = paper.text(pos.x, pos.y, String(name));
+
     text.attr({
       'font-size': 16
     });
@@ -46,7 +43,8 @@ var VisBranch = Backbone.Model.extend({
         x: pos.x,
         y: pos.y
       },
-      speed || this.get('animationSpeed'),
+      // speed can be 0 when we want a harsh animation
+      speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
   }
@@ -100,7 +98,7 @@ var VisNode = Backbone.Model.extend({
         cx: pos.x,
         cy: pos.y
       },
-      speed || this.get('animationSpeed'),
+      speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
   },
@@ -210,7 +208,7 @@ var VisEdge = Backbone.Model.extend({
     this.get('path').stop().animate({
         path: newPath
       },
-      speed || this.get('animationSpeed'),
+      speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
   },

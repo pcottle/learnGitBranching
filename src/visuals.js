@@ -71,19 +71,21 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
  **************************************/
 
 GitVisuals.prototype.refreshTree = function() {
-  if (!this.paperReady) { console.warn('called refresh tree when not ready yet'); return; }
-
   this.calculateTreeCoords();
-  this.animateNodePositions();
-  this.animateEdges();
-  this.animateRefs();
+
+  this.animateAll();
 };
 
 GitVisuals.prototype.refreshTreeHarsh = function() {
   this.calculateTreeCoords();
 
-  this.animateEdges();
-  this.animateNodePositions();
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
 };
 
 GitVisuals.prototype.calculateTreeCoords = function() {
@@ -180,9 +182,9 @@ GitVisuals.prototype.calcDepth = function() {
 
  **************************************/
 
-GitVisuals.prototype.animateNodePositions = function() {
+GitVisuals.prototype.animateNodePositions = function(speed) {
   _.each(this.visNodeMap, function(visNode) {
-    visNode.animateUpdatedPosition();
+    visNode.animateUpdatedPosition(speed);
   }, this);
 };
 
@@ -196,15 +198,15 @@ GitVisuals.prototype.addBranch = function(branch) {
   }
 };
 
-GitVisuals.prototype.animateRefs = function() {
+GitVisuals.prototype.animateRefs = function(speed) {
   this.visBranchCollection.each(function(visBranch) {
-    visBranch.animateUpdatedPos(paper);
+    visBranch.animateUpdatedPos(speed);
   }, this);
 };
 
-GitVisuals.prototype.animateEdges = function() {
+GitVisuals.prototype.animateEdges = function(speed) {
   this.edgeCollection.each(function(edge) {
-    edge.animateUpdatedPath();
+    edge.animateUpdatedPath(speed);
   }, this);
 };
 
@@ -232,7 +234,12 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = function(width, height) {
   this.paperWidth = width;
   this.paperHeight = height;
-  // TODO figure out whether we are animating or not and possibly delay this
+
+  // there will be one resize before paper is ready -- if so, dont call it
+  if (!this.paperReady) {
+    return;
+  }
+
   this.refreshTree();
 };
 
@@ -294,7 +301,7 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
     visBranch.genGraphics(paper);
   }, this);
 
-  this.refreshTree();
+  this.refreshTreeHarsh();
 };
 
 
