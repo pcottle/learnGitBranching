@@ -72,7 +72,9 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
  **************************************/
 
 GitVisuals.prototype.refreshTree = function() {
+  // this method can only be called after graphics are rendered
   this.calculateTreeCoords();
+  this.calculateGraphicsCoords();
 
   this.animateAll();
 };
@@ -84,12 +86,15 @@ GitVisuals.prototype.refreshTreeHarsh = function() {
 };
 
 GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
   this.animateEdges(speed);
   this.animateNodePositions(speed);
   this.animateRefs(speed);
 };
 
 GitVisuals.prototype.calculateTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
   if (!this.rootCommit) {
     throw new Error('grr, no root commit!');
   }
@@ -98,6 +103,12 @@ GitVisuals.prototype.calculateTreeCoords = function() {
   this.calcWidth();
 
   this.calcBranchStacks();
+};
+
+GitVisuals.prototype.calculateGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
@@ -313,6 +324,14 @@ GitVisuals.prototype.collectionChanged = function() {
 };
 
 GitVisuals.prototype.zIndexReflow = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+  });
+
   this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFront();
   });

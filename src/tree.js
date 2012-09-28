@@ -95,8 +95,8 @@ var VisBranch = Backbone.Model.extend({
     // head side point
     var next2 = offset2d(next, 0, -this.get('arrowEdgeHeight'));
     // head point
-    var next3 = offset2d(this.getTextPosition(),
-      -this.get('arrowLength') * this.get('arrowRatio'), 0);
+    var next3 = offset2d(this.getCommitPosition(),
+      3, 0);
 
     // get the next three points in backwards order
     var end = offset2d(this.getRectPosition(), overlap, this.getSingleRectSize().h - this.get('arrowInnerMargin'));
@@ -125,10 +125,7 @@ var VisBranch = Backbone.Model.extend({
       maxWidth = Math.max(maxWidth, getTextWidth(
         branch.obj.get('visBranch')
       ));
-      console.log('this branch', branch.id, 'is selected', branch.selected);
-      console.log('and i just calculated its width', getTextWidth(branch.obj.get('visBranch')));
     });
-    console.log('I am ****', this.getName(), ' and got max width of', maxWidth);
 
     return {
       w: maxWidth,
@@ -166,6 +163,11 @@ var VisBranch = Backbone.Model.extend({
 
     var add = (selected == name) ? '*' : '';
     return name + add;
+  },
+
+  nonTextToFront: function() {
+    this.get('arrow').toFront();
+    this.get('rect').toFront();
   },
 
   textToFront: function() {
@@ -206,15 +208,18 @@ var VisBranch = Backbone.Model.extend({
     text.toFront();
   },
 
+  updateName: function() {
+    this.get('text').attr({
+      text: this.getName()
+    });
+  },
+
   animateUpdatedPos: function(speed, easing) {
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
     var masterOpacity = this.getBranchStackIndex() == 0 ? 1 : 0.0;
 
-    this.get('text').attr({
-      text: this.getName()
-    });
-
+    this.updateName();
     var textPos = this.getTextPosition();
     this.get('text').stop().animate({
       x: textPos.x,
@@ -277,6 +282,10 @@ var VisNode = Backbone.Model.extend({
     }
     var pos = this.get('pos');
     pos.y = this.get('depth') * depthIncrement;
+  },
+
+  toFront: function() {
+    this.get('circle').toFront();
   },
 
   animateUpdatedPosition: function(speed, easing) {
