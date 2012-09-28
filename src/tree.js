@@ -32,11 +32,28 @@ var VisBranch = Backbone.Model.extend({
     return visNode.getScreenCoords();
   },
 
+  getBranchStackIndex: function() {
+    var myArray = this.getBranchStackArray();
+    return myArray.indexOf(this.get('branch').get('id'));
+  },
+
+  getBranchStackLength: function() {
+    return this.getBranchStackArray().length;
+  },
+
+  getBranchStackArray: function() {
+    return gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+  },
+
   getTextPosition: function() {
     var pos = this.getCommitPosition();
+
+    // then order yourself accordingly. we use alphabetical sorting
+    // so everything is independent
+    var myPos = this.getBranchStackIndex();
     return {
       x: pos.x + this.get('offsetX'),
-      y: pos.y + this.get('offsetY')
+      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
     };
   },
 
@@ -51,6 +68,7 @@ var VisBranch = Backbone.Model.extend({
   },
 
   getArrowPath: function() {
+    // should make these util functions...
     var offset2d = function(pos, x, y) {
       return {
         x: pos.x + x,
@@ -62,7 +80,7 @@ var VisBranch = Backbone.Model.extend({
     };
 
 
-    // worst variable names evar
+    // worst variable names evar!!! warning
     // start at rect corner
     var overlap = 5;
     var startPos = offset2d(this.getRectPosition(), overlap, this.get('arrowInnerMargin'));
@@ -75,7 +93,7 @@ var VisBranch = Backbone.Model.extend({
       -this.get('arrowLength') * this.get('arrowRatio'), 0);
 
     // get the next three points in backwards order
-    var end = offset2d(this.getRectPosition(), overlap, this.getRectSize().h - this.get('arrowInnerMargin'));
+    var end = offset2d(this.getRectPosition(), overlap, this.getSingleRectSize().h - this.get('arrowInnerMargin'));
     var beforeEnd = offset2d(end, -this.get('arrowLength'), 0);
     var beforeBeforeEnd = offset2d(beforeEnd, 0, this.get('arrowEdgeHeight'));
 
@@ -98,14 +116,27 @@ var VisBranch = Backbone.Model.extend({
     };
   },
 
-  getRectSize: function() {
+  getSingleRectSize: function() {
     var textSize = this.getTextSize();
-    // enforce padding
     var vPad = this.get('vPad');
     var hPad = this.get('hPad');
     return {
       w: textSize.w + vPad * 2,
       h: textSize.h + hPad * 2
+    };
+  },
+
+  getRectSize: function() {
+    var textSize = this.getTextSize();
+    // enforce padding
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+
+    // number of other branch names we are housing
+    var totalNum = this.getBranchStackLength();
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h * totalNum + hPad * 2
     };
   },
 
@@ -115,6 +146,10 @@ var VisBranch = Backbone.Model.extend({
 
     var add = (selected == name) ? '*' : '';
     return name + add;
+  },
+
+  textToFront: function() {
+    this.get('text').toFront();
   },
 
   genGraphics: function(paper) {
@@ -153,6 +188,7 @@ var VisBranch = Backbone.Model.extend({
   animateUpdatedPos: function(speed, easing) {
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
+    var masterOpacity = this.getBranchStackIndex() == 0 ? 1 : 0.0;
 
     this.get('text').attr({
       text: this.getName()
@@ -169,12 +205,14 @@ var VisBranch = Backbone.Model.extend({
       x: rectPos.x,
       y: rectPos.y,
       width: rectSize.w,
-      height: rectSize.h
+      height: rectSize.h,
+      opacity: masterOpacity,
     }, s, e);
 
     var arrowPath = this.getArrowPath();
     this.get('arrow').stop().animate({
-      path: arrowPath
+      path: arrowPath,
+      opacity: masterOpacity
     }, s, e);
   }
 });

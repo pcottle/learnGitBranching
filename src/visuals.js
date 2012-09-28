@@ -8,6 +8,7 @@ function GitVisuals(options) {
 
   this.commitMap = {};
   this.rootCommit = null;
+  this.branchStackMap = {};
 
   this.paperReady = false;
   this.paperWidth = null;
@@ -95,6 +96,21 @@ GitVisuals.prototype.calculateTreeCoords = function() {
 
   this.calcDepth();
   this.calcWidth();
+
+  this.calcBranchStacks();
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch.id);
+    map[thisId].sort();
+  });
+  this.branchStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {
@@ -195,6 +211,7 @@ GitVisuals.prototype.addBranch = function(branch) {
   this.visBranchCollection.add(visBranch);
   if (this.paperReady) {
     visBranch.genGraphics(paper);
+    this.zIndexReflow();
   }
 };
 
@@ -287,8 +304,16 @@ GitVisuals.prototype.collectionChanged = function() {
   // redo stuff
 };
 
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.textToFront();
+  });
+};
+
 GitVisuals.prototype.drawTreeFirstTime = function() {
   this.paperReady = true;
+  this.calculateTreeCoords();
+
   _.each(this.visNodeMap, function(visNode) {
     visNode.genGraphics(paper);
   }, this);
@@ -301,7 +326,7 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
     visBranch.genGraphics(paper);
   }, this);
 
-  this.refreshTreeHarsh();
+  this.zIndexReflow();
 };
 
 

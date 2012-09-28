@@ -11,11 +11,11 @@ animation factory? stuff like:
 -clearHighlightsAllNodes
 
 
-
 ALSO other big things:
 
 - Text on commit nodes
 - Division in their rings based on how many / what branches they are part of
+- Color on branch edges??
 
 - Commits go transparent when no longer downstream of anything (also their weights are adjusted? and sent to back?)
 

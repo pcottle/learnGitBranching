@@ -20,11 +20,12 @@ var GRAPHICS = {
   defaultAnimationTime: 300,
   rectFill: '#FF3A3A',
   rectStroke: '#FFF',
-  rectStrokeWidth: '3'
+  rectStrokeWidth: '3',
+  multiBranchY: 20,
 };
 
 /**
- * Graphics style
+ * Graphics style -- DEPRECATED
  */
 var graphics = {
   // colors
@@ -46,7 +47,7 @@ var graphics = {
   arrowFill: '#FFF',
   arrowStroke: '#000',
   arrowWidth: 4,
-  arrowHeadWidth: 5
+  arrowHeadWidth: 5,
 };
 
 function randomString(string_length) {
