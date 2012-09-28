@@ -154,10 +154,10 @@ var VisBranch = Backbone.Model.extend({
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 
-    var textPos = this.getTextPosition();
     this.get('text').attr({
       text: this.getName()
     });
+    var textPos = this.getTextPosition();
     this.get('text').stop().animate({
       x: textPos.x,
       y: textPos.y
