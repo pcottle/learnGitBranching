@@ -34,7 +34,13 @@ var VisBranch = Backbone.Model.extend({
 
   getBranchStackIndex: function() {
     var myArray = this.getBranchStackArray();
-    return myArray.indexOf(this.get('branch').get('id'));
+    var index = -1;
+    _.each(myArray, function(branch, i) {
+      if (branch.obj == this.get('branch')) {
+        index = i;
+      }
+    }, this);
+    return index;
   },
 
   getBranchStackLength: function() {
@@ -107,11 +113,25 @@ var VisBranch = Backbone.Model.extend({
   },
 
   getTextSize: function() {
+    var getTextWidth = function(visBranch) {
+      var textNode = visBranch.get('text').node;
+      return textNode.clientWidth;
+    };
+
     var textNode = this.get('text').node;
-    var w = textNode.clientWidth;
-    var h = textNode.clientHeight;
+
+    var maxWidth = 0;
+    _.each(this.getBranchStackArray(), function(branch) {
+      maxWidth = Math.max(maxWidth, getTextWidth(
+        branch.obj.get('visBranch')
+      ));
+      console.log('this branch', branch.id, 'is selected', branch.selected);
+      console.log('and i just calculated its width', getTextWidth(branch.obj.get('visBranch')));
+    });
+    console.log('I am ****', this.getName(), ' and got max width of', maxWidth);
+
     return {
-      w: textNode.clientWidth,
+      w: maxWidth,
       h: textNode.clientHeight
     };
   },
@@ -158,7 +178,8 @@ var VisBranch = Backbone.Model.extend({
     var name = this.getName();
     var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
-      'font-size': 16
+      'font-size': 14,
+      'font-family': 'Monaco, Courier, font-monospace'
     });
     this.set('text', text);
 
@@ -193,6 +214,7 @@ var VisBranch = Backbone.Model.extend({
     this.get('text').attr({
       text: this.getName()
     });
+
     var textPos = this.getTextPosition();
     this.get('text').stop().animate({
       x: textPos.x,

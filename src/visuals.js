@@ -107,8 +107,15 @@ GitVisuals.prototype.calcBranchStacks = function() {
     var thisId = branch.target.get('id');
 
     map[thisId] = map[thisId] || [];
-    map[thisId].push(branch.id);
-    map[thisId].sort();
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
   });
   this.branchStackMap = map;
 };
@@ -208,10 +215,11 @@ GitVisuals.prototype.addBranch = function(branch) {
   var visBranch = new VisBranch({
     branch: branch
   });
+  branch.set('visBranch', visBranch);
+
   this.visBranchCollection.add(visBranch);
   if (this.paperReady) {
     visBranch.genGraphics(paper);
-    this.zIndexReflow();
   }
 };
 

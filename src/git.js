@@ -61,6 +61,13 @@ GitEngine.prototype.validateBranchName = function(name) {
       msg: 'branch name of "head" is ambiguous, dont name it that'
     });
   }
+  if (name.length > 9) {
+    name = name.slice(0, 9);
+    this.command.addWarning(
+      'Sorry, we need to keep branch names short for the visuals. Your branch ' +
+      'name was truncated to 9 characters, resulting in ' + name
+    );
+  }
   return name;
 };
 
@@ -91,7 +98,8 @@ GitEngine.prototype.getBranches = function() {
     toReturn.push({
       id: branch.get('id'),
       selected: this.HEAD.get('target') === branch,
-      target: branch.get('target')
+      target: branch.get('target'),
+      obj: branch
     });
   }, this);
   return toReturn;
@@ -568,8 +576,9 @@ GitEngine.prototype.checkoutStarter = function() {
     if (args.length == 1) {
       args.push('HEAD');
     }
-    this.branch(args[0], args[1]);
-    this.checkout(args[0]);
+    var validId = this.validateBranchName(args[0]);
+    this.branch(validId, args[1]);
+    this.checkout(validId);
     return;
   }
 
@@ -634,6 +643,7 @@ GitEngine.prototype.branchStarter = function() {
     // making a branch from where we are now
     this.generalArgs.push('HEAD');
   }
+
   this.branch(this.generalArgs[0], this.generalArgs[1]);
 };
 
@@ -715,6 +725,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
       gitVisuals.refreshTree();
     }
   }));
+
   // TODO (get rid of)
   for (var i = 0; i < 1; i++) {
     this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));
@@ -840,6 +851,10 @@ var Ref = Backbone.Model.extend({
 });
 
 var Branch = Ref.extend({
+  defaults: {
+    visBranch: null,
+  },
+
   initialize: function() {
     Ref.prototype.initialize.call(this);
     this.set('type', 'branch');
@@ -853,7 +868,8 @@ var Commit = Backbone.Model.extend({
     parents: null,
     author: 'Peter Cottle',
     createTime: null,
-    commitMessage: null
+    commitMessage: null,
+    visNode: null
   },
 
  getLogEntry: function() {
