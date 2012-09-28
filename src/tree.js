@@ -6,10 +6,11 @@ var VisBranch = Backbone.Model.extend({
     arrow: null,
     offsetX: GRAPHICS.nodeRadius * 4.75,
     offsetY: 0,
-    arrowInnerMargin: 8,
-    arrowLength: 15,
-    arrowRatio: 3.5,
-    arrowEdgeHeight: 5,
+    arrowHeight: 14,
+    arrowInnerSkew: 0,
+    arrowEdgeHeight: 6,
+    arrowLength: 14,
+    arrowOffsetFromCircleX: 10,
     vPad: 5,
     hPad: 5,
     animationSpeed: GRAPHICS.defaultAnimationTime,
@@ -81,32 +82,42 @@ var VisBranch = Backbone.Model.extend({
         y: pos.y + y
       };
     };
-    var coords = function(pos) {
+    var toStringCoords = function(pos) {
       return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
     };
 
+    var arrowTip = offset2d(this.getCommitPosition(),
+      this.get('arrowOffsetFromCircleX'),
+      0
+    );
+    var arrowEdgeUp = offset2d(arrowTip, this.get('arrowLength'), -this.get('arrowHeight'));
+    var arrowEdgeLow = offset2d(arrowTip, this.get('arrowLength'), this.get('arrowHeight'));
 
-    // worst variable names evar!!! warning
-    // start at rect corner
-    var overlap = 5;
-    var startPos = offset2d(this.getRectPosition(), overlap, this.get('arrowInnerMargin'));
-    // first the beginning of the head
-    var next = offset2d(startPos, -this.get('arrowLength'), 0);
-    // head side point
-    var next2 = offset2d(next, 0, -this.get('arrowEdgeHeight'));
-    // head point
-    var next3 = offset2d(this.getCommitPosition(),
-      3, 0);
+    var arrowInnerUp = offset2d(arrowEdgeUp,
+      this.get('arrowInnerSkew'),
+      this.get('arrowEdgeHeight')
+    );
+    var arrowInnerLow = offset2d(arrowEdgeLow,
+      this.get('arrowInnerSkew'),
+      -this.get('arrowEdgeHeight')
+    );
 
-    // get the next three points in backwards order
-    var end = offset2d(this.getRectPosition(), overlap, this.getSingleRectSize().h - this.get('arrowInnerMargin'));
-    var beforeEnd = offset2d(end, -this.get('arrowLength'), 0);
-    var beforeBeforeEnd = offset2d(beforeEnd, 0, this.get('arrowEdgeHeight'));
+    var tailLength = 30;
+    var arrowStartUp = offset2d(arrowInnerUp, tailLength, 0);
+    var arrowStartLow = offset2d(arrowInnerLow, tailLength, 0);
 
     var pathStr = '';
-    pathStr += 'M' + coords(startPos) + ' ';
-    _.each([next, next2, next3, beforeBeforeEnd, beforeEnd, end], function(pos) {
-      pathStr += 'L' + coords(pos) + ' ';
+    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
+    var coords = [
+      arrowInnerUp,
+      arrowEdgeUp,
+      arrowTip,
+      arrowEdgeLow,
+      arrowInnerLow,
+      arrowStartLow
+    ];
+    _.each(coords, function(pos) {
+      pathStr += 'L' + toStringCoords(pos) + ' ';
     }, this);
     pathStr += 'z';
     return pathStr;
