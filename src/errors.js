@@ -12,6 +12,9 @@ var MyError = Backbone.Model.extend({
   },
 
   toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
     return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
   }
 });
