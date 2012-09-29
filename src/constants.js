@@ -18,9 +18,12 @@ var GRAPHICS = {
   curveControlPointOffset: 50,
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 300,
+
   rectFill: '#FF3A3A',
+  headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
+
   multiBranchY: 20,
   upstreamHeadOpacity: 0.5,
   upstreamNoneOpacity: 0.2,

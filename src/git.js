@@ -40,6 +40,9 @@ GitEngine.prototype.init = function() {
 
   // commit once to get things going
   this.commit();
+
+  // now we are ready
+  events.trigger('gitEngineReady', this);
 };
 
 GitEngine.prototype.getDetachedHead = function() {

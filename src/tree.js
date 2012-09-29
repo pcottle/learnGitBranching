@@ -4,6 +4,12 @@ var VisBranch = Backbone.Model.extend({
     text: null,
     rect: null,
     arrow: null,
+    isHead: false,
+    flip: 1,
+
+    fill: GRAPHICS.rectFill,
+    stroke: GRAPHICS.rectStroke,
+
     offsetX: GRAPHICS.nodeRadius * 4.75,
     offsetY: 0,
     arrowHeight: 14,
@@ -11,8 +17,10 @@ var VisBranch = Backbone.Model.extend({
     arrowEdgeHeight: 6,
     arrowLength: 14,
     arrowOffsetFromCircleX: 10,
+
     vPad: 5,
     hPad: 5,
+
     animationSpeed: GRAPHICS.defaultAnimationTime,
     animationEasing: GRAPHICS.defaultEasing
   },
@@ -25,15 +33,27 @@ var VisBranch = Backbone.Model.extend({
 
   initialize: function() {
     this.validateAtInit();
+    if (this.get('branch').get('id') == 'HEAD') {
+      // switch to a head ref
+      this.set('isHead', true);
+      this.set('flip', -1);
+
+      this.set('fill', GRAPHICS.headRectFill);
+    }
   },
 
   getCommitPosition: function() {
-    var commit = this.get('branch').get('target');
+    var commit = gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
     return visNode.getScreenCoords();
   },
 
   getBranchStackIndex: function() {
+    if (this.get('isHead')) {
+      // head is never stacked with other branches
+      return 0;
+    }
+
     var myArray = this.getBranchStackArray();
     var index = -1;
     _.each(myArray, function(branch, i) {
@@ -45,11 +65,23 @@ var VisBranch = Backbone.Model.extend({
   },
 
   getBranchStackLength: function() {
+    if (this.get('isHead')) { 
+      // head is always by itself
+      return 1;
+    }
+
     return this.getBranchStackArray().length;
   },
 
   getBranchStackArray: function() {
-    return gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    var arr = gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    if (arr === undefined) {
+      // this only occurs when we are generating graphics inside of
+      // a new Branch instantiation, so we need to force the update
+      gitVisuals.calcBranchStacks();
+      return this.getBranchStackArray();
+    }
+    return arr;
   },
 
   getTextPosition: function() {
@@ -59,13 +91,14 @@ var VisBranch = Backbone.Model.extend({
     // so everything is independent
     var myPos = this.getBranchStackIndex();
     return {
-      x: pos.x + this.get('offsetX'),
+      x: pos.x + this.get('flip') * this.get('offsetX'),
       y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
     };
   },
 
   getRectPosition: function() {
     var pos = this.getTextPosition();
+    var f = this.get('flip');
     // first get text width and height
     var textSize = this.getTextSize();
     return {
@@ -85,26 +118,27 @@ var VisBranch = Backbone.Model.extend({
     var toStringCoords = function(pos) {
       return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
     };
+    var f = this.get('flip');
 
     var arrowTip = offset2d(this.getCommitPosition(),
-      this.get('arrowOffsetFromCircleX'),
+      f * this.get('arrowOffsetFromCircleX'),
       0
     );
-    var arrowEdgeUp = offset2d(arrowTip, this.get('arrowLength'), -this.get('arrowHeight'));
-    var arrowEdgeLow = offset2d(arrowTip, this.get('arrowLength'), this.get('arrowHeight'));
+    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
+    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
 
     var arrowInnerUp = offset2d(arrowEdgeUp,
-      this.get('arrowInnerSkew'),
+      f * this.get('arrowInnerSkew'),
       this.get('arrowEdgeHeight')
     );
     var arrowInnerLow = offset2d(arrowEdgeLow,
-      this.get('arrowInnerSkew'),
+      f * this.get('arrowInnerSkew'),
       -this.get('arrowEdgeHeight')
     );
 
     var tailLength = 30;
-    var arrowStartUp = offset2d(arrowInnerUp, tailLength, 0);
-    var arrowStartLow = offset2d(arrowInnerLow, tailLength, 0);
+    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
+    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
 
     var pathStr = '';
     pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
@@ -130,6 +164,13 @@ var VisBranch = Backbone.Model.extend({
     };
 
     var textNode = this.get('text').node;
+    if (this.get('isHead')) {
+      // HEAD is a special case
+      return {
+        w: textNode.clientWidth,
+        h: textNode.clientHeight
+      };
+    }
 
     var maxWidth = 0;
     _.each(this.getBranchStackArray(), function(branch) {
@@ -192,7 +233,8 @@ var VisBranch = Backbone.Model.extend({
     var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace'
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getTextOpacity()
     });
     this.set('text', text);
 
@@ -200,18 +242,20 @@ var VisBranch = Backbone.Model.extend({
     var sizeOfRect = this.getRectSize();
     var rect = paper.rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8);
     rect.attr({
-      fill: GRAPHICS.rectFill,
-      stroke: GRAPHICS.rectStroke,
-      'stroke-width': GRAPHICS.rectStrokeWidth
+      fill: this.get('fill'),
+      stroke: this.get('stroke'),
+      'stroke-width': GRAPHICS.rectStrokeWidth,
+      opacity: this.getNonTextOpacity()
     });
     this.set('rect', rect);
 
     var arrowPath = this.getArrowPath();
     var arrow = paper.path(arrowPath);
     arrow.attr({
-      fill: GRAPHICS.rectFill,
-      stroke: GRAPHICS.rectStroke,
-      'stroke-width': GRAPHICS.rectStrokeWidth
+      fill: this.get('fill'),
+      stroke: this.get('stroke'),
+      'stroke-width': GRAPHICS.rectStrokeWidth,
+      opacity: this.getNonTextOpacity()
     });
     this.set('arrow', arrow);
 
@@ -225,16 +269,32 @@ var VisBranch = Backbone.Model.extend({
     });
   },
 
+  getNonTextOpacity: function() {
+    if (this.get('isHead')) {
+      return gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
+  },
+
+  getTextOpacity: function() {
+    if (this.get('isHead')) {
+      return gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return 1;
+  },
+
   animateUpdatedPos: function(speed, easing) {
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
-    var masterOpacity = this.getBranchStackIndex() == 0 ? 1 : 0.0;
+    var nonTextOpacity = this.getNonTextOpacity();
+    var textOpacity = this.getTextOpacity();
 
     this.updateName();
     var textPos = this.getTextPosition();
     this.get('text').stop().animate({
       x: textPos.x,
-      y: textPos.y
+      y: textPos.y,
+      opacity: textOpacity
     }, s, e);
 
     var rectPos = this.getRectPosition();
@@ -244,13 +304,13 @@ var VisBranch = Backbone.Model.extend({
       y: rectPos.y,
       width: rectSize.w,
       height: rectSize.h,
-      opacity: masterOpacity,
+      opacity: nonTextOpacity,
     }, s, e);
 
     var arrowPath = this.getArrowPath();
     this.get('arrow').stop().animate({
       path: arrowPath,
-      opacity: masterOpacity
+      opacity: nonTextOpacity 
     }, s, e);
   }
 });
@@ -259,6 +319,7 @@ var VisBranch = Backbone.Model.extend({
 var VisNode = Backbone.Model.extend({
   defaults: {
     depth: undefined,
+    maxWidth: null,
     id: null,
     pos: null,
     radius: null,
@@ -293,6 +354,19 @@ var VisNode = Backbone.Model.extend({
     }
     var pos = this.get('pos');
     pos.y = this.get('depth') * depthIncrement;
+  },
+
+  getMaxWidthScaled: function() {
+    // returns our max width scaled based on if we are visible
+    // from a branch or not
+    var stat = gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var map = {
+      branch: 1,
+      head: 0.3,
+      none: 0.1
+    };
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat] * this.get('maxWidth');
   },
 
   toFront: function() {

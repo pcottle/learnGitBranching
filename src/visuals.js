@@ -5,8 +5,8 @@ function GitVisuals(options) {
 
   this.edgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
-
   this.commitMap = {};
+
   this.rootCommit = null;
   this.branchStackMap = null;
   this.upstreamBranchSet = null;
@@ -30,7 +30,15 @@ function GitVisuals(options) {
   events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
+  events.on('gitEngineReady', this.whenGitEngineReady, this);
 }
+
+GitVisuals.prototype.whenGitEngineReady = function(gitEngine) {
+  // seed this with the HEAD pseudo-branch
+  this.visBranchCollection.add(new VisBranch({
+    branch: gitEngine.HEAD
+  }));
+};
 
 GitVisuals.prototype.getScreenBounds = function() {
   // for now we return the node radius subtracted from the walls
@@ -57,7 +65,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 };
 
 /***************************************
-     == Tree Calculation Parts ==
+     == BEGIN Tree Calculation Parts ==
        _  __    __  _
        \\/ /    \ \//_
         \ \     /   __|   __
@@ -101,11 +109,11 @@ GitVisuals.prototype.calcTreeCoords = function() {
     throw new Error('grr, no root commit!');
   }
 
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
   this.calcDepth();
   this.calcWidth();
-
-  this.calcBranchStacks();
-  this.calcUpstreamSets();
 };
 
 GitVisuals.prototype.calcGraphicsCoords = function() {
@@ -116,7 +124,6 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = gitEngine.getUpstreamBranchSet();
-
   this.upstreamHeadSet = gitEngine.getUpstreamHeadSet();
 };
 
@@ -193,7 +200,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   var totalFlex = 0;
   var children = commit.get('children');
   _.each(children, function(child) {
-    totalFlex += child.get('visNode').get('maxWidth');
+    totalFlex += child.get('visNode').getMaxWidthScaled();
   }, this);
 
   var prevBound = min;
@@ -201,7 +208,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // now go through and do everything
   // TODO: order so the max width children are in the middle!!
   _.each(children, function(child) {
-    var flex = child.get('visNode').get('maxWidth');
+    var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
     var childMin = prevBound;
     var childMax = childMin + portion;
