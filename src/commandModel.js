@@ -37,6 +37,10 @@ var Command = Backbone.Model.extend({
     }
   },
 
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
   addWarning: function(msg) {
     this.get('warnings').push(msg);
     // change numWarnings so the change event fires. This is bizarre -- Backbone can't

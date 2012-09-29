@@ -17,5 +17,5 @@ ALSO other big things:
 - Division in their rings based on how many / what branches they are part of
 - Color on branch edges??
 
-- sizing on visedge arrowheads, also fill most likely.
+- sizing on visedge arrowheads, also fill most likely
 

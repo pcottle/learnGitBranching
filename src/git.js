@@ -492,9 +492,10 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
     this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
-    throw new CommandResult({
-      msg: 'Fast-forwarding...'
-    });
+    // we need the refresh tree animation to happen, so set the result directly
+    // instead of throwing
+    this.command.setResult('Fast-forwarding...');
+    return;
   }
 
   // now the part of actually rebasing.
