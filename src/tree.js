@@ -299,11 +299,45 @@ var VisNode = Backbone.Model.extend({
     this.get('circle').toFront();
   },
 
+  getOpacity: function() {
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.upstreamHeadOpacity,
+      'none': GRAPHICS.upstreamNoneOpacity
+    };
+    var stat = this.getUpstreamStatus();
+    if (map[stat] === undefined) {
+      throw new Error('invalid status');
+    }
+    return map[stat];
+  },
+
+  getUpstreamStatus: function() {
+    if (!gitVisuals.upstreamBranchSet) {
+      throw new Error("Can't call this method yet");
+    }
+
+    var id = this.get('id');
+    var branch = gitVisuals.upstreamBranchSet;
+    var head = gitVisuals.upstreamHeadSet;
+
+    if (branch[id] && branch[id].length) {
+      return 'branch';
+    } else if (head[id] && head[id].length) {
+      return 'head';
+    } else {
+      return 'none'
+    }
+  },
+
   animateUpdatedPosition: function(speed, easing) {
     var pos = this.getScreenCoords();
+    var opacity = this.getOpacity();
+
     this.get('circle').stop().animate({
         cx: pos.x,
-        cy: pos.y
+        cy: pos.y,
+        opacity: opacity
       },
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')

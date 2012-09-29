@@ -8,7 +8,9 @@ function GitVisuals(options) {
 
   this.commitMap = {};
   this.rootCommit = null;
-  this.branchStackMap = {};
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
 
   this.paperReady = false;
   this.paperWidth = null;
@@ -73,14 +75,14 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 
 GitVisuals.prototype.refreshTree = function() {
   // this method can only be called after graphics are rendered
-  this.calculateTreeCoords();
-  this.calculateGraphicsCoords();
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
 
   this.animateAll();
 };
 
 GitVisuals.prototype.refreshTreeHarsh = function() {
-  this.calculateTreeCoords();
+  this.calcTreeCoords();
 
   this.animateAll(0);
 };
@@ -93,7 +95,7 @@ GitVisuals.prototype.animateAll = function(speed) {
   this.animateRefs(speed);
 };
 
-GitVisuals.prototype.calculateTreeCoords = function() {
+GitVisuals.prototype.calcTreeCoords = function() {
   // this method can only contain things that dont rely on graphics
   if (!this.rootCommit) {
     throw new Error('grr, no root commit!');
@@ -103,12 +105,18 @@ GitVisuals.prototype.calculateTreeCoords = function() {
   this.calcWidth();
 
   this.calcBranchStacks();
+  this.calcUpstreamSets();
 };
 
-GitVisuals.prototype.calculateGraphicsCoords = function() {
+GitVisuals.prototype.calcGraphicsCoords = function() {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.updateName();
   });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = gitEngine.getUpstreamHeadSet();
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
@@ -172,7 +180,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   var prevBound = min;
 
   // now go through and do everything
-  // TODO: order so the max width children are in the middle
+  // TODO: order so the max width children are in the middle!!
   _.each(children, function(child) {
     var flex = child.get('visNode').get('maxWidth');
     var portion = (flex / totalFlex) * myLength;
@@ -339,7 +347,7 @@ GitVisuals.prototype.zIndexReflow = function() {
 
 GitVisuals.prototype.drawTreeFirstTime = function() {
   this.paperReady = true;
-  this.calculateTreeCoords();
+  this.calcTreeCoords();
 
   _.each(this.visNodeMap, function(visNode) {
     visNode.genGraphics(paper);

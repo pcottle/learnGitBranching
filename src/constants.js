@@ -22,6 +22,8 @@ var GRAPHICS = {
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
   multiBranchY: 20,
+  upstreamHeadOpacity: 0.5,
+  upstreamNoneOpacity: 0.2,
 };
 
 /**

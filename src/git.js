@@ -308,7 +308,40 @@ GitEngine.prototype.getCommitFromRef = function(ref) {
 GitEngine.prototype.setLocationTarget = function(ref, target) {
   var ref = this.getOneBeforeCommit(ref);
   ref.set('target', target);
-}
+};
+
+GitEngine.prototype.getUpstreamBranchSet = function() {
+  // this is expensive!! so only call once in a while
+  var commitToSet = {};
+
+  var bfsSearch = function(commit) {
+    var set = [];
+    var pQueue = [commit];
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      set.push(popped.get('id'));
+
+      if (popped.get('parents') && popped.get('parents').length) {
+        pQueue = pQueue.concat(popped.get('parents'));
+      }
+    }
+    return set;
+  };
+
+  this.branches.each(function(branch) {
+    var set = bfsSearch(branch.get('target'));
+    _.each(set, function(id) {
+      commitToSet[id] = commitToSet[id] || [];
+      commitToSet[id].push(branch.get('id'));
+    });
+  });
+
+  return commitToSet;
+};
+
+GitEngine.prototype.getUpstreamHeadSet = function() {
+  return this.getUpstreamSet('HEAD');
+};
 
 GitEngine.prototype.getOneBeforeCommit = function(ref) {
   // you can call this command on HEAD in detached, HEAD, or on a branch
@@ -725,11 +758,6 @@ GitEngine.prototype.dispatch = function(command, callback) {
       gitVisuals.refreshTree();
     }
   }));
-
-  // TODO (get rid of)
-  for (var i = 0; i < 1; i++) {
-    this.animationQueue.add(new Animation({closure: function() { console.log(Math.random()); }}));
-  }
 
   // animation queue will call the callback when its done
   this.animationQueue.start();
