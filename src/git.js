@@ -340,7 +340,11 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
 };
 
 GitEngine.prototype.getUpstreamHeadSet = function() {
-  return this.getUpstreamSet('HEAD');
+  var set = this.getUpstreamSet('HEAD');
+  var including = this.getCommitFromRef('HEAD').get('id');
+
+  set[including] = true;
+  return set;
 };
 
 GitEngine.prototype.getOneBeforeCommit = function(ref) {

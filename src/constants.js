@@ -24,6 +24,8 @@ var GRAPHICS = {
   multiBranchY: 20,
   upstreamHeadOpacity: 0.5,
   upstreamNoneOpacity: 0.2,
+  edgeUpstreamHeadOpacity: 0.4,
+  edgeUpstreamNoneOpacity: 0.15
 };
 
 /**

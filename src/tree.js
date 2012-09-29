@@ -305,29 +305,12 @@ var VisNode = Backbone.Model.extend({
       'head': GRAPHICS.upstreamHeadOpacity,
       'none': GRAPHICS.upstreamNoneOpacity
     };
-    var stat = this.getUpstreamStatus();
+
+    var stat = gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     if (map[stat] === undefined) {
       throw new Error('invalid status');
     }
     return map[stat];
-  },
-
-  getUpstreamStatus: function() {
-    if (!gitVisuals.upstreamBranchSet) {
-      throw new Error("Can't call this method yet");
-    }
-
-    var id = this.get('id');
-    var branch = gitVisuals.upstreamBranchSet;
-    var head = gitVisuals.upstreamHeadSet;
-
-    if (branch[id] && branch[id].length) {
-      return 'branch';
-    } else if (head[id] && head[id].length) {
-      return 'head';
-    } else {
-      return 'none'
-    }
   },
 
   animateUpdatedPosition: function(speed, easing) {
@@ -423,7 +406,7 @@ var VisEdge = Backbone.Model.extend({
     str += coords(headPos);
 
     // arrow head
-    // TODO default sizing
+    // TODO default sizing? fill the arrow head?
     var delta = GRAPHICS.arrowHeadSize || 10;
     str += ' L' + coords(offset2d(headPos, -delta, delta));
     str += ' L' + coords(offset2d(headPos, delta, delta));
@@ -443,11 +426,26 @@ var VisEdge = Backbone.Model.extend({
     this.set('path', path);
   },
 
+  getOpacity: function() {
+    var stat = gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
   animateUpdatedPath: function(speed, easing) {
     var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+
     this.get('path').toBack();
     this.get('path').stop().animate({
-        path: newPath
+        path: newPath,
+        opacity: opacity
       },
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')

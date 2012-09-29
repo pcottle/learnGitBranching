@@ -116,7 +116,26 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = gitEngine.getUpstreamBranchSet();
+
   this.upstreamHeadSet = gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
