@@ -85,7 +85,6 @@ div.horizontal {
 
 #controls {
   max-width: 400px;
-  /* background: #4183C4; */
   background: #EEE;
 }
 
@@ -253,13 +252,16 @@ p.commandError, p.errorResult {
   color: red;
 }
 
+#commandLineBar #prompt span.promptSign,
 p.commandLine span.prompt {
   color: greenyellow;
   font-weight: bold;
 }
 
-#commandLineBar {
-  text-align: center;
+#commandLineBar #commandTextField {
+  position:fixed;
+  top: 0px;
+  left: 0px;
 }
 
 #commandLineHistory {
@@ -268,11 +270,30 @@ p.commandLine span.prompt {
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
 }
 
+#prompt {
+  text-align: left;
+}
+
+#commandLineBar,
 #terminal {
   background: #424242;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3) inset;
+}
+
+#terminal {
   border: 1px solid #6287A4;
-  border-radius: 0 0 5px 5px;
+  border-bottom: 0;
+
   -webkit-box-align: start;
+}
+
+#commandLineBar {
+  border: 1px solid #6287A4;
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  padding: 3px;
+}
+
+#commandLineBar {
+
 }
 

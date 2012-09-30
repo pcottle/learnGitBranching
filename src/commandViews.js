@@ -3,13 +3,28 @@ var CommandPromptView = Backbone.View.extend({
     this.collection = options.collection;
     this.commands = [];
     this.index = -1;
+
+    this.commandSpan = this.$('#prompt span.command')[0];
+
+    // this is evil, but we will refer to HTML outside the document
+    // and attach a click event listener
+    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
+      this.focus();
+    }, this));
   },
 
   events: {
     'keyup #commandTextField': 'keyUp'
   },
 
+  focus: function() {
+    this.$('#commandTextField').focus();
+  },
+
   keyUp: function(e) {
+    var el = e.srcElement;
+    this.updatePrompt(el)
+
     // we need to capture some of these events.
     // WARNING: this key map is not internationalized :(
     var keyMap = {
@@ -30,7 +45,22 @@ var CommandPromptView = Backbone.View.extend({
     if (keyMap[e.which] !== undefined) {
       e.preventDefault();
       keyMap[e.which]();
+      this.updatePrompt(el);
     }
+  },
+
+  updatePrompt: function(el) {
+    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
+    // super annoying delay to every keystroke... I have tried everything
+    // to make this more performant. getting the srcElement from the event,
+    // getting the value directly from the dom, etc etc. yet still,
+    // there's a very annoying and sightly noticeable command delay.
+    // try.github.com also has this, so I'm assuming those engineers gave up as
+    // well...
+
+    var val = el.value;
+    this.commandSpan.innerText = val;
+    //console.log(val, el.selectionStart, el.selectionEnd);
   },
 
   commandSelectChange: function(delta) {
@@ -103,7 +133,6 @@ var CommandView = Backbone.View.extend({
   },
 
   clicked: function(e) {
-    console.log('was clicked');
   },
 
   initialize: function() {
