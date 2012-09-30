@@ -81,16 +81,34 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 
  **************************************/
 
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.edgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
+};
+
 GitVisuals.prototype.refreshTree = function(speed) {
   // this method can only be called after graphics are rendered
-  this.calcTreeCoords();
-  this.calcGraphicsCoords();
+  this.fullCalc();
 
   this.animateAll(speed);
 };
 
 GitVisuals.prototype.refreshTreeHarsh = function() {
-  this.calcTreeCoords();
+  this.fullCalc();
 
   this.animateAll(0);
 };
@@ -101,6 +119,11 @@ GitVisuals.prototype.animateAll = function(speed) {
   this.animateEdges(speed);
   this.animateNodePositions(speed);
   this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
 };
 
 GitVisuals.prototype.calcTreeCoords = function() {

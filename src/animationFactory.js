@@ -46,6 +46,7 @@ AnimationFactory.prototype.genCommitBirthAnimationInSequence = function(animatio
 
   var time = GRAPHICS.defaultAnimationTime * 1.0;
   var bounceTime = time * 2.0;
+
   var toHide = commits.slice(index + 1);
   var visNode = commits[index].get('visNode');
 

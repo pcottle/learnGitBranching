@@ -31,6 +31,10 @@ var VisBranch = Backbone.Model.extend({
     }
   },
 
+  getID: function() {
+    return this.get('branch').get('id');
+  },
+
   initialize: function() {
     this.validateAtInit();
     if (this.get('branch').get('id') == 'HEAD') {
@@ -283,35 +287,49 @@ var VisBranch = Backbone.Model.extend({
     return 1;
   },
 
-  animateUpdatedPos: function(speed, easing) {
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
+  getAttributes: function() {
     var nonTextOpacity = this.getNonTextOpacity();
     var textOpacity = this.getTextOpacity();
-
     this.updateName();
-    var textPos = this.getTextPosition();
-    this.get('text').stop().animate({
-      x: textPos.x,
-      y: textPos.y,
-      opacity: textOpacity
-    }, s, e);
 
+    var textPos = this.getTextPosition();
     var rectPos = this.getRectPosition();
     var rectSize = this.getRectSize();
-    this.get('rect').stop().animate({
-      x: rectPos.x,
-      y: rectPos.y,
-      width: rectSize.w,
-      height: rectSize.h,
-      opacity: nonTextOpacity,
-    }, s, e);
 
     var arrowPath = this.getArrowPath();
-    this.get('arrow').stop().animate({
-      path: arrowPath,
-      opacity: nonTextOpacity 
-    }, s, e);
+
+    return {
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: textOpacity
+      },
+      rect: {
+        x: rectPos.x,
+        y: rectPos.y,
+        width: rectSize.w,
+        height: rectSize.h,
+        opacity: nonTextOpacity
+      },
+      arrow: {
+        path: arrowPath,
+        opacity: nonTextOpacity
+      }
+    };
+  },
+
+  animateUpdatedPos: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateFromAttributes(speed, easing, attr);
+  },
+
+  animateFromAttributes: function(speed, easing, attr) {
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('text').stop().animate(attr.text, s, e);
+    this.get('rect').stop().animate(attr.rect, s, e);
+    this.get('arrow').stop().animate(attr.arrow, s, e);
   }
 });
 
@@ -390,16 +408,26 @@ var VisNode = Backbone.Model.extend({
     return map[stat];
   },
 
-  animateUpdatedPosition: function(speed, easing) {
+  getAttributes: function() {
     var pos = this.getScreenCoords();
-    var opacity = this.getOpacity();
-
-    this.get('circle').stop().animate({
+    return {
+      circle: {
         cx: pos.x,
         cy: pos.y,
-        opacity: opacity,
+        opacity: this.getOpacity(),
         r: this.getRadius()
-      },
+      }
+    };
+  },
+
+  animateUpdatedPosition: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateFromAttr(speed, easing, attr);
+  },
+
+  animateFromAttr: function(speed, easing, attr) {
+    this.get('circle').stop().animate(
+      attr.circle,
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
@@ -484,6 +512,10 @@ var VisEdge = Backbone.Model.extend({
     }, this);
   },
 
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
   initialize: function() {
     this.validateAtInit();
 
@@ -566,19 +598,26 @@ var VisEdge = Backbone.Model.extend({
     return map[stat];
   },
 
-  animateUpdatedPath: function(speed, easing) {
+  getAttributes: function() {
     var newPath = this.getBezierCurve();
-    this.animateUpdatedPathFromPath(newPath, speed, easing);
-  },
-
-  animateUpdatedPathFromPath: function(newPath, speed, easing) {
     var opacity = this.getOpacity();
-
-    this.get('path').toBack();
-    this.get('path').stop().animate({
+    return {
+      path: {
         path: newPath,
         opacity: opacity
-      },
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateFromAttributes(speed, easing, attr);
+  },
+
+  animateFromAttributes: function(speed, easing, attr) {
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
