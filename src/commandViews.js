@@ -75,10 +75,25 @@ var CommandPromptView = Backbone.View.extend({
     var val = this.badHtmlEncode(el.value);
     this.commandSpan.innerHTML = val;
 
-    // if it's full of something, we need to move the cursor
-    $(this.commandCursor).toggleClass('partialCommand', val.length == 0);
-    console.log('val.elgnth is', val.length);
-    //console.log(val, el.selectionStart, el.selectionEnd);
+    // now mutate the cursor...
+    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+  },
+
+  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    // 10px for monospaced font...
+    var widthPerChar = 10;
+
+    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
+    var width = String(numCharsSelected * widthPerChar) + 'px';
+
+    // now for positioning
+    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var left = String(-numLeft * widthPerChar) + 'px';
+    // one reflow? :D
+    $(this.commandCursor).css({
+      width: width,
+      left: left
+    });
   },
 
   commandSelectChange: function(delta) {

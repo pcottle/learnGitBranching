@@ -285,6 +285,7 @@ p.commandLine span.prompt {
   -webkit-animation-duration: 1s;
   -webkit-animation-iteration-count: 99999;
   background: #DDD;
+  position: relative;
 }
 
 @-webkit-keyframes blink {
