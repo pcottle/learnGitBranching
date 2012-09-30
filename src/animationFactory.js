@@ -42,25 +42,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 };
 
 AnimationFactory.prototype.genCommitBirthAnimationInSequence = function(animationQueue, index, commits) {
-  if (!animationQueue) { throw new Error("rawrr"); }
 
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 2.0;
-
-  var toHide = commits.slice(index + 1);
-  var visNode = commits[index].get('visNode');
-
-  var animation = function() {
-    visNode.parentInFront();
-
-    visNode.animateUpdatedPosition(bounceTime, 'bounce');
-    visNode.animateOutgoingEdges(time);
-  };
-
-  animationQueue.add(new Animation({
-    closure: animation,
-    duration: Math.max(time, bounceTime)
-  }));
 };
 
 AnimationFactory.prototype.refreshTree = function(animationQueue) {

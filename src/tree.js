@@ -320,10 +320,10 @@ var VisBranch = Backbone.Model.extend({
 
   animateUpdatedPos: function(speed, easing) {
     var attr = this.getAttributes();
-    this.animateFromAttributes(speed, easing, attr);
+    this.animateFromAttr(attr, speed, easing);
   },
 
-  animateFromAttributes: function(speed, easing, attr) {
+  animateFromAttr: function(attr, speed, easing) {
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 
@@ -422,10 +422,10 @@ var VisNode = Backbone.Model.extend({
 
   animateUpdatedPosition: function(speed, easing) {
     var attr = this.getAttributes();
-    this.animateFromAttr(speed, easing, attr);
+    this.animateFromAttr(attr, speed, easing);
   },
 
-  animateFromAttr: function(speed, easing, attr) {
+  animateFromAttr: function(attr, speed, easing) {
     this.get('circle').stop().animate(
       attr.circle,
       speed !== undefined ? speed : this.get('animationSpeed'),
@@ -466,6 +466,13 @@ var VisNode = Backbone.Model.extend({
   animateOutgoingEdges: function(speed, easing) {
     _.each(this.get('outgoingEdges'), function(edge) {
       edge.animateUpdatedPath(speed, easing);
+    }, this);
+  },
+
+  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapshot[edge.getID()];
+      edge.animateFromAttr(attr, speed, easing);
     }, this);
   },
 
@@ -611,10 +618,10 @@ var VisEdge = Backbone.Model.extend({
 
   animateUpdatedPath: function(speed, easing) {
     var attr = this.getAttributes();
-    this.animateFromAttributes(speed, easing, attr);
+    this.animateFromAttr(attr, speed, easing);
   },
 
-  animateFromAttributes: function(speed, easing, attr) {
+  animateFromAttr: function(attr, speed, easing) {
     this.get('path').toBack();
     this.get('path').stop().animate(
       attr.path,

@@ -1,9 +1,3 @@
-The Tree.Snapshot() idea
-
-
-TERMINAL IS DONEEeeeee :DDD
-
-
 closures on animations with those snapshots
 integrate animation into all git commands
 

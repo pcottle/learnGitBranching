@@ -487,32 +487,54 @@ GitEngine.prototype.rebaseStarter = function() {
     // was a fastforward or already up to date
     return;
   }
+
   this.rebaseAnimation(response);
 };
 
 GitEngine.prototype.rebaseAnimation = function(response) {
-  var newCommits = response;
-
   var start = function() {
-    gitVisuals.calcTreeCoords();
-    gitVisuals.animateEdges();
-    gitVisuals.animateNodePositions();
-
-    _.each(newCommits, function(c) {
-      c.get('visNode').setBirth();
-    });
+    // maybe search stuff??
   };
 
   this.animationQueue.add(new Animation({
     closure: start
   }));
+  
+  // first set all birth positions...
+  _.each(response, function(step) {
+    step.newCommit.get('visNode').setBirth();
+  }, this);
 
-  gitVisuals.calcTreeCoords();
-  // make a bunch of birthing animations
-  for (var i = 0; i < newCommits.length; i++) {
-    newCommits[i].get('visNode').setBirth();
-    animationFactory.genCommitBirthAnimationInSequence(this.animationQueue, i, newCommits);
-  }
+  var fixedOpacity = 0.8;
+  // then fix all opacities... ugh
+  _.each(response, function(step) {
+    _.each(step.snapshot, function(obj) {
+      _.each(obj, function(attr) {
+        if (attr.opacity !== undefined) {
+          attr.opacity = fixedOpacity;
+        }
+      });
+    });
+  });
+
+  var time = GRAPHICS.defaultAnimationTime;
+  var bounceTime = time * 2.0;
+
+  _.each(response, function(step) {
+    this.animationQueue.add(new Animation({
+      closure: function() {
+        var id = step.newCommit.get('id');
+        var vNode = step.newCommit.get('visNode');
+
+        vNode.setBirth();
+        vNode.setOutgoingEdgesBirthPosition();
+
+        vNode.animateOutgoingEdgesFromSnapshot(step.snapshot, bounceTime, 'bounce');
+        vNode.animateFromAttr(step.snapshot[id], bounceTime, 'bounce');
+      },
+      duration: Math.max(bounceTime, time)
+    }));
+  }, this);
 
   animationFactory.refreshTree(this.animationQueue);
 };
@@ -572,21 +594,26 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
 
-  var newCommits = [];
-
+  var animationInfo = [];
   for (var i = 0; i < toRebase.length; i++) {
     var old = toRebase[i];
     var newId = this.rebaseAltId(old.get('id'));
     var newCommit = this.makeCommit([base], newId);
-    newCommits.push(newCommit);
+
     base = newCommit;
+
+    animationInfo.push({
+      oldCommit: old,
+      newCommit: newCommit,
+      snapshot: gitVisuals.genSnapshot()
+    });
   }
 
   // now we just need to update where we are
   this.setLocationTarget(currentLocation, base);
 
   // for animation
-  return newCommits;
+  return animationInfo;
 };
 
 GitEngine.prototype.mergeStarter = function() {
