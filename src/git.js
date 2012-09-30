@@ -482,7 +482,39 @@ GitEngine.prototype.rebaseStarter = function() {
   if (this.generalArgs.length == 1) {
     this.generalArgs.push('HEAD');
   }
-  this.rebase(this.generalArgs[0], this.generalArgs[1]);
+  var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
+  if (response === undefined) {
+    // was a fastforward or already up to date
+    return;
+  }
+  this.rebaseAnimation(response);
+};
+
+GitEngine.prototype.rebaseAnimation = function(response) {
+  var newCommits = response;
+
+  var start = function() {
+    gitVisuals.calcTreeCoords();
+    gitVisuals.animateEdges();
+    gitVisuals.animateNodePositions();
+
+    _.each(newCommits, function(c) {
+      c.get('visNode').setBirth();
+    });
+  };
+
+  this.animationQueue.add(new Animation({
+    closure: start
+  }));
+
+  gitVisuals.calcTreeCoords();
+  // make a bunch of birthing animations
+  for (var i = 0; i < newCommits.length; i++) {
+    newCommits[i].get('visNode').setBirth();
+    animationFactory.genCommitBirthAnimationInSequence(this.animationQueue, i, newCommits);
+  }
+
+  animationFactory.refreshTree(this.animationQueue);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -506,7 +538,6 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
-
   var stopSet = this.getUpstreamSet(targetSource)
 
   // now BFS from here on out
@@ -541,16 +572,21 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
 
+  var newCommits = [];
+
   for (var i = 0; i < toRebase.length; i++) {
     var old = toRebase[i];
     var newId = this.rebaseAltId(old.get('id'));
     var newCommit = this.makeCommit([base], newId);
+    newCommits.push(newCommit);
     base = newCommit;
   }
 
   // now we just need to update where we are
   this.setLocationTarget(currentLocation, base);
-  // done! haha
+
+  // for animation
+  return newCommits;
 };
 
 GitEngine.prototype.mergeStarter = function() {

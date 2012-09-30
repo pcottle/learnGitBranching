@@ -1,7 +1,10 @@
 The Tree.Snapshot() idea
 
-closures on animations with those snapshots
 
+TERMINAL IS DONEEeeeee :DDD
+
+
+closures on animations with those snapshots
 integrate animation into all git commands
 
 animation factory? stuff like:

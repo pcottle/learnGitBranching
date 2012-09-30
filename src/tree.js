@@ -430,6 +430,11 @@ var VisNode = Backbone.Model.extend({
     });
   },
 
+  setBirth: function() {
+    this.setBirthPosition();
+    this.setOutgoingEdgesBirthPosition();
+  },
+
   animateOutgoingEdges: function(speed, easing) {
     _.each(this.get('outgoingEdges'), function(edge) {
       edge.animateUpdatedPath(speed, easing);
