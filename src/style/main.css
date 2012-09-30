@@ -281,20 +281,23 @@ p.commandLine span.prompt {
 }
 
 #prompt span.cursor {
+  /*
+  ARGHHHhh why does this cause reflows / scrolls!?!?!? wtf
   -webkit-animation-name: blink;
   -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: 99999;
+  -webkit-animation-iteration-count: 99999; */
   background: #DDD;
   position: relative;
+  opacity: 0.7;
 }
 
 @-webkit-keyframes blink {
   from {
-    opacity: 1;
+    opacity: 0.7;
   }
 
   49% {
-    opacity: 1;
+    opacity: 0.7;
   }
 
   50% {
@@ -305,7 +308,7 @@ p.commandLine span.prompt {
     opacity: 0;
   }
   to {
-    opacity: 1;
+    opacity: 0.7;
   }
 }
 

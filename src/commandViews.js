@@ -77,6 +77,8 @@ var CommandPromptView = Backbone.View.extend({
 
     // now mutate the cursor...
     this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    // and scroll down due to some weird bug
+    events.trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
@@ -234,6 +236,7 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.on('change', this.scrollDown, this);
 
     events.on('issueWarning', this.addWarning, this);
+    events.on('commandScrollDown', this.scrollDown, this);
   },
 
   addWarning: function(msg) {
@@ -256,6 +259,9 @@ var CommandLineHistoryView = Backbone.View.extend({
     var t = $('#terminal')[0];
 
     if ($(t).hasClass('scrolling')) {
+      console.log('scrolling');
+      console.log(t.scrollHeight);
+      console.log(t.scrollTop);
       t.scrollTop = t.scrollHeight;
       return;
     }
