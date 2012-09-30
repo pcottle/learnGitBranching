@@ -14,16 +14,21 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   events: {
-    'keyup #commandTextField': 'keyUp'
+    'keydown #commandTextField': 'onKey',
+    'keyup #commandTextField': 'onKeyUp'
   },
 
   focus: function() {
     this.$('#commandTextField').focus();
   },
 
-  keyUp: function(e) {
+  onKey: function(e) {
     var el = e.srcElement;
     this.updatePrompt(el)
+  },
+
+  onKeyUp: function(e) {
+    this.onKey(e);
 
     // we need to capture some of these events.
     // WARNING: this key map is not internationalized :(
@@ -45,8 +50,16 @@ var CommandPromptView = Backbone.View.extend({
     if (keyMap[e.which] !== undefined) {
       e.preventDefault();
       keyMap[e.which]();
-      this.updatePrompt(el);
+      this.onKey(e);
     }
+  },
+
+  badHtmlEncode: function(text) {
+    return text.replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/</g,'&lt;')
+      .replace(/ /g,'&nbsp;')
+      .replace(/\n/g,'')
   },
 
   updatePrompt: function(el) {
@@ -59,7 +72,7 @@ var CommandPromptView = Backbone.View.extend({
     // well...
 
     var val = el.value;
-    this.commandSpan.innerText = val;
+    this.commandSpan.innerHTML = this.badHtmlEncode(val);
     //console.log(val, el.selectionStart, el.selectionEnd);
   },
 

@@ -19,6 +19,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   }
 
   var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 2;
 
   // essentially refresh the entire tree, but do a special thing for the commit
   var visNode = commit.get('visNode');
@@ -31,11 +32,12 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
     visNode.setOutgoingEdgesBirthPosition();
     visNode.parentInFront();
 
-    visNode.animateUpdatedPosition(time);
+    visNode.animateUpdatedPosition(bounceTime, 'bounce');
     visNode.animateOutgoingEdges(time);
   };
 
   animationQueue.add(new Animation({
-    closure: animation
+    closure: animation,
+    duration: Math.max(time, bounceTime)
   }));
 };

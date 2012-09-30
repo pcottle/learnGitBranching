@@ -259,9 +259,9 @@ p.commandLine span.prompt {
 }
 
 #commandLineBar #commandTextField {
-  position:fixed;
-  top: 0px;
-  left: 0px;
+  position: absolute;
+  top: -1000px;
+  left: -1000px;
 }
 
 #commandLineHistory {
