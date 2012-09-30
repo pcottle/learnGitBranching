@@ -230,7 +230,9 @@ GitEngine.prototype.commitStarter = function() {
   if (this.commandOptions['-am']) {
     this.command.addWarning("Don't worry about adding files or commit messages in this demo");
   }
-  this.commit();
+
+  var newCommit = this.commit();
+  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit);
 };
 
 GitEngine.prototype.commit = function() {
@@ -248,6 +250,7 @@ GitEngine.prototype.commit = function() {
     var targetBranch = this.HEAD.get('target');
     targetBranch.set('target', newCommit);
   }
+  return newCommit;
 };
 
 GitEngine.prototype.resolveId = function(idOrTarget) {
@@ -750,22 +753,23 @@ GitEngine.prototype.dispatch = function(command, callback) {
   } catch (err) {
     if (err instanceof GitError ||
         err instanceof CommandResult) {
-
       // short circuit animation by just setting error and returning
       command.set('error', err);
       callback();
       return;
-
     } else {
       throw err;
     }
   }
 
-  this.animationQueue.add(new Animation({
-    closure: function() {
-      gitVisuals.refreshTree();
-    }
-  }));
+  // only add the refresh if we didn't do manual animations
+  if (!this.animationQueue.get('animations').length) {
+    this.animationQueue.add(new Animation({
+      closure: function() {
+        gitVisuals.refreshTree();
+      }
+    }));
+  }
 
   // animation queue will call the callback when its done
   this.animationQueue.start();

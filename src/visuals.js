@@ -81,12 +81,12 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 
  **************************************/
 
-GitVisuals.prototype.refreshTree = function() {
+GitVisuals.prototype.refreshTree = function(speed) {
   // this method can only be called after graphics are rendered
   this.calcTreeCoords();
   this.calcGraphicsCoords();
 
-  this.animateAll();
+  this.animateAll(speed);
 };
 
 GitVisuals.prototype.refreshTreeHarsh = function() {

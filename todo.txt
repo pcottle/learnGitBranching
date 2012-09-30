@@ -6,13 +6,11 @@ integrate animation into all git commands
 
 animation factory? stuff like:
 
--commitBirthAnimation(snapshotBefore, snapshotAfter, commit)
 -highlightCommit(50, 'targetColor') // during search
 -clearHighlightsAllNodes
 
 
 ALSO other big things:
-
 - Text on commit nodes
 - Division in their rings based on how many / what branches they are part of
 - Color on branch edges??

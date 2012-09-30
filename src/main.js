@@ -8,10 +8,13 @@ var gitVisuals = null;
 
 var commandCollection = null;
 var commandBuffer = null;
+var animationFactory = null;
 
 var paper = null;
 
 $(document).ready(function(){
+  animationFactory = new AnimationFactory();
+
   // the two major collections that affect everything
   var commitCollection = new CommitCollection();  
   commandCollection = new CommandCollection();

@@ -320,6 +320,7 @@ var VisNode = Backbone.Model.extend({
   defaults: {
     depth: undefined,
     maxWidth: null,
+    outgoingEdges: null,
     id: null,
     pos: null,
     radius: null,
@@ -346,6 +347,8 @@ var VisNode = Backbone.Model.extend({
 
   initialize: function() {
     this.validateAtInit();
+
+    this.set('outgoingEdges', []);
   },
 
   setDepthBasedOn: function(depthIncrement) {
@@ -394,7 +397,8 @@ var VisNode = Backbone.Model.extend({
     this.get('circle').stop().animate({
         cx: pos.x,
         cy: pos.y,
-        opacity: opacity
+        opacity: opacity,
+        r: this.getRadius()
       },
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
@@ -408,6 +412,45 @@ var VisNode = Backbone.Model.extend({
 
   getRadius: function() {
     return this.get('radius') || GRAPHICS.nodeRadius;
+  },
+
+  getParentScreenCoords: function() {
+    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
+  },
+
+  setBirthPosition: function() {
+    // utility method for animating it out from underneath a parent
+    var parentCoords = this.getParentScreenCoords();
+
+    this.get('circle').attr({
+      cx: parentCoords.x,
+      cy: parentCoords.y,
+      opacity: 0,
+      r: 0,
+    });
+  },
+
+  animateOutgoingEdges: function(speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.animateUpdatedPath(speed, easing);
+    }, this);
+  },
+
+  setOutgoingEdgesBirthPosition: function() {
+    var parentCoords = this.getParentScreenCoords();
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var headPos = edge.get('head').getScreenCoords();
+      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
+      edge.get('path').stop().attr({
+        path: path,
+        opacity: 0
+      });
+    }, this);
+  },
+
+  parentInFront: function() {
+    // woof!
+    this.get('commit').get('parents')[0].get('visNode').get('circle').toFront();
   },
 
   genGraphics: function(paper) {
@@ -438,11 +481,17 @@ var VisEdge = Backbone.Model.extend({
 
   initialize: function() {
     this.validateAtInit();
+
+    this.get('tail').get('outgoingEdges').push(this);
   },
 
   genSmoothBezierPathString: function(tail, head) {
     var tailPos = tail.getScreenCoords();
     var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
     // we need to generate the path and control points for the bezier. format
     // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
     // the control points have to be __below__ to get the curve starting off straight.
@@ -465,8 +514,8 @@ var VisEdge = Backbone.Model.extend({
     };
 
     // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, tail.getRadius());
-    headPos = offset(headPos, 1, head.getRadius());
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
 
     var str = '';
     // first move to bottom of tail
@@ -514,6 +563,10 @@ var VisEdge = Backbone.Model.extend({
 
   animateUpdatedPath: function(speed, easing) {
     var newPath = this.getBezierCurve();
+    this.animateUpdatedPathFromPath(newPath, speed, easing);
+  },
+
+  animateUpdatedPathFromPath: function(newPath, speed, easing) {
     var opacity = this.getOpacity();
 
     this.get('path').toBack();
