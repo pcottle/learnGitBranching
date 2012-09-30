@@ -18,34 +18,34 @@ html, body {
 /* Box Model */
 html,
 body,
-div.box {
+.box {
   display: -webkit-box;
 }
 
-div.flex0 {
+.flex0 {
   -webkit-box-flex: 0;
 }
 
 body,
-div.flex1 {
+.flex1 {
   -webkit-box-flex: 1;
 }
 
-div.flex2 {
+.flex2 {
   -webkit-box-flex: 2;
 }
 
-div.flex3 {
+.flex3 {
   -webkit-box-flex: 3;
 }
 
 html,
 body,
-div.vertical {
+.vertical {
   -webkit-box-orient: vertical;
 }
 
-div.horizontal {
+.horizontal {
   -webkit-box-orient: horizontal;
 }
 
@@ -272,6 +272,40 @@ p.commandLine span.prompt {
 
 #prompt {
   text-align: left;
+}
+
+#prompt span {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+#prompt span.cursor {
+  -webkit-animation-name: blink;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: 99999;
+  background: #DDD;
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1;
+  }
+
+  49% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+  
+  99% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 #commandLineBar,

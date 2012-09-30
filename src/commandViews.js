@@ -5,6 +5,7 @@ var CommandPromptView = Backbone.View.extend({
     this.index = -1;
 
     this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandCursor = this.$('#prompt span.cursor')[0];
 
     // this is evil, but we will refer to HTML outside the document
     // and attach a click event listener
@@ -71,8 +72,12 @@ var CommandPromptView = Backbone.View.extend({
     // try.github.com also has this, so I'm assuming those engineers gave up as
     // well...
 
-    var val = el.value;
-    this.commandSpan.innerHTML = this.badHtmlEncode(val);
+    var val = this.badHtmlEncode(el.value);
+    this.commandSpan.innerHTML = val;
+
+    // if it's full of something, we need to move the cursor
+    $(this.commandCursor).toggleClass('partialCommand', val.length == 0);
+    console.log('val.elgnth is', val.length);
     //console.log(val, el.selectionStart, el.selectionEnd);
   },
 
