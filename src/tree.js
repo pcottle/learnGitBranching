@@ -339,9 +339,14 @@ var VisNode = Backbone.Model.extend({
     depth: undefined,
     maxWidth: null,
     outgoingEdges: null,
+
+    circle: null,
+    text: null,
+
     id: null,
     pos: null,
     radius: null,
+
     commit: null,
     animationSpeed: GRAPHICS.defaultAnimationTime,
     animationEasing: GRAPHICS.defaultEasing
@@ -392,6 +397,7 @@ var VisNode = Backbone.Model.extend({
 
   toFront: function() {
     this.get('circle').toFront();
+    this.get('text').toFront();
   },
 
   getOpacity: function() {
@@ -408,14 +414,26 @@ var VisNode = Backbone.Model.extend({
     return map[stat];
   },
 
+  getTextScreenCoords: function() {
+    return this.getScreenCoords();
+  },
+
   getAttributes: function() {
     var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+    var opacity = this.getOpacity();
+
     return {
       circle: {
         cx: pos.x,
         cy: pos.y,
-        opacity: this.getOpacity(),
+        opacity: opacity,
         r: this.getRadius()
+      },
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: opacity
       }
     };
   },
@@ -426,11 +444,11 @@ var VisNode = Backbone.Model.extend({
   },
 
   animateFromAttr: function(attr, speed, easing) {
-    this.get('circle').stop().animate(
-      attr.circle,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('circle').stop().animate(attr.circle, s, e);
+    this.get('text').stop().animate(attr.text, s, e);
   },
 
   getScreenCoords: function() {
@@ -455,6 +473,11 @@ var VisNode = Backbone.Model.extend({
       cy: parentCoords.y,
       opacity: 0,
       r: 0,
+    });
+    this.get('text').attr({
+      x: parentCoords.x,
+      y: parentCoords.y,
+      opacity: 0,
     });
   },
 
@@ -489,16 +512,26 @@ var VisNode = Backbone.Model.extend({
   },
 
   parentInFront: function() {
-    // woof!
-    this.get('commit').get('parents')[0].get('visNode').get('circle').toFront();
+    // woof! talk about bad data access
+    this.get('commit').get('parents')[0].get('visNode').toFront();
   },
 
   genGraphics: function(paper) {
     var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+
     var circle = cuteSmallCircle(paper, pos.x, pos.y, {
       radius: this.getRadius()
     });
+    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+    text.attr({
+      'font-size': 12,
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getOpacity()
+    });
+
     this.set('circle', circle);
+    this.set('text', text);
   }
 });
 

@@ -242,7 +242,8 @@ OptionParser.prototype.getMasterOptionMap = function() {
     commit: {
       '--amend': false,
       '-a': false, // warning
-      '-am': false
+      '-am': false, // warning
+      '-m': false
     },
     log: {},
     add: {},

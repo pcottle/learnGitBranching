@@ -224,14 +224,49 @@ GitEngine.prototype.reset = function(target) {
 
 GitEngine.prototype.commitStarter = function() {
   this.acceptNoGeneralArgs();
+  if (this.commandOptions['-am'] && (
+      this.commandOptions['-a'] || this.commandOptions['-m'])) {
+    throw new GitError({
+      msg: "You can't have -am with another -m or -a!"
+    });
+  }
+
+  var msg = null;
   if (this.commandOptions['-a']) {
     this.command.addWarning('No need to add files in this demo');
   }
   if (this.commandOptions['-am']) {
-    this.command.addWarning("Don't worry about adding files or commit messages in this demo");
+    var args = this.commandOptions['-am'];
+    if (args.length > 1) {
+      throw new GitError({
+        msg: "Commit -am doesn't make sense with more than one arg..."
+      });
+    }
+
+    this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
+      "down your commit message but it's not important");
+    msg = args[0];
+  }
+  if (this.commandOptions['-m']) {
+    var args = this.commandOptions['-m'];
+    if (args.length > 1) {
+      throw new GitError({
+        msg: "Specifying a commit message with more than 1 arg doesnt make sense!"
+      });
+    }
+
+    msg = args[0];
   }
 
   var newCommit = this.commit();
+  if (msg) {
+    msg = msg
+      .replace(/&quot;/g, '"')
+      .replace(/^"/g, '')
+      .replace(/"$/g, '');
+
+    newCommit.set('commitMessage', msg);
+  }
   animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit);
 };
 
@@ -492,6 +527,7 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebaseAnimation = function(response) {
+  // TODO: move to animation factory
   var start = function() {
     // maybe search stuff??
   };
@@ -868,7 +904,6 @@ GitEngine.prototype.log = function(ref) {
     pQueue.sort(this.idSortFunc);
   }
 
-  toDump.reverse();
   // now go through and collect logs
   var bigLogStr = '';
   _.each(toDump, function(c) {
