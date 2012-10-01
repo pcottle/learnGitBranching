@@ -288,6 +288,10 @@ p.commandLine span.prompt {
   -webkit-animation-iteration-count: 99999; */
   background: #DDD;
   position: relative;
+  opacity: 0;
+}
+
+#prompt span.cursor.shown {
   opacity: 0.7;
 }
 

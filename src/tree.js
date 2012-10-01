@@ -526,6 +526,7 @@ var VisNode = Backbone.Model.extend({
     var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
     text.attr({
       'font-size': 12,
+      'font-weight': 'bold',
       'font-family': 'Monaco, Courier, font-monospace',
       opacity: this.getOpacity()
     });

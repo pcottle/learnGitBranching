@@ -14,7 +14,7 @@ var TIME = {
 };
 
 var GRAPHICS = {
-  nodeRadius: 15,
+  nodeRadius: 17,
   curveControlPointOffset: 50,
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 300,

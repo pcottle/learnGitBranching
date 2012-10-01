@@ -12,6 +12,16 @@ var CommandPromptView = Backbone.View.extend({
     $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
       this.focus();
     }, this));
+
+
+    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
+      this.blur();
+    }, this));
+
+    // hacky timeout focus
+    setTimeout(_.bind(function() {
+      this.focus();
+    }, this), 100);
   },
 
   events: {
@@ -19,8 +29,15 @@ var CommandPromptView = Backbone.View.extend({
     'keyup #commandTextField': 'onKeyUp'
   },
 
+  blur: function() {
+    console.log('got blur');
+    $(this.commandCursor).toggleClass('shown', false);
+  },
+
   focus: function() {
     this.$('#commandTextField').focus();
+    // we now our cursor is there so...
+    $(this.commandCursor).toggleClass('shown', true);
   },
 
   onKey: function(e) {
@@ -259,9 +276,6 @@ var CommandLineHistoryView = Backbone.View.extend({
     var t = $('#terminal')[0];
 
     if ($(t).hasClass('scrolling')) {
-      console.log('scrolling');
-      console.log(t.scrollHeight);
-      console.log(t.scrollTop);
       t.scrollTop = t.scrollHeight;
       return;
     }
