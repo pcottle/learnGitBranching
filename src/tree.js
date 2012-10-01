@@ -516,6 +516,16 @@ var VisNode = Backbone.Model.extend({
     this.get('commit').get('parents')[0].get('visNode').toFront();
   },
 
+  getFontSize: function(str) {
+    if (str.length < 3) {
+      return 12;
+    } else if (str.length < 5) {
+      return 10;
+    } else {
+      return 8;
+    }
+  },
+
   genGraphics: function(paper) {
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
@@ -525,7 +535,7 @@ var VisNode = Backbone.Model.extend({
     });
     var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
     text.attr({
-      'font-size': 12,
+      'font-size': this.getFontSize(this.get('id')),
       'font-weight': 'bold',
       'font-family': 'Monaco, Courier, font-monospace',
       opacity: this.getOpacity()
