@@ -140,7 +140,7 @@ var VisBranch = Backbone.Model.extend({
       -this.get('arrowEdgeHeight')
     );
 
-    var tailLength = 30;
+    var tailLength = 45;
     var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
     var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
 

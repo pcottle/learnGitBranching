@@ -381,10 +381,17 @@ GitVisuals.prototype.collectionChanged = function() {
 };
 
 GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
   _.each(this.visNodeMap, function(visNode) {
     visNode.toFront();
   });
+};
 
+GitVisuals.prototype.visBranchesFront = function() {
   this.visBranchCollection.each(function(vBranch) {
     vBranch.nonTextToFront();
   });

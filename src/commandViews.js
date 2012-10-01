@@ -30,7 +30,6 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   blur: function() {
-    console.log('got blur');
     $(this.commandCursor).toggleClass('shown', false);
   },
 

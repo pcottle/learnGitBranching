@@ -8,9 +8,21 @@ animation factory? stuff like:
 
 
 ALSO other big things:
-- Text on commit nodes
 - Division in their rings based on how many / what branches they are part of
 - Color on branch edges??
 
 - sizing on visedge arrowheads, also fill most likely
+
+
+Small things to implement:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Git show
+- Git show when you click on a node (or the text technically)
+
+
+Bugs to fix:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
+          We need some kind of "update everything but this set of nodes" thing...
 

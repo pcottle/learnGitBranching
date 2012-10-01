@@ -30,6 +30,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 
     visNode.setBirth();
     visNode.parentInFront();
+    gitVisuals.visBranchesFront();
 
     visNode.animateUpdatedPosition(bounceTime, 'bounce');
     visNode.animateOutgoingEdges(time);
