@@ -942,6 +942,10 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
 };
 
 GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
+  if (ancestor === 'HEAD') {
+    return true;
+  }
+
   child = this.getCommitFromRef(child);
 
   // basically just do a completely BFS search on ancestor to the root, then
