@@ -267,7 +267,11 @@ p.commandLine span.prompt {
 #commandLineHistory {
   margin: 10px;
   border-radius: 5px;
+  /*
+  UGHHHh the box shadow looks SO much better, but causes an extra 12ms in the paint update
+  when typing in the box. sadness. i will remove for perf, maybe add back in later.
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  */
 }
 
 #prompt {
@@ -281,11 +285,6 @@ p.commandLine span.prompt {
 }
 
 #prompt span.cursor {
-  /*
-  ARGHHHhh why does this cause reflows / scrolls!?!?!? wtf
-  -webkit-animation-name: blink;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: 99999; */
   background: #DDD;
   position: relative;
   opacity: 0;
