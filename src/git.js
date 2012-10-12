@@ -439,7 +439,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
 
 GitEngine.prototype.rebaseAltId = function(id) {
   // this function alters an ID to add a quote to the end,
-  // indicating that it was rebased.
+  // indicating that it was rebased. it also checks existence
   var regexMap = [
     [/^C(\d+)[']{0,2}$/, function(bits) {
       // this id can use another quote, so just add it
@@ -459,7 +459,13 @@ GitEngine.prototype.rebaseAltId = function(id) {
     var func = regexMap[i][1];
     var results = regex.exec(id);
     if (results) {
-      return func(results);
+      var newId = func(results);
+      // if this id exists, continue down the rabbit hole
+      if (this.refs[newId]) {
+        return this.rebaseAltId(newId);
+      } else {
+        return newId;
+      }
     }
   }
   throw new Error('could not modify the id ' + id);

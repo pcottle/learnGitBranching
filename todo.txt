@@ -37,8 +37,6 @@ Bugs to fix:
           We need some kind of "update everything but this set of nodes" thing...
 
 - cannot checkout commits with dashes
-
-- when generating new ids (C1' or C2''), need to check if they already exist!!! otherwise it wil barf
 - always grab the maxHeight
 - debug why typing takes so long with the profiler
 
