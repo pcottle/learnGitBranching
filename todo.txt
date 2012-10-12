@@ -13,6 +13,16 @@ ALSO other big things:
 
 - sizing on visedge arrowheads, also fill most likely
 
+Big Graphic things:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+- colored branch edges. basically 
+- node rings, really think we should do it
+
+
+Medium things:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Rebuilding trees from a JSON snapshot / blob. this should be easy... i think. if we remove the need for parents
+
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,4 +35,11 @@ Bugs to fix:
 
 - When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
           We need some kind of "update everything but this set of nodes" thing...
+
+- cannot checkout commits with dashes
+
+- when generating new ids (C1' or C2''), need to check if they already exist!!! otherwise it wil barf
+- always grab the maxHeight
+- debug why typing takes so long with the profiler
+
 

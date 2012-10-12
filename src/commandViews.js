@@ -8,7 +8,7 @@ var CommandPromptView = Backbone.View.extend({
     this.commandCursor = this.$('#prompt span.cursor')[0];
 
     // this is evil, but we will refer to HTML outside the document
-    // and attach a click event listener
+    // and attach a click event listener so we can focus / unfocus
     $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
       this.focus();
     }, this));
@@ -18,7 +18,7 @@ var CommandPromptView = Backbone.View.extend({
       this.blur();
     }, this));
 
-    // hacky timeout focus
+    // hacky timeout focus TODO
     setTimeout(_.bind(function() {
       this.focus();
     }, this), 100);

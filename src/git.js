@@ -418,7 +418,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     return commit;
   }
 
-  var pQueue = [].concat(commit.get('parents'));
+  var pQueue = [].concat(commit.get('parents') || []);
   pQueue.sort(this.idSortFunc);
   numBack--;
 
