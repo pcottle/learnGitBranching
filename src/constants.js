@@ -28,7 +28,10 @@ var GRAPHICS = {
   upstreamHeadOpacity: 0.5,
   upstreamNoneOpacity: 0.2,
   edgeUpstreamHeadOpacity: 0.4,
-  edgeUpstreamNoneOpacity: 0.15
+  edgeUpstreamNoneOpacity: 0.15,
+
+  visBranchStrokeWidth: 2,
+  visBranchStrokeColorNone: '#333'
 };
 
 /**

@@ -11,17 +11,19 @@ ALSO other big things:
 - Division in their rings based on how many / what branches they are part of
 - Color on branch edges??
 
-- sizing on visedge arrowheads, also fill most likely
-
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 - colored branch edges. basically 
 - node rings, really think we should do it
+- When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
+          We need some kind of "update everything but this set of nodes" thing...
+- averaging colors!
 
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - Rebuilding trees from a JSON snapshot / blob. this should be easy... i think. if we remove the need for parents
+- sizing on visedge arrowheads, also fill most likely
 
 
 Small things to implement:
@@ -33,8 +35,4 @@ Small things to implement:
 Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
-          We need some kind of "update everything but this set of nodes" thing...
-
-- always grab the maxHeight
 

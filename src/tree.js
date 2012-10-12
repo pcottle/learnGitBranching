@@ -37,12 +37,17 @@ var VisBranch = Backbone.Model.extend({
 
   initialize: function() {
     this.validateAtInit();
-    if (this.get('branch').get('id') == 'HEAD') {
+    var id = this.get('branch').get('id');
+
+    if (id == 'HEAD') {
       // switch to a head ref
       this.set('isHead', true);
       this.set('flip', -1);
 
       this.set('fill', GRAPHICS.headRectFill);
+    } else if (id !== 'master') {
+      // we need to set our color to something random
+      this.set('fill', randomHueString());
     }
   },
 
@@ -230,6 +235,12 @@ var VisBranch = Backbone.Model.extend({
     this.get('text').toFront();
   },
 
+  getFill: function() {
+    // in the easy case, just return your own fill
+    // TODO check
+    return this.get('fill');
+  },
+
   genGraphics: function(paper) {
     var textPos = this.getTextPosition();
 
@@ -246,7 +257,7 @@ var VisBranch = Backbone.Model.extend({
     var sizeOfRect = this.getRectSize();
     var rect = paper.rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8);
     rect.attr({
-      fill: this.get('fill'),
+      fill: this.getFill(),
       stroke: this.get('stroke'),
       'stroke-width': GRAPHICS.rectStrokeWidth,
       opacity: this.getNonTextOpacity()
@@ -256,7 +267,7 @@ var VisBranch = Backbone.Model.extend({
     var arrowPath = this.getArrowPath();
     var arrow = paper.path(arrowPath);
     arrow.attr({
-      fill: this.get('fill'),
+      fill: this.getFill(),
       stroke: this.get('stroke'),
       'stroke-width': GRAPHICS.rectStrokeWidth,
       opacity: this.getNonTextOpacity()
@@ -630,9 +641,19 @@ var VisEdge = Backbone.Model.extend({
     return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
   },
 
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
   genGraphics: function(paper) {
     var pathString = this.getBezierCurve();
-    var path = cutePath(paper, pathString);
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round'
+    });
     path.toBack();
     this.set('path', path);
   },

@@ -246,7 +246,7 @@ GitVisuals.prototype.calcDepth = function() {
     // issue warning
     events.trigger('issueWarning',
       'Max Depth Exceeded! Visuals may degrade here. ' +
-      'Please start fresh or use reset to reduce the max depth'
+      'Please start fresh'
     );
   }
 
@@ -452,33 +452,6 @@ function randomGradient() {
 
     var gradient = String(Math.round(Math.random()*180)) + '-' + color1 + '-' + color2;
     return gradient;
-};
-
-function cutePath(paper, pathString, options) {
-    options = options || {};
-    var wantsToFill = options.wantsToFill;
-    var strokeColor = options.strokeColor;
-    var fillColor = options.fillColor;
-
-    var path = paper.path(pathString);
-
-    if (!strokeColor) {
-        strokeColor = randomHueString();
-    }
-    if (!fillColor) {
-        fillColor = randomHueString();
-    }
-    path.attr({
-        'stroke-width': 2,
-        'stroke': strokeColor,
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round'
-    });
-
-    if (wantsToFill) {
-        path.attr('fill',fillColor);
-    }
-    return path;
 };
 
 function cuteSmallCircle(paper, x, y, options) {
