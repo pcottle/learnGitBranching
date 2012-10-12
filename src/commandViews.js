@@ -18,7 +18,11 @@ var CommandPromptView = Backbone.View.extend({
       this.blur();
     }, this));
 
-    // hacky timeout focus TODO
+    events.on('processCommandFromEvent', _.bind(
+      this.addToCollection, this
+    ));
+
+    // hacky timeout focus
     setTimeout(_.bind(function() {
       this.focus();
     }, this), 100);
@@ -26,7 +30,9 @@ var CommandPromptView = Backbone.View.extend({
 
   events: {
     'keydown #commandTextField': 'onKey',
-    'keyup #commandTextField': 'onKeyUp'
+    'keyup #commandTextField': 'onKeyUp',
+    'blur #commandTextField': 'hideCursor',
+    'focus #commandTextField': 'showCursor'
   },
 
   blur: function() {
@@ -35,8 +41,19 @@ var CommandPromptView = Backbone.View.extend({
 
   focus: function() {
     this.$('#commandTextField').focus();
-    // we now our cursor is there so...
-    $(this.commandCursor).toggleClass('shown', true);
+    this.showCursor();
+  },
+
+  hideCursor: function() {
+    this.toggleCursor(false); 
+  },
+
+  showCursor: function() {
+    this.toggleCursor(true);
+  },
+
+  toggleCursor: function(state) {
+    $(this.commandCursor).toggleClass('shown', state);
   },
 
   onKey: function(e) {

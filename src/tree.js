@@ -37,6 +37,8 @@ var VisBranch = Backbone.Model.extend({
 
   initialize: function() {
     this.validateAtInit();
+    this.get('branch').set('visBranch', this);
+
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {
@@ -214,7 +216,7 @@ var VisBranch = Backbone.Model.extend({
     var totalNum = this.getBranchStackLength();
     return {
       w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum + hPad * 2
+      h: textSize.h * totalNum * 1.1 + hPad * 2
     };
   },
 
@@ -236,9 +238,33 @@ var VisBranch = Backbone.Model.extend({
   },
 
   getFill: function() {
-    // in the easy case, just return your own fill
-    // TODO check
-    return this.get('fill');
+    // in the easy case, just return your own fill if you are:
+    // - the HEAD ref
+    // - by yourself (length of 1)
+    // - part of a multi branch, but your thing is hidden
+    if (this.get('isHead') ||
+        this.getBranchStackLength() == 1 ||
+        this.getBranchStackIndex() != 0) {
+      return this.get('fill');
+    }
+
+    // woof. now it's hard, we need to blend hues...
+    var myArray = this.getBranchStackArray();
+    var hueStrings = [];
+    _.each(this.getBranchStackArray(), function(branchWrapper) {
+      var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+      if (fill.slice(0,3) !== 'hsb') {
+        // crap. convert to a hsb
+        var color = Raphael.color(fill);
+        fill = 'hsb(' + String(color.h) + ',' + String(color.s);
+        fill = fill + ',' + String(color.l) + ')';
+      }
+
+      hueStrings.push(fill);
+    });
+
+    return blendHueStrings(hueStrings);
   },
 
   genGraphics: function(paper) {
@@ -320,11 +346,13 @@ var VisBranch = Backbone.Model.extend({
         y: rectPos.y,
         width: rectSize.w,
         height: rectSize.h,
-        opacity: nonTextOpacity
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
       },
       arrow: {
         path: arrowPath,
-        opacity: nonTextOpacity
+        opacity: nonTextOpacity,
+        fill: this.getFill()
       }
     };
   },
@@ -537,6 +565,15 @@ var VisNode = Backbone.Model.extend({
     }
   },
 
+  attachClickHandlers: function() {
+    var commandStr = 'git show ' + this.get('commit').get('id');
+    _.each([this.get('circle'), this.get('text')], function(rObj) {
+      rObj.click(function() {
+        events.trigger('processCommandFromEvent', commandStr);
+      });
+    });
+  },
+
   genGraphics: function(paper) {
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
@@ -554,6 +591,8 @@ var VisNode = Backbone.Model.extend({
 
     this.set('circle', circle);
     this.set('text', text);
+
+    this.attachClickHandlers();
   }
 });
 

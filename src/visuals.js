@@ -283,7 +283,6 @@ GitVisuals.prototype.addBranch = function(branch) {
   var visBranch = new VisBranch({
     branch: branch
   });
-  branch.set('visBranch', visBranch);
 
   this.visBranchCollection.add(visBranch);
   if (this.paperReady) {
@@ -424,6 +423,41 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
 /************************
  * Random util functions, adapted from liquidGraph
  ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2);
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
 function constructPathStringFromCoords(points,wantsToClose) {
     var pathString = "M" + String(Math.round(points[0].x)) + "," + String(Math.round(points[0].y));
     var lp = points[0];

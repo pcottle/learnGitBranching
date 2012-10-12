@@ -693,9 +693,9 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
     this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
-    throw new CommandResult({
-      msg: 'Fast-forwarding...'
-    });
+    // get fresh animation to happen
+    this.command.setResult('Fast-forwarding...');
+    return;
   }
 
   // now the part of making a merge commit
@@ -882,6 +882,26 @@ GitEngine.prototype.dispatch = function(command, callback) {
   this.animationQueue.start();
 };
 
+GitEngine.prototype.showStarter = function() {
+  if (this.generalArgs.length > 1) {
+    throw new GitError({
+      msg: 'git show with more than 1 argument does not make sense'
+    });
+  }
+  if (this.generalArgs.length == 0) {
+    this.generalArgs.push('HEAD');
+  }
+  this.show(this.generalArgs[0]);
+};
+
+GitEngine.prototype.show = function(ref) {
+  var commit = this.getCommitFromRef(ref);
+
+  throw new CommandResult({
+    msg: commit.getShowEntry()
+  });
+};
+
 GitEngine.prototype.logStarter = function() {
   if (this.generalArgs.length > 1) {
     throw new GitError({
@@ -1030,6 +1050,19 @@ var Commit = Backbone.Model.extend({
       '<br/>',
       'Commit: ' + this.get('id')
     ].join('\n' ) + '\n';
+  },
+
+  getShowEntry: function() {
+    // same deal as above, show log entry and some fake changes
+    return [
+      this.getLogEntry(),
+      'diff --git a/bigGameResults.html b/bigGameResults.html',
+      '--- bigGameResults.html',
+      '+++ bigGameResults.html',
+      '@@ 13,27 @@ Winner, Score',
+      '- Stanfurd, 14-7',
+      '+ Cal, 21-14',
+    ].join('\n') + '\n';
   },
 
   validateAtInit: function() {

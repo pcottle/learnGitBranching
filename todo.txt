@@ -12,7 +12,7 @@ ALSO other big things:
 - Color on branch edges??
 
 Big Graphic things:
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 - colored branch edges. basically 
 - node rings, really think we should do it
 - When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
@@ -28,8 +28,6 @@ Medium things:
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- Git show
-- Git show when you click on a node (or the text technically)
 
 
 Bugs to fix:
