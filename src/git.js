@@ -736,9 +736,7 @@ GitEngine.prototype.checkoutStarter = function() {
       msg: 'I expect one argument along with git checkout (dont reference files)'
     });
   }
-  this.checkout(this.generalArgs[0]);
-
-  events.trigger('treeRefresh');
+  this.checkout(this.unescapeQuotes(this.generalArgs[0]));
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
@@ -835,6 +833,10 @@ GitEngine.prototype.deleteBranch = function(name) {
   });
   this.branches.splice(toDelete, 1);
 };
+
+GitEngine.prototype.unescapeQuotes = function(str) {
+  return str.replace(/&#x27;/g, "'");
+}
 
 GitEngine.prototype.dispatch = function(command, callback) {
   // current command, options, and args are stored in the gitEngine
