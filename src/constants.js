@@ -19,7 +19,7 @@ var GRAPHICS = {
   nodeRadius: 17,
   curveControlPointOffset: 50,
   defaultEasing: 'easeInOut',
-  defaultAnimationTime: 1000,
+  defaultAnimationTime: 400,
 
   //rectFill: '#FF3A3A',
   rectFill: 'hsb(0.8816909813322127,0.7,1)',

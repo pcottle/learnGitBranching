@@ -64,11 +64,15 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   };
 };
 
-GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot) {
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
   var animate = function(obj) {
     var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
+      return;
+    }
+
     if (!fromSnapshot[id] || !toSnapshot[id]) {
-      console.warn('this obj doesnt exist yet', id);
+      // its actually ok it doesnt exist yet
       return;
     }
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);

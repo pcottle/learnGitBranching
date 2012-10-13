@@ -114,10 +114,16 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
     visNode.setOutgoingEdgesOpacity(0);
   }, this);
 
+  var previousVisNodes = [];
   _.each(rebaseSteps, function(rebaseStep, index) {
-    var toOmit = newVisNodes.slice(0, index).concat(newVisNodes.slice(index + 1));
+    var toOmit = newVisNodes.slice(index + 1);
 
-    var snapshotPart = this.genFromToSnapshotAnimation(rebaseStep.beforeSnapshot, rebaseStep.afterSnapshot, toOmit);
+    var snapshotPart = this.genFromToSnapshotAnimation(
+      rebaseStep.beforeSnapshot,
+      rebaseStep.afterSnapshot,
+      toOmit,
+      previousVisNodes
+    );
     var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep);
 
     var animation = function() {
@@ -127,7 +133,7 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
         
     animationQueue.add(new Animation({
       closure: animation,
-      duration: GRAPHICS.defaultAnimationTime
+      duration: GRAPHICS.defaultAnimationTime * 2
     }));
 
     /*
@@ -135,6 +141,7 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
     rebaseStep.newCommit
     rebaseStep.beforeSnapshot
     rebaseStep.afterSnapshot*/
+    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
   }, this);
 
   // need to delay to let bouncing finish
@@ -180,17 +187,37 @@ AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit)
   return newSnapshot;
 };
 
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(beforeSnapshot, afterSnapshot, commitsToOmit) {
-  // we also want to omit the commit outgoing edges
+AnimationFactory.prototype.genFromToSnapshotAnimation = function(
+  beforeSnapshot,
+  afterSnapshot,
+  commitsToOmit,
+  commitsToFixOpacity) {
+
+  // we want to omit the commit outgoing edges
   var toOmit = [];
   _.each(commitsToOmit, function(visNode) {
     toOmit.push(visNode);
     toOmit = toOmit.concat(visNode.get('outgoingEdges'));
   });
 
-  before = this.stripObjectsFromSnapshot(beforeSnapshot, toOmit);
-  after = this.stripObjectsFromSnapshot(afterSnapshot, toOmit);
+  var fixOpacity = function(obj) {
+    if (!obj) { return; }
+    _.each(obj, function(attr, partName) {
+      obj[partName].opacity = 1;
+    });
+  };
+
+  // HORRIBLE loop to fix opacities all throughout the snapshot
+  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
+    _.each(commitsToFixOpacity, function(visNode) {
+      fixOpacity(snapShot[visNode.getID()]);
+      _.each(visNode.get('outgoingEdges'), function(visEdge) {
+        fixOpacity(snapShot[visEdge.getID()]);
+      });
+    });
+  });
+
   return function() {
-    gitVisuals.animateAllFromAttrToAttr(before, after);
+    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
   };
 };

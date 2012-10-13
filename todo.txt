@@ -8,24 +8,16 @@ animation factory? stuff like:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-- When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
-
-- animateSnapshotFromTo(), then animate specific nodes
-
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - Rebuilding trees from a JSON snapshot / blob. this should be easy... i think. if we remove the need for parents
-- sizing on visedge arrowheads, also fill most likely
-
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
