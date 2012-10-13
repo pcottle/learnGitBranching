@@ -11,8 +11,8 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.id_gen = 0;
-  this.branches = options.branches;
-  this.collection = options.collection;
+  this.branchCollection = options.branches;
+  this.commitCollection = options.collection;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -27,7 +27,7 @@ function GitEngine(options) {
 GitEngine.prototype.init = function() {
   // make an initial commit and a master branch
   this.rootCommit = new Commit({rootCommit: true});
-  this.collection.add(this.rootCommit);
+  this.commitCollection.add(this.rootCommit);
 
   this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
@@ -86,7 +86,7 @@ GitEngine.prototype.makeBranch = function(id, target) {
     target: target,
     id: id
   });
-  this.branches.add(branch);
+  this.branchCollection.add(branch);
   this.refs[branch.get('id')] = branch;
   return branch;
 };
@@ -97,7 +97,7 @@ GitEngine.prototype.getHead = function() {
 
 GitEngine.prototype.getBranches = function() {
   var toReturn = [];
-  this.branches.each(function(branch) {
+  this.branchCollection.each(function(branch) {
     toReturn.push({
       id: branch.get('id'),
       selected: this.HEAD.get('target') === branch,
@@ -132,7 +132,7 @@ GitEngine.prototype.makeCommit = function(parents, id) {
     id: id
   });
   this.refs[commit.get('id')] = commit;
-  this.collection.add(commit);
+  this.commitCollection.add(commit);
   return commit;
 };
 
@@ -380,7 +380,7 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
     return set;
   };
 
-  this.branches.each(function(branch) {
+  this.branchCollection.each(function(branch) {
     var set = bfsSearch(branch.get('target'));
     _.each(set, function(id) {
       commitToSet[id] = commitToSet[id] || [];
@@ -779,16 +779,16 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 GitEngine.prototype.branchStarter = function() {
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
-    var names = this.commandOptions['-d'];
-    names = names.concat(this.commandOptions['-D']);
+    var names = this.commandOptions['-d'] || this.commandOptions['-D'];
+
     if (!names.length) {
       throw new GitError({
         msg: 'I expect branch names when deleting'
       });
     }
-    _.each(names, _.bind(function(name) {
+    _.each(names, function(name) {
       this.deleteBranch(name);
-    }, this));
+    }, this);
     return;
   }
 
@@ -837,20 +837,16 @@ GitEngine.prototype.deleteBranch = function(name) {
     });
   }
 
-  var id = target.get('id');
-  target.delete();
-  delete this.refs[id];
-  // delete from array
-  // TODO
-  var toDelete = -1;
-  _.each(this.branches, function(branch, index) {
-    console.log(branch);
-    console.log(id);
-    if (branch.get('id') == id) {
-      toDelete = index;
-    }
-  });
-  this.branches.splice(toDelete, 1);
+  // now we know it's a branch
+  var branch = target;
+
+  this.branchCollection.remove(branch);
+  this.refs[branch.get('id')] = undefined;
+  delete this.refs[branch.get('id')];
+
+  if (branch.get('visBranch')) {
+    branch.get('visBranch').remove();
+  }
 };
 
 GitEngine.prototype.unescapeQuotes = function(str) {

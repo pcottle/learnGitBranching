@@ -321,6 +321,10 @@ GitVisuals.prototype.addBranch = function(branch) {
   }
 };
 
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
 GitVisuals.prototype.animateRefs = function(speed) {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.animateUpdatedPos(speed);

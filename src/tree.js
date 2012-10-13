@@ -253,6 +253,18 @@ var VisBranch = Backbone.Model.extend({
     return gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
   },
 
+  remove: function() {
+    var keys = ['text', 'arrow', 'rect'];
+    _.each(keys, function(key) {
+      if (this.get(key)) {
+        this.get(key).remove();
+      }
+    }, this);
+
+    // also need to remove from gitVisuals
+    gitVisuals.removeVisBranch(this);
+  },
+
   genGraphics: function(paper) {
     var textPos = this.getTextPosition();
 
