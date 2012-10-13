@@ -542,12 +542,14 @@ GitEngine.prototype.rebaseStarter = function() {
     this.generalArgs.push('HEAD');
   }
   var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
+
   if (response === undefined) {
-    // was a fastforward or already up to date
+    // was a fastforward or already up to date. returning now
+    // will trigger the refresh animation
     return;
   }
 
-  this.rebaseAnimation(response);
+  animationFactory.rebaseAnimation(this.animationQueue, response, this);
 };
 
 GitEngine.prototype.rebaseAnimation = function(response) {
@@ -615,12 +617,15 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     return;
   }
 
+  var animationResponse = {};
+
   // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
   var stopSet = this.getUpstreamSet(targetSource)
+  animationResponse.upstreamSet = stopSet;
 
   // now BFS from here on out
   var toRebaseRough = [];
@@ -633,6 +638,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     if (stopSet[popped.get('id')]) {
       continue;
     }
+
     // it's not in the set, so we need to rebase this commit
     toRebaseRough.push(popped);
     // keep searching
@@ -651,29 +657,37 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
   // now sort
   toRebase.sort(this.idSortFunc);
+  animationResponse.toRebaseArray = toRebase.slice(0);
+
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
 
-  var animationInfo = [];
-  for (var i = 0; i < toRebase.length; i++) {
-    var old = toRebase[i];
+  // do the rebase, and also maintain all our animation info during this
+  animationResponse.rebaseSteps = [];
+  var beforeSnapshot = gitVisuals.genSnapshot();
+  var afterSnapshot;
+  _.each(toRebase, function(old) {
     var newId = this.rebaseAltId(old.get('id'));
-    var newCommit = this.makeCommit([base], newId);
 
+    var newCommit = this.makeCommit([base], newId);
     base = newCommit;
 
-    animationInfo.push({
+    // animation info
+    afterSnapshot = gitVisuals.genSnapshot();
+    animationResponse.rebaseSteps.push({
       oldCommit: old,
       newCommit: newCommit,
-      snapshot: gitVisuals.genSnapshot()
+      beforeSnapshot: beforeSnapshot,
+      afterSnapshot: afterSnapshot
     });
-  }
+    beforeSnapshot = afterSnapshot;
+  }, this);
 
   // now we just need to update where we are
   this.setLocationTarget(currentLocation, base);
 
   // for animation
-  return animationInfo;
+  return animationResponse;
 };
 
 GitEngine.prototype.mergeStarter = function() {
@@ -696,6 +710,15 @@ GitEngine.prototype.mergeStarter = function() {
       msg: 'Cant merge things referencing HEAD when you are in detached head!'
     });
   }
+
+  // also can't merge commits directly, even though it makes sense
+  _.each(this.generalArgs, function(ref) {
+    if (this.resolveId(ref).get('type') == 'commit') {
+      throw new GitError({
+        msg: "Can't merge a commit!"
+      });
+    }
+  }, this);
 
   this.merge(this.generalArgs[0], this.generalArgs[1]);
 };

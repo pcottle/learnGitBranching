@@ -42,10 +42,6 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   }));
 };
 
-AnimationFactory.prototype.genCommitBirthAnimationInSequence = function(animationQueue, index, commits) {
-
-};
-
 AnimationFactory.prototype.refreshTree = function(animationQueue) {
   animationQueue.add(new Animation({
     closure: function() {
@@ -55,3 +51,7 @@ AnimationFactory.prototype.refreshTree = function(animationQueue) {
   }));
 };
 
+AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse, gitEngine) {
+
+
+};
