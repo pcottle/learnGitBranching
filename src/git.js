@@ -181,7 +181,7 @@ GitEngine.prototype.revert = function(whichCommit) {
   var base = here;
   toUndo.sort(this.idSortFunc);
   for (var i = 0; i < toUndo.length; i++) {
-    var newId = this.rebaseAltId(toUndo[i].get('id'));
+    var newId = this.rebaseAltID(toUndo[i].get('id'));
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
   }
@@ -455,7 +455,17 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   return pQueue.shift(0);
 };
 
-GitEngine.prototype.rebaseAltId = function(id) {
+GitEngine.prototype.scrapeBaseID = function(id) {
+  var results = /^C(\d+)/.exec(id);
+
+  if (!results) {
+    throw new Error('regex failed on ' + id);
+  }
+
+  return 'C' + results[1];
+};
+
+GitEngine.prototype.rebaseAltID = function(id) {
   // this function alters an ID to add a quote to the end,
   // indicating that it was rebased. it also checks existence
   var regexMap = [
@@ -480,7 +490,7 @@ GitEngine.prototype.rebaseAltId = function(id) {
       var newId = func(results);
       // if this id exists, continue down the rabbit hole
       if (this.refs[newId]) {
-        return this.rebaseAltId(newId);
+        return this.rebaseAltID(newId);
       } else {
         return newId;
       }
@@ -528,6 +538,12 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 };
 
 GitEngine.prototype.rebaseStarter = function() {
+  if (this.getDetachedHead()) {
+    throw new GitError({
+      msg: "No rebasing in detached head!"
+    });
+  }
+
   if (this.generalArgs.length > 2) {
     throw new GitError({
       msg: 'rebase with more than 2 arguments doesnt make sense!'
@@ -650,6 +666,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   }
 
   // now we have the all the commits between currentLocation and the set of target.
+
   // we need to throw out merge commits
   var toRebase = [];
   _.each(toRebaseRough, function(commit) {
@@ -657,6 +674,30 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
       toRebase.push(commit);
     }
   });
+
+  // we ALSO need to throw out commits that will do the same changes. like
+  // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
+  // get this by doing ID scraping
+  var changesAlreadyMade = {};
+  _.each(stopSet, function(val, key) {
+    changesAlreadyMade[this.scrapeBaseID(key)] = val; // val == true
+  }, this);
+
+  // now get rid of those other ones
+  toRebaseRough = toRebase;
+  toRebase = [];
+  _.each(toRebaseRough, function(commit) {
+    var baseID = this.scrapeBaseID(commit.get('id'));
+    if (!changesAlreadyMade[baseID]) {
+      toRebase.push(commit);
+    }
+  }, this);
+
+  if (!toRebase.length) {
+    throw new GitError({
+      msg: 'No Commits to Rebase! Everything else is merge commits or changes already have been applied'
+    });
+  }
 
   // now sort
   toRebase.sort(this.idSortFunc);
@@ -670,7 +711,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   var beforeSnapshot = gitVisuals.genSnapshot();
   var afterSnapshot;
   _.each(toRebase, function(old) {
-    var newId = this.rebaseAltId(old.get('id'));
+    var newId = this.rebaseAltID(old.get('id'));
 
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
@@ -1025,6 +1066,7 @@ GitEngine.prototype.getUpstreamSet = function(ancestor) {
   var queue = [commit];
 
   var exploredSet = {};
+  exploredSet[ancestorID] = true;
   while (queue.length) {
     var here = queue.pop();
     var rents = here.get('parents');

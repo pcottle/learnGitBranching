@@ -21,5 +21,4 @@ Minor Bugs to fix:
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- - resolve core ID from alt Id's (C4''' becomes C4), and then skip those commits when rebasing. big
 
