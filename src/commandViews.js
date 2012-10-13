@@ -18,9 +18,8 @@ var CommandPromptView = Backbone.View.extend({
       this.blur();
     }, this));
 
-    events.on('processCommandFromEvent', _.bind(
-      this.addToCollection, this
-    ));
+    events.on('processCommandFromEvent', this.addToCollection, this);
+    events.on('submitCommandValueFromEvent', this.submitValue, this);
 
     // hacky timeout focus
     setTimeout(_.bind(function() {
@@ -157,7 +156,10 @@ var CommandPromptView = Backbone.View.extend({
   submit: function() {
     var value = this.$('#commandTextField').val().replace('\n', '');
     this.clear();
+    this.submitValue(value);
+  },
 
+  submitValue: function(value) {
     // if we are entering a real command, add it to our history
     if (value.length) {
       this.commands.unshift(value);

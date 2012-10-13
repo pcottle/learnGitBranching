@@ -56,6 +56,11 @@ $(document).ready(function(){
   $(window).resize(windowResize);
   windowResize();
   setTimeout(windowResize, 50);
+
+  setTimeout(function() {
+    events.trigger('submitCommandValueFromEvent', "gc; gc; gc; gc; gc; gc; git checkout master^^^^; git commit; git checkout -b another; gc; gc; git rebase master");
+  }, 500);
+
 });
 
 function windowResize() {
