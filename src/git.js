@@ -109,6 +109,14 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 };
 
 GitEngine.prototype.reloadGraphics = function() {
+  var rootCommit = null;
+  this.commitCollection.each(function(commit) {
+    if (commit.get('id') == 'C0') {
+      rootCommit = commit;
+    }
+  });
+  gitVisuals.rootCommit = rootCommit;
+
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff...
   console.log('calling when git engine ready');
