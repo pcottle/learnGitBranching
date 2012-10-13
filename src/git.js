@@ -45,6 +45,49 @@ GitEngine.prototype.init = function() {
   events.trigger('gitEngineReady', this);
 };
 
+GitEngine.prototype.exportTree = function() {
+  // need to export all commits, their connectivity / messages, branches, and state of head.
+  // this would be simple if didn't have circular structures.... :P
+
+  var branches = this.branchCollection.toJSON();
+  _.each(branches, function(branch) {
+    branch.target = branch.target.get('id');
+    branch.visBranch = undefined;
+  });
+
+  var commits = this.commitCollection.toJSON();
+  _.each(commits, function(commit) {
+    commit.visNode = undefined;
+
+    // convert parents
+    var parents = [];
+    _.each(commit.parents, function(par) {
+      parents.push(par.get('id'));
+    });
+    commit.parents = parents;
+
+    var children = [];
+    _.each(commit.children, function(child) {
+      children.push(child.get('id'));
+    });
+    commit.children = children;
+  }, this);
+
+  var HEAD = this.HEAD.toJSON();
+  HEAD.target = HEAD.target.get('id');
+
+  return {
+    branches: branches,
+    commits: commits,
+    HEAD: HEAD
+  };
+};
+
+GitEngine.prototype.loadTree = function(tree) {
+
+
+};
+
 GitEngine.prototype.getDetachedHead = function() {
   // detached head is if HEAD points to a commit instead of a branch...
   var target = this.HEAD.get('target');
