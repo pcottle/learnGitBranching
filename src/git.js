@@ -274,7 +274,7 @@ GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
-    targetCommit = this.resolveId('HEAD~1');
+    targetCommit = this.resolveID('HEAD~1');
   }
 
   var newCommit = this.makeCommit([targetCommit]);
@@ -288,7 +288,7 @@ GitEngine.prototype.commit = function() {
   return newCommit;
 };
 
-GitEngine.prototype.resolveId = function(idOrTarget) {
+GitEngine.prototype.resolveID = function(idOrTarget) {
   if (typeof idOrTarget !== 'string') {
     return idOrTarget;
   }
@@ -338,7 +338,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
 };
 
 GitEngine.prototype.getCommitFromRef = function(ref) {
-  var start = this.resolveId(ref);
+  var start = this.resolveID(ref);
   // works for both HEAD and just a single layer. aka branch
   while (start.get('type') !== 'commit') {
     start = start.get('target');
@@ -410,7 +410,7 @@ GitEngine.prototype.getOneBeforeCommit = function(ref) {
   // you can call this command on HEAD in detached, HEAD, or on a branch
   // and it will return the ref that is one above a commit. aka
   // it resolves HEAD to something that we can move the ref with
-  var start = this.resolveId(ref);
+  var start = this.resolveID(ref);
   if (start === this.HEAD && !this.getDetachedHead()) {
     start = start.get('target');
   }
@@ -620,6 +620,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   }
 
   var animationResponse = {};
+  animationResponse.destinationBranch = this.resolveID(targetSource);
 
   // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
@@ -715,7 +716,7 @@ GitEngine.prototype.mergeStarter = function() {
 
   // also can't merge commits directly, even though it makes sense
   _.each(this.generalArgs, function(ref) {
-    if (this.resolveId(ref).get('type') == 'commit') {
+    if (this.resolveID(ref).get('type') == 'commit') {
       throw new GitError({
         msg: "Can't merge a commit!"
       });
@@ -784,7 +785,7 @@ GitEngine.prototype.checkoutStarter = function() {
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
-  var target = this.resolveId(idOrTarget);
+  var target = this.resolveID(idOrTarget);
   if (target.get('id') === 'HEAD') {
     // git checkout HEAD is a
     // meaningless command but i used to do this back in the day
@@ -845,7 +846,7 @@ GitEngine.prototype.branch = function(name, ref) {
 
 GitEngine.prototype.deleteBranch = function(name) {
   // trying to delete, lets check our refs
-  var target = this.resolveId(name);
+  var target = this.resolveID(name);
   if (target.get('type') !== 'branch') {
     throw new GitError({
       msg: "You can't delete things that arent branches with branch command"

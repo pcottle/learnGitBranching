@@ -72,15 +72,13 @@ AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
 AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step) {
 
   var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 2.0;
+  var bounceTime = time * 1.5;
 
   var visNode = step.newCommit.get('visNode');
   var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
   var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
 
   var animation = function() {
-    // TODO -- unhighlight old commit visnode here
-
     visNode.setBirthFromSnapshot(step.beforeSnapshot);
     visNode.parentInFront();
     gitVisuals.visBranchesFront();
@@ -102,8 +100,34 @@ AnimationFactory.prototype.refreshTree = function(animationQueue) {
 };
 
 AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse, gitEngine) {
+  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
+  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine);
+};
+
+AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  // we want to highlight all the old commits
+  var oldCommits = rebaseResponse.toRebaseArray;//.reverse();
+  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
+
+  _.each(oldCommits, function(oldCommit) {
+    var visNode = oldCommit.get('visNode');
+    animationQueue.add(new Animation({
+      closure: function() {
+        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+      },
+      duration: fullTime * 1.5
+    }));
+
+  }, this);
+
+  this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse, gitEngine) {
   var rebaseSteps = rebaseResponse.rebaseSteps;
-  // HIGHLIGHTING PART!!!!
 
   var newVisNodes = [];
   _.each(rebaseSteps, function(step) {
@@ -133,14 +157,9 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
         
     animationQueue.add(new Animation({
       closure: animation,
-      duration: GRAPHICS.defaultAnimationTime * 2
+      duration: GRAPHICS.defaultAnimationTime * 1.5
     }));
 
-    /*
-    rebaseStep.oldCommit
-    rebaseStep.newCommit
-    rebaseStep.beforeSnapshot
-    rebaseStep.afterSnapshot*/
     previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
   }, this);
 

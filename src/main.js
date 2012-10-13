@@ -57,9 +57,11 @@ $(document).ready(function(){
   windowResize();
   setTimeout(windowResize, 50);
 
+  
+  /*
   setTimeout(function() {
     events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
-  }, 500);
+  }, 500);*/
 
 });
 

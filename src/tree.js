@@ -488,7 +488,7 @@ var VisNode = Backbone.Model.extend({
         r: this.getRadius(),
         fill: this.getFill(),
         'stroke-width': this.get('stroke-width'),
-        'stroke': this.get('stroke')
+        stroke: this.get('stroke')
       },
       text: {
         x: textPos.x,
@@ -496,6 +496,22 @@ var VisNode = Backbone.Model.extend({
         opacity: opacity
       }
     };
+  },
+
+  highlightTo: function(branch, speed, easing) {
+    // a small function to highlight the color of a node for demonstration purposes
+    var color = branch.get('fill');
+
+    var attr = {
+      circle: {
+        fill: color,
+        stroke: color,
+        'stroke-width': this.get('stroke-width') * 5
+      },
+      text: {}
+    };
+
+    this.animateToAttr(attr, speed, easing);
   },
 
   animateUpdatedPosition: function(speed, easing) {
