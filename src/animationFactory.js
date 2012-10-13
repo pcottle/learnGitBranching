@@ -66,7 +66,6 @@ AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
   _.each(snapShot, function(visObj, visID) {
     newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
   }, this);
-  console.log(newSnap);
   return newSnap;
 };
 
@@ -103,12 +102,22 @@ AnimationFactory.prototype.refreshTree = function(animationQueue) {
 };
 
 AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse, gitEngine) {
+  var rebaseSteps = rebaseResponse.rebaseSteps;
   // HIGHLIGHTING PART!!!!
 
-  var rebaseSteps = rebaseResponse.rebaseSteps;
+  var newVisNodes = [];
+  _.each(rebaseSteps, function(step) {
+    var visNode = step.newCommit.get('visNode');
 
-  _.each(rebaseSteps, function(rebaseStep) {
-    var snapshotPart = this.genFromToSnapshotAnimation(rebaseStep.beforeSnapshot, rebaseStep.afterSnapshot);
+    newVisNodes.push(visNode);
+    visNode.setOpacity(0);
+    visNode.setOutgoingEdgesOpacity(0);
+  }, this);
+
+  _.each(rebaseSteps, function(rebaseStep, index) {
+    var toOmit = newVisNodes.slice(0, index).concat(newVisNodes.slice(index + 1));
+
+    var snapshotPart = this.genFromToSnapshotAnimation(rebaseStep.beforeSnapshot, rebaseStep.afterSnapshot, toOmit);
     var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep);
 
     var animation = function() {
@@ -117,7 +126,8 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
     };
         
     animationQueue.add(new Animation({
-      closure: animation
+      closure: animation,
+      duration: GRAPHICS.defaultAnimationTime
     }));
 
     /*
@@ -126,11 +136,61 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
     rebaseStep.beforeSnapshot
     rebaseStep.afterSnapshot*/
   }, this);
+
+  // need to delay to let bouncing finish
+  this.delay(animationQueue);
+
+  this.refreshTree(animationQueue);
 };
 
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(beforeSnapshot, afterSnapshot) {
+AnimationFactory.prototype.delay = function(animationQueue, time) {
+  time = time || GRAPHICS.defaultAnimationTime;
+  animationQueue.add(new Animation({
+    closure: function() { },
+    duration: time
+  }));
+};
+
+AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
+  // need to slice for closure
+  var nodesToAnimate = visNodes.slice(0);
+
   return function() {
-    console.log('from', beforeSnapshot, 'to', afterSnapshot);
-    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot);
+    _.each(nodesToAnimate, function(visNode) {
+      visNode.setOpacity(opacity);
+      visNode.setOutgoingEdgesOpacity(opacity);
+    });
+  };
+};
+
+AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
+  var ids = [];
+  _.each(toOmit, function(obj) {
+    ids.push(obj.getID());
+  });
+
+  var newSnapshot = {};
+  _.each(snapShot, function(val, key) {
+    if (_.include(ids, key)) {
+      // omit
+      return;
+    }
+    newSnapshot[key] = val;
+  }, this);
+  return newSnapshot;
+};
+
+AnimationFactory.prototype.genFromToSnapshotAnimation = function(beforeSnapshot, afterSnapshot, commitsToOmit) {
+  // we also want to omit the commit outgoing edges
+  var toOmit = [];
+  _.each(commitsToOmit, function(visNode) {
+    toOmit.push(visNode);
+    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
+  });
+
+  before = this.stripObjectsFromSnapshot(beforeSnapshot, toOmit);
+  after = this.stripObjectsFromSnapshot(afterSnapshot, toOmit);
+  return function() {
+    gitVisuals.animateAllFromAttrToAttr(before, after);
   };
 };

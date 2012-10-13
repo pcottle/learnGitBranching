@@ -504,6 +504,14 @@ var VisNode = Backbone.Model.extend({
     this.animateToAttr(toAttr, speed, easing);
   },
 
+  animateToSnapshot: function(snapShot, speed, easing) {
+    console.log('animating to snapshot', snapShot, this.getID());
+    if (!snapShot[this.getID()]) {
+      return;
+    }
+    this.animateToAttr(snapShot[this.getID()], speed, easing);
+  },
+
   animateToAttr: function(attr, speed, easing) {
     var func = 'animate';
     if (speed == 0) {
@@ -579,6 +587,12 @@ var VisNode = Backbone.Model.extend({
     this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
   },
 
+  setOutgoingEdgesOpacity: function(opacity) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.setOpacity(opacity);
+    });
+  },
+
   animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
     _.each(this.get('outgoingEdges'), function(edge) {
       var attr = snapShot[edge.getID()];
@@ -648,6 +662,18 @@ var VisNode = Backbone.Model.extend({
         events.trigger('processCommandFromEvent', commandStr);
       });
     });
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    // set the opacity on my stuff
+    var keys = ['circle', 'text'];
+    _.each(keys, function(key) {
+      this.get(key).attr({
+        opacity: opacity
+      });
+    }, this);
   },
 
   genGraphics: function(paper) {
@@ -766,6 +792,12 @@ var VisEdge = Backbone.Model.extend({
 
   getStrokeColor: function() {
     return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
   },
 
   genGraphics: function(paper) {
