@@ -3,7 +3,7 @@ function GitVisuals(options) {
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
 
-  this.edgeCollection = new VisEdgeCollection();
+  this.visEdgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
   this.commitMap = {};
 
@@ -81,7 +81,7 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
   this.visBranchCollection.each(function(visBranch) {
     animate(visBranch);
   });
-  this.edgeCollection.each(function(visEdge) {
+  this.visEdgeCollection.each(function(visEdge) {
     animate(visEdge);
   });
   _.each(this.visNodeMap, function(visNode) {
@@ -118,7 +118,7 @@ GitVisuals.prototype.genSnapshot = function() {
     snapshot[visBranch.getID()] = visBranch.getAttributes();
   }, this);
 
-  this.edgeCollection.each(function(visEdge) {
+  this.visEdgeCollection.each(function(visEdge) {
     snapshot[visEdge.getID()] = visEdge.getAttributes();
   }, this);
 
@@ -354,6 +354,14 @@ GitVisuals.prototype.removeVisBranch = function(visBranch) {
   this.visBranchCollection.remove(visBranch);
 };
 
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
 GitVisuals.prototype.animateRefs = function(speed) {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.animateUpdatedPos(speed);
@@ -361,7 +369,7 @@ GitVisuals.prototype.animateRefs = function(speed) {
 };
 
 GitVisuals.prototype.animateEdges = function(speed) {
-  this.edgeCollection.each(function(edge) {
+  this.visEdgeCollection.each(function(edge) {
     edge.animateUpdatedPath(speed);
   }, this);
 };
@@ -431,7 +439,7 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
     tail: visNodeTail,
     head: visNodeHead
   });
-  this.edgeCollection.add(edge);
+  this.visEdgeCollection.add(edge);
 
   if (this.paperReady) {
     edge.genGraphics(paper);
@@ -472,7 +480,7 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
     visNode.genGraphics(paper);
   }, this);
 
-  this.edgeCollection.each(function(edge) {
+  this.visEdgeCollection.each(function(edge) {
     edge.genGraphics(paper);
   }, this);
 

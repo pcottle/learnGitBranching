@@ -48,16 +48,22 @@ GitEngine.prototype.init = function() {
 GitEngine.prototype.exportTree = function() {
   // need to export all commits, their connectivity / messages, branches, and state of head.
   // this would be simple if didn't have circular structures.... :P
+  var totalExport = {
+    branches: {},
+    commits: {},
+    HEAD: null
+  };
 
-  var branches = this.branchCollection.toJSON();
-  _.each(branches, function(branch) {
+  _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
     branch.visBranch = undefined;
+
+    totalExport.branches[branch.id] = branch;
   });
 
-  var commits = this.commitCollection.toJSON();
-  _.each(commits, function(commit) {
+  _.each(this.commitCollection.toJSON(), function(commit) {
     commit.visNode = undefined;
+    commit.children = [];
 
     // convert parents
     var parents = [];
@@ -66,26 +72,115 @@ GitEngine.prototype.exportTree = function() {
     });
     commit.parents = parents;
 
-    var children = [];
-    _.each(commit.children, function(child) {
-      children.push(child.get('id'));
-    });
-    commit.children = children;
+    totalExport.commits[commit.id] = commit;
   }, this);
 
   var HEAD = this.HEAD.toJSON();
   HEAD.target = HEAD.target.get('id');
+  totalExport.HEAD = HEAD;
 
-  return {
-    branches: branches,
-    commits: commits,
-    HEAD: HEAD
-  };
+  return totalExport;
 };
 
 GitEngine.prototype.loadTree = function(tree) {
+  // first clear everything
+  this.removeAll();
 
+  // now we do the loading part
+  var createdSoFar = {};
+  _.each(tree.commits, function(commitJSON) {
+    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    this.commitCollection.add(commit);
+  }, this);
 
+  _.each(tree.branches, function(branchJSON) {
+    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
+    this.branchCollection.add(branch);
+  }, this);
+
+  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
+  this.HEAD = HEAD;
+
+  gitVisuals.refreshTreeHarsh();
+};
+
+GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
+  if (createdSoFar[objID]) {
+    // base case
+    return createdSoFar[objID];
+  }
+
+  var getType = function(tree, id) {
+    if (tree.commits[id]) {
+      return 'commit';
+    } else if (tree.branches[id]) {
+      return 'branch';
+    } else if (id == 'HEAD') {
+      return 'HEAD';
+    }
+    throw new Error("bad type for " + id);
+  };
+
+  // figure out what type
+  var type = getType(tree, objID);
+
+  if (type == 'HEAD') {
+    var headJSON = tree.HEAD;
+    var HEAD = new Ref(_.extend(
+      tree.HEAD,
+      {
+        target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
+      }
+    ));
+    createdSoFar[objID] = HEAD;
+    return HEAD;
+  }
+
+  if (type == 'branch') {
+    var branchJSON = tree.branches[objID];
+
+    var branch = new Branch(_.extend(
+      tree.branches[objID],
+      {
+        target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
+      }
+    ));
+    createdSoFar[objID] = branch;
+    return branch;
+  }
+
+  if (type == 'commit') {
+    // for commits, we need to grab all the parents
+    var commitJSON = tree.commits[objID];
+
+    var parentObjs = [];
+    _.each(commitJSON.parents, function(parentID) {
+      parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+    }, this);
+
+    var commit = new Commit(_.extend(
+      commitJSON,
+      {
+        parents: parentObjs
+      }
+    ));
+    createdSoFar[objID] = commit;
+    return commit;
+  }
+
+  throw new Error('ruh rho!! unsupported tyep for ' + objID);
+};
+
+GitEngine.prototype.removeAll = function() {
+  this.branchCollection.each(function(branch) {
+    branch.get('visBranch').remove();
+  }, this);
+  this.commitCollection.each(function(commit) {
+    commit.get('visNode').removeAll();
+  }, this);
+
+  this.branchCollection.reset();
+  this.commitCollection.reset();
 };
 
 GitEngine.prototype.getDetachedHead = function() {

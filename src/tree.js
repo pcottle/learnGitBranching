@@ -1,4 +1,14 @@
-var VisBranch = Backbone.Model.extend({
+var VisBase = Backbone.Model.extend({
+  removeKeys: function(keys) {
+    _.each(keys, function(key) {
+      if (this.get(key)) {
+        this.get(key).remove();
+      }
+    }, this);
+  }
+});
+
+var VisBranch = VisBase.extend({
   defaults: {
     pos: null,
     text: null,
@@ -172,7 +182,7 @@ var VisBranch = Backbone.Model.extend({
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
       var textNode = visBranch.get('text').node;
-      return textNode.clientWidth;
+      return (textNode === null) ? 1 : textNode.clientWidth;
     };
 
     var textNode = this.get('text').node;
@@ -254,13 +264,7 @@ var VisBranch = Backbone.Model.extend({
   },
 
   remove: function() {
-    var keys = ['text', 'arrow', 'rect'];
-    _.each(keys, function(key) {
-      if (this.get(key)) {
-        this.get(key).remove();
-      }
-    }, this);
-
+    this.removeKeys(['text', 'arrow', 'rect']);
     // also need to remove from gitVisuals
     gitVisuals.removeVisBranch(this);
   },
@@ -363,22 +367,24 @@ var VisBranch = Backbone.Model.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    var func = 'animate';
     if (speed == 0) {
-      func = 'attr';
+      this.get('text').attr(attr.text);
+      this.get('rect').attr(attr.rect);
+      this.get('arrow').attr(attr.arrow);
+      return;
     }
 
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 
-    this.get('text').stop()[func](attr.text, s, e);
-    this.get('rect').stop()[func](attr.rect, s, e);
-    this.get('arrow').stop()[func](attr.arrow, s, e);
+    this.get('text').stop().animate(attr.text, s, e);
+    this.get('rect').stop().animate(attr.rect, s, e);
+    this.get('arrow').stop().animate(attr.arrow, s, e);
   }
 });
 
 
-var VisNode = Backbone.Model.extend({
+var VisNode = VisBase.extend({
   defaults: {
     depth: undefined,
     maxWidth: null,
@@ -526,7 +532,6 @@ var VisNode = Backbone.Model.extend({
   },
 
   animateToSnapshot: function(snapShot, speed, easing) {
-    console.log('animating to snapshot', snapShot, this.getID());
     if (!snapShot[this.getID()]) {
       return;
     }
@@ -534,16 +539,17 @@ var VisNode = Backbone.Model.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    var func = 'animate';
     if (speed == 0) {
-      func = 'attr';
+      this.get('circle').attr(attr.circle);
+      this.get('text').attr(attr.text);
+      return;
     }
     
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 
-    this.get('circle').stop()[func](attr.circle, s, e);
-    this.get('text').stop()[func](attr.text, s, e);
+    this.get('circle').stop().animate(attr.circle, s, e);
+    this.get('text').stop().animate(attr.text, s, e);
   },
 
   getScreenCoords: function() {
@@ -578,6 +584,7 @@ var VisNode = Backbone.Model.extend({
 
   setBirthFromSnapshot: function(beforeSnapshot) {
     // first get parent attribute
+    // woof bad data access. TODO
     var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
     var parentAttr = beforeSnapshot[parentID];
 
@@ -697,6 +704,21 @@ var VisNode = Backbone.Model.extend({
     }, this);
   },
 
+  remove: function() {
+    this.removeKeys(['circle'], ['text']);
+    // needs a manual removal of text for whatever reason
+    this.get('text').remove();
+
+    gitVisuals.removeVisNode(this);
+  },
+
+  removeAll: function() {
+    this.remove();
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.remove();
+    }, this);
+  },
+
   genGraphics: function(paper) {
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
@@ -722,7 +744,7 @@ var VisNode = Backbone.Model.extend({
   }
 });
 
-var VisEdge = Backbone.Model.extend({
+var VisEdge = VisBase.extend({
   defaults: {
     tail: null,
     head: null,
@@ -747,6 +769,11 @@ var VisEdge = Backbone.Model.extend({
     this.validateAtInit();
 
     this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    gitVisuals.removeVisEdge(this);
   },
 
   genSmoothBezierPathString: function(tail, head) {
@@ -870,13 +897,13 @@ var VisEdge = Backbone.Model.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    var func = 'animate';
     if (speed == 0) {
-      func = 'attr';
+      this.get('path').attr(attr.path);
+      return;
     }
 
     this.get('path').toBack();
-    this.get('path').stop()[func](
+    this.get('path').stop().animate(
       attr.path,
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
