@@ -85,7 +85,13 @@ GitEngine.prototype.exportTree = function() {
 GitEngine.prototype.loadTree = function(tree) {
   // first clear everything
   this.removeAll();
+  
+  this.instantiateFromTree(tree);
 
+  this.reloadGraphics();
+};
+
+GitEngine.prototype.instantiateFromTree = function(tree) {
   // now we do the loading part
   var createdSoFar = {};
   _.each(tree.commits, function(commitJSON) {
@@ -100,7 +106,18 @@ GitEngine.prototype.loadTree = function(tree) {
 
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
+};
 
+GitEngine.prototype.reloadGraphics = function() {
+  // this just basically makes the HEAD branch. the head branch really should have been
+  // a member of a collection and not this annoying edge case stuff...
+  console.log('calling when git engine ready');
+  gitVisuals.whenGitEngineReady(this);
+
+  // when the paper is ready
+  gitVisuals.drawTreeFirstTime();
+
+  console.log('refreshing hars');
   gitVisuals.refreshTreeHarsh();
 };
 
@@ -172,12 +189,7 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.removeAll = function() {
-  this.branchCollection.each(function(branch) {
-    branch.get('visBranch').remove();
-  }, this);
-  this.commitCollection.each(function(commit) {
-    commit.get('visNode').removeAll();
-  }, this);
+  gitVisuals.resetAll();
 
   this.branchCollection.reset();
   this.commitCollection.reset();

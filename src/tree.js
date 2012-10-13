@@ -439,6 +439,7 @@ var VisNode = VisBase.extend({
 
   setDepthBasedOn: function(depthIncrement) {
     if (this.get('depth') === undefined) {
+      debugger
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');

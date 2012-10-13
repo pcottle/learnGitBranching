@@ -33,11 +33,33 @@ function GitVisuals(options) {
   events.on('gitEngineReady', this.whenGitEngineReady, this);
 }
 
+GitVisuals.prototype.resetAll = function() {
+  this.visEdgeCollection.each(function(visEdge) {
+    visEdge.remove();
+  }, this);
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.remove();
+  }, this);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
 GitVisuals.prototype.whenGitEngineReady = function(gitEngine) {
   // seed this with the HEAD pseudo-branch
-  this.visBranchCollection.add(new VisBranch({
+
+  var headBranch = new VisBranch({
     branch: gitEngine.HEAD
-  }));
+  });
+
+  this.visBranchCollection.add(headBranch);
 };
 
 GitVisuals.prototype.getScreenBounds = function() {
@@ -304,10 +326,7 @@ GitVisuals.prototype.calcDepth = function() {
   var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
   if (maxDepth > 15) {
     // issue warning
-    events.trigger('issueWarning',
-      'Max Depth Exceeded! Visuals may degrade here. ' +
-      'Please start fresh'
-    );
+    // TODO
   }
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
