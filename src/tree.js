@@ -9,6 +9,7 @@ var VisBranch = Backbone.Model.extend({
 
     fill: GRAPHICS.rectFill,
     stroke: GRAPHICS.rectStroke,
+    'stroke-width': GRAPHICS.rectStrokeWidth,
 
     offsetX: GRAPHICS.nodeRadius * 4.75,
     offsetY: 0,
@@ -147,7 +148,7 @@ var VisBranch = Backbone.Model.extend({
       -this.get('arrowEdgeHeight')
     );
 
-    var tailLength = 45;
+    var tailLength = 49;
     var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
     var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
 
@@ -249,22 +250,7 @@ var VisBranch = Backbone.Model.extend({
     }
 
     // woof. now it's hard, we need to blend hues...
-    var myArray = this.getBranchStackArray();
-    var hueStrings = [];
-    _.each(this.getBranchStackArray(), function(branchWrapper) {
-      var fill = branchWrapper.obj.get('visBranch').get('fill');
-
-      if (fill.slice(0,3) !== 'hsb') {
-        // crap. convert to a hsb
-        var color = Raphael.color(fill);
-        fill = 'hsb(' + String(color.h) + ',' + String(color.s);
-        fill = fill + ',' + String(color.l) + ')';
-      }
-
-      hueStrings.push(fill);
-    });
-
-    return blendHueStrings(hueStrings);
+    return gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
   },
 
   genGraphics: function(paper) {
@@ -281,23 +267,15 @@ var VisBranch = Backbone.Model.extend({
 
     var rectPos = this.getRectPosition();
     var sizeOfRect = this.getRectSize();
-    var rect = paper.rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8);
-    rect.attr({
-      fill: this.getFill(),
-      stroke: this.get('stroke'),
-      'stroke-width': GRAPHICS.rectStrokeWidth,
-      opacity: this.getNonTextOpacity()
-    });
+    var rect = paper
+      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
+      .attr(this.getAttributes().rect);
     this.set('rect', rect);
 
     var arrowPath = this.getArrowPath();
-    var arrow = paper.path(arrowPath);
-    arrow.attr({
-      fill: this.getFill(),
-      stroke: this.get('stroke'),
-      'stroke-width': GRAPHICS.rectStrokeWidth,
-      opacity: this.getNonTextOpacity()
-    });
+    var arrow = paper
+      .path(arrowPath)
+      .attr(this.getAttributes().arrow);
     this.set('arrow', arrow);
 
     rect.toFront();
@@ -348,11 +326,15 @@ var VisBranch = Backbone.Model.extend({
         height: rectSize.h,
         opacity: nonTextOpacity,
         fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
       },
       arrow: {
         path: arrowPath,
         opacity: nonTextOpacity,
-        fill: this.getFill()
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
       }
     };
   },
@@ -388,7 +370,11 @@ var VisNode = Backbone.Model.extend({
 
     commit: null,
     animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
+    animationEasing: GRAPHICS.defaultEasing,
+
+    fill: GRAPHICS.defaultNodeFill,
+    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
+    stroke: GRAPHICS.defaultNodeStroke
   },
 
   validateAtInit: function() {
@@ -467,7 +453,10 @@ var VisNode = Backbone.Model.extend({
         cx: pos.x,
         cy: pos.y,
         opacity: opacity,
-        r: this.getRadius()
+        r: this.getRadius(),
+        fill: this.getFill(),
+        'stroke-width': this.get('stroke-width'),
+        'stroke': this.get('stroke')
       },
       text: {
         x: textPos.x,
@@ -565,6 +554,21 @@ var VisNode = Backbone.Model.extend({
     }
   },
 
+  getFill: function() {
+    // first get our status, might be easy from this
+    var stat = gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (stat == 'head') {
+      return GRAPHICS.headRectFill;
+    } else if (stat == 'none') {
+      return GRAPHICS.orphanNodeFill;
+    }
+
+    // now we need to get branch hues
+
+    return gitVisuals.getBlendedHuesForCommit(this.get('commit'));
+    return this.get('fill');
+  },
+
   attachClickHandlers: function() {
     var commandStr = 'git show ' + this.get('commit').get('id');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
@@ -578,9 +582,12 @@ var VisNode = Backbone.Model.extend({
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
 
-    var circle = cuteSmallCircle(paper, pos.x, pos.y, {
-      radius: this.getRadius()
-    });
+    var circle = paper.circle(
+      pos.x,
+      pos.y,
+      this.getRadius()
+    ).attr(this.getAttributes().circle);
+
     var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
     text.attr({
       'font-size': this.getFontSize(this.get('id')),

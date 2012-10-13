@@ -355,6 +355,17 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
 
+  var inArray = function(arr, id) {
+    var found = false;
+    _.each(arr, function(wrapper) {
+      if (wrapper.id == id) {
+        found = true;
+      }
+    });
+
+    return found;
+  };
+
   var bfsSearch = function(commit) {
     var set = [];
     var pQueue = [commit];
@@ -373,7 +384,14 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
     var set = bfsSearch(branch.get('target'));
     _.each(set, function(id) {
       commitToSet[id] = commitToSet[id] || [];
-      commitToSet[id].push(branch.get('id'));
+
+      // only add it if it's not there, so hue blending is ok
+      if (!inArray(commitToSet[id], branch.get('id'))) {
+        commitToSet[id].push({
+          obj: branch,
+          id: branch.get('id')
+        });
+      }
     });
   });
 
@@ -684,7 +702,8 @@ GitEngine.prototype.mergeStarter = function() {
 
 GitEngine.prototype.merge = function(targetSource, currentLocation) {
   // first some conditions
-  if (this.isUpstreamOf(targetSource, currentLocation)) {
+  if (this.isUpstreamOf(targetSource, currentLocation) ||
+      this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
     throw new CommandResult({
       msg: 'Branch already up-to-date'
     });
@@ -980,6 +999,7 @@ GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
 
 GitEngine.prototype.getUpstreamSet = function(ancestor) {
   var commit = this.getCommitFromRef(ancestor);
+  var ancestorID = commit.get('id');
   var queue = [commit];
 
   var exploredSet = {};

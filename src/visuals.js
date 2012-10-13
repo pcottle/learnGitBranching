@@ -150,6 +150,37 @@ GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamHeadSet = gitEngine.getUpstreamHeadSet();
 };
 
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
 GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
   if (!this.upstreamBranchSet) {
     throw new Error("Can't calculate this yet!");
@@ -421,7 +452,7 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
 
 
 /************************
- * Random util functions, adapted from liquidGraph
+ * Random util functions, some from liquidGraph
  ***********************/
 function blendHueStrings(hueStrings) {
   // assumes a sat of 0.7 and brightness of 1
@@ -451,41 +482,17 @@ function blendHueStrings(hueStrings) {
   totalSat = totalSat / length;
   totalBright = totalBright / length;
 
-  var hue = Math.atan2(y, x) / (Math.PI * 2);
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
   if (hue < 0) {
     hue = hue + 1;
   }
   return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
 }
 
-function constructPathStringFromCoords(points,wantsToClose) {
-    var pathString = "M" + String(Math.round(points[0].x)) + "," + String(Math.round(points[0].y));
-    var lp = points[0];
-
-    _.each(points, function(point) {
-        var s = " L" + String(Math.round(point.x)) + "," + String(Math.round(point.y));
-        pathString = pathString + s;
-    });
-
-    if (wantsToClose) {
-        pathString = pathString + " Z";
-    }
-    return pathString;
-};
-
 function randomHueString() {
     var hue = Math.random();
     var str = 'hsb(' + String(hue) + ',0.7,1)';
     return str;
-};
-
-function randomGradient() {
-    var hue = Math.random()*0.8;
-    var color1 = 'hsb(' + String(hue) + ',0.7,1)';
-    var color2 = 'hsb(' + String(hue + 0.2) + ',0.9,1)';
-
-    var gradient = String(Math.round(Math.random()*180)) + '-' + color1 + '-' + color2;
-    return gradient;
 };
 
 function cuteSmallCircle(paper, x, y, options) {

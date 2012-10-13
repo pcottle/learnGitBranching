@@ -19,7 +19,8 @@ var GRAPHICS = {
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 300,
 
-  rectFill: '#FF3A3A',
+  //rectFill: '#FF3A3A',
+  rectFill: 'hsb(0.8816909813322127,0.7,1)',
   headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
@@ -31,7 +32,13 @@ var GRAPHICS = {
   edgeUpstreamNoneOpacity: 0.15,
 
   visBranchStrokeWidth: 2,
-  visBranchStrokeColorNone: '#333'
+  visBranchStrokeColorNone: '#333',
+
+  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeStrokeWidth: 2,
+  defaultNodeStroke: '#FFF',
+
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)',
 };
 
 /**
