@@ -426,6 +426,11 @@ var VisNode = Backbone.Model.extend({
     this.set('outgoingEdges', []);
   },
 
+  setDepth: function(depth) {
+    // for merge commits we need to max the depths across all
+    this.set('depth', Math.max(this.get('depth') || 0, depth));
+  },
+
   setDepthBasedOn: function(depthIncrement) {
     if (this.get('depth') === undefined) {
       throw new Error('no depth yet!');

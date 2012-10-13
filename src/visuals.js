@@ -374,7 +374,7 @@ GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
 };
 
 GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
-  commit.get('visNode').set('depth', depth);
+  commit.get('visNode').setDepth(depth);
 
   var children = commit.get('children');
   var maxDepth = depth;
