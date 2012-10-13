@@ -6,15 +6,12 @@ animation factory? stuff like:
 -highlightCommit(50, 'targetColor') // during search
 -clearHighlightsAllNodes
 
-
 ALSO other big things:
-- Division in their rings based on how many / what branches they are part of
 - Color on branch edges??
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 - colored branch edges. basically 
-- node rings, really think we should do it
 - When you are rebasing and you hit the bottom, all the nodes go in the wrong spot...
           We need some kind of "update everything but this set of nodes" thing...
 - averaging colors!
@@ -31,6 +28,6 @@ Small things to implement:
 
 
 Bugs to fix:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

@@ -14,6 +14,8 @@ var TIME = {
 };
 
 var GRAPHICS = {
+  arrowHeadSize: 8,
+
   nodeRadius: 17,
   curveControlPointOffset: 50,
   defaultEasing: 'easeInOut',

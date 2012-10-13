@@ -674,11 +674,16 @@ var VisEdge = Backbone.Model.extend({
     str += coords(headPos);
 
     // arrow head
-    // TODO default sizing? fill the arrow head?
     var delta = GRAPHICS.arrowHeadSize || 10;
     str += ' L' + coords(offset2d(headPos, -delta, delta));
     str += ' L' + coords(offset2d(headPos, delta, delta));
     str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
 
     return str;
   },
@@ -698,7 +703,8 @@ var VisEdge = Backbone.Model.extend({
       'stroke-width': GRAPHICS.visBranchStrokeWidth,
       'stroke': this.getStrokeColor(),
       'stroke-linecap': 'round',
-      'stroke-linejoin': 'round'
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
     });
     path.toBack();
     this.set('path', path);
