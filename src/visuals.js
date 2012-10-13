@@ -64,6 +64,27 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   };
 };
 
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      console.warn('this obj doesnt exist yet', id);
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(function(visBranch) {
+    animate(visBranch);
+  });
+  this.edgeCollection.each(function(visEdge) {
+    animate(visEdge);
+  });
+  _.each(this.visNodeMap, function(visNode) {
+    animate(visNode);
+  });
+};
+
 /***************************************
      == BEGIN Tree Calculation Parts ==
        _  __    __  _
@@ -101,6 +122,10 @@ GitVisuals.prototype.genSnapshot = function() {
 };
 
 GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.paperReady) {
+    return;
+  }
+
   // this method can only be called after graphics are rendered
   this.fullCalc();
 
@@ -362,12 +387,9 @@ GitVisuals.prototype.canvasResize = function(width, height) {
   this.paperWidth = width;
   this.paperHeight = height;
 
-  // there will be one resize before paper is ready -- if so, dont call it
-  if (!this.paperReady) {
-    return;
-  }
-
+  // refresh when we are ready
   this.refreshTree();
+  // TODO when animation is happening, do this: events.trigger('processCommandFromEvent', 'refresh');
 };
 
 GitVisuals.prototype.addNode = function(id, commit) {

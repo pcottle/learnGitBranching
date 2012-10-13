@@ -553,6 +553,7 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebaseAnimation = function(response) {
+  /*
   // TODO: move to animation factory
   var start = function() {
     // maybe search stuff??
@@ -599,6 +600,7 @@ GitEngine.prototype.rebaseAnimation = function(response) {
   }, this);
 
   animationFactory.refreshTree(this.animationQueue);
+  */
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {

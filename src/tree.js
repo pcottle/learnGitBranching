@@ -353,16 +353,27 @@ var VisBranch = Backbone.Model.extend({
 
   animateUpdatedPos: function(speed, easing) {
     var attr = this.getAttributes();
-    this.animateFromAttr(attr, speed, easing);
+    this.animateToAttr(attr, speed, easing);
   },
 
-  animateFromAttr: function(attr, speed, easing) {
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    var func = 'animate';
+    if (speed == 0) {
+      func = 'attr';
+    }
+
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 
-    this.get('text').stop().animate(attr.text, s, e);
-    this.get('rect').stop().animate(attr.rect, s, e);
-    this.get('arrow').stop().animate(attr.arrow, s, e);
+    this.get('text').stop()[func](attr.text, s, e);
+    this.get('rect').stop()[func](attr.rect, s, e);
+    this.get('arrow').stop()[func](attr.arrow, s, e);
   }
 });
 
@@ -387,6 +398,10 @@ var VisNode = Backbone.Model.extend({
     fill: GRAPHICS.defaultNodeFill,
     'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
     stroke: GRAPHICS.defaultNodeStroke
+  },
+
+  getID: function() {
+    return this.get('id');
   },
 
   validateAtInit: function() {
@@ -480,15 +495,26 @@ var VisNode = Backbone.Model.extend({
 
   animateUpdatedPosition: function(speed, easing) {
     var attr = this.getAttributes();
-    this.animateFromAttr(attr, speed, easing);
+    this.animateToAttr(attr, speed, easing);
   },
 
-  animateFromAttr: function(attr, speed, easing) {
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    var func = 'animate';
+    if (speed == 0) {
+      func = 'attr';
+    }
+    
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 
-    this.get('circle').stop().animate(attr.circle, s, e);
-    this.get('text').stop().animate(attr.text, s, e);
+    this.get('circle').stop()[func](attr.circle, s, e);
+    this.get('text').stop()[func](attr.text, s, e);
   },
 
   getScreenCoords: function() {
@@ -521,9 +547,43 @@ var VisNode = Backbone.Model.extend({
     });
   },
 
+  setBirthFromSnapshot: function(beforeSnapshot) {
+    // first get parent attribute
+    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
+    var parentAttr = beforeSnapshot[parentID];
+
+    // then set myself faded on top of parent
+    this.get('circle').attr({
+      opacity: 0,
+      r: 0,
+      cx: parentAttr.circle.cx,
+      cy: parentAttr.circle.cy
+    });
+
+    this.get('text').attr({
+      opacity: 0,
+      x: parentAttr.text.x,
+      y: parentAttr.text.y
+    });
+
+    // then do edges
+    var parentCoords = {
+      x: parentAttr.circle.cx,
+      y: parentAttr.circle.cy
+    };
+    this.setOutgoingEdgesBirthPosition(parentCoords);
+  },
+
   setBirth: function() {
     this.setBirthPosition();
-    this.setOutgoingEdgesBirthPosition();
+    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
+  },
+
+  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapShot[edge.getID()];
+      edge.animateToAttr(attr);
+    }, this);
   },
 
   animateOutgoingEdges: function(speed, easing) {
@@ -535,12 +595,12 @@ var VisNode = Backbone.Model.extend({
   animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
     _.each(this.get('outgoingEdges'), function(edge) {
       var attr = snapshot[edge.getID()];
-      edge.animateFromAttr(attr, speed, easing);
+      edge.animateToAttr(attr, speed, easing);
     }, this);
   },
 
-  setOutgoingEdgesBirthPosition: function() {
-    var parentCoords = this.getParentScreenCoords();
+  setOutgoingEdgesBirthPosition: function(parentCoords) {
+
     _.each(this.get('outgoingEdges'), function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
@@ -747,12 +807,23 @@ var VisEdge = Backbone.Model.extend({
 
   animateUpdatedPath: function(speed, easing) {
     var attr = this.getAttributes();
-    this.animateFromAttr(attr, speed, easing);
+    this.animateToAttr(attr, speed, easing);
   },
 
-  animateFromAttr: function(attr, speed, easing) {
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    var func = 'animate';
+    if (speed == 0) {
+      func = 'attr';
+    }
+
     this.get('path').toBack();
-    this.get('path').stop().animate(
+    this.get('path').stop()[func](
       attr.path,
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')

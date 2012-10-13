@@ -42,6 +42,57 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   }));
 };
 
+AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
+  opacity = (opacity === undefined) ? 1 : opacity;
+
+  var newAttr = {};
+
+  _.each(attr, function(partObj, partName) {
+    newAttr[partName] = {};
+    _.each(partObj, function(val, key) {
+      if (key == 'opacity') {
+        newAttr[partName][key] = opacity;
+      } else {
+        newAttr[partName][key] = val;
+      }
+    });
+  });
+  return newAttr;
+};
+
+AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
+  var newSnap = {};
+
+  _.each(snapShot, function(visObj, visID) {
+    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
+  }, this);
+  console.log(newSnap);
+  return newSnap;
+};
+
+AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step) {
+
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 2.0;
+
+  var visNode = step.newCommit.get('visNode');
+  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
+  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
+
+  var animation = function() {
+    // TODO -- unhighlight old commit visnode here
+
+    visNode.setBirthFromSnapshot(step.beforeSnapshot);
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
+    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
+  };
+
+  return animation;
+};
+
 AnimationFactory.prototype.refreshTree = function(animationQueue) {
   animationQueue.add(new Animation({
     closure: function() {
@@ -52,6 +103,34 @@ AnimationFactory.prototype.refreshTree = function(animationQueue) {
 };
 
 AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse, gitEngine) {
+  // HIGHLIGHTING PART!!!!
 
+  var rebaseSteps = rebaseResponse.rebaseSteps;
 
+  _.each(rebaseSteps, function(rebaseStep) {
+    var snapshotPart = this.genFromToSnapshotAnimation(rebaseStep.beforeSnapshot, rebaseStep.afterSnapshot);
+    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep);
+
+    var animation = function() {
+      snapshotPart();
+      birthPart();
+    };
+        
+    animationQueue.add(new Animation({
+      closure: animation
+    }));
+
+    /*
+    rebaseStep.oldCommit
+    rebaseStep.newCommit
+    rebaseStep.beforeSnapshot
+    rebaseStep.afterSnapshot*/
+  }, this);
+};
+
+AnimationFactory.prototype.genFromToSnapshotAnimation = function(beforeSnapshot, afterSnapshot) {
+  return function() {
+    console.log('from', beforeSnapshot, 'to', afterSnapshot);
+    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot);
+  };
 };
