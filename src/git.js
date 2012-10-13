@@ -568,57 +568,6 @@ GitEngine.prototype.rebaseStarter = function() {
   animationFactory.rebaseAnimation(this.animationQueue, response, this);
 };
 
-GitEngine.prototype.rebaseAnimation = function(response) {
-  /*
-  // TODO: move to animation factory
-  var start = function() {
-    // maybe search stuff??
-  };
-
-  this.animationQueue.add(new Animation({
-    closure: start
-  }));
-  
-  // first set all birth positions...
-  _.each(response, function(step) {
-    step.newCommit.get('visNode').setBirth();
-  }, this);
-
-  var fixedOpacity = 0.8;
-  // then fix all opacities... ugh
-  _.each(response, function(step) {
-    _.each(step.snapshot, function(obj) {
-      _.each(obj, function(attr) {
-        if (attr.opacity !== undefined) {
-          attr.opacity = fixedOpacity;
-        }
-      });
-    });
-  });
-
-  var time = GRAPHICS.defaultAnimationTime;
-  var bounceTime = time * 2.0;
-
-  _.each(response, function(step) {
-    this.animationQueue.add(new Animation({
-      closure: function() {
-        var id = step.newCommit.get('id');
-        var vNode = step.newCommit.get('visNode');
-
-        vNode.setBirth();
-        vNode.setOutgoingEdgesBirthPosition();
-
-        vNode.animateOutgoingEdgesFromSnapshot(step.snapshot, bounceTime, 'bounce');
-        vNode.animateFromAttr(step.snapshot[id], bounceTime, 'bounce');
-      },
-      duration: Math.max(bounceTime, time)
-    }));
-  }, this);
-
-  animationFactory.refreshTree(this.animationQueue);
-  */
-};
-
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {

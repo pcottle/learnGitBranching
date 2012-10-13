@@ -43,10 +43,15 @@ var AnimationQueue = Backbone.Model.extend({
 
   start: function() {
     this.set('index', 0);
+
+    // set the global lock that we are animating
+    GLOBAL.isAnimating = true;
     this.next();
   },
 
   finish: function() {
+    // release lock here
+    GLOBAL.isAnimating = false;
     this.get('callback')();
   },
 

@@ -392,8 +392,11 @@ GitVisuals.prototype.canvasResize = function(width, height) {
   this.paperHeight = height;
 
   // refresh when we are ready
-  this.refreshTree();
-  // TODO when animation is happening, do this: events.trigger('processCommandFromEvent', 'refresh');
+  if (GLOBAL.isAnimating) {
+    events.trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
 };
 
 GitVisuals.prototype.addNode = function(id, commit) {

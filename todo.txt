@@ -1,10 +1,7 @@
-closures on animations with those snapshots
-integrate animation into all git commands
+Big things:
+~~~~~~~~~~~~~~~~~~~~~~~~
+- Interactive rebasing :OOOO
 
-animation factory? stuff like:
-
--highlightCommit(50, 'targetColor') // during search
--clearHighlightsAllNodes
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
