@@ -274,7 +274,8 @@ OptionParser.prototype.explodeAndSet = function() {
   // inside
   var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
   _.each(exploded, function(part, i) {
-    exploded[i] = part.replace(/['"]/g, '');
+    exploded[i] = part.replace(/^['"]|['"]$/g, '');
+    console.log(exploded[i]);
   });
 
   for (var i = 0; i < exploded.length; i++) {
