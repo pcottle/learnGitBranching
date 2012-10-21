@@ -636,7 +636,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
       return bits[0].slice(0, -3) + "'^4";
     }],
     [/^C(\d+)['][^](\d+)$/, function(bits) {
-      return 'C' + String(bits[1]) + "'^" + String(bits[2] + 1);
+      return 'C' + String(bits[1]) + "'^" + String(Number(bits[2]) + 1);
     }]
   ];
 
