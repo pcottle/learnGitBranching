@@ -721,12 +721,6 @@ GitEngine.prototype.rebaseStarter = function() {
 
   if (this.generalArgs.length == 1) {
     this.generalArgs.push('HEAD');
-    if (this.getDetachedHead()) {
-      throw new GitError({
-        msg: "No rebasing in detached head when you are " + 
-             "referring to HEAD by only passing in one argument!"
-      });
-    }
   }
 
   var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
@@ -754,6 +748,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
       msg: 'Branch already up-to-date'
     });
   }
+
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
     this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
@@ -790,7 +785,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     toRebaseRough.push(popped);
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(this.idSortFunc);
+    // pQueue.sort(this.idSortFunc);
   }
 
   // now we have the all the commits between currentLocation and the set of target.
@@ -827,8 +822,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     });
   }
 
-  // now sort
-  toRebase.sort(this.idSortFunc);
+  // now reverse it once more to get it in the right order
+  toRebase.reverse();
   animationResponse.toRebaseArray = toRebase.slice(0);
 
   // now pop all of these commits onto targetLocation
@@ -857,11 +852,6 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
   // now we just need to update where we are
   this.setLocationTarget(currentLocation, base);
-
-  // if we are in detached head, update that too
-  if (this.getDetachedHead()) {
-    this.setLocationTarget(this.HEAD, base);
-  }
 
   // for animation
   return animationResponse;

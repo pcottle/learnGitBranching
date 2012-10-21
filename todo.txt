@@ -21,3 +21,21 @@ Minor Bugs to fix:
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+
+~~~~~~~~~~
+
+
+eah forces moving it to the commit you indicate
+which is impossible as far as I can tell, short of detaching, deleting the branch, and doing branch [name] [commit]
+(detach in case that's the branch you're currently on)
+checkout -B [name] [commit] is equivalent to branch -f [name] [commit] and then checkout [name]
+tl;dr "branch" is to "checkout -b" as "branch -f" is to "checkout -B"
+
+seems like "branch -f [name] [commit]" does the following:
+git checkout --detach # in case you're on [name]
+git branch -D [name] # delete
+git branch [name] [commit] # move to given commit
+git checkout [name] # switch back
+
+
