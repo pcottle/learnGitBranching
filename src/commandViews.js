@@ -168,9 +168,12 @@ var CommandPromptView = Backbone.View.extend({
 
     // split commands on semicolon
     _.each(value.split(';'), _.bind(function(command, index) {
-      command = command.replace(/^(\s+)/, '');
-      command = command.replace(/(\s+)$/, '');
-      command = command.replace(/&quot;/g, '"');
+      command = command
+        .replace(/^(\s+)/, '')
+        .replace(/(\s+)$/, '')
+        .replace(/&quot;/g, '"')
+        .replace(/&#x27;/g, "'");
+
       command = _.escape(command);
 
       if (index > 0 && !command.length) {

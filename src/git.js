@@ -76,6 +76,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
+  HEAD.visBranch = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
