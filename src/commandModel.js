@@ -269,14 +269,9 @@ OptionParser.prototype.getMasterOptionMap = function() {
 };
 
 OptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes, and strip quotes after.
-  // for some reason the regex includes the quotes even if i move the parantheses
-  // inside
+  // split on spaces, except when inside quotes
+
   var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  _.each(exploded, function(part, i) {
-    exploded[i] = part.replace(/^['"]|['"]$/g, '');
-    console.log(exploded[i]);
-  });
 
   for (var i = 0; i < exploded.length; i++) {
     var part = exploded[i];
