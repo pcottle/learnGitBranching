@@ -299,6 +299,7 @@ var CommandLineHistoryView = Backbone.View.extend({
     }
     if (cD.clientHeight > t.clientHeight) {
       $(t).css('overflow-y', 'scroll');
+      $(t).css('overflow-x', 'hidden');
       $(t).addClass('scrolling');
       t.scrollTop = t.scrollHeight;
     }

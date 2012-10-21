@@ -117,7 +117,8 @@ var Command = Backbone.Model.extend({
       revert: /^revert($|\s)/,
       log: /^log($|\s)/,
       merge: /^merge($|\s)/,
-      show: /^show($|\s)/
+      show: /^show($|\s)/,
+      status: /^status($|\s)/
     };
   },
 
@@ -246,6 +247,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
       '-am': false, // warning
       '-m': false
     },
+    status: {},
     log: {},
     add: {},
     branch: {

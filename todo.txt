@@ -5,10 +5,12 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+- gitVisuals OVERHAUL. Will make the load / save tree easier
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - Rebuilding trees from a JSON snapshot / blob. this should be easy... i think. if we remove the need for parents
+- gitEngine loads from tree immediately, not the weird thing we have now
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

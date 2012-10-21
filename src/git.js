@@ -1091,6 +1091,30 @@ GitEngine.prototype.show = function(ref) {
   });
 };
 
+GitEngine.prototype.statusStarter = function() {
+  var lines = [];
+  if (this.getDetachedHead()) {
+    lines.push('Detached Head!');
+  } else {
+    var branchName = this.HEAD.get('target').get('id');
+    lines.push('On branch ' + branchName);
+  }
+  lines.push('Changes to be committed:');
+  lines.push('');
+  lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
+  lines.push('');
+  lines.push('Ready to commit! (as always in this demo)');
+
+  var msg = '';
+  _.each(lines, function(line) {
+    msg += '# ' + line + '\n';
+  });
+
+  throw new CommandResult({
+    msg: msg
+  });
+};
+
 GitEngine.prototype.logStarter = function() {
   if (this.generalArgs.length > 1) {
     throw new GitError({
