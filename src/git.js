@@ -26,10 +26,8 @@ function GitEngine(options) {
 
 GitEngine.prototype.init = function() {
   // make an initial commit and a master branch
-  this.rootCommit = new Commit({rootCommit: true});
+  this.rootCommit = this.makeCommit(null, null, {rootCommit: true});
   this.commitCollection.add(this.rootCommit);
-
-  this.refs[this.rootCommit.get('id')] = this.rootCommit;
 
   var master = this.makeBranch('master', this.rootCommit);
   this.HEAD = new Ref({
@@ -285,11 +283,24 @@ GitEngine.prototype.logBranches = function() {
   });
 };
 
-GitEngine.prototype.makeCommit = function(parents, id) {
-  var commit = new Commit({
-    parents: parents,
-    id: id
-  });
+GitEngine.prototype.makeCommit = function(parents, id, options) {
+  // ok we need to actually manually create commit IDs now because
+  // people like nikita (thanks for finding this!) could
+  // make branches named C2 before creating the commit C2
+  if (!id) {
+    id = uniqueId('C');
+    while (this.refs[id]) {
+      id = uniqueId('C');
+    }
+  }
+
+  var commit = new Commit(_.extend({
+      parents: parents,
+      id: id
+    },
+    options || {}
+  ));
+
   this.refs[commit.get('id')] = commit;
   this.commitCollection.add(commit);
   return commit;
@@ -1290,8 +1301,9 @@ var Commit = Backbone.Model.extend({
 
   validateAtInit: function() {
     if (!this.get('id')) {
-      this.set('id', uniqueId('C'));
+      throw new Error('Need ID!!');
     }
+
     if (!this.get('createTime')) {
       this.set('createTime', new Date().toString());
     }
