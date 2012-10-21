@@ -170,6 +170,7 @@ var CommandPromptView = Backbone.View.extend({
     _.each(value.split(';'), _.bind(function(command, index) {
       command = command.replace(/^(\s+)/, '');
       command = command.replace(/(\s+)$/, '');
+      command = command.replace(/&quot;/g, '"');
       command = _.escape(command);
 
       if (index > 0 && !command.length) {
