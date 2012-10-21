@@ -708,12 +708,6 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 };
 
 GitEngine.prototype.rebaseStarter = function() {
-  if (this.getDetachedHead()) {
-    throw new GitError({
-      msg: "No rebasing in detached head!"
-    });
-  }
-
   if (this.generalArgs.length > 2) {
     throw new GitError({
       msg: 'rebase with more than 2 arguments doesnt make sense!'
@@ -724,9 +718,17 @@ GitEngine.prototype.rebaseStarter = function() {
       msg: 'Give me a branch to rebase onto!'
     });
   }
+
   if (this.generalArgs.length == 1) {
     this.generalArgs.push('HEAD');
+    if (this.getDetachedHead()) {
+      throw new GitError({
+        msg: "No rebasing in detached head when you are " + 
+             "referring to HEAD by only passing in one argument!"
+      });
+    }
   }
+
   var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
 
   if (response === undefined) {
@@ -855,6 +857,11 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
   // now we just need to update where we are
   this.setLocationTarget(currentLocation, base);
+
+  // if we are in detached head, update that too
+  if (this.getDetachedHead()) {
+    this.setLocationTarget(this.HEAD, base);
+  }
 
   // for animation
   return animationResponse;
