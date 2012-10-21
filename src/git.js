@@ -236,7 +236,7 @@ GitEngine.prototype.makeBranch = function(id, target) {
   id = this.validateBranchName(id);
   if (this.refs[id]) {
     throw new GitError({
-      msg: 'that branch id already exists!'
+      msg: 'that branch id either matches a commit hash or already exists!'
     });
   }
 
