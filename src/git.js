@@ -735,11 +735,9 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
-  // git for some reason always checks out the branch you are rebasing if
-  // you aren't in detached head
-  if (!this.getDetachedHead()) {
-    this.checkout(currentLocation);
-  }
+  // git for some reason always checks out the branch you are rebasing,
+  // no matter the result of the rebase
+  this.checkout(currentLocation);
 
   var targetObj = this.resolveID(targetSource);
 
