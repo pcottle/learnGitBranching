@@ -735,13 +735,13 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
+  // git for some reason always checks out the branch you are rebasing if
+  // you aren't in detached head
+  if (!this.getDetachedHead()) {
+    this.checkout(currentLocation);
+  }
+
   var targetObj = this.resolveID(targetSource);
-  /*
-  if (targetObj.get('type') !== 'branch') {
-    throw new GitError({
-      msg: 'Only rebase onto branches! Not individual commits'
-    });
-  }*/
 
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
@@ -851,9 +851,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     beforeSnapshot = afterSnapshot;
   }, this);
 
-  // now we just need to update where we are
+  // now we just need to update the rebased branch is
   this.setLocationTarget(currentLocation, base);
-
   // for animation
   return animationResponse;
 };
