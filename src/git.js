@@ -736,11 +736,12 @@ GitEngine.prototype.rebaseStarter = function() {
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   var targetObj = this.resolveID(targetSource);
+  /*
   if (targetObj.get('type') !== 'branch') {
     throw new GitError({
       msg: 'Only rebase onto branches! Not individual commits'
     });
-  }
+  }*/
 
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {

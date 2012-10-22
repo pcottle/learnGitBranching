@@ -109,8 +109,13 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
   var slowTime = fullTime * 2.0;
 
   // we want to highlight all the old commits
-  var oldCommits = rebaseResponse.toRebaseArray;//.reverse();
+  var oldCommits = rebaseResponse.toRebaseArray;
+  // we are either highlighting to a visBranch or a visNode
   var visBranch = rebaseResponse.destinationBranch.get('visBranch');
+  if (!visBranch) {
+    // in the case where we rebase onto a commit
+    visBranch = rebaseResponse.destinationBranch.get('visNode');
+  }
 
   _.each(oldCommits, function(oldCommit) {
     var visNode = oldCommit.get('visNode');

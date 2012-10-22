@@ -42,6 +42,10 @@ var VisBranch = VisBase.extend({
     }
   },
 
+  getFill: function() {
+    return this.get('fill');
+  },
+
   getID: function() {
     return this.get('branch').get('id');
   },
@@ -505,9 +509,9 @@ var VisNode = VisBase.extend({
     };
   },
 
-  highlightTo: function(branch, speed, easing) {
+  highlightTo: function(visObj, speed, easing) {
     // a small function to highlight the color of a node for demonstration purposes
-    var color = branch.get('fill');
+    var color = visObj.get('fill');
 
     var attr = {
       circle: {
