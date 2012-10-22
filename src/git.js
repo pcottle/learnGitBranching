@@ -314,6 +314,10 @@ GitEngine.prototype.acceptNoGeneralArgs = function() {
   }
 };
 
+GitEngine.prototype.validateArgBounds = function(args, lower, upper) {
+  // TODO
+};
+
 GitEngine.prototype.revertStarter = function() {
   if (this.generalArgs.length !== 1) {
     throw new GitError({
@@ -356,7 +360,7 @@ GitEngine.prototype.revert = function(whichCommit) {
     base = newCommit;
   }
   // done! update our location
-  this.setLocationTarget('HEAD', base);
+  this.setTargetLocation('HEAD', base);
 };
 
 GitEngine.prototype.resetStarter = function() {
@@ -389,7 +393,7 @@ GitEngine.prototype.resetStarter = function() {
 };
 
 GitEngine.prototype.reset = function(target) {
-  this.setLocationTarget('HEAD', this.getCommitFromRef(target));
+  this.setTargetLocation('HEAD', this.getCommitFromRef(target));
 };
 
 GitEngine.prototype.commitStarter = function() {
@@ -516,7 +520,10 @@ GitEngine.prototype.getCommitFromRef = function(ref) {
   return start;
 };
 
-GitEngine.prototype.setLocationTarget = function(ref, target) {
+GitEngine.prototype.setTargetLocation = function(ref, target) {
+  // sets whatever ref is (branch, HEAD, etc) to a target. so if
+  // you pass in HEAD, and HEAD is pointing to a branch, it will update
+  // the branch to that commit, not the HEAD
   var ref = this.getOneBeforeCommit(ref);
   ref.set('target', target);
 };
@@ -750,7 +757,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
-    this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
+    this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // we need the refresh tree animation to happen, so set the result directly
     // instead of throwing
     this.command.setResult('Fast-forwarding...');
@@ -852,7 +859,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   }, this);
 
   // now we just need to update the rebased branch is
-  this.setLocationTarget(currentLocation, base);
+  this.setTargetLocation(currentLocation, base);
   this.checkout(currentLocation);
   // for animation
   return animationResponse;
@@ -902,7 +909,7 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
 
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     // just set the target of this current location to the source
-    this.setLocationTarget(currentLocation, this.getCommitFromRef(targetSource));
+    this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
     this.command.setResult('Fast-forwarding...');
     return;
@@ -913,7 +920,7 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
   var parent2 = this.getCommitFromRef(targetSource);
 
   var commit = this.makeCommit([parent1, parent2]);
-  this.setLocationTarget(currentLocation, commit)
+  this.setTargetLocation(currentLocation, commit)
 };
 
 GitEngine.prototype.checkoutStarter = function() {
@@ -938,6 +945,27 @@ GitEngine.prototype.checkoutStarter = function() {
     var validId = this.validateBranchName(args[0]);
     this.branch(validId, args[1]);
     this.checkout(validId);
+    return;
+  }
+
+  if (this.commandOptions['-B']) {
+    var args = this.commandOptions['-B'];
+    if (args.length < 1) {
+      throw new GitError({
+        msg: 'Give me an argument with -B!'
+      });
+    }
+    if (args.length > 2) {
+      throw new GitError({
+        msg: 'Too many args with -B!'
+      });
+    }
+    if (args.length == 1) {
+      args.push('HEAD');
+    }
+    this.forceBranch(args[0], args[1]);
+    this.checkout(args[0]);
+
     return;
   }
 
@@ -983,6 +1011,29 @@ GitEngine.prototype.branchStarter = function() {
     return;
   }
 
+  if (this.commandOptions['-f']) {
+    var args = this.commandOptions['-f'];
+    if (args.length < 1) {
+      throw new GitError({
+        msg: 'Give me an argument with -f so I know which branch to force!'
+      });
+    }
+
+    if (args.length > 2) {
+      throw new GitError({
+        msg: 'Too many args for -f'
+      });
+    }
+
+    if (args.length == 1) {
+      args.push('HEAD');
+    }
+
+    // we want to force a branch somewhere
+    this.forceBranch(args[0], args[1]);
+    return;
+  }
+
   var len = this.generalArgs.length;
   if (len > 2) {
     throw new GitError({
@@ -1002,6 +1053,18 @@ GitEngine.prototype.branchStarter = function() {
   }
 
   this.branch(this.generalArgs[0], this.generalArgs[1]);
+};
+
+GitEngine.prototype.forceBranch = function(branchName, where) {
+  var branch = this.resolveID(branchName);
+  if (branch.get('type') !== 'branch') {
+    throw new GitError({
+      msg: "Can't force move anything but a branch!!"
+    });
+  }
+
+  var whereCommit = this.getCommitFromRef(where);
+  this.setTargetLocation(branch, whereCommit);
 };
 
 GitEngine.prototype.branch = function(name, ref) {

@@ -252,10 +252,12 @@ OptionParser.prototype.getMasterOptionMap = function() {
     add: {},
     branch: {
       '-d': false,
-      '-D': false
+      '-D': false,
+      '-f': false
     },
     checkout: {
-      '-b': false
+      '-b': false,
+      '-B': false
     },
     reset: {
       '--hard': false,

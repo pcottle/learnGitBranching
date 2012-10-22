@@ -26,7 +26,7 @@ Big Bugs to fix:
 ~~~~~~~~~~
 
 
-eah forces moving it to the commit you indicate
+yeah forces moving it to the commit you indicate
 which is impossible as far as I can tell, short of detaching, deleting the branch, and doing branch [name] [commit]
 (detach in case that's the branch you're currently on)
 checkout -B [name] [commit] is equivalent to branch -f [name] [commit] and then checkout [name]
