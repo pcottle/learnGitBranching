@@ -735,17 +735,17 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
-  // git for some reason always checks out the branch you are rebasing,
-  // no matter the result of the rebase
-  this.checkout(currentLocation);
-
   var targetObj = this.resolveID(targetSource);
 
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
-    throw new CommandResult({
-      msg: 'Branch already up-to-date'
-    });
+    this.command.setResult('Branch already up-to-date');
+
+    // git for some reason always checks out the branch you are rebasing,
+    // no matter the result of the rebase
+    this.checkout(currentLocation);
+    // returning instead of throwing makes a tree refresh
+    return;
   }
 
   if (this.isUpstreamOf(currentLocation, targetSource)) {
@@ -754,6 +754,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // we need the refresh tree animation to happen, so set the result directly
     // instead of throwing
     this.command.setResult('Fast-forwarding...');
+
+    this.checkout(currentLocation);
     return;
   }
 
@@ -851,6 +853,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
   // now we just need to update the rebased branch is
   this.setLocationTarget(currentLocation, base);
+  this.checkout(currentLocation);
   // for animation
   return animationResponse;
 };
