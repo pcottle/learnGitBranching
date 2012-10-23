@@ -965,7 +965,6 @@ GitEngine.prototype.checkoutStarter = function() {
     }
     this.forceBranch(args[0], args[1]);
     this.checkout(args[0]);
-
     return;
   }
 
@@ -1056,6 +1055,11 @@ GitEngine.prototype.branchStarter = function() {
 };
 
 GitEngine.prototype.forceBranch = function(branchName, where) {
+  // if branchname doesn't exist...
+  if (!this.refs[branchName]) {
+    this.branch(branchName, where);
+  }
+
   var branch = this.resolveID(branchName);
   if (branch.get('type') !== 'branch') {
     throw new GitError({
@@ -1064,6 +1068,7 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
   }
 
   var whereCommit = this.getCommitFromRef(where);
+
   this.setTargetLocation(branch, whereCommit);
 };
 
