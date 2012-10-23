@@ -316,9 +316,10 @@ GitEngine.prototype.acceptNoGeneralArgs = function() {
 
 GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
   // this is a little utility class to help arg validation that happens over and over again
-  var what = 'with ' + (option === undefined) ?
+  var what = (option === undefined) ?
     'git ' + this.command.get('method') :
     this.command.get('method') + ' ' + option + ' ';
+  what = 'with ' + what;
 
   if (args.length < lower) {
     throw new GitError({
@@ -332,6 +333,14 @@ GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
   }
 };
 
+GitEngine.prototype.oneArgImpliedHead = function(args, option) {
+  // for log, show, etc
+  this.validateArgBounds(args, 0, 1, option);
+  if (args.length == 0) {
+    args.push('HEAD');
+  }
+};
+
 GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
   // our args we expect to be between 1 and 2
   this.validateArgBounds(args, 1, 2, option);
@@ -342,17 +351,17 @@ GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
 };
 
 GitEngine.prototype.revertStarter = function() {
-  if (this.generalArgs.length !== 1) {
-    throw new GitError({
-      msg: "Specify the commit to revert to"
-    });
-  }
+  this.validateArgBounds(this.generalArgs, 1, 1);
+
   if (this.generalArgs[0] == 'HEAD') {
+    // we could optionally not do anything here and just skip
+    // the command, but I think people need to understand it doesn't make sense
     throw new GitError({
       msg: "Can't revert to HEAD! That's where you are now"
     });
     return;
   }
+
   this.revert(this.generalArgs[0]);
 };
 
@@ -402,16 +411,15 @@ GitEngine.prototype.resetStarter = function() {
     // dont absorb the arg off of --hard
     this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
   }
-  if (this.generalArgs.length !== 1) {
-    throw new GitError({
-      msg: "Specify the commit to reset to (1 argument)"
-    });
-  }
+
+  this.validateArgBounds(this.generalArgs, 1, 1);
+
   if (this.getDetachedHead()) {
     throw new GitError({
       msg: "Cant reset in detached head! Use checkout if you want to move"
     });
   }
+
   this.reset(this.generalArgs[0]);
 };
 
@@ -432,26 +440,20 @@ GitEngine.prototype.commitStarter = function() {
   if (this.commandOptions['-a']) {
     this.command.addWarning('No need to add files in this demo');
   }
+
   if (this.commandOptions['-am']) {
     var args = this.commandOptions['-am'];
-    if (args.length > 1) {
-      throw new GitError({
-        msg: "Commit -am doesn't make sense with more than one arg..."
-      });
-    }
+    this.validateArgBounds(args, 1, 1);
 
     this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message but it's not important");
+      "down your commit message anyways, but you can commit without a message " + 
+      "in this demo as well");
     msg = args[0];
   }
+
   if (this.commandOptions['-m']) {
     var args = this.commandOptions['-m'];
-    if (args.length > 1) {
-      throw new GitError({
-        msg: "Specifying a commit message with more than 1 arg doesnt make sense!"
-      });
-    }
-
+    this.validateArgBounds(args, 1, 1);
     msg = args[0];
   }
 
@@ -738,26 +740,14 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 };
 
 GitEngine.prototype.rebaseStarter = function() {
-  if (this.generalArgs.length > 2) {
-    throw new GitError({
-      msg: 'rebase with more than 2 arguments doesnt make sense!'
-    });
-  }
-  if (!this.generalArgs.length) {
-    throw new GitError({
-      msg: 'Give me a branch to rebase onto!'
-    });
-  }
-
-  if (this.generalArgs.length == 1) {
-    this.generalArgs.push('HEAD');
-  }
+  this.twoArgsImpliedHead(this.generalArgs);
 
   var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
 
   if (response === undefined) {
     // was a fastforward or already up to date. returning now
-    // will trigger the refresh animation
+    // will trigger the refresh animation by not adding anything to
+    // the animation queue
     return;
   }
 
@@ -889,19 +879,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 };
 
 GitEngine.prototype.mergeStarter = function() {
-  if (this.generalArgs.length > 2) {
-    throw new GitError({
-      msg: 'merge with more than 2 arguments doesnt make sense!'
-    });
-  }
-  if (!this.generalArgs.length) {
-    throw new GitError({
-      msg: 'Give me a branch to merge into!'
-    });
-  }
-  if (this.generalArgs.length == 1) {
-    this.generalArgs.push('HEAD');
-  }
+  this.twoArgsImpliedHead(this.generalArgs);
 
   if (_.include(this.generalArgs, 'HEAD') && this.getDetachedHead()) {
     throw new GitError({
@@ -950,21 +928,8 @@ GitEngine.prototype.checkoutStarter = function() {
   if (this.commandOptions['-b']) {
     // the user is really trying to just make a branch and then switch to it. so first:
     var args = this.commandOptions['-b'];
-    if (!args.length) {
-      throw new GitError({
-        msg: 'I expect a branch name with "checkout -b"!!'
-      });
-    }
-    if (args.length > 2) {
-      throw new GitError({
-        msg: 'Only two args max with checkout -b please (the new name and target branch)'
-      });
-    }
+    this.twoArgsImpliedHead(args, '-b');
 
-    // we are good!
-    if (args.length == 1) {
-      args.push('HEAD');
-    }
     var validId = this.validateBranchName(args[0]);
     this.branch(validId, args[1]);
     this.checkout(validId);
@@ -973,29 +938,15 @@ GitEngine.prototype.checkoutStarter = function() {
 
   if (this.commandOptions['-B']) {
     var args = this.commandOptions['-B'];
-    if (args.length < 1) {
-      throw new GitError({
-        msg: 'Give me an argument with -B!'
-      });
-    }
-    if (args.length > 2) {
-      throw new GitError({
-        msg: 'Too many args with -B!'
-      });
-    }
-    if (args.length == 1) {
-      args.push('HEAD');
-    }
+    this.twoArgsImpliedHead(args, '-B');
+
     this.forceBranch(args[0], args[1]);
     this.checkout(args[0]);
     return;
   }
 
-  if (this.generalArgs.length != 1) {
-    throw new GitError({
-      msg: 'I expect one argument along with git checkout (dont reference files)'
-    });
-  }
+  this.validateArgBounds(this.generalArgs, 1, 1);
+
   this.checkout(this.unescapeQuotes(this.generalArgs[0]));
 };
 
@@ -1021,12 +972,8 @@ GitEngine.prototype.branchStarter = function() {
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     var names = this.commandOptions['-d'] || this.commandOptions['-D'];
+    this.validateArgBounds(names, 1, NaN);
 
-    if (!names.length) {
-      throw new GitError({
-        msg: 'I expect branch names when deleting'
-      });
-    }
     _.each(names, function(name) {
       this.deleteBranch(name);
     }, this);
@@ -1155,14 +1102,8 @@ GitEngine.prototype.dispatch = function(command, callback) {
 };
 
 GitEngine.prototype.showStarter = function() {
-  if (this.generalArgs.length > 1) {
-    throw new GitError({
-      msg: 'git show with more than 1 argument does not make sense'
-    });
-  }
-  if (this.generalArgs.length == 0) {
-    this.generalArgs.push('HEAD');
-  }
+  this.oneArgImpliedHead(this.generalArgs);
+
   this.show(this.generalArgs[0]);
 };
 
@@ -1199,14 +1140,7 @@ GitEngine.prototype.statusStarter = function() {
 };
 
 GitEngine.prototype.logStarter = function() {
-  if (this.generalArgs.length > 1) {
-    throw new GitError({
-      msg: "git log with more than 1 argument doesn't make sense"
-    });
-  }
-  if (this.generalArgs.length == 0) {
-    this.generalArgs.push('HEAD');
-  }
+  this.oneArgImpliedHead(this.generalArgs);
   this.log(this.generalArgs[0]);
 };
 
