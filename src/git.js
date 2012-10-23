@@ -443,7 +443,7 @@ GitEngine.prototype.commitStarter = function() {
 
   if (this.commandOptions['-am']) {
     var args = this.commandOptions['-am'];
-    this.validateArgBounds(args, 1, 1);
+    this.validateArgBounds(args, 1, 1, '-am');
 
     this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
       "down your commit message anyways, but you can commit without a message " + 
@@ -453,7 +453,7 @@ GitEngine.prototype.commitStarter = function() {
 
   if (this.commandOptions['-m']) {
     var args = this.commandOptions['-m'];
-    this.validateArgBounds(args, 1, 1);
+    this.validateArgBounds(args, 1, 1, '-m');
     msg = args[0];
   }
 
@@ -739,7 +739,21 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
 
+GitEngine.prototype.rebaseInteractiveStarter = function() {
+  // first of all, our animation queue will be deferred because now its async
+  this.animationQueue.set('defer', true);
+
+  this.twoArgsImpliedHead(this.commandOptions['-i'], 1, 1, '-i');
+
+  // now do stuff :D
+};
+
 GitEngine.prototype.rebaseStarter = function() {
+  if (this.commandOptions['-i']) {
+    this.rebaseInteractiveStarter();
+    return;
+  }
+
   this.twoArgsImpliedHead(this.generalArgs);
 
   var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
@@ -779,16 +793,12 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     return;
   }
 
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(targetSource);
-
-  // now the part of actually rebasing.
+   // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
   var stopSet = this.getUpstreamSet(targetSource)
-  animationResponse.upstreamSet = stopSet;
 
   // now BFS from here on out
   var toRebaseRough = [];
@@ -809,7 +819,14 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // pQueue.sort(this.idSortFunc);
   }
 
-  // now we have the all the commits between currentLocation and the set of target.
+  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+};
+
+GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+
+  // now we have the all the commits between currentLocation and the set of target to rebase.
+  var animationResponse = {};
+  animationResponse.destinationBranch = this.resolveID(targetSource);
 
   // we need to throw out merge commits
   var toRebase = [];
@@ -827,7 +844,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     changesAlreadyMade[this.scrapeBaseID(key)] = val; // val == true
   }, this);
 
-  // now get rid of those other ones
+  // now get rid of the commits that will redo same changes
   toRebaseRough = toRebase;
   toRebase = [];
   _.each(toRebaseRough, function(commit) {
@@ -871,9 +888,20 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     beforeSnapshot = afterSnapshot;
   }, this);
 
-  // now we just need to update the rebased branch is
-  this.setTargetLocation(currentLocation, base);
-  this.checkout(currentLocation);
+  if (this.resolveID(currentLocation).get('type') == 'commit') {
+    // we referenced a commit like git rebase C2 C1, so we have
+    // to manually check out C1'
+    
+    var steps = animationResponse.rebaseSteps;
+    var newestCommit = steps[steps.length - 1].newCommit;
+
+    this.checkout(newestCommit);
+  } else {
+    // now we just need to update the rebased branch is
+    this.setTargetLocation(currentLocation, base);
+    this.checkout(currentLocation);
+  }
+
   // for animation
   return animationResponse;
 };
@@ -972,7 +1000,7 @@ GitEngine.prototype.branchStarter = function() {
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     var names = this.commandOptions['-d'] || this.commandOptions['-D'];
-    this.validateArgBounds(names, 1, NaN);
+    this.validateArgBounds(names, 1, NaN, '-d');
 
     _.each(names, function(name) {
       this.deleteBranch(name);
@@ -1098,7 +1126,9 @@ GitEngine.prototype.dispatch = function(command, callback) {
   }
 
   // animation queue will call the callback when its done
-  this.animationQueue.start();
+  if (!this.animationQueue.get('defer')) {
+    this.animationQueue.start();
+  }
 };
 
 GitEngine.prototype.showStarter = function() {

@@ -264,7 +264,9 @@ OptionParser.prototype.getMasterOptionMap = function() {
       '--soft': false, // this will raise an error but we catch it in gitEngine
     },
     merge: {},
-    rebase: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
     revert: {},
     show: {}
   };

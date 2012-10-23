@@ -93,7 +93,6 @@ AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step) {
 AnimationFactory.prototype.refreshTree = function(animationQueue) {
   animationQueue.add(new Animation({
     closure: function() {
-      console.log('refreshing tree from here');
       gitVisuals.refreshTree();
     }
   }));

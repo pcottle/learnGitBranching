@@ -23,7 +23,8 @@ var AnimationQueue = Backbone.Model.extend({
   defaults: {
     animations: null,
     index: 0,
-    callback: null
+    callback: null,
+    defer: false
   },
 
   initialize: function(options) {

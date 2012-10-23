@@ -6,6 +6,7 @@ Big things:
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitVisuals OVERHAUL. Will make the load / save tree easier
+- Callback animations?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
