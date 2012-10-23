@@ -1,7 +1,26 @@
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
     this.collection = options.collection;
-    this.commands = [];
+
+    // uses local storage
+    this.commands = new CommandEntryCollection();
+    this.commands.fetch({
+      success: _.bind(function() {
+        // reverse the commands. this is ugly but needs to be done...
+        var commands = [];
+        this.commands.each(function(c) {
+          commands.push(c);
+        });
+
+        commands.reverse();
+        this.commands.reset();
+
+        _.each(commands, function(c) {
+          this.commands.add(c);
+        }, this);
+      }, this)
+    });
+
     this.index = -1;
 
     this.commandSpan = this.$('#prompt span.command')[0];
@@ -134,7 +153,7 @@ var CommandPromptView = Backbone.View.extend({
     this.index += delta;
     
     // if we are over / under, display blank line. yes this eliminates your
-    // partially written command, but i doubt that is much in this demo
+    // partially edited command, but i doubt that is much in this demo
     if (this.index >= this.commands.length || this.index < 0) {
       this.clear();
       this.index = -1;
@@ -142,7 +161,15 @@ var CommandPromptView = Backbone.View.extend({
     }
 
     // yay! we actually can display something
-    this.setTextField(this.commands[this.index]);
+    var commandEntry = this.commands.toArray()[this.index].get('text');
+    this.setTextField(commandEntry);
+  },
+
+  clearLocalStorage: function() {
+    this.commands.each(function(c) {
+      Backbone.sync('delete', c, function() { });
+    }, this);
+    localStorage.setItem('CommandEntries', '');
   },
 
   setTextField: function(value) {
@@ -160,9 +187,23 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   submitValue: function(value) {
-    // if we are entering a real command, add it to our history
-    if (value.length) {
-      this.commands.unshift(value);
+    // we should add if it's not a blank line and this is a new command...
+    // or if we edited the command
+    var shouldAdd = (value.length && this.index == -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (shouldAdd) {
+      var commandEntry = new CommandEntry({text: value});
+      this.commands.unshift(commandEntry);
+
+      // store to local storage
+      Backbone.sync('create', commandEntry, function() { });
+
+      // if our length is too egregious, reset
+      if (this.commands.length > 100) {
+        this.clearLocalStorage();
+      }
     }
     this.index = -1;
 

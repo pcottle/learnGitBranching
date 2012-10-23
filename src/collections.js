@@ -10,6 +10,11 @@ var BranchCollection = Backbone.Collection.extend({
   model: Branch
 });
 
+var CommandEntryCollection = Backbone.Collection.extend({
+  model: CommandEntry,
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
     collection: null,

@@ -24,11 +24,12 @@ $(document).ready(function(){
     collection: commandCollection
   });
 
-  new CommandPromptView({
+  // TODO make not global
+  commandPromptView = new CommandPromptView({
     el: $('#commandLineBar'),
     collection: commandCollection
   });
-  new CommandLineHistoryView({
+  commandLineHistoryView = new CommandLineHistoryView({
     el: $('#commandLineHistory'),
     collection: commandCollection
   });

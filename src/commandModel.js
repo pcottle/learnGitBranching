@@ -305,3 +305,11 @@ OptionParser.prototype.explodeAndSet = function() {
   // done!
 };
 
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
