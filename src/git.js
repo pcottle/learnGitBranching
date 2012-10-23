@@ -314,8 +314,31 @@ GitEngine.prototype.acceptNoGeneralArgs = function() {
   }
 };
 
-GitEngine.prototype.validateArgBounds = function(args, lower, upper) {
-  // TODO
+GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
+  // this is a little utility class to help arg validation that happens over and over again
+  var what = 'with ' + (option === undefined) ?
+    'git ' + this.command.get('method') :
+    this.command.get('method') + ' ' + option + ' ';
+
+  if (args.length < lower) {
+    throw new GitError({
+      msg: 'I expect at least ' + String(lower) + ' argument(s) ' + what
+    });
+  }
+  if (args.length > upper) {
+    throw new GitError({
+      msg: 'I expect at most ' + String(upper) + ' argument(s) ' + what
+    });
+  }
+};
+
+GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
+  // our args we expect to be between 1 and 2
+  this.validateArgBounds(args, 1, 2, option);
+  // and if it's one, add a HEAD to the back
+  if (args.length == 1) {
+    args.push('HEAD');
+  }
 };
 
 GitEngine.prototype.revertStarter = function() {
@@ -1012,45 +1035,20 @@ GitEngine.prototype.branchStarter = function() {
 
   if (this.commandOptions['-f']) {
     var args = this.commandOptions['-f'];
-    if (args.length < 1) {
-      throw new GitError({
-        msg: 'Give me an argument with -f so I know which branch to force!'
-      });
-    }
-
-    if (args.length > 2) {
-      throw new GitError({
-        msg: 'Too many args for -f'
-      });
-    }
-
-    if (args.length == 1) {
-      args.push('HEAD');
-    }
+    this.twoArgsImpliedHead(args, '-f');
 
     // we want to force a branch somewhere
     this.forceBranch(args[0], args[1]);
     return;
   }
 
-  var len = this.generalArgs.length;
-  if (len > 2) {
-    throw new GitError({
-      msg: 'git branch with more than two general args does not make sense!'
-    });
-  }
 
-
-  if (len == 0) {
+  if (this.generalArgs.length == 0) {
     this.printBranches();
     return;
   }
-  
-  if (len == 1) {
-    // making a branch from where we are now
-    this.generalArgs.push('HEAD');
-  }
 
+  this.twoArgsImpliedHead(this.generalArgs);
   this.branch(this.generalArgs[0], this.generalArgs[1]);
 };
 
