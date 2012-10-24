@@ -869,8 +869,19 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // now do stuff :D since all our validation checks have passed, we are going to defer animation
   // and actually launch the dialog
 
-  // this.animationQueue.set('defer', true);
-  this.rebaseFinish(toRebase, {}, targetSource, currentLocation);
+  this.animationQueue.set('defer', true);
+
+  var callback = _.bind(function(userSpecifiedRebase) {
+    var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
+
+    animationFactory.rebaseAnimation(this.animationQueue, animationData, this);
+
+    this.animationQueue.start();
+  }, this);
+
+  setTimeout(function() {
+    callback(toRebase);
+  }, 2000);
 };
 
 GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
@@ -1167,7 +1178,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
   }
 
   // only add the refresh if we didn't do manual animations
-  if (!this.animationQueue.get('animations').length) {
+  if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
     this.animationQueue.add(new Animation({
       closure: function() {
         gitVisuals.refreshTree();
