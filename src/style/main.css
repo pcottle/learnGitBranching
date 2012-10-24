@@ -325,6 +325,15 @@ p.commandLine span.prompt {
   cursor: pointer;
 }
 
+li.rebaseEntry {
+  margin: 10px;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+li.rebaseEntry.notPicked {
+  opacity: 0.2;
+}
+
 /* button stuff from liquidGraph */
 .uiButton {
   border-top: 1px solid #96d1f8;

@@ -101,21 +101,28 @@ var RebaseEntryView = Backbone.View.extend({
   tagName: 'li',
   template: _.template($('#interactive-rebase-entry-template').html()),
 
-  events: {
-    'click #toggleButton': 'toggle'
-  },
-
   toggle: function() {
     this.model.toggle();
+    
+    // toggle a class also
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
   },
 
   initialize: function(options) {
-    this.model.on('change', this.render, this);
     this.render();
   },
 
   render: function() {
     this.$el.append(this.template(this.model.toJSON()));
+    
+    // have to build some of this stuff up manually, lame.
+    // backbone needs a collectionview, this is ugly
+    var id = '#' + this.model.get('id');
+    this.listEntry = this.$(id);
+
+    this.$(id + ' #toggleButton').on('click', _.bind(function() {
+      this.toggle();
+    }, this));
   }
 });
 

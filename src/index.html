@@ -109,14 +109,15 @@
   </script>
 
   <script type="text/html" id="interactive-rebase-entry-template">
-    <li id="<%= id %>">
+    <li id="<%= id %>" class="rebaseEntry">
       <div class="wrapper">
-          <%= id %>
-        <div>
-          Options: Pick, Choose, Etc
-        </div>
-
         <i class="icon-align-justify"></i>
+        <span class="idwrapper">
+          <%= id %>
+        </span>
+        <a id="toggleButton" class="uiButton uiButtonPink">
+          Toggle Pick
+        </a>
       </div>
     </li>
   </script>
