@@ -864,11 +864,8 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     });
   }
 
-  console.log(toRebase);
-
   // now do stuff :D since all our validation checks have passed, we are going to defer animation
   // and actually launch the dialog
-
   this.animationQueue.set('defer', true);
 
   var callback = _.bind(function(userSpecifiedRebase) {
@@ -879,9 +876,11 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     this.animationQueue.start();
   }, this);
 
-  setTimeout(function() {
-    callback(toRebase);
-  }, 2000);
+  new InteractiveRebaseView({
+    callback: callback,
+    toRebase: toRebase,
+    el: $('#dialogHolder')
+  });
 };
 
 GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {

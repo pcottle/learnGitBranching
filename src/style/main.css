@@ -294,27 +294,6 @@ p.commandLine span.prompt {
   opacity: 0.7;
 }
 
-@-webkit-keyframes blink {
-  from {
-    opacity: 0.7;
-  }
-
-  49% {
-    opacity: 0.7;
-  }
-
-  50% {
-    opacity: 0;
-  }
-  
-  99% {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.7;
-  }
-}
-
 #commandLineBar,
 #terminal {
   background: #424242;
@@ -334,7 +313,159 @@ p.commandLine span.prompt {
   padding: 3px;
 }
 
-#commandLineBar {
-
+/* interactive rebase CSS */
+#iRebaseDialog.wrapper {
+  background: red;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 
+#iRebaseDialog #confirmButton {
+  cursor: pointer;
+}
+
+/* button stuff from liquidGraph */
+.uiButton {
+  border-top: 1px solid #96d1f8;
+  background: #65a9d7;
+  background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+  background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+  background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+  background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+  background: -o-linear-gradient(top, #3e779d, #65a9d7);
+  padding: 5px 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: white;
+  font-size: 14px;
+  font-family: Georgia, serif;
+  text-decoration: none;
+
+  vertical-align: middle;
+  cursor:pointer;
+}
+.uiButton:hover {
+  border-top-color: #28597a;
+  background: #28597a;
+  color: #ccc;
+}
+.uiButton:active {
+  border-top-color: #1b435e;
+  background: #1b435e;
+}
+
+.uiButtonYellow {
+  border-top: 1px solid #f4ffa1;
+  background: #288708;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e0e63c), to(#288708));
+  background: -webkit-linear-gradient(top, #e0e63c, #288708);
+  background: -moz-linear-gradient(top, #e0e63c, #288708);
+  background: -ms-linear-gradient(top, #e0e63c, #288708);
+  background: -o-linear-gradient(top, #e0e63c, #288708);
+}
+.uiButtonYellow:hover {
+  border-top-color: #30f03d;
+  background: #30f03d;
+  color: #000000;
+}
+.uiButtonYellow:active {
+  border-top-color: #5edb15;
+  background: #5edb15;
+}
+
+.uiButtonPink {
+  padding: 5px 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: white;
+  font-size: 14px;
+  font-family: Georgia, serif;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor:pointer;
+  position:absolute;
+
+
+  border-top: 1px solid #96d1f8;
+  background: #80007c;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fa1ee0), to(#80007c));
+  background: -webkit-linear-gradient(top, #fa1ee0, #80007c);
+  background: -moz-linear-gradient(top, #fa1ee0, #80007c);
+  background: -ms-linear-gradient(top, #fa1ee0, #80007c);
+  background: -o-linear-gradient(top, #fa1ee0, #80007c);
+}
+.uiButtonPink:hover {
+  border-top-color: #fa1ee0;
+  background: #fa1ee0;
+  color: #ccc;
+}
+.uiButtonPink:active {
+  border-top-color: #80007c;
+  background: #80007c;
+}
+
+.uiButtonRed {
+  border-top: 1px solid #ffebee;
+  background: #cc1212;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e08992), to(#cc1212));
+  background: -webkit-linear-gradient(top, #e08992, #cc1212);
+  background: -moz-linear-gradient(top, #e08992, #cc1212);
+  background: -ms-linear-gradient(top, #e08992, #cc1212);
+  background: -o-linear-gradient(top, #e08992, #cc1212);
+}
+
+.uiButtonRed:hover {
+  border-top-color: #cc102f;
+  background: #cc102f;
+  color: #ccc;
+}
+
+.uiButtonRed:active {
+  border-top-color: #ff0000;
+  background: #ff0000;
+}
+   
+.uiButtonWhite {
+  border-top: 1px solid #96d1f8;
+  background: #449ad4;
+  background: -webkit-gradient(linear, left top, left bottom, from(#d1edff), to(#449ad4));
+  background: -webkit-linear-gradient(top, #d1edff, #449ad4);
+  background: -moz-linear-gradient(top, #d1edff, #449ad4);
+  background: -ms-linear-gradient(top, #d1edff, #449ad4);
+  background: -o-linear-gradient(top, #d1edff, #449ad4);
+  padding: 5px 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: #000000;
+  font-size: 14px;
+  font-family: Georgia, serif;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.uiButtonWhite:hover {
+  border-top-color: #bae3ff;
+  background: #bae3ff;
+  color: #5c5c5c;
+}
+
+.uiButtonWhite:active {
+  border-top-color: #9bcbeb;
+  background: #9bcbeb;
+}

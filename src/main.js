@@ -59,11 +59,11 @@ $(document).ready(function(){
   setTimeout(windowResize, 50);
 
   
-  /*
-  setTimeout(function() {
-    events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
-  }, 500);*/
-
+  if (/\?demo/.test(window.location.href)) {
+    setTimeout(function() {
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
+    }, 500);
+  }
 });
 
 function windowResize() {

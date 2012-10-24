@@ -57,10 +57,15 @@
     </div>
   </div>
 
+  <div id="dialogHolder">
+
+  </div>
+
   <!-- *******************************************
        Scripts from here on out
        ****************************************** -->
   <script src="../lib/jquery-1.8.0.min.js"></script>
+  <script src="../lib/jquery-ui-1.9.0.custom.min.js"></script>
   <script src="../lib/underscore-min.js"></script>
   <script src="../lib/backbone-min.js"></script>
   <script src="../lib/backbone.localStorage-min.js"></script>
@@ -88,12 +93,42 @@
       </div>
   </script>
 
+  <script type="text/html" id="interactive-rebase-template">
+    <div id="iRebaseDialog" class="wrapper transitionAllSlow">
+      Rebasing <%= num %> Commits
+      <div id="entryHolders">
+        <ul id="rebaseEntries">
+
+        </ul>
+      </div>
+
+      <a id="confirmButton" class="uiButton uiButtonYellow">
+        Confirm
+      </a>
+    </div>
+  </script>
+
+  <script type="text/html" id="interactive-rebase-entry-template">
+    <li id="<%= id %>">
+      <div class="wrapper">
+          <%= id %>
+        <div>
+          Options: Pick, Choose, Etc
+        </div>
+
+        <i class="icon-align-justify"></i>
+      </div>
+    </li>
+  </script>
+
   <!-- My files! -->
   <script src="main.js"></script>
 
   <script src="async.js"></script>
   <script src="constants.js"></script>
   <script src="errors.js"></script>
+
+  <script src="miscViews.js"></script>
 
   <!-- the beefy git engine -->
   <script src="git.js"></script>
