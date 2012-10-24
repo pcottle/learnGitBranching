@@ -328,6 +328,11 @@ p.commandLine span.prompt {
 li.rebaseEntry {
   margin: 10px;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  cursor: move;
+}
+
+li.rebaseEntry a#toggleButton {
+  cursor: pointer;
 }
 
 li.rebaseEntry.notPicked {
@@ -478,3 +483,4 @@ li.rebaseEntry.notPicked {
   border-top-color: #9bcbeb;
   background: #9bcbeb;
 }
+

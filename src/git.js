@@ -488,6 +488,10 @@ GitEngine.prototype.commit = function() {
 };
 
 GitEngine.prototype.resolveID = function(idOrTarget) {
+  if (idOrTarget === null || idOrTarget === undefined) {
+    throw new Error('Dont call this with null / undefined');
+  }
+
   if (typeof idOrTarget !== 'string') {
     return idOrTarget;
   }
@@ -538,6 +542,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
 
 GitEngine.prototype.getCommitFromRef = function(ref) {
   var start = this.resolveID(ref);
+
   // works for both HEAD and just a single layer. aka branch
   while (start.get('type') !== 'commit') {
     start = start.get('target');
@@ -644,7 +649,12 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
 
   while (pQueue.length && numBack !== 0) {
     var popped = pQueue.shift(0);
-    pQueue = pQueue.concat(popped.get('parents'));
+    var parents = popped.get('parents');
+
+    if (parents && parents.length) {
+      pQueue = pQueue.concat(parents);
+    }
+
     pQueue.sort(this.idSortFunc);
     numBack--;
   }

@@ -16,6 +16,7 @@ var InteractiveRebaseView = Backbone.View.extend({
     this.rebaseMap = {};
     this.entryObjMap = {};
 
+    this.rebaseArray.reverse();
     // make basic models for each commit
     _.each(this.rebaseArray, function(commit) {
       var id = commit.get('id');
@@ -51,7 +52,7 @@ var InteractiveRebaseView = Backbone.View.extend({
     _.each(uiOrder, function(id) {
       // the model
       if (this.entryObjMap[id].get('pick')) {
-        toRebase.push(this.rebaseMap[id]);
+        toRebase.lshift(this.rebaseMap[id]);
       }
     }, this);
 
