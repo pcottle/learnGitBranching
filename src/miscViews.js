@@ -56,6 +56,10 @@ var InteractiveRebaseView = Backbone.View.extend({
     }, this);
 
     this.rebaseCallback(toRebase);  
+
+    this.$el.html('');
+    // kill ourselves?
+    delete this;
   },
 
   render: function() {

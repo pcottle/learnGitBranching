@@ -869,10 +869,16 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   this.animationQueue.set('defer', true);
 
   var callback = _.bind(function(userSpecifiedRebase) {
+    // first, they might have dropped everything (annoying)
+    if (!userSpecifiedRebase.length) {
+      this.command.setResult('Nothing to do...');
+      this.animationQueue.start();
+      return;
+    }
+
+    // finish the rebase crap and animate!
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-
     animationFactory.rebaseAnimation(this.animationQueue, animationData, this);
-
     this.animationQueue.start();
   }, this);
 
