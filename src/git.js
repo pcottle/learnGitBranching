@@ -487,6 +487,19 @@ GitEngine.prototype.commit = function() {
   return newCommit;
 };
 
+GitEngine.prototype.resolveName = function(someRef) {
+  // first get the obj
+  var obj = this.resolveID(someRef);
+  if (obj.get('type') == 'commit') {
+    return 'commit ' + obj.get('id');
+  }
+  if (obj.get('type') == 'branch') {
+    return 'branch "' + obj.get('id') + '"';
+  }
+  // we are dealing with HEAD
+  return this.resolveName(obj.get('target'));
+};
+
 GitEngine.prototype.resolveID = function(idOrTarget) {
   if (idOrTarget === null || idOrTarget === undefined) {
     throw new Error('Dont call this with null / undefined');
@@ -550,7 +563,16 @@ GitEngine.prototype.getCommitFromRef = function(ref) {
   return start;
 };
 
+GitEngine.prototype.getType = function(ref) {
+  return this.resolveID(ref).get('type');
+};
+
 GitEngine.prototype.setTargetLocation = function(ref, target) {
+  if (this.getType(ref) == 'commit') {
+    // nothing to do
+    return;
+  }
+
   // sets whatever ref is (branch, HEAD, etc) to a target. so if
   // you pass in HEAD, and HEAD is pointing to a branch, it will update
   // the branch to that commit, not the HEAD
@@ -643,8 +665,15 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     return commit;
   }
 
+  // we use a special sorting function here that
+  // prefers the later commits over the earlier ones
+  var sortQueue = _.bind(function(queue) {
+    queue.sort(this.idSortFunc);
+    queue.reverse();
+  }, this);
+
   var pQueue = [].concat(commit.get('parents') || []);
-  pQueue.sort(this.idSortFunc);
+  sortQueue(pQueue);
   numBack--;
 
   while (pQueue.length && numBack !== 0) {
@@ -655,7 +684,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
       pQueue = pQueue.concat(parents);
     }
 
-    pQueue.sort(this.idSortFunc);
+    sortQueue(pQueue);
     numBack--;
   }
 
@@ -985,6 +1014,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 GitEngine.prototype.mergeStarter = function() {
   this.twoArgsImpliedHead(this.generalArgs);
 
+  /*
   if (_.include(this.generalArgs, 'HEAD') && this.getDetachedHead()) {
     throw new GitError({
       msg: 'Cant merge things referencing HEAD when you are in detached head!'
@@ -998,7 +1028,7 @@ GitEngine.prototype.mergeStarter = function() {
         msg: "Can't merge a commit!"
       });
     }
-  }, this);
+  }, this);*/
 
   this.merge(this.generalArgs[0], this.generalArgs[1]);
 };
@@ -1024,7 +1054,18 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
   var parent1 = this.getCommitFromRef(currentLocation);
   var parent2 = this.getCommitFromRef(targetSource);
 
-  var commit = this.makeCommit([parent1, parent2]);
+  // we need a fancy commit message
+  var msg = 'Merge ' + this.resolveName(targetSource) +
+    ' into ' + this.resolveName(currentLocation);
+
+  var commit = this.makeCommit(
+    [parent1, parent2],
+    null,
+    {
+      commitMessage: msg
+    }
+  );
+
   this.setTargetLocation(currentLocation, commit)
 };
 
@@ -1272,7 +1313,6 @@ GitEngine.prototype.log = function(ref) {
     if (popped.get('parents') && popped.get('parents').length) {
       pQueue = pQueue.concat(popped.get('parents'));
     }
-    // pQueue.sort(this.idSortFunc);
   }
 
   // now go through and collect logs
