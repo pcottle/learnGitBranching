@@ -466,9 +466,7 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
 };
 
 GitVisuals.prototype.collectionChanged = function() {
-  console.log('git visuals... collection was changed');
-  // redo stuff
-  // TODO 
+  // TODO ?
 };
 
 GitVisuals.prototype.zIndexReflow = function() {

@@ -351,48 +351,59 @@ GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
 };
 
 GitEngine.prototype.revertStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, 1);
+  this.validateArgBounds(this.generalArgs, 1, NaN);
 
-  if (this.generalArgs[0] == 'HEAD') {
-    // we could optionally not do anything here and just skip
-    // the command, but I think people need to understand it doesn't make sense
-    throw new GitError({
-      msg: "Can't revert to HEAD! That's where you are now"
-    });
-    return;
+  var response = this.revert(this.generalArgs);
+
+  if (response) {
+    animationFactory.rebaseAnimation(this.animationQueue, response, this);
   }
-
-  this.revert(this.generalArgs[0]);
 };
 
-GitEngine.prototype.revert = function(whichCommit) {
-  // first get that commit
-  var targetLocation = this.getCommitFromRef(whichCommit);
-  var here = this.getCommitFromRef('HEAD');
-  // then BFS from here to that commit
-  var toUndo = [];
-  var queue = [here];
-  while (queue.length) {
-    var popped = queue.pop();
-    if (popped.get('id') == targetLocation.get('id')) {
-      // we got all that we needed to get
-      break;
-    }
-    toUndo.push(popped);
-    queue = queue.concat(popped.get('parents'));
-    queue.sort(this.idSortFunc);
-  }
+GitEngine.prototype.revert = function(whichCommits) {
+  // for each commit, we want to revert it
+  var toRebase = [];
+  _.each(whichCommits, function(stringRef) {
+    toRebase.push(this.getCommitFromRef(stringRef));
+  }, this);
+
+  // we animate reverts now!! we use the rebase animation though so that's
+  // why the terminology is like it is
+  var animationResponse = {};
+  animationResponse.destinationBranch = this.resolveID(toRebase[0]);
+  animationResponse.toRebaseArray = toRebase.slice(0);
+  animationResponse.rebaseSteps = [];
+
+  beforeSnapshot = gitVisuals.genSnapshot();
+  var afterSnapshot;
 
   // now make a bunch of commits on top of where we are
-  var base = here;
-  toUndo.sort(this.idSortFunc);
-  for (var i = 0; i < toUndo.length; i++) {
-    var newId = this.rebaseAltID(toUndo[i].get('id'));
-    var newCommit = this.makeCommit([base], newId);
+  var base = this.getCommitFromRef('HEAD');
+  _.each(toRebase, function(oldCommit) {
+    var newId = this.rebaseAltID(oldCommit.get('id'));
+
+    var newCommit = this.makeCommit([base], newId, {
+        commitMessage: 'Reverting ' + this.resolveName(oldCommit) +
+          ': "' + oldCommit.get('commitMessage') + '"'
+    });
+
     base = newCommit;
-  }
+
+    // animation stuff
+    afterSnapshot = gitVisuals.genSnapshot();
+    animationResponse.rebaseSteps.push({
+      oldCommit: oldCommit,
+      newCommit: newCommit,
+      beforeSnapshot: beforeSnapshot,
+      afterSnapshot: afterSnapshot
+    });
+    beforeSnapshot = afterSnapshot;
+  }, this);
   // done! update our location
   this.setTargetLocation('HEAD', base);
+
+  // animation
+  return animationResponse;
 };
 
 GitEngine.prototype.resetStarter = function() {
@@ -851,8 +862,6 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // it's not in the set, so we need to rebase this commit
     toRebaseRough.push(popped);
     // keep searching
-    pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(this.idSortFunc);
   }
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
