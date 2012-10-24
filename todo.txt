@@ -1,12 +1,10 @@
 Big things:
 ~~~~~~~~~~~~~~~~~~~~~~~~
-- Interactive rebasing :OOOO
 
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitVisuals OVERHAUL. Will make the load / save tree easier
-- Callback animations?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
