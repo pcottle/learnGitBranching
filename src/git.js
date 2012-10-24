@@ -1258,14 +1258,21 @@ GitEngine.prototype.log = function(ref) {
   var toDump = [];
   var pQueue = [commit];
 
+  var seen = {};
+
   while (pQueue.length) {
     var popped = pQueue.shift(0);
+    if (seen[popped.get('id')]) {
+      continue;
+    }
+    seen[popped.get('id')] = true;
+
     toDump.push(popped);
 
     if (popped.get('parents') && popped.get('parents').length) {
       pQueue = pQueue.concat(popped.get('parents'));
     }
-    pQueue.sort(this.idSortFunc);
+    // pQueue.sort(this.idSortFunc);
   }
 
   // now go through and collect logs
