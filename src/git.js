@@ -471,19 +471,19 @@ GitEngine.prototype.commitStarter = function() {
 
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
+  var id = undefined;
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
     targetCommit = this.resolveID('HEAD~1');
+    id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
   }
 
-  var newCommit = this.makeCommit([targetCommit]);
+  var newCommit = this.makeCommit([targetCommit], id);
   if (this.getDetachedHead()) {
     this.command.addWarning('Warning!! Detached HEAD state');
-    this.HEAD.set('target', newCommit);
-  } else {
-    var targetBranch = this.HEAD.get('target');
-    targetBranch.set('target', newCommit);
   }
+
+  this.setTargetLocation(this.HEAD, newCommit);
   return newCommit;
 };
 
@@ -740,12 +740,10 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 };
 
 GitEngine.prototype.rebaseInteractiveStarter = function() {
-  // first of all, our animation queue will be deferred because now its async
-  this.animationQueue.set('defer', true);
+  var args = this.commandOptions['-i'];
+  this.twoArgsImpliedHead(args, ' -i');
 
-  this.twoArgsImpliedHead(this.commandOptions['-i'], 1, 1, '-i');
-
-  // now do stuff :D
+  this.rebaseInteractive(args[0], args[1]);
 };
 
 GitEngine.prototype.rebaseStarter = function() {
@@ -769,8 +767,6 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
-  var targetObj = this.resolveID(targetSource);
-
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
     this.command.setResult('Branch already up-to-date');
@@ -778,6 +774,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // git for some reason always checks out the branch you are rebasing,
     // no matter the result of the rebase
     this.checkout(currentLocation);
+
     // returning instead of throwing makes a tree refresh
     return;
   }
@@ -816,14 +813,67 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     toRebaseRough.push(popped);
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
-    // pQueue.sort(this.idSortFunc);
+    pQueue.sort(this.idSortFunc);
   }
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
 
-GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
+  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
+  // but it will look similar.
 
+  // first if we are upstream of the target
+  if (this.isUpstreamOf(currentLocation, targetSource)) {
+    throw new GitError({
+      msg: 'Nothing to do... (git throws a "noop" status here); ' +
+        'Your source is upstream of your rebase target'
+    });
+  }
+
+  // now get the stop set
+  var stopSet = this.getUpstreamSet(targetSource);
+
+  var toRebaseRough = [];
+  // standard BFS
+  var pQueue = [this.getCommitFromRef(currentLocation)];
+
+  while (pQueue.length) {
+    var popped = pQueue.pop();
+
+    if (stopSet[popped.get('id')]) {
+      continue;
+    }
+
+    toRebaseRough.push(popped);
+    pQueue = pQueue.concat(popped.get('parents'));
+    pQueue.sort(this.idSortFunc);
+  }
+
+  // throw our merge's real fast and see if we have anything to do
+  var toRebase = [];
+  _.each(toRebaseRough, function(commit) {
+    if (commit.get('parents').length == 1) {
+      toRebase.push(commit);
+    }
+  });
+
+  if (!toRebase.length) {
+    throw new GitError({
+      msg: 'No commits to rebase! Everything is a merge commit'
+    });
+  }
+
+  console.log(toRebase);
+
+  // now do stuff :D since all our validation checks have passed, we are going to defer animation
+  // and actually launch the dialog
+
+  // this.animationQueue.set('defer', true);
+  this.rebaseFinish(toRebase, {}, targetSource, currentLocation);
+};
+
+GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
   // now we have the all the commits between currentLocation and the set of target to rebase.
   var animationResponse = {};
   animationResponse.destinationBranch = this.resolveID(targetSource);
