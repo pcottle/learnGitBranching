@@ -81,6 +81,15 @@ GitEngine.prototype.exportTree = function() {
   return totalExport;
 };
 
+GitEngine.prototype.printTree = function() {
+  var str = escape(JSON.stringify(this.exportTree()));
+  return str;
+};
+
+GitEngine.prototype.printAndCopyTree = function() {
+  window.prompt('Copy the tree string below', this.printTree());
+};
+
 GitEngine.prototype.loadTree = function(tree) {
   // first clear everything
   this.removeAll();
@@ -88,6 +97,10 @@ GitEngine.prototype.loadTree = function(tree) {
   this.instantiateFromTree(tree);
 
   this.reloadGraphics();
+};
+
+GitEngine.prototype.loadTreeFromString = function(treeString) {
+  this.loadTree(JSON.parse(unescape(treeString)));
 };
 
 GitEngine.prototype.instantiateFromTree = function(tree) {
