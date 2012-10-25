@@ -861,7 +861,10 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
     // it's not in the set, so we need to rebase this commit
     toRebaseRough.push(popped);
+    toRebaseRough.sort(this.idSortFunc);
+    toRebaseRough.reverse();
     // keep searching
+    pQueue = pQueue.concat(popped.get('parents'));
   }
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
