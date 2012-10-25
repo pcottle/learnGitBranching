@@ -279,8 +279,12 @@ GitVisuals.prototype.calcWidth = function() {
 GitVisuals.prototype.maxWidthRecursive = function(commit) {
   var childrenTotalWidth = 0;
   _.each(commit.get('children'), function(child) {
-    var childWidth = this.maxWidthRecursive(child);
-    childrenTotalWidth += childWidth;
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
   }, this);
 
   var maxWidth = Math.max(1, childrenTotalWidth);
@@ -326,7 +330,7 @@ GitVisuals.prototype.calcDepth = function() {
   var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
   if (maxDepth > 15) {
     // issue warning
-    // TODO
+    console.warn('graphics are degrading from too many layers');
   }
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
@@ -405,10 +409,10 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 
   var children = commit.get('children');
   var maxDepth = depth;
-  for (var i = 0; i < children.length; i++) {
-    var d = this.calcDepthRecursive(children[i], depth + 1);
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
     maxDepth = Math.max(d, maxDepth);
-  }
+  }, this);
 
   return maxDepth;
   // TODO for merge commits, a specific fancy schamncy "main" commit line

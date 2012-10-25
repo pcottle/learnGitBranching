@@ -1070,6 +1070,8 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
   var msg = 'Merge ' + this.resolveName(targetSource) +
     ' into ' + this.resolveName(currentLocation);
 
+  // since we specify parent 1 as the first parent, it is the "main" parent
+  // and the node will be displayed below that branch / commit / whatever
   var commit = this.makeCommit(
     [parent1, parent2],
     null,
@@ -1491,6 +1493,11 @@ var Commit = Backbone.Model.extend({
 
   addEdgeToVisuals: function(parent) {
     gitVisuals.addEdge(this.get('id'), parent.get('id'));
+  },
+
+  isMainParent: function(parent) {
+    var index = this.get('parents').indexOf(parent);
+    return index === 0;
   },
 
   initialize: function() {
