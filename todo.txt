@@ -5,13 +5,11 @@ Big things:
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitVisuals OVERHAUL. Will make the load / save tree easier
-- tree layout improvements for merge commits
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!
 - tree load both gitEngine and gitVisuals
-- better merge birth animation
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

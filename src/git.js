@@ -1026,23 +1026,9 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 GitEngine.prototype.mergeStarter = function() {
   this.twoArgsImpliedHead(this.generalArgs);
 
-  /*
-  if (_.include(this.generalArgs, 'HEAD') && this.getDetachedHead()) {
-    throw new GitError({
-      msg: 'Cant merge things referencing HEAD when you are in detached head!'
-    });
-  }
+  var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
 
-  // also can't merge commits directly, even though it makes sense
-  _.each(this.generalArgs, function(ref) {
-    if (this.resolveID(ref).get('type') == 'commit') {
-      throw new GitError({
-        msg: "Can't merge a commit!"
-      });
-    }
-  }, this);*/
-
-  this.merge(this.generalArgs[0], this.generalArgs[1]);
+  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit);
 };
 
 GitEngine.prototype.merge = function(targetSource, currentLocation) {
@@ -1072,7 +1058,7 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
 
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
-  var commit = this.makeCommit(
+  var mergeCommit = this.makeCommit(
     [parent1, parent2],
     null,
     {
@@ -1080,7 +1066,8 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
     }
   );
 
-  this.setTargetLocation(currentLocation, commit)
+  this.setTargetLocation(currentLocation, mergeCommit)
+  return mergeCommit;
 };
 
 GitEngine.prototype.checkoutStarter = function() {
