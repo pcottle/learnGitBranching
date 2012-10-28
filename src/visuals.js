@@ -18,7 +18,7 @@ function GitVisuals(options) {
 
   this.commitCollection.on('change', this.collectionChanged, this);
 
-  this.branchCollection.on('add', this.addBranch, this);
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
   
   events.on('canvasResize', _.bind(
@@ -362,14 +362,26 @@ GitVisuals.prototype.animateNodePositions = function(speed) {
   }, this);
 };
 
-GitVisuals.prototype.addBranch = function(branch) {
+GitVisuals.prototype.turnOnPaper = function() {
+  this.paperReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.paperReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  this.addBranch(branch);
+};
+
+GitVisuals.prototype.addBranch = function(branch, paperOverride) {
   var visBranch = new VisBranch({
     branch: branch
   });
 
   this.visBranchCollection.add(visBranch);
-  if (this.paperReady) {
-    console.log('PAPEPR IS READY');
+  if (!paperOverride && this.paperReady) {
     visBranch.genGraphics(paper);
   }
 };
@@ -511,17 +523,14 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
   this.calcTreeCoords();
 
   _.each(this.visNodeMap, function(visNode) {
-    console.log('visnode map is doing', visNode);
     visNode.genGraphics(paper);
   }, this);
 
   this.visEdgeCollection.each(function(edge) {
-    console.log('vis edge collection', edge);
     edge.genGraphics(paper);
   }, this);
 
   this.visBranchCollection.each(function(visBranch) {
-    console.log('vis rabnch', visBranch);
     visBranch.genGraphics(paper);
   }, this);
 

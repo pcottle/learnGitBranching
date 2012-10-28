@@ -123,14 +123,11 @@ var VisBranch = VisBase.extend({
   },
 
   getRectPosition: function() {
-    console.log('before text pos');
     var pos = this.getTextPosition();
-    console.log('wut');
     var f = this.get('flip');
+
     // first get text width and height
-    console.log('before text size');
     var textSize = this.getTextSize();
-    console.log('text size');
     return {
       x: pos.x - 0.5 * textSize.w - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')

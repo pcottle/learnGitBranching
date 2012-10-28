@@ -112,12 +112,12 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     this.commitCollection.add(commit);
   }, this);
 
-  gitVisuals.paperReady = false;
   _.each(tree.branches, function(branchJSON) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
-    this.branchCollection.add(branch);
+
+    this.branchCollection.add(branch, {silent: true});
+    gitVisuals.addBranch(branch, true /* paper override */);
   }, this);
-  gitVisuals.paperReady = true;
 
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
@@ -127,7 +127,6 @@ GitEngine.prototype.reloadGraphics = function() {
   var rootCommit = null;
 
   this.commitCollection.each(function(commit) {
-    console.log('finding commit from collection', commit.get('id'));
     if (commit.get('id') == 'C0') {
       rootCommit = commit;
     }
@@ -137,13 +136,11 @@ GitEngine.prototype.reloadGraphics = function() {
 
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff...
-  console.log('calling when git engine ready');
   gitVisuals.whenGitEngineReady(this);
 
   // when the paper is ready
   gitVisuals.drawTreeFromReload();
 
-  console.log('refreshing harsh');
   gitVisuals.refreshTreeHarsh();
 };
 
