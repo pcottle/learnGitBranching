@@ -123,10 +123,14 @@ var VisBranch = VisBase.extend({
   },
 
   getRectPosition: function() {
+    console.log('before text pos');
     var pos = this.getTextPosition();
+    console.log('wut');
     var f = this.get('flip');
     // first get text width and height
+    console.log('before text size');
     var textSize = this.getTextSize();
+    console.log('text size');
     return {
       x: pos.x - 0.5 * textSize.w - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')
@@ -274,10 +278,13 @@ var VisBranch = VisBase.extend({
   },
 
   genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
 
+    var textPos = this.getTextPosition();
     var name = this.getName();
-    var text = paper.text(textPos.x, textPos.y, String(name));
+    var text;
+
+    // when from a reload, we dont need to generate the text
+    text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
       'font-family': 'Monaco, Courier, font-monospace',

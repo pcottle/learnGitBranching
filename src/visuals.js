@@ -369,6 +369,7 @@ GitVisuals.prototype.addBranch = function(branch) {
 
   this.visBranchCollection.add(visBranch);
   if (this.paperReady) {
+    console.log('PAPEPR IS READY');
     visBranch.genGraphics(paper);
   }
 };
@@ -494,19 +495,33 @@ GitVisuals.prototype.visBranchesFront = function() {
   });
 };
 
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.paperReady = true;
+  this.calcTreeCoords();
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(paper, {
+      fromReload: true
+    });
+  }, this);
+};
+
 GitVisuals.prototype.drawTreeFirstTime = function() {
   this.paperReady = true;
   this.calcTreeCoords();
 
   _.each(this.visNodeMap, function(visNode) {
+    console.log('visnode map is doing', visNode);
     visNode.genGraphics(paper);
   }, this);
 
   this.visEdgeCollection.each(function(edge) {
+    console.log('vis edge collection', edge);
     edge.genGraphics(paper);
   }, this);
 
   this.visBranchCollection.each(function(visBranch) {
+    console.log('vis rabnch', visBranch);
     visBranch.genGraphics(paper);
   }, this);
 

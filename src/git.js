@@ -92,8 +92,9 @@ GitEngine.prototype.printAndCopyTree = function() {
 
 GitEngine.prototype.loadTree = function(tree) {
   // first clear everything
+  // debugger
   this.removeAll();
-  
+
   this.instantiateFromTree(tree);
 
   this.reloadGraphics();
@@ -111,10 +112,12 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     this.commitCollection.add(commit);
   }, this);
 
+  gitVisuals.paperReady = false;
   _.each(tree.branches, function(branchJSON) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
     this.branchCollection.add(branch);
   }, this);
+  gitVisuals.paperReady = true;
 
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
@@ -122,11 +125,14 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
 GitEngine.prototype.reloadGraphics = function() {
   var rootCommit = null;
+
   this.commitCollection.each(function(commit) {
+    console.log('finding commit from collection', commit.get('id'));
     if (commit.get('id') == 'C0') {
       rootCommit = commit;
     }
   });
+
   gitVisuals.rootCommit = rootCommit;
 
   // this just basically makes the HEAD branch. the head branch really should have been
@@ -135,9 +141,9 @@ GitEngine.prototype.reloadGraphics = function() {
   gitVisuals.whenGitEngineReady(this);
 
   // when the paper is ready
-  gitVisuals.drawTreeFirstTime();
+  gitVisuals.drawTreeFromReload();
 
-  console.log('refreshing hars');
+  console.log('refreshing harsh');
   gitVisuals.refreshTreeHarsh();
 };
 
@@ -209,10 +215,10 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.removeAll = function() {
-  gitVisuals.resetAll();
-
   this.branchCollection.reset();
   this.commitCollection.reset();
+
+  gitVisuals.resetAll();
 };
 
 GitEngine.prototype.getDetachedHead = function() {
