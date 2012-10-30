@@ -1044,6 +1044,12 @@ GitEngine.prototype.mergeStarter = function() {
 
   var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
 
+  if (newCommit === undefined) {
+    // its just a fast forwrard
+    animationFactory.refreshTree(this.animationQueue);
+    return;
+  }
+
   animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit);
 };
 
