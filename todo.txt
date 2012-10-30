@@ -1,15 +1,12 @@
 Big things:
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-- gitVisuals OVERHAUL. Will make the load / save tree easier
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!
-- tree load both gitEngine and gitVisuals
+- tree comparator, both 100% and fuzzy levels (not caring about HEAD)
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
