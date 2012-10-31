@@ -133,14 +133,13 @@ var RebaseEntryView = Backbone.View.extend({
   },
 
   render: function() {
+    var json = this.model.toJSON();
     this.$el.append(this.template(this.model.toJSON()));
-    
-    // have to build some of this stuff up manually, lame.
-    // backbone needs a collectionview, this is ugly
-    var id = '#' + this.model.get('id');
-    this.listEntry = this.$(id);
 
-    this.$(id + ' #toggleButton').on('click', _.bind(function() {
+    // hacky :( who would have known jquery barfs on ids with %'s and quotes
+    this.listEntry = this.$el.children(':last');
+
+    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
       this.toggle();
     }, this));
   }

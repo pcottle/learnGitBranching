@@ -15,8 +15,6 @@ Small things to implement:
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-jQuery gets confused with ids like #C1''.... ?
-
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
