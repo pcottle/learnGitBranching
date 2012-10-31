@@ -27,8 +27,23 @@ var InteractiveRebaseView = Backbone.View.extend({
       this.rebaseEntries.add(this.entryObjMap[id]);
     }, this);
 
-    // stuff
     this.render();
+
+    // show the dialog holder
+    this.show();
+  },
+
+  show: function() {
+    this.toggleVisibility(true);
+  },
+
+  hide: function() {
+    this.toggleVisibility(false);
+  },
+
+  toggleVisibility: function(toggle) {
+    console.log('toggling');
+    $('#dialogHolder').toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -52,7 +67,7 @@ var InteractiveRebaseView = Backbone.View.extend({
     _.each(uiOrder, function(id) {
       // the model
       if (this.entryObjMap[id].get('pick')) {
-        toRebase.lshift(this.rebaseMap[id]);
+        toRebase.unshift(this.rebaseMap[id]);
       }
     }, this);
 

@@ -1,13 +1,13 @@
 Big things:
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+- better dialog
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!
-- tree comparator, both 100% and fuzzy levels (not caring about HEAD)
-
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,11 +15,9 @@ Small things to implement:
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+jQuery gets confused with ids like #C1''.... ?
+
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-~~~~~~~~~~
 
 
