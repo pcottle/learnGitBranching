@@ -347,6 +347,13 @@ p.commandLine span.prompt {
   cursor: pointer;
 }
 
+#iRebaseDialog p.helperText {
+  color: #999;
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+}
+
 li.rebaseEntry {
   margin: 10px;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);

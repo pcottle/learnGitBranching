@@ -95,7 +95,12 @@
 
   <script type="text/html" id="interactive-rebase-template">
     <div id="iRebaseDialog" class="wrapper transitionAllSlow">
-      Rebasing <%= num %> Commits
+      <p>
+        Rebasing <%= num %> Commits
+      </p>
+      <p class="helperText">
+        (Drag and drop to re-order, and toggle the "pick" button to drop / re-add commits)
+      </p>
       <div id="entryHolders">
         <ul id="rebaseEntries">
 
