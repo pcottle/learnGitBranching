@@ -15,11 +15,10 @@ var Visualization = Backbone.View.extend({
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
 
-    gitVisuals = new GitVisuals({
+    this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection
     });
-    this.gitVisuals = gitVisuals;
 
     gitEngine = new GitEngine({
       collection: this.commitCollection,
