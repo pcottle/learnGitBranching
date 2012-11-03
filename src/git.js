@@ -48,6 +48,7 @@ GitEngine.prototype.init = function() {
 GitEngine.prototype.exportTree = function() {
   // need to export all commits, their connectivity / messages, branches, and state of head.
   // this would be simple if didn't have circular structures.... :P
+  // thus, we need to loop through and "flatten" our graph of objects referencing one another
   var totalExport = {
     branches: {},
     commits: {},
@@ -62,8 +63,10 @@ GitEngine.prototype.exportTree = function() {
   });
 
   _.each(this.commitCollection.toJSON(), function(commit) {
-    commit.visNode = undefined;
-    commit.children = [];
+    // clear out the fields that reference objects and create circular structure
+    _.each(Commit.prototype.constants.circularFields, function(field) {
+      commit[field] = undefined;
+    }, this);
 
     // convert parents
     var parents = [];
@@ -1448,6 +1451,10 @@ var Commit = Backbone.Model.extend({
     commitMessage: null,
     visNode: null,
     gitVisuals: null
+  },
+
+  constants: {
+    circularFields: ['gitVisuals', 'visNode', 'children']
   },
 
  getLogEntry: function() {
