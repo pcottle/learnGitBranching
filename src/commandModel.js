@@ -150,6 +150,13 @@ var Command = Backbone.Model.extend({
         throw new CommandResult({
           msg: "Refreshing tree..."
         });
+      }],
+      [/^rollup (\d+)$/, function(bits) {
+        // go roll up these commands by joining them with semicolons
+        events.trigger('rollupCommands', bits[1]);
+        throw new CommandResult({
+          msg: 'Commands combined!'
+        });
       }]
     ];
   },
@@ -164,8 +171,9 @@ var Command = Backbone.Model.extend({
     // then check if it's one of our sandbox commands
     _.each(this.getSandboxCommands(), function(tuple) {
       var regex = tuple[0];
-      if (regex.exec(str)) {
-        tuple[1]();
+      var results = regex.exec(str);
+      if (results) {
+        tuple[1](results);
       }
     });
 
@@ -181,7 +189,7 @@ var Command = Backbone.Model.extend({
     // see if begins with git
     if (str.slice(0,3) !== 'git') {
       throw new CommandProcessError({
-        msg: 'Git commands only, sorry!'
+        msg: 'That command is not supported, sorry!'
       });
     }
 

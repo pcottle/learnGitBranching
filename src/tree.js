@@ -559,6 +559,11 @@ var VisNode = VisBase.extend({
 
     this.get('circle').stop().animate(attr.circle, s, e);
     this.get('text').stop().animate(attr.text, s, e);
+
+    // animate the x attribute without bouncing so it looks like there's
+    // gravity in only one direction. Just a small animation polish
+    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
+    this.get('text').animate(attr.text.x, s, 'easeInOut');
   },
 
   getScreenCoords: function() {

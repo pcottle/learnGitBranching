@@ -39,6 +39,7 @@ var CommandPromptView = Backbone.View.extend({
 
     events.on('processCommandFromEvent', this.addToCollection, this);
     events.on('submitCommandValueFromEvent', this.submitValue, this);
+    events.on('rollupCommands', this.rollupCommands, this);
 
     // hacky timeout focus
     setTimeout(_.bind(function() {
@@ -184,6 +185,22 @@ var CommandPromptView = Backbone.View.extend({
     var value = this.$('#commandTextField').val().replace('\n', '');
     this.clear();
     this.submitValue(value);
+  },
+
+  rollupCommands: function(numBack) {
+    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    console.log(this.commands.toArray());
+    console.log(which);
+    var str = '';
+    _.each(which, function(commandEntry) {
+      str += commandEntry.get('text') + ';';
+    }, this);
+
+    console.log('the str', str);
+
+    var rolled = new CommandEntry({text: str});
+    this.commands.unshift(rolled);
+    Backbone.sync('create', rolled, function() { });
   },
 
   submitValue: function(value) {
