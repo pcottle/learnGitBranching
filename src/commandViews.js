@@ -189,8 +189,8 @@ var CommandPromptView = Backbone.View.extend({
 
   rollupCommands: function(numBack) {
     var which = this.commands.toArray().slice(1, Number(numBack) + 1);
-    console.log(this.commands.toArray());
-    console.log(which);
+    which.reverse();
+
     var str = '';
     _.each(which, function(commandEntry) {
       str += commandEntry.get('text') + ';';

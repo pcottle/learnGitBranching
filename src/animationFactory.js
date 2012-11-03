@@ -173,7 +173,7 @@ AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResp
   // need to delay to let bouncing finish
   this.delay(animationQueue);
 
-  this.refreshTree(animationQueue);
+  this.refreshTree(animationQueue, gitVisuals);
 };
 
 AnimationFactory.prototype.delay = function(animationQueue, time) {
