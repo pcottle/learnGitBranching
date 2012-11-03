@@ -19,15 +19,17 @@ var Visualization = Backbone.View.extend({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection
     });
+    this.gitVisuals = gitVisuals;
 
     gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection
     });
+    this.gitEngine = gitEngine;
 
     // needs to be called before raphael ready
     this.myResize();
-    events.trigger('raphaelReady');
+    this.gitVisuals.drawTreeFirstTime();
   },
 
   myResize: function() {
@@ -44,7 +46,7 @@ var Visualization = Backbone.View.extend({
       top: top + 'px'
     });
     paper.setSize(width, height);
-    events.trigger('canvasResize', width, height);
+    this.gitVisuals.canvasResize(width, height);
   }
 
 });
@@ -72,15 +74,10 @@ function GitVisuals(options) {
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
   
-  events.on('canvasResize', _.bind(
-    this.canvasResize, this
-  ));
-  events.on('raphaelReady', _.bind(
-    this.drawTreeFirstTime, this
-  ));
   events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
+
   events.on('gitEngineReady', this.whenGitEngineReady, this);
 }
 
