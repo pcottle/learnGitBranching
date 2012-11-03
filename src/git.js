@@ -15,7 +15,6 @@ function GitEngine(options) {
   this.commitCollection = options.collection;
 
   this.gitVisuals = options.gitVisuals;
-  console.log('git visuals is', this.gitVisuals);
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -203,7 +202,8 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     var commit = new Commit(_.extend(
       commitJSON,
       {
-        parents: parentObjs
+        parents: parentObjs,
+        gitVisuals: this.gitVisuals
       }
     ));
     createdSoFar[objID] = commit;
@@ -314,7 +314,8 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
 
   var commit = new Commit(_.extend({
       parents: parents,
-      id: id
+      id: id,
+      gitVisuals: this.gitVisuals
     },
     options || {}
   ));
@@ -1445,7 +1446,8 @@ var Commit = Backbone.Model.extend({
     author: 'Peter Cottle',
     createTime: null,
     commitMessage: null,
-    visNode: null
+    visNode: null,
+    gitVisuals: null
   },
 
  getLogEntry: function() {
@@ -1498,12 +1500,12 @@ var Commit = Backbone.Model.extend({
   },
 
   addNodeToVisuals: function() {
-    var visNode = gitVisuals.addNode(this.get('id'), this);
+    var visNode = this.get('gitVisuals').addNode(this.get('id'), this);
     this.set('visNode', visNode);
   },
 
   addEdgeToVisuals: function(parent) {
-    gitVisuals.addEdge(this.get('id'), parent.get('id'));
+    this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
   },
 
   isMainParent: function(parent) {
@@ -1511,7 +1513,7 @@ var Commit = Backbone.Model.extend({
     return index === 0;
   },
 
-  initialize: function() {
+  initialize: function(options) {
     this.validateAtInit();
     this.addNodeToVisuals();
 
