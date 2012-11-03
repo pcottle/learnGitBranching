@@ -14,6 +14,9 @@ function GitEngine(options) {
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
 
+  this.gitVisuals = options.gitVisuals;
+  console.log('git visuals is', this.gitVisuals);
+
   // global variable to keep track of the options given
   // along with the command call.
   this.commandOptions = {};
@@ -115,7 +118,7 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
 
     this.branchCollection.add(branch, {silent: true});
-    gitVisuals.addBranch(branch, true /* paper override */);
+    this.gitVisuals.addBranch(branch, true /* paper override */);
   }, this);
 
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
@@ -131,16 +134,16 @@ GitEngine.prototype.reloadGraphics = function() {
     }
   });
 
-  gitVisuals.rootCommit = rootCommit;
+  this.gitVisuals.rootCommit = rootCommit;
 
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff...
-  gitVisuals.whenGitEngineReady(this);
+  this.gitVisuals.whenGitEngineReady(this);
 
   // when the paper is ready
-  gitVisuals.drawTreeFromReload();
+  this.gitVisuals.drawTreeFromReload();
 
-  gitVisuals.refreshTreeHarsh();
+  this.gitVisuals.refreshTreeHarsh();
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -214,7 +217,7 @@ GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
   this.commitCollection.reset();
 
-  gitVisuals.resetAll();
+  this.gitVisuals.resetAll();
 };
 
 GitEngine.prototype.getDetachedHead = function() {
@@ -389,7 +392,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   animationResponse.toRebaseArray = toRebase.slice(0);
   animationResponse.rebaseSteps = [];
 
-  beforeSnapshot = gitVisuals.genSnapshot();
+  beforeSnapshot = this.gitVisuals.genSnapshot();
   var afterSnapshot;
 
   // now make a bunch of commits on top of where we are
@@ -405,7 +408,7 @@ GitEngine.prototype.revert = function(whichCommits) {
     base = newCommit;
 
     // animation stuff
-    afterSnapshot = gitVisuals.genSnapshot();
+    afterSnapshot = this.gitVisuals.genSnapshot();
     animationResponse.rebaseSteps.push({
       oldCommit: oldCommit,
       newCommit: newCommit,
@@ -1001,7 +1004,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 
   // do the rebase, and also maintain all our animation info during this
   animationResponse.rebaseSteps = [];
-  var beforeSnapshot = gitVisuals.genSnapshot();
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
   var afterSnapshot;
   _.each(toRebase, function(old) {
     var newId = this.rebaseAltID(old.get('id'));
@@ -1010,7 +1013,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     base = newCommit;
 
     // animation info
-    afterSnapshot = gitVisuals.genSnapshot();
+    afterSnapshot = this.gitVisuals.genSnapshot();
     animationResponse.rebaseSteps.push({
       oldCommit: old,
       newCommit: newCommit,
@@ -1259,7 +1262,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
   if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
     this.animationQueue.add(new Animation({
       closure: function() {
-        gitVisuals.refreshTree();
+        this.gitVisuals.refreshTree();
       }
     }));
   }
