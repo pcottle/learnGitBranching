@@ -26,6 +26,7 @@ var Visualization = Backbone.View.extend({
       gitVisuals: this.gitVisuals
     });
     this.gitEngine = gitEngine;
+    this.gitVisuals.assignGitEngine(this.gitEngine);
 
     // needs to be called before raphael ready
     this.myResize();
@@ -77,8 +78,6 @@ function GitVisuals(options) {
   events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
-
-  events.on('gitEngineReady', this.whenGitEngineReady, this);
 }
 
 GitVisuals.prototype.resetAll = function() {
@@ -100,11 +99,15 @@ GitVisuals.prototype.resetAll = function() {
   this.commitMap = {};
 };
 
-GitVisuals.prototype.whenGitEngineReady = function(gitEngine) {
-  // seed this with the HEAD pseudo-branch
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.grabHeadBranch();
+};
 
+GitVisuals.prototype.grabHeadBranch = function() {
+  // seed this with the HEAD pseudo-branch
   var headBranch = new VisBranch({
-    branch: gitEngine.HEAD,
+    branch: this.gitEngine.HEAD,
     gitVisuals: this
   });
 
@@ -246,8 +249,8 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 };
 
 GitVisuals.prototype.calcUpstreamSets = function() {
-  this.upstreamBranchSet = gitEngine.getUpstreamBranchSet();
-  this.upstreamHeadSet = gitEngine.getUpstreamHeadSet();
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
 };
 
 GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
@@ -300,7 +303,7 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
-  var branches = gitEngine.getBranches();
+  var branches = this.gitEngine.getBranches();
   var map = {};
   _.each(branches, function(branch) {
     var thisId = branch.target.get('id');

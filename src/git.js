@@ -140,7 +140,8 @@ GitEngine.prototype.reloadGraphics = function() {
 
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff...
-  this.gitVisuals.whenGitEngineReady(this);
+  // TODO -- hackyyy
+  this.gitVisuals.grabHeadBranch();
 
   // when the paper is ready
   this.gitVisuals.drawTreeFromReload();
