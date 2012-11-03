@@ -101,10 +101,15 @@ GitVisuals.prototype.resetAll = function() {
 
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
-  this.grabHeadBranch();
+  this.initHeadBranch();
 };
 
-GitVisuals.prototype.grabHeadBranch = function() {
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
   // seed this with the HEAD pseudo-branch
   var headBranch = new VisBranch({
     branch: this.gitEngine.HEAD,

@@ -40,9 +40,6 @@ GitEngine.prototype.init = function() {
 
   // commit once to get things going
   this.commit();
-
-  // now we are ready
-  events.trigger('gitEngineReady', this);
 };
 
 GitEngine.prototype.exportTree = function() {
@@ -139,9 +136,8 @@ GitEngine.prototype.reloadGraphics = function() {
   this.gitVisuals.rootCommit = rootCommit;
 
   // this just basically makes the HEAD branch. the head branch really should have been
-  // a member of a collection and not this annoying edge case stuff...
-  // TODO -- hackyyy
-  this.gitVisuals.grabHeadBranch();
+  // a member of a collection and not this annoying edge case stuff... one day TODO
+  this.gitVisuals.initHeadBranch();
 
   // when the paper is ready
   this.gitVisuals.drawTreeFromReload();
