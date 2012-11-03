@@ -52,8 +52,10 @@ var VisBranch = VisBase.extend({
 
   initialize: function() {
     this.validateAtInit();
-    this.get('branch').set('visBranch', this);
+    // shorthand notation
+    this.gitVisuals = this.get('gitVisuals');
 
+    this.get('branch').set('visBranch', this);
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {
@@ -100,11 +102,11 @@ var VisBranch = VisBase.extend({
   },
 
   getBranchStackArray: function() {
-    var arr = gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
     if (arr === undefined) {
       // this only occurs when we are generating graphics inside of
       // a new Branch instantiation, so we need to force the update
-      gitVisuals.calcBranchStacks();
+      this.gitVisuals.calcBranchStacks();
       return this.getBranchStackArray();
     }
     return arr;
@@ -265,13 +267,13 @@ var VisBranch = VisBase.extend({
     }
 
     // woof. now it's hard, we need to blend hues...
-    return gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
+    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
   },
 
   remove: function() {
     this.removeKeys(['text', 'arrow', 'rect']);
-    // also need to remove from gitVisuals
-    gitVisuals.removeVisBranch(this);
+    // also need to remove from this.gitVisuals
+    this.gitVisuals.removeVisBranch(this);
   },
 
   genGraphics: function(paper) {
@@ -436,6 +438,8 @@ var VisNode = VisBase.extend({
 
   initialize: function() {
     this.validateAtInit();
+    // shorthand
+    this.gitVisuals = this.get('gitVisuals');
 
     this.set('outgoingEdges', []);
   },
@@ -457,7 +461,7 @@ var VisNode = VisBase.extend({
   getMaxWidthScaled: function() {
     // returns our max width scaled based on if we are visible
     // from a branch or not
-    var stat = gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     var map = {
       branch: 1,
       head: 0.3,
@@ -479,7 +483,7 @@ var VisNode = VisBase.extend({
       'none': GRAPHICS.upstreamNoneOpacity
     };
 
-    var stat = gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     if (map[stat] === undefined) {
       throw new Error('invalid status');
     }
@@ -568,7 +572,7 @@ var VisNode = VisBase.extend({
 
   getScreenCoords: function() {
     var pos = this.get('pos');
-    return gitVisuals.toScreenCoords(pos);
+    return this.gitVisuals.toScreenCoords(pos);
   },
 
   getRadius: function() {
@@ -684,7 +688,7 @@ var VisNode = VisBase.extend({
 
   getFill: function() {
     // first get our status, might be easy from this
-    var stat = gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     if (stat == 'head') {
       return GRAPHICS.headRectFill;
     } else if (stat == 'none') {
@@ -693,7 +697,7 @@ var VisNode = VisBase.extend({
 
     // now we need to get branch hues
 
-    return gitVisuals.getBlendedHuesForCommit(this.get('commit'));
+    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
     return this.get('fill');
   },
 
@@ -723,7 +727,7 @@ var VisNode = VisBase.extend({
     // needs a manual removal of text for whatever reason
     this.get('text').remove();
 
-    gitVisuals.removeVisNode(this);
+    this.gitVisuals.removeVisNode(this);
   },
 
   removeAll: function() {
@@ -781,13 +785,15 @@ var VisEdge = VisBase.extend({
 
   initialize: function() {
     this.validateAtInit();
+    // shorthand
+    this.gitVisuals = this.get('gitVisuals');
 
     this.get('tail').get('outgoingEdges').push(this);
   },
 
   remove: function() {
     this.removeKeys(['path']);
-    gitVisuals.removeVisEdge(this);
+    this.gitVisuals.removeVisEdge(this);
   },
 
   genSmoothBezierPathString: function(tail, head) {
@@ -877,7 +883,7 @@ var VisEdge = VisBase.extend({
   },
 
   getOpacity: function() {
-    var stat = gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
     var map = {
       'branch': 1,
       'head': GRAPHICS.edgeUpstreamHeadOpacity,

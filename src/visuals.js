@@ -105,7 +105,8 @@ GitVisuals.prototype.whenGitEngineReady = function(gitEngine) {
   // seed this with the HEAD pseudo-branch
 
   var headBranch = new VisBranch({
-    branch: gitEngine.HEAD
+    branch: gitEngine.HEAD,
+    gitVisuals: this
   });
 
   this.visBranchCollection.add(headBranch);
@@ -426,7 +427,8 @@ GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
 
 GitVisuals.prototype.addBranch = function(branch, paperOverride) {
   var visBranch = new VisBranch({
-    branch: branch
+    branch: branch,
+    gitVisuals: this
   });
 
   this.visBranchCollection.add(visBranch);
@@ -500,7 +502,8 @@ GitVisuals.prototype.addNode = function(id, commit) {
 
   var visNode = new VisNode({
     id: id,
-    commit: commit
+    commit: commit,
+    gitVisuals: this
   });
   this.visNodeMap[id] = visNode;
 
@@ -522,7 +525,8 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
 
   var edge = new VisEdge({
     tail: visNodeTail,
-    head: visNodeHead
+    head: visNodeHead,
+    gitVisuals: this
   });
   this.visEdgeCollection.add(edge);
 
