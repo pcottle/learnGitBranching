@@ -11,6 +11,7 @@ var Visualization = Backbone.View.extend({
   },
 
   paperInitialize: function(paper, options) {
+    this.paper = paper;
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
 
@@ -25,8 +26,25 @@ var Visualization = Backbone.View.extend({
     });
 
     // needs to be called before raphael ready
-    windowResize();
+    this.myResize();
     events.trigger('raphaelReady');
+  },
+
+  myResize: function() {
+    var smaller = 10;
+    var el = this.el;
+
+    var left = el.offsetLeft;
+    var top = el.offsetTop;
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
+
+    $(this.paper.canvas).css({
+      left: left + 'px',
+      top: top + 'px'
+    });
+    paper.setSize(width, height);
+    events.trigger('canvasResize', width, height);
   }
 
 });
