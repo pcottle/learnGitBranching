@@ -70,15 +70,25 @@ function GitVisuals(options) {
   this.paperWidth = null;
   this.paperHeight = null;
 
-  this.commitCollection.on('change', this.collectionChanged, this);
-
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
   
   events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
+
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
+};
+
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
 
 GitVisuals.prototype.resetAll = function() {
   this.visEdgeCollection.each(function(visEdge) {
@@ -102,6 +112,7 @@ GitVisuals.prototype.resetAll = function() {
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
   this.initHeadBranch();
+  this.deferFlush();
 };
 
 GitVisuals.prototype.initHeadBranch = function() {
@@ -113,7 +124,8 @@ GitVisuals.prototype.initHeadBranch = function() {
   // seed this with the HEAD pseudo-branch
   var headBranch = new VisBranch({
     branch: this.gitEngine.HEAD,
-    gitVisuals: this
+    gitVisuals: this,
+    gitEngine: this.gitEngine
   });
 
   this.visBranchCollection.add(headBranch);
@@ -429,13 +441,23 @@ GitVisuals.prototype.turnOffPaper = function() {
 };
 
 GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
-  this.addBranch(branch);
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine) {
+    this.defer(action);
+  } else {
+    action();
+  }
 };
 
 GitVisuals.prototype.addBranch = function(branch, paperOverride) {
+  // TODO
   var visBranch = new VisBranch({
     branch: branch,
-    gitVisuals: this
+    gitVisuals: this,
+    gitEngine: this.gitEngine
   });
 
   this.visBranchCollection.add(visBranch);
@@ -510,7 +532,8 @@ GitVisuals.prototype.addNode = function(id, commit) {
   var visNode = new VisNode({
     id: id,
     commit: commit,
-    gitVisuals: this
+    gitVisuals: this,
+    gitEngine: this.gitEngine
   });
   this.visNodeMap[id] = visNode;
 
@@ -533,7 +556,8 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
   var edge = new VisEdge({
     tail: visNodeTail,
     head: visNodeHead,
-    gitVisuals: this
+    gitVisuals: this,
+    gitEngine: this.gitEngine
   });
   this.visEdgeCollection.add(edge);
 

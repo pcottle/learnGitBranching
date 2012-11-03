@@ -52,8 +52,14 @@ var VisBranch = VisBase.extend({
 
   initialize: function() {
     this.validateAtInit();
-    // shorthand notation
+
+    // shorthand notation for the main objects
     this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+    if (!this.gitEngine) { 
+      console.log('throw damnit');
+      throw new Error('asd');
+    }
 
     this.get('branch').set('visBranch', this);
     var id = this.get('branch').get('id');
@@ -71,7 +77,7 @@ var VisBranch = VisBase.extend({
   },
 
   getCommitPosition: function() {
-    var commit = gitEngine.getCommitFromRef(this.get('branch'));
+    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
     return visNode.getScreenCoords();
   },
@@ -240,7 +246,7 @@ var VisBranch = VisBase.extend({
 
   getName: function() {
     var name = this.get('branch').get('id');
-    var selected = gitEngine.HEAD.get('target').get('id');
+    var selected = this.gitEngine.HEAD.get('target').get('id');
 
     var add = (selected == name) ? '*' : '';
     return name + add;
@@ -316,14 +322,14 @@ var VisBranch = VisBase.extend({
 
   getNonTextOpacity: function() {
     if (this.get('isHead')) {
-      return gitEngine.getDetachedHead() ? 1 : 0;
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
     return this.getBranchStackIndex() == 0 ? 1 : 0.0;
   },
 
   getTextOpacity: function() {
     if (this.get('isHead')) {
-      return gitEngine.getDetachedHead() ? 1 : 0;
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
     return 1;
   },
@@ -438,8 +444,9 @@ var VisNode = VisBase.extend({
 
   initialize: function() {
     this.validateAtInit();
-    // shorthand
+    // shorthand for the main objects
     this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
 
     this.set('outgoingEdges', []);
   },
@@ -785,8 +792,10 @@ var VisEdge = VisBase.extend({
 
   initialize: function() {
     this.validateAtInit();
-    // shorthand
+
+    // shorthand for the main objects
     this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
 
     this.get('tail').get('outgoingEdges').push(this);
   },
