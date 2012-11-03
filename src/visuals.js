@@ -1,3 +1,35 @@
+function Visualization(options) {
+
+  var _this = this;
+  Raphael(10, 10, 200, 200, function() {
+    // for some reason raphael calls this function with a predefined
+    // context...
+    // so switch it
+    paper = this;
+    _this.initialize(this);
+  });
+}
+
+Visualization.prototype.initialize = function(paper, options) {
+  this.commitCollection = new CommitCollection();
+  this.branchCollection = new BranchCollection();
+
+  gitVisuals = new GitVisuals({
+    commitCollection: this.commitCollection,
+    branchCollection: this.branchCollection
+  });
+
+  gitEngine = new GitEngine({
+    collection: this.commitCollection,
+    branches: this.branchCollection
+  });
+
+  // needs to be called before raphael ready
+  windowResize();
+  events.trigger('raphaelReady');
+}
+
+
 function GitVisuals(options) {
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
