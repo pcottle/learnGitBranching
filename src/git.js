@@ -22,8 +22,6 @@ function GitEngine(options) {
   this.generalArgs = [];
 
   events.on('processCommand', _.bind(this.dispatch, this));
-
-  this.init();
 }
 
 GitEngine.prototype.init = function() {

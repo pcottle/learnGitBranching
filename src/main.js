@@ -3,18 +3,14 @@
  */
 var events = _.clone(Backbone.Events);
 
-var gitEngine = null;
-var gitVisuals = null;
-
-var commandCollection = null;
-var commandBuffer = null;
-var animationFactory = null;
+var ui = null;
+var animationFactory = new AnimationFactory();
 
 var paper = null;
 
 $(document).ready(function(){
-  initUI();
-  var mainVis = new Visualization({
+  ui = new UI();
+  mainVis = new Visualization({
     el: $('#canvasWrapper')[0]  
   });
 
@@ -25,22 +21,21 @@ $(document).ready(function(){
   }
 });
 
-function initUI() {
+function UI() {
   // static classes
-  animationFactory = new AnimationFactory();
-  commandCollection = new CommandCollection();
+  this.commandCollection = new CommandCollection();
 
-  commandBuffer = new CommandBuffer({
-    collection: commandCollection
+  this.commandBuffer = new CommandBuffer({
+    collection: this.commandCollection
   });
 
-  commandPromptView = new CommandPromptView({
+  this.commandPromptView = new CommandPromptView({
     el: $('#commandLineBar'),
-    collection: commandCollection
+    collection: this.commandCollection
   });
-  commandLineHistoryView = new CommandLineHistoryView({
+  this.commandLineHistoryView = new CommandLineHistoryView({
     el: $('#commandLineHistory'),
-    collection: commandCollection
+    collection: this.commandCollection
   });
 
   $('#commandTextField').focus();

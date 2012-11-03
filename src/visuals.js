@@ -25,15 +25,18 @@ var Visualization = Backbone.View.extend({
       branches: this.branchCollection,
       gitVisuals: this.gitVisuals
     });
+    this.gitEngine.init();
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     // needs to be called before raphael ready
     this.myResize();
+    $(window).on('resize', _.bind(this.myResize, this));
+
     this.gitVisuals.drawTreeFirstTime();
   },
 
   myResize: function() {
-    var smaller = 10;
+    var smaller = 1;
     var el = this.el;
 
     var left = el.offsetLeft;
