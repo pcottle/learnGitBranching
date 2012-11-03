@@ -20,12 +20,11 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection
     });
 
-    gitEngine = new GitEngine({
+    this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,
       gitVisuals: this.gitVisuals
     });
-    this.gitEngine = gitEngine;
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     // needs to be called before raphael ready
@@ -453,7 +452,6 @@ GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
 };
 
 GitVisuals.prototype.addBranch = function(branch, paperOverride) {
-  // TODO
   var visBranch = new VisBranch({
     branch: branch,
     gitVisuals: this,

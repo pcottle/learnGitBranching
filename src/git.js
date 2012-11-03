@@ -375,7 +375,7 @@ GitEngine.prototype.revertStarter = function() {
   var response = this.revert(this.generalArgs);
 
   if (response) {
-    animationFactory.rebaseAnimation(this.animationQueue, response, this);
+    animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
   }
 };
 
@@ -496,7 +496,7 @@ GitEngine.prototype.commitStarter = function() {
 
     newCommit.set('commitMessage', msg);
   }
-  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit);
+  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.commit = function() {
@@ -832,7 +832,7 @@ GitEngine.prototype.rebaseStarter = function() {
     return;
   }
 
-  animationFactory.rebaseAnimation(this.animationQueue, response, this);
+  animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -948,7 +948,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
     // finish the rebase crap and animate!
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-    animationFactory.rebaseAnimation(this.animationQueue, animationData, this);
+    animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
     this.animationQueue.start();
   }, this);
 
@@ -1049,7 +1049,7 @@ GitEngine.prototype.mergeStarter = function() {
 
   if (newCommit === undefined) {
     // its just a fast forwrard
-    animationFactory.refreshTree(this.animationQueue);
+    animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
     return;
   }
 
@@ -1261,11 +1261,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
 
   // only add the refresh if we didn't do manual animations
   if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
-    this.animationQueue.add(new Animation({
-      closure: function() {
-        this.gitVisuals.refreshTree();
-      }
-    }));
+    animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done

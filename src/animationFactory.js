@@ -13,7 +13,7 @@ function AnimationFactory() {
 
 }
 
-AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit) {
+AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
   }
@@ -69,8 +69,7 @@ AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
   return newSnap;
 };
 
-AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step) {
-
+AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
   var time = GRAPHICS.defaultAnimationTime * 1.0;
   var bounceTime = time * 1.5;
 
@@ -90,7 +89,7 @@ AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step) {
   return animation;
 };
 
-AnimationFactory.prototype.refreshTree = function(animationQueue) {
+AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
   animationQueue.add(new Animation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -98,9 +97,11 @@ AnimationFactory.prototype.refreshTree = function(animationQueue) {
   }));
 };
 
-AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse, gitEngine) {
+AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+
   this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
-  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine);
+  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
 };
 
 AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
@@ -130,7 +131,8 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
   this.delay(animationQueue, fullTime * 2);
 };
 
-AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse, gitEngine) {
+AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
   var rebaseSteps = rebaseResponse.rebaseSteps;
 
   var newVisNodes = [];
@@ -150,9 +152,10 @@ AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResp
       rebaseStep.beforeSnapshot,
       rebaseStep.afterSnapshot,
       toOmit,
-      previousVisNodes
+      previousVisNodes,
+      gitVisuals
     );
-    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep);
+    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
 
     var animation = function() {
       snapshotPart();
@@ -214,7 +217,8 @@ AnimationFactory.prototype.genFromToSnapshotAnimation = function(
   beforeSnapshot,
   afterSnapshot,
   commitsToOmit,
-  commitsToFixOpacity) {
+  commitsToFixOpacity,
+  gitVisuals) {
 
   // we want to omit the commit outgoing edges
   var toOmit = [];
@@ -244,3 +248,4 @@ AnimationFactory.prototype.genFromToSnapshotAnimation = function(
     gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
   };
 };
+
