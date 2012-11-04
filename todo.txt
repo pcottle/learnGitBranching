@@ -5,6 +5,9 @@ Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 - better dialog
 
+Big things:
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!

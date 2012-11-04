@@ -28,10 +28,8 @@ var Visualization = Backbone.View.extend({
     this.gitEngine.init();
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
-    // needs to be called before raphael ready
     this.myResize();
     $(window).on('resize', _.bind(this.myResize, this));
-
     this.gitVisuals.drawTreeFirstTime();
   },
 
