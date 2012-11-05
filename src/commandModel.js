@@ -282,7 +282,8 @@ OptionParser.prototype.getMasterOptionMap = function() {
       '--amend': false,
       '-a': false, // warning
       '-am': false, // warning
-      '-m': false
+      '-m': false,
+      '-C': false
     },
     status: {},
     log: {},
@@ -291,7 +292,8 @@ OptionParser.prototype.getMasterOptionMap = function() {
     branch: {
       '-d': false,
       '-D': false,
-      '-f': false
+      '-f': false,
+      '--contains': false
     },
     checkout: {
       '-b': false,

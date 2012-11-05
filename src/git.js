@@ -281,21 +281,25 @@ GitEngine.prototype.getBranches = function() {
   return toReturn;
 };
 
-GitEngine.prototype.printBranches = function() {
-  var branches = this.getBranches();
+GitEngine.prototype.printBranchesWithout = function(without) {
+  var commitToBranches = this.getUpstreamBranchSet();
+  var commitID = this.getCommitFromRef(without).get('id');
+
+  var toPrint = [];
+  _.each(commitToBranches[commitID], function(branchJSON) {
+    branchJSON.selected = this.HEAD.get('target').get('id') == branchJSON.id;
+    toPrint.push(branchJSON);
+  }, this);
+  this.printBranches(toPrint);
+};
+
+GitEngine.prototype.printBranches = function(branches) {
   var result = '';
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
   });
   throw new CommandResult({
     msg: result
-  });
-};
-
-GitEngine.prototype.logBranches = function() {
-  var branches = this.getBranches();
-  _.each(branches, function(branch) {
-    console.log((branch.selected ? '* ' : '') + branch.id);
   });
 };
 
@@ -527,10 +531,23 @@ GitEngine.prototype.commitStarter = function() {
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = undefined;
+
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
     targetCommit = this.resolveID('HEAD~1');
+    // if they specify -C, go there
+    if (this.commandOptions['-C']) {
+      this.validateArgBounds(this.commandOptions['-C'], 1, 1, '-C');
+      targetCommit = this.numBackFrom(this.getCommitFromRef(this.commandOptions['-C'][0]), 1);
+    }
+
     id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
+  } else {
+    if (this.commandOptions['-C']) {
+      throw new GitError({
+        msg: 'I only support -C when doing --amend, sorry'
+      });
+    }
   }
 
   var newCommit = this.makeCommit([targetCommit], id);
@@ -1188,6 +1205,13 @@ GitEngine.prototype.branchStarter = function() {
     return;
   }
 
+  if (this.commandOptions['--contains']) {
+    var args = this.commandOptions['--contains'];
+    this.validateArgBounds(args, 1, 1, '--contains');
+    this.printBranchesWithout(args[0]);
+    return;
+  }
+
   if (this.commandOptions['-f']) {
     var args = this.commandOptions['-f'];
     this.twoArgsImpliedHead(args, '-f');
@@ -1199,7 +1223,7 @@ GitEngine.prototype.branchStarter = function() {
 
 
   if (this.generalArgs.length == 0) {
-    this.printBranches();
+    this.printBranches(this.getBranches());
     return;
   }
 

@@ -23,6 +23,9 @@ Big Bugs to fix:
 - load and save no longer work...
 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Pre-publish things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - cross browser support
@@ -31,12 +34,11 @@ Pre-publish things:
 
 extra command ideas:
 
-git branch --contains
 git log branchA ^branchB
-git status -sb
 git commit --amend -C HEAD
 
 2013 Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Tree layout with the layout engine provided in d3.js, that white-paper algorithm. Only tricky thing is that merge commits mess up the "tree" aspect and it doesn't directly support weighting, but I can probably throw that in.
+Would require mixing both algorthims and probably some real time dedication
 
