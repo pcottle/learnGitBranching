@@ -136,14 +136,30 @@ var Command = Backbone.Model.extend({
         });
       }],
       [/^git$/, function() {
-        // TODO better git description. also help, hint, etc
+        var lines = [
+          'Git Version PCOTTLE.1.0',
+          '<br/>',
+          'Usage:',
+          _.escape('\t git <command> [<args>]'),
+          '<br/>',
+          'Supported commands:',
+          '<br/>',
+        ];
+        var commands = OptionParser.prototype.getMasterOptionMap();
+
+        // build up a nice display of what we support
+        _.each(commands, function(commandOptions, command) {
+          lines.push('git ' + command);
+          _.each(commandOptions, function(vals, optionName) {
+            lines.push('\t ' + optionName);
+          }, this);
+        }, this);
+
+        // format and throw
+        var msg = lines.join('\n');
+        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
         throw new CommandResult({
-          msg: _.escape("\
-            Git Version \n \
-            PCOTTLE.1.0 \
-            Usage: \n \
-              git <command> [<args>] \
-          ")
+          msg: msg
         });
       }],
       [/^refresh$/, function() {
