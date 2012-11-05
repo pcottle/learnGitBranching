@@ -1051,7 +1051,7 @@ GitEngine.prototype.mergeStarter = function() {
     return;
   }
 
-  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit);
+  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.merge = function(targetSource, currentLocation) {
