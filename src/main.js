@@ -4,9 +4,13 @@
 var events = _.clone(Backbone.Events);
 
 var ui = null;
+
+/**
+ * Static Classes
+ */
 var animationFactory = new AnimationFactory();
 
-var paper = null;
+///////////////////////////////////////////////////////////////////////
 
 $(document).ready(function(){
   ui = new UI();

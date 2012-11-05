@@ -88,16 +88,24 @@ GitVisuals.prototype.deferFlush = function() {
   _.each(this.deferred, function(action) {
     action();
   }, this);
+  console.log('defer flushed', this.visBranchCollection);
+  console.log(this.branchCollection);
   this.deferred = [];
 };
 
 GitVisuals.prototype.resetAll = function() {
-  this.visEdgeCollection.each(function(visEdge) {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
     visEdge.remove();
   }, this);
-  this.visBranchCollection.each(function(visBranch) {
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
     visBranch.remove();
   }, this);
+
   _.each(this.visNodeMap, function(visNode) {
     visNode.remove();
   }, this);
@@ -123,13 +131,7 @@ GitVisuals.prototype.initHeadBranch = function() {
   // this ugly method which will be deleted one day
 
   // seed this with the HEAD pseudo-branch
-  var headBranch = new VisBranch({
-    branch: this.gitEngine.HEAD,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visBranchCollection.add(headBranch);
+  this.addBranchFromEvent(this.gitEngine.HEAD);
 };
 
 GitVisuals.prototype.getScreenBounds = function() {
@@ -451,7 +453,8 @@ GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
     this.addBranch(branch);
   }, this);
 
-  if (!this.gitEngine) {
+  if (!this.gitEngine || !this.gitReady) {
+    console.log('deferring this action', branch);
     this.defer(action);
   } else {
     action();
@@ -464,9 +467,12 @@ GitVisuals.prototype.addBranch = function(branch, paperOverride) {
     gitVisuals: this,
     gitEngine: this.gitEngine
   });
+  console.log('adding branch with name', branch.get('id'));
+  console.log('git ready', this.gitReady, ' and paper', paperOverride);
 
   this.visBranchCollection.add(visBranch);
   if (!paperOverride && this.gitReady) {
+    console.log('genningg raphics?');
     visBranch.genGraphics(this.paper);
   }
 };
@@ -594,13 +600,10 @@ GitVisuals.prototype.visBranchesFront = function() {
 
 GitVisuals.prototype.drawTreeFromReload = function() {
   this.gitReady = true;
-  this.calcTreeCoords();
+  // gen all the graphics we need
+  this.deferFlush();
 
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(this.paper, {
-      fromReload: true
-    });
-  }, this);
+  this.calcTreeCoords();
 };
 
 GitVisuals.prototype.drawTreeFirstTime = function() {
