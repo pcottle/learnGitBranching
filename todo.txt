@@ -14,7 +14,6 @@ Medium things:
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- get rid of global paper references
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

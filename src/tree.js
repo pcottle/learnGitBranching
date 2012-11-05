@@ -283,7 +283,6 @@ var VisBranch = VisBase.extend({
   },
 
   genGraphics: function(paper) {
-
     var textPos = this.getTextPosition();
     var name = this.getName();
     var text;
@@ -744,7 +743,9 @@ var VisNode = VisBase.extend({
     }, this);
   },
 
-  genGraphics: function(paper) {
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
 

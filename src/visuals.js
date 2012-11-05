@@ -2,22 +2,24 @@ var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
     Raphael(10, 10, 200, 200, function() {
+
       // for some reason raphael calls this function with a predefined
       // context...
       // so switch it
-      paper = this;
       _this.paperInitialize(this);
     });
   },
 
   paperInitialize: function(paper, options) {
     this.paper = paper;
+
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
 
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
-      branchCollection: this.branchCollection
+      branchCollection: this.branchCollection,
+      paper: this.paper
     });
 
     this.gitEngine = new GitEngine({
@@ -46,7 +48,7 @@ var Visualization = Backbone.View.extend({
       left: left + 'px',
       top: top + 'px'
     });
-    paper.setSize(width, height);
+    this.paper.setSize(width, height);
     this.gitVisuals.canvasResize(width, height);
   }
 
@@ -66,9 +68,8 @@ function GitVisuals(options) {
   this.upstreamBranchSet = null;
   this.upstreamHeadSet = null;
 
-  this.paperReady = false;
-  this.paperWidth = null;
-  this.paperHeight = null;
+  this.paper = options.paper;
+  this.gitReady = false;
 
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
@@ -140,7 +141,7 @@ GitVisuals.prototype.getScreenBounds = function() {
 };
 
 GitVisuals.prototype.toScreenCoords = function(pos) {
-  if (!this.paperWidth) {
+  if (!this.paper.width) {
     throw new Error('being called too early for screen coords');
   }
   var bounds = this.getScreenBounds();
@@ -150,8 +151,8 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   };
 
   return {
-    x: shrink(pos.x, this.paperWidth, bounds.widthPadding),
-    y: shrink(pos.y, this.paperHeight, bounds.heightPadding)
+    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
+    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
   };
 };
 
@@ -217,7 +218,7 @@ GitVisuals.prototype.genSnapshot = function() {
 };
 
 GitVisuals.prototype.refreshTree = function(speed) {
-  if (!this.paperReady) {
+  if (!this.gitReady) {
     return;
   }
 
@@ -437,12 +438,12 @@ GitVisuals.prototype.animateNodePositions = function(speed) {
 };
 
 GitVisuals.prototype.turnOnPaper = function() {
-  this.paperReady = false;
+  this.gitReady = false;
 };
 
 // does making an accessor method make it any less hacky? that is the true question
 GitVisuals.prototype.turnOffPaper = function() {
-  this.paperReady = true;
+  this.gitReady = true;
 };
 
 GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
@@ -465,8 +466,8 @@ GitVisuals.prototype.addBranch = function(branch, paperOverride) {
   });
 
   this.visBranchCollection.add(visBranch);
-  if (!paperOverride && this.paperReady) {
-    visBranch.genGraphics(paper);
+  if (!paperOverride && this.gitReady) {
+    visBranch.genGraphics(this.paper);
   }
 };
 
@@ -512,13 +513,9 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
   }, this);
 
   return maxDepth;
-  // TODO for merge commits, a specific fancy schamncy "main" commit line
 };
 
 GitVisuals.prototype.canvasResize = function(width, height) {
-  this.paperWidth = width;
-  this.paperHeight = height;
-
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
     events.trigger('processCommandFromEvent', 'refresh');
@@ -541,8 +538,8 @@ GitVisuals.prototype.addNode = function(id, commit) {
   });
   this.visNodeMap[id] = visNode;
 
-  if (this.paperReady) {
-    visNode.genGraphics(paper);
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
   }
 
   return visNode;
@@ -565,8 +562,8 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
   });
   this.visEdgeCollection.add(edge);
 
-  if (this.paperReady) {
-    edge.genGraphics(paper);
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
   }
 };
 
@@ -596,30 +593,30 @@ GitVisuals.prototype.visBranchesFront = function() {
 };
 
 GitVisuals.prototype.drawTreeFromReload = function() {
-  this.paperReady = true;
+  this.gitReady = true;
   this.calcTreeCoords();
 
   this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(paper, {
+    visBranch.genGraphics(this.paper, {
       fromReload: true
     });
   }, this);
 };
 
 GitVisuals.prototype.drawTreeFirstTime = function() {
-  this.paperReady = true;
+  this.gitReady = true;
   this.calcTreeCoords();
 
   _.each(this.visNodeMap, function(visNode) {
-    visNode.genGraphics(paper);
+    visNode.genGraphics(this.paper);
   }, this);
 
   this.visEdgeCollection.each(function(edge) {
-    edge.genGraphics(paper);
+    edge.genGraphics(this.paper);
   }, this);
 
   this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(paper);
+    visBranch.genGraphics(this.paper);
   }, this);
 
   this.zIndexReflow();
@@ -668,22 +665,5 @@ function randomHueString() {
     var hue = Math.random();
     var str = 'hsb(' + String(hue) + ',0.7,1)';
     return str;
-};
-
-function cuteSmallCircle(paper, x, y, options) {
-    var options = options || {};
-    var wantsSameColor = options.sameColor;
-    var radius = options.radius || 4;
-
-    var c = paper.circle(x, y, radius, radius);
-    if (!wantsSameColor) {
-        c.attr("fill","hsba(0.5,0.8,0.7,1)");
-    } else {
-        c.attr("fill","hsba(" + String(Math.random()) + ",0.8,0.7,1)");
-    }
-
-    c.attr("stroke","#FFF");
-    c.attr("stroke-width",2);
-    return c;
 };
 
