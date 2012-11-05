@@ -1132,6 +1132,18 @@ GitEngine.prototype.checkoutStarter = function() {
     return;
   }
 
+  if (this.commandOptions['-']) {
+    // get the heads last location
+    var lastPlace = this.HEAD.get('lastLastTarget');
+    if (!lastPlace) {
+      throw new GitError({
+        msg: 'Need a previous location to do - switching'
+      });
+    }
+    this.HEAD.set('target', lastPlace);
+    return;
+  }
+
   if (this.commandOptions['-B']) {
     var args = this.commandOptions['-B'];
     this.twoArgsImpliedHead(args, '-B');
@@ -1438,6 +1450,21 @@ var Ref = Backbone.Model.extend({
       throw new Error('must be given an id');
     }
     this.set('type', 'general ref');
+
+    if (this.get('id') == 'HEAD') {
+      this.set('lastLastTarget', null);
+      this.set('lastTarget', this.get('target'));
+      // have HEAD remember where it is for checkout -
+      this.on('change:target', this.targetChanged, this);
+    }
+  },
+
+  targetChanged: function(model, targetValue, ev) {
+    // push our little 3 stack back. we need to do this because
+    // backbone doesn't give you what the value WAS, only what it was changed
+    // TO
+    this.set('lastLastTarget', this.get('lastTarget'));
+    this.set('lastTarget', targetValue);
   },
 
   toString: function() {
@@ -1476,7 +1503,7 @@ var Commit = Backbone.Model.extend({
     circularFields: ['gitVisuals', 'visNode', 'children']
   },
 
- getLogEntry: function() {
+  getLogEntry: function() {
     // for now we are just joining all these things with newlines which
     // will get placed by paragraph tags. Not really a fan of this, but
     // it's better than making an entire template and all that jazz

@@ -295,7 +295,8 @@ OptionParser.prototype.getMasterOptionMap = function() {
     },
     checkout: {
       '-b': false,
-      '-B': false
+      '-B': false,
+      '-': false
     },
     reset: {
       '--hard': false,
