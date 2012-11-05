@@ -130,7 +130,6 @@ GitEngine.prototype.reloadGraphics = function() {
       rootCommit = commit;
     }
   });
-
   this.gitVisuals.rootCommit = rootCommit;
 
   // this just basically makes the HEAD branch. the head branch really should have been

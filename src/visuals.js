@@ -88,8 +88,6 @@ GitVisuals.prototype.deferFlush = function() {
   _.each(this.deferred, function(action) {
     action();
   }, this);
-  console.log('defer flushed', this.visBranchCollection);
-  console.log(this.branchCollection);
   this.deferred = [];
 };
 
@@ -454,25 +452,21 @@ GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
   }, this);
 
   if (!this.gitEngine || !this.gitReady) {
-    console.log('deferring this action', branch);
     this.defer(action);
   } else {
     action();
   }
 };
 
-GitVisuals.prototype.addBranch = function(branch, paperOverride) {
+GitVisuals.prototype.addBranch = function(branch) {
   var visBranch = new VisBranch({
     branch: branch,
     gitVisuals: this,
     gitEngine: this.gitEngine
   });
-  console.log('adding branch with name', branch.get('id'));
-  console.log('git ready', this.gitReady, ' and paper', paperOverride);
 
   this.visBranchCollection.add(visBranch);
-  if (!paperOverride && this.gitReady) {
-    console.log('genningg raphics?');
+  if (this.gitReady) {
     visBranch.genGraphics(this.paper);
   }
 };
