@@ -5,20 +5,20 @@ LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / 
 
 <img src="http://petercottle.com/miscPics/learnGitBranching.png"/>
 
-## Sandbox Mode
+### Sandbox Mode
 
 Levels
 ===============
 
-## Level Builder
+### Level Builder
 
-## Contributing Levels
+### Contributing Levels
 
 Contributing
 ===============
 
 Helpful Folks
--------------------
+===============
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs or inconsistencies:
 
 * Nikita Kouevda
