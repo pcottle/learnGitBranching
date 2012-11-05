@@ -118,7 +118,8 @@ var Command = Backbone.Model.extend({
       log: /^log($|\s)/,
       merge: /^merge($|\s)/,
       show: /^show($|\s)/,
-      status: /^status($|\s)/
+      status: /^status($|\s)/,
+      'cherry-pick': /^cherry-pick($|\s)/
     };
   },
 
@@ -258,6 +259,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     status: {},
     log: {},
     add: {},
+    'cherry-pick': {},
     branch: {
       '-d': false,
       '-D': false,

@@ -455,6 +455,24 @@ GitEngine.prototype.reset = function(target) {
   this.setTargetLocation('HEAD', this.getCommitFromRef(target));
 };
 
+GitEngine.prototype.cherrypickStarter = function() {
+  this.validateArgBounds(this.generalArgs, 1, 1);
+  var newCommit = this.cherrypick(this.generalArgs[0]);
+
+  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+};
+
+GitEngine.prototype.cherrypick = function(ref) {
+  var commit = this.getCommitFromRef(ref);
+  // alter the ID slightly
+  var id = this.rebaseAltID(commit.get('id'));
+
+  // now commit with that id onto HEAD
+  var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
+  this.setTargetLocation(this.HEAD, newCommit);
+  return newCommit;
+};
+
 GitEngine.prototype.commitStarter = function() {
   this.acceptNoGeneralArgs();
   if (this.commandOptions['-am'] && (
@@ -1244,7 +1262,8 @@ GitEngine.prototype.dispatch = function(command, callback) {
 
   command.set('status', 'processing');
   try {
-    this[command.get('method') + 'Starter'](); 
+    var methodName = command.get('method').replace(/-/g, '') + 'Starter';
+    this[methodName](); 
   } catch (err) {
     if (err instanceof GitError ||
         err instanceof CommandResult) {
