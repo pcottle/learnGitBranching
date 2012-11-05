@@ -362,7 +362,6 @@ GitVisuals.prototype.maxWidthRecursive = function(commit) {
 };
 
 GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  
   // I always center myself within my bounds
   var myWidthPos = (min + max) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
@@ -378,7 +377,9 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   var totalFlex = 0;
   var children = commit.get('children');
   _.each(children, function(child) {
-    totalFlex += child.get('visNode').getMaxWidthScaled();
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
   }, this);
 
   var prevBound = min;
@@ -386,6 +387,10 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // now go through and do everything
   // TODO: order so the max width children are in the middle!!
   _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
     var childMin = prevBound;

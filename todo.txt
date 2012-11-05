@@ -32,7 +32,6 @@ Pre-publish things:
 
 extra command ideas:
 
-git checkout -
 git branch --contains
 git log branchA ^branchB
 git status -sb
