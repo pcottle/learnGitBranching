@@ -135,6 +135,18 @@ var Command = Backbone.Model.extend({
           msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
         });
       }],
+      [/^git help($|\s)/, function() {
+        // sym link this to the blank git command
+        var allCommands = Command.prototype.getSandboxCommands();
+        // wow this is hacky :(
+        var equivalent = 'git';
+        _.each(allCommands, function(bits) {
+          var regex = bits[0];
+          if (regex.test(equivalent)) {
+            bits[1]();
+          }
+        });
+      }],
       [/^git$/, function() {
         var lines = [
           'Git Version PCOTTLE.1.0',
