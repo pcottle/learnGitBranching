@@ -1359,11 +1359,30 @@ GitEngine.prototype.statusStarter = function() {
 };
 
 GitEngine.prototype.logStarter = function() {
+  if (this.generalArgs.length == 2) {
+    // do fancy git log branchA ^branchB
+    if (this.generalArgs[1][0] == '^') {
+      this.logWithout(this.generalArgs[0], this.generalArgs[1]);
+    } else {
+      throw new GitError({
+        msg: 'I need a not branch (^branchName) when getting two arguments!'
+      });
+    }
+  }
+
   this.oneArgImpliedHead(this.generalArgs);
   this.log(this.generalArgs[0]);
 };
 
-GitEngine.prototype.log = function(ref) {
+GitEngine.prototype.logWithout = function(ref, omitBranch) {
+  // slice off the ^branch
+  omitBranch = omitBranch.slice(1);
+  this.log(ref, this.getUpstreamSet(omitBranch));
+};
+
+GitEngine.prototype.log = function(ref, omitSet) {
+  // omit set is for doing stuff like git log branchA ^branchB
+  omitSet = omitSet || {};
   // first get the commit we referenced
   var commit = this.getCommitFromRef(ref);
 
@@ -1375,7 +1394,7 @@ GitEngine.prototype.log = function(ref) {
 
   while (pQueue.length) {
     var popped = pQueue.shift(0);
-    if (seen[popped.get('id')]) {
+    if (seen[popped.get('id')] || omitSet[popped.get('id')]) {
       continue;
     }
     seen[popped.get('id')] = true;
