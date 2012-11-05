@@ -74,6 +74,7 @@ GitEngine.prototype.exportTree = function() {
 
   var HEAD = this.HEAD.toJSON();
   HEAD.visBranch = undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -90,6 +91,9 @@ GitEngine.prototype.printAndCopyTree = function() {
 };
 
 GitEngine.prototype.loadTree = function(tree) {
+  // deep copy in case we use it a bunch
+  tree = $.extend(true, {}, tree);
+
   // first clear everything
   this.removeAll();
 
@@ -105,8 +109,10 @@ GitEngine.prototype.loadTreeFromString = function(treeString) {
 GitEngine.prototype.instantiateFromTree = function(tree) {
   // now we do the loading part
   var createdSoFar = {};
+  debugger
   _.each(tree.commits, function(commitJSON) {
     var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    console.log(commit);
     this.commitCollection.add(commit);
   }, this);
 
@@ -151,6 +157,7 @@ GitEngine.prototype.reloadGraphics = function() {
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
+  console.log('get or make recursive', objID, tree, createdSoFar);
   if (createdSoFar[objID]) {
     // base case
     return createdSoFar[objID];
@@ -1613,7 +1620,6 @@ var Commit = Backbone.Model.extend({
 
     _.each(this.get('parents'), function(parent) {
       parent.get('children').push(this);
-      console.log('adding myself', this.get('id'), 'to parent', parent);
       this.addEdgeToVisuals(parent);
     }, this);
   }
