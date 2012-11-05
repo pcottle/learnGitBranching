@@ -464,6 +464,15 @@ GitEngine.prototype.cherrypickStarter = function() {
 
 GitEngine.prototype.cherrypick = function(ref) {
   var commit = this.getCommitFromRef(ref);
+  // check if we already have that
+  var set = this.getUpstreamSet('HEAD');
+  if (set[commit.get('id')]) {
+    throw new GitError({
+      msg: "We already have that commit in our changes history! You can't cherry-pick it " +
+           "if it shows up in git log."
+    });
+  }
+
   // alter the ID slightly
   var id = this.rebaseAltID(commit.get('id'));
 
