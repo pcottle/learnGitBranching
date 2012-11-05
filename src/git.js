@@ -10,10 +10,9 @@ function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
   this.HEAD = null;
-  this.id_gen = 0;
+
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
-
   this.gitVisuals = options.gitVisuals;
 
   // global variable to keep track of the options given
@@ -115,11 +114,20 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
 
     this.branchCollection.add(branch, {silent: true});
-    this.gitVisuals.addBranch(branch, true /* paper override */);
   }, this);
 
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
+
+  this.rootCommit = createdSoFar['C0'];
+  if (!this.rootCommit) {
+    throw new Error('Need root commit of C0 for calculations');
+  }
+  this.refs = createdSoFar;
+
+  this.branchCollection.each(function(branch) {
+    this.gitVisuals.addBranch(branch);
+  }, this);
 };
 
 GitEngine.prototype.reloadGraphics = function() {
@@ -213,6 +221,9 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
   this.commitCollection.reset();
+  this.refs = {};
+  this.HEAD = null;
+  this.rootCommit = null;
 
   this.gitVisuals.resetAll();
 };
@@ -1602,6 +1613,7 @@ var Commit = Backbone.Model.extend({
 
     _.each(this.get('parents'), function(parent) {
       parent.get('children').push(this);
+      console.log('adding myself', this.get('id'), 'to parent', parent);
       this.addEdgeToVisuals(parent);
     }, this);
   }

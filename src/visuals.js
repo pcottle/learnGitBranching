@@ -524,6 +524,10 @@ GitVisuals.prototype.canvasResize = function(width, height) {
   }
 };
 
+GitVisuals.prototype.addCommit = function(commit) {
+  // TODO 
+};
+
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
   if (commit.get('rootCommit')) {
@@ -541,7 +545,6 @@ GitVisuals.prototype.addNode = function(id, commit) {
   if (this.gitReady) {
     visNode.genGraphics(this.paper);
   }
-
   return visNode;
 };
 

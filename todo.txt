@@ -20,14 +20,10 @@ Minor Bugs to fix:
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- load and save no longer work...
 
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Pre-publish things:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*************************************
+ ** Publish Things **
+ ************************************/
 - cross browser support
 - minify JS
 - fix terminal input when extra long
