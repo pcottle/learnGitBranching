@@ -35,7 +35,6 @@ Pre-publish things:
 extra command ideas:
 
 git log branchA ^branchB
-git commit --amend -C HEAD
 
 2013 Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

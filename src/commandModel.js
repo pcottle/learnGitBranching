@@ -282,8 +282,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
       '--amend': false,
       '-a': false, // warning
       '-am': false, // warning
-      '-m': false,
-      '-C': false
+      '-m': false
     },
     status: {},
     log: {},

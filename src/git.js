@@ -535,19 +535,7 @@ GitEngine.prototype.commit = function() {
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
     targetCommit = this.resolveID('HEAD~1');
-    // if they specify -C, go there
-    if (this.commandOptions['-C']) {
-      this.validateArgBounds(this.commandOptions['-C'], 1, 1, '-C');
-      targetCommit = this.numBackFrom(this.getCommitFromRef(this.commandOptions['-C'][0]), 1);
-    }
-
     id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
-  } else {
-    if (this.commandOptions['-C']) {
-      throw new GitError({
-        msg: 'I only support -C when doing --amend, sorry'
-      });
-    }
   }
 
   var newCommit = this.makeCommit([targetCommit], id);
