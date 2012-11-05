@@ -15,7 +15,7 @@ LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / 
 ## Contributing
 
 ## Helpful Folks
-A big shoutout to these brave souls for extensively testing our sandbox and finding bugs or inconsistencies:
+A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
 
 * Nikita Kouevda
 * Maksim Ioffe
