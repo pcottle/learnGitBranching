@@ -249,3 +249,6 @@ AnimationFactory.prototype.genFromToSnapshotAnimation = function(
   };
 };
 
+exports.AnimationFactory = AnimationFactory;
+
+

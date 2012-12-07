@@ -1,14 +1,16 @@
+var AnimationFactory = require('./animationFactory').AnimationFactory;
+
 /**
  * Globals
  */
 var events = _.clone(Backbone.Events);
-
 var ui = null;
+var animationFactory = null;
 
 /**
  * Static Classes
  */
-var animationFactory = new AnimationFactory();
+animationFactory = new AnimationFactory();
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -44,4 +46,8 @@ function UI() {
 
   $('#commandTextField').focus();
 }
+
+exports.events = events;
+exports.ui = ui;
+exports.animationFactory = animationFactory;
 
