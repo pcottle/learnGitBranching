@@ -1,9 +1,4 @@
 var AnimationFactory = require('./animationFactory').AnimationFactory;
-var CommandCollection = require('./collections').CommandCollection;
-var CommandBuffer = require('./collections').CommandBuffer;
-var CommandPromptView = require('./commandViews').CommandPromptView;
-var CommandLineHistoryView = require('./commandViews').CommandLineHistoryView;
-var Visualization = require('./visuals').Visualization;
 
 /**
  * Globals

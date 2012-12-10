@@ -1,7 +1,3 @@
-var CommitCollection = require('./collections').CommitCollection;
-var BranchCollection = require('./collections').BranchCollection;
-var GitEngine = require('./git').GitEngine;
-
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
@@ -670,6 +666,4 @@ function randomHueString() {
     var str = 'hsb(' + String(hue) + ',0.7,1)';
     return str;
 };
-
-exports.Visualization = Visualization;
 
