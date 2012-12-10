@@ -649,7 +649,7 @@ exports.AnimationFactory = AnimationFactory;
 
 require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
-var events = require('./main').events;
+var Main = require('./main');
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -674,7 +674,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    events.on('gitCommandReady', _.bind(
+    require('./main').getEvents().on('gitCommandReady', _.bind(
       this.addCommand, this
     ));
 
@@ -719,7 +719,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
-      events.trigger('processCommand', popped, callback);
+      Main.getEvents().trigger('processCommand', popped, callback);
     } else {
       this.clear();
     }
@@ -751,6 +751,7 @@ exports.CommandBuffer = CommandBuffer;
 
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
+var Main = require('./main');
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
@@ -774,7 +775,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  events.on('processCommand', _.bind(this.dispatch, this));
+  Main.getEvents().on('processCommand', _.bind(this.dispatch, this));
 }
 
 GitEngine.prototype.defaultInit = function() {
@@ -2440,7 +2441,9 @@ function UI() {
   $('#commandTextField').focus();
 }
 
-exports.events = events;
+exports.getEvents = function() {
+  return events;
+};
 exports.ui = ui;
 exports.animationFactory = animationFactory;
 
@@ -2448,6 +2451,7 @@ exports.animationFactory = animationFactory;
 });
 
 require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
+var Main = require('./main');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -2488,9 +2492,9 @@ var CommandPromptView = Backbone.View.extend({
       this.blur();
     }, this));
 
-    events.on('processCommandFromEvent', this.addToCollection, this);
-    events.on('submitCommandValueFromEvent', this.submitValue, this);
-    events.on('rollupCommands', this.rollupCommands, this);
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
     // hacky timeout focus
     setTimeout(_.bind(function() {
@@ -2581,7 +2585,7 @@ var CommandPromptView = Backbone.View.extend({
     // now mutate the cursor...
     this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
     // and scroll down due to some weird bug
-    events.trigger('commandScrollDown');
+    Main.getEvents().trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
@@ -2783,8 +2787,8 @@ var CommandLineHistoryView = Backbone.View.extend({
 
     this.collection.on('change', this.scrollDown, this);
 
-    events.on('issueWarning', this.addWarning, this);
-    events.on('commandScrollDown', this.scrollDown, this);
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
   },
 
   addWarning: function(msg) {
@@ -2837,7 +2841,9 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
-require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Collections = require('./collections');
+require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var Collections = require('./collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
@@ -2927,7 +2933,7 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
   
-  events.on('refreshTree', _.bind(
+  Main.getEvents().on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
@@ -3370,7 +3376,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    events.trigger('processCommandFromEvent', 'refresh');
+    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }
@@ -3518,7 +3524,9 @@ exports.Visualization = Visualization;
 
 });
 
-require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var randomHueString = function() {
+require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var randomHueString = function() {
   var hue = Math.random();
   var str = 'hsb(' + String(hue) + ',0.7,1)';
   return str;
@@ -4237,7 +4245,7 @@ var VisNode = VisBase.extend({
     var commandStr = 'git show ' + this.get('commit').get('id');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
-        events.trigger('processCommandFromEvent', commandStr);
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
       });
     });
   },
@@ -4540,7 +4548,9 @@ function UI() {
   $('#commandTextField').focus();
 }
 
-exports.events = events;
+exports.getEvents = function() {
+  return events;
+};
 exports.ui = ui;
 exports.animationFactory = animationFactory;
 
@@ -4548,7 +4558,9 @@ exports.animationFactory = animationFactory;
 });
 require("/main.js");
 
-require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var randomHueString = function() {
+require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var randomHueString = function() {
   var hue = Math.random();
   var str = 'hsb(' + String(hue) + ',0.7,1)';
   return str;
@@ -5267,7 +5279,7 @@ var VisNode = VisBase.extend({
     var commandStr = 'git show ' + this.get('commit').get('id');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
-        events.trigger('processCommandFromEvent', commandStr);
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
       });
     });
   },
@@ -5776,6 +5788,7 @@ require("/animationFactory.js");
 
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
+var Main = require('./main');
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
@@ -5799,7 +5812,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  events.on('processCommand', _.bind(this.dispatch, this));
+  Main.getEvents().on('processCommand', _.bind(this.dispatch, this));
 }
 
 GitEngine.prototype.defaultInit = function() {
@@ -7414,7 +7427,7 @@ require("/git.js");
 
 require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
-var events = require('./main').events;
+var Main = require('./main');
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -7439,7 +7452,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    events.on('gitCommandReady', _.bind(
+    require('./main').getEvents().on('gitCommandReady', _.bind(
       this.addCommand, this
     ));
 
@@ -7484,7 +7497,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
-      events.trigger('processCommand', popped, callback);
+      Main.getEvents().trigger('processCommand', popped, callback);
     } else {
       this.clear();
     }
@@ -7516,6 +7529,7 @@ exports.CommandBuffer = CommandBuffer;
 require("/collections.js");
 
 require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
+var Main = require('./main');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -7556,9 +7570,9 @@ var CommandPromptView = Backbone.View.extend({
       this.blur();
     }, this));
 
-    events.on('processCommandFromEvent', this.addToCollection, this);
-    events.on('submitCommandValueFromEvent', this.submitValue, this);
-    events.on('rollupCommands', this.rollupCommands, this);
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
     // hacky timeout focus
     setTimeout(_.bind(function() {
@@ -7649,7 +7663,7 @@ var CommandPromptView = Backbone.View.extend({
     // now mutate the cursor...
     this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
     // and scroll down due to some weird bug
-    events.trigger('commandScrollDown');
+    Main.getEvents().trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
@@ -7851,8 +7865,8 @@ var CommandLineHistoryView = Backbone.View.extend({
 
     this.collection.on('change', this.scrollDown, this);
 
-    events.on('issueWarning', this.addWarning, this);
-    events.on('commandScrollDown', this.scrollDown, this);
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
   },
 
   addWarning: function(msg) {
@@ -7906,7 +7920,9 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 });
 require("/commandViews.js");
 
-require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Collections = require('./collections');
+require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var Collections = require('./collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
@@ -7996,7 +8012,7 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
   
-  events.on('refreshTree', _.bind(
+  Main.getEvents().on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
@@ -8439,7 +8455,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    events.trigger('processCommandFromEvent', 'refresh');
+    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }

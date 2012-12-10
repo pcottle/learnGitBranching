@@ -1,3 +1,5 @@
+var Main = require('./main');
+
 var randomHueString = function() {
   var hue = Math.random();
   var str = 'hsb(' + String(hue) + ',0.7,1)';
@@ -717,7 +719,7 @@ var VisNode = VisBase.extend({
     var commandStr = 'git show ' + this.get('commit').get('id');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
-        events.trigger('processCommandFromEvent', commandStr);
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
       });
     });
   },

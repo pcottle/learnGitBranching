@@ -52,7 +52,9 @@ function UI() {
   $('#commandTextField').focus();
 }
 
-exports.events = events;
+exports.getEvents = function() {
+  return events;
+};
 exports.ui = ui;
 exports.animationFactory = animationFactory;
 

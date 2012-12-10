@@ -1,6 +1,6 @@
 var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
-var events = require('./main').events;
+var Main = require('./main');
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -25,7 +25,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    events.on('gitCommandReady', _.bind(
+    require('./main').getEvents().on('gitCommandReady', _.bind(
       this.addCommand, this
     ));
 
@@ -70,7 +70,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
-      events.trigger('processCommand', popped, callback);
+      Main.getEvents().trigger('processCommand', popped, callback);
     } else {
       this.clear();
     }

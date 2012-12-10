@@ -1,4 +1,5 @@
 var CommandEntryCollection = require('./collections').CommandEntryCollection;
+var Main = require('./main');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -39,9 +40,9 @@ var CommandPromptView = Backbone.View.extend({
       this.blur();
     }, this));
 
-    events.on('processCommandFromEvent', this.addToCollection, this);
-    events.on('submitCommandValueFromEvent', this.submitValue, this);
-    events.on('rollupCommands', this.rollupCommands, this);
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
     // hacky timeout focus
     setTimeout(_.bind(function() {
@@ -132,7 +133,7 @@ var CommandPromptView = Backbone.View.extend({
     // now mutate the cursor...
     this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
     // and scroll down due to some weird bug
-    events.trigger('commandScrollDown');
+    Main.getEvents().trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
@@ -334,8 +335,8 @@ var CommandLineHistoryView = Backbone.View.extend({
 
     this.collection.on('change', this.scrollDown, this);
 
-    events.on('issueWarning', this.addWarning, this);
-    events.on('commandScrollDown', this.scrollDown, this);
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
   },
 
   addWarning: function(msg) {

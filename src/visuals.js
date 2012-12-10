@@ -1,3 +1,5 @@
+var Main = require('./main');
+
 var Collections = require('./collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
@@ -88,7 +90,7 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
   
-  events.on('refreshTree', _.bind(
+  Main.getEvents().on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
@@ -531,7 +533,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    events.trigger('processCommandFromEvent', 'refresh');
+    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }

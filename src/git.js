@@ -1,5 +1,6 @@
 var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
+var Main = require('./main');
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
@@ -23,7 +24,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  events.on('processCommand', _.bind(this.dispatch, this));
+  Main.getEvents().on('processCommand', _.bind(this.dispatch, this));
 }
 
 GitEngine.prototype.defaultInit = function() {
