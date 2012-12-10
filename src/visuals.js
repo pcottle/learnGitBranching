@@ -1,6 +1,15 @@
-var CommitCollection = require('./collections').CommitCollection;
-var BranchCollection = require('./collections').BranchCollection;
+var Collections = require('./collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
 var GitEngine = require('./git').GitEngine;
+
+var Tree = require('./tree');
+var VisEdgeCollection = Tree.VisEdgeCollection;
+var VisBranchCollection = Tree.VisBranchCollection;
+var VisNode = Tree.VisNode;
+var VisBranch = Tree.VisBranch;
+var VisEdge = Tree.VisEdge;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
@@ -664,12 +673,6 @@ function blendHueStrings(hueStrings) {
   }
   return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
 }
-
-function randomHueString() {
-    var hue = Math.random();
-    var str = 'hsb(' + String(hue) + ',0.7,1)';
-    return str;
-};
 
 exports.Visualization = Visualization;
 

@@ -1,5 +1,5 @@
-var animationFactory = new require('./animationFactory').AnimationFactory();
-console.log('this is what animatioinf actory is', require('./animationFactory'));
+var AnimationFactoryModule = require('./animationFactory');
+var animationFactory = new AnimationFactoryModule.AnimationFactory();
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {

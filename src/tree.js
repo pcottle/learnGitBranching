@@ -1,3 +1,9 @@
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+}; 
+
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
     _.each(keys, function(key) {
@@ -949,3 +955,11 @@ var VisEdgeCollection = Backbone.Collection.extend({
 var VisBranchCollection = Backbone.Collection.extend({
   model: VisBranch
 });
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisBranchCollection = VisBranchCollection;
+exports.VisNode = VisNode;
+exports.VisEdge = VisEdge;
+exports.VisBranch = VisBranch;
+
+
