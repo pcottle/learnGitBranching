@@ -1,10 +1,32 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
+  // eventually have sound...?
+  grunt.registerTask('compliment', function() {
+    grunt.log.writeln('You are awesome!');
+  });
+
   grunt.initConfig({
     lint: {
       files: ['grunt.js', 'src/*.js']
     },
+    /*
+    jasmine_node: {
+      specNameMatcher: "./spec", // load only specs containing specNameMatcher
+      projectRoot: ".",
+      requirejs: false,
+      forceExit: true,
+      jUnit: {
+        report: false,
+        savePath : "./build/reports/jasmine/",
+        useDotNotation: true,
+        consolidate: true
+      }
+    },
+    watch: {
+      files: '<config:lint.files>',
+      tasks: 'lint'
+    },*/
     jshint: {
       options: {
         curly: true,
@@ -33,6 +55,9 @@ module.exports = function(grunt) {
     }
   });
 
+  //grunt.loadNpmTasks('grunt-jasmine-node');
+
   // Default task.
-  grunt.registerTask('default', 'lint');
+  grunt.registerTask('default', 'lint jasmine_node');
 };
+
