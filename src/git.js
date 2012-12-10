@@ -1,3 +1,6 @@
+var animationFactory = new require('./animationFactory').AnimationFactory();
+console.log('this is what animatioinf actory is', require('./animationFactory'));
+
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
   var n = 0;
@@ -1623,4 +1626,9 @@ var Commit = Backbone.Model.extend({
     }, this);
   }
 });
+
+exports.GitEngine = GitEngine;
+exports.Commit = Commit;
+exports.Branch = Branch;
+exports.Ref = Ref;
 

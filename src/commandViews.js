@@ -1,3 +1,5 @@
+var CommandEntryCollection = require('./collections').CommandEntryCollection;
+
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
     this.collection = options.collection;
@@ -379,3 +381,7 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.each(this.addOne);
   }
 });
+
+exports.CommandPromptView = CommandPromptView;
+exports.CommandLineHistoryView = CommandLineHistoryView;
+

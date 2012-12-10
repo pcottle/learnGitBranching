@@ -1,3 +1,6 @@
+var Commit = require('./git').Commit;
+var Branch = require('./git').Branch;
+
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
 });
@@ -86,4 +89,10 @@ var CommandBuffer = Backbone.Model.extend({
     this.popAndProcess();
   },
 });
+
+exports.CommitCollection = CommitCollection;
+exports.CommandCollection = CommandCollection;
+exports.BranchCollection = BranchCollection;
+exports.CommandEntryCollection = CommandEntryCollection;
+exports.CommandBuffer = CommandBuffer;
 

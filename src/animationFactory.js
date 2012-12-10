@@ -9,7 +9,7 @@
  */
 
 // essentially a static class
-function AnimationFactory() {
+var AnimationFactory = function() {
 
 }
 
@@ -250,5 +250,4 @@ AnimationFactory.prototype.genFromToSnapshotAnimation = function(
 };
 
 exports.AnimationFactory = AnimationFactory;
-
 
