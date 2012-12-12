@@ -531,14 +531,14 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
   return maxDepth;
 };
 
-GitVisuals.prototype.canvasResize = function(width, height) {
+GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
     Main.getEvents().trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }
-};
+}, 200);
 
 GitVisuals.prototype.addCommit = function(commit) {
   // TODO 
