@@ -531,6 +531,8 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
   return maxDepth;
 };
 
+// we debounce here so we aren't firing a resize call on every resize event
+// but only after they stop
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
@@ -539,10 +541,6 @@ GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
     this.refreshTree();
   }
 }, 200);
-
-GitVisuals.prototype.addCommit = function(commit) {
-  // TODO 
-};
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
