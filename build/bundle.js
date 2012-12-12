@@ -391,6 +391,402 @@ process.binding = function (name) {
 
 });
 
+require.define("/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
+ * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
+ * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
+ * or something, it must animate out from the parent position to it's birth position.
+
+ * These two positions though may not be where the commit finally ends up. So we actually need to take a snapshot of the tree,
+ * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
+ * and then essentially animate the entire tree too.
+ */
+
+var Animation = require('./async').Animation;
+var GRAPHICS = require('./constants').GRAPHICS;
+
+// essentially a static class
+var AnimationFactory = function() {
+
+}
+
+AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
+  if (!animationQueue) {
+    throw new Error("Need animation queue to add closure to!");
+  }
+
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 2;
+
+  // essentially refresh the entire tree, but do a special thing for the commit
+  var visNode = commit.get('visNode');
+
+  var animation = function() {
+    // this takes care of refs and all that jazz, and updates all the positions
+    gitVisuals.refreshTree(time);
+
+    visNode.setBirth();
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateUpdatedPosition(bounceTime, 'bounce');
+    visNode.animateOutgoingEdges(time);
+  };
+
+  animationQueue.add(new Animation({
+    closure: animation,
+    duration: Math.max(time, bounceTime)
+  }));
+};
+
+AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
+  opacity = (opacity === undefined) ? 1 : opacity;
+
+  var newAttr = {};
+
+  _.each(attr, function(partObj, partName) {
+    newAttr[partName] = {};
+    _.each(partObj, function(val, key) {
+      if (key == 'opacity') {
+        newAttr[partName][key] = opacity;
+      } else {
+        newAttr[partName][key] = val;
+      }
+    });
+  });
+  return newAttr;
+};
+
+AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
+  var newSnap = {};
+
+  _.each(snapShot, function(visObj, visID) {
+    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
+  }, this);
+  return newSnap;
+};
+
+AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 1.5;
+
+  var visNode = step.newCommit.get('visNode');
+  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
+  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
+
+  var animation = function() {
+    visNode.setBirthFromSnapshot(step.beforeSnapshot);
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
+    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
+  };
+
+  return animation;
+};
+
+AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
+  animationQueue.add(new Animation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  }));
+};
+
+AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+
+  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
+  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
+};
+
+AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  // we want to highlight all the old commits
+  var oldCommits = rebaseResponse.toRebaseArray;
+  // we are either highlighting to a visBranch or a visNode
+  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
+  if (!visBranch) {
+    // in the case where we rebase onto a commit
+    visBranch = rebaseResponse.destinationBranch.get('visNode');
+  }
+
+  _.each(oldCommits, function(oldCommit) {
+    var visNode = oldCommit.get('visNode');
+    animationQueue.add(new Animation({
+      closure: function() {
+        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+      },
+      duration: fullTime * 1.5
+    }));
+
+  }, this);
+
+  this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+  var rebaseSteps = rebaseResponse.rebaseSteps;
+
+  var newVisNodes = [];
+  _.each(rebaseSteps, function(step) {
+    var visNode = step.newCommit.get('visNode');
+
+    newVisNodes.push(visNode);
+    visNode.setOpacity(0);
+    visNode.setOutgoingEdgesOpacity(0);
+  }, this);
+
+  var previousVisNodes = [];
+  _.each(rebaseSteps, function(rebaseStep, index) {
+    var toOmit = newVisNodes.slice(index + 1);
+
+    var snapshotPart = this.genFromToSnapshotAnimation(
+      rebaseStep.beforeSnapshot,
+      rebaseStep.afterSnapshot,
+      toOmit,
+      previousVisNodes,
+      gitVisuals
+    );
+    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
+
+    var animation = function() {
+      snapshotPart();
+      birthPart();
+    };
+        
+    animationQueue.add(new Animation({
+      closure: animation,
+      duration: GRAPHICS.defaultAnimationTime * 1.5
+    }));
+
+    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
+  }, this);
+
+  // need to delay to let bouncing finish
+  this.delay(animationQueue);
+
+  this.refreshTree(animationQueue, gitVisuals);
+};
+
+AnimationFactory.prototype.delay = function(animationQueue, time) {
+  time = time || GRAPHICS.defaultAnimationTime;
+  animationQueue.add(new Animation({
+    closure: function() { },
+    duration: time
+  }));
+};
+
+AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
+  // need to slice for closure
+  var nodesToAnimate = visNodes.slice(0);
+
+  return function() {
+    _.each(nodesToAnimate, function(visNode) {
+      visNode.setOpacity(opacity);
+      visNode.setOutgoingEdgesOpacity(opacity);
+    });
+  };
+};
+
+AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
+  var ids = [];
+  _.each(toOmit, function(obj) {
+    ids.push(obj.getID());
+  });
+
+  var newSnapshot = {};
+  _.each(snapShot, function(val, key) {
+    if (_.include(ids, key)) {
+      // omit
+      return;
+    }
+    newSnapshot[key] = val;
+  }, this);
+  return newSnapshot;
+};
+
+AnimationFactory.prototype.genFromToSnapshotAnimation = function(
+  beforeSnapshot,
+  afterSnapshot,
+  commitsToOmit,
+  commitsToFixOpacity,
+  gitVisuals) {
+
+  // we want to omit the commit outgoing edges
+  var toOmit = [];
+  _.each(commitsToOmit, function(visNode) {
+    toOmit.push(visNode);
+    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
+  });
+
+  var fixOpacity = function(obj) {
+    if (!obj) { return; }
+    _.each(obj, function(attr, partName) {
+      obj[partName].opacity = 1;
+    });
+  };
+
+  // HORRIBLE loop to fix opacities all throughout the snapshot
+  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
+    _.each(commitsToFixOpacity, function(visNode) {
+      fixOpacity(snapShot[visNode.getID()]);
+      _.each(visNode.get('outgoingEdges'), function(visEdge) {
+        fixOpacity(snapShot[visEdge.getID()]);
+      });
+    });
+  });
+
+  return function() {
+    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
+  };
+};
+
+exports.AnimationFactory = AnimationFactory;
+
+
+});
+
+require.define("/async.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('./constants').GLOBAL;
+
+var Animation = Backbone.Model.extend({
+  defaults: {
+    duration: 300,
+    closure: null
+  },
+
+  validateAtInit: function() {
+    if (!this.get('closure')) {
+      throw new Error('give me a closure!');
+    }
+  },
+
+  initialize: function(options) {
+    this.validateAtInit();
+  },
+
+  run: function() {
+    this.get('closure')();
+  }
+});
+
+var AnimationQueue = Backbone.Model.extend({
+  defaults: {
+    animations: null,
+    index: 0,
+    callback: null,
+    defer: false
+  },
+
+  initialize: function(options) {
+    this.set('animations', []);
+    if (!options.callback) {
+      console.warn('no callback');
+    }
+  },
+
+  add: function(animation) {
+    if (!animation instanceof Animation) {
+      throw new Error("Need animation not something else");
+    }
+
+    this.get('animations').push(animation);
+  },
+
+  start: function() {
+    this.set('index', 0);
+
+    // set the global lock that we are animating
+    GLOBAL.isAnimating = true;
+    this.next();
+  },
+
+  finish: function() {
+    // release lock here
+    GLOBAL.isAnimating = false;
+    this.get('callback')();
+  },
+
+  next: function() {
+    // ok so call the first animation, and then set a timeout to call the next
+    // TODO: animations with callbacks!!
+    var animations = this.get('animations');
+    var index = this.get('index');
+    if (index >= animations.length) {
+      this.finish();
+      return;
+    }
+
+    var next = animations[index];
+    var duration = next.get('duration');
+
+    next.run();
+
+    this.set('index', index + 1);
+    setTimeout(_.bind(function() {
+      this.next();
+    }, this), duration);
+  },
+});
+
+exports.Animation = Animation;
+exports.AnimationQueue = AnimationQueue;
+
+
+});
+
+require.define("/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
+ * Constants....!!!
+ */
+var TIME = {
+  betweenCommandsDelay: 400,
+};
+
+// useful for locks, etc
+var GLOBAL = {
+  isAnimating: false
+};
+
+var GRAPHICS = {
+  arrowHeadSize: 8,
+
+  nodeRadius: 17,
+  curveControlPointOffset: 50,
+  defaultEasing: 'easeInOut',
+  defaultAnimationTime: 400,
+
+  //rectFill: '#FF3A3A',
+  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  headRectFill: '#2831FF',
+  rectStroke: '#FFF',
+  rectStrokeWidth: '3',
+
+  multiBranchY: 20,
+  upstreamHeadOpacity: 0.5,
+  upstreamNoneOpacity: 0.2,
+  edgeUpstreamHeadOpacity: 0.4,
+  edgeUpstreamNoneOpacity: 0.15,
+
+  visBranchStrokeWidth: 2,
+  visBranchStrokeColorNone: '#333',
+
+  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeStrokeWidth: 2,
+  defaultNodeStroke: '#FFF',
+
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)',
+};
+
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
+
+
+});
+
 require.define("/main.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactory = require('./animationFactory').AnimationFactory;
 var CommandCollection = require('./collections').CommandCollection;
 var CommandBuffer = require('./collections').CommandBuffer;
@@ -454,10 +850,117 @@ exports.animationFactory = animationFactory;
 
 });
 
+require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
+var Branch = require('./git').Branch;
+
+var Main = require('./main');
+var Command = require('./commandModel').Command;
+var CommandEntry = require('./commandModel').CommandEntry;
+var TIME = require('./constants').TIME;
+
+var CommitCollection = Backbone.Collection.extend({
+  model: Commit
+});
+
+var CommandCollection = Backbone.Collection.extend({
+  model: Command,
+});
+
+var BranchCollection = Backbone.Collection.extend({
+  model: Branch
+});
+
+var CommandEntryCollection = Backbone.Collection.extend({
+  model: CommandEntry,
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
+var CommandBuffer = Backbone.Model.extend({
+  defaults: {
+    collection: null,
+  },
+
+  initialize: function(options) {
+    require('./main').getEvents().on('gitCommandReady', _.bind(
+      this.addCommand, this
+    ));
+
+    options.collection.bind('add', this.addCommand, this);
+
+    this.buffer = [];
+    this.timeout = null;
+  },
+
+  addCommand: function(command) {
+    this.buffer.push(command);
+    this.touchBuffer();
+  },
+
+  touchBuffer: function() {
+    // touch buffer just essentially means we just check if our buffer is being
+    // processed. if it's not, we immediately process the first item
+    // and then set the timeout.
+    if (this.timeout) {
+      // timeout existence implies its being processed
+      return;
+    }
+    this.setTimeout();
+  },
+
+
+  setTimeout: function() {
+    this.timeout = setTimeout(_.bind(function() {
+        this.sipFromBuffer();
+    }, this), TIME.betweenCommandsDelay);
+  },
+
+  popAndProcess: function() {
+    var popped = this.buffer.shift(0);
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
+
+    // find a command with no error
+    while (popped.get('error') && this.buffer.length) {
+      popped = this.buffer.pop();
+    }
+    if (!popped.get('error')) {
+      // pass in a callback, so when this command is "done" we will process the next.
+      Main.getEvents().trigger('processCommand', popped, callback);
+    } else {
+      this.clear();
+    }
+  },
+
+  clear: function() {
+    clearTimeout(this.timeout);
+    this.timeout = null;
+  },
+
+  sipFromBuffer: function() {
+    if (!this.buffer.length) {
+      this.clear();
+      return;
+    }
+
+    this.popAndProcess();
+  },
+});
+
+exports.CommitCollection = CommitCollection;
+exports.CommandCollection = CommandCollection;
+exports.BranchCollection = BranchCollection;
+exports.CommandEntryCollection = CommandEntryCollection;
+exports.CommandBuffer = CommandBuffer;
+
+
+});
+
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('./main');
 var AnimationQueue = require('./async').AnimationQueue;
+var InteractiveRebaseView = require('./miscViews').InteractiveRebaseView;
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
@@ -2093,6 +2596,158 @@ exports.Ref = Ref;
 
 });
 
+require.define("/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var InteractiveRebaseView = Backbone.View.extend({
+  tagName: 'div',
+  template: _.template($('#interactive-rebase-template').html()),
+
+  events: {
+    'click #confirmButton': 'confirmed'
+  },
+
+  initialize: function(options) {
+    this.hasClicked = false;
+    this.rebaseCallback = options.callback;
+
+    this.rebaseArray = options.toRebase;
+
+    this.rebaseEntries = new RebaseEntryCollection();
+    this.rebaseMap = {};
+    this.entryObjMap = {};
+
+    this.rebaseArray.reverse();
+    // make basic models for each commit
+    _.each(this.rebaseArray, function(commit) {
+      var id = commit.get('id');
+      this.rebaseMap[id] = commit;
+      this.entryObjMap[id] = new RebaseEntry({
+        id: id
+      });
+      this.rebaseEntries.add(this.entryObjMap[id]);
+    }, this);
+
+    this.render();
+
+    // show the dialog holder
+    this.show();
+  },
+
+  show: function() {
+    this.toggleVisibility(true);
+  },
+
+  hide: function() {
+    this.toggleVisibility(false);
+  },
+
+  toggleVisibility: function(toggle) {
+    console.log('toggling');
+    $('#dialogHolder').toggleClass('shown', toggle);
+  },
+
+  confirmed: function() {
+    // we hide the dialog anyways, but they might be fast clickers
+    if (this.hasClicked) {
+      return;
+    }
+    this.hasClicked = true;
+
+    // first of all hide
+    this.$el.css('display', 'none');
+
+    // get our ordering
+    var uiOrder = [];
+    this.$('ul#rebaseEntries li').each(function(i, obj) {
+      uiOrder.push(obj.id);
+    });
+
+    // now get the real array
+    var toRebase = [];
+    _.each(uiOrder, function(id) {
+      // the model
+      if (this.entryObjMap[id].get('pick')) {
+        toRebase.unshift(this.rebaseMap[id]);
+      }
+    }, this);
+
+    this.rebaseCallback(toRebase);  
+
+    this.$el.html('');
+    // kill ourselves?
+    delete this;
+  },
+
+  render: function() {
+    var json = {
+      num: this.rebaseArray.length
+    };
+
+    this.$el.html(this.template(json));
+
+    // also render each entry
+    var listHolder = this.$('ul#rebaseEntries');
+    this.rebaseEntries.each(function(entry) {
+      new RebaseEntryView({
+        el: listHolder,
+        model: entry
+      });
+    }, this);
+
+    // then make it reorderable..
+    listHolder.sortable({
+      distance: 5,
+      placeholder: 'ui-state-highlight'
+    });
+  },
+
+});
+
+var RebaseEntry = Backbone.Model.extend({
+  defaults: {
+    pick: true
+  },
+
+  toggle: function() {
+    this.set('pick', !this.get('pick'));
+  }
+});
+
+var RebaseEntryCollection = Backbone.Collection.extend({
+  model: RebaseEntry
+});
+
+var RebaseEntryView = Backbone.View.extend({
+  tagName: 'li',
+  template: _.template($('#interactive-rebase-entry-template').html()),
+
+  toggle: function() {
+    this.model.toggle();
+    
+    // toggle a class also
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+  },
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    var json = this.model.toJSON();
+    this.$el.append(this.template(this.model.toJSON()));
+
+    // hacky :( who would have known jquery barfs on ids with %'s and quotes
+    this.listEntry = this.$el.children(':last');
+
+    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
+      this.toggle();
+    }, this));
+  }
+});
+
+exports.InteractiveRebaseView = InteractiveRebaseView;
+
+
+});
+
 require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Command = Backbone.Model.extend({
   defaults: {
     status: 'inqueue',
@@ -2850,367 +3505,686 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
-require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
-var Branch = require('./git').Branch;
-
-var Main = require('./main');
-var Command = require('./commandModel').Command;
-var CommandEntry = require('./commandModel').CommandEntry;
-var TIME = require('./constants').TIME;
-
-var CommitCollection = Backbone.Collection.extend({
-  model: Commit
-});
-
-var CommandCollection = Backbone.Collection.extend({
-  model: Command,
-});
-
-var BranchCollection = Backbone.Collection.extend({
-  model: Branch
-});
-
-var CommandEntryCollection = Backbone.Collection.extend({
-  model: CommandEntry,
-  localStorage: new Backbone.LocalStorage('CommandEntries')
-});
-
-var CommandBuffer = Backbone.Model.extend({
-  defaults: {
-    collection: null,
-  },
-
-  initialize: function(options) {
-    require('./main').getEvents().on('gitCommandReady', _.bind(
-      this.addCommand, this
-    ));
-
-    options.collection.bind('add', this.addCommand, this);
-
-    this.buffer = [];
-    this.timeout = null;
-  },
-
-  addCommand: function(command) {
-    this.buffer.push(command);
-    this.touchBuffer();
-  },
-
-  touchBuffer: function() {
-    // touch buffer just essentially means we just check if our buffer is being
-    // processed. if it's not, we immediately process the first item
-    // and then set the timeout.
-    if (this.timeout) {
-      // timeout existence implies its being processed
-      return;
-    }
-    this.setTimeout();
-  },
-
-
-  setTimeout: function() {
-    this.timeout = setTimeout(_.bind(function() {
-        this.sipFromBuffer();
-    }, this), TIME.betweenCommandsDelay);
-  },
-
-  popAndProcess: function() {
-    var popped = this.buffer.shift(0);
-    var callback = _.bind(function() {
-      this.setTimeout();
-    }, this);
-
-    // find a command with no error
-    while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.pop();
-    }
-    if (!popped.get('error')) {
-      // pass in a callback, so when this command is "done" we will process the next.
-      Main.getEvents().trigger('processCommand', popped, callback);
-    } else {
-      this.clear();
-    }
-  },
-
-  clear: function() {
-    clearTimeout(this.timeout);
-    this.timeout = null;
-  },
-
-  sipFromBuffer: function() {
-    if (!this.buffer.length) {
-      this.clear();
-      return;
-    }
-
-    this.popAndProcess();
-  },
-});
-
-exports.CommitCollection = CommitCollection;
-exports.CommandCollection = CommandCollection;
-exports.BranchCollection = BranchCollection;
-exports.CommandEntryCollection = CommandEntryCollection;
-exports.CommandBuffer = CommandBuffer;
-
-
-});
-
-require.define("/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
- * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
- * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
- * or something, it must animate out from the parent position to it's birth position.
-
- * These two positions though may not be where the commit finally ends up. So we actually need to take a snapshot of the tree,
- * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
- * and then essentially animate the entire tree too.
- */
-
-var Animation = require('./async').Animation;
+require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
 var GRAPHICS = require('./constants').GRAPHICS;
+var GLOBAL = require('./constants').GLOBAL;
 
-// essentially a static class
-var AnimationFactory = function() {
+var Collections = require('./collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
 
+var Tree = require('./tree');
+var VisEdgeCollection = Tree.VisEdgeCollection;
+var VisBranchCollection = Tree.VisBranchCollection;
+var VisNode = Tree.VisNode;
+var VisBranch = Tree.VisBranch;
+var VisEdge = Tree.VisEdge;
+
+var Visualization = Backbone.View.extend({
+  initialize: function(options) {
+    var _this = this;
+    Raphael(10, 10, 200, 200, function() {
+
+      // for some reason raphael calls this function with a predefined
+      // context...
+      // so switch it
+      _this.paperInitialize(this);
+    });
+  },
+
+  paperInitialize: function(paper, options) {
+    this.paper = paper;
+
+    this.commitCollection = new CommitCollection();
+    this.branchCollection = new BranchCollection();
+
+    this.gitVisuals = new GitVisuals({
+      commitCollection: this.commitCollection,
+      branchCollection: this.branchCollection,
+      paper: this.paper
+    });
+
+    var GitEngine = require('./git').GitEngine;
+    this.gitEngine = new GitEngine({
+      collection: this.commitCollection,
+      branches: this.branchCollection,
+      gitVisuals: this.gitVisuals
+    });
+    this.gitEngine.init();
+    this.gitVisuals.assignGitEngine(this.gitEngine);
+
+    this.myResize();
+    $(window).on('resize', _.bind(this.myResize, this));
+    this.gitVisuals.drawTreeFirstTime();
+  },
+
+  myResize: function() {
+    var smaller = 1;
+    var el = this.el;
+
+    var left = el.offsetLeft;
+    var top = el.offsetTop;
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
+
+    $(this.paper.canvas).css({
+      left: left + 'px',
+      top: top + 'px'
+    });
+    this.paper.setSize(width, height);
+    this.gitVisuals.canvasResize(width, height);
+  }
+
+});
+
+function GitVisuals(options) {
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
+  this.visNodeMap = {};
+
+  this.visEdgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
+  this.commitMap = {};
+
+  this.rootCommit = null;
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
+
+  this.paper = options.paper;
+  this.gitReady = false;
+
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
+  
+  Main.getEvents().on('refreshTree', _.bind(
+    this.refreshTree, this
+  ));
 }
 
-AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
-  if (!animationQueue) {
-    throw new Error("Need animation queue to add closure to!");
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
+};
+
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
+
+GitVisuals.prototype.resetAll = function() {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
+    visEdge.remove();
+  }, this);
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
+    visBranch.remove();
+  }, this);
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.initHeadBranch();
+  this.deferFlush();
+};
+
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
+  // seed this with the HEAD pseudo-branch
+  this.addBranchFromEvent(this.gitEngine.HEAD);
+};
+
+GitVisuals.prototype.getScreenBounds = function() {
+  // for now we return the node radius subtracted from the walls
+  return {
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
+  };
+};
+
+GitVisuals.prototype.toScreenCoords = function(pos) {
+  if (!this.paper.width) {
+    throw new Error('being called too early for screen coords');
   }
+  var bounds = this.getScreenBounds();
 
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 2;
-
-  // essentially refresh the entire tree, but do a special thing for the commit
-  var visNode = commit.get('visNode');
-
-  var animation = function() {
-    // this takes care of refs and all that jazz, and updates all the positions
-    gitVisuals.refreshTree(time);
-
-    visNode.setBirth();
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateUpdatedPosition(bounceTime, 'bounce');
-    visNode.animateOutgoingEdges(time);
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
   };
 
-  animationQueue.add(new Animation({
-    closure: animation,
-    duration: Math.max(time, bounceTime)
-  }));
-};
-
-AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
-  opacity = (opacity === undefined) ? 1 : opacity;
-
-  var newAttr = {};
-
-  _.each(attr, function(partObj, partName) {
-    newAttr[partName] = {};
-    _.each(partObj, function(val, key) {
-      if (key == 'opacity') {
-        newAttr[partName][key] = opacity;
-      } else {
-        newAttr[partName][key] = val;
-      }
-    });
-  });
-  return newAttr;
-};
-
-AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
-  var newSnap = {};
-
-  _.each(snapShot, function(visObj, visID) {
-    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
-  }, this);
-  return newSnap;
-};
-
-AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 1.5;
-
-  var visNode = step.newCommit.get('visNode');
-  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
-  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
-
-  var animation = function() {
-    visNode.setBirthFromSnapshot(step.beforeSnapshot);
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
-    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
-  };
-
-  return animation;
-};
-
-AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
-  animationQueue.add(new Animation({
-    closure: function() {
-      gitVisuals.refreshTree();
-    }
-  }));
-};
-
-AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-
-  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
-  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
-};
-
-AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  var slowTime = fullTime * 2.0;
-
-  // we want to highlight all the old commits
-  var oldCommits = rebaseResponse.toRebaseArray;
-  // we are either highlighting to a visBranch or a visNode
-  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
-  if (!visBranch) {
-    // in the case where we rebase onto a commit
-    visBranch = rebaseResponse.destinationBranch.get('visNode');
-  }
-
-  _.each(oldCommits, function(oldCommit) {
-    var visNode = oldCommit.get('visNode');
-    animationQueue.add(new Animation({
-      closure: function() {
-        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
-      },
-      duration: fullTime * 1.5
-    }));
-
-  }, this);
-
-  this.delay(animationQueue, fullTime * 2);
-};
-
-AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-  var rebaseSteps = rebaseResponse.rebaseSteps;
-
-  var newVisNodes = [];
-  _.each(rebaseSteps, function(step) {
-    var visNode = step.newCommit.get('visNode');
-
-    newVisNodes.push(visNode);
-    visNode.setOpacity(0);
-    visNode.setOutgoingEdgesOpacity(0);
-  }, this);
-
-  var previousVisNodes = [];
-  _.each(rebaseSteps, function(rebaseStep, index) {
-    var toOmit = newVisNodes.slice(index + 1);
-
-    var snapshotPart = this.genFromToSnapshotAnimation(
-      rebaseStep.beforeSnapshot,
-      rebaseStep.afterSnapshot,
-      toOmit,
-      previousVisNodes,
-      gitVisuals
-    );
-    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
-
-    var animation = function() {
-      snapshotPart();
-      birthPart();
-    };
-        
-    animationQueue.add(new Animation({
-      closure: animation,
-      duration: GRAPHICS.defaultAnimationTime * 1.5
-    }));
-
-    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
-  }, this);
-
-  // need to delay to let bouncing finish
-  this.delay(animationQueue);
-
-  this.refreshTree(animationQueue, gitVisuals);
-};
-
-AnimationFactory.prototype.delay = function(animationQueue, time) {
-  time = time || GRAPHICS.defaultAnimationTime;
-  animationQueue.add(new Animation({
-    closure: function() { },
-    duration: time
-  }));
-};
-
-AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
-  // need to slice for closure
-  var nodesToAnimate = visNodes.slice(0);
-
-  return function() {
-    _.each(nodesToAnimate, function(visNode) {
-      visNode.setOpacity(opacity);
-      visNode.setOutgoingEdgesOpacity(opacity);
-    });
+  return {
+    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
+    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
   };
 };
 
-AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
-  var ids = [];
-  _.each(toOmit, function(obj) {
-    ids.push(obj.getID());
-  });
-
-  var newSnapshot = {};
-  _.each(snapShot, function(val, key) {
-    if (_.include(ids, key)) {
-      // omit
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
       return;
     }
-    newSnapshot[key] = val;
+
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      // its actually ok it doesnt exist yet
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(function(visBranch) {
+    animate(visBranch);
+  });
+  this.visEdgeCollection.each(function(visEdge) {
+    animate(visEdge);
+  });
+  _.each(this.visNodeMap, function(visNode) {
+    animate(visNode);
+  });
+};
+
+/***************************************
+     == BEGIN Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
   }, this);
-  return newSnapshot;
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.visEdgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
 };
 
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(
-  beforeSnapshot,
-  afterSnapshot,
-  commitsToOmit,
-  commitsToFixOpacity,
-  gitVisuals) {
+GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.gitReady) {
+    return;
+  }
 
-  // we want to omit the commit outgoing edges
-  var toOmit = [];
-  _.each(commitsToOmit, function(visNode) {
-    toOmit.push(visNode);
-    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
-  });
+  // this method can only be called after graphics are rendered
+  this.fullCalc();
 
-  var fixOpacity = function(obj) {
-    if (!obj) { return; }
-    _.each(obj, function(attr, partName) {
-      obj[partName].opacity = 1;
-    });
-  };
-
-  // HORRIBLE loop to fix opacities all throughout the snapshot
-  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
-    _.each(commitsToFixOpacity, function(visNode) {
-      fixOpacity(snapShot[visNode.getID()]);
-      _.each(visNode.get('outgoingEdges'), function(visEdge) {
-        fixOpacity(snapShot[visEdge.getID()]);
-      });
-    });
-  });
-
-  return function() {
-    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
-  };
+  this.animateAll(speed);
 };
 
-exports.AnimationFactory = AnimationFactory;
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.fullCalc();
+
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
+};
+
+GitVisuals.prototype.calcTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
+
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
+  this.calcDepth();
+  this.calcWidth();
+};
+
+GitVisuals.prototype.calcGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = this.gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
+  });
+  this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+  
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length == 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle!!
+  _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
+    var flex = child.get('visNode').getMaxWidthScaled();
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    console.warn('graphics are degrading from too many layers');
+  }
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.animateNodePositions = function(speed) {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.animateUpdatedPosition(speed);
+  }, this);
+};
+
+GitVisuals.prototype.turnOnPaper = function() {
+  this.gitReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.gitReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visBranchCollection.add(visBranch);
+  if (this.gitReady) {
+    visBranch.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
+GitVisuals.prototype.animateRefs = function(speed) {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(speed);
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function(speed) {
+  this.visEdgeCollection.each(function(edge) {
+    edge.animateUpdatedPath(speed);
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  commit.get('visNode').setDepth(depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }, this);
+
+  return maxDepth;
+};
+
+GitVisuals.prototype.canvasResize = function(width, height) {
+  // refresh when we are ready
+  if (GLOBAL.isAnimating) {
+    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
+};
+
+GitVisuals.prototype.addCommit = function(commit) {
+  // TODO 
+};
+
+GitVisuals.prototype.addNode = function(id, commit) {
+  this.commitMap[id] = commit;
+  if (commit.get('rootCommit')) {
+    this.rootCommit = commit;
+  }
+
+  var visNode = new VisNode({
+    id: id,
+    commit: commit,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visNodeMap[id] = visNode;
+
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
+  }
+  return visNode;
+};
+
+GitVisuals.prototype.addEdge = function(idTail, idHead) {
+  var visNodeTail = this.visNodeMap[idTail];
+  var visNodeHead = this.visNodeMap[idHead];
+
+  if (!visNodeTail || !visNodeHead) {
+    throw new Error('one of the ids in (' + idTail +
+                    ', ' + idHead + ') does not exist');
+  }
+
+  var edge = new VisEdge({
+    tail: visNodeTail,
+    head: visNodeHead,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visEdgeCollection.add(edge);
+
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.collectionChanged = function() {
+  // TODO ?
+};
+
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+};
+
+GitVisuals.prototype.visBranchesFront = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+  });
+
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.textToFront();
+  });
+};
+
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.gitReady = true;
+  // gen all the graphics we need
+  this.deferFlush();
+
+  this.calcTreeCoords();
+};
+
+GitVisuals.prototype.drawTreeFirstTime = function() {
+  this.gitReady = true;
+  this.calcTreeCoords();
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.genGraphics(this.paper);
+  }, this);
+
+  this.visEdgeCollection.each(function(edge) {
+    edge.genGraphics(this.paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.zIndexReflow();
+};
+
+
+/************************
+ * Random util functions, some from liquidGraph
+ ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
+exports.Visualization = Visualization;
 
 
 });
@@ -4186,831 +5160,11 @@ exports.VisBranch = VisBranch;
 
 });
 
-require.define("/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
- * Constants....!!!
- */
-var TIME = {
-  betweenCommandsDelay: 400,
-};
-
-// useful for locks, etc
-var GLOBAL = {
-  isAnimating: false
-};
-
-var GRAPHICS = {
-  arrowHeadSize: 8,
-
-  nodeRadius: 17,
-  curveControlPointOffset: 50,
-  defaultEasing: 'easeInOut',
-  defaultAnimationTime: 400,
-
-  //rectFill: '#FF3A3A',
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
-  headRectFill: '#2831FF',
-  rectStroke: '#FFF',
-  rectStrokeWidth: '3',
-
-  multiBranchY: 20,
-  upstreamHeadOpacity: 0.5,
-  upstreamNoneOpacity: 0.2,
-  edgeUpstreamHeadOpacity: 0.4,
-  edgeUpstreamNoneOpacity: 0.15,
-
-  visBranchStrokeWidth: 2,
-  visBranchStrokeColorNone: '#333',
-
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
-  defaultNodeStrokeWidth: 2,
-  defaultNodeStroke: '#FFF',
-
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)',
-};
-
-exports.GLOBAL = GLOBAL;
-exports.TIME = TIME;
-exports.GRAPHICS = GRAPHICS;
-
-
-});
-
-require.define("/async.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('./constants').GLOBAL;
-
-var Animation = Backbone.Model.extend({
-  defaults: {
-    duration: 300,
-    closure: null
-  },
-
-  validateAtInit: function() {
-    if (!this.get('closure')) {
-      throw new Error('give me a closure!');
-    }
-  },
-
-  initialize: function(options) {
-    this.validateAtInit();
-  },
-
-  run: function() {
-    this.get('closure')();
-  }
-});
-
-var AnimationQueue = Backbone.Model.extend({
-  defaults: {
-    animations: null,
-    index: 0,
-    callback: null,
-    defer: false
-  },
-
-  initialize: function(options) {
-    this.set('animations', []);
-    if (!options.callback) {
-      console.warn('no callback');
-    }
-  },
-
-  add: function(animation) {
-    if (!animation instanceof Animation) {
-      throw new Error("Need animation not something else");
-    }
-
-    this.get('animations').push(animation);
-  },
-
-  start: function() {
-    this.set('index', 0);
-
-    // set the global lock that we are animating
-    GLOBAL.isAnimating = true;
-    this.next();
-  },
-
-  finish: function() {
-    // release lock here
-    GLOBAL.isAnimating = false;
-    this.get('callback')();
-  },
-
-  next: function() {
-    // ok so call the first animation, and then set a timeout to call the next
-    // TODO: animations with callbacks!!
-    var animations = this.get('animations');
-    var index = this.get('index');
-    if (index >= animations.length) {
-      this.finish();
-      return;
-    }
-
-    var next = animations[index];
-    var duration = next.get('duration');
-
-    next.run();
-
-    this.set('index', index + 1);
-    setTimeout(_.bind(function() {
-      this.next();
-    }, this), duration);
-  },
-});
-
-exports.Animation = Animation;
-exports.AnimationQueue = AnimationQueue;
-
-
-});
-
-require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
-var GRAPHICS = require('./constants').GRAPHICS;
-var GLOBAL = require('./constants').GLOBAL;
-
-var Collections = require('./collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-
-var Tree = require('./tree');
-var VisEdgeCollection = Tree.VisEdgeCollection;
-var VisBranchCollection = Tree.VisBranchCollection;
-var VisNode = Tree.VisNode;
-var VisBranch = Tree.VisBranch;
-var VisEdge = Tree.VisEdge;
-
-var Visualization = Backbone.View.extend({
-  initialize: function(options) {
-    var _this = this;
-    Raphael(10, 10, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this);
-    });
-  },
-
-  paperInitialize: function(paper, options) {
-    this.paper = paper;
-
-    this.commitCollection = new CommitCollection();
-    this.branchCollection = new BranchCollection();
-
-    this.gitVisuals = new GitVisuals({
-      commitCollection: this.commitCollection,
-      branchCollection: this.branchCollection,
-      paper: this.paper
-    });
-
-    var GitEngine = require('./git').GitEngine;
-    this.gitEngine = new GitEngine({
-      collection: this.commitCollection,
-      branches: this.branchCollection,
-      gitVisuals: this.gitVisuals
-    });
-    this.gitEngine.init();
-    this.gitVisuals.assignGitEngine(this.gitEngine);
-
-    this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
-    this.gitVisuals.drawTreeFirstTime();
-  },
-
-  myResize: function() {
-    var smaller = 1;
-    var el = this.el;
-
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
-
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
-    this.paper.setSize(width, height);
-    this.gitVisuals.canvasResize(width, height);
-  }
-
-});
-
-function GitVisuals(options) {
-  this.commitCollection = options.commitCollection;
-  this.branchCollection = options.branchCollection;
-  this.visNodeMap = {};
-
-  this.visEdgeCollection = new VisEdgeCollection();
-  this.visBranchCollection = new VisBranchCollection();
-  this.commitMap = {};
-
-  this.rootCommit = null;
-  this.branchStackMap = null;
-  this.upstreamBranchSet = null;
-  this.upstreamHeadSet = null;
-
-  this.paper = options.paper;
-  this.gitReady = false;
-
-  this.branchCollection.on('add', this.addBranchFromEvent, this);
-  this.branchCollection.on('remove', this.removeBranch, this);
-  this.deferred = [];
-  
-  Main.getEvents().on('refreshTree', _.bind(
-    this.refreshTree, this
-  ));
-}
-
-GitVisuals.prototype.defer = function(action) {
-  this.deferred.push(action);
-};
-
-GitVisuals.prototype.deferFlush = function() {
-  _.each(this.deferred, function(action) {
-    action();
-  }, this);
-  this.deferred = [];
-};
-
-GitVisuals.prototype.resetAll = function() {
-  // make sure to copy these collections because we remove
-  // items in place and underscore is too dumb to detect length change
-  var edges = this.visEdgeCollection.toArray();
-  _.each(edges, function(visEdge) {
-    visEdge.remove();
-  }, this);
-
-  var branches = this.visBranchCollection.toArray();
-  _.each(branches, function(visBranch) {
-    visBranch.remove();
-  }, this);
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.remove();
-  }, this);
-
-  this.visEdgeCollection.reset();
-  this.visBranchCollection.reset();
-
-  this.visNodeMap = {};
-  this.rootCommit = null;
-  this.commitMap = {};
-};
-
-GitVisuals.prototype.assignGitEngine = function(gitEngine) {
-  this.gitEngine = gitEngine;
-  this.initHeadBranch();
-  this.deferFlush();
-};
-
-GitVisuals.prototype.initHeadBranch = function() {
-  // it's unfortaunte we have to do this, but the head branch
-  // is an edge case because it's not part of a collection so
-  // we can't use events to load or unload it. thus we have to call
-  // this ugly method which will be deleted one day
-
-  // seed this with the HEAD pseudo-branch
-  this.addBranchFromEvent(this.gitEngine.HEAD);
-};
-
-GitVisuals.prototype.getScreenBounds = function() {
-  // for now we return the node radius subtracted from the walls
-  return {
-    widthPadding: GRAPHICS.nodeRadius * 1.5,
-    heightPadding: GRAPHICS.nodeRadius * 1.5
-  };
-};
-
-GitVisuals.prototype.toScreenCoords = function(pos) {
-  if (!this.paper.width) {
-    throw new Error('being called too early for screen coords');
-  }
-  var bounds = this.getScreenBounds();
-
-  var shrink = function(frac, total, padding) {
-    return padding + frac * (total - padding * 2);
-  };
-
-  return {
-    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
-    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
-  };
-};
-
-GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
-  var animate = function(obj) {
-    var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
-      return;
-    }
-
-    if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
-      return;
-    }
-    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
-  };
-
-  this.visBranchCollection.each(function(visBranch) {
-    animate(visBranch);
-  });
-  this.visEdgeCollection.each(function(visEdge) {
-    animate(visEdge);
-  });
-  _.each(this.visNodeMap, function(visNode) {
-    animate(visNode);
-  });
-};
-
-/***************************************
-     == BEGIN Tree Calculation Parts ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.genSnapshot = function() {
-  this.fullCalc();
-
-  var snapshot = {};
-  _.each(this.visNodeMap, function(visNode) {
-    snapshot[visNode.get('id')] = visNode.getAttributes();
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    snapshot[visBranch.getID()] = visBranch.getAttributes();
-  }, this);
-
-  this.visEdgeCollection.each(function(visEdge) {
-    snapshot[visEdge.getID()] = visEdge.getAttributes();
-  }, this);
-
-  return snapshot;
-};
-
-GitVisuals.prototype.refreshTree = function(speed) {
-  if (!this.gitReady) {
-    return;
-  }
-
-  // this method can only be called after graphics are rendered
-  this.fullCalc();
-
-  this.animateAll(speed);
-};
-
-GitVisuals.prototype.refreshTreeHarsh = function() {
-  this.fullCalc();
-
-  this.animateAll(0);
-};
-
-GitVisuals.prototype.animateAll = function(speed) {
-  this.zIndexReflow();
-
-  this.animateEdges(speed);
-  this.animateNodePositions(speed);
-  this.animateRefs(speed);
-};
-
-GitVisuals.prototype.fullCalc = function() {
-  this.calcTreeCoords();
-  this.calcGraphicsCoords();
-};
-
-GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
-  if (!this.rootCommit) {
-    throw new Error('grr, no root commit!');
-  }
-
-  this.calcUpstreamSets();
-  this.calcBranchStacks();
-
-  this.calcDepth();
-  this.calcWidth();
-};
-
-GitVisuals.prototype.calcGraphicsCoords = function() {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.updateName();
-  });
-};
-
-GitVisuals.prototype.calcUpstreamSets = function() {
-  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
-  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
-};
-
-GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
-  return this.branchStackMap[commit.get('id')];
-};
-
-GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
-  var branches = this.upstreamBranchSet[commit.get('id')];
-  if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
-  }
-
-  return this.blendHuesFromBranchStack(branches);
-};
-
-GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
-  var hueStrings = [];
-  _.each(branchStackArray, function(branchWrapper) {
-    var fill = branchWrapper.obj.get('visBranch').get('fill');
-
-    if (fill.slice(0,3) !== 'hsb') {
-      // crap! convert
-      var color = Raphael.color(fill);
-      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
-      fill = fill + ',' + String(color.s) + ')';
-    }
-
-    hueStrings.push(fill);
-  });
-
-  return blendHueStrings(hueStrings);
-};
-
-GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
-  if (!this.upstreamBranchSet) {
-    throw new Error("Can't calculate this yet!");
-  }
-
-  var id = commit.get('id');
-  var branch = this.upstreamBranchSet;
-  var head = this.upstreamHeadSet;
-
-  if (branch[id]) {
-    return 'branch';
-  } else if (head[id]) {
-    return 'head';
-  } else {
-    return 'none';
-  }
-};
-
-GitVisuals.prototype.calcBranchStacks = function() {
-  var branches = this.gitEngine.getBranches();
-  var map = {};
-  _.each(branches, function(branch) {
-    var thisId = branch.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(branch);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      if (aId == 'master' || bId == 'master') {
-        return aId == 'master' ? -1 : 1;
-      }
-      return aId.localeCompare(bId);
-    });
-  });
-  this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcWidth = function() {
-  this.maxWidthRecursive(this.rootCommit);
-  
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
-};
-
-GitVisuals.prototype.maxWidthRecursive = function(commit) {
-  var childrenTotalWidth = 0;
-  _.each(commit.get('children'), function(child) {
-    // only include this if we are the "main" parent of
-    // this child
-    if (child.isMainParent(commit)) {
-      var childWidth = this.maxWidthRecursive(child);
-      childrenTotalWidth += childWidth;
-    }
-  }, this);
-
-  var maxWidth = Math.max(1, childrenTotalWidth);
-  commit.get('visNode').set('maxWidth', maxWidth);
-  return maxWidth;
-};
-
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  // I always center myself within my bounds
-  var myWidthPos = (min + max) / 2.0;
-  commit.get('visNode').get('pos').x = myWidthPos;
-
-  if (commit.get('children').length == 0) {
-    return;
-  }
-
-  // i have a certain length to divide up
-  var myLength = max - min;
-  // I will divide up that length based on my children's max width in a
-  // basic box-flex model
-  var totalFlex = 0;
-  var children = commit.get('children');
-  _.each(children, function(child) {
-    if (child.isMainParent(commit)) {
-      totalFlex += child.get('visNode').getMaxWidthScaled();
-    }
-  }, this);
-
-  var prevBound = min;
-
-  // now go through and do everything
-  // TODO: order so the max width children are in the middle!!
-  _.each(children, function(child) {
-    if (!child.isMainParent(commit)) {
-      return;
-    }
-
-    var flex = child.get('visNode').getMaxWidthScaled();
-    var portion = (flex / totalFlex) * myLength;
-    var childMin = prevBound;
-    var childMax = childMin + portion;
-    this.assignBoundsRecursive(child, childMin, childMax);
-    prevBound = childMax;
-  }, this);
-};
-
-GitVisuals.prototype.calcDepth = function() {
-  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
-  if (maxDepth > 15) {
-    // issue warning
-    console.warn('graphics are degrading from too many layers');
-  }
-
-  var depthIncrement = this.getDepthIncrement(maxDepth);
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
-  }, this);
-};
-
-/***************************************
-     == END Tree Calculation ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.animateNodePositions = function(speed) {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.animateUpdatedPosition(speed);
-  }, this);
-};
-
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
-GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
-  var action = _.bind(function() {
-    this.addBranch(branch);
-  }, this);
-
-  if (!this.gitEngine || !this.gitReady) {
-    this.defer(action);
-  } else {
-    action();
-  }
-};
-
-GitVisuals.prototype.addBranch = function(branch) {
-  var visBranch = new VisBranch({
-    branch: branch,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visBranchCollection.add(visBranch);
-  if (this.gitReady) {
-    visBranch.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.removeVisBranch = function(visBranch) {
-  this.visBranchCollection.remove(visBranch);
-};
-
-GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
-};
-
-GitVisuals.prototype.removeVisEdge = function(visEdge) {
-  this.visEdgeCollection.remove(visEdge);
-};
-
-GitVisuals.prototype.animateRefs = function(speed) {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.animateUpdatedPos(speed);
-  }, this);
-};
-
-GitVisuals.prototype.animateEdges = function(speed) {
-  this.visEdgeCollection.each(function(edge) {
-    edge.animateUpdatedPath(speed);
-  }, this);
-};
-
-GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
-  var increment = 1.0 / maxDepth;
-  return increment;
-};
-
-GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
-  commit.get('visNode').setDepth(depth);
-
-  var children = commit.get('children');
-  var maxDepth = depth;
-  _.each(children, function(child) {
-    var d = this.calcDepthRecursive(child, depth + 1);
-    maxDepth = Math.max(d, maxDepth);
-  }, this);
-
-  return maxDepth;
-};
-
-GitVisuals.prototype.canvasResize = function(width, height) {
-  // refresh when we are ready
-  if (GLOBAL.isAnimating) {
-    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
-  } else {
-    this.refreshTree();
-  }
-};
-
-GitVisuals.prototype.addCommit = function(commit) {
-  // TODO 
-};
-
-GitVisuals.prototype.addNode = function(id, commit) {
-  this.commitMap[id] = commit;
-  if (commit.get('rootCommit')) {
-    this.rootCommit = commit;
-  }
-
-  var visNode = new VisNode({
-    id: id,
-    commit: commit,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visNodeMap[id] = visNode;
-
-  if (this.gitReady) {
-    visNode.genGraphics(this.paper);
-  }
-  return visNode;
-};
-
-GitVisuals.prototype.addEdge = function(idTail, idHead) {
-  var visNodeTail = this.visNodeMap[idTail];
-  var visNodeHead = this.visNodeMap[idHead];
-
-  if (!visNodeTail || !visNodeHead) {
-    throw new Error('one of the ids in (' + idTail +
-                    ', ' + idHead + ') does not exist');
-  }
-
-  var edge = new VisEdge({
-    tail: visNodeTail,
-    head: visNodeHead,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visEdgeCollection.add(edge);
-
-  if (this.gitReady) {
-    edge.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.collectionChanged = function() {
-  // TODO ?
-};
-
-GitVisuals.prototype.zIndexReflow = function() {
-  this.visNodesFront();
-  this.visBranchesFront();
-};
-
-GitVisuals.prototype.visNodesFront = function() {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.toFront();
-  });
-};
-
-GitVisuals.prototype.visBranchesFront = function() {
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.nonTextToFront();
-  });
-
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.textToFront();
-  });
-};
-
-GitVisuals.prototype.drawTreeFromReload = function() {
-  this.gitReady = true;
-  // gen all the graphics we need
-  this.deferFlush();
-
-  this.calcTreeCoords();
-};
-
-GitVisuals.prototype.drawTreeFirstTime = function() {
-  this.gitReady = true;
-  this.calcTreeCoords();
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.genGraphics(this.paper);
-  }, this);
-
-  this.visEdgeCollection.each(function(edge) {
-    edge.genGraphics(this.paper);
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(this.paper);
-  }, this);
-
-  this.zIndexReflow();
-};
-
-
-/************************
- * Random util functions, some from liquidGraph
- ***********************/
-function blendHueStrings(hueStrings) {
-  // assumes a sat of 0.7 and brightness of 1
-
-  var x = 0;
-  var y = 0;
-  var totalSat = 0;
-  var totalBright = 0;
-  var length = hueStrings.length;
-
-  _.each(hueStrings, function(hueString) {
-    var exploded = hueString.split('(')[1];
-    exploded = exploded.split(')')[0];
-    exploded = exploded.split(',');
-
-    totalSat += parseFloat(exploded[1]);
-    totalBright += parseFloat(exploded[2]);
-    var hue = parseFloat(exploded[0]);
-
-    var angle = hue * Math.PI * 2;
-    x += Math.cos(angle);
-    y += Math.sin(angle);
-  });
-
-  x = x / length;
-  y = y / length;
-  totalSat = totalSat / length;
-  totalBright = totalBright / length;
-
-  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
-  if (hue < 0) {
-    hue = hue + 1;
-  }
-  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
-}
-
-exports.Visualization = Visualization;
-
-
-});
-
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('./main');
 var AnimationQueue = require('./async').AnimationQueue;
+var InteractiveRebaseView = require('./miscViews').InteractiveRebaseView;
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
@@ -7408,9 +7562,11 @@ require("/commandViews.js");
 
 require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
+
 var Main = require('./main');
 var Command = require('./commandModel').Command;
 var CommandEntry = require('./commandModel').CommandEntry;
+var TIME = require('./constants').TIME;
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -7512,6 +7668,8 @@ exports.CommandBuffer = CommandBuffer;
 require("/collections.js");
 
 require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+var GRAPHICS = require('./constants').GRAPHICS;
+var GLOBAL = require('./constants').GLOBAL;
 
 var Collections = require('./collections');
 var CommitCollection = Collections.CommitCollection;
@@ -8195,6 +8353,7 @@ exports.Visualization = Visualization;
 require("/visuals.js");
 
 require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+var GRAPHICS = require('./constants').GRAPHICS;
 
 var randomHueString = function() {
   var hue = Math.random();
@@ -9176,6 +9335,7 @@ require.define("/animationFactory.js",function(require,module,exports,__dirname,
  */
 
 var Animation = require('./async').Animation;
+var GRAPHICS = require('./constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -9515,7 +9675,9 @@ var levelEngine = new LevelEngine();
 });
 require("/levels.js");
 
-require.define("/async.js",function(require,module,exports,__dirname,__filename,process,global){var Animation = Backbone.Model.extend({
+require.define("/async.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('./constants').GLOBAL;
+
+var Animation = Backbone.Model.extend({
   defaults: {
     duration: 300,
     closure: null
@@ -9644,7 +9806,164 @@ var GRAPHICS = {
   orphanNodeFill: 'hsb(0.5,0.8,0.7)',
 };
 
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
+
 
 });
 require("/constants.js");
+
+require.define("/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var InteractiveRebaseView = Backbone.View.extend({
+  tagName: 'div',
+  template: _.template($('#interactive-rebase-template').html()),
+
+  events: {
+    'click #confirmButton': 'confirmed'
+  },
+
+  initialize: function(options) {
+    this.hasClicked = false;
+    this.rebaseCallback = options.callback;
+
+    this.rebaseArray = options.toRebase;
+
+    this.rebaseEntries = new RebaseEntryCollection();
+    this.rebaseMap = {};
+    this.entryObjMap = {};
+
+    this.rebaseArray.reverse();
+    // make basic models for each commit
+    _.each(this.rebaseArray, function(commit) {
+      var id = commit.get('id');
+      this.rebaseMap[id] = commit;
+      this.entryObjMap[id] = new RebaseEntry({
+        id: id
+      });
+      this.rebaseEntries.add(this.entryObjMap[id]);
+    }, this);
+
+    this.render();
+
+    // show the dialog holder
+    this.show();
+  },
+
+  show: function() {
+    this.toggleVisibility(true);
+  },
+
+  hide: function() {
+    this.toggleVisibility(false);
+  },
+
+  toggleVisibility: function(toggle) {
+    console.log('toggling');
+    $('#dialogHolder').toggleClass('shown', toggle);
+  },
+
+  confirmed: function() {
+    // we hide the dialog anyways, but they might be fast clickers
+    if (this.hasClicked) {
+      return;
+    }
+    this.hasClicked = true;
+
+    // first of all hide
+    this.$el.css('display', 'none');
+
+    // get our ordering
+    var uiOrder = [];
+    this.$('ul#rebaseEntries li').each(function(i, obj) {
+      uiOrder.push(obj.id);
+    });
+
+    // now get the real array
+    var toRebase = [];
+    _.each(uiOrder, function(id) {
+      // the model
+      if (this.entryObjMap[id].get('pick')) {
+        toRebase.unshift(this.rebaseMap[id]);
+      }
+    }, this);
+
+    this.rebaseCallback(toRebase);  
+
+    this.$el.html('');
+    // kill ourselves?
+    delete this;
+  },
+
+  render: function() {
+    var json = {
+      num: this.rebaseArray.length
+    };
+
+    this.$el.html(this.template(json));
+
+    // also render each entry
+    var listHolder = this.$('ul#rebaseEntries');
+    this.rebaseEntries.each(function(entry) {
+      new RebaseEntryView({
+        el: listHolder,
+        model: entry
+      });
+    }, this);
+
+    // then make it reorderable..
+    listHolder.sortable({
+      distance: 5,
+      placeholder: 'ui-state-highlight'
+    });
+  },
+
+});
+
+var RebaseEntry = Backbone.Model.extend({
+  defaults: {
+    pick: true
+  },
+
+  toggle: function() {
+    this.set('pick', !this.get('pick'));
+  }
+});
+
+var RebaseEntryCollection = Backbone.Collection.extend({
+  model: RebaseEntry
+});
+
+var RebaseEntryView = Backbone.View.extend({
+  tagName: 'li',
+  template: _.template($('#interactive-rebase-entry-template').html()),
+
+  toggle: function() {
+    this.model.toggle();
+    
+    // toggle a class also
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+  },
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    var json = this.model.toJSON();
+    this.$el.append(this.template(this.model.toJSON()));
+
+    // hacky :( who would have known jquery barfs on ids with %'s and quotes
+    this.listEntry = this.$el.children(':last');
+
+    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
+      this.toggle();
+    }, this));
+  }
+});
+
+exports.InteractiveRebaseView = InteractiveRebaseView;
+
+
+});
+require("/miscViews.js");
 })();

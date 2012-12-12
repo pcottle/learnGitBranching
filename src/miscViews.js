@@ -145,3 +145,5 @@ var RebaseEntryView = Backbone.View.extend({
   }
 });
 
+exports.InteractiveRebaseView = InteractiveRebaseView;
+
