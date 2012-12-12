@@ -40,3 +40,7 @@ var GRAPHICS = {
   orphanNodeFill: 'hsb(0.5,0.8,0.7)',
 };
 
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
+

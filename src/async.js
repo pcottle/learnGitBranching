@@ -1,3 +1,5 @@
+var GLOBAL = require('./constants').GLOBAL;
+
 var Animation = Backbone.Model.extend({
   defaults: {
     duration: 300,

@@ -9,6 +9,7 @@
  */
 
 var Animation = require('./async').Animation;
+var GRAPHICS = require('./constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
