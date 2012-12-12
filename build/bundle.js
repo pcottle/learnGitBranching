@@ -956,1657 +956,6 @@ exports.CommandBuffer = CommandBuffer;
 
 });
 
-require.define("/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var InteractiveRebaseView = Backbone.View.extend({
-  tagName: 'div',
-  template: _.template($('#interactive-rebase-template').html()),
-
-  events: {
-    'click #confirmButton': 'confirmed'
-  },
-
-  initialize: function(options) {
-    this.hasClicked = false;
-    this.rebaseCallback = options.callback;
-
-    this.rebaseArray = options.toRebase;
-
-    this.rebaseEntries = new RebaseEntryCollection();
-    this.rebaseMap = {};
-    this.entryObjMap = {};
-
-    this.rebaseArray.reverse();
-    // make basic models for each commit
-    _.each(this.rebaseArray, function(commit) {
-      var id = commit.get('id');
-      this.rebaseMap[id] = commit;
-      this.entryObjMap[id] = new RebaseEntry({
-        id: id
-      });
-      this.rebaseEntries.add(this.entryObjMap[id]);
-    }, this);
-
-    this.render();
-
-    // show the dialog holder
-    this.show();
-  },
-
-  show: function() {
-    this.toggleVisibility(true);
-  },
-
-  hide: function() {
-    this.toggleVisibility(false);
-  },
-
-  toggleVisibility: function(toggle) {
-    console.log('toggling');
-    $('#dialogHolder').toggleClass('shown', toggle);
-  },
-
-  confirmed: function() {
-    // we hide the dialog anyways, but they might be fast clickers
-    if (this.hasClicked) {
-      return;
-    }
-    this.hasClicked = true;
-
-    // first of all hide
-    this.$el.css('display', 'none');
-
-    // get our ordering
-    var uiOrder = [];
-    this.$('ul#rebaseEntries li').each(function(i, obj) {
-      uiOrder.push(obj.id);
-    });
-
-    // now get the real array
-    var toRebase = [];
-    _.each(uiOrder, function(id) {
-      // the model
-      if (this.entryObjMap[id].get('pick')) {
-        toRebase.unshift(this.rebaseMap[id]);
-      }
-    }, this);
-
-    this.rebaseCallback(toRebase);  
-
-    this.$el.html('');
-    // kill ourselves?
-    delete this;
-  },
-
-  render: function() {
-    var json = {
-      num: this.rebaseArray.length
-    };
-
-    this.$el.html(this.template(json));
-
-    // also render each entry
-    var listHolder = this.$('ul#rebaseEntries');
-    this.rebaseEntries.each(function(entry) {
-      new RebaseEntryView({
-        el: listHolder,
-        model: entry
-      });
-    }, this);
-
-    // then make it reorderable..
-    listHolder.sortable({
-      distance: 5,
-      placeholder: 'ui-state-highlight'
-    });
-  },
-
-});
-
-var RebaseEntry = Backbone.Model.extend({
-  defaults: {
-    pick: true
-  },
-
-  toggle: function() {
-    this.set('pick', !this.get('pick'));
-  }
-});
-
-var RebaseEntryCollection = Backbone.Collection.extend({
-  model: RebaseEntry
-});
-
-var RebaseEntryView = Backbone.View.extend({
-  tagName: 'li',
-  template: _.template($('#interactive-rebase-entry-template').html()),
-
-  toggle: function() {
-    this.model.toggle();
-    
-    // toggle a class also
-    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
-  },
-
-  initialize: function(options) {
-    this.render();
-  },
-
-  render: function() {
-    var json = this.model.toJSON();
-    this.$el.append(this.template(this.model.toJSON()));
-
-    // hacky :( who would have known jquery barfs on ids with %'s and quotes
-    this.listEntry = this.$el.children(':last');
-
-    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
-      this.toggle();
-    }, this));
-  }
-});
-
-exports.InteractiveRebaseView = InteractiveRebaseView;
-
-
-});
-
-require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
-var GRAPHICS = require('./constants').GRAPHICS;
-var GLOBAL = require('./constants').GLOBAL;
-
-var Collections = require('./collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-
-var Tree = require('./tree');
-var VisEdgeCollection = Tree.VisEdgeCollection;
-var VisBranchCollection = Tree.VisBranchCollection;
-var VisNode = Tree.VisNode;
-var VisBranch = Tree.VisBranch;
-var VisEdge = Tree.VisEdge;
-
-var Visualization = Backbone.View.extend({
-  initialize: function(options) {
-    var _this = this;
-    Raphael(10, 10, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this);
-    });
-  },
-
-  paperInitialize: function(paper, options) {
-    this.paper = paper;
-
-    this.commitCollection = new CommitCollection();
-    this.branchCollection = new BranchCollection();
-
-    this.gitVisuals = new GitVisuals({
-      commitCollection: this.commitCollection,
-      branchCollection: this.branchCollection,
-      paper: this.paper
-    });
-
-    var GitEngine = require('./git').GitEngine;
-    this.gitEngine = new GitEngine({
-      collection: this.commitCollection,
-      branches: this.branchCollection,
-      gitVisuals: this.gitVisuals
-    });
-    this.gitEngine.init();
-    this.gitVisuals.assignGitEngine(this.gitEngine);
-
-    this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
-    this.gitVisuals.drawTreeFirstTime();
-  },
-
-  myResize: function() {
-    var smaller = 1;
-    var el = this.el;
-
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
-
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
-    this.paper.setSize(width, height);
-    this.gitVisuals.canvasResize(width, height);
-  }
-
-});
-
-function GitVisuals(options) {
-  this.commitCollection = options.commitCollection;
-  this.branchCollection = options.branchCollection;
-  this.visNodeMap = {};
-
-  this.visEdgeCollection = new VisEdgeCollection();
-  this.visBranchCollection = new VisBranchCollection();
-  this.commitMap = {};
-
-  this.rootCommit = null;
-  this.branchStackMap = null;
-  this.upstreamBranchSet = null;
-  this.upstreamHeadSet = null;
-
-  this.paper = options.paper;
-  this.gitReady = false;
-
-  this.branchCollection.on('add', this.addBranchFromEvent, this);
-  this.branchCollection.on('remove', this.removeBranch, this);
-  this.deferred = [];
-  
-  Main.getEvents().on('refreshTree', _.bind(
-    this.refreshTree, this
-  ));
-}
-
-GitVisuals.prototype.defer = function(action) {
-  this.deferred.push(action);
-};
-
-GitVisuals.prototype.deferFlush = function() {
-  _.each(this.deferred, function(action) {
-    action();
-  }, this);
-  this.deferred = [];
-};
-
-GitVisuals.prototype.resetAll = function() {
-  // make sure to copy these collections because we remove
-  // items in place and underscore is too dumb to detect length change
-  var edges = this.visEdgeCollection.toArray();
-  _.each(edges, function(visEdge) {
-    visEdge.remove();
-  }, this);
-
-  var branches = this.visBranchCollection.toArray();
-  _.each(branches, function(visBranch) {
-    visBranch.remove();
-  }, this);
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.remove();
-  }, this);
-
-  this.visEdgeCollection.reset();
-  this.visBranchCollection.reset();
-
-  this.visNodeMap = {};
-  this.rootCommit = null;
-  this.commitMap = {};
-};
-
-GitVisuals.prototype.assignGitEngine = function(gitEngine) {
-  this.gitEngine = gitEngine;
-  this.initHeadBranch();
-  this.deferFlush();
-};
-
-GitVisuals.prototype.initHeadBranch = function() {
-  // it's unfortaunte we have to do this, but the head branch
-  // is an edge case because it's not part of a collection so
-  // we can't use events to load or unload it. thus we have to call
-  // this ugly method which will be deleted one day
-
-  // seed this with the HEAD pseudo-branch
-  this.addBranchFromEvent(this.gitEngine.HEAD);
-};
-
-GitVisuals.prototype.getScreenBounds = function() {
-  // for now we return the node radius subtracted from the walls
-  return {
-    widthPadding: GRAPHICS.nodeRadius * 1.5,
-    heightPadding: GRAPHICS.nodeRadius * 1.5
-  };
-};
-
-GitVisuals.prototype.toScreenCoords = function(pos) {
-  if (!this.paper.width) {
-    throw new Error('being called too early for screen coords');
-  }
-  var bounds = this.getScreenBounds();
-
-  var shrink = function(frac, total, padding) {
-    return padding + frac * (total - padding * 2);
-  };
-
-  return {
-    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
-    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
-  };
-};
-
-GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
-  var animate = function(obj) {
-    var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
-      return;
-    }
-
-    if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
-      return;
-    }
-    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
-  };
-
-  this.visBranchCollection.each(function(visBranch) {
-    animate(visBranch);
-  });
-  this.visEdgeCollection.each(function(visEdge) {
-    animate(visEdge);
-  });
-  _.each(this.visNodeMap, function(visNode) {
-    animate(visNode);
-  });
-};
-
-/***************************************
-     == BEGIN Tree Calculation Parts ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.genSnapshot = function() {
-  this.fullCalc();
-
-  var snapshot = {};
-  _.each(this.visNodeMap, function(visNode) {
-    snapshot[visNode.get('id')] = visNode.getAttributes();
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    snapshot[visBranch.getID()] = visBranch.getAttributes();
-  }, this);
-
-  this.visEdgeCollection.each(function(visEdge) {
-    snapshot[visEdge.getID()] = visEdge.getAttributes();
-  }, this);
-
-  return snapshot;
-};
-
-GitVisuals.prototype.refreshTree = function(speed) {
-  if (!this.gitReady) {
-    return;
-  }
-
-  // this method can only be called after graphics are rendered
-  this.fullCalc();
-
-  this.animateAll(speed);
-};
-
-GitVisuals.prototype.refreshTreeHarsh = function() {
-  this.fullCalc();
-
-  this.animateAll(0);
-};
-
-GitVisuals.prototype.animateAll = function(speed) {
-  this.zIndexReflow();
-
-  this.animateEdges(speed);
-  this.animateNodePositions(speed);
-  this.animateRefs(speed);
-};
-
-GitVisuals.prototype.fullCalc = function() {
-  this.calcTreeCoords();
-  this.calcGraphicsCoords();
-};
-
-GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
-  if (!this.rootCommit) {
-    throw new Error('grr, no root commit!');
-  }
-
-  this.calcUpstreamSets();
-  this.calcBranchStacks();
-
-  this.calcDepth();
-  this.calcWidth();
-};
-
-GitVisuals.prototype.calcGraphicsCoords = function() {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.updateName();
-  });
-};
-
-GitVisuals.prototype.calcUpstreamSets = function() {
-  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
-  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
-};
-
-GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
-  return this.branchStackMap[commit.get('id')];
-};
-
-GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
-  var branches = this.upstreamBranchSet[commit.get('id')];
-  if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
-  }
-
-  return this.blendHuesFromBranchStack(branches);
-};
-
-GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
-  var hueStrings = [];
-  _.each(branchStackArray, function(branchWrapper) {
-    var fill = branchWrapper.obj.get('visBranch').get('fill');
-
-    if (fill.slice(0,3) !== 'hsb') {
-      // crap! convert
-      var color = Raphael.color(fill);
-      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
-      fill = fill + ',' + String(color.s) + ')';
-    }
-
-    hueStrings.push(fill);
-  });
-
-  return blendHueStrings(hueStrings);
-};
-
-GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
-  if (!this.upstreamBranchSet) {
-    throw new Error("Can't calculate this yet!");
-  }
-
-  var id = commit.get('id');
-  var branch = this.upstreamBranchSet;
-  var head = this.upstreamHeadSet;
-
-  if (branch[id]) {
-    return 'branch';
-  } else if (head[id]) {
-    return 'head';
-  } else {
-    return 'none';
-  }
-};
-
-GitVisuals.prototype.calcBranchStacks = function() {
-  var branches = this.gitEngine.getBranches();
-  var map = {};
-  _.each(branches, function(branch) {
-    var thisId = branch.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(branch);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      if (aId == 'master' || bId == 'master') {
-        return aId == 'master' ? -1 : 1;
-      }
-      return aId.localeCompare(bId);
-    });
-  });
-  this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcWidth = function() {
-  this.maxWidthRecursive(this.rootCommit);
-  
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
-};
-
-GitVisuals.prototype.maxWidthRecursive = function(commit) {
-  var childrenTotalWidth = 0;
-  _.each(commit.get('children'), function(child) {
-    // only include this if we are the "main" parent of
-    // this child
-    if (child.isMainParent(commit)) {
-      var childWidth = this.maxWidthRecursive(child);
-      childrenTotalWidth += childWidth;
-    }
-  }, this);
-
-  var maxWidth = Math.max(1, childrenTotalWidth);
-  commit.get('visNode').set('maxWidth', maxWidth);
-  return maxWidth;
-};
-
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  // I always center myself within my bounds
-  var myWidthPos = (min + max) / 2.0;
-  commit.get('visNode').get('pos').x = myWidthPos;
-
-  if (commit.get('children').length == 0) {
-    return;
-  }
-
-  // i have a certain length to divide up
-  var myLength = max - min;
-  // I will divide up that length based on my children's max width in a
-  // basic box-flex model
-  var totalFlex = 0;
-  var children = commit.get('children');
-  _.each(children, function(child) {
-    if (child.isMainParent(commit)) {
-      totalFlex += child.get('visNode').getMaxWidthScaled();
-    }
-  }, this);
-
-  var prevBound = min;
-
-  // now go through and do everything
-  // TODO: order so the max width children are in the middle!!
-  _.each(children, function(child) {
-    if (!child.isMainParent(commit)) {
-      return;
-    }
-
-    var flex = child.get('visNode').getMaxWidthScaled();
-    var portion = (flex / totalFlex) * myLength;
-    var childMin = prevBound;
-    var childMax = childMin + portion;
-    this.assignBoundsRecursive(child, childMin, childMax);
-    prevBound = childMax;
-  }, this);
-};
-
-GitVisuals.prototype.calcDepth = function() {
-  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
-  if (maxDepth > 15) {
-    // issue warning
-    console.warn('graphics are degrading from too many layers');
-  }
-
-  var depthIncrement = this.getDepthIncrement(maxDepth);
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
-  }, this);
-};
-
-/***************************************
-     == END Tree Calculation ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.animateNodePositions = function(speed) {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.animateUpdatedPosition(speed);
-  }, this);
-};
-
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
-GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
-  var action = _.bind(function() {
-    this.addBranch(branch);
-  }, this);
-
-  if (!this.gitEngine || !this.gitReady) {
-    this.defer(action);
-  } else {
-    action();
-  }
-};
-
-GitVisuals.prototype.addBranch = function(branch) {
-  var visBranch = new VisBranch({
-    branch: branch,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visBranchCollection.add(visBranch);
-  if (this.gitReady) {
-    visBranch.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.removeVisBranch = function(visBranch) {
-  this.visBranchCollection.remove(visBranch);
-};
-
-GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
-};
-
-GitVisuals.prototype.removeVisEdge = function(visEdge) {
-  this.visEdgeCollection.remove(visEdge);
-};
-
-GitVisuals.prototype.animateRefs = function(speed) {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.animateUpdatedPos(speed);
-  }, this);
-};
-
-GitVisuals.prototype.animateEdges = function(speed) {
-  this.visEdgeCollection.each(function(edge) {
-    edge.animateUpdatedPath(speed);
-  }, this);
-};
-
-GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
-  var increment = 1.0 / maxDepth;
-  return increment;
-};
-
-GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
-  commit.get('visNode').setDepth(depth);
-
-  var children = commit.get('children');
-  var maxDepth = depth;
-  _.each(children, function(child) {
-    var d = this.calcDepthRecursive(child, depth + 1);
-    maxDepth = Math.max(d, maxDepth);
-  }, this);
-
-  return maxDepth;
-};
-
-GitVisuals.prototype.canvasResize = function(width, height) {
-  // refresh when we are ready
-  if (GLOBAL.isAnimating) {
-    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
-  } else {
-    this.refreshTree();
-  }
-};
-
-GitVisuals.prototype.addCommit = function(commit) {
-  // TODO 
-};
-
-GitVisuals.prototype.addNode = function(id, commit) {
-  this.commitMap[id] = commit;
-  if (commit.get('rootCommit')) {
-    this.rootCommit = commit;
-  }
-
-  var visNode = new VisNode({
-    id: id,
-    commit: commit,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visNodeMap[id] = visNode;
-
-  if (this.gitReady) {
-    visNode.genGraphics(this.paper);
-  }
-  return visNode;
-};
-
-GitVisuals.prototype.addEdge = function(idTail, idHead) {
-  var visNodeTail = this.visNodeMap[idTail];
-  var visNodeHead = this.visNodeMap[idHead];
-
-  if (!visNodeTail || !visNodeHead) {
-    throw new Error('one of the ids in (' + idTail +
-                    ', ' + idHead + ') does not exist');
-  }
-
-  var edge = new VisEdge({
-    tail: visNodeTail,
-    head: visNodeHead,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visEdgeCollection.add(edge);
-
-  if (this.gitReady) {
-    edge.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.collectionChanged = function() {
-  // TODO ?
-};
-
-GitVisuals.prototype.zIndexReflow = function() {
-  this.visNodesFront();
-  this.visBranchesFront();
-};
-
-GitVisuals.prototype.visNodesFront = function() {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.toFront();
-  });
-};
-
-GitVisuals.prototype.visBranchesFront = function() {
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.nonTextToFront();
-  });
-
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.textToFront();
-  });
-};
-
-GitVisuals.prototype.drawTreeFromReload = function() {
-  this.gitReady = true;
-  // gen all the graphics we need
-  this.deferFlush();
-
-  this.calcTreeCoords();
-};
-
-GitVisuals.prototype.drawTreeFirstTime = function() {
-  this.gitReady = true;
-  this.calcTreeCoords();
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.genGraphics(this.paper);
-  }, this);
-
-  this.visEdgeCollection.each(function(edge) {
-    edge.genGraphics(this.paper);
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(this.paper);
-  }, this);
-
-  this.zIndexReflow();
-};
-
-
-/************************
- * Random util functions, some from liquidGraph
- ***********************/
-function blendHueStrings(hueStrings) {
-  // assumes a sat of 0.7 and brightness of 1
-
-  var x = 0;
-  var y = 0;
-  var totalSat = 0;
-  var totalBright = 0;
-  var length = hueStrings.length;
-
-  _.each(hueStrings, function(hueString) {
-    var exploded = hueString.split('(')[1];
-    exploded = exploded.split(')')[0];
-    exploded = exploded.split(',');
-
-    totalSat += parseFloat(exploded[1]);
-    totalBright += parseFloat(exploded[2]);
-    var hue = parseFloat(exploded[0]);
-
-    var angle = hue * Math.PI * 2;
-    x += Math.cos(angle);
-    y += Math.sin(angle);
-  });
-
-  x = x / length;
-  y = y / length;
-  totalSat = totalSat / length;
-  totalBright = totalBright / length;
-
-  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
-  if (hue < 0) {
-    hue = hue + 1;
-  }
-  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
-}
-
-exports.Visualization = Visualization;
-
-
-});
-
-require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('./errors');
-
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var Command = Backbone.Model.extend({
-  defaults: {
-    status: 'inqueue',
-    rawStr: null,
-    result: '',
-
-    error: null,
-    warnings: null,
-
-    generalArgs: null,
-    supportedMap: null,
-    options: null,
-    method: null,
-
-    createTime: null
-  },
-
-  validateAtInit: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-
-
-    this.on('change:error', this.errorChanged, this);
-    // catch errors on init
-    if (this.get('error')) {
-      this.errorChanged();
-    }
-  },
-
-  setResult: function(msg) {
-    this.set('result', msg);
-  },
-
-  addWarning: function(msg) {
-    this.get('warnings').push(msg);
-    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
-    // detect if an array changes, so adding an element does nothing
-    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
-  },
-
-  getFormattedWarnings: function() {
-    if (!this.get('warnings').length) {
-      return '';
-    }
-    var i = '<i class="icon-exclamation-sign"></i>';
-    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-    this.parseOrCatch();
-  },
-
-  parseOrCatch: function() {
-    try {
-      this.parse();
-    } catch (err) {
-      if (err instanceof CommandProcessError ||
-          err instanceof GitError ||
-          err instanceof CommandResult ||
-          err instanceof Warning) {
-        // errorChanged() will handle status and all of that
-        this.set('error', err);
-      } else {
-        throw err;
-      }
-    }
-  },
-
-  errorChanged: function() {
-    var err = this.get('error');
-    if (err instanceof CommandProcessError ||
-        err instanceof GitError) {
-      this.set('status', 'error');
-    } else if (err instanceof CommandResult) {
-      this.set('status', 'finished');
-    } else if (err instanceof Warning) {
-      this.set('status', 'warning');
-    }
-    this.formatError();
-  },
-
-  formatError: function() {
-    this.set('result', this.get('error').toResult());
-  },
-
-  getShortcutMap: function() {
-    return {
-      'git commit': /^gc($|\s)/,
-      'git add': /^ga($|\s)/,
-      'git checkout': /^gchk($|\s)/,
-      'git rebase': /^gr($|\s)/,
-      'git branch': /^gb($|\s)/
-    };
-  },
-
-  getRegexMap: function() {
-    return {
-      // ($|\s) means that we either have to end the string
-      // after the command or there needs to be a space for options
-      commit: /^commit($|\s)/,
-      add: /^add($|\s)/,
-      checkout: /^checkout($|\s)/,
-      rebase: /^rebase($|\s)/,
-      reset: /^reset($|\s)/,
-      branch: /^branch($|\s)/,
-      revert: /^revert($|\s)/,
-      log: /^log($|\s)/,
-      merge: /^merge($|\s)/,
-      show: /^show($|\s)/,
-      status: /^status($|\s)/,
-      'cherry-pick': /^cherry-pick($|\s)/
-    };
-  },
-
-  getSandboxCommands: function() {
-    return [
-      [/^ls/, function() {
-        throw new CommandResult({
-          msg: "DontWorryAboutFilesInThisDemo.txt"
-        });
-      }],
-      [/^cd/, function() {
-        throw new CommandResult({
-          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-        });
-      }],
-      [/^git help($|\s)/, function() {
-        // sym link this to the blank git command
-        var allCommands = Command.prototype.getSandboxCommands();
-        // wow this is hacky :(
-        var equivalent = 'git';
-        _.each(allCommands, function(bits) {
-          var regex = bits[0];
-          if (regex.test(equivalent)) {
-            bits[1]();
-          }
-        });
-      }],
-      [/^git$/, function() {
-        var lines = [
-          'Git Version PCOTTLE.1.0',
-          '<br/>',
-          'Usage:',
-          _.escape('\t git <command> [<args>]'),
-          '<br/>',
-          'Supported commands:',
-          '<br/>',
-        ];
-        var commands = OptionParser.prototype.getMasterOptionMap();
-
-        // build up a nice display of what we support
-        _.each(commands, function(commandOptions, command) {
-          lines.push('git ' + command);
-          _.each(commandOptions, function(vals, optionName) {
-            lines.push('\t ' + optionName);
-          }, this);
-        }, this);
-
-        // format and throw
-        var msg = lines.join('\n');
-        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-        throw new CommandResult({
-          msg: msg
-        });
-      }],
-      [/^refresh$/, function() {
-        events.trigger('refreshTree');
-        throw new CommandResult({
-          msg: "Refreshing tree..."
-        });
-      }],
-      [/^rollup (\d+)$/, function(bits) {
-        // go roll up these commands by joining them with semicolons
-        events.trigger('rollupCommands', bits[1]);
-        throw new CommandResult({
-          msg: 'Commands combined!'
-        });
-      }]
-    ];
-  },
-
-  parse: function() {
-    var str = this.get('rawStr');
-    // first if the string is empty, they just want a blank line
-    if (!str.length) {
-      throw new CommandResult({msg: ""});
-    }
-
-    // then check if it's one of our sandbox commands
-    _.each(this.getSandboxCommands(), function(tuple) {
-      var regex = tuple[0];
-      var results = regex.exec(str);
-      if (results) {
-        tuple[1](results);
-      }
-    });
-
-    // then check if shortcut exists, and replace, but
-    // preserve options if so
-    _.each(this.getShortcutMap(), function(regex, method) {
-      var results = regex.exec(str);
-      if (results) {
-        str = method + ' ' + str.slice(results[0].length);
-      }
-    });
-
-    // see if begins with git
-    if (str.slice(0,3) !== 'git') {
-      throw new CommandProcessError({
-        msg: 'That command is not supported, sorry!'
-      });
-    }
-
-    // ok, we have a (probably) valid command. actually parse it
-    this.gitParse(str);
-  },
-
-  gitParse: function(str) {
-    // now slice off command part
-    var fullCommand = str.slice('git '.length);
-
-    // see if we support this particular command
-    _.each(this.getRegexMap(), function(regex, method) {
-      if (regex.exec(fullCommand)) {
-        this.set('options', fullCommand.slice(method.length + 1));
-        this.set('method', method);
-        // we should stop iterating, but the regex will only match
-        // one command in practice. we could stop iterating if we used
-        // jqeurys for each but im using underscore (for no real reason other
-        // than style)
-      }
-    }, this);
-
-    if (!this.get('method')) {
-      throw new CommandProcessError({
-        msg: "Sorry, this demo does not support that git command: " + fullCommand
-      });
-    }
-
-    // parse off the options and assemble the map / general args
-    var optionParser = new OptionParser(this.get('method'), this.get('options'));
-
-    // steal these away so we can be completely JSON
-    this.set('generalArgs', optionParser.generalArgs);
-    this.set('supportedMap', optionParser.supportedMap);
-  },
-});
-
-/**
- * OptionParser
- */
-function OptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = this.getMasterOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-OptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false, // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {}
-  };
-};
-
-OptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes
-
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-
-  // done!
-};
-
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
-  defaults: {
-    text: ''
-  },
-  localStorage: new Backbone.LocalStorage('CommandEntries')
-});
-
-
-exports.CommandEntry = CommandEntry;
-exports.Command = Command;
-
-
-});
-
-require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
-var Main = require('./main');
-var Command = require('./commandModel').Command;
-var CommandEntry = require('./commandModel').CommandEntry;
-
-var Errors = require('./errors');
-var Warning = Errors.Warning;
-
-var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
-
-    this.index = -1;
-
-    this.commandSpan = this.$('#prompt span.command')[0];
-    this.commandCursor = this.$('#prompt span.cursor')[0];
-
-    // this is evil, but we will refer to HTML outside the document
-    // and attach a click event listener so we can focus / unfocus
-    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
-      this.focus();
-    }, this));
-
-
-    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
-      this.blur();
-    }, this));
-
-    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
-    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
-    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
-
-    // hacky timeout focus
-    setTimeout(_.bind(function() {
-      this.focus();
-    }, this), 100);
-  },
-
-  events: {
-    'keydown #commandTextField': 'onKey',
-    'keyup #commandTextField': 'onKeyUp',
-    'blur #commandTextField': 'hideCursor',
-    'focus #commandTextField': 'showCursor'
-  },
-
-  blur: function() {
-    $(this.commandCursor).toggleClass('shown', false);
-  },
-
-  focus: function() {
-    this.$('#commandTextField').focus();
-    this.showCursor();
-  },
-
-  hideCursor: function() {
-    this.toggleCursor(false); 
-  },
-
-  showCursor: function() {
-    this.toggleCursor(true);
-  },
-
-  toggleCursor: function(state) {
-    $(this.commandCursor).toggleClass('shown', state);
-  },
-
-  onKey: function(e) {
-    var el = e.srcElement;
-    this.updatePrompt(el)
-  },
-
-  onKeyUp: function(e) {
-    this.onKey(e);
-
-    // we need to capture some of these events.
-    // WARNING: this key map is not internationalized :(
-    var keyMap = {
-      // enter
-      13: _.bind(function() {
-        this.submit();
-      }, this),
-      // up
-      38: _.bind(function() {
-        this.commandSelectChange(1);
-      }, this),
-      // down
-      40: _.bind(function() {
-        this.commandSelectChange(-1);
-      }, this)
-    };
-
-    if (keyMap[e.which] !== undefined) {
-      e.preventDefault();
-      keyMap[e.which]();
-      this.onKey(e);
-    }
-  },
-
-  badHtmlEncode: function(text) {
-    return text.replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/</g,'&lt;')
-      .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'')
-  },
-
-  updatePrompt: function(el) {
-    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
-    // super annoying delay to every keystroke... I have tried everything
-    // to make this more performant. getting the srcElement from the event,
-    // getting the value directly from the dom, etc etc. yet still,
-    // there's a very annoying and sightly noticeable command delay.
-    // try.github.com also has this, so I'm assuming those engineers gave up as
-    // well...
-
-    var val = this.badHtmlEncode(el.value);
-    this.commandSpan.innerHTML = val;
-
-    // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
-    // and scroll down due to some weird bug
-    Main.getEvents().trigger('commandScrollDown');
-  },
-
-  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    // 10px for monospaced font...
-    var widthPerChar = 10;
-
-    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
-    var width = String(numCharsSelected * widthPerChar) + 'px';
-
-    // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
-    var left = String(-numLeft * widthPerChar) + 'px';
-    // one reflow? :D
-    $(this.commandCursor).css({
-      width: width,
-      left: left
-    });
-  },
-
-  commandSelectChange: function(delta) {
-    this.index += delta;
-    
-    // if we are over / under, display blank line. yes this eliminates your
-    // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
-      this.clear();
-      this.index = -1;
-      return;
-    }
-
-    // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
-    this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
-    localStorage.setItem('CommandEntries', '');
-  },
-
-  setTextField: function(value) {
-    this.$('#commandTextField').val(value);
-  },
-
-  clear: function() {
-    this.setTextField('');
-  },
-
-  submit: function() {
-    var value = this.$('#commandTextField').val().replace('\n', '');
-    this.clear();
-    this.submitValue(value);
-  },
-
-  rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
-    which.reverse();
-
-    var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
-    }, this);
-
-    console.log('the str', str);
-
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
-  },
-
-  submitValue: function(value) {
-    // we should add if it's not a blank line and this is a new command...
-    // or if we edited the command
-    var shouldAdd = (value.length && this.index == -1) ||
-      ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
-
-    if (shouldAdd) {
-      var commandEntry = new CommandEntry({text: value});
-      this.commands.unshift(commandEntry);
-
-      // store to local storage
-      Backbone.sync('create', commandEntry, function() { });
-
-      // if our length is too egregious, reset
-      if (this.commands.length > 100) {
-        this.clearLocalStorage();
-      }
-    }
-    this.index = -1;
-
-    // split commands on semicolon
-    _.each(value.split(';'), _.bind(function(command, index) {
-      command = _.escape(command);
-
-      command = command
-        .replace(/^(\s+)/, '')
-        .replace(/(\s+)$/, '')
-        .replace(/&quot;/g, '"')
-        .replace(/&#x27;/g, "'");
-
-      if (index > 0 && !command.length) {
-        return;
-      }
-
-      this.addToCollection(command);
-    }, this));
-  },
-
-  addToCollection: function(value) {
-    var command = new Command({
-      rawStr: value
-    });
-    this.collection.add(command);
-  }
-});
-
-
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html of HTML
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) == 0) {
-      this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) == 0) {
-      // the above will 
-      this.render();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-
-    Main.getEvents().on('issueWarning', this.addWarning, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
-exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
-
-
-});
-
-require.define("/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
-
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-
-});
-
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('./main');
@@ -4251,6 +2600,1657 @@ exports.Ref = Ref;
 
 });
 
+require.define("/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var InteractiveRebaseView = Backbone.View.extend({
+  tagName: 'div',
+  template: _.template($('#interactive-rebase-template').html()),
+
+  events: {
+    'click #confirmButton': 'confirmed'
+  },
+
+  initialize: function(options) {
+    this.hasClicked = false;
+    this.rebaseCallback = options.callback;
+
+    this.rebaseArray = options.toRebase;
+
+    this.rebaseEntries = new RebaseEntryCollection();
+    this.rebaseMap = {};
+    this.entryObjMap = {};
+
+    this.rebaseArray.reverse();
+    // make basic models for each commit
+    _.each(this.rebaseArray, function(commit) {
+      var id = commit.get('id');
+      this.rebaseMap[id] = commit;
+      this.entryObjMap[id] = new RebaseEntry({
+        id: id
+      });
+      this.rebaseEntries.add(this.entryObjMap[id]);
+    }, this);
+
+    this.render();
+
+    // show the dialog holder
+    this.show();
+  },
+
+  show: function() {
+    this.toggleVisibility(true);
+  },
+
+  hide: function() {
+    this.toggleVisibility(false);
+  },
+
+  toggleVisibility: function(toggle) {
+    console.log('toggling');
+    $('#dialogHolder').toggleClass('shown', toggle);
+  },
+
+  confirmed: function() {
+    // we hide the dialog anyways, but they might be fast clickers
+    if (this.hasClicked) {
+      return;
+    }
+    this.hasClicked = true;
+
+    // first of all hide
+    this.$el.css('display', 'none');
+
+    // get our ordering
+    var uiOrder = [];
+    this.$('ul#rebaseEntries li').each(function(i, obj) {
+      uiOrder.push(obj.id);
+    });
+
+    // now get the real array
+    var toRebase = [];
+    _.each(uiOrder, function(id) {
+      // the model
+      if (this.entryObjMap[id].get('pick')) {
+        toRebase.unshift(this.rebaseMap[id]);
+      }
+    }, this);
+
+    this.rebaseCallback(toRebase);  
+
+    this.$el.html('');
+    // kill ourselves?
+    delete this;
+  },
+
+  render: function() {
+    var json = {
+      num: this.rebaseArray.length
+    };
+
+    this.$el.html(this.template(json));
+
+    // also render each entry
+    var listHolder = this.$('ul#rebaseEntries');
+    this.rebaseEntries.each(function(entry) {
+      new RebaseEntryView({
+        el: listHolder,
+        model: entry
+      });
+    }, this);
+
+    // then make it reorderable..
+    listHolder.sortable({
+      distance: 5,
+      placeholder: 'ui-state-highlight'
+    });
+  },
+
+});
+
+var RebaseEntry = Backbone.Model.extend({
+  defaults: {
+    pick: true
+  },
+
+  toggle: function() {
+    this.set('pick', !this.get('pick'));
+  }
+});
+
+var RebaseEntryCollection = Backbone.Collection.extend({
+  model: RebaseEntry
+});
+
+var RebaseEntryView = Backbone.View.extend({
+  tagName: 'li',
+  template: _.template($('#interactive-rebase-entry-template').html()),
+
+  toggle: function() {
+    this.model.toggle();
+    
+    // toggle a class also
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+  },
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    var json = this.model.toJSON();
+    this.$el.append(this.template(this.model.toJSON()));
+
+    // hacky :( who would have known jquery barfs on ids with %'s and quotes
+    this.listEntry = this.$el.children(':last');
+
+    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
+      this.toggle();
+    }, this));
+  }
+});
+
+exports.InteractiveRebaseView = InteractiveRebaseView;
+
+
+});
+
+require.define("/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+
+});
+
+require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('./errors');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
+
+    error: null,
+    warnings: null,
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null,
+
+    createTime: null
+  },
+
+  validateAtInit: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    this.parseOrCatch();
+  },
+
+  parseOrCatch: function() {
+    try {
+      this.parse();
+    } catch (err) {
+      if (err instanceof CommandProcessError ||
+          err instanceof GitError ||
+          err instanceof CommandResult ||
+          err instanceof Warning) {
+        // errorChanged() will handle status and all of that
+        this.set('error', err);
+      } else {
+        throw err;
+      }
+    }
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  getShortcutMap: function() {
+    return {
+      'git commit': /^gc($|\s)/,
+      'git add': /^ga($|\s)/,
+      'git checkout': /^gchk($|\s)/,
+      'git rebase': /^gr($|\s)/,
+      'git branch': /^gb($|\s)/
+    };
+  },
+
+  getRegexMap: function() {
+    return {
+      // ($|\s) means that we either have to end the string
+      // after the command or there needs to be a space for options
+      commit: /^commit($|\s)/,
+      add: /^add($|\s)/,
+      checkout: /^checkout($|\s)/,
+      rebase: /^rebase($|\s)/,
+      reset: /^reset($|\s)/,
+      branch: /^branch($|\s)/,
+      revert: /^revert($|\s)/,
+      log: /^log($|\s)/,
+      merge: /^merge($|\s)/,
+      show: /^show($|\s)/,
+      status: /^status($|\s)/,
+      'cherry-pick': /^cherry-pick($|\s)/
+    };
+  },
+
+  getSandboxCommands: function() {
+    return [
+      [/^ls/, function() {
+        throw new CommandResult({
+          msg: "DontWorryAboutFilesInThisDemo.txt"
+        });
+      }],
+      [/^cd/, function() {
+        throw new CommandResult({
+          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+        });
+      }],
+      [/^git help($|\s)/, function() {
+        // sym link this to the blank git command
+        var allCommands = Command.prototype.getSandboxCommands();
+        // wow this is hacky :(
+        var equivalent = 'git';
+        _.each(allCommands, function(bits) {
+          var regex = bits[0];
+          if (regex.test(equivalent)) {
+            bits[1]();
+          }
+        });
+      }],
+      [/^git$/, function() {
+        var lines = [
+          'Git Version PCOTTLE.1.0',
+          '<br/>',
+          'Usage:',
+          _.escape('\t git <command> [<args>]'),
+          '<br/>',
+          'Supported commands:',
+          '<br/>',
+        ];
+        var commands = OptionParser.prototype.getMasterOptionMap();
+
+        // build up a nice display of what we support
+        _.each(commands, function(commandOptions, command) {
+          lines.push('git ' + command);
+          _.each(commandOptions, function(vals, optionName) {
+            lines.push('\t ' + optionName);
+          }, this);
+        }, this);
+
+        // format and throw
+        var msg = lines.join('\n');
+        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+        throw new CommandResult({
+          msg: msg
+        });
+      }],
+      [/^refresh$/, function() {
+        events.trigger('refreshTree');
+        throw new CommandResult({
+          msg: "Refreshing tree..."
+        });
+      }],
+      [/^rollup (\d+)$/, function(bits) {
+        // go roll up these commands by joining them with semicolons
+        events.trigger('rollupCommands', bits[1]);
+        throw new CommandResult({
+          msg: 'Commands combined!'
+        });
+      }]
+    ];
+  },
+
+  parse: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then check if it's one of our sandbox commands
+    _.each(this.getSandboxCommands(), function(tuple) {
+      var regex = tuple[0];
+      var results = regex.exec(str);
+      if (results) {
+        tuple[1](results);
+      }
+    });
+
+    // then check if shortcut exists, and replace, but
+    // preserve options if so
+    _.each(this.getShortcutMap(), function(regex, method) {
+      var results = regex.exec(str);
+      if (results) {
+        str = method + ' ' + str.slice(results[0].length);
+      }
+    });
+
+    // see if begins with git
+    if (str.slice(0,3) !== 'git') {
+      throw new CommandProcessError({
+        msg: 'That command is not supported, sorry!'
+      });
+    }
+
+    // ok, we have a (probably) valid command. actually parse it
+    this.gitParse(str);
+  },
+
+  gitParse: function(str) {
+    // now slice off command part
+    var fullCommand = str.slice('git '.length);
+
+    // see if we support this particular command
+    _.each(this.getRegexMap(), function(regex, method) {
+      if (regex.exec(fullCommand)) {
+        this.set('options', fullCommand.slice(method.length + 1));
+        this.set('method', method);
+        // we should stop iterating, but the regex will only match
+        // one command in practice. we could stop iterating if we used
+        // jqeurys for each but im using underscore (for no real reason other
+        // than style)
+      }
+    }, this);
+
+    if (!this.get('method')) {
+      throw new CommandProcessError({
+        msg: "Sorry, this demo does not support that git command: " + fullCommand
+      });
+    }
+
+    // parse off the options and assemble the map / general args
+    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+
+    // steal these away so we can be completely JSON
+    this.set('generalArgs', optionParser.generalArgs);
+    this.set('supportedMap', optionParser.supportedMap);
+  },
+});
+
+/**
+ * OptionParser
+ */
+function OptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+OptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false, // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+OptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+
+  // done!
+};
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+
+
+});
+
+require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
+var Main = require('./main');
+var Command = require('./commandModel').Command;
+var CommandEntry = require('./commandModel').CommandEntry;
+
+var Errors = require('./errors');
+var Warning = Errors.Warning;
+
+var CommandPromptView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    // uses local storage
+    this.commands = new CommandEntryCollection();
+    this.commands.fetch({
+      success: _.bind(function() {
+        // reverse the commands. this is ugly but needs to be done...
+        var commands = [];
+        this.commands.each(function(c) {
+          commands.push(c);
+        });
+
+        commands.reverse();
+        this.commands.reset();
+
+        _.each(commands, function(c) {
+          this.commands.add(c);
+        }, this);
+      }, this)
+    });
+
+    this.index = -1;
+
+    this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandCursor = this.$('#prompt span.cursor')[0];
+
+    // this is evil, but we will refer to HTML outside the document
+    // and attach a click event listener so we can focus / unfocus
+    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
+      this.focus();
+    }, this));
+
+
+    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
+      this.blur();
+    }, this));
+
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
+
+    // hacky timeout focus
+    setTimeout(_.bind(function() {
+      this.focus();
+    }, this), 100);
+  },
+
+  events: {
+    'keydown #commandTextField': 'onKey',
+    'keyup #commandTextField': 'onKeyUp',
+    'blur #commandTextField': 'hideCursor',
+    'focus #commandTextField': 'showCursor'
+  },
+
+  blur: function() {
+    $(this.commandCursor).toggleClass('shown', false);
+  },
+
+  focus: function() {
+    this.$('#commandTextField').focus();
+    this.showCursor();
+  },
+
+  hideCursor: function() {
+    this.toggleCursor(false); 
+  },
+
+  showCursor: function() {
+    this.toggleCursor(true);
+  },
+
+  toggleCursor: function(state) {
+    $(this.commandCursor).toggleClass('shown', state);
+  },
+
+  onKey: function(e) {
+    var el = e.srcElement;
+    this.updatePrompt(el)
+  },
+
+  onKeyUp: function(e) {
+    this.onKey(e);
+
+    // we need to capture some of these events.
+    // WARNING: this key map is not internationalized :(
+    var keyMap = {
+      // enter
+      13: _.bind(function() {
+        this.submit();
+      }, this),
+      // up
+      38: _.bind(function() {
+        this.commandSelectChange(1);
+      }, this),
+      // down
+      40: _.bind(function() {
+        this.commandSelectChange(-1);
+      }, this)
+    };
+
+    if (keyMap[e.which] !== undefined) {
+      e.preventDefault();
+      keyMap[e.which]();
+      this.onKey(e);
+    }
+  },
+
+  badHtmlEncode: function(text) {
+    return text.replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/</g,'&lt;')
+      .replace(/ /g,'&nbsp;')
+      .replace(/\n/g,'')
+  },
+
+  updatePrompt: function(el) {
+    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
+    // super annoying delay to every keystroke... I have tried everything
+    // to make this more performant. getting the srcElement from the event,
+    // getting the value directly from the dom, etc etc. yet still,
+    // there's a very annoying and sightly noticeable command delay.
+    // try.github.com also has this, so I'm assuming those engineers gave up as
+    // well...
+
+    var val = this.badHtmlEncode(el.value);
+    this.commandSpan.innerHTML = val;
+
+    // now mutate the cursor...
+    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    // and scroll down due to some weird bug
+    Main.getEvents().trigger('commandScrollDown');
+  },
+
+  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    // 10px for monospaced font...
+    var widthPerChar = 10;
+
+    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
+    var width = String(numCharsSelected * widthPerChar) + 'px';
+
+    // now for positioning
+    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var left = String(-numLeft * widthPerChar) + 'px';
+    // one reflow? :D
+    $(this.commandCursor).css({
+      width: width,
+      left: left
+    });
+  },
+
+  commandSelectChange: function(delta) {
+    this.index += delta;
+    
+    // if we are over / under, display blank line. yes this eliminates your
+    // partially edited command, but i doubt that is much in this demo
+    if (this.index >= this.commands.length || this.index < 0) {
+      this.clear();
+      this.index = -1;
+      return;
+    }
+
+    // yay! we actually can display something
+    var commandEntry = this.commands.toArray()[this.index].get('text');
+    this.setTextField(commandEntry);
+  },
+
+  clearLocalStorage: function() {
+    this.commands.each(function(c) {
+      Backbone.sync('delete', c, function() { });
+    }, this);
+    localStorage.setItem('CommandEntries', '');
+  },
+
+  setTextField: function(value) {
+    this.$('#commandTextField').val(value);
+  },
+
+  clear: function() {
+    this.setTextField('');
+  },
+
+  submit: function() {
+    var value = this.$('#commandTextField').val().replace('\n', '');
+    this.clear();
+    this.submitValue(value);
+  },
+
+  rollupCommands: function(numBack) {
+    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    which.reverse();
+
+    var str = '';
+    _.each(which, function(commandEntry) {
+      str += commandEntry.get('text') + ';';
+    }, this);
+
+    console.log('the str', str);
+
+    var rolled = new CommandEntry({text: str});
+    this.commands.unshift(rolled);
+    Backbone.sync('create', rolled, function() { });
+  },
+
+  submitValue: function(value) {
+    // we should add if it's not a blank line and this is a new command...
+    // or if we edited the command
+    var shouldAdd = (value.length && this.index == -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (shouldAdd) {
+      var commandEntry = new CommandEntry({text: value});
+      this.commands.unshift(commandEntry);
+
+      // store to local storage
+      Backbone.sync('create', commandEntry, function() { });
+
+      // if our length is too egregious, reset
+      if (this.commands.length > 100) {
+        this.clearLocalStorage();
+      }
+    }
+    this.index = -1;
+
+    // split commands on semicolon
+    _.each(value.split(';'), _.bind(function(command, index) {
+      command = _.escape(command);
+
+      command = command
+        .replace(/^(\s+)/, '')
+        .replace(/(\s+)$/, '')
+        .replace(/&quot;/g, '"')
+        .replace(/&#x27;/g, "'");
+
+      if (index > 0 && !command.length) {
+        return;
+      }
+
+      this.addToCollection(command);
+    }, this));
+  },
+
+  addToCollection: function(value) {
+    var command = new Command({
+      rawStr: value
+    });
+    this.collection.add(command);
+  }
+});
+
+
+// This is the view for all commands -- it will represent
+// their status (inqueue, processing, finished, error),
+// their value ("git commit --amend"),
+// and the result (either errors or warnings or whatever)
+var CommandView = Backbone.View.extend({
+  tagName: 'div',
+  model: Command,
+  template: _.template($('#command-template').html()),
+
+  events: {
+    'click': 'clicked'
+  },
+
+  clicked: function(e) {
+  },
+
+  initialize: function() {
+    this.model.bind('change', this.wasChanged, this);
+    this.model.bind('destroy', this.remove, this);
+  },
+
+  wasChanged: function(model, changeEvent) {
+    // for changes that are just comestic, we actually only want to toggle classes
+    // with jquery rather than brutally delete a html of HTML
+    var changes = changeEvent.changes;
+    var changeKeys = _.keys(changes);
+    if (_.difference(changeKeys, ['status']) == 0) {
+      this.updateStatus();
+    } else if (_.difference(changeKeys, ['error']) == 0) {
+      // the above will 
+      this.render();
+    } else {
+      this.render();
+    }
+  },
+
+  updateStatus: function() {
+    var statuses = ['inqueue', 'processing', 'finished'];
+    var toggleMap = {};
+    _.each(statuses, function(status) {
+      toggleMap[status] = false;
+    });
+    toggleMap[this.model.get('status')] = true;
+
+    var query = this.$('p.commandLine');
+
+    _.each(toggleMap, function(value, key) {
+      query.toggleClass(key, value);
+    });
+  },
+
+  render: function() {
+    var json = _.extend(
+      {
+        resultType: '',
+        result: '',
+        formattedWarnings: this.model.getFormattedWarnings()
+      },
+      this.model.toJSON()
+    );
+
+    this.$el.html(this.template(json));
+    return this;
+  },
+
+  remove: function() {
+    $(this.el).hide();
+  }
+});
+
+
+var CommandLineHistoryView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.on('all', this.render, this);
+
+    this.collection.on('change', this.scrollDown, this);
+
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+  },
+
+  addWarning: function(msg) {
+    var err = new Warning({
+      msg: msg
+    });
+
+    var command = new Command({
+      error: err,
+      rawStr: 'Warning:'
+    });
+
+    this.collection.add(command);
+  },
+
+  scrollDown: function() {
+    // if commandDisplay is ever bigger than #terminal, we need to
+    // add overflow-y to terminal and scroll down
+    var cD = $('#commandDisplay')[0];
+    var t = $('#terminal')[0];
+
+    if ($(t).hasClass('scrolling')) {
+      t.scrollTop = t.scrollHeight;
+      return;
+    }
+    if (cD.clientHeight > t.clientHeight) {
+      $(t).css('overflow-y', 'scroll');
+      $(t).css('overflow-x', 'hidden');
+      $(t).addClass('scrolling');
+      t.scrollTop = t.scrollHeight;
+    }
+  },
+
+  addOne: function(command) {
+    var view = new CommandView({
+      model: command
+    });
+    this.$('#commandDisplay').append(view.render().el);
+    this.scrollDown();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne);
+  }
+});
+
+exports.CommandPromptView = CommandPromptView;
+exports.CommandLineHistoryView = CommandLineHistoryView;
+
+
+});
+
+require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+var GRAPHICS = require('./constants').GRAPHICS;
+var GLOBAL = require('./constants').GLOBAL;
+
+var Collections = require('./collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var Tree = require('./tree');
+var VisEdgeCollection = Tree.VisEdgeCollection;
+var VisBranchCollection = Tree.VisBranchCollection;
+var VisNode = Tree.VisNode;
+var VisBranch = Tree.VisBranch;
+var VisEdge = Tree.VisEdge;
+
+var Visualization = Backbone.View.extend({
+  initialize: function(options) {
+    var _this = this;
+    Raphael(10, 10, 200, 200, function() {
+
+      // for some reason raphael calls this function with a predefined
+      // context...
+      // so switch it
+      _this.paperInitialize(this);
+    });
+  },
+
+  paperInitialize: function(paper, options) {
+    this.paper = paper;
+
+    this.commitCollection = new CommitCollection();
+    this.branchCollection = new BranchCollection();
+
+    this.gitVisuals = new GitVisuals({
+      commitCollection: this.commitCollection,
+      branchCollection: this.branchCollection,
+      paper: this.paper
+    });
+
+    var GitEngine = require('./git').GitEngine;
+    this.gitEngine = new GitEngine({
+      collection: this.commitCollection,
+      branches: this.branchCollection,
+      gitVisuals: this.gitVisuals
+    });
+    this.gitEngine.init();
+    this.gitVisuals.assignGitEngine(this.gitEngine);
+
+    this.myResize();
+    $(window).on('resize', _.bind(this.myResize, this));
+    this.gitVisuals.drawTreeFirstTime();
+  },
+
+  myResize: function() {
+    var smaller = 1;
+    var el = this.el;
+
+    var left = el.offsetLeft;
+    var top = el.offsetTop;
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
+
+    $(this.paper.canvas).css({
+      left: left + 'px',
+      top: top + 'px'
+    });
+    this.paper.setSize(width, height);
+    this.gitVisuals.canvasResize(width, height);
+  }
+
+});
+
+function GitVisuals(options) {
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
+  this.visNodeMap = {};
+
+  this.visEdgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
+  this.commitMap = {};
+
+  this.rootCommit = null;
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
+
+  this.paper = options.paper;
+  this.gitReady = false;
+
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
+  
+  Main.getEvents().on('refreshTree', _.bind(
+    this.refreshTree, this
+  ));
+}
+
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
+};
+
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
+
+GitVisuals.prototype.resetAll = function() {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
+    visEdge.remove();
+  }, this);
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
+    visBranch.remove();
+  }, this);
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.initHeadBranch();
+  this.deferFlush();
+};
+
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
+  // seed this with the HEAD pseudo-branch
+  this.addBranchFromEvent(this.gitEngine.HEAD);
+};
+
+GitVisuals.prototype.getScreenBounds = function() {
+  // for now we return the node radius subtracted from the walls
+  return {
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
+  };
+};
+
+GitVisuals.prototype.toScreenCoords = function(pos) {
+  if (!this.paper.width) {
+    throw new Error('being called too early for screen coords');
+  }
+  var bounds = this.getScreenBounds();
+
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
+  };
+
+  return {
+    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
+    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
+  };
+};
+
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
+      return;
+    }
+
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      // its actually ok it doesnt exist yet
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(function(visBranch) {
+    animate(visBranch);
+  });
+  this.visEdgeCollection.each(function(visEdge) {
+    animate(visEdge);
+  });
+  _.each(this.visNodeMap, function(visNode) {
+    animate(visNode);
+  });
+};
+
+/***************************************
+     == BEGIN Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.visEdgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
+};
+
+GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.gitReady) {
+    return;
+  }
+
+  // this method can only be called after graphics are rendered
+  this.fullCalc();
+
+  this.animateAll(speed);
+};
+
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.fullCalc();
+
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
+};
+
+GitVisuals.prototype.calcTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
+
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
+  this.calcDepth();
+  this.calcWidth();
+};
+
+GitVisuals.prototype.calcGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = this.gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
+  });
+  this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+  
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length == 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle!!
+  _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
+    var flex = child.get('visNode').getMaxWidthScaled();
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    console.warn('graphics are degrading from too many layers');
+  }
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.animateNodePositions = function(speed) {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.animateUpdatedPosition(speed);
+  }, this);
+};
+
+GitVisuals.prototype.turnOnPaper = function() {
+  this.gitReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.gitReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visBranchCollection.add(visBranch);
+  if (this.gitReady) {
+    visBranch.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
+GitVisuals.prototype.animateRefs = function(speed) {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(speed);
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function(speed) {
+  this.visEdgeCollection.each(function(edge) {
+    edge.animateUpdatedPath(speed);
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  commit.get('visNode').setDepth(depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }, this);
+
+  return maxDepth;
+};
+
+GitVisuals.prototype.canvasResize = function(width, height) {
+  // refresh when we are ready
+  if (GLOBAL.isAnimating) {
+    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
+};
+
+GitVisuals.prototype.addCommit = function(commit) {
+  // TODO 
+};
+
+GitVisuals.prototype.addNode = function(id, commit) {
+  this.commitMap[id] = commit;
+  if (commit.get('rootCommit')) {
+    this.rootCommit = commit;
+  }
+
+  var visNode = new VisNode({
+    id: id,
+    commit: commit,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visNodeMap[id] = visNode;
+
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
+  }
+  return visNode;
+};
+
+GitVisuals.prototype.addEdge = function(idTail, idHead) {
+  var visNodeTail = this.visNodeMap[idTail];
+  var visNodeHead = this.visNodeMap[idHead];
+
+  if (!visNodeTail || !visNodeHead) {
+    throw new Error('one of the ids in (' + idTail +
+                    ', ' + idHead + ') does not exist');
+  }
+
+  var edge = new VisEdge({
+    tail: visNodeTail,
+    head: visNodeHead,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visEdgeCollection.add(edge);
+
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.collectionChanged = function() {
+  // TODO ?
+};
+
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+};
+
+GitVisuals.prototype.visBranchesFront = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+  });
+
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.textToFront();
+  });
+};
+
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.gitReady = true;
+  // gen all the graphics we need
+  this.deferFlush();
+
+  this.calcTreeCoords();
+};
+
+GitVisuals.prototype.drawTreeFirstTime = function() {
+  this.gitReady = true;
+  this.calcTreeCoords();
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.genGraphics(this.paper);
+  }, this);
+
+  this.visEdgeCollection.each(function(edge) {
+    edge.genGraphics(this.paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.zIndexReflow();
+};
+
+
+/************************
+ * Random util functions, some from liquidGraph
+ ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
+exports.Visualization = Visualization;
+
+
+});
+
 require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
 var GRAPHICS = require('./constants').GRAPHICS;
 
@@ -5218,6 +5218,97 @@ exports.VisNode = VisNode;
 exports.VisEdge = VisEdge;
 exports.VisBranch = VisBranch;
 
+
+});
+
+require.define("/levels.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
+function LevelEngine() {
+
+}
+
+LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+  var result = true;
+  _.each(branches, function(branchName) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
+  }, this);
+
+  return result;
+};
+
+LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  this.stripTreeFields([treeA, treeB]);
+
+  // we need a recursive comparison function to bubble up the  branch
+  var recurseCompare = function(commitA, commitB) {
+    // this is the short-circuit base case
+    var result = _.isEqual(commitA, commitB);
+    if (!result) {
+      return false;
+    }
+
+    // we loop through each parent ID. we sort the parent ID's beforehand
+    // so the index lookup is valid
+    _.each(commitA.parents, function(pAid, index) {
+      var pBid = commitB.parents[index];
+
+      var childA = treeA.commits[pAid];
+      var childB = treeB.commits[pBid];
+
+      result = result && recurseCompare(childA, childB);
+    }, this);
+    // if each of our children recursively are equal, we are good
+    return result;
+  };
+
+  var branchA = treeA.branches[branchName];
+  var branchB = treeB.branches[branchName];
+
+  return _.isEqual(branchA, branchB) &&
+    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+};
+
+LevelEngine.prototype.convertTreeSafe = function(tree) {
+  if (typeof tree == 'string') {
+    return JSON.parse(unescape(tree));
+  }
+  return tree;
+};
+
+LevelEngine.prototype.stripTreeFields = function(trees) {
+  var stripFields = ['createTime', 'author', 'commitMessage'];
+  var sortFields = ['children', 'parents'];
+
+  _.each(trees, function(tree) {
+    _.each(tree.commits, function(commit) {
+      _.each(stripFields, function(field) {
+        commit[field] = undefined;
+      });
+      _.each(sortFields, function(field) {
+        if (commit[field]) {
+          commit[field] = commit[field].sort();
+        }
+      });
+    });
+  });
+};
+
+LevelEngine.prototype.compareTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  // now we need to strip out the fields we don't care about, aka things
+  // like createTime, message, author
+  this.stripTreeFields([treeA, treeB]);
+
+  return _.isEqual(treeA, treeB);
+};
+
+var levelEngine = new LevelEngine();
+
+exports.LevelEngine = LevelEngine;
 
 
 });
@@ -6868,9 +6959,11 @@ exports.Ref = Ref;
 require("/git.js");
 
 require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('./errors');
+
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
 
 var Command = Backbone.Model.extend({
   defaults: {
@@ -9216,7 +9309,7 @@ var VisEdge = VisBase.extend({
   },
 
   validateAtInit: function() {
-    required = ['tail', 'head'];
+    var required = ['tail', 'head'];
     _.each(required, function(key) {
       if (!this.get(key)) {
         throw new Error(key + ' is required!');
@@ -9392,7 +9485,6 @@ exports.VisBranchCollection = VisBranchCollection;
 exports.VisNode = VisNode;
 exports.VisEdge = VisEdge;
 exports.VisBranch = VisBranch;
-
 
 
 });
@@ -9657,6 +9749,99 @@ exports.AnimationFactory = AnimationFactory;
 
 });
 require("/animationFactory.js");
+
+require.define("/levels.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
+function LevelEngine() {
+
+}
+
+LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+  var result = true;
+  _.each(branches, function(branchName) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
+  }, this);
+
+  return result;
+};
+
+LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  this.stripTreeFields([treeA, treeB]);
+
+  // we need a recursive comparison function to bubble up the  branch
+  var recurseCompare = function(commitA, commitB) {
+    // this is the short-circuit base case
+    var result = _.isEqual(commitA, commitB);
+    if (!result) {
+      return false;
+    }
+
+    // we loop through each parent ID. we sort the parent ID's beforehand
+    // so the index lookup is valid
+    _.each(commitA.parents, function(pAid, index) {
+      var pBid = commitB.parents[index];
+
+      var childA = treeA.commits[pAid];
+      var childB = treeB.commits[pBid];
+
+      result = result && recurseCompare(childA, childB);
+    }, this);
+    // if each of our children recursively are equal, we are good
+    return result;
+  };
+
+  var branchA = treeA.branches[branchName];
+  var branchB = treeB.branches[branchName];
+
+  return _.isEqual(branchA, branchB) &&
+    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+};
+
+LevelEngine.prototype.convertTreeSafe = function(tree) {
+  if (typeof tree == 'string') {
+    return JSON.parse(unescape(tree));
+  }
+  return tree;
+};
+
+LevelEngine.prototype.stripTreeFields = function(trees) {
+  var stripFields = ['createTime', 'author', 'commitMessage'];
+  var sortFields = ['children', 'parents'];
+
+  _.each(trees, function(tree) {
+    _.each(tree.commits, function(commit) {
+      _.each(stripFields, function(field) {
+        commit[field] = undefined;
+      });
+      _.each(sortFields, function(field) {
+        if (commit[field]) {
+          commit[field] = commit[field].sort();
+        }
+      });
+    });
+  });
+};
+
+LevelEngine.prototype.compareTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  // now we need to strip out the fields we don't care about, aka things
+  // like createTime, message, author
+  this.stripTreeFields([treeA, treeB]);
+
+  return _.isEqual(treeA, treeB);
+};
+
+var levelEngine = new LevelEngine();
+
+exports.LevelEngine = LevelEngine;
+
+
+});
+require("/levels.js");
 
 require.define("/async.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('./constants').GLOBAL;
 
@@ -9999,96 +10184,23 @@ var GitError = exports.GitError = MyError.extend({
 });
 require("/errors.js");
 
-require.define("/levels.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
-function LevelEngine() {
+require.define("/debug.js",function(require,module,exports,__dirname,__filename,process,global){var toGlobalize = [
+  require('./tree'),
+  require('./visuals'),
+  require('./git'),
+  require('./commandModel'),
+  require('./levels'),
+  require('./constants'),
+  require('./collections'),
+  require('./async'),
+  require('./animationFactory')
+];
 
-}
-
-LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
-  var result = true;
-  _.each(branches, function(branchName) {
-    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
-  }, this);
-
-  return result;
-};
-
-LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  this.stripTreeFields([treeA, treeB]);
-
-  // we need a recursive comparison function to bubble up the  branch
-  var recurseCompare = function(commitA, commitB) {
-    // this is the short-circuit base case
-    var result = _.isEqual(commitA, commitB);
-    if (!result) {
-      return false;
-    }
-
-    // we loop through each parent ID. we sort the parent ID's beforehand
-    // so the index lookup is valid
-    _.each(commitA.parents, function(pAid, index) {
-      var pBid = commitB.parents[index];
-
-      var childA = treeA.commits[pAid];
-      var childB = treeB.commits[pBid];
-
-      result = result && recurseCompare(childA, childB);
-    }, this);
-    // if each of our children recursively are equal, we are good
-    return result;
-  };
-
-  var branchA = treeA.branches[branchName];
-  var branchB = treeB.branches[branchName];
-
-  return _.isEqual(branchA, branchB) &&
-    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
-};
-
-LevelEngine.prototype.convertTreeSafe = function(tree) {
-  if (typeof tree == 'string') {
-    return JSON.parse(unescape(tree));
-  }
-  return tree;
-};
-
-LevelEngine.prototype.stripTreeFields = function(trees) {
-  var stripFields = ['createTime', 'author', 'commitMessage'];
-  var sortFields = ['children', 'parents'];
-
-  _.each(trees, function(tree) {
-    _.each(tree.commits, function(commit) {
-      _.each(stripFields, function(field) {
-        commit[field] = undefined;
-      });
-      _.each(sortFields, function(field) {
-        if (commit[field]) {
-          commit[field] = commit[field].sort();
-        }
-      });
-    });
-  });
-};
-
-LevelEngine.prototype.compareTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  // now we need to strip out the fields we don't care about, aka things
-  // like createTime, message, author
-  this.stripTreeFields([treeA, treeB]);
-
-  return _.isEqual(treeA, treeB);
-};
-
-var levelEngine = new LevelEngine();
-
-exports.LevelEngine = LevelEngine;
+_.each(toGlobalize, function(module) {
+  _.extend(window, module);
+});
 
 
 });
-require("/levels.js");
+require("/debug.js");
 })();

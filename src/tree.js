@@ -965,4 +965,3 @@ exports.VisNode = VisNode;
 exports.VisEdge = VisEdge;
 exports.VisBranch = VisBranch;
 
-
