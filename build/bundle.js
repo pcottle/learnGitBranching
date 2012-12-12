@@ -962,6 +962,10 @@ var Main = require('./main');
 var AnimationQueue = require('./async').AnimationQueue;
 var InteractiveRebaseView = require('./miscViews').InteractiveRebaseView;
 
+var Errors = require('./errors');
+var GitError = Errors.GitError;
+var CommandResult = Errors.CommandResult;
+
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
   var n = 0;
@@ -2748,366 +2752,50 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 
-require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Command = Backbone.Model.extend({
+require.define("/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
   defaults: {
-    status: 'inqueue',
-    rawStr: null,
-    result: '',
-
-    error: null,
-    warnings: null,
-
-    generalArgs: null,
-    supportedMap: null,
-    options: null,
-    method: null,
-
-    createTime: null
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
   },
 
-  validateAtInit: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-
-
-    this.on('change:error', this.errorChanged, this);
-    // catch errors on init
-    if (this.get('error')) {
-      this.errorChanged();
-    }
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
   },
 
-  setResult: function(msg) {
-    this.set('result', msg);
-  },
-
-  addWarning: function(msg) {
-    this.get('warnings').push(msg);
-    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
-    // detect if an array changes, so adding an element does nothing
-    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
-  },
-
-  getFormattedWarnings: function() {
-    if (!this.get('warnings').length) {
+  toResult: function() {
+    if (!this.get('msg').length) {
       return '';
     }
-    var i = '<i class="icon-exclamation-sign"></i>';
-    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-    this.parseOrCatch();
-  },
-
-  parseOrCatch: function() {
-    try {
-      this.parse();
-    } catch (err) {
-      if (err instanceof CommandProcessError ||
-          err instanceof GitError ||
-          err instanceof CommandResult ||
-          err instanceof Warning) {
-        // errorChanged() will handle status and all of that
-        this.set('error', err);
-      } else {
-        throw err;
-      }
-    }
-  },
-
-  errorChanged: function() {
-    var err = this.get('error');
-    if (err instanceof CommandProcessError ||
-        err instanceof GitError) {
-      this.set('status', 'error');
-    } else if (err instanceof CommandResult) {
-      this.set('status', 'finished');
-    } else if (err instanceof Warning) {
-      this.set('status', 'warning');
-    }
-    this.formatError();
-  },
-
-  formatError: function() {
-    this.set('result', this.get('error').toResult());
-  },
-
-  getShortcutMap: function() {
-    return {
-      'git commit': /^gc($|\s)/,
-      'git add': /^ga($|\s)/,
-      'git checkout': /^gchk($|\s)/,
-      'git rebase': /^gr($|\s)/,
-      'git branch': /^gb($|\s)/
-    };
-  },
-
-  getRegexMap: function() {
-    return {
-      // ($|\s) means that we either have to end the string
-      // after the command or there needs to be a space for options
-      commit: /^commit($|\s)/,
-      add: /^add($|\s)/,
-      checkout: /^checkout($|\s)/,
-      rebase: /^rebase($|\s)/,
-      reset: /^reset($|\s)/,
-      branch: /^branch($|\s)/,
-      revert: /^revert($|\s)/,
-      log: /^log($|\s)/,
-      merge: /^merge($|\s)/,
-      show: /^show($|\s)/,
-      status: /^status($|\s)/,
-      'cherry-pick': /^cherry-pick($|\s)/
-    };
-  },
-
-  getSandboxCommands: function() {
-    return [
-      [/^ls/, function() {
-        throw new CommandResult({
-          msg: "DontWorryAboutFilesInThisDemo.txt"
-        });
-      }],
-      [/^cd/, function() {
-        throw new CommandResult({
-          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-        });
-      }],
-      [/^git help($|\s)/, function() {
-        // sym link this to the blank git command
-        var allCommands = Command.prototype.getSandboxCommands();
-        // wow this is hacky :(
-        var equivalent = 'git';
-        _.each(allCommands, function(bits) {
-          var regex = bits[0];
-          if (regex.test(equivalent)) {
-            bits[1]();
-          }
-        });
-      }],
-      [/^git$/, function() {
-        var lines = [
-          'Git Version PCOTTLE.1.0',
-          '<br/>',
-          'Usage:',
-          _.escape('\t git <command> [<args>]'),
-          '<br/>',
-          'Supported commands:',
-          '<br/>',
-        ];
-        var commands = OptionParser.prototype.getMasterOptionMap();
-
-        // build up a nice display of what we support
-        _.each(commands, function(commandOptions, command) {
-          lines.push('git ' + command);
-          _.each(commandOptions, function(vals, optionName) {
-            lines.push('\t ' + optionName);
-          }, this);
-        }, this);
-
-        // format and throw
-        var msg = lines.join('\n');
-        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-        throw new CommandResult({
-          msg: msg
-        });
-      }],
-      [/^refresh$/, function() {
-        events.trigger('refreshTree');
-        throw new CommandResult({
-          msg: "Refreshing tree..."
-        });
-      }],
-      [/^rollup (\d+)$/, function(bits) {
-        // go roll up these commands by joining them with semicolons
-        events.trigger('rollupCommands', bits[1]);
-        throw new CommandResult({
-          msg: 'Commands combined!'
-        });
-      }]
-    ];
-  },
-
-  parse: function() {
-    var str = this.get('rawStr');
-    // first if the string is empty, they just want a blank line
-    if (!str.length) {
-      throw new CommandResult({msg: ""});
-    }
-
-    // then check if it's one of our sandbox commands
-    _.each(this.getSandboxCommands(), function(tuple) {
-      var regex = tuple[0];
-      var results = regex.exec(str);
-      if (results) {
-        tuple[1](results);
-      }
-    });
-
-    // then check if shortcut exists, and replace, but
-    // preserve options if so
-    _.each(this.getShortcutMap(), function(regex, method) {
-      var results = regex.exec(str);
-      if (results) {
-        str = method + ' ' + str.slice(results[0].length);
-      }
-    });
-
-    // see if begins with git
-    if (str.slice(0,3) !== 'git') {
-      throw new CommandProcessError({
-        msg: 'That command is not supported, sorry!'
-      });
-    }
-
-    // ok, we have a (probably) valid command. actually parse it
-    this.gitParse(str);
-  },
-
-  gitParse: function(str) {
-    // now slice off command part
-    var fullCommand = str.slice('git '.length);
-
-    // see if we support this particular command
-    _.each(this.getRegexMap(), function(regex, method) {
-      if (regex.exec(fullCommand)) {
-        this.set('options', fullCommand.slice(method.length + 1));
-        this.set('method', method);
-        // we should stop iterating, but the regex will only match
-        // one command in practice. we could stop iterating if we used
-        // jqeurys for each but im using underscore (for no real reason other
-        // than style)
-      }
-    }, this);
-
-    if (!this.get('method')) {
-      throw new CommandProcessError({
-        msg: "Sorry, this demo does not support that git command: " + fullCommand
-      });
-    }
-
-    // parse off the options and assemble the map / general args
-    var optionParser = new OptionParser(this.get('method'), this.get('options'));
-
-    // steal these away so we can be completely JSON
-    this.set('generalArgs', optionParser.generalArgs);
-    this.set('supportedMap', optionParser.supportedMap);
-  },
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
 });
 
-/**
- * OptionParser
- */
-function OptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = this.getMasterOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-OptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false, // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {}
-  };
-};
-
-OptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes
-
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-
-  // done!
-};
-
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
   defaults: {
-    text: ''
-  },
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+    type: 'Command Process Error'
+  }
 });
 
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
 
-exports.CommandEntry = CommandEntry;
-exports.Command = Command;
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
 
 
 });
@@ -3116,6 +2804,9 @@ require.define("/commandViews.js",function(require,module,exports,__dirname,__fi
 var Main = require('./main');
 var Command = require('./commandModel').Command;
 var CommandEntry = require('./commandModel').CommandEntry;
+
+var Errors = require('./errors');
+var Warning = Errors.Warning;
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -5160,11 +4851,386 @@ exports.VisBranch = VisBranch;
 
 });
 
+require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('./errors');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
+
+    error: null,
+    warnings: null,
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null,
+
+    createTime: null
+  },
+
+  validateAtInit: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    this.parseOrCatch();
+  },
+
+  parseOrCatch: function() {
+    try {
+      this.parse();
+    } catch (err) {
+      if (err instanceof CommandProcessError ||
+          err instanceof GitError ||
+          err instanceof CommandResult ||
+          err instanceof Warning) {
+        // errorChanged() will handle status and all of that
+        this.set('error', err);
+      } else {
+        throw err;
+      }
+    }
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  getShortcutMap: function() {
+    return {
+      'git commit': /^gc($|\s)/,
+      'git add': /^ga($|\s)/,
+      'git checkout': /^gchk($|\s)/,
+      'git rebase': /^gr($|\s)/,
+      'git branch': /^gb($|\s)/
+    };
+  },
+
+  getRegexMap: function() {
+    return {
+      // ($|\s) means that we either have to end the string
+      // after the command or there needs to be a space for options
+      commit: /^commit($|\s)/,
+      add: /^add($|\s)/,
+      checkout: /^checkout($|\s)/,
+      rebase: /^rebase($|\s)/,
+      reset: /^reset($|\s)/,
+      branch: /^branch($|\s)/,
+      revert: /^revert($|\s)/,
+      log: /^log($|\s)/,
+      merge: /^merge($|\s)/,
+      show: /^show($|\s)/,
+      status: /^status($|\s)/,
+      'cherry-pick': /^cherry-pick($|\s)/
+    };
+  },
+
+  getSandboxCommands: function() {
+    return [
+      [/^ls/, function() {
+        throw new CommandResult({
+          msg: "DontWorryAboutFilesInThisDemo.txt"
+        });
+      }],
+      [/^cd/, function() {
+        throw new CommandResult({
+          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+        });
+      }],
+      [/^git help($|\s)/, function() {
+        // sym link this to the blank git command
+        var allCommands = Command.prototype.getSandboxCommands();
+        // wow this is hacky :(
+        var equivalent = 'git';
+        _.each(allCommands, function(bits) {
+          var regex = bits[0];
+          if (regex.test(equivalent)) {
+            bits[1]();
+          }
+        });
+      }],
+      [/^git$/, function() {
+        var lines = [
+          'Git Version PCOTTLE.1.0',
+          '<br/>',
+          'Usage:',
+          _.escape('\t git <command> [<args>]'),
+          '<br/>',
+          'Supported commands:',
+          '<br/>',
+        ];
+        var commands = OptionParser.prototype.getMasterOptionMap();
+
+        // build up a nice display of what we support
+        _.each(commands, function(commandOptions, command) {
+          lines.push('git ' + command);
+          _.each(commandOptions, function(vals, optionName) {
+            lines.push('\t ' + optionName);
+          }, this);
+        }, this);
+
+        // format and throw
+        var msg = lines.join('\n');
+        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+        throw new CommandResult({
+          msg: msg
+        });
+      }],
+      [/^refresh$/, function() {
+        events.trigger('refreshTree');
+        throw new CommandResult({
+          msg: "Refreshing tree..."
+        });
+      }],
+      [/^rollup (\d+)$/, function(bits) {
+        // go roll up these commands by joining them with semicolons
+        events.trigger('rollupCommands', bits[1]);
+        throw new CommandResult({
+          msg: 'Commands combined!'
+        });
+      }]
+    ];
+  },
+
+  parse: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then check if it's one of our sandbox commands
+    _.each(this.getSandboxCommands(), function(tuple) {
+      var regex = tuple[0];
+      var results = regex.exec(str);
+      if (results) {
+        tuple[1](results);
+      }
+    });
+
+    // then check if shortcut exists, and replace, but
+    // preserve options if so
+    _.each(this.getShortcutMap(), function(regex, method) {
+      var results = regex.exec(str);
+      if (results) {
+        str = method + ' ' + str.slice(results[0].length);
+      }
+    });
+
+    // see if begins with git
+    if (str.slice(0,3) !== 'git') {
+      throw new CommandProcessError({
+        msg: 'That command is not supported, sorry!'
+      });
+    }
+
+    // ok, we have a (probably) valid command. actually parse it
+    this.gitParse(str);
+  },
+
+  gitParse: function(str) {
+    // now slice off command part
+    var fullCommand = str.slice('git '.length);
+
+    // see if we support this particular command
+    _.each(this.getRegexMap(), function(regex, method) {
+      if (regex.exec(fullCommand)) {
+        this.set('options', fullCommand.slice(method.length + 1));
+        this.set('method', method);
+        // we should stop iterating, but the regex will only match
+        // one command in practice. we could stop iterating if we used
+        // jqeurys for each but im using underscore (for no real reason other
+        // than style)
+      }
+    }, this);
+
+    if (!this.get('method')) {
+      throw new CommandProcessError({
+        msg: "Sorry, this demo does not support that git command: " + fullCommand
+      });
+    }
+
+    // parse off the options and assemble the map / general args
+    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+
+    // steal these away so we can be completely JSON
+    this.set('generalArgs', optionParser.generalArgs);
+    this.set('supportedMap', optionParser.supportedMap);
+  },
+});
+
+/**
+ * OptionParser
+ */
+function OptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+OptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false, // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+OptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+
+  // done!
+};
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+
+
+});
+
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('./main');
 var AnimationQueue = require('./async').AnimationQueue;
 var InteractiveRebaseView = require('./miscViews').InteractiveRebaseView;
+
+var Errors = require('./errors');
+var GitError = Errors.GitError;
+var CommandResult = Errors.CommandResult;
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
@@ -6801,7 +6867,12 @@ exports.Ref = Ref;
 });
 require("/git.js");
 
-require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Command = Backbone.Model.extend({
+require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('./errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+
+var Command = Backbone.Model.extend({
   defaults: {
     status: 'inqueue',
     rawStr: null,
@@ -7170,6 +7241,9 @@ require.define("/commandViews.js",function(require,module,exports,__dirname,__fi
 var Main = require('./main');
 var Command = require('./commandModel').Command;
 var CommandEntry = require('./commandModel').CommandEntry;
+
+var Errors = require('./errors');
+var Warning = Errors.Warning;
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -9584,97 +9658,6 @@ exports.AnimationFactory = AnimationFactory;
 });
 require("/animationFactory.js");
 
-require.define("/levels.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
-function LevelEngine() {
-
-}
-
-LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
-  var result = true;
-  _.each(branches, function(branchName) {
-    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
-  }, this);
-
-  return result;
-};
-
-LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  this.stripTreeFields([treeA, treeB]);
-
-  // we need a recursive comparison function to bubble up the  branch
-  var recurseCompare = function(commitA, commitB) {
-    // this is the short-circuit base case
-    var result = _.isEqual(commitA, commitB);
-    if (!result) {
-      return false;
-    }
-
-    // we loop through each parent ID. we sort the parent ID's beforehand
-    // so the index lookup is valid
-    _.each(commitA.parents, function(pAid, index) {
-      var pBid = commitB.parents[index];
-
-      var childA = treeA.commits[pAid];
-      var childB = treeB.commits[pBid];
-
-      result = result && recurseCompare(childA, childB);
-    }, this);
-    // if each of our children recursively are equal, we are good
-    return result;
-  };
-
-  var branchA = treeA.branches[branchName];
-  var branchB = treeB.branches[branchName];
-
-  return _.isEqual(branchA, branchB) &&
-    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
-};
-
-LevelEngine.prototype.convertTreeSafe = function(tree) {
-  if (typeof tree == 'string') {
-    return JSON.parse(unescape(tree));
-  }
-  return tree;
-};
-
-LevelEngine.prototype.stripTreeFields = function(trees) {
-  var stripFields = ['createTime', 'author', 'commitMessage'];
-  var sortFields = ['children', 'parents'];
-
-  _.each(trees, function(tree) {
-    _.each(tree.commits, function(commit) {
-      _.each(stripFields, function(field) {
-        commit[field] = undefined;
-      });
-      _.each(sortFields, function(field) {
-        if (commit[field]) {
-          commit[field] = commit[field].sort();
-        }
-      });
-    });
-  });
-};
-
-LevelEngine.prototype.compareTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  // now we need to strip out the fields we don't care about, aka things
-  // like createTime, message, author
-  this.stripTreeFields([treeA, treeB]);
-
-  return _.isEqual(treeA, treeB);
-};
-
-var levelEngine = new LevelEngine();
-
-
-});
-require("/levels.js");
-
 require.define("/async.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('./constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
@@ -9966,4 +9949,146 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 require("/miscViews.js");
+
+require.define("/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+
+});
+require("/errors.js");
+
+require.define("/levels.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
+function LevelEngine() {
+
+}
+
+LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+  var result = true;
+  _.each(branches, function(branchName) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
+  }, this);
+
+  return result;
+};
+
+LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  this.stripTreeFields([treeA, treeB]);
+
+  // we need a recursive comparison function to bubble up the  branch
+  var recurseCompare = function(commitA, commitB) {
+    // this is the short-circuit base case
+    var result = _.isEqual(commitA, commitB);
+    if (!result) {
+      return false;
+    }
+
+    // we loop through each parent ID. we sort the parent ID's beforehand
+    // so the index lookup is valid
+    _.each(commitA.parents, function(pAid, index) {
+      var pBid = commitB.parents[index];
+
+      var childA = treeA.commits[pAid];
+      var childB = treeB.commits[pBid];
+
+      result = result && recurseCompare(childA, childB);
+    }, this);
+    // if each of our children recursively are equal, we are good
+    return result;
+  };
+
+  var branchA = treeA.branches[branchName];
+  var branchB = treeB.branches[branchName];
+
+  return _.isEqual(branchA, branchB) &&
+    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+};
+
+LevelEngine.prototype.convertTreeSafe = function(tree) {
+  if (typeof tree == 'string') {
+    return JSON.parse(unescape(tree));
+  }
+  return tree;
+};
+
+LevelEngine.prototype.stripTreeFields = function(trees) {
+  var stripFields = ['createTime', 'author', 'commitMessage'];
+  var sortFields = ['children', 'parents'];
+
+  _.each(trees, function(tree) {
+    _.each(tree.commits, function(commit) {
+      _.each(stripFields, function(field) {
+        commit[field] = undefined;
+      });
+      _.each(sortFields, function(field) {
+        if (commit[field]) {
+          commit[field] = commit[field].sort();
+        }
+      });
+    });
+  });
+};
+
+LevelEngine.prototype.compareTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  // now we need to strip out the fields we don't care about, aka things
+  // like createTime, message, author
+  this.stripTreeFields([treeA, treeB]);
+
+  return _.isEqual(treeA, treeB);
+};
+
+var levelEngine = new LevelEngine();
+
+exports.LevelEngine = LevelEngine;
+
+
+});
+require("/levels.js");
 })();

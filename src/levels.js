@@ -85,3 +85,5 @@ LevelEngine.prototype.compareTrees = function(treeA, treeB) {
 
 var levelEngine = new LevelEngine();
 
+exports.LevelEngine = LevelEngine;
+

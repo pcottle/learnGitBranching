@@ -19,26 +19,27 @@ var MyError = Backbone.Model.extend({
   }
 });
 
-var CommandProcessError = MyError.extend({
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
   defaults: {
     type: 'Command Process Error'
   }
 });
 
-var CommandResult = MyError.extend({
+var CommandResult = exports.CommandResult = MyError.extend({
   defaults: {
     type: 'Command Result'
   }
 });
 
-var Warning = MyError.extend({
+var Warning = exports.Warning = MyError.extend({
   defaults: {
     type: 'Warning'
   }
 });
 
-var GitError = MyError.extend({
+var GitError = exports.GitError = MyError.extend({
   defaults: {
     type: 'Git Error'
   }
 });
+

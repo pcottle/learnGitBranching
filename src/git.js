@@ -4,6 +4,10 @@ var Main = require('./main');
 var AnimationQueue = require('./async').AnimationQueue;
 var InteractiveRebaseView = require('./miscViews').InteractiveRebaseView;
 
+var Errors = require('./errors');
+var GitError = Errors.GitError;
+var CommandResult = Errors.CommandResult;
+
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {
   var n = 0;

@@ -3,6 +3,9 @@ var Main = require('./main');
 var Command = require('./commandModel').Command;
 var CommandEntry = require('./commandModel').CommandEntry;
 
+var Errors = require('./errors');
+var Warning = Errors.Warning;
+
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
     this.collection = options.collection;

@@ -1,3 +1,10 @@
+var Errors = require('./errors');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
 var Command = Backbone.Model.extend({
   defaults: {
     status: 'inqueue',
