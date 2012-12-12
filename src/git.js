@@ -1,6 +1,7 @@
 var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('./main');
+var AnimationQueue = require('./async').AnimationQueue;
 
 // backbone or something uses _.uniqueId, so we make our own here
 var uniqueId = (function() {

@@ -8,6 +8,8 @@
  * and then essentially animate the entire tree too.
  */
 
+var Animation = require('./async').Animation;
+
 // essentially a static class
 var AnimationFactory = function() {
 

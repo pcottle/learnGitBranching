@@ -78,3 +78,6 @@ var AnimationQueue = Backbone.Model.extend({
   },
 });
 
+exports.Animation = Animation;
+exports.AnimationQueue = AnimationQueue;
+
