@@ -45,12 +45,13 @@ module.exports = function(grunt) {
         _: true,
         Backbone: true,
         '$': true,
+        Raphael: true,
         require: true,
-        define: true,
-        requirejs: true,
+        console: true,
         describe: true,
         expect: true,
-        it: true
+        it: true,
+        exports: true
       }
     }
   });
@@ -58,6 +59,6 @@ module.exports = function(grunt) {
   //grunt.loadNpmTasks('grunt-jasmine-node');
 
   // Default task.
-  grunt.registerTask('default', 'lint jasmine_node');
+  grunt.registerTask('default', 'lint compliment'); //jasmine_node');
 };
 

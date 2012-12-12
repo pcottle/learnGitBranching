@@ -788,7 +788,7 @@ var VisEdge = VisBase.extend({
   },
 
   validateAtInit: function() {
-    required = ['tail', 'head'];
+    var required = ['tail', 'head'];
     _.each(required, function(key) {
       if (!this.get(key)) {
         throw new Error(key + ' is required!');
