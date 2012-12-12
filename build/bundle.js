@@ -647,9 +647,1408 @@ exports.AnimationFactory = AnimationFactory;
 
 });
 
+require.define("/main.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactory = require('./animationFactory').AnimationFactory;
+var CommandCollection = require('./collections').CommandCollection;
+var CommandBuffer = require('./collections').CommandBuffer;
+var CommandPromptView = require('./commandViews').CommandPromptView;
+var CommandLineHistoryView = require('./commandViews').CommandLineHistoryView;
+var Visualization = require('./visuals').Visualization;
+
+/**
+ * Globals
+ */
+var events = _.clone(Backbone.Events);
+var ui = null;
+var animationFactory = null;
+
+/**
+ * Static Classes
+ */
+animationFactory = new AnimationFactory();
+
+///////////////////////////////////////////////////////////////////////
+
+$(document).ready(function(){
+  ui = new UI();
+  mainVis = new Visualization({
+    el: $('#canvasWrapper')[0]  
+  });
+
+  if (/\?demo/.test(window.location.href)) {
+    setTimeout(function() {
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
+    }, 500);
+  }
+});
+
+function UI() {
+  // static classes
+  this.commandCollection = new CommandCollection();
+
+  this.commandBuffer = new CommandBuffer({
+    collection: this.commandCollection
+  });
+
+  this.commandPromptView = new CommandPromptView({
+    el: $('#commandLineBar'),
+    collection: this.commandCollection
+  });
+  this.commandLineHistoryView = new CommandLineHistoryView({
+    el: $('#commandLineHistory'),
+    collection: this.commandCollection
+  });
+
+  $('#commandTextField').focus();
+}
+
+exports.getEvents = function() {
+  return events;
+};
+exports.ui = ui;
+exports.animationFactory = animationFactory;
+
+
+});
+
+require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+}; 
+
+var VisBase = Backbone.Model.extend({
+  removeKeys: function(keys) {
+    _.each(keys, function(key) {
+      if (this.get(key)) {
+        this.get(key).remove();
+      }
+    }, this);
+  }
+});
+
+var VisBranch = VisBase.extend({
+  defaults: {
+    pos: null,
+    text: null,
+    rect: null,
+    arrow: null,
+    isHead: false,
+    flip: 1,
+
+    fill: GRAPHICS.rectFill,
+    stroke: GRAPHICS.rectStroke,
+    'stroke-width': GRAPHICS.rectStrokeWidth,
+
+    offsetX: GRAPHICS.nodeRadius * 4.75,
+    offsetY: 0,
+    arrowHeight: 14,
+    arrowInnerSkew: 0,
+    arrowEdgeHeight: 6,
+    arrowLength: 14,
+    arrowOffsetFromCircleX: 10,
+
+    vPad: 5,
+    hPad: 5,
+
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    if (!this.get('branch')) {
+      throw new Error('need a branch!');
+    }
+  },
+
+  getFill: function() {
+    return this.get('fill');
+  },
+
+  getID: function() {
+    return this.get('branch').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand notation for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+    if (!this.gitEngine) { 
+      console.log('throw damnit');
+      throw new Error('asd');
+    }
+
+    this.get('branch').set('visBranch', this);
+    var id = this.get('branch').get('id');
+
+    if (id == 'HEAD') {
+      // switch to a head ref
+      this.set('isHead', true);
+      this.set('flip', -1);
+
+      this.set('fill', GRAPHICS.headRectFill);
+    } else if (id !== 'master') {
+      // we need to set our color to something random
+      this.set('fill', randomHueString());
+    }
+  },
+
+  getCommitPosition: function() {
+    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
+    var visNode = commit.get('visNode');
+    return visNode.getScreenCoords();
+  },
+
+  getBranchStackIndex: function() {
+    if (this.get('isHead')) {
+      // head is never stacked with other branches
+      return 0;
+    }
+
+    var myArray = this.getBranchStackArray();
+    var index = -1;
+    _.each(myArray, function(branch, i) {
+      if (branch.obj == this.get('branch')) {
+        index = i;
+      }
+    }, this);
+    return index;
+  },
+
+  getBranchStackLength: function() {
+    if (this.get('isHead')) { 
+      // head is always by itself
+      return 1;
+    }
+
+    return this.getBranchStackArray().length;
+  },
+
+  getBranchStackArray: function() {
+    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    if (arr === undefined) {
+      // this only occurs when we are generating graphics inside of
+      // a new Branch instantiation, so we need to force the update
+      this.gitVisuals.calcBranchStacks();
+      return this.getBranchStackArray();
+    }
+    return arr;
+  },
+
+  getTextPosition: function() {
+    var pos = this.getCommitPosition();
+
+    // then order yourself accordingly. we use alphabetical sorting
+    // so everything is independent
+    var myPos = this.getBranchStackIndex();
+    return {
+      x: pos.x + this.get('flip') * this.get('offsetX'),
+      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
+    };
+  },
+
+  getRectPosition: function() {
+    var pos = this.getTextPosition();
+    var f = this.get('flip');
+
+    // first get text width and height
+    var textSize = this.getTextSize();
+    return {
+      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
+      y: pos.y - 0.5 * textSize.h - this.get('vPad')
+    }
+  },
+
+  getArrowPath: function() {
+    // should make these util functions...
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+    var toStringCoords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var f = this.get('flip');
+
+    var arrowTip = offset2d(this.getCommitPosition(),
+      f * this.get('arrowOffsetFromCircleX'),
+      0
+    );
+    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
+    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
+
+    var arrowInnerUp = offset2d(arrowEdgeUp,
+      f * this.get('arrowInnerSkew'),
+      this.get('arrowEdgeHeight')
+    );
+    var arrowInnerLow = offset2d(arrowEdgeLow,
+      f * this.get('arrowInnerSkew'),
+      -this.get('arrowEdgeHeight')
+    );
+
+    var tailLength = 49;
+    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
+    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
+
+    var pathStr = '';
+    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
+    var coords = [
+      arrowInnerUp,
+      arrowEdgeUp,
+      arrowTip,
+      arrowEdgeLow,
+      arrowInnerLow,
+      arrowStartLow
+    ];
+    _.each(coords, function(pos) {
+      pathStr += 'L' + toStringCoords(pos) + ' ';
+    }, this);
+    pathStr += 'z';
+    return pathStr;
+  },
+
+  getTextSize: function() {
+    var getTextWidth = function(visBranch) {
+      var textNode = visBranch.get('text').node;
+      return (textNode === null) ? 1 : textNode.clientWidth;
+    };
+
+    var textNode = this.get('text').node;
+    if (this.get('isHead')) {
+      // HEAD is a special case
+      return {
+        w: textNode.clientWidth,
+        h: textNode.clientHeight
+      };
+    }
+
+    var maxWidth = 0;
+    _.each(this.getBranchStackArray(), function(branch) {
+      maxWidth = Math.max(maxWidth, getTextWidth(
+        branch.obj.get('visBranch')
+      ));
+    });
+
+    return {
+      w: maxWidth,
+      h: textNode.clientHeight
+    };
+  },
+
+  getSingleRectSize: function() {
+    var textSize = this.getTextSize();
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h + hPad * 2
+    };
+  },
+
+  getRectSize: function() {
+    var textSize = this.getTextSize();
+    // enforce padding
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+
+    // number of other branch names we are housing
+    var totalNum = this.getBranchStackLength();
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h * totalNum * 1.1 + hPad * 2
+    };
+  },
+
+  getName: function() {
+    var name = this.get('branch').get('id');
+    var selected = this.gitEngine.HEAD.get('target').get('id');
+
+    var add = (selected == name) ? '*' : '';
+    return name + add;
+  },
+
+  nonTextToFront: function() {
+    this.get('arrow').toFront();
+    this.get('rect').toFront();
+  },
+
+  textToFront: function() {
+    this.get('text').toFront();
+  },
+
+  getFill: function() {
+    // in the easy case, just return your own fill if you are:
+    // - the HEAD ref
+    // - by yourself (length of 1)
+    // - part of a multi branch, but your thing is hidden
+    if (this.get('isHead') ||
+        this.getBranchStackLength() == 1 ||
+        this.getBranchStackIndex() != 0) {
+      return this.get('fill');
+    }
+
+    // woof. now it's hard, we need to blend hues...
+    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
+  },
+
+  remove: function() {
+    this.removeKeys(['text', 'arrow', 'rect']);
+    // also need to remove from this.gitVisuals
+    this.gitVisuals.removeVisBranch(this);
+  },
+
+  genGraphics: function(paper) {
+    var textPos = this.getTextPosition();
+    var name = this.getName();
+    var text;
+
+    // when from a reload, we dont need to generate the text
+    text = paper.text(textPos.x, textPos.y, String(name));
+    text.attr({
+      'font-size': 14,
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getTextOpacity()
+    });
+    this.set('text', text);
+
+    var rectPos = this.getRectPosition();
+    var sizeOfRect = this.getRectSize();
+    var rect = paper
+      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
+      .attr(this.getAttributes().rect);
+    this.set('rect', rect);
+
+    var arrowPath = this.getArrowPath();
+    var arrow = paper
+      .path(arrowPath)
+      .attr(this.getAttributes().arrow);
+    this.set('arrow', arrow);
+
+    rect.toFront();
+    text.toFront();
+  },
+
+  updateName: function() {
+    this.get('text').attr({
+      text: this.getName()
+    });
+  },
+
+  getNonTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
+  },
+
+  getTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return 1;
+  },
+
+  getAttributes: function() {
+    var nonTextOpacity = this.getNonTextOpacity();
+    var textOpacity = this.getTextOpacity();
+    this.updateName();
+
+    var textPos = this.getTextPosition();
+    var rectPos = this.getRectPosition();
+    var rectSize = this.getRectSize();
+
+    var arrowPath = this.getArrowPath();
+
+    return {
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: textOpacity
+      },
+      rect: {
+        x: rectPos.x,
+        y: rectPos.y,
+        width: rectSize.w,
+        height: rectSize.h,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      },
+      arrow: {
+        path: arrowPath,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      }
+    };
+  },
+
+  animateUpdatedPos: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed == 0) {
+      this.get('text').attr(attr.text);
+      this.get('rect').attr(attr.rect);
+      this.get('arrow').attr(attr.arrow);
+      return;
+    }
+
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('text').stop().animate(attr.text, s, e);
+    this.get('rect').stop().animate(attr.rect, s, e);
+    this.get('arrow').stop().animate(attr.arrow, s, e);
+  }
+});
+
+
+var VisNode = VisBase.extend({
+  defaults: {
+    depth: undefined,
+    maxWidth: null,
+    outgoingEdges: null,
+
+    circle: null,
+    text: null,
+
+    id: null,
+    pos: null,
+    radius: null,
+
+    commit: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing,
+
+    fill: GRAPHICS.defaultNodeFill,
+    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
+    stroke: GRAPHICS.defaultNodeStroke
+  },
+
+  getID: function() {
+    return this.get('id');
+  },
+
+  validateAtInit: function() {
+    if (!this.get('id')) {
+      throw new Error('need id for mapping');
+    }
+    if (!this.get('commit')) {
+      throw new Error('need commit for linking');
+    }
+
+    if (!this.get('pos')) {
+      this.set('pos', {
+        x: Math.random(),
+        y: Math.random()
+      });
+    }
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.set('outgoingEdges', []);
+  },
+
+  setDepth: function(depth) {
+    // for merge commits we need to max the depths across all
+    this.set('depth', Math.max(this.get('depth') || 0, depth));
+  },
+
+  setDepthBasedOn: function(depthIncrement) {
+    if (this.get('depth') === undefined) {
+      debugger
+      throw new Error('no depth yet!');
+    }
+    var pos = this.get('pos');
+    pos.y = this.get('depth') * depthIncrement;
+  },
+
+  getMaxWidthScaled: function() {
+    // returns our max width scaled based on if we are visible
+    // from a branch or not
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var map = {
+      branch: 1,
+      head: 0.3,
+      none: 0.1
+    };
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat] * this.get('maxWidth');
+  },
+
+  toFront: function() {
+    this.get('circle').toFront();
+    this.get('text').toFront();
+  },
+
+  getOpacity: function() {
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.upstreamHeadOpacity,
+      'none': GRAPHICS.upstreamNoneOpacity
+    };
+
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (map[stat] === undefined) {
+      throw new Error('invalid status');
+    }
+    return map[stat];
+  },
+
+  getTextScreenCoords: function() {
+    return this.getScreenCoords();
+  },
+
+  getAttributes: function() {
+    var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+    var opacity = this.getOpacity();
+
+    return {
+      circle: {
+        cx: pos.x,
+        cy: pos.y,
+        opacity: opacity,
+        r: this.getRadius(),
+        fill: this.getFill(),
+        'stroke-width': this.get('stroke-width'),
+        stroke: this.get('stroke')
+      },
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: opacity
+      }
+    };
+  },
+
+  highlightTo: function(visObj, speed, easing) {
+    // a small function to highlight the color of a node for demonstration purposes
+    var color = visObj.get('fill');
+
+    var attr = {
+      circle: {
+        fill: color,
+        stroke: color,
+        'stroke-width': this.get('stroke-width') * 5
+      },
+      text: {}
+    };
+
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateUpdatedPosition: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToSnapshot: function(snapShot, speed, easing) {
+    if (!snapShot[this.getID()]) {
+      return;
+    }
+    this.animateToAttr(snapShot[this.getID()], speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed == 0) {
+      this.get('circle').attr(attr.circle);
+      this.get('text').attr(attr.text);
+      return;
+    }
+    
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('circle').stop().animate(attr.circle, s, e);
+    this.get('text').stop().animate(attr.text, s, e);
+
+    // animate the x attribute without bouncing so it looks like there's
+    // gravity in only one direction. Just a small animation polish
+    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
+    this.get('text').animate(attr.text.x, s, 'easeInOut');
+  },
+
+  getScreenCoords: function() {
+    var pos = this.get('pos');
+    return this.gitVisuals.toScreenCoords(pos);
+  },
+
+  getRadius: function() {
+    return this.get('radius') || GRAPHICS.nodeRadius;
+  },
+
+  getParentScreenCoords: function() {
+    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
+  },
+
+  setBirthPosition: function() {
+    // utility method for animating it out from underneath a parent
+    var parentCoords = this.getParentScreenCoords();
+
+    this.get('circle').attr({
+      cx: parentCoords.x,
+      cy: parentCoords.y,
+      opacity: 0,
+      r: 0,
+    });
+    this.get('text').attr({
+      x: parentCoords.x,
+      y: parentCoords.y,
+      opacity: 0,
+    });
+  },
+
+  setBirthFromSnapshot: function(beforeSnapshot) {
+    // first get parent attribute
+    // woof bad data access. TODO
+    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
+    var parentAttr = beforeSnapshot[parentID];
+
+    // then set myself faded on top of parent
+    this.get('circle').attr({
+      opacity: 0,
+      r: 0,
+      cx: parentAttr.circle.cx,
+      cy: parentAttr.circle.cy
+    });
+
+    this.get('text').attr({
+      opacity: 0,
+      x: parentAttr.text.x,
+      y: parentAttr.text.y
+    });
+
+    // then do edges
+    var parentCoords = {
+      x: parentAttr.circle.cx,
+      y: parentAttr.circle.cy
+    };
+    this.setOutgoingEdgesBirthPosition(parentCoords);
+  },
+
+  setBirth: function() {
+    this.setBirthPosition();
+    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
+  },
+
+  setOutgoingEdgesOpacity: function(opacity) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.setOpacity(opacity);
+    });
+  },
+
+  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapShot[edge.getID()];
+      edge.animateToAttr(attr);
+    }, this);
+  },
+
+  animateOutgoingEdges: function(speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.animateUpdatedPath(speed, easing);
+    }, this);
+  },
+
+  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapshot[edge.getID()];
+      edge.animateToAttr(attr, speed, easing);
+    }, this);
+  },
+
+  setOutgoingEdgesBirthPosition: function(parentCoords) {
+
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var headPos = edge.get('head').getScreenCoords();
+      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
+      edge.get('path').stop().attr({
+        path: path,
+        opacity: 0
+      });
+    }, this);
+  },
+
+  parentInFront: function() {
+    // woof! talk about bad data access
+    this.get('commit').get('parents')[0].get('visNode').toFront();
+  },
+
+  getFontSize: function(str) {
+    if (str.length < 3) {
+      return 12;
+    } else if (str.length < 5) {
+      return 10;
+    } else {
+      return 8;
+    }
+  },
+
+  getFill: function() {
+    // first get our status, might be easy from this
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (stat == 'head') {
+      return GRAPHICS.headRectFill;
+    } else if (stat == 'none') {
+      return GRAPHICS.orphanNodeFill;
+    }
+
+    // now we need to get branch hues
+
+    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
+    return this.get('fill');
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git show ' + this.get('commit').get('id');
+    _.each([this.get('circle'), this.get('text')], function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+    });
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    // set the opacity on my stuff
+    var keys = ['circle', 'text'];
+    _.each(keys, function(key) {
+      this.get(key).attr({
+        opacity: opacity
+      });
+    }, this);
+  },
+
+  remove: function() {
+    this.removeKeys(['circle'], ['text']);
+    // needs a manual removal of text for whatever reason
+    this.get('text').remove();
+
+    this.gitVisuals.removeVisNode(this);
+  },
+
+  removeAll: function() {
+    this.remove();
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.remove();
+    }, this);
+  },
+
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+
+    var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+
+    var circle = paper.circle(
+      pos.x,
+      pos.y,
+      this.getRadius()
+    ).attr(this.getAttributes().circle);
+
+    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+    text.attr({
+      'font-size': this.getFontSize(this.get('id')),
+      'font-weight': 'bold',
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getOpacity()
+    });
+
+    this.set('circle', circle);
+    this.set('text', text);
+
+    this.attachClickHandlers();
+  }
+});
+
+var VisEdge = VisBase.extend({
+  defaults: {
+    tail: null,
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
+  },
+
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
+  },
+
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
+    };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
+  },
+
+  genGraphics: function(paper) {
+    var pathString = this.getBezierCurve();
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
+    });
+    path.toBack();
+    this.set('path', path);
+  },
+
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
+  getAttributes: function() {
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+    return {
+      path: {
+        path: newPath,
+        opacity: opacity
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed == 0) {
+      this.get('path').attr(attr.path);
+      return;
+    }
+
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
+  },
+
+});
+
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+var VisBranchCollection = Backbone.Collection.extend({
+  model: VisBranch
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisBranchCollection = VisBranchCollection;
+exports.VisNode = VisNode;
+exports.VisEdge = VisEdge;
+exports.VisBranch = VisBranch;
+
+
+
+});
+
+require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
+
+    error: null,
+    warnings: null,
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null,
+
+    createTime: null
+  },
+
+  validateAtInit: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    this.parseOrCatch();
+  },
+
+  parseOrCatch: function() {
+    try {
+      this.parse();
+    } catch (err) {
+      if (err instanceof CommandProcessError ||
+          err instanceof GitError ||
+          err instanceof CommandResult ||
+          err instanceof Warning) {
+        // errorChanged() will handle status and all of that
+        this.set('error', err);
+      } else {
+        throw err;
+      }
+    }
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  getShortcutMap: function() {
+    return {
+      'git commit': /^gc($|\s)/,
+      'git add': /^ga($|\s)/,
+      'git checkout': /^gchk($|\s)/,
+      'git rebase': /^gr($|\s)/,
+      'git branch': /^gb($|\s)/
+    };
+  },
+
+  getRegexMap: function() {
+    return {
+      // ($|\s) means that we either have to end the string
+      // after the command or there needs to be a space for options
+      commit: /^commit($|\s)/,
+      add: /^add($|\s)/,
+      checkout: /^checkout($|\s)/,
+      rebase: /^rebase($|\s)/,
+      reset: /^reset($|\s)/,
+      branch: /^branch($|\s)/,
+      revert: /^revert($|\s)/,
+      log: /^log($|\s)/,
+      merge: /^merge($|\s)/,
+      show: /^show($|\s)/,
+      status: /^status($|\s)/,
+      'cherry-pick': /^cherry-pick($|\s)/
+    };
+  },
+
+  getSandboxCommands: function() {
+    return [
+      [/^ls/, function() {
+        throw new CommandResult({
+          msg: "DontWorryAboutFilesInThisDemo.txt"
+        });
+      }],
+      [/^cd/, function() {
+        throw new CommandResult({
+          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+        });
+      }],
+      [/^git help($|\s)/, function() {
+        // sym link this to the blank git command
+        var allCommands = Command.prototype.getSandboxCommands();
+        // wow this is hacky :(
+        var equivalent = 'git';
+        _.each(allCommands, function(bits) {
+          var regex = bits[0];
+          if (regex.test(equivalent)) {
+            bits[1]();
+          }
+        });
+      }],
+      [/^git$/, function() {
+        var lines = [
+          'Git Version PCOTTLE.1.0',
+          '<br/>',
+          'Usage:',
+          _.escape('\t git <command> [<args>]'),
+          '<br/>',
+          'Supported commands:',
+          '<br/>',
+        ];
+        var commands = OptionParser.prototype.getMasterOptionMap();
+
+        // build up a nice display of what we support
+        _.each(commands, function(commandOptions, command) {
+          lines.push('git ' + command);
+          _.each(commandOptions, function(vals, optionName) {
+            lines.push('\t ' + optionName);
+          }, this);
+        }, this);
+
+        // format and throw
+        var msg = lines.join('\n');
+        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+        throw new CommandResult({
+          msg: msg
+        });
+      }],
+      [/^refresh$/, function() {
+        events.trigger('refreshTree');
+        throw new CommandResult({
+          msg: "Refreshing tree..."
+        });
+      }],
+      [/^rollup (\d+)$/, function(bits) {
+        // go roll up these commands by joining them with semicolons
+        events.trigger('rollupCommands', bits[1]);
+        throw new CommandResult({
+          msg: 'Commands combined!'
+        });
+      }]
+    ];
+  },
+
+  parse: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then check if it's one of our sandbox commands
+    _.each(this.getSandboxCommands(), function(tuple) {
+      var regex = tuple[0];
+      var results = regex.exec(str);
+      if (results) {
+        tuple[1](results);
+      }
+    });
+
+    // then check if shortcut exists, and replace, but
+    // preserve options if so
+    _.each(this.getShortcutMap(), function(regex, method) {
+      var results = regex.exec(str);
+      if (results) {
+        str = method + ' ' + str.slice(results[0].length);
+      }
+    });
+
+    // see if begins with git
+    if (str.slice(0,3) !== 'git') {
+      throw new CommandProcessError({
+        msg: 'That command is not supported, sorry!'
+      });
+    }
+
+    // ok, we have a (probably) valid command. actually parse it
+    this.gitParse(str);
+  },
+
+  gitParse: function(str) {
+    // now slice off command part
+    var fullCommand = str.slice('git '.length);
+
+    // see if we support this particular command
+    _.each(this.getRegexMap(), function(regex, method) {
+      if (regex.exec(fullCommand)) {
+        this.set('options', fullCommand.slice(method.length + 1));
+        this.set('method', method);
+        // we should stop iterating, but the regex will only match
+        // one command in practice. we could stop iterating if we used
+        // jqeurys for each but im using underscore (for no real reason other
+        // than style)
+      }
+    }, this);
+
+    if (!this.get('method')) {
+      throw new CommandProcessError({
+        msg: "Sorry, this demo does not support that git command: " + fullCommand
+      });
+    }
+
+    // parse off the options and assemble the map / general args
+    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+
+    // steal these away so we can be completely JSON
+    this.set('generalArgs', optionParser.generalArgs);
+    this.set('supportedMap', optionParser.supportedMap);
+  },
+});
+
+/**
+ * OptionParser
+ */
+function OptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+OptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false, // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+OptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+
+  // done!
+};
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+
+
+});
+
 require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
 var Main = require('./main');
+var Command = require('./commandModel').Command;
+var CommandEntry = require('./commandModel').CommandEntry;
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -745,6 +2144,1081 @@ exports.CommandCollection = CommandCollection;
 exports.BranchCollection = BranchCollection;
 exports.CommandEntryCollection = CommandEntryCollection;
 exports.CommandBuffer = CommandBuffer;
+
+
+});
+
+require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var Collections = require('./collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var Tree = require('./tree');
+var VisEdgeCollection = Tree.VisEdgeCollection;
+var VisBranchCollection = Tree.VisBranchCollection;
+var VisNode = Tree.VisNode;
+var VisBranch = Tree.VisBranch;
+var VisEdge = Tree.VisEdge;
+
+var Visualization = Backbone.View.extend({
+  initialize: function(options) {
+    var _this = this;
+    Raphael(10, 10, 200, 200, function() {
+
+      // for some reason raphael calls this function with a predefined
+      // context...
+      // so switch it
+      _this.paperInitialize(this);
+    });
+  },
+
+  paperInitialize: function(paper, options) {
+    this.paper = paper;
+
+    this.commitCollection = new CommitCollection();
+    this.branchCollection = new BranchCollection();
+
+    this.gitVisuals = new GitVisuals({
+      commitCollection: this.commitCollection,
+      branchCollection: this.branchCollection,
+      paper: this.paper
+    });
+
+    var GitEngine = require('./git').GitEngine;
+    this.gitEngine = new GitEngine({
+      collection: this.commitCollection,
+      branches: this.branchCollection,
+      gitVisuals: this.gitVisuals
+    });
+    this.gitEngine.init();
+    this.gitVisuals.assignGitEngine(this.gitEngine);
+
+    this.myResize();
+    $(window).on('resize', _.bind(this.myResize, this));
+    this.gitVisuals.drawTreeFirstTime();
+  },
+
+  myResize: function() {
+    var smaller = 1;
+    var el = this.el;
+
+    var left = el.offsetLeft;
+    var top = el.offsetTop;
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
+
+    $(this.paper.canvas).css({
+      left: left + 'px',
+      top: top + 'px'
+    });
+    this.paper.setSize(width, height);
+    this.gitVisuals.canvasResize(width, height);
+  }
+
+});
+
+function GitVisuals(options) {
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
+  this.visNodeMap = {};
+
+  this.visEdgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
+  this.commitMap = {};
+
+  this.rootCommit = null;
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
+
+  this.paper = options.paper;
+  this.gitReady = false;
+
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
+  
+  Main.getEvents().on('refreshTree', _.bind(
+    this.refreshTree, this
+  ));
+}
+
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
+};
+
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
+
+GitVisuals.prototype.resetAll = function() {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
+    visEdge.remove();
+  }, this);
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
+    visBranch.remove();
+  }, this);
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.initHeadBranch();
+  this.deferFlush();
+};
+
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
+  // seed this with the HEAD pseudo-branch
+  this.addBranchFromEvent(this.gitEngine.HEAD);
+};
+
+GitVisuals.prototype.getScreenBounds = function() {
+  // for now we return the node radius subtracted from the walls
+  return {
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
+  };
+};
+
+GitVisuals.prototype.toScreenCoords = function(pos) {
+  if (!this.paper.width) {
+    throw new Error('being called too early for screen coords');
+  }
+  var bounds = this.getScreenBounds();
+
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
+  };
+
+  return {
+    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
+    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
+  };
+};
+
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
+      return;
+    }
+
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      // its actually ok it doesnt exist yet
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(function(visBranch) {
+    animate(visBranch);
+  });
+  this.visEdgeCollection.each(function(visEdge) {
+    animate(visEdge);
+  });
+  _.each(this.visNodeMap, function(visNode) {
+    animate(visNode);
+  });
+};
+
+/***************************************
+     == BEGIN Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.visEdgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
+};
+
+GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.gitReady) {
+    return;
+  }
+
+  // this method can only be called after graphics are rendered
+  this.fullCalc();
+
+  this.animateAll(speed);
+};
+
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.fullCalc();
+
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
+};
+
+GitVisuals.prototype.calcTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
+
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
+  this.calcDepth();
+  this.calcWidth();
+};
+
+GitVisuals.prototype.calcGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = this.gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
+  });
+  this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+  
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length == 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle!!
+  _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
+    var flex = child.get('visNode').getMaxWidthScaled();
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    console.warn('graphics are degrading from too many layers');
+  }
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.animateNodePositions = function(speed) {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.animateUpdatedPosition(speed);
+  }, this);
+};
+
+GitVisuals.prototype.turnOnPaper = function() {
+  this.gitReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.gitReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visBranchCollection.add(visBranch);
+  if (this.gitReady) {
+    visBranch.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
+GitVisuals.prototype.animateRefs = function(speed) {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(speed);
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function(speed) {
+  this.visEdgeCollection.each(function(edge) {
+    edge.animateUpdatedPath(speed);
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  commit.get('visNode').setDepth(depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }, this);
+
+  return maxDepth;
+};
+
+GitVisuals.prototype.canvasResize = function(width, height) {
+  // refresh when we are ready
+  if (GLOBAL.isAnimating) {
+    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
+};
+
+GitVisuals.prototype.addCommit = function(commit) {
+  // TODO 
+};
+
+GitVisuals.prototype.addNode = function(id, commit) {
+  this.commitMap[id] = commit;
+  if (commit.get('rootCommit')) {
+    this.rootCommit = commit;
+  }
+
+  var visNode = new VisNode({
+    id: id,
+    commit: commit,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visNodeMap[id] = visNode;
+
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
+  }
+  return visNode;
+};
+
+GitVisuals.prototype.addEdge = function(idTail, idHead) {
+  var visNodeTail = this.visNodeMap[idTail];
+  var visNodeHead = this.visNodeMap[idHead];
+
+  if (!visNodeTail || !visNodeHead) {
+    throw new Error('one of the ids in (' + idTail +
+                    ', ' + idHead + ') does not exist');
+  }
+
+  var edge = new VisEdge({
+    tail: visNodeTail,
+    head: visNodeHead,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visEdgeCollection.add(edge);
+
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.collectionChanged = function() {
+  // TODO ?
+};
+
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+};
+
+GitVisuals.prototype.visBranchesFront = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+  });
+
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.textToFront();
+  });
+};
+
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.gitReady = true;
+  // gen all the graphics we need
+  this.deferFlush();
+
+  this.calcTreeCoords();
+};
+
+GitVisuals.prototype.drawTreeFirstTime = function() {
+  this.gitReady = true;
+  this.calcTreeCoords();
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.genGraphics(this.paper);
+  }, this);
+
+  this.visEdgeCollection.each(function(edge) {
+    edge.genGraphics(this.paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.zIndexReflow();
+};
+
+
+/************************
+ * Random util functions, some from liquidGraph
+ ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
+exports.Visualization = Visualization;
+
+
+});
+
+require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
+var Main = require('./main');
+var Command = require('./commandModel').Command;
+var CommandEntry = require('./commandModel').CommandEntry;
+
+var CommandPromptView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    // uses local storage
+    this.commands = new CommandEntryCollection();
+    this.commands.fetch({
+      success: _.bind(function() {
+        // reverse the commands. this is ugly but needs to be done...
+        var commands = [];
+        this.commands.each(function(c) {
+          commands.push(c);
+        });
+
+        commands.reverse();
+        this.commands.reset();
+
+        _.each(commands, function(c) {
+          this.commands.add(c);
+        }, this);
+      }, this)
+    });
+
+    this.index = -1;
+
+    this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandCursor = this.$('#prompt span.cursor')[0];
+
+    // this is evil, but we will refer to HTML outside the document
+    // and attach a click event listener so we can focus / unfocus
+    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
+      this.focus();
+    }, this));
+
+
+    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
+      this.blur();
+    }, this));
+
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
+
+    // hacky timeout focus
+    setTimeout(_.bind(function() {
+      this.focus();
+    }, this), 100);
+  },
+
+  events: {
+    'keydown #commandTextField': 'onKey',
+    'keyup #commandTextField': 'onKeyUp',
+    'blur #commandTextField': 'hideCursor',
+    'focus #commandTextField': 'showCursor'
+  },
+
+  blur: function() {
+    $(this.commandCursor).toggleClass('shown', false);
+  },
+
+  focus: function() {
+    this.$('#commandTextField').focus();
+    this.showCursor();
+  },
+
+  hideCursor: function() {
+    this.toggleCursor(false); 
+  },
+
+  showCursor: function() {
+    this.toggleCursor(true);
+  },
+
+  toggleCursor: function(state) {
+    $(this.commandCursor).toggleClass('shown', state);
+  },
+
+  onKey: function(e) {
+    var el = e.srcElement;
+    this.updatePrompt(el)
+  },
+
+  onKeyUp: function(e) {
+    this.onKey(e);
+
+    // we need to capture some of these events.
+    // WARNING: this key map is not internationalized :(
+    var keyMap = {
+      // enter
+      13: _.bind(function() {
+        this.submit();
+      }, this),
+      // up
+      38: _.bind(function() {
+        this.commandSelectChange(1);
+      }, this),
+      // down
+      40: _.bind(function() {
+        this.commandSelectChange(-1);
+      }, this)
+    };
+
+    if (keyMap[e.which] !== undefined) {
+      e.preventDefault();
+      keyMap[e.which]();
+      this.onKey(e);
+    }
+  },
+
+  badHtmlEncode: function(text) {
+    return text.replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/</g,'&lt;')
+      .replace(/ /g,'&nbsp;')
+      .replace(/\n/g,'')
+  },
+
+  updatePrompt: function(el) {
+    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
+    // super annoying delay to every keystroke... I have tried everything
+    // to make this more performant. getting the srcElement from the event,
+    // getting the value directly from the dom, etc etc. yet still,
+    // there's a very annoying and sightly noticeable command delay.
+    // try.github.com also has this, so I'm assuming those engineers gave up as
+    // well...
+
+    var val = this.badHtmlEncode(el.value);
+    this.commandSpan.innerHTML = val;
+
+    // now mutate the cursor...
+    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    // and scroll down due to some weird bug
+    Main.getEvents().trigger('commandScrollDown');
+  },
+
+  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    // 10px for monospaced font...
+    var widthPerChar = 10;
+
+    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
+    var width = String(numCharsSelected * widthPerChar) + 'px';
+
+    // now for positioning
+    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var left = String(-numLeft * widthPerChar) + 'px';
+    // one reflow? :D
+    $(this.commandCursor).css({
+      width: width,
+      left: left
+    });
+  },
+
+  commandSelectChange: function(delta) {
+    this.index += delta;
+    
+    // if we are over / under, display blank line. yes this eliminates your
+    // partially edited command, but i doubt that is much in this demo
+    if (this.index >= this.commands.length || this.index < 0) {
+      this.clear();
+      this.index = -1;
+      return;
+    }
+
+    // yay! we actually can display something
+    var commandEntry = this.commands.toArray()[this.index].get('text');
+    this.setTextField(commandEntry);
+  },
+
+  clearLocalStorage: function() {
+    this.commands.each(function(c) {
+      Backbone.sync('delete', c, function() { });
+    }, this);
+    localStorage.setItem('CommandEntries', '');
+  },
+
+  setTextField: function(value) {
+    this.$('#commandTextField').val(value);
+  },
+
+  clear: function() {
+    this.setTextField('');
+  },
+
+  submit: function() {
+    var value = this.$('#commandTextField').val().replace('\n', '');
+    this.clear();
+    this.submitValue(value);
+  },
+
+  rollupCommands: function(numBack) {
+    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    which.reverse();
+
+    var str = '';
+    _.each(which, function(commandEntry) {
+      str += commandEntry.get('text') + ';';
+    }, this);
+
+    console.log('the str', str);
+
+    var rolled = new CommandEntry({text: str});
+    this.commands.unshift(rolled);
+    Backbone.sync('create', rolled, function() { });
+  },
+
+  submitValue: function(value) {
+    // we should add if it's not a blank line and this is a new command...
+    // or if we edited the command
+    var shouldAdd = (value.length && this.index == -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (shouldAdd) {
+      var commandEntry = new CommandEntry({text: value});
+      this.commands.unshift(commandEntry);
+
+      // store to local storage
+      Backbone.sync('create', commandEntry, function() { });
+
+      // if our length is too egregious, reset
+      if (this.commands.length > 100) {
+        this.clearLocalStorage();
+      }
+    }
+    this.index = -1;
+
+    // split commands on semicolon
+    _.each(value.split(';'), _.bind(function(command, index) {
+      command = _.escape(command);
+
+      command = command
+        .replace(/^(\s+)/, '')
+        .replace(/(\s+)$/, '')
+        .replace(/&quot;/g, '"')
+        .replace(/&#x27;/g, "'");
+
+      if (index > 0 && !command.length) {
+        return;
+      }
+
+      this.addToCollection(command);
+    }, this));
+  },
+
+  addToCollection: function(value) {
+    var command = new Command({
+      rawStr: value
+    });
+    this.collection.add(command);
+  }
+});
+
+
+// This is the view for all commands -- it will represent
+// their status (inqueue, processing, finished, error),
+// their value ("git commit --amend"),
+// and the result (either errors or warnings or whatever)
+var CommandView = Backbone.View.extend({
+  tagName: 'div',
+  model: Command,
+  template: _.template($('#command-template').html()),
+
+  events: {
+    'click': 'clicked'
+  },
+
+  clicked: function(e) {
+  },
+
+  initialize: function() {
+    this.model.bind('change', this.wasChanged, this);
+    this.model.bind('destroy', this.remove, this);
+  },
+
+  wasChanged: function(model, changeEvent) {
+    // for changes that are just comestic, we actually only want to toggle classes
+    // with jquery rather than brutally delete a html of HTML
+    var changes = changeEvent.changes;
+    var changeKeys = _.keys(changes);
+    if (_.difference(changeKeys, ['status']) == 0) {
+      this.updateStatus();
+    } else if (_.difference(changeKeys, ['error']) == 0) {
+      // the above will 
+      this.render();
+    } else {
+      this.render();
+    }
+  },
+
+  updateStatus: function() {
+    var statuses = ['inqueue', 'processing', 'finished'];
+    var toggleMap = {};
+    _.each(statuses, function(status) {
+      toggleMap[status] = false;
+    });
+    toggleMap[this.model.get('status')] = true;
+
+    var query = this.$('p.commandLine');
+
+    _.each(toggleMap, function(value, key) {
+      query.toggleClass(key, value);
+    });
+  },
+
+  render: function() {
+    var json = _.extend(
+      {
+        resultType: '',
+        result: '',
+        formattedWarnings: this.model.getFormattedWarnings()
+      },
+      this.model.toJSON()
+    );
+
+    this.$el.html(this.template(json));
+    return this;
+  },
+
+  remove: function() {
+    $(this.el).hide();
+  }
+});
+
+
+var CommandLineHistoryView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.on('all', this.render, this);
+
+    this.collection.on('change', this.scrollDown, this);
+
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+  },
+
+  addWarning: function(msg) {
+    var err = new Warning({
+      msg: msg
+    });
+
+    var command = new Command({
+      error: err,
+      rawStr: 'Warning:'
+    });
+
+    this.collection.add(command);
+  },
+
+  scrollDown: function() {
+    // if commandDisplay is ever bigger than #terminal, we need to
+    // add overflow-y to terminal and scroll down
+    var cD = $('#commandDisplay')[0];
+    var t = $('#terminal')[0];
+
+    if ($(t).hasClass('scrolling')) {
+      t.scrollTop = t.scrollHeight;
+      return;
+    }
+    if (cD.clientHeight > t.clientHeight) {
+      $(t).css('overflow-y', 'scroll');
+      $(t).css('overflow-x', 'hidden');
+      $(t).addClass('scrolling');
+      t.scrollTop = t.scrollHeight;
+    }
+  },
+
+  addOne: function(command) {
+    var view = new CommandView({
+      model: command
+    });
+    this.$('#commandDisplay').append(view.render().el);
+    this.scrollDown();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne);
+  }
+});
+
+exports.CommandPromptView = CommandPromptView;
+exports.CommandLineHistoryView = CommandLineHistoryView;
 
 
 });
@@ -2386,3405 +4860,6 @@ exports.Ref = Ref;
 
 
 });
-
-require.define("/main.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactory = require('./animationFactory').AnimationFactory;
-var CommandCollection = require('./collections').CommandCollection;
-var CommandBuffer = require('./collections').CommandBuffer;
-var CommandPromptView = require('./commandViews').CommandPromptView;
-var CommandLineHistoryView = require('./commandViews').CommandLineHistoryView;
-var Visualization = require('./visuals').Visualization;
-
-/**
- * Globals
- */
-var events = _.clone(Backbone.Events);
-var ui = null;
-var animationFactory = null;
-
-/**
- * Static Classes
- */
-animationFactory = new AnimationFactory();
-
-///////////////////////////////////////////////////////////////////////
-
-$(document).ready(function(){
-  ui = new UI();
-  mainVis = new Visualization({
-    el: $('#canvasWrapper')[0]  
-  });
-
-  if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
-    }, 500);
-  }
-});
-
-function UI() {
-  // static classes
-  this.commandCollection = new CommandCollection();
-
-  this.commandBuffer = new CommandBuffer({
-    collection: this.commandCollection
-  });
-
-  this.commandPromptView = new CommandPromptView({
-    el: $('#commandLineBar'),
-    collection: this.commandCollection
-  });
-  this.commandLineHistoryView = new CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
-
-  $('#commandTextField').focus();
-}
-
-exports.getEvents = function() {
-  return events;
-};
-exports.ui = ui;
-exports.animationFactory = animationFactory;
-
-
-});
-
-require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
-var Main = require('./main');
-
-var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
-
-    this.index = -1;
-
-    this.commandSpan = this.$('#prompt span.command')[0];
-    this.commandCursor = this.$('#prompt span.cursor')[0];
-
-    // this is evil, but we will refer to HTML outside the document
-    // and attach a click event listener so we can focus / unfocus
-    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
-      this.focus();
-    }, this));
-
-
-    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
-      this.blur();
-    }, this));
-
-    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
-    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
-    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
-
-    // hacky timeout focus
-    setTimeout(_.bind(function() {
-      this.focus();
-    }, this), 100);
-  },
-
-  events: {
-    'keydown #commandTextField': 'onKey',
-    'keyup #commandTextField': 'onKeyUp',
-    'blur #commandTextField': 'hideCursor',
-    'focus #commandTextField': 'showCursor'
-  },
-
-  blur: function() {
-    $(this.commandCursor).toggleClass('shown', false);
-  },
-
-  focus: function() {
-    this.$('#commandTextField').focus();
-    this.showCursor();
-  },
-
-  hideCursor: function() {
-    this.toggleCursor(false); 
-  },
-
-  showCursor: function() {
-    this.toggleCursor(true);
-  },
-
-  toggleCursor: function(state) {
-    $(this.commandCursor).toggleClass('shown', state);
-  },
-
-  onKey: function(e) {
-    var el = e.srcElement;
-    this.updatePrompt(el)
-  },
-
-  onKeyUp: function(e) {
-    this.onKey(e);
-
-    // we need to capture some of these events.
-    // WARNING: this key map is not internationalized :(
-    var keyMap = {
-      // enter
-      13: _.bind(function() {
-        this.submit();
-      }, this),
-      // up
-      38: _.bind(function() {
-        this.commandSelectChange(1);
-      }, this),
-      // down
-      40: _.bind(function() {
-        this.commandSelectChange(-1);
-      }, this)
-    };
-
-    if (keyMap[e.which] !== undefined) {
-      e.preventDefault();
-      keyMap[e.which]();
-      this.onKey(e);
-    }
-  },
-
-  badHtmlEncode: function(text) {
-    return text.replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/</g,'&lt;')
-      .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'')
-  },
-
-  updatePrompt: function(el) {
-    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
-    // super annoying delay to every keystroke... I have tried everything
-    // to make this more performant. getting the srcElement from the event,
-    // getting the value directly from the dom, etc etc. yet still,
-    // there's a very annoying and sightly noticeable command delay.
-    // try.github.com also has this, so I'm assuming those engineers gave up as
-    // well...
-
-    var val = this.badHtmlEncode(el.value);
-    this.commandSpan.innerHTML = val;
-
-    // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
-    // and scroll down due to some weird bug
-    Main.getEvents().trigger('commandScrollDown');
-  },
-
-  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    // 10px for monospaced font...
-    var widthPerChar = 10;
-
-    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
-    var width = String(numCharsSelected * widthPerChar) + 'px';
-
-    // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
-    var left = String(-numLeft * widthPerChar) + 'px';
-    // one reflow? :D
-    $(this.commandCursor).css({
-      width: width,
-      left: left
-    });
-  },
-
-  commandSelectChange: function(delta) {
-    this.index += delta;
-    
-    // if we are over / under, display blank line. yes this eliminates your
-    // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
-      this.clear();
-      this.index = -1;
-      return;
-    }
-
-    // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
-    this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
-    localStorage.setItem('CommandEntries', '');
-  },
-
-  setTextField: function(value) {
-    this.$('#commandTextField').val(value);
-  },
-
-  clear: function() {
-    this.setTextField('');
-  },
-
-  submit: function() {
-    var value = this.$('#commandTextField').val().replace('\n', '');
-    this.clear();
-    this.submitValue(value);
-  },
-
-  rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
-    which.reverse();
-
-    var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
-    }, this);
-
-    console.log('the str', str);
-
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
-  },
-
-  submitValue: function(value) {
-    // we should add if it's not a blank line and this is a new command...
-    // or if we edited the command
-    var shouldAdd = (value.length && this.index == -1) ||
-      ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
-
-    if (shouldAdd) {
-      var commandEntry = new CommandEntry({text: value});
-      this.commands.unshift(commandEntry);
-
-      // store to local storage
-      Backbone.sync('create', commandEntry, function() { });
-
-      // if our length is too egregious, reset
-      if (this.commands.length > 100) {
-        this.clearLocalStorage();
-      }
-    }
-    this.index = -1;
-
-    // split commands on semicolon
-    _.each(value.split(';'), _.bind(function(command, index) {
-      command = _.escape(command);
-
-      command = command
-        .replace(/^(\s+)/, '')
-        .replace(/(\s+)$/, '')
-        .replace(/&quot;/g, '"')
-        .replace(/&#x27;/g, "'");
-
-      if (index > 0 && !command.length) {
-        return;
-      }
-
-      this.addToCollection(command);
-    }, this));
-  },
-
-  addToCollection: function(value) {
-    var command = new Command({
-      rawStr: value
-    });
-    this.collection.add(command);
-  }
-});
-
-
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html of HTML
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) == 0) {
-      this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) == 0) {
-      // the above will 
-      this.render();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-
-    Main.getEvents().on('issueWarning', this.addWarning, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
-exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
-
-
-});
-
-require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
-
-var Collections = require('./collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-
-var GitEngine = require('./git').GitEngine;
-
-var Tree = require('./tree');
-var VisEdgeCollection = Tree.VisEdgeCollection;
-var VisBranchCollection = Tree.VisBranchCollection;
-var VisNode = Tree.VisNode;
-var VisBranch = Tree.VisBranch;
-var VisEdge = Tree.VisEdge;
-
-var Visualization = Backbone.View.extend({
-  initialize: function(options) {
-    var _this = this;
-    Raphael(10, 10, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this);
-    });
-  },
-
-  paperInitialize: function(paper, options) {
-    this.paper = paper;
-
-    this.commitCollection = new CommitCollection();
-    this.branchCollection = new BranchCollection();
-
-    this.gitVisuals = new GitVisuals({
-      commitCollection: this.commitCollection,
-      branchCollection: this.branchCollection,
-      paper: this.paper
-    });
-
-    this.gitEngine = new GitEngine({
-      collection: this.commitCollection,
-      branches: this.branchCollection,
-      gitVisuals: this.gitVisuals
-    });
-    this.gitEngine.init();
-    this.gitVisuals.assignGitEngine(this.gitEngine);
-
-    this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
-    this.gitVisuals.drawTreeFirstTime();
-  },
-
-  myResize: function() {
-    var smaller = 1;
-    var el = this.el;
-
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
-
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
-    this.paper.setSize(width, height);
-    this.gitVisuals.canvasResize(width, height);
-  }
-
-});
-
-function GitVisuals(options) {
-  this.commitCollection = options.commitCollection;
-  this.branchCollection = options.branchCollection;
-  this.visNodeMap = {};
-
-  this.visEdgeCollection = new VisEdgeCollection();
-  this.visBranchCollection = new VisBranchCollection();
-  this.commitMap = {};
-
-  this.rootCommit = null;
-  this.branchStackMap = null;
-  this.upstreamBranchSet = null;
-  this.upstreamHeadSet = null;
-
-  this.paper = options.paper;
-  this.gitReady = false;
-
-  this.branchCollection.on('add', this.addBranchFromEvent, this);
-  this.branchCollection.on('remove', this.removeBranch, this);
-  this.deferred = [];
-  
-  Main.getEvents().on('refreshTree', _.bind(
-    this.refreshTree, this
-  ));
-}
-
-GitVisuals.prototype.defer = function(action) {
-  this.deferred.push(action);
-};
-
-GitVisuals.prototype.deferFlush = function() {
-  _.each(this.deferred, function(action) {
-    action();
-  }, this);
-  this.deferred = [];
-};
-
-GitVisuals.prototype.resetAll = function() {
-  // make sure to copy these collections because we remove
-  // items in place and underscore is too dumb to detect length change
-  var edges = this.visEdgeCollection.toArray();
-  _.each(edges, function(visEdge) {
-    visEdge.remove();
-  }, this);
-
-  var branches = this.visBranchCollection.toArray();
-  _.each(branches, function(visBranch) {
-    visBranch.remove();
-  }, this);
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.remove();
-  }, this);
-
-  this.visEdgeCollection.reset();
-  this.visBranchCollection.reset();
-
-  this.visNodeMap = {};
-  this.rootCommit = null;
-  this.commitMap = {};
-};
-
-GitVisuals.prototype.assignGitEngine = function(gitEngine) {
-  this.gitEngine = gitEngine;
-  this.initHeadBranch();
-  this.deferFlush();
-};
-
-GitVisuals.prototype.initHeadBranch = function() {
-  // it's unfortaunte we have to do this, but the head branch
-  // is an edge case because it's not part of a collection so
-  // we can't use events to load or unload it. thus we have to call
-  // this ugly method which will be deleted one day
-
-  // seed this with the HEAD pseudo-branch
-  this.addBranchFromEvent(this.gitEngine.HEAD);
-};
-
-GitVisuals.prototype.getScreenBounds = function() {
-  // for now we return the node radius subtracted from the walls
-  return {
-    widthPadding: GRAPHICS.nodeRadius * 1.5,
-    heightPadding: GRAPHICS.nodeRadius * 1.5
-  };
-};
-
-GitVisuals.prototype.toScreenCoords = function(pos) {
-  if (!this.paper.width) {
-    throw new Error('being called too early for screen coords');
-  }
-  var bounds = this.getScreenBounds();
-
-  var shrink = function(frac, total, padding) {
-    return padding + frac * (total - padding * 2);
-  };
-
-  return {
-    x: shrink(pos.x, this.paper.width, bounds.widthPadding),
-    y: shrink(pos.y, this.paper.height, bounds.heightPadding)
-  };
-};
-
-GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
-  var animate = function(obj) {
-    var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
-      return;
-    }
-
-    if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
-      return;
-    }
-    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
-  };
-
-  this.visBranchCollection.each(function(visBranch) {
-    animate(visBranch);
-  });
-  this.visEdgeCollection.each(function(visEdge) {
-    animate(visEdge);
-  });
-  _.each(this.visNodeMap, function(visNode) {
-    animate(visNode);
-  });
-};
-
-/***************************************
-     == BEGIN Tree Calculation Parts ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.genSnapshot = function() {
-  this.fullCalc();
-
-  var snapshot = {};
-  _.each(this.visNodeMap, function(visNode) {
-    snapshot[visNode.get('id')] = visNode.getAttributes();
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    snapshot[visBranch.getID()] = visBranch.getAttributes();
-  }, this);
-
-  this.visEdgeCollection.each(function(visEdge) {
-    snapshot[visEdge.getID()] = visEdge.getAttributes();
-  }, this);
-
-  return snapshot;
-};
-
-GitVisuals.prototype.refreshTree = function(speed) {
-  if (!this.gitReady) {
-    return;
-  }
-
-  // this method can only be called after graphics are rendered
-  this.fullCalc();
-
-  this.animateAll(speed);
-};
-
-GitVisuals.prototype.refreshTreeHarsh = function() {
-  this.fullCalc();
-
-  this.animateAll(0);
-};
-
-GitVisuals.prototype.animateAll = function(speed) {
-  this.zIndexReflow();
-
-  this.animateEdges(speed);
-  this.animateNodePositions(speed);
-  this.animateRefs(speed);
-};
-
-GitVisuals.prototype.fullCalc = function() {
-  this.calcTreeCoords();
-  this.calcGraphicsCoords();
-};
-
-GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
-  if (!this.rootCommit) {
-    throw new Error('grr, no root commit!');
-  }
-
-  this.calcUpstreamSets();
-  this.calcBranchStacks();
-
-  this.calcDepth();
-  this.calcWidth();
-};
-
-GitVisuals.prototype.calcGraphicsCoords = function() {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.updateName();
-  });
-};
-
-GitVisuals.prototype.calcUpstreamSets = function() {
-  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
-  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
-};
-
-GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
-  return this.branchStackMap[commit.get('id')];
-};
-
-GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
-  var branches = this.upstreamBranchSet[commit.get('id')];
-  if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
-  }
-
-  return this.blendHuesFromBranchStack(branches);
-};
-
-GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
-  var hueStrings = [];
-  _.each(branchStackArray, function(branchWrapper) {
-    var fill = branchWrapper.obj.get('visBranch').get('fill');
-
-    if (fill.slice(0,3) !== 'hsb') {
-      // crap! convert
-      var color = Raphael.color(fill);
-      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
-      fill = fill + ',' + String(color.s) + ')';
-    }
-
-    hueStrings.push(fill);
-  });
-
-  return blendHueStrings(hueStrings);
-};
-
-GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
-  if (!this.upstreamBranchSet) {
-    throw new Error("Can't calculate this yet!");
-  }
-
-  var id = commit.get('id');
-  var branch = this.upstreamBranchSet;
-  var head = this.upstreamHeadSet;
-
-  if (branch[id]) {
-    return 'branch';
-  } else if (head[id]) {
-    return 'head';
-  } else {
-    return 'none';
-  }
-};
-
-GitVisuals.prototype.calcBranchStacks = function() {
-  var branches = this.gitEngine.getBranches();
-  var map = {};
-  _.each(branches, function(branch) {
-    var thisId = branch.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(branch);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      if (aId == 'master' || bId == 'master') {
-        return aId == 'master' ? -1 : 1;
-      }
-      return aId.localeCompare(bId);
-    });
-  });
-  this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcWidth = function() {
-  this.maxWidthRecursive(this.rootCommit);
-  
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
-};
-
-GitVisuals.prototype.maxWidthRecursive = function(commit) {
-  var childrenTotalWidth = 0;
-  _.each(commit.get('children'), function(child) {
-    // only include this if we are the "main" parent of
-    // this child
-    if (child.isMainParent(commit)) {
-      var childWidth = this.maxWidthRecursive(child);
-      childrenTotalWidth += childWidth;
-    }
-  }, this);
-
-  var maxWidth = Math.max(1, childrenTotalWidth);
-  commit.get('visNode').set('maxWidth', maxWidth);
-  return maxWidth;
-};
-
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  // I always center myself within my bounds
-  var myWidthPos = (min + max) / 2.0;
-  commit.get('visNode').get('pos').x = myWidthPos;
-
-  if (commit.get('children').length == 0) {
-    return;
-  }
-
-  // i have a certain length to divide up
-  var myLength = max - min;
-  // I will divide up that length based on my children's max width in a
-  // basic box-flex model
-  var totalFlex = 0;
-  var children = commit.get('children');
-  _.each(children, function(child) {
-    if (child.isMainParent(commit)) {
-      totalFlex += child.get('visNode').getMaxWidthScaled();
-    }
-  }, this);
-
-  var prevBound = min;
-
-  // now go through and do everything
-  // TODO: order so the max width children are in the middle!!
-  _.each(children, function(child) {
-    if (!child.isMainParent(commit)) {
-      return;
-    }
-
-    var flex = child.get('visNode').getMaxWidthScaled();
-    var portion = (flex / totalFlex) * myLength;
-    var childMin = prevBound;
-    var childMax = childMin + portion;
-    this.assignBoundsRecursive(child, childMin, childMax);
-    prevBound = childMax;
-  }, this);
-};
-
-GitVisuals.prototype.calcDepth = function() {
-  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
-  if (maxDepth > 15) {
-    // issue warning
-    console.warn('graphics are degrading from too many layers');
-  }
-
-  var depthIncrement = this.getDepthIncrement(maxDepth);
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
-  }, this);
-};
-
-/***************************************
-     == END Tree Calculation ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.animateNodePositions = function(speed) {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.animateUpdatedPosition(speed);
-  }, this);
-};
-
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
-GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
-  var action = _.bind(function() {
-    this.addBranch(branch);
-  }, this);
-
-  if (!this.gitEngine || !this.gitReady) {
-    this.defer(action);
-  } else {
-    action();
-  }
-};
-
-GitVisuals.prototype.addBranch = function(branch) {
-  var visBranch = new VisBranch({
-    branch: branch,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visBranchCollection.add(visBranch);
-  if (this.gitReady) {
-    visBranch.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.removeVisBranch = function(visBranch) {
-  this.visBranchCollection.remove(visBranch);
-};
-
-GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
-};
-
-GitVisuals.prototype.removeVisEdge = function(visEdge) {
-  this.visEdgeCollection.remove(visEdge);
-};
-
-GitVisuals.prototype.animateRefs = function(speed) {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.animateUpdatedPos(speed);
-  }, this);
-};
-
-GitVisuals.prototype.animateEdges = function(speed) {
-  this.visEdgeCollection.each(function(edge) {
-    edge.animateUpdatedPath(speed);
-  }, this);
-};
-
-GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
-  var increment = 1.0 / maxDepth;
-  return increment;
-};
-
-GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
-  commit.get('visNode').setDepth(depth);
-
-  var children = commit.get('children');
-  var maxDepth = depth;
-  _.each(children, function(child) {
-    var d = this.calcDepthRecursive(child, depth + 1);
-    maxDepth = Math.max(d, maxDepth);
-  }, this);
-
-  return maxDepth;
-};
-
-GitVisuals.prototype.canvasResize = function(width, height) {
-  // refresh when we are ready
-  if (GLOBAL.isAnimating) {
-    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
-  } else {
-    this.refreshTree();
-  }
-};
-
-GitVisuals.prototype.addCommit = function(commit) {
-  // TODO 
-};
-
-GitVisuals.prototype.addNode = function(id, commit) {
-  this.commitMap[id] = commit;
-  if (commit.get('rootCommit')) {
-    this.rootCommit = commit;
-  }
-
-  var visNode = new VisNode({
-    id: id,
-    commit: commit,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visNodeMap[id] = visNode;
-
-  if (this.gitReady) {
-    visNode.genGraphics(this.paper);
-  }
-  return visNode;
-};
-
-GitVisuals.prototype.addEdge = function(idTail, idHead) {
-  var visNodeTail = this.visNodeMap[idTail];
-  var visNodeHead = this.visNodeMap[idHead];
-
-  if (!visNodeTail || !visNodeHead) {
-    throw new Error('one of the ids in (' + idTail +
-                    ', ' + idHead + ') does not exist');
-  }
-
-  var edge = new VisEdge({
-    tail: visNodeTail,
-    head: visNodeHead,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visEdgeCollection.add(edge);
-
-  if (this.gitReady) {
-    edge.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.collectionChanged = function() {
-  // TODO ?
-};
-
-GitVisuals.prototype.zIndexReflow = function() {
-  this.visNodesFront();
-  this.visBranchesFront();
-};
-
-GitVisuals.prototype.visNodesFront = function() {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.toFront();
-  });
-};
-
-GitVisuals.prototype.visBranchesFront = function() {
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.nonTextToFront();
-  });
-
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.textToFront();
-  });
-};
-
-GitVisuals.prototype.drawTreeFromReload = function() {
-  this.gitReady = true;
-  // gen all the graphics we need
-  this.deferFlush();
-
-  this.calcTreeCoords();
-};
-
-GitVisuals.prototype.drawTreeFirstTime = function() {
-  this.gitReady = true;
-  this.calcTreeCoords();
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.genGraphics(this.paper);
-  }, this);
-
-  this.visEdgeCollection.each(function(edge) {
-    edge.genGraphics(this.paper);
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(this.paper);
-  }, this);
-
-  this.zIndexReflow();
-};
-
-
-/************************
- * Random util functions, some from liquidGraph
- ***********************/
-function blendHueStrings(hueStrings) {
-  // assumes a sat of 0.7 and brightness of 1
-
-  var x = 0;
-  var y = 0;
-  var totalSat = 0;
-  var totalBright = 0;
-  var length = hueStrings.length;
-
-  _.each(hueStrings, function(hueString) {
-    var exploded = hueString.split('(')[1];
-    exploded = exploded.split(')')[0];
-    exploded = exploded.split(',');
-
-    totalSat += parseFloat(exploded[1]);
-    totalBright += parseFloat(exploded[2]);
-    var hue = parseFloat(exploded[0]);
-
-    var angle = hue * Math.PI * 2;
-    x += Math.cos(angle);
-    y += Math.sin(angle);
-  });
-
-  x = x / length;
-  y = y / length;
-  totalSat = totalSat / length;
-  totalBright = totalBright / length;
-
-  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
-  if (hue < 0) {
-    hue = hue + 1;
-  }
-  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
-}
-
-exports.Visualization = Visualization;
-
-
-});
-
-require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-}; 
-
-var VisBase = Backbone.Model.extend({
-  removeKeys: function(keys) {
-    _.each(keys, function(key) {
-      if (this.get(key)) {
-        this.get(key).remove();
-      }
-    }, this);
-  }
-});
-
-var VisBranch = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    arrow: null,
-    isHead: false,
-    flip: 1,
-
-    fill: GRAPHICS.rectFill,
-    stroke: GRAPHICS.rectStroke,
-    'stroke-width': GRAPHICS.rectStrokeWidth,
-
-    offsetX: GRAPHICS.nodeRadius * 4.75,
-    offsetY: 0,
-    arrowHeight: 14,
-    arrowInnerSkew: 0,
-    arrowEdgeHeight: 6,
-    arrowLength: 14,
-    arrowOffsetFromCircleX: 10,
-
-    vPad: 5,
-    hPad: 5,
-
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    if (!this.get('branch')) {
-      throw new Error('need a branch!');
-    }
-  },
-
-  getFill: function() {
-    return this.get('fill');
-  },
-
-  getID: function() {
-    return this.get('branch').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand notation for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) { 
-      console.log('throw damnit');
-      throw new Error('asd');
-    }
-
-    this.get('branch').set('visBranch', this);
-    var id = this.get('branch').get('id');
-
-    if (id == 'HEAD') {
-      // switch to a head ref
-      this.set('isHead', true);
-      this.set('flip', -1);
-
-      this.set('fill', GRAPHICS.headRectFill);
-    } else if (id !== 'master') {
-      // we need to set our color to something random
-      this.set('fill', randomHueString());
-    }
-  },
-
-  getCommitPosition: function() {
-    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
-    var visNode = commit.get('visNode');
-    return visNode.getScreenCoords();
-  },
-
-  getBranchStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other branches
-      return 0;
-    }
-
-    var myArray = this.getBranchStackArray();
-    var index = -1;
-    _.each(myArray, function(branch, i) {
-      if (branch.obj == this.get('branch')) {
-        index = i;
-      }
-    }, this);
-    return index;
-  },
-
-  getBranchStackLength: function() {
-    if (this.get('isHead')) { 
-      // head is always by itself
-      return 1;
-    }
-
-    return this.getBranchStackArray().length;
-  },
-
-  getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
-    if (arr === undefined) {
-      // this only occurs when we are generating graphics inside of
-      // a new Branch instantiation, so we need to force the update
-      this.gitVisuals.calcBranchStacks();
-      return this.getBranchStackArray();
-    }
-    return arr;
-  },
-
-  getTextPosition: function() {
-    var pos = this.getCommitPosition();
-
-    // then order yourself accordingly. we use alphabetical sorting
-    // so everything is independent
-    var myPos = this.getBranchStackIndex();
-    return {
-      x: pos.x + this.get('flip') * this.get('offsetX'),
-      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
-    };
-  },
-
-  getRectPosition: function() {
-    var pos = this.getTextPosition();
-    var f = this.get('flip');
-
-    // first get text width and height
-    var textSize = this.getTextSize();
-    return {
-      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
-      y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    }
-  },
-
-  getArrowPath: function() {
-    // should make these util functions...
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-    var toStringCoords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var f = this.get('flip');
-
-    var arrowTip = offset2d(this.getCommitPosition(),
-      f * this.get('arrowOffsetFromCircleX'),
-      0
-    );
-    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
-    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
-
-    var arrowInnerUp = offset2d(arrowEdgeUp,
-      f * this.get('arrowInnerSkew'),
-      this.get('arrowEdgeHeight')
-    );
-    var arrowInnerLow = offset2d(arrowEdgeLow,
-      f * this.get('arrowInnerSkew'),
-      -this.get('arrowEdgeHeight')
-    );
-
-    var tailLength = 49;
-    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
-    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
-
-    var pathStr = '';
-    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
-    var coords = [
-      arrowInnerUp,
-      arrowEdgeUp,
-      arrowTip,
-      arrowEdgeLow,
-      arrowInnerLow,
-      arrowStartLow
-    ];
-    _.each(coords, function(pos) {
-      pathStr += 'L' + toStringCoords(pos) + ' ';
-    }, this);
-    pathStr += 'z';
-    return pathStr;
-  },
-
-  getTextSize: function() {
-    var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
-    };
-
-    var textNode = this.get('text').node;
-    if (this.get('isHead')) {
-      // HEAD is a special case
-      return {
-        w: textNode.clientWidth,
-        h: textNode.clientHeight
-      };
-    }
-
-    var maxWidth = 0;
-    _.each(this.getBranchStackArray(), function(branch) {
-      maxWidth = Math.max(maxWidth, getTextWidth(
-        branch.obj.get('visBranch')
-      ));
-    });
-
-    return {
-      w: maxWidth,
-      h: textNode.clientHeight
-    };
-  },
-
-  getSingleRectSize: function() {
-    var textSize = this.getTextSize();
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h + hPad * 2
-    };
-  },
-
-  getRectSize: function() {
-    var textSize = this.getTextSize();
-    // enforce padding
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-
-    // number of other branch names we are housing
-    var totalNum = this.getBranchStackLength();
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum * 1.1 + hPad * 2
-    };
-  },
-
-  getName: function() {
-    var name = this.get('branch').get('id');
-    var selected = this.gitEngine.HEAD.get('target').get('id');
-
-    var add = (selected == name) ? '*' : '';
-    return name + add;
-  },
-
-  nonTextToFront: function() {
-    this.get('arrow').toFront();
-    this.get('rect').toFront();
-  },
-
-  textToFront: function() {
-    this.get('text').toFront();
-  },
-
-  getFill: function() {
-    // in the easy case, just return your own fill if you are:
-    // - the HEAD ref
-    // - by yourself (length of 1)
-    // - part of a multi branch, but your thing is hidden
-    if (this.get('isHead') ||
-        this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() != 0) {
-      return this.get('fill');
-    }
-
-    // woof. now it's hard, we need to blend hues...
-    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
-  },
-
-  remove: function() {
-    this.removeKeys(['text', 'arrow', 'rect']);
-    // also need to remove from this.gitVisuals
-    this.gitVisuals.removeVisBranch(this);
-  },
-
-  genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
-    var name = this.getName();
-    var text;
-
-    // when from a reload, we dont need to generate the text
-    text = paper.text(textPos.x, textPos.y, String(name));
-    text.attr({
-      'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getTextOpacity()
-    });
-    this.set('text', text);
-
-    var rectPos = this.getRectPosition();
-    var sizeOfRect = this.getRectSize();
-    var rect = paper
-      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(this.getAttributes().rect);
-    this.set('rect', rect);
-
-    var arrowPath = this.getArrowPath();
-    var arrow = paper
-      .path(arrowPath)
-      .attr(this.getAttributes().arrow);
-    this.set('arrow', arrow);
-
-    rect.toFront();
-    text.toFront();
-  },
-
-  updateName: function() {
-    this.get('text').attr({
-      text: this.getName()
-    });
-  },
-
-  getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
-  },
-
-  getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return 1;
-  },
-
-  getAttributes: function() {
-    var nonTextOpacity = this.getNonTextOpacity();
-    var textOpacity = this.getTextOpacity();
-    this.updateName();
-
-    var textPos = this.getTextPosition();
-    var rectPos = this.getRectPosition();
-    var rectSize = this.getRectSize();
-
-    var arrowPath = this.getArrowPath();
-
-    return {
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: textOpacity
-      },
-      rect: {
-        x: rectPos.x,
-        y: rectPos.y,
-        width: rectSize.w,
-        height: rectSize.h,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      },
-      arrow: {
-        path: arrowPath,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      }
-    };
-  },
-
-  animateUpdatedPos: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
-      this.get('text').attr(attr.text);
-      this.get('rect').attr(attr.rect);
-      this.get('arrow').attr(attr.arrow);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('text').stop().animate(attr.text, s, e);
-    this.get('rect').stop().animate(attr.rect, s, e);
-    this.get('arrow').stop().animate(attr.arrow, s, e);
-  }
-});
-
-
-var VisNode = VisBase.extend({
-  defaults: {
-    depth: undefined,
-    maxWidth: null,
-    outgoingEdges: null,
-
-    circle: null,
-    text: null,
-
-    id: null,
-    pos: null,
-    radius: null,
-
-    commit: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing,
-
-    fill: GRAPHICS.defaultNodeFill,
-    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
-    stroke: GRAPHICS.defaultNodeStroke
-  },
-
-  getID: function() {
-    return this.get('id');
-  },
-
-  validateAtInit: function() {
-    if (!this.get('id')) {
-      throw new Error('need id for mapping');
-    }
-    if (!this.get('commit')) {
-      throw new Error('need commit for linking');
-    }
-
-    if (!this.get('pos')) {
-      this.set('pos', {
-        x: Math.random(),
-        y: Math.random()
-      });
-    }
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.set('outgoingEdges', []);
-  },
-
-  setDepth: function(depth) {
-    // for merge commits we need to max the depths across all
-    this.set('depth', Math.max(this.get('depth') || 0, depth));
-  },
-
-  setDepthBasedOn: function(depthIncrement) {
-    if (this.get('depth') === undefined) {
-      debugger
-      throw new Error('no depth yet!');
-    }
-    var pos = this.get('pos');
-    pos.y = this.get('depth') * depthIncrement;
-  },
-
-  getMaxWidthScaled: function() {
-    // returns our max width scaled based on if we are visible
-    // from a branch or not
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    var map = {
-      branch: 1,
-      head: 0.3,
-      none: 0.1
-    };
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat] * this.get('maxWidth');
-  },
-
-  toFront: function() {
-    this.get('circle').toFront();
-    this.get('text').toFront();
-  },
-
-  getOpacity: function() {
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.upstreamHeadOpacity,
-      'none': GRAPHICS.upstreamNoneOpacity
-    };
-
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    if (map[stat] === undefined) {
-      throw new Error('invalid status');
-    }
-    return map[stat];
-  },
-
-  getTextScreenCoords: function() {
-    return this.getScreenCoords();
-  },
-
-  getAttributes: function() {
-    var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-    var opacity = this.getOpacity();
-
-    return {
-      circle: {
-        cx: pos.x,
-        cy: pos.y,
-        opacity: opacity,
-        r: this.getRadius(),
-        fill: this.getFill(),
-        'stroke-width': this.get('stroke-width'),
-        stroke: this.get('stroke')
-      },
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: opacity
-      }
-    };
-  },
-
-  highlightTo: function(visObj, speed, easing) {
-    // a small function to highlight the color of a node for demonstration purposes
-    var color = visObj.get('fill');
-
-    var attr = {
-      circle: {
-        fill: color,
-        stroke: color,
-        'stroke-width': this.get('stroke-width') * 5
-      },
-      text: {}
-    };
-
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateUpdatedPosition: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToSnapshot: function(snapShot, speed, easing) {
-    if (!snapShot[this.getID()]) {
-      return;
-    }
-    this.animateToAttr(snapShot[this.getID()], speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
-      this.get('circle').attr(attr.circle);
-      this.get('text').attr(attr.text);
-      return;
-    }
-    
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('circle').stop().animate(attr.circle, s, e);
-    this.get('text').stop().animate(attr.text, s, e);
-
-    // animate the x attribute without bouncing so it looks like there's
-    // gravity in only one direction. Just a small animation polish
-    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
-    this.get('text').animate(attr.text.x, s, 'easeInOut');
-  },
-
-  getScreenCoords: function() {
-    var pos = this.get('pos');
-    return this.gitVisuals.toScreenCoords(pos);
-  },
-
-  getRadius: function() {
-    return this.get('radius') || GRAPHICS.nodeRadius;
-  },
-
-  getParentScreenCoords: function() {
-    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
-  },
-
-  setBirthPosition: function() {
-    // utility method for animating it out from underneath a parent
-    var parentCoords = this.getParentScreenCoords();
-
-    this.get('circle').attr({
-      cx: parentCoords.x,
-      cy: parentCoords.y,
-      opacity: 0,
-      r: 0,
-    });
-    this.get('text').attr({
-      x: parentCoords.x,
-      y: parentCoords.y,
-      opacity: 0,
-    });
-  },
-
-  setBirthFromSnapshot: function(beforeSnapshot) {
-    // first get parent attribute
-    // woof bad data access. TODO
-    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
-    var parentAttr = beforeSnapshot[parentID];
-
-    // then set myself faded on top of parent
-    this.get('circle').attr({
-      opacity: 0,
-      r: 0,
-      cx: parentAttr.circle.cx,
-      cy: parentAttr.circle.cy
-    });
-
-    this.get('text').attr({
-      opacity: 0,
-      x: parentAttr.text.x,
-      y: parentAttr.text.y
-    });
-
-    // then do edges
-    var parentCoords = {
-      x: parentAttr.circle.cx,
-      y: parentAttr.circle.cy
-    };
-    this.setOutgoingEdgesBirthPosition(parentCoords);
-  },
-
-  setBirth: function() {
-    this.setBirthPosition();
-    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
-  },
-
-  setOutgoingEdgesOpacity: function(opacity) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.setOpacity(opacity);
-    });
-  },
-
-  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var attr = snapShot[edge.getID()];
-      edge.animateToAttr(attr);
-    }, this);
-  },
-
-  animateOutgoingEdges: function(speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.animateUpdatedPath(speed, easing);
-    }, this);
-  },
-
-  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var attr = snapshot[edge.getID()];
-      edge.animateToAttr(attr, speed, easing);
-    }, this);
-  },
-
-  setOutgoingEdgesBirthPosition: function(parentCoords) {
-
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var headPos = edge.get('head').getScreenCoords();
-      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
-      edge.get('path').stop().attr({
-        path: path,
-        opacity: 0
-      });
-    }, this);
-  },
-
-  parentInFront: function() {
-    // woof! talk about bad data access
-    this.get('commit').get('parents')[0].get('visNode').toFront();
-  },
-
-  getFontSize: function(str) {
-    if (str.length < 3) {
-      return 12;
-    } else if (str.length < 5) {
-      return 10;
-    } else {
-      return 8;
-    }
-  },
-
-  getFill: function() {
-    // first get our status, might be easy from this
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    if (stat == 'head') {
-      return GRAPHICS.headRectFill;
-    } else if (stat == 'none') {
-      return GRAPHICS.orphanNodeFill;
-    }
-
-    // now we need to get branch hues
-
-    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
-    return this.get('fill');
-  },
-
-  attachClickHandlers: function() {
-    var commandStr = 'git show ' + this.get('commit').get('id');
-    _.each([this.get('circle'), this.get('text')], function(rObj) {
-      rObj.click(function() {
-        Main.getEvents().trigger('processCommandFromEvent', commandStr);
-      });
-    });
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    // set the opacity on my stuff
-    var keys = ['circle', 'text'];
-    _.each(keys, function(key) {
-      this.get(key).attr({
-        opacity: opacity
-      });
-    }, this);
-  },
-
-  remove: function() {
-    this.removeKeys(['circle'], ['text']);
-    // needs a manual removal of text for whatever reason
-    this.get('text').remove();
-
-    this.gitVisuals.removeVisNode(this);
-  },
-
-  removeAll: function() {
-    this.remove();
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.remove();
-    }, this);
-  },
-
-  genGraphics: function() {
-    var paper = this.gitVisuals.paper;
-
-    var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-
-    var circle = paper.circle(
-      pos.x,
-      pos.y,
-      this.getRadius()
-    ).attr(this.getAttributes().circle);
-
-    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
-    text.attr({
-      'font-size': this.getFontSize(this.get('id')),
-      'font-weight': 'bold',
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getOpacity()
-    });
-
-    this.set('circle', circle);
-    this.set('text', text);
-
-    this.attachClickHandlers();
-  }
-});
-
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
-  },
-
-  getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.get('tail').get('outgoingEdges').push(this);
-  },
-
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
-  },
-
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
-
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
-
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
-    };
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
-
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
-
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
-
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
-  },
-
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
-
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    this.get('path').attr({opacity: opacity});
-  },
-
-  genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
-
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
-    });
-    path.toBack();
-    this.set('path', path);
-  },
-
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
-
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
-  },
-
-  getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
-    return {
-      path: {
-        path: newPath,
-        opacity: opacity
-      }
-    };
-  },
-
-  animateUpdatedPath: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
-      this.get('path').attr(attr.path);
-      return;
-    }
-
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  },
-
-});
-
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
-
-var VisBranchCollection = Backbone.Collection.extend({
-  model: VisBranch
-});
-
-exports.VisEdgeCollection = VisEdgeCollection;
-exports.VisBranchCollection = VisBranchCollection;
-exports.VisNode = VisNode;
-exports.VisEdge = VisEdge;
-exports.VisBranch = VisBranch;
-
-
-
-});
-
-require.define("/main.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactory = require('./animationFactory').AnimationFactory;
-var CommandCollection = require('./collections').CommandCollection;
-var CommandBuffer = require('./collections').CommandBuffer;
-var CommandPromptView = require('./commandViews').CommandPromptView;
-var CommandLineHistoryView = require('./commandViews').CommandLineHistoryView;
-var Visualization = require('./visuals').Visualization;
-
-/**
- * Globals
- */
-var events = _.clone(Backbone.Events);
-var ui = null;
-var animationFactory = null;
-
-/**
- * Static Classes
- */
-animationFactory = new AnimationFactory();
-
-///////////////////////////////////////////////////////////////////////
-
-$(document).ready(function(){
-  ui = new UI();
-  mainVis = new Visualization({
-    el: $('#canvasWrapper')[0]  
-  });
-
-  if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
-    }, 500);
-  }
-});
-
-function UI() {
-  // static classes
-  this.commandCollection = new CommandCollection();
-
-  this.commandBuffer = new CommandBuffer({
-    collection: this.commandCollection
-  });
-
-  this.commandPromptView = new CommandPromptView({
-    el: $('#commandLineBar'),
-    collection: this.commandCollection
-  });
-  this.commandLineHistoryView = new CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
-
-  $('#commandTextField').focus();
-}
-
-exports.getEvents = function() {
-  return events;
-};
-exports.ui = ui;
-exports.animationFactory = animationFactory;
-
-
-});
-require("/main.js");
-
-require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-}; 
-
-var VisBase = Backbone.Model.extend({
-  removeKeys: function(keys) {
-    _.each(keys, function(key) {
-      if (this.get(key)) {
-        this.get(key).remove();
-      }
-    }, this);
-  }
-});
-
-var VisBranch = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    arrow: null,
-    isHead: false,
-    flip: 1,
-
-    fill: GRAPHICS.rectFill,
-    stroke: GRAPHICS.rectStroke,
-    'stroke-width': GRAPHICS.rectStrokeWidth,
-
-    offsetX: GRAPHICS.nodeRadius * 4.75,
-    offsetY: 0,
-    arrowHeight: 14,
-    arrowInnerSkew: 0,
-    arrowEdgeHeight: 6,
-    arrowLength: 14,
-    arrowOffsetFromCircleX: 10,
-
-    vPad: 5,
-    hPad: 5,
-
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    if (!this.get('branch')) {
-      throw new Error('need a branch!');
-    }
-  },
-
-  getFill: function() {
-    return this.get('fill');
-  },
-
-  getID: function() {
-    return this.get('branch').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand notation for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) { 
-      console.log('throw damnit');
-      throw new Error('asd');
-    }
-
-    this.get('branch').set('visBranch', this);
-    var id = this.get('branch').get('id');
-
-    if (id == 'HEAD') {
-      // switch to a head ref
-      this.set('isHead', true);
-      this.set('flip', -1);
-
-      this.set('fill', GRAPHICS.headRectFill);
-    } else if (id !== 'master') {
-      // we need to set our color to something random
-      this.set('fill', randomHueString());
-    }
-  },
-
-  getCommitPosition: function() {
-    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
-    var visNode = commit.get('visNode');
-    return visNode.getScreenCoords();
-  },
-
-  getBranchStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other branches
-      return 0;
-    }
-
-    var myArray = this.getBranchStackArray();
-    var index = -1;
-    _.each(myArray, function(branch, i) {
-      if (branch.obj == this.get('branch')) {
-        index = i;
-      }
-    }, this);
-    return index;
-  },
-
-  getBranchStackLength: function() {
-    if (this.get('isHead')) { 
-      // head is always by itself
-      return 1;
-    }
-
-    return this.getBranchStackArray().length;
-  },
-
-  getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
-    if (arr === undefined) {
-      // this only occurs when we are generating graphics inside of
-      // a new Branch instantiation, so we need to force the update
-      this.gitVisuals.calcBranchStacks();
-      return this.getBranchStackArray();
-    }
-    return arr;
-  },
-
-  getTextPosition: function() {
-    var pos = this.getCommitPosition();
-
-    // then order yourself accordingly. we use alphabetical sorting
-    // so everything is independent
-    var myPos = this.getBranchStackIndex();
-    return {
-      x: pos.x + this.get('flip') * this.get('offsetX'),
-      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
-    };
-  },
-
-  getRectPosition: function() {
-    var pos = this.getTextPosition();
-    var f = this.get('flip');
-
-    // first get text width and height
-    var textSize = this.getTextSize();
-    return {
-      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
-      y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    }
-  },
-
-  getArrowPath: function() {
-    // should make these util functions...
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-    var toStringCoords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var f = this.get('flip');
-
-    var arrowTip = offset2d(this.getCommitPosition(),
-      f * this.get('arrowOffsetFromCircleX'),
-      0
-    );
-    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
-    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
-
-    var arrowInnerUp = offset2d(arrowEdgeUp,
-      f * this.get('arrowInnerSkew'),
-      this.get('arrowEdgeHeight')
-    );
-    var arrowInnerLow = offset2d(arrowEdgeLow,
-      f * this.get('arrowInnerSkew'),
-      -this.get('arrowEdgeHeight')
-    );
-
-    var tailLength = 49;
-    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
-    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
-
-    var pathStr = '';
-    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
-    var coords = [
-      arrowInnerUp,
-      arrowEdgeUp,
-      arrowTip,
-      arrowEdgeLow,
-      arrowInnerLow,
-      arrowStartLow
-    ];
-    _.each(coords, function(pos) {
-      pathStr += 'L' + toStringCoords(pos) + ' ';
-    }, this);
-    pathStr += 'z';
-    return pathStr;
-  },
-
-  getTextSize: function() {
-    var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
-    };
-
-    var textNode = this.get('text').node;
-    if (this.get('isHead')) {
-      // HEAD is a special case
-      return {
-        w: textNode.clientWidth,
-        h: textNode.clientHeight
-      };
-    }
-
-    var maxWidth = 0;
-    _.each(this.getBranchStackArray(), function(branch) {
-      maxWidth = Math.max(maxWidth, getTextWidth(
-        branch.obj.get('visBranch')
-      ));
-    });
-
-    return {
-      w: maxWidth,
-      h: textNode.clientHeight
-    };
-  },
-
-  getSingleRectSize: function() {
-    var textSize = this.getTextSize();
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h + hPad * 2
-    };
-  },
-
-  getRectSize: function() {
-    var textSize = this.getTextSize();
-    // enforce padding
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-
-    // number of other branch names we are housing
-    var totalNum = this.getBranchStackLength();
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum * 1.1 + hPad * 2
-    };
-  },
-
-  getName: function() {
-    var name = this.get('branch').get('id');
-    var selected = this.gitEngine.HEAD.get('target').get('id');
-
-    var add = (selected == name) ? '*' : '';
-    return name + add;
-  },
-
-  nonTextToFront: function() {
-    this.get('arrow').toFront();
-    this.get('rect').toFront();
-  },
-
-  textToFront: function() {
-    this.get('text').toFront();
-  },
-
-  getFill: function() {
-    // in the easy case, just return your own fill if you are:
-    // - the HEAD ref
-    // - by yourself (length of 1)
-    // - part of a multi branch, but your thing is hidden
-    if (this.get('isHead') ||
-        this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() != 0) {
-      return this.get('fill');
-    }
-
-    // woof. now it's hard, we need to blend hues...
-    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
-  },
-
-  remove: function() {
-    this.removeKeys(['text', 'arrow', 'rect']);
-    // also need to remove from this.gitVisuals
-    this.gitVisuals.removeVisBranch(this);
-  },
-
-  genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
-    var name = this.getName();
-    var text;
-
-    // when from a reload, we dont need to generate the text
-    text = paper.text(textPos.x, textPos.y, String(name));
-    text.attr({
-      'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getTextOpacity()
-    });
-    this.set('text', text);
-
-    var rectPos = this.getRectPosition();
-    var sizeOfRect = this.getRectSize();
-    var rect = paper
-      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(this.getAttributes().rect);
-    this.set('rect', rect);
-
-    var arrowPath = this.getArrowPath();
-    var arrow = paper
-      .path(arrowPath)
-      .attr(this.getAttributes().arrow);
-    this.set('arrow', arrow);
-
-    rect.toFront();
-    text.toFront();
-  },
-
-  updateName: function() {
-    this.get('text').attr({
-      text: this.getName()
-    });
-  },
-
-  getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
-  },
-
-  getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return 1;
-  },
-
-  getAttributes: function() {
-    var nonTextOpacity = this.getNonTextOpacity();
-    var textOpacity = this.getTextOpacity();
-    this.updateName();
-
-    var textPos = this.getTextPosition();
-    var rectPos = this.getRectPosition();
-    var rectSize = this.getRectSize();
-
-    var arrowPath = this.getArrowPath();
-
-    return {
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: textOpacity
-      },
-      rect: {
-        x: rectPos.x,
-        y: rectPos.y,
-        width: rectSize.w,
-        height: rectSize.h,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      },
-      arrow: {
-        path: arrowPath,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      }
-    };
-  },
-
-  animateUpdatedPos: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
-      this.get('text').attr(attr.text);
-      this.get('rect').attr(attr.rect);
-      this.get('arrow').attr(attr.arrow);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('text').stop().animate(attr.text, s, e);
-    this.get('rect').stop().animate(attr.rect, s, e);
-    this.get('arrow').stop().animate(attr.arrow, s, e);
-  }
-});
-
-
-var VisNode = VisBase.extend({
-  defaults: {
-    depth: undefined,
-    maxWidth: null,
-    outgoingEdges: null,
-
-    circle: null,
-    text: null,
-
-    id: null,
-    pos: null,
-    radius: null,
-
-    commit: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing,
-
-    fill: GRAPHICS.defaultNodeFill,
-    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
-    stroke: GRAPHICS.defaultNodeStroke
-  },
-
-  getID: function() {
-    return this.get('id');
-  },
-
-  validateAtInit: function() {
-    if (!this.get('id')) {
-      throw new Error('need id for mapping');
-    }
-    if (!this.get('commit')) {
-      throw new Error('need commit for linking');
-    }
-
-    if (!this.get('pos')) {
-      this.set('pos', {
-        x: Math.random(),
-        y: Math.random()
-      });
-    }
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.set('outgoingEdges', []);
-  },
-
-  setDepth: function(depth) {
-    // for merge commits we need to max the depths across all
-    this.set('depth', Math.max(this.get('depth') || 0, depth));
-  },
-
-  setDepthBasedOn: function(depthIncrement) {
-    if (this.get('depth') === undefined) {
-      debugger
-      throw new Error('no depth yet!');
-    }
-    var pos = this.get('pos');
-    pos.y = this.get('depth') * depthIncrement;
-  },
-
-  getMaxWidthScaled: function() {
-    // returns our max width scaled based on if we are visible
-    // from a branch or not
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    var map = {
-      branch: 1,
-      head: 0.3,
-      none: 0.1
-    };
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat] * this.get('maxWidth');
-  },
-
-  toFront: function() {
-    this.get('circle').toFront();
-    this.get('text').toFront();
-  },
-
-  getOpacity: function() {
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.upstreamHeadOpacity,
-      'none': GRAPHICS.upstreamNoneOpacity
-    };
-
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    if (map[stat] === undefined) {
-      throw new Error('invalid status');
-    }
-    return map[stat];
-  },
-
-  getTextScreenCoords: function() {
-    return this.getScreenCoords();
-  },
-
-  getAttributes: function() {
-    var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-    var opacity = this.getOpacity();
-
-    return {
-      circle: {
-        cx: pos.x,
-        cy: pos.y,
-        opacity: opacity,
-        r: this.getRadius(),
-        fill: this.getFill(),
-        'stroke-width': this.get('stroke-width'),
-        stroke: this.get('stroke')
-      },
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: opacity
-      }
-    };
-  },
-
-  highlightTo: function(visObj, speed, easing) {
-    // a small function to highlight the color of a node for demonstration purposes
-    var color = visObj.get('fill');
-
-    var attr = {
-      circle: {
-        fill: color,
-        stroke: color,
-        'stroke-width': this.get('stroke-width') * 5
-      },
-      text: {}
-    };
-
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateUpdatedPosition: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToSnapshot: function(snapShot, speed, easing) {
-    if (!snapShot[this.getID()]) {
-      return;
-    }
-    this.animateToAttr(snapShot[this.getID()], speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
-      this.get('circle').attr(attr.circle);
-      this.get('text').attr(attr.text);
-      return;
-    }
-    
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('circle').stop().animate(attr.circle, s, e);
-    this.get('text').stop().animate(attr.text, s, e);
-
-    // animate the x attribute without bouncing so it looks like there's
-    // gravity in only one direction. Just a small animation polish
-    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
-    this.get('text').animate(attr.text.x, s, 'easeInOut');
-  },
-
-  getScreenCoords: function() {
-    var pos = this.get('pos');
-    return this.gitVisuals.toScreenCoords(pos);
-  },
-
-  getRadius: function() {
-    return this.get('radius') || GRAPHICS.nodeRadius;
-  },
-
-  getParentScreenCoords: function() {
-    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
-  },
-
-  setBirthPosition: function() {
-    // utility method for animating it out from underneath a parent
-    var parentCoords = this.getParentScreenCoords();
-
-    this.get('circle').attr({
-      cx: parentCoords.x,
-      cy: parentCoords.y,
-      opacity: 0,
-      r: 0,
-    });
-    this.get('text').attr({
-      x: parentCoords.x,
-      y: parentCoords.y,
-      opacity: 0,
-    });
-  },
-
-  setBirthFromSnapshot: function(beforeSnapshot) {
-    // first get parent attribute
-    // woof bad data access. TODO
-    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
-    var parentAttr = beforeSnapshot[parentID];
-
-    // then set myself faded on top of parent
-    this.get('circle').attr({
-      opacity: 0,
-      r: 0,
-      cx: parentAttr.circle.cx,
-      cy: parentAttr.circle.cy
-    });
-
-    this.get('text').attr({
-      opacity: 0,
-      x: parentAttr.text.x,
-      y: parentAttr.text.y
-    });
-
-    // then do edges
-    var parentCoords = {
-      x: parentAttr.circle.cx,
-      y: parentAttr.circle.cy
-    };
-    this.setOutgoingEdgesBirthPosition(parentCoords);
-  },
-
-  setBirth: function() {
-    this.setBirthPosition();
-    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
-  },
-
-  setOutgoingEdgesOpacity: function(opacity) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.setOpacity(opacity);
-    });
-  },
-
-  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var attr = snapShot[edge.getID()];
-      edge.animateToAttr(attr);
-    }, this);
-  },
-
-  animateOutgoingEdges: function(speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.animateUpdatedPath(speed, easing);
-    }, this);
-  },
-
-  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var attr = snapshot[edge.getID()];
-      edge.animateToAttr(attr, speed, easing);
-    }, this);
-  },
-
-  setOutgoingEdgesBirthPosition: function(parentCoords) {
-
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var headPos = edge.get('head').getScreenCoords();
-      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
-      edge.get('path').stop().attr({
-        path: path,
-        opacity: 0
-      });
-    }, this);
-  },
-
-  parentInFront: function() {
-    // woof! talk about bad data access
-    this.get('commit').get('parents')[0].get('visNode').toFront();
-  },
-
-  getFontSize: function(str) {
-    if (str.length < 3) {
-      return 12;
-    } else if (str.length < 5) {
-      return 10;
-    } else {
-      return 8;
-    }
-  },
-
-  getFill: function() {
-    // first get our status, might be easy from this
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    if (stat == 'head') {
-      return GRAPHICS.headRectFill;
-    } else if (stat == 'none') {
-      return GRAPHICS.orphanNodeFill;
-    }
-
-    // now we need to get branch hues
-
-    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
-    return this.get('fill');
-  },
-
-  attachClickHandlers: function() {
-    var commandStr = 'git show ' + this.get('commit').get('id');
-    _.each([this.get('circle'), this.get('text')], function(rObj) {
-      rObj.click(function() {
-        Main.getEvents().trigger('processCommandFromEvent', commandStr);
-      });
-    });
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    // set the opacity on my stuff
-    var keys = ['circle', 'text'];
-    _.each(keys, function(key) {
-      this.get(key).attr({
-        opacity: opacity
-      });
-    }, this);
-  },
-
-  remove: function() {
-    this.removeKeys(['circle'], ['text']);
-    // needs a manual removal of text for whatever reason
-    this.get('text').remove();
-
-    this.gitVisuals.removeVisNode(this);
-  },
-
-  removeAll: function() {
-    this.remove();
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.remove();
-    }, this);
-  },
-
-  genGraphics: function() {
-    var paper = this.gitVisuals.paper;
-
-    var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-
-    var circle = paper.circle(
-      pos.x,
-      pos.y,
-      this.getRadius()
-    ).attr(this.getAttributes().circle);
-
-    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
-    text.attr({
-      'font-size': this.getFontSize(this.get('id')),
-      'font-weight': 'bold',
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getOpacity()
-    });
-
-    this.set('circle', circle);
-    this.set('text', text);
-
-    this.attachClickHandlers();
-  }
-});
-
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
-  },
-
-  getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.get('tail').get('outgoingEdges').push(this);
-  },
-
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
-  },
-
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
-
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
-
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
-    };
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
-
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
-
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
-
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
-  },
-
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
-
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    this.get('path').attr({opacity: opacity});
-  },
-
-  genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
-
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
-    });
-    path.toBack();
-    this.set('path', path);
-  },
-
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
-
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
-  },
-
-  getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
-    return {
-      path: {
-        path: newPath,
-        opacity: opacity
-      }
-    };
-  },
-
-  animateUpdatedPath: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
-      this.get('path').attr(attr.path);
-      return;
-    }
-
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  },
-
-});
-
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
-
-var VisBranchCollection = Backbone.Collection.extend({
-  model: VisBranch
-});
-
-exports.VisEdgeCollection = VisEdgeCollection;
-exports.VisBranchCollection = VisBranchCollection;
-exports.VisNode = VisNode;
-exports.VisEdge = VisEdge;
-exports.VisBranch = VisBranch;
-
-
-
-});
-require("/tree.js");
-
-require.define("/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
- * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
- * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
- * or something, it must animate out from the parent position to it's birth position.
-
- * These two positions though may not be where the commit finally ends up. So we actually need to take a snapshot of the tree,
- * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
- * and then essentially animate the entire tree too.
- */
-
-// essentially a static class
-var AnimationFactory = function() {
-
-}
-
-AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
-  if (!animationQueue) {
-    throw new Error("Need animation queue to add closure to!");
-  }
-
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 2;
-
-  // essentially refresh the entire tree, but do a special thing for the commit
-  var visNode = commit.get('visNode');
-
-  var animation = function() {
-    // this takes care of refs and all that jazz, and updates all the positions
-    gitVisuals.refreshTree(time);
-
-    visNode.setBirth();
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateUpdatedPosition(bounceTime, 'bounce');
-    visNode.animateOutgoingEdges(time);
-  };
-
-  animationQueue.add(new Animation({
-    closure: animation,
-    duration: Math.max(time, bounceTime)
-  }));
-};
-
-AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
-  opacity = (opacity === undefined) ? 1 : opacity;
-
-  var newAttr = {};
-
-  _.each(attr, function(partObj, partName) {
-    newAttr[partName] = {};
-    _.each(partObj, function(val, key) {
-      if (key == 'opacity') {
-        newAttr[partName][key] = opacity;
-      } else {
-        newAttr[partName][key] = val;
-      }
-    });
-  });
-  return newAttr;
-};
-
-AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
-  var newSnap = {};
-
-  _.each(snapShot, function(visObj, visID) {
-    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
-  }, this);
-  return newSnap;
-};
-
-AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 1.5;
-
-  var visNode = step.newCommit.get('visNode');
-  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
-  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
-
-  var animation = function() {
-    visNode.setBirthFromSnapshot(step.beforeSnapshot);
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
-    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
-  };
-
-  return animation;
-};
-
-AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
-  animationQueue.add(new Animation({
-    closure: function() {
-      gitVisuals.refreshTree();
-    }
-  }));
-};
-
-AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-
-  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
-  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
-};
-
-AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  var slowTime = fullTime * 2.0;
-
-  // we want to highlight all the old commits
-  var oldCommits = rebaseResponse.toRebaseArray;
-  // we are either highlighting to a visBranch or a visNode
-  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
-  if (!visBranch) {
-    // in the case where we rebase onto a commit
-    visBranch = rebaseResponse.destinationBranch.get('visNode');
-  }
-
-  _.each(oldCommits, function(oldCommit) {
-    var visNode = oldCommit.get('visNode');
-    animationQueue.add(new Animation({
-      closure: function() {
-        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
-      },
-      duration: fullTime * 1.5
-    }));
-
-  }, this);
-
-  this.delay(animationQueue, fullTime * 2);
-};
-
-AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-  var rebaseSteps = rebaseResponse.rebaseSteps;
-
-  var newVisNodes = [];
-  _.each(rebaseSteps, function(step) {
-    var visNode = step.newCommit.get('visNode');
-
-    newVisNodes.push(visNode);
-    visNode.setOpacity(0);
-    visNode.setOutgoingEdgesOpacity(0);
-  }, this);
-
-  var previousVisNodes = [];
-  _.each(rebaseSteps, function(rebaseStep, index) {
-    var toOmit = newVisNodes.slice(index + 1);
-
-    var snapshotPart = this.genFromToSnapshotAnimation(
-      rebaseStep.beforeSnapshot,
-      rebaseStep.afterSnapshot,
-      toOmit,
-      previousVisNodes,
-      gitVisuals
-    );
-    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
-
-    var animation = function() {
-      snapshotPart();
-      birthPart();
-    };
-        
-    animationQueue.add(new Animation({
-      closure: animation,
-      duration: GRAPHICS.defaultAnimationTime * 1.5
-    }));
-
-    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
-  }, this);
-
-  // need to delay to let bouncing finish
-  this.delay(animationQueue);
-
-  this.refreshTree(animationQueue, gitVisuals);
-};
-
-AnimationFactory.prototype.delay = function(animationQueue, time) {
-  time = time || GRAPHICS.defaultAnimationTime;
-  animationQueue.add(new Animation({
-    closure: function() { },
-    duration: time
-  }));
-};
-
-AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
-  // need to slice for closure
-  var nodesToAnimate = visNodes.slice(0);
-
-  return function() {
-    _.each(nodesToAnimate, function(visNode) {
-      visNode.setOpacity(opacity);
-      visNode.setOutgoingEdgesOpacity(opacity);
-    });
-  };
-};
-
-AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
-  var ids = [];
-  _.each(toOmit, function(obj) {
-    ids.push(obj.getID());
-  });
-
-  var newSnapshot = {};
-  _.each(snapShot, function(val, key) {
-    if (_.include(ids, key)) {
-      // omit
-      return;
-    }
-    newSnapshot[key] = val;
-  }, this);
-  return newSnapshot;
-};
-
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(
-  beforeSnapshot,
-  afterSnapshot,
-  commitsToOmit,
-  commitsToFixOpacity,
-  gitVisuals) {
-
-  // we want to omit the commit outgoing edges
-  var toOmit = [];
-  _.each(commitsToOmit, function(visNode) {
-    toOmit.push(visNode);
-    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
-  });
-
-  var fixOpacity = function(obj) {
-    if (!obj) { return; }
-    _.each(obj, function(attr, partName) {
-      obj[partName].opacity = 1;
-    });
-  };
-
-  // HORRIBLE loop to fix opacities all throughout the snapshot
-  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
-    _.each(commitsToFixOpacity, function(visNode) {
-      fixOpacity(snapShot[visNode.getID()]);
-      _.each(visNode.get('outgoingEdges'), function(visEdge) {
-        fixOpacity(snapShot[visEdge.getID()]);
-      });
-    });
-  });
-
-  return function() {
-    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
-  };
-};
-
-exports.AnimationFactory = AnimationFactory;
-
-
-});
-require("/animationFactory.js");
 
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
@@ -7425,108 +6500,370 @@ exports.Ref = Ref;
 });
 require("/git.js");
 
-require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
-var Branch = require('./git').Branch;
-var Main = require('./main');
+require.define("/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
 
-var CommitCollection = Backbone.Collection.extend({
-  model: Commit
+    error: null,
+    warnings: null,
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null,
+
+    createTime: null
+  },
+
+  validateAtInit: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    this.parseOrCatch();
+  },
+
+  parseOrCatch: function() {
+    try {
+      this.parse();
+    } catch (err) {
+      if (err instanceof CommandProcessError ||
+          err instanceof GitError ||
+          err instanceof CommandResult ||
+          err instanceof Warning) {
+        // errorChanged() will handle status and all of that
+        this.set('error', err);
+      } else {
+        throw err;
+      }
+    }
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  getShortcutMap: function() {
+    return {
+      'git commit': /^gc($|\s)/,
+      'git add': /^ga($|\s)/,
+      'git checkout': /^gchk($|\s)/,
+      'git rebase': /^gr($|\s)/,
+      'git branch': /^gb($|\s)/
+    };
+  },
+
+  getRegexMap: function() {
+    return {
+      // ($|\s) means that we either have to end the string
+      // after the command or there needs to be a space for options
+      commit: /^commit($|\s)/,
+      add: /^add($|\s)/,
+      checkout: /^checkout($|\s)/,
+      rebase: /^rebase($|\s)/,
+      reset: /^reset($|\s)/,
+      branch: /^branch($|\s)/,
+      revert: /^revert($|\s)/,
+      log: /^log($|\s)/,
+      merge: /^merge($|\s)/,
+      show: /^show($|\s)/,
+      status: /^status($|\s)/,
+      'cherry-pick': /^cherry-pick($|\s)/
+    };
+  },
+
+  getSandboxCommands: function() {
+    return [
+      [/^ls/, function() {
+        throw new CommandResult({
+          msg: "DontWorryAboutFilesInThisDemo.txt"
+        });
+      }],
+      [/^cd/, function() {
+        throw new CommandResult({
+          msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+        });
+      }],
+      [/^git help($|\s)/, function() {
+        // sym link this to the blank git command
+        var allCommands = Command.prototype.getSandboxCommands();
+        // wow this is hacky :(
+        var equivalent = 'git';
+        _.each(allCommands, function(bits) {
+          var regex = bits[0];
+          if (regex.test(equivalent)) {
+            bits[1]();
+          }
+        });
+      }],
+      [/^git$/, function() {
+        var lines = [
+          'Git Version PCOTTLE.1.0',
+          '<br/>',
+          'Usage:',
+          _.escape('\t git <command> [<args>]'),
+          '<br/>',
+          'Supported commands:',
+          '<br/>',
+        ];
+        var commands = OptionParser.prototype.getMasterOptionMap();
+
+        // build up a nice display of what we support
+        _.each(commands, function(commandOptions, command) {
+          lines.push('git ' + command);
+          _.each(commandOptions, function(vals, optionName) {
+            lines.push('\t ' + optionName);
+          }, this);
+        }, this);
+
+        // format and throw
+        var msg = lines.join('\n');
+        msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+        throw new CommandResult({
+          msg: msg
+        });
+      }],
+      [/^refresh$/, function() {
+        events.trigger('refreshTree');
+        throw new CommandResult({
+          msg: "Refreshing tree..."
+        });
+      }],
+      [/^rollup (\d+)$/, function(bits) {
+        // go roll up these commands by joining them with semicolons
+        events.trigger('rollupCommands', bits[1]);
+        throw new CommandResult({
+          msg: 'Commands combined!'
+        });
+      }]
+    ];
+  },
+
+  parse: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then check if it's one of our sandbox commands
+    _.each(this.getSandboxCommands(), function(tuple) {
+      var regex = tuple[0];
+      var results = regex.exec(str);
+      if (results) {
+        tuple[1](results);
+      }
+    });
+
+    // then check if shortcut exists, and replace, but
+    // preserve options if so
+    _.each(this.getShortcutMap(), function(regex, method) {
+      var results = regex.exec(str);
+      if (results) {
+        str = method + ' ' + str.slice(results[0].length);
+      }
+    });
+
+    // see if begins with git
+    if (str.slice(0,3) !== 'git') {
+      throw new CommandProcessError({
+        msg: 'That command is not supported, sorry!'
+      });
+    }
+
+    // ok, we have a (probably) valid command. actually parse it
+    this.gitParse(str);
+  },
+
+  gitParse: function(str) {
+    // now slice off command part
+    var fullCommand = str.slice('git '.length);
+
+    // see if we support this particular command
+    _.each(this.getRegexMap(), function(regex, method) {
+      if (regex.exec(fullCommand)) {
+        this.set('options', fullCommand.slice(method.length + 1));
+        this.set('method', method);
+        // we should stop iterating, but the regex will only match
+        // one command in practice. we could stop iterating if we used
+        // jqeurys for each but im using underscore (for no real reason other
+        // than style)
+      }
+    }, this);
+
+    if (!this.get('method')) {
+      throw new CommandProcessError({
+        msg: "Sorry, this demo does not support that git command: " + fullCommand
+      });
+    }
+
+    // parse off the options and assemble the map / general args
+    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+
+    // steal these away so we can be completely JSON
+    this.set('generalArgs', optionParser.generalArgs);
+    this.set('supportedMap', optionParser.supportedMap);
+  },
 });
 
-var CommandCollection = Backbone.Collection.extend({
-  model: Command,
-});
+/**
+ * OptionParser
+ */
+function OptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
 
-var BranchCollection = Backbone.Collection.extend({
-  model: Branch
-});
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
 
-var CommandEntryCollection = Backbone.Collection.extend({
-  model: CommandEntry,
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+OptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false, // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+OptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+
+  // done!
+};
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
   localStorage: new Backbone.LocalStorage('CommandEntries')
 });
 
-var CommandBuffer = Backbone.Model.extend({
-  defaults: {
-    collection: null,
-  },
 
-  initialize: function(options) {
-    require('./main').getEvents().on('gitCommandReady', _.bind(
-      this.addCommand, this
-    ));
-
-    options.collection.bind('add', this.addCommand, this);
-
-    this.buffer = [];
-    this.timeout = null;
-  },
-
-  addCommand: function(command) {
-    this.buffer.push(command);
-    this.touchBuffer();
-  },
-
-  touchBuffer: function() {
-    // touch buffer just essentially means we just check if our buffer is being
-    // processed. if it's not, we immediately process the first item
-    // and then set the timeout.
-    if (this.timeout) {
-      // timeout existence implies its being processed
-      return;
-    }
-    this.setTimeout();
-  },
-
-
-  setTimeout: function() {
-    this.timeout = setTimeout(_.bind(function() {
-        this.sipFromBuffer();
-    }, this), TIME.betweenCommandsDelay);
-  },
-
-  popAndProcess: function() {
-    var popped = this.buffer.shift(0);
-    var callback = _.bind(function() {
-      this.setTimeout();
-    }, this);
-
-    // find a command with no error
-    while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.pop();
-    }
-    if (!popped.get('error')) {
-      // pass in a callback, so when this command is "done" we will process the next.
-      Main.getEvents().trigger('processCommand', popped, callback);
-    } else {
-      this.clear();
-    }
-  },
-
-  clear: function() {
-    clearTimeout(this.timeout);
-    this.timeout = null;
-  },
-
-  sipFromBuffer: function() {
-    if (!this.buffer.length) {
-      this.clear();
-      return;
-    }
-
-    this.popAndProcess();
-  },
-});
-
-exports.CommitCollection = CommitCollection;
-exports.CommandCollection = CommandCollection;
-exports.BranchCollection = BranchCollection;
-exports.CommandEntryCollection = CommandEntryCollection;
-exports.CommandBuffer = CommandBuffer;
+exports.CommandEntry = CommandEntry;
+exports.CommandModel = CommandModel;
 
 
 });
-require("/collections.js");
+require("/commandModel.js");
 
 require.define("/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('./collections').CommandEntryCollection;
 var Main = require('./main');
@@ -7919,6 +7256,110 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 require("/commandViews.js");
+
+require.define("/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('./git').Commit;
+var Branch = require('./git').Branch;
+var Main = require('./main');
+var Command = require('./commandModel').Command;
+
+var CommitCollection = Backbone.Collection.extend({
+  model: Commit
+});
+
+var CommandCollection = Backbone.Collection.extend({
+  model: Command,
+});
+
+var BranchCollection = Backbone.Collection.extend({
+  model: Branch
+});
+
+var CommandEntryCollection = Backbone.Collection.extend({
+  model: CommandEntry,
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
+var CommandBuffer = Backbone.Model.extend({
+  defaults: {
+    collection: null,
+  },
+
+  initialize: function(options) {
+    require('./main').getEvents().on('gitCommandReady', _.bind(
+      this.addCommand, this
+    ));
+
+    options.collection.bind('add', this.addCommand, this);
+
+    this.buffer = [];
+    this.timeout = null;
+  },
+
+  addCommand: function(command) {
+    this.buffer.push(command);
+    this.touchBuffer();
+  },
+
+  touchBuffer: function() {
+    // touch buffer just essentially means we just check if our buffer is being
+    // processed. if it's not, we immediately process the first item
+    // and then set the timeout.
+    if (this.timeout) {
+      // timeout existence implies its being processed
+      return;
+    }
+    this.setTimeout();
+  },
+
+
+  setTimeout: function() {
+    this.timeout = setTimeout(_.bind(function() {
+        this.sipFromBuffer();
+    }, this), TIME.betweenCommandsDelay);
+  },
+
+  popAndProcess: function() {
+    var popped = this.buffer.shift(0);
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
+
+    // find a command with no error
+    while (popped.get('error') && this.buffer.length) {
+      popped = this.buffer.pop();
+    }
+    if (!popped.get('error')) {
+      // pass in a callback, so when this command is "done" we will process the next.
+      Main.getEvents().trigger('processCommand', popped, callback);
+    } else {
+      this.clear();
+    }
+  },
+
+  clear: function() {
+    clearTimeout(this.timeout);
+    this.timeout = null;
+  },
+
+  sipFromBuffer: function() {
+    if (!this.buffer.length) {
+      this.clear();
+      return;
+    }
+
+    this.popAndProcess();
+  },
+});
+
+exports.CommitCollection = CommitCollection;
+exports.CommandCollection = CommandCollection;
+exports.BranchCollection = BranchCollection;
+exports.CommandEntryCollection = CommandEntryCollection;
+exports.CommandBuffer = CommandBuffer;
+
+
+});
+require("/collections.js");
 
 require.define("/visuals.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
 
@@ -8603,4 +8044,1232 @@ exports.Visualization = Visualization;
 
 });
 require("/visuals.js");
+
+require.define("/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('./main');
+
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+}; 
+
+var VisBase = Backbone.Model.extend({
+  removeKeys: function(keys) {
+    _.each(keys, function(key) {
+      if (this.get(key)) {
+        this.get(key).remove();
+      }
+    }, this);
+  }
+});
+
+var VisBranch = VisBase.extend({
+  defaults: {
+    pos: null,
+    text: null,
+    rect: null,
+    arrow: null,
+    isHead: false,
+    flip: 1,
+
+    fill: GRAPHICS.rectFill,
+    stroke: GRAPHICS.rectStroke,
+    'stroke-width': GRAPHICS.rectStrokeWidth,
+
+    offsetX: GRAPHICS.nodeRadius * 4.75,
+    offsetY: 0,
+    arrowHeight: 14,
+    arrowInnerSkew: 0,
+    arrowEdgeHeight: 6,
+    arrowLength: 14,
+    arrowOffsetFromCircleX: 10,
+
+    vPad: 5,
+    hPad: 5,
+
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    if (!this.get('branch')) {
+      throw new Error('need a branch!');
+    }
+  },
+
+  getFill: function() {
+    return this.get('fill');
+  },
+
+  getID: function() {
+    return this.get('branch').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand notation for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+    if (!this.gitEngine) { 
+      console.log('throw damnit');
+      throw new Error('asd');
+    }
+
+    this.get('branch').set('visBranch', this);
+    var id = this.get('branch').get('id');
+
+    if (id == 'HEAD') {
+      // switch to a head ref
+      this.set('isHead', true);
+      this.set('flip', -1);
+
+      this.set('fill', GRAPHICS.headRectFill);
+    } else if (id !== 'master') {
+      // we need to set our color to something random
+      this.set('fill', randomHueString());
+    }
+  },
+
+  getCommitPosition: function() {
+    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
+    var visNode = commit.get('visNode');
+    return visNode.getScreenCoords();
+  },
+
+  getBranchStackIndex: function() {
+    if (this.get('isHead')) {
+      // head is never stacked with other branches
+      return 0;
+    }
+
+    var myArray = this.getBranchStackArray();
+    var index = -1;
+    _.each(myArray, function(branch, i) {
+      if (branch.obj == this.get('branch')) {
+        index = i;
+      }
+    }, this);
+    return index;
+  },
+
+  getBranchStackLength: function() {
+    if (this.get('isHead')) { 
+      // head is always by itself
+      return 1;
+    }
+
+    return this.getBranchStackArray().length;
+  },
+
+  getBranchStackArray: function() {
+    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    if (arr === undefined) {
+      // this only occurs when we are generating graphics inside of
+      // a new Branch instantiation, so we need to force the update
+      this.gitVisuals.calcBranchStacks();
+      return this.getBranchStackArray();
+    }
+    return arr;
+  },
+
+  getTextPosition: function() {
+    var pos = this.getCommitPosition();
+
+    // then order yourself accordingly. we use alphabetical sorting
+    // so everything is independent
+    var myPos = this.getBranchStackIndex();
+    return {
+      x: pos.x + this.get('flip') * this.get('offsetX'),
+      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
+    };
+  },
+
+  getRectPosition: function() {
+    var pos = this.getTextPosition();
+    var f = this.get('flip');
+
+    // first get text width and height
+    var textSize = this.getTextSize();
+    return {
+      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
+      y: pos.y - 0.5 * textSize.h - this.get('vPad')
+    }
+  },
+
+  getArrowPath: function() {
+    // should make these util functions...
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+    var toStringCoords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var f = this.get('flip');
+
+    var arrowTip = offset2d(this.getCommitPosition(),
+      f * this.get('arrowOffsetFromCircleX'),
+      0
+    );
+    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
+    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
+
+    var arrowInnerUp = offset2d(arrowEdgeUp,
+      f * this.get('arrowInnerSkew'),
+      this.get('arrowEdgeHeight')
+    );
+    var arrowInnerLow = offset2d(arrowEdgeLow,
+      f * this.get('arrowInnerSkew'),
+      -this.get('arrowEdgeHeight')
+    );
+
+    var tailLength = 49;
+    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
+    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
+
+    var pathStr = '';
+    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
+    var coords = [
+      arrowInnerUp,
+      arrowEdgeUp,
+      arrowTip,
+      arrowEdgeLow,
+      arrowInnerLow,
+      arrowStartLow
+    ];
+    _.each(coords, function(pos) {
+      pathStr += 'L' + toStringCoords(pos) + ' ';
+    }, this);
+    pathStr += 'z';
+    return pathStr;
+  },
+
+  getTextSize: function() {
+    var getTextWidth = function(visBranch) {
+      var textNode = visBranch.get('text').node;
+      return (textNode === null) ? 1 : textNode.clientWidth;
+    };
+
+    var textNode = this.get('text').node;
+    if (this.get('isHead')) {
+      // HEAD is a special case
+      return {
+        w: textNode.clientWidth,
+        h: textNode.clientHeight
+      };
+    }
+
+    var maxWidth = 0;
+    _.each(this.getBranchStackArray(), function(branch) {
+      maxWidth = Math.max(maxWidth, getTextWidth(
+        branch.obj.get('visBranch')
+      ));
+    });
+
+    return {
+      w: maxWidth,
+      h: textNode.clientHeight
+    };
+  },
+
+  getSingleRectSize: function() {
+    var textSize = this.getTextSize();
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h + hPad * 2
+    };
+  },
+
+  getRectSize: function() {
+    var textSize = this.getTextSize();
+    // enforce padding
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+
+    // number of other branch names we are housing
+    var totalNum = this.getBranchStackLength();
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h * totalNum * 1.1 + hPad * 2
+    };
+  },
+
+  getName: function() {
+    var name = this.get('branch').get('id');
+    var selected = this.gitEngine.HEAD.get('target').get('id');
+
+    var add = (selected == name) ? '*' : '';
+    return name + add;
+  },
+
+  nonTextToFront: function() {
+    this.get('arrow').toFront();
+    this.get('rect').toFront();
+  },
+
+  textToFront: function() {
+    this.get('text').toFront();
+  },
+
+  getFill: function() {
+    // in the easy case, just return your own fill if you are:
+    // - the HEAD ref
+    // - by yourself (length of 1)
+    // - part of a multi branch, but your thing is hidden
+    if (this.get('isHead') ||
+        this.getBranchStackLength() == 1 ||
+        this.getBranchStackIndex() != 0) {
+      return this.get('fill');
+    }
+
+    // woof. now it's hard, we need to blend hues...
+    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
+  },
+
+  remove: function() {
+    this.removeKeys(['text', 'arrow', 'rect']);
+    // also need to remove from this.gitVisuals
+    this.gitVisuals.removeVisBranch(this);
+  },
+
+  genGraphics: function(paper) {
+    var textPos = this.getTextPosition();
+    var name = this.getName();
+    var text;
+
+    // when from a reload, we dont need to generate the text
+    text = paper.text(textPos.x, textPos.y, String(name));
+    text.attr({
+      'font-size': 14,
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getTextOpacity()
+    });
+    this.set('text', text);
+
+    var rectPos = this.getRectPosition();
+    var sizeOfRect = this.getRectSize();
+    var rect = paper
+      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
+      .attr(this.getAttributes().rect);
+    this.set('rect', rect);
+
+    var arrowPath = this.getArrowPath();
+    var arrow = paper
+      .path(arrowPath)
+      .attr(this.getAttributes().arrow);
+    this.set('arrow', arrow);
+
+    rect.toFront();
+    text.toFront();
+  },
+
+  updateName: function() {
+    this.get('text').attr({
+      text: this.getName()
+    });
+  },
+
+  getNonTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
+  },
+
+  getTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return 1;
+  },
+
+  getAttributes: function() {
+    var nonTextOpacity = this.getNonTextOpacity();
+    var textOpacity = this.getTextOpacity();
+    this.updateName();
+
+    var textPos = this.getTextPosition();
+    var rectPos = this.getRectPosition();
+    var rectSize = this.getRectSize();
+
+    var arrowPath = this.getArrowPath();
+
+    return {
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: textOpacity
+      },
+      rect: {
+        x: rectPos.x,
+        y: rectPos.y,
+        width: rectSize.w,
+        height: rectSize.h,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      },
+      arrow: {
+        path: arrowPath,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      }
+    };
+  },
+
+  animateUpdatedPos: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed == 0) {
+      this.get('text').attr(attr.text);
+      this.get('rect').attr(attr.rect);
+      this.get('arrow').attr(attr.arrow);
+      return;
+    }
+
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('text').stop().animate(attr.text, s, e);
+    this.get('rect').stop().animate(attr.rect, s, e);
+    this.get('arrow').stop().animate(attr.arrow, s, e);
+  }
+});
+
+
+var VisNode = VisBase.extend({
+  defaults: {
+    depth: undefined,
+    maxWidth: null,
+    outgoingEdges: null,
+
+    circle: null,
+    text: null,
+
+    id: null,
+    pos: null,
+    radius: null,
+
+    commit: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing,
+
+    fill: GRAPHICS.defaultNodeFill,
+    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
+    stroke: GRAPHICS.defaultNodeStroke
+  },
+
+  getID: function() {
+    return this.get('id');
+  },
+
+  validateAtInit: function() {
+    if (!this.get('id')) {
+      throw new Error('need id for mapping');
+    }
+    if (!this.get('commit')) {
+      throw new Error('need commit for linking');
+    }
+
+    if (!this.get('pos')) {
+      this.set('pos', {
+        x: Math.random(),
+        y: Math.random()
+      });
+    }
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.set('outgoingEdges', []);
+  },
+
+  setDepth: function(depth) {
+    // for merge commits we need to max the depths across all
+    this.set('depth', Math.max(this.get('depth') || 0, depth));
+  },
+
+  setDepthBasedOn: function(depthIncrement) {
+    if (this.get('depth') === undefined) {
+      debugger
+      throw new Error('no depth yet!');
+    }
+    var pos = this.get('pos');
+    pos.y = this.get('depth') * depthIncrement;
+  },
+
+  getMaxWidthScaled: function() {
+    // returns our max width scaled based on if we are visible
+    // from a branch or not
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var map = {
+      branch: 1,
+      head: 0.3,
+      none: 0.1
+    };
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat] * this.get('maxWidth');
+  },
+
+  toFront: function() {
+    this.get('circle').toFront();
+    this.get('text').toFront();
+  },
+
+  getOpacity: function() {
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.upstreamHeadOpacity,
+      'none': GRAPHICS.upstreamNoneOpacity
+    };
+
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (map[stat] === undefined) {
+      throw new Error('invalid status');
+    }
+    return map[stat];
+  },
+
+  getTextScreenCoords: function() {
+    return this.getScreenCoords();
+  },
+
+  getAttributes: function() {
+    var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+    var opacity = this.getOpacity();
+
+    return {
+      circle: {
+        cx: pos.x,
+        cy: pos.y,
+        opacity: opacity,
+        r: this.getRadius(),
+        fill: this.getFill(),
+        'stroke-width': this.get('stroke-width'),
+        stroke: this.get('stroke')
+      },
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: opacity
+      }
+    };
+  },
+
+  highlightTo: function(visObj, speed, easing) {
+    // a small function to highlight the color of a node for demonstration purposes
+    var color = visObj.get('fill');
+
+    var attr = {
+      circle: {
+        fill: color,
+        stroke: color,
+        'stroke-width': this.get('stroke-width') * 5
+      },
+      text: {}
+    };
+
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateUpdatedPosition: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToSnapshot: function(snapShot, speed, easing) {
+    if (!snapShot[this.getID()]) {
+      return;
+    }
+    this.animateToAttr(snapShot[this.getID()], speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed == 0) {
+      this.get('circle').attr(attr.circle);
+      this.get('text').attr(attr.text);
+      return;
+    }
+    
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('circle').stop().animate(attr.circle, s, e);
+    this.get('text').stop().animate(attr.text, s, e);
+
+    // animate the x attribute without bouncing so it looks like there's
+    // gravity in only one direction. Just a small animation polish
+    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
+    this.get('text').animate(attr.text.x, s, 'easeInOut');
+  },
+
+  getScreenCoords: function() {
+    var pos = this.get('pos');
+    return this.gitVisuals.toScreenCoords(pos);
+  },
+
+  getRadius: function() {
+    return this.get('radius') || GRAPHICS.nodeRadius;
+  },
+
+  getParentScreenCoords: function() {
+    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
+  },
+
+  setBirthPosition: function() {
+    // utility method for animating it out from underneath a parent
+    var parentCoords = this.getParentScreenCoords();
+
+    this.get('circle').attr({
+      cx: parentCoords.x,
+      cy: parentCoords.y,
+      opacity: 0,
+      r: 0,
+    });
+    this.get('text').attr({
+      x: parentCoords.x,
+      y: parentCoords.y,
+      opacity: 0,
+    });
+  },
+
+  setBirthFromSnapshot: function(beforeSnapshot) {
+    // first get parent attribute
+    // woof bad data access. TODO
+    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
+    var parentAttr = beforeSnapshot[parentID];
+
+    // then set myself faded on top of parent
+    this.get('circle').attr({
+      opacity: 0,
+      r: 0,
+      cx: parentAttr.circle.cx,
+      cy: parentAttr.circle.cy
+    });
+
+    this.get('text').attr({
+      opacity: 0,
+      x: parentAttr.text.x,
+      y: parentAttr.text.y
+    });
+
+    // then do edges
+    var parentCoords = {
+      x: parentAttr.circle.cx,
+      y: parentAttr.circle.cy
+    };
+    this.setOutgoingEdgesBirthPosition(parentCoords);
+  },
+
+  setBirth: function() {
+    this.setBirthPosition();
+    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
+  },
+
+  setOutgoingEdgesOpacity: function(opacity) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.setOpacity(opacity);
+    });
+  },
+
+  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapShot[edge.getID()];
+      edge.animateToAttr(attr);
+    }, this);
+  },
+
+  animateOutgoingEdges: function(speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.animateUpdatedPath(speed, easing);
+    }, this);
+  },
+
+  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapshot[edge.getID()];
+      edge.animateToAttr(attr, speed, easing);
+    }, this);
+  },
+
+  setOutgoingEdgesBirthPosition: function(parentCoords) {
+
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var headPos = edge.get('head').getScreenCoords();
+      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
+      edge.get('path').stop().attr({
+        path: path,
+        opacity: 0
+      });
+    }, this);
+  },
+
+  parentInFront: function() {
+    // woof! talk about bad data access
+    this.get('commit').get('parents')[0].get('visNode').toFront();
+  },
+
+  getFontSize: function(str) {
+    if (str.length < 3) {
+      return 12;
+    } else if (str.length < 5) {
+      return 10;
+    } else {
+      return 8;
+    }
+  },
+
+  getFill: function() {
+    // first get our status, might be easy from this
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (stat == 'head') {
+      return GRAPHICS.headRectFill;
+    } else if (stat == 'none') {
+      return GRAPHICS.orphanNodeFill;
+    }
+
+    // now we need to get branch hues
+
+    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
+    return this.get('fill');
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git show ' + this.get('commit').get('id');
+    _.each([this.get('circle'), this.get('text')], function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+    });
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    // set the opacity on my stuff
+    var keys = ['circle', 'text'];
+    _.each(keys, function(key) {
+      this.get(key).attr({
+        opacity: opacity
+      });
+    }, this);
+  },
+
+  remove: function() {
+    this.removeKeys(['circle'], ['text']);
+    // needs a manual removal of text for whatever reason
+    this.get('text').remove();
+
+    this.gitVisuals.removeVisNode(this);
+  },
+
+  removeAll: function() {
+    this.remove();
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.remove();
+    }, this);
+  },
+
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+
+    var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+
+    var circle = paper.circle(
+      pos.x,
+      pos.y,
+      this.getRadius()
+    ).attr(this.getAttributes().circle);
+
+    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+    text.attr({
+      'font-size': this.getFontSize(this.get('id')),
+      'font-weight': 'bold',
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getOpacity()
+    });
+
+    this.set('circle', circle);
+    this.set('text', text);
+
+    this.attachClickHandlers();
+  }
+});
+
+var VisEdge = VisBase.extend({
+  defaults: {
+    tail: null,
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
+  },
+
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
+  },
+
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
+    };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
+  },
+
+  genGraphics: function(paper) {
+    var pathString = this.getBezierCurve();
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
+    });
+    path.toBack();
+    this.set('path', path);
+  },
+
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
+  getAttributes: function() {
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+    return {
+      path: {
+        path: newPath,
+        opacity: opacity
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed == 0) {
+      this.get('path').attr(attr.path);
+      return;
+    }
+
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
+  },
+
+});
+
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+var VisBranchCollection = Backbone.Collection.extend({
+  model: VisBranch
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisBranchCollection = VisBranchCollection;
+exports.VisNode = VisNode;
+exports.VisEdge = VisEdge;
+exports.VisBranch = VisBranch;
+
+
+
+});
+require("/tree.js");
+
+require.define("/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
+ * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
+ * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
+ * or something, it must animate out from the parent position to it's birth position.
+
+ * These two positions though may not be where the commit finally ends up. So we actually need to take a snapshot of the tree,
+ * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
+ * and then essentially animate the entire tree too.
+ */
+
+// essentially a static class
+var AnimationFactory = function() {
+
+}
+
+AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
+  if (!animationQueue) {
+    throw new Error("Need animation queue to add closure to!");
+  }
+
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 2;
+
+  // essentially refresh the entire tree, but do a special thing for the commit
+  var visNode = commit.get('visNode');
+
+  var animation = function() {
+    // this takes care of refs and all that jazz, and updates all the positions
+    gitVisuals.refreshTree(time);
+
+    visNode.setBirth();
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateUpdatedPosition(bounceTime, 'bounce');
+    visNode.animateOutgoingEdges(time);
+  };
+
+  animationQueue.add(new Animation({
+    closure: animation,
+    duration: Math.max(time, bounceTime)
+  }));
+};
+
+AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
+  opacity = (opacity === undefined) ? 1 : opacity;
+
+  var newAttr = {};
+
+  _.each(attr, function(partObj, partName) {
+    newAttr[partName] = {};
+    _.each(partObj, function(val, key) {
+      if (key == 'opacity') {
+        newAttr[partName][key] = opacity;
+      } else {
+        newAttr[partName][key] = val;
+      }
+    });
+  });
+  return newAttr;
+};
+
+AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
+  var newSnap = {};
+
+  _.each(snapShot, function(visObj, visID) {
+    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
+  }, this);
+  return newSnap;
+};
+
+AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 1.5;
+
+  var visNode = step.newCommit.get('visNode');
+  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
+  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
+
+  var animation = function() {
+    visNode.setBirthFromSnapshot(step.beforeSnapshot);
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
+    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
+  };
+
+  return animation;
+};
+
+AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
+  animationQueue.add(new Animation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  }));
+};
+
+AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+
+  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
+  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
+};
+
+AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  // we want to highlight all the old commits
+  var oldCommits = rebaseResponse.toRebaseArray;
+  // we are either highlighting to a visBranch or a visNode
+  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
+  if (!visBranch) {
+    // in the case where we rebase onto a commit
+    visBranch = rebaseResponse.destinationBranch.get('visNode');
+  }
+
+  _.each(oldCommits, function(oldCommit) {
+    var visNode = oldCommit.get('visNode');
+    animationQueue.add(new Animation({
+      closure: function() {
+        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+      },
+      duration: fullTime * 1.5
+    }));
+
+  }, this);
+
+  this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+  var rebaseSteps = rebaseResponse.rebaseSteps;
+
+  var newVisNodes = [];
+  _.each(rebaseSteps, function(step) {
+    var visNode = step.newCommit.get('visNode');
+
+    newVisNodes.push(visNode);
+    visNode.setOpacity(0);
+    visNode.setOutgoingEdgesOpacity(0);
+  }, this);
+
+  var previousVisNodes = [];
+  _.each(rebaseSteps, function(rebaseStep, index) {
+    var toOmit = newVisNodes.slice(index + 1);
+
+    var snapshotPart = this.genFromToSnapshotAnimation(
+      rebaseStep.beforeSnapshot,
+      rebaseStep.afterSnapshot,
+      toOmit,
+      previousVisNodes,
+      gitVisuals
+    );
+    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
+
+    var animation = function() {
+      snapshotPart();
+      birthPart();
+    };
+        
+    animationQueue.add(new Animation({
+      closure: animation,
+      duration: GRAPHICS.defaultAnimationTime * 1.5
+    }));
+
+    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
+  }, this);
+
+  // need to delay to let bouncing finish
+  this.delay(animationQueue);
+
+  this.refreshTree(animationQueue, gitVisuals);
+};
+
+AnimationFactory.prototype.delay = function(animationQueue, time) {
+  time = time || GRAPHICS.defaultAnimationTime;
+  animationQueue.add(new Animation({
+    closure: function() { },
+    duration: time
+  }));
+};
+
+AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
+  // need to slice for closure
+  var nodesToAnimate = visNodes.slice(0);
+
+  return function() {
+    _.each(nodesToAnimate, function(visNode) {
+      visNode.setOpacity(opacity);
+      visNode.setOutgoingEdgesOpacity(opacity);
+    });
+  };
+};
+
+AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
+  var ids = [];
+  _.each(toOmit, function(obj) {
+    ids.push(obj.getID());
+  });
+
+  var newSnapshot = {};
+  _.each(snapShot, function(val, key) {
+    if (_.include(ids, key)) {
+      // omit
+      return;
+    }
+    newSnapshot[key] = val;
+  }, this);
+  return newSnapshot;
+};
+
+AnimationFactory.prototype.genFromToSnapshotAnimation = function(
+  beforeSnapshot,
+  afterSnapshot,
+  commitsToOmit,
+  commitsToFixOpacity,
+  gitVisuals) {
+
+  // we want to omit the commit outgoing edges
+  var toOmit = [];
+  _.each(commitsToOmit, function(visNode) {
+    toOmit.push(visNode);
+    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
+  });
+
+  var fixOpacity = function(obj) {
+    if (!obj) { return; }
+    _.each(obj, function(attr, partName) {
+      obj[partName].opacity = 1;
+    });
+  };
+
+  // HORRIBLE loop to fix opacities all throughout the snapshot
+  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
+    _.each(commitsToFixOpacity, function(visNode) {
+      fixOpacity(snapShot[visNode.getID()]);
+      _.each(visNode.get('outgoingEdges'), function(visEdge) {
+        fixOpacity(snapShot[visEdge.getID()]);
+      });
+    });
+  });
+
+  return function() {
+    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
+  };
+};
+
+exports.AnimationFactory = AnimationFactory;
+
+
+});
+require("/animationFactory.js");
 })();

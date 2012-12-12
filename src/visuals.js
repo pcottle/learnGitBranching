@@ -4,8 +4,6 @@ var Collections = require('./collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
-var GitEngine = require('./git').GitEngine;
-
 var Tree = require('./tree');
 var VisEdgeCollection = Tree.VisEdgeCollection;
 var VisBranchCollection = Tree.VisBranchCollection;
@@ -37,6 +35,7 @@ var Visualization = Backbone.View.extend({
       paper: this.paper
     });
 
+    var GitEngine = require('./git').GitEngine;
     this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,

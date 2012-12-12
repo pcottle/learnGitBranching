@@ -355,3 +355,7 @@ var CommandEntry = Backbone.Model.extend({
   localStorage: new Backbone.LocalStorage('CommandEntries')
 });
 
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+

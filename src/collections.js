@@ -1,6 +1,8 @@
 var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
 var Main = require('./main');
+var Command = require('./commandModel').Command;
+var CommandEntry = require('./commandModel').CommandEntry;
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
