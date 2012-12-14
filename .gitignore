@@ -1,0 +1,7 @@
+node_modules/
+screens
+tags
+updateWeb.sh
+pushAndUpdate.sh
+search_replace.sh
+
