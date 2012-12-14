@@ -25,7 +25,6 @@ Big Bugs to fix:
  ** Publish Things **
  ************************************/
 - cross browser support
-- minify JS
 - fix terminal input when extra long
 
 2013 Things
