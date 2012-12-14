@@ -1236,7 +1236,7 @@ exports.CommandBuffer = CommandBuffer;
 
 });
 
-require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../visuals/animationFactory');
+require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('../app');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
@@ -2886,7 +2886,7 @@ exports.Ref = Ref;
 
 });
 
-require.define("/visuals/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
+require.define("/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
  * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
  * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
  * or something, it must animate out from the parent position to it's birth position.
@@ -2897,7 +2897,7 @@ require.define("/visuals/animationFactory.js",function(require,module,exports,__
  */
 
 var Animation = require('./index').Animation;
-var GRAPHICS = require('../util/constants').GRAPHICS;
+var GRAPHICS = require('../../util/constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -2908,6 +2908,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
   }
+  alert('wtf');
 
   var time = GRAPHICS.defaultAnimationTime * 1.0;
   var bounceTime = time * 2;
@@ -3145,56 +3146,7 @@ exports.AnimationFactory = AnimationFactory;
 
 });
 
-require.define("/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
- * Constants....!!!
- */
-var TIME = {
-  betweenCommandsDelay: 400
-};
-
-// useful for locks, etc
-var GLOBAL = {
-  isAnimating: false
-};
-
-var GRAPHICS = {
-  arrowHeadSize: 8,
-
-  nodeRadius: 17,
-  curveControlPointOffset: 50,
-  defaultEasing: 'easeInOut',
-  defaultAnimationTime: 400,
-
-  //rectFill: '#FF3A3A',
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
-  headRectFill: '#2831FF',
-  rectStroke: '#FFF',
-  rectStrokeWidth: '3',
-
-  multiBranchY: 20,
-  upstreamHeadOpacity: 0.5,
-  upstreamNoneOpacity: 0.2,
-  edgeUpstreamHeadOpacity: 0.4,
-  edgeUpstreamNoneOpacity: 0.15,
-
-  visBranchStrokeWidth: 2,
-  visBranchStrokeColorNone: '#333',
-
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
-  defaultNodeStrokeWidth: 2,
-  defaultNodeStroke: '#FFF',
-
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
-};
-
-exports.GLOBAL = GLOBAL;
-exports.TIME = TIME;
-exports.GRAPHICS = GRAPHICS;
-
-
-});
-
-require.define("/visuals/animation.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../util/constants').GLOBAL;
+require.define("/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
   defaults: {
@@ -3278,6 +3230,55 @@ var AnimationQueue = Backbone.Model.extend({
 
 exports.Animation = Animation;
 exports.AnimationQueue = AnimationQueue;
+
+
+});
+
+require.define("/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
+ * Constants....!!!
+ */
+var TIME = {
+  betweenCommandsDelay: 400
+};
+
+// useful for locks, etc
+var GLOBAL = {
+  isAnimating: false
+};
+
+var GRAPHICS = {
+  arrowHeadSize: 8,
+
+  nodeRadius: 17,
+  curveControlPointOffset: 50,
+  defaultEasing: 'easeInOut',
+  defaultAnimationTime: 400,
+
+  //rectFill: '#FF3A3A',
+  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  headRectFill: '#2831FF',
+  rectStroke: '#FFF',
+  rectStrokeWidth: '3',
+
+  multiBranchY: 20,
+  upstreamHeadOpacity: 0.5,
+  upstreamNoneOpacity: 0.2,
+  edgeUpstreamHeadOpacity: 0.4,
+  edgeUpstreamNoneOpacity: 0.15,
+
+  visBranchStrokeWidth: 2,
+  visBranchStrokeColorNone: '#333',
+
+  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeStrokeWidth: 2,
+  defaultNodeStroke: '#FFF',
+
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
+};
+
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
 
 
 });
@@ -5363,7 +5364,7 @@ exports.getUI = function() {
 });
 require("/app/index.js");
 
-require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../visuals/animationFactory');
+require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('../app');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
@@ -7649,7 +7650,7 @@ require.define("/util/debug.js",function(require,module,exports,__dirname,__file
   Constants: require('../util/constants'),
   Collections: require('../models/collections'),
   Async: require('../visuals/animation'),
-  AnimationFactory: require('../visuals/animationFactory'),
+  AnimationFactory: require('../visuals/animation/animationFactory'),
   Main: require('../app')
 };
 
@@ -8260,96 +8261,7 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 });
 require("/views/miscViews.js");
 
-require.define("/visuals/animation.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../util/constants').GLOBAL;
-
-var Animation = Backbone.Model.extend({
-  defaults: {
-    duration: 300,
-    closure: null
-  },
-
-  validateAtInit: function() {
-    if (!this.get('closure')) {
-      throw new Error('give me a closure!');
-    }
-  },
-
-  initialize: function(options) {
-    this.validateAtInit();
-  },
-
-  run: function() {
-    this.get('closure')();
-  }
-});
-
-var AnimationQueue = Backbone.Model.extend({
-  defaults: {
-    animations: null,
-    index: 0,
-    callback: null,
-    defer: false
-  },
-
-  initialize: function(options) {
-    this.set('animations', []);
-    if (!options.callback) {
-      console.warn('no callback');
-    }
-  },
-
-  add: function(animation) {
-    if (!animation instanceof Animation) {
-      throw new Error("Need animation not something else");
-    }
-
-    this.get('animations').push(animation);
-  },
-
-  start: function() {
-    this.set('index', 0);
-
-    // set the global lock that we are animating
-    GLOBAL.isAnimating = true;
-    this.next();
-  },
-
-  finish: function() {
-    // release lock here
-    GLOBAL.isAnimating = false;
-    this.get('callback')();
-  },
-
-  next: function() {
-    // ok so call the first animation, and then set a timeout to call the next
-    // TODO: animations with callbacks!!
-    var animations = this.get('animations');
-    var index = this.get('index');
-    if (index >= animations.length) {
-      this.finish();
-      return;
-    }
-
-    var next = animations[index];
-    var duration = next.get('duration');
-
-    next.run();
-
-    this.set('index', index + 1);
-    setTimeout(_.bind(function() {
-      this.next();
-    }, this), duration);
-  }
-});
-
-exports.Animation = Animation;
-exports.AnimationQueue = AnimationQueue;
-
-
-});
-require("/visuals/animation.js");
-
-require.define("/visuals/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
+require.define("/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
  * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
  * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
  * or something, it must animate out from the parent position to it's birth position.
@@ -8360,7 +8272,7 @@ require.define("/visuals/animationFactory.js",function(require,module,exports,__
  */
 
 var Animation = require('./index').Animation;
-var GRAPHICS = require('../util/constants').GRAPHICS;
+var GRAPHICS = require('../../util/constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -8371,6 +8283,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
   }
+  alert('wtf');
 
   var time = GRAPHICS.defaultAnimationTime * 1.0;
   var bounceTime = time * 2;
@@ -8607,7 +8520,96 @@ exports.AnimationFactory = AnimationFactory;
 
 
 });
-require("/visuals/animationFactory.js");
+require("/visuals/animation/animationFactory.js");
+
+require.define("/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../../util/constants').GLOBAL;
+
+var Animation = Backbone.Model.extend({
+  defaults: {
+    duration: 300,
+    closure: null
+  },
+
+  validateAtInit: function() {
+    if (!this.get('closure')) {
+      throw new Error('give me a closure!');
+    }
+  },
+
+  initialize: function(options) {
+    this.validateAtInit();
+  },
+
+  run: function() {
+    this.get('closure')();
+  }
+});
+
+var AnimationQueue = Backbone.Model.extend({
+  defaults: {
+    animations: null,
+    index: 0,
+    callback: null,
+    defer: false
+  },
+
+  initialize: function(options) {
+    this.set('animations', []);
+    if (!options.callback) {
+      console.warn('no callback');
+    }
+  },
+
+  add: function(animation) {
+    if (!animation instanceof Animation) {
+      throw new Error("Need animation not something else");
+    }
+
+    this.get('animations').push(animation);
+  },
+
+  start: function() {
+    this.set('index', 0);
+
+    // set the global lock that we are animating
+    GLOBAL.isAnimating = true;
+    this.next();
+  },
+
+  finish: function() {
+    // release lock here
+    GLOBAL.isAnimating = false;
+    this.get('callback')();
+  },
+
+  next: function() {
+    // ok so call the first animation, and then set a timeout to call the next
+    // TODO: animations with callbacks!!
+    var animations = this.get('animations');
+    var index = this.get('index');
+    if (index >= animations.length) {
+      this.finish();
+      return;
+    }
+
+    var next = animations[index];
+    var duration = next.get('duration');
+
+    next.run();
+
+    this.set('index', index + 1);
+    setTimeout(_.bind(function() {
+      this.next();
+    }, this), duration);
+  }
+});
+
+exports.Animation = Animation;
+exports.AnimationQueue = AnimationQueue;
+
+
+});
+require("/visuals/animation/index.js");
 
 require.define("/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
 var GRAPHICS = require('../util/constants').GRAPHICS;

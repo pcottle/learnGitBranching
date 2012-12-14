@@ -1,4 +1,4 @@
-var AnimationFactoryModule = require('../visuals/animationFactory');
+var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('../app');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;

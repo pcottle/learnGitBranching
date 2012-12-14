@@ -90,7 +90,7 @@ module.exports = function(grunt) {
     },
     browserify: {
       'build/bundle.js': {
-        entries: ['src/**/*.js']
+        entries: ['src/**/*.js', 'src/js/**/*.js']
         //prepend: ['<banner:meta.banner>'],
       }
     }

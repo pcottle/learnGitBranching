@@ -7,7 +7,7 @@ var toGlobalize = {
   Constants: require('../util/constants'),
   Collections: require('../models/collections'),
   Async: require('../visuals/animation'),
-  AnimationFactory: require('../visuals/animationFactory'),
+  AnimationFactory: require('../visuals/animation/animationFactory'),
   Main: require('../app')
 };
 
