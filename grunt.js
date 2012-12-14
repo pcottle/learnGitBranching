@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     lint: {
-      files: ['grunt.js', 'src/*.js', 'src/**/*.js']
+      files: ['grunt.js', 'src/*.js', 'src/**/*.js', 'spec/*.js']
     },
     compliment: {
       compliments: [
@@ -22,33 +22,44 @@ module.exports = function(grunt) {
         "git raging"
       ]
     },
+    hash: {
+      src: ['build/bundle.min.js'],
+      dest: 'build/'
+    },
     jasmine_node: {
       specNameMatcher: 'spec', // load only specs containing specNameMatcher
       projectRoot: '.',
       forceExit: true,
       verbose: true
-      /*
-      requirejs: false,
-      jUnit: {
-        report: false,
-        savePath : './build/reports/jasmine/',
-        useDotNotation: true,
-        consolidate: true
-      }*/
     },
     watch: {
       files: '<config:lint.files>',
-      tasks: 'default'
+      tasks: 'watching'
+    },
+    min: {
+      dist: {
+        src: ['build/bundle.js'],
+        dest: 'build/bundle.min.js'
+      }
+    },
+    rm: {
+      build: 'build/*min*js'
     },
     jshint: {
       options: {
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
         eqeqeq: false,
+        // i know my regular expressions
         regexp: false,
-        immed: true,
-        latedef: false,
+        // i think it's super weird to not use new on a constructor
         nonew: false,
+        // these latedefs are just annoying -- no pollution of global scope
+        latedef: false,
+        ///////////////////////////////
+        // All others are true
+        //////////////////////////////
+        immed: true,
         newcap: true,
         noarg: true,
         bitwise: true,
@@ -79,13 +90,8 @@ module.exports = function(grunt) {
     },
     browserify: {
       'build/bundle.js': {
-        // aliases: ['jquery:jquery-browserify'],
-        entries: ['src/*.js'],
+        entries: ['src/*.js']
         //prepend: ['<banner:meta.banner>'],
-        append: []
-        /*hook: function (bundle) {
-          // Do something with bundle
-        }*/
       }
     }
   });
@@ -93,9 +99,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jslint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-hash');
+  grunt.loadNpmTasks('grunt-rm');
 
-  // Default task.
-  grunt.registerTask('default', 'lint browserify compliment');
+  grunt.registerTask('default', 'lint jasmine_node browserify rm min hash compliment');
+
+  grunt.registerTask('watching', 'browserify');
+  grunt.registerTask('export', 'browserify min');
   grunt.registerTask('test', 'jasmine_node');
 };
 
