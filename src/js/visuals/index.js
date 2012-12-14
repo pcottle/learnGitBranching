@@ -1,4 +1,4 @@
-var Main = require('../app/main');
+var Main = require('../app');
 var GRAPHICS = require('../constants').GRAPHICS;
 var GLOBAL = require('../constants').GLOBAL;
 
@@ -6,7 +6,7 @@ var Collections = require('../collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
-var Tree = require('../tree');
+var Tree = require('../visuals/tree');
 var VisEdgeCollection = Tree.VisEdgeCollection;
 var VisBranchCollection = Tree.VisBranchCollection;
 var VisNode = Tree.VisNode;

@@ -1,6 +1,6 @@
 var AnimationFactoryModule = require('../animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
-var Main = require('../app/main');
+var Main = require('../app');
 var AnimationQueue = require('../animation').AnimationQueue;
 var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 

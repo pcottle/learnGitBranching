@@ -1,4 +1,4 @@
-var Main = require('../app/main');
+var Main = require('../app');
 var GRAPHICS = require('../constants').GRAPHICS;
 
 var randomHueString = function() {

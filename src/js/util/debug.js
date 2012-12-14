@@ -1,5 +1,5 @@
 var toGlobalize = {
-  Tree: require('../tree'),
+  Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
@@ -8,7 +8,7 @@ var toGlobalize = {
   Collections: require('../collections'),
   Async: require('../animation'),
   AnimationFactory: require('../animation/animationFactory'),
-  Main: require('../app/main')
+  Main: require('../app')
 };
 
 _.each(toGlobalize, function(module) {

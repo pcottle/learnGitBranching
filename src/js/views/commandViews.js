@@ -1,5 +1,5 @@
 var CommandEntryCollection = require('../collections').CommandEntryCollection;
-var Main = require('../app/main');
+var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 

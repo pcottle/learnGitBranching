@@ -182,7 +182,7 @@ var Command = Backbone.Model.extend({
         });
       }],
       [/^refresh$/, function() {
-        var events = require('../app/main').getEvents();
+        var events = require('../app').getEvents();
 
         events.trigger('refreshTree');
         throw new CommandResult({
@@ -190,7 +190,7 @@ var Command = Backbone.Model.extend({
         });
       }],
       [/^rollup (\d+)$/, function(bits) {
-        var events = require('../app/main').getEvents();
+        var events = require('../app').getEvents();
 
         // go roll up these commands by joining them with semicolons
         events.trigger('rollupCommands', bits[1]);
