@@ -1,7 +1,7 @@
-var AnimationFactoryModule = require('./animationFactory');
+var AnimationFactoryModule = require('./animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('./app/main');
-var AnimationQueue = require('./async').AnimationQueue;
+var AnimationQueue = require('./animation').AnimationQueue;
 var InteractiveRebaseView = require('./miscViews').InteractiveRebaseView;
 
 var Errors = require('./errors');

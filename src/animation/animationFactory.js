@@ -8,8 +8,8 @@
  * and then essentially animate the entire tree too.
  */
 
-var Animation = require('./async').Animation;
-var GRAPHICS = require('./constants').GRAPHICS;
+var Animation = require('./index').Animation;
+var GRAPHICS = require('../constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
