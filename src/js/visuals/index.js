@@ -2,7 +2,7 @@ var Main = require('../app');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
 
-var Collections = require('../collections');
+var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 

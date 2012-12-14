@@ -396,7 +396,7 @@ require.define("/visuals/index.js",function(require,module,exports,__dirname,__f
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
 
-var Collections = require('../collections');
+var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
@@ -1099,7 +1099,7 @@ $(document).ready(function(){
 });
 
 function UI() {
-  var Collections = require('../collections');
+  var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
@@ -1130,7 +1130,7 @@ exports.getUI = function() {
 
 });
 
-require.define("/collections/index.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('../git').Commit;
+require.define("/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
 
 var Main = require('../app');
@@ -3855,7 +3855,7 @@ exports.Command = Command;
 
 });
 
-require.define("/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../collections').CommandEntryCollection;
+require.define("/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
@@ -5331,7 +5331,7 @@ $(document).ready(function(){
 });
 
 function UI() {
-  var Collections = require('../collections');
+  var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
@@ -5362,113 +5362,6 @@ exports.getUI = function() {
 
 });
 require("/app/index.js");
-
-require.define("/collections/index.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('../git').Commit;
-var Branch = require('../git').Branch;
-
-var Main = require('../app');
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
-var TIME = require('../util/constants').TIME;
-
-var CommitCollection = Backbone.Collection.extend({
-  model: Commit
-});
-
-var CommandCollection = Backbone.Collection.extend({
-  model: Command
-});
-
-var BranchCollection = Backbone.Collection.extend({
-  model: Branch
-});
-
-var CommandEntryCollection = Backbone.Collection.extend({
-  model: CommandEntry,
-  localStorage: new Backbone.LocalStorage('CommandEntries')
-});
-
-var CommandBuffer = Backbone.Model.extend({
-  defaults: {
-    collection: null
-  },
-
-  initialize: function(options) {
-    require('../app').getEvents().on('gitCommandReady', _.bind(
-      this.addCommand, this
-    ));
-
-    options.collection.bind('add', this.addCommand, this);
-
-    this.buffer = [];
-    this.timeout = null;
-  },
-
-  addCommand: function(command) {
-    this.buffer.push(command);
-    this.touchBuffer();
-  },
-
-  touchBuffer: function() {
-    // touch buffer just essentially means we just check if our buffer is being
-    // processed. if it's not, we immediately process the first item
-    // and then set the timeout.
-    if (this.timeout) {
-      // timeout existence implies its being processed
-      return;
-    }
-    this.setTimeout();
-  },
-
-
-  setTimeout: function() {
-    this.timeout = setTimeout(_.bind(function() {
-        this.sipFromBuffer();
-    }, this), TIME.betweenCommandsDelay);
-  },
-
-  popAndProcess: function() {
-    var popped = this.buffer.shift(0);
-    var callback = _.bind(function() {
-      this.setTimeout();
-    }, this);
-
-    // find a command with no error
-    while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.pop();
-    }
-    if (!popped.get('error')) {
-      // pass in a callback, so when this command is "done" we will process the next.
-      Main.getEvents().trigger('processCommand', popped, callback);
-    } else {
-      this.clear();
-    }
-  },
-
-  clear: function() {
-    clearTimeout(this.timeout);
-    this.timeout = null;
-  },
-
-  sipFromBuffer: function() {
-    if (!this.buffer.length) {
-      this.clear();
-      return;
-    }
-
-    this.popAndProcess();
-  }
-});
-
-exports.CommitCollection = CommitCollection;
-exports.CommandCollection = CommandCollection;
-exports.BranchCollection = BranchCollection;
-exports.CommandEntryCollection = CommandEntryCollection;
-exports.CommandBuffer = CommandBuffer;
-
-
-});
-require("/collections/index.js");
 
 require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../visuals/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
@@ -7214,6 +7107,113 @@ exports.LevelEngine = LevelEngine;
 });
 require("/levels/index.js");
 
+require.define("/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('../git').Commit;
+var Branch = require('../git').Branch;
+
+var Main = require('../app');
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
+var TIME = require('../util/constants').TIME;
+
+var CommitCollection = Backbone.Collection.extend({
+  model: Commit
+});
+
+var CommandCollection = Backbone.Collection.extend({
+  model: Command
+});
+
+var BranchCollection = Backbone.Collection.extend({
+  model: Branch
+});
+
+var CommandEntryCollection = Backbone.Collection.extend({
+  model: CommandEntry,
+  localStorage: new Backbone.LocalStorage('CommandEntries')
+});
+
+var CommandBuffer = Backbone.Model.extend({
+  defaults: {
+    collection: null
+  },
+
+  initialize: function(options) {
+    require('../app').getEvents().on('gitCommandReady', _.bind(
+      this.addCommand, this
+    ));
+
+    options.collection.bind('add', this.addCommand, this);
+
+    this.buffer = [];
+    this.timeout = null;
+  },
+
+  addCommand: function(command) {
+    this.buffer.push(command);
+    this.touchBuffer();
+  },
+
+  touchBuffer: function() {
+    // touch buffer just essentially means we just check if our buffer is being
+    // processed. if it's not, we immediately process the first item
+    // and then set the timeout.
+    if (this.timeout) {
+      // timeout existence implies its being processed
+      return;
+    }
+    this.setTimeout();
+  },
+
+
+  setTimeout: function() {
+    this.timeout = setTimeout(_.bind(function() {
+        this.sipFromBuffer();
+    }, this), TIME.betweenCommandsDelay);
+  },
+
+  popAndProcess: function() {
+    var popped = this.buffer.shift(0);
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
+
+    // find a command with no error
+    while (popped.get('error') && this.buffer.length) {
+      popped = this.buffer.pop();
+    }
+    if (!popped.get('error')) {
+      // pass in a callback, so when this command is "done" we will process the next.
+      Main.getEvents().trigger('processCommand', popped, callback);
+    } else {
+      this.clear();
+    }
+  },
+
+  clear: function() {
+    clearTimeout(this.timeout);
+    this.timeout = null;
+  },
+
+  sipFromBuffer: function() {
+    if (!this.buffer.length) {
+      this.clear();
+      return;
+    }
+
+    this.popAndProcess();
+  }
+});
+
+exports.CommitCollection = CommitCollection;
+exports.CommandCollection = CommandCollection;
+exports.BranchCollection = BranchCollection;
+exports.CommandEntryCollection = CommandEntryCollection;
+exports.CommandBuffer = CommandBuffer;
+
+
+});
+require("/models/collections.js");
+
 require.define("/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
@@ -7647,7 +7647,7 @@ require.define("/util/debug.js",function(require,module,exports,__dirname,__file
   CommandModel: require('../models/commandModel'),
   Levels: require('../levels'),
   Constants: require('../util/constants'),
-  Collections: require('../collections'),
+  Collections: require('../models/collections'),
   Async: require('../visuals/animation'),
   AnimationFactory: require('../visuals/animationFactory'),
   Main: require('../app')
@@ -7712,7 +7712,7 @@ var GitError = exports.GitError = MyError.extend({
 });
 require("/util/errors.js");
 
-require.define("/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../collections').CommandEntryCollection;
+require.define("/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
@@ -8613,7 +8613,7 @@ require.define("/visuals/index.js",function(require,module,exports,__dirname,__f
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
 
-var Collections = require('../collections');
+var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 

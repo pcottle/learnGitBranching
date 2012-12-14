@@ -5,7 +5,7 @@ var toGlobalize = {
   CommandModel: require('../models/commandModel'),
   Levels: require('../levels'),
   Constants: require('../util/constants'),
-  Collections: require('../collections'),
+  Collections: require('../models/collections'),
   Async: require('../visuals/animation'),
   AnimationFactory: require('../visuals/animationFactory'),
   Main: require('../app')

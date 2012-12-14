@@ -23,7 +23,7 @@ $(document).ready(function(){
 });
 
 function UI() {
-  var Collections = require('../collections');
+  var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
