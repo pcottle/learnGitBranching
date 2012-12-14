@@ -1,5 +1,5 @@
-var Main = require('./app/main');
-var GRAPHICS = require('./constants').GRAPHICS;
+var Main = require('../app/main');
+var GRAPHICS = require('../constants').GRAPHICS;
 
 var randomHueString = function() {
   var hue = Math.random();
@@ -568,7 +568,7 @@ var VisNode = VisBase.extend({
       this.get('text').attr(attr.text);
       return;
     }
-    
+
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
 

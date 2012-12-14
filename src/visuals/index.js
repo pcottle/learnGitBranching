@@ -1,12 +1,12 @@
-var Main = require('./app/main');
-var GRAPHICS = require('./constants').GRAPHICS;
-var GLOBAL = require('./constants').GLOBAL;
+var Main = require('../app/main');
+var GRAPHICS = require('../constants').GRAPHICS;
+var GLOBAL = require('../constants').GLOBAL;
 
-var Collections = require('./collections');
+var Collections = require('../collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
-var Tree = require('./tree');
+var Tree = require('../tree');
 var VisEdgeCollection = Tree.VisEdgeCollection;
 var VisBranchCollection = Tree.VisBranchCollection;
 var VisNode = Tree.VisNode;
@@ -37,7 +37,7 @@ var Visualization = Backbone.View.extend({
       paper: this.paper
     });
 
-    var GitEngine = require('./git').GitEngine;
+    var GitEngine = require('../git').GitEngine;
     this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,
