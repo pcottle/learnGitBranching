@@ -1,27 +1,17 @@
-var AnimationFactory = require('./animationFactory').AnimationFactory;
-var CommandCollection = require('./collections').CommandCollection;
-var CommandBuffer = require('./collections').CommandBuffer;
-var CommandPromptView = require('./commandViews').CommandPromptView;
-var CommandLineHistoryView = require('./commandViews').CommandLineHistoryView;
-var Visualization = require('./visuals').Visualization;
-
 /**
  * Globals
  */
 var events = _.clone(Backbone.Events);
 var ui = null;
-var animationFactory = null;
-
-/**
- * Static Classes
- */
-animationFactory = new AnimationFactory();
+var mainVis = null;
 
 ///////////////////////////////////////////////////////////////////////
 
 $(document).ready(function(){
+  var Visuals = require('./visuals');
+
   ui = new UI();
-  mainVis = new Visualization({
+  mainVis = new Visuals.Visualization({
     el: $('#canvasWrapper')[0]  
   });
 
@@ -33,18 +23,20 @@ $(document).ready(function(){
 });
 
 function UI() {
-  // static classes
-  this.commandCollection = new CommandCollection();
+  var Collections = require('./collections');
+  var CommandViews = require('./commandViews');
 
-  this.commandBuffer = new CommandBuffer({
+  this.commandCollection = new Collections.CommandCollection();
+
+  this.commandBuffer = new Collections.CommandBuffer({
     collection: this.commandCollection
   });
 
-  this.commandPromptView = new CommandPromptView({
+  this.commandPromptView = new CommandViews.CommandPromptView({
     el: $('#commandLineBar'),
     collection: this.commandCollection
   });
-  this.commandLineHistoryView = new CommandLineHistoryView({
+  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
@@ -55,6 +47,7 @@ function UI() {
 exports.getEvents = function() {
   return events;
 };
-exports.ui = ui;
-exports.animationFactory = animationFactory;
+exports.getUI = function() {
+  return ui;
+};
 
