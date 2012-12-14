@@ -1,9 +1,9 @@
 // static class...
-function LevelEngine() {
+function TreeCompare() {
 
 }
 
-LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
   _.each(branches, function(branchName) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
@@ -12,7 +12,7 @@ LevelEngine.prototype.compareBranchesWithinTrees = function(treeA, treeB, branch
   return result;
 };
 
-LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
@@ -47,14 +47,14 @@ LevelEngine.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
     recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
 };
 
-LevelEngine.prototype.convertTreeSafe = function(tree) {
+TreeCompare.prototype.convertTreeSafe = function(tree) {
   if (typeof tree == 'string') {
     return JSON.parse(unescape(tree));
   }
   return tree;
 };
 
-LevelEngine.prototype.stripTreeFields = function(trees) {
+TreeCompare.prototype.stripTreeFields = function(trees) {
   var stripFields = ['createTime', 'author', 'commitMessage'];
   var sortFields = ['children', 'parents'];
 
@@ -72,7 +72,7 @@ LevelEngine.prototype.stripTreeFields = function(trees) {
   });
 };
 
-LevelEngine.prototype.compareTrees = function(treeA, treeB) {
+TreeCompare.prototype.compareTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
@@ -83,7 +83,4 @@ LevelEngine.prototype.compareTrees = function(treeA, treeB) {
   return _.isEqual(treeA, treeB);
 };
 
-var levelEngine = new LevelEngine();
-
-exports.LevelEngine = LevelEngine;
-
+exports.TreeCompare = TreeCompare;
