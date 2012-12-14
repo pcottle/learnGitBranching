@@ -6,8 +6,8 @@ var toGlobalize = {
   Levels: require('../levels'),
   Constants: require('../util/constants'),
   Collections: require('../collections'),
-  Async: require('../animation'),
-  AnimationFactory: require('../animation/animationFactory'),
+  Async: require('../visuals/animation'),
+  AnimationFactory: require('../visuals/animationFactory'),
   Main: require('../app')
 };
 
