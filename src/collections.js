@@ -1,9 +1,9 @@
 var Commit = require('./git').Commit;
 var Branch = require('./git').Branch;
 
-var Main = require('./main');
-var Command = require('./commandModel').Command;
-var CommandEntry = require('./commandModel').CommandEntry;
+var Main = require('./app/main');
+var Command = require('./models/commandModel').Command;
+var CommandEntry = require('./models/commandModel').CommandEntry;
 var TIME = require('./constants').TIME;
 
 var CommitCollection = Backbone.Collection.extend({
@@ -29,7 +29,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    require('./main').getEvents().on('gitCommandReady', _.bind(
+    require('./app/main').getEvents().on('gitCommandReady', _.bind(
       this.addCommand, this
     ));
 

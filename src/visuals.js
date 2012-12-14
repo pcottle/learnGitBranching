@@ -1,4 +1,4 @@
-var Main = require('./main');
+var Main = require('./app/main');
 var GRAPHICS = require('./constants').GRAPHICS;
 var GLOBAL = require('./constants').GLOBAL;
 
