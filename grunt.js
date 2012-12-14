@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     lint: {
-      files: ['grunt.js', 'src/*.js', 'src/**/*.js', 'spec/*.js']
+      files: ['grunt.js', 'src/**/*.js', 'spec/*.js']
     },
     compliment: {
       compliments: [
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
     },
     browserify: {
       'build/bundle.js': {
-        entries: ['src/*.js']
+        entries: ['src/**/*.js']
         //prepend: ['<banner:meta.banner>'],
       }
     }
