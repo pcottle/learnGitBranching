@@ -1,9 +1,9 @@
-var CommandEntryCollection = require('./collections').CommandEntryCollection;
-var Main = require('./app/main');
-var Command = require('./models/commandModel').Command;
-var CommandEntry = require('./models/commandModel').CommandEntry;
+var CommandEntryCollection = require('../collections').CommandEntryCollection;
+var Main = require('../app/main');
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
 
-var Errors = require('./errors');
+var Errors = require('../errors');
 var Warning = Errors.Warning;
 
 var CommandPromptView = Backbone.View.extend({

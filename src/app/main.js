@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 function UI() {
   var Collections = require('../collections');
-  var CommandViews = require('../commandViews');
+  var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
 
