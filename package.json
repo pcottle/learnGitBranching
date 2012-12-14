@@ -3,13 +3,11 @@
   "version": "0.5.0",
   "devDependencies": {
     "grunt": "~0.3.17",
+    "jasmine-node": "~1.0.28",
     "grunt-browserify": "~0.1.2",
     "grunt-jslint": "~0.2.2-1",
     "grunt-jasmine-node": "latest",
     "grunt-hash": "latest",
-    "grunt-rm": "latest"
-  },
-  "dependencies": {
-    "grunt-rm": "0.0.3"
+    "grunt-rm": "~0.0.3"
   }
 }
