@@ -79,7 +79,6 @@ module.exports = function(grunt) {
     },
     browserify: {
       'build/bundle.js': {
-        requires: ['traverse'],
         // aliases: ['jquery:jquery-browserify'],
         entries: ['src/*.js'],
         //prepend: ['<banner:meta.banner>'],
