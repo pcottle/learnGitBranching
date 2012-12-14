@@ -256,7 +256,7 @@ GitEngine.prototype.getDetachedHead = function() {
 };
 
 GitEngine.prototype.validateBranchName = function(name) {
-  name = name.replace(/\s/g, ''); 
+  name = name.replace(/\s/g, '');
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new GitError({
       msg: 'woah bad branch name!! This is not ok: ' + name
@@ -387,7 +387,7 @@ GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
 GitEngine.prototype.oneArgImpliedHead = function(args, option) {
   // for log, show, etc
   this.validateArgBounds(args, 0, 1, option);
-  if (args.length == 0) {
+  if (args.length === 0) {
     args.push('HEAD');
   }
 };
@@ -425,7 +425,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   animationResponse.toRebaseArray = toRebase.slice(0);
   animationResponse.rebaseSteps = [];
 
-  beforeSnapshot = this.gitVisuals.genSnapshot();
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
   var afterSnapshot;
 
   // now make a bunch of commits on top of where we are
@@ -526,22 +526,23 @@ GitEngine.prototype.commitStarter = function() {
   }
 
   var msg = null;
+  var args = null;
   if (this.commandOptions['-a']) {
     this.command.addWarning('No need to add files in this demo');
   }
 
   if (this.commandOptions['-am']) {
-    var args = this.commandOptions['-am'];
+    args = this.commandOptions['-am'];
     this.validateArgBounds(args, 1, 1, '-am');
 
     this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message anyways, but you can commit without a message " + 
+      "down your commit message anyways, but you can commit without a message " +
       "in this demo as well");
     msg = args[0];
   }
 
   if (this.commandOptions['-m']) {
-    var args = this.commandOptions['-m'];
+    args = this.commandOptions['-m'];
     this.validateArgBounds(args, 1, 1, '-m');
     msg = args[0];
   }
@@ -560,7 +561,7 @@ GitEngine.prototype.commitStarter = function() {
 
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
-  var id = undefined;
+  var id = null;
 
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
@@ -609,7 +610,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   // may be something like HEAD~2 or master^^
   var relativeRefs = [
     [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2]);
+      return parseInt(matches[2], 10);
     }],
     [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
       return matches[2].length;
@@ -666,7 +667,7 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   // sets whatever ref is (branch, HEAD, etc) to a target. so if
   // you pass in HEAD, and HEAD is pointing to a branch, it will update
   // the branch to that commit, not the HEAD
-  var ref = this.getOneBeforeCommit(ref);
+  ref = this.getOneBeforeCommit(ref);
   ref.set('target', target);
 };
 
@@ -751,7 +752,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   //
   // hence we need to do a BFS search, with the commit date being the
   // value to sort off of (rather than just purely the level)
-  if (numBack == 0) {
+  if (numBack === 0) {
     return commit;
   }
 
@@ -778,7 +779,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     numBack--;
   }
 
-  if (numBack !== 0 || pQueue.length == 0) {
+  if (numBack !== 0 || pQueue.length === 0) {
     throw new GitError({
       msg: "Sorry, I can't go that many commits back"
     });
@@ -808,7 +809,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
       // here we switch from C''' to C'^4
       return bits[0].slice(0, -3) + "'^4";
     }],
-    [/^C(\d+)['][^](\d+)$/, function(bits) {
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
       return 'C' + String(bits[1]) + "'^" + String(Number(bits[2]) + 1);
     }]
   ];
@@ -848,7 +849,7 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
       // return the 4 from C4, plus the length of the quotes
       return scale * bits[1] + bits[2].length;
     }],
-    [/^C(\d+)['][^](\d+)$/, function(bits) {
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
       return scale * bits[1] + Number(bits[2]);
     }]
   ];
@@ -863,7 +864,7 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
       }
     }
     throw new Error('Could not parse commit ID ' + id);
-  }
+  };
 
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
@@ -924,7 +925,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
-  var stopSet = this.getUpstreamSet(targetSource)
+  var stopSet = this.getUpstreamSet(targetSource);
 
   // now BFS from here on out
   var toRebaseRough = [];
@@ -1087,7 +1088,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
   if (this.resolveID(currentLocation).get('type') == 'commit') {
     // we referenced a commit like git rebase C2 C1, so we have
     // to manually check out C1'
-    
+
     var steps = animationResponse.rebaseSteps;
     var newestCommit = steps[steps.length - 1].newCommit;
 
@@ -1151,14 +1152,15 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
     }
   );
 
-  this.setTargetLocation(currentLocation, mergeCommit)
+  this.setTargetLocation(currentLocation, mergeCommit);
   return mergeCommit;
 };
 
 GitEngine.prototype.checkoutStarter = function() {
+  var args = null;
   if (this.commandOptions['-b']) {
     // the user is really trying to just make a branch and then switch to it. so first:
-    var args = this.commandOptions['-b'];
+    args = this.commandOptions['-b'];
     this.twoArgsImpliedHead(args, '-b');
 
     var validId = this.validateBranchName(args[0]);
@@ -1180,7 +1182,7 @@ GitEngine.prototype.checkoutStarter = function() {
   }
 
   if (this.commandOptions['-B']) {
-    var args = this.commandOptions['-B'];
+    args = this.commandOptions['-B'];
     this.twoArgsImpliedHead(args, '-B');
 
     this.forceBranch(args[0], args[1]);
@@ -1240,7 +1242,7 @@ GitEngine.prototype.branchStarter = function() {
   }
 
 
-  if (this.generalArgs.length == 0) {
+  if (this.generalArgs.length === 0) {
     this.printBranches(this.getBranches());
     return;
   }
@@ -1305,7 +1307,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 
 GitEngine.prototype.unescapeQuotes = function(str) {
   return str.replace(/&#x27;/g, "'");
-}
+};
 
 GitEngine.prototype.dispatch = function(command, callback) {
   // current command, options, and args are stored in the gitEngine
@@ -1326,7 +1328,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
   command.set('status', 'processing');
   try {
     var methodName = command.get('method').replace(/-/g, '') + 'Starter';
-    this[methodName](); 
+    this[methodName]();
   } catch (err) {
     if (err instanceof GitError ||
         err instanceof CommandResult) {
@@ -1489,14 +1491,17 @@ GitEngine.prototype.getUpstreamSet = function(ancestor) {
 
   var exploredSet = {};
   exploredSet[ancestorID] = true;
+
+  var addToExplored = function(rent) {
+    exploredSet[rent.get('id')] = true;
+    queue.push(rent);
+  };
+
   while (queue.length) {
     var here = queue.pop();
     var rents = here.get('parents');
 
-    _.each(rents, function(rent) {
-      exploredSet[rent.get('id')] = true;
-      queue.push(rent);
-    });
+    _.each(rents, addToExplored);
   }
   return exploredSet;
 };
@@ -1535,7 +1540,7 @@ var Ref = Backbone.Model.extend({
 
 var Branch = Ref.extend({
   defaults: {
-    visBranch: null,
+    visBranch: null
   },
 
   initialize: function() {
@@ -1583,7 +1588,7 @@ var Commit = Backbone.Model.extend({
       '+++ bigGameResults.html',
       '@@ 13,27 @@ Winner, Score',
       '- Stanfurd, 14-7',
-      '+ Cal, 21-14',
+      '+ Cal, 21-14'
     ].join('\n') + '\n';
   },
 

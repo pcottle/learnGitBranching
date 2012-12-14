@@ -4,6 +4,9 @@
   "devDependencies": {
     "grunt": "latest",
     "browserify": "latest"
+  },
+  "dependencies": {
+    "grunt-browserify": "~0.1.2",
+    "grunt-jslint": "~0.2.2-1"
   }
 }
-

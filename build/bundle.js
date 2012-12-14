@@ -1,4 +1,5 @@
-(function(){var require = function (file, cwd) {
+(function(){
+var require = function (file, cwd) {
     var resolved = require.resolve(file, cwd || '/');
     var mod = require.modules[resolved];
     if (!mod) throw new Error(
@@ -786,7 +787,7 @@ GitEngine.prototype.getDetachedHead = function() {
 };
 
 GitEngine.prototype.validateBranchName = function(name) {
-  name = name.replace(/\s/g, ''); 
+  name = name.replace(/\s/g, '');
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new GitError({
       msg: 'woah bad branch name!! This is not ok: ' + name
@@ -917,7 +918,7 @@ GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
 GitEngine.prototype.oneArgImpliedHead = function(args, option) {
   // for log, show, etc
   this.validateArgBounds(args, 0, 1, option);
-  if (args.length == 0) {
+  if (args.length === 0) {
     args.push('HEAD');
   }
 };
@@ -955,7 +956,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   animationResponse.toRebaseArray = toRebase.slice(0);
   animationResponse.rebaseSteps = [];
 
-  beforeSnapshot = this.gitVisuals.genSnapshot();
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
   var afterSnapshot;
 
   // now make a bunch of commits on top of where we are
@@ -1056,22 +1057,23 @@ GitEngine.prototype.commitStarter = function() {
   }
 
   var msg = null;
+  var args = null;
   if (this.commandOptions['-a']) {
     this.command.addWarning('No need to add files in this demo');
   }
 
   if (this.commandOptions['-am']) {
-    var args = this.commandOptions['-am'];
+    args = this.commandOptions['-am'];
     this.validateArgBounds(args, 1, 1, '-am');
 
     this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message anyways, but you can commit without a message " + 
+      "down your commit message anyways, but you can commit without a message " +
       "in this demo as well");
     msg = args[0];
   }
 
   if (this.commandOptions['-m']) {
-    var args = this.commandOptions['-m'];
+    args = this.commandOptions['-m'];
     this.validateArgBounds(args, 1, 1, '-m');
     msg = args[0];
   }
@@ -1090,7 +1092,7 @@ GitEngine.prototype.commitStarter = function() {
 
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
-  var id = undefined;
+  var id = null;
 
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
@@ -1139,7 +1141,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   // may be something like HEAD~2 or master^^
   var relativeRefs = [
     [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2]);
+      return parseInt(matches[2], 10);
     }],
     [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
       return matches[2].length;
@@ -1196,7 +1198,7 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   // sets whatever ref is (branch, HEAD, etc) to a target. so if
   // you pass in HEAD, and HEAD is pointing to a branch, it will update
   // the branch to that commit, not the HEAD
-  var ref = this.getOneBeforeCommit(ref);
+  ref = this.getOneBeforeCommit(ref);
   ref.set('target', target);
 };
 
@@ -1281,7 +1283,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   //
   // hence we need to do a BFS search, with the commit date being the
   // value to sort off of (rather than just purely the level)
-  if (numBack == 0) {
+  if (numBack === 0) {
     return commit;
   }
 
@@ -1308,7 +1310,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     numBack--;
   }
 
-  if (numBack !== 0 || pQueue.length == 0) {
+  if (numBack !== 0 || pQueue.length === 0) {
     throw new GitError({
       msg: "Sorry, I can't go that many commits back"
     });
@@ -1338,7 +1340,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
       // here we switch from C''' to C'^4
       return bits[0].slice(0, -3) + "'^4";
     }],
-    [/^C(\d+)['][^](\d+)$/, function(bits) {
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
       return 'C' + String(bits[1]) + "'^" + String(Number(bits[2]) + 1);
     }]
   ];
@@ -1378,7 +1380,7 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
       // return the 4 from C4, plus the length of the quotes
       return scale * bits[1] + bits[2].length;
     }],
-    [/^C(\d+)['][^](\d+)$/, function(bits) {
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
       return scale * bits[1] + Number(bits[2]);
     }]
   ];
@@ -1617,7 +1619,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
   if (this.resolveID(currentLocation).get('type') == 'commit') {
     // we referenced a commit like git rebase C2 C1, so we have
     // to manually check out C1'
-    
+
     var steps = animationResponse.rebaseSteps;
     var newestCommit = steps[steps.length - 1].newCommit;
 
@@ -1770,7 +1772,7 @@ GitEngine.prototype.branchStarter = function() {
   }
 
 
-  if (this.generalArgs.length == 0) {
+  if (this.generalArgs.length === 0) {
     this.printBranches(this.getBranches());
     return;
   }
@@ -1856,7 +1858,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
   command.set('status', 'processing');
   try {
     var methodName = command.get('method').replace(/-/g, '') + 'Starter';
-    this[methodName](); 
+    this[methodName]();
   } catch (err) {
     if (err instanceof GitError ||
         err instanceof CommandResult) {
@@ -2445,7 +2447,7 @@ $(document).ready(function(){
 
   ui = new UI();
   mainVis = new Visuals.Visualization({
-    el: $('#canvasWrapper')[0]  
+    el: $('#canvasWrapper')[0]
   });
 
   if (/\?demo/.test(window.location.href)) {
@@ -2505,7 +2507,7 @@ var VisEdge = Tree.VisEdge;
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
-    Raphael(10, 10, 200, 200, function() {
+    new Raphael(10, 10, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
       // context...
@@ -2579,7 +2581,7 @@ function GitVisuals(options) {
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
-  
+
   Main.getEvents().on('refreshTree', _.bind(
     this.refreshTree, this
   ));
@@ -2847,7 +2849,7 @@ GitVisuals.prototype.calcBranchStacks = function() {
 
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
-  
+
   this.assignBoundsRecursive(this.rootCommit, 0, 1);
 };
 
@@ -2872,7 +2874,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   var myWidthPos = (min + max) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
 
-  if (commit.get('children').length == 0) {
+  if (commit.get('children').length === 0) {
     return;
   }
 
@@ -3701,7 +3703,7 @@ var randomHueString = function() {
   var hue = Math.random();
   var str = 'hsb(' + String(hue) + ',0.7,1)';
   return str;
-}; 
+};
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
@@ -3747,10 +3749,6 @@ var VisBranch = VisBase.extend({
     }
   },
 
-  getFill: function() {
-    return this.get('fill');
-  },
-
   getID: function() {
     return this.get('branch').get('id');
   },
@@ -3761,7 +3759,7 @@ var VisBranch = VisBase.extend({
     // shorthand notation for the main objects
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) { 
+    if (!this.gitEngine) {
       console.log('throw damnit');
       throw new Error('asd');
     }
@@ -3804,7 +3802,7 @@ var VisBranch = VisBase.extend({
   },
 
   getBranchStackLength: function() {
-    if (this.get('isHead')) { 
+    if (this.get('isHead')) {
       // head is always by itself
       return 1;
     }
@@ -3844,7 +3842,7 @@ var VisBranch = VisBase.extend({
     return {
       x: pos.x - 0.5 * textSize.w - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    }
+    };
   },
 
   getArrowPath: function() {
@@ -3973,7 +3971,7 @@ var VisBranch = VisBase.extend({
     // - part of a multi branch, but your thing is hidden
     if (this.get('isHead') ||
         this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() != 0) {
+        this.getBranchStackIndex() !== 0) {
       return this.get('fill');
     }
 
@@ -4028,7 +4026,7 @@ var VisBranch = VisBase.extend({
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
-    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
+    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
   },
 
   getTextOpacity: function() {
@@ -4087,7 +4085,7 @@ var VisBranch = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('text').attr(attr.text);
       this.get('rect').attr(attr.rect);
       this.get('arrow').attr(attr.arrow);
@@ -4162,7 +4160,7 @@ var VisNode = VisBase.extend({
 
   setDepthBasedOn: function(depthIncrement) {
     if (this.get('depth') === undefined) {
-      debugger
+      debugger;
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');
@@ -4263,7 +4261,7 @@ var VisNode = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('circle').attr(attr.circle);
       this.get('text').attr(attr.text);
       return;
@@ -4302,12 +4300,12 @@ var VisNode = VisBase.extend({
       cx: parentCoords.x,
       cy: parentCoords.y,
       opacity: 0,
-      r: 0,
+      r: 0
     });
     this.get('text').attr({
       x: parentCoords.x,
       y: parentCoords.y,
-      opacity: 0,
+      opacity: 0
     });
   },
 
@@ -4407,9 +4405,7 @@ var VisNode = VisBase.extend({
     }
 
     // now we need to get branch hues
-
     return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
-    return this.get('fill');
   },
 
   attachClickHandlers: function() {
@@ -4632,7 +4628,7 @@ var VisEdge = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('path').attr(attr.path);
       return;
     }
@@ -4643,8 +4639,7 @@ var VisEdge = VisBase.extend({
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
-  },
-
+  }
 });
 
 var VisEdgeCollection = Backbone.Collection.extend({
@@ -5133,11 +5128,10 @@ require.define("/miscViews.js",function(require,module,exports,__dirname,__filen
       }
     }, this);
 
-    this.rebaseCallback(toRebase);  
+    this.rebaseCallback(toRebase);
 
     this.$el.html('');
-    // kill ourselves?
-    delete this;
+    // garbage collection will get us
   },
 
   render: function() {
@@ -5161,8 +5155,7 @@ require.define("/miscViews.js",function(require,module,exports,__dirname,__filen
       distance: 5,
       placeholder: 'ui-state-highlight'
     });
-  },
-
+  }
 });
 
 var RebaseEntry = Backbone.Model.extend({
@@ -5185,7 +5178,7 @@ var RebaseEntryView = Backbone.View.extend({
 
   toggle: function() {
     this.model.toggle();
-    
+
     // toggle a class also
     this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
   },
@@ -6909,7 +6902,7 @@ GitEngine.prototype.getDetachedHead = function() {
 };
 
 GitEngine.prototype.validateBranchName = function(name) {
-  name = name.replace(/\s/g, ''); 
+  name = name.replace(/\s/g, '');
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new GitError({
       msg: 'woah bad branch name!! This is not ok: ' + name
@@ -7040,7 +7033,7 @@ GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
 GitEngine.prototype.oneArgImpliedHead = function(args, option) {
   // for log, show, etc
   this.validateArgBounds(args, 0, 1, option);
-  if (args.length == 0) {
+  if (args.length === 0) {
     args.push('HEAD');
   }
 };
@@ -7078,7 +7071,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   animationResponse.toRebaseArray = toRebase.slice(0);
   animationResponse.rebaseSteps = [];
 
-  beforeSnapshot = this.gitVisuals.genSnapshot();
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
   var afterSnapshot;
 
   // now make a bunch of commits on top of where we are
@@ -7179,22 +7172,23 @@ GitEngine.prototype.commitStarter = function() {
   }
 
   var msg = null;
+  var args = null;
   if (this.commandOptions['-a']) {
     this.command.addWarning('No need to add files in this demo');
   }
 
   if (this.commandOptions['-am']) {
-    var args = this.commandOptions['-am'];
+    args = this.commandOptions['-am'];
     this.validateArgBounds(args, 1, 1, '-am');
 
     this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message anyways, but you can commit without a message " + 
+      "down your commit message anyways, but you can commit without a message " +
       "in this demo as well");
     msg = args[0];
   }
 
   if (this.commandOptions['-m']) {
-    var args = this.commandOptions['-m'];
+    args = this.commandOptions['-m'];
     this.validateArgBounds(args, 1, 1, '-m');
     msg = args[0];
   }
@@ -7213,7 +7207,7 @@ GitEngine.prototype.commitStarter = function() {
 
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
-  var id = undefined;
+  var id = null;
 
   // if we want to ammend, go one above
   if (this.commandOptions['--amend']) {
@@ -7262,7 +7256,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   // may be something like HEAD~2 or master^^
   var relativeRefs = [
     [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2]);
+      return parseInt(matches[2], 10);
     }],
     [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
       return matches[2].length;
@@ -7319,7 +7313,7 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   // sets whatever ref is (branch, HEAD, etc) to a target. so if
   // you pass in HEAD, and HEAD is pointing to a branch, it will update
   // the branch to that commit, not the HEAD
-  var ref = this.getOneBeforeCommit(ref);
+  ref = this.getOneBeforeCommit(ref);
   ref.set('target', target);
 };
 
@@ -7404,7 +7398,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   //
   // hence we need to do a BFS search, with the commit date being the
   // value to sort off of (rather than just purely the level)
-  if (numBack == 0) {
+  if (numBack === 0) {
     return commit;
   }
 
@@ -7431,7 +7425,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
     numBack--;
   }
 
-  if (numBack !== 0 || pQueue.length == 0) {
+  if (numBack !== 0 || pQueue.length === 0) {
     throw new GitError({
       msg: "Sorry, I can't go that many commits back"
     });
@@ -7461,7 +7455,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
       // here we switch from C''' to C'^4
       return bits[0].slice(0, -3) + "'^4";
     }],
-    [/^C(\d+)['][^](\d+)$/, function(bits) {
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
       return 'C' + String(bits[1]) + "'^" + String(Number(bits[2]) + 1);
     }]
   ];
@@ -7501,7 +7495,7 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
       // return the 4 from C4, plus the length of the quotes
       return scale * bits[1] + bits[2].length;
     }],
-    [/^C(\d+)['][^](\d+)$/, function(bits) {
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
       return scale * bits[1] + Number(bits[2]);
     }]
   ];
@@ -7740,7 +7734,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
   if (this.resolveID(currentLocation).get('type') == 'commit') {
     // we referenced a commit like git rebase C2 C1, so we have
     // to manually check out C1'
-    
+
     var steps = animationResponse.rebaseSteps;
     var newestCommit = steps[steps.length - 1].newCommit;
 
@@ -7893,7 +7887,7 @@ GitEngine.prototype.branchStarter = function() {
   }
 
 
-  if (this.generalArgs.length == 0) {
+  if (this.generalArgs.length === 0) {
     this.printBranches(this.getBranches());
     return;
   }
@@ -7979,7 +7973,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
   command.set('status', 'processing');
   try {
     var methodName = command.get('method').replace(/-/g, '') + 'Starter';
-    this[methodName](); 
+    this[methodName]();
   } catch (err) {
     if (err instanceof GitError ||
         err instanceof CommandResult) {
@@ -8403,7 +8397,7 @@ $(document).ready(function(){
 
   ui = new UI();
   mainVis = new Visuals.Visualization({
-    el: $('#canvasWrapper')[0]  
+    el: $('#canvasWrapper')[0]
   });
 
   if (/\?demo/.test(window.location.href)) {
@@ -8519,11 +8513,10 @@ require.define("/miscViews.js",function(require,module,exports,__dirname,__filen
       }
     }, this);
 
-    this.rebaseCallback(toRebase);  
+    this.rebaseCallback(toRebase);
 
     this.$el.html('');
-    // kill ourselves?
-    delete this;
+    // garbage collection will get us
   },
 
   render: function() {
@@ -8547,8 +8540,7 @@ require.define("/miscViews.js",function(require,module,exports,__dirname,__filen
       distance: 5,
       placeholder: 'ui-state-highlight'
     });
-  },
-
+  }
 });
 
 var RebaseEntry = Backbone.Model.extend({
@@ -8571,7 +8563,7 @@ var RebaseEntryView = Backbone.View.extend({
 
   toggle: function() {
     this.model.toggle();
-    
+
     // toggle a class also
     this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
   },
@@ -8606,7 +8598,7 @@ var randomHueString = function() {
   var hue = Math.random();
   var str = 'hsb(' + String(hue) + ',0.7,1)';
   return str;
-}; 
+};
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
@@ -8652,10 +8644,6 @@ var VisBranch = VisBase.extend({
     }
   },
 
-  getFill: function() {
-    return this.get('fill');
-  },
-
   getID: function() {
     return this.get('branch').get('id');
   },
@@ -8666,7 +8654,7 @@ var VisBranch = VisBase.extend({
     // shorthand notation for the main objects
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) { 
+    if (!this.gitEngine) {
       console.log('throw damnit');
       throw new Error('asd');
     }
@@ -8709,7 +8697,7 @@ var VisBranch = VisBase.extend({
   },
 
   getBranchStackLength: function() {
-    if (this.get('isHead')) { 
+    if (this.get('isHead')) {
       // head is always by itself
       return 1;
     }
@@ -8749,7 +8737,7 @@ var VisBranch = VisBase.extend({
     return {
       x: pos.x - 0.5 * textSize.w - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    }
+    };
   },
 
   getArrowPath: function() {
@@ -8878,7 +8866,7 @@ var VisBranch = VisBase.extend({
     // - part of a multi branch, but your thing is hidden
     if (this.get('isHead') ||
         this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() != 0) {
+        this.getBranchStackIndex() !== 0) {
       return this.get('fill');
     }
 
@@ -8933,7 +8921,7 @@ var VisBranch = VisBase.extend({
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
-    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
+    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
   },
 
   getTextOpacity: function() {
@@ -8992,7 +8980,7 @@ var VisBranch = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('text').attr(attr.text);
       this.get('rect').attr(attr.rect);
       this.get('arrow').attr(attr.arrow);
@@ -9067,7 +9055,7 @@ var VisNode = VisBase.extend({
 
   setDepthBasedOn: function(depthIncrement) {
     if (this.get('depth') === undefined) {
-      debugger
+      debugger;
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');
@@ -9168,7 +9156,7 @@ var VisNode = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('circle').attr(attr.circle);
       this.get('text').attr(attr.text);
       return;
@@ -9207,12 +9195,12 @@ var VisNode = VisBase.extend({
       cx: parentCoords.x,
       cy: parentCoords.y,
       opacity: 0,
-      r: 0,
+      r: 0
     });
     this.get('text').attr({
       x: parentCoords.x,
       y: parentCoords.y,
-      opacity: 0,
+      opacity: 0
     });
   },
 
@@ -9312,9 +9300,7 @@ var VisNode = VisBase.extend({
     }
 
     // now we need to get branch hues
-
     return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
-    return this.get('fill');
   },
 
   attachClickHandlers: function() {
@@ -9537,7 +9523,7 @@ var VisEdge = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('path').attr(attr.path);
       return;
     }
@@ -9548,8 +9534,7 @@ var VisEdge = VisBase.extend({
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
-  },
-
+  }
 });
 
 var VisEdgeCollection = Backbone.Collection.extend({
@@ -9588,7 +9573,7 @@ var VisEdge = Tree.VisEdge;
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
-    Raphael(10, 10, 200, 200, function() {
+    new Raphael(10, 10, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
       // context...
@@ -9662,7 +9647,7 @@ function GitVisuals(options) {
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
-  
+
   Main.getEvents().on('refreshTree', _.bind(
     this.refreshTree, this
   ));
@@ -9930,7 +9915,7 @@ GitVisuals.prototype.calcBranchStacks = function() {
 
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
-  
+
   this.assignBoundsRecursive(this.rootCommit, 0, 1);
 };
 
@@ -9955,7 +9940,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   var myWidthPos = (min + max) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
 
-  if (commit.get('children').length == 0) {
+  if (commit.get('children').length === 0) {
     return;
   }
 
@@ -10252,4 +10237,5 @@ exports.Visualization = Visualization;
 
 });
 require("/visuals.js");
+
 })();

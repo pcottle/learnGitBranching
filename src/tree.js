@@ -5,7 +5,7 @@ var randomHueString = function() {
   var hue = Math.random();
   var str = 'hsb(' + String(hue) + ',0.7,1)';
   return str;
-}; 
+};
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
@@ -51,10 +51,6 @@ var VisBranch = VisBase.extend({
     }
   },
 
-  getFill: function() {
-    return this.get('fill');
-  },
-
   getID: function() {
     return this.get('branch').get('id');
   },
@@ -65,7 +61,7 @@ var VisBranch = VisBase.extend({
     // shorthand notation for the main objects
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) { 
+    if (!this.gitEngine) {
       console.log('throw damnit');
       throw new Error('asd');
     }
@@ -108,7 +104,7 @@ var VisBranch = VisBase.extend({
   },
 
   getBranchStackLength: function() {
-    if (this.get('isHead')) { 
+    if (this.get('isHead')) {
       // head is always by itself
       return 1;
     }
@@ -148,7 +144,7 @@ var VisBranch = VisBase.extend({
     return {
       x: pos.x - 0.5 * textSize.w - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    }
+    };
   },
 
   getArrowPath: function() {
@@ -277,7 +273,7 @@ var VisBranch = VisBase.extend({
     // - part of a multi branch, but your thing is hidden
     if (this.get('isHead') ||
         this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() != 0) {
+        this.getBranchStackIndex() !== 0) {
       return this.get('fill');
     }
 
@@ -332,7 +328,7 @@ var VisBranch = VisBase.extend({
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
-    return this.getBranchStackIndex() == 0 ? 1 : 0.0;
+    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
   },
 
   getTextOpacity: function() {
@@ -391,7 +387,7 @@ var VisBranch = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('text').attr(attr.text);
       this.get('rect').attr(attr.rect);
       this.get('arrow').attr(attr.arrow);
@@ -466,7 +462,7 @@ var VisNode = VisBase.extend({
 
   setDepthBasedOn: function(depthIncrement) {
     if (this.get('depth') === undefined) {
-      debugger
+      debugger;
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');
@@ -567,7 +563,7 @@ var VisNode = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('circle').attr(attr.circle);
       this.get('text').attr(attr.text);
       return;
@@ -606,12 +602,12 @@ var VisNode = VisBase.extend({
       cx: parentCoords.x,
       cy: parentCoords.y,
       opacity: 0,
-      r: 0,
+      r: 0
     });
     this.get('text').attr({
       x: parentCoords.x,
       y: parentCoords.y,
-      opacity: 0,
+      opacity: 0
     });
   },
 
@@ -711,9 +707,7 @@ var VisNode = VisBase.extend({
     }
 
     // now we need to get branch hues
-
     return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
-    return this.get('fill');
   },
 
   attachClickHandlers: function() {
@@ -936,7 +930,7 @@ var VisEdge = VisBase.extend({
   },
 
   animateToAttr: function(attr, speed, easing) {
-    if (speed == 0) {
+    if (speed === 0) {
       this.get('path').attr(attr.path);
       return;
     }
@@ -947,8 +941,7 @@ var VisEdge = VisBase.extend({
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
     );
-  },
-
+  }
 });
 
 var VisEdgeCollection = Backbone.Collection.extend({

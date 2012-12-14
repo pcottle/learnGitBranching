@@ -1,45 +1,68 @@
 /*global module:false*/
 module.exports = function(grunt) {
-
   // eventually have sound...?
-  grunt.registerTask('compliment', function() {
-    grunt.log.writeln('You are awesome!');
+  grunt.registerTask('compliment', 'Stay motivated!', function() {
+    var defaults = ['Awesome!!'];
+
+    var compliments = grunt.config('compliment.compliments') || defaults;
+    var index = Math.floor(Math.random() * compliments.length);
+
+    grunt.log.writeln(compliments[index]);
   });
 
   grunt.initConfig({
     lint: {
       files: ['grunt.js', 'src/*.js']
     },
+    compliment: {
+      compliments: [
+        "Wow peter great work!",
+        "Such a professional dev environment",
+        "Can't stop the TRAIN",
+        "git raging"
+      ]
+    },
     /*
     jasmine_node: {
-      specNameMatcher: "./spec", // load only specs containing specNameMatcher
-      projectRoot: ".",
+      specNameMatcher: './spec', // load only specs containing specNameMatcher
+      projectRoot: '.',
       requirejs: false,
       forceExit: true,
       jUnit: {
         report: false,
-        savePath : "./build/reports/jasmine/",
+        savePath : './build/reports/jasmine/',
         useDotNotation: true,
         consolidate: true
       }
     },
+    */
     watch: {
       files: '<config:lint.files>',
-      tasks: 'lint'
-    },*/
+      tasks: 'default'
+    },
     jshint: {
       options: {
         curly: true,
-        eqeqeq: true,
+        // sometimes triple equality is just redundant and unnecessary
+        eqeqeq: false,
+        regexp: false,
         immed: true,
-        latedef: true,
+        latedef: false,
+        nonew: false,
         newcap: true,
         noarg: true,
+        bitwise: true,
         sub: true,
         undef: true,
+        unused: false,
+        trailing: true,
+        devel: true,
+        jquery: true,
+        nonstandard: true,
         boss: true,
         eqnull: true,
-        browser: true
+        browser: true,
+        debug: true
       },
       globals: {
         _: true,
@@ -53,12 +76,26 @@ module.exports = function(grunt) {
         it: true,
         exports: true
       }
+    },
+    browserify: {
+      'build/bundle.js': {
+        //requires: ['traverse'],
+        // aliases: ['jquery:jquery-browserify'],
+        entries: ['src/*.js'],
+        //prepend: ['<banner:meta.banner>'],
+        append: [],
+        /*hook: function (bundle) {
+          // Do something with bundle
+        }*/
+      }
     }
   });
 
   //grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-jslint');
 
   // Default task.
-  grunt.registerTask('default', 'lint compliment'); //jasmine_node');
+  grunt.registerTask('default', 'browserify compliment'); //jasmine_node');
 };
 

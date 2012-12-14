@@ -16,7 +16,7 @@ var VisEdge = Tree.VisEdge;
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
-    Raphael(10, 10, 200, 200, function() {
+    new Raphael(10, 10, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
       // context...
@@ -90,7 +90,7 @@ function GitVisuals(options) {
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
-  
+
   Main.getEvents().on('refreshTree', _.bind(
     this.refreshTree, this
   ));
@@ -358,7 +358,7 @@ GitVisuals.prototype.calcBranchStacks = function() {
 
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
-  
+
   this.assignBoundsRecursive(this.rootCommit, 0, 1);
 };
 
@@ -383,7 +383,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   var myWidthPos = (min + max) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
 
-  if (commit.get('children').length == 0) {
+  if (commit.get('children').length === 0) {
     return;
   }
 

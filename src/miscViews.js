@@ -71,11 +71,10 @@ var InteractiveRebaseView = Backbone.View.extend({
       }
     }, this);
 
-    this.rebaseCallback(toRebase);  
+    this.rebaseCallback(toRebase);
 
     this.$el.html('');
-    // kill ourselves?
-    delete this;
+    // garbage collection will get us
   },
 
   render: function() {
@@ -99,8 +98,7 @@ var InteractiveRebaseView = Backbone.View.extend({
       distance: 5,
       placeholder: 'ui-state-highlight'
     });
-  },
-
+  }
 });
 
 var RebaseEntry = Backbone.Model.extend({
@@ -123,7 +121,7 @@ var RebaseEntryView = Backbone.View.extend({
 
   toggle: function() {
     this.model.toggle();
-    
+
     // toggle a class also
     this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
   },

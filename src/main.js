@@ -12,7 +12,7 @@ $(document).ready(function(){
 
   ui = new UI();
   mainVis = new Visuals.Visualization({
-    el: $('#canvasWrapper')[0]  
+    el: $('#canvasWrapper')[0]
   });
 
   if (/\?demo/.test(window.location.href)) {
