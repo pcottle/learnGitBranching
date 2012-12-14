@@ -2,11 +2,9 @@
   "name": "LearnGitBranching",
   "version": "0.5.0",
   "devDependencies": {
-    "grunt": "latest",
-    "browserify": "latest"
-  },
-  "dependencies": {
+    "grunt": "~0.3.17",
     "grunt-browserify": "~0.1.2",
-    "grunt-jslint": "~0.2.2-1"
+    "grunt-jslint": "~0.2.2-1",
+    "grunt-jasmine-node": "latest"
   }
 }

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     lint: {
-      files: ['grunt.js', 'src/*.js']
+      files: ['grunt.js', 'src/*.js', 'src/**/*.js']
     },
     compliment: {
       compliments: [
@@ -22,20 +22,20 @@ module.exports = function(grunt) {
         "git raging"
       ]
     },
-    /*
     jasmine_node: {
-      specNameMatcher: './spec', // load only specs containing specNameMatcher
+      specNameMatcher: 'spec', // load only specs containing specNameMatcher
       projectRoot: '.',
-      requirejs: false,
       forceExit: true,
+      verbose: true
+      /*
+      requirejs: false,
       jUnit: {
         report: false,
         savePath : './build/reports/jasmine/',
         useDotNotation: true,
         consolidate: true
-      }
+      }*/
     },
-    */
     watch: {
       files: '<config:lint.files>',
       tasks: 'default'
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
     },
     browserify: {
       'build/bundle.js': {
-        //requires: ['traverse'],
+        requires: ['traverse'],
         // aliases: ['jquery:jquery-browserify'],
         entries: ['src/*.js'],
         //prepend: ['<banner:meta.banner>'],
@@ -91,11 +91,12 @@ module.exports = function(grunt) {
     }
   });
 
-  //grunt.loadNpmTasks('grunt-jasmine-node');
-  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-jslint');
+  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-jasmine-node');
 
   // Default task.
-  grunt.registerTask('default', 'browserify compliment'); //jasmine_node');
+  grunt.registerTask('default', 'lint browserify compliment');
+  grunt.registerTask('test', 'jasmine_node');
 };
 

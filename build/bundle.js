@@ -471,7 +471,7 @@ var AnimationQueue = Backbone.Model.extend({
     setTimeout(_.bind(function() {
       this.next();
     }, this), duration);
-  },
+  }
 });
 
 exports.Animation = Animation;
@@ -484,7 +484,7 @@ require.define("/constants.js",function(require,module,exports,__dirname,__filen
  * Constants....!!!
  */
 var TIME = {
-  betweenCommandsDelay: 400,
+  betweenCommandsDelay: 400
 };
 
 // useful for locks, etc
@@ -519,7 +519,7 @@ var GRAPHICS = {
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)',
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 
 exports.GLOBAL = GLOBAL;
@@ -1395,7 +1395,7 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
       }
     }
     throw new Error('Could not parse commit ID ' + id);
-  }
+  };
 
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
@@ -1456,7 +1456,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
-  var stopSet = this.getUpstreamSet(targetSource)
+  var stopSet = this.getUpstreamSet(targetSource);
 
   // now BFS from here on out
   var toRebaseRough = [];
@@ -1683,14 +1683,15 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
     }
   );
 
-  this.setTargetLocation(currentLocation, mergeCommit)
+  this.setTargetLocation(currentLocation, mergeCommit);
   return mergeCommit;
 };
 
 GitEngine.prototype.checkoutStarter = function() {
+  var args = null;
   if (this.commandOptions['-b']) {
     // the user is really trying to just make a branch and then switch to it. so first:
-    var args = this.commandOptions['-b'];
+    args = this.commandOptions['-b'];
     this.twoArgsImpliedHead(args, '-b');
 
     var validId = this.validateBranchName(args[0]);
@@ -1712,7 +1713,7 @@ GitEngine.prototype.checkoutStarter = function() {
   }
 
   if (this.commandOptions['-B']) {
-    var args = this.commandOptions['-B'];
+    args = this.commandOptions['-B'];
     this.twoArgsImpliedHead(args, '-B');
 
     this.forceBranch(args[0], args[1]);
@@ -1744,6 +1745,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 };
 
 GitEngine.prototype.branchStarter = function() {
+  var args = null;
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     var names = this.commandOptions['-d'] || this.commandOptions['-D'];
@@ -1756,14 +1758,14 @@ GitEngine.prototype.branchStarter = function() {
   }
 
   if (this.commandOptions['--contains']) {
-    var args = this.commandOptions['--contains'];
+    args = this.commandOptions['--contains'];
     this.validateArgBounds(args, 1, 1, '--contains');
     this.printBranchesWithout(args[0]);
     return;
   }
 
   if (this.commandOptions['-f']) {
-    var args = this.commandOptions['-f'];
+    args = this.commandOptions['-f'];
     this.twoArgsImpliedHead(args, '-f');
 
     // we want to force a branch somewhere
@@ -1837,7 +1839,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 
 GitEngine.prototype.unescapeQuotes = function(str) {
   return str.replace(/&#x27;/g, "'");
-}
+};
 
 GitEngine.prototype.dispatch = function(command, callback) {
   // current command, options, and args are stored in the gitEngine
@@ -2021,14 +2023,17 @@ GitEngine.prototype.getUpstreamSet = function(ancestor) {
 
   var exploredSet = {};
   exploredSet[ancestorID] = true;
+
+  var addToExplored = function(rent) {
+    exploredSet[rent.get('id')] = true;
+    queue.push(rent);
+  };
+
   while (queue.length) {
     var here = queue.pop();
     var rents = here.get('parents');
 
-    _.each(rents, function(rent) {
-      exploredSet[rent.get('id')] = true;
-      queue.push(rent);
-    });
+    _.each(rents, addToExplored);
   }
   return exploredSet;
 };
@@ -2067,7 +2072,7 @@ var Ref = Backbone.Model.extend({
 
 var Branch = Ref.extend({
   defaults: {
-    visBranch: null,
+    visBranch: null
   },
 
   initialize: function() {
@@ -2115,7 +2120,7 @@ var Commit = Backbone.Model.extend({
       '+++ bigGameResults.html',
       '@@ 13,27 @@ Winner, Score',
       '- Stanfurd, 14-7',
-      '+ Cal, 21-14',
+      '+ Cal, 21-14'
     ].join('\n') + '\n';
   },
 
@@ -2190,7 +2195,7 @@ var GRAPHICS = require('./constants').GRAPHICS;
 // essentially a static class
 var AnimationFactory = function() {
 
-}
+};
 
 AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
@@ -2340,7 +2345,7 @@ AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResp
       snapshotPart();
       birthPart();
     };
-        
+
     animationQueue.add(new Animation({
       closure: animation,
       duration: GRAPHICS.defaultAnimationTime * 1.5
@@ -3184,7 +3189,7 @@ var CommitCollection = Backbone.Collection.extend({
 });
 
 var CommandCollection = Backbone.Collection.extend({
-  model: Command,
+  model: Command
 });
 
 var BranchCollection = Backbone.Collection.extend({
@@ -3198,7 +3203,7 @@ var CommandEntryCollection = Backbone.Collection.extend({
 
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
-    collection: null,
+    collection: null
   },
 
   initialize: function(options) {
@@ -3265,7 +3270,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     this.popAndProcess();
-  },
+  }
 });
 
 exports.CommitCollection = CommitCollection;
@@ -3441,7 +3446,7 @@ var Command = Backbone.Model.extend({
           _.escape('\t git <command> [<args>]'),
           '<br/>',
           'Supported commands:',
-          '<br/>',
+          '<br/>'
         ];
         var commands = OptionParser.prototype.getMasterOptionMap();
 
@@ -3461,12 +3466,16 @@ var Command = Backbone.Model.extend({
         });
       }],
       [/^refresh$/, function() {
+        var events = require('./main').getEvents();
+
         events.trigger('refreshTree');
         throw new CommandResult({
           msg: "Refreshing tree..."
         });
       }],
       [/^rollup (\d+)$/, function(bits) {
+        var events = require('./main').getEvents();
+
         // go roll up these commands by joining them with semicolons
         events.trigger('rollupCommands', bits[1]);
         throw new CommandResult({
@@ -3540,7 +3549,7 @@ var Command = Backbone.Model.extend({
     // steal these away so we can be completely JSON
     this.set('generalArgs', optionParser.generalArgs);
     this.set('supportedMap', optionParser.supportedMap);
-  },
+  }
 });
 
 /**
@@ -3587,7 +3596,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     },
     reset: {
       '--hard': false,
-      '--soft': false, // this will raise an error but we catch it in gitEngine
+      '--soft': false // this will raise an error but we catch it in gitEngine
     },
     merge: {},
     rebase: {
@@ -4733,7 +4742,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   hideCursor: function() {
-    this.toggleCursor(false); 
+    this.toggleCursor(false);
   },
 
   showCursor: function() {
@@ -4746,7 +4755,7 @@ var CommandPromptView = Backbone.View.extend({
 
   onKey: function(e) {
     var el = e.srcElement;
-    this.updatePrompt(el)
+    this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
@@ -4781,7 +4790,7 @@ var CommandPromptView = Backbone.View.extend({
       .replace(/</g,'&lt;')
       .replace(/</g,'&lt;')
       .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'')
+      .replace(/\n/g,'');
   },
 
   updatePrompt: function(el) {
@@ -4821,7 +4830,7 @@ var CommandPromptView = Backbone.View.extend({
 
   commandSelectChange: function(delta) {
     this.index += delta;
-    
+
     // if we are over / under, display blank line. yes this eliminates your
     // partially edited command, but i doubt that is much in this demo
     if (this.index >= this.commands.length || this.index < 0) {
@@ -4946,10 +4955,10 @@ var CommandView = Backbone.View.extend({
     // with jquery rather than brutally delete a html of HTML
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) == 0) {
+    if (_.difference(changeKeys, ['status']) === 0) {
       this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) == 0) {
-      // the above will 
+    } else if (_.difference(changeKeys, ['error']) === 0) {
+      // the above will
       this.render();
     } else {
       this.render();
@@ -5313,7 +5322,7 @@ var GRAPHICS = require('./constants').GRAPHICS;
 // essentially a static class
 var AnimationFactory = function() {
 
-}
+};
 
 AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
@@ -5463,7 +5472,7 @@ AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResp
       snapshotPart();
       birthPart();
     };
-        
+
     animationQueue.add(new Animation({
       closure: animation,
       duration: GRAPHICS.defaultAnimationTime * 1.5
@@ -5636,7 +5645,7 @@ var AnimationQueue = Backbone.Model.extend({
     setTimeout(_.bind(function() {
       this.next();
     }, this), duration);
-  },
+  }
 });
 
 exports.Animation = Animation;
@@ -5659,7 +5668,7 @@ var CommitCollection = Backbone.Collection.extend({
 });
 
 var CommandCollection = Backbone.Collection.extend({
-  model: Command,
+  model: Command
 });
 
 var BranchCollection = Backbone.Collection.extend({
@@ -5673,7 +5682,7 @@ var CommandEntryCollection = Backbone.Collection.extend({
 
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
-    collection: null,
+    collection: null
   },
 
   initialize: function(options) {
@@ -5740,7 +5749,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     this.popAndProcess();
-  },
+  }
 });
 
 exports.CommitCollection = CommitCollection;
@@ -5917,7 +5926,7 @@ var Command = Backbone.Model.extend({
           _.escape('\t git <command> [<args>]'),
           '<br/>',
           'Supported commands:',
-          '<br/>',
+          '<br/>'
         ];
         var commands = OptionParser.prototype.getMasterOptionMap();
 
@@ -5937,12 +5946,16 @@ var Command = Backbone.Model.extend({
         });
       }],
       [/^refresh$/, function() {
+        var events = require('./main').getEvents();
+
         events.trigger('refreshTree');
         throw new CommandResult({
           msg: "Refreshing tree..."
         });
       }],
       [/^rollup (\d+)$/, function(bits) {
+        var events = require('./main').getEvents();
+
         // go roll up these commands by joining them with semicolons
         events.trigger('rollupCommands', bits[1]);
         throw new CommandResult({
@@ -6016,7 +6029,7 @@ var Command = Backbone.Model.extend({
     // steal these away so we can be completely JSON
     this.set('generalArgs', optionParser.generalArgs);
     this.set('supportedMap', optionParser.supportedMap);
-  },
+  }
 });
 
 /**
@@ -6063,7 +6076,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     },
     reset: {
       '--hard': false,
-      '--soft': false, // this will raise an error but we catch it in gitEngine
+      '--soft': false // this will raise an error but we catch it in gitEngine
     },
     merge: {},
     rebase: {
@@ -6199,7 +6212,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   hideCursor: function() {
-    this.toggleCursor(false); 
+    this.toggleCursor(false);
   },
 
   showCursor: function() {
@@ -6212,7 +6225,7 @@ var CommandPromptView = Backbone.View.extend({
 
   onKey: function(e) {
     var el = e.srcElement;
-    this.updatePrompt(el)
+    this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
@@ -6247,7 +6260,7 @@ var CommandPromptView = Backbone.View.extend({
       .replace(/</g,'&lt;')
       .replace(/</g,'&lt;')
       .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'')
+      .replace(/\n/g,'');
   },
 
   updatePrompt: function(el) {
@@ -6287,7 +6300,7 @@ var CommandPromptView = Backbone.View.extend({
 
   commandSelectChange: function(delta) {
     this.index += delta;
-    
+
     // if we are over / under, display blank line. yes this eliminates your
     // partially edited command, but i doubt that is much in this demo
     if (this.index >= this.commands.length || this.index < 0) {
@@ -6412,10 +6425,10 @@ var CommandView = Backbone.View.extend({
     // with jquery rather than brutally delete a html of HTML
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) == 0) {
+    if (_.difference(changeKeys, ['status']) === 0) {
       this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) == 0) {
-      // the above will 
+    } else if (_.difference(changeKeys, ['error']) === 0) {
+      // the above will
       this.render();
     } else {
       this.render();
@@ -6526,7 +6539,7 @@ require.define("/constants.js",function(require,module,exports,__dirname,__filen
  * Constants....!!!
  */
 var TIME = {
-  betweenCommandsDelay: 400,
+  betweenCommandsDelay: 400
 };
 
 // useful for locks, etc
@@ -6561,7 +6574,7 @@ var GRAPHICS = {
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)',
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 
 exports.GLOBAL = GLOBAL;
@@ -7510,7 +7523,7 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
       }
     }
     throw new Error('Could not parse commit ID ' + id);
-  }
+  };
 
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
@@ -7571,7 +7584,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
-  var stopSet = this.getUpstreamSet(targetSource)
+  var stopSet = this.getUpstreamSet(targetSource);
 
   // now BFS from here on out
   var toRebaseRough = [];
@@ -7798,14 +7811,15 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
     }
   );
 
-  this.setTargetLocation(currentLocation, mergeCommit)
+  this.setTargetLocation(currentLocation, mergeCommit);
   return mergeCommit;
 };
 
 GitEngine.prototype.checkoutStarter = function() {
+  var args = null;
   if (this.commandOptions['-b']) {
     // the user is really trying to just make a branch and then switch to it. so first:
-    var args = this.commandOptions['-b'];
+    args = this.commandOptions['-b'];
     this.twoArgsImpliedHead(args, '-b');
 
     var validId = this.validateBranchName(args[0]);
@@ -7827,7 +7841,7 @@ GitEngine.prototype.checkoutStarter = function() {
   }
 
   if (this.commandOptions['-B']) {
-    var args = this.commandOptions['-B'];
+    args = this.commandOptions['-B'];
     this.twoArgsImpliedHead(args, '-B');
 
     this.forceBranch(args[0], args[1]);
@@ -7859,6 +7873,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 };
 
 GitEngine.prototype.branchStarter = function() {
+  var args = null;
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     var names = this.commandOptions['-d'] || this.commandOptions['-D'];
@@ -7871,14 +7886,14 @@ GitEngine.prototype.branchStarter = function() {
   }
 
   if (this.commandOptions['--contains']) {
-    var args = this.commandOptions['--contains'];
+    args = this.commandOptions['--contains'];
     this.validateArgBounds(args, 1, 1, '--contains');
     this.printBranchesWithout(args[0]);
     return;
   }
 
   if (this.commandOptions['-f']) {
-    var args = this.commandOptions['-f'];
+    args = this.commandOptions['-f'];
     this.twoArgsImpliedHead(args, '-f');
 
     // we want to force a branch somewhere
@@ -7952,7 +7967,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 
 GitEngine.prototype.unescapeQuotes = function(str) {
   return str.replace(/&#x27;/g, "'");
-}
+};
 
 GitEngine.prototype.dispatch = function(command, callback) {
   // current command, options, and args are stored in the gitEngine
@@ -8136,14 +8151,17 @@ GitEngine.prototype.getUpstreamSet = function(ancestor) {
 
   var exploredSet = {};
   exploredSet[ancestorID] = true;
+
+  var addToExplored = function(rent) {
+    exploredSet[rent.get('id')] = true;
+    queue.push(rent);
+  };
+
   while (queue.length) {
     var here = queue.pop();
     var rents = here.get('parents');
 
-    _.each(rents, function(rent) {
-      exploredSet[rent.get('id')] = true;
-      queue.push(rent);
-    });
+    _.each(rents, addToExplored);
   }
   return exploredSet;
 };
@@ -8182,7 +8200,7 @@ var Ref = Backbone.Model.extend({
 
 var Branch = Ref.extend({
   defaults: {
-    visBranch: null,
+    visBranch: null
   },
 
   initialize: function() {
@@ -8230,7 +8248,7 @@ var Commit = Backbone.Model.extend({
       '+++ bigGameResults.html',
       '@@ 13,27 @@ Winner, Score',
       '- Stanfurd, 14-7',
-      '+ Cal, 21-14',
+      '+ Cal, 21-14'
     ].join('\n') + '\n';
   },
 
