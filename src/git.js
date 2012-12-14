@@ -1214,6 +1214,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 };
 
 GitEngine.prototype.branchStarter = function() {
+  var args = null;
   // handle deletion first
   if (this.commandOptions['-d'] || this.commandOptions['-D']) {
     var names = this.commandOptions['-d'] || this.commandOptions['-D'];
@@ -1226,14 +1227,14 @@ GitEngine.prototype.branchStarter = function() {
   }
 
   if (this.commandOptions['--contains']) {
-    var args = this.commandOptions['--contains'];
+    args = this.commandOptions['--contains'];
     this.validateArgBounds(args, 1, 1, '--contains');
     this.printBranchesWithout(args[0]);
     return;
   }
 
   if (this.commandOptions['-f']) {
-    var args = this.commandOptions['-f'];
+    args = this.commandOptions['-f'];
     this.twoArgsImpliedHead(args, '-f');
 
     // we want to force a branch somewhere

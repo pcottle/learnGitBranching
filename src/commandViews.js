@@ -72,7 +72,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   hideCursor: function() {
-    this.toggleCursor(false); 
+    this.toggleCursor(false);
   },
 
   showCursor: function() {
@@ -85,7 +85,7 @@ var CommandPromptView = Backbone.View.extend({
 
   onKey: function(e) {
     var el = e.srcElement;
-    this.updatePrompt(el)
+    this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
@@ -120,7 +120,7 @@ var CommandPromptView = Backbone.View.extend({
       .replace(/</g,'&lt;')
       .replace(/</g,'&lt;')
       .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'')
+      .replace(/\n/g,'');
   },
 
   updatePrompt: function(el) {
@@ -160,7 +160,7 @@ var CommandPromptView = Backbone.View.extend({
 
   commandSelectChange: function(delta) {
     this.index += delta;
-    
+
     // if we are over / under, display blank line. yes this eliminates your
     // partially edited command, but i doubt that is much in this demo
     if (this.index >= this.commands.length || this.index < 0) {
@@ -285,10 +285,10 @@ var CommandView = Backbone.View.extend({
     // with jquery rather than brutally delete a html of HTML
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) == 0) {
+    if (_.difference(changeKeys, ['status']) === 0) {
       this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) == 0) {
-      // the above will 
+    } else if (_.difference(changeKeys, ['error']) === 0) {
+      // the above will
       this.render();
     } else {
       this.render();

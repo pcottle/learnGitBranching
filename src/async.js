@@ -77,7 +77,7 @@ var AnimationQueue = Backbone.Model.extend({
     setTimeout(_.bind(function() {
       this.next();
     }, this), duration);
-  },
+  }
 });
 
 exports.Animation = Animation;

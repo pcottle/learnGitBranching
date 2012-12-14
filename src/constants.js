@@ -2,7 +2,7 @@
  * Constants....!!!
  */
 var TIME = {
-  betweenCommandsDelay: 400,
+  betweenCommandsDelay: 400
 };
 
 // useful for locks, etc
@@ -37,7 +37,7 @@ var GRAPHICS = {
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)',
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 
 exports.GLOBAL = GLOBAL;

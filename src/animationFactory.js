@@ -14,7 +14,7 @@ var GRAPHICS = require('./constants').GRAPHICS;
 // essentially a static class
 var AnimationFactory = function() {
 
-}
+};
 
 AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
@@ -164,7 +164,7 @@ AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResp
       snapshotPart();
       birthPart();
     };
-        
+
     animationQueue.add(new Animation({
       closure: animation,
       duration: GRAPHICS.defaultAnimationTime * 1.5

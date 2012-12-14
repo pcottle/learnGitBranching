@@ -11,7 +11,7 @@ var CommitCollection = Backbone.Collection.extend({
 });
 
 var CommandCollection = Backbone.Collection.extend({
-  model: Command,
+  model: Command
 });
 
 var BranchCollection = Backbone.Collection.extend({
@@ -25,7 +25,7 @@ var CommandEntryCollection = Backbone.Collection.extend({
 
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
-    collection: null,
+    collection: null
   },
 
   initialize: function(options) {
@@ -92,7 +92,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     this.popAndProcess();
-  },
+  }
 });
 
 exports.CommitCollection = CommitCollection;

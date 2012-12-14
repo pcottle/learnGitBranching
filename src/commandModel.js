@@ -162,7 +162,7 @@ var Command = Backbone.Model.extend({
           _.escape('\t git <command> [<args>]'),
           '<br/>',
           'Supported commands:',
-          '<br/>',
+          '<br/>'
         ];
         var commands = OptionParser.prototype.getMasterOptionMap();
 
@@ -182,12 +182,16 @@ var Command = Backbone.Model.extend({
         });
       }],
       [/^refresh$/, function() {
+        var events = require('./main').getEvents();
+
         events.trigger('refreshTree');
         throw new CommandResult({
           msg: "Refreshing tree..."
         });
       }],
       [/^rollup (\d+)$/, function(bits) {
+        var events = require('./main').getEvents();
+
         // go roll up these commands by joining them with semicolons
         events.trigger('rollupCommands', bits[1]);
         throw new CommandResult({
@@ -261,7 +265,7 @@ var Command = Backbone.Model.extend({
     // steal these away so we can be completely JSON
     this.set('generalArgs', optionParser.generalArgs);
     this.set('supportedMap', optionParser.supportedMap);
-  },
+  }
 });
 
 /**
@@ -308,7 +312,7 @@ OptionParser.prototype.getMasterOptionMap = function() {
     },
     reset: {
       '--hard': false,
-      '--soft': false, // this will raise an error but we catch it in gitEngine
+      '--soft': false // this will raise an error but we catch it in gitEngine
     },
     merge: {},
     rebase: {

@@ -83,7 +83,7 @@ module.exports = function(grunt) {
         // aliases: ['jquery:jquery-browserify'],
         entries: ['src/*.js'],
         //prepend: ['<banner:meta.banner>'],
-        append: [],
+        append: []
         /*hook: function (bundle) {
           // Do something with bundle
         }*/
