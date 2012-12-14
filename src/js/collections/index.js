@@ -4,7 +4,7 @@ var Branch = require('../git').Branch;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
-var TIME = require('../constants').TIME;
+var TIME = require('../util/constants').TIME;
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit

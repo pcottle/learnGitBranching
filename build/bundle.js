@@ -392,7 +392,7 @@ process.binding = function (name) {
 
 });
 
-require.define("/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../constants').GLOBAL;
+require.define("/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
   defaults: {
@@ -480,7 +480,7 @@ exports.AnimationQueue = AnimationQueue;
 
 });
 
-require.define("/constants/index.js",function(require,module,exports,__dirname,__filename,process,global){/**
+require.define("/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
  * Constants....!!!
  */
 var TIME = {
@@ -530,8 +530,8 @@ exports.GRAPHICS = GRAPHICS;
 });
 
 require.define("/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
-var GRAPHICS = require('../constants').GRAPHICS;
-var GLOBAL = require('../constants').GLOBAL;
+var GRAPHICS = require('../util/constants').GRAPHICS;
+var GLOBAL = require('../util/constants').GLOBAL;
 
 var Collections = require('../collections');
 var CommitCollection = Collections.CommitCollection;
@@ -1273,7 +1273,7 @@ var Branch = require('../git').Branch;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
-var TIME = require('../constants').TIME;
+var TIME = require('../util/constants').TIME;
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -1379,7 +1379,7 @@ var Main = require('../app');
 var AnimationQueue = require('../animation').AnimationQueue;
 var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 
@@ -3034,7 +3034,7 @@ require.define("/animation/animationFactory.js",function(require,module,exports,
  */
 
 var Animation = require('./index').Animation;
-var GRAPHICS = require('../constants').GRAPHICS;
+var GRAPHICS = require('../util/constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -3432,7 +3432,7 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 
-require.define("/errors/index.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
+require.define("/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
   defaults: {
     type: 'MyError',
     msg: 'Unknown Error'
@@ -3480,7 +3480,7 @@ var GitError = exports.GitError = MyError.extend({
 
 });
 
-require.define("/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../errors');
+require.define("/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -3860,7 +3860,7 @@ var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var CommandPromptView = Backbone.View.extend({
@@ -4252,7 +4252,7 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 });
 
 require.define("/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
-var GRAPHICS = require('../constants').GRAPHICS;
+var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var randomHueString = function() {
   var hue = Math.random();
@@ -5317,7 +5317,7 @@ require.define("/animation/animationFactory.js",function(require,module,exports,
  */
 
 var Animation = require('./index').Animation;
-var GRAPHICS = require('../constants').GRAPHICS;
+var GRAPHICS = require('../util/constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -5566,7 +5566,7 @@ exports.AnimationFactory = AnimationFactory;
 });
 require("/animation/animationFactory.js");
 
-require.define("/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../constants').GLOBAL;
+require.define("/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
   defaults: {
@@ -5718,7 +5718,7 @@ var Branch = require('../git').Branch;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
-var TIME = require('../constants').TIME;
+var TIME = require('../util/constants').TIME;
 
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
@@ -5819,112 +5819,13 @@ exports.CommandBuffer = CommandBuffer;
 });
 require("/collections/index.js");
 
-require.define("/constants/index.js",function(require,module,exports,__dirname,__filename,process,global){/**
- * Constants....!!!
- */
-var TIME = {
-  betweenCommandsDelay: 400
-};
-
-// useful for locks, etc
-var GLOBAL = {
-  isAnimating: false
-};
-
-var GRAPHICS = {
-  arrowHeadSize: 8,
-
-  nodeRadius: 17,
-  curveControlPointOffset: 50,
-  defaultEasing: 'easeInOut',
-  defaultAnimationTime: 400,
-
-  //rectFill: '#FF3A3A',
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
-  headRectFill: '#2831FF',
-  rectStroke: '#FFF',
-  rectStrokeWidth: '3',
-
-  multiBranchY: 20,
-  upstreamHeadOpacity: 0.5,
-  upstreamNoneOpacity: 0.2,
-  edgeUpstreamHeadOpacity: 0.4,
-  edgeUpstreamNoneOpacity: 0.15,
-
-  visBranchStrokeWidth: 2,
-  visBranchStrokeColorNone: '#333',
-
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
-  defaultNodeStrokeWidth: 2,
-  defaultNodeStroke: '#FFF',
-
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
-};
-
-exports.GLOBAL = GLOBAL;
-exports.TIME = TIME;
-exports.GRAPHICS = GRAPHICS;
-
-
-});
-require("/constants/index.js");
-
-require.define("/errors/index.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
-
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-
-});
-require("/errors/index.js");
-
 require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('../app');
 var AnimationQueue = require('../animation').AnimationQueue;
 var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 
@@ -7662,7 +7563,7 @@ exports.LevelEngine = LevelEngine;
 });
 require("/levels/index.js");
 
-require.define("/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../errors');
+require.define("/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -8038,13 +7939,63 @@ exports.Command = Command;
 });
 require("/models/commandModel.js");
 
+require.define("/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
+ * Constants....!!!
+ */
+var TIME = {
+  betweenCommandsDelay: 400
+};
+
+// useful for locks, etc
+var GLOBAL = {
+  isAnimating: false
+};
+
+var GRAPHICS = {
+  arrowHeadSize: 8,
+
+  nodeRadius: 17,
+  curveControlPointOffset: 50,
+  defaultEasing: 'easeInOut',
+  defaultAnimationTime: 400,
+
+  //rectFill: '#FF3A3A',
+  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  headRectFill: '#2831FF',
+  rectStroke: '#FFF',
+  rectStrokeWidth: '3',
+
+  multiBranchY: 20,
+  upstreamHeadOpacity: 0.5,
+  upstreamNoneOpacity: 0.2,
+  edgeUpstreamHeadOpacity: 0.4,
+  edgeUpstreamNoneOpacity: 0.15,
+
+  visBranchStrokeWidth: 2,
+  visBranchStrokeColorNone: '#333',
+
+  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeStrokeWidth: 2,
+  defaultNodeStroke: '#FFF',
+
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
+};
+
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
+
+
+});
+require("/util/constants.js");
+
 require.define("/util/debug.js",function(require,module,exports,__dirname,__filename,process,global){var toGlobalize = {
   Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
   Levels: require('../levels'),
-  Constants: require('../constants'),
+  Constants: require('../util/constants'),
   Collections: require('../collections'),
   Async: require('../animation'),
   AnimationFactory: require('../animation/animationFactory'),
@@ -8061,12 +8012,61 @@ window.events = toGlobalize.Main.getEvents();
 });
 require("/util/debug.js");
 
+require.define("/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+
+});
+require("/util/errors.js");
+
 require.define("/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var CommandPromptView = Backbone.View.extend({
@@ -8610,8 +8610,8 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 require("/views/miscViews.js");
 
 require.define("/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
-var GRAPHICS = require('../constants').GRAPHICS;
-var GLOBAL = require('../constants').GLOBAL;
+var GRAPHICS = require('../util/constants').GRAPHICS;
+var GLOBAL = require('../util/constants').GLOBAL;
 
 var Collections = require('../collections');
 var CommitCollection = Collections.CommitCollection;
@@ -9293,7 +9293,7 @@ exports.Visualization = Visualization;
 require("/visuals/index.js");
 
 require.define("/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
-var GRAPHICS = require('../constants').GRAPHICS;
+var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var randomHueString = function() {
   var hue = Math.random();

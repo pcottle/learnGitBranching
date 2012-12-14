@@ -4,7 +4,7 @@ var Main = require('../app');
 var AnimationQueue = require('../animation').AnimationQueue;
 var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 

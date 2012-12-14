@@ -1,4 +1,4 @@
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;

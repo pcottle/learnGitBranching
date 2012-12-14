@@ -1,5 +1,5 @@
 var Main = require('../app');
-var GRAPHICS = require('../constants').GRAPHICS;
+var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var randomHueString = function() {
   var hue = Math.random();

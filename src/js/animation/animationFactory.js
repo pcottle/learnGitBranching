@@ -9,7 +9,7 @@
  */
 
 var Animation = require('./index').Animation;
-var GRAPHICS = require('../constants').GRAPHICS;
+var GRAPHICS = require('../util/constants').GRAPHICS;
 
 // essentially a static class
 var AnimationFactory = function() {

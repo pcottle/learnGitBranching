@@ -1,4 +1,4 @@
-var GLOBAL = require('../constants').GLOBAL;
+var GLOBAL = require('../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
   defaults: {

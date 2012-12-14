@@ -3,7 +3,7 @@ var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 
-var Errors = require('../errors');
+var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var CommandPromptView = Backbone.View.extend({

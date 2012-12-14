@@ -4,7 +4,7 @@ var toGlobalize = {
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
   Levels: require('../levels'),
-  Constants: require('../constants'),
+  Constants: require('../util/constants'),
   Collections: require('../collections'),
   Async: require('../animation'),
   AnimationFactory: require('../animation/animationFactory'),
