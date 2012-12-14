@@ -3657,7 +3657,7 @@ exports.Command = Command;
 
 });
 
-require.define("/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
+require.define("/errors/index.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
   defaults: {
     type: 'MyError',
     msg: 'Unknown Error'
@@ -5485,55 +5485,6 @@ window.events = toGlobalize.Main.getEvents();
 
 });
 require("/debug.js");
-
-require.define("/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
-
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-
-});
-require("/errors.js");
 
 require.define("/git.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('./animation/animationFactory');
 var animationFactory = new AnimationFactoryModule.AnimationFactory();
