@@ -102,9 +102,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-rm');
 
-  grunt.registerTask('default', 'lint jasmine_node browserify rm min hash compliment');
+  //grunt.registerTask('default', 'lint jasmine_node browserify rm min hash compliment');
+  grunt.registerTask('default', 'lint jasmine_node browserify compliment');
 
-  grunt.registerTask('watching', 'browserify');
+  grunt.registerTask('watching', 'browserify lint');
   grunt.registerTask('brow', 'browserify');
   grunt.registerTask('export', 'browserify min');
   grunt.registerTask('test', 'jasmine_node');

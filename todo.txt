@@ -5,12 +5,11 @@ Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 - better dialog support (above / below the fold)
 
-Big things:
-~~~~~~~~~~~~~~~~~~~~~~~~
-
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!
+- transfer gitEngine and visuals over to event-based communication so they can be detached by
+  cloning Backbone.events
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,7 +23,7 @@ Big Bugs to fix:
 /*************************************
  ** Publish Things **
  ************************************/
-- cross browser support
+- cross browser support... ?
 - fix terminal input when extra long
 
 2013 Things
