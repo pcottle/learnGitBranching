@@ -1,5 +1,4 @@
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
-var animationFactory = new AnimationFactoryModule.AnimationFactory();
 var Main = require('../app');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
@@ -24,6 +23,8 @@ function GitEngine(options) {
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
+  this.animationFactory = options.animationFactory ||
+    new AnimationFactoryModule.AnimationFactory();
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -407,7 +408,7 @@ GitEngine.prototype.revertStarter = function() {
   var response = this.revert(this.generalArgs);
 
   if (response) {
-    animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+    this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
   }
 };
 
@@ -493,7 +494,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   this.validateArgBounds(this.generalArgs, 1, 1);
   var newCommit = this.cherrypick(this.generalArgs[0]);
 
-  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.cherrypick = function(ref) {
@@ -556,7 +557,7 @@ GitEngine.prototype.commitStarter = function() {
 
     newCommit.set('commitMessage', msg);
   }
-  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.commit = function() {
@@ -893,7 +894,7 @@ GitEngine.prototype.rebaseStarter = function() {
     return;
   }
 
-  animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+  this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -1009,7 +1010,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
     // finish the rebase crap and animate!
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-    animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
+    this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
     this.animationQueue.start();
   }, this);
 
@@ -1110,11 +1111,11 @@ GitEngine.prototype.mergeStarter = function() {
 
   if (newCommit === undefined) {
     // its just a fast forwrard
-    animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
     return;
   }
 
-  animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.merge = function(targetSource, currentLocation) {
@@ -1344,7 +1345,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
 
   // only add the refresh if we didn't do manual animations
   if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
-    animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done
