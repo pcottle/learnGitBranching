@@ -1070,6 +1070,7 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.Visualization = Visualization;
+exports.GitVisuals = GitVisuals;
 
 
 });
@@ -7706,6 +7707,20 @@ var GitError = exports.GitError = MyError.extend({
 });
 require("/util/errors.js");
 
+require.define("/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
+  var dummy = {};
+  var stub = function() {};
+
+  for (var key in Constructor.prototype) {
+    dummy[key] = stub;
+  }
+  return dummy;
+};
+
+
+});
+require("/util/mock.js");
+
 require.define("/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
@@ -9281,6 +9296,7 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.Visualization = Visualization;
+exports.GitVisuals = GitVisuals;
 
 
 });

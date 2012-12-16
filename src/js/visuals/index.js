@@ -676,4 +676,5 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.Visualization = Visualization;
+exports.GitVisuals = GitVisuals;
 

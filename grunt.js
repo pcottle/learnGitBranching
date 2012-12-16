@@ -56,6 +56,8 @@ module.exports = function(grunt) {
         nonew: false,
         // these latedefs are just annoying -- no pollution of global scope
         latedef: false,
+        // use this in mocks
+        forin: false,
         ///////////////////////////////
         // All others are true
         //////////////////////////////
