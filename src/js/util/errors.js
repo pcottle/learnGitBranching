@@ -1,3 +1,8 @@
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var MyError = Backbone.Model.extend({
   defaults: {
     type: 'MyError',

@@ -8,7 +8,7 @@ Big Graphic things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!
-- headless git
+- headless Git for testing (send it commands and expected trees)
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

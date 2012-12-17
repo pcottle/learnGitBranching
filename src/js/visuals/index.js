@@ -1,4 +1,8 @@
-var Main = require('../app');
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
 
@@ -27,6 +31,8 @@ var Visualization = Backbone.View.extend({
 
   paperInitialize: function(paper, options) {
     this.paper = paper;
+    var Main = require('../app');
+    this.events = Main.getEvents();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -41,7 +47,8 @@ var Visualization = Backbone.View.extend({
     this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,
-      gitVisuals: this.gitVisuals
+      gitVisuals: this.gitVisuals,
+      events: this.events
     });
     this.gitEngine.init();
     this.gitVisuals.assignGitEngine(this.gitEngine);
@@ -91,7 +98,8 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  Main.getEvents().on('refreshTree', _.bind(
+  this.events = require('../app').getEvents();
+  this.events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
@@ -536,7 +544,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
+    this.events.trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }

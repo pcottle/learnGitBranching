@@ -1,7 +1,11 @@
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
 
-var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 var TIME = require('../util/constants').TIME;
@@ -20,7 +24,7 @@ var BranchCollection = Backbone.Collection.extend({
 
 var CommandEntryCollection = Backbone.Collection.extend({
   model: CommandEntry,
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
 
 var CommandBuffer = Backbone.Model.extend({
@@ -74,6 +78,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
+      var Main = require('../app');
       Main.getEvents().trigger('processCommand', popped, callback);
     } else {
       this.clear();

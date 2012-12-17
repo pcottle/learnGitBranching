@@ -1,3 +1,8 @@
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
@@ -363,10 +368,9 @@ var CommandEntry = Backbone.Model.extend({
   defaults: {
     text: ''
   },
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+  // stub out if no plugin available
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
-
 
 exports.CommandEntry = CommandEntry;
 exports.Command = Command;
-

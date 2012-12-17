@@ -1,3 +1,8 @@
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
@@ -25,7 +30,8 @@ HeadlessGit.prototype.init = function() {
     collection: this.commitCollection,
     branches: this.branchCollection,
     gitVisuals: gitVisuals,
-    animationFactory: animationFactory
+    animationFactory: animationFactory,
+    events: _.clone(Backbone.Events)
   });
   this.gitEngine.init();
 };

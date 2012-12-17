@@ -1,7 +1,10 @@
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
-var Main = require('../app');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
-var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -23,6 +26,7 @@ function GitEngine(options) {
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
+  this.events = options.events;
   this.animationFactory = options.animationFactory ||
     new AnimationFactoryModule.AnimationFactory();
 
@@ -31,7 +35,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  Main.getEvents().on('processCommand', _.bind(this.dispatch, this));
+  this.events.on('processCommand', _.bind(this.dispatch, this));
 }
 
 GitEngine.prototype.defaultInit = function() {
@@ -1014,6 +1018,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     this.animationQueue.start();
   }, this);
 
+  var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
   new InteractiveRebaseView({
     callback: callback,
     toRebase: toRebase,

@@ -1,5 +1,10 @@
 var GLOBAL = require('../../util/constants').GLOBAL;
 
+if (!require('../../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var Animation = Backbone.Model.extend({
   defaults: {
     duration: 300,
@@ -82,4 +87,3 @@ var AnimationQueue = Backbone.Model.extend({
 
 exports.Animation = Animation;
 exports.AnimationQueue = AnimationQueue;
-

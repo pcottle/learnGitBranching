@@ -1,4 +1,8 @@
-var Main = require('../app');
+if (!require('../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var randomHueString = function() {
@@ -712,6 +716,7 @@ var VisNode = VisBase.extend({
 
   attachClickHandlers: function() {
     var commandStr = 'git show ' + this.get('commit').get('id');
+    var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
         Main.getEvents().trigger('processCommandFromEvent', commandStr);

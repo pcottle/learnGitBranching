@@ -11,6 +11,11 @@
 var Animation = require('./index').Animation;
 var GRAPHICS = require('../../util/constants').GRAPHICS;
 
+if (!require('../../util').isBrowser()) {
+  var _ = require('underscore');
+  var Backbone = require('backbone');
+}
+
 // essentially a static class
 var AnimationFactory = function() {
 
