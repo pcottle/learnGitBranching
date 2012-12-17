@@ -8,8 +8,7 @@ Big Graphic things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - gitEngine loads from tree immediately, not the weird thing we have now!
-- transfer gitEngine and visuals over to event-based communication so they can be detached by
-  cloning Backbone.events
+- headless git
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

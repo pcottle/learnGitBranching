@@ -5216,6 +5216,19 @@ exports.VisBranch = VisBranch;
 
 });
 
+require.define("/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
+  var dummy = {};
+  var stub = function() {};
+
+  for (var key in Constructor.prototype) {
+    dummy[key] = stub;
+  }
+  return dummy;
+};
+
+
+});
+
 require.define("/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
 function TreeCompare() {
 
@@ -5305,6 +5318,43 @@ exports.TreeCompare = TreeCompare;
 
 });
 
+require.define("/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var GitEngine = require('../git').GitEngine;
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
+var GitVisuals = require('../visuals').GitVisuals;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var mock = require('../util/mock').mock;
+
+var HeadlessGit = function() {
+  this.init();
+};
+
+HeadlessGit.prototype.init = function() {
+  this.commitCollection = new CommitCollection();
+  this.branchCollection = new BranchCollection();
+
+  // here we mock visuals and animation factory so the git engine
+  // is headless
+  var animationFactory = mock(AnimationFactory);
+  var gitVisuals = mock(GitVisuals);
+
+  this.gitEngine = new GitEngine({
+    collection: this.commitCollection,
+    branches: this.branchCollection,
+    gitVisuals: gitVisuals,
+    animationFactory: animationFactory
+  });
+  this.gitEngine.init();
+};
+
+exports.HeadlessGit = HeadlessGit;
+
+
+});
+
 require.define("/app/index.js",function(require,module,exports,__dirname,__filename,process,global){/**
  * Globals
  */
@@ -5361,6 +5411,44 @@ exports.getUI = function() {
 
 });
 require("/app/index.js");
+
+require.define("/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var GitEngine = require('../git').GitEngine;
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
+var GitVisuals = require('../visuals').GitVisuals;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var mock = require('../util/mock').mock;
+
+var HeadlessGit = function() {
+  this.init();
+};
+
+HeadlessGit.prototype.init = function() {
+  this.commitCollection = new CommitCollection();
+  this.branchCollection = new BranchCollection();
+
+  // here we mock visuals and animation factory so the git engine
+  // is headless
+  var animationFactory = mock(AnimationFactory);
+  var gitVisuals = mock(GitVisuals);
+
+  this.gitEngine = new GitEngine({
+    collection: this.commitCollection,
+    branches: this.branchCollection,
+    gitVisuals: gitVisuals,
+    animationFactory: animationFactory
+  });
+  this.gitEngine.init();
+};
+
+exports.HeadlessGit = HeadlessGit;
+
+
+});
+require("/git/headless.js");
 
 require.define("/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var Main = require('../app');
@@ -7647,7 +7735,8 @@ require.define("/util/debug.js",function(require,module,exports,__dirname,__file
   Collections: require('../models/collections'),
   Async: require('../visuals/animation'),
   AnimationFactory: require('../visuals/animation/animationFactory'),
-  Main: require('../app')
+  Main: require('../app'),
+  HeadLess: require('../git/headless')
 };
 
 _.each(toGlobalize, function(module) {

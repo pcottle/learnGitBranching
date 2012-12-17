@@ -8,7 +8,8 @@ var toGlobalize = {
   Collections: require('../models/collections'),
   Async: require('../visuals/animation'),
   AnimationFactory: require('../visuals/animation/animationFactory'),
-  Main: require('../app')
+  Main: require('../app'),
+  HeadLess: require('../git/headless')
 };
 
 _.each(toGlobalize, function(module) {
