@@ -16,5 +16,9 @@ _.each(toGlobalize, function(module) {
   _.extend(window, module);
 });
 
-window.events = toGlobalize.Main.getEvents();
+$(document).ready(function() {
+  window.events = toGlobalize.Main.getEvents();
+  window.mainVis = toGlobalize.Main.getMainVis();
+  window.ui = toGlobalize.Main.getMainVis();
+});
 

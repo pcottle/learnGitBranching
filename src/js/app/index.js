@@ -52,9 +52,14 @@ function UI() {
 exports.getEvents = function() {
   return events;
 };
+
 exports.getUI = function() {
   return ui;
 };
-exports.init = init;
 
+exports.getMainVis = function() {
+  return mainVis;
+};
+
+exports.init = init;
 

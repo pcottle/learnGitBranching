@@ -6,6 +6,8 @@ var CommandEntry = require('../models/commandModel').CommandEntry;
 var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
+var util = require('../util');
+
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
     this.collection = options.collection;
@@ -232,22 +234,9 @@ var CommandPromptView = Backbone.View.extend({
     }
     this.index = -1;
 
-    // split commands on semicolon
-    _.each(value.split(';'), _.bind(function(command, index) {
-      command = _.escape(command);
-
-      command = command
-        .replace(/^(\s+)/, '')
-        .replace(/(\s+)$/, '')
-        .replace(/&quot;/g, '"')
-        .replace(/&#x27;/g, "'");
-
-      if (index > 0 && !command.length) {
-        return;
-      }
-
+    util.splitTextCommand(value, function(command) {
       this.addToCollection(command);
-    }, this));
+    }, this);
   },
 
   addToCollection: function(value) {

@@ -5082,11 +5082,30 @@ exports.GitVisuals = GitVisuals;
 
 });
 
-require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){exports.isBrowser = function() {
+require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
 };
 
+
+exports.splitTextCommand = function(value, func, context) {
+  func = _.bind(func, context);
+  _.each(value.split(';'), function(command, index) {
+    command = _.escape(command);
+    command = command
+      .replace(/^(\s+)/, '')
+      .replace(/(\s+)$/, '')
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'");
+
+    if (index > 0 && !command.length) {
+      return;
+    }
+    func(command);
+  });
+};
 
 });
 
@@ -5269,6 +5288,7 @@ if (!require('../util').isBrowser()) {
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
+var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -5365,8 +5385,15 @@ GitEngine.prototype.exportTree = function() {
   return totalExport;
 };
 
-GitEngine.prototype.printTree = function() {
-  var str = escape(JSON.stringify(this.exportTree()));
+GitEngine.prototype.printTree = function(tree) {
+  tree = tree || this.exportTree();
+  TreeCompare.prototype.stripTreeFields([tree]);
+
+  var str = JSON.stringify(tree);
+  if (/'/.test(str)) {
+    // escape it to make it more copy paste friendly
+    str = escape(str);
+  }
   return str;
 };
 
@@ -6921,7 +6948,7 @@ exports.Ref = Ref;
 require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _;
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
-if (!require('../util').isBrowser()) {
+if (!require('../../util').isBrowser()) {
   _ = require('underscore');
   Backbone = require('backbone');
 } else {
@@ -7193,7 +7220,7 @@ require.define("/src/js/visuals/animation/index.js",function(require,module,expo
 var _;
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
-if (!require('../util').isBrowser()) {
+if (!require('../../util').isBrowser()) {
   _ = require('underscore');
   Backbone = require('backbone');
 } else {
@@ -7283,6 +7310,100 @@ var AnimationQueue = Backbone.Model.extend({
 
 exports.Animation = Animation;
 exports.AnimationQueue = AnimationQueue;
+
+});
+
+require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+// static class...
+function TreeCompare() {
+
+}
+
+TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+  var result = true;
+  _.each(branches, function(branchName) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
+  }, this);
+
+  return result;
+};
+
+TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  this.stripTreeFields([treeA, treeB]);
+
+  // we need a recursive comparison function to bubble up the  branch
+  var recurseCompare = function(commitA, commitB) {
+    // this is the short-circuit base case
+    var result = _.isEqual(commitA, commitB);
+    if (!result) {
+      return false;
+    }
+
+    // we loop through each parent ID. we sort the parent ID's beforehand
+    // so the index lookup is valid
+    _.each(commitA.parents, function(pAid, index) {
+      var pBid = commitB.parents[index];
+
+      var childA = treeA.commits[pAid];
+      var childB = treeB.commits[pBid];
+
+      result = result && recurseCompare(childA, childB);
+    }, this);
+    // if each of our children recursively are equal, we are good
+    return result;
+  };
+
+  var branchA = treeA.branches[branchName];
+  var branchB = treeB.branches[branchName];
+
+  return _.isEqual(branchA, branchB) &&
+    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+};
+
+TreeCompare.prototype.convertTreeSafe = function(tree) {
+  if (typeof tree == 'string') {
+    return JSON.parse(unescape(tree));
+  }
+  return tree;
+};
+
+TreeCompare.prototype.stripTreeFields = function(trees) {
+  var stripFields = ['createTime', 'author', 'commitMessage'];
+  var sortFields = ['children', 'parents'];
+
+  _.each(trees, function(tree) {
+    _.each(tree.commits, function(commit) {
+      _.each(stripFields, function(field) {
+        commit[field] = undefined;
+      });
+      _.each(sortFields, function(field) {
+        if (commit[field]) {
+          commit[field] = commit[field].sort();
+        }
+      });
+    });
+  });
+};
+
+TreeCompare.prototype.compareTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  // now we need to strip out the fields we don't care about, aka things
+  // like createTime, message, author
+  this.stripTreeFields([treeA, treeB]);
+
+  console.log('comparing tree A', treeA, 'to', treeB);
+
+  return _.isEqual(treeA, treeB);
+};
+
+exports.TreeCompare = TreeCompare;
+
 
 });
 
@@ -7936,11 +8057,16 @@ function UI() {
 exports.getEvents = function() {
   return events;
 };
+
 exports.getUI = function() {
   return ui;
 };
-exports.init = init;
 
+exports.getMainVis = function() {
+  return mainVis;
+};
+
+exports.init = init;
 
 
 });
@@ -7952,6 +8078,8 @@ var CommandEntry = require('../models/commandModel').CommandEntry;
 
 var Errors = require('../util/errors');
 var Warning = Errors.Warning;
+
+var util = require('../util');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -8179,22 +8307,9 @@ var CommandPromptView = Backbone.View.extend({
     }
     this.index = -1;
 
-    // split commands on semicolon
-    _.each(value.split(';'), _.bind(function(command, index) {
-      command = _.escape(command);
-
-      command = command
-        .replace(/^(\s+)/, '')
-        .replace(/(\s+)$/, '')
-        .replace(/&quot;/g, '"')
-        .replace(/&#x27;/g, "'");
-
-      if (index > 0 && !command.length) {
-        return;
-      }
-
+    util.splitTextCommand(value, function(command) {
       this.addToCollection(command);
-    }, this));
+    }, this);
   },
 
   addToCollection: function(value) {
@@ -9328,115 +9443,27 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 
 });
 
-require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
-function TreeCompare() {
-
-}
-
-TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
-  var result = true;
-  _.each(branches, function(branchName) {
-    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
-  }, this);
-
-  return result;
-};
-
-TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  this.stripTreeFields([treeA, treeB]);
-
-  // we need a recursive comparison function to bubble up the  branch
-  var recurseCompare = function(commitA, commitB) {
-    // this is the short-circuit base case
-    var result = _.isEqual(commitA, commitB);
-    if (!result) {
-      return false;
-    }
-
-    // we loop through each parent ID. we sort the parent ID's beforehand
-    // so the index lookup is valid
-    _.each(commitA.parents, function(pAid, index) {
-      var pBid = commitB.parents[index];
-
-      var childA = treeA.commits[pAid];
-      var childB = treeB.commits[pBid];
-
-      result = result && recurseCompare(childA, childB);
-    }, this);
-    // if each of our children recursively are equal, we are good
-    return result;
-  };
-
-  var branchA = treeA.branches[branchName];
-  var branchB = treeB.branches[branchName];
-
-  return _.isEqual(branchA, branchB) &&
-    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
-};
-
-TreeCompare.prototype.convertTreeSafe = function(tree) {
-  if (typeof tree == 'string') {
-    return JSON.parse(unescape(tree));
-  }
-  return tree;
-};
-
-TreeCompare.prototype.stripTreeFields = function(trees) {
-  var stripFields = ['createTime', 'author', 'commitMessage'];
-  var sortFields = ['children', 'parents'];
-
-  _.each(trees, function(tree) {
-    _.each(tree.commits, function(commit) {
-      _.each(stripFields, function(field) {
-        commit[field] = undefined;
-      });
-      _.each(sortFields, function(field) {
-        if (commit[field]) {
-          commit[field] = commit[field].sort();
-        }
-      });
-    });
-  });
-};
-
-TreeCompare.prototype.compareTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  // now we need to strip out the fields we don't care about, aka things
-  // like createTime, message, author
-  this.stripTreeFields([treeA, treeB]);
-
-  return _.isEqual(treeA, treeB);
-};
-
-exports.TreeCompare = TreeCompare;
-
-});
-
-require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
 if (!require('../util').isBrowser()) {
-  _ = require('underscore');
   Backbone = require('backbone');
 } else {
   Backbone = window.Backbone;
-  _ = window._;
 }
 
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
+var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var Command = require('../models/commandModel').Command;
 
 var mock = require('../util/mock').mock;
+var util = require('../util');
 
 var HeadlessGit = function() {
   this.init();
@@ -9445,6 +9472,7 @@ var HeadlessGit = function() {
 HeadlessGit.prototype.init = function() {
   this.commitCollection = new CommitCollection();
   this.branchCollection = new BranchCollection();
+  this.treeCompare = new TreeCompare();
 
   // here we mock visuals and animation factory so the git engine
   // is headless
@@ -9459,6 +9487,17 @@ HeadlessGit.prototype.init = function() {
     events: _.clone(Backbone.Events)
   });
   this.gitEngine.init();
+};
+
+HeadlessGit.prototype.sendCommand = function(value) {
+  util.splitTextCommand(value, function(commandStr) {
+    var commandObj = new Command({
+      rawStr: commandStr
+    });
+    console.log('dispatching command', value);
+    var done = function() {};
+    this.gitEngine.dispatch(commandObj, done);
+  }, this);
 };
 
 exports.HeadlessGit = HeadlessGit;
@@ -9520,36 +9559,42 @@ function UI() {
 exports.getEvents = function() {
   return events;
 };
+
 exports.getUI = function() {
   return ui;
 };
-exports.init = init;
 
+exports.getMainVis = function() {
+  return mainVis;
+};
+
+exports.init = init;
 
 
 });
 require("/src/js/app/index.js");
 
-require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
 if (!require('../util').isBrowser()) {
-  _ = require('underscore');
   Backbone = require('backbone');
 } else {
   Backbone = window.Backbone;
-  _ = window._;
 }
 
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
+var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var Command = require('../models/commandModel').Command;
 
 var mock = require('../util/mock').mock;
+var util = require('../util');
 
 var HeadlessGit = function() {
   this.init();
@@ -9558,6 +9603,7 @@ var HeadlessGit = function() {
 HeadlessGit.prototype.init = function() {
   this.commitCollection = new CommitCollection();
   this.branchCollection = new BranchCollection();
+  this.treeCompare = new TreeCompare();
 
   // here we mock visuals and animation factory so the git engine
   // is headless
@@ -9572,6 +9618,17 @@ HeadlessGit.prototype.init = function() {
     events: _.clone(Backbone.Events)
   });
   this.gitEngine.init();
+};
+
+HeadlessGit.prototype.sendCommand = function(value) {
+  util.splitTextCommand(value, function(commandStr) {
+    var commandObj = new Command({
+      rawStr: commandStr
+    });
+    console.log('dispatching command', value);
+    var done = function() {};
+    this.gitEngine.dispatch(commandObj, done);
+  }, this);
 };
 
 exports.HeadlessGit = HeadlessGit;
@@ -9593,6 +9650,7 @@ if (!require('../util').isBrowser()) {
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
+var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -9689,8 +9747,15 @@ GitEngine.prototype.exportTree = function() {
   return totalExport;
 };
 
-GitEngine.prototype.printTree = function() {
-  var str = escape(JSON.stringify(this.exportTree()));
+GitEngine.prototype.printTree = function(tree) {
+  tree = tree || this.exportTree();
+  TreeCompare.prototype.stripTreeFields([tree]);
+
+  var str = JSON.stringify(tree);
+  if (/'/.test(str)) {
+    // escape it to make it more copy paste friendly
+    str = escape(str);
+  }
   return str;
 };
 
@@ -11243,7 +11308,9 @@ exports.Ref = Ref;
 });
 require("/src/js/git/index.js");
 
-require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){// static class...
+require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+// static class...
 function TreeCompare() {
 
 }
@@ -11325,10 +11392,13 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
   // like createTime, message, author
   this.stripTreeFields([treeA, treeB]);
 
+  console.log('comparing tree A', treeA, 'to', treeB);
+
   return _.isEqual(treeA, treeB);
 };
 
 exports.TreeCompare = TreeCompare;
+
 
 });
 require("/src/js/git/treeCompare.js");
@@ -11907,7 +11977,11 @@ _.each(toGlobalize, function(module) {
   _.extend(window, module);
 });
 
-window.events = toGlobalize.Main.getEvents();
+$(document).ready(function() {
+  window.events = toGlobalize.Main.getEvents();
+  window.mainVis = toGlobalize.Main.getMainVis();
+  window.ui = toGlobalize.Main.getMainVis();
+});
 
 
 });
@@ -11973,11 +12047,30 @@ var GitError = exports.GitError = MyError.extend({
 });
 require("/src/js/util/errors.js");
 
-require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){exports.isBrowser = function() {
+require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
 };
 
+
+exports.splitTextCommand = function(value, func, context) {
+  func = _.bind(func, context);
+  _.each(value.split(';'), function(command, index) {
+    command = _.escape(command);
+    command = command
+      .replace(/^(\s+)/, '')
+      .replace(/(\s+)$/, '')
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'");
+
+    if (index > 0 && !command.length) {
+      return;
+    }
+    func(command);
+  });
+};
 
 });
 require("/src/js/util/index.js");
@@ -12003,6 +12096,8 @@ var CommandEntry = require('../models/commandModel').CommandEntry;
 
 var Errors = require('../util/errors');
 var Warning = Errors.Warning;
+
+var util = require('../util');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -12230,22 +12325,9 @@ var CommandPromptView = Backbone.View.extend({
     }
     this.index = -1;
 
-    // split commands on semicolon
-    _.each(value.split(';'), _.bind(function(command, index) {
-      command = _.escape(command);
-
-      command = command
-        .replace(/^(\s+)/, '')
-        .replace(/(\s+)$/, '')
-        .replace(/&quot;/g, '"')
-        .replace(/&#x27;/g, "'");
-
-      if (index > 0 && !command.length) {
-        return;
-      }
-
+    util.splitTextCommand(value, function(command) {
       this.addToCollection(command);
-    }, this));
+    }, this);
   },
 
   addToCollection: function(value) {
@@ -12547,7 +12629,7 @@ require("/src/js/views/miscViews.js");
 require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _;
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
-if (!require('../util').isBrowser()) {
+if (!require('../../util').isBrowser()) {
   _ = require('underscore');
   Backbone = require('backbone');
 } else {
@@ -12820,7 +12902,7 @@ require.define("/src/js/visuals/animation/index.js",function(require,module,expo
 var _;
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
-if (!require('../util').isBrowser()) {
+if (!require('../../util').isBrowser()) {
   _ = require('underscore');
   Backbone = require('backbone');
 } else {

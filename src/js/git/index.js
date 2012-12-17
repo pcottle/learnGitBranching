@@ -11,6 +11,7 @@ if (!require('../util').isBrowser()) {
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
+var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -107,8 +108,15 @@ GitEngine.prototype.exportTree = function() {
   return totalExport;
 };
 
-GitEngine.prototype.printTree = function() {
-  var str = escape(JSON.stringify(this.exportTree()));
+GitEngine.prototype.printTree = function(tree) {
+  tree = tree || this.exportTree();
+  TreeCompare.prototype.stripTreeFields([tree]);
+
+  var str = JSON.stringify(tree);
+  if (/'/.test(str)) {
+    // escape it to make it more copy paste friendly
+    str = escape(str);
+  }
   return str;
 };
 

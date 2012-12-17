@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 // static class...
 function TreeCompare() {
 
@@ -80,7 +82,10 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
   // like createTime, message, author
   this.stripTreeFields([treeA, treeB]);
 
+  console.log('comparing tree A', treeA, 'to', treeB);
+
   return _.isEqual(treeA, treeB);
 };
 
 exports.TreeCompare = TreeCompare;
+
