@@ -8,7 +8,6 @@ Big Graphic things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] gitEngine loads from tree immediately, not the weird thing we have now!
-[.] headless Git for testing (send it commands and expected trees)
 [.] few tests
 
 Small things to implement:
@@ -30,4 +29,5 @@ Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [x] aliases replace when put into commands
+[x] headless Git for testing (send it commands and expected trees)
 
