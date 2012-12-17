@@ -4385,7 +4385,17 @@ require.define("/node_modules/backbone/node_modules/underscore/underscore.js",fu
 
 });
 
-require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
 
@@ -4414,6 +4424,7 @@ var Visualization = Backbone.View.extend({
 
   paperInitialize: function(paper, options) {
     this.paper = paper;
+    var Main = require('../app');
     this.events = Main.getEvents();
 
     this.commitCollection = new CommitCollection();
@@ -4480,7 +4491,8 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  Main.getEvents().on('refreshTree', _.bind(
+  this.events = require('../app').getEvents();
+  this.events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
@@ -4925,7 +4937,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
+    this.events.trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }
@@ -5070,69 +5082,77 @@ exports.GitVisuals = GitVisuals;
 
 });
 
-require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
+require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){exports.isBrowser = function() {
+  var inBrowser = String(typeof window) !== 'undefined';
+  return inBrowser;
+};
 
-/**
- * Globals
- */
-var events = _.clone(Backbone.Events);
-var ui = null;
-var mainVis = null;
 
-///////////////////////////////////////////////////////////////////////
-
-$(document).ready(function(){
-  var Visuals = require('../visuals');
-
-  ui = new UI();
-  mainVis = new Visuals.Visualization({
-    el: $('#canvasWrapper')[0]
-  });
-
-  if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
-    }, 500);
-  }
 });
 
-function UI() {
-  var Collections = require('../models/collections');
-  var CommandViews = require('../views/commandViews');
+require.define("/src/js/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
+ * Constants....!!!
+ */
+var TIME = {
+  betweenCommandsDelay: 400
+};
 
-  this.commandCollection = new Collections.CommandCollection();
+// useful for locks, etc
+var GLOBAL = {
+  isAnimating: false
+};
 
-  this.commandBuffer = new Collections.CommandBuffer({
-    collection: this.commandCollection
-  });
+var GRAPHICS = {
+  arrowHeadSize: 8,
 
-  this.commandPromptView = new CommandViews.CommandPromptView({
-    el: $('#commandLineBar'),
-    collection: this.commandCollection
-  });
-  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
+  nodeRadius: 17,
+  curveControlPointOffset: 50,
+  defaultEasing: 'easeInOut',
+  defaultAnimationTime: 400,
 
-  $('#commandTextField').focus();
+  //rectFill: '#FF3A3A',
+  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  headRectFill: '#2831FF',
+  rectStroke: '#FFF',
+  rectStrokeWidth: '3',
+
+  multiBranchY: 20,
+  upstreamHeadOpacity: 0.5,
+  upstreamNoneOpacity: 0.2,
+  edgeUpstreamHeadOpacity: 0.4,
+  edgeUpstreamNoneOpacity: 0.15,
+
+  visBranchStrokeWidth: 2,
+  visBranchStrokeColorNone: '#333',
+
+  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeStrokeWidth: 2,
+  defaultNodeStroke: '#FFF',
+
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
+};
+
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
+
+
+});
+
+require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
 }
 
-exports.getEvents = function() {
-  return events;
-};
-exports.getUI = function() {
-  return ui;
-};
-
-
-});
-
-require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('../git').Commit;
+var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
 
-var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 var TIME = require('../util/constants').TIME;
@@ -5151,8 +5171,14 @@ var BranchCollection = Backbone.Collection.extend({
 
 var CommandEntryCollection = Backbone.Collection.extend({
   model: CommandEntry,
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
+
+if (Backbone.LocalStorage) {
+  console.log('local storage there');
+} else {
+  console.log('not htere');
+}
 
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
@@ -5205,6 +5231,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
+      var Main = require('../app');
       Main.getEvents().trigger('processCommand', popped, callback);
     } else {
       this.clear();
@@ -5235,14 +5262,19 @@ exports.CommandBuffer = CommandBuffer;
 
 });
 
-require.define("/src/js/git/index.js",function(require,module,exports,__dirname,__filename,process,global){if (!require('../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
+require.define("/src/js/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
 }
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
-var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -6256,6 +6288,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     this.animationQueue.start();
   }, this);
 
+  var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
   new InteractiveRebaseView({
     callback: callback,
     toRebase: toRebase,
@@ -6891,14 +6924,21 @@ exports.Ref = Ref;
 
 });
 
-require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){exports.isBrowser = function() {
-  return (typeof window === undefined);
-};
+require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
 
+var Animation = require('./index').Animation;
+var GRAPHICS = require('../../util/constants').GRAPHICS;
 
-});
-
-require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
+/******************
  * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
  * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
  * or something, it must animate out from the parent position to it's birth position.
@@ -6907,14 +6947,6 @@ require.define("/src/js/visuals/animation/animationFactory.js",function(require,
  * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
  * and then essentially animate the entire tree too.
  */
-
-var Animation = require('./index').Animation;
-var GRAPHICS = require('../../util/constants').GRAPHICS;
-
-if (!require('../../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
-}
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -7164,9 +7196,15 @@ exports.AnimationFactory = AnimationFactory;
 
 require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../../util/constants').GLOBAL;
 
-if (!require('../../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
+var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
 }
 
 var Animation = Backbone.Model.extend({
@@ -7252,64 +7290,68 @@ var AnimationQueue = Backbone.Model.extend({
 exports.Animation = Animation;
 exports.AnimationQueue = AnimationQueue;
 
-
 });
 
-require.define("/src/js/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
- * Constants....!!!
- */
-var TIME = {
-  betweenCommandsDelay: 400
-};
-
-// useful for locks, etc
-var GLOBAL = {
-  isAnimating: false
-};
-
-var GRAPHICS = {
-  arrowHeadSize: 8,
-
-  nodeRadius: 17,
-  curveControlPointOffset: 50,
-  defaultEasing: 'easeInOut',
-  defaultAnimationTime: 400,
-
-  //rectFill: '#FF3A3A',
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
-  headRectFill: '#2831FF',
-  rectStroke: '#FFF',
-  rectStrokeWidth: '3',
-
-  multiBranchY: 20,
-  upstreamHeadOpacity: 0.5,
-  upstreamNoneOpacity: 0.2,
-  edgeUpstreamHeadOpacity: 0.4,
-  edgeUpstreamNoneOpacity: 0.15,
-
-  visBranchStrokeWidth: 2,
-  visBranchStrokeColorNone: '#333',
-
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
-  defaultNodeStrokeWidth: 2,
-  defaultNodeStroke: '#FFF',
-
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
-};
-
-exports.GLOBAL = GLOBAL;
-exports.TIME = TIME;
-exports.GRAPHICS = GRAPHICS;
-
-
-});
-
-require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){if (!require('../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
+require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
 }
 
-var InteractiveRebaseView = Backbone.View.extend({
+var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+
+});
+
+require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -7459,55 +7501,18 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 
-require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
+require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
 
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-
-});
-
-require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../util/errors');
+var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -7872,12 +7877,74 @@ var CommandEntry = Backbone.Model.extend({
   defaults: {
     text: ''
   },
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+  // stub out if no plugin available
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
-
 
 exports.CommandEntry = CommandEntry;
 exports.Command = Command;
+
+});
+
+require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+/**
+ * Globals
+ */
+var events = _.clone(Backbone.Events);
+var ui = null;
+var mainVis = null;
+
+///////////////////////////////////////////////////////////////////////
+
+var init = function(){
+  var Visuals = require('../visuals');
+
+  ui = new UI();
+  mainVis = new Visuals.Visualization({
+    el: $('#canvasWrapper')[0]
+  });
+
+  if (/\?demo/.test(window.location.href)) {
+    setTimeout(function() {
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
+    }, 500);
+  }
+};
+
+$(document).ready(init);
+
+function UI() {
+  var Collections = require('../models/collections');
+  var CommandViews = require('../views/commandViews');
+
+  this.commandCollection = new Collections.CommandCollection();
+
+  this.commandBuffer = new Collections.CommandBuffer({
+    collection: this.commandCollection
+  });
+
+  this.commandPromptView = new CommandViews.CommandPromptView({
+    el: $('#commandLineBar'),
+    collection: this.commandCollection
+  });
+  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
+    el: $('#commandLineHistory'),
+    collection: this.commandCollection
+  });
+
+  $('#commandTextField').focus();
+}
+
+exports.getEvents = function() {
+  return events;
+};
+exports.getUI = function() {
+  return ui;
+};
+exports.init = init;
+
 
 
 });
@@ -8278,7 +8345,17 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
-require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
+require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var randomHueString = function() {
@@ -8992,6 +9069,7 @@ var VisNode = VisBase.extend({
 
   attachClickHandlers: function() {
     var commandStr = 'git show ' + this.get('commit').get('id');
+    var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
         Main.getEvents().trigger('processCommandFromEvent', commandStr);
@@ -9343,7 +9421,18 @@ exports.TreeCompare = TreeCompare;
 
 });
 
-require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var GitEngine = require('../git').GitEngine;
+require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
+var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
 
@@ -9370,7 +9459,8 @@ HeadlessGit.prototype.init = function() {
     collection: this.commitCollection,
     branches: this.branchCollection,
     gitVisuals: gitVisuals,
-    animationFactory: animationFactory
+    animationFactory: animationFactory,
+    events: _.clone(Backbone.Events)
   });
   this.gitEngine.init();
 };
@@ -9392,7 +9482,7 @@ var mainVis = null;
 
 ///////////////////////////////////////////////////////////////////////
 
-$(document).ready(function(){
+var init = function(){
   var Visuals = require('../visuals');
 
   ui = new UI();
@@ -9405,7 +9495,9 @@ $(document).ready(function(){
       events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
-});
+};
+
+$(document).ready(init);
 
 function UI() {
   var Collections = require('../models/collections');
@@ -9435,12 +9527,25 @@ exports.getEvents = function() {
 exports.getUI = function() {
   return ui;
 };
+exports.init = init;
+
 
 
 });
 require("/src/js/app/index.js");
 
-require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var GitEngine = require('../git').GitEngine;
+require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
+var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
 
@@ -9467,7 +9572,8 @@ HeadlessGit.prototype.init = function() {
     collection: this.commitCollection,
     branches: this.branchCollection,
     gitVisuals: gitVisuals,
-    animationFactory: animationFactory
+    animationFactory: animationFactory,
+    events: _.clone(Backbone.Events)
   });
   this.gitEngine.init();
 };
@@ -9478,14 +9584,19 @@ exports.HeadlessGit = HeadlessGit;
 });
 require("/src/js/git/headless.js");
 
-require.define("/src/js/git/index.js",function(require,module,exports,__dirname,__filename,process,global){if (!require('../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
+require.define("/src/js/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
 }
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
-var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -10499,6 +10610,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     this.animationQueue.start();
   }, this);
 
+  var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
   new InteractiveRebaseView({
     callback: callback,
     toRebase: toRebase,
@@ -11225,10 +11337,20 @@ exports.TreeCompare = TreeCompare;
 });
 require("/src/js/git/treeCompare.js");
 
-require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var Commit = require('../git').Commit;
+require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
+var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
 
-var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
 var TIME = require('../util/constants').TIME;
@@ -11247,8 +11369,14 @@ var BranchCollection = Backbone.Collection.extend({
 
 var CommandEntryCollection = Backbone.Collection.extend({
   model: CommandEntry,
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
+
+if (Backbone.LocalStorage) {
+  console.log('local storage there');
+} else {
+  console.log('not htere');
+}
 
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
@@ -11301,6 +11429,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
     if (!popped.get('error')) {
       // pass in a callback, so when this command is "done" we will process the next.
+      var Main = require('../app');
       Main.getEvents().trigger('processCommand', popped, callback);
     } else {
       this.clear();
@@ -11332,7 +11461,18 @@ exports.CommandBuffer = CommandBuffer;
 });
 require("/src/js/models/collections.js");
 
-require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var Errors = require('../util/errors');
+require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
+var Errors = require('../util/errors');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -11697,13 +11837,12 @@ var CommandEntry = Backbone.Model.extend({
   defaults: {
     text: ''
   },
-  localStorage: new Backbone.LocalStorage('CommandEntries')
+  // stub out if no plugin available
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
-
 
 exports.CommandEntry = CommandEntry;
 exports.Command = Command;
-
 
 });
 require("/src/js/models/commandModel.js");
@@ -11782,7 +11921,18 @@ window.events = toGlobalize.Main.getEvents();
 });
 require("/src/js/util/debug.js");
 
-require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var MyError = Backbone.Model.extend({
+require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
+var MyError = Backbone.Model.extend({
   defaults: {
     type: 'MyError',
     msg: 'Unknown Error'
@@ -11832,7 +11982,8 @@ var GitError = exports.GitError = MyError.extend({
 require("/src/js/util/errors.js");
 
 require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){exports.isBrowser = function() {
-  return (typeof window === undefined);
+  var inBrowser = String(typeof window) !== 'undefined';
+  return inBrowser;
 };
 
 
@@ -12250,12 +12401,7 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 });
 require("/src/js/views/commandViews.js");
 
-require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){if (!require('../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
-}
-
-var InteractiveRebaseView = Backbone.View.extend({
+require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -12406,7 +12552,21 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 });
 require("/src/js/views/miscViews.js");
 
-require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){/******************
+require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
+var Animation = require('./index').Animation;
+var GRAPHICS = require('../../util/constants').GRAPHICS;
+
+/******************
  * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
  * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
  * or something, it must animate out from the parent position to it's birth position.
@@ -12415,14 +12575,6 @@ require.define("/src/js/visuals/animation/animationFactory.js",function(require,
  * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
  * and then essentially animate the entire tree too.
  */
-
-var Animation = require('./index').Animation;
-var GRAPHICS = require('../../util/constants').GRAPHICS;
-
-if (!require('../../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
-}
 
 // essentially a static class
 var AnimationFactory = function() {
@@ -12673,9 +12825,15 @@ require("/src/js/visuals/animation/animationFactory.js");
 
 require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var GLOBAL = require('../../util/constants').GLOBAL;
 
-if (!require('../../util').isBrowser()) {
-  var _ = require('underscore');
-  var Backbone = require('backbone');
+var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
 }
 
 var Animation = Backbone.Model.extend({
@@ -12761,11 +12919,20 @@ var AnimationQueue = Backbone.Model.extend({
 exports.Animation = Animation;
 exports.AnimationQueue = AnimationQueue;
 
-
 });
 require("/src/js/visuals/animation/index.js");
 
-require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
 
@@ -12794,6 +12961,7 @@ var Visualization = Backbone.View.extend({
 
   paperInitialize: function(paper, options) {
     this.paper = paper;
+    var Main = require('../app');
     this.events = Main.getEvents();
 
     this.commitCollection = new CommitCollection();
@@ -12860,7 +13028,8 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  Main.getEvents().on('refreshTree', _.bind(
+  this.events = require('../app').getEvents();
+  this.events.on('refreshTree', _.bind(
     this.refreshTree, this
   ));
 }
@@ -13305,7 +13474,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    Main.getEvents().trigger('processCommandFromEvent', 'refresh');
+    this.events.trigger('processCommandFromEvent', 'refresh');
   } else {
     this.refreshTree();
   }
@@ -13451,7 +13620,17 @@ exports.GitVisuals = GitVisuals;
 });
 require("/src/js/visuals/index.js");
 
-require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var Main = require('../app');
+require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+var Backbone;
+// horrible hack to get localStorage Backbone plugin
+if (!require('../util').isBrowser()) {
+  _ = require('underscore');
+  Backbone = require('backbone');
+} else {
+  Backbone = window.Backbone;
+  _ = window._;
+}
+
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var randomHueString = function() {
@@ -14165,6 +14344,7 @@ var VisNode = VisBase.extend({
 
   attachClickHandlers: function() {
     var commandStr = 'git show ' + this.get('commit').get('id');
+    var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
         Main.getEvents().trigger('processCommandFromEvent', commandStr);

@@ -10,7 +10,7 @@ var mainVis = null;
 
 ///////////////////////////////////////////////////////////////////////
 
-$(document).ready(function(){
+var init = function(){
   var Visuals = require('../visuals');
 
   ui = new UI();
@@ -23,7 +23,9 @@ $(document).ready(function(){
       events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
-});
+};
+
+$(document).ready(init);
 
 function UI() {
   var Collections = require('../models/collections');
@@ -53,4 +55,6 @@ exports.getEvents = function() {
 exports.getUI = function() {
   return ui;
 };
+exports.init = init;
+
 

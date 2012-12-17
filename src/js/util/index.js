@@ -1,4 +1,5 @@
 exports.isBrowser = function() {
-  return (typeof window === undefined);
+  var inBrowser = String(typeof window) !== 'undefined';
+  return inBrowser;
 };
 
