@@ -116,7 +116,7 @@ var Command = Backbone.Model.extend({
     return {
       'git commit': /^gc($|\s)/,
       'git add': /^ga($|\s)/,
-      'git checkout': /^gchk($|\s)/,
+      'git checkout': /^go($|\s)/,
       'git rebase': /^gr($|\s)/,
       'git branch': /^gb($|\s)/
     };
@@ -224,6 +224,7 @@ var Command = Backbone.Model.extend({
       var regex = tuple[0];
       var results = regex.exec(str);
       if (results) {
+        // this will throw a result
         tuple[1](results);
       }
     });
@@ -235,7 +236,8 @@ var Command = Backbone.Model.extend({
       if (results) {
         str = method + ' ' + str.slice(results[0].length);
       }
-    });
+      this.set('rawStr', str);
+    }, this);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {

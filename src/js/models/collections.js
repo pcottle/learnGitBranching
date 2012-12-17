@@ -33,12 +33,6 @@ var CommandEntryCollection = Backbone.Collection.extend({
   localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
 });
 
-if (Backbone.LocalStorage) {
-  console.log('local storage there');
-} else {
-  console.log('not htere');
-}
-
 var CommandBuffer = Backbone.Model.extend({
   defaults: {
     collection: null
