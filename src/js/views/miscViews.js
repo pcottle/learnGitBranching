@@ -1,3 +1,5 @@
+var GitError = require('../util/errors').GitError;
+
 var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
@@ -8,7 +10,7 @@ var InteractiveRebaseView = Backbone.View.extend({
 
   initialize: function(options) {
     this.hasClicked = false;
-    this.rebaseCallback = options.callback;
+    this.deferred = options.deferred;
 
     this.rebaseArray = options.toRebase;
 
@@ -71,10 +73,9 @@ var InteractiveRebaseView = Backbone.View.extend({
       }
     }, this);
 
-    this.rebaseCallback(toRebase);
-
-    this.$el.html('');
+    this.deferred.resolve(toRebase);
     // garbage collection will get us
+    this.$el.html('');
   },
 
   render: function() {

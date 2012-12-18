@@ -1,13 +1,7 @@
-var _;
-var Backbone;
+var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
-if (!require('../util').isBrowser()) {
-  _ = require('underscore');
-  Backbone = require('backbone');
-} else {
-  Backbone = window.Backbone;
-  _ = window._;
-}
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Q = require('q');
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
@@ -1018,23 +1012,33 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // and actually launch the dialog
   this.animationQueue.set('defer', true);
 
-  var callback = _.bind(function(userSpecifiedRebase) {
+  var deferred = Q.defer();
+  deferred.promise
+  .then(_.bind(function(userSpecifiedRebase) {
     // first, they might have dropped everything (annoying)
     if (!userSpecifiedRebase.length) {
-      this.command.setResult('Nothing to do...');
-      this.animationQueue.start();
-      return;
+      throw new GitError({
+        msg: 'Nothing to do...'
+      });
     }
 
     // finish the rebase crap and animate!
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
     this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
     this.animationQueue.start();
-  }, this);
+
+  }, this))
+  .fail(_.bind(function(err) {
+    this.filterError(err);
+    this.command.set('error', err);
+    this.animationQueue.start();
+  }, this))
+  .done();
 
   var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
+  // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
-    callback: callback,
+    deferred: deferred,
     toRebase: toRebase,
     el: $('#dialogHolder')
   });
@@ -1330,6 +1334,13 @@ GitEngine.prototype.unescapeQuotes = function(str) {
   return str.replace(/&#x27;/g, "'");
 };
 
+GitEngine.prototype.filterError = function(err) {
+ if (!(err instanceof GitError ||
+      err instanceof CommandResult)) {
+    throw err;
+  }
+};
+
 GitEngine.prototype.dispatch = function(command, callback) {
   // current command, options, and args are stored in the gitEngine
   // for easy reference during processing.
@@ -1351,15 +1362,11 @@ GitEngine.prototype.dispatch = function(command, callback) {
     var methodName = command.get('method').replace(/-/g, '') + 'Starter';
     this[methodName]();
   } catch (err) {
-    if (err instanceof GitError ||
-        err instanceof CommandResult) {
-      // short circuit animation by just setting error and returning
-      command.set('error', err);
-      callback();
-      return;
-    } else {
-      throw err;
-    }
+    this.filterError(err);
+    // short circuit animation by just setting error and returning
+    command.set('error', err);
+    callback();
+    return;
   }
 
   // only add the refresh if we didn't do manual animations

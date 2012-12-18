@@ -1,13 +1,6 @@
-var _;
-var Backbone;
+var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
-if (!require('../util').isBrowser()) {
-  _ = require('underscore');
-  Backbone = require('backbone');
-} else {
-  Backbone = window.Backbone;
-  _ = window._;
-}
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
 

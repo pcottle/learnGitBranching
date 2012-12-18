@@ -13,7 +13,6 @@ Medium things:
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] remove underscore in browser
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,4 +35,6 @@ Done things:
 [x] Great git test coverage
 [x] gitEngine loads from tree immediately, not the weird thing we have now!
 [x] nice opacity fade in
+[x] clean up require
+[x] promise based callback for interactive rebase WITH FAIL awesome
 
