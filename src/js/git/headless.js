@@ -49,7 +49,7 @@ HeadlessGit.prototype.sendCommand = function(value) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    console.log('dispatching command', value);
+    console.log('dispatching command "', commandStr, '"');
     var done = function() {};
     this.gitEngine.dispatch(commandObj, done);
   }, this);

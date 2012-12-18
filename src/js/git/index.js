@@ -17,14 +17,6 @@ var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 
-// backbone or something uses _.uniqueId, so we make our own here
-var uniqueId = (function() {
-  var n = 0;
-  return function(prepend) {
-    return prepend? prepend + n++ : n++;
-  };
-})();
-
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -43,6 +35,14 @@ function GitEngine(options) {
   this.generalArgs = [];
 
   this.events.on('processCommand', _.bind(this.dispatch, this));
+
+  // backbone or something uses _.uniqueId, so we make our own here
+  this.uniqueId = (function() {
+    var n = 0;
+    return function(prepend) {
+      return prepend? prepend + n++ : n++;
+    };
+  })();
 }
 
 GitEngine.prototype.defaultInit = function() {
@@ -110,7 +110,7 @@ GitEngine.prototype.exportTree = function() {
 
 GitEngine.prototype.printTree = function(tree) {
   tree = tree || this.exportTree();
-  TreeCompare.prototype.stripTreeFields([tree]);
+  TreeCompare.prototype.reduceTreeFields([tree]);
 
   var str = JSON.stringify(tree);
   if (/'/.test(str)) {
@@ -357,9 +357,9 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
   // people like nikita (thanks for finding this!) could
   // make branches named C2 before creating the commit C2
   if (!id) {
-    id = uniqueId('C');
+    id = this.uniqueId('C');
     while (this.refs[id]) {
-      id = uniqueId('C');
+      id = this.uniqueId('C');
     }
   }
 
