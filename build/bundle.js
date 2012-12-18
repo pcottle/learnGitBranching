@@ -4385,15 +4385,14 @@ require.define("/node_modules/backbone/node_modules/underscore/underscore.js",fu
 
 });
 
-require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
 if (!require('../util').isBrowser()) {
-  _ = require('underscore');
   Backbone = require('backbone');
 } else {
   Backbone = window.Backbone;
-  _ = window._;
 }
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -4418,12 +4417,15 @@ var Visualization = Backbone.View.extend({
       // for some reason raphael calls this function with a predefined
       // context...
       // so switch it
-      _this.paperInitialize(this);
+      _this.paperInitialize(this, options);
     });
   },
 
   paperInitialize: function(paper, options) {
+    options = options || {};
+    this.treeString = options.treeString;
     this.paper = paper;
+
     var Main = require('../app');
     this.events = Main.getEvents();
 
@@ -4449,6 +4451,21 @@ var Visualization = Backbone.View.extend({
     this.myResize();
     $(window).on('resize', _.bind(this.myResize, this));
     this.gitVisuals.drawTreeFirstTime();
+
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    }
+
+    this.setTreeOpacity(0);
+    this.fadeTreeIn();
+  },
+
+  setTreeOpacity: function(level) {
+    $(this.paper.canvas).css('opacity', 0);
+  },
+
+  fadeTreeIn: function() {
+    $(this.paper.canvas).animate({opacity: 1}, 300);
   },
 
   myResize: function() {
@@ -5294,14 +5311,6 @@ var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 
-// backbone or something uses _.uniqueId, so we make our own here
-var uniqueId = (function() {
-  var n = 0;
-  return function(prepend) {
-    return prepend? prepend + n++ : n++;
-  };
-})();
-
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -5320,6 +5329,14 @@ function GitEngine(options) {
   this.generalArgs = [];
 
   this.events.on('processCommand', _.bind(this.dispatch, this));
+
+  // backbone or something uses _.uniqueId, so we make our own here
+  this.uniqueId = (function() {
+    var n = 0;
+    return function(prepend) {
+      return prepend? prepend + n++ : n++;
+    };
+  })();
 }
 
 GitEngine.prototype.defaultInit = function() {
@@ -5634,9 +5651,9 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
   // people like nikita (thanks for finding this!) could
   // make branches named C2 before creating the commit C2
   if (!id) {
-    id = uniqueId('C');
+    id = this.uniqueId('C');
     while (this.refs[id]) {
-      id = uniqueId('C');
+      id = this.uniqueId('C');
     }
   }
 
@@ -9522,7 +9539,7 @@ HeadlessGit.prototype.sendCommand = function(value) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    console.log('dispatching command', value);
+    console.log('dispatching command "', commandStr, '"');
     var done = function() {};
     this.gitEngine.dispatch(commandObj, done);
   }, this);
@@ -9653,7 +9670,7 @@ HeadlessGit.prototype.sendCommand = function(value) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    console.log('dispatching command', value);
+    console.log('dispatching command "', commandStr, '"');
     var done = function() {};
     this.gitEngine.dispatch(commandObj, done);
   }, this);
@@ -9684,14 +9701,6 @@ var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 
-// backbone or something uses _.uniqueId, so we make our own here
-var uniqueId = (function() {
-  var n = 0;
-  return function(prepend) {
-    return prepend? prepend + n++ : n++;
-  };
-})();
-
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -9710,6 +9719,14 @@ function GitEngine(options) {
   this.generalArgs = [];
 
   this.events.on('processCommand', _.bind(this.dispatch, this));
+
+  // backbone or something uses _.uniqueId, so we make our own here
+  this.uniqueId = (function() {
+    var n = 0;
+    return function(prepend) {
+      return prepend? prepend + n++ : n++;
+    };
+  })();
 }
 
 GitEngine.prototype.defaultInit = function() {
@@ -10024,9 +10041,9 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
   // people like nikita (thanks for finding this!) could
   // make branches named C2 before creating the commit C2
   if (!id) {
-    id = uniqueId('C');
+    id = this.uniqueId('C');
     while (this.refs[id]) {
-      id = uniqueId('C');
+      id = this.uniqueId('C');
     }
   }
 
@@ -13052,15 +13069,14 @@ exports.AnimationQueue = AnimationQueue;
 });
 require("/src/js/visuals/animation/index.js");
 
-require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _;
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
 if (!require('../util').isBrowser()) {
-  _ = require('underscore');
   Backbone = require('backbone');
 } else {
   Backbone = window.Backbone;
-  _ = window._;
 }
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -13085,12 +13101,15 @@ var Visualization = Backbone.View.extend({
       // for some reason raphael calls this function with a predefined
       // context...
       // so switch it
-      _this.paperInitialize(this);
+      _this.paperInitialize(this, options);
     });
   },
 
   paperInitialize: function(paper, options) {
+    options = options || {};
+    this.treeString = options.treeString;
     this.paper = paper;
+
     var Main = require('../app');
     this.events = Main.getEvents();
 
@@ -13116,6 +13135,21 @@ var Visualization = Backbone.View.extend({
     this.myResize();
     $(window).on('resize', _.bind(this.myResize, this));
     this.gitVisuals.drawTreeFirstTime();
+
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    }
+
+    this.setTreeOpacity(0);
+    this.fadeTreeIn();
+  },
+
+  setTreeOpacity: function(level) {
+    $(this.paper.canvas).css('opacity', 0);
+  },
+
+  fadeTreeIn: function() {
+    $(this.paper.canvas).animate({opacity: 1}, 300);
   },
 
   myResize: function() {

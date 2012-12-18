@@ -8,7 +8,7 @@ var loadTree = function(json) {
 
 var compareAnswer = function(headless, expectedJSON) {
   var expectedTree = loadTree(expectedJSON);
-  var actualTree = headless.gitEngine.exportTree()
+  var actualTree = headless.gitEngine.exportTree();
 
   var equal = treeCompare.compareTrees(expectedTree, actualTree);
   expect(equal).toBe(true);

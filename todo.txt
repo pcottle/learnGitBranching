@@ -1,17 +1,19 @@
 Big things:
 ~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] promise-based levels
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] better dialog support (above / below the fold)
+[ ] promise-based dialogs
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] gitEngine loads from tree immediately, not the weird thing we have now!
-[.] few tests
+[ ] level finish animation
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] remove underscore in browser
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,4 +32,8 @@ Done things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [x] aliases replace when put into commands
 [x] headless Git for testing (send it commands and expected trees)
+[x] few tests
+[x] Great git test coverage
+[x] gitEngine loads from tree immediately, not the weird thing we have now!
+[x] nice opacity fade in
 

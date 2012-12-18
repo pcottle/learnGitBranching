@@ -1,12 +1,11 @@
-var _;
+var _ = require('underscore');
+
 var Backbone;
 // horrible hack to get localStorage Backbone plugin
 if (!require('../util').isBrowser()) {
-  _ = require('underscore');
   Backbone = require('backbone');
 } else {
   Backbone = window.Backbone;
-  _ = window._;
 }
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -31,12 +30,15 @@ var Visualization = Backbone.View.extend({
       // for some reason raphael calls this function with a predefined
       // context...
       // so switch it
-      _this.paperInitialize(this);
+      _this.paperInitialize(this, options);
     });
   },
 
   paperInitialize: function(paper, options) {
+    options = options || {};
+    this.treeString = options.treeString;
     this.paper = paper;
+
     var Main = require('../app');
     this.events = Main.getEvents();
 
@@ -62,6 +64,21 @@ var Visualization = Backbone.View.extend({
     this.myResize();
     $(window).on('resize', _.bind(this.myResize, this));
     this.gitVisuals.drawTreeFirstTime();
+
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    }
+
+    this.setTreeOpacity(0);
+    this.fadeTreeIn();
+  },
+
+  setTreeOpacity: function(level) {
+    $(this.paper.canvas).css('opacity', 0);
+  },
+
+  fadeTreeIn: function() {
+    $(this.paper.canvas).animate({opacity: 1}, 300);
   },
 
   myResize: function() {
