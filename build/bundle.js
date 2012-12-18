@@ -7372,20 +7372,38 @@ TreeCompare.prototype.convertTreeSafe = function(tree) {
 };
 
 TreeCompare.prototype.stripTreeFields = function(trees) {
-  var stripFields = ['createTime', 'author', 'commitMessage'];
-  var sortFields = ['children', 'parents'];
+  var commitStripFields = [
+    'createTime',
+    'author',
+    'commitMessage',
+    'gitVisuals',
+    'children',
+    'visNode',
+    'type'
+  ];
+  var branchStripFields = [
+    'type',
+    'visBranch'
+  ];
+  var commitSortFields = ['children', 'parents'];
 
-  _.each(trees, function(tree) {
-    _.each(tree.commits, function(commit) {
+  var strip = function(objects, stripFields, sortFields) {
+    _.each(objects, function(obj) {
       _.each(stripFields, function(field) {
-        commit[field] = undefined;
+        delete obj[field];
       });
       _.each(sortFields, function(field) {
-        if (commit[field]) {
-          commit[field] = commit[field].sort();
+        if (obj[field]) {
+          obj[field].sort();
         }
       });
     });
+  };
+
+  _.each(trees, function(tree) {
+    strip(tree.commits, commitStripFields, commitSortFields);
+    strip(tree.branches, branchStripFields);
+    strip([tree.HEAD], branchStripFields);
   });
 };
 
@@ -11367,20 +11385,38 @@ TreeCompare.prototype.convertTreeSafe = function(tree) {
 };
 
 TreeCompare.prototype.stripTreeFields = function(trees) {
-  var stripFields = ['createTime', 'author', 'commitMessage'];
-  var sortFields = ['children', 'parents'];
+  var commitStripFields = [
+    'createTime',
+    'author',
+    'commitMessage',
+    'gitVisuals',
+    'children',
+    'visNode',
+    'type'
+  ];
+  var branchStripFields = [
+    'type',
+    'visBranch'
+  ];
+  var commitSortFields = ['children', 'parents'];
 
-  _.each(trees, function(tree) {
-    _.each(tree.commits, function(commit) {
+  var strip = function(objects, stripFields, sortFields) {
+    _.each(objects, function(obj) {
       _.each(stripFields, function(field) {
-        commit[field] = undefined;
+        delete obj[field];
       });
       _.each(sortFields, function(field) {
-        if (commit[field]) {
-          commit[field] = commit[field].sort();
+        if (obj[field]) {
+          obj[field].sort();
         }
       });
     });
+  };
+
+  _.each(trees, function(tree) {
+    strip(tree.commits, commitStripFields, commitSortFields);
+    strip(tree.branches, branchStripFields);
+    strip([tree.HEAD], branchStripFields);
   });
 };
 

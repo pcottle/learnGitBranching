@@ -18,7 +18,7 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  this.stripTreeFields([treeA, treeB]);
+  this.reduceTreeFields([treeA, treeB]);
 
   // we need a recursive comparison function to bubble up the  branch
   var recurseCompare = function(commitA, commitB) {
@@ -56,21 +56,49 @@ TreeCompare.prototype.convertTreeSafe = function(tree) {
   return tree;
 };
 
-TreeCompare.prototype.stripTreeFields = function(trees) {
-  var stripFields = ['createTime', 'author', 'commitMessage'];
-  var sortFields = ['children', 'parents'];
+TreeCompare.prototype.reduceTreeFields = function(trees) {
+  var commitSaveFields = [
+    'parents',
+    'id',
+    'rootCommit'
+  ];
+  var commitSortFields = ['children', 'parents'];
+  var branchSaveFields = [
+    'target',
+    'id'
+  ];
 
-  _.each(trees, function(tree) {
-    _.each(tree.commits, function(commit) {
-      _.each(stripFields, function(field) {
-        commit[field] = undefined;
-      });
-      _.each(sortFields, function(field) {
-        if (commit[field]) {
-          commit[field] = commit[field].sort();
+  // this function saves only the specified fields of a tree
+  var saveOnly = function(tree, treeKey, saveFields, sortFields) {
+    var objects = tree[treeKey];
+    _.each(objects, function(obj, objKey) {
+      // our blank slate to copy over
+      var blank = {};
+      _.each(saveFields, function(field) {
+        if (obj[field] !== undefined) {
+          blank[field] = obj[field];
         }
       });
+
+      _.each(sortFields, function(field) {
+        // also sort some fields
+        if (obj[field]) {
+          obj[field].sort();
+          blank[field] = obj[field];
+        }
+      });
+      tree[treeKey][objKey] = blank;
     });
+  };
+
+  _.each(trees, function(tree) {
+    saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
+    saveOnly(tree, 'branches', branchSaveFields);
+
+    tree.HEAD = {
+      target: tree.HEAD.target,
+      id: tree.HEAD.id
+    };
   });
 };
 
@@ -80,7 +108,7 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
 
   // now we need to strip out the fields we don't care about, aka things
   // like createTime, message, author
-  this.stripTreeFields([treeA, treeB]);
+  this.reduceTreeFields([treeA, treeB]);
 
   console.log('comparing tree A', treeA, 'to', treeB);
 
