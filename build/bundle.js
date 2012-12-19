@@ -10087,10 +10087,6 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
   }
 };
 
-GitVisuals.prototype.collectionChanged = function() {
-  // TODO ?
-};
-
 GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
@@ -10105,9 +10101,6 @@ GitVisuals.prototype.visNodesFront = function() {
 GitVisuals.prototype.visBranchesFront = function() {
   this.visBranchCollection.each(function(vBranch) {
     vBranch.nonTextToFront();
-  });
-
-  this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFront();
   });
 };
@@ -15473,10 +15466,6 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
   }
 };
 
-GitVisuals.prototype.collectionChanged = function() {
-  // TODO ?
-};
-
 GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
@@ -15491,9 +15480,6 @@ GitVisuals.prototype.visNodesFront = function() {
 GitVisuals.prototype.visBranchesFront = function() {
   this.visBranchCollection.each(function(vBranch) {
     vBranch.nonTextToFront();
-  });
-
-  this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFront();
   });
 };
