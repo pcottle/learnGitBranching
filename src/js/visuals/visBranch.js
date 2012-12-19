@@ -4,6 +4,12 @@ var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/tree').VisBase;
 
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+};
+
 var VisBranch = VisBase.extend({
   defaults: {
     pos: null,

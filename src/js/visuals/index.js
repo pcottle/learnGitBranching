@@ -9,14 +9,11 @@ var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
-var Tree = require('../visuals/tree');
-var VisEdgeCollection = Tree.VisEdgeCollection;
 var VisNode = require('../visuals/visNode').VisNode;
-
 var VisBranch = require('../visuals/visBranch').VisBranch;
 var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
-
-var VisEdge = Tree.VisEdge;
+var VisEdge = require('../visuals/visEdge').VisEdge;
+var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
 function GitVisuals(options) {
   this.commitCollection = options.commitCollection;

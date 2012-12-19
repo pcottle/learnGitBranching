@@ -9431,14 +9431,11 @@ var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
-var Tree = require('../visuals/tree');
-var VisEdgeCollection = Tree.VisEdgeCollection;
 var VisNode = require('../visuals/visNode').VisNode;
-
 var VisBranch = require('../visuals/visBranch').VisBranch;
 var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
-
-var VisEdge = Tree.VisEdge;
+var VisEdge = require('../visuals/visEdge').VisEdge;
+var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
 function GitVisuals(options) {
   this.commitCollection = options.commitCollection;
@@ -10096,209 +10093,6 @@ exports.GitVisuals = GitVisuals;
 
 });
 
-require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = require('backbone');
-
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-};
-
-var VisBase = Backbone.Model.extend({
-  removeKeys: function(keys) {
-    _.each(keys, function(key) {
-      if (this.get(key)) {
-        this.get(key).remove();
-      }
-    }, this);
-  }
-});
-
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    var required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
-  },
-
-  getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.get('tail').get('outgoingEdges').push(this);
-  },
-
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
-  },
-
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
-
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
-
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
-    };
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
-
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
-
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
-
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
-  },
-
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
-
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    this.get('path').attr({opacity: opacity});
-  },
-
-  genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
-
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
-    });
-    path.toBack();
-    this.set('path', path);
-  },
-
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
-
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
-  },
-
-  getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
-    return {
-      path: {
-        path: newPath,
-        opacity: opacity
-      }
-    };
-  },
-
-  animateUpdatedPath: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('path').attr(attr.path);
-      return;
-    }
-
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  }
-});
-
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
-
-exports.VisEdgeCollection = VisEdgeCollection;
-exports.VisEdge = VisEdge;
-exports.VisBase = VisBase;
-
-});
-
 require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -10725,11 +10519,34 @@ exports.VisNode = VisNode;
 
 });
 
+require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var VisBase = Backbone.Model.extend({
+  removeKeys: function(keys) {
+    _.each(keys, function(key) {
+      if (this.get(key)) {
+        this.get(key).remove();
+      }
+    }, this);
+  }
+});
+
+exports.VisBase = VisBase;
+
+});
+
 require.define("/src/js/visuals/visBranch.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/tree').VisBase;
+
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+};
 
 var VisBranch = VisBase.extend({
   defaults: {
@@ -11123,6 +10940,192 @@ var VisBranchCollection = Backbone.Collection.extend({
 
 exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
+
+});
+
+require.define("/src/js/visuals/visEdge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
+
+var VisEdge = VisBase.extend({
+  defaults: {
+    tail: null,
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    var required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
+  },
+
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
+  },
+
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
+    };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
+  },
+
+  genGraphics: function(paper) {
+    var pathString = this.getBezierCurve();
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
+    });
+    path.toBack();
+    this.set('path', path);
+  },
+
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
+  getAttributes: function() {
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+    return {
+      path: {
+        path: newPath,
+        opacity: opacity
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.get('path').attr(attr.path);
+      return;
+    }
+
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
+  }
+});
+
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisEdge = VisEdge;
 
 });
 
@@ -14692,14 +14695,11 @@ var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
-var Tree = require('../visuals/tree');
-var VisEdgeCollection = Tree.VisEdgeCollection;
 var VisNode = require('../visuals/visNode').VisNode;
-
 var VisBranch = require('../visuals/visBranch').VisBranch;
 var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
-
-var VisEdge = Tree.VisEdge;
+var VisEdge = require('../visuals/visEdge').VisEdge;
+var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
 function GitVisuals(options) {
   this.commitCollection = options.commitCollection;
@@ -15359,16 +15359,7 @@ exports.GitVisuals = GitVisuals;
 require("/src/js/visuals/index.js");
 
 require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
 var Backbone = require('backbone');
-
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-};
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
@@ -15380,183 +15371,6 @@ var VisBase = Backbone.Model.extend({
   }
 });
 
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    var required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
-  },
-
-  getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.get('tail').get('outgoingEdges').push(this);
-  },
-
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
-  },
-
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
-
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
-
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
-    };
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
-
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
-
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
-
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
-  },
-
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
-
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    this.get('path').attr({opacity: opacity});
-  },
-
-  genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
-
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
-    });
-    path.toBack();
-    this.set('path', path);
-  },
-
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
-
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
-  },
-
-  getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
-    return {
-      path: {
-        path: newPath,
-        opacity: opacity
-      }
-    };
-  },
-
-  animateUpdatedPath: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('path').attr(attr.path);
-      return;
-    }
-
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  }
-});
-
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
-
-exports.VisEdgeCollection = VisEdgeCollection;
-exports.VisEdge = VisEdge;
 exports.VisBase = VisBase;
 
 });
@@ -15567,6 +15381,12 @@ var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/tree').VisBase;
+
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+};
 
 var VisBranch = VisBase.extend({
   defaults: {
@@ -15963,6 +15783,193 @@ exports.VisBranch = VisBranch;
 
 });
 require("/src/js/visuals/visBranch.js");
+
+require.define("/src/js/visuals/visEdge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
+
+var VisEdge = VisBase.extend({
+  defaults: {
+    tail: null,
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    var required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
+  },
+
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
+  },
+
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
+    };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
+  },
+
+  genGraphics: function(paper) {
+    var pathString = this.getBezierCurve();
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
+    });
+    path.toBack();
+    this.set('path', path);
+  },
+
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
+  getAttributes: function() {
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+    return {
+      path: {
+        path: newPath,
+        opacity: opacity
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.get('path').attr(attr.path);
+      return;
+    }
+
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
+  }
+});
+
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisEdge = VisEdge;
+
+});
+require("/src/js/visuals/visEdge.js");
 
 require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
