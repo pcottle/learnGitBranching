@@ -9537,17 +9537,62 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   };
 };
 
-GitVisuals.prototype.finishAnimation = function() {
+GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   var deferred = Q.defer();
 
-  deferred.promise
-  .then(_.bind(this.explodeNodes, this))
+  var animate = function(visObj) {
+    visObj.animateAttrKeys(keys, attr, speed, easing);
+  };
+
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
+
+  var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
+  setTimeout(function() {
+    deferred.resolve();
+  }, time);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var _this = this;
+  var deferred = Q.defer();
+  var defaultTime = GRAPHICS.defaultAnimationTime;
+  var nodeRadius = GRAPHICS.nodeRadius;
+
+  deferred.promise.then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['circle'] },
+      { opacity: 0 },
+      defaultTime * 1.5
+    );
+
+  }, this))
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      {
+        include: ['circle'],
+        exclude: ['arrow', 'rect', 'path', 'text']
+      },
+      { r: nodeRadius * 2 },
+      defaultTime * 2
+    );
+
+  }, this))
+  .then(_.bind(function() {
+    return this.explodeNodes();
+
+  }, this))
   .fail(function(reason) {
     console.warn('Finish animation failed due to ', reason);
+    throw reason;
   })
   .done();
 
   deferred.resolve();
+  return deferred;
 };
 
 GitVisuals.prototype.explodeNodes = function() {
@@ -9597,15 +9642,9 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
   };
 
-  this.visBranchCollection.each(function(visBranch) {
-    animate(visBranch);
-  });
-  this.visEdgeCollection.each(function(visEdge) {
-    animate(visEdge);
-  });
-  _.each(this.visNodeMap, function(visNode) {
-    animate(visNode);
-  });
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
 };
 
 /***************************************
@@ -10267,10 +10306,14 @@ var VisNode = VisBase.extend({
     this.get('circle').stop().animate(attr.circle, s, e);
     this.get('text').stop().animate(attr.text, s, e);
 
-    // animate the x attribute without bouncing so it looks like there's
-    // gravity in only one direction. Just a small animation polish
-    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
-    this.get('text').animate(attr.text.x, s, 'easeInOut');
+    if (easing == 'bounce' &&
+        attr.circle && attr.circle.cx !== undefined &&
+        attr.text && attr.text.x !== undefined ) {
+      // animate the x attribute without bouncing so it looks like there's
+      // gravity in only one direction. Just a small animation polish
+      this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
+      this.get('text').animate(attr.text.x, s, 'easeInOut');
+    }
   },
 
   getScreenCoords: function() {
@@ -10363,7 +10406,6 @@ var VisNode = VisBase.extend({
   },
 
   setOutgoingEdgesBirthPosition: function(parentCoords) {
-
     _.each(this.get('outgoingEdges'), function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
@@ -10526,6 +10568,36 @@ var VisBase = Backbone.Model.extend({
         this.get(key).remove();
       }
     }, this);
+  },
+
+  animateAttrKeys: function(keys, attrObj, speed, easing) {
+    // either we animate a specific subset of keys or all
+    // possible things we could animate
+    keys = _.extend(
+      {},
+      {
+        include: ['circle', 'arrow', 'rect', 'path', 'text'],
+        exclude: []
+      },
+      keys || {}
+    );
+
+    var attr = this.getAttributes();
+
+    // safely insert this attribute into all the keys we want
+    _.each(keys.include, function(key) {
+      attr[key] = _.extend(
+        {},
+        attr[key],
+        attrObj
+      );
+    });
+
+    _.each(keys.exclude, function(key) {
+      delete attr[key];
+    });
+
+    this.animateToAttr(attr, speed, easing);
   }
 });
 
@@ -13675,7 +13747,8 @@ require.define("/src/js/util/debug.js",function(require,module,exports,__dirname
   Async: require('../visuals/animation'),
   AnimationFactory: require('../visuals/animation/animationFactory'),
   Main: require('../app'),
-  HeadLess: require('../git/headless')
+  HeadLess: require('../git/headless'),
+  Q: { Q: require('q') }
 };
 
 _.each(toGlobalize, function(module) {
@@ -14796,17 +14869,62 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   };
 };
 
-GitVisuals.prototype.finishAnimation = function() {
+GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   var deferred = Q.defer();
 
-  deferred.promise
-  .then(_.bind(this.explodeNodes, this))
+  var animate = function(visObj) {
+    visObj.animateAttrKeys(keys, attr, speed, easing);
+  };
+
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
+
+  var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
+  setTimeout(function() {
+    deferred.resolve();
+  }, time);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var _this = this;
+  var deferred = Q.defer();
+  var defaultTime = GRAPHICS.defaultAnimationTime;
+  var nodeRadius = GRAPHICS.nodeRadius;
+
+  deferred.promise.then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['circle'] },
+      { opacity: 0 },
+      defaultTime * 1.5
+    );
+
+  }, this))
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      {
+        include: ['circle'],
+        exclude: ['arrow', 'rect', 'path', 'text']
+      },
+      { r: nodeRadius * 2 },
+      defaultTime * 2
+    );
+
+  }, this))
+  .then(_.bind(function() {
+    return this.explodeNodes();
+
+  }, this))
   .fail(function(reason) {
     console.warn('Finish animation failed due to ', reason);
+    throw reason;
   })
   .done();
 
   deferred.resolve();
+  return deferred;
 };
 
 GitVisuals.prototype.explodeNodes = function() {
@@ -14856,15 +14974,9 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
   };
 
-  this.visBranchCollection.each(function(visBranch) {
-    animate(visBranch);
-  });
-  this.visEdgeCollection.each(function(visEdge) {
-    animate(visEdge);
-  });
-  _.each(this.visNodeMap, function(visNode) {
-    animate(visNode);
-  });
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
 };
 
 /***************************************
@@ -15360,6 +15472,36 @@ var VisBase = Backbone.Model.extend({
         this.get(key).remove();
       }
     }, this);
+  },
+
+  animateAttrKeys: function(keys, attrObj, speed, easing) {
+    // either we animate a specific subset of keys or all
+    // possible things we could animate
+    keys = _.extend(
+      {},
+      {
+        include: ['circle', 'arrow', 'rect', 'path', 'text'],
+        exclude: []
+      },
+      keys || {}
+    );
+
+    var attr = this.getAttributes();
+
+    // safely insert this attribute into all the keys we want
+    _.each(keys.include, function(key) {
+      attr[key] = _.extend(
+        {},
+        attr[key],
+        attrObj
+      );
+    });
+
+    _.each(keys.exclude, function(key) {
+      delete attr[key];
+    });
+
+    this.animateToAttr(attr, speed, easing);
   }
 });
 
@@ -16140,10 +16282,14 @@ var VisNode = VisBase.extend({
     this.get('circle').stop().animate(attr.circle, s, e);
     this.get('text').stop().animate(attr.text, s, e);
 
-    // animate the x attribute without bouncing so it looks like there's
-    // gravity in only one direction. Just a small animation polish
-    this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
-    this.get('text').animate(attr.text.x, s, 'easeInOut');
+    if (easing == 'bounce' &&
+        attr.circle && attr.circle.cx !== undefined &&
+        attr.text && attr.text.x !== undefined ) {
+      // animate the x attribute without bouncing so it looks like there's
+      // gravity in only one direction. Just a small animation polish
+      this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
+      this.get('text').animate(attr.text.x, s, 'easeInOut');
+    }
   },
 
   getScreenCoords: function() {
@@ -16236,7 +16382,6 @@ var VisNode = VisBase.extend({
   },
 
   setOutgoingEdgesBirthPosition: function(parentCoords) {
-
     _.each(this.get('outgoingEdges'), function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);

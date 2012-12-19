@@ -118,17 +118,62 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   };
 };
 
-GitVisuals.prototype.finishAnimation = function() {
+GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   var deferred = Q.defer();
 
-  deferred.promise
-  .then(_.bind(this.explodeNodes, this))
+  var animate = function(visObj) {
+    visObj.animateAttrKeys(keys, attr, speed, easing);
+  };
+
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
+
+  var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
+  setTimeout(function() {
+    deferred.resolve();
+  }, time);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var _this = this;
+  var deferred = Q.defer();
+  var defaultTime = GRAPHICS.defaultAnimationTime;
+  var nodeRadius = GRAPHICS.nodeRadius;
+
+  deferred.promise.then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['circle'] },
+      { opacity: 0 },
+      defaultTime * 1.5
+    );
+
+  }, this))
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      {
+        include: ['circle'],
+        exclude: ['arrow', 'rect', 'path', 'text']
+      },
+      { r: nodeRadius * 2 },
+      defaultTime * 2
+    );
+
+  }, this))
+  .then(_.bind(function() {
+    return this.explodeNodes();
+
+  }, this))
   .fail(function(reason) {
     console.warn('Finish animation failed due to ', reason);
+    throw reason;
   })
   .done();
 
   deferred.resolve();
+  return deferred;
 };
 
 GitVisuals.prototype.explodeNodes = function() {
@@ -178,15 +223,9 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
   };
 
-  this.visBranchCollection.each(function(visBranch) {
-    animate(visBranch);
-  });
-  this.visEdgeCollection.each(function(visEdge) {
-    animate(visEdge);
-  });
-  _.each(this.visNodeMap, function(visNode) {
-    animate(visNode);
-  });
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
 };
 
 /***************************************

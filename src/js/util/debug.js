@@ -9,7 +9,8 @@ var toGlobalize = {
   Async: require('../visuals/animation'),
   AnimationFactory: require('../visuals/animation/animationFactory'),
   Main: require('../app'),
-  HeadLess: require('../git/headless')
+  HeadLess: require('../git/headless'),
+  Q: { Q: require('q') }
 };
 
 _.each(toGlobalize, function(module) {
