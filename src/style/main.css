@@ -83,7 +83,7 @@ body,
 }
 
 #canvasWrapper {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8) inset;
+  /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8) inset;*/
   background-color: #4183C4;
 }
 
@@ -498,7 +498,7 @@ li.rebaseEntry.notPicked {
   border-top-color: #ff0000;
   background: #ff0000;
 }
-   
+
 .uiButtonWhite {
   border-top: 1px solid #96d1f8;
   background: #449ad4;

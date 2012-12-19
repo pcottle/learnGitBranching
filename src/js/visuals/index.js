@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
@@ -117,6 +118,49 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
     x: shrink(pos.x, this.paper.width, padding.widthPadding),
     y: shrink(pos.y, this.paper.height, padding.heightPadding)
   };
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var deferred = Q.defer();
+
+  deferred.promise
+  .then(_.bind(this.explodeNodes, this))
+  .then(_.bind(this.
+
+  deferred.resolve();
+};
+
+GitVisuals.prototype.explodeNodes = function() {
+  var deferred = Q.defer();
+  var funcs = [];
+  _.each(this.visNodeMap, function(visNode) {
+    funcs.push(visNode.getExplodeStepFunc());
+  });
+
+  var interval = setInterval(function() {
+    // object creation here is a bit ugly inside a loop,
+    // but the alternative is to just OR against a bunch
+    // of booleans which means the other stepFuncs
+    // are called unnecessarily when they have almost
+    // zero speed. would be interesting to see performance differences
+    var keepGoing = [];
+    _.each(funcs, function(func) {
+      if (func()) {
+        keepGoing.push(func);
+      }
+    });
+
+    if (!keepGoing.length) {
+      clearInterval(interval);
+      // next step :D wow I love promises
+      deferred.resolve();
+      return;
+    }
+
+    funcs = keepGoing;
+  }, 1/40);
+
+  return deferred.promise;
 };
 
 GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {

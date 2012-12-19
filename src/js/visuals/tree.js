@@ -750,14 +750,50 @@ var VisNode = VisBase.extend({
     }, this);
   },
 
-  finishAnimation: function() {
+  getExplodeStepFunc: function() {
     var circle = this.get('circle');
 
     // decide on a speed
-    var speedMag = 10;
-    var angle = Math.random() * 2 * Math.PI;
+    var speedMag = 20;
+    // aim upwards
+    var angle = Math.PI + Math.random() * 1 * Math.PI;
+    var gravity = 1 / 5;
+    var drag = 1 / 100;
+
     var vx = speedMag * Math.cos(angle);
-    var vy = speedMap * Math.sin(angle);
+    var vy = speedMag * Math.sin(angle);
+    var x = circle.attr('cx');
+    var y = circle.attr('cy');
+
+    var maxWidth = this.gitVisuals.paper.width;
+    var maxHeight = this.gitVisuals.paper.height;
+    var elasticity = 0.8;
+    var dt = 1.0;
+
+    var stepFunc = function() {
+      // lol epic runge kutta here... not
+      vy += gravity * dt - drag * vy;
+      vx -= drag * vx;
+      x += vx * dt;
+      y += vy * dt;
+
+      if (x < 0 || x > maxWidth) {
+        vx = elasticity * -vx;
+        x = (x < 0) ? 0 : maxWidth;
+      }
+      if (y < 0 || y > maxHeight) {
+        vy = elasticity * -vy;
+        y = (y < 0) ? 0 : maxHeight;
+      }
+
+      circle.attr({
+        cx: x,
+        cy: y
+      });
+      // continuation calculation
+      return (vx * vx + vy * vy > 0.01) ? true : false;
+    };
+    return stepFunc;
   },
 
   genGraphics: function() {
