@@ -1,4 +1,6 @@
 var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+var Backbone = require('backbone');
 
 var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',

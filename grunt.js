@@ -78,9 +78,6 @@ module.exports = function(grunt) {
         debug: true
       },
       globals: {
-        _: true,
-        Backbone: true,
-        '$': true,
         Raphael: true,
         require: true,
         console: true,

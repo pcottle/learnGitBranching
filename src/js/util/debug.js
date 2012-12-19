@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var toGlobalize = {
   Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),

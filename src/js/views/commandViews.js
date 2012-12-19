@@ -1,3 +1,6 @@
+var _ = require('underscore');
+var Backbone = require('backbone');
+
 var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
