@@ -9420,22 +9420,685 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
-require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
-  var dummy = {};
-  var stub = function() {};
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+var Backbone = require('backbone');
 
-  for (var key in Constructor.prototype) {
-    dummy[key] = stub;
-  }
-  return dummy;
+var GRAPHICS = require('../util/constants').GRAPHICS;
+var GLOBAL = require('../util/constants').GLOBAL;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var Tree = require('../visuals/tree');
+var VisEdgeCollection = Tree.VisEdgeCollection;
+var VisNode = require('../visuals/visNode').VisNode;
+
+var VisBranch = require('../visuals/visBranch').VisBranch;
+var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
+
+var VisEdge = Tree.VisEdge;
+
+function GitVisuals(options) {
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
+  this.visNodeMap = {};
+
+  this.visEdgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
+  this.commitMap = {};
+
+  this.rootCommit = null;
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
+
+  this.paper = options.paper;
+  this.gitReady = false;
+
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
+
+  this.events = require('../app').getEvents();
+  this.events.on('refreshTree', _.bind(
+    this.refreshTree, this
+  ));
+}
+
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
 };
 
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
+
+GitVisuals.prototype.resetAll = function() {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
+    visEdge.remove();
+  }, this);
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
+    visBranch.remove();
+  }, this);
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.initHeadBranch();
+  this.deferFlush();
+};
+
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
+  // seed this with the HEAD pseudo-branch
+  this.addBranchFromEvent(this.gitEngine.HEAD);
+};
+
+GitVisuals.prototype.getScreenPadding = function() {
+  // for now we return the node radius subtracted from the walls
+  return {
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
+  };
+};
+
+GitVisuals.prototype.toScreenCoords = function(pos) {
+  if (!this.paper.width) {
+    throw new Error('being called too early for screen coords');
+  }
+  var padding = this.getScreenPadding();
+
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
+  };
+
+  return {
+    x: shrink(pos.x, this.paper.width, padding.widthPadding),
+    y: shrink(pos.y, this.paper.height, padding.heightPadding)
+  };
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var deferred = Q.defer();
+
+  deferred.promise
+  .then(_.bind(this.explodeNodes, this))
+  .fail(function(reason) {
+    console.warn('Finish animation failed due to ', reason);
+  })
+  .done();
+
+  deferred.resolve();
+};
+
+GitVisuals.prototype.explodeNodes = function() {
+  var deferred = Q.defer();
+  var funcs = [];
+  _.each(this.visNodeMap, function(visNode) {
+    funcs.push(visNode.getExplodeStepFunc());
+  });
+
+  var interval = setInterval(function() {
+    // object creation here is a bit ugly inside a loop,
+    // but the alternative is to just OR against a bunch
+    // of booleans which means the other stepFuncs
+    // are called unnecessarily when they have almost
+    // zero speed. would be interesting to see performance differences
+    var keepGoing = [];
+    _.each(funcs, function(func) {
+      if (func()) {
+        keepGoing.push(func);
+      }
+    });
+
+    if (!keepGoing.length) {
+      clearInterval(interval);
+      // next step :D wow I love promises
+      deferred.resolve();
+      return;
+    }
+
+    funcs = keepGoing;
+  }, 1/40);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
+      return;
+    }
+
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      // its actually ok it doesnt exist yet
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(function(visBranch) {
+    animate(visBranch);
+  });
+  this.visEdgeCollection.each(function(visEdge) {
+    animate(visEdge);
+  });
+  _.each(this.visNodeMap, function(visNode) {
+    animate(visNode);
+  });
+};
+
+/***************************************
+     == BEGIN Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.visEdgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
+};
+
+GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.gitReady) {
+    return;
+  }
+
+  // this method can only be called after graphics are rendered
+  this.fullCalc();
+
+  this.animateAll(speed);
+};
+
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.fullCalc();
+
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
+};
+
+GitVisuals.prototype.calcTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
+
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
+  this.calcDepth();
+  this.calcWidth();
+};
+
+GitVisuals.prototype.calcGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = this.gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
+  });
+  this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length === 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle!!
+  _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
+    var flex = child.get('visNode').getMaxWidthScaled();
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    console.warn('graphics are degrading from too many layers');
+  }
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.animateNodePositions = function(speed) {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.animateUpdatedPosition(speed);
+  }, this);
+};
+
+GitVisuals.prototype.turnOnPaper = function() {
+  this.gitReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.gitReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visBranchCollection.add(visBranch);
+  if (this.gitReady) {
+    visBranch.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
+GitVisuals.prototype.animateRefs = function(speed) {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(speed);
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function(speed) {
+  this.visEdgeCollection.each(function(edge) {
+    edge.animateUpdatedPath(speed);
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  commit.get('visNode').setDepth(depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }, this);
+
+  return maxDepth;
+};
+
+// we debounce here so we aren't firing a resize call on every resize event
+// but only after they stop
+GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
+  // refresh when we are ready
+  if (GLOBAL.isAnimating) {
+    this.events.trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
+}, 200);
+
+GitVisuals.prototype.addNode = function(id, commit) {
+  this.commitMap[id] = commit;
+  if (commit.get('rootCommit')) {
+    this.rootCommit = commit;
+  }
+
+  var visNode = new VisNode({
+    id: id,
+    commit: commit,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visNodeMap[id] = visNode;
+
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
+  }
+  return visNode;
+};
+
+GitVisuals.prototype.addEdge = function(idTail, idHead) {
+  var visNodeTail = this.visNodeMap[idTail];
+  var visNodeHead = this.visNodeMap[idHead];
+
+  if (!visNodeTail || !visNodeHead) {
+    throw new Error('one of the ids in (' + idTail +
+                    ', ' + idHead + ') does not exist');
+  }
+
+  var edge = new VisEdge({
+    tail: visNodeTail,
+    head: visNodeHead,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visEdgeCollection.add(edge);
+
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.collectionChanged = function() {
+  // TODO ?
+};
+
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+};
+
+GitVisuals.prototype.visBranchesFront = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+  });
+
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.textToFront();
+  });
+};
+
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.gitReady = true;
+  // gen all the graphics we need
+  this.deferFlush();
+
+  this.calcTreeCoords();
+};
+
+GitVisuals.prototype.drawTreeFirstTime = function() {
+  this.gitReady = true;
+  this.calcTreeCoords();
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.genGraphics(this.paper);
+  }, this);
+
+  this.visEdgeCollection.each(function(edge) {
+    edge.genGraphics(this.paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.zIndexReflow();
+};
+
+
+/************************
+ * Random util functions, some from liquidGraph
+ ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
+exports.GitVisuals = GitVisuals;
 
 });
 
 require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -9455,365 +10118,152 @@ var VisBase = Backbone.Model.extend({
   }
 });
 
-var VisBranch = VisBase.extend({
+var VisEdge = VisBase.extend({
   defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    arrow: null,
-    isHead: false,
-    flip: 1,
-
-    fill: GRAPHICS.rectFill,
-    stroke: GRAPHICS.rectStroke,
-    'stroke-width': GRAPHICS.rectStrokeWidth,
-
-    offsetX: GRAPHICS.nodeRadius * 4.75,
-    offsetY: 0,
-    arrowHeight: 14,
-    arrowInnerSkew: 0,
-    arrowEdgeHeight: 6,
-    arrowLength: 14,
-    arrowOffsetFromCircleX: 10,
-
-    vPad: 5,
-    hPad: 5,
-
+    tail: null,
+    head: null,
     animationSpeed: GRAPHICS.defaultAnimationTime,
     animationEasing: GRAPHICS.defaultEasing
   },
 
   validateAtInit: function() {
-    if (!this.get('branch')) {
-      throw new Error('need a branch!');
-    }
+    var required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
   },
 
   getID: function() {
-    return this.get('branch').get('id');
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
   },
 
   initialize: function() {
     this.validateAtInit();
 
-    // shorthand notation for the main objects
+    // shorthand for the main objects
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) {
-      console.log('throw damnit');
-      throw new Error('asd');
-    }
 
-    this.get('branch').set('visBranch', this);
-    var id = this.get('branch').get('id');
-
-    if (id == 'HEAD') {
-      // switch to a head ref
-      this.set('isHead', true);
-      this.set('flip', -1);
-
-      this.set('fill', GRAPHICS.headRectFill);
-    } else if (id !== 'master') {
-      // we need to set our color to something random
-      this.set('fill', randomHueString());
-    }
+    this.get('tail').get('outgoingEdges').push(this);
   },
 
-  getCommitPosition: function() {
-    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
-    var visNode = commit.get('visNode');
-    return visNode.getScreenCoords();
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
   },
 
-  getBranchStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other branches
-      return 0;
-    }
-
-    var myArray = this.getBranchStackArray();
-    var index = -1;
-    _.each(myArray, function(branch, i) {
-      if (branch.obj == this.get('branch')) {
-        index = i;
-      }
-    }, this);
-    return index;
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
   },
 
-  getBranchStackLength: function() {
-    if (this.get('isHead')) {
-      // head is always by itself
-      return 1;
-    }
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
 
-    return this.getBranchStackArray().length;
-  },
-
-  getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
-    if (arr === undefined) {
-      // this only occurs when we are generating graphics inside of
-      // a new Branch instantiation, so we need to force the update
-      this.gitVisuals.calcBranchStacks();
-      return this.getBranchStackArray();
-    }
-    return arr;
-  },
-
-  getTextPosition: function() {
-    var pos = this.getCommitPosition();
-
-    // then order yourself accordingly. we use alphabetical sorting
-    // so everything is independent
-    var myPos = this.getBranchStackIndex();
-    return {
-      x: pos.x + this.get('flip') * this.get('offsetX'),
-      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
     };
-  },
-
-  getRectPosition: function() {
-    var pos = this.getTextPosition();
-    var f = this.get('flip');
-
-    // first get text width and height
-    var textSize = this.getTextSize();
-    return {
-      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
-      y: pos.y - 0.5 * textSize.h - this.get('vPad')
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
     };
-  },
-
-  getArrowPath: function() {
-    // should make these util functions...
     var offset2d = function(pos, x, y) {
       return {
         x: pos.x + x,
         y: pos.y + y
       };
     };
-    var toStringCoords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var f = this.get('flip');
 
-    var arrowTip = offset2d(this.getCommitPosition(),
-      f * this.get('arrowOffsetFromCircleX'),
-      0
-    );
-    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
-    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
 
-    var arrowInnerUp = offset2d(arrowEdgeUp,
-      f * this.get('arrowInnerSkew'),
-      this.get('arrowEdgeHeight')
-    );
-    var arrowInnerLow = offset2d(arrowEdgeLow,
-      f * this.get('arrowInnerSkew'),
-      -this.get('arrowEdgeHeight')
-    );
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
 
-    var tailLength = 49;
-    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
-    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
 
-    var pathStr = '';
-    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
-    var coords = [
-      arrowInnerUp,
-      arrowEdgeUp,
-      arrowTip,
-      arrowEdgeLow,
-      arrowInnerLow,
-      arrowStartLow
-    ];
-    _.each(coords, function(pos) {
-      pathStr += 'L' + toStringCoords(pos) + ' ';
-    }, this);
-    pathStr += 'z';
-    return pathStr;
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
   },
 
-  getTextSize: function() {
-    var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
-    };
-
-    var textNode = this.get('text').node;
-    if (this.get('isHead')) {
-      // HEAD is a special case
-      return {
-        w: textNode.clientWidth,
-        h: textNode.clientHeight
-      };
-    }
-
-    var maxWidth = 0;
-    _.each(this.getBranchStackArray(), function(branch) {
-      maxWidth = Math.max(maxWidth, getTextWidth(
-        branch.obj.get('visBranch')
-      ));
-    });
-
-    return {
-      w: maxWidth,
-      h: textNode.clientHeight
-    };
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
   },
 
-  getSingleRectSize: function() {
-    var textSize = this.getTextSize();
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h + hPad * 2
-    };
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
   },
 
-  getRectSize: function() {
-    var textSize = this.getTextSize();
-    // enforce padding
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
 
-    // number of other branch names we are housing
-    var totalNum = this.getBranchStackLength();
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum * 1.1 + hPad * 2
-    };
-  },
-
-  getName: function() {
-    var name = this.get('branch').get('id');
-    var selected = this.gitEngine.HEAD.get('target').get('id');
-
-    var add = (selected == name) ? '*' : '';
-    return name + add;
-  },
-
-  nonTextToFront: function() {
-    this.get('arrow').toFront();
-    this.get('rect').toFront();
-  },
-
-  textToFront: function() {
-    this.get('text').toFront();
-  },
-
-  getFill: function() {
-    // in the easy case, just return your own fill if you are:
-    // - the HEAD ref
-    // - by yourself (length of 1)
-    // - part of a multi branch, but your thing is hidden
-    if (this.get('isHead') ||
-        this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() !== 0) {
-      return this.get('fill');
-    }
-
-    // woof. now it's hard, we need to blend hues...
-    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
-  },
-
-  remove: function() {
-    this.removeKeys(['text', 'arrow', 'rect']);
-    // also need to remove from this.gitVisuals
-    this.gitVisuals.removeVisBranch(this);
+    this.get('path').attr({opacity: opacity});
   },
 
   genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
-    var name = this.getName();
-    var text;
+    var pathString = this.getBezierCurve();
 
-    // when from a reload, we dont need to generate the text
-    text = paper.text(textPos.x, textPos.y, String(name));
-    text.attr({
-      'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getTextOpacity()
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
     });
-    this.set('text', text);
-
-    var rectPos = this.getRectPosition();
-    var sizeOfRect = this.getRectSize();
-    var rect = paper
-      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(this.getAttributes().rect);
-    this.set('rect', rect);
-
-    var arrowPath = this.getArrowPath();
-    var arrow = paper
-      .path(arrowPath)
-      .attr(this.getAttributes().arrow);
-    this.set('arrow', arrow);
-
-    rect.toFront();
-    text.toFront();
+    path.toBack();
+    this.set('path', path);
   },
 
-  updateName: function() {
-    this.get('text').attr({
-      text: this.getName()
-    });
-  },
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
 
-  getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
-  },
-
-  getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return 1;
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
   },
 
   getAttributes: function() {
-    var nonTextOpacity = this.getNonTextOpacity();
-    var textOpacity = this.getTextOpacity();
-    this.updateName();
-
-    var textPos = this.getTextPosition();
-    var rectPos = this.getRectPosition();
-    var rectSize = this.getRectSize();
-
-    var arrowPath = this.getArrowPath();
-
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
     return {
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: textOpacity
-      },
-      rect: {
-        x: rectPos.x,
-        y: rectPos.y,
-        width: rectSize.w,
-        height: rectSize.h,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      },
-      arrow: {
-        path: arrowPath,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
+      path: {
+        path: newPath,
+        opacity: opacity
       }
     };
   },
 
-  animateUpdatedPos: function(speed, easing) {
+  animateUpdatedPath: function(speed, easing) {
     var attr = this.getAttributes();
     this.animateToAttr(attr, speed, easing);
   },
@@ -9826,21 +10276,34 @@ var VisBranch = VisBase.extend({
 
   animateToAttr: function(attr, speed, easing) {
     if (speed === 0) {
-      this.get('text').attr(attr.text);
-      this.get('rect').attr(attr.rect);
-      this.get('arrow').attr(attr.arrow);
+      this.get('path').attr(attr.path);
       return;
     }
 
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('text').stop().animate(attr.text, s, e);
-    this.get('rect').stop().animate(attr.rect, s, e);
-    this.get('arrow').stop().animate(attr.arrow, s, e);
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
   }
 });
 
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisEdge = VisEdge;
+exports.VisBase = VisBase;
+
+});
+
+require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
 
 var VisNode = VisBase.extend({
   defaults: {
@@ -10258,152 +10721,375 @@ var VisNode = VisBase.extend({
   }
 });
 
-var VisEdge = VisBase.extend({
+exports.VisNode = VisNode;
+
+});
+
+require.define("/src/js/visuals/visBranch.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
+
+var VisBranch = VisBase.extend({
   defaults: {
-    tail: null,
-    head: null,
+    pos: null,
+    text: null,
+    rect: null,
+    arrow: null,
+    isHead: false,
+    flip: 1,
+
+    fill: GRAPHICS.rectFill,
+    stroke: GRAPHICS.rectStroke,
+    'stroke-width': GRAPHICS.rectStrokeWidth,
+
+    offsetX: GRAPHICS.nodeRadius * 4.75,
+    offsetY: 0,
+    arrowHeight: 14,
+    arrowInnerSkew: 0,
+    arrowEdgeHeight: 6,
+    arrowLength: 14,
+    arrowOffsetFromCircleX: 10,
+
+    vPad: 5,
+    hPad: 5,
+
     animationSpeed: GRAPHICS.defaultAnimationTime,
     animationEasing: GRAPHICS.defaultEasing
   },
 
   validateAtInit: function() {
-    var required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
+    if (!this.get('branch')) {
+      throw new Error('need a branch!');
+    }
   },
 
   getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+    return this.get('branch').get('id');
   },
 
   initialize: function() {
     this.validateAtInit();
 
-    // shorthand for the main objects
+    // shorthand notation for the main objects
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
+    if (!this.gitEngine) {
+      console.log('throw damnit');
+      throw new Error('asd');
+    }
 
-    this.get('tail').get('outgoingEdges').push(this);
+    this.get('branch').set('visBranch', this);
+    var id = this.get('branch').get('id');
+
+    if (id == 'HEAD') {
+      // switch to a head ref
+      this.set('isHead', true);
+      this.set('flip', -1);
+
+      this.set('fill', GRAPHICS.headRectFill);
+    } else if (id !== 'master') {
+      // we need to set our color to something random
+      this.set('fill', randomHueString());
+    }
   },
 
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
+  getCommitPosition: function() {
+    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
+    var visNode = commit.get('visNode');
+    return visNode.getScreenCoords();
   },
 
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  getBranchStackIndex: function() {
+    if (this.get('isHead')) {
+      // head is never stacked with other branches
+      return 0;
+    }
+
+    var myArray = this.getBranchStackArray();
+    var index = -1;
+    _.each(myArray, function(branch, i) {
+      if (branch.obj == this.get('branch')) {
+        index = i;
+      }
+    }, this);
+    return index;
   },
 
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
+  getBranchStackLength: function() {
+    if (this.get('isHead')) {
+      // head is always by itself
+      return 1;
+    }
 
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    return this.getBranchStackArray().length;
+  },
+
+  getBranchStackArray: function() {
+    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    if (arr === undefined) {
+      // this only occurs when we are generating graphics inside of
+      // a new Branch instantiation, so we need to force the update
+      this.gitVisuals.calcBranchStacks();
+      return this.getBranchStackArray();
+    }
+    return arr;
+  },
+
+  getTextPosition: function() {
+    var pos = this.getCommitPosition();
+
+    // then order yourself accordingly. we use alphabetical sorting
+    // so everything is independent
+    var myPos = this.getBranchStackIndex();
+    return {
+      x: pos.x + this.get('flip') * this.get('offsetX'),
+      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
     };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
+  },
+
+  getRectPosition: function() {
+    var pos = this.getTextPosition();
+    var f = this.get('flip');
+
+    // first get text width and height
+    var textSize = this.getTextSize();
+    return {
+      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
+      y: pos.y - 0.5 * textSize.h - this.get('vPad')
     };
+  },
+
+  getArrowPath: function() {
+    // should make these util functions...
     var offset2d = function(pos, x, y) {
       return {
         x: pos.x + x,
         y: pos.y + y
       };
     };
+    var toStringCoords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var f = this.get('flip');
 
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
+    var arrowTip = offset2d(this.getCommitPosition(),
+      f * this.get('arrowOffsetFromCircleX'),
+      0
+    );
+    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
+    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
 
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
+    var arrowInnerUp = offset2d(arrowEdgeUp,
+      f * this.get('arrowInnerSkew'),
+      this.get('arrowEdgeHeight')
+    );
+    var arrowInnerLow = offset2d(arrowEdgeLow,
+      f * this.get('arrowInnerSkew'),
+      -this.get('arrowEdgeHeight')
+    );
 
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
+    var tailLength = 49;
+    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
+    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
 
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
+    var pathStr = '';
+    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
+    var coords = [
+      arrowInnerUp,
+      arrowEdgeUp,
+      arrowTip,
+      arrowEdgeLow,
+      arrowInnerLow,
+      arrowStartLow
+    ];
+    _.each(coords, function(pos) {
+      pathStr += 'L' + toStringCoords(pos) + ' ';
+    }, this);
+    pathStr += 'z';
+    return pathStr;
   },
 
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  getTextSize: function() {
+    var getTextWidth = function(visBranch) {
+      var textNode = visBranch.get('text').node;
+      return (textNode === null) ? 1 : textNode.clientWidth;
+    };
+
+    var textNode = this.get('text').node;
+    if (this.get('isHead')) {
+      // HEAD is a special case
+      return {
+        w: textNode.clientWidth,
+        h: textNode.clientHeight
+      };
+    }
+
+    var maxWidth = 0;
+    _.each(this.getBranchStackArray(), function(branch) {
+      maxWidth = Math.max(maxWidth, getTextWidth(
+        branch.obj.get('visBranch')
+      ));
+    });
+
+    return {
+      w: maxWidth,
+      h: textNode.clientHeight
+    };
   },
 
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
+  getSingleRectSize: function() {
+    var textSize = this.getTextSize();
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h + hPad * 2
+    };
   },
 
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
+  getRectSize: function() {
+    var textSize = this.getTextSize();
+    // enforce padding
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
 
-    this.get('path').attr({opacity: opacity});
+    // number of other branch names we are housing
+    var totalNum = this.getBranchStackLength();
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h * totalNum * 1.1 + hPad * 2
+    };
+  },
+
+  getName: function() {
+    var name = this.get('branch').get('id');
+    var selected = this.gitEngine.HEAD.get('target').get('id');
+
+    var add = (selected == name) ? '*' : '';
+    return name + add;
+  },
+
+  nonTextToFront: function() {
+    this.get('arrow').toFront();
+    this.get('rect').toFront();
+  },
+
+  textToFront: function() {
+    this.get('text').toFront();
+  },
+
+  getFill: function() {
+    // in the easy case, just return your own fill if you are:
+    // - the HEAD ref
+    // - by yourself (length of 1)
+    // - part of a multi branch, but your thing is hidden
+    if (this.get('isHead') ||
+        this.getBranchStackLength() == 1 ||
+        this.getBranchStackIndex() !== 0) {
+      return this.get('fill');
+    }
+
+    // woof. now it's hard, we need to blend hues...
+    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
+  },
+
+  remove: function() {
+    this.removeKeys(['text', 'arrow', 'rect']);
+    // also need to remove from this.gitVisuals
+    this.gitVisuals.removeVisBranch(this);
   },
 
   genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
+    var textPos = this.getTextPosition();
+    var name = this.getName();
+    var text;
 
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
+    // when from a reload, we dont need to generate the text
+    text = paper.text(textPos.x, textPos.y, String(name));
+    text.attr({
+      'font-size': 14,
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getTextOpacity()
     });
-    path.toBack();
-    this.set('path', path);
+    this.set('text', text);
+
+    var rectPos = this.getRectPosition();
+    var sizeOfRect = this.getRectSize();
+    var rect = paper
+      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
+      .attr(this.getAttributes().rect);
+    this.set('rect', rect);
+
+    var arrowPath = this.getArrowPath();
+    var arrow = paper
+      .path(arrowPath)
+      .attr(this.getAttributes().arrow);
+    this.set('arrow', arrow);
+
+    rect.toFront();
+    text.toFront();
   },
 
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
+  updateName: function() {
+    this.get('text').attr({
+      text: this.getName()
+    });
+  },
 
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
+  getNonTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
+  },
+
+  getTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return 1;
   },
 
   getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
+    var nonTextOpacity = this.getNonTextOpacity();
+    var textOpacity = this.getTextOpacity();
+    this.updateName();
+
+    var textPos = this.getTextPosition();
+    var rectPos = this.getRectPosition();
+    var rectSize = this.getRectSize();
+
+    var arrowPath = this.getArrowPath();
+
     return {
-      path: {
-        path: newPath,
-        opacity: opacity
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: textOpacity
+      },
+      rect: {
+        x: rectPos.x,
+        y: rectPos.y,
+        width: rectSize.w,
+        height: rectSize.h,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      },
+      arrow: {
+        path: arrowPath,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
       }
     };
   },
 
-  animateUpdatedPath: function(speed, easing) {
+  animateUpdatedPos: function(speed, easing) {
     var attr = this.getAttributes();
     this.animateToAttr(attr, speed, easing);
   },
@@ -10416,32 +11102,39 @@ var VisEdge = VisBase.extend({
 
   animateToAttr: function(attr, speed, easing) {
     if (speed === 0) {
-      this.get('path').attr(attr.path);
+      this.get('text').attr(attr.text);
+      this.get('rect').attr(attr.rect);
+      this.get('arrow').attr(attr.arrow);
       return;
     }
 
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  }
-});
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
 
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
+    this.get('text').stop().animate(attr.text, s, e);
+    this.get('rect').stop().animate(attr.rect, s, e);
+    this.get('arrow').stop().animate(attr.arrow, s, e);
+  }
 });
 
 var VisBranchCollection = Backbone.Collection.extend({
   model: VisBranch
 });
 
-exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisBranchCollection = VisBranchCollection;
-exports.VisNode = VisNode;
-exports.VisEdge = VisEdge;
 exports.VisBranch = VisBranch;
+
+});
+
+require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
+  var dummy = {};
+  var stub = function() {};
+
+  for (var key in Constructor.prototype) {
+    dummy[key] = stub;
+  }
+  return dummy;
+};
 
 
 });
@@ -13988,13 +14681,686 @@ exports.AnimationQueue = AnimationQueue;
 });
 require("/src/js/visuals/animation/index.js");
 
-require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){undefined
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+var Backbone = require('backbone');
+
+var GRAPHICS = require('../util/constants').GRAPHICS;
+var GLOBAL = require('../util/constants').GLOBAL;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var Tree = require('../visuals/tree');
+var VisEdgeCollection = Tree.VisEdgeCollection;
+var VisNode = require('../visuals/visNode').VisNode;
+
+var VisBranch = require('../visuals/visBranch').VisBranch;
+var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
+
+var VisEdge = Tree.VisEdge;
+
+function GitVisuals(options) {
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
+  this.visNodeMap = {};
+
+  this.visEdgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
+  this.commitMap = {};
+
+  this.rootCommit = null;
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
+
+  this.paper = options.paper;
+  this.gitReady = false;
+
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
+
+  this.events = require('../app').getEvents();
+  this.events.on('refreshTree', _.bind(
+    this.refreshTree, this
+  ));
+}
+
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
+};
+
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
+
+GitVisuals.prototype.resetAll = function() {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
+    visEdge.remove();
+  }, this);
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
+    visBranch.remove();
+  }, this);
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.initHeadBranch();
+  this.deferFlush();
+};
+
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
+  // seed this with the HEAD pseudo-branch
+  this.addBranchFromEvent(this.gitEngine.HEAD);
+};
+
+GitVisuals.prototype.getScreenPadding = function() {
+  // for now we return the node radius subtracted from the walls
+  return {
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
+  };
+};
+
+GitVisuals.prototype.toScreenCoords = function(pos) {
+  if (!this.paper.width) {
+    throw new Error('being called too early for screen coords');
+  }
+  var padding = this.getScreenPadding();
+
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
+  };
+
+  return {
+    x: shrink(pos.x, this.paper.width, padding.widthPadding),
+    y: shrink(pos.y, this.paper.height, padding.heightPadding)
+  };
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var deferred = Q.defer();
+
+  deferred.promise
+  .then(_.bind(this.explodeNodes, this))
+  .fail(function(reason) {
+    console.warn('Finish animation failed due to ', reason);
+  })
+  .done();
+
+  deferred.resolve();
+};
+
+GitVisuals.prototype.explodeNodes = function() {
+  var deferred = Q.defer();
+  var funcs = [];
+  _.each(this.visNodeMap, function(visNode) {
+    funcs.push(visNode.getExplodeStepFunc());
+  });
+
+  var interval = setInterval(function() {
+    // object creation here is a bit ugly inside a loop,
+    // but the alternative is to just OR against a bunch
+    // of booleans which means the other stepFuncs
+    // are called unnecessarily when they have almost
+    // zero speed. would be interesting to see performance differences
+    var keepGoing = [];
+    _.each(funcs, function(func) {
+      if (func()) {
+        keepGoing.push(func);
+      }
+    });
+
+    if (!keepGoing.length) {
+      clearInterval(interval);
+      // next step :D wow I love promises
+      deferred.resolve();
+      return;
+    }
+
+    funcs = keepGoing;
+  }, 1/40);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
+      return;
+    }
+
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      // its actually ok it doesnt exist yet
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(function(visBranch) {
+    animate(visBranch);
+  });
+  this.visEdgeCollection.each(function(visEdge) {
+    animate(visEdge);
+  });
+  _.each(this.visNodeMap, function(visNode) {
+    animate(visNode);
+  });
+};
+
+/***************************************
+     == BEGIN Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.visEdgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
+};
+
+GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.gitReady) {
+    return;
+  }
+
+  // this method can only be called after graphics are rendered
+  this.fullCalc();
+
+  this.animateAll(speed);
+};
+
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.fullCalc();
+
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
+};
+
+GitVisuals.prototype.calcTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
+
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
+  this.calcDepth();
+  this.calcWidth();
+};
+
+GitVisuals.prototype.calcGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = this.gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
+  });
+  this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length === 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle!!
+  _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
+    var flex = child.get('visNode').getMaxWidthScaled();
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    console.warn('graphics are degrading from too many layers');
+  }
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.animateNodePositions = function(speed) {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.animateUpdatedPosition(speed);
+  }, this);
+};
+
+GitVisuals.prototype.turnOnPaper = function() {
+  this.gitReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.gitReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visBranchCollection.add(visBranch);
+  if (this.gitReady) {
+    visBranch.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
+GitVisuals.prototype.animateRefs = function(speed) {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(speed);
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function(speed) {
+  this.visEdgeCollection.each(function(edge) {
+    edge.animateUpdatedPath(speed);
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  commit.get('visNode').setDepth(depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }, this);
+
+  return maxDepth;
+};
+
+// we debounce here so we aren't firing a resize call on every resize event
+// but only after they stop
+GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
+  // refresh when we are ready
+  if (GLOBAL.isAnimating) {
+    this.events.trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
+}, 200);
+
+GitVisuals.prototype.addNode = function(id, commit) {
+  this.commitMap[id] = commit;
+  if (commit.get('rootCommit')) {
+    this.rootCommit = commit;
+  }
+
+  var visNode = new VisNode({
+    id: id,
+    commit: commit,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visNodeMap[id] = visNode;
+
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
+  }
+  return visNode;
+};
+
+GitVisuals.prototype.addEdge = function(idTail, idHead) {
+  var visNodeTail = this.visNodeMap[idTail];
+  var visNodeHead = this.visNodeMap[idHead];
+
+  if (!visNodeTail || !visNodeHead) {
+    throw new Error('one of the ids in (' + idTail +
+                    ', ' + idHead + ') does not exist');
+  }
+
+  var edge = new VisEdge({
+    tail: visNodeTail,
+    head: visNodeHead,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visEdgeCollection.add(edge);
+
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.collectionChanged = function() {
+  // TODO ?
+};
+
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+};
+
+GitVisuals.prototype.visBranchesFront = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+  });
+
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.textToFront();
+  });
+};
+
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.gitReady = true;
+  // gen all the graphics we need
+  this.deferFlush();
+
+  this.calcTreeCoords();
+};
+
+GitVisuals.prototype.drawTreeFirstTime = function() {
+  this.gitReady = true;
+  this.calcTreeCoords();
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.genGraphics(this.paper);
+  }, this);
+
+  this.visEdgeCollection.each(function(edge) {
+    edge.genGraphics(this.paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.zIndexReflow();
+};
+
+
+/************************
+ * Random util functions, some from liquidGraph
+ ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
+exports.GitVisuals = GitVisuals;
+
 });
 require("/src/js/visuals/index.js");
 
 require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -14013,6 +15379,194 @@ var VisBase = Backbone.Model.extend({
     }, this);
   }
 });
+
+var VisEdge = VisBase.extend({
+  defaults: {
+    tail: null,
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    var required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
+  },
+
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
+  },
+
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
+    };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
+  },
+
+  genGraphics: function(paper) {
+    var pathString = this.getBezierCurve();
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
+    });
+    path.toBack();
+    this.set('path', path);
+  },
+
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
+  getAttributes: function() {
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+    return {
+      path: {
+        path: newPath,
+        opacity: opacity
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.get('path').attr(attr.path);
+      return;
+    }
+
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
+  }
+});
+
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisEdge = VisEdge;
+exports.VisBase = VisBase;
+
+});
+require("/src/js/visuals/tree.js");
+
+require.define("/src/js/visuals/visBranch.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
 
 var VisBranch = VisBase.extend({
   defaults: {
@@ -14400,6 +15954,21 @@ var VisBranch = VisBase.extend({
   }
 });
 
+var VisBranchCollection = Backbone.Collection.extend({
+  model: VisBranch
+});
+
+exports.VisBranchCollection = VisBranchCollection;
+exports.VisBranch = VisBranch;
+
+});
+require("/src/js/visuals/visBranch.js");
+
+require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
 
 var VisNode = VisBase.extend({
   defaults: {
@@ -14817,194 +16386,10 @@ var VisNode = VisBase.extend({
   }
 });
 
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    var required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
-  },
-
-  getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.get('tail').get('outgoingEdges').push(this);
-  },
-
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
-  },
-
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
-
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
-
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
-    };
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
-
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
-
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
-
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
-  },
-
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
-
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    this.get('path').attr({opacity: opacity});
-  },
-
-  genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
-
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
-    });
-    path.toBack();
-    this.set('path', path);
-  },
-
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
-
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
-  },
-
-  getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
-    return {
-      path: {
-        path: newPath,
-        opacity: opacity
-      }
-    };
-  },
-
-  animateUpdatedPath: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('path').attr(attr.path);
-      return;
-    }
-
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  }
-});
-
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
-
-var VisBranchCollection = Backbone.Collection.extend({
-  model: VisBranch
-});
-
-exports.VisEdgeCollection = VisEdgeCollection;
-exports.VisBranchCollection = VisBranchCollection;
 exports.VisNode = VisNode;
-exports.VisEdge = VisEdge;
-exports.VisBranch = VisBranch;
-
 
 });
-require("/src/js/visuals/tree.js");
+require("/src/js/visuals/visNode.js");
 
 require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin

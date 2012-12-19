@@ -1,7 +1,6 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
@@ -12,9 +11,11 @@ var BranchCollection = Collections.BranchCollection;
 
 var Tree = require('../visuals/tree');
 var VisEdgeCollection = Tree.VisEdgeCollection;
-var VisBranchCollection = Tree.VisBranchCollection;
-var VisNode = Tree.VisNode;
-var VisBranch = Tree.VisBranch;
+var VisNode = require('../visuals/visNode').VisNode;
+
+var VisBranch = require('../visuals/visBranch').VisBranch;
+var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
+
 var VisEdge = Tree.VisEdge;
 
 function GitVisuals(options) {
@@ -125,7 +126,10 @@ GitVisuals.prototype.finishAnimation = function() {
 
   deferred.promise
   .then(_.bind(this.explodeNodes, this))
-  .then(_.bind(this.
+  .fail(function(reason) {
+    console.warn('Finish animation failed due to ', reason);
+  })
+  .done();
 
   deferred.resolve();
 };
