@@ -44,7 +44,6 @@ var InteractiveRebaseView = Backbone.View.extend({
   },
 
   toggleVisibility: function(toggle) {
-    console.log('toggling');
     $('#dialogHolder').toggleClass('shown', toggle);
   },
 

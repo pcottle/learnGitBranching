@@ -11,10 +11,10 @@ var mainVis = null;
 ///////////////////////////////////////////////////////////////////////
 
 var init = function(){
-  var Visuals = require('../visuals');
+  var Visualization = require('../visuals/visualization').Visualization;
 
   ui = new UI();
-  mainVis = new Visuals.Visualization({
+  mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
 

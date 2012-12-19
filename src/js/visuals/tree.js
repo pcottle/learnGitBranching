@@ -750,6 +750,16 @@ var VisNode = VisBase.extend({
     }, this);
   },
 
+  finishAnimation: function() {
+    var circle = this.get('circle');
+
+    // decide on a speed
+    var speedMag = 10;
+    var angle = Math.random() * 2 * Math.PI;
+    var vx = speedMag * Math.cos(angle);
+    var vy = speedMap * Math.sin(angle);
+  },
+
   genGraphics: function() {
     var paper = this.gitVisuals.paper;
 
