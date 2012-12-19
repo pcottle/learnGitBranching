@@ -1,6 +1,5 @@
 var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({

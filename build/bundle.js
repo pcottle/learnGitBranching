@@ -7862,8 +7862,7 @@ var qEndingLine = captureLine();
 });
 
 require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var Animation = require('./index').Animation;
 var GRAPHICS = require('../../util/constants').GRAPHICS;
@@ -8125,8 +8124,7 @@ exports.AnimationFactory = AnimationFactory;
 });
 
 require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
@@ -8386,8 +8384,7 @@ exports.TreeCompare = TreeCompare;
 });
 
 require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var MyError = Backbone.Model.extend({
   defaults: {
@@ -11143,8 +11140,7 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 });
 
 require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
@@ -11269,8 +11265,7 @@ exports.init = init;
 require("/src/js/app/index.js");
 
 require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
@@ -13698,8 +13693,7 @@ $(document).ready(function() {
 require("/src/js/util/debug.js");
 
 require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var MyError = Backbone.Model.extend({
   defaults: {
@@ -14330,8 +14324,7 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 require("/src/js/views/miscViews.js");
 
 require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var Animation = require('./index').Animation;
 var GRAPHICS = require('../../util/constants').GRAPHICS;
@@ -14594,8 +14587,7 @@ exports.AnimationFactory = AnimationFactory;
 require("/src/js/visuals/animation/animationFactory.js");
 
 require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
 
 var Animation = Backbone.Model.extend({
