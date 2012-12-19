@@ -9,7 +9,6 @@ Big Graphic things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] level finish animation
 [ ] check animations
 [ ] view for anything above the fold
 [ ] rebase styling (get it better. even cuter -- make it like a command window)
@@ -34,6 +33,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] level finish animation
 [x] refactor visualization
 [x] aliases replace when put into commands
 [x] headless Git for testing (send it commands and expected trees)

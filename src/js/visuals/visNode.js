@@ -391,7 +391,7 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      return (vx * vx + vy * vy > 0.01) ? true : false;
+      return ((vx * vx + vy * vy) > 0.01) ? true : false;
     };
     return stepFunc;
   },

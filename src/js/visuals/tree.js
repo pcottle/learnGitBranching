@@ -42,3 +42,4 @@ var VisBase = Backbone.Model.extend({
 });
 
 exports.VisBase = VisBase;
+

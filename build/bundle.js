@@ -9562,37 +9562,90 @@ GitVisuals.prototype.finishAnimation = function() {
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
-  deferred.promise.then(_.bind(function() {
+  var textString = 'Solved!!\n:D';
+  var text = null;
+  var makeText = _.bind(function() {
+    text = this.paper.text(
+      this.paper.width / 2,
+      this.paper.height / 2,
+      textString
+    );
+    text.attr({
+      opacity: 0,
+      'font-weight': 500,
+      'font-size': '32pt',
+      'font-family': 'Monaco, Courier, font-monospace',
+      stroke: '#000',
+      'stroke-width': 2,
+      fill: '#000'
+    });
+    text.animate({ opacity: 1 }, defaultTime);
+  }, this);
+
+  // this is a BIG ANIMATION but it ends up just being
+  // a sweet chain of promises but is pretty nice. this is
+  // after I discovered promises / deferred's. Unfortunately
+  // I wrote a lot of the git stuff before promises, so
+  // that's somewhat ugly
+
+  deferred.promise
+  // first fade out everything but circles
+  .then(_.bind(function() {
     return this.animateAllAttrKeys(
       { exclude: ['circle'] },
       { opacity: 0 },
-      defaultTime * 1.5
+      defaultTime * 1.1
     );
-
   }, this))
+  // then make circle radii bigger
   .then(_.bind(function() {
     return this.animateAllAttrKeys(
-      {
-        include: ['circle'],
-        exclude: ['arrow', 'rect', 'path', 'text']
-      },
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 2 },
-      defaultTime * 2
+      defaultTime * 1.5
     );
-
+  }, this))
+  // then shrink em super fast
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      { r: nodeRadius * 0.75 },
+      defaultTime * 0.5
+    );
+  }, this))
+  // then explode them and display text
+  .then(_.bind(function() {
+    makeText();
+    return this.explodeNodes();
   }, this))
   .then(_.bind(function() {
     return this.explodeNodes();
-
+  }, this))
+  // then fade circles (aka everything) in and back
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      {},
+      defaultTime * 1.25
+    );
+  }, this))
+  // then fade everything in and remove text
+  .then(_.bind(function() {
+    text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
+      text.remove();
+    });
+    return this.animateAllAttrKeys(
+      {},
+      {}
+    );
   }, this))
   .fail(function(reason) {
     console.warn('Finish animation failed due to ', reason);
     throw reason;
-  })
-  .done();
+  });
 
-  deferred.resolve();
-  return deferred;
+  deferred.resolve(); // start right away
+  return deferred.promise;
 };
 
 GitVisuals.prototype.explodeNodes = function() {
@@ -10522,7 +10575,7 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      return (vx * vx + vy * vy > 0.01) ? true : false;
+      return ((vx * vx + vy * vy) > 0.01) ? true : false;
     };
     return stepFunc;
   },
@@ -10602,6 +10655,7 @@ var VisBase = Backbone.Model.extend({
 });
 
 exports.VisBase = VisBase;
+
 
 });
 
@@ -14894,37 +14948,90 @@ GitVisuals.prototype.finishAnimation = function() {
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
-  deferred.promise.then(_.bind(function() {
+  var textString = 'Solved!!\n:D';
+  var text = null;
+  var makeText = _.bind(function() {
+    text = this.paper.text(
+      this.paper.width / 2,
+      this.paper.height / 2,
+      textString
+    );
+    text.attr({
+      opacity: 0,
+      'font-weight': 500,
+      'font-size': '32pt',
+      'font-family': 'Monaco, Courier, font-monospace',
+      stroke: '#000',
+      'stroke-width': 2,
+      fill: '#000'
+    });
+    text.animate({ opacity: 1 }, defaultTime);
+  }, this);
+
+  // this is a BIG ANIMATION but it ends up just being
+  // a sweet chain of promises but is pretty nice. this is
+  // after I discovered promises / deferred's. Unfortunately
+  // I wrote a lot of the git stuff before promises, so
+  // that's somewhat ugly
+
+  deferred.promise
+  // first fade out everything but circles
+  .then(_.bind(function() {
     return this.animateAllAttrKeys(
       { exclude: ['circle'] },
       { opacity: 0 },
-      defaultTime * 1.5
+      defaultTime * 1.1
     );
-
   }, this))
+  // then make circle radii bigger
   .then(_.bind(function() {
     return this.animateAllAttrKeys(
-      {
-        include: ['circle'],
-        exclude: ['arrow', 'rect', 'path', 'text']
-      },
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 2 },
-      defaultTime * 2
+      defaultTime * 1.5
     );
-
+  }, this))
+  // then shrink em super fast
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      { r: nodeRadius * 0.75 },
+      defaultTime * 0.5
+    );
+  }, this))
+  // then explode them and display text
+  .then(_.bind(function() {
+    makeText();
+    return this.explodeNodes();
   }, this))
   .then(_.bind(function() {
     return this.explodeNodes();
-
+  }, this))
+  // then fade circles (aka everything) in and back
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      {},
+      defaultTime * 1.25
+    );
+  }, this))
+  // then fade everything in and remove text
+  .then(_.bind(function() {
+    text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
+      text.remove();
+    });
+    return this.animateAllAttrKeys(
+      {},
+      {}
+    );
   }, this))
   .fail(function(reason) {
     console.warn('Finish animation failed due to ', reason);
     throw reason;
-  })
-  .done();
+  });
 
-  deferred.resolve();
-  return deferred;
+  deferred.resolve(); // start right away
+  return deferred.promise;
 };
 
 GitVisuals.prototype.explodeNodes = function() {
@@ -15506,6 +15613,7 @@ var VisBase = Backbone.Model.extend({
 });
 
 exports.VisBase = VisBase;
+
 
 });
 require("/src/js/visuals/tree.js");
@@ -16498,7 +16606,7 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      return (vx * vx + vy * vy > 0.01) ? true : false;
+      return ((vx * vx + vy * vy) > 0.01) ? true : false;
     };
     return stepFunc;
   },
