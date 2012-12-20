@@ -16856,6 +16856,24 @@ exports.LeftRightView = LeftRightView;
 });
 require("/src/js/views/index.js");
 
+require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
+
+var MultiView = Backbone.View.extend({
+
+
+})
+
+});
+require("/src/js/views/multiView.js");
+
 require.define("/src/js/views/rebaseView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
