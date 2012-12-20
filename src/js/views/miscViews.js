@@ -1,6 +1,7 @@
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
-var Backbone = require('backbone');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',
@@ -46,7 +47,7 @@ var InteractiveRebaseView = Backbone.View.extend({
   },
 
   toggleVisibility: function(toggle) {
-    $('#dialogHolder').toggleClass('shown', toggle);
+    this.$el.toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -57,7 +58,8 @@ var InteractiveRebaseView = Backbone.View.extend({
     this.hasClicked = true;
 
     // first of all hide
-    this.$el.css('display', 'none');
+    this.$('#iRebaseDialog').css('display', 'none');
+    this.hide();
 
     // get our ordering
     var uiOrder = [];

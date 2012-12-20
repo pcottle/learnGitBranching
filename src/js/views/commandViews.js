@@ -1,5 +1,6 @@
 var _ = require('underscore');
-var Backbone = require('backbone');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');

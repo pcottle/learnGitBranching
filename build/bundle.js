@@ -8435,6 +8435,9 @@ var GitError = exports.GitError = MyError.extend({
 });
 
 require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',
@@ -8480,7 +8483,7 @@ var InteractiveRebaseView = Backbone.View.extend({
   },
 
   toggleVisibility: function(toggle) {
-    $('#dialogHolder').toggleClass('shown', toggle);
+    this.$el.toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -8491,7 +8494,8 @@ var InteractiveRebaseView = Backbone.View.extend({
     this.hasClicked = true;
 
     // first of all hide
-    this.$el.css('display', 'none');
+    this.$('#iRebaseDialog').css('display', 'none');
+    this.hide();
 
     // get our ordering
     var uiOrder = [];
@@ -9032,7 +9036,11 @@ exports.init = init;
 
 });
 
-require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
+require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
@@ -13783,7 +13791,9 @@ exports.GRAPHICS = GRAPHICS;
 });
 require("/src/js/util/constants.js");
 
-require.define("/src/js/util/debug.js",function(require,module,exports,__dirname,__filename,process,global){var toGlobalize = {
+require.define("/src/js/util/debug.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var toGlobalize = {
   Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),
   Git: require('../git'),
@@ -13906,7 +13916,11 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 });
 require("/src/js/util/mock.js");
 
-require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
+require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
@@ -14293,6 +14307,9 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 require("/src/js/views/commandViews.js");
 
 require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var InteractiveRebaseView = Backbone.View.extend({
   tagName: 'div',
@@ -14338,7 +14355,7 @@ var InteractiveRebaseView = Backbone.View.extend({
   },
 
   toggleVisibility: function(toggle) {
-    $('#dialogHolder').toggleClass('shown', toggle);
+    this.$el.toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -14349,7 +14366,8 @@ var InteractiveRebaseView = Backbone.View.extend({
     this.hasClicked = true;
 
     // first of all hide
-    this.$el.css('display', 'none');
+    this.$('#iRebaseDialog').css('display', 'none');
+    this.hide();
 
     // get our ordering
     var uiOrder = [];
