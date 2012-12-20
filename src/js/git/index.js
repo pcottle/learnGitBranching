@@ -1035,12 +1035,11 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   }, this))
   .done();
 
-  var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
+  var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
-    toRebase: toRebase,
-    el: $('#dialogHolder')
+    toRebase: toRebase
   });
 };
 

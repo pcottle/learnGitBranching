@@ -5650,12 +5650,11 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   }, this))
   .done();
 
-  var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
+  var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
-    toRebase: toRebase,
-    el: $('#dialogHolder')
+    toRebase: toRebase
   });
 };
 
@@ -8434,7 +8433,7 @@ var GitError = exports.GitError = MyError.extend({
 
 });
 
-require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+require.define("/src/js/views/rebaseView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -8584,7 +8583,6 @@ var RebaseEntryView = Backbone.View.extend({
 });
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
-
 
 });
 
@@ -11322,6 +11320,57 @@ exports.HeadlessGit = HeadlessGit;
 
 });
 
+require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'modalView box horizontal center transitionOpacity',
+  template: _.template($('#modal-view-template').html()),
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    // add ourselves to the DOM
+    this.$el.html(this.template({}));
+    $('body').append(this.el);
+    console.log(this.el);
+    var _this = this;
+    setTimeout(function() {
+      _this.show();
+    }, 1050);
+  },
+
+  show: function() {
+    this.display(true);
+  },
+
+  hide: function() {
+    this.display(false);
+  },
+
+  getInsideElement: function() {
+    return this.$('.contentHolder');
+  },
+
+  display: function(value) {
+    this.$el.toggleClass('show', value);
+  },
+
+  tearDown: function() {
+    this.hide();
+  }
+});
+
+exports.ModalView = ModalView;
+
+
+});
+
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -12485,12 +12534,11 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   }, this))
   .done();
 
-  var InteractiveRebaseView = require('../views/miscViews').InteractiveRebaseView;
+  var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
-    toRebase: toRebase,
-    el: $('#dialogHolder')
+    toRebase: toRebase
   });
 };
 
@@ -13805,7 +13853,9 @@ var toGlobalize = {
   AnimationFactory: require('../visuals/animation/animationFactory'),
   Main: require('../app'),
   HeadLess: require('../git/headless'),
-  Q: { Q: require('q') }
+  Q: { Q: require('q') },
+  RebaseView: require('../views/rebaseView'),
+  Views: require('../views')
 };
 
 _.each(toGlobalize, function(module) {
@@ -14306,6 +14356,58 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 });
 require("/src/js/views/commandViews.js");
 
+require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'modalView box horizontal center transitionOpacity',
+  template: _.template($('#modal-view-template').html()),
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    // add ourselves to the DOM
+    this.$el.html(this.template({}));
+    $('body').append(this.el);
+    console.log(this.el);
+    var _this = this;
+    setTimeout(function() {
+      _this.show();
+    }, 1050);
+  },
+
+  show: function() {
+    this.display(true);
+  },
+
+  hide: function() {
+    this.display(false);
+  },
+
+  getInsideElement: function() {
+    return this.$('.contentHolder');
+  },
+
+  display: function(value) {
+    this.$el.toggleClass('show', value);
+  },
+
+  tearDown: function() {
+    this.hide();
+  }
+});
+
+exports.ModalView = ModalView;
+
+
+});
+require("/src/js/views/index.js");
+
 require.define("/src/js/views/miscViews.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
@@ -14457,9 +14559,162 @@ var RebaseEntryView = Backbone.View.extend({
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
 
-
 });
 require("/src/js/views/miscViews.js");
+
+require.define("/src/js/views/rebaseView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var InteractiveRebaseView = Backbone.View.extend({
+  tagName: 'div',
+  template: _.template($('#interactive-rebase-template').html()),
+
+  events: {
+    'click #confirmButton': 'confirmed'
+  },
+
+  initialize: function(options) {
+    this.hasClicked = false;
+    this.deferred = options.deferred;
+
+    this.rebaseArray = options.toRebase;
+
+    this.rebaseEntries = new RebaseEntryCollection();
+    this.rebaseMap = {};
+    this.entryObjMap = {};
+
+    this.rebaseArray.reverse();
+    // make basic models for each commit
+    _.each(this.rebaseArray, function(commit) {
+      var id = commit.get('id');
+      this.rebaseMap[id] = commit;
+      this.entryObjMap[id] = new RebaseEntry({
+        id: id
+      });
+      this.rebaseEntries.add(this.entryObjMap[id]);
+    }, this);
+
+    this.render();
+
+    // show the dialog holder
+    this.show();
+  },
+
+  show: function() {
+    this.toggleVisibility(true);
+  },
+
+  hide: function() {
+    this.toggleVisibility(false);
+  },
+
+  toggleVisibility: function(toggle) {
+    this.$el.toggleClass('shown', toggle);
+  },
+
+  confirmed: function() {
+    // we hide the dialog anyways, but they might be fast clickers
+    if (this.hasClicked) {
+      return;
+    }
+    this.hasClicked = true;
+
+    // first of all hide
+    this.$('#iRebaseDialog').css('display', 'none');
+    this.hide();
+
+    // get our ordering
+    var uiOrder = [];
+    this.$('ul#rebaseEntries li').each(function(i, obj) {
+      uiOrder.push(obj.id);
+    });
+
+    // now get the real array
+    var toRebase = [];
+    _.each(uiOrder, function(id) {
+      // the model
+      if (this.entryObjMap[id].get('pick')) {
+        toRebase.unshift(this.rebaseMap[id]);
+      }
+    }, this);
+
+    this.deferred.resolve(toRebase);
+    // garbage collection will get us
+    this.$el.html('');
+  },
+
+  render: function() {
+    var json = {
+      num: this.rebaseArray.length
+    };
+
+    this.$el.html(this.template(json));
+
+    // also render each entry
+    var listHolder = this.$('ul#rebaseEntries');
+    this.rebaseEntries.each(function(entry) {
+      new RebaseEntryView({
+        el: listHolder,
+        model: entry
+      });
+    }, this);
+
+    // then make it reorderable..
+    listHolder.sortable({
+      distance: 5,
+      placeholder: 'ui-state-highlight'
+    });
+  }
+});
+
+var RebaseEntry = Backbone.Model.extend({
+  defaults: {
+    pick: true
+  },
+
+  toggle: function() {
+    this.set('pick', !this.get('pick'));
+  }
+});
+
+var RebaseEntryCollection = Backbone.Collection.extend({
+  model: RebaseEntry
+});
+
+var RebaseEntryView = Backbone.View.extend({
+  tagName: 'li',
+  template: _.template($('#interactive-rebase-entry-template').html()),
+
+  toggle: function() {
+    this.model.toggle();
+
+    // toggle a class also
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+  },
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    var json = this.model.toJSON();
+    this.$el.append(this.template(this.model.toJSON()));
+
+    // hacky :( who would have known jquery barfs on ids with %'s and quotes
+    this.listEntry = this.$el.children(':last');
+
+    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
+      this.toggle();
+    }, this));
+  }
+});
+
+exports.InteractiveRebaseView = InteractiveRebaseView;
+
+});
+require("/src/js/views/rebaseView.js");
 
 require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');

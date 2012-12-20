@@ -9,9 +9,9 @@ Big Graphic things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] view for anything above the fold
+[ ] view for anything above the fold (modal view)
 [ ] rebase styling (get it better. even cuter -- make it like a command window)
-[ ] fix multiple rebases
+[ ] check animation for command entry fading nicely wtf
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,6 +31,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] fix multiple rebases
 [x] z index reflow update
 [x] level finish animation
 [x] refactor visualization
