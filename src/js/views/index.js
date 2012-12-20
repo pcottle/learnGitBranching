@@ -151,16 +151,29 @@ var ModalAlert = ContainedBase.extend({
   template: _.template($('#modal-alert-template').html()),
 
   initialize: function(options) {
-    options = options = {};
+    options = options || {};
     this.JSON = {
       title: options.title || 'Something to say',
-      text: options.text || 'Here is a paragraph'
+      text: options.text || 'Here is a paragraph',
+      markdown: options.markdown
     };
 
     this.container = new ModalTerminal({
       title: 'Alert!'
     });
     this.render();
+  },
+
+  render: function() {
+    var destination = this.destination || this.container.getInsideElement();
+    var HTML = null;
+    if (this.JSON.markdown) {
+      HTML = require('markdown').markdown.toHTML(this.JSON.markdown);
+    } else {
+      HTML = this.template(this.JSON);
+    }
+    this.$el.html(HTML);
+    $(destination).append(this.el);
   }
 });
 

@@ -27,6 +27,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] markdown parsing yay!!
 [x] check animation for command entry fading nicely wtf
 [x] no more CSS ids in views
 [x] promise-based confirm cnacel
