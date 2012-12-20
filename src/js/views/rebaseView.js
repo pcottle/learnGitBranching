@@ -44,7 +44,7 @@ var InteractiveRebaseView = BaseView.extend({
 
     // get our ordering
     var uiOrder = [];
-    this.$('ul#rebaseEntries li').each(function(i, obj) {
+    this.$('ul.rebaseEntries li').each(function(i, obj) {
       uiOrder.push(obj.id);
     });
 
@@ -72,7 +72,7 @@ var InteractiveRebaseView = BaseView.extend({
     $(destination).append(this.el);
 
     // also render each entry
-    var listHolder = this.$('ul#rebaseEntries');
+    var listHolder = this.$('ul.rebaseEntries');
     this.rebaseEntries.each(function(entry) {
       new RebaseEntryView({
         el: listHolder,

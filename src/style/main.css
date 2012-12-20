@@ -363,13 +363,13 @@ li.rebaseEntry,
   padding: 0;
 }
 
-.iRebaseDialog div#entryHolders {
+.iRebaseDialog div.entryHolders {
   width: 300px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.iRebaseDialog div#entryHolders ul#rebaseEntries {
+.iRebaseDialog div.entryHolders ul.rebaseEntries {
   list-style-type: none;
   -webkit-padding-start: 0;
 }
