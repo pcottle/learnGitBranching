@@ -3,7 +3,10 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
-var InteractiveRebaseView = Backbone.View.extend({
+var ModalTerminal = require('../views').ModalTerminal;
+var BaseView = require('../views').BaseView;
+
+var InteractiveRebaseView = BaseView.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -32,22 +35,14 @@ var InteractiveRebaseView = Backbone.View.extend({
       this.rebaseEntries.add(this.entryObjMap[id]);
     }, this);
 
+    this.container = new ModalTerminal({
+      title: 'Interactive Rebase'
+    });
+
     this.render();
 
     // show the dialog holder
     this.show();
-  },
-
-  show: function() {
-    this.toggleVisibility(true);
-  },
-
-  hide: function() {
-    this.toggleVisibility(false);
-  },
-
-  toggleVisibility: function(toggle) {
-    this.$el.toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -86,7 +81,9 @@ var InteractiveRebaseView = Backbone.View.extend({
       num: this.rebaseArray.length
     };
 
+    var destination = this.container.getInsideElement();
     this.$el.html(this.template(json));
+    $(destination).append(this.el);
 
     // also render each entry
     var listHolder = this.$('ul#rebaseEntries');

@@ -11,6 +11,7 @@
 </head>
 <body>
 
+  <!-- The entire interface is within this div -->
   <div id="interfaceWrapper" class="box horizontal flex1">
     <div id="controls" class="box vertical flex1">
       <div id="hintsEtc" class="box vertical">
@@ -57,10 +58,6 @@
     </div>
   </div>
 
-  <div id="dialogHolder" class="transitionOpacity">
-
-  </div>
-
   <!-- *******************************************
        Scripts from here on out
        ****************************************** -->
@@ -94,33 +91,53 @@
   </script>
 
   <script type="text/html" id="modal-view-template">
-    <div class="contentHolder box vertical center">
+    <div class="contentHolder box vertical center flex1">
     </div>
   </script>
 
   <script type="text/html" id="terminal-window-template">
-    <div class="terminal-window">
-      <div class="toolbar box vertical">
-        <div class="controls box horizontal">
-          <div class="box flex1">
-            <div class="close">
+    <div class="terminal-window box horizontal flex3 transitionAll">
+      <div class="box flex1">
+      </div>
+
+      <div class="terminal-window-holder box flex3 vertical">
+        <div class="toolbar box vertical">
+          <div class="controls box horizontal">
+            <div class="box flex1">
+              <div class="close">
+              </div>
+            </div>
+            <div class="box flex1">
+              <div class="minimize">
+              </div>
+            </div>
+            <div class="box flex1">
+              <div class="plus">
+              </div>
             </div>
           </div>
-          <div class="box flex1">
-            <div class="minimize">
-            </div>
+          <div>
+            <i class="icon-cog"></i>
+            <%= title %>
           </div>
-          <div class="box flex1">
-            <div class="plus">
-            </div>
-          </div>
-            <div>
-              <i class="icon-home"></i>
-              Learn Git Branching
-            </div>
+        </div>
+
+        <div id="inside" class="">
         </div>
       </div>
+
+      <div class="box flex1">
+      </div>
     </div>
+  </script>
+
+  <script type="text/html" id="modal-alert-template">
+    <h2>
+      <%= title %>
+    </h2>
+    <p>
+      <%= text %>
+    </p>
   </script>
 
   <script type="text/html" id="interactive-rebase-template">

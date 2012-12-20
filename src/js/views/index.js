@@ -3,6 +3,22 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
+var BaseView = Backbone.View.extend({
+  render: function() {
+    var destination = this.container.getInsideElement();
+    this.$el.html(this.template(this.JSON));
+    $(destination).append(this.el);
+  },
+
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
 var ModalView = Backbone.View.extend({
   tagName: 'div',
   className: 'modalView box horizontal center transitionOpacity',
@@ -19,19 +35,30 @@ var ModalView = Backbone.View.extend({
   },
 
   show: function() {
-    this.display(true);
+    this.toggleZ(true);
+    this.toggleShow(true);
   },
 
   hide: function() {
-    this.display(false);
+    this.toggleShow(false);
+    // TODO -- do this in a way where it wont
+    // bork if we call it back down. these views should
+    // be one-off though so...
+    setTimeout(_.bind(function() {
+      this.toggleZ(false);
+    }, this), 700);
   },
 
   getInsideElement: function() {
     return this.$('.contentHolder');
   },
 
-  display: function(value) {
+  toggleShow: function(value) {
     this.$el.toggleClass('show', value);
+  },
+
+  toggleZ: function(value) {
+    this.$el.toggleClass('inFront', value);
   },
 
   tearDown: function() {
@@ -39,31 +66,47 @@ var ModalView = Backbone.View.extend({
   }
 });
 
-var ModalTerminal = Backbone.View.extend({
+var ModalTerminal = BaseView.extend({
   tagName: 'div',
-  className: 'ModalTerminal box',
+  className: 'box flex1',
+  template: _.template($('#terminal-window-template').html()),
 
   initialize: function(options) {
     options = options || {};
-    this.text = options.text || 'alert!';
+
     this.container = new ModalView();
+    this.JSON = {
+      title: options.title || 'Heed This Warning!'
+    };
+
     this.render();
   },
 
-  render: function() {
-    var destination = this.container.getInsideElement();
-    $(destination).html('<p> lol wut </p>');
-  },
+  getInsideElement: function() {
+    return this.$('#inside');
+  }
+});
 
-  show: function() {
-    this.container.show();
-  },
+var ModalAlert = BaseView.extend({
+  tagName: 'div',
+  template: _.template($('#modal-alert-template').html()),
 
-  hide: function() {
-    this.container.hide();
+  initialize: function(options) {
+    options = options = {};
+    this.JSON = {
+      title: options.title || 'Something to say',
+      text: options.text || 'Here is a paragraph'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Alert!'
+    });
+    this.render();
   }
 });
 
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
+exports.ModalAlert = ModalAlert;
+exports.BaseView = BaseView;
 

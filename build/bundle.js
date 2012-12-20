@@ -8438,7 +8438,10 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
-var InteractiveRebaseView = Backbone.View.extend({
+var ModalTerminal = require('../views').ModalTerminal;
+var BaseView = require('../views').BaseView;
+
+var InteractiveRebaseView = BaseView.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -8467,22 +8470,14 @@ var InteractiveRebaseView = Backbone.View.extend({
       this.rebaseEntries.add(this.entryObjMap[id]);
     }, this);
 
+    this.container = new ModalTerminal({
+      title: 'Interactive Rebase'
+    });
+
     this.render();
 
     // show the dialog holder
     this.show();
-  },
-
-  show: function() {
-    this.toggleVisibility(true);
-  },
-
-  hide: function() {
-    this.toggleVisibility(false);
-  },
-
-  toggleVisibility: function(toggle) {
-    this.$el.toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -8521,7 +8516,9 @@ var InteractiveRebaseView = Backbone.View.extend({
       num: this.rebaseArray.length
     };
 
+    var destination = this.container.getInsideElement();
     this.$el.html(this.template(json));
+    $(destination).append(this.el);
 
     // also render each entry
     var listHolder = this.$('ul#rebaseEntries');
@@ -8583,6 +8580,121 @@ var RebaseEntryView = Backbone.View.extend({
 });
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
+
+});
+
+require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var BaseView = Backbone.View.extend({
+  render: function() {
+    var destination = this.container.getInsideElement();
+    this.$el.html(this.template(this.JSON));
+    $(destination).append(this.el);
+  },
+
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
+var ModalView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'modalView box horizontal center transitionOpacity',
+  template: _.template($('#modal-view-template').html()),
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    // add ourselves to the DOM
+    this.$el.html(this.template({}));
+    $('body').append(this.el);
+  },
+
+  show: function() {
+    this.toggleZ(true);
+    this.toggleShow(true);
+  },
+
+  hide: function() {
+    this.toggleShow(false);
+    // TODO -- do this in a way where it wont
+    // bork if we call it back down. these views should
+    // be one-off though so...
+    setTimeout(_.bind(function() {
+      this.toggleZ(false);
+    }, this), 700);
+  },
+
+  getInsideElement: function() {
+    return this.$('.contentHolder');
+  },
+
+  toggleShow: function(value) {
+    this.$el.toggleClass('show', value);
+  },
+
+  toggleZ: function(value) {
+    this.$el.toggleClass('inFront', value);
+  },
+
+  tearDown: function() {
+    this.hide();
+  }
+});
+
+var ModalTerminal = BaseView.extend({
+  tagName: 'div',
+  className: 'box flex1',
+  template: _.template($('#terminal-window-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+
+    this.container = new ModalView();
+    this.JSON = {
+      title: options.title || 'Heed This Warning!'
+    };
+
+    this.render();
+  },
+
+  getInsideElement: function() {
+    return this.$('#inside');
+  }
+});
+
+var ModalAlert = BaseView.extend({
+  tagName: 'div',
+  template: _.template($('#modal-alert-template').html()),
+
+  initialize: function(options) {
+    options = options = {};
+    this.JSON = {
+      title: options.title || 'Something to say',
+      text: options.text || 'Here is a paragraph'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Alert!'
+    });
+    this.render();
+  }
+});
+
+exports.ModalView = ModalView;
+exports.ModalTerminal = ModalTerminal;
+exports.ModalAlert = ModalAlert;
+exports.BaseView = BaseView;
+
 
 });
 
@@ -11316,70 +11428,6 @@ HeadlessGit.prototype.sendCommand = function(value) {
 };
 
 exports.HeadlessGit = HeadlessGit;
-
-
-});
-
-require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var ModalView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'modalView box horizontal center transitionOpacity',
-  template: _.template($('#modal-view-template').html()),
-
-  initialize: function(options) {
-    this.render();
-  },
-
-  render: function() {
-    // add ourselves to the DOM
-    this.$el.html(this.template({}));
-    $('body').append(this.el);
-  },
-
-  show: function() {
-    this.display(true);
-  },
-
-  hide: function() {
-    this.display(false);
-  },
-
-  getInsideElement: function() {
-    return this.$('.contentHolder');
-  },
-
-  display: function(value) {
-    this.$el.toggleClass('show', value);
-  },
-
-  tearDown: function() {
-    this.hide();
-  }
-});
-
-var ModalAlert = Backbone.View.extend({
-  tagName: 'div',
-  className: 'ModalAlert box',
-
-  initialize: function(options) {
-    options = options || {};
-    this.text = options.text || 'alert!';
-    this.container = new ModalView();
-    this.render();
-  },
-
-  render: function() {
-    var destination = this.container.getInsideElement();
-    $(destination).html('<p> lol wut </p>');
-  }
-});
-
-exports.ModalView = ModalView;
-exports.ModalAlert = ModalAlert;
 
 
 });
@@ -14374,6 +14422,22 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
+var BaseView = Backbone.View.extend({
+  render: function() {
+    var destination = this.container.getInsideElement();
+    this.$el.html(this.template(this.JSON));
+    $(destination).append(this.el);
+  },
+
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
 var ModalView = Backbone.View.extend({
   tagName: 'div',
   className: 'modalView box horizontal center transitionOpacity',
@@ -14390,19 +14454,30 @@ var ModalView = Backbone.View.extend({
   },
 
   show: function() {
-    this.display(true);
+    this.toggleZ(true);
+    this.toggleShow(true);
   },
 
   hide: function() {
-    this.display(false);
+    this.toggleShow(false);
+    // TODO -- do this in a way where it wont
+    // bork if we call it back down. these views should
+    // be one-off though so...
+    setTimeout(_.bind(function() {
+      this.toggleZ(false);
+    }, this), 700);
   },
 
   getInsideElement: function() {
     return this.$('.contentHolder');
   },
 
-  display: function(value) {
+  toggleShow: function(value) {
     this.$el.toggleClass('show', value);
+  },
+
+  toggleZ: function(value) {
+    this.$el.toggleClass('inFront', value);
   },
 
   tearDown: function() {
@@ -14410,25 +14485,49 @@ var ModalView = Backbone.View.extend({
   }
 });
 
-var ModalAlert = Backbone.View.extend({
+var ModalTerminal = BaseView.extend({
   tagName: 'div',
-  className: 'ModalAlert box',
+  className: 'box flex1',
+  template: _.template($('#terminal-window-template').html()),
 
   initialize: function(options) {
     options = options || {};
-    this.text = options.text || 'alert!';
+
     this.container = new ModalView();
+    this.JSON = {
+      title: options.title || 'Heed This Warning!'
+    };
+
     this.render();
   },
 
-  render: function() {
-    var destination = this.container.getInsideElement();
-    $(destination).html('<p> lol wut </p>');
+  getInsideElement: function() {
+    return this.$('#inside');
+  }
+});
+
+var ModalAlert = BaseView.extend({
+  tagName: 'div',
+  template: _.template($('#modal-alert-template').html()),
+
+  initialize: function(options) {
+    options = options = {};
+    this.JSON = {
+      title: options.title || 'Something to say',
+      text: options.text || 'Here is a paragraph'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Alert!'
+    });
+    this.render();
   }
 });
 
 exports.ModalView = ModalView;
+exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
+exports.BaseView = BaseView;
 
 
 });
@@ -14593,7 +14692,10 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
-var InteractiveRebaseView = Backbone.View.extend({
+var ModalTerminal = require('../views').ModalTerminal;
+var BaseView = require('../views').BaseView;
+
+var InteractiveRebaseView = BaseView.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -14622,22 +14724,14 @@ var InteractiveRebaseView = Backbone.View.extend({
       this.rebaseEntries.add(this.entryObjMap[id]);
     }, this);
 
+    this.container = new ModalTerminal({
+      title: 'Interactive Rebase'
+    });
+
     this.render();
 
     // show the dialog holder
     this.show();
-  },
-
-  show: function() {
-    this.toggleVisibility(true);
-  },
-
-  hide: function() {
-    this.toggleVisibility(false);
-  },
-
-  toggleVisibility: function(toggle) {
-    this.$el.toggleClass('shown', toggle);
   },
 
   confirmed: function() {
@@ -14676,7 +14770,9 @@ var InteractiveRebaseView = Backbone.View.extend({
       num: this.rebaseArray.length
     };
 
+    var destination = this.container.getInsideElement();
     this.$el.html(this.template(json));
+    $(destination).append(this.el);
 
     // also render each entry
     var listHolder = this.$('ul#rebaseEntries');

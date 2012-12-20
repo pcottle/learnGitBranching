@@ -78,6 +78,14 @@ body,
   transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
+.transitionAll {
+  -webkit-transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -moz-transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -ms-transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -o-transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
 .transitionAllSlow {
   -webkit-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -moz-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
@@ -120,7 +128,7 @@ div.toolbar {
   position: relative;
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   color: black;
   -webkit-box-pack: center;
 }
@@ -307,19 +315,24 @@ p.commandLine span.prompt {
 }
 
 #commandLineBar,
+.terminal-window #inside,
 #terminal {
   background: #424242;
 }
 
-#terminal {
-  border: 1px solid #6287A4;
-  border-bottom: 0;
+#terminal,
+.terminal-window #inside,
+#commandLineBar {
+  border: 1px solid #303030;
+}
 
+#terminal {
+  border-bottom: 0;
   -webkit-box-align: start;
 }
 
-#commandLineBar {
-  border: 1px solid #6287A4;
+#commandLineBar,
+.terminal-window #inside {
   border-top: 0;
   border-radius: 0 0 5px 5px;
   padding: 3px;
@@ -327,19 +340,6 @@ p.commandLine span.prompt {
 
 /* interactive rebase CSS */
 #iRebaseDialog.wrapper {
-  background: #DDD;
-  color: black;
-  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 1);
-
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  min-width: 400px;
-  margin-top: -30%;
-
-  opacity: 1;
-
-  -webkit-border-radius: 10px;
   padding: 20px;
 }
 
@@ -387,9 +387,41 @@ li.rebaseEntry.notPicked {
   opacity: 0;
 }
 
-#dialogHolder.shown, .modalView.show {
+#dialogHolder.shown {
   z-index: 100;
   opacity: 1;
+}
+
+/* Modal Views */
+
+.modalView.inFront {
+  z-index: 100;
+}
+
+.terminal-window #inside {
+  padding: 10px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.terminal-window #inside h2 {
+  text-align: center;
+}
+
+.modalView.show {
+  opacity: 1;
+}
+
+.modalView .terminal-window-holder {
+  border-radius: 5px;
+}
+
+.modalView .terminal-window {
+  margin-top: 20%;
+  -webkit-transform: translate3d(0, -100%, 0);
+}
+
+.modalView.show .terminal-window {
+  -webkit-transform: translate3d(0,0,0);
 }
 
 /* button stuff from liquidGraph */

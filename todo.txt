@@ -4,13 +4,13 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] better dialog support (above / below the fold)
 [ ] promise-based dialogs
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] view for anything above the fold (modal view)
-[ ] rebase styling (get it better. even cuter -- make it like a command window)
+[x] view for anything above the fold (modal view)
+[x] rebase styling (get it better. even cuter -- make it like a command window)
+[ ] rebase entries styling
 [ ] check animation for command entry fading nicely wtf
 
 Small things to implement:
