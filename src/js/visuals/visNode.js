@@ -391,7 +391,12 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      return ((vx * vx + vy * vy) > 0.01) ? true : false;
+      if ((vx * vx + vy * vy) < 0.01 && Math.abs(y - maxHeight) === 0) {
+        // dont need to animate anymore, we are on ground
+        return false;
+      }
+      // keep animating!
+      return true;
     };
     return stepFunc;
   },
