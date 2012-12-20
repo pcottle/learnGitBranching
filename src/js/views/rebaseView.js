@@ -110,11 +110,6 @@ var InteractiveRebaseView = ContainedBase.extend({
       destination: this.$('.confirmCancel'),
       deferred: deferred
     });
-
-    new LeftRightView({
-      destination: this.$('.confirmCancel'),
-      deferred: deferred
-    });
   }
 });
 

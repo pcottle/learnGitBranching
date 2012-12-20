@@ -8545,11 +8545,6 @@ var InteractiveRebaseView = ContainedBase.extend({
       destination: this.$('.confirmCancel'),
       deferred: deferred
     });
-
-    new LeftRightView({
-      destination: this.$('.confirmCancel'),
-      deferred: deferred
-    });
   }
 });
 
@@ -8662,8 +8657,8 @@ var LeftRightView = PosNegBase.extend({
   className: 'leftRightView box horizontal center',
   template: _.template($('#left-right-template').html()),
   events: {
-    'click .confirmButton': 'positive',
-    'click .cancelButton': 'negative'
+    'click .left': 'negative',
+    'click .right': 'positive'
   },
 
   initialize: function(options) {
@@ -9177,7 +9172,7 @@ var init = function(){
 
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
 };
@@ -11529,7 +11524,7 @@ var init = function(){
 
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
 };
@@ -14553,8 +14548,8 @@ var LeftRightView = PosNegBase.extend({
   className: 'leftRightView box horizontal center',
   template: _.template($('#left-right-template').html()),
   events: {
-    'click .confirmButton': 'positive',
-    'click .cancelButton': 'negative'
+    'click .left': 'negative',
+    'click .right': 'positive'
   },
 
   initialize: function(options) {
@@ -14930,11 +14925,6 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // finally get our buttons
     new ConfirmCancelView({
-      destination: this.$('.confirmCancel'),
-      deferred: deferred
-    });
-
-    new LeftRightView({
       destination: this.$('.confirmCancel'),
       deferred: deferred
     });

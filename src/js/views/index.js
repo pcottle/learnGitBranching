@@ -61,8 +61,8 @@ var LeftRightView = PosNegBase.extend({
   className: 'leftRightView box horizontal center',
   template: _.template($('#left-right-template').html()),
   events: {
-    'click .confirmButton': 'positive',
-    'click .cancelButton': 'negative'
+    'click .left': 'negative',
+    'click .right': 'positive'
   },
 
   initialize: function(options) {
