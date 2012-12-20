@@ -8440,10 +8440,11 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var ModalTerminal = require('../views').ModalTerminal;
-var BaseView = require('../views').BaseView;
+var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
 
-var InteractiveRebaseView = BaseView.extend({
+var InteractiveRebaseView = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -8542,6 +8543,11 @@ var InteractiveRebaseView = BaseView.extend({
       destination: this.$('.confirmCancel'),
       deferred: deferred
     });
+
+    new LeftRightView({
+      destination: this.$('.confirmCancel'),
+      deferred: deferred
+    });
   }
 });
 
@@ -8596,13 +8602,41 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
-var ConfirmCancelView = Backbone.View.extend({
+var BaseView = Backbone.View.extend({
+  render: function() {
+    var destination = this.destination || this.container.getInsideElement();
+    this.$el.html(this.template(this.JSON));
+    $(destination).append(this.el);
+  }
+});
+
+var PosNegBase = BaseView.extend({
+  positive: function() {
+    this.deferred.resolve();
+  },
+
+  negative: function() {
+    this.deferred.reject();
+  }
+});
+
+var ContainedBase = BaseView.extend({
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
+var ConfirmCancelView = PosNegBase.extend({
   tagName: 'div',
-  className: 'box horizontal justify',
+  className: 'confirmCancelView box horizontal justify',
   template: _.template($('#confirm-cancel-template').html()),
   events: {
-    'click .confirmButton': 'confirmed',
-    'click .cancelButton': 'cancel'
+    'click .confirmButton': 'positive',
+    'click .cancelButton': 'negative'
   },
 
   initialize: function(options) {
@@ -8618,35 +8652,28 @@ var ConfirmCancelView = Backbone.View.extend({
     };
 
     this.render();
-  },
-
-  confirmed: function() {
-    this.deferred.resolve();
-  },
-
-  cancel: function() {
-    this.deferred.reject();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.JSON));
-    $(this.destination).append(this.el);
   }
 });
 
-var BaseView = Backbone.View.extend({
-  render: function() {
-    var destination = this.container.getInsideElement();
-    this.$el.html(this.template(this.JSON));
-    $(destination).append(this.el);
+var LeftRightView = PosNegBase.extend({
+  tagName: 'div',
+  className: 'leftRightView box horizontal center',
+  template: _.template($('#left-right-template').html()),
+  events: {
+    'click .confirmButton': 'positive',
+    'click .cancelButton': 'negative'
   },
 
-  show: function() {
-    this.container.show();
-  },
+  initialize: function(options) {
+    if (!options.destination || !options.deferred) {
+      throw new Error('needmore');
+    }
 
-  hide: function() {
-    this.container.hide();
+    this.destination = options.destination;
+    this.deferred = options.deferred;
+    this.JSON = {};
+
+    this.render();
   }
 });
 
@@ -8697,7 +8724,7 @@ var ModalView = Backbone.View.extend({
   }
 });
 
-var ModalTerminal = BaseView.extend({
+var ModalTerminal = ContainedBase.extend({
   tagName: 'div',
   className: 'box flex1',
   template: _.template($('#terminal-window-template').html()),
@@ -8718,7 +8745,7 @@ var ModalTerminal = BaseView.extend({
   }
 });
 
-var ModalAlert = BaseView.extend({
+var ModalAlert = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#modal-alert-template').html()),
 
@@ -8739,8 +8766,9 @@ var ModalAlert = BaseView.extend({
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
-exports.BaseView = BaseView;
+exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
+exports.LeftRightView = LeftRightView;
 
 
 });
@@ -9235,7 +9263,7 @@ var CommandPromptView = Backbone.View.extend({
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
 
-    // this is evil, but we will refer to HTML outside the document
+    // this is evil, but we will refer to HTML outside the view
     // and attach a click event listener so we can focus / unfocus
     $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
       this.focus();
@@ -9470,14 +9498,12 @@ var CommandView = Backbone.View.extend({
 
   wasChanged: function(model, changeEvent) {
     // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html of HTML
+    // with jquery rather than brutally delete a html. doing so allows us
+    // to nicely fade things
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) === 0) {
+    if (_.difference(changeKeys, ['status']).length === 0) {
       this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) === 0) {
-      // the above will
-      this.render();
     } else {
       this.render();
     }
@@ -14116,7 +14142,7 @@ var CommandPromptView = Backbone.View.extend({
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
 
-    // this is evil, but we will refer to HTML outside the document
+    // this is evil, but we will refer to HTML outside the view
     // and attach a click event listener so we can focus / unfocus
     $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
       this.focus();
@@ -14351,14 +14377,12 @@ var CommandView = Backbone.View.extend({
 
   wasChanged: function(model, changeEvent) {
     // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html of HTML
+    // with jquery rather than brutally delete a html. doing so allows us
+    // to nicely fade things
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) === 0) {
+    if (_.difference(changeKeys, ['status']).length === 0) {
       this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) === 0) {
-      // the above will
-      this.render();
     } else {
       this.render();
     }
@@ -14469,13 +14493,41 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
-var ConfirmCancelView = Backbone.View.extend({
+var BaseView = Backbone.View.extend({
+  render: function() {
+    var destination = this.destination || this.container.getInsideElement();
+    this.$el.html(this.template(this.JSON));
+    $(destination).append(this.el);
+  }
+});
+
+var PosNegBase = BaseView.extend({
+  positive: function() {
+    this.deferred.resolve();
+  },
+
+  negative: function() {
+    this.deferred.reject();
+  }
+});
+
+var ContainedBase = BaseView.extend({
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
+var ConfirmCancelView = PosNegBase.extend({
   tagName: 'div',
-  className: 'box horizontal justify',
+  className: 'confirmCancelView box horizontal justify',
   template: _.template($('#confirm-cancel-template').html()),
   events: {
-    'click .confirmButton': 'confirmed',
-    'click .cancelButton': 'cancel'
+    'click .confirmButton': 'positive',
+    'click .cancelButton': 'negative'
   },
 
   initialize: function(options) {
@@ -14491,35 +14543,28 @@ var ConfirmCancelView = Backbone.View.extend({
     };
 
     this.render();
-  },
-
-  confirmed: function() {
-    this.deferred.resolve();
-  },
-
-  cancel: function() {
-    this.deferred.reject();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.JSON));
-    $(this.destination).append(this.el);
   }
 });
 
-var BaseView = Backbone.View.extend({
-  render: function() {
-    var destination = this.container.getInsideElement();
-    this.$el.html(this.template(this.JSON));
-    $(destination).append(this.el);
+var LeftRightView = PosNegBase.extend({
+  tagName: 'div',
+  className: 'leftRightView box horizontal center',
+  template: _.template($('#left-right-template').html()),
+  events: {
+    'click .confirmButton': 'positive',
+    'click .cancelButton': 'negative'
   },
 
-  show: function() {
-    this.container.show();
-  },
+  initialize: function(options) {
+    if (!options.destination || !options.deferred) {
+      throw new Error('needmore');
+    }
 
-  hide: function() {
-    this.container.hide();
+    this.destination = options.destination;
+    this.deferred = options.deferred;
+    this.JSON = {};
+
+    this.render();
   }
 });
 
@@ -14570,7 +14615,7 @@ var ModalView = Backbone.View.extend({
   }
 });
 
-var ModalTerminal = BaseView.extend({
+var ModalTerminal = ContainedBase.extend({
   tagName: 'div',
   className: 'box flex1',
   template: _.template($('#terminal-window-template').html()),
@@ -14591,7 +14636,7 @@ var ModalTerminal = BaseView.extend({
   }
 });
 
-var ModalAlert = BaseView.extend({
+var ModalAlert = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#modal-alert-template').html()),
 
@@ -14612,8 +14657,9 @@ var ModalAlert = BaseView.extend({
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
-exports.BaseView = BaseView;
+exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
+exports.LeftRightView = LeftRightView;
 
 
 });
@@ -14780,10 +14826,11 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var ModalTerminal = require('../views').ModalTerminal;
-var BaseView = require('../views').BaseView;
+var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
 
-var InteractiveRebaseView = BaseView.extend({
+var InteractiveRebaseView = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -14879,6 +14926,11 @@ var InteractiveRebaseView = BaseView.extend({
 
     // finally get our buttons
     new ConfirmCancelView({
+      destination: this.$('.confirmCancel'),
+      deferred: deferred
+    });
+
+    new LeftRightView({
       destination: this.$('.confirmCancel'),
       deferred: deferred
     });

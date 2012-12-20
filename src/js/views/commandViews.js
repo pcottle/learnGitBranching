@@ -40,7 +40,7 @@ var CommandPromptView = Backbone.View.extend({
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
 
-    // this is evil, but we will refer to HTML outside the document
+    // this is evil, but we will refer to HTML outside the view
     // and attach a click event listener so we can focus / unfocus
     $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
       this.focus();
@@ -275,14 +275,12 @@ var CommandView = Backbone.View.extend({
 
   wasChanged: function(model, changeEvent) {
     // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html of HTML
+    // with jquery rather than brutally delete a html. doing so allows us
+    // to nicely fade things
     var changes = changeEvent.changes;
     var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']) === 0) {
+    if (_.difference(changeKeys, ['status']).length === 0) {
       this.updateStatus();
-    } else if (_.difference(changeKeys, ['error']) === 0) {
-      // the above will
-      this.render();
     } else {
       this.render();
     }

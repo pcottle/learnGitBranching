@@ -5,10 +5,11 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var ModalTerminal = require('../views').ModalTerminal;
-var BaseView = require('../views').BaseView;
+var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
 
-var InteractiveRebaseView = BaseView.extend({
+var InteractiveRebaseView = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
@@ -104,6 +105,11 @@ var InteractiveRebaseView = BaseView.extend({
 
     // finally get our buttons
     new ConfirmCancelView({
+      destination: this.$('.confirmCancel'),
+      deferred: deferred
+    });
+
+    new LeftRightView({
       destination: this.$('.confirmCancel'),
       deferred: deferred
     });

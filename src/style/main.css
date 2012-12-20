@@ -352,10 +352,6 @@ li.rebaseEntry,
   margin-top: 30%;
 }
 
-.iRebaseDialog #confirmButton {
-  cursor: pointer;
-}
-
 .iRebaseDialog p.helperText {
   color: #999;
   font-size: 10px;
@@ -409,9 +405,9 @@ li.rebaseEntry a#toggleButton {
 li.rebaseEntry.notPicked {
   opacity: 0.2;
 }
+/* Modal Views */
 
-/* General Dialog Holder Jazz */
-#dialogHolder, .modalView {
+.modalView {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -424,13 +420,6 @@ li.rebaseEntry.notPicked {
   z-index: -1;
   opacity: 0;
 }
-
-#dialogHolder.shown {
-  z-index: 100;
-  opacity: 1;
-}
-
-/* Modal Views */
 
 .modalView.inFront {
   z-index: 100;
@@ -460,6 +449,35 @@ li.rebaseEntry.notPicked {
 
 .modalView.show .terminal-window {
   -webkit-transform: translate3d(0,0,0);
+}
+
+/* LeftRightView */
+
+.leftRightView div i {
+  font-size: 45px;
+  cursor: pointer;
+}
+
+.leftRightView div {
+  margin: 0 20px;
+}
+
+.leftRightView div.left {
+  color: rgb(253, 50, 50);
+  text-shadow: -1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.leftRightView div.right {
+  color: rgb(82, 255, 82);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.leftRightView div.right:hover {
+  color: #74FC74;
+}
+
+.leftRightView div.left:hover {
+  color: #FF6969;
 }
 
 /* button stuff from liquidGraph */

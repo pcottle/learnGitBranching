@@ -8,8 +8,6 @@ Big Graphic things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] check animation for command entry fading nicely wtf
-[ ] no more CSS ids
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +27,8 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] check animation for command entry fading nicely wtf
+[x] no more CSS ids in views
 [x] promise-based confirm cnacel
 [x] rebase buttons view & styling
 [x] rebase entries styling

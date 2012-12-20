@@ -3,13 +3,41 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
-var ConfirmCancelView = Backbone.View.extend({
+var BaseView = Backbone.View.extend({
+  render: function() {
+    var destination = this.destination || this.container.getInsideElement();
+    this.$el.html(this.template(this.JSON));
+    $(destination).append(this.el);
+  }
+});
+
+var PosNegBase = BaseView.extend({
+  positive: function() {
+    this.deferred.resolve();
+  },
+
+  negative: function() {
+    this.deferred.reject();
+  }
+});
+
+var ContainedBase = BaseView.extend({
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
+var ConfirmCancelView = PosNegBase.extend({
   tagName: 'div',
-  className: 'box horizontal justify',
+  className: 'confirmCancelView box horizontal justify',
   template: _.template($('#confirm-cancel-template').html()),
   events: {
-    'click .confirmButton': 'confirmed',
-    'click .cancelButton': 'cancel'
+    'click .confirmButton': 'positive',
+    'click .cancelButton': 'negative'
   },
 
   initialize: function(options) {
@@ -25,35 +53,28 @@ var ConfirmCancelView = Backbone.View.extend({
     };
 
     this.render();
-  },
-
-  confirmed: function() {
-    this.deferred.resolve();
-  },
-
-  cancel: function() {
-    this.deferred.reject();
-  },
-
-  render: function() {
-    this.$el.html(this.template(this.JSON));
-    $(this.destination).append(this.el);
   }
 });
 
-var BaseView = Backbone.View.extend({
-  render: function() {
-    var destination = this.container.getInsideElement();
-    this.$el.html(this.template(this.JSON));
-    $(destination).append(this.el);
+var LeftRightView = PosNegBase.extend({
+  tagName: 'div',
+  className: 'leftRightView box horizontal center',
+  template: _.template($('#left-right-template').html()),
+  events: {
+    'click .confirmButton': 'positive',
+    'click .cancelButton': 'negative'
   },
 
-  show: function() {
-    this.container.show();
-  },
+  initialize: function(options) {
+    if (!options.destination || !options.deferred) {
+      throw new Error('needmore');
+    }
 
-  hide: function() {
-    this.container.hide();
+    this.destination = options.destination;
+    this.deferred = options.deferred;
+    this.JSON = {};
+
+    this.render();
   }
 });
 
@@ -104,7 +125,7 @@ var ModalView = Backbone.View.extend({
   }
 });
 
-var ModalTerminal = BaseView.extend({
+var ModalTerminal = ContainedBase.extend({
   tagName: 'div',
   className: 'box flex1',
   template: _.template($('#terminal-window-template').html()),
@@ -125,7 +146,7 @@ var ModalTerminal = BaseView.extend({
   }
 });
 
-var ModalAlert = BaseView.extend({
+var ModalAlert = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#modal-alert-template').html()),
 
@@ -146,6 +167,7 @@ var ModalAlert = BaseView.extend({
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
-exports.BaseView = BaseView;
+exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
+exports.LeftRightView = LeftRightView;
 
