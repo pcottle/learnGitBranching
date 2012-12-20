@@ -154,10 +154,18 @@
         </ul>
       </div>
 
-      <a id="confirmButton" class="uiButton uiButtonYellow">
-        Confirm
-      </a>
+      <div class="confirmCancel">
+      </div>
     </div>
+  </script>
+
+  <script type="text/html" id="confirm-cancel-template">
+    <a class="box cancelButton uiButton uiButtonRed">
+      <%= cancel %>
+    </a>
+    <a class="box confirmButton uiButton uiButtonYellow">
+      <%= confirm %>
+    </a>
   </script>
 
   <script type="text/html" id="interactive-rebase-entry-template">

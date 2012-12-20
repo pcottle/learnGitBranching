@@ -1,34 +1,29 @@
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var ModalTerminal = require('../views').ModalTerminal;
 var BaseView = require('../views').BaseView;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
 
 var InteractiveRebaseView = BaseView.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
-  events: {
-    'click #confirmButton': 'confirmed'
-  },
-
   initialize: function(options) {
-    this.hasClicked = false;
     this.deferred = options.deferred;
-
-    this.rebaseArray = options.toRebase;
-
-    this.rebaseEntries = new RebaseEntryCollection();
     this.rebaseMap = {};
     this.entryObjMap = {};
 
-    this.rebaseArray.reverse();
-    // make basic models for each commit
-    _.each(this.rebaseArray, function(commit) {
+    this.rebaseEntries = new RebaseEntryCollection();
+    options.toRebase.reverse();
+    _.each(options.toRebase, function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
+
+      // make basic models for each commit
       this.entryObjMap[id] = new RebaseEntry({
         id: id
       });
@@ -38,22 +33,13 @@ var InteractiveRebaseView = BaseView.extend({
     this.container = new ModalTerminal({
       title: 'Interactive Rebase'
     });
-
     this.render();
 
     // show the dialog holder
     this.show();
   },
 
-  confirmed: function() {
-    // we hide the dialog anyways, but they might be fast clickers
-    if (this.hasClicked) {
-      return;
-    }
-    this.hasClicked = true;
-
-    // first of all hide
-    this.$('#iRebaseDialog').css('display', 'none');
+  confirm: function() {
     this.hide();
 
     // get our ordering
@@ -65,7 +51,7 @@ var InteractiveRebaseView = BaseView.extend({
     // now get the real array
     var toRebase = [];
     _.each(uiOrder, function(id) {
-      // the model
+      // the model pick check
       if (this.entryObjMap[id].get('pick')) {
         toRebase.unshift(this.rebaseMap[id]);
       }
@@ -78,7 +64,7 @@ var InteractiveRebaseView = BaseView.extend({
 
   render: function() {
     var json = {
-      num: this.rebaseArray.length
+      num: _.keys(this.rebaseMap).length
     };
 
     var destination = this.container.getInsideElement();
@@ -99,6 +85,27 @@ var InteractiveRebaseView = BaseView.extend({
       axis: 'y',
       placeholder: 'rebaseEntry transitionOpacity ui-state-highlight',
       appendTo: 'parent'
+    });
+
+    this.makeButtons();
+  },
+
+  makeButtons: function() {
+    // control for button
+    var deferred = Q.defer();
+    deferred.promise
+    .then(_.bind(function() {
+      this.confirm();
+    }, this))
+    .fail(_.bind(function() {
+      this.deferred.reject();
+    }, this))
+    .done();
+
+    // finally get our buttons
+    new ConfirmCancelView({
+      destination: this.$('.confirmCancel'),
+      deferred: deferred
     });
   }
 });

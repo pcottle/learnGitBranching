@@ -3,6 +3,44 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
+var ConfirmCancelView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'box horizontal justify',
+  template: _.template($('#confirm-cancel-template').html()),
+  events: {
+    'click .confirmButton': 'confirmed',
+    'click .cancelButton': 'cancel'
+  },
+
+  initialize: function(options) {
+    if (!options.destination || !options.deferred) {
+      throw new Error('needmore');
+    }
+
+    this.destination = options.destination;
+    this.deferred = options.deferred;
+    this.JSON = {
+      confirm: options.confirm || 'Confirm',
+      cancel: options.cancel || 'Cancel'
+    };
+
+    this.render();
+  },
+
+  confirmed: function() {
+    this.deferred.resolve();
+  },
+
+  cancel: function() {
+    this.deferred.reject();
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.JSON));
+    $(this.destination).append(this.el);
+  }
+});
+
 var BaseView = Backbone.View.extend({
   render: function() {
     var destination = this.container.getInsideElement();
@@ -109,4 +147,5 @@ exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
 exports.BaseView = BaseView;
+exports.ConfirmCancelView = ConfirmCancelView;
 
