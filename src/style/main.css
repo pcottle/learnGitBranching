@@ -370,6 +370,16 @@ li.rebaseEntry {
   padding: 5px;
 }
 
+li.rebaseEntry.ui-state-highlight {
+  padding: 15px;
+  border: 1px dashed rgba(0, 0, 0, 0.5);
+}
+
+/* wtf jquery UI sortable is barfing here on calculating the position... */
+li.rebaseEntry.ui-sortable-helper {
+  margin-top: -140px;
+}
+
 li.rebaseEntry a#toggleButton {
   cursor: pointer;
 }

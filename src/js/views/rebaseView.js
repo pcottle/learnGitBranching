@@ -96,8 +96,8 @@ var InteractiveRebaseView = BaseView.extend({
 
     // then make it reorderable..
     listHolder.sortable({
-      distance: 5,
-      placeholder: 'ui-state-highlight'
+      //distance: 5,
+      placeholder: 'rebaseEntry transitionOpacity ui-state-highlight'
     });
   }
 });
