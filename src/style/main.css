@@ -112,12 +112,6 @@ body,
   background: #EEE;
 }
 
-#canvasWrapper {
-}
-
-#commandTextField {
-}
-
 /* Toolbar */
 
 div.toolbar {
@@ -502,6 +496,7 @@ li.rebaseEntry.notPicked {
   vertical-align: middle;
   cursor: pointer;
 }
+
 .uiButton:hover {
   border-top-color: #28597a;
   background: #28597a;
@@ -532,18 +527,6 @@ li.rebaseEntry.notPicked {
 }
 
 .uiButtonPink {
-  padding: 5px 10px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-  box-shadow: rgba(0,0,0,1) 0 1px 0;
-  text-shadow: rgba(0,0,0,.4) 0 1px 0;
-  color: white;
-  vertical-align: middle;
-  cursor:pointer;
-
   border-top: 1px solid #96d1f8;
   background: #80007c;
   background: -webkit-gradient(linear, left top, left bottom, from(#fa1ee0), to(#80007c));
@@ -591,19 +574,6 @@ li.rebaseEntry.notPicked {
   background: -moz-linear-gradient(top, #d1edff, #449ad4);
   background: -ms-linear-gradient(top, #d1edff, #449ad4);
   background: -o-linear-gradient(top, #d1edff, #449ad4);
-  padding: 5px 10px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-  box-shadow: rgba(0,0,0,1) 0 1px 0;
-  text-shadow: rgba(0,0,0,.4) 0 1px 0;
-  color: #000000;
-  font-size: 14px;
-  font-family: Georgia, serif;
-  text-decoration: none;
-  vertical-align: middle;
 }
 
 .uiButtonWhite:hover {

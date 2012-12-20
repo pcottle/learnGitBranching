@@ -5632,7 +5632,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   .then(_.bind(function(userSpecifiedRebase) {
     // first, they might have dropped everything (annoying)
     if (!userSpecifiedRebase.length) {
-      throw new GitError({
+      throw new CommandResult({
         msg: 'Nothing to do...'
       });
     }
@@ -8534,7 +8534,9 @@ var InteractiveRebaseView = ContainedBase.extend({
       this.confirm();
     }, this))
     .fail(_.bind(function() {
-      this.deferred.reject();
+      // empty array does nothing, just like in git
+      this.hide();
+      this.deferred.resolve([]);
     }, this))
     .done();
 
@@ -12650,7 +12652,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   .then(_.bind(function(userSpecifiedRebase) {
     // first, they might have dropped everything (annoying)
     if (!userSpecifiedRebase.length) {
-      throw new GitError({
+      throw new CommandResult({
         msg: 'Nothing to do...'
       });
     }
@@ -14920,7 +14922,9 @@ var InteractiveRebaseView = ContainedBase.extend({
       this.confirm();
     }, this))
     .fail(_.bind(function() {
-      this.deferred.reject();
+      // empty array does nothing, just like in git
+      this.hide();
+      this.deferred.resolve([]);
     }, this))
     .done();
 

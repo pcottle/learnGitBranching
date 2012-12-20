@@ -1017,7 +1017,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   .then(_.bind(function(userSpecifiedRebase) {
     // first, they might have dropped everything (annoying)
     if (!userSpecifiedRebase.length) {
-      throw new GitError({
+      throw new CommandResult({
         msg: 'Nothing to do...'
       });
     }

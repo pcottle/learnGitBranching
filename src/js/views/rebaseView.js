@@ -99,7 +99,9 @@ var InteractiveRebaseView = ContainedBase.extend({
       this.confirm();
     }, this))
     .fail(_.bind(function() {
-      this.deferred.reject();
+      // empty array does nothing, just like in git
+      this.hide();
+      this.deferred.resolve([]);
     }, this))
     .done();
 
