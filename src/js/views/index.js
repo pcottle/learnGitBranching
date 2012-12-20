@@ -16,11 +16,6 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
-    console.log(this.el);
-    var _this = this;
-    setTimeout(function() {
-      _this.show();
-    }, 1050);
   },
 
   show: function() {
@@ -44,5 +39,31 @@ var ModalView = Backbone.View.extend({
   }
 });
 
+var ModalTerminal = Backbone.View.extend({
+  tagName: 'div',
+  className: 'ModalTerminal box',
+
+  initialize: function(options) {
+    options = options || {};
+    this.text = options.text || 'alert!';
+    this.container = new ModalView();
+    this.render();
+  },
+
+  render: function() {
+    var destination = this.container.getInsideElement();
+    $(destination).html('<p> lol wut </p>');
+  },
+
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  }
+});
+
 exports.ModalView = ModalView;
+exports.ModalTerminal = ModalTerminal;
 
