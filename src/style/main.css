@@ -316,6 +316,7 @@ p.commandLine span.prompt {
 
 #commandLineBar,
 .terminal-window #inside,
+li.rebaseEntry,
 #terminal {
   background: #424242;
 }
@@ -358,6 +359,12 @@ p.commandLine span.prompt {
   padding: 0;
 }
 
+.iRebaseDialog div#entryHolders {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .iRebaseDialog div#entryHolders ul#rebaseEntries {
   list-style-type: none;
   -webkit-padding-start: 0;
@@ -367,21 +374,32 @@ li.rebaseEntry {
   margin: 10px;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   cursor: move;
-  padding: 5px;
+  padding: 10px 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 li.rebaseEntry.ui-state-highlight {
-  padding: 15px;
+  padding: 21px;
   border: 1px dashed rgba(0, 0, 0, 0.5);
 }
 
 /* wtf jquery UI sortable is barfing here on calculating the position... */
 li.rebaseEntry.ui-sortable-helper {
-  margin-top: -140px;
+  height: auto !important;
+  width: auto !important;
+  position: relative !important;
+  top: 0px !important;
+  left: -20px;
+  display: none;
 }
 
 li.rebaseEntry a#toggleButton {
   cursor: pointer;
+  float: right;
+  position: relative;
+  font-size: 14px;
+  top: -5px;
+  right; -5px;
 }
 
 li.rebaseEntry.notPicked {
@@ -432,7 +450,7 @@ li.rebaseEntry.notPicked {
 }
 
 .modalView .terminal-window {
-  margin-top: 20%;
+  margin-top: 10%;
   -webkit-transform: translate3d(0, -100%, 0);
 }
 
@@ -458,12 +476,9 @@ li.rebaseEntry.notPicked {
   box-shadow: rgba(0,0,0,1) 0 1px 0;
   text-shadow: rgba(0,0,0,.4) 0 1px 0;
   color: white;
-  font-size: 14px;
-  font-family: Georgia, serif;
-  text-decoration: none;
 
   vertical-align: middle;
-  cursor:pointer;
+  cursor: pointer;
 }
 .uiButton:hover {
   border-top-color: #28597a;
@@ -504,13 +519,8 @@ li.rebaseEntry.notPicked {
   box-shadow: rgba(0,0,0,1) 0 1px 0;
   text-shadow: rgba(0,0,0,.4) 0 1px 0;
   color: white;
-  font-size: 14px;
-  font-family: Georgia, serif;
-  text-decoration: none;
   vertical-align: middle;
   cursor:pointer;
-  position:absolute;
-
 
   border-top: 1px solid #96d1f8;
   background: #80007c;
