@@ -14,7 +14,8 @@ var toGlobalize = {
   HeadLess: require('../git/headless'),
   Q: { Q: require('q') },
   RebaseView: require('../views/rebaseView'),
-  Views: require('../views')
+  Views: require('../views'),
+  MultiView: require('../views/multiView')
 };
 
 _.each(toGlobalize, function(module) {

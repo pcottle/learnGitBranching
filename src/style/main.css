@@ -6,6 +6,8 @@ body {
   margin: 0px;
   border: 0px;
   padding: 0px;
+  -webkit-perspective: 800;
+  -webkit-perspective-origin: 50% 225px;
 }
 
 html, body {
@@ -64,6 +66,14 @@ body,
   -ms-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -o-transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+.transitionTransform {
+  -webkit-transition: -webkit-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -moz-transition: -moz-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -ms-transition: -ms-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  -o-transition: -o-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+  transition: transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
 .transitionOpacity {
@@ -407,6 +417,7 @@ li.rebaseEntry.notPicked {
   position: fixed;
   top: 0px;
   left: 0px;
+  -webkit-transform-style: preserve-3d;
 
   background: rgba(0, 0, 0, 0.6);
   -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.9);

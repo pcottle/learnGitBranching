@@ -4,10 +4,22 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] promise-based dialogs
+[.] multiViews with multiple terminals...
+[ ] 3d transition between terminals (reveal.JS hakim)
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Views
+=========
+[ ] allow views to have optional "with" view that gets appended afterwards
+[ ] multiview makes all these arrow views which fire events
+[ ] debounce the forward and back methods
+[ ] there! that should be good enough
+
+Commands
+========
+[ ] refactor some kind of
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
