@@ -8744,7 +8744,8 @@ var ModalView = Backbone.View.extend({
   },
 
   tearDown: function() {
-    this.hide();
+    this.$el.html('');
+    $('body')[0].removeChild(this.el);
   }
 });
 
@@ -17161,7 +17162,8 @@ var ModalView = Backbone.View.extend({
   },
 
   tearDown: function() {
-    this.hide();
+    this.$el.html('');
+    $('body')[0].removeChild(this.el);
   }
 });
 
