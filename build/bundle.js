@@ -13712,12 +13712,13 @@ var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
-  // ms to debounce the nav functions
-  navEventDebounce: 150,
+  // ms to throttle the nav functions
+  navEventThrottle: 150,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
@@ -13743,22 +13744,30 @@ var MultiView = Backbone.View.extend({
     this.currentIndex = 0;
 
     this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('negative', this.getNegFunc(), this);
+    this.navEvents.on('positive', this.getPosFunc(), this);
+
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        left: 'negative',
+        right: 'positive'
+      }
+    });
 
     this.render();
   },
 
   getPosFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.throttle(_.bind(function() {
       this.navForward();
-    }, this), this.navEventDebounce, true);
+    }, this), this.navEventThrottle);
   },
 
   getNegFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.throttle(_.bind(function() {
       this.navBackward();
-    }, this), this.navEventDebounce, true);
+    }, this), this.navEventThrottle);
   },
 
   navForward: function() {
@@ -13794,6 +13803,7 @@ var MultiView = Backbone.View.extend({
   },
 
   finish: function() {
+    this.keyboardListener.mute();
     if (this.deferred) {
       this.deferred.resolve();
     } else {
@@ -13834,6 +13844,54 @@ var MultiView = Backbone.View.extend({
 });
 
 exports.MultiView = MultiView;
+
+
+});
+
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  this.keydownListener = _.bind(this.keydown, this);
+
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+  console.log('key which', which);
+
+  if (this.keyMap[which] === undefined) {
+    return;
+  }
+  this.fireEvent(this.keyMap[which]);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
 
 
 });
@@ -16420,6 +16478,55 @@ exports.splitTextCommand = function(value, func, context) {
 });
 require("/src/js/util/index.js");
 
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  this.keydownListener = _.bind(this.keydown, this);
+
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+  console.log('key which', which);
+
+  if (this.keyMap[which] === undefined) {
+    return;
+  }
+  this.fireEvent(this.keyMap[which]);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
+
+
+});
+require("/src/js/util/keyboard.js");
+
 require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
   var dummy = {};
   var stub = function() {};
@@ -17041,12 +17148,13 @@ var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
-  // ms to debounce the nav functions
-  navEventDebounce: 150,
+  // ms to throttle the nav functions
+  navEventThrottle: 150,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
@@ -17072,22 +17180,30 @@ var MultiView = Backbone.View.extend({
     this.currentIndex = 0;
 
     this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('negative', this.getNegFunc(), this);
+    this.navEvents.on('positive', this.getPosFunc(), this);
+
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        left: 'negative',
+        right: 'positive'
+      }
+    });
 
     this.render();
   },
 
   getPosFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.throttle(_.bind(function() {
       this.navForward();
-    }, this), this.navEventDebounce, true);
+    }, this), this.navEventThrottle);
   },
 
   getNegFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.throttle(_.bind(function() {
       this.navBackward();
-    }, this), this.navEventDebounce, true);
+    }, this), this.navEventThrottle);
   },
 
   navForward: function() {
@@ -17123,6 +17239,7 @@ var MultiView = Backbone.View.extend({
   },
 
   finish: function() {
+    this.keyboardListener.mute();
     if (this.deferred) {
       this.deferred.resolve();
     } else {
