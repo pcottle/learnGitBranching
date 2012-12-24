@@ -463,6 +463,11 @@ li.rebaseEntry.notPicked {
   cursor: pointer;
 }
 
+.leftRightView div.hideLeft i {
+  cursor: default;
+  opacity: 0;
+}
+
 .leftRightView div {
   margin: 0 20px;
 }

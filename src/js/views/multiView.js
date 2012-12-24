@@ -10,13 +10,11 @@ var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 
-var NAV_EVENT_DELAY = 300;
-
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
   // ms to debounce the nav functions
-  navEventDelay: 1500,
+  navEventDebounce: 150,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
@@ -50,25 +48,34 @@ var MultiView = Backbone.View.extend({
   getPosFunc: function() {
     return _.debounce(_.bind(function() {
       this.navForward();
-    }, this), NAV_EVENT_DELAY, true);
+    }, this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
     return _.debounce(_.bind(function() {
       this.navBackward();
-    }, this), NAV_EVENT_DELAY, true);
+    }, this), this.navEventDebounce, true);
   },
 
   navForward: function() {
+    if (this.currentIndex === this.childViews.length - 1) {
+      this.hideViewIndex(this.currentIndex);
+      this.finish();
+      return;
+    }
+
     this.navIndexChange(1);
   },
 
   navBackward: function() {
+    if (this.currentIndex === 0) {
+      return;
+    }
+
     this.navIndexChange(-1);
   },
 
   navIndexChange: function(delta) {
-    console.log('doing nav index change', delta);
     this.hideViewIndex(this.currentIndex);
     this.currentIndex += delta;
     this.showViewIndex(this.currentIndex);
@@ -80,6 +87,11 @@ var MultiView = Backbone.View.extend({
 
   showViewIndex: function(index) {
     this.childViews[index].show();
+  },
+
+  finish: function() {
+    // promise resolve??
+    console.log('promise resolve :D');
   },
 
   createChildView: function(viewJSON) {
