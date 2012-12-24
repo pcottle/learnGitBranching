@@ -4,20 +4,37 @@ var _ = require('underscore');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var BaseView = Backbone.View.extend({
-  render: function() {
-    var destination = this.destination || this.container.getInsideElement();
-    this.$el.html(this.template(this.JSON));
+  getDestination: function() {
+    return this.destination || this.container.getInsideElement();
+  },
+
+  render: function(HTML) {
+    // flexibility
+    var destination = this.getDestination();
+    HTML = HTML || this.template(this.JSON);
+
+    this.$el.html(HTML);
     $(destination).append(this.el);
   }
 });
 
-var PosNegBase = BaseView.extend({
-  positive: function() {
+var ResolveRejectBase = BaseView.extend({
+  resolve: function() {
     this.deferred.resolve();
   },
 
-  negative: function() {
+  reject: function() {
     this.deferred.reject();
+  }
+});
+
+var PositiveNegativeBase = BaseView.extend({
+  positive: function() {
+    this.navEvents.trigger('positive');
+  },
+
+  negative: function() {
+    this.navEvents.trigger('negative');
   }
 });
 
@@ -31,13 +48,13 @@ var ContainedBase = BaseView.extend({
   }
 });
 
-var ConfirmCancelView = PosNegBase.extend({
+var ConfirmCancelView = ResolveRejectBase.extend({
   tagName: 'div',
   className: 'confirmCancelView box horizontal justify',
   template: _.template($('#confirm-cancel-template').html()),
   events: {
-    'click .confirmButton': 'positive',
-    'click .cancelButton': 'negative'
+    'click .confirmButton': 'resolve',
+    'click .cancelButton': 'reject'
   },
 
   initialize: function(options) {
@@ -56,7 +73,7 @@ var ConfirmCancelView = PosNegBase.extend({
   }
 });
 
-var LeftRightView = PosNegBase.extend({
+var LeftRightView = PositiveNegativeBase.extend({
   tagName: 'div',
   className: 'leftRightView box horizontal center',
   template: _.template($('#left-right-template').html()),
@@ -66,12 +83,12 @@ var LeftRightView = PosNegBase.extend({
   },
 
   initialize: function(options) {
-    if (!options.destination || !options.deferred) {
+    if (!options.destination || !options.events) {
       throw new Error('needmore');
     }
 
     this.destination = options.destination;
-    this.deferred = options.deferred;
+    this.navEvents = options.events;
     this.JSON = {};
 
     this.render();
@@ -165,15 +182,13 @@ var ModalAlert = ContainedBase.extend({
   },
 
   render: function() {
-    var destination = this.destination || this.container.getInsideElement();
-    var HTML = null;
-    if (this.JSON.markdown) {
-      HTML = require('markdown').markdown.toHTML(this.JSON.markdown);
-    } else {
-      HTML = this.template(this.JSON);
-    }
-    this.$el.html(HTML);
-    $(destination).append(this.el);
+    var HTML = (this.JSON.markdown) ?
+      require('markdown').markdown.toHTML(this.JSON.markdown) :
+      this.template(this.JSON);
+
+    // call to super, not super elegant but better than
+    // copy paste code
+    ModalAlert.__super__.render.apply(this, [HTML]);
   }
 });
 

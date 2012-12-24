@@ -10,50 +10,107 @@ var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 
+var NAV_EVENT_DELAY = 300;
+
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
+  // ms to debounce the nav functions
+  navEventDelay: 1500,
+
+  // a simple mapping of what childViews we support
   typeToConstructor: {
     ModalAlert: ModalAlert
   },
+
   initialize: function(options) {
     options = options || {};
-    if (!options.childViews) {
-      options.childViews = [{
-        type: 'ModalAlert',
-        options: {
-          markdown: 'Woah wtf!!'
-        }
-      }, {
-        type: 'ModalAlert',
-        options: {
-          markdown: 'Im second'
-        }
-      }];
-    }
-    this.childViewJSONs = options.childViews;
+    this.childViewJSONs = options.childViews || [{
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Woah wtf!!'
+      }
+    }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }];
+
     this.childViews = [];
+    this.currentIndex = 0;
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.getPosFunc(), this);
+    this.navEvents.on('negative', this.getNegFunc(), this);
+
     this.render();
+  },
+
+  getPosFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navForward();
+    }, this), NAV_EVENT_DELAY, true);
+  },
+
+  getNegFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navBackward();
+    }, this), NAV_EVENT_DELAY, true);
+  },
+
+  navForward: function() {
+    this.navIndexChange(1);
+  },
+
+  navBackward: function() {
+    this.navIndexChange(-1);
+  },
+
+  navIndexChange: function(delta) {
+    console.log('doing nav index change', delta);
+    this.hideViewIndex(this.currentIndex);
+    this.currentIndex += delta;
+    this.showViewIndex(this.currentIndex);
+  },
+
+  hideViewIndex: function(index) {
+    this.childViews[index].hide();
+  },
+
+  showViewIndex: function(index) {
+    this.childViews[index].show();
   },
 
   createChildView: function(viewJSON) {
     var type = viewJSON.type;
     if (!this.typeToConstructor[type]) {
-      throw new Error('wut');
+      throw new Error('no constructor for type "' + type + '"');
     }
     var view = new this.typeToConstructor[type](viewJSON.options);
-    this.childViews.push(view);
-    view.show();
+    return view;
+  },
+
+  addNavToView: function(view) {
+    var leftRight = new LeftRightView({
+      events: this.navEvents,
+      // we want the arrows to be on the same level as the content (not
+      // beneath), so we go one level up with getDestination()
+      destination: view.getDestination()
+    });
   },
 
   render: function() {
     // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childView) {
-      this.createChildView(childView);
+    _.each(this.childViewJSONs, function(childViewJSON) {
+      var childView = this.createChildView(childViewJSON);
+      this.childViews.push(childView);
+      this.addNavToView(childView);
     }, this);
+
+    this.showViewIndex(this.currentIndex);
   }
 });
 
 exports.MultiView = MultiView;
-
 
