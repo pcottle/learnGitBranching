@@ -11509,12 +11509,10 @@ var CommandPromptView = Backbone.View.extend({
 
   blur: function() {
     this.listening = false;
-    console.log('blurrring');
     this.hideCursor();
   },
 
   focus: function() {
-    console.log('focusing');
     this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
@@ -13756,8 +13754,8 @@ var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
-  // ms to throttle the nav functions
-  navEventThrottle: 150,
+  // ms to debounce the nav functions
+  navEventDebounce: 750,
   deathTime: 700,
 
   // a simple mapping of what childViews we support
@@ -13801,15 +13799,15 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.throttle(_.bind(function() {
+    return _.debounce(_.bind(function() {
       this.navForward();
-    }, this), this.navEventThrottle);
+    }, this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.throttle(_.bind(function() {
+    return _.debounce(_.bind(function() {
       this.navBackward();
-    }, this), this.navEventThrottle);
+    }, this), this.navEventDebounce, true);
   },
 
   navForward: function() {
@@ -16685,12 +16683,10 @@ var CommandPromptView = Backbone.View.extend({
 
   blur: function() {
     this.listening = false;
-    console.log('blurrring');
     this.hideCursor();
   },
 
   focus: function() {
-    console.log('focusing');
     this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
@@ -17246,8 +17242,8 @@ var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
-  // ms to throttle the nav functions
-  navEventThrottle: 150,
+  // ms to debounce the nav functions
+  navEventDebounce: 750,
   deathTime: 700,
 
   // a simple mapping of what childViews we support
@@ -17291,15 +17287,15 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.throttle(_.bind(function() {
+    return _.debounce(_.bind(function() {
       this.navForward();
-    }, this), this.navEventThrottle);
+    }, this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.throttle(_.bind(function() {
+    return _.debounce(_.bind(function() {
       this.navBackward();
-    }, this), this.navEventThrottle);
+    }, this), this.navEventDebounce, true);
   },
 
   navForward: function() {

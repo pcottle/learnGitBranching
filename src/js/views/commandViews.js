@@ -71,12 +71,10 @@ var CommandPromptView = Backbone.View.extend({
 
   blur: function() {
     this.listening = false;
-    console.log('blurrring');
     this.hideCursor();
   },
 
   focus: function() {
-    console.log('focusing');
     this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
