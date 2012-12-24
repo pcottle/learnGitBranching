@@ -4,7 +4,6 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[.] multiViews with multiple terminals...
 [ ] 3d transition between terminals (reveal.JS hakim)
 
 Medium things:
@@ -12,14 +11,13 @@ Medium things:
 
 Views
 =========
-[ ] allow views to have optional "with" view that gets appended afterwards
-[ ] multiview makes all these arrow views which fire events
-[ ] debounce the forward and back methods
-[ ] there! that should be good enough
 
 Commands
 ========
-[ ] refactor some kind of
+[ ] refactor some kind of 'filter' that processes or yields commands
+[ ] then each sandbox is essentially a series of filters
+[ ] make a shim so a level engine can check after every git command if
+    they succeeded and then do finish animation
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,6 +37,9 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] multiViews with multiple terminals...
+[x] debounce the forward and back methods
+[x] multiview makes all these arrow views which fire events
 [x] markdown parsing yay!!
 [x] check animation for command entry fading nicely wtf
 [x] no more CSS ids in views

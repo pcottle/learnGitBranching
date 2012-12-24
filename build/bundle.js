@@ -13737,6 +13737,7 @@ var MultiView = Backbone.View.extend({
         markdown: 'Im second'
       }
     }];
+    this.deferred = options.deferred;
 
     this.childViews = [];
     this.currentIndex = 0;
@@ -13793,8 +13794,11 @@ var MultiView = Backbone.View.extend({
   },
 
   finish: function() {
-    // promise resolve??
-    console.log('promise resolve :D');
+    if (this.deferred) {
+      this.deferred.resolve();
+    } else {
+      console.warn('no promise to resolve');
+    }
   },
 
   createChildView: function(viewJSON) {
@@ -17062,6 +17066,7 @@ var MultiView = Backbone.View.extend({
         markdown: 'Im second'
       }
     }];
+    this.deferred = options.deferred;
 
     this.childViews = [];
     this.currentIndex = 0;
@@ -17118,8 +17123,11 @@ var MultiView = Backbone.View.extend({
   },
 
   finish: function() {
-    // promise resolve??
-    console.log('promise resolve :D');
+    if (this.deferred) {
+      this.deferred.resolve();
+    } else {
+      console.warn('no promise to resolve');
+    }
   },
 
   createChildView: function(viewJSON) {
