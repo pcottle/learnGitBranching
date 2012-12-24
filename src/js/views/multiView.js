@@ -16,6 +16,7 @@ var MultiView = Backbone.View.extend({
   className: 'multiView',
   // ms to throttle the nav functions
   navEventThrottle: 150,
+  deathTime: 700,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
@@ -48,11 +49,13 @@ var MultiView = Backbone.View.extend({
       events: this.navEvents,
       aliasMap: {
         left: 'negative',
-        right: 'positive'
+        right: 'positive',
+        enter: 'positive'
       }
     });
 
     this.render();
+    this.start();
   },
 
   getPosFunc: function() {
@@ -105,6 +108,20 @@ var MultiView = Backbone.View.extend({
       this.deferred.resolve();
     } else {
       console.warn('no promise to resolve');
+      require('../app').getUI().modalEnd();
+    }
+    setTimeout(_.bind(function() {
+      _.each(this.childViews, function(childView) {
+        childView.tearDown();
+      });
+    }, this), this.deathTime);
+  },
+
+  start: function() {
+    this.showViewIndex(this.currentIndex);
+    if (!this.deferred) {
+      console.warn('not part of a promise chain');
+      require('../app').getUI().modalStart();
     }
   },
 
@@ -135,8 +152,6 @@ var MultiView = Backbone.View.extend({
       this.childViews.push(childView);
       this.addNavToView(childView, index);
     }, this);
-
-    this.showViewIndex(this.currentIndex);
   }
 });
 

@@ -28,11 +28,11 @@ var init = function(){
 $(document).ready(init);
 
 function UI() {
+  this.active = true;
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
-
   this.commandBuffer = new Collections.CommandBuffer({
     collection: this.commandCollection
   });
@@ -47,7 +47,24 @@ function UI() {
   });
 
   $('#commandTextField').focus();
+  $(window).focus(_.bind(this.onWindowFocus, this));
 }
+
+UI.prototype.onWindowFocus = function() {
+  if (this.active) {
+    this.commandPromptView.focus();
+  }
+};
+
+UI.prototype.modalStart = function() {
+  this.active = false;
+  this.commandPromptView.blur();
+};
+
+UI.prototype.modalEnd = function() {
+  this.commandPromptView.focus();
+  this.active = true;
+};
 
 exports.getEvents = function() {
   return events;

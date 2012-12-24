@@ -8604,6 +8604,13 @@ var BaseView = Backbone.View.extend({
     return this.destination || this.container.getInsideElement();
   },
 
+  tearDown: function() {
+    this.$el.html('');
+    if (this.container) {
+      this.container.tearDown();
+    }
+  },
+
   render: function(HTML) {
     // flexibility
     var destination = this.getDestination();
@@ -11374,11 +11381,11 @@ var init = function(){
 $(document).ready(init);
 
 function UI() {
+  this.active = true;
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
-
   this.commandBuffer = new Collections.CommandBuffer({
     collection: this.commandCollection
   });
@@ -11393,7 +11400,24 @@ function UI() {
   });
 
   $('#commandTextField').focus();
+  $(window).focus(_.bind(this.onWindowFocus, this));
 }
+
+UI.prototype.onWindowFocus = function() {
+  if (this.active) {
+    this.commandPromptView.focus();
+  }
+};
+
+UI.prototype.modalStart = function() {
+  this.active = false;
+  this.commandPromptView.blur();
+};
+
+UI.prototype.modalEnd = function() {
+  this.commandPromptView.focus();
+  this.active = true;
+};
 
 exports.getEvents = function() {
   return events;
@@ -11450,6 +11474,7 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
+    this.listening = false;
 
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
@@ -11483,10 +11508,14 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   blur: function() {
-    $(this.commandCursor).toggleClass('shown', false);
+    this.listening = false;
+    console.log('blurrring');
+    this.hideCursor();
   },
 
   focus: function() {
+    console.log('focusing');
+    this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
   },
@@ -11504,11 +11533,21 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKey: function(e) {
+    if (!this.listening) {
+      e.preventDefault();
+      return;
+    }
+
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
+    if (!this.listening) {
+      e.preventDefault();
+      return;
+    }
+
     this.onKey(e);
 
     // we need to capture some of these events.
@@ -13719,6 +13758,7 @@ var MultiView = Backbone.View.extend({
   className: 'multiView',
   // ms to throttle the nav functions
   navEventThrottle: 150,
+  deathTime: 700,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
@@ -13751,11 +13791,13 @@ var MultiView = Backbone.View.extend({
       events: this.navEvents,
       aliasMap: {
         left: 'negative',
-        right: 'positive'
+        right: 'positive',
+        enter: 'positive'
       }
     });
 
     this.render();
+    this.start();
   },
 
   getPosFunc: function() {
@@ -13808,6 +13850,20 @@ var MultiView = Backbone.View.extend({
       this.deferred.resolve();
     } else {
       console.warn('no promise to resolve');
+      require('../app').getUI().modalEnd();
+    }
+    setTimeout(_.bind(function() {
+      _.each(this.childViews, function(childView) {
+        childView.tearDown();
+      });
+    }, this), this.deathTime);
+  },
+
+  start: function() {
+    this.showViewIndex(this.currentIndex);
+    if (!this.deferred) {
+      console.warn('not part of a promise chain');
+      require('../app').getUI().modalStart();
     }
   },
 
@@ -13838,8 +13894,6 @@ var MultiView = Backbone.View.extend({
       this.childViews.push(childView);
       this.addNavToView(childView, index);
     }, this);
-
-    this.showViewIndex(this.currentIndex);
   }
 });
 
@@ -13926,11 +13980,11 @@ var init = function(){
 $(document).ready(init);
 
 function UI() {
+  this.active = true;
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
   this.commandCollection = new Collections.CommandCollection();
-
   this.commandBuffer = new Collections.CommandBuffer({
     collection: this.commandCollection
   });
@@ -13945,7 +13999,24 @@ function UI() {
   });
 
   $('#commandTextField').focus();
+  $(window).focus(_.bind(this.onWindowFocus, this));
 }
+
+UI.prototype.onWindowFocus = function() {
+  if (this.active) {
+    this.commandPromptView.focus();
+  }
+};
+
+UI.prototype.modalStart = function() {
+  this.active = false;
+  this.commandPromptView.blur();
+};
+
+UI.prototype.modalEnd = function() {
+  this.commandPromptView.focus();
+  this.active = true;
+};
 
 exports.getEvents = function() {
   return events;
@@ -16579,6 +16650,7 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
+    this.listening = false;
 
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
@@ -16612,10 +16684,14 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   blur: function() {
-    $(this.commandCursor).toggleClass('shown', false);
+    this.listening = false;
+    console.log('blurrring');
+    this.hideCursor();
   },
 
   focus: function() {
+    console.log('focusing');
+    this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
   },
@@ -16633,11 +16709,21 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKey: function(e) {
+    if (!this.listening) {
+      e.preventDefault();
+      return;
+    }
+
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
+    if (!this.listening) {
+      e.preventDefault();
+      return;
+    }
+
     this.onKey(e);
 
     // we need to capture some of these events.
@@ -16939,6 +17025,13 @@ var BaseView = Backbone.View.extend({
     return this.destination || this.container.getInsideElement();
   },
 
+  tearDown: function() {
+    this.$el.html('');
+    if (this.container) {
+      this.container.tearDown();
+    }
+  },
+
   render: function(HTML) {
     // flexibility
     var destination = this.getDestination();
@@ -17155,6 +17248,7 @@ var MultiView = Backbone.View.extend({
   className: 'multiView',
   // ms to throttle the nav functions
   navEventThrottle: 150,
+  deathTime: 700,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
@@ -17187,11 +17281,13 @@ var MultiView = Backbone.View.extend({
       events: this.navEvents,
       aliasMap: {
         left: 'negative',
-        right: 'positive'
+        right: 'positive',
+        enter: 'positive'
       }
     });
 
     this.render();
+    this.start();
   },
 
   getPosFunc: function() {
@@ -17244,6 +17340,20 @@ var MultiView = Backbone.View.extend({
       this.deferred.resolve();
     } else {
       console.warn('no promise to resolve');
+      require('../app').getUI().modalEnd();
+    }
+    setTimeout(_.bind(function() {
+      _.each(this.childViews, function(childView) {
+        childView.tearDown();
+      });
+    }, this), this.deathTime);
+  },
+
+  start: function() {
+    this.showViewIndex(this.currentIndex);
+    if (!this.deferred) {
+      console.warn('not part of a promise chain');
+      require('../app').getUI().modalStart();
     }
   },
 
@@ -17274,8 +17384,6 @@ var MultiView = Backbone.View.extend({
       this.childViews.push(childView);
       this.addNavToView(childView, index);
     }, this);
-
-    this.showViewIndex(this.currentIndex);
   }
 });
 

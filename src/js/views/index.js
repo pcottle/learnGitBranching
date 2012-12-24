@@ -8,6 +8,13 @@ var BaseView = Backbone.View.extend({
     return this.destination || this.container.getInsideElement();
   },
 
+  tearDown: function() {
+    this.$el.html('');
+    if (this.container) {
+      this.container.tearDown();
+    }
+  },
+
   render: function(HTML) {
     // flexibility
     var destination = this.getDestination();

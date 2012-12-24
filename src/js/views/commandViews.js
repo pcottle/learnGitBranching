@@ -36,6 +36,7 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
+    this.listening = false;
 
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
@@ -69,10 +70,14 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   blur: function() {
-    $(this.commandCursor).toggleClass('shown', false);
+    this.listening = false;
+    console.log('blurrring');
+    this.hideCursor();
   },
 
   focus: function() {
+    console.log('focusing');
+    this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
   },
@@ -90,11 +95,21 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKey: function(e) {
+    if (!this.listening) {
+      e.preventDefault();
+      return;
+    }
+
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
+    if (!this.listening) {
+      e.preventDefault();
+      return;
+    }
+
     this.onKey(e);
 
     // we need to capture some of these events.
