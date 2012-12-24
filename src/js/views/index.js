@@ -89,7 +89,10 @@ var LeftRightView = PositiveNegativeBase.extend({
 
     this.destination = options.destination;
     this.navEvents = options.events;
-    this.JSON = {};
+    this.JSON = {
+      showLeft: (options.showLeft === undefined) ? true : options.showLeft,
+      lastNav: (options.lastNav === undefined) ? false : options.lastNav
+    };
 
     this.render();
   }

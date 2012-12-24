@@ -91,21 +91,23 @@ var MultiView = Backbone.View.extend({
     return view;
   },
 
-  addNavToView: function(view) {
+  addNavToView: function(view, index) {
     var leftRight = new LeftRightView({
       events: this.navEvents,
       // we want the arrows to be on the same level as the content (not
       // beneath), so we go one level up with getDestination()
-      destination: view.getDestination()
+      destination: view.getDestination(),
+      showLeft: (index !== 0),
+      lastNav: (index === this.childViewJSONs.length - 1)
     });
   },
 
   render: function() {
     // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON) {
+    _.each(this.childViewJSONs, function(childViewJSON, index) {
       var childView = this.createChildView(childViewJSON);
       this.childViews.push(childView);
-      this.addNavToView(childView);
+      this.addNavToView(childView, index);
     }, this);
 
     this.showViewIndex(this.currentIndex);

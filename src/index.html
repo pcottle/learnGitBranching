@@ -160,11 +160,19 @@
   </script>
 
   <script type="text/html" id="left-right-template">
-    <div class="box left">
+    <% if (showLeft) { %>
+      <div class="box left">
+    <% } else { %>
+      <div class="box left" style="opacity: 0; cursor: default">
+    <% } %>
       <i class="icon-circle-arrow-left"></i>
     </div>
     <div class="box right">
-      <i class="icon-circle-arrow-right"></i>
+      <% if (!lastNav) { %>
+        <i class="icon-circle-arrow-right"></i>
+      <% } else { %>
+        <i class="icon-ok"></i>
+      <% } %>
     </div>
   </script>
 
