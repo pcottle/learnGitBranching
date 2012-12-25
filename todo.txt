@@ -4,7 +4,6 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] 3d transition between terminals (reveal.JS hakim)
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

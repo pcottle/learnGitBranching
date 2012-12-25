@@ -94,7 +94,6 @@ var CommandPromptView = Backbone.View.extend({
 
   onKey: function(e) {
     if (!this.listening) {
-      e.preventDefault();
       return;
     }
 
@@ -104,7 +103,6 @@ var CommandPromptView = Backbone.View.extend({
 
   onKeyUp: function(e) {
     if (!this.listening) {
-      e.preventDefault();
       return;
     }
 

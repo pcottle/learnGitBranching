@@ -8703,7 +8703,7 @@ var LeftRightView = PositiveNegativeBase.extend({
 
 var ModalView = Backbone.View.extend({
   tagName: 'div',
-  className: 'modalView box horizontal center transitionOpacity',
+  className: 'modalView box horizontal center transitionOpacityLinear',
   template: _.template($('#modal-view-template').html()),
 
   initialize: function(options) {
@@ -11533,7 +11533,6 @@ var CommandPromptView = Backbone.View.extend({
 
   onKey: function(e) {
     if (!this.listening) {
-      e.preventDefault();
       return;
     }
 
@@ -11543,7 +11542,6 @@ var CommandPromptView = Backbone.View.extend({
 
   onKeyUp: function(e) {
     if (!this.listening) {
-      e.preventDefault();
       return;
     }
 
@@ -13772,6 +13770,16 @@ var MultiView = Backbone.View.extend({
         markdown: 'Woah wtf!!'
       }
     }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+     }, {
       type: 'ModalAlert',
       options: {
         markdown: 'Im second'
@@ -16707,7 +16715,6 @@ var CommandPromptView = Backbone.View.extend({
 
   onKey: function(e) {
     if (!this.listening) {
-      e.preventDefault();
       return;
     }
 
@@ -16717,7 +16724,6 @@ var CommandPromptView = Backbone.View.extend({
 
   onKeyUp: function(e) {
     if (!this.listening) {
-      e.preventDefault();
       return;
     }
 
@@ -17121,7 +17127,7 @@ var LeftRightView = PositiveNegativeBase.extend({
 
 var ModalView = Backbone.View.extend({
   tagName: 'div',
-  className: 'modalView box horizontal center transitionOpacity',
+  className: 'modalView box horizontal center transitionOpacityLinear',
   template: _.template($('#modal-view-template').html()),
 
   initialize: function(options) {
@@ -17261,6 +17267,16 @@ var MultiView = Backbone.View.extend({
         markdown: 'Woah wtf!!'
       }
     }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+     }, {
       type: 'ModalAlert',
       options: {
         markdown: 'Im second'

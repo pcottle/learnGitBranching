@@ -35,6 +35,16 @@ var MultiView = Backbone.View.extend({
       options: {
         markdown: 'Im second'
       }
+    }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+     }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
     }];
     this.deferred = options.deferred;
 

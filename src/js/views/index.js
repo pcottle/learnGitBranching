@@ -107,7 +107,7 @@ var LeftRightView = PositiveNegativeBase.extend({
 
 var ModalView = Backbone.View.extend({
   tagName: 'div',
-  className: 'modalView box horizontal center transitionOpacity',
+  className: 'modalView box horizontal center transitionOpacityLinear',
   template: _.template($('#modal-view-template').html()),
 
   initialize: function(options) {
