@@ -11171,15 +11171,8 @@ var Command = Backbone.Model.extend({
       }
     });
 
-    // then check if shortcut exists, and replace, but
-    // preserve options if so
-    _.each(GitCommands.getShortcutMap(), function(regex, method) {
-      var results = regex.exec(str);
-      if (results) {
-        str = method + ' ' + str.slice(results[0].length);
-      }
-      this.set('rawStr', str);
-    }, this);
+    str = GitCommands.expandShortcut(str);
+    this.set('rawStr', str);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {
@@ -11327,7 +11320,9 @@ exports.Command = Command;
 
 });
 
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var getRegexMap = function() {
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var getRegexMap = function() {
   return {
     // ($|\s) means that we either have to end the string
     // after the command or there needs to be a space for options
@@ -11356,8 +11351,18 @@ var getShortcutMap = function() {
   };
 };
 
+var expandShortcut = function(commandStr) {
+  _.each(getShortcutMap(), function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
 exports.getRegexMap = getRegexMap;
-exports.getShortcutMap = getShortcutMap;
+exports.expandShortcut = expandShortcut;
 
 });
 
@@ -14110,7 +14115,9 @@ exports.init = init;
 });
 require("/src/js/app/index.js");
 
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var getRegexMap = function() {
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var getRegexMap = function() {
   return {
     // ($|\s) means that we either have to end the string
     // after the command or there needs to be a space for options
@@ -14139,8 +14146,18 @@ var getShortcutMap = function() {
   };
 };
 
+var expandShortcut = function(commandStr) {
+  _.each(getShortcutMap(), function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
 exports.getRegexMap = getRegexMap;
-exports.getShortcutMap = getShortcutMap;
+exports.expandShortcut = expandShortcut;
 
 });
 require("/src/js/git/commands.js");
@@ -16349,15 +16366,8 @@ var Command = Backbone.Model.extend({
       }
     });
 
-    // then check if shortcut exists, and replace, but
-    // preserve options if so
-    _.each(GitCommands.getShortcutMap(), function(regex, method) {
-      var results = regex.exec(str);
-      if (results) {
-        str = method + ' ' + str.slice(results[0].length);
-      }
-      this.set('rawStr', str);
-    }, this);
+    str = GitCommands.expandShortcut(str);
+    this.set('rawStr', str);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {

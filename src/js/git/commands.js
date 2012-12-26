@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var getRegexMap = function() {
   return {
     // ($|\s) means that we either have to end the string
@@ -27,5 +29,15 @@ var getShortcutMap = function() {
   };
 };
 
+var expandShortcut = function(commandStr) {
+  _.each(getShortcutMap(), function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
 exports.getRegexMap = getRegexMap;
-exports.getShortcutMap = getShortcutMap;
+exports.expandShortcut = expandShortcut;

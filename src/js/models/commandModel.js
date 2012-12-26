@@ -194,15 +194,8 @@ var Command = Backbone.Model.extend({
       }
     });
 
-    // then check if shortcut exists, and replace, but
-    // preserve options if so
-    _.each(GitCommands.getShortcutMap(), function(regex, method) {
-      var results = regex.exec(str);
-      if (results) {
-        str = method + ' ' + str.slice(results[0].length);
-      }
-      this.set('rawStr', str);
-    }, this);
+    str = GitCommands.expandShortcut(str);
+    this.set('rawStr', str);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {
