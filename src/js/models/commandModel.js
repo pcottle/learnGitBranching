@@ -77,15 +77,9 @@ var Command = Backbone.Model.extend({
     try {
       this.parse();
     } catch (err) {
-      if (err instanceof CommandProcessError ||
-          err instanceof GitError ||
-          err instanceof CommandResult ||
-          err instanceof Warning) {
-        // errorChanged() will handle status and all of that
-        this.set('error', err);
-      } else {
-        throw err;
-      }
+      Errors.filterError(err);
+      // errorChanged() will handle status and all of that
+      this.set('error', err);
     }
   },
 
@@ -184,6 +178,9 @@ var Command = Backbone.Model.extend({
       throw new CommandResult({msg: ""});
     }
 
+    str = GitCommands.expandShortcut(str);
+    this.set('rawStr', str);
+
     // then check if it's one of our sandbox commands
     _.each(this.getSandboxCommands(), function(tuple) {
       var regex = tuple[0];
@@ -193,9 +190,6 @@ var Command = Backbone.Model.extend({
         tuple[1](results);
       }
     });
-
-    str = GitCommands.expandShortcut(str);
-    this.set('rawStr', str);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {

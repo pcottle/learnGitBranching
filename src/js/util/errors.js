@@ -46,3 +46,16 @@ var GitError = exports.GitError = MyError.extend({
   }
 });
 
+var filterError = function(err) {
+  if (err instanceof CommandProcessError ||
+      err instanceof GitError ||
+      err instanceof CommandResult ||
+      err instanceof Warning) {
+    // yay! one of ours
+    return;
+  } else {
+    throw err;
+  }
+};
+
+exports.filterError = filterError;

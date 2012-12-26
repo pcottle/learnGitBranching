@@ -25,7 +25,8 @@ var getShortcutMap = function() {
     'git add': /^ga($|\s)/,
     'git checkout': /^go($|\s)/,
     'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/
+    'git branch': /^gb($|\s)/,
+    'git status': /^gs($|\s)/
   };
 };
 

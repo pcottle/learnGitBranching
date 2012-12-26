@@ -8433,6 +8433,19 @@ var GitError = exports.GitError = MyError.extend({
   }
 });
 
+var filterError = function(err) {
+  if (err instanceof CommandProcessError ||
+      err instanceof GitError ||
+      err instanceof CommandResult ||
+      err instanceof Warning) {
+    // yay! one of ours
+    return;
+  } else {
+    throw err;
+  }
+};
+
+exports.filterError = filterError;
 
 });
 
@@ -11054,15 +11067,9 @@ var Command = Backbone.Model.extend({
     try {
       this.parse();
     } catch (err) {
-      if (err instanceof CommandProcessError ||
-          err instanceof GitError ||
-          err instanceof CommandResult ||
-          err instanceof Warning) {
-        // errorChanged() will handle status and all of that
-        this.set('error', err);
-      } else {
-        throw err;
-      }
+      Errors.filterError(err);
+      // errorChanged() will handle status and all of that
+      this.set('error', err);
     }
   },
 
@@ -11161,6 +11168,9 @@ var Command = Backbone.Model.extend({
       throw new CommandResult({msg: ""});
     }
 
+    str = GitCommands.expandShortcut(str);
+    this.set('rawStr', str);
+
     // then check if it's one of our sandbox commands
     _.each(this.getSandboxCommands(), function(tuple) {
       var regex = tuple[0];
@@ -11170,9 +11180,6 @@ var Command = Backbone.Model.extend({
         tuple[1](results);
       }
     });
-
-    str = GitCommands.expandShortcut(str);
-    this.set('rawStr', str);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {
@@ -11347,7 +11354,8 @@ var getShortcutMap = function() {
     'git add': /^ga($|\s)/,
     'git checkout': /^go($|\s)/,
     'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/
+    'git branch': /^gb($|\s)/,
+    'git status': /^gs($|\s)/
   };
 };
 
@@ -13750,6 +13758,13 @@ require.define("/src/js/level/inputWaterfall.js",function(require,module,exports
 var Backbone = require('backbone');
 
 var Main = require('../app');
+var GitCommands = require('../git/commands');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
 
 /**
   * This class supports a few things we need for levels:
@@ -13761,7 +13776,10 @@ var Main = require('../app');
 function InputWaterfall(options) {
   options = options || {};
   this.listenEvent = options.listenEvent || 'processCommand';
-  this.disabledMap = options.disabledMap || {};
+  this.disabledMap = options.disabledMap || {
+    'git cherry-pick': true,
+    'git rebase': true
+  };
 
   console.log('made');
 
@@ -13777,9 +13795,50 @@ InputWaterfall.prototype.mute = function() {
 };
 
 InputWaterfall.prototype.process = function(command, callback) {
-  console.log('processing');
+  console.log('processing', command.get('rawStr'));
+
+  if (this.checkDisabledMap(command)) {
+    callback();
+    return;
+  }
   // for now, just immediately fire it
   Main.getEvents().trigger('processGitCommand', command, callback);
+};
+
+InputWaterfall.prototype.sliceGitOff = function(str) {
+  return str.slice('git '.length);
+}
+
+InputWaterfall.prototype.checkDisabledMap = function(command) {
+  try {
+    this.loopDisabledMap(command);
+  } catch(err) {
+    command.set('error', err);
+    return true;
+  }
+  // not needed explicitly, but included for clarity
+  return false;
+};
+
+InputWaterfall.prototype.loopDisabledMap = function(command) {
+  var toTest = this.sliceGitOff(command.get('rawStr'));
+  var regexMap = GitCommands.getRegexMap();
+
+  _.each(this.disabledMap, function(val, disabledGitCommand) {
+    disabledGitCommand = this.sliceGitOff(disabledGitCommand);
+
+    var regex = regexMap[disabledGitCommand];
+    if (!regex) {
+      console.warn('wut, no regex for command', disabledGitCommand);
+      return;
+    }
+
+    if (regex.test(toTest)) {
+      throw new GitError({
+        msg: 'That git command is disabled for this level!'
+      });
+    }
+  }, this);
 };
 
 exports.InputWaterfall = InputWaterfall;
@@ -14142,7 +14201,8 @@ var getShortcutMap = function() {
     'git add': /^ga($|\s)/,
     'git checkout': /^go($|\s)/,
     'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/
+    'git branch': /^gb($|\s)/,
+    'git status': /^gs($|\s)/
   };
 };
 
@@ -16023,6 +16083,13 @@ require.define("/src/js/level/inputWaterfall.js",function(require,module,exports
 var Backbone = require('backbone');
 
 var Main = require('../app');
+var GitCommands = require('../git/commands');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
 
 /**
   * This class supports a few things we need for levels:
@@ -16034,7 +16101,10 @@ var Main = require('../app');
 function InputWaterfall(options) {
   options = options || {};
   this.listenEvent = options.listenEvent || 'processCommand';
-  this.disabledMap = options.disabledMap || {};
+  this.disabledMap = options.disabledMap || {
+    'git cherry-pick': true,
+    'git rebase': true
+  };
 
   console.log('made');
 
@@ -16050,9 +16120,50 @@ InputWaterfall.prototype.mute = function() {
 };
 
 InputWaterfall.prototype.process = function(command, callback) {
-  console.log('processing');
+  console.log('processing', command.get('rawStr'));
+
+  if (this.checkDisabledMap(command)) {
+    callback();
+    return;
+  }
   // for now, just immediately fire it
   Main.getEvents().trigger('processGitCommand', command, callback);
+};
+
+InputWaterfall.prototype.sliceGitOff = function(str) {
+  return str.slice('git '.length);
+}
+
+InputWaterfall.prototype.checkDisabledMap = function(command) {
+  try {
+    this.loopDisabledMap(command);
+  } catch(err) {
+    command.set('error', err);
+    return true;
+  }
+  // not needed explicitly, but included for clarity
+  return false;
+};
+
+InputWaterfall.prototype.loopDisabledMap = function(command) {
+  var toTest = this.sliceGitOff(command.get('rawStr'));
+  var regexMap = GitCommands.getRegexMap();
+
+  _.each(this.disabledMap, function(val, disabledGitCommand) {
+    disabledGitCommand = this.sliceGitOff(disabledGitCommand);
+
+    var regex = regexMap[disabledGitCommand];
+    if (!regex) {
+      console.warn('wut, no regex for command', disabledGitCommand);
+      return;
+    }
+
+    if (regex.test(toTest)) {
+      throw new GitError({
+        msg: 'That git command is disabled for this level!'
+      });
+    }
+  }, this);
 };
 
 exports.InputWaterfall = InputWaterfall;
@@ -16249,15 +16360,9 @@ var Command = Backbone.Model.extend({
     try {
       this.parse();
     } catch (err) {
-      if (err instanceof CommandProcessError ||
-          err instanceof GitError ||
-          err instanceof CommandResult ||
-          err instanceof Warning) {
-        // errorChanged() will handle status and all of that
-        this.set('error', err);
-      } else {
-        throw err;
-      }
+      Errors.filterError(err);
+      // errorChanged() will handle status and all of that
+      this.set('error', err);
     }
   },
 
@@ -16356,6 +16461,9 @@ var Command = Backbone.Model.extend({
       throw new CommandResult({msg: ""});
     }
 
+    str = GitCommands.expandShortcut(str);
+    this.set('rawStr', str);
+
     // then check if it's one of our sandbox commands
     _.each(this.getSandboxCommands(), function(tuple) {
       var regex = tuple[0];
@@ -16365,9 +16473,6 @@ var Command = Backbone.Model.extend({
         tuple[1](results);
       }
     });
-
-    str = GitCommands.expandShortcut(str);
-    this.set('rawStr', str);
 
     // see if begins with git
     if (str.slice(0,3) !== 'git') {
@@ -16648,6 +16753,19 @@ var GitError = exports.GitError = MyError.extend({
   }
 });
 
+var filterError = function(err) {
+  if (err instanceof CommandProcessError ||
+      err instanceof GitError ||
+      err instanceof CommandResult ||
+      err instanceof Warning) {
+    // yay! one of ours
+    return;
+  } else {
+    throw err;
+  }
+};
+
+exports.filterError = filterError;
 
 });
 require("/src/js/util/errors.js");
