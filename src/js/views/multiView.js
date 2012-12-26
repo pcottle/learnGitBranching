@@ -121,13 +121,14 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
     require('../app').getUI().modalEnd();
-    this.deferred.resolve();
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
         childView.tearDown();
       });
     }, this), this.deathTime);
+
+    this.deferred.resolve();
   },
 
   start: function() {

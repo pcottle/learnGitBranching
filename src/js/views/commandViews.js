@@ -227,8 +227,9 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   submitValue: function(value) {
-    // we should add if it's not a blank line and this is a new command...
-    // or if we edited the command
+    // we should add the command to our local storage history
+    // if it's not a blank line and this is a new command...
+    // or if we edited the command in place
     var shouldAdd = (value.length && this.index == -1) ||
       ((value.length && this.index !== -1 &&
       this.commands.toArray()[this.index].get('text') !== value));
@@ -259,7 +260,6 @@ var CommandPromptView = Backbone.View.extend({
     this.collection.add(command);
   }
 });
-
 
 // This is the view for all commands -- it will represent
 // their status (inqueue, processing, finished, error),
@@ -390,4 +390,3 @@ var CommandLineHistoryView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
-

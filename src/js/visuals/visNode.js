@@ -314,12 +314,13 @@ var VisNode = VisBase.extend({
   },
 
   attachClickHandlers: function() {
-    var commandStr = 'git show ' + this.get('commit').get('id');
+    var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
         Main.getEvents().trigger('processCommandFromEvent', commandStr);
       });
+      $(rObj.node).css('cursor', 'pointer');
     });
   },
 

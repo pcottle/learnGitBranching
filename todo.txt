@@ -12,6 +12,7 @@ Commands
 ========
 [ ] sip from buffer with post-command hooks. ideally the git engine
     knows nothing about the level being played
+[ ] refactor 'processCommand'
 [ ] text input from the commandPromptView must flow down into
     filters. no hacky stuff anymore where it's part of the option parser,
     wtf
@@ -34,6 +35,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] better click events on branches and commits
 [x] change to returning a promise for multiview
 [x] multiViews with multiple terminals...
 [x] debounce the forward and back methods

@@ -11667,8 +11667,9 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   submitValue: function(value) {
-    // we should add if it's not a blank line and this is a new command...
-    // or if we edited the command
+    // we should add the command to our local storage history
+    // if it's not a blank line and this is a new command...
+    // or if we edited the command in place
     var shouldAdd = (value.length && this.index == -1) ||
       ((value.length && this.index !== -1 &&
       this.commands.toArray()[this.index].get('text') !== value));
@@ -11699,7 +11700,6 @@ var CommandPromptView = Backbone.View.extend({
     this.collection.add(command);
   }
 });
-
 
 // This is the view for all commands -- it will represent
 // their status (inqueue, processing, finished, error),
@@ -11830,7 +11830,6 @@ var CommandLineHistoryView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
-
 
 });
 
@@ -12962,12 +12961,13 @@ var VisNode = VisBase.extend({
   },
 
   attachClickHandlers: function() {
-    var commandStr = 'git show ' + this.get('commit').get('id');
+    var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
         Main.getEvents().trigger('processCommandFromEvent', commandStr);
       });
+      $(rObj.node).css('cursor', 'pointer');
     });
   },
 
@@ -13437,8 +13437,22 @@ var VisBranch = VisBase.extend({
       .attr(this.getAttributes().arrow);
     this.set('arrow', arrow);
 
+    this.attachClickHandlers();
     rect.toFront();
     text.toFront();
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var Main = require('../app');
+    var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
+
+    _.each(objs, function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+      $(rObj.node).css('cursor', 'pointer');
+    });
   },
 
   updateName: function() {
@@ -13913,13 +13927,14 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
     require('../app').getUI().modalEnd();
-    this.deferred.resolve();
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
         childView.tearDown();
       });
     }, this), this.deathTime);
+
+    this.deferred.resolve();
   },
 
   start: function() {
@@ -16860,8 +16875,9 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   submitValue: function(value) {
-    // we should add if it's not a blank line and this is a new command...
-    // or if we edited the command
+    // we should add the command to our local storage history
+    // if it's not a blank line and this is a new command...
+    // or if we edited the command in place
     var shouldAdd = (value.length && this.index == -1) ||
       ((value.length && this.index !== -1 &&
       this.commands.toArray()[this.index].get('text') !== value));
@@ -16892,7 +16908,6 @@ var CommandPromptView = Backbone.View.extend({
     this.collection.add(command);
   }
 });
-
 
 // This is the view for all commands -- it will represent
 // their status (inqueue, processing, finished, error),
@@ -17023,7 +17038,6 @@ var CommandLineHistoryView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
-
 
 });
 require("/src/js/views/commandViews.js");
@@ -17367,13 +17381,14 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
     require('../app').getUI().modalEnd();
-    this.deferred.resolve();
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
         childView.tearDown();
       });
     }, this), this.deathTime);
+
+    this.deferred.resolve();
   },
 
   start: function() {
@@ -19049,8 +19064,22 @@ var VisBranch = VisBase.extend({
       .attr(this.getAttributes().arrow);
     this.set('arrow', arrow);
 
+    this.attachClickHandlers();
     rect.toFront();
     text.toFront();
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var Main = require('../app');
+    var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
+
+    _.each(objs, function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+      $(rObj.node).css('cursor', 'pointer');
+    });
   },
 
   updateName: function() {
@@ -19651,12 +19680,13 @@ var VisNode = VisBase.extend({
   },
 
   attachClickHandlers: function() {
-    var commandStr = 'git show ' + this.get('commit').get('id');
+    var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
         Main.getEvents().trigger('processCommandFromEvent', commandStr);
       });
+      $(rObj.node).css('cursor', 'pointer');
     });
   },
 

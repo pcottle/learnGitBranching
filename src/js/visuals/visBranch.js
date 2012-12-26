@@ -307,8 +307,22 @@ var VisBranch = VisBase.extend({
       .attr(this.getAttributes().arrow);
     this.set('arrow', arrow);
 
+    this.attachClickHandlers();
     rect.toFront();
     text.toFront();
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var Main = require('../app');
+    var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
+
+    _.each(objs, function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+      $(rObj.node).css('cursor', 'pointer');
+    });
   },
 
   updateName: function() {
