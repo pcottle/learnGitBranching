@@ -28,7 +28,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  this.events.on('processCommand', this.dispatch, this);
+  this.events.on('processGitCommand', this.dispatch, this);
 
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {

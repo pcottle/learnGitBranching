@@ -4394,6 +4394,7 @@ var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
 var GitVisuals = require('../visuals').GitVisuals;
+var InputWaterfall = require('../level/inputWaterfall').InputWaterfall;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
@@ -4414,6 +4415,10 @@ var Visualization = Backbone.View.extend({
 
     var Main = require('../app');
     this.events = Main.getEvents();
+
+    // hook the git engine up to the command input
+    this.inputWaterfall = new InputWaterfall();
+
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -4641,7 +4646,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  this.events.on('processCommand', this.dispatch, this);
+  this.events.on('processGitCommand', this.dispatch, this);
 
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
@@ -10975,6 +10980,7 @@ require.define("/src/js/models/commandModel.js",function(require,module,exports,
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -11077,35 +11083,6 @@ var Command = Backbone.Model.extend({
     this.set('result', this.get('error').toResult());
   },
 
-  getShortcutMap: function() {
-    return {
-      'git commit': /^gc($|\s)/,
-      'git add': /^ga($|\s)/,
-      'git checkout': /^go($|\s)/,
-      'git rebase': /^gr($|\s)/,
-      'git branch': /^gb($|\s)/
-    };
-  },
-
-  getRegexMap: function() {
-    return {
-      // ($|\s) means that we either have to end the string
-      // after the command or there needs to be a space for options
-      commit: /^commit($|\s)/,
-      add: /^add($|\s)/,
-      checkout: /^checkout($|\s)/,
-      rebase: /^rebase($|\s)/,
-      reset: /^reset($|\s)/,
-      branch: /^branch($|\s)/,
-      revert: /^revert($|\s)/,
-      log: /^log($|\s)/,
-      merge: /^merge($|\s)/,
-      show: /^show($|\s)/,
-      status: /^status($|\s)/,
-      'cherry-pick': /^cherry-pick($|\s)/
-    };
-  },
-
   getSandboxCommands: function() {
     return [
       [/^ls/, function() {
@@ -11196,7 +11173,7 @@ var Command = Backbone.Model.extend({
 
     // then check if shortcut exists, and replace, but
     // preserve options if so
-    _.each(this.getShortcutMap(), function(regex, method) {
+    _.each(GitCommands.getShortcutMap(), function(regex, method) {
       var results = regex.exec(str);
       if (results) {
         str = method + ' ' + str.slice(results[0].length);
@@ -11220,7 +11197,7 @@ var Command = Backbone.Model.extend({
     var fullCommand = str.slice('git '.length);
 
     // see if we support this particular command
-    _.each(this.getRegexMap(), function(regex, method) {
+    _.each(GitCommands.getRegexMap(), function(regex, method) {
       if (regex.exec(fullCommand)) {
         this.set('options', fullCommand.slice(method.length + 1));
         this.set('method', method);
@@ -11347,6 +11324,40 @@ var CommandEntry = Backbone.Model.extend({
 
 exports.CommandEntry = CommandEntry;
 exports.Command = Command;
+
+});
+
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var getRegexMap = function() {
+  return {
+    // ($|\s) means that we either have to end the string
+    // after the command or there needs to be a space for options
+    commit: /^commit($|\s)/,
+    add: /^add($|\s)/,
+    checkout: /^checkout($|\s)/,
+    rebase: /^rebase($|\s)/,
+    reset: /^reset($|\s)/,
+    branch: /^branch($|\s)/,
+    revert: /^revert($|\s)/,
+    log: /^log($|\s)/,
+    merge: /^merge($|\s)/,
+    show: /^show($|\s)/,
+    status: /^status($|\s)/,
+    'cherry-pick': /^cherry-pick($|\s)/
+  };
+};
+
+var getShortcutMap = function() {
+  return {
+    'git commit': /^gc($|\s)/,
+    'git add': /^ga($|\s)/,
+    'git checkout': /^go($|\s)/,
+    'git rebase': /^gr($|\s)/,
+    'git branch': /^gb($|\s)/
+  };
+};
+
+exports.getRegexMap = getRegexMap;
+exports.getShortcutMap = getShortcutMap;
 
 });
 
@@ -13730,6 +13741,47 @@ exports.VisEdge = VisEdge;
 
 });
 
+require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var Main = require('../app');
+
+/**
+  * This class supports a few things we need for levels:
+    ~ A disabled map (to prevent certain git commands from firing)
+    ~ A post-git command hook (to compare the git tree against the solution)
+    ~ Extra level-specific commands (like help, hint, etc) that are async
+**/
+
+function InputWaterfall(options) {
+  options = options || {};
+  this.listenEvent = options.listenEvent || 'processCommand';
+  this.disabledMap = options.disabledMap || {};
+
+  console.log('made');
+
+  this.listen();
+}
+
+InputWaterfall.prototype.listen = function() {
+  Main.getEvents().on(this.listenEvent, this.process, this);
+};
+
+InputWaterfall.prototype.mute = function() {
+  Main.getEvents().off(this.listenEvent, this.process, this);
+};
+
+InputWaterfall.prototype.process = function(command, callback) {
+  console.log('processing');
+  // for now, just immediately fire it
+  Main.getEvents().trigger('processGitCommand', command, callback);
+};
+
+exports.InputWaterfall = InputWaterfall;
+
+
+});
+
 require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
   var dummy = {};
   var stub = function() {};
@@ -14058,9 +14110,40 @@ exports.init = init;
 });
 require("/src/js/app/index.js");
 
-require.define("/src/js/app/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){undefined
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var getRegexMap = function() {
+  return {
+    // ($|\s) means that we either have to end the string
+    // after the command or there needs to be a space for options
+    commit: /^commit($|\s)/,
+    add: /^add($|\s)/,
+    checkout: /^checkout($|\s)/,
+    rebase: /^rebase($|\s)/,
+    reset: /^reset($|\s)/,
+    branch: /^branch($|\s)/,
+    revert: /^revert($|\s)/,
+    log: /^log($|\s)/,
+    merge: /^merge($|\s)/,
+    show: /^show($|\s)/,
+    status: /^status($|\s)/,
+    'cherry-pick': /^cherry-pick($|\s)/
+  };
+};
+
+var getShortcutMap = function() {
+  return {
+    'git commit': /^gc($|\s)/,
+    'git add': /^ga($|\s)/,
+    'git checkout': /^go($|\s)/,
+    'git rebase': /^gr($|\s)/,
+    'git branch': /^gb($|\s)/
+  };
+};
+
+exports.getRegexMap = getRegexMap;
+exports.getShortcutMap = getShortcutMap;
+
 });
-require("/src/js/app/inputWaterfall.js");
+require("/src/js/git/commands.js");
 
 require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
@@ -14149,7 +14232,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  this.events.on('processCommand', this.dispatch, this);
+  this.events.on('processGitCommand', this.dispatch, this);
 
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
@@ -15919,6 +16002,48 @@ exports.TreeCompare = TreeCompare;
 });
 require("/src/js/git/treeCompare.js");
 
+require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var Main = require('../app');
+
+/**
+  * This class supports a few things we need for levels:
+    ~ A disabled map (to prevent certain git commands from firing)
+    ~ A post-git command hook (to compare the git tree against the solution)
+    ~ Extra level-specific commands (like help, hint, etc) that are async
+**/
+
+function InputWaterfall(options) {
+  options = options || {};
+  this.listenEvent = options.listenEvent || 'processCommand';
+  this.disabledMap = options.disabledMap || {};
+
+  console.log('made');
+
+  this.listen();
+}
+
+InputWaterfall.prototype.listen = function() {
+  Main.getEvents().on(this.listenEvent, this.process, this);
+};
+
+InputWaterfall.prototype.mute = function() {
+  Main.getEvents().off(this.listenEvent, this.process, this);
+};
+
+InputWaterfall.prototype.process = function(command, callback) {
+  console.log('processing');
+  // for now, just immediately fire it
+  Main.getEvents().trigger('processGitCommand', command, callback);
+};
+
+exports.InputWaterfall = InputWaterfall;
+
+
+});
+require("/src/js/level/inputWaterfall.js");
+
 require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -16033,6 +16158,7 @@ require.define("/src/js/models/commandModel.js",function(require,module,exports,
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -16135,35 +16261,6 @@ var Command = Backbone.Model.extend({
     this.set('result', this.get('error').toResult());
   },
 
-  getShortcutMap: function() {
-    return {
-      'git commit': /^gc($|\s)/,
-      'git add': /^ga($|\s)/,
-      'git checkout': /^go($|\s)/,
-      'git rebase': /^gr($|\s)/,
-      'git branch': /^gb($|\s)/
-    };
-  },
-
-  getRegexMap: function() {
-    return {
-      // ($|\s) means that we either have to end the string
-      // after the command or there needs to be a space for options
-      commit: /^commit($|\s)/,
-      add: /^add($|\s)/,
-      checkout: /^checkout($|\s)/,
-      rebase: /^rebase($|\s)/,
-      reset: /^reset($|\s)/,
-      branch: /^branch($|\s)/,
-      revert: /^revert($|\s)/,
-      log: /^log($|\s)/,
-      merge: /^merge($|\s)/,
-      show: /^show($|\s)/,
-      status: /^status($|\s)/,
-      'cherry-pick': /^cherry-pick($|\s)/
-    };
-  },
-
   getSandboxCommands: function() {
     return [
       [/^ls/, function() {
@@ -16254,7 +16351,7 @@ var Command = Backbone.Model.extend({
 
     // then check if shortcut exists, and replace, but
     // preserve options if so
-    _.each(this.getShortcutMap(), function(regex, method) {
+    _.each(GitCommands.getShortcutMap(), function(regex, method) {
       var results = regex.exec(str);
       if (results) {
         str = method + ' ' + str.slice(results[0].length);
@@ -16278,7 +16375,7 @@ var Command = Backbone.Model.extend({
     var fullCommand = str.slice('git '.length);
 
     // see if we support this particular command
-    _.each(this.getRegexMap(), function(regex, method) {
+    _.each(GitCommands.getRegexMap(), function(regex, method) {
       if (regex.exec(fullCommand)) {
         this.set('options', fullCommand.slice(method.length + 1));
         this.set('method', method);
@@ -19803,6 +19900,7 @@ var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
 var GitVisuals = require('../visuals').GitVisuals;
+var InputWaterfall = require('../level/inputWaterfall').InputWaterfall;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
@@ -19823,6 +19921,10 @@ var Visualization = Backbone.View.extend({
 
     var Main = require('../app');
     this.events = Main.getEvents();
+
+    // hook the git engine up to the command input
+    this.inputWaterfall = new InputWaterfall();
+
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();

@@ -3,6 +3,7 @@ var _ = require('underscore');
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -105,35 +106,6 @@ var Command = Backbone.Model.extend({
     this.set('result', this.get('error').toResult());
   },
 
-  getShortcutMap: function() {
-    return {
-      'git commit': /^gc($|\s)/,
-      'git add': /^ga($|\s)/,
-      'git checkout': /^go($|\s)/,
-      'git rebase': /^gr($|\s)/,
-      'git branch': /^gb($|\s)/
-    };
-  },
-
-  getRegexMap: function() {
-    return {
-      // ($|\s) means that we either have to end the string
-      // after the command or there needs to be a space for options
-      commit: /^commit($|\s)/,
-      add: /^add($|\s)/,
-      checkout: /^checkout($|\s)/,
-      rebase: /^rebase($|\s)/,
-      reset: /^reset($|\s)/,
-      branch: /^branch($|\s)/,
-      revert: /^revert($|\s)/,
-      log: /^log($|\s)/,
-      merge: /^merge($|\s)/,
-      show: /^show($|\s)/,
-      status: /^status($|\s)/,
-      'cherry-pick': /^cherry-pick($|\s)/
-    };
-  },
-
   getSandboxCommands: function() {
     return [
       [/^ls/, function() {
@@ -224,7 +196,7 @@ var Command = Backbone.Model.extend({
 
     // then check if shortcut exists, and replace, but
     // preserve options if so
-    _.each(this.getShortcutMap(), function(regex, method) {
+    _.each(GitCommands.getShortcutMap(), function(regex, method) {
       var results = regex.exec(str);
       if (results) {
         str = method + ' ' + str.slice(results[0].length);
@@ -248,7 +220,7 @@ var Command = Backbone.Model.extend({
     var fullCommand = str.slice('git '.length);
 
     // see if we support this particular command
-    _.each(this.getRegexMap(), function(regex, method) {
+    _.each(GitCommands.getRegexMap(), function(regex, method) {
       if (regex.exec(fullCommand)) {
         this.set('options', fullCommand.slice(method.length + 1));
         this.set('method', method);
