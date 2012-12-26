@@ -1,11 +1,8 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  this.keyMap = {
+var mapKeycodeToKey = function(keycode) {
+  var keyMap = {
     37: 'left',
     38: 'up',
     39: 'right',
@@ -13,8 +10,14 @@ function KeyboardListener(options) {
     27: 'esc',
     13: 'enter'
   };
-  this.keydownListener = _.bind(this.keydown, this);
+  return keyMap[keycode];
+};
 
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keydownListener = _.bind(this.keydown, this);
   this.listen();
 }
 
@@ -30,10 +33,12 @@ KeyboardListener.prototype.keydown = function(e) {
   var which = e.which;
   console.log('key which', which);
 
-  if (this.keyMap[which] === undefined) {
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
     return;
   }
-  this.fireEvent(this.keyMap[which]);
+
+  this.fireEvent(key);
 };
 
 KeyboardListener.prototype.fireEvent = function(eventName) {
@@ -42,4 +47,4 @@ KeyboardListener.prototype.fireEvent = function(eventName) {
 };
 
 exports.KeyboardListener = KeyboardListener;
-
+exports.mapKeycodeToKey = mapKeycodeToKey;

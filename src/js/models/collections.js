@@ -80,6 +80,7 @@ var CommandBuffer = Backbone.Model.extend({
       var Main = require('../app');
       Main.getEvents().trigger('processCommand', popped, callback);
     } else {
+      // no more commands to process
       this.clear();
     }
   },

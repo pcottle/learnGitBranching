@@ -8,15 +8,13 @@ Big Graphic things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Views
-=========
-
 Commands
 ========
-[ ] refactor some kind of 'filter' that processes or yields commands
-[ ] then each sandbox is essentially a series of filters
-[ ] make a shim so a level engine can check after every git command if
-    they succeeded and then do finish animation
+[ ] sip from buffer with post-command hooks. ideally the git engine
+    knows nothing about the level being played
+[ ] text input from the commandPromptView must flow down into
+    filters. no hacky stuff anymore where it's part of the option parser,
+    wtf
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
