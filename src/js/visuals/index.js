@@ -37,9 +37,7 @@ function GitVisuals(options) {
   this.deferred = [];
 
   this.events = require('../app').getEvents();
-  this.events.on('refreshTree', _.bind(
-    this.refreshTree, this
-  ));
+  this.events.on('refreshTree', this.refreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {

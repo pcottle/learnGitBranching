@@ -4537,10 +4537,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    require('../app').getEvents().on('gitCommandReady', _.bind(
-      this.addCommand, this
-    ));
-
+    require('../app').getEvents().on('gitCommandReady', this.addCommand, this);
     options.collection.bind('add', this.addCommand, this);
 
     this.buffer = [];
@@ -4644,7 +4641,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  this.events.on('processCommand', _.bind(this.dispatch, this));
+  this.events.on('processCommand', this.dispatch, this);
 
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
@@ -11926,9 +11923,7 @@ function GitVisuals(options) {
   this.deferred = [];
 
   this.events = require('../app').getEvents();
-  this.events.on('refreshTree', _.bind(
-    this.refreshTree, this
-  ));
+  this.events.on('refreshTree', this.refreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {
@@ -14063,6 +14058,10 @@ exports.init = init;
 });
 require("/src/js/app/index.js");
 
+require.define("/src/js/app/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){undefined
+});
+require("/src/js/app/inputWaterfall.js");
+
 require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -14150,7 +14149,7 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  this.events.on('processCommand', _.bind(this.dispatch, this));
+  this.events.on('processCommand', this.dispatch, this);
 
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
@@ -15954,10 +15953,7 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    require('../app').getEvents().on('gitCommandReady', _.bind(
-      this.addCommand, this
-    ));
-
+    require('../app').getEvents().on('gitCommandReady', this.addCommand, this);
     options.collection.bind('add', this.addCommand, this);
 
     this.buffer = [];
@@ -17986,9 +17982,7 @@ function GitVisuals(options) {
   this.deferred = [];
 
   this.events = require('../app').getEvents();
-  this.events.on('refreshTree', _.bind(
-    this.refreshTree, this
-  ));
+  this.events.on('refreshTree', this.refreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {
