@@ -2,6 +2,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 var mapKeycodeToKey = function(keycode) {
+  // TODO -- internationalize? Dvorak? I have no idea
   var keyMap = {
     37: 'left',
     38: 'up',

@@ -11451,6 +11451,7 @@ var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var util = require('../util');
+var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -11549,25 +11550,22 @@ var CommandPromptView = Backbone.View.extend({
     this.onKey(e);
 
     // we need to capture some of these events.
-    // WARNING: this key map is not internationalized :(
-    var keyMap = {
-      // enter
-      13: _.bind(function() {
+    var keyToFuncMap = {
+      enter: _.bind(function() {
         this.submit();
       }, this),
-      // up
-      38: _.bind(function() {
+      up: _.bind(function() {
         this.commandSelectChange(1);
       }, this),
-      // down
-      40: _.bind(function() {
+      down: _.bind(function() {
         this.commandSelectChange(-1);
       }, this)
     };
 
-    if (keyMap[e.which] !== undefined) {
+    var key = keyboard.mapKeycodeToKey(e.which);
+    if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
-      keyMap[e.which]();
+      keyToFuncMap[key]();
       this.onKey(e);
     }
   },
@@ -11833,6 +11831,60 @@ var CommandLineHistoryView = Backbone.View.extend({
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
 
+
+});
+
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var mapKeycodeToKey = function(keycode) {
+  // TODO -- internationalize? Dvorak? I have no idea
+  var keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  return keyMap[keycode];
+};
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keydownListener = _.bind(this.keydown, this);
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+  console.log('key which', which);
+
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
+    return;
+  }
+
+  this.fireEvent(key);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
+exports.mapKeycodeToKey = mapKeycodeToKey;
 
 });
 
@@ -13907,59 +13959,6 @@ var MultiView = Backbone.View.extend({
 
 exports.MultiView = MultiView;
 
-
-});
-
-require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var mapKeycodeToKey = function(keycode) {
-  var keyMap = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-    27: 'esc',
-    13: 'enter'
-  };
-  return keyMap[keycode];
-};
-
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
-}
-
-KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
-  console.log('key which', which);
-
-  var key = mapKeycodeToKey(which);
-  if (key === undefined) {
-    return;
-  }
-
-  this.fireEvent(key);
-};
-
-KeyboardListener.prototype.fireEvent = function(eventName) {
-  eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
-};
-
-exports.KeyboardListener = KeyboardListener;
-exports.mapKeycodeToKey = mapKeycodeToKey;
 
 });
 
@@ -16567,6 +16566,7 @@ require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirn
 var Backbone = require('backbone');
 
 var mapKeycodeToKey = function(keycode) {
+  // TODO -- internationalize? Dvorak? I have no idea
   var keyMap = {
     37: 'left',
     38: 'up',
@@ -16644,6 +16644,7 @@ var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var util = require('../util');
+var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
@@ -16742,25 +16743,22 @@ var CommandPromptView = Backbone.View.extend({
     this.onKey(e);
 
     // we need to capture some of these events.
-    // WARNING: this key map is not internationalized :(
-    var keyMap = {
-      // enter
-      13: _.bind(function() {
+    var keyToFuncMap = {
+      enter: _.bind(function() {
         this.submit();
       }, this),
-      // up
-      38: _.bind(function() {
+      up: _.bind(function() {
         this.commandSelectChange(1);
       }, this),
-      // down
-      40: _.bind(function() {
+      down: _.bind(function() {
         this.commandSelectChange(-1);
       }, this)
     };
 
-    if (keyMap[e.which] !== undefined) {
+    var key = keyboard.mapKeycodeToKey(e.which);
+    if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
-      keyMap[e.which]();
+      keyToFuncMap[key]();
       this.onKey(e);
     }
   },
