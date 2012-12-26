@@ -36,6 +36,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] change to returning a promise for multiview
 [x] multiViews with multiple terminals...
 [x] debounce the forward and back methods
 [x] multiview makes all these arrow views which fire events

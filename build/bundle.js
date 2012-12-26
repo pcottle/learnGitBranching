@@ -13785,7 +13785,7 @@ var MultiView = Backbone.View.extend({
         markdown: 'Im second'
       }
     }];
-    this.deferred = options.deferred;
+    this.deferred = Q.defer();
 
     this.childViews = [];
     this.currentIndex = 0;
@@ -13805,6 +13805,10 @@ var MultiView = Backbone.View.extend({
 
     this.render();
     this.start();
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
   },
 
   getPosFunc: function() {
@@ -13852,13 +13856,12 @@ var MultiView = Backbone.View.extend({
   },
 
   finish: function() {
+    // first we stop listening to keyboard and give that back to UI, which
+    // other views will take if they need to
     this.keyboardListener.mute();
-    if (this.deferred) {
-      this.deferred.resolve();
-    } else {
-      console.warn('no promise to resolve');
-      require('../app').getUI().modalEnd();
-    }
+    require('../app').getUI().modalEnd();
+    this.deferred.resolve();
+
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
         childView.tearDown();
@@ -13867,11 +13870,8 @@ var MultiView = Backbone.View.extend({
   },
 
   start: function() {
+    require('../app').getUI().modalStart();
     this.showViewIndex(this.currentIndex);
-    if (!this.deferred) {
-      console.warn('not part of a promise chain');
-      require('../app').getUI().modalStart();
-    }
   },
 
   createChildView: function(viewJSON) {
@@ -17282,7 +17282,7 @@ var MultiView = Backbone.View.extend({
         markdown: 'Im second'
       }
     }];
-    this.deferred = options.deferred;
+    this.deferred = Q.defer();
 
     this.childViews = [];
     this.currentIndex = 0;
@@ -17302,6 +17302,10 @@ var MultiView = Backbone.View.extend({
 
     this.render();
     this.start();
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
   },
 
   getPosFunc: function() {
@@ -17349,13 +17353,12 @@ var MultiView = Backbone.View.extend({
   },
 
   finish: function() {
+    // first we stop listening to keyboard and give that back to UI, which
+    // other views will take if they need to
     this.keyboardListener.mute();
-    if (this.deferred) {
-      this.deferred.resolve();
-    } else {
-      console.warn('no promise to resolve');
-      require('../app').getUI().modalEnd();
-    }
+    require('../app').getUI().modalEnd();
+    this.deferred.resolve();
+
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
         childView.tearDown();
@@ -17364,11 +17367,8 @@ var MultiView = Backbone.View.extend({
   },
 
   start: function() {
+    require('../app').getUI().modalStart();
     this.showViewIndex(this.currentIndex);
-    if (!this.deferred) {
-      console.warn('not part of a promise chain');
-      require('../app').getUI().modalStart();
-    }
   },
 
   createChildView: function(viewJSON) {
