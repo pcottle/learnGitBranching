@@ -10994,6 +10994,7 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 
 var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
+var GitOptionParser = GitCommands.GitOptionParser;
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -11124,7 +11125,7 @@ var Command = Backbone.Model.extend({
           'Supported commands:',
           '<br/>'
         ];
-        var commands = OptionParser.prototype.getMasterOptionMap();
+        var commands = GitOptionParser.prototype.getMasterOptionMap();
 
         // build up a nice display of what we support
         _.each(commands, function(commandOptions, command) {
@@ -11215,103 +11216,13 @@ var Command = Backbone.Model.extend({
     }
 
     // parse off the options and assemble the map / general args
-    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+    var options = new GitOptionParser(this.get('method'), this.get('options'));
 
     // steal these away so we can be completely JSON
-    this.set('generalArgs', optionParser.generalArgs);
-    this.set('supportedMap', optionParser.supportedMap);
+    this.set('generalArgs', options.generalArgs);
+    this.set('supportedMap', options.supportedMap);
   }
 });
-
-/**
- * OptionParser
- */
-function OptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = this.getMasterOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-OptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {}
-  };
-};
-
-OptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes
-
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-
-  // done!
-};
 
 // command entry is for the commandview
 var CommandEntry = Backbone.Model.extend({
@@ -11328,6 +11239,12 @@ exports.Command = Command;
 });
 
 require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
 
 var getRegexMap = function() {
   return {
@@ -11369,8 +11286,97 @@ var expandShortcut = function(commandStr) {
   return commandStr;
 };
 
+/**
+ * GitOptionParser
+ */
+function GitOptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+GitOptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+GitOptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
 exports.getRegexMap = getRegexMap;
 exports.expandShortcut = expandShortcut;
+exports.GitOptionParser = GitOptionParser;
 
 });
 
@@ -13807,7 +13813,7 @@ InputWaterfall.prototype.process = function(command, callback) {
 
 InputWaterfall.prototype.sliceGitOff = function(str) {
   return str.slice('git '.length);
-}
+};
 
 InputWaterfall.prototype.checkDisabledMap = function(command) {
   try {
@@ -14176,6 +14182,12 @@ require("/src/js/app/index.js");
 
 require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
 var getRegexMap = function() {
   return {
     // ($|\s) means that we either have to end the string
@@ -14216,8 +14228,97 @@ var expandShortcut = function(commandStr) {
   return commandStr;
 };
 
+/**
+ * GitOptionParser
+ */
+function GitOptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+GitOptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+GitOptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
 exports.getRegexMap = getRegexMap;
 exports.expandShortcut = expandShortcut;
+exports.GitOptionParser = GitOptionParser;
 
 });
 require("/src/js/git/commands.js");
@@ -16132,7 +16233,7 @@ InputWaterfall.prototype.process = function(command, callback) {
 
 InputWaterfall.prototype.sliceGitOff = function(str) {
   return str.slice('git '.length);
-}
+};
 
 InputWaterfall.prototype.checkDisabledMap = function(command) {
   try {
@@ -16287,6 +16388,7 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 
 var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
+var GitOptionParser = GitCommands.GitOptionParser;
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -16417,7 +16519,7 @@ var Command = Backbone.Model.extend({
           'Supported commands:',
           '<br/>'
         ];
-        var commands = OptionParser.prototype.getMasterOptionMap();
+        var commands = GitOptionParser.prototype.getMasterOptionMap();
 
         // build up a nice display of what we support
         _.each(commands, function(commandOptions, command) {
@@ -16508,103 +16610,13 @@ var Command = Backbone.Model.extend({
     }
 
     // parse off the options and assemble the map / general args
-    var optionParser = new OptionParser(this.get('method'), this.get('options'));
+    var options = new GitOptionParser(this.get('method'), this.get('options'));
 
     // steal these away so we can be completely JSON
-    this.set('generalArgs', optionParser.generalArgs);
-    this.set('supportedMap', optionParser.supportedMap);
+    this.set('generalArgs', options.generalArgs);
+    this.set('supportedMap', options.supportedMap);
   }
 });
-
-/**
- * OptionParser
- */
-function OptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = this.getMasterOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-OptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {}
-  };
-};
-
-OptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes
-
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-
-  // done!
-};
 
 // command entry is for the commandview
 var CommandEntry = Backbone.Model.extend({

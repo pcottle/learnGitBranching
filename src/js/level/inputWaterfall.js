@@ -51,7 +51,7 @@ InputWaterfall.prototype.process = function(command, callback) {
 
 InputWaterfall.prototype.sliceGitOff = function(str) {
   return str.slice('git '.length);
-}
+};
 
 InputWaterfall.prototype.checkDisabledMap = function(command) {
   try {
