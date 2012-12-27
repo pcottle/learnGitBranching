@@ -10,12 +10,9 @@ Medium things:
 
 Commands
 ========
+[ ] multiple things can process!!!
 [ ] sip from buffer with post-command hooks. ideally the git engine
     knows nothing about the level being played
-[ ] refactor 'processCommand'
-[ ] text input from the commandPromptView must flow down into
-    filters. no hacky stuff anymore where it's part of the option parser,
-    wtf
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +32,9 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] text input from the commandPromptView must flow down into
+    filters. no hacky stuff anymore where it's part of the option parser,
+    wtf
 [x] ok fuckit here is the deal. Command model has minimal logic -- it calls
     to a parse waterfall that expands any shortcuts needed, handles any instant
     commands, and then finally will handle the dispatching. I think this will be

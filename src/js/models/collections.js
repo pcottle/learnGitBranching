@@ -68,7 +68,7 @@ var CommandBuffer = Backbone.Model.extend({
       this.setTimeout();
     }, this);
 
-    // find a command with no error
+    // find a command with no error (aka unprocessed)
     while (popped.get('error') && this.buffer.length) {
       popped = this.buffer.pop();
     }
