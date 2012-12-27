@@ -25,8 +25,6 @@ function InputWaterfall(options) {
     'git rebase': true
   };
 
-  console.log('made');
-
   this.listen();
 }
 
