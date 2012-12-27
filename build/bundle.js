@@ -10996,7 +10996,7 @@ var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
 var GitOptionParser = GitCommands.GitOptionParser;
 
-var sandboxInstantCommands = require('../level/sandboxCommands').sandboxInstantCommands;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -11008,37 +11008,46 @@ var Command = Backbone.Model.extend({
     status: 'inqueue',
     rawStr: null,
     result: '',
+    createTime: null,
 
     error: null,
     warnings: null,
+    parseWaterfall: new ParseWaterfall(),
 
     generalArgs: null,
     supportedMap: null,
     options: null,
-    method: null,
+    method: null
 
-    createTime: null
   },
 
-  validateAtInit: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-
+  initialize: function(options) {
+    this.initDefaults();
+    this.validateAtInit();
 
     this.on('change:error', this.errorChanged, this);
     // catch errors on init
     if (this.get('error')) {
       this.errorChanged();
+    }
+
+    this.parseOrCatch();
+  },
+
+  initDefaults: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+  },
+
+  validateAtInit: function() {
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
     }
   },
 
@@ -11061,19 +11070,26 @@ var Command = Backbone.Model.extend({
     return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
   },
 
-  initialize: function() {
-    this.validateAtInit();
-    this.parseOrCatch();
-  },
-
   parseOrCatch: function() {
+    this.expandShortcuts(this.get('rawStr'));
     try {
-      this.parse();
+      this.processInstants();
     } catch (err) {
       Errors.filterError(err);
       // errorChanged() will handle status and all of that
       this.set('error', err);
     }
+
+    if (this.parseAll()) {
+      // something in our parse waterfall succeeded
+      return;
+    }
+
+    // if we reach here, this command is not supported :-/
+    this.set('error', new CommandProcessError({
+        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
+      })
+    );
   },
 
   errorChanged: function() {
@@ -11093,65 +11109,35 @@ var Command = Backbone.Model.extend({
     this.set('result', this.get('error').toResult());
   },
 
-  parse: function() {
+  expandShortcuts: function(str) {
+    str = this.get('parseWaterfall').expandAllShortcuts(str);
+    this.set('rawStr', str);
+  },
+
+  processInstants: function() {
     var str = this.get('rawStr');
     // first if the string is empty, they just want a blank line
     if (!str.length) {
       throw new CommandResult({msg: ""});
     }
 
-    str = GitCommands.expandShortcut(str);
-    this.set('rawStr', str);
-
-    // then check if it's one of our sandbox commands
-    _.each(sandboxInstantCommands, function(tuple) {
-      var regex = tuple[0];
-      var results = regex.exec(str);
-      if (results) {
-        // this will throw a result
-        tuple[1](results);
-      }
-    });
-
-    // see if begins with git
-    if (str.slice(0,3) !== 'git') {
-      throw new CommandProcessError({
-        msg: 'That command is not supported, sorry!'
-      });
-    }
-
-    // ok, we have a (probably) valid command. actually parse it
-    this.gitParse(str);
+    // then instant commands that will throw
+    this.get('parseWaterfall').processAllInstants(str);
   },
 
-  gitParse: function(str) {
-    // now slice off command part
-    var fullCommand = str.slice('git '.length);
+  parseAll: function() {
+    var str = this.get('rawStr');
+    var results = this.get('parseWaterfall').parseAll(str);
 
-    // see if we support this particular command
-    _.each(GitCommands.getRegexMap(), function(regex, method) {
-      if (regex.exec(fullCommand)) {
-        this.set('options', fullCommand.slice(method.length + 1));
-        this.set('method', method);
-        // we should stop iterating, but the regex will only match
-        // one command in practice. we could stop iterating if we used
-        // jqeurys for each but im using underscore (for no real reason other
-        // than style)
-      }
-    }, this);
-
-    if (!this.get('method')) {
-      throw new CommandProcessError({
-        msg: "Sorry, this demo does not support that git command: " + fullCommand
-      });
+    if (!results) {
+      // nothing parsed successfully
+      return false;
     }
 
-    // parse off the options and assemble the map / general args
-    var options = new GitOptionParser(this.get('method'), this.get('options'));
-
-    // steal these away so we can be completely JSON
-    this.set('generalArgs', options.generalArgs);
-    this.set('supportedMap', options.supportedMap);
+    _.each(results.toSet, function(obj, key) {
+      this.set(key, obj);
+    }, this);
+    return true;
   }
 });
 
@@ -11177,44 +11163,92 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var getRegexMap = function() {
-  return {
-    // ($|\s) means that we either have to end the string
-    // after the command or there needs to be a space for options
-    commit: /^commit($|\s)/,
-    add: /^add($|\s)/,
-    checkout: /^checkout($|\s)/,
-    rebase: /^rebase($|\s)/,
-    reset: /^reset($|\s)/,
-    branch: /^branch($|\s)/,
-    revert: /^revert($|\s)/,
-    log: /^log($|\s)/,
-    merge: /^merge($|\s)/,
-    show: /^show($|\s)/,
-    status: /^status($|\s)/,
-    'cherry-pick': /^cherry-pick($|\s)/
-  };
+var shortcutMap = {
+  'git commit': /^gc($|\s)/,
+  'git add': /^ga($|\s)/,
+  'git checkout': /^go($|\s)/,
+  'git rebase': /^gr($|\s)/,
+  'git branch': /^gb($|\s)/,
+  'git status': /^gs($|\s)/,
+  'git help': /^git$/
 };
 
-var getShortcutMap = function() {
-  return {
-    'git commit': /^gc($|\s)/,
-    'git add': /^ga($|\s)/,
-    'git checkout': /^go($|\s)/,
-    'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/,
-    'git status': /^gs($|\s)/
-  };
+var instantCommands = [
+  [/^git help($|\s)/, function() {
+    var lines = [
+      'Git Version PCOTTLE.1.0',
+      '<br/>',
+      'Usage:',
+      _.escape('\t git <command> [<args>]'),
+      '<br/>',
+      'Supported commands:',
+      '<br/>'
+    ];
+    var commands = GitOptionParser.prototype.getMasterOptionMap();
+
+    // build up a nice display of what we support
+    _.each(commands, function(commandOptions, command) {
+      lines.push('git ' + command);
+      _.each(commandOptions, function(vals, optionName) {
+        lines.push('\t ' + optionName);
+      }, this);
+    }, this);
+
+    // format and throw
+    var msg = lines.join('\n');
+    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+    throw new CommandResult({
+      msg: msg
+    });
+  }]
+];
+
+var regexMap = {
+  // ($|\s) means that we either have to end the string
+  // after the command or there needs to be a space for options
+  commit: /^commit($|\s)/,
+  add: /^add($|\s)/,
+  checkout: /^checkout($|\s)/,
+  rebase: /^rebase($|\s)/,
+  reset: /^reset($|\s)/,
+  branch: /^branch($|\s)/,
+  revert: /^revert($|\s)/,
+  log: /^log($|\s)/,
+  merge: /^merge($|\s)/,
+  show: /^show($|\s)/,
+  status: /^status($|\s)/,
+  'cherry-pick': /^cherry-pick($|\s)/
 };
 
-var expandShortcut = function(commandStr) {
-  _.each(getShortcutMap(), function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
+var parse = function(str) {
+  // now slice off command part
+  var fullCommand = str.slice('git '.length);
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(regexMap, function(regex, thisMethod) {
+    if (regex.exec(fullCommand)) {
+      options = fullCommand.slice(thisMethod.length + 1);
+      method = thisMethod;
     }
-  });
-  return commandStr;
+  }, this);
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new GitOptionParser(method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      method: method,
+      options: options
+    }
+  };
 };
 
 /**
@@ -11305,13 +11339,85 @@ GitOptionParser.prototype.explodeAndSet = function() {
   }
 };
 
-exports.getRegexMap = getRegexMap;
-exports.expandShortcut = expandShortcut;
-exports.GitOptionParser = GitOptionParser;
+exports.shortcutMap = shortcutMap;
+exports.instantCommands = instantCommands;
+exports.parse = parse;
+exports.regexMap = regexMap;
 
 });
 
-require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+var SandboxCommands = require('../level/SandboxCommands');
+
+// more or less a static class
+function ParseWaterfall(options) {
+  this.shortcutWaterfall = [
+    GitCommands.shortcutMap
+  ];
+
+  this.instantWaterfall = [
+    GitCommands.instantCommands,
+    SandboxCommands.instantCommands
+  ];
+
+  this.parseWaterfall = [
+    GitCommands.parse
+  ];
+}
+
+ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
+  _.each(this.shortcutWaterfall, function(shortcutMap) {
+    commandStr = this.expandShortcut(commandStr, shortcutMap);
+  }, this);
+  return commandStr;
+};
+
+ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
+  _.each(shortcutMap, function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
+ParseWaterfall.prototype.processAllInstants = function(commandStr) {
+  _.each(this.instantWaterfall, function(instantCommands) {
+    this.processInstant(commandStr, instantCommands);
+  }, this);
+};
+
+ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
+  _.each(instantCommands, function(tuple) {
+    var regex = tuple[0];
+    var results = regex.exec(commandStr);
+    if (results) {
+      // this will throw a result
+      tuple[1](results);
+    }
+  });
+};
+
+ParseWaterfall.prototype.parseAll = function(commandStr) {
+  var toReturn = false;
+  _.each(this.parseWaterfall, function(parseFunc) {
+    var results = parseFunc(commandStr);
+    if (results) {
+      toReturn = results;
+    }
+  }, this);
+
+  return toReturn;
+};
+
+exports.ParseWaterfall = ParseWaterfall;
+
+});
+
+require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
 var GitOptionParser = GitCommands.GitOptionParser;
@@ -11322,7 +11428,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var sandboxInstantCommands = [
+var instantCommands = [
   [/^ls/, function() {
     throw new CommandResult({
       msg: "DontWorryAboutFilesInThisDemo.txt"
@@ -11331,45 +11437,6 @@ var sandboxInstantCommands = [
   [/^cd/, function() {
     throw new CommandResult({
       msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-    });
-  }],
-  [/^git help($|\s)/, function() {
-    // sym link this to the blank git command
-    var allCommands = Command.prototype.getSandboxCommands();
-    // wow this is hacky :(
-    var equivalent = 'git';
-    _.each(allCommands, function(bits) {
-      var regex = bits[0];
-      if (regex.test(equivalent)) {
-        bits[1]();
-      }
-    });
-  }],
-  [/^git$/, function() {
-    var lines = [
-      'Git Version PCOTTLE.1.0',
-      '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
-      '<br/>',
-      'Supported commands:',
-      '<br/>'
-    ];
-    var commands = GitOptionParser.prototype.getMasterOptionMap();
-
-    // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
-      lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
-        lines.push('\t ' + optionName);
-      }, this);
-    }, this);
-
-    // format and throw
-    var msg = lines.join('\n');
-    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-    throw new CommandResult({
-      msg: msg
     });
   }],
   [/^refresh$/, function() {
@@ -11391,7 +11458,7 @@ var sandboxInstantCommands = [
   }]
 ];
 
-exports.sandboxInstantCommands = sandboxInstantCommands;
+exports.instantCommands = instantCommands;
 
 });
 
@@ -13776,7 +13843,6 @@ exports.VisEdge = VisEdge;
 });
 
 require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
 
 var Main = require('../app');
 var GitCommands = require('../git/commands');
@@ -13832,6 +13898,7 @@ InputWaterfall.prototype.checkDisabledMap = function(command) {
   try {
     this.loopDisabledMap(command);
   } catch(err) {
+    Errors.filterError(err);
     command.set('error', err);
     return true;
   }
@@ -13841,7 +13908,7 @@ InputWaterfall.prototype.checkDisabledMap = function(command) {
 
 InputWaterfall.prototype.loopDisabledMap = function(command) {
   var toTest = this.sliceGitOff(command.get('rawStr'));
-  var regexMap = GitCommands.getRegexMap();
+  var regexMap = GitCommands.regexMap;
 
   _.each(this.disabledMap, function(val, disabledGitCommand) {
     disabledGitCommand = this.sliceGitOff(disabledGitCommand);
@@ -14201,44 +14268,92 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var getRegexMap = function() {
-  return {
-    // ($|\s) means that we either have to end the string
-    // after the command or there needs to be a space for options
-    commit: /^commit($|\s)/,
-    add: /^add($|\s)/,
-    checkout: /^checkout($|\s)/,
-    rebase: /^rebase($|\s)/,
-    reset: /^reset($|\s)/,
-    branch: /^branch($|\s)/,
-    revert: /^revert($|\s)/,
-    log: /^log($|\s)/,
-    merge: /^merge($|\s)/,
-    show: /^show($|\s)/,
-    status: /^status($|\s)/,
-    'cherry-pick': /^cherry-pick($|\s)/
-  };
+var shortcutMap = {
+  'git commit': /^gc($|\s)/,
+  'git add': /^ga($|\s)/,
+  'git checkout': /^go($|\s)/,
+  'git rebase': /^gr($|\s)/,
+  'git branch': /^gb($|\s)/,
+  'git status': /^gs($|\s)/,
+  'git help': /^git$/
 };
 
-var getShortcutMap = function() {
-  return {
-    'git commit': /^gc($|\s)/,
-    'git add': /^ga($|\s)/,
-    'git checkout': /^go($|\s)/,
-    'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/,
-    'git status': /^gs($|\s)/
-  };
+var instantCommands = [
+  [/^git help($|\s)/, function() {
+    var lines = [
+      'Git Version PCOTTLE.1.0',
+      '<br/>',
+      'Usage:',
+      _.escape('\t git <command> [<args>]'),
+      '<br/>',
+      'Supported commands:',
+      '<br/>'
+    ];
+    var commands = GitOptionParser.prototype.getMasterOptionMap();
+
+    // build up a nice display of what we support
+    _.each(commands, function(commandOptions, command) {
+      lines.push('git ' + command);
+      _.each(commandOptions, function(vals, optionName) {
+        lines.push('\t ' + optionName);
+      }, this);
+    }, this);
+
+    // format and throw
+    var msg = lines.join('\n');
+    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+    throw new CommandResult({
+      msg: msg
+    });
+  }]
+];
+
+var regexMap = {
+  // ($|\s) means that we either have to end the string
+  // after the command or there needs to be a space for options
+  commit: /^commit($|\s)/,
+  add: /^add($|\s)/,
+  checkout: /^checkout($|\s)/,
+  rebase: /^rebase($|\s)/,
+  reset: /^reset($|\s)/,
+  branch: /^branch($|\s)/,
+  revert: /^revert($|\s)/,
+  log: /^log($|\s)/,
+  merge: /^merge($|\s)/,
+  show: /^show($|\s)/,
+  status: /^status($|\s)/,
+  'cherry-pick': /^cherry-pick($|\s)/
 };
 
-var expandShortcut = function(commandStr) {
-  _.each(getShortcutMap(), function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
+var parse = function(str) {
+  // now slice off command part
+  var fullCommand = str.slice('git '.length);
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(regexMap, function(regex, thisMethod) {
+    if (regex.exec(fullCommand)) {
+      options = fullCommand.slice(thisMethod.length + 1);
+      method = thisMethod;
     }
-  });
-  return commandStr;
+  }, this);
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new GitOptionParser(method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      method: method,
+      options: options
+    }
+  };
 };
 
 /**
@@ -14329,9 +14444,10 @@ GitOptionParser.prototype.explodeAndSet = function() {
   }
 };
 
-exports.getRegexMap = getRegexMap;
-exports.expandShortcut = expandShortcut;
-exports.GitOptionParser = GitOptionParser;
+exports.shortcutMap = shortcutMap;
+exports.instantCommands = instantCommands;
+exports.parse = parse;
+exports.regexMap = regexMap;
 
 });
 require("/src/js/git/commands.js");
@@ -16194,7 +16310,6 @@ exports.TreeCompare = TreeCompare;
 require("/src/js/git/treeCompare.js");
 
 require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
 
 var Main = require('../app');
 var GitCommands = require('../git/commands');
@@ -16250,6 +16365,7 @@ InputWaterfall.prototype.checkDisabledMap = function(command) {
   try {
     this.loopDisabledMap(command);
   } catch(err) {
+    Errors.filterError(err);
     command.set('error', err);
     return true;
   }
@@ -16259,7 +16375,7 @@ InputWaterfall.prototype.checkDisabledMap = function(command) {
 
 InputWaterfall.prototype.loopDisabledMap = function(command) {
   var toTest = this.sliceGitOff(command.get('rawStr'));
-  var regexMap = GitCommands.getRegexMap();
+  var regexMap = GitCommands.regexMap;
 
   _.each(this.disabledMap, function(val, disabledGitCommand) {
     disabledGitCommand = this.sliceGitOff(disabledGitCommand);
@@ -16284,6 +16400,78 @@ exports.InputWaterfall = InputWaterfall;
 });
 require("/src/js/level/inputWaterfall.js");
 
+require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+var SandboxCommands = require('../level/SandboxCommands');
+
+// more or less a static class
+function ParseWaterfall(options) {
+  this.shortcutWaterfall = [
+    GitCommands.shortcutMap
+  ];
+
+  this.instantWaterfall = [
+    GitCommands.instantCommands,
+    SandboxCommands.instantCommands
+  ];
+
+  this.parseWaterfall = [
+    GitCommands.parse
+  ];
+}
+
+ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
+  _.each(this.shortcutWaterfall, function(shortcutMap) {
+    commandStr = this.expandShortcut(commandStr, shortcutMap);
+  }, this);
+  return commandStr;
+};
+
+ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
+  _.each(shortcutMap, function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
+ParseWaterfall.prototype.processAllInstants = function(commandStr) {
+  _.each(this.instantWaterfall, function(instantCommands) {
+    this.processInstant(commandStr, instantCommands);
+  }, this);
+};
+
+ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
+  _.each(instantCommands, function(tuple) {
+    var regex = tuple[0];
+    var results = regex.exec(commandStr);
+    if (results) {
+      // this will throw a result
+      tuple[1](results);
+    }
+  });
+};
+
+ParseWaterfall.prototype.parseAll = function(commandStr) {
+  var toReturn = false;
+  _.each(this.parseWaterfall, function(parseFunc) {
+    var results = parseFunc(commandStr);
+    if (results) {
+      toReturn = results;
+    }
+  }, this);
+
+  return toReturn;
+};
+
+exports.ParseWaterfall = ParseWaterfall;
+
+});
+require("/src/js/level/parseWaterfall.js");
+
 require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
@@ -16295,7 +16483,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var sandboxInstantCommands = [
+var instantCommands = [
   [/^ls/, function() {
     throw new CommandResult({
       msg: "DontWorryAboutFilesInThisDemo.txt"
@@ -16304,45 +16492,6 @@ var sandboxInstantCommands = [
   [/^cd/, function() {
     throw new CommandResult({
       msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-    });
-  }],
-  [/^git help($|\s)/, function() {
-    // sym link this to the blank git command
-    var allCommands = Command.prototype.getSandboxCommands();
-    // wow this is hacky :(
-    var equivalent = 'git';
-    _.each(allCommands, function(bits) {
-      var regex = bits[0];
-      if (regex.test(equivalent)) {
-        bits[1]();
-      }
-    });
-  }],
-  [/^git$/, function() {
-    var lines = [
-      'Git Version PCOTTLE.1.0',
-      '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
-      '<br/>',
-      'Supported commands:',
-      '<br/>'
-    ];
-    var commands = GitOptionParser.prototype.getMasterOptionMap();
-
-    // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
-      lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
-        lines.push('\t ' + optionName);
-      }, this);
-    }, this);
-
-    // format and throw
-    var msg = lines.join('\n');
-    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-    throw new CommandResult({
-      msg: msg
     });
   }],
   [/^refresh$/, function() {
@@ -16364,7 +16513,7 @@ var sandboxInstantCommands = [
   }]
 ];
 
-exports.sandboxInstantCommands = sandboxInstantCommands;
+exports.instantCommands = instantCommands;
 
 });
 require("/src/js/level/sandboxCommands.js");
@@ -16486,7 +16635,7 @@ var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
 var GitOptionParser = GitCommands.GitOptionParser;
 
-var sandboxInstantCommands = require('../level/sandboxCommands').sandboxInstantCommands;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -16498,37 +16647,46 @@ var Command = Backbone.Model.extend({
     status: 'inqueue',
     rawStr: null,
     result: '',
+    createTime: null,
 
     error: null,
     warnings: null,
+    parseWaterfall: new ParseWaterfall(),
 
     generalArgs: null,
     supportedMap: null,
     options: null,
-    method: null,
+    method: null
 
-    createTime: null
   },
 
-  validateAtInit: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-
+  initialize: function(options) {
+    this.initDefaults();
+    this.validateAtInit();
 
     this.on('change:error', this.errorChanged, this);
     // catch errors on init
     if (this.get('error')) {
       this.errorChanged();
+    }
+
+    this.parseOrCatch();
+  },
+
+  initDefaults: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+  },
+
+  validateAtInit: function() {
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
     }
   },
 
@@ -16551,19 +16709,26 @@ var Command = Backbone.Model.extend({
     return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
   },
 
-  initialize: function() {
-    this.validateAtInit();
-    this.parseOrCatch();
-  },
-
   parseOrCatch: function() {
+    this.expandShortcuts(this.get('rawStr'));
     try {
-      this.parse();
+      this.processInstants();
     } catch (err) {
       Errors.filterError(err);
       // errorChanged() will handle status and all of that
       this.set('error', err);
     }
+
+    if (this.parseAll()) {
+      // something in our parse waterfall succeeded
+      return;
+    }
+
+    // if we reach here, this command is not supported :-/
+    this.set('error', new CommandProcessError({
+        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
+      })
+    );
   },
 
   errorChanged: function() {
@@ -16583,65 +16748,35 @@ var Command = Backbone.Model.extend({
     this.set('result', this.get('error').toResult());
   },
 
-  parse: function() {
+  expandShortcuts: function(str) {
+    str = this.get('parseWaterfall').expandAllShortcuts(str);
+    this.set('rawStr', str);
+  },
+
+  processInstants: function() {
     var str = this.get('rawStr');
     // first if the string is empty, they just want a blank line
     if (!str.length) {
       throw new CommandResult({msg: ""});
     }
 
-    str = GitCommands.expandShortcut(str);
-    this.set('rawStr', str);
-
-    // then check if it's one of our sandbox commands
-    _.each(sandboxInstantCommands, function(tuple) {
-      var regex = tuple[0];
-      var results = regex.exec(str);
-      if (results) {
-        // this will throw a result
-        tuple[1](results);
-      }
-    });
-
-    // see if begins with git
-    if (str.slice(0,3) !== 'git') {
-      throw new CommandProcessError({
-        msg: 'That command is not supported, sorry!'
-      });
-    }
-
-    // ok, we have a (probably) valid command. actually parse it
-    this.gitParse(str);
+    // then instant commands that will throw
+    this.get('parseWaterfall').processAllInstants(str);
   },
 
-  gitParse: function(str) {
-    // now slice off command part
-    var fullCommand = str.slice('git '.length);
+  parseAll: function() {
+    var str = this.get('rawStr');
+    var results = this.get('parseWaterfall').parseAll(str);
 
-    // see if we support this particular command
-    _.each(GitCommands.getRegexMap(), function(regex, method) {
-      if (regex.exec(fullCommand)) {
-        this.set('options', fullCommand.slice(method.length + 1));
-        this.set('method', method);
-        // we should stop iterating, but the regex will only match
-        // one command in practice. we could stop iterating if we used
-        // jqeurys for each but im using underscore (for no real reason other
-        // than style)
-      }
-    }, this);
-
-    if (!this.get('method')) {
-      throw new CommandProcessError({
-        msg: "Sorry, this demo does not support that git command: " + fullCommand
-      });
+    if (!results) {
+      // nothing parsed successfully
+      return false;
     }
 
-    // parse off the options and assemble the map / general args
-    var options = new GitOptionParser(this.get('method'), this.get('options'));
-
-    // steal these away so we can be completely JSON
-    this.set('generalArgs', options.generalArgs);
-    this.set('supportedMap', options.supportedMap);
+    _.each(results.toSet, function(obj, key) {
+      this.set(key, obj);
+    }, this);
+    return true;
   }
 });
 

@@ -6,44 +6,92 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var getRegexMap = function() {
-  return {
-    // ($|\s) means that we either have to end the string
-    // after the command or there needs to be a space for options
-    commit: /^commit($|\s)/,
-    add: /^add($|\s)/,
-    checkout: /^checkout($|\s)/,
-    rebase: /^rebase($|\s)/,
-    reset: /^reset($|\s)/,
-    branch: /^branch($|\s)/,
-    revert: /^revert($|\s)/,
-    log: /^log($|\s)/,
-    merge: /^merge($|\s)/,
-    show: /^show($|\s)/,
-    status: /^status($|\s)/,
-    'cherry-pick': /^cherry-pick($|\s)/
-  };
+var shortcutMap = {
+  'git commit': /^gc($|\s)/,
+  'git add': /^ga($|\s)/,
+  'git checkout': /^go($|\s)/,
+  'git rebase': /^gr($|\s)/,
+  'git branch': /^gb($|\s)/,
+  'git status': /^gs($|\s)/,
+  'git help': /^git$/
 };
 
-var getShortcutMap = function() {
-  return {
-    'git commit': /^gc($|\s)/,
-    'git add': /^ga($|\s)/,
-    'git checkout': /^go($|\s)/,
-    'git rebase': /^gr($|\s)/,
-    'git branch': /^gb($|\s)/,
-    'git status': /^gs($|\s)/
-  };
+var instantCommands = [
+  [/^git help($|\s)/, function() {
+    var lines = [
+      'Git Version PCOTTLE.1.0',
+      '<br/>',
+      'Usage:',
+      _.escape('\t git <command> [<args>]'),
+      '<br/>',
+      'Supported commands:',
+      '<br/>'
+    ];
+    var commands = GitOptionParser.prototype.getMasterOptionMap();
+
+    // build up a nice display of what we support
+    _.each(commands, function(commandOptions, command) {
+      lines.push('git ' + command);
+      _.each(commandOptions, function(vals, optionName) {
+        lines.push('\t ' + optionName);
+      }, this);
+    }, this);
+
+    // format and throw
+    var msg = lines.join('\n');
+    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+    throw new CommandResult({
+      msg: msg
+    });
+  }]
+];
+
+var regexMap = {
+  // ($|\s) means that we either have to end the string
+  // after the command or there needs to be a space for options
+  commit: /^commit($|\s)/,
+  add: /^add($|\s)/,
+  checkout: /^checkout($|\s)/,
+  rebase: /^rebase($|\s)/,
+  reset: /^reset($|\s)/,
+  branch: /^branch($|\s)/,
+  revert: /^revert($|\s)/,
+  log: /^log($|\s)/,
+  merge: /^merge($|\s)/,
+  show: /^show($|\s)/,
+  status: /^status($|\s)/,
+  'cherry-pick': /^cherry-pick($|\s)/
 };
 
-var expandShortcut = function(commandStr) {
-  _.each(getShortcutMap(), function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
+var parse = function(str) {
+  // now slice off command part
+  var fullCommand = str.slice('git '.length);
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(regexMap, function(regex, thisMethod) {
+    if (regex.exec(fullCommand)) {
+      options = fullCommand.slice(thisMethod.length + 1);
+      method = thisMethod;
     }
-  });
-  return commandStr;
+  }, this);
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new GitOptionParser(method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      method: method,
+      options: options
+    }
+  };
 };
 
 /**
@@ -134,6 +182,7 @@ GitOptionParser.prototype.explodeAndSet = function() {
   }
 };
 
-exports.getRegexMap = getRegexMap;
-exports.expandShortcut = expandShortcut;
-exports.GitOptionParser = GitOptionParser;
+exports.shortcutMap = shortcutMap;
+exports.instantCommands = instantCommands;
+exports.parse = parse;
+exports.regexMap = regexMap;

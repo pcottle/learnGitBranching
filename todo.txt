@@ -35,6 +35,10 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] ok fuckit here is the deal. Command model has minimal logic -- it calls
+    to a parse waterfall that expands any shortcuts needed, handles any instant
+    commands, and then finally will handle the dispatching. I think this will be
+    really nice :D
 [x] disabled map for levels
 [x] better click events on branches and commits
 [x] change to returning a promise for multiview

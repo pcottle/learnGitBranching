@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var Backbone = require('backbone');
 
 var Main = require('../app');
 var GitCommands = require('../git/commands');
@@ -55,6 +54,7 @@ InputWaterfall.prototype.checkDisabledMap = function(command) {
   try {
     this.loopDisabledMap(command);
   } catch(err) {
+    Errors.filterError(err);
     command.set('error', err);
     return true;
   }
@@ -64,7 +64,7 @@ InputWaterfall.prototype.checkDisabledMap = function(command) {
 
 InputWaterfall.prototype.loopDisabledMap = function(command) {
   var toTest = this.sliceGitOff(command.get('rawStr'));
-  var regexMap = GitCommands.getRegexMap();
+  var regexMap = GitCommands.regexMap;
 
   _.each(this.disabledMap, function(val, disabledGitCommand) {
     disabledGitCommand = this.sliceGitOff(disabledGitCommand);
