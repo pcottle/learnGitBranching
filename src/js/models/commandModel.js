@@ -88,6 +88,7 @@ var Command = Backbone.Model.extend({
       Errors.filterError(err);
       // errorChanged() will handle status and all of that
       this.set('error', err);
+      return;
     }
 
     if (this.parseAll()) {
