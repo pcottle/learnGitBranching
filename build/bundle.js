@@ -8738,11 +8738,25 @@ var ModalView = Backbone.View.extend({
     console.warn('stealing keyboard');
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
+
+    $('#commandTextField').blur();
   },
 
   releaseKeyboard: function() {
     Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
+  },
+
+  onWindowFocus: function(e) {
+    console.log('window focus doing nothing', e);
+  },
+
+  documentClick: function(e) {
+    console.log('doc click doing nothing', e);
   },
 
   onKeyDown: function(e) {
@@ -8876,8 +8890,16 @@ var init = function(){
   };
   focusTextArea();
 
-  $(window).focus(focusTextArea);
-  $(document).click(focusTextArea);
+  $(window).focus(function(e) {
+    eventBaton.trigger('windowFocus', e);
+  });
+  $(document).click(function(e) {
+    eventBaton.trigger('documentClick', e);
+  });
+
+  // the default action on window focus and document click is to just focus the text area
+  eventBaton.stealBaton('windowFocus', focusTextArea);
+  eventBaton.stealBaton('documentClick', focusTextArea);
 
   // but when the input is fired in the text area, we pipe that to whoever is
   // listenining
@@ -9001,7 +9023,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   }, this);
 
   if (!found) {
-    throw new Error('did not find that function');
+    throw new Error('did not find that function', func, context, name, arguments);
   }
   this.eventMap[name] = newListeners;
 };
@@ -14282,8 +14304,16 @@ var init = function(){
   };
   focusTextArea();
 
-  $(window).focus(focusTextArea);
-  $(document).click(focusTextArea);
+  $(window).focus(function(e) {
+    eventBaton.trigger('windowFocus', e);
+  });
+  $(document).click(function(e) {
+    eventBaton.trigger('documentClick', e);
+  });
+
+  // the default action on window focus and document click is to just focus the text area
+  eventBaton.stealBaton('windowFocus', focusTextArea);
+  eventBaton.stealBaton('documentClick', focusTextArea);
 
   // but when the input is fired in the text area, we pipe that to whoever is
   // listenining
@@ -17093,7 +17123,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   }, this);
 
   if (!found) {
-    throw new Error('did not find that function');
+    throw new Error('did not find that function', func, context, name, arguments);
   }
   this.eventMap[name] = newListeners;
 };
@@ -17699,11 +17729,25 @@ var ModalView = Backbone.View.extend({
     console.warn('stealing keyboard');
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
+
+    $('#commandTextField').blur();
   },
 
   releaseKeyboard: function() {
     Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
+  },
+
+  onWindowFocus: function(e) {
+    console.log('window focus doing nothing', e);
+  },
+
+  documentClick: function(e) {
+    console.log('doc click doing nothing', e);
   },
 
   onKeyDown: function(e) {

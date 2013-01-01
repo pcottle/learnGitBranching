@@ -27,8 +27,16 @@ var init = function(){
   };
   focusTextArea();
 
-  $(window).focus(focusTextArea);
-  $(document).click(focusTextArea);
+  $(window).focus(function(e) {
+    eventBaton.trigger('windowFocus', e);
+  });
+  $(document).click(function(e) {
+    eventBaton.trigger('documentClick', e);
+  });
+
+  // the default action on window focus and document click is to just focus the text area
+  eventBaton.stealBaton('windowFocus', focusTextArea);
+  eventBaton.stealBaton('documentClick', focusTextArea);
 
   // but when the input is fired in the text area, we pipe that to whoever is
   // listenining
