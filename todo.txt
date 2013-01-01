@@ -12,8 +12,6 @@ Commands
 ========
 [ ] move command creation outside of the command view so multiple things
     can be responsible for specifying the waterfall associated with a command!
-[ ] make some kind of "single listener" event system... will make keyboard stuff easy
-    because then you just steal and release for modals and such
 [ ] then refactor keyboard input and UI.listen() to that event system
 [ ] multiple things can process!!!
 [ ] sip from buffer with post-command hooks. ideally the git engine
@@ -37,6 +35,8 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] make some kind of "single listener" event system... will make keyboard stuff easy
+    because then you just steal and release for modals and such
 [x] text input from the commandPromptView must flow down into
     filters. no hacky stuff anymore where it's part of the option parser,
     wtf

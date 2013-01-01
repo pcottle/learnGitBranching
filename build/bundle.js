@@ -11479,14 +11479,20 @@ var eventBaton;
 
 var init = function(){
   var Visualization = require('../visuals/visualization').Visualization;
+  var EventBaton = require('../util/eventBaton').EventBaton;
 
+  eventBaton = new EventBaton();
   ui = new UI();
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
-  var EventBaton = require('../util/eventBaton').EventBaton;
-  eventBaton = new EventBaton();
 
+  // set up event baton for certain things
+  $(window).focus(function() {
+    eventBaton.trigger('windowFocus');
+  });
+
+  /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
       events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
@@ -11516,23 +11522,11 @@ function UI() {
   });
 
   $('#commandTextField').focus();
-  $(window).focus(_.bind(this.onWindowFocus, this));
+  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
 }
 
 UI.prototype.onWindowFocus = function() {
-  if (this.active) {
-    this.commandPromptView.focus();
-  }
-};
-
-UI.prototype.modalStart = function() {
-  this.active = false;
-  this.commandPromptView.blur();
-};
-
-UI.prototype.modalEnd = function() {
   this.commandPromptView.focus();
-  this.active = true;
 };
 
 exports.getEvents = function() {
@@ -11577,15 +11571,14 @@ EventBaton.prototype.stealBaton = function(name, func, context) {
 };
 
 EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
   var argsToApply = [];
   for (var i = 1; i < arguments.length; i++) {
     argsToApply.push(arguments[i]);
   }
 
-  // get the last one
   var listeners = this.eventMap[name];
   if (!listeners) {
-    console.warn('no listeners for that event', name);
     return;
   }
   // call the top most listener with context and such
@@ -14145,6 +14138,10 @@ var MultiView = Backbone.View.extend({
     this.start();
   },
 
+  onWindowFocus: function() {
+    // nothing here for now...
+  },
+
   getPromise: function() {
     return this.deferred.promise;
   },
@@ -14197,7 +14194,7 @@ var MultiView = Backbone.View.extend({
     // first we stop listening to keyboard and give that back to UI, which
     // other views will take if they need to
     this.keyboardListener.mute();
-    require('../app').getUI().modalEnd();
+    require('../app').getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
@@ -14209,7 +14206,8 @@ var MultiView = Backbone.View.extend({
   },
 
   start: function() {
-    require('../app').getUI().modalStart();
+    // steal the window focus baton
+    require('../app').getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
     this.showViewIndex(this.currentIndex);
   },
 
@@ -14263,14 +14261,20 @@ var eventBaton;
 
 var init = function(){
   var Visualization = require('../visuals/visualization').Visualization;
+  var EventBaton = require('../util/eventBaton').EventBaton;
 
+  eventBaton = new EventBaton();
   ui = new UI();
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
-  var EventBaton = require('../util/eventBaton').EventBaton;
-  eventBaton = new EventBaton();
 
+  // set up event baton for certain things
+  $(window).focus(function() {
+    eventBaton.trigger('windowFocus');
+  });
+
+  /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
       events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
@@ -14300,23 +14304,11 @@ function UI() {
   });
 
   $('#commandTextField').focus();
-  $(window).focus(_.bind(this.onWindowFocus, this));
+  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
 }
 
 UI.prototype.onWindowFocus = function() {
-  if (this.active) {
-    this.commandPromptView.focus();
-  }
-};
-
-UI.prototype.modalStart = function() {
-  this.active = false;
-  this.commandPromptView.blur();
-};
-
-UI.prototype.modalEnd = function() {
   this.commandPromptView.focus();
-  this.active = true;
 };
 
 exports.getEvents = function() {
@@ -17047,15 +17039,14 @@ EventBaton.prototype.stealBaton = function(name, func, context) {
 };
 
 EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
   var argsToApply = [];
   for (var i = 1; i < arguments.length; i++) {
     argsToApply.push(arguments[i]);
   }
 
-  // get the last one
   var listeners = this.eventMap[name];
   if (!listeners) {
-    console.warn('no listeners for that event', name);
     return;
   }
   // call the top most listener with context and such
@@ -17872,6 +17863,10 @@ var MultiView = Backbone.View.extend({
     this.start();
   },
 
+  onWindowFocus: function() {
+    // nothing here for now...
+  },
+
   getPromise: function() {
     return this.deferred.promise;
   },
@@ -17924,7 +17919,7 @@ var MultiView = Backbone.View.extend({
     // first we stop listening to keyboard and give that back to UI, which
     // other views will take if they need to
     this.keyboardListener.mute();
-    require('../app').getUI().modalEnd();
+    require('../app').getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
@@ -17936,7 +17931,8 @@ var MultiView = Backbone.View.extend({
   },
 
   start: function() {
-    require('../app').getUI().modalStart();
+    // steal the window focus baton
+    require('../app').getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
     this.showViewIndex(this.currentIndex);
   },
 

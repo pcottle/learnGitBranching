@@ -68,6 +68,10 @@ var MultiView = Backbone.View.extend({
     this.start();
   },
 
+  onWindowFocus: function() {
+    // nothing here for now...
+  },
+
   getPromise: function() {
     return this.deferred.promise;
   },
@@ -120,7 +124,7 @@ var MultiView = Backbone.View.extend({
     // first we stop listening to keyboard and give that back to UI, which
     // other views will take if they need to
     this.keyboardListener.mute();
-    require('../app').getUI().modalEnd();
+    require('../app').getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
@@ -132,7 +136,8 @@ var MultiView = Backbone.View.extend({
   },
 
   start: function() {
-    require('../app').getUI().modalStart();
+    // steal the window focus baton
+    require('../app').getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
     this.showViewIndex(this.currentIndex);
   },
 

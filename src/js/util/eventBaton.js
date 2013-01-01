@@ -19,15 +19,14 @@ EventBaton.prototype.stealBaton = function(name, func, context) {
 };
 
 EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
   var argsToApply = [];
   for (var i = 1; i < arguments.length; i++) {
     argsToApply.push(arguments[i]);
   }
 
-  // get the last one
   var listeners = this.eventMap[name];
   if (!listeners) {
-    console.warn('no listeners for that event', name);
     return;
   }
   // call the top most listener with context and such

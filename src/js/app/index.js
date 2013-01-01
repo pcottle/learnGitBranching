@@ -13,14 +13,20 @@ var eventBaton;
 
 var init = function(){
   var Visualization = require('../visuals/visualization').Visualization;
+  var EventBaton = require('../util/eventBaton').EventBaton;
 
+  eventBaton = new EventBaton();
   ui = new UI();
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
-  var EventBaton = require('../util/eventBaton').EventBaton;
-  eventBaton = new EventBaton();
 
+  // set up event baton for certain things
+  $(window).focus(function() {
+    eventBaton.trigger('windowFocus');
+  });
+
+  /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
       events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
@@ -50,23 +56,11 @@ function UI() {
   });
 
   $('#commandTextField').focus();
-  $(window).focus(_.bind(this.onWindowFocus, this));
+  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
 }
 
 UI.prototype.onWindowFocus = function() {
-  if (this.active) {
-    this.commandPromptView.focus();
-  }
-};
-
-UI.prototype.modalStart = function() {
-  this.active = false;
-  this.commandPromptView.blur();
-};
-
-UI.prototype.modalEnd = function() {
   this.commandPromptView.focus();
-  this.active = true;
 };
 
 exports.getEvents = function() {
