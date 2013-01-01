@@ -23,7 +23,6 @@ var init = function(){
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
-    console.log('focusing text area');
     $('#commandTextField').focus();
   };
   focusTextArea();
@@ -74,14 +73,7 @@ function UI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
-
-  $('#commandTextField').focus();
-  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
 }
-
-UI.prototype.onWindowFocus = function() {
-  this.commandPromptView.focus();
-};
 
 exports.getEvents = function() {
   return events;

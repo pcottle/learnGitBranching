@@ -54,7 +54,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   }, this);
 
   if (!found) {
-    throw new Error('did not find that function');
+    throw new Error('did not find that function', func, context, name, arguments);
   }
   this.eventMap[name] = newListeners;
 };

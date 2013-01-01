@@ -126,11 +126,19 @@ var ModalView = Backbone.View.extend({
     console.warn('stealing keyboard');
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
+
+    $('#commandTextField').blur();
   },
 
   releaseKeyboard: function() {
     Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
+  },
+
+  onWindowFocus: function(e) {
+    console.log('window focus doing nothing', e);
   },
 
   onKeyDown: function(e) {

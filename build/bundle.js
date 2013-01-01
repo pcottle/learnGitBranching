@@ -8872,7 +8872,6 @@ var init = function(){
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
-    console.log('focusing text area');
     $('#commandTextField').focus();
   };
   focusTextArea();
@@ -8923,14 +8922,7 @@ function UI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
-
-  $('#commandTextField').focus();
-  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
 }
-
-UI.prototype.onWindowFocus = function() {
-  this.commandPromptView.focus();
-};
 
 exports.getEvents = function() {
   return events;
@@ -14211,7 +14203,6 @@ var MultiView = Backbone.View.extend({
     // first we stop listening to keyboard and give that back to UI, which
     // other views will take if they need to
     this.keyboardListener.mute();
-    require('../app').getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
@@ -14224,7 +14215,6 @@ var MultiView = Backbone.View.extend({
 
   start: function() {
     // steal the window focus baton
-    require('../app').getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
     this.showViewIndex(this.currentIndex);
   },
 
@@ -14288,7 +14278,6 @@ var init = function(){
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
-    console.log('focusing text area');
     $('#commandTextField').focus();
   };
   focusTextArea();
@@ -14339,14 +14328,7 @@ function UI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
-
-  $('#commandTextField').focus();
-  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
 }
-
-UI.prototype.onWindowFocus = function() {
-  this.commandPromptView.focus();
-};
 
 exports.getEvents = function() {
   return events;
@@ -17953,7 +17935,6 @@ var MultiView = Backbone.View.extend({
     // first we stop listening to keyboard and give that back to UI, which
     // other views will take if they need to
     this.keyboardListener.mute();
-    require('../app').getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
 
     setTimeout(_.bind(function() {
       _.each(this.childViews, function(childView) {
@@ -17966,7 +17947,6 @@ var MultiView = Backbone.View.extend({
 
   start: function() {
     // steal the window focus baton
-    require('../app').getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
     this.showViewIndex(this.currentIndex);
   },
 
