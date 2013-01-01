@@ -8614,6 +8614,7 @@ require.define("/src/js/views/index.js",function(require,module,exports,__dirnam
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Main = require('../app');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -8724,12 +8725,32 @@ var ModalView = Backbone.View.extend({
 
   initialize: function(options) {
     this.render();
+    this.stealKeyboard();
   },
 
   render: function() {
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
+  },
+
+  stealKeyboard: function() {
+    console.warn('stealing keyboard');
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+  },
+
+  releaseKeyboard: function() {
+    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+  },
+
+  onKeyDown: function(e) {
+    e.preventDefault();
+  },
+
+  onKeyUp: function(e) {
+    e.preventDefault();
   },
 
   show: function() {
@@ -8762,6 +8783,7 @@ var ModalView = Backbone.View.extend({
   tearDown: function() {
     this.$el.html('');
     $('body')[0].removeChild(this.el);
+    this.releaseKeyboard();
   }
 });
 
@@ -8821,6 +8843,1077 @@ exports.ModalAlert = ModalAlert;
 exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
+
+
+});
+
+require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+/**
+ * Globals
+ */
+var events = _.clone(Backbone.Events);
+var ui;
+var mainVis;
+var eventBaton;
+
+///////////////////////////////////////////////////////////////////////
+
+var init = function(){
+  var Visualization = require('../visuals/visualization').Visualization;
+  var EventBaton = require('../util/eventBaton').EventBaton;
+
+  eventBaton = new EventBaton();
+  ui = new UI();
+  mainVis = new Visualization({
+    el: $('#canvasWrapper')[0]
+  });
+
+  // we always want to focus the text area to collect input
+  var focusTextArea = function() {
+    console.log('focusing text area');
+    $('#commandTextField').focus();
+  };
+  focusTextArea();
+
+  $(window).focus(focusTextArea);
+  $(document).click(focusTextArea);
+
+  // but when the input is fired in the text area, we pipe that to whoever is
+  // listenining
+  var makeKeyListener = function(name) {
+    return function() {
+      var args = [name];
+      _.each(arguments, function(arg) {
+        args.push(arg);
+      });
+      eventBaton.trigger.apply(eventBaton, args);
+    };
+  };
+
+  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
+  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
+
+  /* hacky demo functionality */
+  if (/\?demo/.test(window.location.href)) {
+    setTimeout(function() {
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+    }, 500);
+  }
+};
+
+$(document).ready(init);
+
+function UI() {
+  this.active = true;
+  var Collections = require('../models/collections');
+  var CommandViews = require('../views/commandViews');
+
+  this.commandCollection = new Collections.CommandCollection();
+  this.commandBuffer = new Collections.CommandBuffer({
+    collection: this.commandCollection
+  });
+
+  this.commandPromptView = new CommandViews.CommandPromptView({
+    el: $('#commandLineBar'),
+    collection: this.commandCollection
+  });
+  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
+    el: $('#commandLineHistory'),
+    collection: this.commandCollection
+  });
+
+  $('#commandTextField').focus();
+  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
+}
+
+UI.prototype.onWindowFocus = function() {
+  this.commandPromptView.focus();
+};
+
+exports.getEvents = function() {
+  return events;
+};
+
+exports.getUI = function() {
+  return ui;
+};
+
+exports.getMainVis = function() {
+  return mainVis;
+};
+
+exports.getEventBaton = function() {
+  return eventBaton;
+};
+
+exports.init = init;
+
+
+});
+
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
+  var argsToApply = [];
+  for (var i = 1; i < arguments.length; i++) {
+    argsToApply.push(arguments[i]);
+  }
+
+  var listeners = this.eventMap[name];
+  if (!listeners) {
+    console.warn('no listeners for', name);
+    return;
+  }
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  // might be in the middle of the stack
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func) {
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    throw new Error('did not find that function');
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
+
+
+});
+
+require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
+var Main = require('../app');
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
+
+var Errors = require('../util/errors');
+var Warning = Errors.Warning;
+
+var util = require('../util');
+var keyboard = require('../util/keyboard');
+
+var CommandPromptView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    // uses local storage
+    this.commands = new CommandEntryCollection();
+    this.commands.fetch({
+      success: _.bind(function() {
+        // reverse the commands. this is ugly but needs to be done...
+        var commands = [];
+        this.commands.each(function(c) {
+          commands.push(c);
+        });
+
+        commands.reverse();
+        this.commands.reset();
+
+        _.each(commands, function(c) {
+          this.commands.add(c);
+        }, this);
+      }, this)
+    });
+
+    this.index = -1;
+    this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandCursor = this.$('#prompt span.cursor')[0];
+    this.focus();
+
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
+
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+  },
+
+  events: {
+    'blur #commandTextField': 'hideCursor',
+    'focus #commandTextField': 'showCursor'
+  },
+
+  blur: function() {
+    this.hideCursor();
+  },
+
+  focus: function() {
+    this.$('#commandTextField').focus();
+    this.showCursor();
+  },
+
+  hideCursor: function() {
+    this.toggleCursor(false);
+  },
+
+  showCursor: function() {
+    this.toggleCursor(true);
+  },
+
+  toggleCursor: function(state) {
+    $(this.commandCursor).toggleClass('shown', state);
+  },
+
+  onKeyDown: function(e) {
+    var el = e.srcElement;
+    this.updatePrompt(el);
+  },
+
+  onKeyUp: function(e) {
+    this.onKeyDown(e);
+
+    // we need to capture some of these events.
+    var keyToFuncMap = {
+      enter: _.bind(function() {
+        this.submit();
+      }, this),
+      up: _.bind(function() {
+        this.commandSelectChange(1);
+      }, this),
+      down: _.bind(function() {
+        this.commandSelectChange(-1);
+      }, this)
+    };
+
+    var key = keyboard.mapKeycodeToKey(e.which);
+    if (keyToFuncMap[key] !== undefined) {
+      e.preventDefault();
+      keyToFuncMap[key]();
+      this.onKeyDown(e);
+    }
+  },
+
+  badHtmlEncode: function(text) {
+    return text.replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/</g,'&lt;')
+      .replace(/ /g,'&nbsp;')
+      .replace(/\n/g,'');
+  },
+
+  updatePrompt: function(el) {
+    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
+    // super annoying delay to every keystroke... I have tried everything
+    // to make this more performant. getting the srcElement from the event,
+    // getting the value directly from the dom, etc etc. yet still,
+    // there's a very annoying and sightly noticeable command delay.
+    // try.github.com also has this, so I'm assuming those engineers gave up as
+    // well...
+
+    var val = this.badHtmlEncode(el.value);
+    this.commandSpan.innerHTML = val;
+
+    // now mutate the cursor...
+    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    // and scroll down due to some weird bug
+    Main.getEvents().trigger('commandScrollDown');
+  },
+
+  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    // 10px for monospaced font...
+    var widthPerChar = 10;
+
+    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
+    var width = String(numCharsSelected * widthPerChar) + 'px';
+
+    // now for positioning
+    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var left = String(-numLeft * widthPerChar) + 'px';
+    // one reflow? :D
+    $(this.commandCursor).css({
+      width: width,
+      left: left
+    });
+  },
+
+  commandSelectChange: function(delta) {
+    this.index += delta;
+
+    // if we are over / under, display blank line. yes this eliminates your
+    // partially edited command, but i doubt that is much in this demo
+    if (this.index >= this.commands.length || this.index < 0) {
+      this.clear();
+      this.index = -1;
+      return;
+    }
+
+    // yay! we actually can display something
+    var commandEntry = this.commands.toArray()[this.index].get('text');
+    this.setTextField(commandEntry);
+  },
+
+  clearLocalStorage: function() {
+    this.commands.each(function(c) {
+      Backbone.sync('delete', c, function() { });
+    }, this);
+    localStorage.setItem('CommandEntries', '');
+  },
+
+  setTextField: function(value) {
+    this.$('#commandTextField').val(value);
+  },
+
+  clear: function() {
+    this.setTextField('');
+  },
+
+  submit: function() {
+    var value = this.$('#commandTextField').val().replace('\n', '');
+    this.clear();
+    this.submitValue(value);
+  },
+
+  rollupCommands: function(numBack) {
+    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    which.reverse();
+
+    var str = '';
+    _.each(which, function(commandEntry) {
+      str += commandEntry.get('text') + ';';
+    }, this);
+
+    console.log('the str', str);
+
+    var rolled = new CommandEntry({text: str});
+    this.commands.unshift(rolled);
+    Backbone.sync('create', rolled, function() { });
+  },
+
+  submitValue: function(value) {
+    // we should add the command to our local storage history
+    // if it's not a blank line and this is a new command...
+    // or if we edited the command in place
+    var shouldAdd = (value.length && this.index == -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (shouldAdd) {
+      var commandEntry = new CommandEntry({text: value});
+      this.commands.unshift(commandEntry);
+
+      // store to local storage
+      Backbone.sync('create', commandEntry, function() { });
+
+      // if our length is too egregious, reset
+      if (this.commands.length > 100) {
+        this.clearLocalStorage();
+      }
+    }
+    this.index = -1;
+
+    util.splitTextCommand(value, function(command) {
+      this.addToCollection(command);
+    }, this);
+  },
+
+  addToCollection: function(value) {
+    var command = new Command({
+      rawStr: value
+    });
+    this.collection.add(command);
+  }
+});
+
+// This is the view for all commands -- it will represent
+// their status (inqueue, processing, finished, error),
+// their value ("git commit --amend"),
+// and the result (either errors or warnings or whatever)
+var CommandView = Backbone.View.extend({
+  tagName: 'div',
+  model: Command,
+  template: _.template($('#command-template').html()),
+
+  events: {
+    'click': 'clicked'
+  },
+
+  clicked: function(e) {
+  },
+
+  initialize: function() {
+    this.model.bind('change', this.wasChanged, this);
+    this.model.bind('destroy', this.remove, this);
+  },
+
+  wasChanged: function(model, changeEvent) {
+    // for changes that are just comestic, we actually only want to toggle classes
+    // with jquery rather than brutally delete a html. doing so allows us
+    // to nicely fade things
+    var changes = changeEvent.changes;
+    var changeKeys = _.keys(changes);
+    if (_.difference(changeKeys, ['status']).length === 0) {
+      this.updateStatus();
+    } else {
+      this.render();
+    }
+  },
+
+  updateStatus: function() {
+    var statuses = ['inqueue', 'processing', 'finished'];
+    var toggleMap = {};
+    _.each(statuses, function(status) {
+      toggleMap[status] = false;
+    });
+    toggleMap[this.model.get('status')] = true;
+
+    var query = this.$('p.commandLine');
+
+    _.each(toggleMap, function(value, key) {
+      query.toggleClass(key, value);
+    });
+  },
+
+  render: function() {
+    var json = _.extend(
+      {
+        resultType: '',
+        result: '',
+        formattedWarnings: this.model.getFormattedWarnings()
+      },
+      this.model.toJSON()
+    );
+
+    this.$el.html(this.template(json));
+    return this;
+  },
+
+  remove: function() {
+    $(this.el).hide();
+  }
+});
+
+
+var CommandLineHistoryView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.on('all', this.render, this);
+
+    this.collection.on('change', this.scrollDown, this);
+
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+  },
+
+  addWarning: function(msg) {
+    var err = new Warning({
+      msg: msg
+    });
+
+    var command = new Command({
+      error: err,
+      rawStr: 'Warning:'
+    });
+
+    this.collection.add(command);
+  },
+
+  scrollDown: function() {
+    // if commandDisplay is ever bigger than #terminal, we need to
+    // add overflow-y to terminal and scroll down
+    var cD = $('#commandDisplay')[0];
+    var t = $('#terminal')[0];
+
+    if ($(t).hasClass('scrolling')) {
+      t.scrollTop = t.scrollHeight;
+      return;
+    }
+    if (cD.clientHeight > t.clientHeight) {
+      $(t).css('overflow-y', 'scroll');
+      $(t).css('overflow-x', 'hidden');
+      $(t).addClass('scrolling');
+      t.scrollTop = t.scrollHeight;
+    }
+  },
+
+  addOne: function(command) {
+    var view = new CommandView({
+      model: command
+    });
+    this.$('#commandDisplay').append(view.render().el);
+    this.scrollDown();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne);
+  }
+});
+
+exports.CommandPromptView = CommandPromptView;
+exports.CommandLineHistoryView = CommandLineHistoryView;
+
+});
+
+require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
+var GitOptionParser = GitCommands.GitOptionParser;
+
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
+    createTime: null,
+
+    error: null,
+    warnings: null,
+    parseWaterfall: new ParseWaterfall(),
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null
+
+  },
+
+  initialize: function(options) {
+    this.initDefaults();
+    this.validateAtInit();
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+
+    this.parseOrCatch();
+  },
+
+  initDefaults: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+  },
+
+  validateAtInit: function() {
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  parseOrCatch: function() {
+    this.expandShortcuts(this.get('rawStr'));
+    try {
+      this.processInstants();
+    } catch (err) {
+      Errors.filterError(err);
+      // errorChanged() will handle status and all of that
+      this.set('error', err);
+      return;
+    }
+
+    if (this.parseAll()) {
+      // something in our parse waterfall succeeded
+      return;
+    }
+
+    // if we reach here, this command is not supported :-/
+    this.set('error', new CommandProcessError({
+        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
+      })
+    );
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  expandShortcuts: function(str) {
+    str = this.get('parseWaterfall').expandAllShortcuts(str);
+    this.set('rawStr', str);
+  },
+
+  processInstants: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then instant commands that will throw
+    this.get('parseWaterfall').processAllInstants(str);
+  },
+
+  parseAll: function() {
+    var str = this.get('rawStr');
+    var results = this.get('parseWaterfall').parseAll(str);
+
+    if (!results) {
+      // nothing parsed successfully
+      return false;
+    }
+
+    _.each(results.toSet, function(obj, key) {
+      this.set(key, obj);
+    }, this);
+    return true;
+  }
+});
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
+  // stub out if no plugin available
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+});
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+
+});
+
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var shortcutMap = {
+  'git commit': /^gc($|\s)/,
+  'git add': /^ga($|\s)/,
+  'git checkout': /^go($|\s)/,
+  'git rebase': /^gr($|\s)/,
+  'git branch': /^gb($|\s)/,
+  'git status': /^gs($|\s)/,
+  'git help': /^git$/
+};
+
+var instantCommands = [
+  [/^git help($|\s)/, function() {
+    var lines = [
+      'Git Version PCOTTLE.1.0',
+      '<br/>',
+      'Usage:',
+      _.escape('\t git <command> [<args>]'),
+      '<br/>',
+      'Supported commands:',
+      '<br/>'
+    ];
+    var commands = GitOptionParser.prototype.getMasterOptionMap();
+
+    // build up a nice display of what we support
+    _.each(commands, function(commandOptions, command) {
+      lines.push('git ' + command);
+      _.each(commandOptions, function(vals, optionName) {
+        lines.push('\t ' + optionName);
+      }, this);
+    }, this);
+
+    // format and throw
+    var msg = lines.join('\n');
+    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+    throw new CommandResult({
+      msg: msg
+    });
+  }]
+];
+
+var regexMap = {
+  // ($|\s) means that we either have to end the string
+  // after the command or there needs to be a space for options
+  commit: /^commit($|\s)/,
+  add: /^add($|\s)/,
+  checkout: /^checkout($|\s)/,
+  rebase: /^rebase($|\s)/,
+  reset: /^reset($|\s)/,
+  branch: /^branch($|\s)/,
+  revert: /^revert($|\s)/,
+  log: /^log($|\s)/,
+  merge: /^merge($|\s)/,
+  show: /^show($|\s)/,
+  status: /^status($|\s)/,
+  'cherry-pick': /^cherry-pick($|\s)/
+};
+
+var parse = function(str) {
+  // now slice off command part
+  var fullCommand = str.slice('git '.length);
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(regexMap, function(regex, thisMethod) {
+    if (regex.exec(fullCommand)) {
+      options = fullCommand.slice(thisMethod.length + 1);
+      method = thisMethod;
+    }
+  }, this);
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new GitOptionParser(method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      method: method,
+      options: options
+    }
+  };
+};
+
+/**
+ * GitOptionParser
+ */
+function GitOptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+GitOptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+GitOptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
+exports.shortcutMap = shortcutMap;
+exports.instantCommands = instantCommands;
+exports.parse = parse;
+exports.regexMap = regexMap;
+
+});
+
+require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+var SandboxCommands = require('../level/SandboxCommands');
+
+// more or less a static class
+function ParseWaterfall(options) {
+  this.shortcutWaterfall = [
+    GitCommands.shortcutMap
+  ];
+
+  this.instantWaterfall = [
+    GitCommands.instantCommands,
+    SandboxCommands.instantCommands
+  ];
+
+  this.parseWaterfall = [
+    GitCommands.parse
+  ];
+}
+
+ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
+  _.each(this.shortcutWaterfall, function(shortcutMap) {
+    commandStr = this.expandShortcut(commandStr, shortcutMap);
+  }, this);
+  return commandStr;
+};
+
+ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
+  _.each(shortcutMap, function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
+ParseWaterfall.prototype.processAllInstants = function(commandStr) {
+  _.each(this.instantWaterfall, function(instantCommands) {
+    this.processInstant(commandStr, instantCommands);
+  }, this);
+};
+
+ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
+  _.each(instantCommands, function(tuple) {
+    var regex = tuple[0];
+    var results = regex.exec(commandStr);
+    if (results) {
+      // this will throw a result because it's an instant
+      tuple[1](results);
+    }
+  });
+};
+
+ParseWaterfall.prototype.parseAll = function(commandStr) {
+  var toReturn = false;
+  _.each(this.parseWaterfall, function(parseFunc) {
+    var results = parseFunc(commandStr);
+    if (results) {
+      toReturn = results;
+    }
+  }, this);
+
+  return toReturn;
+};
+
+exports.ParseWaterfall = ParseWaterfall;
+
+
+});
+
+require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+var GitOptionParser = GitCommands.GitOptionParser;
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var instantCommands = [
+  [/^ls/, function() {
+    throw new CommandResult({
+      msg: "DontWorryAboutFilesInThisDemo.txt"
+    });
+  }],
+  [/^cd/, function() {
+    throw new CommandResult({
+      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+    });
+  }],
+  [/^refresh$/, function() {
+    var events = require('../app').getEvents();
+
+    events.trigger('refreshTree');
+    throw new CommandResult({
+      msg: "Refreshing tree..."
+    });
+  }],
+  [/^rollup (\d+)$/, function(bits) {
+    var events = require('../app').getEvents();
+
+    // go roll up these commands by joining them with semicolons
+    events.trigger('rollupCommands', bits[1]);
+    throw new CommandResult({
+      msg: 'Commands combined!'
+    });
+  }]
+];
+
+exports.instantCommands = instantCommands;
+
+});
+
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var mapKeycodeToKey = function(keycode) {
+  // TODO -- internationalize? Dvorak? I have no idea
+  var keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  return keyMap[keycode];
+};
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keydownListener = _.bind(this.keydown, this);
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
+    return;
+  }
+
+  this.fireEvent(key);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
+exports.mapKeycodeToKey = mapKeycodeToKey;
 
 
 });
@@ -10985,1077 +12078,6 @@ EventEmitter.prototype.listeners = function(type) {
   }
   return this._events[type];
 };
-
-});
-
-require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
-
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
-
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var Command = Backbone.Model.extend({
-  defaults: {
-    status: 'inqueue',
-    rawStr: null,
-    result: '',
-    createTime: null,
-
-    error: null,
-    warnings: null,
-    parseWaterfall: new ParseWaterfall(),
-
-    generalArgs: null,
-    supportedMap: null,
-    options: null,
-    method: null
-
-  },
-
-  initialize: function(options) {
-    this.initDefaults();
-    this.validateAtInit();
-
-    this.on('change:error', this.errorChanged, this);
-    // catch errors on init
-    if (this.get('error')) {
-      this.errorChanged();
-    }
-
-    this.parseOrCatch();
-  },
-
-  initDefaults: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-  },
-
-  validateAtInit: function() {
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-  },
-
-  setResult: function(msg) {
-    this.set('result', msg);
-  },
-
-  addWarning: function(msg) {
-    this.get('warnings').push(msg);
-    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
-    // detect if an array changes, so adding an element does nothing
-    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
-  },
-
-  getFormattedWarnings: function() {
-    if (!this.get('warnings').length) {
-      return '';
-    }
-    var i = '<i class="icon-exclamation-sign"></i>';
-    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
-  },
-
-  parseOrCatch: function() {
-    this.expandShortcuts(this.get('rawStr'));
-    try {
-      this.processInstants();
-    } catch (err) {
-      Errors.filterError(err);
-      // errorChanged() will handle status and all of that
-      this.set('error', err);
-      return;
-    }
-
-    if (this.parseAll()) {
-      // something in our parse waterfall succeeded
-      return;
-    }
-
-    // if we reach here, this command is not supported :-/
-    this.set('error', new CommandProcessError({
-        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
-      })
-    );
-  },
-
-  errorChanged: function() {
-    var err = this.get('error');
-    if (err instanceof CommandProcessError ||
-        err instanceof GitError) {
-      this.set('status', 'error');
-    } else if (err instanceof CommandResult) {
-      this.set('status', 'finished');
-    } else if (err instanceof Warning) {
-      this.set('status', 'warning');
-    }
-    this.formatError();
-  },
-
-  formatError: function() {
-    this.set('result', this.get('error').toResult());
-  },
-
-  expandShortcuts: function(str) {
-    str = this.get('parseWaterfall').expandAllShortcuts(str);
-    this.set('rawStr', str);
-  },
-
-  processInstants: function() {
-    var str = this.get('rawStr');
-    // first if the string is empty, they just want a blank line
-    if (!str.length) {
-      throw new CommandResult({msg: ""});
-    }
-
-    // then instant commands that will throw
-    this.get('parseWaterfall').processAllInstants(str);
-  },
-
-  parseAll: function() {
-    var str = this.get('rawStr');
-    var results = this.get('parseWaterfall').parseAll(str);
-
-    if (!results) {
-      // nothing parsed successfully
-      return false;
-    }
-
-    _.each(results.toSet, function(obj, key) {
-      this.set(key, obj);
-    }, this);
-    return true;
-  }
-});
-
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
-  defaults: {
-    text: ''
-  },
-  // stub out if no plugin available
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
-});
-
-exports.CommandEntry = CommandEntry;
-exports.Command = Command;
-
-});
-
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var shortcutMap = {
-  'git commit': /^gc($|\s)/,
-  'git add': /^ga($|\s)/,
-  'git checkout': /^go($|\s)/,
-  'git rebase': /^gr($|\s)/,
-  'git branch': /^gb($|\s)/,
-  'git status': /^gs($|\s)/,
-  'git help': /^git$/
-};
-
-var instantCommands = [
-  [/^git help($|\s)/, function() {
-    var lines = [
-      'Git Version PCOTTLE.1.0',
-      '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
-      '<br/>',
-      'Supported commands:',
-      '<br/>'
-    ];
-    var commands = GitOptionParser.prototype.getMasterOptionMap();
-
-    // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
-      lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
-        lines.push('\t ' + optionName);
-      }, this);
-    }, this);
-
-    // format and throw
-    var msg = lines.join('\n');
-    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-    throw new CommandResult({
-      msg: msg
-    });
-  }]
-];
-
-var regexMap = {
-  // ($|\s) means that we either have to end the string
-  // after the command or there needs to be a space for options
-  commit: /^commit($|\s)/,
-  add: /^add($|\s)/,
-  checkout: /^checkout($|\s)/,
-  rebase: /^rebase($|\s)/,
-  reset: /^reset($|\s)/,
-  branch: /^branch($|\s)/,
-  revert: /^revert($|\s)/,
-  log: /^log($|\s)/,
-  merge: /^merge($|\s)/,
-  show: /^show($|\s)/,
-  status: /^status($|\s)/,
-  'cherry-pick': /^cherry-pick($|\s)/
-};
-
-var parse = function(str) {
-  // now slice off command part
-  var fullCommand = str.slice('git '.length);
-  var method;
-  var options;
-
-  // see if we support this particular command
-  _.each(regexMap, function(regex, thisMethod) {
-    if (regex.exec(fullCommand)) {
-      options = fullCommand.slice(thisMethod.length + 1);
-      method = thisMethod;
-    }
-  }, this);
-
-  if (!method) {
-    return false;
-  }
-
-  // we support this command!
-  // parse off the options and assemble the map / general args
-  var parsedOptions = new GitOptionParser(method, options);
-  return {
-    toSet: {
-      generalArgs: parsedOptions.generalArgs,
-      supportedMap: parsedOptions.supportedMap,
-      method: method,
-      options: options
-    }
-  };
-};
-
-/**
- * GitOptionParser
- */
-function GitOptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = this.getMasterOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-GitOptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {}
-  };
-};
-
-GitOptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes
-
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-};
-
-exports.shortcutMap = shortcutMap;
-exports.instantCommands = instantCommands;
-exports.parse = parse;
-exports.regexMap = regexMap;
-
-});
-
-require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-var SandboxCommands = require('../level/SandboxCommands');
-
-// more or less a static class
-function ParseWaterfall(options) {
-  this.shortcutWaterfall = [
-    GitCommands.shortcutMap
-  ];
-
-  this.instantWaterfall = [
-    GitCommands.instantCommands,
-    SandboxCommands.instantCommands
-  ];
-
-  this.parseWaterfall = [
-    GitCommands.parse
-  ];
-}
-
-ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
-  _.each(this.shortcutWaterfall, function(shortcutMap) {
-    commandStr = this.expandShortcut(commandStr, shortcutMap);
-  }, this);
-  return commandStr;
-};
-
-ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
-    }
-  });
-  return commandStr;
-};
-
-ParseWaterfall.prototype.processAllInstants = function(commandStr) {
-  _.each(this.instantWaterfall, function(instantCommands) {
-    this.processInstant(commandStr, instantCommands);
-  }, this);
-};
-
-ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  _.each(instantCommands, function(tuple) {
-    var regex = tuple[0];
-    var results = regex.exec(commandStr);
-    if (results) {
-      // this will throw a result because it's an instant
-      tuple[1](results);
-    }
-  });
-};
-
-ParseWaterfall.prototype.parseAll = function(commandStr) {
-  var toReturn = false;
-  _.each(this.parseWaterfall, function(parseFunc) {
-    var results = parseFunc(commandStr);
-    if (results) {
-      toReturn = results;
-    }
-  }, this);
-
-  return toReturn;
-};
-
-exports.ParseWaterfall = ParseWaterfall;
-
-
-});
-
-require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
-
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var instantCommands = [
-  [/^ls/, function() {
-    throw new CommandResult({
-      msg: "DontWorryAboutFilesInThisDemo.txt"
-    });
-  }],
-  [/^cd/, function() {
-    throw new CommandResult({
-      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-    });
-  }],
-  [/^refresh$/, function() {
-    var events = require('../app').getEvents();
-
-    events.trigger('refreshTree');
-    throw new CommandResult({
-      msg: "Refreshing tree..."
-    });
-  }],
-  [/^rollup (\d+)$/, function(bits) {
-    var events = require('../app').getEvents();
-
-    // go roll up these commands by joining them with semicolons
-    events.trigger('rollupCommands', bits[1]);
-    throw new CommandResult({
-      msg: 'Commands combined!'
-    });
-  }]
-];
-
-exports.instantCommands = instantCommands;
-
-});
-
-require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-/**
- * Globals
- */
-var events = _.clone(Backbone.Events);
-var ui;
-var mainVis;
-var eventBaton;
-
-///////////////////////////////////////////////////////////////////////
-
-var init = function(){
-  var Visualization = require('../visuals/visualization').Visualization;
-  var EventBaton = require('../util/eventBaton').EventBaton;
-
-  eventBaton = new EventBaton();
-  ui = new UI();
-  mainVis = new Visualization({
-    el: $('#canvasWrapper')[0]
-  });
-
-  // we always want to focus the text area to collect input
-  var focusTextArea = function() {
-    console.log('focusing text area');
-    $('#commandTextField').focus();
-  };
-  focusTextArea();
-
-  $(window).focus(focusTextArea);
-  $(document).click(focusTextArea);
-
-  // but when the input is fired in the text area, we pipe that to whoever is
-  // listenining
-  var makeKeyListener = function(name) {
-    return function() {
-      var args = [name];
-      _.each(arguments, function(arg) {
-        args.push(arg);
-      });
-      eventBaton.trigger.apply(eventBaton, args);
-    };
-  };
-
-  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
-  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
-
-  /* hacky demo functionality */
-  if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
-    }, 500);
-  }
-};
-
-$(document).ready(init);
-
-function UI() {
-  this.active = true;
-  var Collections = require('../models/collections');
-  var CommandViews = require('../views/commandViews');
-
-  this.commandCollection = new Collections.CommandCollection();
-  this.commandBuffer = new Collections.CommandBuffer({
-    collection: this.commandCollection
-  });
-
-  this.commandPromptView = new CommandViews.CommandPromptView({
-    el: $('#commandLineBar'),
-    collection: this.commandCollection
-  });
-  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
-
-  $('#commandTextField').focus();
-  eventBaton.stealBaton('windowFocus', this.onWindowFocus, this);
-}
-
-UI.prototype.onWindowFocus = function() {
-  this.commandPromptView.focus();
-};
-
-exports.getEvents = function() {
-  return events;
-};
-
-exports.getUI = function() {
-  return ui;
-};
-
-exports.getMainVis = function() {
-  return mainVis;
-};
-
-exports.getEventBaton = function() {
-  return eventBaton;
-};
-
-exports.init = init;
-
-
-});
-
-require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-function EventBaton() {
-  this.eventMap = {};
-}
-
-// this method steals the "baton" -- aka, only this method will now
-// get called. analogous to events.on
-// EventBaton.prototype.on = function(name, func, context) {
-EventBaton.prototype.stealBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-
-  var listeners = this.eventMap[name] || [];
-  listeners.push({
-    func: func,
-    context: context
-  });
-  this.eventMap[name] = listeners;
-};
-
-EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
-  var argsToApply = [];
-  for (var i = 1; i < arguments.length; i++) {
-    argsToApply.push(arguments[i]);
-  }
-
-  var listeners = this.eventMap[name];
-  if (!listeners) {
-    console.warn('no listeners for', name);
-    return;
-  }
-  // call the top most listener with context and such
-  var toCall = listeners.slice(-1)[0];
-  toCall.func.apply(toCall.context, argsToApply);
-};
-
-EventBaton.prototype.releaseBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-  // might be in the middle of the stack
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    throw new Error('no one has that baton!' + name);
-  }
-
-  var newListeners = [];
-  var found = false;
-  _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func) {
-      found = true;
-    } else {
-      newListeners.push(listenerObj);
-    }
-  }, this);
-
-  if (!found) {
-    throw new Error('did not find that function');
-  }
-  this.eventMap[name] = newListeners;
-};
-
-exports.EventBaton = EventBaton;
-
-
-});
-
-require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
-var Main = require('../app');
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
-
-var Errors = require('../util/errors');
-var Warning = Errors.Warning;
-
-var util = require('../util');
-var keyboard = require('../util/keyboard');
-
-var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
-
-    this.index = -1;
-    this.commandSpan = this.$('#prompt span.command')[0];
-    this.commandCursor = this.$('#prompt span.cursor')[0];
-    this.focus();
-
-    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
-    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
-    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
-
-    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
-  },
-
-  events: {
-    'blur #commandTextField': 'hideCursor',
-    'focus #commandTextField': 'showCursor'
-  },
-
-  blur: function() {
-    this.hideCursor();
-  },
-
-  focus: function() {
-    this.$('#commandTextField').focus();
-    this.showCursor();
-  },
-
-  hideCursor: function() {
-    this.toggleCursor(false);
-  },
-
-  showCursor: function() {
-    this.toggleCursor(true);
-  },
-
-  toggleCursor: function(state) {
-    $(this.commandCursor).toggleClass('shown', state);
-  },
-
-  onKeyDown: function(e) {
-    var el = e.srcElement;
-    this.updatePrompt(el);
-  },
-
-  onKeyUp: function(e) {
-    this.onKeyDown(e);
-
-    // we need to capture some of these events.
-    var keyToFuncMap = {
-      enter: _.bind(function() {
-        this.submit();
-      }, this),
-      up: _.bind(function() {
-        this.commandSelectChange(1);
-      }, this),
-      down: _.bind(function() {
-        this.commandSelectChange(-1);
-      }, this)
-    };
-
-    var key = keyboard.mapKeycodeToKey(e.which);
-    if (keyToFuncMap[key] !== undefined) {
-      e.preventDefault();
-      keyToFuncMap[key]();
-      this.onKeyDown(e);
-    }
-  },
-
-  badHtmlEncode: function(text) {
-    return text.replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/</g,'&lt;')
-      .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'');
-  },
-
-  updatePrompt: function(el) {
-    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
-    // super annoying delay to every keystroke... I have tried everything
-    // to make this more performant. getting the srcElement from the event,
-    // getting the value directly from the dom, etc etc. yet still,
-    // there's a very annoying and sightly noticeable command delay.
-    // try.github.com also has this, so I'm assuming those engineers gave up as
-    // well...
-
-    var val = this.badHtmlEncode(el.value);
-    this.commandSpan.innerHTML = val;
-
-    // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
-    // and scroll down due to some weird bug
-    Main.getEvents().trigger('commandScrollDown');
-  },
-
-  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    // 10px for monospaced font...
-    var widthPerChar = 10;
-
-    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
-    var width = String(numCharsSelected * widthPerChar) + 'px';
-
-    // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
-    var left = String(-numLeft * widthPerChar) + 'px';
-    // one reflow? :D
-    $(this.commandCursor).css({
-      width: width,
-      left: left
-    });
-  },
-
-  commandSelectChange: function(delta) {
-    this.index += delta;
-
-    // if we are over / under, display blank line. yes this eliminates your
-    // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
-      this.clear();
-      this.index = -1;
-      return;
-    }
-
-    // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
-    this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
-    localStorage.setItem('CommandEntries', '');
-  },
-
-  setTextField: function(value) {
-    this.$('#commandTextField').val(value);
-  },
-
-  clear: function() {
-    this.setTextField('');
-  },
-
-  submit: function() {
-    var value = this.$('#commandTextField').val().replace('\n', '');
-    this.clear();
-    this.submitValue(value);
-  },
-
-  rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
-    which.reverse();
-
-    var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
-    }, this);
-
-    console.log('the str', str);
-
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
-  },
-
-  submitValue: function(value) {
-    // we should add the command to our local storage history
-    // if it's not a blank line and this is a new command...
-    // or if we edited the command in place
-    var shouldAdd = (value.length && this.index == -1) ||
-      ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
-
-    if (shouldAdd) {
-      var commandEntry = new CommandEntry({text: value});
-      this.commands.unshift(commandEntry);
-
-      // store to local storage
-      Backbone.sync('create', commandEntry, function() { });
-
-      // if our length is too egregious, reset
-      if (this.commands.length > 100) {
-        this.clearLocalStorage();
-      }
-    }
-    this.index = -1;
-
-    util.splitTextCommand(value, function(command) {
-      this.addToCollection(command);
-    }, this);
-  },
-
-  addToCollection: function(value) {
-    var command = new Command({
-      rawStr: value
-    });
-    this.collection.add(command);
-  }
-});
-
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html. doing so allows us
-    // to nicely fade things
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']).length === 0) {
-      this.updateStatus();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-
-    Main.getEvents().on('issueWarning', this.addWarning, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
-exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
-
-});
-
-require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var mapKeycodeToKey = function(keycode) {
-  // TODO -- internationalize? Dvorak? I have no idea
-  var keyMap = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-    27: 'esc',
-    13: 'enter'
-  };
-  return keyMap[keycode];
-};
-
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
-}
-
-KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
-
-  var key = mapKeycodeToKey(which);
-  if (key === undefined) {
-    return;
-  }
-
-  this.fireEvent(key);
-};
-
-KeyboardListener.prototype.fireEvent = function(eventName) {
-  eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
-};
-
-exports.KeyboardListener = KeyboardListener;
-exports.mapKeycodeToKey = mapKeycodeToKey;
-
 
 });
 
@@ -17571,6 +17593,7 @@ require.define("/src/js/views/index.js",function(require,module,exports,__dirnam
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Main = require('../app');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -17681,12 +17704,32 @@ var ModalView = Backbone.View.extend({
 
   initialize: function(options) {
     this.render();
+    this.stealKeyboard();
   },
 
   render: function() {
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
+  },
+
+  stealKeyboard: function() {
+    console.warn('stealing keyboard');
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+  },
+
+  releaseKeyboard: function() {
+    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+  },
+
+  onKeyDown: function(e) {
+    e.preventDefault();
+  },
+
+  onKeyUp: function(e) {
+    e.preventDefault();
   },
 
   show: function() {
@@ -17719,6 +17762,7 @@ var ModalView = Backbone.View.extend({
   tearDown: function() {
     this.$el.html('');
     $('body')[0].removeChild(this.el);
+    this.releaseKeyboard();
   }
 });
 

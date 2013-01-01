@@ -2,6 +2,7 @@ var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Main = require('../app');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -112,12 +113,32 @@ var ModalView = Backbone.View.extend({
 
   initialize: function(options) {
     this.render();
+    this.stealKeyboard();
   },
 
   render: function() {
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
+  },
+
+  stealKeyboard: function() {
+    console.warn('stealing keyboard');
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+  },
+
+  releaseKeyboard: function() {
+    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+  },
+
+  onKeyDown: function(e) {
+    e.preventDefault();
+  },
+
+  onKeyUp: function(e) {
+    e.preventDefault();
   },
 
   show: function() {
@@ -150,6 +171,7 @@ var ModalView = Backbone.View.extend({
   tearDown: function() {
     this.$el.html('');
     $('body')[0].removeChild(this.el);
+    this.releaseKeyboard();
   }
 });
 
