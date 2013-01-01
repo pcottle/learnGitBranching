@@ -129,6 +129,8 @@ var ModalView = Backbone.View.extend({
     Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
     Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
 
+    // blur the text input field so keydown events will not be caught by our
+    // preventDefaulters, allowing people to still refresh and launch inspector (etc)
     $('#commandTextField').blur();
   },
 
@@ -137,6 +139,8 @@ var ModalView = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
     Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
     Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
+
+    Main.getEventBaton().trigger('windowFocus');
   },
 
   onWindowFocus: function(e) {
