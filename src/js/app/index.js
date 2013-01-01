@@ -21,10 +21,30 @@ var init = function(){
     el: $('#canvasWrapper')[0]
   });
 
-  // set up event baton for certain things
-  $(window).focus(function() {
-    eventBaton.trigger('windowFocus');
-  });
+  // we always want to focus the text area to collect input
+  var focusTextArea = function() {
+    console.log('focusing text area');
+    $('#commandTextField').focus();
+  };
+  focusTextArea();
+
+  $(window).focus(focusTextArea);
+  $(document).click(focusTextArea);
+
+  // but when the input is fired in the text area, we pipe that to whoever is
+  // listenining
+  var makeKeyListener = function(name) {
+    return function() {
+      var args = [name];
+      _.each(arguments, function(arg) {
+        args.push(arg);
+      });
+      eventBaton.trigger.apply(eventBaton, args);
+    };
+  };
+
+  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
+  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
 
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {

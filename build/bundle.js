@@ -11487,10 +11487,30 @@ var init = function(){
     el: $('#canvasWrapper')[0]
   });
 
-  // set up event baton for certain things
-  $(window).focus(function() {
-    eventBaton.trigger('windowFocus');
-  });
+  // we always want to focus the text area to collect input
+  var focusTextArea = function() {
+    console.log('focusing text area');
+    $('#commandTextField').focus();
+  };
+  focusTextArea();
+
+  $(window).focus(focusTextArea);
+  $(document).click(focusTextArea);
+
+  // but when the input is fired in the text area, we pipe that to whoever is
+  // listenining
+  var makeKeyListener = function(name) {
+    return function() {
+      var args = [name];
+      _.each(arguments, function(arg) {
+        args.push(arg);
+      });
+      eventBaton.trigger.apply(eventBaton, args);
+    };
+  };
+
+  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
+  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
 
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
@@ -11579,6 +11599,7 @@ EventBaton.prototype.trigger = function(name) {
 
   var listeners = this.eventMap[name];
   if (!listeners) {
+    console.warn('no listeners for', name);
     return;
   }
   // call the top most listener with context and such
@@ -11654,46 +11675,28 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
-    this.listening = false;
-
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
-
-    // this is evil, but we will refer to HTML outside the view
-    // and attach a click event listener so we can focus / unfocus
-    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
-      this.focus();
-    }, this));
-
-
-    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
-      this.blur();
-    }, this));
+    this.focus();
 
     Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
     Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
-    // hacky timeout focus
-    setTimeout(_.bind(function() {
-      this.focus();
-    }, this), 100);
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
   },
 
   events: {
-    'keydown #commandTextField': 'onKey',
-    'keyup #commandTextField': 'onKeyUp',
     'blur #commandTextField': 'hideCursor',
     'focus #commandTextField': 'showCursor'
   },
 
   blur: function() {
-    this.listening = false;
     this.hideCursor();
   },
 
   focus: function() {
-    this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
   },
@@ -11710,21 +11713,13 @@ var CommandPromptView = Backbone.View.extend({
     $(this.commandCursor).toggleClass('shown', state);
   },
 
-  onKey: function(e) {
-    if (!this.listening) {
-      return;
-    }
-
+  onKeyDown: function(e) {
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
-    if (!this.listening) {
-      return;
-    }
-
-    this.onKey(e);
+    this.onKeyDown(e);
 
     // we need to capture some of these events.
     var keyToFuncMap = {
@@ -11743,7 +11738,7 @@ var CommandPromptView = Backbone.View.extend({
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
-      this.onKey(e);
+      this.onKeyDown(e);
     }
   },
 
@@ -12044,7 +12039,6 @@ KeyboardListener.prototype.mute = function() {
 
 KeyboardListener.prototype.keydown = function(e) {
   var which = e.which;
-  console.log('key which', which);
 
   var key = mapKeycodeToKey(which);
   if (key === undefined) {
@@ -12061,6 +12055,7 @@ KeyboardListener.prototype.fireEvent = function(eventName) {
 
 exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
+
 
 });
 
@@ -14269,10 +14264,30 @@ var init = function(){
     el: $('#canvasWrapper')[0]
   });
 
-  // set up event baton for certain things
-  $(window).focus(function() {
-    eventBaton.trigger('windowFocus');
-  });
+  // we always want to focus the text area to collect input
+  var focusTextArea = function() {
+    console.log('focusing text area');
+    $('#commandTextField').focus();
+  };
+  focusTextArea();
+
+  $(window).focus(focusTextArea);
+  $(document).click(focusTextArea);
+
+  // but when the input is fired in the text area, we pipe that to whoever is
+  // listenining
+  var makeKeyListener = function(name) {
+    return function() {
+      var args = [name];
+      _.each(arguments, function(arg) {
+        args.push(arg);
+      });
+      eventBaton.trigger.apply(eventBaton, args);
+    };
+  };
+
+  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
+  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
 
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
@@ -17047,6 +17062,7 @@ EventBaton.prototype.trigger = function(name) {
 
   var listeners = this.eventMap[name];
   if (!listeners) {
+    console.warn('no listeners for', name);
     return;
   }
   // call the top most listener with context and such
@@ -17146,7 +17162,6 @@ KeyboardListener.prototype.mute = function() {
 
 KeyboardListener.prototype.keydown = function(e) {
   var which = e.which;
-  console.log('key which', which);
 
   var key = mapKeycodeToKey(which);
   if (key === undefined) {
@@ -17163,6 +17178,7 @@ KeyboardListener.prototype.fireEvent = function(eventName) {
 
 exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
+
 
 });
 require("/src/js/util/keyboard.js");
@@ -17220,46 +17236,28 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
-    this.listening = false;
-
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
-
-    // this is evil, but we will refer to HTML outside the view
-    // and attach a click event listener so we can focus / unfocus
-    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
-      this.focus();
-    }, this));
-
-
-    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
-      this.blur();
-    }, this));
+    this.focus();
 
     Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
     Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
-    // hacky timeout focus
-    setTimeout(_.bind(function() {
-      this.focus();
-    }, this), 100);
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
   },
 
   events: {
-    'keydown #commandTextField': 'onKey',
-    'keyup #commandTextField': 'onKeyUp',
     'blur #commandTextField': 'hideCursor',
     'focus #commandTextField': 'showCursor'
   },
 
   blur: function() {
-    this.listening = false;
     this.hideCursor();
   },
 
   focus: function() {
-    this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
   },
@@ -17276,21 +17274,13 @@ var CommandPromptView = Backbone.View.extend({
     $(this.commandCursor).toggleClass('shown', state);
   },
 
-  onKey: function(e) {
-    if (!this.listening) {
-      return;
-    }
-
+  onKeyDown: function(e) {
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
-    if (!this.listening) {
-      return;
-    }
-
-    this.onKey(e);
+    this.onKeyDown(e);
 
     // we need to capture some of these events.
     var keyToFuncMap = {
@@ -17309,7 +17299,7 @@ var CommandPromptView = Backbone.View.extend({
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
-      this.onKey(e);
+      this.onKeyDown(e);
     }
   },
 

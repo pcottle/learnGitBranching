@@ -32,7 +32,6 @@ KeyboardListener.prototype.mute = function() {
 
 KeyboardListener.prototype.keydown = function(e) {
   var which = e.which;
-  console.log('key which', which);
 
   var key = mapKeycodeToKey(which);
   if (key === undefined) {
@@ -49,3 +48,4 @@ KeyboardListener.prototype.fireEvent = function(eventName) {
 
 exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
+

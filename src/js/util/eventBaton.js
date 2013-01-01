@@ -27,6 +27,7 @@ EventBaton.prototype.trigger = function(name) {
 
   var listeners = this.eventMap[name];
   if (!listeners) {
+    console.warn('no listeners for', name);
     return;
   }
   // call the top most listener with context and such

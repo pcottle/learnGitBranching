@@ -37,46 +37,28 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
-    this.listening = false;
-
     this.commandSpan = this.$('#prompt span.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
-
-    // this is evil, but we will refer to HTML outside the view
-    // and attach a click event listener so we can focus / unfocus
-    $(document).delegate('#commandLineHistory', 'click', _.bind(function() {
-      this.focus();
-    }, this));
-
-
-    $(document).delegate('#commandTextField', 'blur', _.bind(function() {
-      this.blur();
-    }, this));
+    this.focus();
 
     Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
     Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
-    // hacky timeout focus
-    setTimeout(_.bind(function() {
-      this.focus();
-    }, this), 100);
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
   },
 
   events: {
-    'keydown #commandTextField': 'onKey',
-    'keyup #commandTextField': 'onKeyUp',
     'blur #commandTextField': 'hideCursor',
     'focus #commandTextField': 'showCursor'
   },
 
   blur: function() {
-    this.listening = false;
     this.hideCursor();
   },
 
   focus: function() {
-    this.listening = true;
     this.$('#commandTextField').focus();
     this.showCursor();
   },
@@ -93,21 +75,13 @@ var CommandPromptView = Backbone.View.extend({
     $(this.commandCursor).toggleClass('shown', state);
   },
 
-  onKey: function(e) {
-    if (!this.listening) {
-      return;
-    }
-
+  onKeyDown: function(e) {
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
-    if (!this.listening) {
-      return;
-    }
-
-    this.onKey(e);
+    this.onKeyDown(e);
 
     // we need to capture some of these events.
     var keyToFuncMap = {
@@ -126,7 +100,7 @@ var CommandPromptView = Backbone.View.extend({
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
-      this.onKey(e);
+      this.onKeyDown(e);
     }
   },
 
