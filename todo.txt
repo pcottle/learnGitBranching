@@ -10,6 +10,10 @@ Medium things:
 
 Commands
 ========
+[ ] move command creation outside of the command view so multiple things
+    can be responsible for specifying the waterfall associated with a command!
+[ ] make some kind of "single listener" event system... will make keyboard stuff easy
+    because then you just steal and release for modals and such
 [ ] multiple things can process!!!
 [ ] sip from buffer with post-command hooks. ideally the git engine
     knows nothing about the level being played
