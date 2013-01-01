@@ -5,8 +5,9 @@ var Backbone = require('backbone');
  * Globals
  */
 var events = _.clone(Backbone.Events);
-var ui = null;
-var mainVis = null;
+var ui;
+var mainVis;
+var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -17,6 +18,8 @@ var init = function(){
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
+  var EventBaton = require('../util/eventBaton').EventBaton;
+  eventBaton = new EventBaton();
 
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
@@ -76,6 +79,10 @@ exports.getUI = function() {
 
 exports.getMainVis = function() {
   return mainVis;
+};
+
+exports.getEventBaton = function() {
+  return eventBaton;
 };
 
 exports.init = init;

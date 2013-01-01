@@ -43,14 +43,11 @@ ParseWaterfall.prototype.processAllInstants = function(commandStr) {
 };
 
 ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  console.log('processing', commandStr, 'with', instantCommands);
   _.each(instantCommands, function(tuple) {
     var regex = tuple[0];
-    console.log('the regex', regex);
     var results = regex.exec(commandStr);
     if (results) {
-      console.log('results', results);
-      // this will throw a result
+      // this will throw a result because it's an instant
       tuple[1](results);
     }
   });
@@ -69,3 +66,4 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 };
 
 exports.ParseWaterfall = ParseWaterfall;
+

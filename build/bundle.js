@@ -11392,14 +11392,11 @@ ParseWaterfall.prototype.processAllInstants = function(commandStr) {
 };
 
 ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  console.log('processing', commandStr, 'with', instantCommands);
   _.each(instantCommands, function(tuple) {
     var regex = tuple[0];
-    console.log('the regex', regex);
     var results = regex.exec(commandStr);
     if (results) {
-      console.log('results', results);
-      // this will throw a result
+      // this will throw a result because it's an instant
       tuple[1](results);
     }
   });
@@ -11418,6 +11415,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 };
 
 exports.ParseWaterfall = ParseWaterfall;
+
 
 });
 
@@ -11473,8 +11471,9 @@ var Backbone = require('backbone');
  * Globals
  */
 var events = _.clone(Backbone.Events);
-var ui = null;
-var mainVis = null;
+var ui;
+var mainVis;
+var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -11485,6 +11484,8 @@ var init = function(){
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
+  var EventBaton = require('../util/eventBaton').EventBaton;
+  eventBaton = new EventBaton();
 
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
@@ -11546,7 +11547,77 @@ exports.getMainVis = function() {
   return mainVis;
 };
 
+exports.getEventBaton = function() {
+  return eventBaton;
+};
+
 exports.init = init;
+
+
+});
+
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  var argsToApply = [];
+  for (var i = 1; i < arguments.length; i++) {
+    argsToApply.push(arguments[i]);
+  }
+
+  // get the last one
+  var listeners = this.eventMap[name];
+  if (!listeners) {
+    console.warn('no listeners for that event', name);
+    return;
+  }
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  // might be in the middle of the stack
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func) {
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    throw new Error('did not find that function');
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
 
 
 });
@@ -13884,7 +13955,6 @@ InputWaterfall.prototype.mute = function() {
 };
 
 InputWaterfall.prototype.process = function(command, callback) {
-  console.log('processing', command.get('rawStr'));
 
   if (this.checkDisabledMap(command)) {
     callback();
@@ -14185,8 +14255,9 @@ var Backbone = require('backbone');
  * Globals
  */
 var events = _.clone(Backbone.Events);
-var ui = null;
-var mainVis = null;
+var ui;
+var mainVis;
+var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -14197,6 +14268,8 @@ var init = function(){
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
+  var EventBaton = require('../util/eventBaton').EventBaton;
+  eventBaton = new EventBaton();
 
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
@@ -14256,6 +14329,10 @@ exports.getUI = function() {
 
 exports.getMainVis = function() {
   return mainVis;
+};
+
+exports.getEventBaton = function() {
+  return eventBaton;
 };
 
 exports.init = init;
@@ -16351,7 +16428,6 @@ InputWaterfall.prototype.mute = function() {
 };
 
 InputWaterfall.prototype.process = function(command, callback) {
-  console.log('processing', command.get('rawStr'));
 
   if (this.checkDisabledMap(command)) {
     callback();
@@ -16449,14 +16525,11 @@ ParseWaterfall.prototype.processAllInstants = function(commandStr) {
 };
 
 ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  console.log('processing', commandStr, 'with', instantCommands);
   _.each(instantCommands, function(tuple) {
     var regex = tuple[0];
-    console.log('the regex', regex);
     var results = regex.exec(commandStr);
     if (results) {
-      console.log('results', results);
-      // this will throw a result
+      // this will throw a result because it's an instant
       tuple[1](results);
     }
   });
@@ -16475,6 +16548,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 };
 
 exports.ParseWaterfall = ParseWaterfall;
+
 
 });
 require("/src/js/level/parseWaterfall.js");
@@ -16951,6 +17025,73 @@ exports.filterError = filterError;
 
 });
 require("/src/js/util/errors.js");
+
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  var argsToApply = [];
+  for (var i = 1; i < arguments.length; i++) {
+    argsToApply.push(arguments[i]);
+  }
+
+  // get the last one
+  var listeners = this.eventMap[name];
+  if (!listeners) {
+    console.warn('no listeners for that event', name);
+    return;
+  }
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  // might be in the middle of the stack
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func) {
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    throw new Error('did not find that function');
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
+
+
+});
+require("/src/js/util/eventBaton.js");
 
 require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 

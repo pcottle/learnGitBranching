@@ -36,7 +36,6 @@ InputWaterfall.prototype.mute = function() {
 };
 
 InputWaterfall.prototype.process = function(command, callback) {
-  console.log('processing', command.get('rawStr'));
 
   if (this.checkDisabledMap(command)) {
     callback();
