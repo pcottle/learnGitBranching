@@ -1356,7 +1356,6 @@ GitEngine.prototype.dispatch = function(command, callback) {
     callback: whenDone
   });
 
-  command.set('status', 'processing');
   try {
     var methodName = command.get('method').replace(/-/g, '') + 'Starter';
     this[methodName]();

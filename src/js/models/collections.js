@@ -77,6 +77,8 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   processCommand: function(command) {
+    command.set('status', 'processing');
+
     var callback = _.bind(function() {
       this.setTimeout();
     }, this);

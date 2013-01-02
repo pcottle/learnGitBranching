@@ -16,7 +16,8 @@ function ParseWaterfall(options) {
   ];
 
   this.parseWaterfall = options.parseWaterfall || [
-    GitCommands.parse
+    GitCommands.parse,
+    SandboxCommands.parse
   ];
 }
 

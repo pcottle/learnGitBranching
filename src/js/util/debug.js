@@ -25,7 +25,7 @@ _.each(toGlobalize, function(module) {
 
 $(document).ready(function() {
   window.events = toGlobalize.Main.getEvents();
-  window.mainVis = toGlobalize.Main.getMainVis();
-  window.ui = toGlobalize.Main.getMainVis();
+  window.eventBaton = toGlobalize.Main.getEventBaton();
+  window.sandbox = toGlobalize.Main.getSandbox();
 });
 

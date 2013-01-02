@@ -30,7 +30,7 @@ var setupZoomPoll = function(callback, context) {
       currentZoom = newZoom;
       callback.apply(context, [newZoom]);
     }
-  }, 100);
+  }, 500);
 };
 
 exports.setupZoomPoll = setupZoomPoll;

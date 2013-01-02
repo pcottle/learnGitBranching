@@ -39,4 +39,27 @@ var instantCommands = [
   }]
 ];
 
+var regexMap = {
+  'help': /^help($|\s)|\?/
+};
+
+var parse = function(str) {
+  var sandboxMethod;
+
+  _.each(regexMap, function(regex, method) {
+    if (regex.test(str)) {
+      sandboxMethod = method;
+    }
+  });
+
+  return (!sandboxMethod) ? false : {
+    toSet: {
+      eventName: 'processSandboxCommand',
+      method: sandboxMethod
+    }
+  };
+};
+
 exports.instantCommands = instantCommands;
+exports.parse = parse;
+

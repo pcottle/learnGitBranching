@@ -73,7 +73,7 @@ var parse = function(str) {
       options = str.slice(thisMethod.length + 1);
       method = thisMethod.slice('git '.length);
     }
-  }, this);
+  });
 
   if (!method) {
     return false;

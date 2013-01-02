@@ -4,16 +4,13 @@ var Backbone = require('backbone');
 var Constants = require('../util/constants');
 var Views = require('../views');
 var util = require('../util');
-var Command = require('../models/commandModel').Command;
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
-var DisabledMap = require('../level/disabledMap').DisabledMap;
 
 /**
  * Globals
  */
 var events = _.clone(Backbone.Events);
 var commandUI;
-var mainVis;
+var sandbox;
 var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
@@ -28,14 +25,12 @@ var init = function() {
     *   - initializing the command input bar
     *   - handling window.focus and zoom events
   **/
-  var Visualization = require('../visuals/visualization').Visualization;
+  var Sandbox = require('../level/sandbox').Sandbox;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  mainVis = new Visualization({
-    el: $('#canvasWrapper')[0]
-  });
+  sandbox = new Sandbox();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -113,38 +108,23 @@ function CommandUI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
-
-  this.parseWaterfall = new ParseWaterfall();
-  this.parseWaterfall.addFirst('instantWaterfall', new DisabledMap().getInstantCommands());
-
-  eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
-
-CommandUI.prototype.commandSubmitted = function(value) {
-  events.trigger('commandSubmittedPassive', value);
-  util.splitTextCommand(value, function(command) {
-    this.commandCollection.add(new Command({
-      rawStr: command,
-      parseWaterfall: this.parseWaterfall
-    }));
-  }, this);
-};
 
 exports.getEvents = function() {
   return events;
 };
 
-exports.getUI = function() {
-  return commandUI;
-};
-
-exports.getMainVis = function() {
-  return mainVis;
+exports.getSandbox = function() {
+  return sandbox;
 };
 
 exports.getEventBaton = function() {
   return eventBaton;
 };
+
+exports.getCommandUI = function() {
+  return commandUI;
+}
 
 exports.init = init;
 
