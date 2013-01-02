@@ -34,4 +34,5 @@ var setupZoomPoll = function(callback, context) {
 };
 
 exports.setupZoomPoll = setupZoomPoll;
+exports.detectZoom = detectZoom;
 

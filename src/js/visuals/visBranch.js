@@ -319,7 +319,7 @@ var VisBranch = VisBase.extend({
 
     _.each(objs, function(rObj) {
       rObj.click(function() {
-        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+        Main.getEvents().trigger('commandSubmitted', commandStr);
       });
       $(rObj.node).css('cursor', 'pointer');
     });

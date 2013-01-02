@@ -15,8 +15,6 @@ var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
-    this.collection = options.collection;
-
     // uses local storage
     this.commands = new CommandEntryCollection();
     this.commands.fetch({
@@ -41,8 +39,6 @@ var CommandPromptView = Backbone.View.extend({
     this.commandCursor = this.$('#prompt span.cursor')[0];
     this.focus();
 
-    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
-    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
 
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
@@ -120,7 +116,6 @@ var CommandPromptView = Backbone.View.extend({
     // there's a very annoying and sightly noticeable command delay.
     // try.github.com also has this, so I'm assuming those engineers gave up as
     // well...
-
     var val = this.badHtmlEncode(el.value);
     this.commandSpan.innerHTML = val;
 
@@ -131,8 +126,9 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    // 10px for monospaced font...
-    var widthPerChar = 10;
+    // 10px for monospaced font at "1" zoom
+    var zoom = require('../util/zoomLevel').detectZoom();
+    var widthPerChar = 10 * zoom;
 
     var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
     var width = String(numCharsSelected * widthPerChar) + 'px';
@@ -181,7 +177,9 @@ var CommandPromptView = Backbone.View.extend({
   submit: function() {
     var value = this.$('#commandTextField').val().replace('\n', '');
     this.clear();
-    this.submitValue(value);
+
+    this.submitCommand(value);
+    this.index = -1;
   },
 
   rollupCommands: function(numBack) {
@@ -193,45 +191,47 @@ var CommandPromptView = Backbone.View.extend({
       str += commandEntry.get('text') + ';';
     }, this);
 
-    console.log('the str', str);
-
     var rolled = new CommandEntry({text: str});
     this.commands.unshift(rolled);
     Backbone.sync('create', rolled, function() { });
   },
 
-  submitValue: function(value) {
+  addToCommandHistory: function(value, index) {
+    // this method will fire from events too (like clicking on a visNode),
+    // so the index might not be present or relevant. a value of -1
+    // means we should add it regardless
+    index = (index === undefined) ? -1 : index;
+
     // we should add the command to our local storage history
     // if it's not a blank line and this is a new command...
-    // or if we edited the command in place
-    var shouldAdd = (value.length && this.index == -1) ||
-      ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
+    // or if we edited the command in place in history
+    var shouldAdd = (value.length && index == -1) ||
+      ((value.length && index !== -1 &&
+      this.commands.toArray()[index].get('text') !== value));
 
-    if (shouldAdd) {
-      var commandEntry = new CommandEntry({text: value});
-      this.commands.unshift(commandEntry);
-
-      // store to local storage
-      Backbone.sync('create', commandEntry, function() { });
-
-      // if our length is too egregious, reset
-      if (this.commands.length > 100) {
-        this.clearLocalStorage();
-      }
+    if (!shouldAdd) {
+      return;
     }
-    this.index = -1;
 
-    util.splitTextCommand(value, function(command) {
-      this.addToCollection(command);
-    }, this);
+    var commandEntry = new CommandEntry({text: value});
+    this.commands.unshift(commandEntry);
+
+    // store to local storage
+    Backbone.sync('create', commandEntry, function() { });
+
+    // if our length is too egregious, reset
+    if (this.commands.length > 100) {
+      this.clearLocalStorage();
+    }
   },
 
-  addToCollection: function(value) {
+  submitCommand: function(value) {
+    Main.getEventBaton().trigger('commandSubmitted', value);
+    /*
     var command = new Command({
       rawStr: value
     });
-    this.collection.add(command);
+    */
   }
 });
 
@@ -313,8 +313,6 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.on('all', this.render, this);
 
     this.collection.on('change', this.scrollDown, this);
-
-    Main.getEvents().on('issueWarning', this.addWarning, this);
     Main.getEvents().on('commandScrollDown', this.scrollDown, this);
   },
 

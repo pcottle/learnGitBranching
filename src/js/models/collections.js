@@ -32,7 +32,6 @@ var CommandBuffer = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    require('../app').getEvents().on('gitCommandReady', this.addCommand, this);
     options.collection.bind('add', this.addCommand, this);
 
     this.buffer = [];

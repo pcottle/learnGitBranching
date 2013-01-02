@@ -71,7 +71,7 @@ var init = function(){
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      events.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
 };
@@ -87,10 +87,12 @@ function UI() {
     collection: this.commandCollection
   });
 
+  // command prompt event fires an event when commands are ready,
+  // hence it doesn't need access to the collection anymore
   this.commandPromptView = new CommandViews.CommandPromptView({
-    el: $('#commandLineBar'),
-    collection: this.commandCollection
+    el: $('#commandLineBar')
   });
+
   this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
     el: $('#commandLineHistory'),
     collection: this.commandCollection

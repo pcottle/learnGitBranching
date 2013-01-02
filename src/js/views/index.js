@@ -136,7 +136,6 @@ var ModalView = Backbone.View.extend({
   },
 
   stealKeyboard: function() {
-    console.warn('stealing keyboard');
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
     Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);

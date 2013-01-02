@@ -15,7 +15,8 @@ var toGlobalize = {
   Q: { Q: require('q') },
   RebaseView: require('../views/rebaseView'),
   Views: require('../views'),
-  MultiView: require('../views/multiView')
+  MultiView: require('../views/multiView'),
+  ZoomLevel: require('../util/zoomLevel')
 };
 
 _.each(toGlobalize, function(module) {

@@ -618,7 +618,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    this.events.trigger('processCommandFromEvent', 'refresh');
+    this.events.trigger('commandSubmitted', 'refresh');
   } else {
     this.refreshTree();
   }

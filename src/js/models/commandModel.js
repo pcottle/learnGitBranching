@@ -146,6 +146,8 @@ var Command = Backbone.Model.extend({
     }
 
     _.each(results.toSet, function(obj, key) {
+      // data comes back from the parsing functions like
+      // options (etc) that need to be set
       this.set(key, obj);
     }, this);
     return true;

@@ -26,7 +26,7 @@ EventBaton.prototype.trigger = function(name) {
   }
 
   var listeners = this.eventMap[name];
-  if (!listeners) {
+  if (!listeners || !listeners.length) {
     console.warn('no listeners for', name);
     return;
   }

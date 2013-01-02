@@ -11,8 +11,8 @@ var GLOBAL = {
 };
 
 var VIEWPORT = {
-  minZoom: 1,
-  maxZoom: 1.15
+  minZoom: 0.66,
+  maxZoom: 1.25
 };
 
 var GRAPHICS = {

@@ -21,6 +21,7 @@ Small things to implement:
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] figure out why multiview baton passing doesn't work...
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
