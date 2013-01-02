@@ -318,7 +318,7 @@ var VisNode = VisBase.extend({
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
-        Main.getEvents().trigger('commandSubmitted', commandStr);
+        Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
       $(rObj.node).css('cursor', 'pointer');
     });

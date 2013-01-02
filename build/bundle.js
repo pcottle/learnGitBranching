@@ -4843,6 +4843,8 @@ var Backbone = require('backbone');
 
 var Constants = require('../util/constants');
 var Views = require('../views');
+var util = require('../util');
+var Command = require('../models/commandModel').Command;
 
 /**
  * Globals
@@ -4877,7 +4879,7 @@ var init = function(){
     eventBaton.trigger('documentClick', e);
   });
 
-  // zoom level measure, I wish there was a jquery event for this
+  // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
     eventBaton.trigger('zoomChange', level);
   }, this);
@@ -4927,8 +4929,6 @@ function UI() {
     collection: this.commandCollection
   });
 
-  // command prompt event fires an event when commands are ready,
-  // hence it doesn't need access to the collection anymore
   this.commandPromptView = new CommandViews.CommandPromptView({
     el: $('#commandLineBar')
   });
@@ -4937,7 +4937,18 @@ function UI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
+
+  eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
+
+UI.prototype.commandSubmitted = function(value) {
+  events.trigger('commandSubmittedPassive', value);
+  util.splitTextCommand(value, function(command) {
+    this.commandCollection.add(new Command({
+      rawStr: command
+    }));
+  }, this);
+};
 
 exports.getEvents = function() {
   return events;
@@ -4957,6 +4968,484 @@ exports.getEventBaton = function() {
 
 exports.init = init;
 
+
+});
+
+require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
+var GitOptionParser = GitCommands.GitOptionParser;
+
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
+    createTime: null,
+
+    error: null,
+    warnings: null,
+    parseWaterfall: new ParseWaterfall(),
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null
+
+  },
+
+  initialize: function(options) {
+    this.initDefaults();
+    this.validateAtInit();
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+
+    this.parseOrCatch();
+  },
+
+  initDefaults: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+  },
+
+  validateAtInit: function() {
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  parseOrCatch: function() {
+    this.expandShortcuts(this.get('rawStr'));
+    try {
+      this.processInstants();
+    } catch (err) {
+      Errors.filterError(err);
+      // errorChanged() will handle status and all of that
+      this.set('error', err);
+      return;
+    }
+
+    if (this.parseAll()) {
+      // something in our parse waterfall succeeded
+      return;
+    }
+
+    // if we reach here, this command is not supported :-/
+    this.set('error', new CommandProcessError({
+        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
+      })
+    );
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  expandShortcuts: function(str) {
+    str = this.get('parseWaterfall').expandAllShortcuts(str);
+    this.set('rawStr', str);
+  },
+
+  processInstants: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then instant commands that will throw
+    this.get('parseWaterfall').processAllInstants(str);
+  },
+
+  parseAll: function() {
+    var str = this.get('rawStr');
+    var results = this.get('parseWaterfall').parseAll(str);
+
+    if (!results) {
+      // nothing parsed successfully
+      return false;
+    }
+
+    _.each(results.toSet, function(obj, key) {
+      // data comes back from the parsing functions like
+      // options (etc) that need to be set
+      this.set(key, obj);
+    }, this);
+    return true;
+  }
+});
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  },
+  // stub out if no plugin available
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+});
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+
+});
+
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var shortcutMap = {
+  'git commit': /^gc($|\s)/,
+  'git add': /^ga($|\s)/,
+  'git checkout': /^go($|\s)/,
+  'git rebase': /^gr($|\s)/,
+  'git branch': /^gb($|\s)/,
+  'git status': /^gs($|\s)/,
+  'git help': /^git$/
+};
+
+var instantCommands = [
+  [/^git help($|\s)/, function() {
+    var lines = [
+      'Git Version PCOTTLE.1.0',
+      '<br/>',
+      'Usage:',
+      _.escape('\t git <command> [<args>]'),
+      '<br/>',
+      'Supported commands:',
+      '<br/>'
+    ];
+    var commands = GitOptionParser.prototype.getMasterOptionMap();
+
+    // build up a nice display of what we support
+    _.each(commands, function(commandOptions, command) {
+      lines.push('git ' + command);
+      _.each(commandOptions, function(vals, optionName) {
+        lines.push('\t ' + optionName);
+      }, this);
+    }, this);
+
+    // format and throw
+    var msg = lines.join('\n');
+    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+    throw new CommandResult({
+      msg: msg
+    });
+  }]
+];
+
+var regexMap = {
+  // ($|\s) means that we either have to end the string
+  // after the command or there needs to be a space for options
+  commit: /^commit($|\s)/,
+  add: /^add($|\s)/,
+  checkout: /^checkout($|\s)/,
+  rebase: /^rebase($|\s)/,
+  reset: /^reset($|\s)/,
+  branch: /^branch($|\s)/,
+  revert: /^revert($|\s)/,
+  log: /^log($|\s)/,
+  merge: /^merge($|\s)/,
+  show: /^show($|\s)/,
+  status: /^status($|\s)/,
+  'cherry-pick': /^cherry-pick($|\s)/
+};
+
+var parse = function(str) {
+  // now slice off command part
+  var fullCommand = str.slice('git '.length);
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(regexMap, function(regex, thisMethod) {
+    if (regex.exec(fullCommand)) {
+      options = fullCommand.slice(thisMethod.length + 1);
+      method = thisMethod;
+    }
+  }, this);
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new GitOptionParser(method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      method: method,
+      options: options
+    }
+  };
+};
+
+/**
+ * GitOptionParser
+ */
+function GitOptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = this.getMasterOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+GitOptionParser.prototype.getMasterOptionMap = function() {
+  // here a value of false means that we support it, even if its just a
+  // pass-through option. If the value is not here (aka will be undefined
+  // when accessed), we do not support it.
+  return {
+    commit: {
+      '--amend': false,
+      '-a': false, // warning
+      '-am': false, // warning
+      '-m': false
+    },
+    status: {},
+    log: {},
+    add: {},
+    'cherry-pick': {},
+    branch: {
+      '-d': false,
+      '-D': false,
+      '-f': false,
+      '--contains': false
+    },
+    checkout: {
+      '-b': false,
+      '-B': false,
+      '-': false
+    },
+    reset: {
+      '--hard': false,
+      '--soft': false // this will raise an error but we catch it in gitEngine
+    },
+    merge: {},
+    rebase: {
+      '-i': false // the mother of all options
+    },
+    revert: {},
+    show: {}
+  };
+};
+
+GitOptionParser.prototype.explodeAndSet = function() {
+  // split on spaces, except when inside quotes
+
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: 'The option "' + part + '" is not supported'
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
+exports.shortcutMap = shortcutMap;
+exports.instantCommands = instantCommands;
+exports.parse = parse;
+exports.regexMap = regexMap;
+
+});
+
+require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+var SandboxCommands = require('../level/SandboxCommands');
+
+// more or less a static class
+function ParseWaterfall(options) {
+  this.shortcutWaterfall = [
+    GitCommands.shortcutMap
+  ];
+
+  this.instantWaterfall = [
+    GitCommands.instantCommands,
+    SandboxCommands.instantCommands
+  ];
+
+  this.parseWaterfall = [
+    GitCommands.parse
+  ];
+}
+
+ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
+  _.each(this.shortcutWaterfall, function(shortcutMap) {
+    commandStr = this.expandShortcut(commandStr, shortcutMap);
+  }, this);
+  return commandStr;
+};
+
+ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
+  _.each(shortcutMap, function(regex, method) {
+    var results = regex.exec(commandStr);
+    if (results) {
+      commandStr = method + ' ' + commandStr.slice(results[0].length);
+    }
+  });
+  return commandStr;
+};
+
+ParseWaterfall.prototype.processAllInstants = function(commandStr) {
+  _.each(this.instantWaterfall, function(instantCommands) {
+    this.processInstant(commandStr, instantCommands);
+  }, this);
+};
+
+ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
+  _.each(instantCommands, function(tuple) {
+    var regex = tuple[0];
+    var results = regex.exec(commandStr);
+    if (results) {
+      // this will throw a result because it's an instant
+      tuple[1](results);
+    }
+  });
+};
+
+ParseWaterfall.prototype.parseAll = function(commandStr) {
+  var toReturn = false;
+  _.each(this.parseWaterfall, function(parseFunc) {
+    var results = parseFunc(commandStr);
+    if (results) {
+      toReturn = results;
+    }
+  }, this);
+
+  return toReturn;
+};
+
+exports.ParseWaterfall = ParseWaterfall;
+
+
+});
+
+require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+var GitOptionParser = GitCommands.GitOptionParser;
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var instantCommands = [
+  [/^ls/, function() {
+    throw new CommandResult({
+      msg: "DontWorryAboutFilesInThisDemo.txt"
+    });
+  }],
+  [/^cd/, function() {
+    throw new CommandResult({
+      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+    });
+  }],
+  [/^refresh$/, function() {
+    var events = require('../app').getEvents();
+
+    events.trigger('refreshTree');
+    throw new CommandResult({
+      msg: "Refreshing tree..."
+    });
+  }],
+  [/^rollup (\d+)$/, function(bits) {
+    var events = require('../app').getEvents();
+
+    // go roll up these commands by joining them with semicolons
+    events.trigger('rollupCommands', bits[1]);
+    throw new CommandResult({
+      msg: 'Commands combined!'
+    });
+  }]
+];
+
+exports.instantCommands = instantCommands;
 
 });
 
@@ -9044,490 +9533,13 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 
-require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
-
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
-
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var Command = Backbone.Model.extend({
-  defaults: {
-    status: 'inqueue',
-    rawStr: null,
-    result: '',
-    createTime: null,
-
-    error: null,
-    warnings: null,
-    parseWaterfall: new ParseWaterfall(),
-
-    generalArgs: null,
-    supportedMap: null,
-    options: null,
-    method: null
-
-  },
-
-  initialize: function(options) {
-    this.initDefaults();
-    this.validateAtInit();
-
-    this.on('change:error', this.errorChanged, this);
-    // catch errors on init
-    if (this.get('error')) {
-      this.errorChanged();
-    }
-
-    this.parseOrCatch();
-  },
-
-  initDefaults: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-  },
-
-  validateAtInit: function() {
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-  },
-
-  setResult: function(msg) {
-    this.set('result', msg);
-  },
-
-  addWarning: function(msg) {
-    this.get('warnings').push(msg);
-    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
-    // detect if an array changes, so adding an element does nothing
-    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
-  },
-
-  getFormattedWarnings: function() {
-    if (!this.get('warnings').length) {
-      return '';
-    }
-    var i = '<i class="icon-exclamation-sign"></i>';
-    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
-  },
-
-  parseOrCatch: function() {
-    this.expandShortcuts(this.get('rawStr'));
-    try {
-      this.processInstants();
-    } catch (err) {
-      Errors.filterError(err);
-      // errorChanged() will handle status and all of that
-      this.set('error', err);
-      return;
-    }
-
-    if (this.parseAll()) {
-      // something in our parse waterfall succeeded
-      return;
-    }
-
-    // if we reach here, this command is not supported :-/
-    this.set('error', new CommandProcessError({
-        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
-      })
-    );
-  },
-
-  errorChanged: function() {
-    var err = this.get('error');
-    if (err instanceof CommandProcessError ||
-        err instanceof GitError) {
-      this.set('status', 'error');
-    } else if (err instanceof CommandResult) {
-      this.set('status', 'finished');
-    } else if (err instanceof Warning) {
-      this.set('status', 'warning');
-    }
-    this.formatError();
-  },
-
-  formatError: function() {
-    this.set('result', this.get('error').toResult());
-  },
-
-  expandShortcuts: function(str) {
-    str = this.get('parseWaterfall').expandAllShortcuts(str);
-    this.set('rawStr', str);
-  },
-
-  processInstants: function() {
-    var str = this.get('rawStr');
-    // first if the string is empty, they just want a blank line
-    if (!str.length) {
-      throw new CommandResult({msg: ""});
-    }
-
-    // then instant commands that will throw
-    this.get('parseWaterfall').processAllInstants(str);
-  },
-
-  parseAll: function() {
-    var str = this.get('rawStr');
-    var results = this.get('parseWaterfall').parseAll(str);
-
-    if (!results) {
-      // nothing parsed successfully
-      return false;
-    }
-
-    _.each(results.toSet, function(obj, key) {
-      // data comes back from the parsing functions like
-      // options (etc) that need to be set
-      this.set(key, obj);
-    }, this);
-    return true;
-  }
-});
-
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
-  defaults: {
-    text: ''
-  },
-  // stub out if no plugin available
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
-});
-
-exports.CommandEntry = CommandEntry;
-exports.Command = Command;
-
-});
-
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var shortcutMap = {
-  'git commit': /^gc($|\s)/,
-  'git add': /^ga($|\s)/,
-  'git checkout': /^go($|\s)/,
-  'git rebase': /^gr($|\s)/,
-  'git branch': /^gb($|\s)/,
-  'git status': /^gs($|\s)/,
-  'git help': /^git$/
-};
-
-var instantCommands = [
-  [/^git help($|\s)/, function() {
-    var lines = [
-      'Git Version PCOTTLE.1.0',
-      '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
-      '<br/>',
-      'Supported commands:',
-      '<br/>'
-    ];
-    var commands = GitOptionParser.prototype.getMasterOptionMap();
-
-    // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
-      lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
-        lines.push('\t ' + optionName);
-      }, this);
-    }, this);
-
-    // format and throw
-    var msg = lines.join('\n');
-    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-    throw new CommandResult({
-      msg: msg
-    });
-  }]
-];
-
-var regexMap = {
-  // ($|\s) means that we either have to end the string
-  // after the command or there needs to be a space for options
-  commit: /^commit($|\s)/,
-  add: /^add($|\s)/,
-  checkout: /^checkout($|\s)/,
-  rebase: /^rebase($|\s)/,
-  reset: /^reset($|\s)/,
-  branch: /^branch($|\s)/,
-  revert: /^revert($|\s)/,
-  log: /^log($|\s)/,
-  merge: /^merge($|\s)/,
-  show: /^show($|\s)/,
-  status: /^status($|\s)/,
-  'cherry-pick': /^cherry-pick($|\s)/
-};
-
-var parse = function(str) {
-  // now slice off command part
-  var fullCommand = str.slice('git '.length);
-  var method;
-  var options;
-
-  // see if we support this particular command
-  _.each(regexMap, function(regex, thisMethod) {
-    if (regex.exec(fullCommand)) {
-      options = fullCommand.slice(thisMethod.length + 1);
-      method = thisMethod;
-    }
-  }, this);
-
-  if (!method) {
-    return false;
-  }
-
-  // we support this command!
-  // parse off the options and assemble the map / general args
-  var parsedOptions = new GitOptionParser(method, options);
-  return {
-    toSet: {
-      generalArgs: parsedOptions.generalArgs,
-      supportedMap: parsedOptions.supportedMap,
-      method: method,
-      options: options
-    }
-  };
-};
-
-/**
- * GitOptionParser
- */
-function GitOptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = this.getMasterOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-GitOptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {}
-  };
-};
-
-GitOptionParser.prototype.explodeAndSet = function() {
-  // split on spaces, except when inside quotes
-
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-};
-
-exports.shortcutMap = shortcutMap;
-exports.instantCommands = instantCommands;
-exports.parse = parse;
-exports.regexMap = regexMap;
-
-});
-
-require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-var SandboxCommands = require('../level/SandboxCommands');
-
-// more or less a static class
-function ParseWaterfall(options) {
-  this.shortcutWaterfall = [
-    GitCommands.shortcutMap
-  ];
-
-  this.instantWaterfall = [
-    GitCommands.instantCommands,
-    SandboxCommands.instantCommands
-  ];
-
-  this.parseWaterfall = [
-    GitCommands.parse
-  ];
-}
-
-ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
-  _.each(this.shortcutWaterfall, function(shortcutMap) {
-    commandStr = this.expandShortcut(commandStr, shortcutMap);
-  }, this);
-  return commandStr;
-};
-
-ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
-    }
-  });
-  return commandStr;
-};
-
-ParseWaterfall.prototype.processAllInstants = function(commandStr) {
-  _.each(this.instantWaterfall, function(instantCommands) {
-    this.processInstant(commandStr, instantCommands);
-  }, this);
-};
-
-ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  _.each(instantCommands, function(tuple) {
-    var regex = tuple[0];
-    var results = regex.exec(commandStr);
-    if (results) {
-      // this will throw a result because it's an instant
-      tuple[1](results);
-    }
-  });
-};
-
-ParseWaterfall.prototype.parseAll = function(commandStr) {
-  var toReturn = false;
-  _.each(this.parseWaterfall, function(parseFunc) {
-    var results = parseFunc(commandStr);
-    if (results) {
-      toReturn = results;
-    }
-  }, this);
-
-  return toReturn;
-};
-
-exports.ParseWaterfall = ParseWaterfall;
-
-
-});
-
-require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
-
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var instantCommands = [
-  [/^ls/, function() {
-    throw new CommandResult({
-      msg: "DontWorryAboutFilesInThisDemo.txt"
-    });
-  }],
-  [/^cd/, function() {
-    throw new CommandResult({
-      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
-    });
-  }],
-  [/^refresh$/, function() {
-    var events = require('../app').getEvents();
-
-    events.trigger('refreshTree');
-    throw new CommandResult({
-      msg: "Refreshing tree..."
-    });
-  }],
-  [/^rollup (\d+)$/, function(bits) {
-    var events = require('../app').getEvents();
-
-    // go roll up these commands by joining them with semicolons
-    events.trigger('rollupCommands', bits[1]);
-    throw new CommandResult({
-      msg: 'Commands combined!'
-    });
-  }]
-];
-
-exports.instantCommands = instantCommands;
-
-});
-
 require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
+var Main = require('../app');
 
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
@@ -9560,8 +9572,7 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  this.events = require('../app').getEvents();
-  this.events.on('refreshTree', this.refreshTree, this);
+  Main.getEvents().on('refreshTree', this.refreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {
@@ -10142,7 +10153,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    this.events.trigger('commandSubmitted', 'refresh');
+    Main.getEventBaton().trigger('commandSubmitted', 'refresh');
   } else {
     this.refreshTree();
   }
@@ -10598,7 +10609,7 @@ var VisNode = VisBase.extend({
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
-        Main.getEvents().trigger('commandSubmitted', commandStr);
+        Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
       $(rObj.node).css('cursor', 'pointer');
     });
@@ -11082,7 +11093,7 @@ var VisBranch = VisBase.extend({
 
     _.each(objs, function(rObj) {
       rObj.click(function() {
-        Main.getEvents().trigger('commandSubmitted', commandStr);
+        Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
       $(rObj.node).css('cursor', 'pointer');
     });
@@ -11581,6 +11592,8 @@ var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
+    Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
+
     // uses local storage
     this.commands = new CommandEntryCollection();
     this.commands.fetch({
@@ -11762,18 +11775,19 @@ var CommandPromptView = Backbone.View.extend({
     Backbone.sync('create', rolled, function() { });
   },
 
-  addToCommandHistory: function(value, index) {
-    // this method will fire from events too (like clicking on a visNode),
-    // so the index might not be present or relevant. a value of -1
-    // means we should add it regardless
-    index = (index === undefined) ? -1 : index;
-
+  addToCommandHistory: function(value) {
     // we should add the command to our local storage history
     // if it's not a blank line and this is a new command...
     // or if we edited the command in place in history
-    var shouldAdd = (value.length && index == -1) ||
-      ((value.length && index !== -1 &&
-      this.commands.toArray()[index].get('text') !== value));
+    var shouldAdd = (value.length && this.index === -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (this.index !== -1) {
+      console.log(this.commands.toArray()[this.index]);
+    }
+
+    console.log('should add', shouldAdd);
 
     if (!shouldAdd) {
       return;
@@ -11793,11 +11807,6 @@ var CommandPromptView = Backbone.View.extend({
 
   submitCommand: function(value) {
     Main.getEventBaton().trigger('commandSubmitted', value);
-    /*
-    var command = new Command({
-      rawStr: value
-    });
-    */
   }
 });
 
@@ -14398,6 +14407,8 @@ var Backbone = require('backbone');
 
 var Constants = require('../util/constants');
 var Views = require('../views');
+var util = require('../util');
+var Command = require('../models/commandModel').Command;
 
 /**
  * Globals
@@ -14432,7 +14443,7 @@ var init = function(){
     eventBaton.trigger('documentClick', e);
   });
 
-  // zoom level measure, I wish there was a jquery event for this
+  // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
     eventBaton.trigger('zoomChange', level);
   }, this);
@@ -14482,8 +14493,6 @@ function UI() {
     collection: this.commandCollection
   });
 
-  // command prompt event fires an event when commands are ready,
-  // hence it doesn't need access to the collection anymore
   this.commandPromptView = new CommandViews.CommandPromptView({
     el: $('#commandLineBar')
   });
@@ -14492,7 +14501,18 @@ function UI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
+
+  eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
+
+UI.prototype.commandSubmitted = function(value) {
+  events.trigger('commandSubmittedPassive', value);
+  util.splitTextCommand(value, function(command) {
+    this.commandCollection.add(new Command({
+      rawStr: command
+    }));
+  }, this);
+};
 
 exports.getEvents = function() {
   return events;
@@ -17431,6 +17451,8 @@ var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
+    Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
+
     // uses local storage
     this.commands = new CommandEntryCollection();
     this.commands.fetch({
@@ -17612,18 +17634,19 @@ var CommandPromptView = Backbone.View.extend({
     Backbone.sync('create', rolled, function() { });
   },
 
-  addToCommandHistory: function(value, index) {
-    // this method will fire from events too (like clicking on a visNode),
-    // so the index might not be present or relevant. a value of -1
-    // means we should add it regardless
-    index = (index === undefined) ? -1 : index;
-
+  addToCommandHistory: function(value) {
     // we should add the command to our local storage history
     // if it's not a blank line and this is a new command...
     // or if we edited the command in place in history
-    var shouldAdd = (value.length && index == -1) ||
-      ((value.length && index !== -1 &&
-      this.commands.toArray()[index].get('text') !== value));
+    var shouldAdd = (value.length && this.index === -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (this.index !== -1) {
+      console.log(this.commands.toArray()[this.index]);
+    }
+
+    console.log('should add', shouldAdd);
 
     if (!shouldAdd) {
       return;
@@ -17643,11 +17666,6 @@ var CommandPromptView = Backbone.View.extend({
 
   submitCommand: function(value) {
     Main.getEventBaton().trigger('commandSubmitted', value);
-    /*
-    var command = new Command({
-      rawStr: value
-    });
-    */
   }
 });
 
@@ -18789,6 +18807,7 @@ var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GLOBAL = require('../util/constants').GLOBAL;
+var Main = require('../app');
 
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
@@ -18821,8 +18840,7 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  this.events = require('../app').getEvents();
-  this.events.on('refreshTree', this.refreshTree, this);
+  Main.getEvents().on('refreshTree', this.refreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {
@@ -19403,7 +19421,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   // refresh when we are ready
   if (GLOBAL.isAnimating) {
-    this.events.trigger('commandSubmitted', 'refresh');
+    Main.getEventBaton().trigger('commandSubmitted', 'refresh');
   } else {
     this.refreshTree();
   }
@@ -19910,7 +19928,7 @@ var VisBranch = VisBase.extend({
 
     _.each(objs, function(rObj) {
       rObj.click(function() {
-        Main.getEvents().trigger('commandSubmitted', commandStr);
+        Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
       $(rObj.node).css('cursor', 'pointer');
     });
@@ -20518,7 +20536,7 @@ var VisNode = VisBase.extend({
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
       rObj.click(function() {
-        Main.getEvents().trigger('commandSubmitted', commandStr);
+        Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
       $(rObj.node).css('cursor', 'pointer');
     });

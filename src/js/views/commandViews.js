@@ -15,6 +15,8 @@ var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
+    Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
+
     // uses local storage
     this.commands = new CommandEntryCollection();
     this.commands.fetch({
@@ -196,18 +198,19 @@ var CommandPromptView = Backbone.View.extend({
     Backbone.sync('create', rolled, function() { });
   },
 
-  addToCommandHistory: function(value, index) {
-    // this method will fire from events too (like clicking on a visNode),
-    // so the index might not be present or relevant. a value of -1
-    // means we should add it regardless
-    index = (index === undefined) ? -1 : index;
-
+  addToCommandHistory: function(value) {
     // we should add the command to our local storage history
     // if it's not a blank line and this is a new command...
     // or if we edited the command in place in history
-    var shouldAdd = (value.length && index == -1) ||
-      ((value.length && index !== -1 &&
-      this.commands.toArray()[index].get('text') !== value));
+    var shouldAdd = (value.length && this.index === -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (this.index !== -1) {
+      console.log(this.commands.toArray()[this.index]);
+    }
+
+    console.log('should add', shouldAdd);
 
     if (!shouldAdd) {
       return;
@@ -227,11 +230,6 @@ var CommandPromptView = Backbone.View.extend({
 
   submitCommand: function(value) {
     Main.getEventBaton().trigger('commandSubmitted', value);
-    /*
-    var command = new Command({
-      rawStr: value
-    });
-    */
   }
 });
 

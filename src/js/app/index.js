@@ -3,6 +3,8 @@ var Backbone = require('backbone');
 
 var Constants = require('../util/constants');
 var Views = require('../views');
+var util = require('../util');
+var Command = require('../models/commandModel').Command;
 
 /**
  * Globals
@@ -37,7 +39,7 @@ var init = function(){
     eventBaton.trigger('documentClick', e);
   });
 
-  // zoom level measure, I wish there was a jquery event for this
+  // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
     eventBaton.trigger('zoomChange', level);
   }, this);
@@ -87,8 +89,6 @@ function UI() {
     collection: this.commandCollection
   });
 
-  // command prompt event fires an event when commands are ready,
-  // hence it doesn't need access to the collection anymore
   this.commandPromptView = new CommandViews.CommandPromptView({
     el: $('#commandLineBar')
   });
@@ -97,7 +97,18 @@ function UI() {
     el: $('#commandLineHistory'),
     collection: this.commandCollection
   });
+
+  eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
+
+UI.prototype.commandSubmitted = function(value) {
+  events.trigger('commandSubmittedPassive', value);
+  util.splitTextCommand(value, function(command) {
+    this.commandCollection.add(new Command({
+      rawStr: command
+    }));
+  }, this);
+};
 
 exports.getEvents = function() {
   return events;
