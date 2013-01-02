@@ -1,6 +1,9 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
+var Constants = require('../util/constants');
+var Views = require('../views');
+
 /**
  * Globals
  */
@@ -34,6 +37,18 @@ var init = function(){
     eventBaton.trigger('documentClick', e);
   });
 
+  // zoom level measure, I wish there was a jquery event for this
+  require('../util/zoomLevel').setupZoomPoll(function(level) {
+    eventBaton.trigger('zoomChange', level);
+  }, this);
+
+  eventBaton.stealBaton('zoomChange', function(level) {
+    if (level > Constants.VIEWPORT.maxZoom ||
+        level < Constants.VIEWPORT.minZoom) {
+      var view = new Views.ZoomAlertWindow();
+    }
+  });
+
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
   eventBaton.stealBaton('documentClick', focusTextArea);
@@ -64,7 +79,6 @@ var init = function(){
 $(document).ready(init);
 
 function UI() {
-  this.active = true;
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 

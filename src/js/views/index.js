@@ -2,7 +2,9 @@ var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
 var Main = require('../app');
+var Constants = require('../util/constants');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -47,12 +49,21 @@ var PositiveNegativeBase = BaseView.extend({
 });
 
 var ContainedBase = BaseView.extend({
+  getAnimationTime: function() { return 700; },
+
   show: function() {
     this.container.show();
   },
 
   hide: function() {
     this.container.hide();
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime() * 1.1);
   }
 });
 
@@ -110,6 +121,8 @@ var ModalView = Backbone.View.extend({
   tagName: 'div',
   className: 'modalView box horizontal center transitionOpacityLinear',
   template: _.template($('#modal-view-template').html()),
+
+  getAnimationTime: function() { return 700; },
 
   initialize: function(options) {
     this.render();
@@ -171,7 +184,7 @@ var ModalView = Backbone.View.extend({
     // be one-off though so...
     setTimeout(_.bind(function() {
       this.toggleZ(false);
-    }, this), 700);
+    }, this), this.getAnimationTime());
   },
 
   getInsideElement: function() {
@@ -226,6 +239,10 @@ var ModalAlert = ContainedBase.extend({
       markdown: options.markdown
     };
 
+    if (options.markdowns) {
+      this.JSON.markdown = options.markdowns.join('\n');
+    }
+
     this.container = new ModalTerminal({
       title: 'Alert!'
     });
@@ -243,10 +260,47 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
+var ZoomAlertWindow = Backbone.View.extend({
+  initialize: function(options) {
+    this.grabBatons();
+    this.modalAlert = new ModalAlert({
+      markdowns: [
+        '## That zoom level is not supported :-/',
+        'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
+        '',
+        '(and of course, pull requests to fix this are appreciated :D)'
+      ]
+    });
+
+    this.modalAlert.show();
+  },
+
+  grabBatons: function() {
+    Main.getEventBaton().stealBaton('zoomChange', this.zoomChange, this);
+  },
+
+  releaseBatons: function() {
+    Main.getEventBaton().releaseBaton('zoomChange', this.zoomChange, this);
+  },
+
+  zoomChange: function(level) {
+    if (level <= Constants.VIEWPORT.maxZoom &&
+        level >= Constants.VIEWPORT.minZoom) {
+      this.finish();
+    }
+  },
+
+  finish: function() {
+    this.releaseBatons();
+    this.modalAlert.die();
+  }
+});
+
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
 exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
+exports.ZoomAlertWindow = ZoomAlertWindow;
 

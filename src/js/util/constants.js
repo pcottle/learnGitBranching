@@ -10,6 +10,11 @@ var GLOBAL = {
   isAnimating: false
 };
 
+var VIEWPORT = {
+  minZoom: 1,
+  maxZoom: 1.15
+};
+
 var GRAPHICS = {
   arrowHeadSize: 8,
 
@@ -43,4 +48,5 @@ var GRAPHICS = {
 exports.GLOBAL = GLOBAL;
 exports.TIME = TIME;
 exports.GRAPHICS = GRAPHICS;
+exports.VIEWPORT = VIEWPORT;
 

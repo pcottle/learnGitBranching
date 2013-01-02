@@ -5,7 +5,6 @@ exports.isBrowser = function() {
   return inBrowser;
 };
 
-
 exports.splitTextCommand = function(value, func, context) {
   func = _.bind(func, context);
   _.each(value.split(';'), function(command, index) {

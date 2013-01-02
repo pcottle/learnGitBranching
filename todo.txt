@@ -34,6 +34,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] awesome zoom level polling and sweet event baton stealing :DDDDDDDDDDDDDD
 [x] then refactor keyboard input and UI.listen() to that event system
 [x] make some kind of "single listener" event system... will make keyboard stuff easy
     because then you just steal and release for modals and such

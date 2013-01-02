@@ -4385,6 +4385,580 @@ require.define("/node_modules/backbone/node_modules/underscore/underscore.js",fu
 
 });
 
+require.define("/src/js/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
+ * Constants....!!!
+ */
+var TIME = {
+  betweenCommandsDelay: 400
+};
+
+// useful for locks, etc
+var GLOBAL = {
+  isAnimating: false
+};
+
+var VIEWPORT = {
+  minZoom: 1,
+  maxZoom: 1.15
+};
+
+var GRAPHICS = {
+  arrowHeadSize: 8,
+
+  nodeRadius: 17,
+  curveControlPointOffset: 50,
+  defaultEasing: 'easeInOut',
+  defaultAnimationTime: 400,
+
+  //rectFill: '#FF3A3A',
+  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  headRectFill: '#2831FF',
+  rectStroke: '#FFF',
+  rectStrokeWidth: '3',
+
+  multiBranchY: 20,
+  upstreamHeadOpacity: 0.5,
+  upstreamNoneOpacity: 0.2,
+  edgeUpstreamHeadOpacity: 0.4,
+  edgeUpstreamNoneOpacity: 0.15,
+
+  visBranchStrokeWidth: 2,
+  visBranchStrokeColorNone: '#333',
+
+  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeStrokeWidth: 2,
+  defaultNodeStroke: '#FFF',
+
+  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
+};
+
+exports.GLOBAL = GLOBAL;
+exports.TIME = TIME;
+exports.GRAPHICS = GRAPHICS;
+exports.VIEWPORT = VIEWPORT;
+
+
+});
+
+require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var Main = require('../app');
+var Constants = require('../util/constants');
+
+var BaseView = Backbone.View.extend({
+  getDestination: function() {
+    return this.destination || this.container.getInsideElement();
+  },
+
+  tearDown: function() {
+    this.$el.html('');
+    if (this.container) {
+      this.container.tearDown();
+    }
+  },
+
+  render: function(HTML) {
+    // flexibility
+    var destination = this.getDestination();
+    HTML = HTML || this.template(this.JSON);
+
+    this.$el.html(HTML);
+    $(destination).append(this.el);
+  }
+});
+
+var ResolveRejectBase = BaseView.extend({
+  resolve: function() {
+    this.deferred.resolve();
+  },
+
+  reject: function() {
+    this.deferred.reject();
+  }
+});
+
+var PositiveNegativeBase = BaseView.extend({
+  positive: function() {
+    this.navEvents.trigger('positive');
+  },
+
+  negative: function() {
+    this.navEvents.trigger('negative');
+  }
+});
+
+var ContainedBase = BaseView.extend({
+  getAnimationTime: function() { return 700; },
+
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime() * 1.1);
+  }
+});
+
+var ConfirmCancelView = ResolveRejectBase.extend({
+  tagName: 'div',
+  className: 'confirmCancelView box horizontal justify',
+  template: _.template($('#confirm-cancel-template').html()),
+  events: {
+    'click .confirmButton': 'resolve',
+    'click .cancelButton': 'reject'
+  },
+
+  initialize: function(options) {
+    if (!options.destination || !options.deferred) {
+      throw new Error('needmore');
+    }
+
+    this.destination = options.destination;
+    this.deferred = options.deferred;
+    this.JSON = {
+      confirm: options.confirm || 'Confirm',
+      cancel: options.cancel || 'Cancel'
+    };
+
+    this.render();
+  }
+});
+
+var LeftRightView = PositiveNegativeBase.extend({
+  tagName: 'div',
+  className: 'leftRightView box horizontal center',
+  template: _.template($('#left-right-template').html()),
+  events: {
+    'click .left': 'negative',
+    'click .right': 'positive'
+  },
+
+  initialize: function(options) {
+    if (!options.destination || !options.events) {
+      throw new Error('needmore');
+    }
+
+    this.destination = options.destination;
+    this.navEvents = options.events;
+    this.JSON = {
+      showLeft: (options.showLeft === undefined) ? true : options.showLeft,
+      lastNav: (options.lastNav === undefined) ? false : options.lastNav
+    };
+
+    this.render();
+  }
+});
+
+var ModalView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'modalView box horizontal center transitionOpacityLinear',
+  template: _.template($('#modal-view-template').html()),
+
+  getAnimationTime: function() { return 700; },
+
+  initialize: function(options) {
+    this.render();
+    this.stealKeyboard();
+  },
+
+  render: function() {
+    // add ourselves to the DOM
+    this.$el.html(this.template({}));
+    $('body').append(this.el);
+  },
+
+  stealKeyboard: function() {
+    console.warn('stealing keyboard');
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
+
+    // blur the text input field so keydown events will not be caught by our
+    // preventDefaulters, allowing people to still refresh and launch inspector (etc)
+    $('#commandTextField').blur();
+  },
+
+  releaseKeyboard: function() {
+    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
+
+    Main.getEventBaton().trigger('windowFocus');
+  },
+
+  onWindowFocus: function(e) {
+    console.log('window focus doing nothing', e);
+  },
+
+  documentClick: function(e) {
+    console.log('doc click doing nothing', e);
+  },
+
+  onKeyDown: function(e) {
+    e.preventDefault();
+  },
+
+  onKeyUp: function(e) {
+    e.preventDefault();
+  },
+
+  show: function() {
+    this.toggleZ(true);
+    this.toggleShow(true);
+  },
+
+  hide: function() {
+    this.toggleShow(false);
+    // TODO -- do this in a way where it wont
+    // bork if we call it back down. these views should
+    // be one-off though so...
+    setTimeout(_.bind(function() {
+      this.toggleZ(false);
+    }, this), this.getAnimationTime());
+  },
+
+  getInsideElement: function() {
+    return this.$('.contentHolder');
+  },
+
+  toggleShow: function(value) {
+    this.$el.toggleClass('show', value);
+  },
+
+  toggleZ: function(value) {
+    this.$el.toggleClass('inFront', value);
+  },
+
+  tearDown: function() {
+    this.$el.html('');
+    $('body')[0].removeChild(this.el);
+    this.releaseKeyboard();
+  }
+});
+
+var ModalTerminal = ContainedBase.extend({
+  tagName: 'div',
+  className: 'box flex1',
+  template: _.template($('#terminal-window-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+
+    this.container = new ModalView();
+    this.JSON = {
+      title: options.title || 'Heed This Warning!'
+    };
+
+    this.render();
+  },
+
+  getInsideElement: function() {
+    return this.$('#inside');
+  }
+});
+
+var ModalAlert = ContainedBase.extend({
+  tagName: 'div',
+  template: _.template($('#modal-alert-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      title: options.title || 'Something to say',
+      text: options.text || 'Here is a paragraph',
+      markdown: options.markdown
+    };
+
+    if (options.markdowns) {
+      this.JSON.markdown = options.markdowns.join('\n');
+    }
+
+    this.container = new ModalTerminal({
+      title: 'Alert!'
+    });
+    this.render();
+  },
+
+  render: function() {
+    var HTML = (this.JSON.markdown) ?
+      require('markdown').markdown.toHTML(this.JSON.markdown) :
+      this.template(this.JSON);
+
+    // call to super, not super elegant but better than
+    // copy paste code
+    ModalAlert.__super__.render.apply(this, [HTML]);
+  }
+});
+
+var ZoomAlertWindow = Backbone.View.extend({
+  initialize: function(options) {
+    this.grabBatons();
+    this.modalAlert = new ModalAlert({
+      markdowns: [
+        '## That zoom level is not supported :-/',
+        'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
+        '',
+        '(and of course, pull requests to fix this are appreciated :D)'
+      ]
+    });
+
+    this.modalAlert.show();
+  },
+
+  grabBatons: function() {
+    Main.getEventBaton().stealBaton('zoomChange', this.zoomChange, this);
+  },
+
+  releaseBatons: function() {
+    Main.getEventBaton().releaseBaton('zoomChange', this.zoomChange, this);
+  },
+
+  zoomChange: function(level) {
+    if (level <= Constants.VIEWPORT.maxZoom &&
+        level >= Constants.VIEWPORT.minZoom) {
+      this.finish();
+    }
+  },
+
+  finish: function() {
+    this.releaseBatons();
+    this.modalAlert.die();
+  }
+});
+
+exports.ModalView = ModalView;
+exports.ModalTerminal = ModalTerminal;
+exports.ModalAlert = ModalAlert;
+exports.ContainedBase = ContainedBase;
+exports.ConfirmCancelView = ConfirmCancelView;
+exports.LeftRightView = LeftRightView;
+exports.ZoomAlertWindow = ZoomAlertWindow;
+
+
+});
+
+require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+var filterError = function(err) {
+  if (err instanceof CommandProcessError ||
+      err instanceof GitError ||
+      err instanceof CommandResult ||
+      err instanceof Warning) {
+    // yay! one of ours
+    return;
+  } else {
+    throw err;
+  }
+};
+
+exports.filterError = filterError;
+
+});
+
+require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+exports.isBrowser = function() {
+  var inBrowser = String(typeof window) !== 'undefined';
+  return inBrowser;
+};
+
+exports.splitTextCommand = function(value, func, context) {
+  func = _.bind(func, context);
+  _.each(value.split(';'), function(command, index) {
+    command = _.escape(command);
+    command = command
+      .replace(/^(\s+)/, '')
+      .replace(/(\s+)$/, '')
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/g, "'");
+
+    if (index > 0 && !command.length) {
+      return;
+    }
+    func(command);
+  });
+};
+
+});
+
+require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var Constants = require('../util/constants');
+var Views = require('../views');
+
+/**
+ * Globals
+ */
+var events = _.clone(Backbone.Events);
+var ui;
+var mainVis;
+var eventBaton;
+
+///////////////////////////////////////////////////////////////////////
+
+var init = function(){
+  var Visualization = require('../visuals/visualization').Visualization;
+  var EventBaton = require('../util/eventBaton').EventBaton;
+
+  eventBaton = new EventBaton();
+  ui = new UI();
+  mainVis = new Visualization({
+    el: $('#canvasWrapper')[0]
+  });
+
+  // we always want to focus the text area to collect input
+  var focusTextArea = function() {
+    $('#commandTextField').focus();
+  };
+  focusTextArea();
+
+  $(window).focus(function(e) {
+    eventBaton.trigger('windowFocus', e);
+  });
+  $(document).click(function(e) {
+    eventBaton.trigger('documentClick', e);
+  });
+
+  // zoom level measure, I wish there was a jquery event for this
+  require('../util/zoomLevel').setupZoomPoll(function(level) {
+    eventBaton.trigger('zoomChange', level);
+  }, this);
+
+  eventBaton.stealBaton('zoomChange', function(level) {
+    if (level > Constants.VIEWPORT.maxZoom ||
+        level < Constants.VIEWPORT.minZoom) {
+      var view = new Views.ZoomAlertWindow();
+    }
+  });
+
+  // the default action on window focus and document click is to just focus the text area
+  eventBaton.stealBaton('windowFocus', focusTextArea);
+  eventBaton.stealBaton('documentClick', focusTextArea);
+
+  // but when the input is fired in the text area, we pipe that to whoever is
+  // listenining
+  var makeKeyListener = function(name) {
+    return function() {
+      var args = [name];
+      _.each(arguments, function(arg) {
+        args.push(arg);
+      });
+      eventBaton.trigger.apply(eventBaton, args);
+    };
+  };
+
+  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
+  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
+
+  /* hacky demo functionality */
+  if (/\?demo/.test(window.location.href)) {
+    setTimeout(function() {
+      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+    }, 500);
+  }
+};
+
+$(document).ready(init);
+
+function UI() {
+  var Collections = require('../models/collections');
+  var CommandViews = require('../views/commandViews');
+
+  this.commandCollection = new Collections.CommandCollection();
+  this.commandBuffer = new Collections.CommandBuffer({
+    collection: this.commandCollection
+  });
+
+  this.commandPromptView = new CommandViews.CommandPromptView({
+    el: $('#commandLineBar'),
+    collection: this.commandCollection
+  });
+  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
+    el: $('#commandLineHistory'),
+    collection: this.commandCollection
+  });
+}
+
+exports.getEvents = function() {
+  return events;
+};
+
+exports.getUI = function() {
+  return ui;
+};
+
+exports.getMainVis = function() {
+  return mainVis;
+};
+
+exports.getEventBaton = function() {
+  return eventBaton;
+};
+
+exports.init = init;
+
+
+});
+
 require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -4478,33 +5052,6 @@ var Visualization = Backbone.View.extend({
 });
 
 exports.Visualization = Visualization;
-
-});
-
-require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-exports.isBrowser = function() {
-  var inBrowser = String(typeof window) !== 'undefined';
-  return inBrowser;
-};
-
-
-exports.splitTextCommand = function(value, func, context) {
-  func = _.bind(func, context);
-  _.each(value.split(';'), function(command, index) {
-    command = _.escape(command);
-    command = command
-      .replace(/^(\s+)/, '')
-      .replace(/(\s+)$/, '')
-      .replace(/&quot;/g, '"')
-      .replace(/&#x27;/g, "'");
-
-    if (index > 0 && !command.length) {
-      return;
-    }
-    func(command);
-  });
-};
 
 });
 
@@ -8214,55 +8761,6 @@ exports.AnimationQueue = AnimationQueue;
 
 });
 
-require.define("/src/js/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
- * Constants....!!!
- */
-var TIME = {
-  betweenCommandsDelay: 400
-};
-
-// useful for locks, etc
-var GLOBAL = {
-  isAnimating: false
-};
-
-var GRAPHICS = {
-  arrowHeadSize: 8,
-
-  nodeRadius: 17,
-  curveControlPointOffset: 50,
-  defaultEasing: 'easeInOut',
-  defaultAnimationTime: 400,
-
-  //rectFill: '#FF3A3A',
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
-  headRectFill: '#2831FF',
-  rectStroke: '#FFF',
-  rectStrokeWidth: '3',
-
-  multiBranchY: 20,
-  upstreamHeadOpacity: 0.5,
-  upstreamNoneOpacity: 0.2,
-  edgeUpstreamHeadOpacity: 0.4,
-  edgeUpstreamNoneOpacity: 0.15,
-
-  visBranchStrokeWidth: 2,
-  visBranchStrokeColorNone: '#333',
-
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
-  defaultNodeStrokeWidth: 2,
-  defaultNodeStroke: '#FFF',
-
-  orphanNodeFill: 'hsb(0.5,0.8,0.7)'
-};
-
-exports.GLOBAL = GLOBAL;
-exports.TIME = TIME;
-exports.GRAPHICS = GRAPHICS;
-
-
-});
-
 require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 // static class...
@@ -8382,70 +8880,6 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
 
 exports.TreeCompare = TreeCompare;
 
-
-});
-
-require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
-
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-var filterError = function(err) {
-  if (err instanceof CommandProcessError ||
-      err instanceof GitError ||
-      err instanceof CommandResult ||
-      err instanceof Warning) {
-    // yay! one of ours
-    return;
-  } else {
-    throw err;
-  }
-};
-
-exports.filterError = filterError;
 
 });
 
@@ -8607,802 +9041,6 @@ var RebaseEntryView = Backbone.View.extend({
 });
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
-
-});
-
-require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-var Main = require('../app');
-
-var BaseView = Backbone.View.extend({
-  getDestination: function() {
-    return this.destination || this.container.getInsideElement();
-  },
-
-  tearDown: function() {
-    this.$el.html('');
-    if (this.container) {
-      this.container.tearDown();
-    }
-  },
-
-  render: function(HTML) {
-    // flexibility
-    var destination = this.getDestination();
-    HTML = HTML || this.template(this.JSON);
-
-    this.$el.html(HTML);
-    $(destination).append(this.el);
-  }
-});
-
-var ResolveRejectBase = BaseView.extend({
-  resolve: function() {
-    this.deferred.resolve();
-  },
-
-  reject: function() {
-    this.deferred.reject();
-  }
-});
-
-var PositiveNegativeBase = BaseView.extend({
-  positive: function() {
-    this.navEvents.trigger('positive');
-  },
-
-  negative: function() {
-    this.navEvents.trigger('negative');
-  }
-});
-
-var ContainedBase = BaseView.extend({
-  show: function() {
-    this.container.show();
-  },
-
-  hide: function() {
-    this.container.hide();
-  }
-});
-
-var ConfirmCancelView = ResolveRejectBase.extend({
-  tagName: 'div',
-  className: 'confirmCancelView box horizontal justify',
-  template: _.template($('#confirm-cancel-template').html()),
-  events: {
-    'click .confirmButton': 'resolve',
-    'click .cancelButton': 'reject'
-  },
-
-  initialize: function(options) {
-    if (!options.destination || !options.deferred) {
-      throw new Error('needmore');
-    }
-
-    this.destination = options.destination;
-    this.deferred = options.deferred;
-    this.JSON = {
-      confirm: options.confirm || 'Confirm',
-      cancel: options.cancel || 'Cancel'
-    };
-
-    this.render();
-  }
-});
-
-var LeftRightView = PositiveNegativeBase.extend({
-  tagName: 'div',
-  className: 'leftRightView box horizontal center',
-  template: _.template($('#left-right-template').html()),
-  events: {
-    'click .left': 'negative',
-    'click .right': 'positive'
-  },
-
-  initialize: function(options) {
-    if (!options.destination || !options.events) {
-      throw new Error('needmore');
-    }
-
-    this.destination = options.destination;
-    this.navEvents = options.events;
-    this.JSON = {
-      showLeft: (options.showLeft === undefined) ? true : options.showLeft,
-      lastNav: (options.lastNav === undefined) ? false : options.lastNav
-    };
-
-    this.render();
-  }
-});
-
-var ModalView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'modalView box horizontal center transitionOpacityLinear',
-  template: _.template($('#modal-view-template').html()),
-
-  initialize: function(options) {
-    this.render();
-    this.stealKeyboard();
-  },
-
-  render: function() {
-    // add ourselves to the DOM
-    this.$el.html(this.template({}));
-    $('body').append(this.el);
-  },
-
-  stealKeyboard: function() {
-    console.warn('stealing keyboard');
-    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
-    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
-    Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
-
-    // blur the text input field so keydown events will not be caught by our
-    // preventDefaulters, allowing people to still refresh and launch inspector (etc)
-    $('#commandTextField').blur();
-  },
-
-  releaseKeyboard: function() {
-    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
-    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
-    Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
-
-    Main.getEventBaton().trigger('windowFocus');
-  },
-
-  onWindowFocus: function(e) {
-    console.log('window focus doing nothing', e);
-  },
-
-  documentClick: function(e) {
-    console.log('doc click doing nothing', e);
-  },
-
-  onKeyDown: function(e) {
-    e.preventDefault();
-  },
-
-  onKeyUp: function(e) {
-    e.preventDefault();
-  },
-
-  show: function() {
-    this.toggleZ(true);
-    this.toggleShow(true);
-  },
-
-  hide: function() {
-    this.toggleShow(false);
-    // TODO -- do this in a way where it wont
-    // bork if we call it back down. these views should
-    // be one-off though so...
-    setTimeout(_.bind(function() {
-      this.toggleZ(false);
-    }, this), 700);
-  },
-
-  getInsideElement: function() {
-    return this.$('.contentHolder');
-  },
-
-  toggleShow: function(value) {
-    this.$el.toggleClass('show', value);
-  },
-
-  toggleZ: function(value) {
-    this.$el.toggleClass('inFront', value);
-  },
-
-  tearDown: function() {
-    this.$el.html('');
-    $('body')[0].removeChild(this.el);
-    this.releaseKeyboard();
-  }
-});
-
-var ModalTerminal = ContainedBase.extend({
-  tagName: 'div',
-  className: 'box flex1',
-  template: _.template($('#terminal-window-template').html()),
-
-  initialize: function(options) {
-    options = options || {};
-
-    this.container = new ModalView();
-    this.JSON = {
-      title: options.title || 'Heed This Warning!'
-    };
-
-    this.render();
-  },
-
-  getInsideElement: function() {
-    return this.$('#inside');
-  }
-});
-
-var ModalAlert = ContainedBase.extend({
-  tagName: 'div',
-  template: _.template($('#modal-alert-template').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      title: options.title || 'Something to say',
-      text: options.text || 'Here is a paragraph',
-      markdown: options.markdown
-    };
-
-    this.container = new ModalTerminal({
-      title: 'Alert!'
-    });
-    this.render();
-  },
-
-  render: function() {
-    var HTML = (this.JSON.markdown) ?
-      require('markdown').markdown.toHTML(this.JSON.markdown) :
-      this.template(this.JSON);
-
-    // call to super, not super elegant but better than
-    // copy paste code
-    ModalAlert.__super__.render.apply(this, [HTML]);
-  }
-});
-
-exports.ModalView = ModalView;
-exports.ModalTerminal = ModalTerminal;
-exports.ModalAlert = ModalAlert;
-exports.ContainedBase = ContainedBase;
-exports.ConfirmCancelView = ConfirmCancelView;
-exports.LeftRightView = LeftRightView;
-
-
-});
-
-require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-/**
- * Globals
- */
-var events = _.clone(Backbone.Events);
-var ui;
-var mainVis;
-var eventBaton;
-
-///////////////////////////////////////////////////////////////////////
-
-var init = function(){
-  var Visualization = require('../visuals/visualization').Visualization;
-  var EventBaton = require('../util/eventBaton').EventBaton;
-
-  eventBaton = new EventBaton();
-  ui = new UI();
-  mainVis = new Visualization({
-    el: $('#canvasWrapper')[0]
-  });
-
-  // we always want to focus the text area to collect input
-  var focusTextArea = function() {
-    $('#commandTextField').focus();
-  };
-  focusTextArea();
-
-  $(window).focus(function(e) {
-    eventBaton.trigger('windowFocus', e);
-  });
-  $(document).click(function(e) {
-    eventBaton.trigger('documentClick', e);
-  });
-
-  // the default action on window focus and document click is to just focus the text area
-  eventBaton.stealBaton('windowFocus', focusTextArea);
-  eventBaton.stealBaton('documentClick', focusTextArea);
-
-  // but when the input is fired in the text area, we pipe that to whoever is
-  // listenining
-  var makeKeyListener = function(name) {
-    return function() {
-      var args = [name];
-      _.each(arguments, function(arg) {
-        args.push(arg);
-      });
-      eventBaton.trigger.apply(eventBaton, args);
-    };
-  };
-
-  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
-  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
-
-  /* hacky demo functionality */
-  if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      events.trigger('submitCommandValueFromEvent', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
-    }, 500);
-  }
-};
-
-$(document).ready(init);
-
-function UI() {
-  this.active = true;
-  var Collections = require('../models/collections');
-  var CommandViews = require('../views/commandViews');
-
-  this.commandCollection = new Collections.CommandCollection();
-  this.commandBuffer = new Collections.CommandBuffer({
-    collection: this.commandCollection
-  });
-
-  this.commandPromptView = new CommandViews.CommandPromptView({
-    el: $('#commandLineBar'),
-    collection: this.commandCollection
-  });
-  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
-}
-
-exports.getEvents = function() {
-  return events;
-};
-
-exports.getUI = function() {
-  return ui;
-};
-
-exports.getMainVis = function() {
-  return mainVis;
-};
-
-exports.getEventBaton = function() {
-  return eventBaton;
-};
-
-exports.init = init;
-
-
-});
-
-require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-function EventBaton() {
-  this.eventMap = {};
-}
-
-// this method steals the "baton" -- aka, only this method will now
-// get called. analogous to events.on
-// EventBaton.prototype.on = function(name, func, context) {
-EventBaton.prototype.stealBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-
-  var listeners = this.eventMap[name] || [];
-  listeners.push({
-    func: func,
-    context: context
-  });
-  this.eventMap[name] = listeners;
-};
-
-EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
-  var argsToApply = [];
-  for (var i = 1; i < arguments.length; i++) {
-    argsToApply.push(arguments[i]);
-  }
-
-  var listeners = this.eventMap[name];
-  if (!listeners) {
-    console.warn('no listeners for', name);
-    return;
-  }
-  // call the top most listener with context and such
-  var toCall = listeners.slice(-1)[0];
-  toCall.func.apply(toCall.context, argsToApply);
-};
-
-EventBaton.prototype.releaseBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-  // might be in the middle of the stack
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    throw new Error('no one has that baton!' + name);
-  }
-
-  var newListeners = [];
-  var found = false;
-  _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func) {
-      found = true;
-    } else {
-      newListeners.push(listenerObj);
-    }
-  }, this);
-
-  if (!found) {
-    throw new Error('did not find that function', func, context, name, arguments);
-  }
-  this.eventMap[name] = newListeners;
-};
-
-exports.EventBaton = EventBaton;
-
-
-});
-
-require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
-var Main = require('../app');
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
-
-var Errors = require('../util/errors');
-var Warning = Errors.Warning;
-
-var util = require('../util');
-var keyboard = require('../util/keyboard');
-
-var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
-
-    this.index = -1;
-    this.commandSpan = this.$('#prompt span.command')[0];
-    this.commandCursor = this.$('#prompt span.cursor')[0];
-    this.focus();
-
-    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
-    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
-    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
-
-    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
-  },
-
-  events: {
-    'blur #commandTextField': 'hideCursor',
-    'focus #commandTextField': 'showCursor'
-  },
-
-  blur: function() {
-    this.hideCursor();
-  },
-
-  focus: function() {
-    this.$('#commandTextField').focus();
-    this.showCursor();
-  },
-
-  hideCursor: function() {
-    this.toggleCursor(false);
-  },
-
-  showCursor: function() {
-    this.toggleCursor(true);
-  },
-
-  toggleCursor: function(state) {
-    $(this.commandCursor).toggleClass('shown', state);
-  },
-
-  onKeyDown: function(e) {
-    var el = e.srcElement;
-    this.updatePrompt(el);
-  },
-
-  onKeyUp: function(e) {
-    this.onKeyDown(e);
-
-    // we need to capture some of these events.
-    var keyToFuncMap = {
-      enter: _.bind(function() {
-        this.submit();
-      }, this),
-      up: _.bind(function() {
-        this.commandSelectChange(1);
-      }, this),
-      down: _.bind(function() {
-        this.commandSelectChange(-1);
-      }, this)
-    };
-
-    var key = keyboard.mapKeycodeToKey(e.which);
-    if (keyToFuncMap[key] !== undefined) {
-      e.preventDefault();
-      keyToFuncMap[key]();
-      this.onKeyDown(e);
-    }
-  },
-
-  badHtmlEncode: function(text) {
-    return text.replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/</g,'&lt;')
-      .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'');
-  },
-
-  updatePrompt: function(el) {
-    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
-    // super annoying delay to every keystroke... I have tried everything
-    // to make this more performant. getting the srcElement from the event,
-    // getting the value directly from the dom, etc etc. yet still,
-    // there's a very annoying and sightly noticeable command delay.
-    // try.github.com also has this, so I'm assuming those engineers gave up as
-    // well...
-
-    var val = this.badHtmlEncode(el.value);
-    this.commandSpan.innerHTML = val;
-
-    // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
-    // and scroll down due to some weird bug
-    Main.getEvents().trigger('commandScrollDown');
-  },
-
-  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    // 10px for monospaced font...
-    var widthPerChar = 10;
-
-    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
-    var width = String(numCharsSelected * widthPerChar) + 'px';
-
-    // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
-    var left = String(-numLeft * widthPerChar) + 'px';
-    // one reflow? :D
-    $(this.commandCursor).css({
-      width: width,
-      left: left
-    });
-  },
-
-  commandSelectChange: function(delta) {
-    this.index += delta;
-
-    // if we are over / under, display blank line. yes this eliminates your
-    // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
-      this.clear();
-      this.index = -1;
-      return;
-    }
-
-    // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
-    this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
-    localStorage.setItem('CommandEntries', '');
-  },
-
-  setTextField: function(value) {
-    this.$('#commandTextField').val(value);
-  },
-
-  clear: function() {
-    this.setTextField('');
-  },
-
-  submit: function() {
-    var value = this.$('#commandTextField').val().replace('\n', '');
-    this.clear();
-    this.submitValue(value);
-  },
-
-  rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
-    which.reverse();
-
-    var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
-    }, this);
-
-    console.log('the str', str);
-
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
-  },
-
-  submitValue: function(value) {
-    // we should add the command to our local storage history
-    // if it's not a blank line and this is a new command...
-    // or if we edited the command in place
-    var shouldAdd = (value.length && this.index == -1) ||
-      ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
-
-    if (shouldAdd) {
-      var commandEntry = new CommandEntry({text: value});
-      this.commands.unshift(commandEntry);
-
-      // store to local storage
-      Backbone.sync('create', commandEntry, function() { });
-
-      // if our length is too egregious, reset
-      if (this.commands.length > 100) {
-        this.clearLocalStorage();
-      }
-    }
-    this.index = -1;
-
-    util.splitTextCommand(value, function(command) {
-      this.addToCollection(command);
-    }, this);
-  },
-
-  addToCollection: function(value) {
-    var command = new Command({
-      rawStr: value
-    });
-    this.collection.add(command);
-  }
-});
-
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html. doing so allows us
-    // to nicely fade things
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']).length === 0) {
-      this.updateStatus();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-
-    Main.getEvents().on('issueWarning', this.addWarning, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
-exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
@@ -9879,6 +9517,2395 @@ var instantCommands = [
 ];
 
 exports.instantCommands = instantCommands;
+
+});
+
+require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+var Backbone = require('backbone');
+
+var GRAPHICS = require('../util/constants').GRAPHICS;
+var GLOBAL = require('../util/constants').GLOBAL;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var VisNode = require('../visuals/visNode').VisNode;
+var VisBranch = require('../visuals/visBranch').VisBranch;
+var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
+var VisEdge = require('../visuals/visEdge').VisEdge;
+var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
+
+function GitVisuals(options) {
+  this.commitCollection = options.commitCollection;
+  this.branchCollection = options.branchCollection;
+  this.visNodeMap = {};
+
+  this.visEdgeCollection = new VisEdgeCollection();
+  this.visBranchCollection = new VisBranchCollection();
+  this.commitMap = {};
+
+  this.rootCommit = null;
+  this.branchStackMap = null;
+  this.upstreamBranchSet = null;
+  this.upstreamHeadSet = null;
+
+  this.paper = options.paper;
+  this.gitReady = false;
+
+  this.branchCollection.on('add', this.addBranchFromEvent, this);
+  this.branchCollection.on('remove', this.removeBranch, this);
+  this.deferred = [];
+
+  this.events = require('../app').getEvents();
+  this.events.on('refreshTree', this.refreshTree, this);
+}
+
+GitVisuals.prototype.defer = function(action) {
+  this.deferred.push(action);
+};
+
+GitVisuals.prototype.deferFlush = function() {
+  _.each(this.deferred, function(action) {
+    action();
+  }, this);
+  this.deferred = [];
+};
+
+GitVisuals.prototype.resetAll = function() {
+  // make sure to copy these collections because we remove
+  // items in place and underscore is too dumb to detect length change
+  var edges = this.visEdgeCollection.toArray();
+  _.each(edges, function(visEdge) {
+    visEdge.remove();
+  }, this);
+
+  var branches = this.visBranchCollection.toArray();
+  _.each(branches, function(visBranch) {
+    visBranch.remove();
+  }, this);
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.remove();
+  }, this);
+
+  this.visEdgeCollection.reset();
+  this.visBranchCollection.reset();
+
+  this.visNodeMap = {};
+  this.rootCommit = null;
+  this.commitMap = {};
+};
+
+GitVisuals.prototype.assignGitEngine = function(gitEngine) {
+  this.gitEngine = gitEngine;
+  this.initHeadBranch();
+  this.deferFlush();
+};
+
+GitVisuals.prototype.initHeadBranch = function() {
+  // it's unfortaunte we have to do this, but the head branch
+  // is an edge case because it's not part of a collection so
+  // we can't use events to load or unload it. thus we have to call
+  // this ugly method which will be deleted one day
+
+  // seed this with the HEAD pseudo-branch
+  this.addBranchFromEvent(this.gitEngine.HEAD);
+};
+
+GitVisuals.prototype.getScreenPadding = function() {
+  // for now we return the node radius subtracted from the walls
+  return {
+    widthPadding: GRAPHICS.nodeRadius * 1.5,
+    heightPadding: GRAPHICS.nodeRadius * 1.5
+  };
+};
+
+GitVisuals.prototype.toScreenCoords = function(pos) {
+  if (!this.paper.width) {
+    throw new Error('being called too early for screen coords');
+  }
+  var padding = this.getScreenPadding();
+
+  var shrink = function(frac, total, padding) {
+    return padding + frac * (total - padding * 2);
+  };
+
+  return {
+    x: shrink(pos.x, this.paper.width, padding.widthPadding),
+    y: shrink(pos.y, this.paper.height, padding.heightPadding)
+  };
+};
+
+GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
+  var deferred = Q.defer();
+
+  var animate = function(visObj) {
+    visObj.animateAttrKeys(keys, attr, speed, easing);
+  };
+
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
+
+  var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
+  setTimeout(function() {
+    deferred.resolve();
+  }, time);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.finishAnimation = function() {
+  var _this = this;
+  var deferred = Q.defer();
+  var defaultTime = GRAPHICS.defaultAnimationTime;
+  var nodeRadius = GRAPHICS.nodeRadius;
+
+  var textString = 'Solved!!\n:D';
+  var text = null;
+  var makeText = _.bind(function() {
+    text = this.paper.text(
+      this.paper.width / 2,
+      this.paper.height / 2,
+      textString
+    );
+    text.attr({
+      opacity: 0,
+      'font-weight': 500,
+      'font-size': '32pt',
+      'font-family': 'Monaco, Courier, font-monospace',
+      stroke: '#000',
+      'stroke-width': 2,
+      fill: '#000'
+    });
+    text.animate({ opacity: 1 }, defaultTime);
+  }, this);
+
+  // this is a BIG ANIMATION but it ends up just being
+  // a sweet chain of promises but is pretty nice. this is
+  // after I discovered promises / deferred's. Unfortunately
+  // I wrote a lot of the git stuff before promises, so
+  // that's somewhat ugly
+
+  deferred.promise
+  // first fade out everything but circles
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['circle'] },
+      { opacity: 0 },
+      defaultTime * 1.1
+    );
+  }, this))
+  // then make circle radii bigger
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      { r: nodeRadius * 2 },
+      defaultTime * 1.5
+    );
+  }, this))
+  // then shrink em super fast
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      { r: nodeRadius * 0.75 },
+      defaultTime * 0.5
+    );
+  }, this))
+  // then explode them and display text
+  .then(_.bind(function() {
+    makeText();
+    return this.explodeNodes();
+  }, this))
+  .then(_.bind(function() {
+    return this.explodeNodes();
+  }, this))
+  // then fade circles (aka everything) in and back
+  .then(_.bind(function() {
+    return this.animateAllAttrKeys(
+      { exclude: ['arrow', 'rect', 'path', 'text'] },
+      {},
+      defaultTime * 1.25
+    );
+  }, this))
+  // then fade everything in and remove text
+  .then(_.bind(function() {
+    text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
+      text.remove();
+    });
+    return this.animateAllAttrKeys(
+      {},
+      {}
+    );
+  }, this))
+  .fail(function(reason) {
+    console.warn('Finish animation failed due to ', reason);
+    throw reason;
+  });
+
+  deferred.resolve(); // start right away
+  return deferred.promise;
+};
+
+GitVisuals.prototype.explodeNodes = function() {
+  var deferred = Q.defer();
+  var funcs = [];
+  _.each(this.visNodeMap, function(visNode) {
+    funcs.push(visNode.getExplodeStepFunc());
+  });
+
+  var interval = setInterval(function() {
+    // object creation here is a bit ugly inside a loop,
+    // but the alternative is to just OR against a bunch
+    // of booleans which means the other stepFuncs
+    // are called unnecessarily when they have almost
+    // zero speed. would be interesting to see performance differences
+    var keepGoing = [];
+    _.each(funcs, function(func) {
+      if (func()) {
+        keepGoing.push(func);
+      }
+    });
+
+    if (!keepGoing.length) {
+      clearInterval(interval);
+      // next step :D wow I love promises
+      deferred.resolve();
+      return;
+    }
+
+    funcs = keepGoing;
+  }, 1/40);
+
+  return deferred.promise;
+};
+
+GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
+  var animate = function(obj) {
+    var id = obj.getID();
+    if (_.include(idsToOmit, id)) {
+      return;
+    }
+
+    if (!fromSnapshot[id] || !toSnapshot[id]) {
+      // its actually ok it doesnt exist yet
+      return;
+    }
+    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
+  };
+
+  this.visBranchCollection.each(animate);
+  this.visEdgeCollection.each(animate);
+  _.each(this.visNodeMap, animate);
+};
+
+/***************************************
+     == BEGIN Tree Calculation Parts ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.genSnapshot = function() {
+  this.fullCalc();
+
+  var snapshot = {};
+  _.each(this.visNodeMap, function(visNode) {
+    snapshot[visNode.get('id')] = visNode.getAttributes();
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    snapshot[visBranch.getID()] = visBranch.getAttributes();
+  }, this);
+
+  this.visEdgeCollection.each(function(visEdge) {
+    snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  return snapshot;
+};
+
+GitVisuals.prototype.refreshTree = function(speed) {
+  if (!this.gitReady) {
+    return;
+  }
+
+  // this method can only be called after graphics are rendered
+  this.fullCalc();
+
+  this.animateAll(speed);
+};
+
+GitVisuals.prototype.refreshTreeHarsh = function() {
+  this.fullCalc();
+
+  this.animateAll(0);
+};
+
+GitVisuals.prototype.animateAll = function(speed) {
+  this.zIndexReflow();
+
+  this.animateEdges(speed);
+  this.animateNodePositions(speed);
+  this.animateRefs(speed);
+};
+
+GitVisuals.prototype.fullCalc = function() {
+  this.calcTreeCoords();
+  this.calcGraphicsCoords();
+};
+
+GitVisuals.prototype.calcTreeCoords = function() {
+  // this method can only contain things that dont rely on graphics
+  if (!this.rootCommit) {
+    throw new Error('grr, no root commit!');
+  }
+
+  this.calcUpstreamSets();
+  this.calcBranchStacks();
+
+  this.calcDepth();
+  this.calcWidth();
+};
+
+GitVisuals.prototype.calcGraphicsCoords = function() {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.updateName();
+  });
+};
+
+GitVisuals.prototype.calcUpstreamSets = function() {
+  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+};
+
+GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
+  return this.branchStackMap[commit.get('id')];
+};
+
+GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
+  var branches = this.upstreamBranchSet[commit.get('id')];
+  if (!branches) {
+    throw new Error('that commit doesnt have upstream branches!');
+  }
+
+  return this.blendHuesFromBranchStack(branches);
+};
+
+GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
+  var hueStrings = [];
+  _.each(branchStackArray, function(branchWrapper) {
+    var fill = branchWrapper.obj.get('visBranch').get('fill');
+
+    if (fill.slice(0,3) !== 'hsb') {
+      // crap! convert
+      var color = Raphael.color(fill);
+      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
+      fill = fill + ',' + String(color.s) + ')';
+    }
+
+    hueStrings.push(fill);
+  });
+
+  return blendHueStrings(hueStrings);
+};
+
+GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
+  if (!this.upstreamBranchSet) {
+    throw new Error("Can't calculate this yet!");
+  }
+
+  var id = commit.get('id');
+  var branch = this.upstreamBranchSet;
+  var head = this.upstreamHeadSet;
+
+  if (branch[id]) {
+    return 'branch';
+  } else if (head[id]) {
+    return 'head';
+  } else {
+    return 'none';
+  }
+};
+
+GitVisuals.prototype.calcBranchStacks = function() {
+  var branches = this.gitEngine.getBranches();
+  var map = {};
+  _.each(branches, function(branch) {
+    var thisId = branch.target.get('id');
+
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(branch);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      if (aId == 'master' || bId == 'master') {
+        return aId == 'master' ? -1 : 1;
+      }
+      return aId.localeCompare(bId);
+    });
+  });
+  this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcWidth = function() {
+  this.maxWidthRecursive(this.rootCommit);
+
+  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+};
+
+GitVisuals.prototype.maxWidthRecursive = function(commit) {
+  var childrenTotalWidth = 0;
+  _.each(commit.get('children'), function(child) {
+    // only include this if we are the "main" parent of
+    // this child
+    if (child.isMainParent(commit)) {
+      var childWidth = this.maxWidthRecursive(child);
+      childrenTotalWidth += childWidth;
+    }
+  }, this);
+
+  var maxWidth = Math.max(1, childrenTotalWidth);
+  commit.get('visNode').set('maxWidth', maxWidth);
+  return maxWidth;
+};
+
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
+  // I always center myself within my bounds
+  var myWidthPos = (min + max) / 2.0;
+  commit.get('visNode').get('pos').x = myWidthPos;
+
+  if (commit.get('children').length === 0) {
+    return;
+  }
+
+  // i have a certain length to divide up
+  var myLength = max - min;
+  // I will divide up that length based on my children's max width in a
+  // basic box-flex model
+  var totalFlex = 0;
+  var children = commit.get('children');
+  _.each(children, function(child) {
+    if (child.isMainParent(commit)) {
+      totalFlex += child.get('visNode').getMaxWidthScaled();
+    }
+  }, this);
+
+  var prevBound = min;
+
+  // now go through and do everything
+  // TODO: order so the max width children are in the middle!!
+  _.each(children, function(child) {
+    if (!child.isMainParent(commit)) {
+      return;
+    }
+
+    var flex = child.get('visNode').getMaxWidthScaled();
+    var portion = (flex / totalFlex) * myLength;
+    var childMin = prevBound;
+    var childMax = childMin + portion;
+    this.assignBoundsRecursive(child, childMin, childMax);
+    prevBound = childMax;
+  }, this);
+};
+
+GitVisuals.prototype.calcDepth = function() {
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  if (maxDepth > 15) {
+    // issue warning
+    console.warn('graphics are degrading from too many layers');
+  }
+
+  var depthIncrement = this.getDepthIncrement(maxDepth);
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.setDepthBasedOn(depthIncrement);
+  }, this);
+};
+
+/***************************************
+     == END Tree Calculation ==
+       _  __    __  _
+       \\/ /    \ \//_
+        \ \     /   __|   __
+         \ \___/   /_____/ /
+          |        _______ \
+          \  ( )   /      \_\
+           \      /
+            |    |
+            |    |
+  ____+-_=+-^    ^+-=_=__________
+
+^^ I drew that :D
+
+ **************************************/
+
+GitVisuals.prototype.animateNodePositions = function(speed) {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.animateUpdatedPosition(speed);
+  }, this);
+};
+
+GitVisuals.prototype.turnOnPaper = function() {
+  this.gitReady = false;
+};
+
+// does making an accessor method make it any less hacky? that is the true question
+GitVisuals.prototype.turnOffPaper = function() {
+  this.gitReady = true;
+};
+
+GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
+  var action = _.bind(function() {
+    this.addBranch(branch);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addBranch = function(branch) {
+  var visBranch = new VisBranch({
+    branch: branch,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visBranchCollection.add(visBranch);
+  if (this.gitReady) {
+    visBranch.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.removeVisBranch = function(visBranch) {
+  this.visBranchCollection.remove(visBranch);
+};
+
+GitVisuals.prototype.removeVisNode = function(visNode) {
+  this.visNodeMap[visNode.getID()] = undefined;
+};
+
+GitVisuals.prototype.removeVisEdge = function(visEdge) {
+  this.visEdgeCollection.remove(visEdge);
+};
+
+GitVisuals.prototype.animateRefs = function(speed) {
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.animateUpdatedPos(speed);
+  }, this);
+};
+
+GitVisuals.prototype.animateEdges = function(speed) {
+  this.visEdgeCollection.each(function(edge) {
+    edge.animateUpdatedPath(speed);
+  }, this);
+};
+
+GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
+  // assume there are at least 7 layers until later
+  maxDepth = Math.max(maxDepth, 7);
+  var increment = 1.0 / maxDepth;
+  return increment;
+};
+
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+  commit.get('visNode').setDepth(depth);
+
+  var children = commit.get('children');
+  var maxDepth = depth;
+  _.each(children, function(child) {
+    var d = this.calcDepthRecursive(child, depth + 1);
+    maxDepth = Math.max(d, maxDepth);
+  }, this);
+
+  return maxDepth;
+};
+
+// we debounce here so we aren't firing a resize call on every resize event
+// but only after they stop
+GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
+  // refresh when we are ready
+  if (GLOBAL.isAnimating) {
+    this.events.trigger('processCommandFromEvent', 'refresh');
+  } else {
+    this.refreshTree();
+  }
+}, 200);
+
+GitVisuals.prototype.addNode = function(id, commit) {
+  this.commitMap[id] = commit;
+  if (commit.get('rootCommit')) {
+    this.rootCommit = commit;
+  }
+
+  var visNode = new VisNode({
+    id: id,
+    commit: commit,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visNodeMap[id] = visNode;
+
+  if (this.gitReady) {
+    visNode.genGraphics(this.paper);
+  }
+  return visNode;
+};
+
+GitVisuals.prototype.addEdge = function(idTail, idHead) {
+  var visNodeTail = this.visNodeMap[idTail];
+  var visNodeHead = this.visNodeMap[idHead];
+
+  if (!visNodeTail || !visNodeHead) {
+    throw new Error('one of the ids in (' + idTail +
+                    ', ' + idHead + ') does not exist');
+  }
+
+  var edge = new VisEdge({
+    tail: visNodeTail,
+    head: visNodeHead,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+  this.visEdgeCollection.add(edge);
+
+  if (this.gitReady) {
+    edge.genGraphics(this.paper);
+  }
+};
+
+GitVisuals.prototype.zIndexReflow = function() {
+  this.visNodesFront();
+  this.visBranchesFront();
+};
+
+GitVisuals.prototype.visNodesFront = function() {
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.toFront();
+  });
+};
+
+GitVisuals.prototype.visBranchesFront = function() {
+  this.visBranchCollection.each(function(vBranch) {
+    vBranch.nonTextToFront();
+    vBranch.textToFront();
+  });
+};
+
+GitVisuals.prototype.drawTreeFromReload = function() {
+  this.gitReady = true;
+  // gen all the graphics we need
+  this.deferFlush();
+
+  this.calcTreeCoords();
+};
+
+GitVisuals.prototype.drawTreeFirstTime = function() {
+  this.gitReady = true;
+  this.calcTreeCoords();
+
+  _.each(this.visNodeMap, function(visNode) {
+    visNode.genGraphics(this.paper);
+  }, this);
+
+  this.visEdgeCollection.each(function(edge) {
+    edge.genGraphics(this.paper);
+  }, this);
+
+  this.visBranchCollection.each(function(visBranch) {
+    visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.zIndexReflow();
+};
+
+
+/************************
+ * Random util functions, some from liquidGraph
+ ***********************/
+function blendHueStrings(hueStrings) {
+  // assumes a sat of 0.7 and brightness of 1
+
+  var x = 0;
+  var y = 0;
+  var totalSat = 0;
+  var totalBright = 0;
+  var length = hueStrings.length;
+
+  _.each(hueStrings, function(hueString) {
+    var exploded = hueString.split('(')[1];
+    exploded = exploded.split(')')[0];
+    exploded = exploded.split(',');
+
+    totalSat += parseFloat(exploded[1]);
+    totalBright += parseFloat(exploded[2]);
+    var hue = parseFloat(exploded[0]);
+
+    var angle = hue * Math.PI * 2;
+    x += Math.cos(angle);
+    y += Math.sin(angle);
+  });
+
+  x = x / length;
+  y = y / length;
+  totalSat = totalSat / length;
+  totalBright = totalBright / length;
+
+  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
+  if (hue < 0) {
+    hue = hue + 1;
+  }
+  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
+}
+
+exports.GitVisuals = GitVisuals;
+
+});
+
+require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
+
+var VisNode = VisBase.extend({
+  defaults: {
+    depth: undefined,
+    maxWidth: null,
+    outgoingEdges: null,
+
+    circle: null,
+    text: null,
+
+    id: null,
+    pos: null,
+    radius: null,
+
+    commit: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing,
+
+    fill: GRAPHICS.defaultNodeFill,
+    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
+    stroke: GRAPHICS.defaultNodeStroke
+  },
+
+  getID: function() {
+    return this.get('id');
+  },
+
+  validateAtInit: function() {
+    if (!this.get('id')) {
+      throw new Error('need id for mapping');
+    }
+    if (!this.get('commit')) {
+      throw new Error('need commit for linking');
+    }
+
+    if (!this.get('pos')) {
+      this.set('pos', {
+        x: Math.random(),
+        y: Math.random()
+      });
+    }
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.set('outgoingEdges', []);
+  },
+
+  setDepth: function(depth) {
+    // for merge commits we need to max the depths across all
+    this.set('depth', Math.max(this.get('depth') || 0, depth));
+  },
+
+  setDepthBasedOn: function(depthIncrement) {
+    if (this.get('depth') === undefined) {
+      debugger;
+      throw new Error('no depth yet!');
+    }
+    var pos = this.get('pos');
+    pos.y = this.get('depth') * depthIncrement;
+  },
+
+  getMaxWidthScaled: function() {
+    // returns our max width scaled based on if we are visible
+    // from a branch or not
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    var map = {
+      branch: 1,
+      head: 0.3,
+      none: 0.1
+    };
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat] * this.get('maxWidth');
+  },
+
+  toFront: function() {
+    this.get('circle').toFront();
+    this.get('text').toFront();
+  },
+
+  getOpacity: function() {
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.upstreamHeadOpacity,
+      'none': GRAPHICS.upstreamNoneOpacity
+    };
+
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (map[stat] === undefined) {
+      throw new Error('invalid status');
+    }
+    return map[stat];
+  },
+
+  getTextScreenCoords: function() {
+    return this.getScreenCoords();
+  },
+
+  getAttributes: function() {
+    var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+    var opacity = this.getOpacity();
+
+    return {
+      circle: {
+        cx: pos.x,
+        cy: pos.y,
+        opacity: opacity,
+        r: this.getRadius(),
+        fill: this.getFill(),
+        'stroke-width': this.get('stroke-width'),
+        stroke: this.get('stroke')
+      },
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: opacity
+      }
+    };
+  },
+
+  highlightTo: function(visObj, speed, easing) {
+    // a small function to highlight the color of a node for demonstration purposes
+    var color = visObj.get('fill');
+
+    var attr = {
+      circle: {
+        fill: color,
+        stroke: color,
+        'stroke-width': this.get('stroke-width') * 5
+      },
+      text: {}
+    };
+
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateUpdatedPosition: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToSnapshot: function(snapShot, speed, easing) {
+    if (!snapShot[this.getID()]) {
+      return;
+    }
+    this.animateToAttr(snapShot[this.getID()], speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.get('circle').attr(attr.circle);
+      this.get('text').attr(attr.text);
+      return;
+    }
+
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('circle').stop().animate(attr.circle, s, e);
+    this.get('text').stop().animate(attr.text, s, e);
+
+    if (easing == 'bounce' &&
+        attr.circle && attr.circle.cx !== undefined &&
+        attr.text && attr.text.x !== undefined ) {
+      // animate the x attribute without bouncing so it looks like there's
+      // gravity in only one direction. Just a small animation polish
+      this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
+      this.get('text').animate(attr.text.x, s, 'easeInOut');
+    }
+  },
+
+  getScreenCoords: function() {
+    var pos = this.get('pos');
+    return this.gitVisuals.toScreenCoords(pos);
+  },
+
+  getRadius: function() {
+    return this.get('radius') || GRAPHICS.nodeRadius;
+  },
+
+  getParentScreenCoords: function() {
+    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
+  },
+
+  setBirthPosition: function() {
+    // utility method for animating it out from underneath a parent
+    var parentCoords = this.getParentScreenCoords();
+
+    this.get('circle').attr({
+      cx: parentCoords.x,
+      cy: parentCoords.y,
+      opacity: 0,
+      r: 0
+    });
+    this.get('text').attr({
+      x: parentCoords.x,
+      y: parentCoords.y,
+      opacity: 0
+    });
+  },
+
+  setBirthFromSnapshot: function(beforeSnapshot) {
+    // first get parent attribute
+    // woof bad data access. TODO
+    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
+    var parentAttr = beforeSnapshot[parentID];
+
+    // then set myself faded on top of parent
+    this.get('circle').attr({
+      opacity: 0,
+      r: 0,
+      cx: parentAttr.circle.cx,
+      cy: parentAttr.circle.cy
+    });
+
+    this.get('text').attr({
+      opacity: 0,
+      x: parentAttr.text.x,
+      y: parentAttr.text.y
+    });
+
+    // then do edges
+    var parentCoords = {
+      x: parentAttr.circle.cx,
+      y: parentAttr.circle.cy
+    };
+    this.setOutgoingEdgesBirthPosition(parentCoords);
+  },
+
+  setBirth: function() {
+    this.setBirthPosition();
+    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
+  },
+
+  setOutgoingEdgesOpacity: function(opacity) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.setOpacity(opacity);
+    });
+  },
+
+  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapShot[edge.getID()];
+      edge.animateToAttr(attr);
+    }, this);
+  },
+
+  animateOutgoingEdges: function(speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.animateUpdatedPath(speed, easing);
+    }, this);
+  },
+
+  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var attr = snapshot[edge.getID()];
+      edge.animateToAttr(attr, speed, easing);
+    }, this);
+  },
+
+  setOutgoingEdgesBirthPosition: function(parentCoords) {
+    _.each(this.get('outgoingEdges'), function(edge) {
+      var headPos = edge.get('head').getScreenCoords();
+      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
+      edge.get('path').stop().attr({
+        path: path,
+        opacity: 0
+      });
+    }, this);
+  },
+
+  parentInFront: function() {
+    // woof! talk about bad data access
+    this.get('commit').get('parents')[0].get('visNode').toFront();
+  },
+
+  getFontSize: function(str) {
+    if (str.length < 3) {
+      return 12;
+    } else if (str.length < 5) {
+      return 10;
+    } else {
+      return 8;
+    }
+  },
+
+  getFill: function() {
+    // first get our status, might be easy from this
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
+    if (stat == 'head') {
+      return GRAPHICS.headRectFill;
+    } else if (stat == 'none') {
+      return GRAPHICS.orphanNodeFill;
+    }
+
+    // now we need to get branch hues
+    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git checkout ' + this.get('commit').get('id');
+    var Main = require('../app');
+    _.each([this.get('circle'), this.get('text')], function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+      $(rObj.node).css('cursor', 'pointer');
+    });
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    // set the opacity on my stuff
+    var keys = ['circle', 'text'];
+    _.each(keys, function(key) {
+      this.get(key).attr({
+        opacity: opacity
+      });
+    }, this);
+  },
+
+  remove: function() {
+    this.removeKeys(['circle'], ['text']);
+    // needs a manual removal of text for whatever reason
+    this.get('text').remove();
+
+    this.gitVisuals.removeVisNode(this);
+  },
+
+  removeAll: function() {
+    this.remove();
+    _.each(this.get('outgoingEdges'), function(edge) {
+      edge.remove();
+    }, this);
+  },
+
+  getExplodeStepFunc: function() {
+    var circle = this.get('circle');
+
+    // decide on a speed
+    var speedMag = 20;
+    // aim upwards
+    var angle = Math.PI + Math.random() * 1 * Math.PI;
+    var gravity = 1 / 5;
+    var drag = 1 / 100;
+
+    var vx = speedMag * Math.cos(angle);
+    var vy = speedMag * Math.sin(angle);
+    var x = circle.attr('cx');
+    var y = circle.attr('cy');
+
+    var maxWidth = this.gitVisuals.paper.width;
+    var maxHeight = this.gitVisuals.paper.height;
+    var elasticity = 0.8;
+    var dt = 1.0;
+
+    var stepFunc = function() {
+      // lol epic runge kutta here... not
+      vy += gravity * dt - drag * vy;
+      vx -= drag * vx;
+      x += vx * dt;
+      y += vy * dt;
+
+      if (x < 0 || x > maxWidth) {
+        vx = elasticity * -vx;
+        x = (x < 0) ? 0 : maxWidth;
+      }
+      if (y < 0 || y > maxHeight) {
+        vy = elasticity * -vy;
+        y = (y < 0) ? 0 : maxHeight;
+      }
+
+      circle.attr({
+        cx: x,
+        cy: y
+      });
+      // continuation calculation
+      if ((vx * vx + vy * vy) < 0.01 && Math.abs(y - maxHeight) === 0) {
+        // dont need to animate anymore, we are on ground
+        return false;
+      }
+      // keep animating!
+      return true;
+    };
+    return stepFunc;
+  },
+
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+
+    var pos = this.getScreenCoords();
+    var textPos = this.getTextScreenCoords();
+
+    var circle = paper.circle(
+      pos.x,
+      pos.y,
+      this.getRadius()
+    ).attr(this.getAttributes().circle);
+
+    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+    text.attr({
+      'font-size': this.getFontSize(this.get('id')),
+      'font-weight': 'bold',
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getOpacity()
+    });
+
+    this.set('circle', circle);
+    this.set('text', text);
+
+    this.attachClickHandlers();
+  }
+});
+
+exports.VisNode = VisNode;
+
+});
+
+require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var VisBase = Backbone.Model.extend({
+  removeKeys: function(keys) {
+    _.each(keys, function(key) {
+      if (this.get(key)) {
+        this.get(key).remove();
+      }
+    }, this);
+  },
+
+  animateAttrKeys: function(keys, attrObj, speed, easing) {
+    // either we animate a specific subset of keys or all
+    // possible things we could animate
+    keys = _.extend(
+      {},
+      {
+        include: ['circle', 'arrow', 'rect', 'path', 'text'],
+        exclude: []
+      },
+      keys || {}
+    );
+
+    var attr = this.getAttributes();
+
+    // safely insert this attribute into all the keys we want
+    _.each(keys.include, function(key) {
+      attr[key] = _.extend(
+        {},
+        attr[key],
+        attrObj
+      );
+    });
+
+    _.each(keys.exclude, function(key) {
+      delete attr[key];
+    });
+
+    this.animateToAttr(attr, speed, easing);
+  }
+});
+
+exports.VisBase = VisBase;
+
+
+});
+
+require.define("/src/js/visuals/visBranch.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
+
+var randomHueString = function() {
+  var hue = Math.random();
+  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  return str;
+};
+
+var VisBranch = VisBase.extend({
+  defaults: {
+    pos: null,
+    text: null,
+    rect: null,
+    arrow: null,
+    isHead: false,
+    flip: 1,
+
+    fill: GRAPHICS.rectFill,
+    stroke: GRAPHICS.rectStroke,
+    'stroke-width': GRAPHICS.rectStrokeWidth,
+
+    offsetX: GRAPHICS.nodeRadius * 4.75,
+    offsetY: 0,
+    arrowHeight: 14,
+    arrowInnerSkew: 0,
+    arrowEdgeHeight: 6,
+    arrowLength: 14,
+    arrowOffsetFromCircleX: 10,
+
+    vPad: 5,
+    hPad: 5,
+
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    if (!this.get('branch')) {
+      throw new Error('need a branch!');
+    }
+  },
+
+  getID: function() {
+    return this.get('branch').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand notation for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+    if (!this.gitEngine) {
+      console.log('throw damnit');
+      throw new Error('asd');
+    }
+
+    this.get('branch').set('visBranch', this);
+    var id = this.get('branch').get('id');
+
+    if (id == 'HEAD') {
+      // switch to a head ref
+      this.set('isHead', true);
+      this.set('flip', -1);
+
+      this.set('fill', GRAPHICS.headRectFill);
+    } else if (id !== 'master') {
+      // we need to set our color to something random
+      this.set('fill', randomHueString());
+    }
+  },
+
+  getCommitPosition: function() {
+    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
+    var visNode = commit.get('visNode');
+    return visNode.getScreenCoords();
+  },
+
+  getBranchStackIndex: function() {
+    if (this.get('isHead')) {
+      // head is never stacked with other branches
+      return 0;
+    }
+
+    var myArray = this.getBranchStackArray();
+    var index = -1;
+    _.each(myArray, function(branch, i) {
+      if (branch.obj == this.get('branch')) {
+        index = i;
+      }
+    }, this);
+    return index;
+  },
+
+  getBranchStackLength: function() {
+    if (this.get('isHead')) {
+      // head is always by itself
+      return 1;
+    }
+
+    return this.getBranchStackArray().length;
+  },
+
+  getBranchStackArray: function() {
+    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    if (arr === undefined) {
+      // this only occurs when we are generating graphics inside of
+      // a new Branch instantiation, so we need to force the update
+      this.gitVisuals.calcBranchStacks();
+      return this.getBranchStackArray();
+    }
+    return arr;
+  },
+
+  getTextPosition: function() {
+    var pos = this.getCommitPosition();
+
+    // then order yourself accordingly. we use alphabetical sorting
+    // so everything is independent
+    var myPos = this.getBranchStackIndex();
+    return {
+      x: pos.x + this.get('flip') * this.get('offsetX'),
+      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
+    };
+  },
+
+  getRectPosition: function() {
+    var pos = this.getTextPosition();
+    var f = this.get('flip');
+
+    // first get text width and height
+    var textSize = this.getTextSize();
+    return {
+      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
+      y: pos.y - 0.5 * textSize.h - this.get('vPad')
+    };
+  },
+
+  getArrowPath: function() {
+    // should make these util functions...
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+    var toStringCoords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var f = this.get('flip');
+
+    var arrowTip = offset2d(this.getCommitPosition(),
+      f * this.get('arrowOffsetFromCircleX'),
+      0
+    );
+    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
+    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
+
+    var arrowInnerUp = offset2d(arrowEdgeUp,
+      f * this.get('arrowInnerSkew'),
+      this.get('arrowEdgeHeight')
+    );
+    var arrowInnerLow = offset2d(arrowEdgeLow,
+      f * this.get('arrowInnerSkew'),
+      -this.get('arrowEdgeHeight')
+    );
+
+    var tailLength = 49;
+    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
+    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
+
+    var pathStr = '';
+    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
+    var coords = [
+      arrowInnerUp,
+      arrowEdgeUp,
+      arrowTip,
+      arrowEdgeLow,
+      arrowInnerLow,
+      arrowStartLow
+    ];
+    _.each(coords, function(pos) {
+      pathStr += 'L' + toStringCoords(pos) + ' ';
+    }, this);
+    pathStr += 'z';
+    return pathStr;
+  },
+
+  getTextSize: function() {
+    var getTextWidth = function(visBranch) {
+      var textNode = visBranch.get('text').node;
+      return (textNode === null) ? 1 : textNode.clientWidth;
+    };
+
+    var textNode = this.get('text').node;
+    if (this.get('isHead')) {
+      // HEAD is a special case
+      return {
+        w: textNode.clientWidth,
+        h: textNode.clientHeight
+      };
+    }
+
+    var maxWidth = 0;
+    _.each(this.getBranchStackArray(), function(branch) {
+      maxWidth = Math.max(maxWidth, getTextWidth(
+        branch.obj.get('visBranch')
+      ));
+    });
+
+    return {
+      w: maxWidth,
+      h: textNode.clientHeight
+    };
+  },
+
+  getSingleRectSize: function() {
+    var textSize = this.getTextSize();
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h + hPad * 2
+    };
+  },
+
+  getRectSize: function() {
+    var textSize = this.getTextSize();
+    // enforce padding
+    var vPad = this.get('vPad');
+    var hPad = this.get('hPad');
+
+    // number of other branch names we are housing
+    var totalNum = this.getBranchStackLength();
+    return {
+      w: textSize.w + vPad * 2,
+      h: textSize.h * totalNum * 1.1 + hPad * 2
+    };
+  },
+
+  getName: function() {
+    var name = this.get('branch').get('id');
+    var selected = this.gitEngine.HEAD.get('target').get('id');
+
+    var add = (selected == name) ? '*' : '';
+    return name + add;
+  },
+
+  nonTextToFront: function() {
+    this.get('arrow').toFront();
+    this.get('rect').toFront();
+  },
+
+  textToFront: function() {
+    this.get('text').toFront();
+  },
+
+  getFill: function() {
+    // in the easy case, just return your own fill if you are:
+    // - the HEAD ref
+    // - by yourself (length of 1)
+    // - part of a multi branch, but your thing is hidden
+    if (this.get('isHead') ||
+        this.getBranchStackLength() == 1 ||
+        this.getBranchStackIndex() !== 0) {
+      return this.get('fill');
+    }
+
+    // woof. now it's hard, we need to blend hues...
+    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
+  },
+
+  remove: function() {
+    this.removeKeys(['text', 'arrow', 'rect']);
+    // also need to remove from this.gitVisuals
+    this.gitVisuals.removeVisBranch(this);
+  },
+
+  genGraphics: function(paper) {
+    var textPos = this.getTextPosition();
+    var name = this.getName();
+    var text;
+
+    // when from a reload, we dont need to generate the text
+    text = paper.text(textPos.x, textPos.y, String(name));
+    text.attr({
+      'font-size': 14,
+      'font-family': 'Monaco, Courier, font-monospace',
+      opacity: this.getTextOpacity()
+    });
+    this.set('text', text);
+
+    var rectPos = this.getRectPosition();
+    var sizeOfRect = this.getRectSize();
+    var rect = paper
+      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
+      .attr(this.getAttributes().rect);
+    this.set('rect', rect);
+
+    var arrowPath = this.getArrowPath();
+    var arrow = paper
+      .path(arrowPath)
+      .attr(this.getAttributes().arrow);
+    this.set('arrow', arrow);
+
+    this.attachClickHandlers();
+    rect.toFront();
+    text.toFront();
+  },
+
+  attachClickHandlers: function() {
+    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var Main = require('../app');
+    var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
+
+    _.each(objs, function(rObj) {
+      rObj.click(function() {
+        Main.getEvents().trigger('processCommandFromEvent', commandStr);
+      });
+      $(rObj.node).css('cursor', 'pointer');
+    });
+  },
+
+  updateName: function() {
+    this.get('text').attr({
+      text: this.getName()
+    });
+  },
+
+  getNonTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
+  },
+
+  getTextOpacity: function() {
+    if (this.get('isHead')) {
+      return this.gitEngine.getDetachedHead() ? 1 : 0;
+    }
+    return 1;
+  },
+
+  getAttributes: function() {
+    var nonTextOpacity = this.getNonTextOpacity();
+    var textOpacity = this.getTextOpacity();
+    this.updateName();
+
+    var textPos = this.getTextPosition();
+    var rectPos = this.getRectPosition();
+    var rectSize = this.getRectSize();
+
+    var arrowPath = this.getArrowPath();
+
+    return {
+      text: {
+        x: textPos.x,
+        y: textPos.y,
+        opacity: textOpacity
+      },
+      rect: {
+        x: rectPos.x,
+        y: rectPos.y,
+        width: rectSize.w,
+        height: rectSize.h,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      },
+      arrow: {
+        path: arrowPath,
+        opacity: nonTextOpacity,
+        fill: this.getFill(),
+        stroke: this.get('stroke'),
+        'stroke-width': this.get('stroke-width')
+      }
+    };
+  },
+
+  animateUpdatedPos: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.get('text').attr(attr.text);
+      this.get('rect').attr(attr.rect);
+      this.get('arrow').attr(attr.arrow);
+      return;
+    }
+
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+
+    this.get('text').stop().animate(attr.text, s, e);
+    this.get('rect').stop().animate(attr.rect, s, e);
+    this.get('arrow').stop().animate(attr.arrow, s, e);
+  }
+});
+
+var VisBranchCollection = Backbone.Collection.extend({
+  model: VisBranch
+});
+
+exports.VisBranchCollection = VisBranchCollection;
+exports.VisBranch = VisBranch;
+
+});
+
+require.define("/src/js/visuals/visEdge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GRAPHICS = require('../util/constants').GRAPHICS;
+
+var VisBase = require('../visuals/tree').VisBase;
+
+var VisEdge = VisBase.extend({
+  defaults: {
+    tail: null,
+    head: null,
+    animationSpeed: GRAPHICS.defaultAnimationTime,
+    animationEasing: GRAPHICS.defaultEasing
+  },
+
+  validateAtInit: function() {
+    var required = ['tail', 'head'];
+    _.each(required, function(key) {
+      if (!this.get(key)) {
+        throw new Error(key + ' is required!');
+      }
+    }, this);
+  },
+
+  getID: function() {
+    return this.get('tail').get('id') + '.' + this.get('head').get('id');
+  },
+
+  initialize: function() {
+    this.validateAtInit();
+
+    // shorthand for the main objects
+    this.gitVisuals = this.get('gitVisuals');
+    this.gitEngine = this.get('gitEngine');
+
+    this.get('tail').get('outgoingEdges').push(this);
+  },
+
+  remove: function() {
+    this.removeKeys(['path']);
+    this.gitVisuals.removeVisEdge(this);
+  },
+
+  genSmoothBezierPathString: function(tail, head) {
+    var tailPos = tail.getScreenCoords();
+    var headPos = head.getScreenCoords();
+    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
+  },
+
+  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+    // we need to generate the path and control points for the bezier. format
+    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
+    // the control points have to be __below__ to get the curve starting off straight.
+
+    var coords = function(pos) {
+      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
+    };
+    var offset = function(pos, dir, delta) {
+      delta = delta || GRAPHICS.curveControlPointOffset;
+      return {
+        x: pos.x,
+        y: pos.y + delta * dir
+      };
+    };
+    var offset2d = function(pos, x, y) {
+      return {
+        x: pos.x + x,
+        y: pos.y + y
+      };
+    };
+
+    // first offset tail and head by radii
+    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
+    headPos = offset(headPos, 1, this.get('head').getRadius());
+
+    var str = '';
+    // first move to bottom of tail
+    str += 'M' + coords(tailPos) + ' ';
+    // start bezier
+    str += 'C';
+    // then control points above tail and below head
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(offset(headPos, 1)) + ' ';
+    // now finish
+    str += coords(headPos);
+
+    // arrow head
+    var delta = GRAPHICS.arrowHeadSize || 10;
+    str += ' L' + coords(offset2d(headPos, -delta, delta));
+    str += ' L' + coords(offset2d(headPos, delta, delta));
+    str += ' L' + coords(headPos);
+
+    // then go back, so we can fill correctly
+    str += 'C';
+    str += coords(offset(headPos, 1)) + ' ';
+    str += coords(offset(tailPos, -1)) + ' ';
+    str += coords(tailPos);
+
+    return str;
+  },
+
+  getBezierCurve: function() {
+    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
+  },
+
+  getStrokeColor: function() {
+    return GRAPHICS.visBranchStrokeColorNone;
+  },
+
+  setOpacity: function(opacity) {
+    opacity = (opacity === undefined) ? 1 : opacity;
+
+    this.get('path').attr({opacity: opacity});
+  },
+
+  genGraphics: function(paper) {
+    var pathString = this.getBezierCurve();
+
+    var path = paper.path(pathString).attr({
+      'stroke-width': GRAPHICS.visBranchStrokeWidth,
+      'stroke': this.getStrokeColor(),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      'fill': this.getStrokeColor()
+    });
+    path.toBack();
+    this.set('path', path);
+  },
+
+  getOpacity: function() {
+    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
+    var map = {
+      'branch': 1,
+      'head': GRAPHICS.edgeUpstreamHeadOpacity,
+      'none': GRAPHICS.edgeUpstreamNoneOpacity
+    };
+
+    if (map[stat] === undefined) { throw new Error('bad stat'); }
+    return map[stat];
+  },
+
+  getAttributes: function() {
+    var newPath = this.getBezierCurve();
+    var opacity = this.getOpacity();
+    return {
+      path: {
+        path: newPath,
+        opacity: opacity
+      }
+    };
+  },
+
+  animateUpdatedPath: function(speed, easing) {
+    var attr = this.getAttributes();
+    this.animateToAttr(attr, speed, easing);
+  },
+
+  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+    // an animation of 0 is essentially setting the attribute directly
+    this.animateToAttr(fromAttr, 0);
+    this.animateToAttr(toAttr, speed, easing);
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.get('path').attr(attr.path);
+      return;
+    }
+
+    this.get('path').toBack();
+    this.get('path').stop().animate(
+      attr.path,
+      speed !== undefined ? speed : this.get('animationSpeed'),
+      easing || this.get('animationEasing')
+    );
+  }
+});
+
+var VisEdgeCollection = Backbone.Collection.extend({
+  model: VisEdge
+});
+
+exports.VisEdgeCollection = VisEdgeCollection;
+exports.VisEdge = VisEdge;
+
+});
+
+require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var Main = require('../app');
+var GitCommands = require('../git/commands');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+/**
+  * This class supports a few things we need for levels:
+    ~ A disabled map (to prevent certain git commands from firing)
+    ~ A post-git command hook (to compare the git tree against the solution)
+    ~ Extra level-specific commands (like help, hint, etc) that are async
+**/
+
+function InputWaterfall(options) {
+  options = options || {};
+  this.listenEvent = options.listenEvent || 'processCommand';
+  this.disabledMap = options.disabledMap || {
+    'git cherry-pick': true,
+    'git rebase': true
+  };
+
+  this.listen();
+}
+
+InputWaterfall.prototype.listen = function() {
+  Main.getEvents().on(this.listenEvent, this.process, this);
+};
+
+InputWaterfall.prototype.mute = function() {
+  Main.getEvents().off(this.listenEvent, this.process, this);
+};
+
+InputWaterfall.prototype.process = function(command, callback) {
+
+  if (this.checkDisabledMap(command)) {
+    callback();
+    return;
+  }
+  // for now, just immediately fire it
+  Main.getEvents().trigger('processGitCommand', command, callback);
+};
+
+InputWaterfall.prototype.sliceGitOff = function(str) {
+  return str.slice('git '.length);
+};
+
+InputWaterfall.prototype.checkDisabledMap = function(command) {
+  try {
+    this.loopDisabledMap(command);
+  } catch(err) {
+    Errors.filterError(err);
+    command.set('error', err);
+    return true;
+  }
+  // not needed explicitly, but included for clarity
+  return false;
+};
+
+InputWaterfall.prototype.loopDisabledMap = function(command) {
+  var toTest = this.sliceGitOff(command.get('rawStr'));
+  var regexMap = GitCommands.regexMap;
+
+  _.each(this.disabledMap, function(val, disabledGitCommand) {
+    disabledGitCommand = this.sliceGitOff(disabledGitCommand);
+
+    var regex = regexMap[disabledGitCommand];
+    if (!regex) {
+      console.warn('wut, no regex for command', disabledGitCommand);
+      return;
+    }
+
+    if (regex.test(toTest)) {
+      throw new GitError({
+        msg: 'That git command is disabled for this level!'
+      });
+    }
+  }, this);
+};
+
+exports.InputWaterfall = InputWaterfall;
+
+
+});
+
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
+  var argsToApply = [];
+  for (var i = 1; i < arguments.length; i++) {
+    argsToApply.push(arguments[i]);
+  }
+
+  var listeners = this.eventMap[name];
+  if (!listeners) {
+    console.warn('no listeners for', name);
+    return;
+  }
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  // might be in the middle of the stack
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func) {
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    throw new Error('did not find that function', func, context, name, arguments);
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
+
+
+});
+
+require.define("/src/js/util/zoomLevel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var setupZoomPoll = function(callback, context) {
+  var currentZoom = 0;
+
+  setInterval(function() {
+    var newZoom = window.outerWidth / window.innerWidth;
+    if (newZoom !== currentZoom) {
+      currentZoom = newZoom;
+      callback.apply(context, [newZoom]);
+    }
+  }, 100);
+};
+
+exports.setupZoomPoll = setupZoomPoll;
+
+
+});
+
+require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
+var Main = require('../app');
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
+
+var Errors = require('../util/errors');
+var Warning = Errors.Warning;
+
+var util = require('../util');
+var keyboard = require('../util/keyboard');
+
+var CommandPromptView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    // uses local storage
+    this.commands = new CommandEntryCollection();
+    this.commands.fetch({
+      success: _.bind(function() {
+        // reverse the commands. this is ugly but needs to be done...
+        var commands = [];
+        this.commands.each(function(c) {
+          commands.push(c);
+        });
+
+        commands.reverse();
+        this.commands.reset();
+
+        _.each(commands, function(c) {
+          this.commands.add(c);
+        }, this);
+      }, this)
+    });
+
+    this.index = -1;
+    this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandCursor = this.$('#prompt span.cursor')[0];
+    this.focus();
+
+    Main.getEvents().on('processCommandFromEvent', this.addToCollection, this);
+    Main.getEvents().on('submitCommandValueFromEvent', this.submitValue, this);
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
+
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+  },
+
+  events: {
+    'blur #commandTextField': 'hideCursor',
+    'focus #commandTextField': 'showCursor'
+  },
+
+  blur: function() {
+    this.hideCursor();
+  },
+
+  focus: function() {
+    this.$('#commandTextField').focus();
+    this.showCursor();
+  },
+
+  hideCursor: function() {
+    this.toggleCursor(false);
+  },
+
+  showCursor: function() {
+    this.toggleCursor(true);
+  },
+
+  toggleCursor: function(state) {
+    $(this.commandCursor).toggleClass('shown', state);
+  },
+
+  onKeyDown: function(e) {
+    var el = e.srcElement;
+    this.updatePrompt(el);
+  },
+
+  onKeyUp: function(e) {
+    this.onKeyDown(e);
+
+    // we need to capture some of these events.
+    var keyToFuncMap = {
+      enter: _.bind(function() {
+        this.submit();
+      }, this),
+      up: _.bind(function() {
+        this.commandSelectChange(1);
+      }, this),
+      down: _.bind(function() {
+        this.commandSelectChange(-1);
+      }, this)
+    };
+
+    var key = keyboard.mapKeycodeToKey(e.which);
+    if (keyToFuncMap[key] !== undefined) {
+      e.preventDefault();
+      keyToFuncMap[key]();
+      this.onKeyDown(e);
+    }
+  },
+
+  badHtmlEncode: function(text) {
+    return text.replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/</g,'&lt;')
+      .replace(/ /g,'&nbsp;')
+      .replace(/\n/g,'');
+  },
+
+  updatePrompt: function(el) {
+    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
+    // super annoying delay to every keystroke... I have tried everything
+    // to make this more performant. getting the srcElement from the event,
+    // getting the value directly from the dom, etc etc. yet still,
+    // there's a very annoying and sightly noticeable command delay.
+    // try.github.com also has this, so I'm assuming those engineers gave up as
+    // well...
+
+    var val = this.badHtmlEncode(el.value);
+    this.commandSpan.innerHTML = val;
+
+    // now mutate the cursor...
+    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    // and scroll down due to some weird bug
+    Main.getEvents().trigger('commandScrollDown');
+  },
+
+  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    // 10px for monospaced font...
+    var widthPerChar = 10;
+
+    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
+    var width = String(numCharsSelected * widthPerChar) + 'px';
+
+    // now for positioning
+    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var left = String(-numLeft * widthPerChar) + 'px';
+    // one reflow? :D
+    $(this.commandCursor).css({
+      width: width,
+      left: left
+    });
+  },
+
+  commandSelectChange: function(delta) {
+    this.index += delta;
+
+    // if we are over / under, display blank line. yes this eliminates your
+    // partially edited command, but i doubt that is much in this demo
+    if (this.index >= this.commands.length || this.index < 0) {
+      this.clear();
+      this.index = -1;
+      return;
+    }
+
+    // yay! we actually can display something
+    var commandEntry = this.commands.toArray()[this.index].get('text');
+    this.setTextField(commandEntry);
+  },
+
+  clearLocalStorage: function() {
+    this.commands.each(function(c) {
+      Backbone.sync('delete', c, function() { });
+    }, this);
+    localStorage.setItem('CommandEntries', '');
+  },
+
+  setTextField: function(value) {
+    this.$('#commandTextField').val(value);
+  },
+
+  clear: function() {
+    this.setTextField('');
+  },
+
+  submit: function() {
+    var value = this.$('#commandTextField').val().replace('\n', '');
+    this.clear();
+    this.submitValue(value);
+  },
+
+  rollupCommands: function(numBack) {
+    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    which.reverse();
+
+    var str = '';
+    _.each(which, function(commandEntry) {
+      str += commandEntry.get('text') + ';';
+    }, this);
+
+    console.log('the str', str);
+
+    var rolled = new CommandEntry({text: str});
+    this.commands.unshift(rolled);
+    Backbone.sync('create', rolled, function() { });
+  },
+
+  submitValue: function(value) {
+    // we should add the command to our local storage history
+    // if it's not a blank line and this is a new command...
+    // or if we edited the command in place
+    var shouldAdd = (value.length && this.index == -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (shouldAdd) {
+      var commandEntry = new CommandEntry({text: value});
+      this.commands.unshift(commandEntry);
+
+      // store to local storage
+      Backbone.sync('create', commandEntry, function() { });
+
+      // if our length is too egregious, reset
+      if (this.commands.length > 100) {
+        this.clearLocalStorage();
+      }
+    }
+    this.index = -1;
+
+    util.splitTextCommand(value, function(command) {
+      this.addToCollection(command);
+    }, this);
+  },
+
+  addToCollection: function(value) {
+    var command = new Command({
+      rawStr: value
+    });
+    this.collection.add(command);
+  }
+});
+
+// This is the view for all commands -- it will represent
+// their status (inqueue, processing, finished, error),
+// their value ("git commit --amend"),
+// and the result (either errors or warnings or whatever)
+var CommandView = Backbone.View.extend({
+  tagName: 'div',
+  model: Command,
+  template: _.template($('#command-template').html()),
+
+  events: {
+    'click': 'clicked'
+  },
+
+  clicked: function(e) {
+  },
+
+  initialize: function() {
+    this.model.bind('change', this.wasChanged, this);
+    this.model.bind('destroy', this.remove, this);
+  },
+
+  wasChanged: function(model, changeEvent) {
+    // for changes that are just comestic, we actually only want to toggle classes
+    // with jquery rather than brutally delete a html. doing so allows us
+    // to nicely fade things
+    var changes = changeEvent.changes;
+    var changeKeys = _.keys(changes);
+    if (_.difference(changeKeys, ['status']).length === 0) {
+      this.updateStatus();
+    } else {
+      this.render();
+    }
+  },
+
+  updateStatus: function() {
+    var statuses = ['inqueue', 'processing', 'finished'];
+    var toggleMap = {};
+    _.each(statuses, function(status) {
+      toggleMap[status] = false;
+    });
+    toggleMap[this.model.get('status')] = true;
+
+    var query = this.$('p.commandLine');
+
+    _.each(toggleMap, function(value, key) {
+      query.toggleClass(key, value);
+    });
+  },
+
+  render: function() {
+    var json = _.extend(
+      {
+        resultType: '',
+        result: '',
+        formattedWarnings: this.model.getFormattedWarnings()
+      },
+      this.model.toJSON()
+    );
+
+    this.$el.html(this.template(json));
+    return this;
+  },
+
+  remove: function() {
+    $(this.el).hide();
+  }
+});
+
+
+var CommandLineHistoryView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.on('all', this.render, this);
+
+    this.collection.on('change', this.scrollDown, this);
+
+    Main.getEvents().on('issueWarning', this.addWarning, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+  },
+
+  addWarning: function(msg) {
+    var err = new Warning({
+      msg: msg
+    });
+
+    var command = new Command({
+      error: err,
+      rawStr: 'Warning:'
+    });
+
+    this.collection.add(command);
+  },
+
+  scrollDown: function() {
+    // if commandDisplay is ever bigger than #terminal, we need to
+    // add overflow-y to terminal and scroll down
+    var cD = $('#commandDisplay')[0];
+    var t = $('#terminal')[0];
+
+    if ($(t).hasClass('scrolling')) {
+      t.scrollTop = t.scrollHeight;
+      return;
+    }
+    if (cD.clientHeight > t.clientHeight) {
+      $(t).css('overflow-y', 'scroll');
+      $(t).css('overflow-x', 'hidden');
+      $(t).addClass('scrolling');
+      t.scrollTop = t.scrollHeight;
+    }
+  },
+
+  addOne: function(command) {
+    var view = new CommandView({
+      model: command
+    });
+    this.$('#commandDisplay').append(view.render().el);
+    this.scrollDown();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne);
+  }
+});
+
+exports.CommandPromptView = CommandPromptView;
+exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
@@ -12099,1941 +14126,6 @@ EventEmitter.prototype.listeners = function(type) {
 
 });
 
-require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-var Backbone = require('backbone');
-
-var GRAPHICS = require('../util/constants').GRAPHICS;
-var GLOBAL = require('../util/constants').GLOBAL;
-
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-
-var VisNode = require('../visuals/visNode').VisNode;
-var VisBranch = require('../visuals/visBranch').VisBranch;
-var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
-var VisEdge = require('../visuals/visEdge').VisEdge;
-var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
-
-function GitVisuals(options) {
-  this.commitCollection = options.commitCollection;
-  this.branchCollection = options.branchCollection;
-  this.visNodeMap = {};
-
-  this.visEdgeCollection = new VisEdgeCollection();
-  this.visBranchCollection = new VisBranchCollection();
-  this.commitMap = {};
-
-  this.rootCommit = null;
-  this.branchStackMap = null;
-  this.upstreamBranchSet = null;
-  this.upstreamHeadSet = null;
-
-  this.paper = options.paper;
-  this.gitReady = false;
-
-  this.branchCollection.on('add', this.addBranchFromEvent, this);
-  this.branchCollection.on('remove', this.removeBranch, this);
-  this.deferred = [];
-
-  this.events = require('../app').getEvents();
-  this.events.on('refreshTree', this.refreshTree, this);
-}
-
-GitVisuals.prototype.defer = function(action) {
-  this.deferred.push(action);
-};
-
-GitVisuals.prototype.deferFlush = function() {
-  _.each(this.deferred, function(action) {
-    action();
-  }, this);
-  this.deferred = [];
-};
-
-GitVisuals.prototype.resetAll = function() {
-  // make sure to copy these collections because we remove
-  // items in place and underscore is too dumb to detect length change
-  var edges = this.visEdgeCollection.toArray();
-  _.each(edges, function(visEdge) {
-    visEdge.remove();
-  }, this);
-
-  var branches = this.visBranchCollection.toArray();
-  _.each(branches, function(visBranch) {
-    visBranch.remove();
-  }, this);
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.remove();
-  }, this);
-
-  this.visEdgeCollection.reset();
-  this.visBranchCollection.reset();
-
-  this.visNodeMap = {};
-  this.rootCommit = null;
-  this.commitMap = {};
-};
-
-GitVisuals.prototype.assignGitEngine = function(gitEngine) {
-  this.gitEngine = gitEngine;
-  this.initHeadBranch();
-  this.deferFlush();
-};
-
-GitVisuals.prototype.initHeadBranch = function() {
-  // it's unfortaunte we have to do this, but the head branch
-  // is an edge case because it's not part of a collection so
-  // we can't use events to load or unload it. thus we have to call
-  // this ugly method which will be deleted one day
-
-  // seed this with the HEAD pseudo-branch
-  this.addBranchFromEvent(this.gitEngine.HEAD);
-};
-
-GitVisuals.prototype.getScreenPadding = function() {
-  // for now we return the node radius subtracted from the walls
-  return {
-    widthPadding: GRAPHICS.nodeRadius * 1.5,
-    heightPadding: GRAPHICS.nodeRadius * 1.5
-  };
-};
-
-GitVisuals.prototype.toScreenCoords = function(pos) {
-  if (!this.paper.width) {
-    throw new Error('being called too early for screen coords');
-  }
-  var padding = this.getScreenPadding();
-
-  var shrink = function(frac, total, padding) {
-    return padding + frac * (total - padding * 2);
-  };
-
-  return {
-    x: shrink(pos.x, this.paper.width, padding.widthPadding),
-    y: shrink(pos.y, this.paper.height, padding.heightPadding)
-  };
-};
-
-GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
-  var deferred = Q.defer();
-
-  var animate = function(visObj) {
-    visObj.animateAttrKeys(keys, attr, speed, easing);
-  };
-
-  this.visBranchCollection.each(animate);
-  this.visEdgeCollection.each(animate);
-  _.each(this.visNodeMap, animate);
-
-  var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
-  setTimeout(function() {
-    deferred.resolve();
-  }, time);
-
-  return deferred.promise;
-};
-
-GitVisuals.prototype.finishAnimation = function() {
-  var _this = this;
-  var deferred = Q.defer();
-  var defaultTime = GRAPHICS.defaultAnimationTime;
-  var nodeRadius = GRAPHICS.nodeRadius;
-
-  var textString = 'Solved!!\n:D';
-  var text = null;
-  var makeText = _.bind(function() {
-    text = this.paper.text(
-      this.paper.width / 2,
-      this.paper.height / 2,
-      textString
-    );
-    text.attr({
-      opacity: 0,
-      'font-weight': 500,
-      'font-size': '32pt',
-      'font-family': 'Monaco, Courier, font-monospace',
-      stroke: '#000',
-      'stroke-width': 2,
-      fill: '#000'
-    });
-    text.animate({ opacity: 1 }, defaultTime);
-  }, this);
-
-  // this is a BIG ANIMATION but it ends up just being
-  // a sweet chain of promises but is pretty nice. this is
-  // after I discovered promises / deferred's. Unfortunately
-  // I wrote a lot of the git stuff before promises, so
-  // that's somewhat ugly
-
-  deferred.promise
-  // first fade out everything but circles
-  .then(_.bind(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['circle'] },
-      { opacity: 0 },
-      defaultTime * 1.1
-    );
-  }, this))
-  // then make circle radii bigger
-  .then(_.bind(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['arrow', 'rect', 'path', 'text'] },
-      { r: nodeRadius * 2 },
-      defaultTime * 1.5
-    );
-  }, this))
-  // then shrink em super fast
-  .then(_.bind(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['arrow', 'rect', 'path', 'text'] },
-      { r: nodeRadius * 0.75 },
-      defaultTime * 0.5
-    );
-  }, this))
-  // then explode them and display text
-  .then(_.bind(function() {
-    makeText();
-    return this.explodeNodes();
-  }, this))
-  .then(_.bind(function() {
-    return this.explodeNodes();
-  }, this))
-  // then fade circles (aka everything) in and back
-  .then(_.bind(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['arrow', 'rect', 'path', 'text'] },
-      {},
-      defaultTime * 1.25
-    );
-  }, this))
-  // then fade everything in and remove text
-  .then(_.bind(function() {
-    text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
-      text.remove();
-    });
-    return this.animateAllAttrKeys(
-      {},
-      {}
-    );
-  }, this))
-  .fail(function(reason) {
-    console.warn('Finish animation failed due to ', reason);
-    throw reason;
-  });
-
-  deferred.resolve(); // start right away
-  return deferred.promise;
-};
-
-GitVisuals.prototype.explodeNodes = function() {
-  var deferred = Q.defer();
-  var funcs = [];
-  _.each(this.visNodeMap, function(visNode) {
-    funcs.push(visNode.getExplodeStepFunc());
-  });
-
-  var interval = setInterval(function() {
-    // object creation here is a bit ugly inside a loop,
-    // but the alternative is to just OR against a bunch
-    // of booleans which means the other stepFuncs
-    // are called unnecessarily when they have almost
-    // zero speed. would be interesting to see performance differences
-    var keepGoing = [];
-    _.each(funcs, function(func) {
-      if (func()) {
-        keepGoing.push(func);
-      }
-    });
-
-    if (!keepGoing.length) {
-      clearInterval(interval);
-      // next step :D wow I love promises
-      deferred.resolve();
-      return;
-    }
-
-    funcs = keepGoing;
-  }, 1/40);
-
-  return deferred.promise;
-};
-
-GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
-  var animate = function(obj) {
-    var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
-      return;
-    }
-
-    if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
-      return;
-    }
-    obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
-  };
-
-  this.visBranchCollection.each(animate);
-  this.visEdgeCollection.each(animate);
-  _.each(this.visNodeMap, animate);
-};
-
-/***************************************
-     == BEGIN Tree Calculation Parts ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.genSnapshot = function() {
-  this.fullCalc();
-
-  var snapshot = {};
-  _.each(this.visNodeMap, function(visNode) {
-    snapshot[visNode.get('id')] = visNode.getAttributes();
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    snapshot[visBranch.getID()] = visBranch.getAttributes();
-  }, this);
-
-  this.visEdgeCollection.each(function(visEdge) {
-    snapshot[visEdge.getID()] = visEdge.getAttributes();
-  }, this);
-
-  return snapshot;
-};
-
-GitVisuals.prototype.refreshTree = function(speed) {
-  if (!this.gitReady) {
-    return;
-  }
-
-  // this method can only be called after graphics are rendered
-  this.fullCalc();
-
-  this.animateAll(speed);
-};
-
-GitVisuals.prototype.refreshTreeHarsh = function() {
-  this.fullCalc();
-
-  this.animateAll(0);
-};
-
-GitVisuals.prototype.animateAll = function(speed) {
-  this.zIndexReflow();
-
-  this.animateEdges(speed);
-  this.animateNodePositions(speed);
-  this.animateRefs(speed);
-};
-
-GitVisuals.prototype.fullCalc = function() {
-  this.calcTreeCoords();
-  this.calcGraphicsCoords();
-};
-
-GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
-  if (!this.rootCommit) {
-    throw new Error('grr, no root commit!');
-  }
-
-  this.calcUpstreamSets();
-  this.calcBranchStacks();
-
-  this.calcDepth();
-  this.calcWidth();
-};
-
-GitVisuals.prototype.calcGraphicsCoords = function() {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.updateName();
-  });
-};
-
-GitVisuals.prototype.calcUpstreamSets = function() {
-  this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
-  this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
-};
-
-GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
-  return this.branchStackMap[commit.get('id')];
-};
-
-GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
-  var branches = this.upstreamBranchSet[commit.get('id')];
-  if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
-  }
-
-  return this.blendHuesFromBranchStack(branches);
-};
-
-GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
-  var hueStrings = [];
-  _.each(branchStackArray, function(branchWrapper) {
-    var fill = branchWrapper.obj.get('visBranch').get('fill');
-
-    if (fill.slice(0,3) !== 'hsb') {
-      // crap! convert
-      var color = Raphael.color(fill);
-      fill = 'hsb(' + String(color.h) + ',' + String(color.l);
-      fill = fill + ',' + String(color.s) + ')';
-    }
-
-    hueStrings.push(fill);
-  });
-
-  return blendHueStrings(hueStrings);
-};
-
-GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
-  if (!this.upstreamBranchSet) {
-    throw new Error("Can't calculate this yet!");
-  }
-
-  var id = commit.get('id');
-  var branch = this.upstreamBranchSet;
-  var head = this.upstreamHeadSet;
-
-  if (branch[id]) {
-    return 'branch';
-  } else if (head[id]) {
-    return 'head';
-  } else {
-    return 'none';
-  }
-};
-
-GitVisuals.prototype.calcBranchStacks = function() {
-  var branches = this.gitEngine.getBranches();
-  var map = {};
-  _.each(branches, function(branch) {
-    var thisId = branch.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(branch);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      if (aId == 'master' || bId == 'master') {
-        return aId == 'master' ? -1 : 1;
-      }
-      return aId.localeCompare(bId);
-    });
-  });
-  this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcWidth = function() {
-  this.maxWidthRecursive(this.rootCommit);
-
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
-};
-
-GitVisuals.prototype.maxWidthRecursive = function(commit) {
-  var childrenTotalWidth = 0;
-  _.each(commit.get('children'), function(child) {
-    // only include this if we are the "main" parent of
-    // this child
-    if (child.isMainParent(commit)) {
-      var childWidth = this.maxWidthRecursive(child);
-      childrenTotalWidth += childWidth;
-    }
-  }, this);
-
-  var maxWidth = Math.max(1, childrenTotalWidth);
-  commit.get('visNode').set('maxWidth', maxWidth);
-  return maxWidth;
-};
-
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  // I always center myself within my bounds
-  var myWidthPos = (min + max) / 2.0;
-  commit.get('visNode').get('pos').x = myWidthPos;
-
-  if (commit.get('children').length === 0) {
-    return;
-  }
-
-  // i have a certain length to divide up
-  var myLength = max - min;
-  // I will divide up that length based on my children's max width in a
-  // basic box-flex model
-  var totalFlex = 0;
-  var children = commit.get('children');
-  _.each(children, function(child) {
-    if (child.isMainParent(commit)) {
-      totalFlex += child.get('visNode').getMaxWidthScaled();
-    }
-  }, this);
-
-  var prevBound = min;
-
-  // now go through and do everything
-  // TODO: order so the max width children are in the middle!!
-  _.each(children, function(child) {
-    if (!child.isMainParent(commit)) {
-      return;
-    }
-
-    var flex = child.get('visNode').getMaxWidthScaled();
-    var portion = (flex / totalFlex) * myLength;
-    var childMin = prevBound;
-    var childMax = childMin + portion;
-    this.assignBoundsRecursive(child, childMin, childMax);
-    prevBound = childMax;
-  }, this);
-};
-
-GitVisuals.prototype.calcDepth = function() {
-  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
-  if (maxDepth > 15) {
-    // issue warning
-    console.warn('graphics are degrading from too many layers');
-  }
-
-  var depthIncrement = this.getDepthIncrement(maxDepth);
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
-  }, this);
-};
-
-/***************************************
-     == END Tree Calculation ==
-       _  __    __  _
-       \\/ /    \ \//_
-        \ \     /   __|   __
-         \ \___/   /_____/ /
-          |        _______ \
-          \  ( )   /      \_\
-           \      /
-            |    |
-            |    |
-  ____+-_=+-^    ^+-=_=__________
-
-^^ I drew that :D
-
- **************************************/
-
-GitVisuals.prototype.animateNodePositions = function(speed) {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.animateUpdatedPosition(speed);
-  }, this);
-};
-
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
-GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
-  var action = _.bind(function() {
-    this.addBranch(branch);
-  }, this);
-
-  if (!this.gitEngine || !this.gitReady) {
-    this.defer(action);
-  } else {
-    action();
-  }
-};
-
-GitVisuals.prototype.addBranch = function(branch) {
-  var visBranch = new VisBranch({
-    branch: branch,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visBranchCollection.add(visBranch);
-  if (this.gitReady) {
-    visBranch.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.removeVisBranch = function(visBranch) {
-  this.visBranchCollection.remove(visBranch);
-};
-
-GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
-};
-
-GitVisuals.prototype.removeVisEdge = function(visEdge) {
-  this.visEdgeCollection.remove(visEdge);
-};
-
-GitVisuals.prototype.animateRefs = function(speed) {
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.animateUpdatedPos(speed);
-  }, this);
-};
-
-GitVisuals.prototype.animateEdges = function(speed) {
-  this.visEdgeCollection.each(function(edge) {
-    edge.animateUpdatedPath(speed);
-  }, this);
-};
-
-GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
-  var increment = 1.0 / maxDepth;
-  return increment;
-};
-
-GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
-  commit.get('visNode').setDepth(depth);
-
-  var children = commit.get('children');
-  var maxDepth = depth;
-  _.each(children, function(child) {
-    var d = this.calcDepthRecursive(child, depth + 1);
-    maxDepth = Math.max(d, maxDepth);
-  }, this);
-
-  return maxDepth;
-};
-
-// we debounce here so we aren't firing a resize call on every resize event
-// but only after they stop
-GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
-  // refresh when we are ready
-  if (GLOBAL.isAnimating) {
-    this.events.trigger('processCommandFromEvent', 'refresh');
-  } else {
-    this.refreshTree();
-  }
-}, 200);
-
-GitVisuals.prototype.addNode = function(id, commit) {
-  this.commitMap[id] = commit;
-  if (commit.get('rootCommit')) {
-    this.rootCommit = commit;
-  }
-
-  var visNode = new VisNode({
-    id: id,
-    commit: commit,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visNodeMap[id] = visNode;
-
-  if (this.gitReady) {
-    visNode.genGraphics(this.paper);
-  }
-  return visNode;
-};
-
-GitVisuals.prototype.addEdge = function(idTail, idHead) {
-  var visNodeTail = this.visNodeMap[idTail];
-  var visNodeHead = this.visNodeMap[idHead];
-
-  if (!visNodeTail || !visNodeHead) {
-    throw new Error('one of the ids in (' + idTail +
-                    ', ' + idHead + ') does not exist');
-  }
-
-  var edge = new VisEdge({
-    tail: visNodeTail,
-    head: visNodeHead,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-  this.visEdgeCollection.add(edge);
-
-  if (this.gitReady) {
-    edge.genGraphics(this.paper);
-  }
-};
-
-GitVisuals.prototype.zIndexReflow = function() {
-  this.visNodesFront();
-  this.visBranchesFront();
-};
-
-GitVisuals.prototype.visNodesFront = function() {
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.toFront();
-  });
-};
-
-GitVisuals.prototype.visBranchesFront = function() {
-  this.visBranchCollection.each(function(vBranch) {
-    vBranch.nonTextToFront();
-    vBranch.textToFront();
-  });
-};
-
-GitVisuals.prototype.drawTreeFromReload = function() {
-  this.gitReady = true;
-  // gen all the graphics we need
-  this.deferFlush();
-
-  this.calcTreeCoords();
-};
-
-GitVisuals.prototype.drawTreeFirstTime = function() {
-  this.gitReady = true;
-  this.calcTreeCoords();
-
-  _.each(this.visNodeMap, function(visNode) {
-    visNode.genGraphics(this.paper);
-  }, this);
-
-  this.visEdgeCollection.each(function(edge) {
-    edge.genGraphics(this.paper);
-  }, this);
-
-  this.visBranchCollection.each(function(visBranch) {
-    visBranch.genGraphics(this.paper);
-  }, this);
-
-  this.zIndexReflow();
-};
-
-
-/************************
- * Random util functions, some from liquidGraph
- ***********************/
-function blendHueStrings(hueStrings) {
-  // assumes a sat of 0.7 and brightness of 1
-
-  var x = 0;
-  var y = 0;
-  var totalSat = 0;
-  var totalBright = 0;
-  var length = hueStrings.length;
-
-  _.each(hueStrings, function(hueString) {
-    var exploded = hueString.split('(')[1];
-    exploded = exploded.split(')')[0];
-    exploded = exploded.split(',');
-
-    totalSat += parseFloat(exploded[1]);
-    totalBright += parseFloat(exploded[2]);
-    var hue = parseFloat(exploded[0]);
-
-    var angle = hue * Math.PI * 2;
-    x += Math.cos(angle);
-    y += Math.sin(angle);
-  });
-
-  x = x / length;
-  y = y / length;
-  totalSat = totalSat / length;
-  totalBright = totalBright / length;
-
-  var hue = Math.atan2(y, x) / (Math.PI * 2); // could fail on 0's
-  if (hue < 0) {
-    hue = hue + 1;
-  }
-  return 'hsb(' + String(hue) + ',' + String(totalSat) + ',' + String(totalBright) + ')';
-}
-
-exports.GitVisuals = GitVisuals;
-
-});
-
-require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var VisBase = require('../visuals/tree').VisBase;
-
-var VisNode = VisBase.extend({
-  defaults: {
-    depth: undefined,
-    maxWidth: null,
-    outgoingEdges: null,
-
-    circle: null,
-    text: null,
-
-    id: null,
-    pos: null,
-    radius: null,
-
-    commit: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing,
-
-    fill: GRAPHICS.defaultNodeFill,
-    'stroke-width': GRAPHICS.defaultNodeStrokeWidth,
-    stroke: GRAPHICS.defaultNodeStroke
-  },
-
-  getID: function() {
-    return this.get('id');
-  },
-
-  validateAtInit: function() {
-    if (!this.get('id')) {
-      throw new Error('need id for mapping');
-    }
-    if (!this.get('commit')) {
-      throw new Error('need commit for linking');
-    }
-
-    if (!this.get('pos')) {
-      this.set('pos', {
-        x: Math.random(),
-        y: Math.random()
-      });
-    }
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.set('outgoingEdges', []);
-  },
-
-  setDepth: function(depth) {
-    // for merge commits we need to max the depths across all
-    this.set('depth', Math.max(this.get('depth') || 0, depth));
-  },
-
-  setDepthBasedOn: function(depthIncrement) {
-    if (this.get('depth') === undefined) {
-      debugger;
-      throw new Error('no depth yet!');
-    }
-    var pos = this.get('pos');
-    pos.y = this.get('depth') * depthIncrement;
-  },
-
-  getMaxWidthScaled: function() {
-    // returns our max width scaled based on if we are visible
-    // from a branch or not
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    var map = {
-      branch: 1,
-      head: 0.3,
-      none: 0.1
-    };
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat] * this.get('maxWidth');
-  },
-
-  toFront: function() {
-    this.get('circle').toFront();
-    this.get('text').toFront();
-  },
-
-  getOpacity: function() {
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.upstreamHeadOpacity,
-      'none': GRAPHICS.upstreamNoneOpacity
-    };
-
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    if (map[stat] === undefined) {
-      throw new Error('invalid status');
-    }
-    return map[stat];
-  },
-
-  getTextScreenCoords: function() {
-    return this.getScreenCoords();
-  },
-
-  getAttributes: function() {
-    var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-    var opacity = this.getOpacity();
-
-    return {
-      circle: {
-        cx: pos.x,
-        cy: pos.y,
-        opacity: opacity,
-        r: this.getRadius(),
-        fill: this.getFill(),
-        'stroke-width': this.get('stroke-width'),
-        stroke: this.get('stroke')
-      },
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: opacity
-      }
-    };
-  },
-
-  highlightTo: function(visObj, speed, easing) {
-    // a small function to highlight the color of a node for demonstration purposes
-    var color = visObj.get('fill');
-
-    var attr = {
-      circle: {
-        fill: color,
-        stroke: color,
-        'stroke-width': this.get('stroke-width') * 5
-      },
-      text: {}
-    };
-
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateUpdatedPosition: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToSnapshot: function(snapShot, speed, easing) {
-    if (!snapShot[this.getID()]) {
-      return;
-    }
-    this.animateToAttr(snapShot[this.getID()], speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('circle').attr(attr.circle);
-      this.get('text').attr(attr.text);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('circle').stop().animate(attr.circle, s, e);
-    this.get('text').stop().animate(attr.text, s, e);
-
-    if (easing == 'bounce' &&
-        attr.circle && attr.circle.cx !== undefined &&
-        attr.text && attr.text.x !== undefined ) {
-      // animate the x attribute without bouncing so it looks like there's
-      // gravity in only one direction. Just a small animation polish
-      this.get('circle').animate(attr.circle.cx, s, 'easeInOut');
-      this.get('text').animate(attr.text.x, s, 'easeInOut');
-    }
-  },
-
-  getScreenCoords: function() {
-    var pos = this.get('pos');
-    return this.gitVisuals.toScreenCoords(pos);
-  },
-
-  getRadius: function() {
-    return this.get('radius') || GRAPHICS.nodeRadius;
-  },
-
-  getParentScreenCoords: function() {
-    return this.get('commit').get('parents')[0].get('visNode').getScreenCoords();
-  },
-
-  setBirthPosition: function() {
-    // utility method for animating it out from underneath a parent
-    var parentCoords = this.getParentScreenCoords();
-
-    this.get('circle').attr({
-      cx: parentCoords.x,
-      cy: parentCoords.y,
-      opacity: 0,
-      r: 0
-    });
-    this.get('text').attr({
-      x: parentCoords.x,
-      y: parentCoords.y,
-      opacity: 0
-    });
-  },
-
-  setBirthFromSnapshot: function(beforeSnapshot) {
-    // first get parent attribute
-    // woof bad data access. TODO
-    var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
-    var parentAttr = beforeSnapshot[parentID];
-
-    // then set myself faded on top of parent
-    this.get('circle').attr({
-      opacity: 0,
-      r: 0,
-      cx: parentAttr.circle.cx,
-      cy: parentAttr.circle.cy
-    });
-
-    this.get('text').attr({
-      opacity: 0,
-      x: parentAttr.text.x,
-      y: parentAttr.text.y
-    });
-
-    // then do edges
-    var parentCoords = {
-      x: parentAttr.circle.cx,
-      y: parentAttr.circle.cy
-    };
-    this.setOutgoingEdgesBirthPosition(parentCoords);
-  },
-
-  setBirth: function() {
-    this.setBirthPosition();
-    this.setOutgoingEdgesBirthPosition(this.getParentScreenCoords());
-  },
-
-  setOutgoingEdgesOpacity: function(opacity) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.setOpacity(opacity);
-    });
-  },
-
-  animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var attr = snapShot[edge.getID()];
-      edge.animateToAttr(attr);
-    }, this);
-  },
-
-  animateOutgoingEdges: function(speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.animateUpdatedPath(speed, easing);
-    }, this);
-  },
-
-  animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var attr = snapshot[edge.getID()];
-      edge.animateToAttr(attr, speed, easing);
-    }, this);
-  },
-
-  setOutgoingEdgesBirthPosition: function(parentCoords) {
-    _.each(this.get('outgoingEdges'), function(edge) {
-      var headPos = edge.get('head').getScreenCoords();
-      var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
-      edge.get('path').stop().attr({
-        path: path,
-        opacity: 0
-      });
-    }, this);
-  },
-
-  parentInFront: function() {
-    // woof! talk about bad data access
-    this.get('commit').get('parents')[0].get('visNode').toFront();
-  },
-
-  getFontSize: function(str) {
-    if (str.length < 3) {
-      return 12;
-    } else if (str.length < 5) {
-      return 10;
-    } else {
-      return 8;
-    }
-  },
-
-  getFill: function() {
-    // first get our status, might be easy from this
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
-    if (stat == 'head') {
-      return GRAPHICS.headRectFill;
-    } else if (stat == 'none') {
-      return GRAPHICS.orphanNodeFill;
-    }
-
-    // now we need to get branch hues
-    return this.gitVisuals.getBlendedHuesForCommit(this.get('commit'));
-  },
-
-  attachClickHandlers: function() {
-    var commandStr = 'git checkout ' + this.get('commit').get('id');
-    var Main = require('../app');
-    _.each([this.get('circle'), this.get('text')], function(rObj) {
-      rObj.click(function() {
-        Main.getEvents().trigger('processCommandFromEvent', commandStr);
-      });
-      $(rObj.node).css('cursor', 'pointer');
-    });
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    // set the opacity on my stuff
-    var keys = ['circle', 'text'];
-    _.each(keys, function(key) {
-      this.get(key).attr({
-        opacity: opacity
-      });
-    }, this);
-  },
-
-  remove: function() {
-    this.removeKeys(['circle'], ['text']);
-    // needs a manual removal of text for whatever reason
-    this.get('text').remove();
-
-    this.gitVisuals.removeVisNode(this);
-  },
-
-  removeAll: function() {
-    this.remove();
-    _.each(this.get('outgoingEdges'), function(edge) {
-      edge.remove();
-    }, this);
-  },
-
-  getExplodeStepFunc: function() {
-    var circle = this.get('circle');
-
-    // decide on a speed
-    var speedMag = 20;
-    // aim upwards
-    var angle = Math.PI + Math.random() * 1 * Math.PI;
-    var gravity = 1 / 5;
-    var drag = 1 / 100;
-
-    var vx = speedMag * Math.cos(angle);
-    var vy = speedMag * Math.sin(angle);
-    var x = circle.attr('cx');
-    var y = circle.attr('cy');
-
-    var maxWidth = this.gitVisuals.paper.width;
-    var maxHeight = this.gitVisuals.paper.height;
-    var elasticity = 0.8;
-    var dt = 1.0;
-
-    var stepFunc = function() {
-      // lol epic runge kutta here... not
-      vy += gravity * dt - drag * vy;
-      vx -= drag * vx;
-      x += vx * dt;
-      y += vy * dt;
-
-      if (x < 0 || x > maxWidth) {
-        vx = elasticity * -vx;
-        x = (x < 0) ? 0 : maxWidth;
-      }
-      if (y < 0 || y > maxHeight) {
-        vy = elasticity * -vy;
-        y = (y < 0) ? 0 : maxHeight;
-      }
-
-      circle.attr({
-        cx: x,
-        cy: y
-      });
-      // continuation calculation
-      if ((vx * vx + vy * vy) < 0.01 && Math.abs(y - maxHeight) === 0) {
-        // dont need to animate anymore, we are on ground
-        return false;
-      }
-      // keep animating!
-      return true;
-    };
-    return stepFunc;
-  },
-
-  genGraphics: function() {
-    var paper = this.gitVisuals.paper;
-
-    var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-
-    var circle = paper.circle(
-      pos.x,
-      pos.y,
-      this.getRadius()
-    ).attr(this.getAttributes().circle);
-
-    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
-    text.attr({
-      'font-size': this.getFontSize(this.get('id')),
-      'font-weight': 'bold',
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getOpacity()
-    });
-
-    this.set('circle', circle);
-    this.set('text', text);
-
-    this.attachClickHandlers();
-  }
-});
-
-exports.VisNode = VisNode;
-
-});
-
-require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var VisBase = Backbone.Model.extend({
-  removeKeys: function(keys) {
-    _.each(keys, function(key) {
-      if (this.get(key)) {
-        this.get(key).remove();
-      }
-    }, this);
-  },
-
-  animateAttrKeys: function(keys, attrObj, speed, easing) {
-    // either we animate a specific subset of keys or all
-    // possible things we could animate
-    keys = _.extend(
-      {},
-      {
-        include: ['circle', 'arrow', 'rect', 'path', 'text'],
-        exclude: []
-      },
-      keys || {}
-    );
-
-    var attr = this.getAttributes();
-
-    // safely insert this attribute into all the keys we want
-    _.each(keys.include, function(key) {
-      attr[key] = _.extend(
-        {},
-        attr[key],
-        attrObj
-      );
-    });
-
-    _.each(keys.exclude, function(key) {
-      delete attr[key];
-    });
-
-    this.animateToAttr(attr, speed, easing);
-  }
-});
-
-exports.VisBase = VisBase;
-
-
-});
-
-require.define("/src/js/visuals/visBranch.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var VisBase = require('../visuals/tree').VisBase;
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-};
-
-var VisBranch = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    arrow: null,
-    isHead: false,
-    flip: 1,
-
-    fill: GRAPHICS.rectFill,
-    stroke: GRAPHICS.rectStroke,
-    'stroke-width': GRAPHICS.rectStrokeWidth,
-
-    offsetX: GRAPHICS.nodeRadius * 4.75,
-    offsetY: 0,
-    arrowHeight: 14,
-    arrowInnerSkew: 0,
-    arrowEdgeHeight: 6,
-    arrowLength: 14,
-    arrowOffsetFromCircleX: 10,
-
-    vPad: 5,
-    hPad: 5,
-
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    if (!this.get('branch')) {
-      throw new Error('need a branch!');
-    }
-  },
-
-  getID: function() {
-    return this.get('branch').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand notation for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) {
-      console.log('throw damnit');
-      throw new Error('asd');
-    }
-
-    this.get('branch').set('visBranch', this);
-    var id = this.get('branch').get('id');
-
-    if (id == 'HEAD') {
-      // switch to a head ref
-      this.set('isHead', true);
-      this.set('flip', -1);
-
-      this.set('fill', GRAPHICS.headRectFill);
-    } else if (id !== 'master') {
-      // we need to set our color to something random
-      this.set('fill', randomHueString());
-    }
-  },
-
-  getCommitPosition: function() {
-    var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
-    var visNode = commit.get('visNode');
-    return visNode.getScreenCoords();
-  },
-
-  getBranchStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other branches
-      return 0;
-    }
-
-    var myArray = this.getBranchStackArray();
-    var index = -1;
-    _.each(myArray, function(branch, i) {
-      if (branch.obj == this.get('branch')) {
-        index = i;
-      }
-    }, this);
-    return index;
-  },
-
-  getBranchStackLength: function() {
-    if (this.get('isHead')) {
-      // head is always by itself
-      return 1;
-    }
-
-    return this.getBranchStackArray().length;
-  },
-
-  getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
-    if (arr === undefined) {
-      // this only occurs when we are generating graphics inside of
-      // a new Branch instantiation, so we need to force the update
-      this.gitVisuals.calcBranchStacks();
-      return this.getBranchStackArray();
-    }
-    return arr;
-  },
-
-  getTextPosition: function() {
-    var pos = this.getCommitPosition();
-
-    // then order yourself accordingly. we use alphabetical sorting
-    // so everything is independent
-    var myPos = this.getBranchStackIndex();
-    return {
-      x: pos.x + this.get('flip') * this.get('offsetX'),
-      y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
-    };
-  },
-
-  getRectPosition: function() {
-    var pos = this.getTextPosition();
-    var f = this.get('flip');
-
-    // first get text width and height
-    var textSize = this.getTextSize();
-    return {
-      x: pos.x - 0.5 * textSize.w - this.get('hPad'),
-      y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    };
-  },
-
-  getArrowPath: function() {
-    // should make these util functions...
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-    var toStringCoords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var f = this.get('flip');
-
-    var arrowTip = offset2d(this.getCommitPosition(),
-      f * this.get('arrowOffsetFromCircleX'),
-      0
-    );
-    var arrowEdgeUp = offset2d(arrowTip, f * this.get('arrowLength'), -this.get('arrowHeight'));
-    var arrowEdgeLow = offset2d(arrowTip, f * this.get('arrowLength'), this.get('arrowHeight'));
-
-    var arrowInnerUp = offset2d(arrowEdgeUp,
-      f * this.get('arrowInnerSkew'),
-      this.get('arrowEdgeHeight')
-    );
-    var arrowInnerLow = offset2d(arrowEdgeLow,
-      f * this.get('arrowInnerSkew'),
-      -this.get('arrowEdgeHeight')
-    );
-
-    var tailLength = 49;
-    var arrowStartUp = offset2d(arrowInnerUp, f * tailLength, 0);
-    var arrowStartLow = offset2d(arrowInnerLow, f * tailLength, 0);
-
-    var pathStr = '';
-    pathStr += 'M' + toStringCoords(arrowStartUp) + ' ';
-    var coords = [
-      arrowInnerUp,
-      arrowEdgeUp,
-      arrowTip,
-      arrowEdgeLow,
-      arrowInnerLow,
-      arrowStartLow
-    ];
-    _.each(coords, function(pos) {
-      pathStr += 'L' + toStringCoords(pos) + ' ';
-    }, this);
-    pathStr += 'z';
-    return pathStr;
-  },
-
-  getTextSize: function() {
-    var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
-    };
-
-    var textNode = this.get('text').node;
-    if (this.get('isHead')) {
-      // HEAD is a special case
-      return {
-        w: textNode.clientWidth,
-        h: textNode.clientHeight
-      };
-    }
-
-    var maxWidth = 0;
-    _.each(this.getBranchStackArray(), function(branch) {
-      maxWidth = Math.max(maxWidth, getTextWidth(
-        branch.obj.get('visBranch')
-      ));
-    });
-
-    return {
-      w: maxWidth,
-      h: textNode.clientHeight
-    };
-  },
-
-  getSingleRectSize: function() {
-    var textSize = this.getTextSize();
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h + hPad * 2
-    };
-  },
-
-  getRectSize: function() {
-    var textSize = this.getTextSize();
-    // enforce padding
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-
-    // number of other branch names we are housing
-    var totalNum = this.getBranchStackLength();
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum * 1.1 + hPad * 2
-    };
-  },
-
-  getName: function() {
-    var name = this.get('branch').get('id');
-    var selected = this.gitEngine.HEAD.get('target').get('id');
-
-    var add = (selected == name) ? '*' : '';
-    return name + add;
-  },
-
-  nonTextToFront: function() {
-    this.get('arrow').toFront();
-    this.get('rect').toFront();
-  },
-
-  textToFront: function() {
-    this.get('text').toFront();
-  },
-
-  getFill: function() {
-    // in the easy case, just return your own fill if you are:
-    // - the HEAD ref
-    // - by yourself (length of 1)
-    // - part of a multi branch, but your thing is hidden
-    if (this.get('isHead') ||
-        this.getBranchStackLength() == 1 ||
-        this.getBranchStackIndex() !== 0) {
-      return this.get('fill');
-    }
-
-    // woof. now it's hard, we need to blend hues...
-    return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
-  },
-
-  remove: function() {
-    this.removeKeys(['text', 'arrow', 'rect']);
-    // also need to remove from this.gitVisuals
-    this.gitVisuals.removeVisBranch(this);
-  },
-
-  genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
-    var name = this.getName();
-    var text;
-
-    // when from a reload, we dont need to generate the text
-    text = paper.text(textPos.x, textPos.y, String(name));
-    text.attr({
-      'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getTextOpacity()
-    });
-    this.set('text', text);
-
-    var rectPos = this.getRectPosition();
-    var sizeOfRect = this.getRectSize();
-    var rect = paper
-      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(this.getAttributes().rect);
-    this.set('rect', rect);
-
-    var arrowPath = this.getArrowPath();
-    var arrow = paper
-      .path(arrowPath)
-      .attr(this.getAttributes().arrow);
-    this.set('arrow', arrow);
-
-    this.attachClickHandlers();
-    rect.toFront();
-    text.toFront();
-  },
-
-  attachClickHandlers: function() {
-    var commandStr = 'git checkout ' + this.get('branch').get('id');
-    var Main = require('../app');
-    var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
-
-    _.each(objs, function(rObj) {
-      rObj.click(function() {
-        Main.getEvents().trigger('processCommandFromEvent', commandStr);
-      });
-      $(rObj.node).css('cursor', 'pointer');
-    });
-  },
-
-  updateName: function() {
-    this.get('text').attr({
-      text: this.getName()
-    });
-  },
-
-  getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
-  },
-
-  getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    return 1;
-  },
-
-  getAttributes: function() {
-    var nonTextOpacity = this.getNonTextOpacity();
-    var textOpacity = this.getTextOpacity();
-    this.updateName();
-
-    var textPos = this.getTextPosition();
-    var rectPos = this.getRectPosition();
-    var rectSize = this.getRectSize();
-
-    var arrowPath = this.getArrowPath();
-
-    return {
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: textOpacity
-      },
-      rect: {
-        x: rectPos.x,
-        y: rectPos.y,
-        width: rectSize.w,
-        height: rectSize.h,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      },
-      arrow: {
-        path: arrowPath,
-        opacity: nonTextOpacity,
-        fill: this.getFill(),
-        stroke: this.get('stroke'),
-        'stroke-width': this.get('stroke-width')
-      }
-    };
-  },
-
-  animateUpdatedPos: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('text').attr(attr.text);
-      this.get('rect').attr(attr.rect);
-      this.get('arrow').attr(attr.arrow);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-
-    this.get('text').stop().animate(attr.text, s, e);
-    this.get('rect').stop().animate(attr.rect, s, e);
-    this.get('arrow').stop().animate(attr.arrow, s, e);
-  }
-});
-
-var VisBranchCollection = Backbone.Collection.extend({
-  model: VisBranch
-});
-
-exports.VisBranchCollection = VisBranchCollection;
-exports.VisBranch = VisBranch;
-
-});
-
-require.define("/src/js/visuals/visEdge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var VisBase = require('../visuals/tree').VisBase;
-
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    var required = ['tail', 'head'];
-    _.each(required, function(key) {
-      if (!this.get(key)) {
-        throw new Error(key + ' is required!');
-      }
-    }, this);
-  },
-
-  getID: function() {
-    return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-
-    this.get('tail').get('outgoingEdges').push(this);
-  },
-
-  remove: function() {
-    this.removeKeys(['path']);
-    this.gitVisuals.removeVisEdge(this);
-  },
-
-  genSmoothBezierPathString: function(tail, head) {
-    var tailPos = tail.getScreenCoords();
-    var headPos = head.getScreenCoords();
-    return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
-
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
-    // we need to generate the path and control points for the bezier. format
-    // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
-    // the control points have to be __below__ to get the curve starting off straight.
-
-    var coords = function(pos) {
-      return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
-    };
-    var offset = function(pos, dir, delta) {
-      delta = delta || GRAPHICS.curveControlPointOffset;
-      return {
-        x: pos.x,
-        y: pos.y + delta * dir
-      };
-    };
-    var offset2d = function(pos, x, y) {
-      return {
-        x: pos.x + x,
-        y: pos.y + y
-      };
-    };
-
-    // first offset tail and head by radii
-    tailPos = offset(tailPos, -1, this.get('tail').getRadius());
-    headPos = offset(headPos, 1, this.get('head').getRadius());
-
-    var str = '';
-    // first move to bottom of tail
-    str += 'M' + coords(tailPos) + ' ';
-    // start bezier
-    str += 'C';
-    // then control points above tail and below head
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(offset(headPos, 1)) + ' ';
-    // now finish
-    str += coords(headPos);
-
-    // arrow head
-    var delta = GRAPHICS.arrowHeadSize || 10;
-    str += ' L' + coords(offset2d(headPos, -delta, delta));
-    str += ' L' + coords(offset2d(headPos, delta, delta));
-    str += ' L' + coords(headPos);
-
-    // then go back, so we can fill correctly
-    str += 'C';
-    str += coords(offset(headPos, 1)) + ' ';
-    str += coords(offset(tailPos, -1)) + ' ';
-    str += coords(tailPos);
-
-    return str;
-  },
-
-  getBezierCurve: function() {
-    return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
-
-  getStrokeColor: function() {
-    return GRAPHICS.visBranchStrokeColorNone;
-  },
-
-  setOpacity: function(opacity) {
-    opacity = (opacity === undefined) ? 1 : opacity;
-
-    this.get('path').attr({opacity: opacity});
-  },
-
-  genGraphics: function(paper) {
-    var pathString = this.getBezierCurve();
-
-    var path = paper.path(pathString).attr({
-      'stroke-width': GRAPHICS.visBranchStrokeWidth,
-      'stroke': this.getStrokeColor(),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      'fill': this.getStrokeColor()
-    });
-    path.toBack();
-    this.set('path', path);
-  },
-
-  getOpacity: function() {
-    var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
-    var map = {
-      'branch': 1,
-      'head': GRAPHICS.edgeUpstreamHeadOpacity,
-      'none': GRAPHICS.edgeUpstreamNoneOpacity
-    };
-
-    if (map[stat] === undefined) { throw new Error('bad stat'); }
-    return map[stat];
-  },
-
-  getAttributes: function() {
-    var newPath = this.getBezierCurve();
-    var opacity = this.getOpacity();
-    return {
-      path: {
-        path: newPath,
-        opacity: opacity
-      }
-    };
-  },
-
-  animateUpdatedPath: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('path').attr(attr.path);
-      return;
-    }
-
-    this.get('path').toBack();
-    this.get('path').stop().animate(
-      attr.path,
-      speed !== undefined ? speed : this.get('animationSpeed'),
-      easing || this.get('animationEasing')
-    );
-  }
-});
-
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
-
-exports.VisEdgeCollection = VisEdgeCollection;
-exports.VisEdge = VisEdge;
-
-});
-
-require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var Main = require('../app');
-var GitCommands = require('../git/commands');
-
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-/**
-  * This class supports a few things we need for levels:
-    ~ A disabled map (to prevent certain git commands from firing)
-    ~ A post-git command hook (to compare the git tree against the solution)
-    ~ Extra level-specific commands (like help, hint, etc) that are async
-**/
-
-function InputWaterfall(options) {
-  options = options || {};
-  this.listenEvent = options.listenEvent || 'processCommand';
-  this.disabledMap = options.disabledMap || {
-    'git cherry-pick': true,
-    'git rebase': true
-  };
-
-  this.listen();
-}
-
-InputWaterfall.prototype.listen = function() {
-  Main.getEvents().on(this.listenEvent, this.process, this);
-};
-
-InputWaterfall.prototype.mute = function() {
-  Main.getEvents().off(this.listenEvent, this.process, this);
-};
-
-InputWaterfall.prototype.process = function(command, callback) {
-
-  if (this.checkDisabledMap(command)) {
-    callback();
-    return;
-  }
-  // for now, just immediately fire it
-  Main.getEvents().trigger('processGitCommand', command, callback);
-};
-
-InputWaterfall.prototype.sliceGitOff = function(str) {
-  return str.slice('git '.length);
-};
-
-InputWaterfall.prototype.checkDisabledMap = function(command) {
-  try {
-    this.loopDisabledMap(command);
-  } catch(err) {
-    Errors.filterError(err);
-    command.set('error', err);
-    return true;
-  }
-  // not needed explicitly, but included for clarity
-  return false;
-};
-
-InputWaterfall.prototype.loopDisabledMap = function(command) {
-  var toTest = this.sliceGitOff(command.get('rawStr'));
-  var regexMap = GitCommands.regexMap;
-
-  _.each(this.disabledMap, function(val, disabledGitCommand) {
-    disabledGitCommand = this.sliceGitOff(disabledGitCommand);
-
-    var regex = regexMap[disabledGitCommand];
-    if (!regex) {
-      console.warn('wut, no regex for command', disabledGitCommand);
-      return;
-    }
-
-    if (regex.test(toTest)) {
-      throw new GitError({
-        msg: 'That git command is disabled for this level!'
-      });
-    }
-  }, this);
-};
-
-exports.InputWaterfall = InputWaterfall;
-
-
-});
-
 require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
   var dummy = {};
   var stub = function() {};
@@ -14282,6 +14374,9 @@ exports.MultiView = MultiView;
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
+var Constants = require('../util/constants');
+var Views = require('../views');
+
 /**
  * Globals
  */
@@ -14315,6 +14410,18 @@ var init = function(){
     eventBaton.trigger('documentClick', e);
   });
 
+  // zoom level measure, I wish there was a jquery event for this
+  require('../util/zoomLevel').setupZoomPoll(function(level) {
+    eventBaton.trigger('zoomChange', level);
+  }, this);
+
+  eventBaton.stealBaton('zoomChange', function(level) {
+    if (level > Constants.VIEWPORT.maxZoom ||
+        level < Constants.VIEWPORT.minZoom) {
+      var view = new Views.ZoomAlertWindow();
+    }
+  });
+
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
   eventBaton.stealBaton('documentClick', focusTextArea);
@@ -14345,7 +14452,6 @@ var init = function(){
 $(document).ready(init);
 
 function UI() {
-  this.active = true;
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
@@ -16934,6 +17040,11 @@ var GLOBAL = {
   isAnimating: false
 };
 
+var VIEWPORT = {
+  minZoom: 1,
+  maxZoom: 1.15
+};
+
 var GRAPHICS = {
   arrowHeadSize: 8,
 
@@ -16967,6 +17078,7 @@ var GRAPHICS = {
 exports.GLOBAL = GLOBAL;
 exports.TIME = TIME;
 exports.GRAPHICS = GRAPHICS;
+exports.VIEWPORT = VIEWPORT;
 
 
 });
@@ -17145,7 +17257,6 @@ exports.isBrowser = function() {
   return inBrowser;
 };
 
-
 exports.splitTextCommand = function(value, func, context) {
   func = _.bind(func, context);
   _.each(value.split(';'), function(command, index) {
@@ -17234,6 +17345,26 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 
 });
 require("/src/js/util/mock.js");
+
+require.define("/src/js/util/zoomLevel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var setupZoomPoll = function(callback, context) {
+  var currentZoom = 0;
+
+  setInterval(function() {
+    var newZoom = window.outerWidth / window.innerWidth;
+    if (newZoom !== currentZoom) {
+      currentZoom = newZoom;
+      callback.apply(context, [newZoom]);
+    }
+  }, 100);
+};
+
+exports.setupZoomPoll = setupZoomPoll;
+
+
+});
+require("/src/js/util/zoomLevel.js");
 
 require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
@@ -17609,7 +17740,9 @@ require.define("/src/js/views/index.js",function(require,module,exports,__dirnam
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
 var Main = require('../app');
+var Constants = require('../util/constants');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -17654,12 +17787,21 @@ var PositiveNegativeBase = BaseView.extend({
 });
 
 var ContainedBase = BaseView.extend({
+  getAnimationTime: function() { return 700; },
+
   show: function() {
     this.container.show();
   },
 
   hide: function() {
     this.container.hide();
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime() * 1.1);
   }
 });
 
@@ -17717,6 +17859,8 @@ var ModalView = Backbone.View.extend({
   tagName: 'div',
   className: 'modalView box horizontal center transitionOpacityLinear',
   template: _.template($('#modal-view-template').html()),
+
+  getAnimationTime: function() { return 700; },
 
   initialize: function(options) {
     this.render();
@@ -17778,7 +17922,7 @@ var ModalView = Backbone.View.extend({
     // be one-off though so...
     setTimeout(_.bind(function() {
       this.toggleZ(false);
-    }, this), 700);
+    }, this), this.getAnimationTime());
   },
 
   getInsideElement: function() {
@@ -17833,6 +17977,10 @@ var ModalAlert = ContainedBase.extend({
       markdown: options.markdown
     };
 
+    if (options.markdowns) {
+      this.JSON.markdown = options.markdowns.join('\n');
+    }
+
     this.container = new ModalTerminal({
       title: 'Alert!'
     });
@@ -17850,12 +17998,49 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
+var ZoomAlertWindow = Backbone.View.extend({
+  initialize: function(options) {
+    this.grabBatons();
+    this.modalAlert = new ModalAlert({
+      markdowns: [
+        '## That zoom level is not supported :-/',
+        'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
+        '',
+        '(and of course, pull requests to fix this are appreciated :D)'
+      ]
+    });
+
+    this.modalAlert.show();
+  },
+
+  grabBatons: function() {
+    Main.getEventBaton().stealBaton('zoomChange', this.zoomChange, this);
+  },
+
+  releaseBatons: function() {
+    Main.getEventBaton().releaseBaton('zoomChange', this.zoomChange, this);
+  },
+
+  zoomChange: function(level) {
+    if (level <= Constants.VIEWPORT.maxZoom &&
+        level >= Constants.VIEWPORT.minZoom) {
+      this.finish();
+    }
+  },
+
+  finish: function() {
+    this.releaseBatons();
+    this.modalAlert.die();
+  }
+});
+
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
 exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
+exports.ZoomAlertWindow = ZoomAlertWindow;
 
 
 });
