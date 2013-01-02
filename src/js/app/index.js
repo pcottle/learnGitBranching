@@ -10,18 +10,27 @@ var Command = require('../models/commandModel').Command;
  * Globals
  */
 var events = _.clone(Backbone.Events);
-var ui;
+var commandUI;
 var mainVis;
 var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
 
-var init = function(){
+var init = function() {
+  /**
+    * There is a decent amount of bootstrapping we need just to hook
+    * everything up. The init() method takes on these responsibilities,
+    * including but not limited to:
+    *   - setting up Events and EventBaton
+    *   - calling the constructor for the main visualization
+    *   - initializing the command input bar
+    *   - handling window.focus and zoom events
+  **/
   var Visualization = require('../visuals/visualization').Visualization;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
-  ui = new UI();
+  commandUI = new CommandUI();
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
@@ -80,7 +89,12 @@ var init = function(){
 
 $(document).ready(init);
 
-function UI() {
+/**
+  * the UI method simply bootstraps the command buffer and
+  * command prompt views. It only interacts with user input
+  * and simply pipes commands to the main events system
+**/
+function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
@@ -101,7 +115,7 @@ function UI() {
   eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
 
-UI.prototype.commandSubmitted = function(value) {
+CommandUI.prototype.commandSubmitted = function(value) {
   events.trigger('commandSubmittedPassive', value);
   util.splitTextCommand(value, function(command) {
     this.commandCollection.add(new Command({
@@ -115,7 +129,7 @@ exports.getEvents = function() {
 };
 
 exports.getUI = function() {
-  return ui;
+  return commandUI;
 };
 
 exports.getMainVis = function() {

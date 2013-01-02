@@ -5,19 +5,43 @@ var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
 function ParseWaterfall(options) {
-  this.shortcutWaterfall = [
+  this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];
 
-  this.instantWaterfall = [
+  this.instantWaterfall = options.instantWaterfall || [
     GitCommands.instantCommands,
     SandboxCommands.instantCommands
   ];
 
-  this.parseWaterfall = [
+  this.parseWaterfall = options.parseWaterfall || [
     GitCommands.parse
   ];
 }
+
+ParseWaterfall.prototype.clone = function() {
+  return new ParseWaterfall({
+    shortcutWaterfall: this.shortcutWaterfall.slice(),
+    instantWaterfall: this.instantWaterfall.slice(),
+    parseWaterfall: this.parseWaterfall.slice()
+  });
+};
+
+ParseWaterfall.prototype.getWaterfallMap = function() {
+  return {
+    shortcutWaterfall: this.shortcutWaterfall,
+    instantWaterfall: this.instantWaterfall,
+    parseWaterfall: this.parseWaterfall
+  };
+};
+
+ParseWaterfall.prototype.addFirst = function(which, value) {
+  this.getWaterfallMap()[which].unshift(value);
+};
+
+ParseWaterfall.prototype.addLast = function(which, value) {
+  this.getWaterfallMap()[which].push(value);
+};
 
 ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
   _.each(this.shortcutWaterfall, function(shortcutMap) {

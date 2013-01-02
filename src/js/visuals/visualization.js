@@ -7,7 +7,6 @@ var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
 var GitVisuals = require('../visuals').GitVisuals;
-var InputWaterfall = require('../level/inputWaterfall').InputWaterfall;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
@@ -27,11 +26,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.events = Main.getEvents();
-
-    // hook the git engine up to the command input
-    this.inputWaterfall = new InputWaterfall();
-
+    this.events = options.events || Main.getEvents();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();

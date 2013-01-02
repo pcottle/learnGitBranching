@@ -63,22 +63,31 @@ var CommandBuffer = Backbone.Model.extend({
 
   popAndProcess: function() {
     var popped = this.buffer.shift(0);
-    var callback = _.bind(function() {
-      this.setTimeout();
-    }, this);
 
     // find a command with no error (aka unprocessed)
     while (popped.get('error') && this.buffer.length) {
       popped = this.buffer.pop();
     }
     if (!popped.get('error')) {
-      // pass in a callback, so when this command is "done" we will process the next.
-      var Main = require('../app');
-      Main.getEvents().trigger('processCommand', popped, callback);
+      this.processCommand(popped);
     } else {
       // no more commands to process
       this.clear();
     }
+  },
+
+  processCommand: function(command) {
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
+
+    var eventName = command.get('eventName');
+    if (!eventName) {
+      throw new Error('I need an event to trigger when this guy is parsed and ready');
+    }
+
+    var Main = require('../app');
+    Main.getEvents().trigger(eventName, command, callback);
   },
 
   clear: function() {

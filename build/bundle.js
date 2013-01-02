@@ -4850,18 +4850,27 @@ var Command = require('../models/commandModel').Command;
  * Globals
  */
 var events = _.clone(Backbone.Events);
-var ui;
+var commandUI;
 var mainVis;
 var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
 
-var init = function(){
+var init = function() {
+  /**
+    * There is a decent amount of bootstrapping we need just to hook
+    * everything up. The init() method takes on these responsibilities,
+    * including but not limited to:
+    *   - setting up Events and EventBaton
+    *   - calling the constructor for the main visualization
+    *   - initializing the command input bar
+    *   - handling window.focus and zoom events
+  **/
   var Visualization = require('../visuals/visualization').Visualization;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
-  ui = new UI();
+  commandUI = new CommandUI();
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
@@ -4920,7 +4929,12 @@ var init = function(){
 
 $(document).ready(init);
 
-function UI() {
+/**
+  * the UI method simply bootstraps the command buffer and
+  * command prompt views. It only interacts with user input
+  * and simply pipes commands to the main events system
+**/
+function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
@@ -4941,7 +4955,7 @@ function UI() {
   eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
 
-UI.prototype.commandSubmitted = function(value) {
+CommandUI.prototype.commandSubmitted = function(value) {
   events.trigger('commandSubmittedPassive', value);
   util.splitTextCommand(value, function(command) {
     this.commandCollection.add(new Command({
@@ -4955,7 +4969,7 @@ exports.getEvents = function() {
 };
 
 exports.getUI = function() {
-  return ui;
+  return commandUI;
 };
 
 exports.getMainVis = function() {
@@ -5192,30 +5206,28 @@ var instantCommands = [
 var regexMap = {
   // ($|\s) means that we either have to end the string
   // after the command or there needs to be a space for options
-  commit: /^commit($|\s)/,
-  add: /^add($|\s)/,
-  checkout: /^checkout($|\s)/,
-  rebase: /^rebase($|\s)/,
-  reset: /^reset($|\s)/,
-  branch: /^branch($|\s)/,
-  revert: /^revert($|\s)/,
-  log: /^log($|\s)/,
-  merge: /^merge($|\s)/,
-  show: /^show($|\s)/,
-  status: /^status($|\s)/,
-  'cherry-pick': /^cherry-pick($|\s)/
+  'git commit': /^git commit($|\s)/,
+  'git add': /^git add($|\s)/,
+  'git checkout': /^git checkout($|\s)/,
+  'git rebase': /^git rebase($|\s)/,
+  'git reset': /^git reset($|\s)/,
+  'git branch': /^git branch($|\s)/,
+  'git revert': /^git revert($|\s)/,
+  'git log': /^git log($|\s)/,
+  'git merge': /^git merge($|\s)/,
+  'git show': /^git show($|\s)/,
+  'git status': /^git status($|\s)/,
+  'git cherry-pick': /^git cherry-pick($|\s)/
 };
 
 var parse = function(str) {
-  // now slice off command part
-  var fullCommand = str.slice('git '.length);
   var method;
   var options;
 
   // see if we support this particular command
   _.each(regexMap, function(regex, thisMethod) {
-    if (regex.exec(fullCommand)) {
-      options = fullCommand.slice(thisMethod.length + 1);
+    if (regex.exec(str)) {
+      options = str.slice(thisMethod.length + 1);
       method = thisMethod;
     }
   }, this);
@@ -5232,7 +5244,8 @@ var parse = function(str) {
       generalArgs: parsedOptions.generalArgs,
       supportedMap: parsedOptions.supportedMap,
       method: method,
-      options: options
+      options: options,
+      eventName: 'processGitCommand'
     }
   };
 };
@@ -5339,19 +5352,43 @@ var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
 function ParseWaterfall(options) {
-  this.shortcutWaterfall = [
+  this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];
 
-  this.instantWaterfall = [
+  this.instantWaterfall = options.instantWaterfall || [
     GitCommands.instantCommands,
     SandboxCommands.instantCommands
   ];
 
-  this.parseWaterfall = [
+  this.parseWaterfall = options.parseWaterfall || [
     GitCommands.parse
   ];
 }
+
+ParseWaterfall.prototype.clone = function() {
+  return new ParseWaterfall({
+    shortcutWaterfall: this.shortcutWaterfall.slice(),
+    instantWaterfall: this.instantWaterfall.slice(),
+    parseWaterfall: this.parseWaterfall.slice()
+  });
+};
+
+ParseWaterfall.prototype.getWaterfallMap = function() {
+  return {
+    shortcutWaterfall: this.shortcutWaterfall,
+    instantWaterfall: this.instantWaterfall,
+    parseWaterfall: this.parseWaterfall
+  };
+};
+
+ParseWaterfall.prototype.addFirst = function(which, value) {
+  this.getWaterfallMap()[which].unshift(value);
+};
+
+ParseWaterfall.prototype.addLast = function(which, value) {
+  this.getWaterfallMap()[which].push(value);
+};
 
 ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
   _.each(this.shortcutWaterfall, function(shortcutMap) {
@@ -5458,7 +5495,6 @@ var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
 var GitVisuals = require('../visuals').GitVisuals;
-var InputWaterfall = require('../level/inputWaterfall').InputWaterfall;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
@@ -5478,11 +5514,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.events = Main.getEvents();
-
-    // hook the git engine up to the command input
-    this.inputWaterfall = new InputWaterfall();
-
+    this.events = options.events || Main.getEvents();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -5610,22 +5642,31 @@ var CommandBuffer = Backbone.Model.extend({
 
   popAndProcess: function() {
     var popped = this.buffer.shift(0);
-    var callback = _.bind(function() {
-      this.setTimeout();
-    }, this);
 
     // find a command with no error (aka unprocessed)
     while (popped.get('error') && this.buffer.length) {
       popped = this.buffer.pop();
     }
     if (!popped.get('error')) {
-      // pass in a callback, so when this command is "done" we will process the next.
-      var Main = require('../app');
-      Main.getEvents().trigger('processCommand', popped, callback);
+      this.processCommand(popped);
     } else {
       // no more commands to process
       this.clear();
     }
+  },
+
+  processCommand: function(command) {
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
+
+    var eventName = command.get('eventName');
+    if (!eventName) {
+      throw new Error('I need an event to trigger when this guy is parsed and ready');
+    }
+
+    var Main = require('../app');
+    Main.getEvents().trigger(eventName, command, callback);
   },
 
   clear: function() {
@@ -11379,95 +11420,6 @@ exports.VisEdge = VisEdge;
 
 });
 
-require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var Main = require('../app');
-var GitCommands = require('../git/commands');
-
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-/**
-  * This class supports a few things we need for levels:
-    ~ A disabled map (to prevent certain git commands from firing)
-    ~ A post-git command hook (to compare the git tree against the solution)
-    ~ Extra level-specific commands (like help, hint, etc) that are async
-**/
-
-function InputWaterfall(options) {
-  options = options || {};
-  this.listenEvent = options.listenEvent || 'processCommand';
-  this.disabledMap = options.disabledMap || {
-    'git cherry-pick': true,
-    'git rebase': true
-  };
-
-  this.listen();
-}
-
-InputWaterfall.prototype.listen = function() {
-  Main.getEvents().on(this.listenEvent, this.process, this);
-};
-
-InputWaterfall.prototype.mute = function() {
-  Main.getEvents().off(this.listenEvent, this.process, this);
-};
-
-InputWaterfall.prototype.process = function(command, callback) {
-
-  if (this.checkDisabledMap(command)) {
-    callback();
-    return;
-  }
-  // for now, just immediately fire it
-  Main.getEvents().trigger('processGitCommand', command, callback);
-};
-
-InputWaterfall.prototype.sliceGitOff = function(str) {
-  return str.slice('git '.length);
-};
-
-InputWaterfall.prototype.checkDisabledMap = function(command) {
-  try {
-    this.loopDisabledMap(command);
-  } catch(err) {
-    Errors.filterError(err);
-    command.set('error', err);
-    return true;
-  }
-  // not needed explicitly, but included for clarity
-  return false;
-};
-
-InputWaterfall.prototype.loopDisabledMap = function(command) {
-  var toTest = this.sliceGitOff(command.get('rawStr'));
-  var regexMap = GitCommands.regexMap;
-
-  _.each(this.disabledMap, function(val, disabledGitCommand) {
-    disabledGitCommand = this.sliceGitOff(disabledGitCommand);
-
-    var regex = regexMap[disabledGitCommand];
-    if (!regex) {
-      console.warn('wut, no regex for command', disabledGitCommand);
-      return;
-    }
-
-    if (regex.test(toTest)) {
-      throw new GitError({
-        msg: 'That git command is disabled for this level!'
-      });
-    }
-  }, this);
-};
-
-exports.InputWaterfall = InputWaterfall;
-
-
-});
-
 require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 function EventBaton() {
@@ -11786,8 +11738,6 @@ var CommandPromptView = Backbone.View.extend({
     if (this.index !== -1) {
       console.log(this.commands.toArray()[this.index]);
     }
-
-    console.log('should add', shouldAdd);
 
     if (!shouldAdd) {
       return;
@@ -14414,18 +14364,27 @@ var Command = require('../models/commandModel').Command;
  * Globals
  */
 var events = _.clone(Backbone.Events);
-var ui;
+var commandUI;
 var mainVis;
 var eventBaton;
 
 ///////////////////////////////////////////////////////////////////////
 
-var init = function(){
+var init = function() {
+  /**
+    * There is a decent amount of bootstrapping we need just to hook
+    * everything up. The init() method takes on these responsibilities,
+    * including but not limited to:
+    *   - setting up Events and EventBaton
+    *   - calling the constructor for the main visualization
+    *   - initializing the command input bar
+    *   - handling window.focus and zoom events
+  **/
   var Visualization = require('../visuals/visualization').Visualization;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
-  ui = new UI();
+  commandUI = new CommandUI();
   mainVis = new Visualization({
     el: $('#canvasWrapper')[0]
   });
@@ -14484,7 +14443,12 @@ var init = function(){
 
 $(document).ready(init);
 
-function UI() {
+/**
+  * the UI method simply bootstraps the command buffer and
+  * command prompt views. It only interacts with user input
+  * and simply pipes commands to the main events system
+**/
+function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
@@ -14505,7 +14469,7 @@ function UI() {
   eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
 
-UI.prototype.commandSubmitted = function(value) {
+CommandUI.prototype.commandSubmitted = function(value) {
   events.trigger('commandSubmittedPassive', value);
   util.splitTextCommand(value, function(command) {
     this.commandCollection.add(new Command({
@@ -14519,7 +14483,7 @@ exports.getEvents = function() {
 };
 
 exports.getUI = function() {
-  return ui;
+  return commandUI;
 };
 
 exports.getMainVis = function() {
@@ -14587,30 +14551,28 @@ var instantCommands = [
 var regexMap = {
   // ($|\s) means that we either have to end the string
   // after the command or there needs to be a space for options
-  commit: /^commit($|\s)/,
-  add: /^add($|\s)/,
-  checkout: /^checkout($|\s)/,
-  rebase: /^rebase($|\s)/,
-  reset: /^reset($|\s)/,
-  branch: /^branch($|\s)/,
-  revert: /^revert($|\s)/,
-  log: /^log($|\s)/,
-  merge: /^merge($|\s)/,
-  show: /^show($|\s)/,
-  status: /^status($|\s)/,
-  'cherry-pick': /^cherry-pick($|\s)/
+  'git commit': /^git commit($|\s)/,
+  'git add': /^git add($|\s)/,
+  'git checkout': /^git checkout($|\s)/,
+  'git rebase': /^git rebase($|\s)/,
+  'git reset': /^git reset($|\s)/,
+  'git branch': /^git branch($|\s)/,
+  'git revert': /^git revert($|\s)/,
+  'git log': /^git log($|\s)/,
+  'git merge': /^git merge($|\s)/,
+  'git show': /^git show($|\s)/,
+  'git status': /^git status($|\s)/,
+  'git cherry-pick': /^git cherry-pick($|\s)/
 };
 
 var parse = function(str) {
-  // now slice off command part
-  var fullCommand = str.slice('git '.length);
   var method;
   var options;
 
   // see if we support this particular command
   _.each(regexMap, function(regex, thisMethod) {
-    if (regex.exec(fullCommand)) {
-      options = fullCommand.slice(thisMethod.length + 1);
+    if (regex.exec(str)) {
+      options = str.slice(thisMethod.length + 1);
       method = thisMethod;
     }
   }, this);
@@ -14627,7 +14589,8 @@ var parse = function(str) {
       generalArgs: parsedOptions.generalArgs,
       supportedMap: parsedOptions.supportedMap,
       method: method,
-      options: options
+      options: options,
+      eventName: 'processGitCommand'
     }
   };
 };
@@ -16585,6 +16548,48 @@ exports.TreeCompare = TreeCompare;
 });
 require("/src/js/git/treeCompare.js");
 
+require.define("/src/js/level/disableMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var GitCommands = require('../git/commands');
+
+var Errors = require('../util/errors');
+var GitError = Errors.GitError;
+
+function DisabledMap(options) {
+  this.disabledMap = options.disabledMap || {
+    'cherry-pick': true,
+    'rebase': true
+  };
+}
+
+DisabledMap.prototype.getInstantCommands = function() {
+  // this produces an array of regex / function pairs that can be
+  // piped into a parse waterfall to disable certain git commmands
+  // :D
+  var instants = [];
+  var onMatch = function() {
+    throw new GitError({
+      msg: 'That git command is disabled for this level!'
+    });
+  };
+
+  _.each(this.disabledMap, function(val, disabledCommand) {
+    var gitRegex = GitCommands.regexMap[disabledCommand];
+    if (!gitRegex) {
+      throw new Error('wuttttt this disbaled command' + disabledCommand +
+        ' has no regex matching');
+    }
+    instants.push([gitRegex, onMatch]);
+  });
+  return instants;
+};
+
+exports.DisabledMap = DisabledMap;
+
+
+});
+require("/src/js/level/disableMap.js");
+
 require.define("/src/js/level/inputWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var Main = require('../app');
@@ -16682,19 +16687,43 @@ var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
 function ParseWaterfall(options) {
-  this.shortcutWaterfall = [
+  this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];
 
-  this.instantWaterfall = [
+  this.instantWaterfall = options.instantWaterfall || [
     GitCommands.instantCommands,
     SandboxCommands.instantCommands
   ];
 
-  this.parseWaterfall = [
+  this.parseWaterfall = options.parseWaterfall || [
     GitCommands.parse
   ];
 }
+
+ParseWaterfall.prototype.clone = function() {
+  return new ParseWaterfall({
+    shortcutWaterfall: this.shortcutWaterfall.slice(),
+    instantWaterfall: this.instantWaterfall.slice(),
+    parseWaterfall: this.parseWaterfall.slice()
+  });
+};
+
+ParseWaterfall.prototype.getWaterfallMap = function() {
+  return {
+    shortcutWaterfall: this.shortcutWaterfall,
+    instantWaterfall: this.instantWaterfall,
+    parseWaterfall: this.parseWaterfall
+  };
+};
+
+ParseWaterfall.prototype.addFirst = function(which, value) {
+  this.getWaterfallMap()[which].unshift(value);
+};
+
+ParseWaterfall.prototype.addLast = function(which, value) {
+  this.getWaterfallMap()[which].push(value);
+};
 
 ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
   _.each(this.shortcutWaterfall, function(shortcutMap) {
@@ -16859,22 +16888,31 @@ var CommandBuffer = Backbone.Model.extend({
 
   popAndProcess: function() {
     var popped = this.buffer.shift(0);
-    var callback = _.bind(function() {
-      this.setTimeout();
-    }, this);
 
     // find a command with no error (aka unprocessed)
     while (popped.get('error') && this.buffer.length) {
       popped = this.buffer.pop();
     }
     if (!popped.get('error')) {
-      // pass in a callback, so when this command is "done" we will process the next.
-      var Main = require('../app');
-      Main.getEvents().trigger('processCommand', popped, callback);
+      this.processCommand(popped);
     } else {
       // no more commands to process
       this.clear();
     }
+  },
+
+  processCommand: function(command) {
+    var callback = _.bind(function() {
+      this.setTimeout();
+    }, this);
+
+    var eventName = command.get('eventName');
+    if (!eventName) {
+      throw new Error('I need an event to trigger when this guy is parsed and ready');
+    }
+
+    var Main = require('../app');
+    Main.getEvents().trigger(eventName, command, callback);
   },
 
   clear: function() {
@@ -17645,8 +17683,6 @@ var CommandPromptView = Backbone.View.extend({
     if (this.index !== -1) {
       console.log(this.commands.toArray()[this.index]);
     }
-
-    console.log('should add', shouldAdd);
 
     if (!shouldAdd) {
       return;
@@ -20661,7 +20697,6 @@ var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 
 var GitVisuals = require('../visuals').GitVisuals;
-var InputWaterfall = require('../level/inputWaterfall').InputWaterfall;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
@@ -20681,11 +20716,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.events = Main.getEvents();
-
-    // hook the git engine up to the command input
-    this.inputWaterfall = new InputWaterfall();
-
+    this.events = options.events || Main.getEvents();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();

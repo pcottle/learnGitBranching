@@ -49,30 +49,28 @@ var instantCommands = [
 var regexMap = {
   // ($|\s) means that we either have to end the string
   // after the command or there needs to be a space for options
-  commit: /^commit($|\s)/,
-  add: /^add($|\s)/,
-  checkout: /^checkout($|\s)/,
-  rebase: /^rebase($|\s)/,
-  reset: /^reset($|\s)/,
-  branch: /^branch($|\s)/,
-  revert: /^revert($|\s)/,
-  log: /^log($|\s)/,
-  merge: /^merge($|\s)/,
-  show: /^show($|\s)/,
-  status: /^status($|\s)/,
-  'cherry-pick': /^cherry-pick($|\s)/
+  'git commit': /^git commit($|\s)/,
+  'git add': /^git add($|\s)/,
+  'git checkout': /^git checkout($|\s)/,
+  'git rebase': /^git rebase($|\s)/,
+  'git reset': /^git reset($|\s)/,
+  'git branch': /^git branch($|\s)/,
+  'git revert': /^git revert($|\s)/,
+  'git log': /^git log($|\s)/,
+  'git merge': /^git merge($|\s)/,
+  'git show': /^git show($|\s)/,
+  'git status': /^git status($|\s)/,
+  'git cherry-pick': /^git cherry-pick($|\s)/
 };
 
 var parse = function(str) {
-  // now slice off command part
-  var fullCommand = str.slice('git '.length);
   var method;
   var options;
 
   // see if we support this particular command
   _.each(regexMap, function(regex, thisMethod) {
-    if (regex.exec(fullCommand)) {
-      options = fullCommand.slice(thisMethod.length + 1);
+    if (regex.exec(str)) {
+      options = str.slice(thisMethod.length + 1);
       method = thisMethod;
     }
   }, this);
@@ -89,7 +87,8 @@ var parse = function(str) {
       generalArgs: parsedOptions.generalArgs,
       supportedMap: parsedOptions.supportedMap,
       method: method,
-      options: options
+      options: options,
+      eventName: 'processGitCommand'
     }
   };
 };

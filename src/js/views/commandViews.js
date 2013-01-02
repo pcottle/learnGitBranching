@@ -210,8 +210,6 @@ var CommandPromptView = Backbone.View.extend({
       console.log(this.commands.toArray()[this.index]);
     }
 
-    console.log('should add', shouldAdd);
-
     if (!shouldAdd) {
       return;
     }
