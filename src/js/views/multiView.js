@@ -65,7 +65,9 @@ var MultiView = Backbone.View.extend({
     });
 
     this.render();
-    this.start();
+    if (!options.wait) {
+      this.start();
+    }
   },
 
   onWindowFocus: function() {
@@ -125,11 +127,9 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
 
-    setTimeout(_.bind(function() {
-      _.each(this.childViews, function(childView) {
-        childView.tearDown();
-      });
-    }, this), this.deathTime);
+    _.each(this.childViews, function(childView) {
+      childView.die();
+    });
 
     this.deferred.resolve();
   },

@@ -9,6 +9,7 @@ function EventBaton() {
 // EventBaton.prototype.on = function(name, func, context) {
 EventBaton.prototype.stealBaton = function(name, func, context) {
   if (!name) { throw new Error('need name'); }
+  if (!func) { throw new Error('need func!'); }
 
   var listeners = this.eventMap[name] || [];
   listeners.push({
@@ -46,7 +47,8 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   var newListeners = [];
   var found = false;
   _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func) {
+    if (listenerObj.func === func && listenerObj.context === context) {
+      if (found) { console.warn('woah duplicates!!!'); }
       found = true;
     } else {
       newListeners.push(listenerObj);
@@ -54,7 +56,8 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   }, this);
 
   if (!found) {
-    throw new Error('did not find that function', func, context, name, arguments);
+    console.log('did not find that function', func, context, name, arguments);
+    throw new Error('cant releasebaton if yu dont have it');
   }
   this.eventMap[name] = newListeners;
 };

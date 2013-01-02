@@ -10,9 +10,7 @@ Medium things:
 
 Commands
 ========
-[ ] move command creation outside of the command view so multiple things
-    can be responsible for specifying the waterfall associated with a command!
-[ ] multiple things can process!!!
+[ ] transition to deferreds / promises for command callbacks
 [ ] sip from buffer with post-command hooks. ideally the git engine
     knows nothing about the level being played
 
@@ -21,7 +19,6 @@ Small things to implement:
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] figure out why multiview baton passing doesn't work...
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +32,11 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] awesome ability to have dialogs and such handle command processing and block
+[x] figure out why multiview baton passing doesn't work...
+[x] multiple things can process!!!
+[x] move command creation outside of the command view so multiple things
+    can be responsible for specifying the waterfall associated with a command!
 [x] awesome zoom level polling and sweet event baton stealing :DDDDDDDDDDDDDD
 [x] then refactor keyboard input and UI.listen() to that event system
 [x] make some kind of "single listener" event system... will make keyboard stuff easy

@@ -159,7 +159,7 @@ var ModalView = Backbone.View.extend({
     console.log('window focus doing nothing', e);
   },
 
-  documentClick: function(e) {
+  onDocumentClick: function(e) {
     console.log('doc click doing nothing', e);
   },
 

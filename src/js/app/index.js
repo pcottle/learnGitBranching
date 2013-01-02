@@ -124,7 +124,7 @@ exports.getEventBaton = function() {
 
 exports.getCommandUI = function() {
   return commandUI;
-}
+};
 
 exports.init = init;
 

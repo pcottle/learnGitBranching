@@ -4601,7 +4601,7 @@ var ModalView = Backbone.View.extend({
     console.log('window focus doing nothing', e);
   },
 
-  documentClick: function(e) {
+  onDocumentClick: function(e) {
     console.log('doc click doing nothing', e);
   },
 
@@ -4964,7 +4964,7 @@ exports.getEventBaton = function() {
 
 exports.getCommandUI = function() {
   return commandUI;
-}
+};
 
 exports.init = init;
 
@@ -4983,10 +4983,9 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 
 var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
+
+var MultiView = require('../views/multiView').MultiView;
 
 function Sandbox(options) {
   options = options || {};
@@ -5038,13 +5037,19 @@ Sandbox.prototype.processSandboxCommand = function(command, callback) {
 };
 
 Sandbox.prototype.helpDialog = function(command, callback) {
-  var a = new ModalAlert({
-    markdown: '#wutttt'
+  var helpDialog = new MultiView({
+    childViews: require('../dialogs/sandbox').helpDialog
   });
-  a.show();
+  helpDialog.getPromise().then(_.bind(function() {
+    // the view has been closed, lets go ahead and resolve our command
+    command.set('status', 'finished');
+    callback();
+  }, this))
+  .done();
 };
 
 exports.Sandbox = Sandbox;
+
 
 });
 
@@ -11551,6 +11556,267 @@ exports.DisabledMap = DisabledMap;
 
 });
 
+require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
+var ModalAlert = require('../views').ModalAlert;
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var MultiView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'multiView',
+  // ms to debounce the nav functions
+  navEventDebounce: 750,
+  deathTime: 700,
+
+  // a simple mapping of what childViews we support
+  typeToConstructor: {
+    ModalAlert: ModalAlert
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.childViewJSONs = options.childViews || [{
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Woah wtf!!'
+      }
+    }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+     }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }];
+    this.deferred = Q.defer();
+
+    this.childViews = [];
+    this.currentIndex = 0;
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('negative', this.getNegFunc(), this);
+    this.navEvents.on('positive', this.getPosFunc(), this);
+
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        left: 'negative',
+        right: 'positive',
+        enter: 'positive'
+      }
+    });
+
+    this.render();
+    if (!options.wait) {
+      this.start();
+    }
+  },
+
+  onWindowFocus: function() {
+    // nothing here for now...
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
+  },
+
+  getPosFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navForward();
+    }, this), this.navEventDebounce, true);
+  },
+
+  getNegFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navBackward();
+    }, this), this.navEventDebounce, true);
+  },
+
+  navForward: function() {
+    if (this.currentIndex === this.childViews.length - 1) {
+      this.hideViewIndex(this.currentIndex);
+      this.finish();
+      return;
+    }
+
+    this.navIndexChange(1);
+  },
+
+  navBackward: function() {
+    if (this.currentIndex === 0) {
+      return;
+    }
+
+    this.navIndexChange(-1);
+  },
+
+  navIndexChange: function(delta) {
+    this.hideViewIndex(this.currentIndex);
+    this.currentIndex += delta;
+    this.showViewIndex(this.currentIndex);
+  },
+
+  hideViewIndex: function(index) {
+    this.childViews[index].hide();
+  },
+
+  showViewIndex: function(index) {
+    this.childViews[index].show();
+  },
+
+  finish: function() {
+    // first we stop listening to keyboard and give that back to UI, which
+    // other views will take if they need to
+    this.keyboardListener.mute();
+
+    _.each(this.childViews, function(childView) {
+      childView.die();
+    });
+
+    this.deferred.resolve();
+  },
+
+  start: function() {
+    // steal the window focus baton
+    this.showViewIndex(this.currentIndex);
+  },
+
+  createChildView: function(viewJSON) {
+    var type = viewJSON.type;
+    if (!this.typeToConstructor[type]) {
+      throw new Error('no constructor for type "' + type + '"');
+    }
+    var view = new this.typeToConstructor[type](viewJSON.options);
+    return view;
+  },
+
+  addNavToView: function(view, index) {
+    var leftRight = new LeftRightView({
+      events: this.navEvents,
+      // we want the arrows to be on the same level as the content (not
+      // beneath), so we go one level up with getDestination()
+      destination: view.getDestination(),
+      showLeft: (index !== 0),
+      lastNav: (index === this.childViewJSONs.length - 1)
+    });
+  },
+
+  render: function() {
+    // go through each and render... show the first
+    _.each(this.childViewJSONs, function(childViewJSON, index) {
+      var childView = this.createChildView(childViewJSON);
+      this.childViews.push(childView);
+      this.addNavToView(childView, index);
+    }, this);
+  }
+});
+
+exports.MultiView = MultiView;
+
+
+});
+
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var mapKeycodeToKey = function(keycode) {
+  // TODO -- internationalize? Dvorak? I have no idea
+  var keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  return keyMap[keycode];
+};
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keydownListener = _.bind(this.keydown, this);
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
+    return;
+  }
+
+  this.fireEvent(key);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
+exports.mapKeycodeToKey = mapKeycodeToKey;
+
+
+});
+
+require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.helpDialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to LearnGitBranching!',
+      '',
+      'This application is designed to help beginners grasp ',
+      'the powerful concepts behind branching when working ',
+      'with git. We hope you enjoy this application and maybe ',
+      'even learn something!',
+      ''
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## The LearnGitBranching Interface',
+      '',
+      'There are features to use within the user interface behind ',
+      'this modal dialog. A list:',
+      '',
+      '  * git commands (to interact with git)',
+      '  * level commands (to get level hints or solutions)',
+      '  * sandbox commands (like this one)'
+    ]
+  }
+}];
+
+});
+
 require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 function EventBaton() {
@@ -11562,6 +11828,7 @@ function EventBaton() {
 // EventBaton.prototype.on = function(name, func, context) {
 EventBaton.prototype.stealBaton = function(name, func, context) {
   if (!name) { throw new Error('need name'); }
+  if (!func) { throw new Error('need func!'); }
 
   var listeners = this.eventMap[name] || [];
   listeners.push({
@@ -11599,7 +11866,8 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   var newListeners = [];
   var found = false;
   _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func) {
+    if (listenerObj.func === func && listenerObj.context === context) {
+      if (found) { console.warn('woah duplicates!!!'); }
       found = true;
     } else {
       newListeners.push(listenerObj);
@@ -11607,7 +11875,8 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   }, this);
 
   if (!found) {
-    throw new Error('did not find that function', func, context, name, arguments);
+    console.log('did not find that function', func, context, name, arguments);
+    throw new Error('cant releasebaton if yu dont have it');
   }
   this.eventMap[name] = newListeners;
 };
@@ -12018,60 +12287,6 @@ var CommandLineHistoryView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
-
-});
-
-require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var mapKeycodeToKey = function(keycode) {
-  // TODO -- internationalize? Dvorak? I have no idea
-  var keyMap = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-    27: 'esc',
-    13: 'enter'
-  };
-  return keyMap[keycode];
-};
-
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
-}
-
-KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
-
-  var key = mapKeycodeToKey(which);
-  if (key === undefined) {
-    return;
-  }
-
-  this.fireEvent(key);
-};
-
-KeyboardListener.prototype.fireEvent = function(eventName) {
-  eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
-};
-
-exports.KeyboardListener = KeyboardListener;
-exports.mapKeycodeToKey = mapKeycodeToKey;
-
 
 });
 
@@ -14307,182 +14522,6 @@ exports.HeadlessGit = HeadlessGit;
 
 });
 
-require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
-var ModalAlert = require('../views').ModalAlert;
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-
-var MultiView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'multiView',
-  // ms to debounce the nav functions
-  navEventDebounce: 750,
-  deathTime: 700,
-
-  // a simple mapping of what childViews we support
-  typeToConstructor: {
-    ModalAlert: ModalAlert
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.childViewJSONs = options.childViews || [{
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Woah wtf!!'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-     }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }];
-    this.deferred = Q.defer();
-
-    this.childViews = [];
-    this.currentIndex = 0;
-
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('negative', this.getNegFunc(), this);
-    this.navEvents.on('positive', this.getPosFunc(), this);
-
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        left: 'negative',
-        right: 'positive',
-        enter: 'positive'
-      }
-    });
-
-    this.render();
-    this.start();
-  },
-
-  onWindowFocus: function() {
-    // nothing here for now...
-  },
-
-  getPromise: function() {
-    return this.deferred.promise;
-  },
-
-  getPosFunc: function() {
-    return _.debounce(_.bind(function() {
-      this.navForward();
-    }, this), this.navEventDebounce, true);
-  },
-
-  getNegFunc: function() {
-    return _.debounce(_.bind(function() {
-      this.navBackward();
-    }, this), this.navEventDebounce, true);
-  },
-
-  navForward: function() {
-    if (this.currentIndex === this.childViews.length - 1) {
-      this.hideViewIndex(this.currentIndex);
-      this.finish();
-      return;
-    }
-
-    this.navIndexChange(1);
-  },
-
-  navBackward: function() {
-    if (this.currentIndex === 0) {
-      return;
-    }
-
-    this.navIndexChange(-1);
-  },
-
-  navIndexChange: function(delta) {
-    this.hideViewIndex(this.currentIndex);
-    this.currentIndex += delta;
-    this.showViewIndex(this.currentIndex);
-  },
-
-  hideViewIndex: function(index) {
-    this.childViews[index].hide();
-  },
-
-  showViewIndex: function(index) {
-    this.childViews[index].show();
-  },
-
-  finish: function() {
-    // first we stop listening to keyboard and give that back to UI, which
-    // other views will take if they need to
-    this.keyboardListener.mute();
-
-    setTimeout(_.bind(function() {
-      _.each(this.childViews, function(childView) {
-        childView.tearDown();
-      });
-    }, this), this.deathTime);
-
-    this.deferred.resolve();
-  },
-
-  start: function() {
-    // steal the window focus baton
-    this.showViewIndex(this.currentIndex);
-  },
-
-  createChildView: function(viewJSON) {
-    var type = viewJSON.type;
-    if (!this.typeToConstructor[type]) {
-      throw new Error('no constructor for type "' + type + '"');
-    }
-    var view = new this.typeToConstructor[type](viewJSON.options);
-    return view;
-  },
-
-  addNavToView: function(view, index) {
-    var leftRight = new LeftRightView({
-      events: this.navEvents,
-      // we want the arrows to be on the same level as the content (not
-      // beneath), so we go one level up with getDestination()
-      destination: view.getDestination(),
-      showLeft: (index !== 0),
-      lastNav: (index === this.childViewJSONs.length - 1)
-    });
-  },
-
-  render: function() {
-    // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON, index) {
-      var childView = this.createChildView(childViewJSON);
-      this.childViews.push(childView);
-      this.addNavToView(childView, index);
-    }, this);
-  }
-});
-
-exports.MultiView = MultiView;
-
-
-});
-
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -14609,13 +14648,45 @@ exports.getEventBaton = function() {
 
 exports.getCommandUI = function() {
   return commandUI;
-}
+};
 
 exports.init = init;
 
 
 });
 require("/src/js/app/index.js");
+
+require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.helpDialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to LearnGitBranching!',
+      '',
+      'This application is designed to help beginners grasp ',
+      'the powerful concepts behind branching when working ',
+      'with git. We hope you enjoy this application and maybe ',
+      'even learn something!',
+      ''
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## The LearnGitBranching Interface',
+      '',
+      'There are features to use within the user interface behind ',
+      'this modal dialog. A list:',
+      '',
+      '  * git commands (to interact with git)',
+      '  * level commands (to get level hints or solutions)',
+      '  * sandbox commands (like this one)'
+    ]
+  }
+}];
+
+});
+require("/src/js/dialogs/sandbox.js");
 
 require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
@@ -16818,10 +16889,9 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 
 var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
+
+var MultiView = require('../views/multiView').MultiView;
 
 function Sandbox(options) {
   options = options || {};
@@ -16873,13 +16943,19 @@ Sandbox.prototype.processSandboxCommand = function(command, callback) {
 };
 
 Sandbox.prototype.helpDialog = function(command, callback) {
-  var a = new ModalAlert({
-    markdown: '#wutttt'
+  var helpDialog = new MultiView({
+    childViews: require('../dialogs/sandbox').helpDialog
   });
-  a.show();
+  helpDialog.getPromise().then(_.bind(function() {
+    // the view has been closed, lets go ahead and resolve our command
+    command.set('status', 'finished');
+    callback();
+  }, this))
+  .done();
 };
 
 exports.Sandbox = Sandbox;
+
 
 });
 require("/src/js/level/sandbox.js");
@@ -17410,6 +17486,7 @@ function EventBaton() {
 // EventBaton.prototype.on = function(name, func, context) {
 EventBaton.prototype.stealBaton = function(name, func, context) {
   if (!name) { throw new Error('need name'); }
+  if (!func) { throw new Error('need func!'); }
 
   var listeners = this.eventMap[name] || [];
   listeners.push({
@@ -17447,7 +17524,8 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   var newListeners = [];
   var found = false;
   _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func) {
+    if (listenerObj.func === func && listenerObj.context === context) {
+      if (found) { console.warn('woah duplicates!!!'); }
       found = true;
     } else {
       newListeners.push(listenerObj);
@@ -17455,7 +17533,8 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   }, this);
 
   if (!found) {
-    throw new Error('did not find that function', func, context, name, arguments);
+    console.log('did not find that function', func, context, name, arguments);
+    throw new Error('cant releasebaton if yu dont have it');
   }
   this.eventMap[name] = newListeners;
 };
@@ -18129,7 +18208,7 @@ var ModalView = Backbone.View.extend({
     console.log('window focus doing nothing', e);
   },
 
-  documentClick: function(e) {
+  onDocumentClick: function(e) {
     console.log('doc click doing nothing', e);
   },
 
@@ -18344,7 +18423,9 @@ var MultiView = Backbone.View.extend({
     });
 
     this.render();
-    this.start();
+    if (!options.wait) {
+      this.start();
+    }
   },
 
   onWindowFocus: function() {
@@ -18404,11 +18485,9 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
 
-    setTimeout(_.bind(function() {
-      _.each(this.childViews, function(childView) {
-        childView.tearDown();
-      });
-    }, this), this.deathTime);
+    _.each(this.childViews, function(childView) {
+      childView.die();
+    });
 
     this.deferred.resolve();
   },
