@@ -6,9 +6,10 @@ var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 
 function DisabledMap(options) {
+  options = options || {};
   this.disabledMap = options.disabledMap || {
-    'cherry-pick': true,
-    'rebase': true
+    'git cherry-pick': true,
+    'git rebase': true
   };
 }
 

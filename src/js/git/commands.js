@@ -71,7 +71,7 @@ var parse = function(str) {
   _.each(regexMap, function(regex, thisMethod) {
     if (regex.exec(str)) {
       options = str.slice(thisMethod.length + 1);
-      method = thisMethod;
+      method = thisMethod.slice('git '.length);
     }
   }, this);
 

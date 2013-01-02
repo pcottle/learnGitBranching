@@ -5,6 +5,7 @@ var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
 function ParseWaterfall(options) {
+  options = options || {};
   this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];

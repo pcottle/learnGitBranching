@@ -5,6 +5,8 @@ var Constants = require('../util/constants');
 var Views = require('../views');
 var util = require('../util');
 var Command = require('../models/commandModel').Command;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var DisabledMap = require('../level/disabledMap').DisabledMap;
 
 /**
  * Globals
@@ -112,6 +114,9 @@ function CommandUI() {
     collection: this.commandCollection
   });
 
+  this.parseWaterfall = new ParseWaterfall();
+  this.parseWaterfall.addFirst('instantWaterfall', new DisabledMap().getInstantCommands());
+
   eventBaton.stealBaton('commandSubmitted', this.commandSubmitted, this);
 }
 
@@ -119,7 +124,8 @@ CommandUI.prototype.commandSubmitted = function(value) {
   events.trigger('commandSubmittedPassive', value);
   util.splitTextCommand(value, function(command) {
     this.commandCollection.add(new Command({
-      rawStr: command
+      rawStr: command,
+      parseWaterfall: this.parseWaterfall
     }));
   }, this);
 };
