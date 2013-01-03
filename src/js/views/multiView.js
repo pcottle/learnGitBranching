@@ -30,16 +30,6 @@ var MultiView = Backbone.View.extend({
       options: {
         markdown: 'Woah wtf!!'
       }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
      }, {
       type: 'ModalAlert',
       options: {

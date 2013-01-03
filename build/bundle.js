@@ -4467,7 +4467,8 @@ exports.splitTextCommand = function(value, func, context) {
 });
 
 require.define("/src/js/level/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
 var Main = require('../app');
@@ -4483,84 +4484,90 @@ var ModalAlert = require('../views').ModalAlert;
 
 var MultiView = require('../views/multiView').MultiView;
 
-function Sandbox(options) {
-  options = options || {};
+var Sandbox = Backbone.View.extend({
+  // tag name here is purely vestigial. I made this a view
+  // simply to use inheritance and have a nice event system in place
+  tagName: 'div',
+  initialize: function(options) {
+    options = options || {};
 
-  this.mainVis = new Visualization({
-    el: options.el || $('#canvasWrapper')[0]
-  });
+    this.mainVis = new Visualization({
+      el: options.el || $('#canvasWrapper')[0]
+    });
 
-  // don't add it to just any collection -- adding to the
-  // CommandUI collection will put in history
-  this.commandCollection = Main.getCommandUI().commandCollection;
+    // don't add it to just any collection -- adding to the
+    // CommandUI collection will put in history
+    this.commandCollection = Main.getCommandUI().commandCollection;
 
-  this.parseWaterfall = new ParseWaterfall();
+    this.parseWaterfall = new ParseWaterfall();
+    /*
+    this.gitShim = new GitShim({
+      beforeCB: function() { console.log('before'); },
+      afterCB: function() { console.log('after'); }
+    });*/
 
-  this.gitShim = new GitShim({
-    beforeCB: function() { console.log('before'); },
-    afterCB: function() { console.log('after'); }
-  });
+    /* DISBALED MAP example!!!
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      new DisabledMap().getInstantCommands()
+    );*/
 
-  /* DISBALED MAP example!!!
-  this.parseWaterfall.addFirst(
-    'instantWaterfall',
-    new DisabledMap().getInstantCommands()
-  );*/
+    if (!options.wait) {
+      this.takeControl();
+    }
+  },
 
-  if (!options.defer) {
-    this.takeControl();
+  takeControl: function() {
+    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // functionality (which is included by default in ParseWaterfall())
+    Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
+    // we obviously take care of sandbox commands
+    Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
+
+    // and our git shim
+    // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
+    if (this.gitShim) {
+      setTimeout(_.bind(function() {
+        this.gitShim.insertShim();
+      }, this), 1000);
+    }
+  },
+
+  commandSubmitted: function(value) {
+    // allow other things to see this command
+    Main.getEvents().trigger('commandSubmittedPassive', value);
+
+    util.splitTextCommand(value, function(command) {
+      this.commandCollection.add(new Command({
+        rawStr: command,
+        parseWaterfall: this.parseWaterfall
+      }));
+    }, this);
+  },
+
+  processSandboxCommand: function(command, deferred) {
+    var commandMap = {
+      help: this.helpDialog
+    };
+    var method = commandMap[command.get('method')];
+    if (!method) { throw new Error('no method for that wut'); }
+
+    method.apply(this, [command, deferred]);
+  },
+
+  helpDialog: function(command, deferred) {
+    var helpDialog = new MultiView({
+      childViews: require('../dialogs/sandbox').helpDialog
+    });
+    helpDialog.getPromise().then(_.bind(function() {
+      // the view has been closed, lets go ahead and resolve our command
+      command.finishWith(deferred);
+    }, this))
+    .done();
   }
-}
-
-Sandbox.prototype.takeControl = function() {
-  // we will be handling commands that are submitted, mainly to add the sanadbox
-  // functionality (which is included by default in ParseWaterfall())
-  Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
-  // we obviously take care of sandbox commands
-  Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
-
-  // and our git shim
-  // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
-  setTimeout(_.bind(function() {
-    this.gitShim.insertShim();
-  }, this), 1000);
-};
-
-Sandbox.prototype.commandSubmitted = function(value) {
-  // allow other things to see this command
-  Main.getEvents().trigger('commandSubmittedPassive', value);
-
-  util.splitTextCommand(value, function(command) {
-    this.commandCollection.add(new Command({
-      rawStr: command,
-      parseWaterfall: this.parseWaterfall
-    }));
-  }, this);
-};
-
-Sandbox.prototype.processSandboxCommand = function(command, deferred) {
-  var commandMap = {
-    help: this.helpDialog
-  };
-  var method = commandMap[command.get('method')];
-  if (!method) { throw new Error('no method for that wut'); }
-
-  method.apply(this, [command, deferred]);
-};
-
-Sandbox.prototype.helpDialog = function(command, deferred) {
-  var helpDialog = new MultiView({
-    childViews: require('../dialogs/sandbox').helpDialog
-  });
-  helpDialog.getPromise().then(_.bind(function() {
-    // the view has been closed, lets go ahead and resolve our command
-    command.finishWith(deferred);
-  }, this))
-  .done();
-};
+});
 
 exports.Sandbox = Sandbox;
-
 
 });
 
@@ -14327,21 +14334,6 @@ function GitShim(options) {
   };
   this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
   this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
-
-  this.beforeDeferHandler = function(deferred) {
-    var view = new MultiView({
-    });
-    view.getPromise()
-    .then(function() {
-      return Q.delay(700);
-    })
-    .then(function() {
-      console.log('WUTTTTTTT');
-      deferred.resolve();
-    })
-    .done();
-  };
-
   this.eventBaton = options.eventBaton || Main.getEventBaton();
 }
 
@@ -14350,17 +14342,18 @@ GitShim.prototype.insertShim = function() {
 };
 
 GitShim.prototype.processGitCommand = function(command, deferred) {
-  console.log('in before');
   this.beforeCB(command);
 
   // ok we make a NEW deferred that will, upon resolution,
   // call our afterGitCommandProcessed. This inserts the 'after' shim
   // functionality. we give this new deferred to the eventBaton handler
   var newDeferred = Q.defer();
-  newDeferred.promise.then(_.bind(function() {
+  newDeferred.promise
+  .then(_.bind(function() {
     // give this method the original defer so it can resolve it
     this.afterGitCommandProcessed(command, deferred);
-  }, this));
+  }, this))
+  .done();
 
   // now our shim owner might want to launch some kind of deferred beforehand, like
   // a modal or something. in order to do this, we need to defer the passing
@@ -14372,7 +14365,9 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   }, this);
 
   var beforeDefer = Q.defer();
-  beforeDefer.promise.then(passBaton);
+  beforeDefer.promise
+  .then(passBaton)
+  .done();
 
   // if we didnt receive a defer handler in the options, this just
   // resolves immediately
@@ -14381,7 +14376,18 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
 
 GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   this.afterCB(command);
-  deferred.resolve();
+
+  // again we can't just resolve this deferred right away... our shim owner might
+  // want to insert some promise functionality before that happens. so again
+  // we make a defer
+  var afterDefer = Q.defer();
+  afterDefer.promise
+  .then(function() {
+    deferred.resolve();
+  })
+  .done();
+
+  this.afterDeferHandler(afterDefer);
 };
 
 exports.GitShim = GitShim;
@@ -14420,16 +14426,6 @@ var MultiView = Backbone.View.extend({
       type: 'ModalAlert',
       options: {
         markdown: 'Woah wtf!!'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
       }
      }, {
       type: 'ModalAlert',
@@ -15050,21 +15046,6 @@ function GitShim(options) {
   };
   this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
   this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
-
-  this.beforeDeferHandler = function(deferred) {
-    var view = new MultiView({
-    });
-    view.getPromise()
-    .then(function() {
-      return Q.delay(700);
-    })
-    .then(function() {
-      console.log('WUTTTTTTT');
-      deferred.resolve();
-    })
-    .done();
-  };
-
   this.eventBaton = options.eventBaton || Main.getEventBaton();
 }
 
@@ -15073,17 +15054,18 @@ GitShim.prototype.insertShim = function() {
 };
 
 GitShim.prototype.processGitCommand = function(command, deferred) {
-  console.log('in before');
   this.beforeCB(command);
 
   // ok we make a NEW deferred that will, upon resolution,
   // call our afterGitCommandProcessed. This inserts the 'after' shim
   // functionality. we give this new deferred to the eventBaton handler
   var newDeferred = Q.defer();
-  newDeferred.promise.then(_.bind(function() {
+  newDeferred.promise
+  .then(_.bind(function() {
     // give this method the original defer so it can resolve it
     this.afterGitCommandProcessed(command, deferred);
-  }, this));
+  }, this))
+  .done();
 
   // now our shim owner might want to launch some kind of deferred beforehand, like
   // a modal or something. in order to do this, we need to defer the passing
@@ -15095,7 +15077,9 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   }, this);
 
   var beforeDefer = Q.defer();
-  beforeDefer.promise.then(passBaton);
+  beforeDefer.promise
+  .then(passBaton)
+  .done();
 
   // if we didnt receive a defer handler in the options, this just
   // resolves immediately
@@ -15104,7 +15088,18 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
 
 GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   this.afterCB(command);
-  deferred.resolve();
+
+  // again we can't just resolve this deferred right away... our shim owner might
+  // want to insert some promise functionality before that happens. so again
+  // we make a defer
+  var afterDefer = Q.defer();
+  afterDefer.promise
+  .then(function() {
+    deferred.resolve();
+  })
+  .done();
+
+  this.afterDeferHandler(afterDefer);
 };
 
 exports.GitShim = GitShim;
@@ -17014,6 +17009,42 @@ exports.DisabledMap = DisabledMap;
 });
 require("/src/js/level/disabledMap.js");
 
+require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var util = require('../util');
+var Main = require('../app');
+
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var DisabledMap = require('../level/disabledMap').DisabledMap;
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ModalAlert = require('../views').ModalAlert;
+
+var MultiView = require('../views/multiView').MultiView;
+
+/*
+this.beforeDeferHandler = function(deferred) {
+  var view = new MultiView({
+  });
+  view.getPromise()
+  .then(function() {
+    return Q.delay(700);
+  })
+  .then(function() {
+    deferred.resolve();
+  })
+  .done();
+};*/
+
+
+});
+require("/src/js/level/index.js");
+
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
@@ -17114,7 +17145,8 @@ exports.ParseWaterfall = ParseWaterfall;
 require("/src/js/level/parseWaterfall.js");
 
 require.define("/src/js/level/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
 var Main = require('../app');
@@ -17130,84 +17162,90 @@ var ModalAlert = require('../views').ModalAlert;
 
 var MultiView = require('../views/multiView').MultiView;
 
-function Sandbox(options) {
-  options = options || {};
+var Sandbox = Backbone.View.extend({
+  // tag name here is purely vestigial. I made this a view
+  // simply to use inheritance and have a nice event system in place
+  tagName: 'div',
+  initialize: function(options) {
+    options = options || {};
 
-  this.mainVis = new Visualization({
-    el: options.el || $('#canvasWrapper')[0]
-  });
+    this.mainVis = new Visualization({
+      el: options.el || $('#canvasWrapper')[0]
+    });
 
-  // don't add it to just any collection -- adding to the
-  // CommandUI collection will put in history
-  this.commandCollection = Main.getCommandUI().commandCollection;
+    // don't add it to just any collection -- adding to the
+    // CommandUI collection will put in history
+    this.commandCollection = Main.getCommandUI().commandCollection;
 
-  this.parseWaterfall = new ParseWaterfall();
+    this.parseWaterfall = new ParseWaterfall();
+    /*
+    this.gitShim = new GitShim({
+      beforeCB: function() { console.log('before'); },
+      afterCB: function() { console.log('after'); }
+    });*/
 
-  this.gitShim = new GitShim({
-    beforeCB: function() { console.log('before'); },
-    afterCB: function() { console.log('after'); }
-  });
+    /* DISBALED MAP example!!!
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      new DisabledMap().getInstantCommands()
+    );*/
 
-  /* DISBALED MAP example!!!
-  this.parseWaterfall.addFirst(
-    'instantWaterfall',
-    new DisabledMap().getInstantCommands()
-  );*/
+    if (!options.wait) {
+      this.takeControl();
+    }
+  },
 
-  if (!options.defer) {
-    this.takeControl();
+  takeControl: function() {
+    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // functionality (which is included by default in ParseWaterfall())
+    Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
+    // we obviously take care of sandbox commands
+    Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
+
+    // and our git shim
+    // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
+    if (this.gitShim) {
+      setTimeout(_.bind(function() {
+        this.gitShim.insertShim();
+      }, this), 1000);
+    }
+  },
+
+  commandSubmitted: function(value) {
+    // allow other things to see this command
+    Main.getEvents().trigger('commandSubmittedPassive', value);
+
+    util.splitTextCommand(value, function(command) {
+      this.commandCollection.add(new Command({
+        rawStr: command,
+        parseWaterfall: this.parseWaterfall
+      }));
+    }, this);
+  },
+
+  processSandboxCommand: function(command, deferred) {
+    var commandMap = {
+      help: this.helpDialog
+    };
+    var method = commandMap[command.get('method')];
+    if (!method) { throw new Error('no method for that wut'); }
+
+    method.apply(this, [command, deferred]);
+  },
+
+  helpDialog: function(command, deferred) {
+    var helpDialog = new MultiView({
+      childViews: require('../dialogs/sandbox').helpDialog
+    });
+    helpDialog.getPromise().then(_.bind(function() {
+      // the view has been closed, lets go ahead and resolve our command
+      command.finishWith(deferred);
+    }, this))
+    .done();
   }
-}
-
-Sandbox.prototype.takeControl = function() {
-  // we will be handling commands that are submitted, mainly to add the sanadbox
-  // functionality (which is included by default in ParseWaterfall())
-  Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
-  // we obviously take care of sandbox commands
-  Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
-
-  // and our git shim
-  // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
-  setTimeout(_.bind(function() {
-    this.gitShim.insertShim();
-  }, this), 1000);
-};
-
-Sandbox.prototype.commandSubmitted = function(value) {
-  // allow other things to see this command
-  Main.getEvents().trigger('commandSubmittedPassive', value);
-
-  util.splitTextCommand(value, function(command) {
-    this.commandCollection.add(new Command({
-      rawStr: command,
-      parseWaterfall: this.parseWaterfall
-    }));
-  }, this);
-};
-
-Sandbox.prototype.processSandboxCommand = function(command, deferred) {
-  var commandMap = {
-    help: this.helpDialog
-  };
-  var method = commandMap[command.get('method')];
-  if (!method) { throw new Error('no method for that wut'); }
-
-  method.apply(this, [command, deferred]);
-};
-
-Sandbox.prototype.helpDialog = function(command, deferred) {
-  var helpDialog = new MultiView({
-    childViews: require('../dialogs/sandbox').helpDialog
-  });
-  helpDialog.getPromise().then(_.bind(function() {
-    // the view has been closed, lets go ahead and resolve our command
-    command.finishWith(deferred);
-  }, this))
-  .done();
-};
+});
 
 exports.Sandbox = Sandbox;
-
 
 });
 require("/src/js/level/sandbox.js");
@@ -18679,16 +18717,6 @@ var MultiView = Backbone.View.extend({
       type: 'ModalAlert',
       options: {
         markdown: 'Woah wtf!!'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
       }
      }, {
       type: 'ModalAlert',
