@@ -52,7 +52,7 @@ Sandbox.prototype.takeControl = function() {
   Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
   // and our git shim
-  // TODO HACKY
+  // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
   setTimeout(_.bind(function() {
     this.gitShim.insertShim();
   }, this), 1000);
