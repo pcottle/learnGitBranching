@@ -4757,7 +4757,8 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C30"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
     }
 
     Sandbox.prototype.initialize.apply(this, [options]);
@@ -7391,8 +7392,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   // we use a special sorting function here that
   // prefers the later commits over the earlier ones
   var sortQueue = _.bind(function(queue) {
-    queue.sort(this.idSortFunc);
-    queue.reverse();
+    queue.sort(this.dateSortFunc);
   }, this);
 
   var pQueue = [].concat(commit.get('parents') || []);
@@ -7501,6 +7501,12 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
 
+GitEngine.prototype.dateSortFunc = function(cA, cB) {
+  var dateA = new Date(cA.get('createTime'));
+  var dateB = new Date(cB.get('createTime'));
+  return dateA - dateB;
+};
+
 GitEngine.prototype.rebaseInteractiveStarter = function() {
   var args = this.commandOptions['-i'];
   this.twoArgsImpliedHead(args, ' -i');
@@ -7573,8 +7579,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
     // it's not in the set, so we need to rebase this commit
     toRebaseRough.push(popped);
-    toRebaseRough.sort(this.idSortFunc);
-    toRebaseRough.reverse();
+    toRebaseRough.sort(this.dateSortFunc);
+
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
@@ -7610,10 +7616,10 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
     toRebaseRough.push(popped);
     pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(this.idSortFunc);
+    pQueue.sort(this.dateSortFunc);
   }
 
-  // throw our merge's real fast and see if we have anything to do
+  // throw out merge's real fast and see if we have anything to do
   var toRebase = [];
   _.each(toRebaseRough, function(commit) {
     if (commit.get('parents').length == 1) {
@@ -7645,7 +7651,6 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
     this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
     this.animationQueue.start();
-
   }, this))
   .fail(_.bind(function(err) {
     this.filterError(err);
@@ -8852,7 +8857,6 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.entryObjMap = {};
 
     this.rebaseEntries = new RebaseEntryCollection();
-    options.toRebase.reverse();
     _.each(options.toRebase, function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
@@ -8874,7 +8878,7 @@ var InteractiveRebaseView = ContainedBase.extend({
   },
 
   confirm: function() {
-    this.hide();
+    this.die();
 
     // get our ordering
     var uiOrder = [];
@@ -8891,6 +8895,7 @@ var InteractiveRebaseView = ContainedBase.extend({
       }
     }, this);
 
+    toRebase.reverse();
     this.deferred.resolve(toRebase);
     // garbage collection will get us
     this.$el.html('');
@@ -16087,8 +16092,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   // we use a special sorting function here that
   // prefers the later commits over the earlier ones
   var sortQueue = _.bind(function(queue) {
-    queue.sort(this.idSortFunc);
-    queue.reverse();
+    queue.sort(this.dateSortFunc);
   }, this);
 
   var pQueue = [].concat(commit.get('parents') || []);
@@ -16197,6 +16201,12 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
 
+GitEngine.prototype.dateSortFunc = function(cA, cB) {
+  var dateA = new Date(cA.get('createTime'));
+  var dateB = new Date(cB.get('createTime'));
+  return dateA - dateB;
+};
+
 GitEngine.prototype.rebaseInteractiveStarter = function() {
   var args = this.commandOptions['-i'];
   this.twoArgsImpliedHead(args, ' -i');
@@ -16269,8 +16279,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
     // it's not in the set, so we need to rebase this commit
     toRebaseRough.push(popped);
-    toRebaseRough.sort(this.idSortFunc);
-    toRebaseRough.reverse();
+    toRebaseRough.sort(this.dateSortFunc);
+
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
@@ -16306,10 +16316,10 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
     toRebaseRough.push(popped);
     pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(this.idSortFunc);
+    pQueue.sort(this.dateSortFunc);
   }
 
-  // throw our merge's real fast and see if we have anything to do
+  // throw out merge's real fast and see if we have anything to do
   var toRebase = [];
   _.each(toRebaseRough, function(commit) {
     if (commit.get('parents').length == 1) {
@@ -16341,7 +16351,6 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
     this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
     this.animationQueue.start();
-
   }, this))
   .fail(_.bind(function(err) {
     this.filterError(err);
@@ -17188,7 +17197,8 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C30"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
     }
 
     Sandbox.prototype.initialize.apply(this, [options]);
@@ -19120,7 +19130,6 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.entryObjMap = {};
 
     this.rebaseEntries = new RebaseEntryCollection();
-    options.toRebase.reverse();
     _.each(options.toRebase, function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
@@ -19142,7 +19151,7 @@ var InteractiveRebaseView = ContainedBase.extend({
   },
 
   confirm: function() {
-    this.hide();
+    this.die();
 
     // get our ordering
     var uiOrder = [];
@@ -19159,6 +19168,7 @@ var InteractiveRebaseView = ContainedBase.extend({
       }
     }, this);
 
+    toRebase.reverse();
     this.deferred.resolve(toRebase);
     // garbage collection will get us
     this.$el.html('');

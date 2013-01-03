@@ -774,8 +774,7 @@ GitEngine.prototype.numBackFrom = function(commit, numBack) {
   // we use a special sorting function here that
   // prefers the later commits over the earlier ones
   var sortQueue = _.bind(function(queue) {
-    queue.sort(this.idSortFunc);
-    queue.reverse();
+    queue.sort(this.dateSortFunc);
   }, this);
 
   var pQueue = [].concat(commit.get('parents') || []);
@@ -884,6 +883,12 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
 
+GitEngine.prototype.dateSortFunc = function(cA, cB) {
+  var dateA = new Date(cA.get('createTime'));
+  var dateB = new Date(cB.get('createTime'));
+  return dateA - dateB;
+};
+
 GitEngine.prototype.rebaseInteractiveStarter = function() {
   var args = this.commandOptions['-i'];
   this.twoArgsImpliedHead(args, ' -i');
@@ -956,8 +961,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
 
     // it's not in the set, so we need to rebase this commit
     toRebaseRough.push(popped);
-    toRebaseRough.sort(this.idSortFunc);
-    toRebaseRough.reverse();
+    toRebaseRough.sort(this.dateSortFunc);
+
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
@@ -993,10 +998,10 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
     toRebaseRough.push(popped);
     pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(this.idSortFunc);
+    pQueue.sort(this.dateSortFunc);
   }
 
-  // throw our merge's real fast and see if we have anything to do
+  // throw out merge's real fast and see if we have anything to do
   var toRebase = [];
   _.each(toRebaseRough, function(commit) {
     if (commit.get('parents').length == 1) {
@@ -1028,7 +1033,6 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
     this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
     this.animationQueue.start();
-
   }, this))
   .fail(_.bind(function(err) {
     this.filterError(err);
