@@ -10,9 +10,6 @@ Medium things:
 
 Commands
 ========
-[ ] transition to deferreds / promises for command callbacks
-[ ] sip from buffer with post-command hooks. ideally the git engine
-    knows nothing about the level being played
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,6 +29,10 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] sip from buffer with post-command hooks. ideally the git engine
+    knows nothing about the level being played
+[x] fix tests
+[x] transition to deferreds / promises for command callbacks
 [x] awesome ability to have dialogs and such handle command processing and block
 [x] figure out why multiview baton passing doesn't work...
 [x] multiple things can process!!!

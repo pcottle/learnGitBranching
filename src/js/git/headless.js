@@ -1,10 +1,12 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Q = require('q');
 
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
+var EventBaton = require('../util/eventBaton').EventBaton;
 
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
@@ -33,7 +35,7 @@ HeadlessGit.prototype.init = function() {
     branches: this.branchCollection,
     gitVisuals: gitVisuals,
     animationFactory: animationFactory,
-    events: _.clone(Backbone.Events)
+    eventBaton: new EventBaton()
   });
   this.gitEngine.init();
 };
@@ -44,8 +46,7 @@ HeadlessGit.prototype.sendCommand = function(value) {
       rawStr: commandStr
     });
     console.log('dispatching command "', commandStr, '"');
-    var done = function() {};
-    this.gitEngine.dispatch(commandObj, done);
+    this.gitEngine.dispatch(commandObj, Q.defer());
   }, this);
 };
 

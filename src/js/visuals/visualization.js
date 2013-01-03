@@ -27,6 +27,7 @@ var Visualization = Backbone.View.extend({
 
     var Main = require('../app');
     this.events = options.events || Main.getEvents();
+    this.eventBaton = options.eventBaton || Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -42,7 +43,7 @@ var Visualization = Backbone.View.extend({
       collection: this.commitCollection,
       branches: this.branchCollection,
       gitVisuals: this.gitVisuals,
-      events: this.events
+      eventBaton: this.eventBaton
     });
     this.gitEngine.init();
     this.gitVisuals.assignGitEngine(this.gitEngine);

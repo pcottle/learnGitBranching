@@ -19,7 +19,10 @@ function GitEngine(options) {
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
-  this.events = options.events;
+
+  this.eventBaton = options.eventBaton;
+  this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
+
   this.animationFactory = options.animationFactory ||
     new AnimationFactoryModule.AnimationFactory();
 
@@ -28,7 +31,6 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
-  this.events.on('processGitCommand', this.dispatch, this);
 
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
@@ -1340,7 +1342,7 @@ GitEngine.prototype.filterError = function(err) {
   }
 };
 
-GitEngine.prototype.dispatch = function(command, callback) {
+GitEngine.prototype.dispatch = function(command, deferred) {
   // current command, options, and args are stored in the gitEngine
   // for easy reference during processing.
   this.command = command;
@@ -1349,8 +1351,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
 
   // set up the animation queue
   var whenDone = _.bind(function() {
-    command.set('status', 'finished');
-    callback();
+    command.finishWith(deferred);
   }, this);
   this.animationQueue = new AnimationQueue({
     callback: whenDone
@@ -1363,7 +1364,7 @@ GitEngine.prototype.dispatch = function(command, callback) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
     command.set('error', err);
-    callback();
+    deferred.resolve();
     return;
   }
 

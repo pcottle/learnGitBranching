@@ -19,30 +19,63 @@ EventBaton.prototype.stealBaton = function(name, func, context) {
   this.eventMap[name] = listeners;
 };
 
+EventBaton.prototype.sliceOffArgs = function(num, args) {
+  var newArgs = [];
+  for (var i = num; i < args.length; i++) {
+    newArgs.push(args[i]);
+  }
+  return newArgs;
+};
+
 EventBaton.prototype.trigger = function(name) {
   // arguments is weird and doesnt do slice right
-  var argsToApply = [];
-  for (var i = 1; i < arguments.length; i++) {
-    argsToApply.push(arguments[i]);
-  }
+  var argsToApply = this.sliceOffArgs(1, arguments);
 
   var listeners = this.eventMap[name];
   if (!listeners || !listeners.length) {
     console.warn('no listeners for', name);
     return;
   }
+
   // call the top most listener with context and such
   var toCall = listeners.slice(-1)[0];
   toCall.func.apply(toCall.context, argsToApply);
 };
 
-EventBaton.prototype.releaseBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-  // might be in the middle of the stack
+EventBaton.prototype.getListenersThrow = function(name) {
   var listeners = this.eventMap[name];
   if (!listeners || !listeners.length) {
     throw new Error('no one has that baton!' + name);
   }
+  return listeners;
+};
+
+EventBaton.prototype.passBatonBack = function(name, func, context, args) {
+  // this method will call the listener BEFORE the name/func pair. this
+  // basically allows you to put in shims, where you steal batons but pass
+  // them back if they don't meet certain conditions
+  var listeners = this.getListenersThrow(name);
+
+  var indexBefore;
+  _.each(listeners, function(listenerObj, index) {
+    // skip the first
+    if (index === 0) { return; }
+    if (listenerObj.func === func && listenerObj.context === context) {
+      indexBefore = index - 1;
+    }
+  }, this);
+  if (indexBefore === undefined) {
+    throw new Error('you are the last baton holder! or i didnt find you');
+  }
+  var toCallObj = listeners[indexBefore];
+
+  toCallObj.func.apply(toCallObj.context, args);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  // might be in the middle of the stack, so we have to loop instead of
+  // just popping blindly
+  var listeners = this.getListenersThrow(name);
 
   var newListeners = [];
   var found = false;

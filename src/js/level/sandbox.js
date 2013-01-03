@@ -8,6 +8,7 @@ var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
@@ -26,10 +27,17 @@ function Sandbox(options) {
   this.commandCollection = Main.getCommandUI().commandCollection;
 
   this.parseWaterfall = new ParseWaterfall();
+
+  this.gitShim = new GitShim({
+    beforeCB: function() { console.log('before'); },
+    afterCB: function() { console.log('after'); }
+  });
+
+  /* DISBALED MAP example!!!
   this.parseWaterfall.addFirst(
     'instantWaterfall',
     new DisabledMap().getInstantCommands()
-  );
+  );*/
 
   if (!options.defer) {
     this.takeControl();
@@ -37,8 +45,17 @@ function Sandbox(options) {
 }
 
 Sandbox.prototype.takeControl = function() {
+  // we will be handling commands that are submitted, mainly to add the sanadbox
+  // functionality (which is included by default in ParseWaterfall())
   Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
-  Main.getEvents().on('processSandboxCommand', this.processSandboxCommand, this);
+  // we obviously take care of sandbox commands
+  Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
+
+  // and our git shim
+  // TODO HACKY
+  setTimeout(_.bind(function() {
+    this.gitShim.insertShim();
+  }, this), 1000);
 };
 
 Sandbox.prototype.commandSubmitted = function(value) {
@@ -53,24 +70,23 @@ Sandbox.prototype.commandSubmitted = function(value) {
   }, this);
 };
 
-Sandbox.prototype.processSandboxCommand = function(command, callback) {
+Sandbox.prototype.processSandboxCommand = function(command, deferred) {
   var commandMap = {
     help: this.helpDialog
   };
   var method = commandMap[command.get('method')];
   if (!method) { throw new Error('no method for that wut'); }
 
-  method.apply(this, [command, callback]);
+  method.apply(this, [command, deferred]);
 };
 
-Sandbox.prototype.helpDialog = function(command, callback) {
+Sandbox.prototype.helpDialog = function(command, deferred) {
   var helpDialog = new MultiView({
     childViews: require('../dialogs/sandbox').helpDialog
   });
   helpDialog.getPromise().then(_.bind(function() {
     // the view has been closed, lets go ahead and resolve our command
-    command.set('status', 'finished');
-    callback();
+    command.finishWith(deferred);
   }, this))
   .done();
 };

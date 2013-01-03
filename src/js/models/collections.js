@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
@@ -79,9 +80,10 @@ var CommandBuffer = Backbone.Model.extend({
   processCommand: function(command) {
     command.set('status', 'processing');
 
-    var callback = _.bind(function() {
+    var deferred = Q.defer();
+    deferred.promise.then(_.bind(function() {
       this.setTimeout();
-    }, this);
+    }, this));
 
     var eventName = command.get('eventName');
     if (!eventName) {
@@ -89,7 +91,7 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     var Main = require('../app');
-    Main.getEvents().trigger(eventName, command, callback);
+    Main.getEventBaton().trigger(eventName, command, deferred);
   },
 
   clear: function() {

@@ -65,6 +65,11 @@ var Command = Backbone.Model.extend({
     this.set('result', msg);
   },
 
+  finishWith: function(deferred) {
+    this.set('status', 'finished');
+    deferred.resolve();
+  },
+
   addWarning: function(msg) {
     this.get('warnings').push(msg);
     // change numWarnings so the change event fires. This is bizarre -- Backbone can't

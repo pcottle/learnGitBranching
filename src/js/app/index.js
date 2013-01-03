@@ -2,7 +2,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Constants = require('../util/constants');
-var Views = require('../views');
 var util = require('../util');
 
 /**
@@ -53,6 +52,7 @@ var init = function() {
   eventBaton.stealBaton('zoomChange', function(level) {
     if (level > Constants.VIEWPORT.maxZoom ||
         level < Constants.VIEWPORT.minZoom) {
+      var Views = require('../views');
       var view = new Views.ZoomAlertWindow();
     }
   });
