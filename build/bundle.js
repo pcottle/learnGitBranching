@@ -8857,6 +8857,7 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.entryObjMap = {};
 
     this.rebaseEntries = new RebaseEntryCollection();
+    options.toRebase.reverse();
     _.each(options.toRebase, function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
@@ -8895,7 +8896,6 @@ var InteractiveRebaseView = ContainedBase.extend({
       }
     }, this);
 
-    toRebase.reverse();
     this.deferred.resolve(toRebase);
     // garbage collection will get us
     this.$el.html('');
@@ -19130,6 +19130,7 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.entryObjMap = {};
 
     this.rebaseEntries = new RebaseEntryCollection();
+    options.toRebase.reverse();
     _.each(options.toRebase, function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
@@ -19168,7 +19169,6 @@ var InteractiveRebaseView = ContainedBase.extend({
       }
     }, this);
 
-    toRebase.reverse();
     this.deferred.resolve(toRebase);
     // garbage collection will get us
     this.$el.html('');
