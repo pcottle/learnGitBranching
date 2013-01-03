@@ -217,7 +217,7 @@ var VisNode = VisBase.extend({
 
   setBirthFromSnapshot: function(beforeSnapshot) {
     // first get parent attribute
-    // woof bad data access. TODO
+    // woof this is pretty bad data access...
     var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
     var parentAttr = beforeSnapshot[parentID];
 

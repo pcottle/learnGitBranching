@@ -61,8 +61,11 @@ var AnimationQueue = Backbone.Model.extend({
   },
 
   next: function() {
-    // ok so call the first animation, and then set a timeout to call the next
-    // TODO: animations with callbacks!!
+    // ok so call the first animation, and then set a timeout to call the next.
+    // since an animation is defined as taking a specific amount of time,
+    // we can simply just use timeouts rather than promises / deferreds.
+    // for graphical displays that require an unknown amount of time, use deferreds
+    // but not animation queue (see the finishAnimation for that)
     var animations = this.get('animations');
     var index = this.get('index');
     if (index >= animations.length) {

@@ -4491,30 +4491,44 @@ var Sandbox = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
 
+    this.initVisualization(options);
+    this.initCommandCollection(options);
+    this.initParseWaterfall(options);
+    this.initGitShim(options);
+
+    if (!options.wait) {
+      this.takeControl();
+    }
+  },
+
+  initVisualization: function(options) {
     this.mainVis = new Visualization({
       el: options.el || $('#canvasWrapper')[0]
     });
+  },
 
+  initCommandCollection: function(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
     this.commandCollection = Main.getCommandUI().commandCollection;
+  },
 
+  initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
-    /*
-    this.gitShim = new GitShim({
-      beforeCB: function() { console.log('before'); },
-      afterCB: function() { console.log('after'); }
-    });*/
-
     /* DISBALED MAP example!!!
     this.parseWaterfall.addFirst(
       'instantWaterfall',
       new DisabledMap().getInstantCommands()
     );*/
+  },
 
-    if (!options.wait) {
-      this.takeControl();
-    }
+  initGitShim: function(options) {
+    /*
+    this.gitShim = new GitShim({
+      beforeCB: function() { console.log('before'); },
+      afterCB: function() { console.log('after'); },
+      afterDeferHandler: function(deferred) { deferred.resolve(); },
+    });*/
   },
 
   takeControl: function() {
@@ -4524,17 +4538,21 @@ var Sandbox = Backbone.View.extend({
     // we obviously take care of sandbox commands
     Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
-    // and our git shim
-    // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
+    this.insertGitShim();
+  },
+
+  insertGitShim: function() {
+    // and our git shim goes in after the git engine is ready so it doesn't steal the baton
+    // too early
     if (this.gitShim) {
-      setTimeout(_.bind(function() {
-        this.gitShim.insertShim();
-      }, this), 1000);
+      this.mainVis.customEvents.on('gitEngineReady', function() {
+          this.gitShim.insertShim();
+      },this);
     }
   },
 
   commandSubmitted: function(value) {
-    // allow other things to see this command
+    // allow other things to see this command (aka command history on terminal)
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
@@ -4568,6 +4586,7 @@ var Sandbox = Backbone.View.extend({
 });
 
 exports.Sandbox = Sandbox;
+
 
 });
 
@@ -4652,7 +4671,7 @@ var init = function() {
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      events.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
 };
@@ -4974,6 +4993,7 @@ var ModalView = Backbone.View.extend({
   getAnimationTime: function() { return 700; },
 
   initialize: function(options) {
+    this.shown = false;
     this.render();
     this.stealKeyboard();
   },
@@ -4982,6 +5002,7 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
+    // this doesnt necessarily show us though...
   },
 
   stealKeyboard: function() {
@@ -5022,16 +5043,21 @@ var ModalView = Backbone.View.extend({
 
   show: function() {
     this.toggleZ(true);
-    this.toggleShow(true);
+    // on reflow, change our class to animate. for whatever
+    // reason if this is done immediately, chrome might combine
+    // the two changes and lose the ability to animate and it looks bad.
+    process.nextTick(_.bind(function() {
+      this.toggleShow(true);
+    }, this));
   },
 
   hide: function() {
     this.toggleShow(false);
-    // TODO -- do this in a way where it wont
-    // bork if we call it back down. these views should
-    // be one-off though so...
     setTimeout(_.bind(function() {
-      this.toggleZ(false);
+      // if we are still hidden...
+      if (!this.shown) {
+        this.toggleZ(false);
+      }
     }, this), this.getAnimationTime());
   },
 
@@ -5040,6 +5066,7 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    this.shown = value;
     this.$el.toggleClass('show', value);
   },
 
@@ -11074,8 +11101,11 @@ var AnimationQueue = Backbone.Model.extend({
   },
 
   next: function() {
-    // ok so call the first animation, and then set a timeout to call the next
-    // TODO: animations with callbacks!!
+    // ok so call the first animation, and then set a timeout to call the next.
+    // since an animation is defined as taking a specific amount of time,
+    // we can simply just use timeouts rather than promises / deferreds.
+    // for graphical displays that require an unknown amount of time, use deferreds
+    // but not animation queue (see the finishAnimation for that)
     var animations = this.get('animations');
     var index = this.get('index');
     if (index >= animations.length) {
@@ -12281,7 +12311,7 @@ require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirn
 var Backbone = require('backbone');
 
 var mapKeycodeToKey = function(keycode) {
-  // TODO -- internationalize? Dvorak? I have no idea
+  // HELP WANTED -- internationalize? Dvorak? I have no idea
   var keyMap = {
     37: 'left',
     38: 'up',
@@ -12344,6 +12374,8 @@ var GitVisuals = require('../visuals').GitVisuals;
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
+    this.customEvents = _.clone(Backbone.Events);
+
     new Raphael(10, 10, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
@@ -12391,6 +12423,8 @@ var Visualization = Backbone.View.extend({
 
     this.setTreeOpacity(0);
     this.fadeTreeIn();
+
+    this.customEvents.trigger('gitEngineReady');
   },
 
   setTreeOpacity: function(level) {
@@ -13399,7 +13433,7 @@ var VisNode = VisBase.extend({
 
   setBirthFromSnapshot: function(beforeSnapshot) {
     // first get parent attribute
-    // woof bad data access. TODO
+    // woof this is pretty bad data access...
     var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
     var parentAttr = beforeSnapshot[parentID];
 
@@ -14748,7 +14782,7 @@ var init = function() {
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      events.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
 };
@@ -17169,30 +17203,44 @@ var Sandbox = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
 
+    this.initVisualization(options);
+    this.initCommandCollection(options);
+    this.initParseWaterfall(options);
+    this.initGitShim(options);
+
+    if (!options.wait) {
+      this.takeControl();
+    }
+  },
+
+  initVisualization: function(options) {
     this.mainVis = new Visualization({
       el: options.el || $('#canvasWrapper')[0]
     });
+  },
 
+  initCommandCollection: function(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
     this.commandCollection = Main.getCommandUI().commandCollection;
+  },
 
+  initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
-    /*
-    this.gitShim = new GitShim({
-      beforeCB: function() { console.log('before'); },
-      afterCB: function() { console.log('after'); }
-    });*/
-
     /* DISBALED MAP example!!!
     this.parseWaterfall.addFirst(
       'instantWaterfall',
       new DisabledMap().getInstantCommands()
     );*/
+  },
 
-    if (!options.wait) {
-      this.takeControl();
-    }
+  initGitShim: function(options) {
+    /*
+    this.gitShim = new GitShim({
+      beforeCB: function() { console.log('before'); },
+      afterCB: function() { console.log('after'); },
+      afterDeferHandler: function(deferred) { deferred.resolve(); },
+    });*/
   },
 
   takeControl: function() {
@@ -17202,17 +17250,21 @@ var Sandbox = Backbone.View.extend({
     // we obviously take care of sandbox commands
     Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
-    // and our git shim
-    // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
+    this.insertGitShim();
+  },
+
+  insertGitShim: function() {
+    // and our git shim goes in after the git engine is ready so it doesn't steal the baton
+    // too early
     if (this.gitShim) {
-      setTimeout(_.bind(function() {
-        this.gitShim.insertShim();
-      }, this), 1000);
+      this.mainVis.customEvents.on('gitEngineReady', function() {
+          this.gitShim.insertShim();
+      },this);
     }
   },
 
   commandSubmitted: function(value) {
-    // allow other things to see this command
+    // allow other things to see this command (aka command history on terminal)
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
@@ -17246,6 +17298,7 @@ var Sandbox = Backbone.View.extend({
 });
 
 exports.Sandbox = Sandbox;
+
 
 });
 require("/src/js/level/sandbox.js");
@@ -17906,7 +17959,7 @@ require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirn
 var Backbone = require('backbone');
 
 var mapKeycodeToKey = function(keycode) {
-  // TODO -- internationalize? Dvorak? I have no idea
+  // HELP WANTED -- internationalize? Dvorak? I have no idea
   var keyMap = {
     37: 'left',
     38: 'up',
@@ -18504,6 +18557,7 @@ var ModalView = Backbone.View.extend({
   getAnimationTime: function() { return 700; },
 
   initialize: function(options) {
+    this.shown = false;
     this.render();
     this.stealKeyboard();
   },
@@ -18512,6 +18566,7 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
+    // this doesnt necessarily show us though...
   },
 
   stealKeyboard: function() {
@@ -18552,16 +18607,21 @@ var ModalView = Backbone.View.extend({
 
   show: function() {
     this.toggleZ(true);
-    this.toggleShow(true);
+    // on reflow, change our class to animate. for whatever
+    // reason if this is done immediately, chrome might combine
+    // the two changes and lose the ability to animate and it looks bad.
+    process.nextTick(_.bind(function() {
+      this.toggleShow(true);
+    }, this));
   },
 
   hide: function() {
     this.toggleShow(false);
-    // TODO -- do this in a way where it wont
-    // bork if we call it back down. these views should
-    // be one-off though so...
     setTimeout(_.bind(function() {
-      this.toggleZ(false);
+      // if we are still hidden...
+      if (!this.shown) {
+        this.toggleZ(false);
+      }
     }, this), this.getAnimationTime());
   },
 
@@ -18570,6 +18630,7 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    this.shown = value;
     this.$el.toggleClass('show', value);
   },
 
@@ -19346,8 +19407,11 @@ var AnimationQueue = Backbone.Model.extend({
   },
 
   next: function() {
-    // ok so call the first animation, and then set a timeout to call the next
-    // TODO: animations with callbacks!!
+    // ok so call the first animation, and then set a timeout to call the next.
+    // since an animation is defined as taking a specific amount of time,
+    // we can simply just use timeouts rather than promises / deferreds.
+    // for graphical displays that require an unknown amount of time, use deferreds
+    // but not animation queue (see the finishAnimation for that)
     var animations = this.get('animations');
     var index = this.get('index');
     if (index >= animations.length) {
@@ -21008,7 +21072,7 @@ var VisNode = VisBase.extend({
 
   setBirthFromSnapshot: function(beforeSnapshot) {
     // first get parent attribute
-    // woof bad data access. TODO
+    // woof this is pretty bad data access...
     var parentID = this.get('commit').get('parents')[0].get('visNode').getID();
     var parentAttr = beforeSnapshot[parentID];
 
@@ -21238,6 +21302,8 @@ var GitVisuals = require('../visuals').GitVisuals;
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
+    this.customEvents = _.clone(Backbone.Events);
+
     new Raphael(10, 10, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
@@ -21285,6 +21351,8 @@ var Visualization = Backbone.View.extend({
 
     this.setTreeOpacity(0);
     this.fadeTreeIn();
+
+    this.customEvents.trigger('gitEngineReady');
   },
 
   setTreeOpacity: function(level) {

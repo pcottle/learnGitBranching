@@ -125,6 +125,7 @@ var ModalView = Backbone.View.extend({
   getAnimationTime: function() { return 700; },
 
   initialize: function(options) {
+    this.shown = false;
     this.render();
     this.stealKeyboard();
   },
@@ -133,6 +134,7 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
+    // this doesnt necessarily show us though...
   },
 
   stealKeyboard: function() {
@@ -173,16 +175,21 @@ var ModalView = Backbone.View.extend({
 
   show: function() {
     this.toggleZ(true);
-    this.toggleShow(true);
+    // on reflow, change our class to animate. for whatever
+    // reason if this is done immediately, chrome might combine
+    // the two changes and lose the ability to animate and it looks bad.
+    process.nextTick(_.bind(function() {
+      this.toggleShow(true);
+    }, this));
   },
 
   hide: function() {
     this.toggleShow(false);
-    // TODO -- do this in a way where it wont
-    // bork if we call it back down. these views should
-    // be one-off though so...
     setTimeout(_.bind(function() {
-      this.toggleZ(false);
+      // if we are still hidden...
+      if (!this.shown) {
+        this.toggleZ(false);
+      }
     }, this), this.getAnimationTime());
   },
 
@@ -191,6 +198,7 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    this.shown = value;
     this.$el.toggleClass('show', value);
   },
 

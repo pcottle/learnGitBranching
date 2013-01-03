@@ -23,30 +23,44 @@ var Sandbox = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
 
+    this.initVisualization(options);
+    this.initCommandCollection(options);
+    this.initParseWaterfall(options);
+    this.initGitShim(options);
+
+    if (!options.wait) {
+      this.takeControl();
+    }
+  },
+
+  initVisualization: function(options) {
     this.mainVis = new Visualization({
       el: options.el || $('#canvasWrapper')[0]
     });
+  },
 
+  initCommandCollection: function(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
     this.commandCollection = Main.getCommandUI().commandCollection;
+  },
 
+  initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
-    /*
-    this.gitShim = new GitShim({
-      beforeCB: function() { console.log('before'); },
-      afterCB: function() { console.log('after'); }
-    });*/
-
     /* DISBALED MAP example!!!
     this.parseWaterfall.addFirst(
       'instantWaterfall',
       new DisabledMap().getInstantCommands()
     );*/
+  },
 
-    if (!options.wait) {
-      this.takeControl();
-    }
+  initGitShim: function(options) {
+    /*
+    this.gitShim = new GitShim({
+      beforeCB: function() { console.log('before'); },
+      afterCB: function() { console.log('after'); },
+      afterDeferHandler: function(deferred) { deferred.resolve(); },
+    });*/
   },
 
   takeControl: function() {
@@ -56,17 +70,21 @@ var Sandbox = Backbone.View.extend({
     // we obviously take care of sandbox commands
     Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
-    // and our git shim
-    // TODO HACKY needs to be AFTER PAPER INITIALIZE dropped down from visualization wtf
+    this.insertGitShim();
+  },
+
+  insertGitShim: function() {
+    // and our git shim goes in after the git engine is ready so it doesn't steal the baton
+    // too early
     if (this.gitShim) {
-      setTimeout(_.bind(function() {
-        this.gitShim.insertShim();
-      }, this), 1000);
+      this.mainVis.customEvents.on('gitEngineReady', function() {
+          this.gitShim.insertShim();
+      },this);
     }
   },
 
   commandSubmitted: function(value) {
-    // allow other things to see this command
+    // allow other things to see this command (aka command history on terminal)
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
@@ -100,3 +118,4 @@ var Sandbox = Backbone.View.extend({
 });
 
 exports.Sandbox = Sandbox;
+

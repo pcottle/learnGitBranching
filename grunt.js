@@ -84,7 +84,8 @@ module.exports = function(grunt) {
         describe: true,
         expect: true,
         it: true,
-        exports: true
+        exports: true,
+        process: true
       }
     },
     browserify: {

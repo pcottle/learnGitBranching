@@ -7,6 +7,8 @@ Big Graphic things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] do an after-paper-initialize type thing so we can insert git shim once
+    git engine is done.
 
 Commands
 ========
@@ -29,6 +31,8 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] fixed that to-do entry with the toggle Z thing. now its much more consistent
+[x] sandbox a real view now
 [x] awesome before and after shims with event baton stealing and passing back
 [x] sip from buffer with post-command hooks. ideally the git engine
     knows nothing about the level being played

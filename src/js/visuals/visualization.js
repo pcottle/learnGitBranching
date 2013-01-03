@@ -11,6 +11,8 @@ var GitVisuals = require('../visuals').GitVisuals;
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
     var _this = this;
+    this.customEvents = _.clone(Backbone.Events);
+
     new Raphael(10, 10, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
@@ -58,6 +60,8 @@ var Visualization = Backbone.View.extend({
 
     this.setTreeOpacity(0);
     this.fadeTreeIn();
+
+    this.customEvents.trigger('gitEngineReady');
   },
 
   setTreeOpacity: function(level) {
