@@ -46,7 +46,7 @@ var MultiView = Backbone.View.extend({
         markdown: 'Im second'
       }
     }];
-    this.deferred = Q.defer();
+    this.deferred = options.deferred || Q.defer();
 
     this.childViews = [];
     this.currentIndex = 0;
@@ -72,6 +72,11 @@ var MultiView = Backbone.View.extend({
 
   onWindowFocus: function() {
     // nothing here for now...
+    // TODO -- add a cool glow effect?
+  },
+
+  getAnimationTime: function() {
+    return 700;
   },
 
   getPromise: function() {

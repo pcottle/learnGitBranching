@@ -29,6 +29,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] awesome before and after shims with event baton stealing and passing back
 [x] sip from buffer with post-command hooks. ideally the git engine
     knows nothing about the level being played
 [x] fix tests
