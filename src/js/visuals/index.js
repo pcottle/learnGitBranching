@@ -138,6 +138,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 GitVisuals.prototype.finishAnimation = function() {
   var _this = this;
   var deferred = Q.defer();
+  var animationDone = Q.defer();
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
@@ -218,13 +219,17 @@ GitVisuals.prototype.finishAnimation = function() {
       {}
     );
   }, this))
+  .then(function() {
+    animationDone.resolve();
+  })
   .fail(function(reason) {
-    console.warn('Finish animation failed due to ', reason);
-    throw reason;
-  });
+    console.warn('animation error' + reason);
+  })
+  .done();
 
-  deferred.resolve(); // start right away
-  return deferred.promise;
+  // start our animation chain right away
+  deferred.resolve();
+  return animationDone.promise;
 };
 
 GitVisuals.prototype.explodeNodes = function() {

@@ -25,11 +25,12 @@ var init = function() {
     *   - handling window.focus and zoom events
   **/
   var Sandbox = require('../level/sandbox').Sandbox;
+  var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  sandbox = new Sandbox();
+  sandbox = new Level();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {

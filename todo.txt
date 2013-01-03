@@ -1,14 +1,16 @@
 Big things:
 ~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] promise-based levels
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] show goal
+[ ] show solution
+[ ] show which level you are in! with a little thing on the top
+[ ] levels dropdown selection?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] do an after-paper-initialize type thing so we can insert git shim once
-    git engine is done.
+[ ] move command history into sandbox / visualization?
 
 Commands
 ========
@@ -31,6 +33,9 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] do an after-paper-initialize type thing so we can insert git shim once
+    git engine is done.
+[x] promise-based levels
 [x] fixed that to-do entry with the toggle Z thing. now its much more consistent
 [x] sandbox a real view now
 [x] awesome before and after shims with event baton stealing and passing back

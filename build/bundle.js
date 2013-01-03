@@ -4501,9 +4501,13 @@ var Sandbox = Backbone.View.extend({
     }
   },
 
+  getDefaultVisEl: function() {
+    return $('#canvasWrapper')[0];
+  },
+
   initVisualization: function(options) {
     this.mainVis = new Visualization({
-      el: options.el || $('#canvasWrapper')[0]
+      el: options.el || this.getDefaultVisEl()
     });
   },
 
@@ -4515,11 +4519,6 @@ var Sandbox = Backbone.View.extend({
 
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
-    /* DISBALED MAP example!!!
-    this.parseWaterfall.addFirst(
-      'instantWaterfall',
-      new DisabledMap().getInstantCommands()
-    );*/
   },
 
   initGitShim: function(options) {
@@ -4617,11 +4616,12 @@ var init = function() {
     *   - handling window.focus and zoom events
   **/
   var Sandbox = require('../level/sandbox').Sandbox;
+  var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  sandbox = new Sandbox();
+  sandbox = new Level();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -4723,146 +4723,4272 @@ exports.init = init;
 
 });
 
-require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
 
-function EventBaton() {
-  this.eventMap = {};
-}
+var util = require('../util');
+var Main = require('../app');
 
-// this method steals the "baton" -- aka, only this method will now
-// get called. analogous to events.on
-// EventBaton.prototype.on = function(name, func, context) {
-EventBaton.prototype.stealBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-  if (!func) { throw new Error('need func!'); }
+var Sandbox = require('../level/sandbox').Sandbox;
 
-  var listeners = this.eventMap[name] || [];
-  listeners.push({
-    func: func,
-    context: context
-  });
-  this.eventMap[name] = listeners;
-};
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var DisabledMap = require('../level/disabledMap').DisabledMap;
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
 
-EventBaton.prototype.sliceOffArgs = function(num, args) {
-  var newArgs = [];
-  for (var i = num; i < args.length; i++) {
-    newArgs.push(args[i]);
-  }
-  return newArgs;
-};
+var ModalTerminal = require('../views').ModalTerminal;
+var ModalAlert = require('../views').ModalAlert;
+var MultiView = require('../views/multiView').MultiView;
 
-EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
-  var argsToApply = this.sliceOffArgs(1, arguments);
+var TreeCompare = require('../git/treeCompare').TreeCompare;
 
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    console.warn('no listeners for', name);
-    return;
-  }
+var Level = Sandbox.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.level = options.level || {};
 
-  // call the top most listener with context and such
-  var toCall = listeners.slice(-1)[0];
-  toCall.func.apply(toCall.context, argsToApply);
-};
+    this.gitCommandsIssued = 0;
+    this.solved = false;
+    // possible options on how stringent to be go here
+    this.treeCompare = new TreeCompare();
 
-EventBaton.prototype.getListenersThrow = function(name) {
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    throw new Error('no one has that baton!' + name);
-  }
-  return listeners;
-};
-
-EventBaton.prototype.passBatonBack = function(name, func, context, args) {
-  // this method will call the listener BEFORE the name/func pair. this
-  // basically allows you to put in shims, where you steal batons but pass
-  // them back if they don't meet certain conditions
-  var listeners = this.getListenersThrow(name);
-
-  var indexBefore;
-  _.each(listeners, function(listenerObj, index) {
-    // skip the first
-    if (index === 0) { return; }
-    if (listenerObj.func === func && listenerObj.context === context) {
-      indexBefore = index - 1;
+    this.goalTreeString = options.level.goalTree;
+    if (!this.goalTreeString) {
+      console.warn('woah no goal, using random other one');
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
     }
-  }, this);
-  if (indexBefore === undefined) {
-    throw new Error('you are the last baton holder! or i didnt find you');
-  }
-  var toCallObj = listeners[indexBefore];
 
-  toCallObj.func.apply(toCallObj.context, args);
-};
+    Sandbox.prototype.initialize.apply(this, [options]);
+  },
 
-EventBaton.prototype.releaseBaton = function(name, func, context) {
-  // might be in the middle of the stack, so we have to loop instead of
-  // just popping blindly
-  var listeners = this.getListenersThrow(name);
-
-  var newListeners = [];
-  var found = false;
-  _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func && listenerObj.context === context) {
-      if (found) { console.warn('woah duplicates!!!'); }
-      found = true;
-    } else {
-      newListeners.push(listenerObj);
+  initVisualization: function(options) {
+    if (!options.level.startTree) {
+      console.warn('No start tree specified for this level!!! using default...');
     }
-  }, this);
+    this.mainVis = new Visualization({
+      el: options.el || this.getDefaultVisEl(),
+      treeString: options.level.startTree
+    });
+  },
 
-  if (!found) {
-    console.log('did not find that function', func, context, name, arguments);
-    throw new Error('cant releasebaton if yu dont have it');
+  initParseWaterfall: function(options) {
+    this.parseWaterfall = new ParseWaterfall();
+
+    // if we want to disable certain commands...
+    if (options.level.disabledMap) {
+      // disable these other commands
+      this.parseWaterfall.addFirst(
+        new DisabledMap({
+          disabledMap: options.level.disabledMap
+        }).getInstantCommands()
+      );
+    }
+  },
+
+  initGitShim: function(options) {
+    // ok we definitely want a shim here
+    this.gitShim = new GitShim({
+      afterCB: _.bind(this.afterCommandCB, this),
+      afterDeferHandler: _.bind(this.afterCommandDefer, this)
+    });
+  },
+
+  afterCommandCB: function(command) {
+    // TODO check if error, but not warning
+    this.gitCommandsIssued++;
+  },
+
+  afterCommandDefer: function(defer) {
+    if (this.solved) { return; }
+    // ok so lets see if they solved it...
+    var current = this.mainVis.gitEngine.exportTree();
+    var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
+
+    if (!solved) {
+      defer.resolve();
+      return;
+    }
+
+    // woohoo!!! they solved the level, lets animate and such
+    this.levelSolved(defer);
+  },
+
+  levelSolved: function(defer) {
+    this.mainVis.gitVisuals.finishAnimation()
+    .then(function() {
+      defer.resolve();
+    });
   }
-  this.eventMap[name] = newListeners;
-};
+});
 
-exports.EventBaton = EventBaton;
+exports.Level = Level;
 
 
 });
 
-require.define("/src/js/util/zoomLevel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/node_modules/q/package.json",function(require,module,exports,__dirname,__filename,process,global){module.exports = {"main":"q.js"}
+});
 
-var warnOnce = true;
+require.define("/node_modules/q/q.js",function(require,module,exports,__dirname,__filename,process,global){// vim:ts=4:sts=4:sw=4:
+/*!
+ *
+ * Copyright 2009-2012 Kris Kowal under the terms of the MIT
+ * license found at http://github.com/kriskowal/q/raw/master/LICENSE
+ *
+ * With parts by Tyler Close
+ * Copyright 2007-2009 Tyler Close under the terms of the MIT X license found
+ * at http://www.opensource.org/licenses/mit-license.html
+ * Forked at ref_send.js version: 2009-05-11
+ *
+ * With parts by Mark Miller
+ * Copyright (C) 2011 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
-function detectZoom() {
-  /**
-   * Note: this method has only been tested on Chrome
-   * but seems to work. A much more elaborate library is available here:
-   * https://github.com/yonran/detect-zoom
-   * but seems to return a "2" zoom level for my computer (who knows)
-   * so I can't use it. The ecosystem for zoom level detection is a mess
-   */
-  if (!window.outerWidth || !window.innerWidth) {
-    if (warnOnce) {
-      console.warn("Can't detect zoom level correctly :-/");
-      warnOnce = false;
+(function (definition) {
+    // Turn off strict mode for this function so we can assign to global.Q
+    /*jshint strict: false*/
+
+    // This file will function properly as a <script> tag, or a module
+    // using CommonJS and NodeJS or RequireJS module formats.  In
+    // Common/Node/RequireJS, the module exports the Q API and when
+    // executed as a simple <script>, it creates a Q global instead.
+
+    // Montage Require
+    if (typeof bootstrap === "function") {
+        bootstrap("promise", definition);
+
+    // CommonJS
+    } else if (typeof exports === "object") {
+        definition(void 0, exports);
+
+    // RequireJS
+    } else if (typeof define === "function") {
+        define(definition);
+
+    // SES (Secure EcmaScript)
+    } else if (typeof ses !== "undefined") {
+        if (!ses.ok()) {
+            return;
+        } else {
+            ses.makeQ = function () {
+                var Q = {};
+                return definition(void 0, Q);
+            };
+        }
+
+    // <script>
+    } else {
+        definition(void 0, Q = {});
     }
-    return 1;
-  }
 
-  return window.outerWidth / window.innerWidth;
+})(function (require, exports) {
+"use strict";
+
+// All code after this point will be filtered from stack traces reported
+// by Q.
+var qStartingLine = captureLine();
+var qFileName;
+
+// shims
+
+// used for fallback "defend" and in "allResolved"
+var noop = function () {};
+
+// for the security conscious, defend may be a deep freeze as provided
+// by cajaVM.  Otherwise we try to provide a shallow freeze just to
+// discourage promise changes that are not compatible with secure
+// usage.  If Object.freeze does not exist, fall back to doing nothing
+// (no op).
+var defend = Object.freeze || noop;
+if (typeof cajaVM !== "undefined") {
+    defend = cajaVM.def;
 }
 
-var setupZoomPoll = function(callback, context) {
-  var currentZoom = 0;
+// use the fastest possible means to execute a task in a future turn
+// of the event loop.
+var nextTick;
+if (typeof process !== "undefined") {
+    // node
+    nextTick = process.nextTick;
+} else if (typeof setImmediate === "function") {
+    // In IE10, or use https://github.com/NobleJS/setImmediate
+    nextTick = setImmediate;
+} else if (typeof MessageChannel !== "undefined") {
+    // modern browsers
+    // http://www.nonblocking.io/2011/06/windownexttick.html
+    var channel = new MessageChannel();
+    // linked list of tasks (single, with head node)
+    var head = {}, tail = head;
+    channel.port1.onmessage = function () {
+        head = head.next;
+        var task = head.task;
+        delete head.task;
+        task();
+    };
+    nextTick = function (task) {
+        tail = tail.next = {task: task};
+        channel.port2.postMessage(0);
+    };
+} else {
+    // old browsers
+    nextTick = function (task) {
+        setTimeout(task, 0);
+    };
+}
 
-  setInterval(function() {
-    var newZoom = detectZoom();
-    if (newZoom !== currentZoom) {
-      currentZoom = newZoom;
-      callback.apply(context, [newZoom]);
+// Attempt to make generics safe in the face of downstream
+// modifications.
+// There is no situation where this is necessary.
+// If you need a security guarantee, these primordials need to be
+// deeply frozen anyway, and if you don’t need a security guarantee,
+// this is just plain paranoid.
+// However, this does have the nice side-effect of reducing the size
+// of the code by reducing x.call() to merely x(), eliminating many
+// hard-to-minify characters.
+// See Mark Miller’s explanation of what this does.
+// http://wiki.ecmascript.org/doku.php?id=conventions:safe_meta_programming
+var uncurryThis;
+// I have kept both variations because the first is theoretically
+// faster, if bind is available.
+if (Function.prototype.bind) {
+    var Function_bind = Function.prototype.bind;
+    uncurryThis = Function_bind.bind(Function_bind.call);
+} else {
+    uncurryThis = function (f) {
+        return function () {
+            return f.call.apply(f, arguments);
+        };
+    };
+}
+
+var array_slice = uncurryThis(Array.prototype.slice);
+
+var array_reduce = uncurryThis(
+    Array.prototype.reduce || function (callback, basis) {
+        var index = 0,
+            length = this.length;
+        // concerning the initial value, if one is not provided
+        if (arguments.length === 1) {
+            // seek to the first value in the array, accounting
+            // for the possibility that is is a sparse array
+            do {
+                if (index in this) {
+                    basis = this[index++];
+                    break;
+                }
+                if (++index >= length) {
+                    throw new TypeError();
+                }
+            } while (1);
+        }
+        // reduce
+        for (; index < length; index++) {
+            // account for the possibility that the array is sparse
+            if (index in this) {
+                basis = callback(basis, this[index], index);
+            }
+        }
+        return basis;
     }
-  }, 500);
+);
+
+var array_indexOf = uncurryThis(
+    Array.prototype.indexOf || function (value) {
+        // not a very good shim, but good enough for our one use of it
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+);
+
+var array_map = uncurryThis(
+    Array.prototype.map || function (callback, thisp) {
+        var self = this;
+        var collect = [];
+        array_reduce(self, function (undefined, value, index) {
+            collect.push(callback.call(thisp, value, index, self));
+        }, void 0);
+        return collect;
+    }
+);
+
+var object_create = Object.create || function (prototype) {
+    function Type() { }
+    Type.prototype = prototype;
+    return new Type();
 };
 
-exports.setupZoomPoll = setupZoomPoll;
-exports.detectZoom = detectZoom;
+var object_keys = Object.keys || function (object) {
+    var keys = [];
+    for (var key in object) {
+        keys.push(key);
+    }
+    return keys;
+};
 
+var object_toString = Object.prototype.toString;
+
+// generator related shims
+
+function isStopIteration(exception) {
+    return (
+        object_toString(exception) === "[object StopIteration]" ||
+        exception instanceof QReturnValue
+    );
+}
+
+var QReturnValue;
+if (typeof ReturnValue !== "undefined") {
+    QReturnValue = ReturnValue;
+} else {
+    QReturnValue = function (value) {
+        this.value = value;
+    };
+}
+
+// long stack traces
+
+var STACK_JUMP_SEPARATOR = "From previous event:";
+
+function makeStackTraceLong(error, promise) {
+    // If possible (that is, if in V8), transform the error stack
+    // trace by removing Node and Q cruft, then concatenating with
+    // the stack trace of the promise we are ``done``ing. See #57.
+    if (promise.stack &&
+        typeof error === "object" &&
+        error !== null &&
+        error.stack &&
+        error.stack.indexOf(STACK_JUMP_SEPARATOR) === -1
+    ) {
+        error.stack = filterStackString(error.stack) +
+            "\n" + STACK_JUMP_SEPARATOR + "\n" +
+            filterStackString(promise.stack);
+    }
+}
+
+function filterStackString(stackString) {
+    var lines = stackString.split("\n");
+    var desiredLines = [];
+    for (var i = 0; i < lines.length; ++i) {
+        var line = lines[i];
+
+        if (!isInternalFrame(line) && !isNodeFrame(line)) {
+            desiredLines.push(line);
+        }
+    }
+    return desiredLines.join("\n");
+}
+
+function isNodeFrame(stackLine) {
+    return stackLine.indexOf("(module.js:") !== -1 ||
+           stackLine.indexOf("(node.js:") !== -1;
+}
+
+function isInternalFrame(stackLine) {
+    var pieces = /at .+ \((.*):(\d+):\d+\)/.exec(stackLine);
+
+    if (!pieces) {
+        return false;
+    }
+
+    var fileName = pieces[1];
+    var lineNumber = pieces[2];
+
+    return fileName === qFileName &&
+        lineNumber >= qStartingLine &&
+        lineNumber <= qEndingLine;
+}
+
+// discover own file name and line number range for filtering stack
+// traces
+function captureLine() {
+    if (Error.captureStackTrace) {
+        var fileName, lineNumber;
+
+        var oldPrepareStackTrace = Error.prepareStackTrace;
+
+        Error.prepareStackTrace = function (error, frames) {
+            fileName = frames[1].getFileName();
+            lineNumber = frames[1].getLineNumber();
+        };
+
+        // teases call of temporary prepareStackTrace
+        // JSHint and Closure Compiler generate known warnings here
+        /*jshint expr: true */
+        new Error().stack;
+
+        Error.prepareStackTrace = oldPrepareStackTrace;
+        qFileName = fileName;
+        return lineNumber;
+    }
+}
+
+function deprecate(callback, name, alternative) {
+    return function () {
+        if (typeof console !== "undefined" && typeof console.warn === "function") {
+            console.warn(name + " is deprecated, use " + alternative + " instead.", new Error("").stack);
+        }
+        return callback.apply(callback, arguments);
+    };
+}
+
+// end of shims
+// beginning of real work
+
+/**
+ * Performs a task in a future turn of the event loop.
+ * @param {Function} task
+ */
+exports.nextTick = nextTick;
+
+/**
+ * Constructs a {promise, resolve} object.
+ *
+ * The resolver is a callback to invoke with a more resolved value for the
+ * promise. To fulfill the promise, invoke the resolver with any value that is
+ * not a function. To reject the promise, invoke the resolver with a rejection
+ * object. To put the promise in the same state as another promise, invoke the
+ * resolver with that other promise.
+ */
+exports.defer = defer;
+function defer() {
+    // if "pending" is an "Array", that indicates that the promise has not yet
+    // been resolved.  If it is "undefined", it has been resolved.  Each
+    // element of the pending array is itself an array of complete arguments to
+    // forward to the resolved promise.  We coerce the resolution value to a
+    // promise using the ref promise because it handles both fully
+    // resolved values and other promises gracefully.
+    var pending = [], progressListeners = [], value;
+
+    var deferred = object_create(defer.prototype);
+    var promise = object_create(makePromise.prototype);
+
+    promise.promiseSend = function (op, _, __, progress) {
+        var args = array_slice(arguments);
+        if (pending) {
+            pending.push(args);
+            if (op === "when" && progress) {
+                progressListeners.push(progress);
+            }
+        } else {
+            nextTick(function () {
+                value.promiseSend.apply(value, args);
+            });
+        }
+    };
+
+    promise.valueOf = function () {
+        if (pending) {
+            return promise;
+        }
+        return value.valueOf();
+    };
+
+    if (Error.captureStackTrace) {
+        Error.captureStackTrace(promise, defer);
+
+        // Reify the stack into a string by using the accessor; this prevents
+        // memory leaks as per GH-111. At the same time, cut off the first line;
+        // it's always just "[object Promise]\n", as per the `toString`.
+        promise.stack = promise.stack.substring(promise.stack.indexOf("\n") + 1);
+    }
+
+    function become(resolvedValue) {
+        if (!pending) {
+            return;
+        }
+        value = resolve(resolvedValue);
+        array_reduce(pending, function (undefined, pending) {
+            nextTick(function () {
+                value.promiseSend.apply(value, pending);
+            });
+        }, void 0);
+        pending = void 0;
+        progressListeners = void 0;
+    }
+
+    defend(promise);
+
+    deferred.promise = promise;
+    deferred.resolve = become;
+    deferred.reject = function (exception) {
+        become(reject(exception));
+    };
+    deferred.notify = function (progress) {
+        if (pending) {
+            array_reduce(progressListeners, function (undefined, progressListener) {
+                nextTick(function () {
+                    progressListener(progress);
+                });
+            }, void 0);
+        }
+    };
+
+    return deferred;
+}
+
+/**
+ * Creates a Node-style callback that will resolve or reject the deferred
+ * promise.
+ * @returns a nodeback
+ */
+defer.prototype.makeNodeResolver = function () {
+    var self = this;
+    return function (error, value) {
+        if (error) {
+            self.reject(error);
+        } else if (arguments.length > 2) {
+            self.resolve(array_slice(arguments, 1));
+        } else {
+            self.resolve(value);
+        }
+    };
+};
+// XXX deprecated
+defer.prototype.node = deprecate(defer.prototype.makeNodeResolver, "node", "makeNodeResolver");
+
+/**
+ * @param makePromise {Function} a function that returns nothing and accepts
+ * the resolve, reject, and notify functions for a deferred.
+ * @returns a promise that may be resolved with the given resolve and reject
+ * functions, or rejected by a thrown exception in makePromise
+ */
+exports.promise = promise;
+function promise(makePromise) {
+    var deferred = defer();
+    fcall(
+        makePromise,
+        deferred.resolve,
+        deferred.reject,
+        deferred.notify
+    ).fail(deferred.reject);
+    return deferred.promise;
+}
+
+/**
+ * Constructs a Promise with a promise descriptor object and optional fallback
+ * function.  The descriptor contains methods like when(rejected), get(name),
+ * put(name, value), post(name, args), and delete(name), which all
+ * return either a value, a promise for a value, or a rejection.  The fallback
+ * accepts the operation name, a resolver, and any further arguments that would
+ * have been forwarded to the appropriate method above had a method been
+ * provided with the proper name.  The API makes no guarantees about the nature
+ * of the returned object, apart from that it is usable whereever promises are
+ * bought and sold.
+ */
+exports.makePromise = makePromise;
+function makePromise(descriptor, fallback, valueOf, exception) {
+    if (fallback === void 0) {
+        fallback = function (op) {
+            return reject(new Error("Promise does not support operation: " + op));
+        };
+    }
+
+    var promise = object_create(makePromise.prototype);
+
+    promise.promiseSend = function (op, resolved /* ...args */) {
+        var args = array_slice(arguments, 2);
+        var result;
+        try {
+            if (descriptor[op]) {
+                result = descriptor[op].apply(promise, args);
+            } else {
+                result = fallback.apply(promise, [op].concat(args));
+            }
+        } catch (exception) {
+            result = reject(exception);
+        }
+        if (resolved) {
+            resolved(result);
+        }
+    };
+
+    if (valueOf) {
+        promise.valueOf = valueOf;
+    }
+
+    if (exception) {
+        promise.exception = exception;
+    }
+
+    defend(promise);
+
+    return promise;
+}
+
+// provide thenables, CommonJS/Promises/A
+makePromise.prototype.then = function (fulfilled, rejected, progressed) {
+    return when(this, fulfilled, rejected, progressed);
+};
+
+makePromise.prototype.thenResolve = function (value) {
+    return when(this, function () { return value; });
+};
+
+// Chainable methods
+array_reduce(
+    [
+        "isResolved", "isFulfilled", "isRejected",
+        "when", "spread", "send",
+        "get", "put", "del",
+        "post", "invoke",
+        "keys",
+        "apply", "call", "bind",
+        "fapply", "fcall", "fbind",
+        "all", "allResolved",
+        "view", "viewInfo",
+        "timeout", "delay",
+        "catch", "finally", "fail", "fin", "progress", "end", "done",
+        "nfcall", "nfapply", "nfbind",
+        "ncall", "napply", "nbind",
+        "npost", "ninvoke",
+        "nend", "nodeify"
+    ],
+    function (undefined, name) {
+        makePromise.prototype[name] = function () {
+            return exports[name].apply(
+                exports,
+                [this].concat(array_slice(arguments))
+            );
+        };
+    },
+    void 0
+);
+
+makePromise.prototype.toSource = function () {
+    return this.toString();
+};
+
+makePromise.prototype.toString = function () {
+    return "[object Promise]";
+};
+
+defend(makePromise.prototype);
+
+/**
+ * If an object is not a promise, it is as "near" as possible.
+ * If a promise is rejected, it is as "near" as possible too.
+ * If it’s a fulfilled promise, the fulfillment value is nearer.
+ * If it’s a deferred promise and the deferred has been resolved, the
+ * resolution is "nearer".
+ * @param object
+ * @returns most resolved (nearest) form of the object
+ */
+exports.nearer = valueOf;
+function valueOf(value) {
+    if (isPromise(value)) {
+        return value.valueOf();
+    }
+    return value;
+}
+
+/**
+ * @returns whether the given object is a promise.
+ * Otherwise it is a fulfilled value.
+ */
+exports.isPromise = isPromise;
+function isPromise(object) {
+    return object && typeof object.promiseSend === "function";
+}
+
+/**
+ * @returns whether the given object is a resolved promise.
+ */
+exports.isResolved = isResolved;
+function isResolved(object) {
+    return isFulfilled(object) || isRejected(object);
+}
+
+/**
+ * @returns whether the given object is a value or fulfilled
+ * promise.
+ */
+exports.isFulfilled = isFulfilled;
+function isFulfilled(object) {
+    return !isPromise(valueOf(object));
+}
+
+/**
+ * @returns whether the given object is a rejected promise.
+ */
+exports.isRejected = isRejected;
+function isRejected(object) {
+    object = valueOf(object);
+    return isPromise(object) && 'exception' in object;
+}
+
+var rejections = [];
+var errors = [];
+var errorsDisplayed;
+function displayErrors() {
+    if (
+        !errorsDisplayed &&
+        typeof window !== "undefined" &&
+        !window.Touch &&
+        window.console
+    ) {
+        // This promise library consumes exceptions thrown in handlers so
+        // they can be handled by a subsequent promise.  The rejected
+        // promises get added to this array when they are created, and
+        // removed when they are handled.
+        console.log("Should be empty:", errors);
+    }
+    errorsDisplayed = true;
+}
+
+/**
+ * Constructs a rejected promise.
+ * @param exception value describing the failure
+ */
+exports.reject = reject;
+function reject(exception) {
+    exception = exception || new Error();
+    var rejection = makePromise({
+        "when": function (rejected) {
+            // note that the error has been handled
+            if (rejected) {
+                var at = array_indexOf(rejections, this);
+                if (at !== -1) {
+                    errors.splice(at, 1);
+                    rejections.splice(at, 1);
+                }
+            }
+            return rejected ? rejected(exception) : reject(exception);
+        }
+    }, function fallback() {
+        return reject(exception);
+    }, function valueOf() {
+        return this;
+    }, exception);
+    // note that the error has not been handled
+    displayErrors();
+    rejections.push(rejection);
+    errors.push(exception);
+    return rejection;
+}
+
+/**
+ * Constructs a promise for an immediate reference.
+ * @param value immediate reference
+ */
+exports.begin = resolve; // XXX experimental
+exports.resolve = resolve;
+exports.ref = deprecate(resolve, "ref", "resolve"); // XXX deprecated, use resolve
+function resolve(object) {
+    // If the object is already a Promise, return it directly.  This enables
+    // the resolve function to both be used to created references from objects,
+    // but to tolerably coerce non-promises to promises.
+    if (isPromise(object)) {
+        return object;
+    }
+    // In order to break infinite recursion or loops between `then` and
+    // `resolve`, it is necessary to attempt to extract fulfilled values
+    // out of foreign promise implementations before attempting to wrap
+    // them as unresolved promises.  It is my hope that other
+    // implementations will implement `valueOf` to synchronously extract
+    // the fulfillment value from their fulfilled promises.  If the
+    // other promise library does not implement `valueOf`, the
+    // implementations on primordial prototypes are harmless.
+    object = valueOf(object);
+    // assimilate thenables, CommonJS/Promises/A
+    if (object && typeof object.then === "function") {
+        var deferred = defer();
+        object.then(deferred.resolve, deferred.reject, deferred.notify);
+        return deferred.promise;
+    }
+    return makePromise({
+        "when": function () {
+            return object;
+        },
+        "get": function (name) {
+            return object[name];
+        },
+        "put": function (name, value) {
+            object[name] = value;
+            return object;
+        },
+        "del": function (name) {
+            delete object[name];
+            return object;
+        },
+        "post": function (name, value) {
+            return object[name].apply(object, value);
+        },
+        "apply": function (self, args) {
+            return object.apply(self, args);
+        },
+        "fapply": function (args) {
+            return object.apply(void 0, args);
+        },
+        "viewInfo": function () {
+            var on = object;
+            var properties = {};
+
+            function fixFalsyProperty(name) {
+                if (!properties[name]) {
+                    properties[name] = typeof on[name];
+                }
+            }
+
+            while (on) {
+                Object.getOwnPropertyNames(on).forEach(fixFalsyProperty);
+                on = Object.getPrototypeOf(on);
+            }
+            return {
+                "type": typeof object,
+                "properties": properties
+            };
+        },
+        "keys": function () {
+            return object_keys(object);
+        }
+    }, void 0, function valueOf() {
+        return object;
+    });
+}
+
+/**
+ * Annotates an object such that it will never be
+ * transferred away from this process over any promise
+ * communication channel.
+ * @param object
+ * @returns promise a wrapping of that object that
+ * additionally responds to the "isDef" message
+ * without a rejection.
+ */
+exports.master = master;
+function master(object) {
+    return makePromise({
+        "isDef": function () {}
+    }, function fallback() {
+        var args = array_slice(arguments);
+        return send.apply(void 0, [object].concat(args));
+    }, function () {
+        return valueOf(object);
+    });
+}
+
+exports.viewInfo = viewInfo;
+function viewInfo(object, info) {
+    object = resolve(object);
+    if (info) {
+        return makePromise({
+            "viewInfo": function () {
+                return info;
+            }
+        }, function fallback() {
+            var args = array_slice(arguments);
+            return send.apply(void 0, [object].concat(args));
+        }, function () {
+            return valueOf(object);
+        });
+    } else {
+        return send(object, "viewInfo");
+    }
+}
+
+exports.view = view;
+function view(object) {
+    return viewInfo(object).when(function (info) {
+        var view;
+        if (info.type === "function") {
+            view = function () {
+                return apply(object, void 0, arguments);
+            };
+        } else {
+            view = {};
+        }
+        var properties = info.properties || {};
+        object_keys(properties).forEach(function (name) {
+            if (properties[name] === "function") {
+                view[name] = function () {
+                    return post(object, name, arguments);
+                };
+            }
+        });
+        return resolve(view);
+    });
+}
+
+/**
+ * Registers an observer on a promise.
+ *
+ * Guarantees:
+ *
+ * 1. that fulfilled and rejected will be called only once.
+ * 2. that either the fulfilled callback or the rejected callback will be
+ *    called, but not both.
+ * 3. that fulfilled and rejected will not be called in this turn.
+ *
+ * @param value      promise or immediate reference to observe
+ * @param fulfilled  function to be called with the fulfilled value
+ * @param rejected   function to be called with the rejection exception
+ * @param progressed function to be called on any progress notifications
+ * @return promise for the return value from the invoked callback
+ */
+exports.when = when;
+function when(value, fulfilled, rejected, progressed) {
+    var deferred = defer();
+    var done = false;   // ensure the untrusted promise makes at most a
+                        // single call to one of the callbacks
+
+    function _fulfilled(value) {
+        try {
+            return fulfilled ? fulfilled(value) : value;
+        } catch (exception) {
+            return reject(exception);
+        }
+    }
+
+    function _rejected(exception) {
+        if (rejected) {
+            makeStackTraceLong(exception, resolvedValue);
+            try {
+                return rejected(exception);
+            } catch (newException) {
+                return reject(newException);
+            }
+        }
+        return reject(exception);
+    }
+
+    function _progressed(value) {
+        return progressed ? progressed(value) : value;
+    }
+
+    var resolvedValue = resolve(value);
+    nextTick(function () {
+        resolvedValue.promiseSend("when", function (value) {
+            if (done) {
+                return;
+            }
+            done = true;
+
+            deferred.resolve(_fulfilled(value));
+        }, function (exception) {
+            if (done) {
+                return;
+            }
+            done = true;
+
+            deferred.resolve(_rejected(exception));
+        });
+    });
+
+    // Progress propagator need to be attached in the current tick.
+    resolvedValue.promiseSend("when", void 0, void 0, function (value) {
+        deferred.notify(_progressed(value));
+    });
+
+    return deferred.promise;
+}
+
+/**
+ * Spreads the values of a promised array of arguments into the
+ * fulfillment callback.
+ * @param fulfilled callback that receives variadic arguments from the
+ * promised array
+ * @param rejected callback that receives the exception if the promise
+ * is rejected.
+ * @returns a promise for the return value or thrown exception of
+ * either callback.
+ */
+exports.spread = spread;
+function spread(promise, fulfilled, rejected) {
+    return when(promise, function (valuesOrPromises) {
+        return all(valuesOrPromises).then(function (values) {
+            return fulfilled.apply(void 0, values);
+        }, rejected);
+    }, rejected);
+}
+
+/**
+ * The async function is a decorator for generator functions, turning
+ * them into asynchronous generators.  This presently only works in
+ * Firefox/Spidermonkey, however, this code does not cause syntax
+ * errors in older engines.  This code should continue to work and
+ * will in fact improve over time as the language improves.
+ *
+ * Decorates a generator function such that:
+ *  - it may yield promises
+ *  - execution will continue when that promise is fulfilled
+ *  - the value of the yield expression will be the fulfilled value
+ *  - it returns a promise for the return value (when the generator
+ *    stops iterating)
+ *  - the decorated function returns a promise for the return value
+ *    of the generator or the first rejected promise among those
+ *    yielded.
+ *  - if an error is thrown in the generator, it propagates through
+ *    every following yield until it is caught, or until it escapes
+ *    the generator function altogether, and is translated into a
+ *    rejection for the promise returned by the decorated generator.
+ *  - in present implementations of generators, when a generator
+ *    function is complete, it throws ``StopIteration``, ``return`` is
+ *    a syntax error in the presence of ``yield``, so there is no
+ *    observable return value. There is a proposal[1] to add support
+ *    for ``return``, which would permit the value to be carried by a
+ *    ``StopIteration`` instance, in which case it would fulfill the
+ *    promise returned by the asynchronous generator.  This can be
+ *    emulated today by throwing StopIteration explicitly with a value
+ *    property.
+ *
+ *  [1]: http://wiki.ecmascript.org/doku.php?id=strawman:async_functions#reference_implementation
+ *
+ */
+exports.async = async;
+function async(makeGenerator) {
+    return function () {
+        // when verb is "send", arg is a value
+        // when verb is "throw", arg is an exception
+        function continuer(verb, arg) {
+            var result;
+            try {
+                result = generator[verb](arg);
+            } catch (exception) {
+                if (isStopIteration(exception)) {
+                    return exception.value;
+                } else {
+                    return reject(exception);
+                }
+            }
+            return when(result, callback, errback);
+        }
+        var generator = makeGenerator.apply(this, arguments);
+        var callback = continuer.bind(continuer, "send");
+        var errback = continuer.bind(continuer, "throw");
+        return callback();
+    };
+}
+
+/**
+ * Throws a ReturnValue exception to stop an asynchronous generator.
+ * Only useful presently in Firefox/SpiderMonkey since generators are
+ * implemented.
+ * @param value the return value for the surrounding generator
+ * @throws ReturnValue exception with the value.
+ * @example
+ * Q.async(function () {
+ *      var foo = yield getFooPromise();
+ *      var bar = yield getBarPromise();
+ *      Q.return(foo + bar);
+ * })
+ */
+exports['return'] = _return;
+function _return(value) {
+    throw new QReturnValue(value);
+}
+
+/**
+ * The promised function decorator ensures that any promise arguments
+ * are resolved and passed as values (`this` is also resolved and passed
+ * as a value).  It will also ensure that the result of a function is
+ * always a promise.
+ *
+ * @example
+ * var add = Q.promised(function (a, b) {
+ *     return a + b;
+ * });
+ * add(Q.resolve(a), Q.resolve(B));
+ *
+ * @param {function} callback The function to decorate
+ * @returns {function} a function that has been decorated.
+ */
+exports.promised = promised;
+function promised(callback) {
+    return function () {
+        return all([this, all(arguments)]).spread(function (self, args) {
+          return callback.apply(self, args);
+        });
+    };
+}
+
+/**
+ * Constructs a promise method that can be used to safely observe resolution of
+ * a promise for an arbitrarily named method like "propfind" in a future turn.
+ */
+exports.sender = deprecate(sender, "sender", "dispatcher"); // XXX deprecated, use dispatcher
+exports.Method = deprecate(sender, "Method", "dispatcher"); // XXX deprecated, use dispatcher
+function sender(op) {
+    return function (object) {
+        var args = array_slice(arguments, 1);
+        return send.apply(void 0, [object, op].concat(args));
+    };
+}
+
+/**
+ * sends a message to a value in a future turn
+ * @param object* the recipient
+ * @param op the name of the message operation, e.g., "when",
+ * @param ...args further arguments to be forwarded to the operation
+ * @returns result {Promise} a promise for the result of the operation
+ */
+exports.send = deprecate(send, "send", "dispatch"); // XXX deprecated, use dispatch
+function send(object, op) {
+    var deferred = defer();
+    var args = array_slice(arguments, 2);
+    object = resolve(object);
+    nextTick(function () {
+        object.promiseSend.apply(
+            object,
+            [op, deferred.resolve].concat(args)
+        );
+    });
+    return deferred.promise;
+}
+
+/**
+ * sends a message to a value in a future turn
+ * @param object* the recipient
+ * @param op the name of the message operation, e.g., "when",
+ * @param args further arguments to be forwarded to the operation
+ * @returns result {Promise} a promise for the result of the operation
+ */
+exports.dispatch = dispatch;
+function dispatch(object, op, args) {
+    var deferred = defer();
+    object = resolve(object);
+    nextTick(function () {
+        object.promiseSend.apply(
+            object,
+            [op, deferred.resolve].concat(args)
+        );
+    });
+    return deferred.promise;
+}
+
+/**
+ * Constructs a promise method that can be used to safely observe resolution of
+ * a promise for an arbitrarily named method like "propfind" in a future turn.
+ *
+ * "dispatcher" constructs methods like "get(promise, name)" and "put(promise)".
+ */
+exports.dispatcher = dispatcher;
+function dispatcher(op) {
+    return function (object) {
+        var args = array_slice(arguments, 1);
+        return dispatch(object, op, args);
+    };
+}
+
+/**
+ * Gets the value of a property in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of property to get
+ * @return promise for the property value
+ */
+exports.get = dispatcher("get");
+
+/**
+ * Sets the value of a property in a future turn.
+ * @param object    promise or immediate reference for object object
+ * @param name      name of property to set
+ * @param value     new value of property
+ * @return promise for the return value
+ */
+exports.put = dispatcher("put");
+
+/**
+ * Deletes a property in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of property to delete
+ * @return promise for the return value
+ */
+exports["delete"] = // XXX experimental
+exports.del = dispatcher("del");
+
+/**
+ * Invokes a method in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of method to invoke
+ * @param value     a value to post, typically an array of
+ *                  invocation arguments for promises that
+ *                  are ultimately backed with `resolve` values,
+ *                  as opposed to those backed with URLs
+ *                  wherein the posted value can be any
+ *                  JSON serializable object.
+ * @return promise for the return value
+ */
+// bound locally because it is used by other methods
+var post = exports.post = dispatcher("post");
+
+/**
+ * Invokes a method in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @param name      name of method to invoke
+ * @param ...args   array of invocation arguments
+ * @return promise for the return value
+ */
+exports.invoke = function (value, name) {
+    var args = array_slice(arguments, 2);
+    return post(value, name, args);
+};
+
+/**
+ * Applies the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param thisp     the `this` object for the call
+ * @param args      array of application arguments
+ */
+// XXX deprecated, use fapply
+var apply = exports.apply = deprecate(dispatcher("apply"), "apply", "fapply");
+
+/**
+ * Applies the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param args      array of application arguments
+ */
+var fapply = exports.fapply = dispatcher("fapply");
+
+/**
+ * Calls the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param thisp     the `this` object for the call
+ * @param ...args   array of application arguments
+ */
+// XXX deprecated, use fcall
+exports.call = deprecate(call, "call", "fcall");
+function call(value, thisp) {
+    var args = array_slice(arguments, 2);
+    return apply(value, thisp, args);
+}
+
+/**
+ * Calls the promised function in a future turn.
+ * @param object    promise or immediate reference for target function
+ * @param ...args   array of application arguments
+ */
+exports["try"] = fcall; // XXX experimental
+exports.fcall = fcall;
+function fcall(value) {
+    var args = array_slice(arguments, 1);
+    return fapply(value, args);
+}
+
+/**
+ * Binds the promised function, transforming return values into a fulfilled
+ * promise and thrown errors into a rejected one.
+ * @param object    promise or immediate reference for target function
+ * @param thisp   the `this` object for the call
+ * @param ...args   array of application arguments
+ */
+exports.bind = deprecate(bind, "bind", "fbind"); // XXX deprecated, use fbind
+function bind(value, thisp) {
+    var args = array_slice(arguments, 2);
+    return function bound() {
+        var allArgs = args.concat(array_slice(arguments));
+        return apply(value, thisp, allArgs);
+    };
+}
+
+/**
+ * Binds the promised function, transforming return values into a fulfilled
+ * promise and thrown errors into a rejected one.
+ * @param object    promise or immediate reference for target function
+ * @param ...args   array of application arguments
+ */
+exports.fbind = fbind;
+function fbind(value) {
+    var args = array_slice(arguments, 1);
+    return function fbound() {
+        var allArgs = args.concat(array_slice(arguments));
+        return fapply(value, allArgs);
+    };
+}
+
+/**
+ * Requests the names of the owned properties of a promised
+ * object in a future turn.
+ * @param object    promise or immediate reference for target object
+ * @return promise for the keys of the eventually resolved object
+ */
+exports.keys = dispatcher("keys");
+
+/**
+ * Turns an array of promises into a promise for an array.  If any of
+ * the promises gets rejected, the whole array is rejected immediately.
+ * @param {Array*} an array (or promise for an array) of values (or
+ * promises for values)
+ * @returns a promise for an array of the corresponding values
+ */
+// By Mark Miller
+// http://wiki.ecmascript.org/doku.php?id=strawman:concurrency&rev=1308776521#allfulfilled
+exports.all = all;
+function all(promises) {
+    return when(promises, function (promises) {
+        var countDown = promises.length;
+        if (countDown === 0) {
+            return resolve(promises);
+        }
+        var deferred = defer();
+        array_reduce(promises, function (undefined, promise, index) {
+            if (isFulfilled(promise)) {
+                promises[index] = valueOf(promise);
+                if (--countDown === 0) {
+                    deferred.resolve(promises);
+                }
+            } else {
+                when(promise, function (value) {
+                    promises[index] = value;
+                    if (--countDown === 0) {
+                        deferred.resolve(promises);
+                    }
+                })
+                .fail(deferred.reject);
+            }
+        }, void 0);
+        return deferred.promise;
+    });
+}
+
+/**
+ * Waits for all promises to be resolved, either fulfilled or
+ * rejected.  This is distinct from `all` since that would stop
+ * waiting at the first rejection.  The promise returned by
+ * `allResolved` will never be rejected.
+ * @param promises a promise for an array (or an array) of promises
+ * (or values)
+ * @return a promise for an array of promises
+ */
+exports.allResolved = allResolved;
+function allResolved(promises) {
+    return when(promises, function (promises) {
+        return when(all(array_map(promises, function (promise) {
+            return when(promise, noop, noop);
+        })), function () {
+            return array_map(promises, resolve);
+        });
+    });
+}
+
+/**
+ * Captures the failure of a promise, giving an oportunity to recover
+ * with a callback.  If the given promise is fulfilled, the returned
+ * promise is fulfilled.
+ * @param {Any*} promise for something
+ * @param {Function} callback to fulfill the returned promise if the
+ * given promise is rejected
+ * @returns a promise for the return value of the callback
+ */
+exports["catch"] = // XXX experimental
+exports.fail = fail;
+function fail(promise, rejected) {
+    return when(promise, void 0, rejected);
+}
+
+/**
+ * Attaches a listener that can respond to progress notifications from a
+ * promise's originating deferred. This listener receives the exact arguments
+ * passed to ``deferred.notify``.
+ * @param {Any*} promise for something
+ * @param {Function} callback to receive any progress notifications
+ * @returns the given promise, unchanged
+ */
+exports.progress = progress;
+function progress(promise, progressed) {
+    return when(promise, void 0, void 0, progressed);
+}
+
+/**
+ * Provides an opportunity to observe the rejection of a promise,
+ * regardless of whether the promise is fulfilled or rejected.  Forwards
+ * the resolution to the returned promise when the callback is done.
+ * The callback can return a promise to defer completion.
+ * @param {Any*} promise
+ * @param {Function} callback to observe the resolution of the given
+ * promise, takes no arguments.
+ * @returns a promise for the resolution of the given promise when
+ * ``fin`` is done.
+ */
+exports["finally"] = // XXX experimental
+exports.fin = fin;
+function fin(promise, callback) {
+    return when(promise, function (value) {
+        return when(callback(), function () {
+            return value;
+        });
+    }, function (exception) {
+        return when(callback(), function () {
+            return reject(exception);
+        });
+    });
+}
+
+/**
+ * Terminates a chain of promises, forcing rejections to be
+ * thrown as exceptions.
+ * @param {Any*} promise at the end of a chain of promises
+ * @returns nothing
+ */
+exports.end = deprecate(done, "end", "done"); // XXX deprecated, use done
+exports.done = done;
+function done(promise, fulfilled, rejected, progress) {
+    function onUnhandledError(error) {
+        // forward to a future turn so that ``when``
+        // does not catch it and turn it into a rejection.
+        nextTick(function () {
+            makeStackTraceLong(error, promise);
+
+            if (exports.onerror) {
+                exports.onerror(error);
+            } else {
+                throw error;
+            }
+        });
+    }
+
+    // Avoid unnecessary `nextTick`ing via an unnecessary `when`.
+    var promiseToHandle = fulfilled || rejected || progress ?
+        when(promise, fulfilled, rejected, progress) :
+        promise;
+
+    fail(promiseToHandle, onUnhandledError);
+}
+
+/**
+ * Causes a promise to be rejected if it does not get fulfilled before
+ * some milliseconds time out.
+ * @param {Any*} promise
+ * @param {Number} milliseconds timeout
+ * @returns a promise for the resolution of the given promise if it is
+ * fulfilled before the timeout, otherwise rejected.
+ */
+exports.timeout = timeout;
+function timeout(promise, ms) {
+    var deferred = defer();
+    var timeoutId = setTimeout(function () {
+        deferred.reject(new Error("Timed out after " + ms + " ms"));
+    }, ms);
+
+    when(promise, function (value) {
+        clearTimeout(timeoutId);
+        deferred.resolve(value);
+    }, function (exception) {
+        clearTimeout(timeoutId);
+        deferred.reject(exception);
+    });
+
+    return deferred.promise;
+}
+
+/**
+ * Returns a promise for the given value (or promised value) after some
+ * milliseconds.
+ * @param {Any*} promise
+ * @param {Number} milliseconds
+ * @returns a promise for the resolution of the given promise after some
+ * time has elapsed.
+ */
+exports.delay = delay;
+function delay(promise, timeout) {
+    if (timeout === void 0) {
+        timeout = promise;
+        promise = void 0;
+    }
+    var deferred = defer();
+    setTimeout(function () {
+        deferred.resolve(promise);
+    }, timeout);
+    return deferred.promise;
+}
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided as an array, and returns a promise.
+ *
+ *      var readFile = require("fs").readFile;
+ *      Q.nfapply(readFile, [__filename])
+ *      .then(function (content) {
+ *      })
+ *
+ */
+exports.nfapply = nfapply;
+function nfapply(callback, args) {
+    var nodeArgs = array_slice(args);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    fapply(callback, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+}
+
+/**
+ * Passes a continuation to a Node function, which is called with the given
+ * arguments provided individually, and returns a promise.
+ *
+ *      var readFile = require("fs").readFile;
+ *      Q.nfcall(readFile, __filename)
+ *      .then(function (content) {
+ *      })
+ *
+ */
+exports.nfcall = nfcall;
+function nfcall(callback/*, ...args */) {
+    var nodeArgs = array_slice(arguments, 1);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    fapply(callback, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+}
+
+/**
+ * Wraps a NodeJS continuation passing function and returns an equivalent
+ * version that returns a promise.
+ *
+ *      Q.nfbind(FS.readFile, __filename)("utf-8")
+ *      .then(console.log)
+ *      .done()
+ *
+ */
+exports.nfbind = nfbind;
+function nfbind(callback/*, ...args */) {
+    var baseArgs = array_slice(arguments, 1);
+    return function () {
+        var nodeArgs = baseArgs.concat(array_slice(arguments));
+        var deferred = defer();
+        nodeArgs.push(deferred.makeNodeResolver());
+
+        fapply(callback, nodeArgs).fail(deferred.reject);
+        return deferred.promise;
+    };
+}
+
+/**
+ * Passes a continuation to a Node function, which is called with a given
+ * `this` value and arguments provided as an array, and returns a promise.
+ *
+ *      var FS = (require)("fs");
+ *      Q.napply(FS.readFile, FS, [__filename])
+ *      .then(function (content) {
+ *      })
+ *
+ */
+exports.napply = deprecate(napply, "napply", "npost");
+function napply(callback, thisp, args) {
+    return nbind(callback, thisp).apply(void 0, args);
+}
+
+/**
+ * Passes a continuation to a Node function, which is called with a given
+ * `this` value and arguments provided individually, and returns a promise.
+ *
+ *      var FS = (require)("fs");
+ *      Q.ncall(FS.readFile, FS, __filename)
+ *      .then(function (content) {
+ *      })
+ *
+ */
+exports.ncall = deprecate(ncall, "ncall", "ninvoke");
+function ncall(callback, thisp /*, ...args*/) {
+    var args = array_slice(arguments, 2);
+    return napply(callback, thisp, args);
+}
+
+/**
+ * Wraps a NodeJS continuation passing function and returns an equivalent
+ * version that returns a promise.
+ *
+ *      Q.nbind(FS.readFile, FS)(__filename)
+ *      .then(console.log)
+ *      .done()
+ *
+ */
+exports.nbind = deprecate(nbind, "nbind", "nfbind");
+function nbind(callback /* thisp, ...args*/) {
+    if (arguments.length > 1) {
+        var thisp = arguments[1];
+        var args = array_slice(arguments, 2);
+
+        var originalCallback = callback;
+        callback = function () {
+            var combinedArgs = args.concat(array_slice(arguments));
+            return originalCallback.apply(thisp, combinedArgs);
+        };
+    }
+    return function () {
+        var deferred = defer();
+        var args = array_slice(arguments);
+        // add a continuation that resolves the promise
+        args.push(deferred.makeNodeResolver());
+        // trap exceptions thrown by the callback
+        fapply(callback, args)
+        .fail(deferred.reject);
+        return deferred.promise;
+    };
+}
+
+/**
+ * Calls a method of a Node-style object that accepts a Node-style
+ * callback with a given array of arguments, plus a provided callback.
+ * @param object an object that has the named method
+ * @param {String} name name of the method of object
+ * @param {Array} args arguments to pass to the method; the callback
+ * will be provided by Q and appended to these arguments.
+ * @returns a promise for the value or error
+ */
+exports.npost = npost;
+function npost(object, name, args) {
+    var nodeArgs = array_slice(args);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    post(object, name, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+}
+
+/**
+ * Calls a method of a Node-style object that accepts a Node-style
+ * callback, forwarding the given variadic arguments, plus a provided
+ * callback argument.
+ * @param object an object that has the named method
+ * @param {String} name name of the method of object
+ * @param ...args arguments to pass to the method; the callback will
+ * be provided by Q and appended to these arguments.
+ * @returns a promise for the value or error
+ */
+exports.ninvoke = ninvoke;
+function ninvoke(object, name /*, ...args*/) {
+    var nodeArgs = array_slice(arguments, 2);
+    var deferred = defer();
+    nodeArgs.push(deferred.makeNodeResolver());
+
+    post(object, name, nodeArgs).fail(deferred.reject);
+    return deferred.promise;
+}
+
+exports.nend = deprecate(nodeify, "nend", "nodeify"); // XXX deprecated, use nodeify
+exports.nodeify = nodeify;
+function nodeify(promise, nodeback) {
+    if (nodeback) {
+        promise.then(function (value) {
+            nextTick(function () {
+                nodeback(null, value);
+            });
+        }, function (error) {
+            nextTick(function () {
+                nodeback(error);
+            });
+        });
+    } else {
+        return promise;
+    }
+}
+
+// All code before this point will be filtered from stack traces.
+var qEndingLine = captureLine();
+
+});
+
+});
+
+require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+
+var GitVisuals = require('../visuals').GitVisuals;
+
+var Visualization = Backbone.View.extend({
+  initialize: function(options) {
+    var _this = this;
+    this.customEvents = _.clone(Backbone.Events);
+
+    new Raphael(10, 10, 200, 200, function() {
+
+      // for some reason raphael calls this function with a predefined
+      // context...
+      // so switch it
+      _this.paperInitialize(this, options);
+    });
+  },
+
+  paperInitialize: function(paper, options) {
+    options = options || {};
+    this.treeString = options.treeString;
+    this.paper = paper;
+
+    var Main = require('../app');
+    this.events = options.events || Main.getEvents();
+    this.eventBaton = options.eventBaton || Main.getEventBaton();
+
+    this.commitCollection = new CommitCollection();
+    this.branchCollection = new BranchCollection();
+
+    this.gitVisuals = new GitVisuals({
+      commitCollection: this.commitCollection,
+      branchCollection: this.branchCollection,
+      paper: this.paper
+    });
+
+    var GitEngine = require('../git').GitEngine;
+    this.gitEngine = new GitEngine({
+      collection: this.commitCollection,
+      branches: this.branchCollection,
+      gitVisuals: this.gitVisuals,
+      eventBaton: this.eventBaton
+    });
+    this.gitEngine.init();
+    this.gitVisuals.assignGitEngine(this.gitEngine);
+
+    this.myResize();
+    $(window).on('resize', _.bind(this.myResize, this));
+    this.gitVisuals.drawTreeFirstTime();
+
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    }
+
+    this.setTreeOpacity(0);
+    this.fadeTreeIn();
+
+    this.customEvents.trigger('gitEngineReady');
+  },
+
+  setTreeOpacity: function(level) {
+    $(this.paper.canvas).css('opacity', 0);
+  },
+
+  fadeTreeIn: function() {
+    $(this.paper.canvas).animate({opacity: 1}, 300);
+  },
+
+  myResize: function() {
+    var smaller = 1;
+    var el = this.el;
+
+    var left = el.offsetLeft;
+    var top = el.offsetTop;
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
+
+    $(this.paper.canvas).css({
+      left: left + 'px',
+      top: top + 'px'
+    });
+    this.paper.setSize(width, height);
+    this.gitVisuals.canvasResize(width, height);
+  }
+});
+
+exports.Visualization = Visualization;
+
+});
+
+require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Commit = require('../git').Commit;
+var Branch = require('../git').Branch;
+
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
+var TIME = require('../util/constants').TIME;
+
+var CommitCollection = Backbone.Collection.extend({
+  model: Commit
+});
+
+var CommandCollection = Backbone.Collection.extend({
+  model: Command
+});
+
+var BranchCollection = Backbone.Collection.extend({
+  model: Branch
+});
+
+var CommandEntryCollection = Backbone.Collection.extend({
+  model: CommandEntry,
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+});
+
+var CommandBuffer = Backbone.Model.extend({
+  defaults: {
+    collection: null
+  },
+
+  initialize: function(options) {
+    options.collection.bind('add', this.addCommand, this);
+
+    this.buffer = [];
+    this.timeout = null;
+  },
+
+  addCommand: function(command) {
+    this.buffer.push(command);
+    this.touchBuffer();
+  },
+
+  touchBuffer: function() {
+    // touch buffer just essentially means we just check if our buffer is being
+    // processed. if it's not, we immediately process the first item
+    // and then set the timeout.
+    if (this.timeout) {
+      // timeout existence implies its being processed
+      return;
+    }
+    this.setTimeout();
+  },
+
+
+  setTimeout: function() {
+    this.timeout = setTimeout(_.bind(function() {
+        this.sipFromBuffer();
+    }, this), TIME.betweenCommandsDelay);
+  },
+
+  popAndProcess: function() {
+    var popped = this.buffer.shift(0);
+
+    // find a command with no error (aka unprocessed)
+    while (popped.get('error') && this.buffer.length) {
+      popped = this.buffer.pop();
+    }
+    if (!popped.get('error')) {
+      this.processCommand(popped);
+    } else {
+      // no more commands to process
+      this.clear();
+    }
+  },
+
+  processCommand: function(command) {
+    command.set('status', 'processing');
+
+    var deferred = Q.defer();
+    deferred.promise.then(_.bind(function() {
+      this.setTimeout();
+    }, this));
+
+    var eventName = command.get('eventName');
+    if (!eventName) {
+      throw new Error('I need an event to trigger when this guy is parsed and ready');
+    }
+
+    var Main = require('../app');
+    Main.getEventBaton().trigger(eventName, command, deferred);
+  },
+
+  clear: function() {
+    clearTimeout(this.timeout);
+    this.timeout = null;
+  },
+
+  sipFromBuffer: function() {
+    if (!this.buffer.length) {
+      this.clear();
+      return;
+    }
+
+    this.popAndProcess();
+  }
+});
+
+exports.CommitCollection = CommitCollection;
+exports.CommandCollection = CommandCollection;
+exports.BranchCollection = BranchCollection;
+exports.CommandEntryCollection = CommandEntryCollection;
+exports.CommandBuffer = CommandBuffer;
+
+
+});
+
+require.define("/src/js/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Q = require('q');
+
+var AnimationFactoryModule = require('../visuals/animation/animationFactory');
+var AnimationQueue = require('../visuals/animation').AnimationQueue;
+var TreeCompare = require('./treeCompare').TreeCompare;
+
+var Errors = require('../util/errors');
+var GitError = Errors.GitError;
+var CommandResult = Errors.CommandResult;
+
+function GitEngine(options) {
+  this.rootCommit = null;
+  this.refs = {};
+  this.HEAD = null;
+
+  this.branchCollection = options.branches;
+  this.commitCollection = options.collection;
+  this.gitVisuals = options.gitVisuals;
+
+  this.eventBaton = options.eventBaton;
+  this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
+
+  this.animationFactory = options.animationFactory ||
+    new AnimationFactoryModule.AnimationFactory();
+
+  // global variable to keep track of the options given
+  // along with the command call.
+  this.commandOptions = {};
+  this.generalArgs = [];
+
+
+  // backbone or something uses _.uniqueId, so we make our own here
+  this.uniqueId = (function() {
+    var n = 0;
+    return function(prepend) {
+      return prepend? prepend + n++ : n++;
+    };
+  })();
+}
+
+GitEngine.prototype.defaultInit = function() {
+  var defaultTree = JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
+  this.loadTree(defaultTree);
+};
+
+GitEngine.prototype.init = function() {
+  // make an initial commit and a master branch
+  this.rootCommit = this.makeCommit(null, null, {rootCommit: true});
+  this.commitCollection.add(this.rootCommit);
+
+  var master = this.makeBranch('master', this.rootCommit);
+  this.HEAD = new Ref({
+    id: 'HEAD',
+    target: master
+  });
+  this.refs[this.HEAD.get('id')] = this.HEAD;
+
+  // commit once to get things going
+  this.commit();
+};
+
+GitEngine.prototype.exportTree = function() {
+  // need to export all commits, their connectivity / messages, branches, and state of head.
+  // this would be simple if didn't have circular structures.... :P
+  // thus, we need to loop through and "flatten" our graph of objects referencing one another
+  var totalExport = {
+    branches: {},
+    commits: {},
+    HEAD: null
+  };
+
+  _.each(this.branchCollection.toJSON(), function(branch) {
+    branch.target = branch.target.get('id');
+    branch.visBranch = undefined;
+
+    totalExport.branches[branch.id] = branch;
+  });
+
+  _.each(this.commitCollection.toJSON(), function(commit) {
+    // clear out the fields that reference objects and create circular structure
+    _.each(Commit.prototype.constants.circularFields, function(field) {
+      commit[field] = undefined;
+    }, this);
+
+    // convert parents
+    var parents = [];
+    _.each(commit.parents, function(par) {
+      parents.push(par.get('id'));
+    });
+    commit.parents = parents;
+
+    totalExport.commits[commit.id] = commit;
+  }, this);
+
+  var HEAD = this.HEAD.toJSON();
+  HEAD.visBranch = undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
+  HEAD.target = HEAD.target.get('id');
+  totalExport.HEAD = HEAD;
+
+  return totalExport;
+};
+
+GitEngine.prototype.printTree = function(tree) {
+  tree = tree || this.exportTree();
+  TreeCompare.prototype.reduceTreeFields([tree]);
+
+  var str = JSON.stringify(tree);
+  if (/'/.test(str)) {
+    // escape it to make it more copy paste friendly
+    str = escape(str);
+  }
+  return str;
+};
+
+GitEngine.prototype.printAndCopyTree = function() {
+  window.prompt('Copy the tree string below', this.printTree());
+};
+
+GitEngine.prototype.loadTree = function(tree) {
+  // deep copy in case we use it a bunch
+  tree = $.extend(true, {}, tree);
+
+  // first clear everything
+  this.removeAll();
+
+  this.instantiateFromTree(tree);
+
+  this.reloadGraphics();
+};
+
+GitEngine.prototype.loadTreeFromString = function(treeString) {
+  this.loadTree(JSON.parse(unescape(treeString)));
+};
+
+GitEngine.prototype.instantiateFromTree = function(tree) {
+  // now we do the loading part
+  var createdSoFar = {};
+
+  _.each(tree.commits, function(commitJSON) {
+    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    this.commitCollection.add(commit);
+  }, this);
+
+  _.each(tree.branches, function(branchJSON) {
+    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
+
+    this.branchCollection.add(branch, {silent: true});
+  }, this);
+
+  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
+  this.HEAD = HEAD;
+
+  this.rootCommit = createdSoFar['C0'];
+  if (!this.rootCommit) {
+    throw new Error('Need root commit of C0 for calculations');
+  }
+  this.refs = createdSoFar;
+
+  this.branchCollection.each(function(branch) {
+    this.gitVisuals.addBranch(branch);
+  }, this);
+};
+
+GitEngine.prototype.reloadGraphics = function() {
+  // get the root commit, no better way to do it
+  var rootCommit = null;
+  this.commitCollection.each(function(commit) {
+    if (commit.get('id') == 'C0') {
+      rootCommit = commit;
+    }
+  });
+  this.gitVisuals.rootCommit = rootCommit;
+
+  // this just basically makes the HEAD branch. the head branch really should have been
+  // a member of a collection and not this annoying edge case stuff... one day
+  this.gitVisuals.initHeadBranch();
+
+  // when the paper is ready
+  this.gitVisuals.drawTreeFromReload();
+
+  this.gitVisuals.refreshTreeHarsh();
+};
+
+GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
+  if (createdSoFar[objID]) {
+    // base case
+    return createdSoFar[objID];
+  }
+
+  var getType = function(tree, id) {
+    if (tree.commits[id]) {
+      return 'commit';
+    } else if (tree.branches[id]) {
+      return 'branch';
+    } else if (id == 'HEAD') {
+      return 'HEAD';
+    }
+    throw new Error("bad type for " + id);
+  };
+
+  // figure out what type
+  var type = getType(tree, objID);
+
+  if (type == 'HEAD') {
+    var headJSON = tree.HEAD;
+    var HEAD = new Ref(_.extend(
+      tree.HEAD,
+      {
+        target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
+      }
+    ));
+    createdSoFar[objID] = HEAD;
+    return HEAD;
+  }
+
+  if (type == 'branch') {
+    var branchJSON = tree.branches[objID];
+
+    var branch = new Branch(_.extend(
+      tree.branches[objID],
+      {
+        target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
+      }
+    ));
+    createdSoFar[objID] = branch;
+    return branch;
+  }
+
+  if (type == 'commit') {
+    // for commits, we need to grab all the parents
+    var commitJSON = tree.commits[objID];
+
+    var parentObjs = [];
+    _.each(commitJSON.parents, function(parentID) {
+      parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+    }, this);
+
+    var commit = new Commit(_.extend(
+      commitJSON,
+      {
+        parents: parentObjs,
+        gitVisuals: this.gitVisuals
+      }
+    ));
+    createdSoFar[objID] = commit;
+    return commit;
+  }
+
+  throw new Error('ruh rho!! unsupported tyep for ' + objID);
+};
+
+GitEngine.prototype.removeAll = function() {
+  this.branchCollection.reset();
+  this.commitCollection.reset();
+  this.refs = {};
+  this.HEAD = null;
+  this.rootCommit = null;
+
+  this.gitVisuals.resetAll();
+};
+
+GitEngine.prototype.getDetachedHead = function() {
+  // detached head is if HEAD points to a commit instead of a branch...
+  var target = this.HEAD.get('target');
+  var targetType = target.get('type');
+  return targetType !== 'branch';
+};
+
+GitEngine.prototype.validateBranchName = function(name) {
+  name = name.replace(/\s/g, '');
+  if (!/^[a-zA-Z0-9]+$/.test(name)) {
+    throw new GitError({
+      msg: 'woah bad branch name!! This is not ok: ' + name
+    });
+  }
+  if (/[hH][eE][aA][dD]/.test(name)) {
+    throw new GitError({
+      msg: 'branch name of "head" is ambiguous, dont name it that'
+    });
+  }
+  if (name.length > 9) {
+    name = name.slice(0, 9);
+    this.command.addWarning(
+      'Sorry, we need to keep branch names short for the visuals. Your branch ' +
+      'name was truncated to 9 characters, resulting in ' + name
+    );
+  }
+  return name;
+};
+
+GitEngine.prototype.makeBranch = function(id, target) {
+  id = this.validateBranchName(id);
+  if (this.refs[id]) {
+    throw new GitError({
+      msg: 'that branch id either matches a commit hash or already exists!'
+    });
+  }
+
+  var branch = new Branch({
+    target: target,
+    id: id
+  });
+  this.branchCollection.add(branch);
+  this.refs[branch.get('id')] = branch;
+  return branch;
+};
+
+GitEngine.prototype.getHead = function() {
+  return _.clone(this.HEAD);
+};
+
+GitEngine.prototype.getBranches = function() {
+  var toReturn = [];
+  this.branchCollection.each(function(branch) {
+    toReturn.push({
+      id: branch.get('id'),
+      selected: this.HEAD.get('target') === branch,
+      target: branch.get('target'),
+      obj: branch
+    });
+  }, this);
+  return toReturn;
+};
+
+GitEngine.prototype.printBranchesWithout = function(without) {
+  var commitToBranches = this.getUpstreamBranchSet();
+  var commitID = this.getCommitFromRef(without).get('id');
+
+  var toPrint = [];
+  _.each(commitToBranches[commitID], function(branchJSON) {
+    branchJSON.selected = this.HEAD.get('target').get('id') == branchJSON.id;
+    toPrint.push(branchJSON);
+  }, this);
+  this.printBranches(toPrint);
+};
+
+GitEngine.prototype.printBranches = function(branches) {
+  var result = '';
+  _.each(branches, function(branch) {
+    result += (branch.selected ? '* ' : '') + branch.id + '\n';
+  });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.makeCommit = function(parents, id, options) {
+  // ok we need to actually manually create commit IDs now because
+  // people like nikita (thanks for finding this!) could
+  // make branches named C2 before creating the commit C2
+  if (!id) {
+    id = this.uniqueId('C');
+    while (this.refs[id]) {
+      id = this.uniqueId('C');
+    }
+  }
+
+  var commit = new Commit(_.extend({
+      parents: parents,
+      id: id,
+      gitVisuals: this.gitVisuals
+    },
+    options || {}
+  ));
+
+  this.refs[commit.get('id')] = commit;
+  this.commitCollection.add(commit);
+  return commit;
+};
+
+GitEngine.prototype.acceptNoGeneralArgs = function() {
+  if (this.generalArgs.length) {
+    throw new GitError({
+      msg: "That command accepts no general arguments"
+    });
+  }
+};
+
+GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
+  // this is a little utility class to help arg validation that happens over and over again
+  var what = (option === undefined) ?
+    'git ' + this.command.get('method') :
+    this.command.get('method') + ' ' + option + ' ';
+  what = 'with ' + what;
+
+  if (args.length < lower) {
+    throw new GitError({
+      msg: 'I expect at least ' + String(lower) + ' argument(s) ' + what
+    });
+  }
+  if (args.length > upper) {
+    throw new GitError({
+      msg: 'I expect at most ' + String(upper) + ' argument(s) ' + what
+    });
+  }
+};
+
+GitEngine.prototype.oneArgImpliedHead = function(args, option) {
+  // for log, show, etc
+  this.validateArgBounds(args, 0, 1, option);
+  if (args.length === 0) {
+    args.push('HEAD');
+  }
+};
+
+GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
+  // our args we expect to be between 1 and 2
+  this.validateArgBounds(args, 1, 2, option);
+  // and if it's one, add a HEAD to the back
+  if (args.length == 1) {
+    args.push('HEAD');
+  }
+};
+
+GitEngine.prototype.revertStarter = function() {
+  this.validateArgBounds(this.generalArgs, 1, NaN);
+
+  var response = this.revert(this.generalArgs);
+
+  if (response) {
+    this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+  }
+};
+
+GitEngine.prototype.revert = function(whichCommits) {
+  // for each commit, we want to revert it
+  var toRebase = [];
+  _.each(whichCommits, function(stringRef) {
+    toRebase.push(this.getCommitFromRef(stringRef));
+  }, this);
+
+  // we animate reverts now!! we use the rebase animation though so that's
+  // why the terminology is like it is
+  var animationResponse = {};
+  animationResponse.destinationBranch = this.resolveID(toRebase[0]);
+  animationResponse.toRebaseArray = toRebase.slice(0);
+  animationResponse.rebaseSteps = [];
+
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
+  var afterSnapshot;
+
+  // now make a bunch of commits on top of where we are
+  var base = this.getCommitFromRef('HEAD');
+  _.each(toRebase, function(oldCommit) {
+    var newId = this.rebaseAltID(oldCommit.get('id'));
+
+    var newCommit = this.makeCommit([base], newId, {
+        commitMessage: 'Reverting ' + this.resolveName(oldCommit) +
+          ': "' + oldCommit.get('commitMessage') + '"'
+    });
+
+    base = newCommit;
+
+    // animation stuff
+    afterSnapshot = this.gitVisuals.genSnapshot();
+    animationResponse.rebaseSteps.push({
+      oldCommit: oldCommit,
+      newCommit: newCommit,
+      beforeSnapshot: beforeSnapshot,
+      afterSnapshot: afterSnapshot
+    });
+    beforeSnapshot = afterSnapshot;
+  }, this);
+  // done! update our location
+  this.setTargetLocation('HEAD', base);
+
+  // animation
+  return animationResponse;
+};
+
+GitEngine.prototype.resetStarter = function() {
+  if (this.commandOptions['--soft']) {
+    throw new GitError({
+      msg: "You can't use --soft because there is no concept of stashing" +
+           " changes or staging files, so you will lose your progress." +
+           " Try using interactive rebasing (or just rebasing) to move commits."
+    });
+  }
+  if (this.commandOptions['--hard']) {
+    this.command.addWarning(
+      'Nice! You are using --hard. The default behavior is a hard reset in ' +
+      "this demo, so don't worry about specifying the option explicity"
+    );
+    // dont absorb the arg off of --hard
+    this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
+  }
+
+  this.validateArgBounds(this.generalArgs, 1, 1);
+
+  if (this.getDetachedHead()) {
+    throw new GitError({
+      msg: "Cant reset in detached head! Use checkout if you want to move"
+    });
+  }
+
+  this.reset(this.generalArgs[0]);
+};
+
+GitEngine.prototype.reset = function(target) {
+  this.setTargetLocation('HEAD', this.getCommitFromRef(target));
+};
+
+GitEngine.prototype.cherrypickStarter = function() {
+  this.validateArgBounds(this.generalArgs, 1, 1);
+  var newCommit = this.cherrypick(this.generalArgs[0]);
+
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+};
+
+GitEngine.prototype.cherrypick = function(ref) {
+  var commit = this.getCommitFromRef(ref);
+  // check if we already have that
+  var set = this.getUpstreamSet('HEAD');
+  if (set[commit.get('id')]) {
+    throw new GitError({
+      msg: "We already have that commit in our changes history! You can't cherry-pick it " +
+           "if it shows up in git log."
+    });
+  }
+
+  // alter the ID slightly
+  var id = this.rebaseAltID(commit.get('id'));
+
+  // now commit with that id onto HEAD
+  var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
+  this.setTargetLocation(this.HEAD, newCommit);
+  return newCommit;
+};
+
+GitEngine.prototype.commitStarter = function() {
+  this.acceptNoGeneralArgs();
+  if (this.commandOptions['-am'] && (
+      this.commandOptions['-a'] || this.commandOptions['-m'])) {
+    throw new GitError({
+      msg: "You can't have -am with another -m or -a!"
+    });
+  }
+
+  var msg = null;
+  var args = null;
+  if (this.commandOptions['-a']) {
+    this.command.addWarning('No need to add files in this demo');
+  }
+
+  if (this.commandOptions['-am']) {
+    args = this.commandOptions['-am'];
+    this.validateArgBounds(args, 1, 1, '-am');
+
+    this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
+      "down your commit message anyways, but you can commit without a message " +
+      "in this demo as well");
+    msg = args[0];
+  }
+
+  if (this.commandOptions['-m']) {
+    args = this.commandOptions['-m'];
+    this.validateArgBounds(args, 1, 1, '-m');
+    msg = args[0];
+  }
+
+  var newCommit = this.commit();
+  if (msg) {
+    msg = msg
+      .replace(/&quot;/g, '"')
+      .replace(/^"/g, '')
+      .replace(/"$/g, '');
+
+    newCommit.set('commitMessage', msg);
+  }
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+};
+
+GitEngine.prototype.commit = function() {
+  var targetCommit = this.getCommitFromRef(this.HEAD);
+  var id = null;
+
+  // if we want to ammend, go one above
+  if (this.commandOptions['--amend']) {
+    targetCommit = this.resolveID('HEAD~1');
+    id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
+  }
+
+  var newCommit = this.makeCommit([targetCommit], id);
+  if (this.getDetachedHead()) {
+    this.command.addWarning('Warning!! Detached HEAD state');
+  }
+
+  this.setTargetLocation(this.HEAD, newCommit);
+  return newCommit;
+};
+
+GitEngine.prototype.resolveName = function(someRef) {
+  // first get the obj
+  var obj = this.resolveID(someRef);
+  if (obj.get('type') == 'commit') {
+    return 'commit ' + obj.get('id');
+  }
+  if (obj.get('type') == 'branch') {
+    return 'branch "' + obj.get('id') + '"';
+  }
+  // we are dealing with HEAD
+  return this.resolveName(obj.get('target'));
+};
+
+GitEngine.prototype.resolveID = function(idOrTarget) {
+  if (idOrTarget === null || idOrTarget === undefined) {
+    throw new Error('Dont call this with null / undefined');
+  }
+
+  if (typeof idOrTarget !== 'string') {
+    return idOrTarget;
+  }
+  return this.resolveStringRef(idOrTarget);
+};
+
+GitEngine.prototype.resolveStringRef = function(ref) {
+  if (this.refs[ref]) {
+    return this.refs[ref];
+  }
+
+  // may be something like HEAD~2 or master^^
+  var relativeRefs = [
+    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
+      return parseInt(matches[2], 10);
+    }],
+    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
+      return matches[2].length;
+    }]
+  ];
+
+  var startRef = null;
+  var numBack = null;
+  _.each(relativeRefs, function(config) {
+    var regex = config[0];
+    var parse = config[1];
+    if (regex.test(ref)) {
+      var matches = regex.exec(ref);
+      numBack = parse(matches);
+      startRef = matches[1];
+    }
+  }, this);
+
+  if (!startRef) {
+    throw new GitError({
+      msg: 'unknown ref ' + ref
+    });
+  }
+  if (!this.refs[startRef]) {
+    throw new GitError({
+      msg: 'the ref ' + startRef +' does not exist.'
+    });
+  }
+  var commit = this.getCommitFromRef(startRef);
+
+  return this.numBackFrom(commit, numBack);
+};
+
+GitEngine.prototype.getCommitFromRef = function(ref) {
+  var start = this.resolveID(ref);
+
+  // works for both HEAD and just a single layer. aka branch
+  while (start.get('type') !== 'commit') {
+    start = start.get('target');
+  }
+  return start;
+};
+
+GitEngine.prototype.getType = function(ref) {
+  return this.resolveID(ref).get('type');
+};
+
+GitEngine.prototype.setTargetLocation = function(ref, target) {
+  if (this.getType(ref) == 'commit') {
+    // nothing to do
+    return;
+  }
+
+  // sets whatever ref is (branch, HEAD, etc) to a target. so if
+  // you pass in HEAD, and HEAD is pointing to a branch, it will update
+  // the branch to that commit, not the HEAD
+  ref = this.getOneBeforeCommit(ref);
+  ref.set('target', target);
+};
+
+GitEngine.prototype.getUpstreamBranchSet = function() {
+  // this is expensive!! so only call once in a while
+  var commitToSet = {};
+
+  var inArray = function(arr, id) {
+    var found = false;
+    _.each(arr, function(wrapper) {
+      if (wrapper.id == id) {
+        found = true;
+      }
+    });
+
+    return found;
+  };
+
+  var bfsSearch = function(commit) {
+    var set = [];
+    var pQueue = [commit];
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      set.push(popped.get('id'));
+
+      if (popped.get('parents') && popped.get('parents').length) {
+        pQueue = pQueue.concat(popped.get('parents'));
+      }
+    }
+    return set;
+  };
+
+  this.branchCollection.each(function(branch) {
+    var set = bfsSearch(branch.get('target'));
+    _.each(set, function(id) {
+      commitToSet[id] = commitToSet[id] || [];
+
+      // only add it if it's not there, so hue blending is ok
+      if (!inArray(commitToSet[id], branch.get('id'))) {
+        commitToSet[id].push({
+          obj: branch,
+          id: branch.get('id')
+        });
+      }
+    });
+  });
+
+  return commitToSet;
+};
+
+GitEngine.prototype.getUpstreamHeadSet = function() {
+  var set = this.getUpstreamSet('HEAD');
+  var including = this.getCommitFromRef('HEAD').get('id');
+
+  set[including] = true;
+  return set;
+};
+
+GitEngine.prototype.getOneBeforeCommit = function(ref) {
+  // you can call this command on HEAD in detached, HEAD, or on a branch
+  // and it will return the ref that is one above a commit. aka
+  // it resolves HEAD to something that we can move the ref with
+  var start = this.resolveID(ref);
+  if (start === this.HEAD && !this.getDetachedHead()) {
+    start = start.get('target');
+  }
+  return start;
+};
+
+GitEngine.prototype.numBackFrom = function(commit, numBack) {
+  // going back '3' from a given ref is not trivial, for you might have
+  // a bunch of merge commits and such. like this situation:
+  //
+  //      * merge master into new
+  //      |\
+  //      | \* commit here
+  //      |* \ commit there
+  //      |  |* commit here
+  //      \ /
+  //       | * root
+  //
+  //
+  // hence we need to do a BFS search, with the commit date being the
+  // value to sort off of (rather than just purely the level)
+  if (numBack === 0) {
+    return commit;
+  }
+
+  // we use a special sorting function here that
+  // prefers the later commits over the earlier ones
+  var sortQueue = _.bind(function(queue) {
+    queue.sort(this.idSortFunc);
+    queue.reverse();
+  }, this);
+
+  var pQueue = [].concat(commit.get('parents') || []);
+  sortQueue(pQueue);
+  numBack--;
+
+  while (pQueue.length && numBack !== 0) {
+    var popped = pQueue.shift(0);
+    var parents = popped.get('parents');
+
+    if (parents && parents.length) {
+      pQueue = pQueue.concat(parents);
+    }
+
+    sortQueue(pQueue);
+    numBack--;
+  }
+
+  if (numBack !== 0 || pQueue.length === 0) {
+    throw new GitError({
+      msg: "Sorry, I can't go that many commits back"
+    });
+  }
+  return pQueue.shift(0);
+};
+
+GitEngine.prototype.scrapeBaseID = function(id) {
+  var results = /^C(\d+)/.exec(id);
+
+  if (!results) {
+    throw new Error('regex failed on ' + id);
+  }
+
+  return 'C' + results[1];
+};
+
+GitEngine.prototype.rebaseAltID = function(id) {
+  // this function alters an ID to add a quote to the end,
+  // indicating that it was rebased. it also checks existence
+  var regexMap = [
+    [/^C(\d+)[']{0,2}$/, function(bits) {
+      // this id can use another quote, so just add it
+      return bits[0] + "'";
+    }],
+    [/^C(\d+)[']{3}$/, function(bits) {
+      // here we switch from C''' to C'^4
+      return bits[0].slice(0, -3) + "'^4";
+    }],
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
+      return 'C' + String(bits[1]) + "'^" + String(Number(bits[2]) + 1);
+    }]
+  ];
+
+  for (var i = 0; i < regexMap.length; i++) {
+    var regex = regexMap[i][0];
+    var func = regexMap[i][1];
+    var results = regex.exec(id);
+    if (results) {
+      var newId = func(results);
+      // if this id exists, continue down the rabbit hole
+      if (this.refs[newId]) {
+        return this.rebaseAltID(newId);
+      } else {
+        return newId;
+      }
+    }
+  }
+  throw new Error('could not modify the id ' + id);
+};
+
+GitEngine.prototype.idSortFunc = function(cA, cB) {
+  // commit IDs can come in many forms:
+  //  C4
+  //  C4' (from a rebase)
+  //  C4'' (from multiple rebases)
+  //  C4'^3 (from a BUNCH of rebases)
+
+  var scale = 1000;
+
+  var regexMap = [
+    [/^C(\d+)$/, function(bits) {
+      // return the 4 from C4
+      return scale * bits[1];
+    }],
+    [/^C(\d+)([']+)$/, function(bits) {
+      // return the 4 from C4, plus the length of the quotes
+      return scale * bits[1] + bits[2].length;
+    }],
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
+      return scale * bits[1] + Number(bits[2]);
+    }]
+  ];
+
+  var getNumToSort = function(id) {
+    for (var i = 0; i < regexMap.length; i++) {
+      var regex = regexMap[i][0];
+      var func = regexMap[i][1];
+      var results = regex.exec(id);
+      if (results) {
+        return func(results);
+      }
+    }
+    throw new Error('Could not parse commit ID ' + id);
+  };
+
+  return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
+};
+
+GitEngine.prototype.rebaseInteractiveStarter = function() {
+  var args = this.commandOptions['-i'];
+  this.twoArgsImpliedHead(args, ' -i');
+
+  this.rebaseInteractive(args[0], args[1]);
+};
+
+GitEngine.prototype.rebaseStarter = function() {
+  if (this.commandOptions['-i']) {
+    this.rebaseInteractiveStarter();
+    return;
+  }
+
+  this.twoArgsImpliedHead(this.generalArgs);
+
+  var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
+
+  if (response === undefined) {
+    // was a fastforward or already up to date. returning now
+    // will trigger the refresh animation by not adding anything to
+    // the animation queue
+    return;
+  }
+
+  this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+};
+
+GitEngine.prototype.rebase = function(targetSource, currentLocation) {
+  // first some conditions
+  if (this.isUpstreamOf(targetSource, currentLocation)) {
+    this.command.setResult('Branch already up-to-date');
+
+    // git for some reason always checks out the branch you are rebasing,
+    // no matter the result of the rebase
+    this.checkout(currentLocation);
+
+    // returning instead of throwing makes a tree refresh
+    return;
+  }
+
+  if (this.isUpstreamOf(currentLocation, targetSource)) {
+    // just set the target of this current location to the source
+    this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
+    // we need the refresh tree animation to happen, so set the result directly
+    // instead of throwing
+    this.command.setResult('Fast-forwarding...');
+
+    this.checkout(currentLocation);
+    return;
+  }
+
+   // now the part of actually rebasing.
+  // We need to get the downstream set of targetSource first.
+  // then we BFS from currentLocation, using the downstream set as our stopping point.
+  // we need to BFS because we need to include all commits below
+  // pop these commits on top of targetSource and modify their ids with quotes
+  var stopSet = this.getUpstreamSet(targetSource);
+
+  // now BFS from here on out
+  var toRebaseRough = [];
+  var pQueue = [this.getCommitFromRef(currentLocation)];
+
+  while (pQueue.length) {
+    var popped = pQueue.pop();
+
+    // if its in the set, dont add it
+    if (stopSet[popped.get('id')]) {
+      continue;
+    }
+
+    // it's not in the set, so we need to rebase this commit
+    toRebaseRough.push(popped);
+    toRebaseRough.sort(this.idSortFunc);
+    toRebaseRough.reverse();
+    // keep searching
+    pQueue = pQueue.concat(popped.get('parents'));
+  }
+
+  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+};
+
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
+  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
+  // but it will look similar.
+
+  // first if we are upstream of the target
+  if (this.isUpstreamOf(currentLocation, targetSource)) {
+    throw new GitError({
+      msg: 'Nothing to do... (git throws a "noop" status here); ' +
+        'Your source is upstream of your rebase target'
+    });
+  }
+
+  // now get the stop set
+  var stopSet = this.getUpstreamSet(targetSource);
+
+  var toRebaseRough = [];
+  // standard BFS
+  var pQueue = [this.getCommitFromRef(currentLocation)];
+
+  while (pQueue.length) {
+    var popped = pQueue.pop();
+
+    if (stopSet[popped.get('id')]) {
+      continue;
+    }
+
+    toRebaseRough.push(popped);
+    pQueue = pQueue.concat(popped.get('parents'));
+    pQueue.sort(this.idSortFunc);
+  }
+
+  // throw our merge's real fast and see if we have anything to do
+  var toRebase = [];
+  _.each(toRebaseRough, function(commit) {
+    if (commit.get('parents').length == 1) {
+      toRebase.push(commit);
+    }
+  });
+
+  if (!toRebase.length) {
+    throw new GitError({
+      msg: 'No commits to rebase! Everything is a merge commit'
+    });
+  }
+
+  // now do stuff :D since all our validation checks have passed, we are going to defer animation
+  // and actually launch the dialog
+  this.animationQueue.set('defer', true);
+
+  var deferred = Q.defer();
+  deferred.promise
+  .then(_.bind(function(userSpecifiedRebase) {
+    // first, they might have dropped everything (annoying)
+    if (!userSpecifiedRebase.length) {
+      throw new CommandResult({
+        msg: 'Nothing to do...'
+      });
+    }
+
+    // finish the rebase crap and animate!
+    var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
+    this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
+    this.animationQueue.start();
+
+  }, this))
+  .fail(_.bind(function(err) {
+    this.filterError(err);
+    this.command.set('error', err);
+    this.animationQueue.start();
+  }, this))
+  .done();
+
+  var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
+  // interactive rebase view will reject or resolve our promise
+  new InteractiveRebaseView({
+    deferred: deferred,
+    toRebase: toRebase
+  });
+};
+
+GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+  // now we have the all the commits between currentLocation and the set of target to rebase.
+  var animationResponse = {};
+  animationResponse.destinationBranch = this.resolveID(targetSource);
+
+  // we need to throw out merge commits
+  var toRebase = [];
+  _.each(toRebaseRough, function(commit) {
+    if (commit.get('parents').length == 1) {
+      toRebase.push(commit);
+    }
+  });
+
+  // we ALSO need to throw out commits that will do the same changes. like
+  // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
+  // get this by doing ID scraping
+  var changesAlreadyMade = {};
+  _.each(stopSet, function(val, key) {
+    changesAlreadyMade[this.scrapeBaseID(key)] = val; // val == true
+  }, this);
+
+  // now get rid of the commits that will redo same changes
+  toRebaseRough = toRebase;
+  toRebase = [];
+  _.each(toRebaseRough, function(commit) {
+    var baseID = this.scrapeBaseID(commit.get('id'));
+    if (!changesAlreadyMade[baseID]) {
+      toRebase.push(commit);
+    }
+  }, this);
+
+  if (!toRebase.length) {
+    throw new GitError({
+      msg: 'No Commits to Rebase! Everything else is merge commits or changes already have been applied'
+    });
+  }
+
+  // now reverse it once more to get it in the right order
+  toRebase.reverse();
+  animationResponse.toRebaseArray = toRebase.slice(0);
+
+  // now pop all of these commits onto targetLocation
+  var base = this.getCommitFromRef(targetSource);
+
+  // do the rebase, and also maintain all our animation info during this
+  animationResponse.rebaseSteps = [];
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
+  var afterSnapshot;
+  _.each(toRebase, function(old) {
+    var newId = this.rebaseAltID(old.get('id'));
+
+    var newCommit = this.makeCommit([base], newId);
+    base = newCommit;
+
+    // animation info
+    afterSnapshot = this.gitVisuals.genSnapshot();
+    animationResponse.rebaseSteps.push({
+      oldCommit: old,
+      newCommit: newCommit,
+      beforeSnapshot: beforeSnapshot,
+      afterSnapshot: afterSnapshot
+    });
+    beforeSnapshot = afterSnapshot;
+  }, this);
+
+  if (this.resolveID(currentLocation).get('type') == 'commit') {
+    // we referenced a commit like git rebase C2 C1, so we have
+    // to manually check out C1'
+
+    var steps = animationResponse.rebaseSteps;
+    var newestCommit = steps[steps.length - 1].newCommit;
+
+    this.checkout(newestCommit);
+  } else {
+    // now we just need to update the rebased branch is
+    this.setTargetLocation(currentLocation, base);
+    this.checkout(currentLocation);
+  }
+
+  // for animation
+  return animationResponse;
+};
+
+GitEngine.prototype.mergeStarter = function() {
+  this.twoArgsImpliedHead(this.generalArgs);
+
+  var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
+
+  if (newCommit === undefined) {
+    // its just a fast forwrard
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    return;
+  }
+
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+};
+
+GitEngine.prototype.merge = function(targetSource, currentLocation) {
+  // first some conditions
+  if (this.isUpstreamOf(targetSource, currentLocation) ||
+      this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
+    throw new CommandResult({
+      msg: 'Branch already up-to-date'
+    });
+  }
+
+  if (this.isUpstreamOf(currentLocation, targetSource)) {
+    // just set the target of this current location to the source
+    this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
+    // get fresh animation to happen
+    this.command.setResult('Fast-forwarding...');
+    return;
+  }
+
+  // now the part of making a merge commit
+  var parent1 = this.getCommitFromRef(currentLocation);
+  var parent2 = this.getCommitFromRef(targetSource);
+
+  // we need a fancy commit message
+  var msg = 'Merge ' + this.resolveName(targetSource) +
+    ' into ' + this.resolveName(currentLocation);
+
+  // since we specify parent 1 as the first parent, it is the "main" parent
+  // and the node will be displayed below that branch / commit / whatever
+  var mergeCommit = this.makeCommit(
+    [parent1, parent2],
+    null,
+    {
+      commitMessage: msg
+    }
+  );
+
+  this.setTargetLocation(currentLocation, mergeCommit);
+  return mergeCommit;
+};
+
+GitEngine.prototype.checkoutStarter = function() {
+  var args = null;
+  if (this.commandOptions['-b']) {
+    // the user is really trying to just make a branch and then switch to it. so first:
+    args = this.commandOptions['-b'];
+    this.twoArgsImpliedHead(args, '-b');
+
+    var validId = this.validateBranchName(args[0]);
+    this.branch(validId, args[1]);
+    this.checkout(validId);
+    return;
+  }
+
+  if (this.commandOptions['-']) {
+    // get the heads last location
+    var lastPlace = this.HEAD.get('lastLastTarget');
+    if (!lastPlace) {
+      throw new GitError({
+        msg: 'Need a previous location to do - switching'
+      });
+    }
+    this.HEAD.set('target', lastPlace);
+    return;
+  }
+
+  if (this.commandOptions['-B']) {
+    args = this.commandOptions['-B'];
+    this.twoArgsImpliedHead(args, '-B');
+
+    this.forceBranch(args[0], args[1]);
+    this.checkout(args[0]);
+    return;
+  }
+
+  this.validateArgBounds(this.generalArgs, 1, 1);
+
+  this.checkout(this.unescapeQuotes(this.generalArgs[0]));
+};
+
+GitEngine.prototype.checkout = function(idOrTarget) {
+  var target = this.resolveID(idOrTarget);
+  if (target.get('id') === 'HEAD') {
+    // git checkout HEAD is a
+    // meaningless command but i used to do this back in the day
+    return;
+  }
+
+  var type = target.get('type');
+  if (type !== 'branch' && type !== 'commit') {
+    throw new GitError({
+      msg: 'can only checkout branches and commits!'
+    });
+  }
+
+  this.HEAD.set('target', target);
+};
+
+GitEngine.prototype.branchStarter = function() {
+  var args = null;
+  // handle deletion first
+  if (this.commandOptions['-d'] || this.commandOptions['-D']) {
+    var names = this.commandOptions['-d'] || this.commandOptions['-D'];
+    this.validateArgBounds(names, 1, NaN, '-d');
+
+    _.each(names, function(name) {
+      this.deleteBranch(name);
+    }, this);
+    return;
+  }
+
+  if (this.commandOptions['--contains']) {
+    args = this.commandOptions['--contains'];
+    this.validateArgBounds(args, 1, 1, '--contains');
+    this.printBranchesWithout(args[0]);
+    return;
+  }
+
+  if (this.commandOptions['-f']) {
+    args = this.commandOptions['-f'];
+    this.twoArgsImpliedHead(args, '-f');
+
+    // we want to force a branch somewhere
+    this.forceBranch(args[0], args[1]);
+    return;
+  }
+
+
+  if (this.generalArgs.length === 0) {
+    this.printBranches(this.getBranches());
+    return;
+  }
+
+  this.twoArgsImpliedHead(this.generalArgs);
+  this.branch(this.generalArgs[0], this.generalArgs[1]);
+};
+
+GitEngine.prototype.forceBranch = function(branchName, where) {
+  // if branchname doesn't exist...
+  if (!this.refs[branchName]) {
+    this.branch(branchName, where);
+  }
+
+  var branch = this.resolveID(branchName);
+  if (branch.get('type') !== 'branch') {
+    throw new GitError({
+      msg: "Can't force move anything but a branch!!"
+    });
+  }
+
+  var whereCommit = this.getCommitFromRef(where);
+
+  this.setTargetLocation(branch, whereCommit);
+};
+
+GitEngine.prototype.branch = function(name, ref) {
+  var target = this.getCommitFromRef(ref);
+  this.makeBranch(name, target);
+};
+
+GitEngine.prototype.deleteBranch = function(name) {
+  // trying to delete, lets check our refs
+  var target = this.resolveID(name);
+  if (target.get('type') !== 'branch') {
+    throw new GitError({
+      msg: "You can't delete things that arent branches with branch command"
+    });
+  }
+  if (target.get('id') == 'master') {
+    throw new GitError({
+      msg: "You can't delete the master branch!"
+    });
+  }
+  if (this.HEAD.get('target') === target) {
+    throw new GitError({
+      msg: "Cannot delete the branch you are currently on"
+    });
+  }
+
+  // now we know it's a branch
+  var branch = target;
+
+  this.branchCollection.remove(branch);
+  this.refs[branch.get('id')] = undefined;
+  delete this.refs[branch.get('id')];
+
+  if (branch.get('visBranch')) {
+    branch.get('visBranch').remove();
+  }
+};
+
+GitEngine.prototype.unescapeQuotes = function(str) {
+  return str.replace(/&#x27;/g, "'");
+};
+
+GitEngine.prototype.filterError = function(err) {
+ if (!(err instanceof GitError ||
+      err instanceof CommandResult)) {
+    throw err;
+  }
+};
+
+GitEngine.prototype.dispatch = function(command, deferred) {
+  // current command, options, and args are stored in the gitEngine
+  // for easy reference during processing.
+  this.command = command;
+  this.commandOptions = command.get('supportedMap');
+  this.generalArgs = command.get('generalArgs');
+
+  // set up the animation queue
+  var whenDone = _.bind(function() {
+    command.finishWith(deferred);
+  }, this);
+  this.animationQueue = new AnimationQueue({
+    callback: whenDone
+  });
+
+  try {
+    var methodName = command.get('method').replace(/-/g, '') + 'Starter';
+    this[methodName]();
+  } catch (err) {
+    this.filterError(err);
+    // short circuit animation by just setting error and returning
+    command.set('error', err);
+    deferred.resolve();
+    return;
+  }
+
+  // only add the refresh if we didn't do manual animations
+  if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  }
+
+  // animation queue will call the callback when its done
+  if (!this.animationQueue.get('defer')) {
+    this.animationQueue.start();
+  }
+};
+
+GitEngine.prototype.showStarter = function() {
+  this.oneArgImpliedHead(this.generalArgs);
+
+  this.show(this.generalArgs[0]);
+};
+
+GitEngine.prototype.show = function(ref) {
+  var commit = this.getCommitFromRef(ref);
+
+  throw new CommandResult({
+    msg: commit.getShowEntry()
+  });
+};
+
+GitEngine.prototype.statusStarter = function() {
+  var lines = [];
+  if (this.getDetachedHead()) {
+    lines.push('Detached Head!');
+  } else {
+    var branchName = this.HEAD.get('target').get('id');
+    lines.push('On branch ' + branchName);
+  }
+  lines.push('Changes to be committed:');
+  lines.push('');
+  lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
+  lines.push('');
+  lines.push('Ready to commit! (as always in this demo)');
+
+  var msg = '';
+  _.each(lines, function(line) {
+    msg += '# ' + line + '\n';
+  });
+
+  throw new CommandResult({
+    msg: msg
+  });
+};
+
+GitEngine.prototype.logStarter = function() {
+  if (this.generalArgs.length == 2) {
+    // do fancy git log branchA ^branchB
+    if (this.generalArgs[1][0] == '^') {
+      this.logWithout(this.generalArgs[0], this.generalArgs[1]);
+    } else {
+      throw new GitError({
+        msg: 'I need a not branch (^branchName) when getting two arguments!'
+      });
+    }
+  }
+
+  this.oneArgImpliedHead(this.generalArgs);
+  this.log(this.generalArgs[0]);
+};
+
+GitEngine.prototype.logWithout = function(ref, omitBranch) {
+  // slice off the ^branch
+  omitBranch = omitBranch.slice(1);
+  this.log(ref, this.getUpstreamSet(omitBranch));
+};
+
+GitEngine.prototype.log = function(ref, omitSet) {
+  // omit set is for doing stuff like git log branchA ^branchB
+  omitSet = omitSet || {};
+  // first get the commit we referenced
+  var commit = this.getCommitFromRef(ref);
+
+  // then get as many far back as we can from here, order by commit date
+  var toDump = [];
+  var pQueue = [commit];
+
+  var seen = {};
+
+  while (pQueue.length) {
+    var popped = pQueue.shift(0);
+    if (seen[popped.get('id')] || omitSet[popped.get('id')]) {
+      continue;
+    }
+    seen[popped.get('id')] = true;
+
+    toDump.push(popped);
+
+    if (popped.get('parents') && popped.get('parents').length) {
+      pQueue = pQueue.concat(popped.get('parents'));
+    }
+  }
+
+  // now go through and collect logs
+  var bigLogStr = '';
+  _.each(toDump, function(c) {
+    bigLogStr += c.getLogEntry();
+  }, this);
+
+  throw new CommandResult({
+    msg: bigLogStr
+  });
+};
+
+GitEngine.prototype.addStarter = function() {
+  throw new CommandResult({
+    msg: "This demo is meant to demonstrate git branching, so don't worry about " +
+         "adding / staging files. Just go ahead and commit away!"
+  });
+};
+
+GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
+  if (this.isUpstreamOf(cousin, ancestor)) {
+    throw new Error('Dont use common ancestor if we are upstream!');
+  }
+
+  var upstreamSet = this.getUpstreamSet(ancestor);
+  // now BFS off of cousin until you find something
+
+  var queue = [this.getCommitFromRef(cousin)];
+  while (queue.length) {
+    var here = queue.pop();
+    if (upstreamSet[here.get('id')]) {
+      return here;
+    }
+    queue = queue.concat(here.get('parents'));
+  }
+  throw new Error('something has gone very wrong... two nodes arent connected!');
+};
+
+GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
+  child = this.getCommitFromRef(child);
+
+  // basically just do a completely BFS search on ancestor to the root, then
+  // check for membership of child in that set of explored nodes
+  var upstream = this.getUpstreamSet(ancestor);
+  return upstream[child.get('id')] !== undefined;
+};
+
+GitEngine.prototype.getUpstreamSet = function(ancestor) {
+  var commit = this.getCommitFromRef(ancestor);
+  var ancestorID = commit.get('id');
+  var queue = [commit];
+
+  var exploredSet = {};
+  exploredSet[ancestorID] = true;
+
+  var addToExplored = function(rent) {
+    exploredSet[rent.get('id')] = true;
+    queue.push(rent);
+  };
+
+  while (queue.length) {
+    var here = queue.pop();
+    var rents = here.get('parents');
+
+    _.each(rents, addToExplored);
+  }
+  return exploredSet;
+};
+
+
+var Ref = Backbone.Model.extend({
+  initialize: function() {
+    if (!this.get('target')) {
+      throw new Error('must be initialized with target');
+    }
+    if (!this.get('id')) {
+      throw new Error('must be given an id');
+    }
+    this.set('type', 'general ref');
+
+    if (this.get('id') == 'HEAD') {
+      this.set('lastLastTarget', null);
+      this.set('lastTarget', this.get('target'));
+      // have HEAD remember where it is for checkout -
+      this.on('change:target', this.targetChanged, this);
+    }
+  },
+
+  targetChanged: function(model, targetValue, ev) {
+    // push our little 3 stack back. we need to do this because
+    // backbone doesn't give you what the value WAS, only what it was changed
+    // TO
+    this.set('lastLastTarget', this.get('lastTarget'));
+    this.set('lastTarget', targetValue);
+  },
+
+  toString: function() {
+    return 'a ' + this.get('type') + 'pointing to ' + String(this.get('target'));
+  }
+});
+
+var Branch = Ref.extend({
+  defaults: {
+    visBranch: null
+  },
+
+  initialize: function() {
+    Ref.prototype.initialize.call(this);
+    this.set('type', 'branch');
+  }
+});
+
+var Commit = Backbone.Model.extend({
+  defaults: {
+    type: 'commit',
+    children: null,
+    parents: null,
+    author: 'Peter Cottle',
+    createTime: null,
+    commitMessage: null,
+    visNode: null,
+    gitVisuals: null
+  },
+
+  constants: {
+    circularFields: ['gitVisuals', 'visNode', 'children']
+  },
+
+  getLogEntry: function() {
+    // for now we are just joining all these things with newlines which
+    // will get placed by paragraph tags. Not really a fan of this, but
+    // it's better than making an entire template and all that jazz
+    return [
+      'Author: ' + this.get('author'),
+      'Date: ' + this.get('createTime'),
+      '<br/>',
+      this.get('commitMessage'),
+      '<br/>',
+      'Commit: ' + this.get('id')
+    ].join('\n' ) + '\n';
+  },
+
+  getShowEntry: function() {
+    // same deal as above, show log entry and some fake changes
+    return [
+      this.getLogEntry(),
+      'diff --git a/bigGameResults.html b/bigGameResults.html',
+      '--- bigGameResults.html',
+      '+++ bigGameResults.html',
+      '@@ 13,27 @@ Winner, Score',
+      '- Stanfurd, 14-7',
+      '+ Cal, 21-14'
+    ].join('\n') + '\n';
+  },
+
+  validateAtInit: function() {
+    if (!this.get('id')) {
+      throw new Error('Need ID!!');
+    }
+
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+    if (!this.get('commitMessage')) {
+      this.set('commitMessage', 'Quick Commit. Go Bears!');
+    }
+
+    this.set('children', []);
+
+    // root commits have no parents
+    if (!this.get('rootCommit')) {
+      if (!this.get('parents') || !this.get('parents').length) {
+        throw new Error('needs parents');
+      }
+    }
+  },
+
+  addNodeToVisuals: function() {
+    var visNode = this.get('gitVisuals').addNode(this.get('id'), this);
+    this.set('visNode', visNode);
+  },
+
+  addEdgeToVisuals: function(parent) {
+    this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
+  },
+
+  isMainParent: function(parent) {
+    var index = this.get('parents').indexOf(parent);
+    return index === 0;
+  },
+
+  initialize: function(options) {
+    this.validateAtInit();
+    this.addNodeToVisuals();
+
+    _.each(this.get('parents'), function(parent) {
+      parent.get('children').push(this);
+      this.addEdgeToVisuals(parent);
+    }, this);
+  }
+});
+
+exports.GitEngine = GitEngine;
+exports.Commit = Commit;
+exports.Branch = Branch;
+exports.Ref = Ref;
+
+
+});
+
+require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var Animation = require('./index').Animation;
+var GRAPHICS = require('../../util/constants').GRAPHICS;
+
+/******************
+ * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
+ * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
+ * or something, it must animate out from the parent position to it's birth position.
+
+ * These two positions though may not be where the commit finally ends up. So we actually need to take a snapshot of the tree,
+ * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
+ * and then essentially animate the entire tree too.
+ */
+
+// essentially a static class
+var AnimationFactory = function() {
+
+};
+
+AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
+  if (!animationQueue) {
+    throw new Error("Need animation queue to add closure to!");
+  }
+
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 2;
+
+  // essentially refresh the entire tree, but do a special thing for the commit
+  var visNode = commit.get('visNode');
+
+  var animation = function() {
+    // this takes care of refs and all that jazz, and updates all the positions
+    gitVisuals.refreshTree(time);
+
+    visNode.setBirth();
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateUpdatedPosition(bounceTime, 'bounce');
+    visNode.animateOutgoingEdges(time);
+  };
+
+  animationQueue.add(new Animation({
+    closure: animation,
+    duration: Math.max(time, bounceTime)
+  }));
+};
+
+AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
+  opacity = (opacity === undefined) ? 1 : opacity;
+
+  var newAttr = {};
+
+  _.each(attr, function(partObj, partName) {
+    newAttr[partName] = {};
+    _.each(partObj, function(val, key) {
+      if (key == 'opacity') {
+        newAttr[partName][key] = opacity;
+      } else {
+        newAttr[partName][key] = val;
+      }
+    });
+  });
+  return newAttr;
+};
+
+AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
+  var newSnap = {};
+
+  _.each(snapShot, function(visObj, visID) {
+    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
+  }, this);
+  return newSnap;
+};
+
+AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
+  var time = GRAPHICS.defaultAnimationTime * 1.0;
+  var bounceTime = time * 1.5;
+
+  var visNode = step.newCommit.get('visNode');
+  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
+  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
+
+  var animation = function() {
+    visNode.setBirthFromSnapshot(step.beforeSnapshot);
+    visNode.parentInFront();
+    gitVisuals.visBranchesFront();
+
+    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
+    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
+  };
+
+  return animation;
+};
+
+AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
+  animationQueue.add(new Animation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  }));
+};
+
+AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+
+  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
+  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
+};
+
+AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  // we want to highlight all the old commits
+  var oldCommits = rebaseResponse.toRebaseArray;
+  // we are either highlighting to a visBranch or a visNode
+  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
+  if (!visBranch) {
+    // in the case where we rebase onto a commit
+    visBranch = rebaseResponse.destinationBranch.get('visNode');
+  }
+
+  _.each(oldCommits, function(oldCommit) {
+    var visNode = oldCommit.get('visNode');
+    animationQueue.add(new Animation({
+      closure: function() {
+        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+      },
+      duration: fullTime * 1.5
+    }));
+
+  }, this);
+
+  this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
+                                                      gitEngine, gitVisuals) {
+  var rebaseSteps = rebaseResponse.rebaseSteps;
+
+  var newVisNodes = [];
+  _.each(rebaseSteps, function(step) {
+    var visNode = step.newCommit.get('visNode');
+
+    newVisNodes.push(visNode);
+    visNode.setOpacity(0);
+    visNode.setOutgoingEdgesOpacity(0);
+  }, this);
+
+  var previousVisNodes = [];
+  _.each(rebaseSteps, function(rebaseStep, index) {
+    var toOmit = newVisNodes.slice(index + 1);
+
+    var snapshotPart = this.genFromToSnapshotAnimation(
+      rebaseStep.beforeSnapshot,
+      rebaseStep.afterSnapshot,
+      toOmit,
+      previousVisNodes,
+      gitVisuals
+    );
+    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
+
+    var animation = function() {
+      snapshotPart();
+      birthPart();
+    };
+
+    animationQueue.add(new Animation({
+      closure: animation,
+      duration: GRAPHICS.defaultAnimationTime * 1.5
+    }));
+
+    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
+  }, this);
+
+  // need to delay to let bouncing finish
+  this.delay(animationQueue);
+
+  this.refreshTree(animationQueue, gitVisuals);
+};
+
+AnimationFactory.prototype.delay = function(animationQueue, time) {
+  time = time || GRAPHICS.defaultAnimationTime;
+  animationQueue.add(new Animation({
+    closure: function() { },
+    duration: time
+  }));
+};
+
+AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
+  // need to slice for closure
+  var nodesToAnimate = visNodes.slice(0);
+
+  return function() {
+    _.each(nodesToAnimate, function(visNode) {
+      visNode.setOpacity(opacity);
+      visNode.setOutgoingEdgesOpacity(opacity);
+    });
+  };
+};
+
+AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
+  var ids = [];
+  _.each(toOmit, function(obj) {
+    ids.push(obj.getID());
+  });
+
+  var newSnapshot = {};
+  _.each(snapShot, function(val, key) {
+    if (_.include(ids, key)) {
+      // omit
+      return;
+    }
+    newSnapshot[key] = val;
+  }, this);
+  return newSnapshot;
+};
+
+AnimationFactory.prototype.genFromToSnapshotAnimation = function(
+  beforeSnapshot,
+  afterSnapshot,
+  commitsToOmit,
+  commitsToFixOpacity,
+  gitVisuals) {
+
+  // we want to omit the commit outgoing edges
+  var toOmit = [];
+  _.each(commitsToOmit, function(visNode) {
+    toOmit.push(visNode);
+    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
+  });
+
+  var fixOpacity = function(obj) {
+    if (!obj) { return; }
+    _.each(obj, function(attr, partName) {
+      obj[partName].opacity = 1;
+    });
+  };
+
+  // HORRIBLE loop to fix opacities all throughout the snapshot
+  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
+    _.each(commitsToFixOpacity, function(visNode) {
+      fixOpacity(snapShot[visNode.getID()]);
+      _.each(visNode.get('outgoingEdges'), function(visEdge) {
+        fixOpacity(snapShot[visEdge.getID()]);
+      });
+    });
+  });
+
+  return function() {
+    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
+  };
+};
+
+exports.AnimationFactory = AnimationFactory;
+
+
+});
+
+require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var GLOBAL = require('../../util/constants').GLOBAL;
+
+var Animation = Backbone.Model.extend({
+  defaults: {
+    duration: 300,
+    closure: null
+  },
+
+  validateAtInit: function() {
+    if (!this.get('closure')) {
+      throw new Error('give me a closure!');
+    }
+  },
+
+  initialize: function(options) {
+    this.validateAtInit();
+  },
+
+  run: function() {
+    this.get('closure')();
+  }
+});
+
+var AnimationQueue = Backbone.Model.extend({
+  defaults: {
+    animations: null,
+    index: 0,
+    callback: null,
+    defer: false
+  },
+
+  initialize: function(options) {
+    this.set('animations', []);
+    if (!options.callback) {
+      console.warn('no callback');
+    }
+  },
+
+  add: function(animation) {
+    if (!animation instanceof Animation) {
+      throw new Error("Need animation not something else");
+    }
+
+    this.get('animations').push(animation);
+  },
+
+  start: function() {
+    this.set('index', 0);
+
+    // set the global lock that we are animating
+    GLOBAL.isAnimating = true;
+    this.next();
+  },
+
+  finish: function() {
+    // release lock here
+    GLOBAL.isAnimating = false;
+    this.get('callback')();
+  },
+
+  next: function() {
+    // ok so call the first animation, and then set a timeout to call the next.
+    // since an animation is defined as taking a specific amount of time,
+    // we can simply just use timeouts rather than promises / deferreds.
+    // for graphical displays that require an unknown amount of time, use deferreds
+    // but not animation queue (see the finishAnimation for that)
+    var animations = this.get('animations');
+    var index = this.get('index');
+    if (index >= animations.length) {
+      this.finish();
+      return;
+    }
+
+    var next = animations[index];
+    var duration = next.get('duration');
+
+    next.run();
+
+    this.set('index', index + 1);
+    setTimeout(_.bind(function() {
+      this.next();
+    }, this), duration);
+  }
+});
+
+exports.Animation = Animation;
+exports.AnimationQueue = AnimationQueue;
+
+});
+
+require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+// static class...
+function TreeCompare() {
+
+}
+
+TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+  var result = true;
+  _.each(branches, function(branchName) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
+  }, this);
+
+  return result;
+};
+
+TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  this.reduceTreeFields([treeA, treeB]);
+
+  // we need a recursive comparison function to bubble up the  branch
+  var recurseCompare = function(commitA, commitB) {
+    // this is the short-circuit base case
+    var result = _.isEqual(commitA, commitB);
+    if (!result) {
+      return false;
+    }
+
+    // we loop through each parent ID. we sort the parent ID's beforehand
+    // so the index lookup is valid
+    _.each(commitA.parents, function(pAid, index) {
+      var pBid = commitB.parents[index];
+
+      var childA = treeA.commits[pAid];
+      var childB = treeB.commits[pBid];
+
+      result = result && recurseCompare(childA, childB);
+    }, this);
+    // if each of our children recursively are equal, we are good
+    return result;
+  };
+
+  var branchA = treeA.branches[branchName];
+  var branchB = treeB.branches[branchName];
+
+  return _.isEqual(branchA, branchB) &&
+    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+};
+
+TreeCompare.prototype.convertTreeSafe = function(tree) {
+  if (typeof tree == 'string') {
+    return JSON.parse(unescape(tree));
+  }
+  return tree;
+};
+
+TreeCompare.prototype.reduceTreeFields = function(trees) {
+  var commitSaveFields = [
+    'parents',
+    'id',
+    'rootCommit'
+  ];
+  var commitSortFields = ['children', 'parents'];
+  var branchSaveFields = [
+    'target',
+    'id'
+  ];
+
+  // this function saves only the specified fields of a tree
+  var saveOnly = function(tree, treeKey, saveFields, sortFields) {
+    var objects = tree[treeKey];
+    _.each(objects, function(obj, objKey) {
+      // our blank slate to copy over
+      var blank = {};
+      _.each(saveFields, function(field) {
+        if (obj[field] !== undefined) {
+          blank[field] = obj[field];
+        }
+      });
+
+      _.each(sortFields, function(field) {
+        // also sort some fields
+        if (obj[field]) {
+          obj[field].sort();
+          blank[field] = obj[field];
+        }
+      });
+      tree[treeKey][objKey] = blank;
+    });
+  };
+
+  _.each(trees, function(tree) {
+    saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
+    saveOnly(tree, 'branches', branchSaveFields);
+
+    tree.HEAD = {
+      target: tree.HEAD.target,
+      id: tree.HEAD.id
+    };
+  });
+};
+
+TreeCompare.prototype.compareTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  // now we need to strip out the fields we don't care about, aka things
+  // like createTime, message, author
+  this.reduceTreeFields([treeA, treeB]);
+
+  console.log('comparing tree A', treeA, 'to', treeB);
+
+  return _.isEqual(treeA, treeB);
+};
+
+exports.TreeCompare = TreeCompare;
+
+
+});
+
+require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+var filterError = function(err) {
+  if (err instanceof CommandProcessError ||
+      err instanceof GitError ||
+      err instanceof CommandResult ||
+      err instanceof Warning) {
+    // yay! one of ours
+    return;
+  } else {
+    throw err;
+  }
+};
+
+exports.filterError = filterError;
+
+});
+
+require.define("/src/js/views/rebaseView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
+var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
+
+var InteractiveRebaseView = ContainedBase.extend({
+  tagName: 'div',
+  template: _.template($('#interactive-rebase-template').html()),
+
+  initialize: function(options) {
+    this.deferred = options.deferred;
+    this.rebaseMap = {};
+    this.entryObjMap = {};
+
+    this.rebaseEntries = new RebaseEntryCollection();
+    options.toRebase.reverse();
+    _.each(options.toRebase, function(commit) {
+      var id = commit.get('id');
+      this.rebaseMap[id] = commit;
+
+      // make basic models for each commit
+      this.entryObjMap[id] = new RebaseEntry({
+        id: id
+      });
+      this.rebaseEntries.add(this.entryObjMap[id]);
+    }, this);
+
+    this.container = new ModalTerminal({
+      title: 'Interactive Rebase'
+    });
+    this.render();
+
+    // show the dialog holder
+    this.show();
+  },
+
+  confirm: function() {
+    this.hide();
+
+    // get our ordering
+    var uiOrder = [];
+    this.$('ul.rebaseEntries li').each(function(i, obj) {
+      uiOrder.push(obj.id);
+    });
+
+    // now get the real array
+    var toRebase = [];
+    _.each(uiOrder, function(id) {
+      // the model pick check
+      if (this.entryObjMap[id].get('pick')) {
+        toRebase.unshift(this.rebaseMap[id]);
+      }
+    }, this);
+
+    this.deferred.resolve(toRebase);
+    // garbage collection will get us
+    this.$el.html('');
+  },
+
+  render: function() {
+    var json = {
+      num: _.keys(this.rebaseMap).length
+    };
+
+    var destination = this.container.getInsideElement();
+    this.$el.html(this.template(json));
+    $(destination).append(this.el);
+
+    // also render each entry
+    var listHolder = this.$('ul.rebaseEntries');
+    this.rebaseEntries.each(function(entry) {
+      new RebaseEntryView({
+        el: listHolder,
+        model: entry
+      });
+    }, this);
+
+    // then make it reorderable..
+    listHolder.sortable({
+      axis: 'y',
+      placeholder: 'rebaseEntry transitionOpacity ui-state-highlight',
+      appendTo: 'parent'
+    });
+
+    this.makeButtons();
+  },
+
+  makeButtons: function() {
+    // control for button
+    var deferred = Q.defer();
+    deferred.promise
+    .then(_.bind(function() {
+      this.confirm();
+    }, this))
+    .fail(_.bind(function() {
+      // empty array does nothing, just like in git
+      this.hide();
+      this.deferred.resolve([]);
+    }, this))
+    .done();
+
+    // finally get our buttons
+    new ConfirmCancelView({
+      destination: this.$('.confirmCancel'),
+      deferred: deferred
+    });
+  }
+});
+
+var RebaseEntry = Backbone.Model.extend({
+  defaults: {
+    pick: true
+  },
+
+  toggle: function() {
+    this.set('pick', !this.get('pick'));
+  }
+});
+
+var RebaseEntryCollection = Backbone.Collection.extend({
+  model: RebaseEntry
+});
+
+var RebaseEntryView = Backbone.View.extend({
+  tagName: 'li',
+  template: _.template($('#interactive-rebase-entry-template').html()),
+
+  toggle: function() {
+    this.model.toggle();
+
+    // toggle a class also
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+  },
+
+  initialize: function(options) {
+    this.render();
+  },
+
+  render: function() {
+    var json = this.model.toJSON();
+    this.$el.append(this.template(this.model.toJSON()));
+
+    // hacky :( who would have known jquery barfs on ids with %'s and quotes
+    this.listEntry = this.$el.children(':last');
+
+    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
+      this.toggle();
+    }, this));
+  }
+});
+
+exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 
@@ -5179,70 +9305,6 @@ exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
 
-
-});
-
-require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
-
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-var filterError = function(err) {
-  if (err instanceof CommandProcessError ||
-      err instanceof GitError ||
-      err instanceof CommandResult ||
-      err instanceof Warning) {
-    // yay! one of ours
-    return;
-  } else {
-    throw err;
-  }
-};
-
-exports.filterError = filterError;
 
 });
 
@@ -7409,4010 +11471,6 @@ EventEmitter.prototype.listeners = function(type) {
 
 });
 
-require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var Commit = require('../git').Commit;
-var Branch = require('../git').Branch;
-
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
-var TIME = require('../util/constants').TIME;
-
-var CommitCollection = Backbone.Collection.extend({
-  model: Commit
-});
-
-var CommandCollection = Backbone.Collection.extend({
-  model: Command
-});
-
-var BranchCollection = Backbone.Collection.extend({
-  model: Branch
-});
-
-var CommandEntryCollection = Backbone.Collection.extend({
-  model: CommandEntry,
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
-});
-
-var CommandBuffer = Backbone.Model.extend({
-  defaults: {
-    collection: null
-  },
-
-  initialize: function(options) {
-    options.collection.bind('add', this.addCommand, this);
-
-    this.buffer = [];
-    this.timeout = null;
-  },
-
-  addCommand: function(command) {
-    this.buffer.push(command);
-    this.touchBuffer();
-  },
-
-  touchBuffer: function() {
-    // touch buffer just essentially means we just check if our buffer is being
-    // processed. if it's not, we immediately process the first item
-    // and then set the timeout.
-    if (this.timeout) {
-      // timeout existence implies its being processed
-      return;
-    }
-    this.setTimeout();
-  },
-
-
-  setTimeout: function() {
-    this.timeout = setTimeout(_.bind(function() {
-        this.sipFromBuffer();
-    }, this), TIME.betweenCommandsDelay);
-  },
-
-  popAndProcess: function() {
-    var popped = this.buffer.shift(0);
-
-    // find a command with no error (aka unprocessed)
-    while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.pop();
-    }
-    if (!popped.get('error')) {
-      this.processCommand(popped);
-    } else {
-      // no more commands to process
-      this.clear();
-    }
-  },
-
-  processCommand: function(command) {
-    command.set('status', 'processing');
-
-    var deferred = Q.defer();
-    deferred.promise.then(_.bind(function() {
-      this.setTimeout();
-    }, this));
-
-    var eventName = command.get('eventName');
-    if (!eventName) {
-      throw new Error('I need an event to trigger when this guy is parsed and ready');
-    }
-
-    var Main = require('../app');
-    Main.getEventBaton().trigger(eventName, command, deferred);
-  },
-
-  clear: function() {
-    clearTimeout(this.timeout);
-    this.timeout = null;
-  },
-
-  sipFromBuffer: function() {
-    if (!this.buffer.length) {
-      this.clear();
-      return;
-    }
-
-    this.popAndProcess();
-  }
-});
-
-exports.CommitCollection = CommitCollection;
-exports.CommandCollection = CommandCollection;
-exports.BranchCollection = BranchCollection;
-exports.CommandEntryCollection = CommandEntryCollection;
-exports.CommandBuffer = CommandBuffer;
-
-
-});
-
-require.define("/node_modules/q/package.json",function(require,module,exports,__dirname,__filename,process,global){module.exports = {"main":"q.js"}
-});
-
-require.define("/node_modules/q/q.js",function(require,module,exports,__dirname,__filename,process,global){// vim:ts=4:sts=4:sw=4:
-/*!
- *
- * Copyright 2009-2012 Kris Kowal under the terms of the MIT
- * license found at http://github.com/kriskowal/q/raw/master/LICENSE
- *
- * With parts by Tyler Close
- * Copyright 2007-2009 Tyler Close under the terms of the MIT X license found
- * at http://www.opensource.org/licenses/mit-license.html
- * Forked at ref_send.js version: 2009-05-11
- *
- * With parts by Mark Miller
- * Copyright (C) 2011 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
-(function (definition) {
-    // Turn off strict mode for this function so we can assign to global.Q
-    /*jshint strict: false*/
-
-    // This file will function properly as a <script> tag, or a module
-    // using CommonJS and NodeJS or RequireJS module formats.  In
-    // Common/Node/RequireJS, the module exports the Q API and when
-    // executed as a simple <script>, it creates a Q global instead.
-
-    // Montage Require
-    if (typeof bootstrap === "function") {
-        bootstrap("promise", definition);
-
-    // CommonJS
-    } else if (typeof exports === "object") {
-        definition(void 0, exports);
-
-    // RequireJS
-    } else if (typeof define === "function") {
-        define(definition);
-
-    // SES (Secure EcmaScript)
-    } else if (typeof ses !== "undefined") {
-        if (!ses.ok()) {
-            return;
-        } else {
-            ses.makeQ = function () {
-                var Q = {};
-                return definition(void 0, Q);
-            };
-        }
-
-    // <script>
-    } else {
-        definition(void 0, Q = {});
-    }
-
-})(function (require, exports) {
-"use strict";
-
-// All code after this point will be filtered from stack traces reported
-// by Q.
-var qStartingLine = captureLine();
-var qFileName;
-
-// shims
-
-// used for fallback "defend" and in "allResolved"
-var noop = function () {};
-
-// for the security conscious, defend may be a deep freeze as provided
-// by cajaVM.  Otherwise we try to provide a shallow freeze just to
-// discourage promise changes that are not compatible with secure
-// usage.  If Object.freeze does not exist, fall back to doing nothing
-// (no op).
-var defend = Object.freeze || noop;
-if (typeof cajaVM !== "undefined") {
-    defend = cajaVM.def;
-}
-
-// use the fastest possible means to execute a task in a future turn
-// of the event loop.
-var nextTick;
-if (typeof process !== "undefined") {
-    // node
-    nextTick = process.nextTick;
-} else if (typeof setImmediate === "function") {
-    // In IE10, or use https://github.com/NobleJS/setImmediate
-    nextTick = setImmediate;
-} else if (typeof MessageChannel !== "undefined") {
-    // modern browsers
-    // http://www.nonblocking.io/2011/06/windownexttick.html
-    var channel = new MessageChannel();
-    // linked list of tasks (single, with head node)
-    var head = {}, tail = head;
-    channel.port1.onmessage = function () {
-        head = head.next;
-        var task = head.task;
-        delete head.task;
-        task();
-    };
-    nextTick = function (task) {
-        tail = tail.next = {task: task};
-        channel.port2.postMessage(0);
-    };
-} else {
-    // old browsers
-    nextTick = function (task) {
-        setTimeout(task, 0);
-    };
-}
-
-// Attempt to make generics safe in the face of downstream
-// modifications.
-// There is no situation where this is necessary.
-// If you need a security guarantee, these primordials need to be
-// deeply frozen anyway, and if you don’t need a security guarantee,
-// this is just plain paranoid.
-// However, this does have the nice side-effect of reducing the size
-// of the code by reducing x.call() to merely x(), eliminating many
-// hard-to-minify characters.
-// See Mark Miller’s explanation of what this does.
-// http://wiki.ecmascript.org/doku.php?id=conventions:safe_meta_programming
-var uncurryThis;
-// I have kept both variations because the first is theoretically
-// faster, if bind is available.
-if (Function.prototype.bind) {
-    var Function_bind = Function.prototype.bind;
-    uncurryThis = Function_bind.bind(Function_bind.call);
-} else {
-    uncurryThis = function (f) {
-        return function () {
-            return f.call.apply(f, arguments);
-        };
-    };
-}
-
-var array_slice = uncurryThis(Array.prototype.slice);
-
-var array_reduce = uncurryThis(
-    Array.prototype.reduce || function (callback, basis) {
-        var index = 0,
-            length = this.length;
-        // concerning the initial value, if one is not provided
-        if (arguments.length === 1) {
-            // seek to the first value in the array, accounting
-            // for the possibility that is is a sparse array
-            do {
-                if (index in this) {
-                    basis = this[index++];
-                    break;
-                }
-                if (++index >= length) {
-                    throw new TypeError();
-                }
-            } while (1);
-        }
-        // reduce
-        for (; index < length; index++) {
-            // account for the possibility that the array is sparse
-            if (index in this) {
-                basis = callback(basis, this[index], index);
-            }
-        }
-        return basis;
-    }
-);
-
-var array_indexOf = uncurryThis(
-    Array.prototype.indexOf || function (value) {
-        // not a very good shim, but good enough for our one use of it
-        for (var i = 0; i < this.length; i++) {
-            if (this[i] === value) {
-                return i;
-            }
-        }
-        return -1;
-    }
-);
-
-var array_map = uncurryThis(
-    Array.prototype.map || function (callback, thisp) {
-        var self = this;
-        var collect = [];
-        array_reduce(self, function (undefined, value, index) {
-            collect.push(callback.call(thisp, value, index, self));
-        }, void 0);
-        return collect;
-    }
-);
-
-var object_create = Object.create || function (prototype) {
-    function Type() { }
-    Type.prototype = prototype;
-    return new Type();
-};
-
-var object_keys = Object.keys || function (object) {
-    var keys = [];
-    for (var key in object) {
-        keys.push(key);
-    }
-    return keys;
-};
-
-var object_toString = Object.prototype.toString;
-
-// generator related shims
-
-function isStopIteration(exception) {
-    return (
-        object_toString(exception) === "[object StopIteration]" ||
-        exception instanceof QReturnValue
-    );
-}
-
-var QReturnValue;
-if (typeof ReturnValue !== "undefined") {
-    QReturnValue = ReturnValue;
-} else {
-    QReturnValue = function (value) {
-        this.value = value;
-    };
-}
-
-// long stack traces
-
-var STACK_JUMP_SEPARATOR = "From previous event:";
-
-function makeStackTraceLong(error, promise) {
-    // If possible (that is, if in V8), transform the error stack
-    // trace by removing Node and Q cruft, then concatenating with
-    // the stack trace of the promise we are ``done``ing. See #57.
-    if (promise.stack &&
-        typeof error === "object" &&
-        error !== null &&
-        error.stack &&
-        error.stack.indexOf(STACK_JUMP_SEPARATOR) === -1
-    ) {
-        error.stack = filterStackString(error.stack) +
-            "\n" + STACK_JUMP_SEPARATOR + "\n" +
-            filterStackString(promise.stack);
-    }
-}
-
-function filterStackString(stackString) {
-    var lines = stackString.split("\n");
-    var desiredLines = [];
-    for (var i = 0; i < lines.length; ++i) {
-        var line = lines[i];
-
-        if (!isInternalFrame(line) && !isNodeFrame(line)) {
-            desiredLines.push(line);
-        }
-    }
-    return desiredLines.join("\n");
-}
-
-function isNodeFrame(stackLine) {
-    return stackLine.indexOf("(module.js:") !== -1 ||
-           stackLine.indexOf("(node.js:") !== -1;
-}
-
-function isInternalFrame(stackLine) {
-    var pieces = /at .+ \((.*):(\d+):\d+\)/.exec(stackLine);
-
-    if (!pieces) {
-        return false;
-    }
-
-    var fileName = pieces[1];
-    var lineNumber = pieces[2];
-
-    return fileName === qFileName &&
-        lineNumber >= qStartingLine &&
-        lineNumber <= qEndingLine;
-}
-
-// discover own file name and line number range for filtering stack
-// traces
-function captureLine() {
-    if (Error.captureStackTrace) {
-        var fileName, lineNumber;
-
-        var oldPrepareStackTrace = Error.prepareStackTrace;
-
-        Error.prepareStackTrace = function (error, frames) {
-            fileName = frames[1].getFileName();
-            lineNumber = frames[1].getLineNumber();
-        };
-
-        // teases call of temporary prepareStackTrace
-        // JSHint and Closure Compiler generate known warnings here
-        /*jshint expr: true */
-        new Error().stack;
-
-        Error.prepareStackTrace = oldPrepareStackTrace;
-        qFileName = fileName;
-        return lineNumber;
-    }
-}
-
-function deprecate(callback, name, alternative) {
-    return function () {
-        if (typeof console !== "undefined" && typeof console.warn === "function") {
-            console.warn(name + " is deprecated, use " + alternative + " instead.", new Error("").stack);
-        }
-        return callback.apply(callback, arguments);
-    };
-}
-
-// end of shims
-// beginning of real work
-
-/**
- * Performs a task in a future turn of the event loop.
- * @param {Function} task
- */
-exports.nextTick = nextTick;
-
-/**
- * Constructs a {promise, resolve} object.
- *
- * The resolver is a callback to invoke with a more resolved value for the
- * promise. To fulfill the promise, invoke the resolver with any value that is
- * not a function. To reject the promise, invoke the resolver with a rejection
- * object. To put the promise in the same state as another promise, invoke the
- * resolver with that other promise.
- */
-exports.defer = defer;
-function defer() {
-    // if "pending" is an "Array", that indicates that the promise has not yet
-    // been resolved.  If it is "undefined", it has been resolved.  Each
-    // element of the pending array is itself an array of complete arguments to
-    // forward to the resolved promise.  We coerce the resolution value to a
-    // promise using the ref promise because it handles both fully
-    // resolved values and other promises gracefully.
-    var pending = [], progressListeners = [], value;
-
-    var deferred = object_create(defer.prototype);
-    var promise = object_create(makePromise.prototype);
-
-    promise.promiseSend = function (op, _, __, progress) {
-        var args = array_slice(arguments);
-        if (pending) {
-            pending.push(args);
-            if (op === "when" && progress) {
-                progressListeners.push(progress);
-            }
-        } else {
-            nextTick(function () {
-                value.promiseSend.apply(value, args);
-            });
-        }
-    };
-
-    promise.valueOf = function () {
-        if (pending) {
-            return promise;
-        }
-        return value.valueOf();
-    };
-
-    if (Error.captureStackTrace) {
-        Error.captureStackTrace(promise, defer);
-
-        // Reify the stack into a string by using the accessor; this prevents
-        // memory leaks as per GH-111. At the same time, cut off the first line;
-        // it's always just "[object Promise]\n", as per the `toString`.
-        promise.stack = promise.stack.substring(promise.stack.indexOf("\n") + 1);
-    }
-
-    function become(resolvedValue) {
-        if (!pending) {
-            return;
-        }
-        value = resolve(resolvedValue);
-        array_reduce(pending, function (undefined, pending) {
-            nextTick(function () {
-                value.promiseSend.apply(value, pending);
-            });
-        }, void 0);
-        pending = void 0;
-        progressListeners = void 0;
-    }
-
-    defend(promise);
-
-    deferred.promise = promise;
-    deferred.resolve = become;
-    deferred.reject = function (exception) {
-        become(reject(exception));
-    };
-    deferred.notify = function (progress) {
-        if (pending) {
-            array_reduce(progressListeners, function (undefined, progressListener) {
-                nextTick(function () {
-                    progressListener(progress);
-                });
-            }, void 0);
-        }
-    };
-
-    return deferred;
-}
-
-/**
- * Creates a Node-style callback that will resolve or reject the deferred
- * promise.
- * @returns a nodeback
- */
-defer.prototype.makeNodeResolver = function () {
-    var self = this;
-    return function (error, value) {
-        if (error) {
-            self.reject(error);
-        } else if (arguments.length > 2) {
-            self.resolve(array_slice(arguments, 1));
-        } else {
-            self.resolve(value);
-        }
-    };
-};
-// XXX deprecated
-defer.prototype.node = deprecate(defer.prototype.makeNodeResolver, "node", "makeNodeResolver");
-
-/**
- * @param makePromise {Function} a function that returns nothing and accepts
- * the resolve, reject, and notify functions for a deferred.
- * @returns a promise that may be resolved with the given resolve and reject
- * functions, or rejected by a thrown exception in makePromise
- */
-exports.promise = promise;
-function promise(makePromise) {
-    var deferred = defer();
-    fcall(
-        makePromise,
-        deferred.resolve,
-        deferred.reject,
-        deferred.notify
-    ).fail(deferred.reject);
-    return deferred.promise;
-}
-
-/**
- * Constructs a Promise with a promise descriptor object and optional fallback
- * function.  The descriptor contains methods like when(rejected), get(name),
- * put(name, value), post(name, args), and delete(name), which all
- * return either a value, a promise for a value, or a rejection.  The fallback
- * accepts the operation name, a resolver, and any further arguments that would
- * have been forwarded to the appropriate method above had a method been
- * provided with the proper name.  The API makes no guarantees about the nature
- * of the returned object, apart from that it is usable whereever promises are
- * bought and sold.
- */
-exports.makePromise = makePromise;
-function makePromise(descriptor, fallback, valueOf, exception) {
-    if (fallback === void 0) {
-        fallback = function (op) {
-            return reject(new Error("Promise does not support operation: " + op));
-        };
-    }
-
-    var promise = object_create(makePromise.prototype);
-
-    promise.promiseSend = function (op, resolved /* ...args */) {
-        var args = array_slice(arguments, 2);
-        var result;
-        try {
-            if (descriptor[op]) {
-                result = descriptor[op].apply(promise, args);
-            } else {
-                result = fallback.apply(promise, [op].concat(args));
-            }
-        } catch (exception) {
-            result = reject(exception);
-        }
-        if (resolved) {
-            resolved(result);
-        }
-    };
-
-    if (valueOf) {
-        promise.valueOf = valueOf;
-    }
-
-    if (exception) {
-        promise.exception = exception;
-    }
-
-    defend(promise);
-
-    return promise;
-}
-
-// provide thenables, CommonJS/Promises/A
-makePromise.prototype.then = function (fulfilled, rejected, progressed) {
-    return when(this, fulfilled, rejected, progressed);
-};
-
-makePromise.prototype.thenResolve = function (value) {
-    return when(this, function () { return value; });
-};
-
-// Chainable methods
-array_reduce(
-    [
-        "isResolved", "isFulfilled", "isRejected",
-        "when", "spread", "send",
-        "get", "put", "del",
-        "post", "invoke",
-        "keys",
-        "apply", "call", "bind",
-        "fapply", "fcall", "fbind",
-        "all", "allResolved",
-        "view", "viewInfo",
-        "timeout", "delay",
-        "catch", "finally", "fail", "fin", "progress", "end", "done",
-        "nfcall", "nfapply", "nfbind",
-        "ncall", "napply", "nbind",
-        "npost", "ninvoke",
-        "nend", "nodeify"
-    ],
-    function (undefined, name) {
-        makePromise.prototype[name] = function () {
-            return exports[name].apply(
-                exports,
-                [this].concat(array_slice(arguments))
-            );
-        };
-    },
-    void 0
-);
-
-makePromise.prototype.toSource = function () {
-    return this.toString();
-};
-
-makePromise.prototype.toString = function () {
-    return "[object Promise]";
-};
-
-defend(makePromise.prototype);
-
-/**
- * If an object is not a promise, it is as "near" as possible.
- * If a promise is rejected, it is as "near" as possible too.
- * If it’s a fulfilled promise, the fulfillment value is nearer.
- * If it’s a deferred promise and the deferred has been resolved, the
- * resolution is "nearer".
- * @param object
- * @returns most resolved (nearest) form of the object
- */
-exports.nearer = valueOf;
-function valueOf(value) {
-    if (isPromise(value)) {
-        return value.valueOf();
-    }
-    return value;
-}
-
-/**
- * @returns whether the given object is a promise.
- * Otherwise it is a fulfilled value.
- */
-exports.isPromise = isPromise;
-function isPromise(object) {
-    return object && typeof object.promiseSend === "function";
-}
-
-/**
- * @returns whether the given object is a resolved promise.
- */
-exports.isResolved = isResolved;
-function isResolved(object) {
-    return isFulfilled(object) || isRejected(object);
-}
-
-/**
- * @returns whether the given object is a value or fulfilled
- * promise.
- */
-exports.isFulfilled = isFulfilled;
-function isFulfilled(object) {
-    return !isPromise(valueOf(object));
-}
-
-/**
- * @returns whether the given object is a rejected promise.
- */
-exports.isRejected = isRejected;
-function isRejected(object) {
-    object = valueOf(object);
-    return isPromise(object) && 'exception' in object;
-}
-
-var rejections = [];
-var errors = [];
-var errorsDisplayed;
-function displayErrors() {
-    if (
-        !errorsDisplayed &&
-        typeof window !== "undefined" &&
-        !window.Touch &&
-        window.console
-    ) {
-        // This promise library consumes exceptions thrown in handlers so
-        // they can be handled by a subsequent promise.  The rejected
-        // promises get added to this array when they are created, and
-        // removed when they are handled.
-        console.log("Should be empty:", errors);
-    }
-    errorsDisplayed = true;
-}
-
-/**
- * Constructs a rejected promise.
- * @param exception value describing the failure
- */
-exports.reject = reject;
-function reject(exception) {
-    exception = exception || new Error();
-    var rejection = makePromise({
-        "when": function (rejected) {
-            // note that the error has been handled
-            if (rejected) {
-                var at = array_indexOf(rejections, this);
-                if (at !== -1) {
-                    errors.splice(at, 1);
-                    rejections.splice(at, 1);
-                }
-            }
-            return rejected ? rejected(exception) : reject(exception);
-        }
-    }, function fallback() {
-        return reject(exception);
-    }, function valueOf() {
-        return this;
-    }, exception);
-    // note that the error has not been handled
-    displayErrors();
-    rejections.push(rejection);
-    errors.push(exception);
-    return rejection;
-}
-
-/**
- * Constructs a promise for an immediate reference.
- * @param value immediate reference
- */
-exports.begin = resolve; // XXX experimental
-exports.resolve = resolve;
-exports.ref = deprecate(resolve, "ref", "resolve"); // XXX deprecated, use resolve
-function resolve(object) {
-    // If the object is already a Promise, return it directly.  This enables
-    // the resolve function to both be used to created references from objects,
-    // but to tolerably coerce non-promises to promises.
-    if (isPromise(object)) {
-        return object;
-    }
-    // In order to break infinite recursion or loops between `then` and
-    // `resolve`, it is necessary to attempt to extract fulfilled values
-    // out of foreign promise implementations before attempting to wrap
-    // them as unresolved promises.  It is my hope that other
-    // implementations will implement `valueOf` to synchronously extract
-    // the fulfillment value from their fulfilled promises.  If the
-    // other promise library does not implement `valueOf`, the
-    // implementations on primordial prototypes are harmless.
-    object = valueOf(object);
-    // assimilate thenables, CommonJS/Promises/A
-    if (object && typeof object.then === "function") {
-        var deferred = defer();
-        object.then(deferred.resolve, deferred.reject, deferred.notify);
-        return deferred.promise;
-    }
-    return makePromise({
-        "when": function () {
-            return object;
-        },
-        "get": function (name) {
-            return object[name];
-        },
-        "put": function (name, value) {
-            object[name] = value;
-            return object;
-        },
-        "del": function (name) {
-            delete object[name];
-            return object;
-        },
-        "post": function (name, value) {
-            return object[name].apply(object, value);
-        },
-        "apply": function (self, args) {
-            return object.apply(self, args);
-        },
-        "fapply": function (args) {
-            return object.apply(void 0, args);
-        },
-        "viewInfo": function () {
-            var on = object;
-            var properties = {};
-
-            function fixFalsyProperty(name) {
-                if (!properties[name]) {
-                    properties[name] = typeof on[name];
-                }
-            }
-
-            while (on) {
-                Object.getOwnPropertyNames(on).forEach(fixFalsyProperty);
-                on = Object.getPrototypeOf(on);
-            }
-            return {
-                "type": typeof object,
-                "properties": properties
-            };
-        },
-        "keys": function () {
-            return object_keys(object);
-        }
-    }, void 0, function valueOf() {
-        return object;
-    });
-}
-
-/**
- * Annotates an object such that it will never be
- * transferred away from this process over any promise
- * communication channel.
- * @param object
- * @returns promise a wrapping of that object that
- * additionally responds to the "isDef" message
- * without a rejection.
- */
-exports.master = master;
-function master(object) {
-    return makePromise({
-        "isDef": function () {}
-    }, function fallback() {
-        var args = array_slice(arguments);
-        return send.apply(void 0, [object].concat(args));
-    }, function () {
-        return valueOf(object);
-    });
-}
-
-exports.viewInfo = viewInfo;
-function viewInfo(object, info) {
-    object = resolve(object);
-    if (info) {
-        return makePromise({
-            "viewInfo": function () {
-                return info;
-            }
-        }, function fallback() {
-            var args = array_slice(arguments);
-            return send.apply(void 0, [object].concat(args));
-        }, function () {
-            return valueOf(object);
-        });
-    } else {
-        return send(object, "viewInfo");
-    }
-}
-
-exports.view = view;
-function view(object) {
-    return viewInfo(object).when(function (info) {
-        var view;
-        if (info.type === "function") {
-            view = function () {
-                return apply(object, void 0, arguments);
-            };
-        } else {
-            view = {};
-        }
-        var properties = info.properties || {};
-        object_keys(properties).forEach(function (name) {
-            if (properties[name] === "function") {
-                view[name] = function () {
-                    return post(object, name, arguments);
-                };
-            }
-        });
-        return resolve(view);
-    });
-}
-
-/**
- * Registers an observer on a promise.
- *
- * Guarantees:
- *
- * 1. that fulfilled and rejected will be called only once.
- * 2. that either the fulfilled callback or the rejected callback will be
- *    called, but not both.
- * 3. that fulfilled and rejected will not be called in this turn.
- *
- * @param value      promise or immediate reference to observe
- * @param fulfilled  function to be called with the fulfilled value
- * @param rejected   function to be called with the rejection exception
- * @param progressed function to be called on any progress notifications
- * @return promise for the return value from the invoked callback
- */
-exports.when = when;
-function when(value, fulfilled, rejected, progressed) {
-    var deferred = defer();
-    var done = false;   // ensure the untrusted promise makes at most a
-                        // single call to one of the callbacks
-
-    function _fulfilled(value) {
-        try {
-            return fulfilled ? fulfilled(value) : value;
-        } catch (exception) {
-            return reject(exception);
-        }
-    }
-
-    function _rejected(exception) {
-        if (rejected) {
-            makeStackTraceLong(exception, resolvedValue);
-            try {
-                return rejected(exception);
-            } catch (newException) {
-                return reject(newException);
-            }
-        }
-        return reject(exception);
-    }
-
-    function _progressed(value) {
-        return progressed ? progressed(value) : value;
-    }
-
-    var resolvedValue = resolve(value);
-    nextTick(function () {
-        resolvedValue.promiseSend("when", function (value) {
-            if (done) {
-                return;
-            }
-            done = true;
-
-            deferred.resolve(_fulfilled(value));
-        }, function (exception) {
-            if (done) {
-                return;
-            }
-            done = true;
-
-            deferred.resolve(_rejected(exception));
-        });
-    });
-
-    // Progress propagator need to be attached in the current tick.
-    resolvedValue.promiseSend("when", void 0, void 0, function (value) {
-        deferred.notify(_progressed(value));
-    });
-
-    return deferred.promise;
-}
-
-/**
- * Spreads the values of a promised array of arguments into the
- * fulfillment callback.
- * @param fulfilled callback that receives variadic arguments from the
- * promised array
- * @param rejected callback that receives the exception if the promise
- * is rejected.
- * @returns a promise for the return value or thrown exception of
- * either callback.
- */
-exports.spread = spread;
-function spread(promise, fulfilled, rejected) {
-    return when(promise, function (valuesOrPromises) {
-        return all(valuesOrPromises).then(function (values) {
-            return fulfilled.apply(void 0, values);
-        }, rejected);
-    }, rejected);
-}
-
-/**
- * The async function is a decorator for generator functions, turning
- * them into asynchronous generators.  This presently only works in
- * Firefox/Spidermonkey, however, this code does not cause syntax
- * errors in older engines.  This code should continue to work and
- * will in fact improve over time as the language improves.
- *
- * Decorates a generator function such that:
- *  - it may yield promises
- *  - execution will continue when that promise is fulfilled
- *  - the value of the yield expression will be the fulfilled value
- *  - it returns a promise for the return value (when the generator
- *    stops iterating)
- *  - the decorated function returns a promise for the return value
- *    of the generator or the first rejected promise among those
- *    yielded.
- *  - if an error is thrown in the generator, it propagates through
- *    every following yield until it is caught, or until it escapes
- *    the generator function altogether, and is translated into a
- *    rejection for the promise returned by the decorated generator.
- *  - in present implementations of generators, when a generator
- *    function is complete, it throws ``StopIteration``, ``return`` is
- *    a syntax error in the presence of ``yield``, so there is no
- *    observable return value. There is a proposal[1] to add support
- *    for ``return``, which would permit the value to be carried by a
- *    ``StopIteration`` instance, in which case it would fulfill the
- *    promise returned by the asynchronous generator.  This can be
- *    emulated today by throwing StopIteration explicitly with a value
- *    property.
- *
- *  [1]: http://wiki.ecmascript.org/doku.php?id=strawman:async_functions#reference_implementation
- *
- */
-exports.async = async;
-function async(makeGenerator) {
-    return function () {
-        // when verb is "send", arg is a value
-        // when verb is "throw", arg is an exception
-        function continuer(verb, arg) {
-            var result;
-            try {
-                result = generator[verb](arg);
-            } catch (exception) {
-                if (isStopIteration(exception)) {
-                    return exception.value;
-                } else {
-                    return reject(exception);
-                }
-            }
-            return when(result, callback, errback);
-        }
-        var generator = makeGenerator.apply(this, arguments);
-        var callback = continuer.bind(continuer, "send");
-        var errback = continuer.bind(continuer, "throw");
-        return callback();
-    };
-}
-
-/**
- * Throws a ReturnValue exception to stop an asynchronous generator.
- * Only useful presently in Firefox/SpiderMonkey since generators are
- * implemented.
- * @param value the return value for the surrounding generator
- * @throws ReturnValue exception with the value.
- * @example
- * Q.async(function () {
- *      var foo = yield getFooPromise();
- *      var bar = yield getBarPromise();
- *      Q.return(foo + bar);
- * })
- */
-exports['return'] = _return;
-function _return(value) {
-    throw new QReturnValue(value);
-}
-
-/**
- * The promised function decorator ensures that any promise arguments
- * are resolved and passed as values (`this` is also resolved and passed
- * as a value).  It will also ensure that the result of a function is
- * always a promise.
- *
- * @example
- * var add = Q.promised(function (a, b) {
- *     return a + b;
- * });
- * add(Q.resolve(a), Q.resolve(B));
- *
- * @param {function} callback The function to decorate
- * @returns {function} a function that has been decorated.
- */
-exports.promised = promised;
-function promised(callback) {
-    return function () {
-        return all([this, all(arguments)]).spread(function (self, args) {
-          return callback.apply(self, args);
-        });
-    };
-}
-
-/**
- * Constructs a promise method that can be used to safely observe resolution of
- * a promise for an arbitrarily named method like "propfind" in a future turn.
- */
-exports.sender = deprecate(sender, "sender", "dispatcher"); // XXX deprecated, use dispatcher
-exports.Method = deprecate(sender, "Method", "dispatcher"); // XXX deprecated, use dispatcher
-function sender(op) {
-    return function (object) {
-        var args = array_slice(arguments, 1);
-        return send.apply(void 0, [object, op].concat(args));
-    };
-}
-
-/**
- * sends a message to a value in a future turn
- * @param object* the recipient
- * @param op the name of the message operation, e.g., "when",
- * @param ...args further arguments to be forwarded to the operation
- * @returns result {Promise} a promise for the result of the operation
- */
-exports.send = deprecate(send, "send", "dispatch"); // XXX deprecated, use dispatch
-function send(object, op) {
-    var deferred = defer();
-    var args = array_slice(arguments, 2);
-    object = resolve(object);
-    nextTick(function () {
-        object.promiseSend.apply(
-            object,
-            [op, deferred.resolve].concat(args)
-        );
-    });
-    return deferred.promise;
-}
-
-/**
- * sends a message to a value in a future turn
- * @param object* the recipient
- * @param op the name of the message operation, e.g., "when",
- * @param args further arguments to be forwarded to the operation
- * @returns result {Promise} a promise for the result of the operation
- */
-exports.dispatch = dispatch;
-function dispatch(object, op, args) {
-    var deferred = defer();
-    object = resolve(object);
-    nextTick(function () {
-        object.promiseSend.apply(
-            object,
-            [op, deferred.resolve].concat(args)
-        );
-    });
-    return deferred.promise;
-}
-
-/**
- * Constructs a promise method that can be used to safely observe resolution of
- * a promise for an arbitrarily named method like "propfind" in a future turn.
- *
- * "dispatcher" constructs methods like "get(promise, name)" and "put(promise)".
- */
-exports.dispatcher = dispatcher;
-function dispatcher(op) {
-    return function (object) {
-        var args = array_slice(arguments, 1);
-        return dispatch(object, op, args);
-    };
-}
-
-/**
- * Gets the value of a property in a future turn.
- * @param object    promise or immediate reference for target object
- * @param name      name of property to get
- * @return promise for the property value
- */
-exports.get = dispatcher("get");
-
-/**
- * Sets the value of a property in a future turn.
- * @param object    promise or immediate reference for object object
- * @param name      name of property to set
- * @param value     new value of property
- * @return promise for the return value
- */
-exports.put = dispatcher("put");
-
-/**
- * Deletes a property in a future turn.
- * @param object    promise or immediate reference for target object
- * @param name      name of property to delete
- * @return promise for the return value
- */
-exports["delete"] = // XXX experimental
-exports.del = dispatcher("del");
-
-/**
- * Invokes a method in a future turn.
- * @param object    promise or immediate reference for target object
- * @param name      name of method to invoke
- * @param value     a value to post, typically an array of
- *                  invocation arguments for promises that
- *                  are ultimately backed with `resolve` values,
- *                  as opposed to those backed with URLs
- *                  wherein the posted value can be any
- *                  JSON serializable object.
- * @return promise for the return value
- */
-// bound locally because it is used by other methods
-var post = exports.post = dispatcher("post");
-
-/**
- * Invokes a method in a future turn.
- * @param object    promise or immediate reference for target object
- * @param name      name of method to invoke
- * @param ...args   array of invocation arguments
- * @return promise for the return value
- */
-exports.invoke = function (value, name) {
-    var args = array_slice(arguments, 2);
-    return post(value, name, args);
-};
-
-/**
- * Applies the promised function in a future turn.
- * @param object    promise or immediate reference for target function
- * @param thisp     the `this` object for the call
- * @param args      array of application arguments
- */
-// XXX deprecated, use fapply
-var apply = exports.apply = deprecate(dispatcher("apply"), "apply", "fapply");
-
-/**
- * Applies the promised function in a future turn.
- * @param object    promise or immediate reference for target function
- * @param args      array of application arguments
- */
-var fapply = exports.fapply = dispatcher("fapply");
-
-/**
- * Calls the promised function in a future turn.
- * @param object    promise or immediate reference for target function
- * @param thisp     the `this` object for the call
- * @param ...args   array of application arguments
- */
-// XXX deprecated, use fcall
-exports.call = deprecate(call, "call", "fcall");
-function call(value, thisp) {
-    var args = array_slice(arguments, 2);
-    return apply(value, thisp, args);
-}
-
-/**
- * Calls the promised function in a future turn.
- * @param object    promise or immediate reference for target function
- * @param ...args   array of application arguments
- */
-exports["try"] = fcall; // XXX experimental
-exports.fcall = fcall;
-function fcall(value) {
-    var args = array_slice(arguments, 1);
-    return fapply(value, args);
-}
-
-/**
- * Binds the promised function, transforming return values into a fulfilled
- * promise and thrown errors into a rejected one.
- * @param object    promise or immediate reference for target function
- * @param thisp   the `this` object for the call
- * @param ...args   array of application arguments
- */
-exports.bind = deprecate(bind, "bind", "fbind"); // XXX deprecated, use fbind
-function bind(value, thisp) {
-    var args = array_slice(arguments, 2);
-    return function bound() {
-        var allArgs = args.concat(array_slice(arguments));
-        return apply(value, thisp, allArgs);
-    };
-}
-
-/**
- * Binds the promised function, transforming return values into a fulfilled
- * promise and thrown errors into a rejected one.
- * @param object    promise or immediate reference for target function
- * @param ...args   array of application arguments
- */
-exports.fbind = fbind;
-function fbind(value) {
-    var args = array_slice(arguments, 1);
-    return function fbound() {
-        var allArgs = args.concat(array_slice(arguments));
-        return fapply(value, allArgs);
-    };
-}
-
-/**
- * Requests the names of the owned properties of a promised
- * object in a future turn.
- * @param object    promise or immediate reference for target object
- * @return promise for the keys of the eventually resolved object
- */
-exports.keys = dispatcher("keys");
-
-/**
- * Turns an array of promises into a promise for an array.  If any of
- * the promises gets rejected, the whole array is rejected immediately.
- * @param {Array*} an array (or promise for an array) of values (or
- * promises for values)
- * @returns a promise for an array of the corresponding values
- */
-// By Mark Miller
-// http://wiki.ecmascript.org/doku.php?id=strawman:concurrency&rev=1308776521#allfulfilled
-exports.all = all;
-function all(promises) {
-    return when(promises, function (promises) {
-        var countDown = promises.length;
-        if (countDown === 0) {
-            return resolve(promises);
-        }
-        var deferred = defer();
-        array_reduce(promises, function (undefined, promise, index) {
-            if (isFulfilled(promise)) {
-                promises[index] = valueOf(promise);
-                if (--countDown === 0) {
-                    deferred.resolve(promises);
-                }
-            } else {
-                when(promise, function (value) {
-                    promises[index] = value;
-                    if (--countDown === 0) {
-                        deferred.resolve(promises);
-                    }
-                })
-                .fail(deferred.reject);
-            }
-        }, void 0);
-        return deferred.promise;
-    });
-}
-
-/**
- * Waits for all promises to be resolved, either fulfilled or
- * rejected.  This is distinct from `all` since that would stop
- * waiting at the first rejection.  The promise returned by
- * `allResolved` will never be rejected.
- * @param promises a promise for an array (or an array) of promises
- * (or values)
- * @return a promise for an array of promises
- */
-exports.allResolved = allResolved;
-function allResolved(promises) {
-    return when(promises, function (promises) {
-        return when(all(array_map(promises, function (promise) {
-            return when(promise, noop, noop);
-        })), function () {
-            return array_map(promises, resolve);
-        });
-    });
-}
-
-/**
- * Captures the failure of a promise, giving an oportunity to recover
- * with a callback.  If the given promise is fulfilled, the returned
- * promise is fulfilled.
- * @param {Any*} promise for something
- * @param {Function} callback to fulfill the returned promise if the
- * given promise is rejected
- * @returns a promise for the return value of the callback
- */
-exports["catch"] = // XXX experimental
-exports.fail = fail;
-function fail(promise, rejected) {
-    return when(promise, void 0, rejected);
-}
-
-/**
- * Attaches a listener that can respond to progress notifications from a
- * promise's originating deferred. This listener receives the exact arguments
- * passed to ``deferred.notify``.
- * @param {Any*} promise for something
- * @param {Function} callback to receive any progress notifications
- * @returns the given promise, unchanged
- */
-exports.progress = progress;
-function progress(promise, progressed) {
-    return when(promise, void 0, void 0, progressed);
-}
-
-/**
- * Provides an opportunity to observe the rejection of a promise,
- * regardless of whether the promise is fulfilled or rejected.  Forwards
- * the resolution to the returned promise when the callback is done.
- * The callback can return a promise to defer completion.
- * @param {Any*} promise
- * @param {Function} callback to observe the resolution of the given
- * promise, takes no arguments.
- * @returns a promise for the resolution of the given promise when
- * ``fin`` is done.
- */
-exports["finally"] = // XXX experimental
-exports.fin = fin;
-function fin(promise, callback) {
-    return when(promise, function (value) {
-        return when(callback(), function () {
-            return value;
-        });
-    }, function (exception) {
-        return when(callback(), function () {
-            return reject(exception);
-        });
-    });
-}
-
-/**
- * Terminates a chain of promises, forcing rejections to be
- * thrown as exceptions.
- * @param {Any*} promise at the end of a chain of promises
- * @returns nothing
- */
-exports.end = deprecate(done, "end", "done"); // XXX deprecated, use done
-exports.done = done;
-function done(promise, fulfilled, rejected, progress) {
-    function onUnhandledError(error) {
-        // forward to a future turn so that ``when``
-        // does not catch it and turn it into a rejection.
-        nextTick(function () {
-            makeStackTraceLong(error, promise);
-
-            if (exports.onerror) {
-                exports.onerror(error);
-            } else {
-                throw error;
-            }
-        });
-    }
-
-    // Avoid unnecessary `nextTick`ing via an unnecessary `when`.
-    var promiseToHandle = fulfilled || rejected || progress ?
-        when(promise, fulfilled, rejected, progress) :
-        promise;
-
-    fail(promiseToHandle, onUnhandledError);
-}
-
-/**
- * Causes a promise to be rejected if it does not get fulfilled before
- * some milliseconds time out.
- * @param {Any*} promise
- * @param {Number} milliseconds timeout
- * @returns a promise for the resolution of the given promise if it is
- * fulfilled before the timeout, otherwise rejected.
- */
-exports.timeout = timeout;
-function timeout(promise, ms) {
-    var deferred = defer();
-    var timeoutId = setTimeout(function () {
-        deferred.reject(new Error("Timed out after " + ms + " ms"));
-    }, ms);
-
-    when(promise, function (value) {
-        clearTimeout(timeoutId);
-        deferred.resolve(value);
-    }, function (exception) {
-        clearTimeout(timeoutId);
-        deferred.reject(exception);
-    });
-
-    return deferred.promise;
-}
-
-/**
- * Returns a promise for the given value (or promised value) after some
- * milliseconds.
- * @param {Any*} promise
- * @param {Number} milliseconds
- * @returns a promise for the resolution of the given promise after some
- * time has elapsed.
- */
-exports.delay = delay;
-function delay(promise, timeout) {
-    if (timeout === void 0) {
-        timeout = promise;
-        promise = void 0;
-    }
-    var deferred = defer();
-    setTimeout(function () {
-        deferred.resolve(promise);
-    }, timeout);
-    return deferred.promise;
-}
-
-/**
- * Passes a continuation to a Node function, which is called with the given
- * arguments provided as an array, and returns a promise.
- *
- *      var readFile = require("fs").readFile;
- *      Q.nfapply(readFile, [__filename])
- *      .then(function (content) {
- *      })
- *
- */
-exports.nfapply = nfapply;
-function nfapply(callback, args) {
-    var nodeArgs = array_slice(args);
-    var deferred = defer();
-    nodeArgs.push(deferred.makeNodeResolver());
-
-    fapply(callback, nodeArgs).fail(deferred.reject);
-    return deferred.promise;
-}
-
-/**
- * Passes a continuation to a Node function, which is called with the given
- * arguments provided individually, and returns a promise.
- *
- *      var readFile = require("fs").readFile;
- *      Q.nfcall(readFile, __filename)
- *      .then(function (content) {
- *      })
- *
- */
-exports.nfcall = nfcall;
-function nfcall(callback/*, ...args */) {
-    var nodeArgs = array_slice(arguments, 1);
-    var deferred = defer();
-    nodeArgs.push(deferred.makeNodeResolver());
-
-    fapply(callback, nodeArgs).fail(deferred.reject);
-    return deferred.promise;
-}
-
-/**
- * Wraps a NodeJS continuation passing function and returns an equivalent
- * version that returns a promise.
- *
- *      Q.nfbind(FS.readFile, __filename)("utf-8")
- *      .then(console.log)
- *      .done()
- *
- */
-exports.nfbind = nfbind;
-function nfbind(callback/*, ...args */) {
-    var baseArgs = array_slice(arguments, 1);
-    return function () {
-        var nodeArgs = baseArgs.concat(array_slice(arguments));
-        var deferred = defer();
-        nodeArgs.push(deferred.makeNodeResolver());
-
-        fapply(callback, nodeArgs).fail(deferred.reject);
-        return deferred.promise;
-    };
-}
-
-/**
- * Passes a continuation to a Node function, which is called with a given
- * `this` value and arguments provided as an array, and returns a promise.
- *
- *      var FS = (require)("fs");
- *      Q.napply(FS.readFile, FS, [__filename])
- *      .then(function (content) {
- *      })
- *
- */
-exports.napply = deprecate(napply, "napply", "npost");
-function napply(callback, thisp, args) {
-    return nbind(callback, thisp).apply(void 0, args);
-}
-
-/**
- * Passes a continuation to a Node function, which is called with a given
- * `this` value and arguments provided individually, and returns a promise.
- *
- *      var FS = (require)("fs");
- *      Q.ncall(FS.readFile, FS, __filename)
- *      .then(function (content) {
- *      })
- *
- */
-exports.ncall = deprecate(ncall, "ncall", "ninvoke");
-function ncall(callback, thisp /*, ...args*/) {
-    var args = array_slice(arguments, 2);
-    return napply(callback, thisp, args);
-}
-
-/**
- * Wraps a NodeJS continuation passing function and returns an equivalent
- * version that returns a promise.
- *
- *      Q.nbind(FS.readFile, FS)(__filename)
- *      .then(console.log)
- *      .done()
- *
- */
-exports.nbind = deprecate(nbind, "nbind", "nfbind");
-function nbind(callback /* thisp, ...args*/) {
-    if (arguments.length > 1) {
-        var thisp = arguments[1];
-        var args = array_slice(arguments, 2);
-
-        var originalCallback = callback;
-        callback = function () {
-            var combinedArgs = args.concat(array_slice(arguments));
-            return originalCallback.apply(thisp, combinedArgs);
-        };
-    }
-    return function () {
-        var deferred = defer();
-        var args = array_slice(arguments);
-        // add a continuation that resolves the promise
-        args.push(deferred.makeNodeResolver());
-        // trap exceptions thrown by the callback
-        fapply(callback, args)
-        .fail(deferred.reject);
-        return deferred.promise;
-    };
-}
-
-/**
- * Calls a method of a Node-style object that accepts a Node-style
- * callback with a given array of arguments, plus a provided callback.
- * @param object an object that has the named method
- * @param {String} name name of the method of object
- * @param {Array} args arguments to pass to the method; the callback
- * will be provided by Q and appended to these arguments.
- * @returns a promise for the value or error
- */
-exports.npost = npost;
-function npost(object, name, args) {
-    var nodeArgs = array_slice(args);
-    var deferred = defer();
-    nodeArgs.push(deferred.makeNodeResolver());
-
-    post(object, name, nodeArgs).fail(deferred.reject);
-    return deferred.promise;
-}
-
-/**
- * Calls a method of a Node-style object that accepts a Node-style
- * callback, forwarding the given variadic arguments, plus a provided
- * callback argument.
- * @param object an object that has the named method
- * @param {String} name name of the method of object
- * @param ...args arguments to pass to the method; the callback will
- * be provided by Q and appended to these arguments.
- * @returns a promise for the value or error
- */
-exports.ninvoke = ninvoke;
-function ninvoke(object, name /*, ...args*/) {
-    var nodeArgs = array_slice(arguments, 2);
-    var deferred = defer();
-    nodeArgs.push(deferred.makeNodeResolver());
-
-    post(object, name, nodeArgs).fail(deferred.reject);
-    return deferred.promise;
-}
-
-exports.nend = deprecate(nodeify, "nend", "nodeify"); // XXX deprecated, use nodeify
-exports.nodeify = nodeify;
-function nodeify(promise, nodeback) {
-    if (nodeback) {
-        promise.then(function (value) {
-            nextTick(function () {
-                nodeback(null, value);
-            });
-        }, function (error) {
-            nextTick(function () {
-                nodeback(error);
-            });
-        });
-    } else {
-        return promise;
-    }
-}
-
-// All code before this point will be filtered from stack traces.
-var qEndingLine = captureLine();
-
-});
-
-});
-
-require.define("/src/js/git/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-var Q = require('q');
-
-var AnimationFactoryModule = require('../visuals/animation/animationFactory');
-var AnimationQueue = require('../visuals/animation').AnimationQueue;
-var TreeCompare = require('./treeCompare').TreeCompare;
-
-var Errors = require('../util/errors');
-var GitError = Errors.GitError;
-var CommandResult = Errors.CommandResult;
-
-function GitEngine(options) {
-  this.rootCommit = null;
-  this.refs = {};
-  this.HEAD = null;
-
-  this.branchCollection = options.branches;
-  this.commitCollection = options.collection;
-  this.gitVisuals = options.gitVisuals;
-
-  this.eventBaton = options.eventBaton;
-  this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
-
-  this.animationFactory = options.animationFactory ||
-    new AnimationFactoryModule.AnimationFactory();
-
-  // global variable to keep track of the options given
-  // along with the command call.
-  this.commandOptions = {};
-  this.generalArgs = [];
-
-
-  // backbone or something uses _.uniqueId, so we make our own here
-  this.uniqueId = (function() {
-    var n = 0;
-    return function(prepend) {
-      return prepend? prepend + n++ : n++;
-    };
-  })();
-}
-
-GitEngine.prototype.defaultInit = function() {
-  var defaultTree = JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
-  this.loadTree(defaultTree);
-};
-
-GitEngine.prototype.init = function() {
-  // make an initial commit and a master branch
-  this.rootCommit = this.makeCommit(null, null, {rootCommit: true});
-  this.commitCollection.add(this.rootCommit);
-
-  var master = this.makeBranch('master', this.rootCommit);
-  this.HEAD = new Ref({
-    id: 'HEAD',
-    target: master
-  });
-  this.refs[this.HEAD.get('id')] = this.HEAD;
-
-  // commit once to get things going
-  this.commit();
-};
-
-GitEngine.prototype.exportTree = function() {
-  // need to export all commits, their connectivity / messages, branches, and state of head.
-  // this would be simple if didn't have circular structures.... :P
-  // thus, we need to loop through and "flatten" our graph of objects referencing one another
-  var totalExport = {
-    branches: {},
-    commits: {},
-    HEAD: null
-  };
-
-  _.each(this.branchCollection.toJSON(), function(branch) {
-    branch.target = branch.target.get('id');
-    branch.visBranch = undefined;
-
-    totalExport.branches[branch.id] = branch;
-  });
-
-  _.each(this.commitCollection.toJSON(), function(commit) {
-    // clear out the fields that reference objects and create circular structure
-    _.each(Commit.prototype.constants.circularFields, function(field) {
-      commit[field] = undefined;
-    }, this);
-
-    // convert parents
-    var parents = [];
-    _.each(commit.parents, function(par) {
-      parents.push(par.get('id'));
-    });
-    commit.parents = parents;
-
-    totalExport.commits[commit.id] = commit;
-  }, this);
-
-  var HEAD = this.HEAD.toJSON();
-  HEAD.visBranch = undefined;
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
-  HEAD.target = HEAD.target.get('id');
-  totalExport.HEAD = HEAD;
-
-  return totalExport;
-};
-
-GitEngine.prototype.printTree = function(tree) {
-  tree = tree || this.exportTree();
-  TreeCompare.prototype.reduceTreeFields([tree]);
-
-  var str = JSON.stringify(tree);
-  if (/'/.test(str)) {
-    // escape it to make it more copy paste friendly
-    str = escape(str);
-  }
-  return str;
-};
-
-GitEngine.prototype.printAndCopyTree = function() {
-  window.prompt('Copy the tree string below', this.printTree());
-};
-
-GitEngine.prototype.loadTree = function(tree) {
-  // deep copy in case we use it a bunch
-  tree = $.extend(true, {}, tree);
-
-  // first clear everything
-  this.removeAll();
-
-  this.instantiateFromTree(tree);
-
-  this.reloadGraphics();
-};
-
-GitEngine.prototype.loadTreeFromString = function(treeString) {
-  this.loadTree(JSON.parse(unescape(treeString)));
-};
-
-GitEngine.prototype.instantiateFromTree = function(tree) {
-  // now we do the loading part
-  var createdSoFar = {};
-
-  _.each(tree.commits, function(commitJSON) {
-    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
-    this.commitCollection.add(commit);
-  }, this);
-
-  _.each(tree.branches, function(branchJSON) {
-    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
-
-    this.branchCollection.add(branch, {silent: true});
-  }, this);
-
-  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
-  this.HEAD = HEAD;
-
-  this.rootCommit = createdSoFar['C0'];
-  if (!this.rootCommit) {
-    throw new Error('Need root commit of C0 for calculations');
-  }
-  this.refs = createdSoFar;
-
-  this.branchCollection.each(function(branch) {
-    this.gitVisuals.addBranch(branch);
-  }, this);
-};
-
-GitEngine.prototype.reloadGraphics = function() {
-  // get the root commit, no better way to do it
-  var rootCommit = null;
-  this.commitCollection.each(function(commit) {
-    if (commit.get('id') == 'C0') {
-      rootCommit = commit;
-    }
-  });
-  this.gitVisuals.rootCommit = rootCommit;
-
-  // this just basically makes the HEAD branch. the head branch really should have been
-  // a member of a collection and not this annoying edge case stuff... one day
-  this.gitVisuals.initHeadBranch();
-
-  // when the paper is ready
-  this.gitVisuals.drawTreeFromReload();
-
-  this.gitVisuals.refreshTreeHarsh();
-};
-
-GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
-  if (createdSoFar[objID]) {
-    // base case
-    return createdSoFar[objID];
-  }
-
-  var getType = function(tree, id) {
-    if (tree.commits[id]) {
-      return 'commit';
-    } else if (tree.branches[id]) {
-      return 'branch';
-    } else if (id == 'HEAD') {
-      return 'HEAD';
-    }
-    throw new Error("bad type for " + id);
-  };
-
-  // figure out what type
-  var type = getType(tree, objID);
-
-  if (type == 'HEAD') {
-    var headJSON = tree.HEAD;
-    var HEAD = new Ref(_.extend(
-      tree.HEAD,
-      {
-        target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
-      }
-    ));
-    createdSoFar[objID] = HEAD;
-    return HEAD;
-  }
-
-  if (type == 'branch') {
-    var branchJSON = tree.branches[objID];
-
-    var branch = new Branch(_.extend(
-      tree.branches[objID],
-      {
-        target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
-      }
-    ));
-    createdSoFar[objID] = branch;
-    return branch;
-  }
-
-  if (type == 'commit') {
-    // for commits, we need to grab all the parents
-    var commitJSON = tree.commits[objID];
-
-    var parentObjs = [];
-    _.each(commitJSON.parents, function(parentID) {
-      parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
-    }, this);
-
-    var commit = new Commit(_.extend(
-      commitJSON,
-      {
-        parents: parentObjs,
-        gitVisuals: this.gitVisuals
-      }
-    ));
-    createdSoFar[objID] = commit;
-    return commit;
-  }
-
-  throw new Error('ruh rho!! unsupported tyep for ' + objID);
-};
-
-GitEngine.prototype.removeAll = function() {
-  this.branchCollection.reset();
-  this.commitCollection.reset();
-  this.refs = {};
-  this.HEAD = null;
-  this.rootCommit = null;
-
-  this.gitVisuals.resetAll();
-};
-
-GitEngine.prototype.getDetachedHead = function() {
-  // detached head is if HEAD points to a commit instead of a branch...
-  var target = this.HEAD.get('target');
-  var targetType = target.get('type');
-  return targetType !== 'branch';
-};
-
-GitEngine.prototype.validateBranchName = function(name) {
-  name = name.replace(/\s/g, '');
-  if (!/^[a-zA-Z0-9]+$/.test(name)) {
-    throw new GitError({
-      msg: 'woah bad branch name!! This is not ok: ' + name
-    });
-  }
-  if (/[hH][eE][aA][dD]/.test(name)) {
-    throw new GitError({
-      msg: 'branch name of "head" is ambiguous, dont name it that'
-    });
-  }
-  if (name.length > 9) {
-    name = name.slice(0, 9);
-    this.command.addWarning(
-      'Sorry, we need to keep branch names short for the visuals. Your branch ' +
-      'name was truncated to 9 characters, resulting in ' + name
-    );
-  }
-  return name;
-};
-
-GitEngine.prototype.makeBranch = function(id, target) {
-  id = this.validateBranchName(id);
-  if (this.refs[id]) {
-    throw new GitError({
-      msg: 'that branch id either matches a commit hash or already exists!'
-    });
-  }
-
-  var branch = new Branch({
-    target: target,
-    id: id
-  });
-  this.branchCollection.add(branch);
-  this.refs[branch.get('id')] = branch;
-  return branch;
-};
-
-GitEngine.prototype.getHead = function() {
-  return _.clone(this.HEAD);
-};
-
-GitEngine.prototype.getBranches = function() {
-  var toReturn = [];
-  this.branchCollection.each(function(branch) {
-    toReturn.push({
-      id: branch.get('id'),
-      selected: this.HEAD.get('target') === branch,
-      target: branch.get('target'),
-      obj: branch
-    });
-  }, this);
-  return toReturn;
-};
-
-GitEngine.prototype.printBranchesWithout = function(without) {
-  var commitToBranches = this.getUpstreamBranchSet();
-  var commitID = this.getCommitFromRef(without).get('id');
-
-  var toPrint = [];
-  _.each(commitToBranches[commitID], function(branchJSON) {
-    branchJSON.selected = this.HEAD.get('target').get('id') == branchJSON.id;
-    toPrint.push(branchJSON);
-  }, this);
-  this.printBranches(toPrint);
-};
-
-GitEngine.prototype.printBranches = function(branches) {
-  var result = '';
-  _.each(branches, function(branch) {
-    result += (branch.selected ? '* ' : '') + branch.id + '\n';
-  });
-  throw new CommandResult({
-    msg: result
-  });
-};
-
-GitEngine.prototype.makeCommit = function(parents, id, options) {
-  // ok we need to actually manually create commit IDs now because
-  // people like nikita (thanks for finding this!) could
-  // make branches named C2 before creating the commit C2
-  if (!id) {
-    id = this.uniqueId('C');
-    while (this.refs[id]) {
-      id = this.uniqueId('C');
-    }
-  }
-
-  var commit = new Commit(_.extend({
-      parents: parents,
-      id: id,
-      gitVisuals: this.gitVisuals
-    },
-    options || {}
-  ));
-
-  this.refs[commit.get('id')] = commit;
-  this.commitCollection.add(commit);
-  return commit;
-};
-
-GitEngine.prototype.acceptNoGeneralArgs = function() {
-  if (this.generalArgs.length) {
-    throw new GitError({
-      msg: "That command accepts no general arguments"
-    });
-  }
-};
-
-GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
-  // this is a little utility class to help arg validation that happens over and over again
-  var what = (option === undefined) ?
-    'git ' + this.command.get('method') :
-    this.command.get('method') + ' ' + option + ' ';
-  what = 'with ' + what;
-
-  if (args.length < lower) {
-    throw new GitError({
-      msg: 'I expect at least ' + String(lower) + ' argument(s) ' + what
-    });
-  }
-  if (args.length > upper) {
-    throw new GitError({
-      msg: 'I expect at most ' + String(upper) + ' argument(s) ' + what
-    });
-  }
-};
-
-GitEngine.prototype.oneArgImpliedHead = function(args, option) {
-  // for log, show, etc
-  this.validateArgBounds(args, 0, 1, option);
-  if (args.length === 0) {
-    args.push('HEAD');
-  }
-};
-
-GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
-  // our args we expect to be between 1 and 2
-  this.validateArgBounds(args, 1, 2, option);
-  // and if it's one, add a HEAD to the back
-  if (args.length == 1) {
-    args.push('HEAD');
-  }
-};
-
-GitEngine.prototype.revertStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, NaN);
-
-  var response = this.revert(this.generalArgs);
-
-  if (response) {
-    this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
-  }
-};
-
-GitEngine.prototype.revert = function(whichCommits) {
-  // for each commit, we want to revert it
-  var toRebase = [];
-  _.each(whichCommits, function(stringRef) {
-    toRebase.push(this.getCommitFromRef(stringRef));
-  }, this);
-
-  // we animate reverts now!! we use the rebase animation though so that's
-  // why the terminology is like it is
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(toRebase[0]);
-  animationResponse.toRebaseArray = toRebase.slice(0);
-  animationResponse.rebaseSteps = [];
-
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-
-  // now make a bunch of commits on top of where we are
-  var base = this.getCommitFromRef('HEAD');
-  _.each(toRebase, function(oldCommit) {
-    var newId = this.rebaseAltID(oldCommit.get('id'));
-
-    var newCommit = this.makeCommit([base], newId, {
-        commitMessage: 'Reverting ' + this.resolveName(oldCommit) +
-          ': "' + oldCommit.get('commitMessage') + '"'
-    });
-
-    base = newCommit;
-
-    // animation stuff
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: oldCommit,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: afterSnapshot
-    });
-    beforeSnapshot = afterSnapshot;
-  }, this);
-  // done! update our location
-  this.setTargetLocation('HEAD', base);
-
-  // animation
-  return animationResponse;
-};
-
-GitEngine.prototype.resetStarter = function() {
-  if (this.commandOptions['--soft']) {
-    throw new GitError({
-      msg: "You can't use --soft because there is no concept of stashing" +
-           " changes or staging files, so you will lose your progress." +
-           " Try using interactive rebasing (or just rebasing) to move commits."
-    });
-  }
-  if (this.commandOptions['--hard']) {
-    this.command.addWarning(
-      'Nice! You are using --hard. The default behavior is a hard reset in ' +
-      "this demo, so don't worry about specifying the option explicity"
-    );
-    // dont absorb the arg off of --hard
-    this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
-  }
-
-  this.validateArgBounds(this.generalArgs, 1, 1);
-
-  if (this.getDetachedHead()) {
-    throw new GitError({
-      msg: "Cant reset in detached head! Use checkout if you want to move"
-    });
-  }
-
-  this.reset(this.generalArgs[0]);
-};
-
-GitEngine.prototype.reset = function(target) {
-  this.setTargetLocation('HEAD', this.getCommitFromRef(target));
-};
-
-GitEngine.prototype.cherrypickStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, 1);
-  var newCommit = this.cherrypick(this.generalArgs[0]);
-
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
-};
-
-GitEngine.prototype.cherrypick = function(ref) {
-  var commit = this.getCommitFromRef(ref);
-  // check if we already have that
-  var set = this.getUpstreamSet('HEAD');
-  if (set[commit.get('id')]) {
-    throw new GitError({
-      msg: "We already have that commit in our changes history! You can't cherry-pick it " +
-           "if it shows up in git log."
-    });
-  }
-
-  // alter the ID slightly
-  var id = this.rebaseAltID(commit.get('id'));
-
-  // now commit with that id onto HEAD
-  var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
-  this.setTargetLocation(this.HEAD, newCommit);
-  return newCommit;
-};
-
-GitEngine.prototype.commitStarter = function() {
-  this.acceptNoGeneralArgs();
-  if (this.commandOptions['-am'] && (
-      this.commandOptions['-a'] || this.commandOptions['-m'])) {
-    throw new GitError({
-      msg: "You can't have -am with another -m or -a!"
-    });
-  }
-
-  var msg = null;
-  var args = null;
-  if (this.commandOptions['-a']) {
-    this.command.addWarning('No need to add files in this demo');
-  }
-
-  if (this.commandOptions['-am']) {
-    args = this.commandOptions['-am'];
-    this.validateArgBounds(args, 1, 1, '-am');
-
-    this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message anyways, but you can commit without a message " +
-      "in this demo as well");
-    msg = args[0];
-  }
-
-  if (this.commandOptions['-m']) {
-    args = this.commandOptions['-m'];
-    this.validateArgBounds(args, 1, 1, '-m');
-    msg = args[0];
-  }
-
-  var newCommit = this.commit();
-  if (msg) {
-    msg = msg
-      .replace(/&quot;/g, '"')
-      .replace(/^"/g, '')
-      .replace(/"$/g, '');
-
-    newCommit.set('commitMessage', msg);
-  }
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
-};
-
-GitEngine.prototype.commit = function() {
-  var targetCommit = this.getCommitFromRef(this.HEAD);
-  var id = null;
-
-  // if we want to ammend, go one above
-  if (this.commandOptions['--amend']) {
-    targetCommit = this.resolveID('HEAD~1');
-    id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
-  }
-
-  var newCommit = this.makeCommit([targetCommit], id);
-  if (this.getDetachedHead()) {
-    this.command.addWarning('Warning!! Detached HEAD state');
-  }
-
-  this.setTargetLocation(this.HEAD, newCommit);
-  return newCommit;
-};
-
-GitEngine.prototype.resolveName = function(someRef) {
-  // first get the obj
-  var obj = this.resolveID(someRef);
-  if (obj.get('type') == 'commit') {
-    return 'commit ' + obj.get('id');
-  }
-  if (obj.get('type') == 'branch') {
-    return 'branch "' + obj.get('id') + '"';
-  }
-  // we are dealing with HEAD
-  return this.resolveName(obj.get('target'));
-};
-
-GitEngine.prototype.resolveID = function(idOrTarget) {
-  if (idOrTarget === null || idOrTarget === undefined) {
-    throw new Error('Dont call this with null / undefined');
-  }
-
-  if (typeof idOrTarget !== 'string') {
-    return idOrTarget;
-  }
-  return this.resolveStringRef(idOrTarget);
-};
-
-GitEngine.prototype.resolveStringRef = function(ref) {
-  if (this.refs[ref]) {
-    return this.refs[ref];
-  }
-
-  // may be something like HEAD~2 or master^^
-  var relativeRefs = [
-    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2], 10);
-    }],
-    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
-      return matches[2].length;
-    }]
-  ];
-
-  var startRef = null;
-  var numBack = null;
-  _.each(relativeRefs, function(config) {
-    var regex = config[0];
-    var parse = config[1];
-    if (regex.test(ref)) {
-      var matches = regex.exec(ref);
-      numBack = parse(matches);
-      startRef = matches[1];
-    }
-  }, this);
-
-  if (!startRef) {
-    throw new GitError({
-      msg: 'unknown ref ' + ref
-    });
-  }
-  if (!this.refs[startRef]) {
-    throw new GitError({
-      msg: 'the ref ' + startRef +' does not exist.'
-    });
-  }
-  var commit = this.getCommitFromRef(startRef);
-
-  return this.numBackFrom(commit, numBack);
-};
-
-GitEngine.prototype.getCommitFromRef = function(ref) {
-  var start = this.resolveID(ref);
-
-  // works for both HEAD and just a single layer. aka branch
-  while (start.get('type') !== 'commit') {
-    start = start.get('target');
-  }
-  return start;
-};
-
-GitEngine.prototype.getType = function(ref) {
-  return this.resolveID(ref).get('type');
-};
-
-GitEngine.prototype.setTargetLocation = function(ref, target) {
-  if (this.getType(ref) == 'commit') {
-    // nothing to do
-    return;
-  }
-
-  // sets whatever ref is (branch, HEAD, etc) to a target. so if
-  // you pass in HEAD, and HEAD is pointing to a branch, it will update
-  // the branch to that commit, not the HEAD
-  ref = this.getOneBeforeCommit(ref);
-  ref.set('target', target);
-};
-
-GitEngine.prototype.getUpstreamBranchSet = function() {
-  // this is expensive!! so only call once in a while
-  var commitToSet = {};
-
-  var inArray = function(arr, id) {
-    var found = false;
-    _.each(arr, function(wrapper) {
-      if (wrapper.id == id) {
-        found = true;
-      }
-    });
-
-    return found;
-  };
-
-  var bfsSearch = function(commit) {
-    var set = [];
-    var pQueue = [commit];
-    while (pQueue.length) {
-      var popped = pQueue.pop();
-      set.push(popped.get('id'));
-
-      if (popped.get('parents') && popped.get('parents').length) {
-        pQueue = pQueue.concat(popped.get('parents'));
-      }
-    }
-    return set;
-  };
-
-  this.branchCollection.each(function(branch) {
-    var set = bfsSearch(branch.get('target'));
-    _.each(set, function(id) {
-      commitToSet[id] = commitToSet[id] || [];
-
-      // only add it if it's not there, so hue blending is ok
-      if (!inArray(commitToSet[id], branch.get('id'))) {
-        commitToSet[id].push({
-          obj: branch,
-          id: branch.get('id')
-        });
-      }
-    });
-  });
-
-  return commitToSet;
-};
-
-GitEngine.prototype.getUpstreamHeadSet = function() {
-  var set = this.getUpstreamSet('HEAD');
-  var including = this.getCommitFromRef('HEAD').get('id');
-
-  set[including] = true;
-  return set;
-};
-
-GitEngine.prototype.getOneBeforeCommit = function(ref) {
-  // you can call this command on HEAD in detached, HEAD, or on a branch
-  // and it will return the ref that is one above a commit. aka
-  // it resolves HEAD to something that we can move the ref with
-  var start = this.resolveID(ref);
-  if (start === this.HEAD && !this.getDetachedHead()) {
-    start = start.get('target');
-  }
-  return start;
-};
-
-GitEngine.prototype.numBackFrom = function(commit, numBack) {
-  // going back '3' from a given ref is not trivial, for you might have
-  // a bunch of merge commits and such. like this situation:
-  //
-  //      * merge master into new
-  //      |\
-  //      | \* commit here
-  //      |* \ commit there
-  //      |  |* commit here
-  //      \ /
-  //       | * root
-  //
-  //
-  // hence we need to do a BFS search, with the commit date being the
-  // value to sort off of (rather than just purely the level)
-  if (numBack === 0) {
-    return commit;
-  }
-
-  // we use a special sorting function here that
-  // prefers the later commits over the earlier ones
-  var sortQueue = _.bind(function(queue) {
-    queue.sort(this.idSortFunc);
-    queue.reverse();
-  }, this);
-
-  var pQueue = [].concat(commit.get('parents') || []);
-  sortQueue(pQueue);
-  numBack--;
-
-  while (pQueue.length && numBack !== 0) {
-    var popped = pQueue.shift(0);
-    var parents = popped.get('parents');
-
-    if (parents && parents.length) {
-      pQueue = pQueue.concat(parents);
-    }
-
-    sortQueue(pQueue);
-    numBack--;
-  }
-
-  if (numBack !== 0 || pQueue.length === 0) {
-    throw new GitError({
-      msg: "Sorry, I can't go that many commits back"
-    });
-  }
-  return pQueue.shift(0);
-};
-
-GitEngine.prototype.scrapeBaseID = function(id) {
-  var results = /^C(\d+)/.exec(id);
-
-  if (!results) {
-    throw new Error('regex failed on ' + id);
-  }
-
-  return 'C' + results[1];
-};
-
-GitEngine.prototype.rebaseAltID = function(id) {
-  // this function alters an ID to add a quote to the end,
-  // indicating that it was rebased. it also checks existence
-  var regexMap = [
-    [/^C(\d+)[']{0,2}$/, function(bits) {
-      // this id can use another quote, so just add it
-      return bits[0] + "'";
-    }],
-    [/^C(\d+)[']{3}$/, function(bits) {
-      // here we switch from C''' to C'^4
-      return bits[0].slice(0, -3) + "'^4";
-    }],
-    [/^C(\d+)['][\^](\d+)$/, function(bits) {
-      return 'C' + String(bits[1]) + "'^" + String(Number(bits[2]) + 1);
-    }]
-  ];
-
-  for (var i = 0; i < regexMap.length; i++) {
-    var regex = regexMap[i][0];
-    var func = regexMap[i][1];
-    var results = regex.exec(id);
-    if (results) {
-      var newId = func(results);
-      // if this id exists, continue down the rabbit hole
-      if (this.refs[newId]) {
-        return this.rebaseAltID(newId);
-      } else {
-        return newId;
-      }
-    }
-  }
-  throw new Error('could not modify the id ' + id);
-};
-
-GitEngine.prototype.idSortFunc = function(cA, cB) {
-  // commit IDs can come in many forms:
-  //  C4
-  //  C4' (from a rebase)
-  //  C4'' (from multiple rebases)
-  //  C4'^3 (from a BUNCH of rebases)
-
-  var scale = 1000;
-
-  var regexMap = [
-    [/^C(\d+)$/, function(bits) {
-      // return the 4 from C4
-      return scale * bits[1];
-    }],
-    [/^C(\d+)([']+)$/, function(bits) {
-      // return the 4 from C4, plus the length of the quotes
-      return scale * bits[1] + bits[2].length;
-    }],
-    [/^C(\d+)['][\^](\d+)$/, function(bits) {
-      return scale * bits[1] + Number(bits[2]);
-    }]
-  ];
-
-  var getNumToSort = function(id) {
-    for (var i = 0; i < regexMap.length; i++) {
-      var regex = regexMap[i][0];
-      var func = regexMap[i][1];
-      var results = regex.exec(id);
-      if (results) {
-        return func(results);
-      }
-    }
-    throw new Error('Could not parse commit ID ' + id);
-  };
-
-  return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
-};
-
-GitEngine.prototype.rebaseInteractiveStarter = function() {
-  var args = this.commandOptions['-i'];
-  this.twoArgsImpliedHead(args, ' -i');
-
-  this.rebaseInteractive(args[0], args[1]);
-};
-
-GitEngine.prototype.rebaseStarter = function() {
-  if (this.commandOptions['-i']) {
-    this.rebaseInteractiveStarter();
-    return;
-  }
-
-  this.twoArgsImpliedHead(this.generalArgs);
-
-  var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
-
-  if (response === undefined) {
-    // was a fastforward or already up to date. returning now
-    // will trigger the refresh animation by not adding anything to
-    // the animation queue
-    return;
-  }
-
-  this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
-};
-
-GitEngine.prototype.rebase = function(targetSource, currentLocation) {
-  // first some conditions
-  if (this.isUpstreamOf(targetSource, currentLocation)) {
-    this.command.setResult('Branch already up-to-date');
-
-    // git for some reason always checks out the branch you are rebasing,
-    // no matter the result of the rebase
-    this.checkout(currentLocation);
-
-    // returning instead of throwing makes a tree refresh
-    return;
-  }
-
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
-    // just set the target of this current location to the source
-    this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
-    // we need the refresh tree animation to happen, so set the result directly
-    // instead of throwing
-    this.command.setResult('Fast-forwarding...');
-
-    this.checkout(currentLocation);
-    return;
-  }
-
-   // now the part of actually rebasing.
-  // We need to get the downstream set of targetSource first.
-  // then we BFS from currentLocation, using the downstream set as our stopping point.
-  // we need to BFS because we need to include all commits below
-  // pop these commits on top of targetSource and modify their ids with quotes
-  var stopSet = this.getUpstreamSet(targetSource);
-
-  // now BFS from here on out
-  var toRebaseRough = [];
-  var pQueue = [this.getCommitFromRef(currentLocation)];
-
-  while (pQueue.length) {
-    var popped = pQueue.pop();
-
-    // if its in the set, dont add it
-    if (stopSet[popped.get('id')]) {
-      continue;
-    }
-
-    // it's not in the set, so we need to rebase this commit
-    toRebaseRough.push(popped);
-    toRebaseRough.sort(this.idSortFunc);
-    toRebaseRough.reverse();
-    // keep searching
-    pQueue = pQueue.concat(popped.get('parents'));
-  }
-
-  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
-};
-
-GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
-  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
-  // but it will look similar.
-
-  // first if we are upstream of the target
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
-    throw new GitError({
-      msg: 'Nothing to do... (git throws a "noop" status here); ' +
-        'Your source is upstream of your rebase target'
-    });
-  }
-
-  // now get the stop set
-  var stopSet = this.getUpstreamSet(targetSource);
-
-  var toRebaseRough = [];
-  // standard BFS
-  var pQueue = [this.getCommitFromRef(currentLocation)];
-
-  while (pQueue.length) {
-    var popped = pQueue.pop();
-
-    if (stopSet[popped.get('id')]) {
-      continue;
-    }
-
-    toRebaseRough.push(popped);
-    pQueue = pQueue.concat(popped.get('parents'));
-    pQueue.sort(this.idSortFunc);
-  }
-
-  // throw our merge's real fast and see if we have anything to do
-  var toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    if (commit.get('parents').length == 1) {
-      toRebase.push(commit);
-    }
-  });
-
-  if (!toRebase.length) {
-    throw new GitError({
-      msg: 'No commits to rebase! Everything is a merge commit'
-    });
-  }
-
-  // now do stuff :D since all our validation checks have passed, we are going to defer animation
-  // and actually launch the dialog
-  this.animationQueue.set('defer', true);
-
-  var deferred = Q.defer();
-  deferred.promise
-  .then(_.bind(function(userSpecifiedRebase) {
-    // first, they might have dropped everything (annoying)
-    if (!userSpecifiedRebase.length) {
-      throw new CommandResult({
-        msg: 'Nothing to do...'
-      });
-    }
-
-    // finish the rebase crap and animate!
-    var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-    this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
-    this.animationQueue.start();
-
-  }, this))
-  .fail(_.bind(function(err) {
-    this.filterError(err);
-    this.command.set('error', err);
-    this.animationQueue.start();
-  }, this))
-  .done();
-
-  var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
-  // interactive rebase view will reject or resolve our promise
-  new InteractiveRebaseView({
-    deferred: deferred,
-    toRebase: toRebase
-  });
-};
-
-GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
-  // now we have the all the commits between currentLocation and the set of target to rebase.
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(targetSource);
-
-  // we need to throw out merge commits
-  var toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    if (commit.get('parents').length == 1) {
-      toRebase.push(commit);
-    }
-  });
-
-  // we ALSO need to throw out commits that will do the same changes. like
-  // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
-  // get this by doing ID scraping
-  var changesAlreadyMade = {};
-  _.each(stopSet, function(val, key) {
-    changesAlreadyMade[this.scrapeBaseID(key)] = val; // val == true
-  }, this);
-
-  // now get rid of the commits that will redo same changes
-  toRebaseRough = toRebase;
-  toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    var baseID = this.scrapeBaseID(commit.get('id'));
-    if (!changesAlreadyMade[baseID]) {
-      toRebase.push(commit);
-    }
-  }, this);
-
-  if (!toRebase.length) {
-    throw new GitError({
-      msg: 'No Commits to Rebase! Everything else is merge commits or changes already have been applied'
-    });
-  }
-
-  // now reverse it once more to get it in the right order
-  toRebase.reverse();
-  animationResponse.toRebaseArray = toRebase.slice(0);
-
-  // now pop all of these commits onto targetLocation
-  var base = this.getCommitFromRef(targetSource);
-
-  // do the rebase, and also maintain all our animation info during this
-  animationResponse.rebaseSteps = [];
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-  _.each(toRebase, function(old) {
-    var newId = this.rebaseAltID(old.get('id'));
-
-    var newCommit = this.makeCommit([base], newId);
-    base = newCommit;
-
-    // animation info
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: old,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: afterSnapshot
-    });
-    beforeSnapshot = afterSnapshot;
-  }, this);
-
-  if (this.resolveID(currentLocation).get('type') == 'commit') {
-    // we referenced a commit like git rebase C2 C1, so we have
-    // to manually check out C1'
-
-    var steps = animationResponse.rebaseSteps;
-    var newestCommit = steps[steps.length - 1].newCommit;
-
-    this.checkout(newestCommit);
-  } else {
-    // now we just need to update the rebased branch is
-    this.setTargetLocation(currentLocation, base);
-    this.checkout(currentLocation);
-  }
-
-  // for animation
-  return animationResponse;
-};
-
-GitEngine.prototype.mergeStarter = function() {
-  this.twoArgsImpliedHead(this.generalArgs);
-
-  var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
-
-  if (newCommit === undefined) {
-    // its just a fast forwrard
-    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
-    return;
-  }
-
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
-};
-
-GitEngine.prototype.merge = function(targetSource, currentLocation) {
-  // first some conditions
-  if (this.isUpstreamOf(targetSource, currentLocation) ||
-      this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
-    throw new CommandResult({
-      msg: 'Branch already up-to-date'
-    });
-  }
-
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
-    // just set the target of this current location to the source
-    this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
-    // get fresh animation to happen
-    this.command.setResult('Fast-forwarding...');
-    return;
-  }
-
-  // now the part of making a merge commit
-  var parent1 = this.getCommitFromRef(currentLocation);
-  var parent2 = this.getCommitFromRef(targetSource);
-
-  // we need a fancy commit message
-  var msg = 'Merge ' + this.resolveName(targetSource) +
-    ' into ' + this.resolveName(currentLocation);
-
-  // since we specify parent 1 as the first parent, it is the "main" parent
-  // and the node will be displayed below that branch / commit / whatever
-  var mergeCommit = this.makeCommit(
-    [parent1, parent2],
-    null,
-    {
-      commitMessage: msg
-    }
-  );
-
-  this.setTargetLocation(currentLocation, mergeCommit);
-  return mergeCommit;
-};
-
-GitEngine.prototype.checkoutStarter = function() {
-  var args = null;
-  if (this.commandOptions['-b']) {
-    // the user is really trying to just make a branch and then switch to it. so first:
-    args = this.commandOptions['-b'];
-    this.twoArgsImpliedHead(args, '-b');
-
-    var validId = this.validateBranchName(args[0]);
-    this.branch(validId, args[1]);
-    this.checkout(validId);
-    return;
-  }
-
-  if (this.commandOptions['-']) {
-    // get the heads last location
-    var lastPlace = this.HEAD.get('lastLastTarget');
-    if (!lastPlace) {
-      throw new GitError({
-        msg: 'Need a previous location to do - switching'
-      });
-    }
-    this.HEAD.set('target', lastPlace);
-    return;
-  }
-
-  if (this.commandOptions['-B']) {
-    args = this.commandOptions['-B'];
-    this.twoArgsImpliedHead(args, '-B');
-
-    this.forceBranch(args[0], args[1]);
-    this.checkout(args[0]);
-    return;
-  }
-
-  this.validateArgBounds(this.generalArgs, 1, 1);
-
-  this.checkout(this.unescapeQuotes(this.generalArgs[0]));
-};
-
-GitEngine.prototype.checkout = function(idOrTarget) {
-  var target = this.resolveID(idOrTarget);
-  if (target.get('id') === 'HEAD') {
-    // git checkout HEAD is a
-    // meaningless command but i used to do this back in the day
-    return;
-  }
-
-  var type = target.get('type');
-  if (type !== 'branch' && type !== 'commit') {
-    throw new GitError({
-      msg: 'can only checkout branches and commits!'
-    });
-  }
-
-  this.HEAD.set('target', target);
-};
-
-GitEngine.prototype.branchStarter = function() {
-  var args = null;
-  // handle deletion first
-  if (this.commandOptions['-d'] || this.commandOptions['-D']) {
-    var names = this.commandOptions['-d'] || this.commandOptions['-D'];
-    this.validateArgBounds(names, 1, NaN, '-d');
-
-    _.each(names, function(name) {
-      this.deleteBranch(name);
-    }, this);
-    return;
-  }
-
-  if (this.commandOptions['--contains']) {
-    args = this.commandOptions['--contains'];
-    this.validateArgBounds(args, 1, 1, '--contains');
-    this.printBranchesWithout(args[0]);
-    return;
-  }
-
-  if (this.commandOptions['-f']) {
-    args = this.commandOptions['-f'];
-    this.twoArgsImpliedHead(args, '-f');
-
-    // we want to force a branch somewhere
-    this.forceBranch(args[0], args[1]);
-    return;
-  }
-
-
-  if (this.generalArgs.length === 0) {
-    this.printBranches(this.getBranches());
-    return;
-  }
-
-  this.twoArgsImpliedHead(this.generalArgs);
-  this.branch(this.generalArgs[0], this.generalArgs[1]);
-};
-
-GitEngine.prototype.forceBranch = function(branchName, where) {
-  // if branchname doesn't exist...
-  if (!this.refs[branchName]) {
-    this.branch(branchName, where);
-  }
-
-  var branch = this.resolveID(branchName);
-  if (branch.get('type') !== 'branch') {
-    throw new GitError({
-      msg: "Can't force move anything but a branch!!"
-    });
-  }
-
-  var whereCommit = this.getCommitFromRef(where);
-
-  this.setTargetLocation(branch, whereCommit);
-};
-
-GitEngine.prototype.branch = function(name, ref) {
-  var target = this.getCommitFromRef(ref);
-  this.makeBranch(name, target);
-};
-
-GitEngine.prototype.deleteBranch = function(name) {
-  // trying to delete, lets check our refs
-  var target = this.resolveID(name);
-  if (target.get('type') !== 'branch') {
-    throw new GitError({
-      msg: "You can't delete things that arent branches with branch command"
-    });
-  }
-  if (target.get('id') == 'master') {
-    throw new GitError({
-      msg: "You can't delete the master branch!"
-    });
-  }
-  if (this.HEAD.get('target') === target) {
-    throw new GitError({
-      msg: "Cannot delete the branch you are currently on"
-    });
-  }
-
-  // now we know it's a branch
-  var branch = target;
-
-  this.branchCollection.remove(branch);
-  this.refs[branch.get('id')] = undefined;
-  delete this.refs[branch.get('id')];
-
-  if (branch.get('visBranch')) {
-    branch.get('visBranch').remove();
-  }
-};
-
-GitEngine.prototype.unescapeQuotes = function(str) {
-  return str.replace(/&#x27;/g, "'");
-};
-
-GitEngine.prototype.filterError = function(err) {
- if (!(err instanceof GitError ||
-      err instanceof CommandResult)) {
-    throw err;
-  }
-};
-
-GitEngine.prototype.dispatch = function(command, deferred) {
-  // current command, options, and args are stored in the gitEngine
-  // for easy reference during processing.
-  this.command = command;
-  this.commandOptions = command.get('supportedMap');
-  this.generalArgs = command.get('generalArgs');
-
-  // set up the animation queue
-  var whenDone = _.bind(function() {
-    command.finishWith(deferred);
-  }, this);
-  this.animationQueue = new AnimationQueue({
-    callback: whenDone
-  });
-
-  try {
-    var methodName = command.get('method').replace(/-/g, '') + 'Starter';
-    this[methodName]();
-  } catch (err) {
-    this.filterError(err);
-    // short circuit animation by just setting error and returning
-    command.set('error', err);
-    deferred.resolve();
-    return;
-  }
-
-  // only add the refresh if we didn't do manual animations
-  if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
-    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
-  }
-
-  // animation queue will call the callback when its done
-  if (!this.animationQueue.get('defer')) {
-    this.animationQueue.start();
-  }
-};
-
-GitEngine.prototype.showStarter = function() {
-  this.oneArgImpliedHead(this.generalArgs);
-
-  this.show(this.generalArgs[0]);
-};
-
-GitEngine.prototype.show = function(ref) {
-  var commit = this.getCommitFromRef(ref);
-
-  throw new CommandResult({
-    msg: commit.getShowEntry()
-  });
-};
-
-GitEngine.prototype.statusStarter = function() {
-  var lines = [];
-  if (this.getDetachedHead()) {
-    lines.push('Detached Head!');
-  } else {
-    var branchName = this.HEAD.get('target').get('id');
-    lines.push('On branch ' + branchName);
-  }
-  lines.push('Changes to be committed:');
-  lines.push('');
-  lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
-  lines.push('');
-  lines.push('Ready to commit! (as always in this demo)');
-
-  var msg = '';
-  _.each(lines, function(line) {
-    msg += '# ' + line + '\n';
-  });
-
-  throw new CommandResult({
-    msg: msg
-  });
-};
-
-GitEngine.prototype.logStarter = function() {
-  if (this.generalArgs.length == 2) {
-    // do fancy git log branchA ^branchB
-    if (this.generalArgs[1][0] == '^') {
-      this.logWithout(this.generalArgs[0], this.generalArgs[1]);
-    } else {
-      throw new GitError({
-        msg: 'I need a not branch (^branchName) when getting two arguments!'
-      });
-    }
-  }
-
-  this.oneArgImpliedHead(this.generalArgs);
-  this.log(this.generalArgs[0]);
-};
-
-GitEngine.prototype.logWithout = function(ref, omitBranch) {
-  // slice off the ^branch
-  omitBranch = omitBranch.slice(1);
-  this.log(ref, this.getUpstreamSet(omitBranch));
-};
-
-GitEngine.prototype.log = function(ref, omitSet) {
-  // omit set is for doing stuff like git log branchA ^branchB
-  omitSet = omitSet || {};
-  // first get the commit we referenced
-  var commit = this.getCommitFromRef(ref);
-
-  // then get as many far back as we can from here, order by commit date
-  var toDump = [];
-  var pQueue = [commit];
-
-  var seen = {};
-
-  while (pQueue.length) {
-    var popped = pQueue.shift(0);
-    if (seen[popped.get('id')] || omitSet[popped.get('id')]) {
-      continue;
-    }
-    seen[popped.get('id')] = true;
-
-    toDump.push(popped);
-
-    if (popped.get('parents') && popped.get('parents').length) {
-      pQueue = pQueue.concat(popped.get('parents'));
-    }
-  }
-
-  // now go through and collect logs
-  var bigLogStr = '';
-  _.each(toDump, function(c) {
-    bigLogStr += c.getLogEntry();
-  }, this);
-
-  throw new CommandResult({
-    msg: bigLogStr
-  });
-};
-
-GitEngine.prototype.addStarter = function() {
-  throw new CommandResult({
-    msg: "This demo is meant to demonstrate git branching, so don't worry about " +
-         "adding / staging files. Just go ahead and commit away!"
-  });
-};
-
-GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
-  if (this.isUpstreamOf(cousin, ancestor)) {
-    throw new Error('Dont use common ancestor if we are upstream!');
-  }
-
-  var upstreamSet = this.getUpstreamSet(ancestor);
-  // now BFS off of cousin until you find something
-
-  var queue = [this.getCommitFromRef(cousin)];
-  while (queue.length) {
-    var here = queue.pop();
-    if (upstreamSet[here.get('id')]) {
-      return here;
-    }
-    queue = queue.concat(here.get('parents'));
-  }
-  throw new Error('something has gone very wrong... two nodes arent connected!');
-};
-
-GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
-  child = this.getCommitFromRef(child);
-
-  // basically just do a completely BFS search on ancestor to the root, then
-  // check for membership of child in that set of explored nodes
-  var upstream = this.getUpstreamSet(ancestor);
-  return upstream[child.get('id')] !== undefined;
-};
-
-GitEngine.prototype.getUpstreamSet = function(ancestor) {
-  var commit = this.getCommitFromRef(ancestor);
-  var ancestorID = commit.get('id');
-  var queue = [commit];
-
-  var exploredSet = {};
-  exploredSet[ancestorID] = true;
-
-  var addToExplored = function(rent) {
-    exploredSet[rent.get('id')] = true;
-    queue.push(rent);
-  };
-
-  while (queue.length) {
-    var here = queue.pop();
-    var rents = here.get('parents');
-
-    _.each(rents, addToExplored);
-  }
-  return exploredSet;
-};
-
-
-var Ref = Backbone.Model.extend({
-  initialize: function() {
-    if (!this.get('target')) {
-      throw new Error('must be initialized with target');
-    }
-    if (!this.get('id')) {
-      throw new Error('must be given an id');
-    }
-    this.set('type', 'general ref');
-
-    if (this.get('id') == 'HEAD') {
-      this.set('lastLastTarget', null);
-      this.set('lastTarget', this.get('target'));
-      // have HEAD remember where it is for checkout -
-      this.on('change:target', this.targetChanged, this);
-    }
-  },
-
-  targetChanged: function(model, targetValue, ev) {
-    // push our little 3 stack back. we need to do this because
-    // backbone doesn't give you what the value WAS, only what it was changed
-    // TO
-    this.set('lastLastTarget', this.get('lastTarget'));
-    this.set('lastTarget', targetValue);
-  },
-
-  toString: function() {
-    return 'a ' + this.get('type') + 'pointing to ' + String(this.get('target'));
-  }
-});
-
-var Branch = Ref.extend({
-  defaults: {
-    visBranch: null
-  },
-
-  initialize: function() {
-    Ref.prototype.initialize.call(this);
-    this.set('type', 'branch');
-  }
-});
-
-var Commit = Backbone.Model.extend({
-  defaults: {
-    type: 'commit',
-    children: null,
-    parents: null,
-    author: 'Peter Cottle',
-    createTime: null,
-    commitMessage: null,
-    visNode: null,
-    gitVisuals: null
-  },
-
-  constants: {
-    circularFields: ['gitVisuals', 'visNode', 'children']
-  },
-
-  getLogEntry: function() {
-    // for now we are just joining all these things with newlines which
-    // will get placed by paragraph tags. Not really a fan of this, but
-    // it's better than making an entire template and all that jazz
-    return [
-      'Author: ' + this.get('author'),
-      'Date: ' + this.get('createTime'),
-      '<br/>',
-      this.get('commitMessage'),
-      '<br/>',
-      'Commit: ' + this.get('id')
-    ].join('\n' ) + '\n';
-  },
-
-  getShowEntry: function() {
-    // same deal as above, show log entry and some fake changes
-    return [
-      this.getLogEntry(),
-      'diff --git a/bigGameResults.html b/bigGameResults.html',
-      '--- bigGameResults.html',
-      '+++ bigGameResults.html',
-      '@@ 13,27 @@ Winner, Score',
-      '- Stanfurd, 14-7',
-      '+ Cal, 21-14'
-    ].join('\n') + '\n';
-  },
-
-  validateAtInit: function() {
-    if (!this.get('id')) {
-      throw new Error('Need ID!!');
-    }
-
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-    if (!this.get('commitMessage')) {
-      this.set('commitMessage', 'Quick Commit. Go Bears!');
-    }
-
-    this.set('children', []);
-
-    // root commits have no parents
-    if (!this.get('rootCommit')) {
-      if (!this.get('parents') || !this.get('parents').length) {
-        throw new Error('needs parents');
-      }
-    }
-  },
-
-  addNodeToVisuals: function() {
-    var visNode = this.get('gitVisuals').addNode(this.get('id'), this);
-    this.set('visNode', visNode);
-  },
-
-  addEdgeToVisuals: function(parent) {
-    this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
-  },
-
-  isMainParent: function(parent) {
-    var index = this.get('parents').indexOf(parent);
-    return index === 0;
-  },
-
-  initialize: function(options) {
-    this.validateAtInit();
-    this.addNodeToVisuals();
-
-    _.each(this.get('parents'), function(parent) {
-      parent.get('children').push(this);
-      this.addEdgeToVisuals(parent);
-    }, this);
-  }
-});
-
-exports.GitEngine = GitEngine;
-exports.Commit = Commit;
-exports.Branch = Branch;
-exports.Ref = Ref;
-
-
-});
-
-require.define("/src/js/visuals/animation/animationFactory.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var Animation = require('./index').Animation;
-var GRAPHICS = require('../../util/constants').GRAPHICS;
-
-/******************
- * This class is responsible for a lot of the heavy lifting around creating an animation at a certain state in time.
- * The tricky thing is that when a new commit has to be "born," say in the middle of a rebase
- * or something, it must animate out from the parent position to it's birth position.
-
- * These two positions though may not be where the commit finally ends up. So we actually need to take a snapshot of the tree,
- * store all those positions, take a snapshot of the tree after a layout refresh afterwards, and then animate between those two spots.
- * and then essentially animate the entire tree too.
- */
-
-// essentially a static class
-var AnimationFactory = function() {
-
-};
-
-AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
-  if (!animationQueue) {
-    throw new Error("Need animation queue to add closure to!");
-  }
-
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 2;
-
-  // essentially refresh the entire tree, but do a special thing for the commit
-  var visNode = commit.get('visNode');
-
-  var animation = function() {
-    // this takes care of refs and all that jazz, and updates all the positions
-    gitVisuals.refreshTree(time);
-
-    visNode.setBirth();
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateUpdatedPosition(bounceTime, 'bounce');
-    visNode.animateOutgoingEdges(time);
-  };
-
-  animationQueue.add(new Animation({
-    closure: animation,
-    duration: Math.max(time, bounceTime)
-  }));
-};
-
-AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
-  opacity = (opacity === undefined) ? 1 : opacity;
-
-  var newAttr = {};
-
-  _.each(attr, function(partObj, partName) {
-    newAttr[partName] = {};
-    _.each(partObj, function(val, key) {
-      if (key == 'opacity') {
-        newAttr[partName][key] = opacity;
-      } else {
-        newAttr[partName][key] = val;
-      }
-    });
-  });
-  return newAttr;
-};
-
-AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
-  var newSnap = {};
-
-  _.each(snapShot, function(visObj, visID) {
-    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
-  }, this);
-  return newSnap;
-};
-
-AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 1.5;
-
-  var visNode = step.newCommit.get('visNode');
-  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
-  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
-
-  var animation = function() {
-    visNode.setBirthFromSnapshot(step.beforeSnapshot);
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
-    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
-  };
-
-  return animation;
-};
-
-AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
-  animationQueue.add(new Animation({
-    closure: function() {
-      gitVisuals.refreshTree();
-    }
-  }));
-};
-
-AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-
-  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
-  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
-};
-
-AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  var slowTime = fullTime * 2.0;
-
-  // we want to highlight all the old commits
-  var oldCommits = rebaseResponse.toRebaseArray;
-  // we are either highlighting to a visBranch or a visNode
-  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
-  if (!visBranch) {
-    // in the case where we rebase onto a commit
-    visBranch = rebaseResponse.destinationBranch.get('visNode');
-  }
-
-  _.each(oldCommits, function(oldCommit) {
-    var visNode = oldCommit.get('visNode');
-    animationQueue.add(new Animation({
-      closure: function() {
-        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
-      },
-      duration: fullTime * 1.5
-    }));
-
-  }, this);
-
-  this.delay(animationQueue, fullTime * 2);
-};
-
-AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-  var rebaseSteps = rebaseResponse.rebaseSteps;
-
-  var newVisNodes = [];
-  _.each(rebaseSteps, function(step) {
-    var visNode = step.newCommit.get('visNode');
-
-    newVisNodes.push(visNode);
-    visNode.setOpacity(0);
-    visNode.setOutgoingEdgesOpacity(0);
-  }, this);
-
-  var previousVisNodes = [];
-  _.each(rebaseSteps, function(rebaseStep, index) {
-    var toOmit = newVisNodes.slice(index + 1);
-
-    var snapshotPart = this.genFromToSnapshotAnimation(
-      rebaseStep.beforeSnapshot,
-      rebaseStep.afterSnapshot,
-      toOmit,
-      previousVisNodes,
-      gitVisuals
-    );
-    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
-
-    var animation = function() {
-      snapshotPart();
-      birthPart();
-    };
-
-    animationQueue.add(new Animation({
-      closure: animation,
-      duration: GRAPHICS.defaultAnimationTime * 1.5
-    }));
-
-    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
-  }, this);
-
-  // need to delay to let bouncing finish
-  this.delay(animationQueue);
-
-  this.refreshTree(animationQueue, gitVisuals);
-};
-
-AnimationFactory.prototype.delay = function(animationQueue, time) {
-  time = time || GRAPHICS.defaultAnimationTime;
-  animationQueue.add(new Animation({
-    closure: function() { },
-    duration: time
-  }));
-};
-
-AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
-  // need to slice for closure
-  var nodesToAnimate = visNodes.slice(0);
-
-  return function() {
-    _.each(nodesToAnimate, function(visNode) {
-      visNode.setOpacity(opacity);
-      visNode.setOutgoingEdgesOpacity(opacity);
-    });
-  };
-};
-
-AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
-  var ids = [];
-  _.each(toOmit, function(obj) {
-    ids.push(obj.getID());
-  });
-
-  var newSnapshot = {};
-  _.each(snapShot, function(val, key) {
-    if (_.include(ids, key)) {
-      // omit
-      return;
-    }
-    newSnapshot[key] = val;
-  }, this);
-  return newSnapshot;
-};
-
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(
-  beforeSnapshot,
-  afterSnapshot,
-  commitsToOmit,
-  commitsToFixOpacity,
-  gitVisuals) {
-
-  // we want to omit the commit outgoing edges
-  var toOmit = [];
-  _.each(commitsToOmit, function(visNode) {
-    toOmit.push(visNode);
-    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
-  });
-
-  var fixOpacity = function(obj) {
-    if (!obj) { return; }
-    _.each(obj, function(attr, partName) {
-      obj[partName].opacity = 1;
-    });
-  };
-
-  // HORRIBLE loop to fix opacities all throughout the snapshot
-  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
-    _.each(commitsToFixOpacity, function(visNode) {
-      fixOpacity(snapShot[visNode.getID()]);
-      _.each(visNode.get('outgoingEdges'), function(visEdge) {
-        fixOpacity(snapShot[visEdge.getID()]);
-      });
-    });
-  });
-
-  return function() {
-    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
-  };
-};
-
-exports.AnimationFactory = AnimationFactory;
-
-
-});
-
-require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var GLOBAL = require('../../util/constants').GLOBAL;
-
-var Animation = Backbone.Model.extend({
-  defaults: {
-    duration: 300,
-    closure: null
-  },
-
-  validateAtInit: function() {
-    if (!this.get('closure')) {
-      throw new Error('give me a closure!');
-    }
-  },
-
-  initialize: function(options) {
-    this.validateAtInit();
-  },
-
-  run: function() {
-    this.get('closure')();
-  }
-});
-
-var AnimationQueue = Backbone.Model.extend({
-  defaults: {
-    animations: null,
-    index: 0,
-    callback: null,
-    defer: false
-  },
-
-  initialize: function(options) {
-    this.set('animations', []);
-    if (!options.callback) {
-      console.warn('no callback');
-    }
-  },
-
-  add: function(animation) {
-    if (!animation instanceof Animation) {
-      throw new Error("Need animation not something else");
-    }
-
-    this.get('animations').push(animation);
-  },
-
-  start: function() {
-    this.set('index', 0);
-
-    // set the global lock that we are animating
-    GLOBAL.isAnimating = true;
-    this.next();
-  },
-
-  finish: function() {
-    // release lock here
-    GLOBAL.isAnimating = false;
-    this.get('callback')();
-  },
-
-  next: function() {
-    // ok so call the first animation, and then set a timeout to call the next.
-    // since an animation is defined as taking a specific amount of time,
-    // we can simply just use timeouts rather than promises / deferreds.
-    // for graphical displays that require an unknown amount of time, use deferreds
-    // but not animation queue (see the finishAnimation for that)
-    var animations = this.get('animations');
-    var index = this.get('index');
-    if (index >= animations.length) {
-      this.finish();
-      return;
-    }
-
-    var next = animations[index];
-    var duration = next.get('duration');
-
-    next.run();
-
-    this.set('index', index + 1);
-    setTimeout(_.bind(function() {
-      this.next();
-    }, this), duration);
-  }
-});
-
-exports.Animation = Animation;
-exports.AnimationQueue = AnimationQueue;
-
-});
-
-require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-// static class...
-function TreeCompare() {
-
-}
-
-TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
-  var result = true;
-  _.each(branches, function(branchName) {
-    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
-  }, this);
-
-  return result;
-};
-
-TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  this.reduceTreeFields([treeA, treeB]);
-
-  // we need a recursive comparison function to bubble up the  branch
-  var recurseCompare = function(commitA, commitB) {
-    // this is the short-circuit base case
-    var result = _.isEqual(commitA, commitB);
-    if (!result) {
-      return false;
-    }
-
-    // we loop through each parent ID. we sort the parent ID's beforehand
-    // so the index lookup is valid
-    _.each(commitA.parents, function(pAid, index) {
-      var pBid = commitB.parents[index];
-
-      var childA = treeA.commits[pAid];
-      var childB = treeB.commits[pBid];
-
-      result = result && recurseCompare(childA, childB);
-    }, this);
-    // if each of our children recursively are equal, we are good
-    return result;
-  };
-
-  var branchA = treeA.branches[branchName];
-  var branchB = treeB.branches[branchName];
-
-  return _.isEqual(branchA, branchB) &&
-    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
-};
-
-TreeCompare.prototype.convertTreeSafe = function(tree) {
-  if (typeof tree == 'string') {
-    return JSON.parse(unescape(tree));
-  }
-  return tree;
-};
-
-TreeCompare.prototype.reduceTreeFields = function(trees) {
-  var commitSaveFields = [
-    'parents',
-    'id',
-    'rootCommit'
-  ];
-  var commitSortFields = ['children', 'parents'];
-  var branchSaveFields = [
-    'target',
-    'id'
-  ];
-
-  // this function saves only the specified fields of a tree
-  var saveOnly = function(tree, treeKey, saveFields, sortFields) {
-    var objects = tree[treeKey];
-    _.each(objects, function(obj, objKey) {
-      // our blank slate to copy over
-      var blank = {};
-      _.each(saveFields, function(field) {
-        if (obj[field] !== undefined) {
-          blank[field] = obj[field];
-        }
-      });
-
-      _.each(sortFields, function(field) {
-        // also sort some fields
-        if (obj[field]) {
-          obj[field].sort();
-          blank[field] = obj[field];
-        }
-      });
-      tree[treeKey][objKey] = blank;
-    });
-  };
-
-  _.each(trees, function(tree) {
-    saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
-    saveOnly(tree, 'branches', branchSaveFields);
-
-    tree.HEAD = {
-      target: tree.HEAD.target,
-      id: tree.HEAD.id
-    };
-  });
-};
-
-TreeCompare.prototype.compareTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  // now we need to strip out the fields we don't care about, aka things
-  // like createTime, message, author
-  this.reduceTreeFields([treeA, treeB]);
-
-  console.log('comparing tree A', treeA, 'to', treeB);
-
-  return _.isEqual(treeA, treeB);
-};
-
-exports.TreeCompare = TreeCompare;
-
-
-});
-
-require.define("/src/js/views/rebaseView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
-
-var InteractiveRebaseView = ContainedBase.extend({
-  tagName: 'div',
-  template: _.template($('#interactive-rebase-template').html()),
-
-  initialize: function(options) {
-    this.deferred = options.deferred;
-    this.rebaseMap = {};
-    this.entryObjMap = {};
-
-    this.rebaseEntries = new RebaseEntryCollection();
-    options.toRebase.reverse();
-    _.each(options.toRebase, function(commit) {
-      var id = commit.get('id');
-      this.rebaseMap[id] = commit;
-
-      // make basic models for each commit
-      this.entryObjMap[id] = new RebaseEntry({
-        id: id
-      });
-      this.rebaseEntries.add(this.entryObjMap[id]);
-    }, this);
-
-    this.container = new ModalTerminal({
-      title: 'Interactive Rebase'
-    });
-    this.render();
-
-    // show the dialog holder
-    this.show();
-  },
-
-  confirm: function() {
-    this.hide();
-
-    // get our ordering
-    var uiOrder = [];
-    this.$('ul.rebaseEntries li').each(function(i, obj) {
-      uiOrder.push(obj.id);
-    });
-
-    // now get the real array
-    var toRebase = [];
-    _.each(uiOrder, function(id) {
-      // the model pick check
-      if (this.entryObjMap[id].get('pick')) {
-        toRebase.unshift(this.rebaseMap[id]);
-      }
-    }, this);
-
-    this.deferred.resolve(toRebase);
-    // garbage collection will get us
-    this.$el.html('');
-  },
-
-  render: function() {
-    var json = {
-      num: _.keys(this.rebaseMap).length
-    };
-
-    var destination = this.container.getInsideElement();
-    this.$el.html(this.template(json));
-    $(destination).append(this.el);
-
-    // also render each entry
-    var listHolder = this.$('ul.rebaseEntries');
-    this.rebaseEntries.each(function(entry) {
-      new RebaseEntryView({
-        el: listHolder,
-        model: entry
-      });
-    }, this);
-
-    // then make it reorderable..
-    listHolder.sortable({
-      axis: 'y',
-      placeholder: 'rebaseEntry transitionOpacity ui-state-highlight',
-      appendTo: 'parent'
-    });
-
-    this.makeButtons();
-  },
-
-  makeButtons: function() {
-    // control for button
-    var deferred = Q.defer();
-    deferred.promise
-    .then(_.bind(function() {
-      this.confirm();
-    }, this))
-    .fail(_.bind(function() {
-      // empty array does nothing, just like in git
-      this.hide();
-      this.deferred.resolve([]);
-    }, this))
-    .done();
-
-    // finally get our buttons
-    new ConfirmCancelView({
-      destination: this.$('.confirmCancel'),
-      deferred: deferred
-    });
-  }
-});
-
-var RebaseEntry = Backbone.Model.extend({
-  defaults: {
-    pick: true
-  },
-
-  toggle: function() {
-    this.set('pick', !this.get('pick'));
-  }
-});
-
-var RebaseEntryCollection = Backbone.Collection.extend({
-  model: RebaseEntry
-});
-
-var RebaseEntryView = Backbone.View.extend({
-  tagName: 'li',
-  template: _.template($('#interactive-rebase-entry-template').html()),
-
-  toggle: function() {
-    this.model.toggle();
-
-    // toggle a class also
-    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
-  },
-
-  initialize: function(options) {
-    this.render();
-  },
-
-  render: function() {
-    var json = this.model.toJSON();
-    this.$el.append(this.template(this.model.toJSON()));
-
-    // hacky :( who would have known jquery barfs on ids with %'s and quotes
-    this.listEntry = this.$el.children(':last');
-
-    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
-      this.toggle();
-    }, this));
-  }
-});
-
-exports.InteractiveRebaseView = InteractiveRebaseView;
-
-});
-
 require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -11944,519 +12002,6 @@ exports.parse = parse;
 
 });
 
-require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
-var Main = require('../app');
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
-
-var Errors = require('../util/errors');
-var Warning = Errors.Warning;
-
-var util = require('../util');
-var keyboard = require('../util/keyboard');
-
-var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
-    Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
-
-    this.index = -1;
-    this.commandSpan = this.$('#prompt span.command')[0];
-    this.commandCursor = this.$('#prompt span.cursor')[0];
-    this.focus();
-
-    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
-
-    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
-  },
-
-  events: {
-    'blur #commandTextField': 'hideCursor',
-    'focus #commandTextField': 'showCursor'
-  },
-
-  blur: function() {
-    this.hideCursor();
-  },
-
-  focus: function() {
-    this.$('#commandTextField').focus();
-    this.showCursor();
-  },
-
-  hideCursor: function() {
-    this.toggleCursor(false);
-  },
-
-  showCursor: function() {
-    this.toggleCursor(true);
-  },
-
-  toggleCursor: function(state) {
-    $(this.commandCursor).toggleClass('shown', state);
-  },
-
-  onKeyDown: function(e) {
-    var el = e.srcElement;
-    this.updatePrompt(el);
-  },
-
-  onKeyUp: function(e) {
-    this.onKeyDown(e);
-
-    // we need to capture some of these events.
-    var keyToFuncMap = {
-      enter: _.bind(function() {
-        this.submit();
-      }, this),
-      up: _.bind(function() {
-        this.commandSelectChange(1);
-      }, this),
-      down: _.bind(function() {
-        this.commandSelectChange(-1);
-      }, this)
-    };
-
-    var key = keyboard.mapKeycodeToKey(e.which);
-    if (keyToFuncMap[key] !== undefined) {
-      e.preventDefault();
-      keyToFuncMap[key]();
-      this.onKeyDown(e);
-    }
-  },
-
-  badHtmlEncode: function(text) {
-    return text.replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/</g,'&lt;')
-      .replace(/ /g,'&nbsp;')
-      .replace(/\n/g,'');
-  },
-
-  updatePrompt: function(el) {
-    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
-    // super annoying delay to every keystroke... I have tried everything
-    // to make this more performant. getting the srcElement from the event,
-    // getting the value directly from the dom, etc etc. yet still,
-    // there's a very annoying and sightly noticeable command delay.
-    // try.github.com also has this, so I'm assuming those engineers gave up as
-    // well...
-    var val = this.badHtmlEncode(el.value);
-    this.commandSpan.innerHTML = val;
-
-    // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
-    // and scroll down due to some weird bug
-    Main.getEvents().trigger('commandScrollDown');
-  },
-
-  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    // 10px for monospaced font at "1" zoom
-    var zoom = require('../util/zoomLevel').detectZoom();
-    var widthPerChar = 10 * zoom;
-
-    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
-    var width = String(numCharsSelected * widthPerChar) + 'px';
-
-    // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
-    var left = String(-numLeft * widthPerChar) + 'px';
-    // one reflow? :D
-    $(this.commandCursor).css({
-      width: width,
-      left: left
-    });
-  },
-
-  commandSelectChange: function(delta) {
-    this.index += delta;
-
-    // if we are over / under, display blank line. yes this eliminates your
-    // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
-      this.clear();
-      this.index = -1;
-      return;
-    }
-
-    // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
-    this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
-    localStorage.setItem('CommandEntries', '');
-  },
-
-  setTextField: function(value) {
-    this.$('#commandTextField').val(value);
-  },
-
-  clear: function() {
-    this.setTextField('');
-  },
-
-  submit: function() {
-    var value = this.$('#commandTextField').val().replace('\n', '');
-    this.clear();
-
-    this.submitCommand(value);
-    this.index = -1;
-  },
-
-  rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
-    which.reverse();
-
-    var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
-    }, this);
-
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
-  },
-
-  addToCommandHistory: function(value) {
-    // we should add the command to our local storage history
-    // if it's not a blank line and this is a new command...
-    // or if we edited the command in place in history
-    var shouldAdd = (value.length && this.index === -1) ||
-      ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
-
-    if (this.index !== -1) {
-      console.log(this.commands.toArray()[this.index]);
-    }
-
-    if (!shouldAdd) {
-      return;
-    }
-
-    var commandEntry = new CommandEntry({text: value});
-    this.commands.unshift(commandEntry);
-
-    // store to local storage
-    Backbone.sync('create', commandEntry, function() { });
-
-    // if our length is too egregious, reset
-    if (this.commands.length > 100) {
-      this.clearLocalStorage();
-    }
-  },
-
-  submitCommand: function(value) {
-    Main.getEventBaton().trigger('commandSubmitted', value);
-  }
-});
-
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html. doing so allows us
-    // to nicely fade things
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']).length === 0) {
-      this.updateStatus();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
-exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
-
-});
-
-require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var mapKeycodeToKey = function(keycode) {
-  // HELP WANTED -- internationalize? Dvorak? I have no idea
-  var keyMap = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-    27: 'esc',
-    13: 'enter'
-  };
-  return keyMap[keycode];
-};
-
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
-}
-
-KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
-
-  var key = mapKeycodeToKey(which);
-  if (key === undefined) {
-    return;
-  }
-
-  this.fireEvent(key);
-};
-
-KeyboardListener.prototype.fireEvent = function(eventName) {
-  eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
-};
-
-exports.KeyboardListener = KeyboardListener;
-exports.mapKeycodeToKey = mapKeycodeToKey;
-
-
-});
-
-require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-
-var GitVisuals = require('../visuals').GitVisuals;
-
-var Visualization = Backbone.View.extend({
-  initialize: function(options) {
-    var _this = this;
-    this.customEvents = _.clone(Backbone.Events);
-
-    new Raphael(10, 10, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this, options);
-    });
-  },
-
-  paperInitialize: function(paper, options) {
-    options = options || {};
-    this.treeString = options.treeString;
-    this.paper = paper;
-
-    var Main = require('../app');
-    this.events = options.events || Main.getEvents();
-    this.eventBaton = options.eventBaton || Main.getEventBaton();
-
-    this.commitCollection = new CommitCollection();
-    this.branchCollection = new BranchCollection();
-
-    this.gitVisuals = new GitVisuals({
-      commitCollection: this.commitCollection,
-      branchCollection: this.branchCollection,
-      paper: this.paper
-    });
-
-    var GitEngine = require('../git').GitEngine;
-    this.gitEngine = new GitEngine({
-      collection: this.commitCollection,
-      branches: this.branchCollection,
-      gitVisuals: this.gitVisuals,
-      eventBaton: this.eventBaton
-    });
-    this.gitEngine.init();
-    this.gitVisuals.assignGitEngine(this.gitEngine);
-
-    this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
-    this.gitVisuals.drawTreeFirstTime();
-
-    if (this.treeString) {
-      this.gitEngine.loadTreeFromString(this.treeString);
-    }
-
-    this.setTreeOpacity(0);
-    this.fadeTreeIn();
-
-    this.customEvents.trigger('gitEngineReady');
-  },
-
-  setTreeOpacity: function(level) {
-    $(this.paper.canvas).css('opacity', 0);
-  },
-
-  fadeTreeIn: function() {
-    $(this.paper.canvas).animate({opacity: 1}, 300);
-  },
-
-  myResize: function() {
-    var smaller = 1;
-    var el = this.el;
-
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
-
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
-    this.paper.setSize(width, height);
-    this.gitVisuals.canvasResize(width, height);
-  }
-});
-
-exports.Visualization = Visualization;
-
-});
-
 require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -12597,6 +12142,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 GitVisuals.prototype.finishAnimation = function() {
   var _this = this;
   var deferred = Q.defer();
+  var animationDone = Q.defer();
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
@@ -12677,13 +12223,17 @@ GitVisuals.prototype.finishAnimation = function() {
       {}
     );
   }, this))
+  .then(function() {
+    animationDone.resolve();
+  })
   .fail(function(reason) {
-    console.warn('Finish animation failed due to ', reason);
-    throw reason;
-  });
+    console.warn('animation error' + reason);
+  })
+  .done();
 
-  deferred.resolve(); // start right away
-  return deferred.promise;
+  // start our animation chain right away
+  deferred.resolve();
+  return animationDone.promise;
 };
 
 GitVisuals.prototype.explodeNodes = function() {
@@ -14600,6 +14150,566 @@ exports.MultiView = MultiView;
 
 });
 
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var mapKeycodeToKey = function(keycode) {
+  // HELP WANTED -- internationalize? Dvorak? I have no idea
+  var keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  return keyMap[keycode];
+};
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keydownListener = _.bind(this.keydown, this);
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
+    return;
+  }
+
+  this.fireEvent(key);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
+exports.mapKeycodeToKey = mapKeycodeToKey;
+
+
+});
+
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  if (!func) { throw new Error('need func!'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.sliceOffArgs = function(num, args) {
+  var newArgs = [];
+  for (var i = num; i < args.length; i++) {
+    newArgs.push(args[i]);
+  }
+  return newArgs;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
+  var argsToApply = this.sliceOffArgs(1, arguments);
+
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    console.warn('no listeners for', name);
+    return;
+  }
+
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.getListenersThrow = function(name) {
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+  return listeners;
+};
+
+EventBaton.prototype.passBatonBack = function(name, func, context, args) {
+  // this method will call the listener BEFORE the name/func pair. this
+  // basically allows you to put in shims, where you steal batons but pass
+  // them back if they don't meet certain conditions
+  var listeners = this.getListenersThrow(name);
+
+  var indexBefore;
+  _.each(listeners, function(listenerObj, index) {
+    // skip the first
+    if (index === 0) { return; }
+    if (listenerObj.func === func && listenerObj.context === context) {
+      indexBefore = index - 1;
+    }
+  }, this);
+  if (indexBefore === undefined) {
+    throw new Error('you are the last baton holder! or i didnt find you');
+  }
+  var toCallObj = listeners[indexBefore];
+
+  toCallObj.func.apply(toCallObj.context, args);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  // might be in the middle of the stack, so we have to loop instead of
+  // just popping blindly
+  var listeners = this.getListenersThrow(name);
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func && listenerObj.context === context) {
+      if (found) { console.warn('woah duplicates!!!'); }
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    console.log('did not find that function', func, context, name, arguments);
+    throw new Error('cant releasebaton if yu dont have it');
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
+
+
+});
+
+require.define("/src/js/util/zoomLevel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var warnOnce = true;
+
+function detectZoom() {
+  /**
+   * Note: this method has only been tested on Chrome
+   * but seems to work. A much more elaborate library is available here:
+   * https://github.com/yonran/detect-zoom
+   * but seems to return a "2" zoom level for my computer (who knows)
+   * so I can't use it. The ecosystem for zoom level detection is a mess
+   */
+  if (!window.outerWidth || !window.innerWidth) {
+    if (warnOnce) {
+      console.warn("Can't detect zoom level correctly :-/");
+      warnOnce = false;
+    }
+    return 1;
+  }
+
+  return window.outerWidth / window.innerWidth;
+}
+
+var setupZoomPoll = function(callback, context) {
+  var currentZoom = 0;
+
+  setInterval(function() {
+    var newZoom = detectZoom();
+    if (newZoom !== currentZoom) {
+      currentZoom = newZoom;
+      callback.apply(context, [newZoom]);
+    }
+  }, 500);
+};
+
+exports.setupZoomPoll = setupZoomPoll;
+exports.detectZoom = detectZoom;
+
+
+});
+
+require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
+var Main = require('../app');
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
+
+var Errors = require('../util/errors');
+var Warning = Errors.Warning;
+
+var util = require('../util');
+var keyboard = require('../util/keyboard');
+
+var CommandPromptView = Backbone.View.extend({
+  initialize: function(options) {
+    Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
+
+    // uses local storage
+    this.commands = new CommandEntryCollection();
+    this.commands.fetch({
+      success: _.bind(function() {
+        // reverse the commands. this is ugly but needs to be done...
+        var commands = [];
+        this.commands.each(function(c) {
+          commands.push(c);
+        });
+
+        commands.reverse();
+        this.commands.reset();
+
+        _.each(commands, function(c) {
+          this.commands.add(c);
+        }, this);
+      }, this)
+    });
+
+    this.index = -1;
+    this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandCursor = this.$('#prompt span.cursor')[0];
+    this.focus();
+
+    Main.getEvents().on('rollupCommands', this.rollupCommands, this);
+
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+  },
+
+  events: {
+    'blur #commandTextField': 'hideCursor',
+    'focus #commandTextField': 'showCursor'
+  },
+
+  blur: function() {
+    this.hideCursor();
+  },
+
+  focus: function() {
+    this.$('#commandTextField').focus();
+    this.showCursor();
+  },
+
+  hideCursor: function() {
+    this.toggleCursor(false);
+  },
+
+  showCursor: function() {
+    this.toggleCursor(true);
+  },
+
+  toggleCursor: function(state) {
+    $(this.commandCursor).toggleClass('shown', state);
+  },
+
+  onKeyDown: function(e) {
+    var el = e.srcElement;
+    this.updatePrompt(el);
+  },
+
+  onKeyUp: function(e) {
+    this.onKeyDown(e);
+
+    // we need to capture some of these events.
+    var keyToFuncMap = {
+      enter: _.bind(function() {
+        this.submit();
+      }, this),
+      up: _.bind(function() {
+        this.commandSelectChange(1);
+      }, this),
+      down: _.bind(function() {
+        this.commandSelectChange(-1);
+      }, this)
+    };
+
+    var key = keyboard.mapKeycodeToKey(e.which);
+    if (keyToFuncMap[key] !== undefined) {
+      e.preventDefault();
+      keyToFuncMap[key]();
+      this.onKeyDown(e);
+    }
+  },
+
+  badHtmlEncode: function(text) {
+    return text.replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/</g,'&lt;')
+      .replace(/ /g,'&nbsp;')
+      .replace(/\n/g,'');
+  },
+
+  updatePrompt: function(el) {
+    // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
+    // super annoying delay to every keystroke... I have tried everything
+    // to make this more performant. getting the srcElement from the event,
+    // getting the value directly from the dom, etc etc. yet still,
+    // there's a very annoying and sightly noticeable command delay.
+    // try.github.com also has this, so I'm assuming those engineers gave up as
+    // well...
+    var val = this.badHtmlEncode(el.value);
+    this.commandSpan.innerHTML = val;
+
+    // now mutate the cursor...
+    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    // and scroll down due to some weird bug
+    Main.getEvents().trigger('commandScrollDown');
+  },
+
+  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    // 10px for monospaced font at "1" zoom
+    var zoom = require('../util/zoomLevel').detectZoom();
+    var widthPerChar = 10 * zoom;
+
+    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
+    var width = String(numCharsSelected * widthPerChar) + 'px';
+
+    // now for positioning
+    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var left = String(-numLeft * widthPerChar) + 'px';
+    // one reflow? :D
+    $(this.commandCursor).css({
+      width: width,
+      left: left
+    });
+  },
+
+  commandSelectChange: function(delta) {
+    this.index += delta;
+
+    // if we are over / under, display blank line. yes this eliminates your
+    // partially edited command, but i doubt that is much in this demo
+    if (this.index >= this.commands.length || this.index < 0) {
+      this.clear();
+      this.index = -1;
+      return;
+    }
+
+    // yay! we actually can display something
+    var commandEntry = this.commands.toArray()[this.index].get('text');
+    this.setTextField(commandEntry);
+  },
+
+  clearLocalStorage: function() {
+    this.commands.each(function(c) {
+      Backbone.sync('delete', c, function() { });
+    }, this);
+    localStorage.setItem('CommandEntries', '');
+  },
+
+  setTextField: function(value) {
+    this.$('#commandTextField').val(value);
+  },
+
+  clear: function() {
+    this.setTextField('');
+  },
+
+  submit: function() {
+    var value = this.$('#commandTextField').val().replace('\n', '');
+    this.clear();
+
+    this.submitCommand(value);
+    this.index = -1;
+  },
+
+  rollupCommands: function(numBack) {
+    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    which.reverse();
+
+    var str = '';
+    _.each(which, function(commandEntry) {
+      str += commandEntry.get('text') + ';';
+    }, this);
+
+    var rolled = new CommandEntry({text: str});
+    this.commands.unshift(rolled);
+    Backbone.sync('create', rolled, function() { });
+  },
+
+  addToCommandHistory: function(value) {
+    // we should add the command to our local storage history
+    // if it's not a blank line and this is a new command...
+    // or if we edited the command in place in history
+    var shouldAdd = (value.length && this.index === -1) ||
+      ((value.length && this.index !== -1 &&
+      this.commands.toArray()[this.index].get('text') !== value));
+
+    if (this.index !== -1) {
+      console.log(this.commands.toArray()[this.index]);
+    }
+
+    if (!shouldAdd) {
+      return;
+    }
+
+    var commandEntry = new CommandEntry({text: value});
+    this.commands.unshift(commandEntry);
+
+    // store to local storage
+    Backbone.sync('create', commandEntry, function() { });
+
+    // if our length is too egregious, reset
+    if (this.commands.length > 100) {
+      this.clearLocalStorage();
+    }
+  },
+
+  submitCommand: function(value) {
+    Main.getEventBaton().trigger('commandSubmitted', value);
+  }
+});
+
+// This is the view for all commands -- it will represent
+// their status (inqueue, processing, finished, error),
+// their value ("git commit --amend"),
+// and the result (either errors or warnings or whatever)
+var CommandView = Backbone.View.extend({
+  tagName: 'div',
+  model: Command,
+  template: _.template($('#command-template').html()),
+
+  events: {
+    'click': 'clicked'
+  },
+
+  clicked: function(e) {
+  },
+
+  initialize: function() {
+    this.model.bind('change', this.wasChanged, this);
+    this.model.bind('destroy', this.remove, this);
+  },
+
+  wasChanged: function(model, changeEvent) {
+    // for changes that are just comestic, we actually only want to toggle classes
+    // with jquery rather than brutally delete a html. doing so allows us
+    // to nicely fade things
+    var changes = changeEvent.changes;
+    var changeKeys = _.keys(changes);
+    if (_.difference(changeKeys, ['status']).length === 0) {
+      this.updateStatus();
+    } else {
+      this.render();
+    }
+  },
+
+  updateStatus: function() {
+    var statuses = ['inqueue', 'processing', 'finished'];
+    var toggleMap = {};
+    _.each(statuses, function(status) {
+      toggleMap[status] = false;
+    });
+    toggleMap[this.model.get('status')] = true;
+
+    var query = this.$('p.commandLine');
+
+    _.each(toggleMap, function(value, key) {
+      query.toggleClass(key, value);
+    });
+  },
+
+  render: function() {
+    var json = _.extend(
+      {
+        resultType: '',
+        result: '',
+        formattedWarnings: this.model.getFormattedWarnings()
+      },
+      this.model.toJSON()
+    );
+
+    this.$el.html(this.template(json));
+    return this;
+  },
+
+  remove: function() {
+    $(this.el).hide();
+  }
+});
+
+
+var CommandLineHistoryView = Backbone.View.extend({
+  initialize: function(options) {
+    this.collection = options.collection;
+
+    this.collection.on('add', this.addOne, this);
+    this.collection.on('reset', this.addAll, this);
+    this.collection.on('all', this.render, this);
+
+    this.collection.on('change', this.scrollDown, this);
+    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+  },
+
+  addWarning: function(msg) {
+    var err = new Warning({
+      msg: msg
+    });
+
+    var command = new Command({
+      error: err,
+      rawStr: 'Warning:'
+    });
+
+    this.collection.add(command);
+  },
+
+  scrollDown: function() {
+    // if commandDisplay is ever bigger than #terminal, we need to
+    // add overflow-y to terminal and scroll down
+    var cD = $('#commandDisplay')[0];
+    var t = $('#terminal')[0];
+
+    if ($(t).hasClass('scrolling')) {
+      t.scrollTop = t.scrollHeight;
+      return;
+    }
+    if (cD.clientHeight > t.clientHeight) {
+      $(t).css('overflow-y', 'scroll');
+      $(t).css('overflow-x', 'hidden');
+      $(t).addClass('scrolling');
+      t.scrollTop = t.scrollHeight;
+    }
+  },
+
+  addOne: function(command) {
+    var view = new CommandView({
+      model: command
+    });
+    this.$('#commandDisplay').append(view.render().el);
+    this.scrollDown();
+  },
+
+  addAll: function() {
+    this.collection.each(this.addOne);
+  }
+});
+
+exports.CommandPromptView = CommandPromptView;
+exports.CommandLineHistoryView = CommandLineHistoryView;
+
+});
+
 require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.helpDialog = [{
   type: 'ModalAlert',
   options: {
@@ -14728,11 +14838,12 @@ var init = function() {
     *   - handling window.focus and zoom events
   **/
   var Sandbox = require('../level/sandbox').Sandbox;
+  var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  sandbox = new Sandbox();
+  sandbox = new Level();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -17050,6 +17161,8 @@ var Q = require('q');
 var util = require('../util');
 var Main = require('../app');
 
+var Sandbox = require('../level/sandbox').Sandbox;
+
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
@@ -17058,22 +17171,90 @@ var GitShim = require('../git/gitShim').GitShim;
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
-
 var MultiView = require('../views/multiView').MultiView;
 
-/*
-this.beforeDeferHandler = function(deferred) {
-  var view = new MultiView({
-  });
-  view.getPromise()
-  .then(function() {
-    return Q.delay(700);
-  })
-  .then(function() {
-    deferred.resolve();
-  })
-  .done();
-};*/
+var TreeCompare = require('../git/treeCompare').TreeCompare;
+
+var Level = Sandbox.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.level = options.level || {};
+
+    this.gitCommandsIssued = 0;
+    this.solved = false;
+    // possible options on how stringent to be go here
+    this.treeCompare = new TreeCompare();
+
+    this.goalTreeString = options.level.goalTree;
+    if (!this.goalTreeString) {
+      console.warn('woah no goal, using random other one');
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+    }
+
+    Sandbox.prototype.initialize.apply(this, [options]);
+  },
+
+  initVisualization: function(options) {
+    if (!options.level.startTree) {
+      console.warn('No start tree specified for this level!!! using default...');
+    }
+    this.mainVis = new Visualization({
+      el: options.el || this.getDefaultVisEl(),
+      treeString: options.level.startTree
+    });
+  },
+
+  initParseWaterfall: function(options) {
+    this.parseWaterfall = new ParseWaterfall();
+
+    // if we want to disable certain commands...
+    if (options.level.disabledMap) {
+      // disable these other commands
+      this.parseWaterfall.addFirst(
+        new DisabledMap({
+          disabledMap: options.level.disabledMap
+        }).getInstantCommands()
+      );
+    }
+  },
+
+  initGitShim: function(options) {
+    // ok we definitely want a shim here
+    this.gitShim = new GitShim({
+      afterCB: _.bind(this.afterCommandCB, this),
+      afterDeferHandler: _.bind(this.afterCommandDefer, this)
+    });
+  },
+
+  afterCommandCB: function(command) {
+    // TODO check if error, but not warning
+    this.gitCommandsIssued++;
+  },
+
+  afterCommandDefer: function(defer) {
+    if (this.solved) { return; }
+    // ok so lets see if they solved it...
+    var current = this.mainVis.gitEngine.exportTree();
+    var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
+
+    if (!solved) {
+      defer.resolve();
+      return;
+    }
+
+    // woohoo!!! they solved the level, lets animate and such
+    this.levelSolved(defer);
+  },
+
+  levelSolved: function(defer) {
+    this.mainVis.gitVisuals.finishAnimation()
+    .then(function() {
+      defer.resolve();
+    });
+  }
+});
+
+exports.Level = Level;
 
 
 });
@@ -17213,9 +17394,13 @@ var Sandbox = Backbone.View.extend({
     }
   },
 
+  getDefaultVisEl: function() {
+    return $('#canvasWrapper')[0];
+  },
+
   initVisualization: function(options) {
     this.mainVis = new Visualization({
-      el: options.el || $('#canvasWrapper')[0]
+      el: options.el || this.getDefaultVisEl()
     });
   },
 
@@ -17227,11 +17412,6 @@ var Sandbox = Backbone.View.extend({
 
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
-    /* DISBALED MAP example!!!
-    this.parseWaterfall.addFirst(
-      'instantWaterfall',
-      new DisabledMap().getInstantCommands()
-    );*/
   },
 
   initGitShim: function(options) {
@@ -19577,6 +19757,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 GitVisuals.prototype.finishAnimation = function() {
   var _this = this;
   var deferred = Q.defer();
+  var animationDone = Q.defer();
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
@@ -19657,13 +19838,17 @@ GitVisuals.prototype.finishAnimation = function() {
       {}
     );
   }, this))
+  .then(function() {
+    animationDone.resolve();
+  })
   .fail(function(reason) {
-    console.warn('Finish animation failed due to ', reason);
-    throw reason;
-  });
+    console.warn('animation error' + reason);
+  })
+  .done();
 
-  deferred.resolve(); // start right away
-  return deferred.promise;
+  // start our animation chain right away
+  deferred.resolve();
+  return animationDone.promise;
 };
 
 GitVisuals.prototype.explodeNodes = function() {

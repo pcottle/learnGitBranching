@@ -33,9 +33,13 @@ var Sandbox = Backbone.View.extend({
     }
   },
 
+  getDefaultVisEl: function() {
+    return $('#canvasWrapper')[0];
+  },
+
   initVisualization: function(options) {
     this.mainVis = new Visualization({
-      el: options.el || $('#canvasWrapper')[0]
+      el: options.el || this.getDefaultVisEl()
     });
   },
 
@@ -47,11 +51,6 @@ var Sandbox = Backbone.View.extend({
 
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
-    /* DISBALED MAP example!!!
-    this.parseWaterfall.addFirst(
-      'instantWaterfall',
-      new DisabledMap().getInstantCommands()
-    );*/
   },
 
   initGitShim: function(options) {
