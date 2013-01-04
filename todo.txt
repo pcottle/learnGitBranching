@@ -23,6 +23,9 @@ Minor Bugs to fix:
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] window zoom alert thing
+[ ] better stuff for modals stealing input
+[ ] click handlers on goal visualization
 
 /*************************************
  ** Publish Things **

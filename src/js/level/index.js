@@ -40,6 +40,12 @@ var Level = Sandbox.extend({
     Sandbox.prototype.initialize.apply(this, [options]);
   },
 
+  takeControl: function() {
+    Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Sandbox.prototype.takeControl.apply(this);
+  },
+
   initVisualization: function(options) {
     if (!options.level.startTree) {
       console.warn('No start tree specified for this level!!! using default...');
@@ -68,25 +74,30 @@ var Level = Sandbox.extend({
       treeString: this.goalTreeString,
       noKeyboardInput: true
     });
-
-    this.goalVis.customEvents.on('paperReady', _.bind(function() {
-      // this is tricky. at this point we have a canvas that has 0
-      // opacity but its floating in front of our command history. we need
-      // to move it out without an animation and then give it an opacity of 1
-      this.goalVis.setTreeOpacity(1);
-    }, this));
   },
 
-  showGoal: function() {
+  showGoal: function(command, defer) {
     this.goalCanvasHolder.slideIn();
+    setTimeout(function() {
+      command.finishWith(defer);
+    }, this.goalCanvasHolder.getAnimationTime());
   },
 
-  hideGoal: function() {
+  hideGoal: function(command, defer) {
     this.goalCanvasHolder.slideOut();
+    setTimeout(function() {
+      command.finishWith(defer);
+    }, this.goalCanvasHolder.getAnimationTime());
   },
 
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
+
+    // add our specific functionaity
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      require('../level/commands').parse
+    );
 
     // if we want to disable certain commands...
     if (options.level.disabledMap) {
@@ -175,8 +186,19 @@ var Level = Sandbox.extend({
 
   },
 
-  parse: function() {
+  processLevelCommand: function(command, defer) {
+    console.log('processing command...');
+    var methodMap = {
+      'show goal': this.showGoal,
+      'hide goal': this.hideGoal,
+      'show solution': this.showSolution
+    };
+    var method = methodMap[command.get('method')];
+    if (!method) {
+      throw new Error('woah we dont support that method yet', method);
+    }
 
+    method.apply(this, [command, defer]);
   }
 });
 

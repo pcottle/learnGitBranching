@@ -323,6 +323,8 @@ var CanvasTerminalHolder = BaseView.extend({
     this.render();
   },
 
+  getAnimationTime: function() { return 700; },
+
   slideOut: function() {
     this.slideToggle(true);
   },
