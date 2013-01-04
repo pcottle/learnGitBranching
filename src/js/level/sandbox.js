@@ -34,7 +34,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   getDefaultVisEl: function() {
-    return $('#canvasWrapper')[0];
+    return $('#mainVisSpace')[0];
   },
 
   initVisualization: function(options) {

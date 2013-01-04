@@ -38,6 +38,9 @@ ParseWaterfall.prototype.getWaterfallMap = function() {
 };
 
 ParseWaterfall.prototype.addFirst = function(which, value) {
+  if (!which || !value) {
+    throw new Error('need to know which!!!');
+  }
   this.getWaterfallMap()[which].unshift(value);
 };
 

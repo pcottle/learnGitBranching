@@ -10,10 +10,14 @@ var GitVisuals = require('../visuals').GitVisuals;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
-    var _this = this;
+    options = options || {};
+    this.options = options;
     this.customEvents = _.clone(Backbone.Events);
 
-    new Raphael(10, 10, 200, 200, function() {
+    var _this = this;
+    // we want to add our canvas somewhere
+    var container = options.containerElement || $('#canvasHolder')[0];
+    new Raphael(container, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
       // context...
@@ -23,7 +27,6 @@ var Visualization = Backbone.View.extend({
   },
 
   paperInitialize: function(paper, options) {
-    options = options || {};
     this.treeString = options.treeString;
     this.paper = paper;
 
@@ -69,6 +72,7 @@ var Visualization = Backbone.View.extend({
     }
 
     this.customEvents.trigger('gitEngineReady');
+    this.customEvents.trigger('paperReady');
   },
 
   setTreeOpacity: function(level) {
@@ -77,6 +81,9 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
+  },
+
+  harshSlideChange: function(value) {
   },
 
   slideOut: function() {
@@ -142,15 +149,22 @@ var Visualization = Backbone.View.extend({
     var smaller = 1;
     var el = this.el;
 
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
     var width = el.clientWidth - smaller;
     var height = el.clientHeight - smaller;
 
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
+    // if we don't have a container, we need to set our
+    // position absolutely to whatever we are tracking
+    if (!this.options.containerElement) {
+
+      var left = el.offsetLeft;
+      var top = el.offsetTop;
+      $(this.paper.canvas).css({
+        position: 'absolute',
+        left: left + 'px',
+        top: top + 'px'
+      });
+    }
+
     this.paper.setSize(width, height);
     this.gitVisuals.canvasResize(width, height);
   }

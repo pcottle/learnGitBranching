@@ -57,7 +57,7 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
 
   // if we didnt receive a defer handler in the options, this just
   // resolves immediately
-  this.beforeDeferHandler(beforeDefer);
+  this.beforeDeferHandler(beforeDefer, command);
 };
 
 GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
@@ -73,7 +73,7 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   })
   .done();
 
-  this.afterDeferHandler(afterDefer);
+  this.afterDeferHandler(afterDefer, command);
 };
 
 exports.GitShim = GitShim;

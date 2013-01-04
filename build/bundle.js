@@ -4502,7 +4502,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   getDefaultVisEl: function() {
-    return $('#canvasWrapper')[0];
+    return $('#mainVisSpace')[0];
   },
 
   initVisualization: function(options) {
@@ -4761,8 +4761,7 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
-      //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
     }
 
     Sandbox.prototype.initialize.apply(this, [options]);
@@ -4777,7 +4776,7 @@ var Level = Sandbox.extend({
       treeString: options.level.startTree
     });
 
-    //this.initGoalVisualization(options);
+    this.initGoalVisualization(options);
   },
 
   getDefaultGoalVisEl: function() {
@@ -4785,12 +4784,22 @@ var Level = Sandbox.extend({
   },
 
   initGoalVisualization: function(options) {
-    this.goalVisualization = new Visualization({
+    // first we make the goal visualization holder
+
+    // then we make a visualization. the "el" here is the element to
+    // track for size information. the container is where the canvas will be placed
+    this.goalVis = new Visualization({
       el: options.goalEl || this.getDefaultGoalVisEl(),
       treeString: this.goalTreeString,
       wait: true,
       slideOut: true
     });
+    this.goalVis.customEvents.on('paperReady', _.bind(function() {
+      // this is tricky. at this point we have a canvas that has 0
+      // opacity but its floating in front of our command history. we need
+      // to move it out without an animation and then give it an opacity of 1
+      this.goalVis.setTreeOpacity(1);
+    }, this));
   },
 
   initParseWaterfall: function(options) {
@@ -4800,11 +4809,13 @@ var Level = Sandbox.extend({
     if (options.level.disabledMap) {
       // disable these other commands
       this.parseWaterfall.addFirst(
+        'instantWaterfall',
         new DisabledMap({
           disabledMap: options.level.disabledMap
         }).getInstantCommands()
       );
     }
+
   },
 
   initGitShim: function(options) {
@@ -4844,11 +4855,18 @@ var Level = Sandbox.extend({
     if (matched) {
       this.gitCommandsIssued++;
     }
-    console.log('git commands isssued', this.gitCommandsIssued);
   },
 
-  afterCommandDefer: function(defer) {
-    if (this.solved) { return; }
+  afterCommandDefer: function(defer, command) {
+    if (this.solved) {
+      command.addWarning(
+        "You've already solved this level, try other levels with 'show levels'" +
+        "or go back to the sandbox with 'sandbox'"
+      );
+      defer.resolve();
+      return;
+    }
+
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
@@ -4863,10 +4881,19 @@ var Level = Sandbox.extend({
   },
 
   levelSolved: function(defer) {
+    this.solved = true;
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
       defer.resolve();
     });
+  },
+
+  getInstantCommands: function() {
+
+  },
+
+  parse: function() {
+
   }
 });
 
@@ -6458,10 +6485,14 @@ var GitVisuals = require('../visuals').GitVisuals;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
-    var _this = this;
+    options = options || {};
+    this.options = options;
     this.customEvents = _.clone(Backbone.Events);
 
-    new Raphael(10, 10, 200, 200, function() {
+    var _this = this;
+    // we want to add our canvas somewhere
+    var container = options.containerElement || $('#canvasHolder')[0];
+    new Raphael(container, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
       // context...
@@ -6471,7 +6502,6 @@ var Visualization = Backbone.View.extend({
   },
 
   paperInitialize: function(paper, options) {
-    options = options || {};
     this.treeString = options.treeString;
     this.paper = paper;
 
@@ -6517,6 +6547,7 @@ var Visualization = Backbone.View.extend({
     }
 
     this.customEvents.trigger('gitEngineReady');
+    this.customEvents.trigger('paperReady');
   },
 
   setTreeOpacity: function(level) {
@@ -6525,6 +6556,9 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
+  },
+
+  harshSlideChange: function(value) {
   },
 
   slideOut: function() {
@@ -6590,15 +6624,22 @@ var Visualization = Backbone.View.extend({
     var smaller = 1;
     var el = this.el;
 
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
     var width = el.clientWidth - smaller;
     var height = el.clientHeight - smaller;
 
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
+    // if we don't have a container, we need to set our
+    // position absolutely to whatever we are tracking
+    if (!this.options.containerElement) {
+
+      var left = el.offsetLeft;
+      var top = el.offsetTop;
+      $(this.paper.canvas).css({
+        position: 'absolute',
+        left: left + 'px',
+        top: top + 'px'
+      });
+    }
+
     this.paper.setSize(width, height);
     this.gitVisuals.canvasResize(width, height);
   }
@@ -8879,8 +8920,6 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
   // like createTime, message, author
   this.reduceTreeFields([treeA, treeB]);
 
-  console.log('comparing tree A', treeA, 'to', treeB);
-
   return _.isEqual(treeA, treeB);
 };
 
@@ -9243,7 +9282,6 @@ var ModalView = Backbone.View.extend({
   initialize: function(options) {
     this.shown = false;
     this.render();
-    this.stealKeyboard();
   },
 
   render: function() {
@@ -9314,6 +9352,12 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    if (value) {
+      this.stealKeyboard();
+    } else {
+      this.releaseKeyboard();
+    }
+
     this.shown = value;
     this.$el.toggleClass('show', value);
   },
@@ -11999,6 +12043,9 @@ ParseWaterfall.prototype.getWaterfallMap = function() {
 };
 
 ParseWaterfall.prototype.addFirst = function(which, value) {
+  if (!which || !value) {
+    throw new Error('need to know which!!!');
+  }
   this.getWaterfallMap()[which].unshift(value);
 };
 
@@ -12058,9 +12105,6 @@ exports.ParseWaterfall = ParseWaterfall;
 });
 
 require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -14085,7 +14129,7 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
 
   // if we didnt receive a defer handler in the options, this just
   // resolves immediately
-  this.beforeDeferHandler(beforeDefer);
+  this.beforeDeferHandler(beforeDefer, command);
 };
 
 GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
@@ -14101,7 +14145,7 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   })
   .done();
 
-  this.afterDeferHandler(afterDefer);
+  this.afterDeferHandler(afterDefer, command);
 };
 
 exports.GitShim = GitShim;
@@ -15359,7 +15403,7 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
 
   // if we didnt receive a defer handler in the options, this just
   // resolves immediately
-  this.beforeDeferHandler(beforeDefer);
+  this.beforeDeferHandler(beforeDefer, command);
 };
 
 GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
@@ -15375,7 +15419,7 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   })
   .done();
 
-  this.afterDeferHandler(afterDefer);
+  this.afterDeferHandler(afterDefer, command);
 };
 
 exports.GitShim = GitShim;
@@ -17239,8 +17283,6 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
   // like createTime, message, author
   this.reduceTreeFields([treeA, treeB]);
 
-  console.log('comparing tree A', treeA, 'to', treeB);
-
   return _.isEqual(treeA, treeB);
 };
 
@@ -17249,6 +17291,38 @@ exports.TreeCompare = TreeCompare;
 
 });
 require("/src/js/git/treeCompare.js");
+
+require.define("/src/js/level/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var regexMap = {
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution$/,
+  'hint': /^hint$/
+};
+
+var parse = function(str) {
+  var levelMethod;
+
+  _.each(regexMap, function(regex, method) {
+    if (regex.test(str)) {
+      levelMethod = method;
+    }
+  });
+
+  return (!levelMethod) ? false : {
+    toSet: {
+      eventName: 'processLevelCommand',
+      method: levelMethod
+    }
+  };
+};
+
+exports.parse = parse;
+
+
+});
+require("/src/js/level/commands.js");
 
 require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
@@ -17329,8 +17403,7 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
-      //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
     }
 
     Sandbox.prototype.initialize.apply(this, [options]);
@@ -17345,7 +17418,7 @@ var Level = Sandbox.extend({
       treeString: options.level.startTree
     });
 
-    //this.initGoalVisualization(options);
+    this.initGoalVisualization(options);
   },
 
   getDefaultGoalVisEl: function() {
@@ -17353,12 +17426,22 @@ var Level = Sandbox.extend({
   },
 
   initGoalVisualization: function(options) {
-    this.goalVisualization = new Visualization({
+    // first we make the goal visualization holder
+
+    // then we make a visualization. the "el" here is the element to
+    // track for size information. the container is where the canvas will be placed
+    this.goalVis = new Visualization({
       el: options.goalEl || this.getDefaultGoalVisEl(),
       treeString: this.goalTreeString,
       wait: true,
       slideOut: true
     });
+    this.goalVis.customEvents.on('paperReady', _.bind(function() {
+      // this is tricky. at this point we have a canvas that has 0
+      // opacity but its floating in front of our command history. we need
+      // to move it out without an animation and then give it an opacity of 1
+      this.goalVis.setTreeOpacity(1);
+    }, this));
   },
 
   initParseWaterfall: function(options) {
@@ -17368,11 +17451,13 @@ var Level = Sandbox.extend({
     if (options.level.disabledMap) {
       // disable these other commands
       this.parseWaterfall.addFirst(
+        'instantWaterfall',
         new DisabledMap({
           disabledMap: options.level.disabledMap
         }).getInstantCommands()
       );
     }
+
   },
 
   initGitShim: function(options) {
@@ -17412,11 +17497,18 @@ var Level = Sandbox.extend({
     if (matched) {
       this.gitCommandsIssued++;
     }
-    console.log('git commands isssued', this.gitCommandsIssued);
   },
 
-  afterCommandDefer: function(defer) {
-    if (this.solved) { return; }
+  afterCommandDefer: function(defer, command) {
+    if (this.solved) {
+      command.addWarning(
+        "You've already solved this level, try other levels with 'show levels'" +
+        "or go back to the sandbox with 'sandbox'"
+      );
+      defer.resolve();
+      return;
+    }
+
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
@@ -17431,10 +17523,19 @@ var Level = Sandbox.extend({
   },
 
   levelSolved: function(defer) {
+    this.solved = true;
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
       defer.resolve();
     });
+  },
+
+  getInstantCommands: function() {
+
+  },
+
+  parse: function() {
+
   }
 });
 
@@ -17484,6 +17585,9 @@ ParseWaterfall.prototype.getWaterfallMap = function() {
 };
 
 ParseWaterfall.prototype.addFirst = function(which, value) {
+  if (!which || !value) {
+    throw new Error('need to know which!!!');
+  }
   this.getWaterfallMap()[which].unshift(value);
 };
 
@@ -17579,7 +17683,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   getDefaultVisEl: function() {
-    return $('#canvasWrapper')[0];
+    return $('#mainVisSpace')[0];
   },
 
   initVisualization: function(options) {
@@ -17670,9 +17774,6 @@ exports.Sandbox = Sandbox;
 require("/src/js/level/sandbox.js");
 
 require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -18926,7 +19027,6 @@ var ModalView = Backbone.View.extend({
   initialize: function(options) {
     this.shown = false;
     this.render();
-    this.stealKeyboard();
   },
 
   render: function() {
@@ -18997,6 +19097,12 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    if (value) {
+      this.stealKeyboard();
+    } else {
+      this.releaseKeyboard();
+    }
+
     this.shown = value;
     this.$el.toggleClass('show', value);
   },
@@ -21679,10 +21785,14 @@ var GitVisuals = require('../visuals').GitVisuals;
 
 var Visualization = Backbone.View.extend({
   initialize: function(options) {
-    var _this = this;
+    options = options || {};
+    this.options = options;
     this.customEvents = _.clone(Backbone.Events);
 
-    new Raphael(10, 10, 200, 200, function() {
+    var _this = this;
+    // we want to add our canvas somewhere
+    var container = options.containerElement || $('#canvasHolder')[0];
+    new Raphael(container, 200, 200, function() {
 
       // for some reason raphael calls this function with a predefined
       // context...
@@ -21692,7 +21802,6 @@ var Visualization = Backbone.View.extend({
   },
 
   paperInitialize: function(paper, options) {
-    options = options || {};
     this.treeString = options.treeString;
     this.paper = paper;
 
@@ -21738,6 +21847,7 @@ var Visualization = Backbone.View.extend({
     }
 
     this.customEvents.trigger('gitEngineReady');
+    this.customEvents.trigger('paperReady');
   },
 
   setTreeOpacity: function(level) {
@@ -21746,6 +21856,9 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
+  },
+
+  harshSlideChange: function(value) {
   },
 
   slideOut: function() {
@@ -21811,15 +21924,22 @@ var Visualization = Backbone.View.extend({
     var smaller = 1;
     var el = this.el;
 
-    var left = el.offsetLeft;
-    var top = el.offsetTop;
     var width = el.clientWidth - smaller;
     var height = el.clientHeight - smaller;
 
-    $(this.paper.canvas).css({
-      left: left + 'px',
-      top: top + 'px'
-    });
+    // if we don't have a container, we need to set our
+    // position absolutely to whatever we are tracking
+    if (!this.options.containerElement) {
+
+      var left = el.offsetLeft;
+      var top = el.offsetTop;
+      $(this.paper.canvas).css({
+        position: 'absolute',
+        left: left + 'px',
+        top: top + 'px'
+      });
+    }
+
     this.paper.setSize(width, height);
     this.gitVisuals.canvasResize(width, height);
   }

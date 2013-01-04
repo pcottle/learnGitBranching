@@ -1,8 +1,5 @@
 var _ = require('underscore');
 
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
-
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;

@@ -110,8 +110,6 @@ TreeCompare.prototype.compareTrees = function(treeA, treeB) {
   // like createTime, message, author
   this.reduceTreeFields([treeA, treeB]);
 
-  console.log('comparing tree A', treeA, 'to', treeB);
-
   return _.isEqual(treeA, treeB);
 };
 

@@ -6,13 +6,9 @@ body {
   margin: 0px;
   border: 0px;
   padding: 0px;
-  -webkit-perspective: 800;
-  -webkit-perspective-origin: 50% 225px;
 }
 
 html, body {
-  -webkit-perspective: 600px;
-
   font-family: Monaco, Courier, font-monospace;
   color: #eee;
 }
@@ -118,7 +114,16 @@ body svg,
   transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-#canvasWrapper {
+/* Some interface things */
+
+#canvasHolder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+#mainVisSpace {
   background-color: #4183C4;
 }
 

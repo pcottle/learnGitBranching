@@ -34,8 +34,7 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
-      //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
     }
 
     Sandbox.prototype.initialize.apply(this, [options]);
@@ -50,7 +49,7 @@ var Level = Sandbox.extend({
       treeString: options.level.startTree
     });
 
-    //this.initGoalVisualization(options);
+    this.initGoalVisualization(options);
   },
 
   getDefaultGoalVisEl: function() {
@@ -58,12 +57,22 @@ var Level = Sandbox.extend({
   },
 
   initGoalVisualization: function(options) {
-    this.goalVisualization = new Visualization({
+    // first we make the goal visualization holder
+
+    // then we make a visualization. the "el" here is the element to
+    // track for size information. the container is where the canvas will be placed
+    this.goalVis = new Visualization({
       el: options.goalEl || this.getDefaultGoalVisEl(),
       treeString: this.goalTreeString,
       wait: true,
       slideOut: true
     });
+    this.goalVis.customEvents.on('paperReady', _.bind(function() {
+      // this is tricky. at this point we have a canvas that has 0
+      // opacity but its floating in front of our command history. we need
+      // to move it out without an animation and then give it an opacity of 1
+      this.goalVis.setTreeOpacity(1);
+    }, this));
   },
 
   initParseWaterfall: function(options) {
@@ -73,11 +82,13 @@ var Level = Sandbox.extend({
     if (options.level.disabledMap) {
       // disable these other commands
       this.parseWaterfall.addFirst(
+        'instantWaterfall',
         new DisabledMap({
           disabledMap: options.level.disabledMap
         }).getInstantCommands()
       );
     }
+
   },
 
   initGitShim: function(options) {
@@ -117,11 +128,18 @@ var Level = Sandbox.extend({
     if (matched) {
       this.gitCommandsIssued++;
     }
-    console.log('git commands isssued', this.gitCommandsIssued);
   },
 
-  afterCommandDefer: function(defer) {
-    if (this.solved) { return; }
+  afterCommandDefer: function(defer, command) {
+    if (this.solved) {
+      command.addWarning(
+        "You've already solved this level, try other levels with 'show levels'" +
+        "or go back to the sandbox with 'sandbox'"
+      );
+      defer.resolve();
+      return;
+    }
+
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
@@ -136,10 +154,19 @@ var Level = Sandbox.extend({
   },
 
   levelSolved: function(defer) {
+    this.solved = true;
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
       defer.resolve();
     });
+  },
+
+  getInstantCommands: function() {
+
+  },
+
+  parse: function() {
+
   }
 });
 

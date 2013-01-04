@@ -127,7 +127,6 @@ var ModalView = Backbone.View.extend({
   initialize: function(options) {
     this.shown = false;
     this.render();
-    this.stealKeyboard();
   },
 
   render: function() {
@@ -198,6 +197,12 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    if (value) {
+      this.stealKeyboard();
+    } else {
+      this.releaseKeyboard();
+    }
+
     this.shown = value;
     this.$el.toggleClass('show', value);
   },
