@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
-
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -96,6 +95,36 @@
     </div>
   </script>
 
+  <script type="text/html" id="terminal-window-bare-template">
+    <div class="terminal-window-holder box flex3 vertical transitionTransform">
+      <div class="toolbar box vertical">
+        <div class="controls box horizontal">
+          <div class="box flex1">
+            <div class="close">
+            </div>
+          </div>
+          <div class="box flex1">
+            <div class="minimize">
+            </div>
+          </div>
+          <div class="box flex1">
+            <div class="plus">
+            </div>
+          </div>
+        </div>
+        <div>
+          <i class="icon-cog"></i>
+          <%= title %>
+        </div>
+      </div>
+
+      <div class="inside box flex1">
+      </div>
+    </div>
+    <div class="box flex3">
+    </div>
+  </script>
+
   <script type="text/html" id="terminal-window-template">
     <div class="terminal-window box horizontal flex3 transitionAll">
       <div class="box flex1">
@@ -123,7 +152,7 @@
           </div>
         </div>
 
-        <div id="inside" class="">
+        <div class="inside">
         </div>
       </div>
 

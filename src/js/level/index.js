@@ -13,9 +13,9 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
-var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -58,15 +58,16 @@ var Level = Sandbox.extend({
 
   initGoalVisualization: function(options) {
     // first we make the goal visualization holder
+    this.goalCanvasHolder = new CanvasTerminalHolder();
 
     // then we make a visualization. the "el" here is the element to
     // track for size information. the container is where the canvas will be placed
     this.goalVis = new Visualization({
-      el: options.goalEl || this.getDefaultGoalVisEl(),
-      treeString: this.goalTreeString,
-      wait: true,
-      slideOut: true
+      el: this.goalCanvasHolder.getCanvasLocation(),
+      containerElement: this.goalCanvasHolder.getCanvasLocation(),
+      treeString: this.goalTreeString
     });
+
     this.goalVis.customEvents.on('paperReady', _.bind(function() {
       // this is tricky. at this point we have a canvas that has 0
       // opacity but its floating in front of our command history. we need

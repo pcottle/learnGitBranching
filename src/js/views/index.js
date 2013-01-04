@@ -235,7 +235,7 @@ var ModalTerminal = ContainedBase.extend({
   },
 
   getInsideElement: function() {
-    return this.$('#inside');
+    return this.$('.inside');
   }
 });
 
@@ -308,6 +308,26 @@ var ZoomAlertWindow = Backbone.View.extend({
   }
 });
 
+var CanvasTerminalHolder = BaseView.extend({
+  tagName: 'div',
+  className: 'canvasTerminalHolder box flex1',
+  template: _.template($('#terminal-window-bare-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+    this.JSON = {
+      title: options.title || 'Goal To Reach'
+    };
+
+    this.render();
+  },
+
+  getCanvasLocation: function() {
+    return this.$('div.inside')[0];
+  }
+});
+
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
@@ -315,4 +335,6 @@ exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
+
+exports.CanvasTerminalHolder = CanvasTerminalHolder;
 

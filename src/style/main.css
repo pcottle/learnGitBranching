@@ -64,7 +64,6 @@ body,
   transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
-body svg,
 .transitionTransform {
   -webkit-transition: -webkit-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -moz-transition: -moz-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
@@ -116,6 +115,14 @@ body svg,
 
 /* Some interface things */
 
+div.canvasTerminalHolder {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 #canvasHolder {
   position: absolute;
   top: 0;
@@ -132,13 +139,33 @@ body svg,
   min-height: 400px;
 }
 
-#controls {
-  max-width: 400px;
-  background: #EEE;
+div.canvasTerminalHolder div.terminal-window-holder {
+  margin: 50px 0;
+  height: 100%;
 }
 
-svg.slideOut {
-  -webkit-transform: translate3d(-150%, 0, 0);
+div.canvasTerminalHolder div.terminal-window-holder div.toolbar,
+div.canvasTerminalHolder div.terminal-window-holder div.inside {
+  margin: 0px 20px;
+  border: 0px;
+}
+
+div.canvasTerminalHolder div.terminal-window-holder div.inside {
+  min-height: 200px;
+  margin-bottom: 150px;
+  border-radius: 0 0 5px 5px;
+  background: #4C7956;
+  background: -webkit-linear-gradient(top, #97ECAA 0%,#698D48 100%);
+  box-shadow: 0 0 10px rgba(0,0,0,0.7);
+}
+
+div.canvasTerminalHolder div.terminal-window-holder,
+#controls {
+  max-width: 400px;
+}
+
+#controls {
+  background: #EEE;
 }
 
 /* Toolbar */
@@ -342,14 +369,14 @@ p.commandLine span.prompt {
 }
 
 #commandLineBar,
-.terminal-window #inside,
+.terminal-window .inside,
 li.rebaseEntry,
 #terminal {
   background: #424242;
 }
 
 #terminal,
-.terminal-window #inside,
+.terminal-window .inside,
 #commandLineBar {
   border: 1px solid #303030;
 }
@@ -360,7 +387,7 @@ li.rebaseEntry,
 }
 
 #commandLineBar,
-.terminal-window #inside {
+.terminal-window .inside {
   border-top: 0;
   border-radius: 0 0 5px 5px;
   padding: 3px;
@@ -449,12 +476,12 @@ li.rebaseEntry.notPicked {
   z-index: 100;
 }
 
-.terminal-window #inside {
+.terminal-window .inside {
   padding: 10px;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
-.terminal-window #inside h2 {
+.terminal-window .inside h2 {
   text-align: center;
 }
 

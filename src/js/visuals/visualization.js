@@ -13,6 +13,7 @@ var Visualization = Backbone.View.extend({
     options = options || {};
     this.options = options;
     this.customEvents = _.clone(Backbone.Events);
+    this.containerElement = options.containerElement;
 
     var _this = this;
     // we want to add our canvas somewhere
@@ -63,13 +64,7 @@ var Visualization = Backbone.View.extend({
 
     this.shown = false;
     this.setTreeOpacity(0);
-
-    if (!options.wait) {
-      this.fadeTreeIn();
-    }
-    if (options.slideOut) {
-      this.slideOut();
-    }
+    this.fadeTreeIn();
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -95,17 +90,13 @@ var Visualization = Backbone.View.extend({
   },
 
   toggleSlide: function(value) {
-    // no classes on svg :-/
-    //$(this.paper.canvas).toggleClass('slideOut', value);
-    var transform = (value) ? 'translate3d(-150%, 0, 0)' : 'translate3d(0,0,0)';
+    if (!this.containerElement) {
+      console.warn('cant slide with absolute positioning');
+      return;
+    }
 
-    $(this.paper.canvas).css({
-      '-webkit-transform': transform,
-      '-moz-transform': transform,
-      '-ms-transform': transform,
-      '-o-transform': transform,
-      'transform': transform
-    });
+    // no classes on svg :-/
+    $(this.containerElement).toggleClass('slideOut', value);
   },
 
   getAnimationTime: function() { return 300; },
@@ -155,9 +146,9 @@ var Visualization = Backbone.View.extend({
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
     if (!this.options.containerElement) {
-
       var left = el.offsetLeft;
       var top = el.offsetTop;
+
       $(this.paper.canvas).css({
         position: 'absolute',
         left: left + 'px',

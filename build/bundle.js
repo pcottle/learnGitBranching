@@ -4740,9 +4740,9 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
-var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -4785,15 +4785,16 @@ var Level = Sandbox.extend({
 
   initGoalVisualization: function(options) {
     // first we make the goal visualization holder
+    this.goalCanvasHolder = new CanvasTerminalHolder();
 
     // then we make a visualization. the "el" here is the element to
     // track for size information. the container is where the canvas will be placed
     this.goalVis = new Visualization({
-      el: options.goalEl || this.getDefaultGoalVisEl(),
-      treeString: this.goalTreeString,
-      wait: true,
-      slideOut: true
+      el: this.goalCanvasHolder.getCanvasLocation(),
+      containerElement: this.goalCanvasHolder.getCanvasLocation(),
+      treeString: this.goalTreeString
     });
+
     this.goalVis.customEvents.on('paperReady', _.bind(function() {
       // this is tricky. at this point we have a canvas that has 0
       // opacity but its floating in front of our command history. we need
@@ -6488,6 +6489,7 @@ var Visualization = Backbone.View.extend({
     options = options || {};
     this.options = options;
     this.customEvents = _.clone(Backbone.Events);
+    this.containerElement = options.containerElement;
 
     var _this = this;
     // we want to add our canvas somewhere
@@ -6538,13 +6540,7 @@ var Visualization = Backbone.View.extend({
 
     this.shown = false;
     this.setTreeOpacity(0);
-
-    if (!options.wait) {
-      this.fadeTreeIn();
-    }
-    if (options.slideOut) {
-      this.slideOut();
-    }
+    this.fadeTreeIn();
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -6570,17 +6566,13 @@ var Visualization = Backbone.View.extend({
   },
 
   toggleSlide: function(value) {
-    // no classes on svg :-/
-    //$(this.paper.canvas).toggleClass('slideOut', value);
-    var transform = (value) ? 'translate3d(-150%, 0, 0)' : 'translate3d(0,0,0)';
+    if (!this.containerElement) {
+      console.warn('cant slide with absolute positioning');
+      return;
+    }
 
-    $(this.paper.canvas).css({
-      '-webkit-transform': transform,
-      '-moz-transform': transform,
-      '-ms-transform': transform,
-      '-o-transform': transform,
-      'transform': transform
-    });
+    // no classes on svg :-/
+    $(this.containerElement).toggleClass('slideOut', value);
   },
 
   getAnimationTime: function() { return 300; },
@@ -6630,9 +6622,9 @@ var Visualization = Backbone.View.extend({
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
     if (!this.options.containerElement) {
-
       var left = el.offsetLeft;
       var top = el.offsetTop;
+
       $(this.paper.canvas).css({
         position: 'absolute',
         left: left + 'px',
@@ -9390,7 +9382,7 @@ var ModalTerminal = ContainedBase.extend({
   },
 
   getInsideElement: function() {
-    return this.$('#inside');
+    return this.$('.inside');
   }
 });
 
@@ -9463,6 +9455,26 @@ var ZoomAlertWindow = Backbone.View.extend({
   }
 });
 
+var CanvasTerminalHolder = BaseView.extend({
+  tagName: 'div',
+  className: 'canvasTerminalHolder box flex1',
+  template: _.template($('#terminal-window-bare-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+    this.JSON = {
+      title: options.title || 'Goal To Reach'
+    };
+
+    this.render();
+  },
+
+  getCanvasLocation: function() {
+    return this.$('div.inside')[0];
+  }
+});
+
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
@@ -9470,6 +9482,8 @@ exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
+
+exports.CanvasTerminalHolder = CanvasTerminalHolder;
 
 
 });
@@ -17382,9 +17396,9 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
-var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -17427,15 +17441,16 @@ var Level = Sandbox.extend({
 
   initGoalVisualization: function(options) {
     // first we make the goal visualization holder
+    this.goalCanvasHolder = new CanvasTerminalHolder();
 
     // then we make a visualization. the "el" here is the element to
     // track for size information. the container is where the canvas will be placed
     this.goalVis = new Visualization({
-      el: options.goalEl || this.getDefaultGoalVisEl(),
-      treeString: this.goalTreeString,
-      wait: true,
-      slideOut: true
+      el: this.goalCanvasHolder.getCanvasLocation(),
+      containerElement: this.goalCanvasHolder.getCanvasLocation(),
+      treeString: this.goalTreeString
     });
+
     this.goalVis.customEvents.on('paperReady', _.bind(function() {
       // this is tricky. at this point we have a canvas that has 0
       // opacity but its floating in front of our command history. we need
@@ -19135,7 +19150,7 @@ var ModalTerminal = ContainedBase.extend({
   },
 
   getInsideElement: function() {
-    return this.$('#inside');
+    return this.$('.inside');
   }
 });
 
@@ -19208,6 +19223,26 @@ var ZoomAlertWindow = Backbone.View.extend({
   }
 });
 
+var CanvasTerminalHolder = BaseView.extend({
+  tagName: 'div',
+  className: 'canvasTerminalHolder box flex1',
+  template: _.template($('#terminal-window-bare-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+    this.JSON = {
+      title: options.title || 'Goal To Reach'
+    };
+
+    this.render();
+  },
+
+  getCanvasLocation: function() {
+    return this.$('div.inside')[0];
+  }
+});
+
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
@@ -19215,6 +19250,8 @@ exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
+
+exports.CanvasTerminalHolder = CanvasTerminalHolder;
 
 
 });
@@ -21788,6 +21825,7 @@ var Visualization = Backbone.View.extend({
     options = options || {};
     this.options = options;
     this.customEvents = _.clone(Backbone.Events);
+    this.containerElement = options.containerElement;
 
     var _this = this;
     // we want to add our canvas somewhere
@@ -21838,13 +21876,7 @@ var Visualization = Backbone.View.extend({
 
     this.shown = false;
     this.setTreeOpacity(0);
-
-    if (!options.wait) {
-      this.fadeTreeIn();
-    }
-    if (options.slideOut) {
-      this.slideOut();
-    }
+    this.fadeTreeIn();
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -21870,17 +21902,13 @@ var Visualization = Backbone.View.extend({
   },
 
   toggleSlide: function(value) {
-    // no classes on svg :-/
-    //$(this.paper.canvas).toggleClass('slideOut', value);
-    var transform = (value) ? 'translate3d(-150%, 0, 0)' : 'translate3d(0,0,0)';
+    if (!this.containerElement) {
+      console.warn('cant slide with absolute positioning');
+      return;
+    }
 
-    $(this.paper.canvas).css({
-      '-webkit-transform': transform,
-      '-moz-transform': transform,
-      '-ms-transform': transform,
-      '-o-transform': transform,
-      'transform': transform
-    });
+    // no classes on svg :-/
+    $(this.containerElement).toggleClass('slideOut', value);
   },
 
   getAnimationTime: function() { return 300; },
@@ -21930,9 +21958,9 @@ var Visualization = Backbone.View.extend({
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
     if (!this.options.containerElement) {
-
       var left = el.offsetLeft;
       var top = el.offsetTop;
+
       $(this.paper.canvas).css({
         position: 'absolute',
         left: left + 'px',
