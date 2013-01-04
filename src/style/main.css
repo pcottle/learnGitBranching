@@ -68,6 +68,7 @@ body,
   transition: background 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
+body svg,
 .transitionTransform {
   -webkit-transition: -webkit-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -moz-transition: -moz-transform 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
@@ -129,6 +130,10 @@ body,
 #controls {
   max-width: 400px;
   background: #EEE;
+}
+
+svg.slideOut {
+  -webkit-transform: translate3d(-150%, 0, 0);
 }
 
 /* Toolbar */

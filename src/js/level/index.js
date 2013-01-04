@@ -34,7 +34,7 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C30"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
       //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
     }
 
@@ -48,6 +48,21 @@ var Level = Sandbox.extend({
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
+    });
+
+    //this.initGoalVisualization(options);
+  },
+
+  getDefaultGoalVisEl: function() {
+    return $('#commandLineHistory');
+  },
+
+  initGoalVisualization: function(options) {
+    this.goalVisualization = new Visualization({
+      el: options.goalEl || this.getDefaultGoalVisEl(),
+      treeString: this.goalTreeString,
+      wait: true,
+      slideOut: true
     });
   },
 

@@ -4522,12 +4522,6 @@ var Sandbox = Backbone.View.extend({
   },
 
   initGitShim: function(options) {
-    /*
-    this.gitShim = new GitShim({
-      beforeCB: function() { console.log('before'); },
-      afterCB: function() { console.log('after'); },
-      afterDeferHandler: function(deferred) { deferred.resolve(); },
-    });*/
   },
 
   takeControl: function() {
@@ -4767,7 +4761,7 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C30"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
       //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
     }
 
@@ -4781,6 +4775,21 @@ var Level = Sandbox.extend({
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
+    });
+
+    //this.initGoalVisualization(options);
+  },
+
+  getDefaultGoalVisEl: function() {
+    return $('#commandLineHistory');
+  },
+
+  initGoalVisualization: function(options) {
+    this.goalVisualization = new Visualization({
+      el: options.goalEl || this.getDefaultGoalVisEl(),
+      treeString: this.goalTreeString,
+      wait: true,
+      slideOut: true
     });
   },
 
@@ -6503,6 +6512,9 @@ var Visualization = Backbone.View.extend({
     if (!options.wait) {
       this.fadeTreeIn();
     }
+    if (options.slideOut) {
+      this.slideOut();
+    }
 
     this.customEvents.trigger('gitEngineReady');
   },
@@ -6513,6 +6525,28 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
+  },
+
+  slideOut: function() {
+    this.toggleSlide(true);
+  },
+
+  slideIn: function() {
+    this.toggleSlide(false);
+  },
+
+  toggleSlide: function(value) {
+    // no classes on svg :-/
+    //$(this.paper.canvas).toggleClass('slideOut', value);
+    var transform = (value) ? 'translate3d(-150%, 0, 0)' : 'translate3d(0,0,0)';
+
+    $(this.paper.canvas).css({
+      '-webkit-transform': transform,
+      '-moz-transform': transform,
+      '-ms-transform': transform,
+      '-o-transform': transform,
+      'transform': transform
+    });
   },
 
   getAnimationTime: function() { return 300; },
@@ -17295,7 +17329,7 @@ var Level = Sandbox.extend({
     this.goalTreeString = options.level.goalTree;
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C30"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+      this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
       //this.goalTreeString = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
     }
 
@@ -17309,6 +17343,21 @@ var Level = Sandbox.extend({
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
+    });
+
+    //this.initGoalVisualization(options);
+  },
+
+  getDefaultGoalVisEl: function() {
+    return $('#commandLineHistory');
+  },
+
+  initGoalVisualization: function(options) {
+    this.goalVisualization = new Visualization({
+      el: options.goalEl || this.getDefaultGoalVisEl(),
+      treeString: this.goalTreeString,
+      wait: true,
+      slideOut: true
     });
   },
 
@@ -17550,12 +17599,6 @@ var Sandbox = Backbone.View.extend({
   },
 
   initGitShim: function(options) {
-    /*
-    this.gitShim = new GitShim({
-      beforeCB: function() { console.log('before'); },
-      afterCB: function() { console.log('after'); },
-      afterDeferHandler: function(deferred) { deferred.resolve(); },
-    });*/
   },
 
   takeControl: function() {
@@ -21690,6 +21733,9 @@ var Visualization = Backbone.View.extend({
     if (!options.wait) {
       this.fadeTreeIn();
     }
+    if (options.slideOut) {
+      this.slideOut();
+    }
 
     this.customEvents.trigger('gitEngineReady');
   },
@@ -21700,6 +21746,28 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
+  },
+
+  slideOut: function() {
+    this.toggleSlide(true);
+  },
+
+  slideIn: function() {
+    this.toggleSlide(false);
+  },
+
+  toggleSlide: function(value) {
+    // no classes on svg :-/
+    //$(this.paper.canvas).toggleClass('slideOut', value);
+    var transform = (value) ? 'translate3d(-150%, 0, 0)' : 'translate3d(0,0,0)';
+
+    $(this.paper.canvas).css({
+      '-webkit-transform': transform,
+      '-moz-transform': transform,
+      '-ms-transform': transform,
+      '-o-transform': transform,
+      'transform': transform
+    });
   },
 
   getAnimationTime: function() { return 300; },

@@ -54,12 +54,6 @@ var Sandbox = Backbone.View.extend({
   },
 
   initGitShim: function(options) {
-    /*
-    this.gitShim = new GitShim({
-      beforeCB: function() { console.log('before'); },
-      afterCB: function() { console.log('after'); },
-      afterDeferHandler: function(deferred) { deferred.resolve(); },
-    });*/
   },
 
   takeControl: function() {

@@ -64,6 +64,9 @@ var Visualization = Backbone.View.extend({
     if (!options.wait) {
       this.fadeTreeIn();
     }
+    if (options.slideOut) {
+      this.slideOut();
+    }
 
     this.customEvents.trigger('gitEngineReady');
   },
@@ -74,6 +77,28 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
+  },
+
+  slideOut: function() {
+    this.toggleSlide(true);
+  },
+
+  slideIn: function() {
+    this.toggleSlide(false);
+  },
+
+  toggleSlide: function(value) {
+    // no classes on svg :-/
+    //$(this.paper.canvas).toggleClass('slideOut', value);
+    var transform = (value) ? 'translate3d(-150%, 0, 0)' : 'translate3d(0,0,0)';
+
+    $(this.paper.canvas).css({
+      '-webkit-transform': transform,
+      '-moz-transform': transform,
+      '-ms-transform': transform,
+      '-o-transform': transform,
+      'transform': transform
+    });
   },
 
   getAnimationTime: function() { return 300; },
