@@ -25,6 +25,7 @@ var Level = Sandbox.extend({
     options.level = options.level || {};
 
     this.gitCommandsIssued = 0;
+    this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
     // possible options on how stringent to be on comparisons go here
@@ -72,9 +73,36 @@ var Level = Sandbox.extend({
     });
   },
 
+  getCommandsThatCount: function() {
+    var GitCommands = require('../git/commands');
+    var toCount = [
+      'git commit',
+      'git checkout',
+      'git rebase',
+      'git reset',
+      'git branch',
+      'git revert',
+      'git merge',
+      'git cherry-pick'
+    ];
+    var myRegexMap = {};
+    _.each(toCount, function(method) {
+      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
+
+      myRegexMap[method] = GitCommands.regexMap[method];
+    });
+    return myRegexMap;
+  },
+
   afterCommandCB: function(command) {
-    // TODO check if error, but not warning
-    this.gitCommandsIssued++;
+    var matched = false;
+    _.each(this.commandsThatCount, function(regex) {
+      matched = matched || regex.test(command.get('rawStr'));
+    });
+    if (matched) {
+      this.gitCommandsIssued++;
+    }
+    console.log('git commands isssued', this.gitCommandsIssued);
   },
 
   afterCommandDefer: function(defer) {

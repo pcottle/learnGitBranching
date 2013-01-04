@@ -185,3 +185,4 @@ exports.shortcutMap = shortcutMap;
 exports.instantCommands = instantCommands;
 exports.parse = parse;
 exports.regexMap = regexMap;
+
