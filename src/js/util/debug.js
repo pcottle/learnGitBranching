@@ -16,7 +16,8 @@ var toGlobalize = {
   RebaseView: require('../views/rebaseView'),
   Views: require('../views'),
   MultiView: require('../views/multiView'),
-  ZoomLevel: require('../util/zoomLevel')
+  ZoomLevel: require('../util/zoomLevel'),
+  VisBranch: require('../visuals/visBranch')
 };
 
 _.each(toGlobalize, function(module) {
@@ -27,5 +28,6 @@ $(document).ready(function() {
   window.events = toGlobalize.Main.getEvents();
   window.eventBaton = toGlobalize.Main.getEventBaton();
   window.sandbox = toGlobalize.Main.getSandbox();
+  window.modules = toGlobalize;
 });
 

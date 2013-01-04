@@ -65,7 +65,8 @@ var Level = Sandbox.extend({
     this.goalVis = new Visualization({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString
+      treeString: this.goalTreeString,
+      noKeyboardInput: true
     });
 
     this.goalVis.customEvents.on('paperReady', _.bind(function() {

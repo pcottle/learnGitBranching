@@ -5,6 +5,7 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
 
@@ -33,7 +34,12 @@ var Visualization = Backbone.View.extend({
 
     var Main = require('../app');
     this.events = options.events || Main.getEvents();
-    this.eventBaton = options.eventBaton || Main.getEventBaton();
+    // if we dont want to receive keyoard input (directly),
+    // make a new event baton so git engine steals something that no one
+    // is broadcasting to
+    this.eventBaton = (options.noKeyboardInput) ?
+      new EventBaton():
+      Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -55,7 +61,7 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
+    this.events.on('resize', this.myResize, this);
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -64,7 +70,10 @@ var Visualization = Backbone.View.extend({
 
     this.shown = false;
     this.setTreeOpacity(0);
-    this.fadeTreeIn();
+    // reflow needed
+    process.nextTick(_.bind(function() {
+      this.fadeTreeIn();
+    }, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -123,7 +132,7 @@ var Visualization = Backbone.View.extend({
 
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
-    $(window).off('resize', _.bind(this.myResize, this));
+    this.events.off('resize', this.myResize, this);
     this.gitVisuals.tearDown();
   },
 

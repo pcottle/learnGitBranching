@@ -416,3 +416,5 @@ var VisBranchCollection = Backbone.Collection.extend({
 
 exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
+exports.randomHueString = randomHueString;
+

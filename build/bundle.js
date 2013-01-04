@@ -4637,6 +4637,9 @@ var init = function() {
   $(document).click(function(e) {
     eventBaton.trigger('documentClick', e);
   });
+  $(window).on('resize', function(e) {
+    events.trigger('resize', e);
+  });
 
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
@@ -4792,7 +4795,8 @@ var Level = Sandbox.extend({
     this.goalVis = new Visualization({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString
+      treeString: this.goalTreeString,
+      noKeyboardInput: true
     });
 
     this.goalVis.customEvents.on('paperReady', _.bind(function() {
@@ -6481,6 +6485,7 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
 
@@ -6509,7 +6514,12 @@ var Visualization = Backbone.View.extend({
 
     var Main = require('../app');
     this.events = options.events || Main.getEvents();
-    this.eventBaton = options.eventBaton || Main.getEventBaton();
+    // if we dont want to receive keyoard input (directly),
+    // make a new event baton so git engine steals something that no one
+    // is broadcasting to
+    this.eventBaton = (options.noKeyboardInput) ?
+      new EventBaton():
+      Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -6531,7 +6541,7 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
+    this.events.on('resize', this.myResize, this);
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -6540,7 +6550,10 @@ var Visualization = Backbone.View.extend({
 
     this.shown = false;
     this.setTreeOpacity(0);
-    this.fadeTreeIn();
+    // reflow needed
+    process.nextTick(_.bind(function() {
+      this.fadeTreeIn();
+    }, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -6599,7 +6612,7 @@ var Visualization = Backbone.View.extend({
 
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
-    $(window).off('resize', _.bind(this.myResize, this));
+    this.events.off('resize', this.myResize, this);
     this.gitVisuals.tearDown();
   },
 
@@ -12184,6 +12197,108 @@ exports.parse = parse;
 
 });
 
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  if (!func) { throw new Error('need func!'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.sliceOffArgs = function(num, args) {
+  var newArgs = [];
+  for (var i = num; i < args.length; i++) {
+    newArgs.push(args[i]);
+  }
+  return newArgs;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
+  var argsToApply = this.sliceOffArgs(1, arguments);
+
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    console.warn('no listeners for', name);
+    return;
+  }
+
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.getListenersThrow = function(name) {
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+  return listeners;
+};
+
+EventBaton.prototype.passBatonBack = function(name, func, context, args) {
+  // this method will call the listener BEFORE the name/func pair. this
+  // basically allows you to put in shims, where you steal batons but pass
+  // them back if they don't meet certain conditions
+  var listeners = this.getListenersThrow(name);
+
+  var indexBefore;
+  _.each(listeners, function(listenerObj, index) {
+    // skip the first
+    if (index === 0) { return; }
+    if (listenerObj.func === func && listenerObj.context === context) {
+      indexBefore = index - 1;
+    }
+  }, this);
+  if (indexBefore === undefined) {
+    throw new Error('you are the last baton holder! or i didnt find you');
+  }
+  var toCallObj = listeners[indexBefore];
+
+  toCallObj.func.apply(toCallObj.context, args);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  // might be in the middle of the stack, so we have to loop instead of
+  // just popping blindly
+  var listeners = this.getListenersThrow(name);
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func && listenerObj.context === context) {
+      if (found) { console.warn('woah duplicates!!!'); }
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    console.log('did not find that function', func, context, name, arguments);
+    throw new Error('cant releasebaton if yu dont have it');
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
+
+
+});
+
 require.define("/src/js/visuals/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -12819,7 +12934,7 @@ GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   } else {
     this.refreshTree();
   }
-}, 200);
+}, 200, true);
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
@@ -13853,6 +13968,8 @@ var VisBranchCollection = Backbone.Collection.extend({
 
 exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
+exports.randomHueString = randomHueString;
+
 
 });
 
@@ -14388,108 +14505,6 @@ KeyboardListener.prototype.fireEvent = function(eventName) {
 
 exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
-
-
-});
-
-require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-function EventBaton() {
-  this.eventMap = {};
-}
-
-// this method steals the "baton" -- aka, only this method will now
-// get called. analogous to events.on
-// EventBaton.prototype.on = function(name, func, context) {
-EventBaton.prototype.stealBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-  if (!func) { throw new Error('need func!'); }
-
-  var listeners = this.eventMap[name] || [];
-  listeners.push({
-    func: func,
-    context: context
-  });
-  this.eventMap[name] = listeners;
-};
-
-EventBaton.prototype.sliceOffArgs = function(num, args) {
-  var newArgs = [];
-  for (var i = num; i < args.length; i++) {
-    newArgs.push(args[i]);
-  }
-  return newArgs;
-};
-
-EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
-  var argsToApply = this.sliceOffArgs(1, arguments);
-
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    console.warn('no listeners for', name);
-    return;
-  }
-
-  // call the top most listener with context and such
-  var toCall = listeners.slice(-1)[0];
-  toCall.func.apply(toCall.context, argsToApply);
-};
-
-EventBaton.prototype.getListenersThrow = function(name) {
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    throw new Error('no one has that baton!' + name);
-  }
-  return listeners;
-};
-
-EventBaton.prototype.passBatonBack = function(name, func, context, args) {
-  // this method will call the listener BEFORE the name/func pair. this
-  // basically allows you to put in shims, where you steal batons but pass
-  // them back if they don't meet certain conditions
-  var listeners = this.getListenersThrow(name);
-
-  var indexBefore;
-  _.each(listeners, function(listenerObj, index) {
-    // skip the first
-    if (index === 0) { return; }
-    if (listenerObj.func === func && listenerObj.context === context) {
-      indexBefore = index - 1;
-    }
-  }, this);
-  if (indexBefore === undefined) {
-    throw new Error('you are the last baton holder! or i didnt find you');
-  }
-  var toCallObj = listeners[indexBefore];
-
-  toCallObj.func.apply(toCallObj.context, args);
-};
-
-EventBaton.prototype.releaseBaton = function(name, func, context) {
-  // might be in the middle of the stack, so we have to loop instead of
-  // just popping blindly
-  var listeners = this.getListenersThrow(name);
-
-  var newListeners = [];
-  var found = false;
-  _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func && listenerObj.context === context) {
-      if (found) { console.warn('woah duplicates!!!'); }
-      found = true;
-    } else {
-      newListeners.push(listenerObj);
-    }
-  }, this);
-
-  if (!found) {
-    console.log('did not find that function', func, context, name, arguments);
-    throw new Error('cant releasebaton if yu dont have it');
-  }
-  this.eventMap[name] = newListeners;
-};
-
-exports.EventBaton = EventBaton;
 
 
 });
@@ -15044,6 +15059,9 @@ var init = function() {
   });
   $(document).click(function(e) {
     eventBaton.trigger('documentClick', e);
+  });
+  $(window).on('resize', function(e) {
+    events.trigger('resize', e);
   });
 
   // zoom level measure, I wish there was a jquery event for this :/
@@ -17448,7 +17466,8 @@ var Level = Sandbox.extend({
     this.goalVis = new Visualization({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString
+      treeString: this.goalTreeString,
+      noKeyboardInput: true
     });
 
     this.goalVis.customEvents.on('paperReady', _.bind(function() {
@@ -18226,7 +18245,8 @@ var toGlobalize = {
   RebaseView: require('../views/rebaseView'),
   Views: require('../views'),
   MultiView: require('../views/multiView'),
-  ZoomLevel: require('../util/zoomLevel')
+  ZoomLevel: require('../util/zoomLevel'),
+  VisBranch: require('../visuals/visBranch')
 };
 
 _.each(toGlobalize, function(module) {
@@ -18237,6 +18257,7 @@ $(document).ready(function() {
   window.events = toGlobalize.Main.getEvents();
   window.eventBaton = toGlobalize.Main.getEventBaton();
   window.sandbox = toGlobalize.Main.getSandbox();
+  window.modules = toGlobalize;
 });
 
 
@@ -20582,7 +20603,7 @@ GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   } else {
     this.refreshTree();
   }
-}, 200);
+}, 200, true);
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
@@ -21183,6 +21204,8 @@ var VisBranchCollection = Backbone.Collection.extend({
 
 exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
+exports.randomHueString = randomHueString;
+
 
 });
 require("/src/js/visuals/visBranch.js");
@@ -21817,6 +21840,7 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
 
@@ -21845,7 +21869,12 @@ var Visualization = Backbone.View.extend({
 
     var Main = require('../app');
     this.events = options.events || Main.getEvents();
-    this.eventBaton = options.eventBaton || Main.getEventBaton();
+    // if we dont want to receive keyoard input (directly),
+    // make a new event baton so git engine steals something that no one
+    // is broadcasting to
+    this.eventBaton = (options.noKeyboardInput) ?
+      new EventBaton():
+      Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
@@ -21867,7 +21896,7 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    $(window).on('resize', _.bind(this.myResize, this));
+    this.events.on('resize', this.myResize, this);
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -21876,7 +21905,10 @@ var Visualization = Backbone.View.extend({
 
     this.shown = false;
     this.setTreeOpacity(0);
-    this.fadeTreeIn();
+    // reflow needed
+    process.nextTick(_.bind(function() {
+      this.fadeTreeIn();
+    }, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -21935,7 +21967,7 @@ var Visualization = Backbone.View.extend({
 
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
-    $(window).off('resize', _.bind(this.myResize, this));
+    this.events.off('resize', this.myResize, this);
     this.gitVisuals.tearDown();
   },
 

@@ -633,7 +633,7 @@ GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
   } else {
     this.refreshTree();
   }
-}, 200);
+}, 200, true);
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;

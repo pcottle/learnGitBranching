@@ -44,6 +44,9 @@ var init = function() {
   $(document).click(function(e) {
     eventBaton.trigger('documentClick', e);
   });
+  $(window).on('resize', function(e) {
+    events.trigger('resize', e);
+  });
 
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
