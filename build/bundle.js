@@ -12857,6 +12857,7 @@ function blendHueStrings(hueStrings) {
 
 exports.GitVisuals = GitVisuals;
 
+
 });
 
 require.define("/src/js/visuals/visNode.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
@@ -20524,6 +20525,7 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.GitVisuals = GitVisuals;
+
 
 });
 require("/src/js/visuals/index.js");

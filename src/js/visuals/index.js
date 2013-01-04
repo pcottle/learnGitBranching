@@ -762,3 +762,4 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.GitVisuals = GitVisuals;
+
