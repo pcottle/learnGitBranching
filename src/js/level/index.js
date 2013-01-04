@@ -77,6 +77,14 @@ var Level = Sandbox.extend({
     }, this));
   },
 
+  showGoal: function() {
+    this.goalCanvasHolder.slideIn();
+  },
+
+  hideGoal: function() {
+    this.goalCanvasHolder.slideOut();
+  },
+
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
 
@@ -90,7 +98,6 @@ var Level = Sandbox.extend({
         }).getInstantCommands()
       );
     }
-
   },
 
   initGitShim: function(options) {
@@ -157,6 +164,7 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+    this.hideGoal();
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
       defer.resolve();

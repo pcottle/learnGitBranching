@@ -131,32 +131,48 @@ div.canvasTerminalHolder {
 }
 
 #mainVisSpace {
-  background-color: #4183C4;
+  background-color: #24A7FF;
 }
 
 #interfaceWrapper {
   min-width: 600px;
-  min-height: 400px;
+  min-height: 600px;
 }
 
 div.canvasTerminalHolder div.terminal-window-holder {
-  margin: 50px 0;
+  margin: 10% 0;
   height: 100%;
+  -webkit-transform: translate3d(0,0,0);
+}
+
+div.canvasTerminalHolder div.terminal-window-holder.slideOut {
+  -webkit-transform: translate3d(-150%,0,0);
+}
+
+div.canvasTerminalHolder div.terminal-window-holder div.wrapper {
+  margin: 0 20px 0px 20px;
+  height: 80%;
+  box-shadow: 0 0 30px rgb(0,0,0);
+}
+
+div.canvasTerminalHolder div.terminal-window-holder div.terminal-text {
+  padding: 5px 10px;
 }
 
 div.canvasTerminalHolder div.terminal-window-holder div.toolbar,
+div.canvasTerminalHolder div.terminal-window-holder div.terminal-text,
 div.canvasTerminalHolder div.terminal-window-holder div.inside {
-  margin: 0px 20px;
   border: 0px;
+}
+
+div.canvasTerminalHolder div.terminal-window-holder div.terminal-text,
+div.canvasTerminalHolder div.terminal-window-holder div.inside {
+  background: #ff4c7e;
 }
 
 div.canvasTerminalHolder div.terminal-window-holder div.inside {
   min-height: 200px;
-  margin-bottom: 150px;
   border-radius: 0 0 5px 5px;
-  background: #4C7956;
-  background: -webkit-linear-gradient(top, #97ECAA 0%,#698D48 100%);
-  box-shadow: 0 0 10px rgba(0,0,0,0.7);
 }
 
 div.canvasTerminalHolder div.terminal-window-holder,

@@ -4807,6 +4807,14 @@ var Level = Sandbox.extend({
     }, this));
   },
 
+  showGoal: function() {
+    this.goalCanvasHolder.slideIn();
+  },
+
+  hideGoal: function() {
+    this.goalCanvasHolder.slideOut();
+  },
+
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
 
@@ -4820,7 +4828,6 @@ var Level = Sandbox.extend({
         }).getInstantCommands()
       );
     }
-
   },
 
   initGitShim: function(options) {
@@ -4887,6 +4894,7 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+    this.hideGoal();
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
       defer.resolve();
@@ -6565,27 +6573,6 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
-  },
-
-  harshSlideChange: function(value) {
-  },
-
-  slideOut: function() {
-    this.toggleSlide(true);
-  },
-
-  slideIn: function() {
-    this.toggleSlide(false);
-  },
-
-  toggleSlide: function(value) {
-    if (!this.containerElement) {
-      console.warn('cant slide with absolute positioning');
-      return;
-    }
-
-    // no classes on svg :-/
-    $(this.containerElement).toggleClass('slideOut', value);
   },
 
   getAnimationTime: function() { return 300; },
@@ -9481,6 +9468,18 @@ var CanvasTerminalHolder = BaseView.extend({
     };
 
     this.render();
+  },
+
+  slideOut: function() {
+    this.slideToggle(true);
+  },
+
+  slideIn: function() {
+    this.slideToggle(false);
+  },
+
+  slideToggle: function(value) {
+    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
   },
 
   getCanvasLocation: function() {
@@ -17478,6 +17477,14 @@ var Level = Sandbox.extend({
     }, this));
   },
 
+  showGoal: function() {
+    this.goalCanvasHolder.slideIn();
+  },
+
+  hideGoal: function() {
+    this.goalCanvasHolder.slideOut();
+  },
+
   initParseWaterfall: function(options) {
     this.parseWaterfall = new ParseWaterfall();
 
@@ -17491,7 +17498,6 @@ var Level = Sandbox.extend({
         }).getInstantCommands()
       );
     }
-
   },
 
   initGitShim: function(options) {
@@ -17558,6 +17564,7 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+    this.hideGoal();
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
       defer.resolve();
@@ -19257,6 +19264,18 @@ var CanvasTerminalHolder = BaseView.extend({
     };
 
     this.render();
+  },
+
+  slideOut: function() {
+    this.slideToggle(true);
+  },
+
+  slideIn: function() {
+    this.slideToggle(false);
+  },
+
+  slideToggle: function(value) {
+    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
   },
 
   getCanvasLocation: function() {
@@ -21920,27 +21939,6 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', 0);
-  },
-
-  harshSlideChange: function(value) {
-  },
-
-  slideOut: function() {
-    this.toggleSlide(true);
-  },
-
-  slideIn: function() {
-    this.toggleSlide(false);
-  },
-
-  toggleSlide: function(value) {
-    if (!this.containerElement) {
-      console.warn('cant slide with absolute positioning');
-      return;
-    }
-
-    // no classes on svg :-/
-    $(this.containerElement).toggleClass('slideOut', value);
   },
 
   getAnimationTime: function() { return 300; },

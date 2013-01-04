@@ -87,27 +87,6 @@ var Visualization = Backbone.View.extend({
     $(this.paper.canvas).css('opacity', 0);
   },
 
-  harshSlideChange: function(value) {
-  },
-
-  slideOut: function() {
-    this.toggleSlide(true);
-  },
-
-  slideIn: function() {
-    this.toggleSlide(false);
-  },
-
-  toggleSlide: function(value) {
-    if (!this.containerElement) {
-      console.warn('cant slide with absolute positioning');
-      return;
-    }
-
-    // no classes on svg :-/
-    $(this.containerElement).toggleClass('slideOut', value);
-  },
-
   getAnimationTime: function() { return 300; },
 
   fadeTreeIn: function() {

@@ -323,6 +323,18 @@ var CanvasTerminalHolder = BaseView.extend({
     this.render();
   },
 
+  slideOut: function() {
+    this.slideToggle(true);
+  },
+
+  slideIn: function() {
+    this.slideToggle(false);
+  },
+
+  slideToggle: function(value) {
+    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
+  },
+
   getCanvasLocation: function() {
     return this.$('div.inside')[0];
   }
