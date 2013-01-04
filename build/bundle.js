@@ -4564,12 +4564,20 @@ var Sandbox = Backbone.View.extend({
 
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
-      help: this.helpDialog
+      help: this.helpDialog,
+      reset: this.reset
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  reset: function(command, deferred) {
+    this.mainVis.reset();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.mainVis.getAnimationTime());
   },
 
   helpDialog: function(command, deferred) {
@@ -4751,7 +4759,8 @@ var Level = Sandbox.extend({
 
     this.gitCommandsIssued = 0;
     this.solved = false;
-    // possible options on how stringent to be go here
+
+    // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
     this.goalTreeString = options.level.goalTree;
@@ -6460,18 +6469,59 @@ var Visualization = Backbone.View.extend({
       this.gitEngine.loadTreeFromString(this.treeString);
     }
 
+    this.shown = false;
     this.setTreeOpacity(0);
-    this.fadeTreeIn();
+
+    if (!options.wait) {
+      this.fadeTreeIn();
+    }
 
     this.customEvents.trigger('gitEngineReady');
   },
 
   setTreeOpacity: function(level) {
+    if (level === 0) {
+      this.shown = false;
+    }
+
     $(this.paper.canvas).css('opacity', 0);
   },
 
+  getAnimationTime: function() { return 300; },
+
   fadeTreeIn: function() {
-    $(this.paper.canvas).animate({opacity: 1}, 300);
+    this.shown = true;
+    $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+  },
+
+  fadeTreeOut: function() {
+    this.shown = false;
+    $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+  },
+
+  reset: function() {
+    this.setTreeOpacity(0);
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    } else {
+      this.gitEngine.defaultInit();
+    }
+    this.fadeTreeIn();
+  },
+
+  tearDown: function() {
+    // hmm -- dont think this will work to unbind the event listener...
+    $(window).off('resize', _.bind(this.myResize, this));
+    this.gitVisuals.tearDown();
+  },
+
+  die: function() {
+    this.fadeTreeOut();
+    setTimeout(_.bind(function() {
+      if (!this.shown) {
+        this.tearDown();
+      }
+    }, this), this.getAnimationTime());
   },
 
   myResize: function() {
@@ -6493,6 +6543,7 @@ var Visualization = Backbone.View.extend({
 });
 
 exports.Visualization = Visualization;
+
 
 });
 
@@ -6649,7 +6700,10 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
+  this.initUniqueID();
+}
 
+GitEngine.prototype.initUniqueID = function() {
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
     var n = 0;
@@ -6657,7 +6711,7 @@ function GitEngine(options) {
       return prepend? prepend + n++ : n++;
     };
   })();
-}
+};
 
 GitEngine.prototype.defaultInit = function() {
   var defaultTree = JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
@@ -6748,6 +6802,7 @@ GitEngine.prototype.loadTree = function(tree) {
   this.instantiateFromTree(tree);
 
   this.reloadGraphics();
+  this.initUniqueID();
 };
 
 GitEngine.prototype.loadTreeFromString = function(treeString) {
@@ -11981,7 +12036,8 @@ var instantCommands = [
 ];
 
 var regexMap = {
-  'help': /^help($|\s)|\?/
+  'help': /^help($|\s)|\?/,
+  'reset': /^reset($|\s)/
 };
 
 var parse = function(str) {
@@ -12083,6 +12139,11 @@ GitVisuals.prototype.resetAll = function() {
   this.visNodeMap = {};
   this.rootCommit = null;
   this.commitMap = {};
+};
+
+GitVisuals.prototype.tearDown = function() {
+  this.resetAll();
+  this.paper.remove();
 };
 
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
@@ -15349,7 +15410,10 @@ function GitEngine(options) {
   this.commandOptions = {};
   this.generalArgs = [];
 
+  this.initUniqueID();
+}
 
+GitEngine.prototype.initUniqueID = function() {
   // backbone or something uses _.uniqueId, so we make our own here
   this.uniqueId = (function() {
     var n = 0;
@@ -15357,7 +15421,7 @@ function GitEngine(options) {
       return prepend? prepend + n++ : n++;
     };
   })();
-}
+};
 
 GitEngine.prototype.defaultInit = function() {
   var defaultTree = JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
@@ -15448,6 +15512,7 @@ GitEngine.prototype.loadTree = function(tree) {
   this.instantiateFromTree(tree);
 
   this.reloadGraphics();
+  this.initUniqueID();
 };
 
 GitEngine.prototype.loadTreeFromString = function(treeString) {
@@ -17191,7 +17256,8 @@ var Level = Sandbox.extend({
 
     this.gitCommandsIssued = 0;
     this.solved = false;
-    // possible options on how stringent to be go here
+
+    // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
     this.goalTreeString = options.level.goalTree;
@@ -17467,12 +17533,20 @@ var Sandbox = Backbone.View.extend({
 
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
-      help: this.helpDialog
+      help: this.helpDialog,
+      reset: this.reset
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  reset: function(command, deferred) {
+    this.mainVis.reset();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.mainVis.getAnimationTime());
   },
 
   helpDialog: function(command, deferred) {
@@ -17535,7 +17609,8 @@ var instantCommands = [
 ];
 
 var regexMap = {
-  'help': /^help($|\s)|\?/
+  'help': /^help($|\s)|\?/,
+  'reset': /^reset($|\s)/
 };
 
 var parse = function(str) {
@@ -19705,6 +19780,11 @@ GitVisuals.prototype.resetAll = function() {
   this.commitMap = {};
 };
 
+GitVisuals.prototype.tearDown = function() {
+  this.resetAll();
+  this.paper.remove();
+};
+
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
   this.initHeadBranch();
@@ -21544,18 +21624,59 @@ var Visualization = Backbone.View.extend({
       this.gitEngine.loadTreeFromString(this.treeString);
     }
 
+    this.shown = false;
     this.setTreeOpacity(0);
-    this.fadeTreeIn();
+
+    if (!options.wait) {
+      this.fadeTreeIn();
+    }
 
     this.customEvents.trigger('gitEngineReady');
   },
 
   setTreeOpacity: function(level) {
+    if (level === 0) {
+      this.shown = false;
+    }
+
     $(this.paper.canvas).css('opacity', 0);
   },
 
+  getAnimationTime: function() { return 300; },
+
   fadeTreeIn: function() {
-    $(this.paper.canvas).animate({opacity: 1}, 300);
+    this.shown = true;
+    $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+  },
+
+  fadeTreeOut: function() {
+    this.shown = false;
+    $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+  },
+
+  reset: function() {
+    this.setTreeOpacity(0);
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    } else {
+      this.gitEngine.defaultInit();
+    }
+    this.fadeTreeIn();
+  },
+
+  tearDown: function() {
+    // hmm -- dont think this will work to unbind the event listener...
+    $(window).off('resize', _.bind(this.myResize, this));
+    this.gitVisuals.tearDown();
+  },
+
+  die: function() {
+    this.fadeTreeOut();
+    setTimeout(_.bind(function() {
+      if (!this.shown) {
+        this.tearDown();
+      }
+    }, this), this.getAnimationTime());
   },
 
   myResize: function() {
@@ -21577,6 +21698,7 @@ var Visualization = Backbone.View.extend({
 });
 
 exports.Visualization = Visualization;
+
 
 });
 require("/src/js/visuals/visualization.js");

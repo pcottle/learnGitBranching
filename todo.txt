@@ -33,6 +33,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] reset for sandbox command
 [x] do an after-paper-initialize type thing so we can insert git shim once
     git engine is done.
 [x] promise-based levels

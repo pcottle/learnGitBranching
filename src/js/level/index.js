@@ -26,7 +26,8 @@ var Level = Sandbox.extend({
 
     this.gitCommandsIssued = 0;
     this.solved = false;
-    // possible options on how stringent to be go here
+
+    // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
     this.goalTreeString = options.level.goalTree;

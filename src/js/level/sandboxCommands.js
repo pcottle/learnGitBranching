@@ -40,7 +40,8 @@ var instantCommands = [
 ];
 
 var regexMap = {
-  'help': /^help($|\s)|\?/
+  'help': /^help($|\s)|\?/,
+  'reset': /^reset($|\s)/
 };
 
 var parse = function(str) {

@@ -96,12 +96,20 @@ var Sandbox = Backbone.View.extend({
 
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
-      help: this.helpDialog
+      help: this.helpDialog,
+      reset: this.reset
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  reset: function(command, deferred) {
+    this.mainVis.reset();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.mainVis.getAnimationTime());
   },
 
   helpDialog: function(command, deferred) {

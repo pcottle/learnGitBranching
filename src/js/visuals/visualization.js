@@ -58,18 +58,59 @@ var Visualization = Backbone.View.extend({
       this.gitEngine.loadTreeFromString(this.treeString);
     }
 
+    this.shown = false;
     this.setTreeOpacity(0);
-    this.fadeTreeIn();
+
+    if (!options.wait) {
+      this.fadeTreeIn();
+    }
 
     this.customEvents.trigger('gitEngineReady');
   },
 
   setTreeOpacity: function(level) {
+    if (level === 0) {
+      this.shown = false;
+    }
+
     $(this.paper.canvas).css('opacity', 0);
   },
 
+  getAnimationTime: function() { return 300; },
+
   fadeTreeIn: function() {
-    $(this.paper.canvas).animate({opacity: 1}, 300);
+    this.shown = true;
+    $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+  },
+
+  fadeTreeOut: function() {
+    this.shown = false;
+    $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+  },
+
+  reset: function() {
+    this.setTreeOpacity(0);
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    } else {
+      this.gitEngine.defaultInit();
+    }
+    this.fadeTreeIn();
+  },
+
+  tearDown: function() {
+    // hmm -- dont think this will work to unbind the event listener...
+    $(window).off('resize', _.bind(this.myResize, this));
+    this.gitVisuals.tearDown();
+  },
+
+  die: function() {
+    this.fadeTreeOut();
+    setTimeout(_.bind(function() {
+      if (!this.shown) {
+        this.tearDown();
+      }
+    }, this), this.getAnimationTime());
   },
 
   myResize: function() {
@@ -91,3 +132,4 @@ var Visualization = Backbone.View.extend({
 });
 
 exports.Visualization = Visualization;
+

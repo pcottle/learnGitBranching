@@ -76,6 +76,11 @@ GitVisuals.prototype.resetAll = function() {
   this.commitMap = {};
 };
 
+GitVisuals.prototype.tearDown = function() {
+  this.resetAll();
+  this.paper.remove();
+};
+
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
   this.initHeadBranch();
