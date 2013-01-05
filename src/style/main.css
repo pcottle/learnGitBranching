@@ -361,6 +361,11 @@ p.commandLine span.prompt {
   border-radius: 5px;
 }
 
+#commandLineHistory #terminal.scrolling {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 #prompt {
   text-align: left;
 }

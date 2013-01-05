@@ -33,6 +33,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] allow command history to clear finished ones
 [x] put in some > into the rules for CSS
 [x] fix bug for multiview, i think its from the die() on everyone
 [x] fixed bug in command queue

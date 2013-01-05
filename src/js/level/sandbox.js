@@ -82,7 +82,6 @@ var Sandbox = Backbone.View.extend({
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
-      console.log('adding command', command);
       this.commandCollection.add(new Command({
         rawStr: command,
         parseWaterfall: this.parseWaterfall
@@ -94,12 +93,18 @@ var Sandbox = Backbone.View.extend({
     var commandMap = {
       help: this.helpDialog,
       reset: this.reset,
-      delay: this.delay
+      delay: this.delay,
+      clear: this.clear
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  clear: function(command, deferred) {
+    Main.getEvents().trigger('clearOldCommands');
+    command.finishWith(deferred);
   },
 
   delay: function(command, deferred) {

@@ -4550,7 +4550,6 @@ var Sandbox = Backbone.View.extend({
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
-      console.log('adding command', command);
       this.commandCollection.add(new Command({
         rawStr: command,
         parseWaterfall: this.parseWaterfall
@@ -4562,12 +4561,18 @@ var Sandbox = Backbone.View.extend({
     var commandMap = {
       help: this.helpDialog,
       reset: this.reset,
-      delay: this.delay
+      delay: this.delay,
+      clear: this.clear
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  clear: function(command, deferred) {
+    Main.getEvents().trigger('clearOldCommands');
+    command.finishWith(deferred);
   },
 
   delay: function(command, deferred) {
@@ -12370,7 +12375,8 @@ var instantCommands = [
 var regexMap = {
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
-  'delay': /^delay (\d+)$/
+  'delay': /^delay (\d+)$/,
+  'clear': /^clear($|\s)/
 };
 
 var parse = function(str) {
@@ -15096,6 +15102,7 @@ var CommandLineHistoryView = Backbone.View.extend({
 
     this.collection.on('change', this.scrollDown, this);
     Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+    Main.getEvents().on('clearOldCommands', this.clearOldCommands, this);
   },
 
   addWarning: function(msg) {
@@ -15111,20 +15118,33 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.add(command);
   },
 
+  clearOldCommands: function() {
+    // go through and get rid of every command that is "processed" or done
+    var toDestroy = [];
+
+    this.collection.each(function(command) {
+      console.log('this command', command, command.get('status'));
+      if (command.get('status') !== 'inqueue' &&
+          command.get('status') !== 'processing') {
+        toDestroy.push(command);
+      }
+    }, this);
+
+    _.each(toDestroy, function(command) {
+      command.destroy();
+    }, this);
+    this.scrollDown();
+  },
+
   scrollDown: function() {
     // if commandDisplay is ever bigger than #terminal, we need to
     // add overflow-y to terminal and scroll down
     var cD = $('#commandDisplay')[0];
     var t = $('#terminal')[0];
 
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
+    var shouldScroll = (cD.clientHeight > t.clientHeight);
+    $(t).toggleClass('scrolling', shouldScroll);
+    if (shouldScroll) {
       t.scrollTop = t.scrollHeight;
     }
   },
@@ -15144,6 +15164,7 @@ var CommandLineHistoryView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
+
 
 });
 
@@ -18151,7 +18172,6 @@ var Sandbox = Backbone.View.extend({
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
-      console.log('adding command', command);
       this.commandCollection.add(new Command({
         rawStr: command,
         parseWaterfall: this.parseWaterfall
@@ -18163,12 +18183,18 @@ var Sandbox = Backbone.View.extend({
     var commandMap = {
       help: this.helpDialog,
       reset: this.reset,
-      delay: this.delay
+      delay: this.delay,
+      clear: this.clear
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  clear: function(command, deferred) {
+    Main.getEvents().trigger('clearOldCommands');
+    command.finishWith(deferred);
   },
 
   delay: function(command, deferred) {
@@ -18244,7 +18270,8 @@ var instantCommands = [
 var regexMap = {
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
-  'delay': /^delay (\d+)$/
+  'delay': /^delay (\d+)$/,
+  'clear': /^clear($|\s)/
 };
 
 var parse = function(str) {
@@ -19284,6 +19311,7 @@ var CommandLineHistoryView = Backbone.View.extend({
 
     this.collection.on('change', this.scrollDown, this);
     Main.getEvents().on('commandScrollDown', this.scrollDown, this);
+    Main.getEvents().on('clearOldCommands', this.clearOldCommands, this);
   },
 
   addWarning: function(msg) {
@@ -19299,20 +19327,33 @@ var CommandLineHistoryView = Backbone.View.extend({
     this.collection.add(command);
   },
 
+  clearOldCommands: function() {
+    // go through and get rid of every command that is "processed" or done
+    var toDestroy = [];
+
+    this.collection.each(function(command) {
+      console.log('this command', command, command.get('status'));
+      if (command.get('status') !== 'inqueue' &&
+          command.get('status') !== 'processing') {
+        toDestroy.push(command);
+      }
+    }, this);
+
+    _.each(toDestroy, function(command) {
+      command.destroy();
+    }, this);
+    this.scrollDown();
+  },
+
   scrollDown: function() {
     // if commandDisplay is ever bigger than #terminal, we need to
     // add overflow-y to terminal and scroll down
     var cD = $('#commandDisplay')[0];
     var t = $('#terminal')[0];
 
-    if ($(t).hasClass('scrolling')) {
-      t.scrollTop = t.scrollHeight;
-      return;
-    }
-    if (cD.clientHeight > t.clientHeight) {
-      $(t).css('overflow-y', 'scroll');
-      $(t).css('overflow-x', 'hidden');
-      $(t).addClass('scrolling');
+    var shouldScroll = (cD.clientHeight > t.clientHeight);
+    $(t).toggleClass('scrolling', shouldScroll);
+    if (shouldScroll) {
       t.scrollTop = t.scrollHeight;
     }
   },
@@ -19332,6 +19373,7 @@ var CommandLineHistoryView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
+
 
 });
 require("/src/js/views/commandViews.js");
