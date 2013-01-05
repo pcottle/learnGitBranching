@@ -38,6 +38,8 @@ var Sandbox = Backbone.View.extend({
     return $('#mainVisSpace')[0];
   },
 
+  getAnimationTime: function() { return 700 * 1.5; },
+
   initVisualization: function(options) {
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl()
@@ -64,6 +66,9 @@ var Sandbox = Backbone.View.extend({
     // we obviously take care of sandbox commands
     Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
+    // a few things to help transition between levels and sandbox
+    Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
+
     this.insertGitShim();
   },
 
@@ -73,6 +78,11 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
     Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
+    console.log('just released two things about to...');
+    console.log(Main.getEventBaton());
+
+    // a few things to help transition between levels and sandbox
+    Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 
     this.releaseGitShim();
   },
@@ -116,6 +126,18 @@ var Sandbox = Backbone.View.extend({
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  hide: function() {
+    this.mainVis.hide();
+  },
+
+  levelExited: function() {
+    this.show();
+  },
+
+  show: function() {
+    this.mainVis.show();
   },
 
   clear: function(command, deferred) {

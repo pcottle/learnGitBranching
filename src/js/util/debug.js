@@ -18,7 +18,8 @@ var toGlobalize = {
   MultiView: require('../views/multiView'),
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
-  Level: require('../level')
+  Level: require('../level'),
+  Sandbox: require('../level/sandbox')
 };
 
 _.each(toGlobalize, function(module) {

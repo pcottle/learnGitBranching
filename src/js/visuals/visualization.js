@@ -33,7 +33,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.events = options.events || Main.getEvents();
+    this.mainEvents = options.events || Main.getEvents();
     // if we dont want to receive keyoard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
@@ -61,7 +61,7 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    this.events.on('resize', this.myResize, this);
+    this.mainEvents.on('resize', this.myResize, this);
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -99,6 +99,21 @@ var Visualization = Backbone.View.extend({
     $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
   },
 
+  hide: function() {
+    this.fadeTreeOut();
+    // remove click handlers by toggling visibility
+    setTimeout(_.bind(function() {
+      $(this.paper.canvas).css('visibility', 'hidden');
+    }, this), this.getAnimationTime());
+  },
+
+  show: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    process.nextTick(_.bind(function() {
+      this.fadeTreeIn();
+    }, this));
+  },
+
   reset: function() {
     this.setTreeOpacity(0);
     if (this.treeString) {
@@ -111,7 +126,7 @@ var Visualization = Backbone.View.extend({
 
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
-    this.events.off('resize', this.myResize, this);
+    this.mainEvents.off('resize', this.myResize, this);
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
   },

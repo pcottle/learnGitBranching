@@ -331,11 +331,22 @@ var Level = Sandbox.extend({
     return instants;
   },
 
+  exitLevel: function(command, deferred) {
+    this.die();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
+
+    // we need to fade in the sandbox
+    Main.getEventBaton().trigger('levelExited');
+  },
+
   processLevelCommand: function(command, defer) {
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution
+      'show solution': this.showSolution,
+      'exit level': this.exitLevel
     };
     var method = methodMap[command.get('method')];
     if (!method) {

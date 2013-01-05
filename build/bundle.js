@@ -4506,6 +4506,8 @@ var Sandbox = Backbone.View.extend({
     return $('#mainVisSpace')[0];
   },
 
+  getAnimationTime: function() { return 700 * 1.5; },
+
   initVisualization: function(options) {
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl()
@@ -4532,6 +4534,9 @@ var Sandbox = Backbone.View.extend({
     // we obviously take care of sandbox commands
     Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
+    // a few things to help transition between levels and sandbox
+    Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
+
     this.insertGitShim();
   },
 
@@ -4541,6 +4546,11 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
     Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
+    console.log('just released two things about to...');
+    console.log(Main.getEventBaton());
+
+    // a few things to help transition between levels and sandbox
+    Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 
     this.releaseGitShim();
   },
@@ -4584,6 +4594,18 @@ var Sandbox = Backbone.View.extend({
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  hide: function() {
+    this.mainVis.hide();
+  },
+
+  levelExited: function() {
+    this.show();
+  },
+
+  show: function() {
+    this.mainVis.show();
   },
 
   clear: function(command, deferred) {
@@ -6665,11 +6687,22 @@ var Level = Sandbox.extend({
     return instants;
   },
 
+  exitLevel: function(command, deferred) {
+    this.die();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
+
+    // we need to fade in the sandbox
+    Main.getEventBaton().trigger('levelExited');
+  },
+
   processLevelCommand: function(command, defer) {
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution
+      'show solution': this.showSolution,
+      'exit level': this.exitLevel
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -6784,7 +6817,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.events = options.events || Main.getEvents();
+    this.mainEvents = options.events || Main.getEvents();
     // if we dont want to receive keyoard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
@@ -6812,7 +6845,7 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    this.events.on('resize', this.myResize, this);
+    this.mainEvents.on('resize', this.myResize, this);
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -6850,6 +6883,21 @@ var Visualization = Backbone.View.extend({
     $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
   },
 
+  hide: function() {
+    this.fadeTreeOut();
+    // remove click handlers by toggling visibility
+    setTimeout(_.bind(function() {
+      $(this.paper.canvas).css('visibility', 'hidden');
+    }, this), this.getAnimationTime());
+  },
+
+  show: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    process.nextTick(_.bind(function() {
+      this.fadeTreeIn();
+    }, this));
+  },
+
   reset: function() {
     this.setTreeOpacity(0);
     if (this.treeString) {
@@ -6862,7 +6910,7 @@ var Visualization = Backbone.View.extend({
 
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
-    this.events.off('resize', this.myResize, this);
+    this.mainEvents.off('resize', this.myResize, this);
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
   },
@@ -14842,7 +14890,8 @@ require.define("/src/js/level/commands.js",function(require,module,exports,__dir
 var regexMap = {
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
+  'show solution': /^show solution$/,
+  'exit level': /^exit level$/
 };
 
 var parse = function(str) {
@@ -17737,7 +17786,8 @@ require.define("/src/js/level/commands.js",function(require,module,exports,__dir
 var regexMap = {
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
+  'show solution': /^show solution$/,
+  'exit level': /^exit level$/
 };
 
 var parse = function(str) {
@@ -18139,11 +18189,22 @@ var Level = Sandbox.extend({
     return instants;
   },
 
+  exitLevel: function(command, deferred) {
+    this.die();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
+
+    // we need to fade in the sandbox
+    Main.getEventBaton().trigger('levelExited');
+  },
+
   processLevelCommand: function(command, defer) {
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution
+      'show solution': this.showSolution,
+      'exit level': this.exitLevel
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -18302,6 +18363,8 @@ var Sandbox = Backbone.View.extend({
     return $('#mainVisSpace')[0];
   },
 
+  getAnimationTime: function() { return 700 * 1.5; },
+
   initVisualization: function(options) {
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl()
@@ -18328,6 +18391,9 @@ var Sandbox = Backbone.View.extend({
     // we obviously take care of sandbox commands
     Main.getEventBaton().stealBaton('processSandboxCommand', this.processSandboxCommand, this);
 
+    // a few things to help transition between levels and sandbox
+    Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
+
     this.insertGitShim();
   },
 
@@ -18337,6 +18403,11 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
     Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
+    console.log('just released two things about to...');
+    console.log(Main.getEventBaton());
+
+    // a few things to help transition between levels and sandbox
+    Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 
     this.releaseGitShim();
   },
@@ -18380,6 +18451,18 @@ var Sandbox = Backbone.View.extend({
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  hide: function() {
+    this.mainVis.hide();
+  },
+
+  levelExited: function() {
+    this.show();
+  },
+
+  show: function() {
+    this.mainVis.show();
   },
 
   clear: function(command, deferred) {
@@ -18867,7 +18950,8 @@ var toGlobalize = {
   MultiView: require('../views/multiView'),
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
-  Level: require('../level')
+  Level: require('../level'),
+  Sandbox: require('../level/sandbox')
 };
 
 _.each(toGlobalize, function(module) {
@@ -22624,7 +22708,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.events = options.events || Main.getEvents();
+    this.mainEvents = options.events || Main.getEvents();
     // if we dont want to receive keyoard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
@@ -22652,7 +22736,7 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    this.events.on('resize', this.myResize, this);
+    this.mainEvents.on('resize', this.myResize, this);
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -22690,6 +22774,21 @@ var Visualization = Backbone.View.extend({
     $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
   },
 
+  hide: function() {
+    this.fadeTreeOut();
+    // remove click handlers by toggling visibility
+    setTimeout(_.bind(function() {
+      $(this.paper.canvas).css('visibility', 'hidden');
+    }, this), this.getAnimationTime());
+  },
+
+  show: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    process.nextTick(_.bind(function() {
+      this.fadeTreeIn();
+    }, this));
+  },
+
   reset: function() {
     this.setTreeOpacity(0);
     if (this.treeString) {
@@ -22702,7 +22801,7 @@ var Visualization = Backbone.View.extend({
 
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
-    this.events.off('resize', this.myResize, this);
+    this.mainEvents.off('resize', this.myResize, this);
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
   },
