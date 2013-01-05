@@ -14890,14 +14890,25 @@ function detectZoom() {
   return window.outerWidth / window.innerWidth;
 }
 
+var locked = true;
 var setupZoomPoll = function(callback, context) {
   var currentZoom = 0;
 
   setInterval(function() {
     var newZoom = detectZoom();
+
     if (newZoom !== currentZoom) {
+      // we need to wait one more before issuing callback
+      // to avoid window resize issues
+      if (locked) {
+        locked = false;
+        return;
+      }
+
       currentZoom = newZoom;
       callback.apply(context, [newZoom]);
+    } else {
+      locked = true;
     }
   }, 500);
 };
@@ -19162,14 +19173,25 @@ function detectZoom() {
   return window.outerWidth / window.innerWidth;
 }
 
+var locked = true;
 var setupZoomPoll = function(callback, context) {
   var currentZoom = 0;
 
   setInterval(function() {
     var newZoom = detectZoom();
+
     if (newZoom !== currentZoom) {
+      // we need to wait one more before issuing callback
+      // to avoid window resize issues
+      if (locked) {
+        locked = false;
+        return;
+      }
+
       currentZoom = newZoom;
       callback.apply(context, [newZoom]);
+    } else {
+      locked = true;
     }
   }, 500);
 };
