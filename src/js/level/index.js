@@ -5,6 +5,7 @@ var Q = require('q');
 var util = require('../util');
 var Main = require('../app');
 
+var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -16,6 +17,7 @@ var GitShim = require('../git/gitShim').GitShim;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -23,6 +25,7 @@ var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
     options.level = options.level || {};
+    this.level = options.level;
 
     this.gitCommandsIssued = 0;
     this.commandsThatCount = this.getCommandsThatCount();
@@ -31,13 +34,22 @@ var Level = Sandbox.extend({
     // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
+    this.initGoalData(options);
+    Sandbox.prototype.initialize.apply(this, [options]);
+  },
+
+  initGoalData: function(options) {
     this.goalTreeString = options.level.goalTree;
+    this.solutionCommand = options.level.solutionCommand;
+
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
       this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
+      this.solutionCommand = 'git checkout -b win; git commit';
     }
-
-    Sandbox.prototype.initialize.apply(this, [options]);
+    if (!this.solutionCommand) {
+      console.warn('no solution provided, really bad form');
+    }
   },
 
   takeControl: function() {
@@ -76,6 +88,67 @@ var Level = Sandbox.extend({
     });
   },
 
+  showSolution: function(command, defer) {
+    var confirmDefer = Q.defer();
+    var confirmView = new ConfirmCancelTerminal({
+      modalAlert: {
+        markdowns: [
+          '## Are you sure you want to see the solution?',
+          '',
+          'I believe in you! You can do it'
+        ]
+      },
+      deferred: confirmDefer
+    });
+
+    confirmDefer.promise
+    .then(_.bind(function() {
+      // it's next tick because we need to close the
+      // dialog first or otherwise it will steal the event
+      // baton fire
+      process.nextTick(_.bind(function() {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'reset;' + this.solutionCommand
+        );
+      }, this));
+      // we also need to defer this logic...
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      this.hideGoal();
+      command.setResult('Solution command added to the command queue...');
+
+      // start that process...
+      whenClosed.resolve();
+    }, this))
+    .fail(function() {
+      command.setResult("Great! I'll let you get back to it");
+
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      whenClosed.resolve();
+    })
+    .done(function() {
+      confirmView.close();
+    });
+  },
+
   showGoal: function(command, defer) {
     this.goalCanvasHolder.slideIn();
     setTimeout(function() {
@@ -85,6 +158,8 @@ var Level = Sandbox.extend({
 
   hideGoal: function(command, defer) {
     this.goalCanvasHolder.slideOut();
+    if (!command || !defer) { return; }
+
     setTimeout(function() {
       command.finishWith(defer);
     }, this.goalCanvasHolder.getAnimationTime());
@@ -98,6 +173,12 @@ var Level = Sandbox.extend({
       'parseWaterfall',
       require('../level/commands').parse
     );
+
+    /*
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );*/
 
     // if we want to disable certain commands...
     if (options.level.disabledMap) {
@@ -183,11 +264,29 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
+    var hintMsg = (this.level.hint) ?
+      this.level.hint :
+      "Hmm, there doesn't seem to be a hint for this level :-/";
 
+    var instants = [
+      [/^hint$/, function() {
+        throw new Errors.CommandResult({
+          msg: hintMsg
+        });
+      }]
+    ];
+
+    if (!this.solutionCommand) {
+      instants.push([/^show solution$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'No solution provided for this level :-/'
+        });
+      }]);
+    }
+    return instants;
   },
 
   processLevelCommand: function(command, defer) {
-    console.log('processing command...');
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,

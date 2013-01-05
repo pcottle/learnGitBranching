@@ -4735,6 +4735,7 @@ var Q = require('q');
 var util = require('../util');
 var Main = require('../app');
 
+var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -4746,6 +4747,7 @@ var GitShim = require('../git/gitShim').GitShim;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -4753,6 +4755,7 @@ var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
     options.level = options.level || {};
+    this.level = options.level;
 
     this.gitCommandsIssued = 0;
     this.commandsThatCount = this.getCommandsThatCount();
@@ -4761,13 +4764,22 @@ var Level = Sandbox.extend({
     // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
+    this.initGoalData(options);
+    Sandbox.prototype.initialize.apply(this, [options]);
+  },
+
+  initGoalData: function(options) {
     this.goalTreeString = options.level.goalTree;
+    this.solutionCommand = options.level.solutionCommand;
+
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
       this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
+      this.solutionCommand = 'git checkout -b win; git commit';
     }
-
-    Sandbox.prototype.initialize.apply(this, [options]);
+    if (!this.solutionCommand) {
+      console.warn('no solution provided, really bad form');
+    }
   },
 
   takeControl: function() {
@@ -4806,6 +4818,67 @@ var Level = Sandbox.extend({
     });
   },
 
+  showSolution: function(command, defer) {
+    var confirmDefer = Q.defer();
+    var confirmView = new ConfirmCancelTerminal({
+      modalAlert: {
+        markdowns: [
+          '## Are you sure you want to see the solution?',
+          '',
+          'I believe in you! You can do it'
+        ]
+      },
+      deferred: confirmDefer
+    });
+
+    confirmDefer.promise
+    .then(_.bind(function() {
+      // it's next tick because we need to close the
+      // dialog first or otherwise it will steal the event
+      // baton fire
+      process.nextTick(_.bind(function() {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'reset;' + this.solutionCommand
+        );
+      }, this));
+      // we also need to defer this logic...
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      this.hideGoal();
+      command.setResult('Solution command added to the command queue...');
+
+      // start that process...
+      whenClosed.resolve();
+    }, this))
+    .fail(function() {
+      command.setResult("Great! I'll let you get back to it");
+
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      whenClosed.resolve();
+    })
+    .done(function() {
+      confirmView.close();
+    });
+  },
+
   showGoal: function(command, defer) {
     this.goalCanvasHolder.slideIn();
     setTimeout(function() {
@@ -4815,6 +4888,8 @@ var Level = Sandbox.extend({
 
   hideGoal: function(command, defer) {
     this.goalCanvasHolder.slideOut();
+    if (!command || !defer) { return; }
+
     setTimeout(function() {
       command.finishWith(defer);
     }, this.goalCanvasHolder.getAnimationTime());
@@ -4828,6 +4903,12 @@ var Level = Sandbox.extend({
       'parseWaterfall',
       require('../level/commands').parse
     );
+
+    /*
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );*/
 
     // if we want to disable certain commands...
     if (options.level.disabledMap) {
@@ -4913,11 +4994,29 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
+    var hintMsg = (this.level.hint) ?
+      this.level.hint :
+      "Hmm, there doesn't seem to be a hint for this level :-/";
 
+    var instants = [
+      [/^hint$/, function() {
+        throw new Errors.CommandResult({
+          msg: hintMsg
+        });
+      }]
+    ];
+
+    if (!this.solutionCommand) {
+      instants.push([/^show solution$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'No solution provided for this level :-/'
+        });
+      }]);
+    }
+    return instants;
   },
 
   processLevelCommand: function(command, defer) {
-    console.log('processing command...');
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
@@ -6505,6 +6604,70 @@ function nodeify(promise, nodeback) {
 var qEndingLine = captureLine();
 
 });
+
+});
+
+require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var MyError = Backbone.Model.extend({
+  defaults: {
+    type: 'MyError',
+    msg: 'Unknown Error'
+  },
+  toString: function() {
+    return this.get('type') + ': ' + this.get('msg');
+  },
+
+  getMsg: function() {
+    return this.get('msg') || 'Unknown Error';
+  },
+
+  toResult: function() {
+    if (!this.get('msg').length) {
+      return '';
+    }
+    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+  }
+});
+
+var CommandProcessError = exports.CommandProcessError = MyError.extend({
+  defaults: {
+    type: 'Command Process Error'
+  }
+});
+
+var CommandResult = exports.CommandResult = MyError.extend({
+  defaults: {
+    type: 'Command Result'
+  }
+});
+
+var Warning = exports.Warning = MyError.extend({
+  defaults: {
+    type: 'Warning'
+  }
+});
+
+var GitError = exports.GitError = MyError.extend({
+  defaults: {
+    type: 'Git Error'
+  }
+});
+
+var filterError = function(err) {
+  if (err instanceof CommandProcessError ||
+      err instanceof GitError ||
+      err instanceof CommandResult ||
+      err instanceof Warning) {
+    // yay! one of ours
+    return;
+  } else {
+    throw err;
+  }
+};
+
+exports.filterError = filterError;
 
 });
 
@@ -8942,70 +9105,6 @@ exports.TreeCompare = TreeCompare;
 
 });
 
-require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
-  },
-  toString: function() {
-    return this.get('type') + ': ' + this.get('msg');
-  },
-
-  getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
-  }
-});
-
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
-  }
-});
-
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
-  }
-});
-
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
-  }
-});
-
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
-  }
-});
-
-var filterError = function(err) {
-  if (err instanceof CommandProcessError ||
-      err instanceof GitError ||
-      err instanceof CommandResult ||
-      err instanceof Warning) {
-    // yay! one of ours
-    return;
-  } else {
-    throw err;
-  }
-};
-
-exports.filterError = filterError;
-
-});
-
 require.define("/src/js/views/rebaseView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
@@ -9169,6 +9268,7 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
@@ -9326,11 +9426,11 @@ var ModalView = Backbone.View.extend({
   },
 
   onWindowFocus: function(e) {
-    console.log('window focus doing nothing', e);
+    //console.log('window focus doing nothing', e);
   },
 
   onDocumentClick: function(e) {
-    console.log('doc click doing nothing', e);
+    //console.log('doc click doing nothing', e);
   },
 
   onKeyDown: function(e) {
@@ -9347,6 +9447,7 @@ var ModalView = Backbone.View.extend({
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
     process.nextTick(_.bind(function() {
+      console.log('STEALING KEYBOARD in modal');
       this.toggleShow(true);
     }, this));
   },
@@ -9383,7 +9484,6 @@ var ModalView = Backbone.View.extend({
   tearDown: function() {
     this.$el.html('');
     $('body')[0].removeChild(this.el);
-    this.releaseKeyboard();
   }
 });
 
@@ -9441,6 +9541,35 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
+var ConfirmCancelTerminal = Backbone.View.extend({
+  initialize: function(options) {
+    options = options || {};
+
+    this.deferred = options.deferred || Q.defer();
+    this.modalAlert = new ModalAlert(_.extend(
+      {},
+      { markdown: '#you sure?' },
+      options.modalAlert
+    ));
+    this.confirmCancel = new ConfirmCancelView({
+      deferred: this.deferred,
+      destination: this.modalAlert.getDestination()
+    });
+
+    if (!options.wait) {
+      this.modalAlert.show();
+    }
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
+  },
+
+  close: function() {
+    this.modalAlert.die();
+  }
+});
+
 var ZoomAlertWindow = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -9481,18 +9610,26 @@ var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
   template: _.template($('#terminal-window-bare-template').html()),
+  events: {
+    'click div.wrapper': 'onClick'
+  },
 
   initialize: function(options) {
     options = options || {};
     this.destination = $('body');
     this.JSON = {
-      title: options.title || 'Goal To Reach'
+      title: options.title || 'Goal To Reach',
+      text: options.text || 'You can hide this modal with "hide goal"'
     };
 
     this.render();
   },
 
   getAnimationTime: function() { return 700; },
+
+  onClick: function() {
+    this.slideOut();
+  },
 
   slideOut: function() {
     this.slideToggle(true);
@@ -9518,6 +9655,7 @@ exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
+exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 
@@ -12312,6 +12450,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
+    console.log(this.eventMap);
     throw new Error('cant releasebaton if yu dont have it');
   }
   this.eventMap[name] = newListeners;
@@ -17458,6 +17597,7 @@ var Q = require('q');
 var util = require('../util');
 var Main = require('../app');
 
+var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -17469,6 +17609,7 @@ var GitShim = require('../git/gitShim').GitShim;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -17476,6 +17617,7 @@ var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
     options.level = options.level || {};
+    this.level = options.level;
 
     this.gitCommandsIssued = 0;
     this.commandsThatCount = this.getCommandsThatCount();
@@ -17484,13 +17626,22 @@ var Level = Sandbox.extend({
     // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
+    this.initGoalData(options);
+    Sandbox.prototype.initialize.apply(this, [options]);
+  },
+
+  initGoalData: function(options) {
     this.goalTreeString = options.level.goalTree;
+    this.solutionCommand = options.level.solutionCommand;
+
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
       this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
+      this.solutionCommand = 'git checkout -b win; git commit';
     }
-
-    Sandbox.prototype.initialize.apply(this, [options]);
+    if (!this.solutionCommand) {
+      console.warn('no solution provided, really bad form');
+    }
   },
 
   takeControl: function() {
@@ -17529,6 +17680,67 @@ var Level = Sandbox.extend({
     });
   },
 
+  showSolution: function(command, defer) {
+    var confirmDefer = Q.defer();
+    var confirmView = new ConfirmCancelTerminal({
+      modalAlert: {
+        markdowns: [
+          '## Are you sure you want to see the solution?',
+          '',
+          'I believe in you! You can do it'
+        ]
+      },
+      deferred: confirmDefer
+    });
+
+    confirmDefer.promise
+    .then(_.bind(function() {
+      // it's next tick because we need to close the
+      // dialog first or otherwise it will steal the event
+      // baton fire
+      process.nextTick(_.bind(function() {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'reset;' + this.solutionCommand
+        );
+      }, this));
+      // we also need to defer this logic...
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      this.hideGoal();
+      command.setResult('Solution command added to the command queue...');
+
+      // start that process...
+      whenClosed.resolve();
+    }, this))
+    .fail(function() {
+      command.setResult("Great! I'll let you get back to it");
+
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      whenClosed.resolve();
+    })
+    .done(function() {
+      confirmView.close();
+    });
+  },
+
   showGoal: function(command, defer) {
     this.goalCanvasHolder.slideIn();
     setTimeout(function() {
@@ -17538,6 +17750,8 @@ var Level = Sandbox.extend({
 
   hideGoal: function(command, defer) {
     this.goalCanvasHolder.slideOut();
+    if (!command || !defer) { return; }
+
     setTimeout(function() {
       command.finishWith(defer);
     }, this.goalCanvasHolder.getAnimationTime());
@@ -17551,6 +17765,12 @@ var Level = Sandbox.extend({
       'parseWaterfall',
       require('../level/commands').parse
     );
+
+    /*
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );*/
 
     // if we want to disable certain commands...
     if (options.level.disabledMap) {
@@ -17636,11 +17856,29 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
+    var hintMsg = (this.level.hint) ?
+      this.level.hint :
+      "Hmm, there doesn't seem to be a hint for this level :-/";
 
+    var instants = [
+      [/^hint$/, function() {
+        throw new Errors.CommandResult({
+          msg: hintMsg
+        });
+      }]
+    ];
+
+    if (!this.solutionCommand) {
+      instants.push([/^show solution$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'No solution provided for this level :-/'
+        });
+      }]);
+    }
+    return instants;
   },
 
   processLevelCommand: function(command, defer) {
-    console.log('processing command...');
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
@@ -18503,6 +18741,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
+    console.log(this.eventMap);
     throw new Error('cant releasebaton if yu dont have it');
   }
   this.eventMap[name] = newListeners;
@@ -19018,6 +19257,7 @@ require("/src/js/views/commandViews.js");
 
 require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
@@ -19175,11 +19415,11 @@ var ModalView = Backbone.View.extend({
   },
 
   onWindowFocus: function(e) {
-    console.log('window focus doing nothing', e);
+    //console.log('window focus doing nothing', e);
   },
 
   onDocumentClick: function(e) {
-    console.log('doc click doing nothing', e);
+    //console.log('doc click doing nothing', e);
   },
 
   onKeyDown: function(e) {
@@ -19196,6 +19436,7 @@ var ModalView = Backbone.View.extend({
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
     process.nextTick(_.bind(function() {
+      console.log('STEALING KEYBOARD in modal');
       this.toggleShow(true);
     }, this));
   },
@@ -19232,7 +19473,6 @@ var ModalView = Backbone.View.extend({
   tearDown: function() {
     this.$el.html('');
     $('body')[0].removeChild(this.el);
-    this.releaseKeyboard();
   }
 });
 
@@ -19290,6 +19530,35 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
+var ConfirmCancelTerminal = Backbone.View.extend({
+  initialize: function(options) {
+    options = options || {};
+
+    this.deferred = options.deferred || Q.defer();
+    this.modalAlert = new ModalAlert(_.extend(
+      {},
+      { markdown: '#you sure?' },
+      options.modalAlert
+    ));
+    this.confirmCancel = new ConfirmCancelView({
+      deferred: this.deferred,
+      destination: this.modalAlert.getDestination()
+    });
+
+    if (!options.wait) {
+      this.modalAlert.show();
+    }
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
+  },
+
+  close: function() {
+    this.modalAlert.die();
+  }
+});
+
 var ZoomAlertWindow = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -19330,18 +19599,26 @@ var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
   template: _.template($('#terminal-window-bare-template').html()),
+  events: {
+    'click div.wrapper': 'onClick'
+  },
 
   initialize: function(options) {
     options = options || {};
     this.destination = $('body');
     this.JSON = {
-      title: options.title || 'Goal To Reach'
+      title: options.title || 'Goal To Reach',
+      text: options.text || 'You can hide this modal with "hide goal"'
     };
 
     this.render();
   },
 
   getAnimationTime: function() { return 700; },
+
+  onClick: function() {
+    this.slideOut();
+  },
 
   slideOut: function() {
     this.slideToggle(true);
@@ -19367,6 +19644,7 @@ exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
+exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 

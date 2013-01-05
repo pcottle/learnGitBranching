@@ -1,5 +1,6 @@
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
@@ -157,11 +158,11 @@ var ModalView = Backbone.View.extend({
   },
 
   onWindowFocus: function(e) {
-    console.log('window focus doing nothing', e);
+    //console.log('window focus doing nothing', e);
   },
 
   onDocumentClick: function(e) {
-    console.log('doc click doing nothing', e);
+    //console.log('doc click doing nothing', e);
   },
 
   onKeyDown: function(e) {
@@ -178,6 +179,7 @@ var ModalView = Backbone.View.extend({
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
     process.nextTick(_.bind(function() {
+      console.log('STEALING KEYBOARD in modal');
       this.toggleShow(true);
     }, this));
   },
@@ -214,7 +216,6 @@ var ModalView = Backbone.View.extend({
   tearDown: function() {
     this.$el.html('');
     $('body')[0].removeChild(this.el);
-    this.releaseKeyboard();
   }
 });
 
@@ -272,6 +273,35 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
+var ConfirmCancelTerminal = Backbone.View.extend({
+  initialize: function(options) {
+    options = options || {};
+
+    this.deferred = options.deferred || Q.defer();
+    this.modalAlert = new ModalAlert(_.extend(
+      {},
+      { markdown: '#you sure?' },
+      options.modalAlert
+    ));
+    this.confirmCancel = new ConfirmCancelView({
+      deferred: this.deferred,
+      destination: this.modalAlert.getDestination()
+    });
+
+    if (!options.wait) {
+      this.modalAlert.show();
+    }
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
+  },
+
+  close: function() {
+    this.modalAlert.die();
+  }
+});
+
 var ZoomAlertWindow = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -312,18 +342,26 @@ var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
   template: _.template($('#terminal-window-bare-template').html()),
+  events: {
+    'click div.wrapper': 'onClick'
+  },
 
   initialize: function(options) {
     options = options || {};
     this.destination = $('body');
     this.JSON = {
-      title: options.title || 'Goal To Reach'
+      title: options.title || 'Goal To Reach',
+      text: options.text || 'You can hide this modal with "hide goal"'
     };
 
     this.render();
   },
 
   getAnimationTime: function() { return 700; },
+
+  onClick: function() {
+    this.slideOut();
+  },
 
   slideOut: function() {
     this.slideToggle(true);
@@ -349,6 +387,7 @@ exports.ContainedBase = ContainedBase;
 exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
+exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 

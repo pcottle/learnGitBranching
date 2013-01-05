@@ -90,6 +90,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
+    console.log(this.eventMap);
     throw new Error('cant releasebaton if yu dont have it');
   }
   this.eventMap[name] = newListeners;

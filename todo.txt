@@ -3,8 +3,6 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] show goal
-[ ] show solution
 [ ] show which level you are in! with a little thing on the top
 [ ] levels dropdown selection?
 
@@ -24,8 +22,7 @@ Minor Bugs to fix:
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] window zoom alert thing
-[ ] better stuff for modals stealing input
-[ ] click handlers on goal visualization
+[ ] click handlers on goal visualization for the actual canvas elements
 
 /*************************************
  ** Publish Things **
@@ -36,6 +33,8 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] show solution
+[x] show goal
 [x] reset for sandbox command
 [x] do an after-paper-initialize type thing so we can insert git shim once
     git engine is done.
