@@ -341,6 +341,42 @@ var ZoomAlertWindow = Backbone.View.extend({
   }
 });
 
+var LevelToolbar = BaseView.extend({
+  tagName: 'div',
+  template: _.template($('#level-toolbar-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      levelName: options.levelName || 'Some level! (unknown name)'
+    };
+
+    this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
+    this.render();
+
+    if (!options.wait) {
+      process.nextTick(_.bind(function() {
+        this.show();
+      }, this));
+    }
+  },
+
+  render: function() {
+    var HTML = this.template(this.JSON);
+
+    this.$el.html(HTML);
+    this.beforeDestination.after(this.el);
+  },
+
+  hide: function() {
+    this.$('div.toolbar').toggleClass('hidden', true);
+  },
+
+  show: function() {
+    this.$('div.toolbar').toggleClass('hidden', false);
+  }
+});
+
 var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
@@ -393,4 +429,5 @@ exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
+exports.LevelToolbar = LevelToolbar;
 

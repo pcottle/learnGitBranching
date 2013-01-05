@@ -331,7 +331,6 @@ var CommandLineHistoryView = Backbone.View.extend({
     var toDestroy = [];
 
     this.collection.each(function(command) {
-      console.log('this command', command, command.get('status'));
       if (command.get('status') !== 'inqueue' &&
           command.get('status') !== 'processing') {
         toDestroy.push(command);

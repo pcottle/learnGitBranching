@@ -140,7 +140,7 @@ div.canvasTerminalHolder {
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder {
-  margin: 50px 0;
+  margin: 100px 0;
   height: 100%;
   -webkit-transform: translate3d(0,0,0);
 }
@@ -202,6 +202,17 @@ div.toolbar {
   font-size: 14px;
   color: black;
   -webkit-box-pack: center;
+}
+
+div.toolbar.level-toolbar {
+  background-image: -webkit-linear-gradient(top, #79F179, #29EE31);
+  border-radius: 0;
+  height: 50px;
+}
+
+div.toolbar.level-toolbar.hidden {
+  opacity: 0;
+  height: 0px;
 }
 
 div.toolbar > div.controls {
