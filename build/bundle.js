@@ -4467,6 +4467,7 @@ exports.splitTextCommand = function(value, func, context) {
 });
 
 require.define("/src/js/level/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
@@ -4549,6 +4550,7 @@ var Sandbox = Backbone.View.extend({
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
+      console.log('adding command', command);
       this.commandCollection.add(new Command({
         rawStr: command,
         parseWaterfall: this.parseWaterfall
@@ -4559,12 +4561,20 @@ var Sandbox = Backbone.View.extend({
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       help: this.helpDialog,
-      reset: this.reset
+      reset: this.reset,
+      delay: this.delay
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  delay: function(command, deferred) {
+    var amount = parseInt(command.get('regexResults')[1], 10);
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, amount);
   },
 
   reset: function(command, deferred) {
@@ -4587,451 +4597,6 @@ var Sandbox = Backbone.View.extend({
 });
 
 exports.Sandbox = Sandbox;
-
-
-});
-
-require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var Constants = require('../util/constants');
-var util = require('../util');
-
-/**
- * Globals
- */
-var events = _.clone(Backbone.Events);
-var commandUI;
-var sandbox;
-var eventBaton;
-
-///////////////////////////////////////////////////////////////////////
-
-var init = function() {
-  /**
-    * There is a decent amount of bootstrapping we need just to hook
-    * everything up. The init() method takes on these responsibilities,
-    * including but not limited to:
-    *   - setting up Events and EventBaton
-    *   - calling the constructor for the main visualization
-    *   - initializing the command input bar
-    *   - handling window.focus and zoom events
-  **/
-  var Sandbox = require('../level/sandbox').Sandbox;
-  var Level = require('../level').Level;
-  var EventBaton = require('../util/eventBaton').EventBaton;
-
-  eventBaton = new EventBaton();
-  commandUI = new CommandUI();
-  sandbox = new Level();
-
-  // we always want to focus the text area to collect input
-  var focusTextArea = function() {
-    $('#commandTextField').focus();
-  };
-  focusTextArea();
-
-  $(window).focus(function(e) {
-    eventBaton.trigger('windowFocus', e);
-  });
-  $(document).click(function(e) {
-    eventBaton.trigger('documentClick', e);
-  });
-  $(window).on('resize', function(e) {
-    events.trigger('resize', e);
-  });
-
-  // zoom level measure, I wish there was a jquery event for this :/
-  require('../util/zoomLevel').setupZoomPoll(function(level) {
-    eventBaton.trigger('zoomChange', level);
-  }, this);
-
-  eventBaton.stealBaton('zoomChange', function(level) {
-    if (level > Constants.VIEWPORT.maxZoom ||
-        level < Constants.VIEWPORT.minZoom) {
-      var Views = require('../views');
-      var view = new Views.ZoomAlertWindow();
-    }
-  });
-
-  // the default action on window focus and document click is to just focus the text area
-  eventBaton.stealBaton('windowFocus', focusTextArea);
-  eventBaton.stealBaton('documentClick', focusTextArea);
-
-  // but when the input is fired in the text area, we pipe that to whoever is
-  // listenining
-  var makeKeyListener = function(name) {
-    return function() {
-      var args = [name];
-      _.each(arguments, function(arg) {
-        args.push(arg);
-      });
-      eventBaton.trigger.apply(eventBaton, args);
-    };
-  };
-
-  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
-  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
-
-  /* hacky demo functionality */
-  if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
-    }, 500);
-  }
-};
-
-$(document).ready(init);
-
-/**
-  * the UI method simply bootstraps the command buffer and
-  * command prompt views. It only interacts with user input
-  * and simply pipes commands to the main events system
-**/
-function CommandUI() {
-  var Collections = require('../models/collections');
-  var CommandViews = require('../views/commandViews');
-
-  this.commandCollection = new Collections.CommandCollection();
-  this.commandBuffer = new Collections.CommandBuffer({
-    collection: this.commandCollection
-  });
-
-  this.commandPromptView = new CommandViews.CommandPromptView({
-    el: $('#commandLineBar')
-  });
-
-  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
-}
-
-exports.getEvents = function() {
-  return events;
-};
-
-exports.getSandbox = function() {
-  return sandbox;
-};
-
-exports.getEventBaton = function() {
-  return eventBaton;
-};
-
-exports.getCommandUI = function() {
-  return commandUI;
-};
-
-exports.init = init;
-
-
-});
-
-require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var Q = require('q');
-
-var util = require('../util');
-var Main = require('../app');
-
-var Errors = require('../util/errors');
-var Sandbox = require('../level/sandbox').Sandbox;
-
-var Visualization = require('../visuals/visualization').Visualization;
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
-var DisabledMap = require('../level/disabledMap').DisabledMap;
-var Command = require('../models/commandModel').Command;
-var GitShim = require('../git/gitShim').GitShim;
-
-var ModalAlert = require('../views').ModalAlert;
-var MultiView = require('../views/multiView').MultiView;
-var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
-var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
-
-var TreeCompare = require('../git/treeCompare').TreeCompare;
-
-var Level = Sandbox.extend({
-  initialize: function(options) {
-    options = options || {};
-    options.level = options.level || {};
-    this.level = options.level;
-
-    this.gitCommandsIssued = 0;
-    this.commandsThatCount = this.getCommandsThatCount();
-    this.solved = false;
-
-    // possible options on how stringent to be on comparisons go here
-    this.treeCompare = new TreeCompare();
-
-    this.initGoalData(options);
-    Sandbox.prototype.initialize.apply(this, [options]);
-  },
-
-  initGoalData: function(options) {
-    this.goalTreeString = options.level.goalTree;
-    this.solutionCommand = options.level.solutionCommand;
-
-    if (!this.goalTreeString) {
-      console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
-      this.solutionCommand = 'git checkout -b win; git commit';
-    }
-    if (!this.solutionCommand) {
-      console.warn('no solution provided, really bad form');
-    }
-  },
-
-  takeControl: function() {
-    Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
-
-    Sandbox.prototype.takeControl.apply(this);
-  },
-
-  initVisualization: function(options) {
-    if (!options.level.startTree) {
-      console.warn('No start tree specified for this level!!! using default...');
-    }
-    this.mainVis = new Visualization({
-      el: options.el || this.getDefaultVisEl(),
-      treeString: options.level.startTree
-    });
-
-    this.initGoalVisualization(options);
-  },
-
-  getDefaultGoalVisEl: function() {
-    return $('#commandLineHistory');
-  },
-
-  initGoalVisualization: function(options) {
-    // first we make the goal visualization holder
-    this.goalCanvasHolder = new CanvasTerminalHolder();
-
-    // then we make a visualization. the "el" here is the element to
-    // track for size information. the container is where the canvas will be placed
-    this.goalVis = new Visualization({
-      el: this.goalCanvasHolder.getCanvasLocation(),
-      containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString,
-      noKeyboardInput: true
-    });
-  },
-
-  showSolution: function(command, defer) {
-    var confirmDefer = Q.defer();
-    var confirmView = new ConfirmCancelTerminal({
-      modalAlert: {
-        markdowns: [
-          '## Are you sure you want to see the solution?',
-          '',
-          'I believe in you! You can do it'
-        ]
-      },
-      deferred: confirmDefer
-    });
-
-    confirmDefer.promise
-    .then(_.bind(function() {
-      // it's next tick because we need to close the
-      // dialog first or otherwise it will steal the event
-      // baton fire
-      process.nextTick(_.bind(function() {
-        Main.getEventBaton().trigger(
-          'commandSubmitted',
-          'reset;' + this.solutionCommand
-        );
-      }, this));
-      // we also need to defer this logic...
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
-      this.hideGoal();
-      command.setResult('Solution command added to the command queue...');
-
-      // start that process...
-      whenClosed.resolve();
-    }, this))
-    .fail(function() {
-      command.setResult("Great! I'll let you get back to it");
-
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
-      whenClosed.resolve();
-    })
-    .done(function() {
-      confirmView.close();
-    });
-  },
-
-  showGoal: function(command, defer) {
-    this.goalCanvasHolder.slideIn();
-    setTimeout(function() {
-      command.finishWith(defer);
-    }, this.goalCanvasHolder.getAnimationTime());
-  },
-
-  hideGoal: function(command, defer) {
-    this.goalCanvasHolder.slideOut();
-    if (!command || !defer) { return; }
-
-    setTimeout(function() {
-      command.finishWith(defer);
-    }, this.goalCanvasHolder.getAnimationTime());
-  },
-
-  initParseWaterfall: function(options) {
-    this.parseWaterfall = new ParseWaterfall();
-
-    // add our specific functionaity
-    this.parseWaterfall.addFirst(
-      'parseWaterfall',
-      require('../level/commands').parse
-    );
-
-    /*
-    this.parseWaterfall.addFirst(
-      'instantWaterfall',
-      this.getInstantCommands()
-    );*/
-
-    // if we want to disable certain commands...
-    if (options.level.disabledMap) {
-      // disable these other commands
-      this.parseWaterfall.addFirst(
-        'instantWaterfall',
-        new DisabledMap({
-          disabledMap: options.level.disabledMap
-        }).getInstantCommands()
-      );
-    }
-  },
-
-  initGitShim: function(options) {
-    // ok we definitely want a shim here
-    this.gitShim = new GitShim({
-      afterCB: _.bind(this.afterCommandCB, this),
-      afterDeferHandler: _.bind(this.afterCommandDefer, this)
-    });
-  },
-
-  getCommandsThatCount: function() {
-    var GitCommands = require('../git/commands');
-    var toCount = [
-      'git commit',
-      'git checkout',
-      'git rebase',
-      'git reset',
-      'git branch',
-      'git revert',
-      'git merge',
-      'git cherry-pick'
-    ];
-    var myRegexMap = {};
-    _.each(toCount, function(method) {
-      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
-
-      myRegexMap[method] = GitCommands.regexMap[method];
-    });
-    return myRegexMap;
-  },
-
-  afterCommandCB: function(command) {
-    var matched = false;
-    _.each(this.commandsThatCount, function(regex) {
-      matched = matched || regex.test(command.get('rawStr'));
-    });
-    if (matched) {
-      this.gitCommandsIssued++;
-    }
-  },
-
-  afterCommandDefer: function(defer, command) {
-    if (this.solved) {
-      command.addWarning(
-        "You've already solved this level, try other levels with 'show levels'" +
-        "or go back to the sandbox with 'sandbox'"
-      );
-      defer.resolve();
-      return;
-    }
-
-    // ok so lets see if they solved it...
-    var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
-
-    if (!solved) {
-      defer.resolve();
-      return;
-    }
-
-    // woohoo!!! they solved the level, lets animate and such
-    this.levelSolved(defer);
-  },
-
-  levelSolved: function(defer) {
-    this.solved = true;
-    this.hideGoal();
-    this.mainVis.gitVisuals.finishAnimation()
-    .then(function() {
-      defer.resolve();
-    });
-  },
-
-  getInstantCommands: function() {
-    var hintMsg = (this.level.hint) ?
-      this.level.hint :
-      "Hmm, there doesn't seem to be a hint for this level :-/";
-
-    var instants = [
-      [/^hint$/, function() {
-        throw new Errors.CommandResult({
-          msg: hintMsg
-        });
-      }]
-    ];
-
-    if (!this.solutionCommand) {
-      instants.push([/^show solution$/, function() {
-        throw new Errors.CommandResult({
-          msg: 'No solution provided for this level :-/'
-        });
-      }]);
-    }
-    return instants;
-  },
-
-  processLevelCommand: function(command, defer) {
-    var methodMap = {
-      'show goal': this.showGoal,
-      'hide goal': this.hideGoal,
-      'show solution': this.showSolution
-    };
-    var method = methodMap[command.get('method')];
-    if (!method) {
-      throw new Error('woah we dont support that method yet', method);
-    }
-
-    method.apply(this, [command, defer]);
-  }
-});
-
-exports.Level = Level;
 
 
 });
@@ -6607,6 +6172,458 @@ var qEndingLine = captureLine();
 
 });
 
+require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var Constants = require('../util/constants');
+var util = require('../util');
+
+/**
+ * Globals
+ */
+var events = _.clone(Backbone.Events);
+var commandUI;
+var sandbox;
+var eventBaton;
+
+///////////////////////////////////////////////////////////////////////
+
+var init = function() {
+  /**
+    * There is a decent amount of bootstrapping we need just to hook
+    * everything up. The init() method takes on these responsibilities,
+    * including but not limited to:
+    *   - setting up Events and EventBaton
+    *   - calling the constructor for the main visualization
+    *   - initializing the command input bar
+    *   - handling window.focus and zoom events
+  **/
+  var Sandbox = require('../level/sandbox').Sandbox;
+  var Level = require('../level').Level;
+  var EventBaton = require('../util/eventBaton').EventBaton;
+
+  eventBaton = new EventBaton();
+  commandUI = new CommandUI();
+  sandbox = new Level();
+
+  // we always want to focus the text area to collect input
+  var focusTextArea = function() {
+    $('#commandTextField').focus();
+  };
+  focusTextArea();
+
+  $(window).focus(function(e) {
+    eventBaton.trigger('windowFocus', e);
+  });
+  $(document).click(function(e) {
+    eventBaton.trigger('documentClick', e);
+  });
+  $(window).on('resize', function(e) {
+    events.trigger('resize', e);
+  });
+
+  // zoom level measure, I wish there was a jquery event for this :/
+  require('../util/zoomLevel').setupZoomPoll(function(level) {
+    eventBaton.trigger('zoomChange', level);
+  }, this);
+
+  eventBaton.stealBaton('zoomChange', function(level) {
+    if (level > Constants.VIEWPORT.maxZoom ||
+        level < Constants.VIEWPORT.minZoom) {
+      var Views = require('../views');
+      var view = new Views.ZoomAlertWindow();
+    }
+  });
+
+  // the default action on window focus and document click is to just focus the text area
+  eventBaton.stealBaton('windowFocus', focusTextArea);
+  eventBaton.stealBaton('documentClick', focusTextArea);
+
+  // but when the input is fired in the text area, we pipe that to whoever is
+  // listenining
+  var makeKeyListener = function(name) {
+    return function() {
+      var args = [name];
+      _.each(arguments, function(arg) {
+        args.push(arg);
+      });
+      eventBaton.trigger.apply(eventBaton, args);
+    };
+  };
+
+  $('#commandTextField').on('keydown', makeKeyListener('keydown'));
+  $('#commandTextField').on('keyup', makeKeyListener('keyup'));
+
+  /* hacky demo functionality */
+  if (/\?demo/.test(window.location.href)) {
+    setTimeout(function() {
+      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+    }, 500);
+  }
+};
+
+$(document).ready(init);
+
+/**
+  * the UI method simply bootstraps the command buffer and
+  * command prompt views. It only interacts with user input
+  * and simply pipes commands to the main events system
+**/
+function CommandUI() {
+  var Collections = require('../models/collections');
+  var CommandViews = require('../views/commandViews');
+
+  this.commandCollection = new Collections.CommandCollection();
+  this.commandBuffer = new Collections.CommandBuffer({
+    collection: this.commandCollection
+  });
+
+  this.commandPromptView = new CommandViews.CommandPromptView({
+    el: $('#commandLineBar')
+  });
+
+  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
+    el: $('#commandLineHistory'),
+    collection: this.commandCollection
+  });
+}
+
+exports.getEvents = function() {
+  return events;
+};
+
+exports.getSandbox = function() {
+  return sandbox;
+};
+
+exports.getEventBaton = function() {
+  return eventBaton;
+};
+
+exports.getCommandUI = function() {
+  return commandUI;
+};
+
+exports.init = init;
+
+
+});
+
+require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var util = require('../util');
+var Main = require('../app');
+
+var Errors = require('../util/errors');
+var Sandbox = require('../level/sandbox').Sandbox;
+
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var DisabledMap = require('../level/disabledMap').DisabledMap;
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
+
+var ModalAlert = require('../views').ModalAlert;
+var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+
+var TreeCompare = require('../git/treeCompare').TreeCompare;
+
+var Level = Sandbox.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.level = options.level || {};
+    this.level = options.level;
+
+    this.gitCommandsIssued = 0;
+    this.commandsThatCount = this.getCommandsThatCount();
+    this.solved = false;
+
+    // possible options on how stringent to be on comparisons go here
+    this.treeCompare = new TreeCompare();
+
+    this.initGoalData(options);
+    Sandbox.prototype.initialize.apply(this, [options]);
+    this.startOffCommand();
+  },
+
+  initGoalData: function(options) {
+    this.goalTreeString = options.level.goalTree;
+    this.solutionCommand = options.level.solutionCommand;
+
+    if (!this.goalTreeString) {
+      console.warn('woah no goal, using random other one');
+      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
+      this.solutionCommand = 'git checkout -b win; git commit';
+    }
+    if (!this.solutionCommand) {
+      console.warn('no solution provided, really bad form');
+    }
+  },
+
+  takeControl: function() {
+    Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Sandbox.prototype.takeControl.apply(this);
+  },
+
+  startOffCommand: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'hint; show goal; delay 2000; hide goal'
+    );
+  },
+
+  initVisualization: function(options) {
+    if (!options.level.startTree) {
+      console.warn('No start tree specified for this level!!! using default...');
+    }
+    this.mainVis = new Visualization({
+      el: options.el || this.getDefaultVisEl(),
+      treeString: options.level.startTree
+    });
+
+    this.initGoalVisualization(options);
+  },
+
+  getDefaultGoalVisEl: function() {
+    return $('#commandLineHistory');
+  },
+
+  initGoalVisualization: function(options) {
+    // first we make the goal visualization holder
+    this.goalCanvasHolder = new CanvasTerminalHolder();
+
+    // then we make a visualization. the "el" here is the element to
+    // track for size information. the container is where the canvas will be placed
+    this.goalVis = new Visualization({
+      el: this.goalCanvasHolder.getCanvasLocation(),
+      containerElement: this.goalCanvasHolder.getCanvasLocation(),
+      treeString: this.goalTreeString,
+      noKeyboardInput: true
+    });
+  },
+
+  showSolution: function(command, defer) {
+    var confirmDefer = Q.defer();
+    var confirmView = new ConfirmCancelTerminal({
+      modalAlert: {
+        markdowns: [
+          '## Are you sure you want to see the solution?',
+          '',
+          'I believe in you! You can do it'
+        ]
+      },
+      deferred: confirmDefer
+    });
+
+    confirmDefer.promise
+    .then(_.bind(function() {
+      // it's next tick because we need to close the
+      // dialog first or otherwise it will steal the event
+      // baton fire
+      process.nextTick(_.bind(function() {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'reset;' + this.solutionCommand
+        );
+      }, this));
+      // we also need to defer this logic...
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      this.hideGoal();
+      command.setResult('Solution command added to the command queue...');
+
+      // start that process...
+      whenClosed.resolve();
+    }, this))
+    .fail(function() {
+      command.setResult("Great! I'll let you get back to it");
+
+      var whenClosed = Q.defer();
+      whenClosed.promise
+      .then(function() {
+        return Q.delay(700);
+      })
+      .then(function() {
+        command.finishWith(defer);
+      })
+      .done();
+
+      whenClosed.resolve();
+    })
+    .done(function() {
+      confirmView.close();
+    });
+  },
+
+  showGoal: function(command, defer) {
+    this.goalCanvasHolder.slideIn();
+    setTimeout(function() {
+      command.finishWith(defer);
+    }, this.goalCanvasHolder.getAnimationTime());
+  },
+
+  hideGoal: function(command, defer) {
+    this.goalCanvasHolder.slideOut();
+    if (!command || !defer) { return; }
+
+    setTimeout(function() {
+      command.finishWith(defer);
+    }, this.goalCanvasHolder.getAnimationTime());
+  },
+
+  initParseWaterfall: function(options) {
+    this.parseWaterfall = new ParseWaterfall();
+
+    // add our specific functionaity
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      require('../level/commands').parse
+    );
+
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );
+
+    // if we want to disable certain commands...
+    if (options.level.disabledMap) {
+      // disable these other commands
+      this.parseWaterfall.addFirst(
+        'instantWaterfall',
+        new DisabledMap({
+          disabledMap: options.level.disabledMap
+        }).getInstantCommands()
+      );
+    }
+  },
+
+  initGitShim: function(options) {
+    // ok we definitely want a shim here
+    this.gitShim = new GitShim({
+      afterCB: _.bind(this.afterCommandCB, this),
+      afterDeferHandler: _.bind(this.afterCommandDefer, this)
+    });
+  },
+
+  getCommandsThatCount: function() {
+    var GitCommands = require('../git/commands');
+    var toCount = [
+      'git commit',
+      'git checkout',
+      'git rebase',
+      'git reset',
+      'git branch',
+      'git revert',
+      'git merge',
+      'git cherry-pick'
+    ];
+    var myRegexMap = {};
+    _.each(toCount, function(method) {
+      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
+
+      myRegexMap[method] = GitCommands.regexMap[method];
+    });
+    return myRegexMap;
+  },
+
+  afterCommandCB: function(command) {
+    var matched = false;
+    _.each(this.commandsThatCount, function(regex) {
+      matched = matched || regex.test(command.get('rawStr'));
+    });
+    if (matched) {
+      this.gitCommandsIssued++;
+    }
+  },
+
+  afterCommandDefer: function(defer, command) {
+    if (this.solved) {
+      command.addWarning(
+        "You've already solved this level, try other levels with 'show levels'" +
+        "or go back to the sandbox with 'sandbox'"
+      );
+      defer.resolve();
+      return;
+    }
+
+    // ok so lets see if they solved it...
+    var current = this.mainVis.gitEngine.exportTree();
+    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.goalTreeString);
+
+    if (!solved) {
+      defer.resolve();
+      return;
+    }
+
+    // woohoo!!! they solved the level, lets animate and such
+    this.levelSolved(defer);
+  },
+
+  levelSolved: function(defer) {
+    this.solved = true;
+    this.hideGoal();
+    this.mainVis.gitVisuals.finishAnimation()
+    .then(function() {
+      defer.resolve();
+    });
+  },
+
+  getInstantCommands: function() {
+    var hintMsg = (this.level.hint) ?
+      this.level.hint :
+      "Hmm, there doesn't seem to be a hint for this level :-/";
+
+    var instants = [
+      [/^hint$/, function() {
+        throw new Errors.CommandResult({
+          msg: hintMsg
+        });
+      }]
+    ];
+
+    if (!this.solutionCommand) {
+      instants.push([/^show solution$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'No solution provided for this level :-/'
+        });
+      }]);
+    }
+    return instants;
+  },
+
+  processLevelCommand: function(command, defer) {
+    var methodMap = {
+      'show goal': this.showGoal,
+      'hide goal': this.hideGoal,
+      'show solution': this.showSolution
+    };
+    var method = methodMap[command.get('method')];
+    if (!method) {
+      throw new Error('woah we dont support that method yet', method);
+    }
+
+    method.apply(this, [command, defer]);
+  }
+});
+
+exports.Level = Level;
+
+
+});
+
 require.define("/src/js/util/errors.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -6896,7 +6913,7 @@ var CommandBuffer = Backbone.Model.extend({
 
     // find a command with no error (aka unprocessed)
     while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.pop();
+      popped = this.buffer.shift(0);
     }
     if (!popped.get('error')) {
       this.processCommand(popped);
@@ -8992,6 +9009,23 @@ function TreeCompare() {
 
 }
 
+TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+
+  var result = true;
+  _.uniq(allBranches, function(info, branch) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branch);
+  }, this);
+  return result;
+};
+
 TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
   _.each(branches, function(branchName) {
@@ -9467,6 +9501,9 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    // this prevents releasing keyboard twice
+    if (this.shown === value) { return; }
+
     if (value) {
       this.stealKeyboard();
     } else {
@@ -12332,22 +12369,27 @@ var instantCommands = [
 
 var regexMap = {
   'help': /^help($|\s)|\?/,
-  'reset': /^reset($|\s)/
+  'reset': /^reset($|\s)/,
+  'delay': /^delay (\d+)$/
 };
 
 var parse = function(str) {
   var sandboxMethod;
+  var regexResults;
 
   _.each(regexMap, function(regex, method) {
-    if (regex.test(str)) {
+    var results = regex.exec(str);
+    if (results) {
       sandboxMethod = method;
+      regexResults = results;
     }
   });
 
   return (!sandboxMethod) ? false : {
     toSet: {
       eventName: 'processSandboxCommand',
-      method: sandboxMethod
+      method: sandboxMethod,
+      regexResults: regexResults
     }
   };
 };
@@ -17402,6 +17444,23 @@ function TreeCompare() {
 
 }
 
+TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+
+  var result = true;
+  _.uniq(allBranches, function(info, branch) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branch);
+  }, this);
+  return result;
+};
+
 TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
   _.each(branches, function(branchName) {
@@ -17628,6 +17687,7 @@ var Level = Sandbox.extend({
 
     this.initGoalData(options);
     Sandbox.prototype.initialize.apply(this, [options]);
+    this.startOffCommand();
   },
 
   initGoalData: function(options) {
@@ -17648,6 +17708,13 @@ var Level = Sandbox.extend({
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
     Sandbox.prototype.takeControl.apply(this);
+  },
+
+  startOffCommand: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'hint; show goal; delay 2000; hide goal'
+    );
   },
 
   initVisualization: function(options) {
@@ -17766,11 +17833,10 @@ var Level = Sandbox.extend({
       require('../level/commands').parse
     );
 
-    /*
     this.parseWaterfall.addFirst(
       'instantWaterfall',
       this.getInstantCommands()
-    );*/
+    );
 
     // if we want to disable certain commands...
     if (options.level.disabledMap) {
@@ -17835,7 +17901,7 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
+    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.goalTreeString);
 
     if (!solved) {
       defer.resolve();
@@ -18002,6 +18068,7 @@ exports.ParseWaterfall = ParseWaterfall;
 require("/src/js/level/parseWaterfall.js");
 
 require.define("/src/js/level/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
@@ -18084,6 +18151,7 @@ var Sandbox = Backbone.View.extend({
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
+      console.log('adding command', command);
       this.commandCollection.add(new Command({
         rawStr: command,
         parseWaterfall: this.parseWaterfall
@@ -18094,12 +18162,20 @@ var Sandbox = Backbone.View.extend({
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       help: this.helpDialog,
-      reset: this.reset
+      reset: this.reset,
+      delay: this.delay
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  delay: function(command, deferred) {
+    var amount = parseInt(command.get('regexResults')[1], 10);
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, amount);
   },
 
   reset: function(command, deferred) {
@@ -18167,22 +18243,27 @@ var instantCommands = [
 
 var regexMap = {
   'help': /^help($|\s)|\?/,
-  'reset': /^reset($|\s)/
+  'reset': /^reset($|\s)/,
+  'delay': /^delay (\d+)$/
 };
 
 var parse = function(str) {
   var sandboxMethod;
+  var regexResults;
 
   _.each(regexMap, function(regex, method) {
-    if (regex.test(str)) {
+    var results = regex.exec(str);
+    if (results) {
       sandboxMethod = method;
+      regexResults = results;
     }
   });
 
   return (!sandboxMethod) ? false : {
     toSet: {
       eventName: 'processSandboxCommand',
-      method: sandboxMethod
+      method: sandboxMethod,
+      regexResults: regexResults
     }
   };
 };
@@ -18263,7 +18344,7 @@ var CommandBuffer = Backbone.Model.extend({
 
     // find a command with no error (aka unprocessed)
     while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.pop();
+      popped = this.buffer.shift(0);
     }
     if (!popped.get('error')) {
       this.processCommand(popped);
@@ -19456,6 +19537,9 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    // this prevents releasing keyboard twice
+    if (this.shown === value) { return; }
+
     if (value) {
       this.stealKeyboard();
     } else {

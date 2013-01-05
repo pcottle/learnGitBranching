@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
@@ -81,6 +82,7 @@ var Sandbox = Backbone.View.extend({
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
     util.splitTextCommand(value, function(command) {
+      console.log('adding command', command);
       this.commandCollection.add(new Command({
         rawStr: command,
         parseWaterfall: this.parseWaterfall
@@ -91,12 +93,20 @@ var Sandbox = Backbone.View.extend({
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       help: this.helpDialog,
-      reset: this.reset
+      reset: this.reset,
+      delay: this.delay
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
+  },
+
+  delay: function(command, deferred) {
+    var amount = parseInt(command.get('regexResults')[1], 10);
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, amount);
   },
 
   reset: function(command, deferred) {

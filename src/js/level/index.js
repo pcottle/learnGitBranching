@@ -36,6 +36,7 @@ var Level = Sandbox.extend({
 
     this.initGoalData(options);
     Sandbox.prototype.initialize.apply(this, [options]);
+    this.startOffCommand();
   },
 
   initGoalData: function(options) {
@@ -56,6 +57,13 @@ var Level = Sandbox.extend({
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
     Sandbox.prototype.takeControl.apply(this);
+  },
+
+  startOffCommand: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'hint; show goal; delay 2000; hide goal'
+    );
   },
 
   initVisualization: function(options) {
@@ -174,11 +182,10 @@ var Level = Sandbox.extend({
       require('../level/commands').parse
     );
 
-    /*
     this.parseWaterfall.addFirst(
       'instantWaterfall',
       this.getInstantCommands()
-    );*/
+    );
 
     // if we want to disable certain commands...
     if (options.level.disabledMap) {
@@ -243,7 +250,7 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareTrees(current, this.goalTreeString);
+    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.goalTreeString);
 
     if (!solved) {
       defer.resolve();

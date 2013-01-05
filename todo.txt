@@ -21,7 +21,7 @@ Minor Bugs to fix:
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] window zoom alert thing
+[ ] window zoom alert thing -- this just needs to be timeouted one more time
 [ ] click handlers on goal visualization for the actual canvas elements
 
 /*************************************
@@ -33,6 +33,10 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] put in some > into the rules for CSS
+[x] fix bug for multiview, i think its from the die() on everyone
+[x] fixed bug in command queue
+[x] better compare in levels
 [x] show solution
 [x] show goal
 [x] reset for sandbox command

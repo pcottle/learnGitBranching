@@ -5,6 +5,23 @@ function TreeCompare() {
 
 }
 
+TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+
+  var result = true;
+  _.uniq(allBranches, function(info, branch) {
+    result = result && this.compareBranchWithinTrees(treeA, treeB, branch);
+  }, this);
+  return result;
+};
+
 TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
   _.each(branches, function(branchName) {

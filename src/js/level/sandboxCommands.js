@@ -38,22 +38,27 @@ var instantCommands = [
 
 var regexMap = {
   'help': /^help($|\s)|\?/,
-  'reset': /^reset($|\s)/
+  'reset': /^reset($|\s)/,
+  'delay': /^delay (\d+)$/
 };
 
 var parse = function(str) {
   var sandboxMethod;
+  var regexResults;
 
   _.each(regexMap, function(regex, method) {
-    if (regex.test(str)) {
+    var results = regex.exec(str);
+    if (results) {
       sandboxMethod = method;
+      regexResults = results;
     }
   });
 
   return (!sandboxMethod) ? false : {
     toSet: {
       eventName: 'processSandboxCommand',
-      method: sandboxMethod
+      method: sandboxMethod,
+      regexResults: regexResults
     }
   };
 };

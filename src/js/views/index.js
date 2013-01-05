@@ -199,6 +199,9 @@ var ModalView = Backbone.View.extend({
   },
 
   toggleShow: function(value) {
+    // this prevents releasing keyboard twice
+    if (this.shown === value) { return; }
+
     if (value) {
       this.stealKeyboard();
     } else {

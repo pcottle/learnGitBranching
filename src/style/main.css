@@ -139,44 +139,44 @@ div.canvasTerminalHolder {
   min-height: 600px;
 }
 
-div.canvasTerminalHolder div.terminal-window-holder {
+div.canvasTerminalHolder > div.terminal-window-holder {
   margin: 50px 0;
   height: 100%;
   -webkit-transform: translate3d(0,0,0);
 }
 
-div.canvasTerminalHolder div.terminal-window-holder.slideOut {
+div.canvasTerminalHolder > div.terminal-window-holder.slideOut {
   -webkit-transform: translate3d(-150%,0,0);
 }
 
-div.canvasTerminalHolder div.terminal-window-holder div.wrapper {
+div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
   margin: 0 20px 0px 20px;
   height: 80%;
   box-shadow: 0 0 30px rgb(0,0,0);
   cursor: pointer;
 }
 
-div.canvasTerminalHolder div.terminal-window-holder div.terminal-text {
+div.canvasTerminalHolder > div.terminal-window-holder div.terminal-text {
   padding: 5px 10px;
 }
 
-div.canvasTerminalHolder div.terminal-window-holder div.toolbar,
-div.canvasTerminalHolder div.terminal-window-holder div.terminal-text,
-div.canvasTerminalHolder div.terminal-window-holder div.inside {
+div.canvasTerminalHolder > div.terminal-window-holder div.toolbar,
+div.canvasTerminalHolder > div.terminal-window-holder div.terminal-text,
+div.canvasTerminalHolder > div.terminal-window-holder div.inside {
   border: 0px;
 }
 
-div.canvasTerminalHolder div.terminal-window-holder div.terminal-text,
-div.canvasTerminalHolder div.terminal-window-holder div.inside {
+div.canvasTerminalHolder > div.terminal-window-holder div.terminal-text,
+div.canvasTerminalHolder > div.terminal-window-holder div.inside {
   background: #ff4c7e;
 }
 
-div.canvasTerminalHolder div.terminal-window-holder div.inside {
+div.canvasTerminalHolder > div.terminal-window-holder div.inside {
   min-height: 200px;
   border-radius: 0 0 5px 5px;
 }
 
-div.canvasTerminalHolder div.terminal-window-holder,
+div.canvasTerminalHolder > div.terminal-window-holder,
 #controls {
   max-width: 400px;
 }
@@ -204,7 +204,7 @@ div.toolbar {
   -webkit-box-pack: center;
 }
 
-div.toolbar div.controls {
+div.toolbar > div.controls {
   position: absolute;
   top: 9px;
   left: 9px;
@@ -213,15 +213,15 @@ div.toolbar div.controls {
   -webkit-box-pack: justify;
 }
 
-div.toolbar div.controls div i {
+div.toolbar > div.controls div i {
   text-shadow: 0.1em 0.1em rgba(255, 255, 255, 0.5);
 }
 
-div.toolbar div.controls div.box.flex1 {
+div.toolbar > div.controls div.box.flex1 {
   text-align: center;
 }
 
-div.toolbar div.controls div.box.flex1 div {
+div.toolbar > div.controls div.box.flex1 div {
   width: 12px;
   height: 11px;
   border-radius: 24px;
@@ -261,7 +261,8 @@ div.controls div.box.flex1 div.plus {
 
 /* Command Line */
 
-p.commandLine, div.commandLineResult {
+p.commandLine,
+div.commandLineResult {
   opacity: 1;
   font-size: 16px;
   margin: 0px;
@@ -358,11 +359,6 @@ p.commandLine span.prompt {
 #commandLineHistory {
   margin: 10px;
   border-radius: 5px;
-  /*
-  UGHHHh the box shadow looks SO much better, but causes an extra 12ms in the paint update
-  when typing in the box. sadness. i will remove for perf, maybe add back in later.
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
-  */
 }
 
 #prompt {
