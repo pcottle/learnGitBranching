@@ -3,12 +3,13 @@ Big things:
 
 Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] show which level you are in! with a little thing on the top
 [ ] levels dropdown selection?
+[.] level teardown
+[ ] git demonstration view
+[ ] sandbox can launch and takedown levels
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] move command history into sandbox / visualization?
 
 Commands
 ========
@@ -33,6 +34,8 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] great die for levels
+[x] show which level you are in! with a little thing on the top
 [x] allow command history to clear finished ones
 [x] put in some > into the rules for CSS
 [x] fix bug for multiview, i think its from the die() on everyone

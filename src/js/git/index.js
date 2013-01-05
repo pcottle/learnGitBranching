@@ -257,6 +257,10 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
   throw new Error('ruh rho!! unsupported tyep for ' + objID);
 };
 
+GitEngine.prototype.tearDown = function() {
+  this.removeAll();
+};
+
 GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
   this.commitCollection.reset();

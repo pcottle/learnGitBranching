@@ -112,6 +112,7 @@ var Visualization = Backbone.View.extend({
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
     this.events.off('resize', this.myResize, this);
+    this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
   },
 

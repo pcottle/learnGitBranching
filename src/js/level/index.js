@@ -18,6 +18,7 @@ var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -35,8 +36,23 @@ var Level = Sandbox.extend({
     this.treeCompare = new TreeCompare();
 
     this.initGoalData(options);
+    this.initName(options);
+
     Sandbox.prototype.initialize.apply(this, [options]);
     this.startOffCommand();
+  },
+
+  initName: function(options) {
+    this.levelName = options.levelName;
+    this.levelID = options.levelID;
+    if (!this.levelName || !this.levelID) {
+      this.levelName = 'Rebase Classic';
+      console.warn('REALLY BAD FORM need ids and names');
+    }
+
+    this.levelToolbar = new LevelToolbar({
+      levelName: this.levelName
+    });
   },
 
   initGoalData: function(options) {
@@ -57,6 +73,12 @@ var Level = Sandbox.extend({
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
     Sandbox.prototype.takeControl.apply(this);
+  },
+
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Sandbox.prototype.releaseControl.apply(this);
   },
 
   startOffCommand: function() {
@@ -268,6 +290,22 @@ var Level = Sandbox.extend({
     .then(function() {
       defer.resolve();
     });
+  },
+
+  die: function() {
+    this.levelToolbar.die();
+    this.goalCanvasHolder.die();
+
+    this.mainVis.die();
+    this.goalVis.die();
+    this.releaseControl();
+
+    this.clear();
+
+    delete this.commandCollection;
+    delete this.mainVis;
+    delete this.goalVis;
+    delete this.goalCanvasHolder;
   },
 
   getInstantCommands: function() {

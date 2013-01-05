@@ -67,6 +67,22 @@ var Sandbox = Backbone.View.extend({
     this.insertGitShim();
   },
 
+  releaseControl: function() {
+    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // functionality (which is included by default in ParseWaterfall())
+    Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
+    // we obviously take care of sandbox commands
+    Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
+
+    this.releaseGitShim();
+  },
+
+  releaseGitShim: function() {
+    if (this.gitShim) {
+      this.gitShim.removeShim();
+    }
+  },
+
   insertGitShim: function() {
     // and our git shim goes in after the git engine is ready so it doesn't steal the baton
     // too early
@@ -104,7 +120,9 @@ var Sandbox = Backbone.View.extend({
 
   clear: function(command, deferred) {
     Main.getEvents().trigger('clearOldCommands');
-    command.finishWith(deferred);
+    if (command && deferred) {
+      command.finishWith(deferred);
+    }
   },
 
   delay: function(command, deferred) {

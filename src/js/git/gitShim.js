@@ -27,6 +27,10 @@ GitShim.prototype.insertShim = function() {
   this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
 };
 
+GitShim.prototype.removeShim = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
+};
+
 GitShim.prototype.processGitCommand = function(command, deferred) {
   this.beforeCB(command);
 

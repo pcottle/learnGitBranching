@@ -210,6 +210,11 @@ div.toolbar.level-toolbar {
   height: 50px;
 }
 
+span.levelToolbarSpan {
+  font-weight: 800;
+  font-style: italic;
+}
+
 div.toolbar.level-toolbar.hidden {
   opacity: 0;
   height: 0px;

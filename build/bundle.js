@@ -4535,6 +4535,22 @@ var Sandbox = Backbone.View.extend({
     this.insertGitShim();
   },
 
+  releaseControl: function() {
+    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // functionality (which is included by default in ParseWaterfall())
+    Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
+    // we obviously take care of sandbox commands
+    Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
+
+    this.releaseGitShim();
+  },
+
+  releaseGitShim: function() {
+    if (this.gitShim) {
+      this.gitShim.removeShim();
+    }
+  },
+
   insertGitShim: function() {
     // and our git shim goes in after the git engine is ready so it doesn't steal the baton
     // too early
@@ -4572,7 +4588,9 @@ var Sandbox = Backbone.View.extend({
 
   clear: function(command, deferred) {
     Main.getEvents().trigger('clearOldCommands');
-    command.finishWith(deferred);
+    if (command && deferred) {
+      command.finishWith(deferred);
+    }
   },
 
   delay: function(command, deferred) {
@@ -6334,6 +6352,7 @@ var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -6351,8 +6370,23 @@ var Level = Sandbox.extend({
     this.treeCompare = new TreeCompare();
 
     this.initGoalData(options);
+    this.initName(options);
+
     Sandbox.prototype.initialize.apply(this, [options]);
     this.startOffCommand();
+  },
+
+  initName: function(options) {
+    this.levelName = options.levelName;
+    this.levelID = options.levelID;
+    if (!this.levelName || !this.levelID) {
+      this.levelName = 'Rebase Classic';
+      console.warn('REALLY BAD FORM need ids and names');
+    }
+
+    this.levelToolbar = new LevelToolbar({
+      levelName: this.levelName
+    });
   },
 
   initGoalData: function(options) {
@@ -6373,6 +6407,12 @@ var Level = Sandbox.extend({
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
     Sandbox.prototype.takeControl.apply(this);
+  },
+
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Sandbox.prototype.releaseControl.apply(this);
   },
 
   startOffCommand: function() {
@@ -6584,6 +6624,22 @@ var Level = Sandbox.extend({
     .then(function() {
       defer.resolve();
     });
+  },
+
+  die: function() {
+    this.levelToolbar.die();
+    this.goalCanvasHolder.die();
+
+    this.mainVis.die();
+    this.goalVis.die();
+    this.releaseControl();
+
+    this.clear();
+
+    delete this.commandCollection;
+    delete this.mainVis;
+    delete this.goalVis;
+    delete this.goalCanvasHolder;
   },
 
   getInstantCommands: function() {
@@ -6807,6 +6863,7 @@ var Visualization = Backbone.View.extend({
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
     this.events.off('resize', this.myResize, this);
+    this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
   },
 
@@ -7226,6 +7283,10 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
   }
 
   throw new Error('ruh rho!! unsupported tyep for ' + objID);
+};
+
+GitEngine.prototype.tearDown = function() {
+  this.removeAll();
 };
 
 GitEngine.prototype.removeAll = function() {
@@ -9320,7 +9381,7 @@ var BaseView = Backbone.View.extend({
   },
 
   tearDown: function() {
-    this.$el.html('');
+    this.$el.remove();
     if (this.container) {
       this.container.tearDown();
     }
@@ -9486,7 +9547,6 @@ var ModalView = Backbone.View.extend({
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
     process.nextTick(_.bind(function() {
-      console.log('STEALING KEYBOARD in modal');
       this.toggleShow(true);
     }, this));
   },
@@ -9650,6 +9710,7 @@ var ZoomAlertWindow = Backbone.View.extend({
 
 var LevelToolbar = BaseView.extend({
   tagName: 'div',
+  className: 'levelToolbarHolder',
   template: _.template($('#level-toolbar-template').html()),
 
   initialize: function(options) {
@@ -9668,11 +9729,20 @@ var LevelToolbar = BaseView.extend({
     }
   },
 
+  getAnimationTime: function() { return 700; },
+
   render: function() {
     var HTML = this.template(this.JSON);
 
     this.$el.html(HTML);
     this.beforeDestination.after(this.el);
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime());
   },
 
   hide: function() {
@@ -9707,6 +9777,13 @@ var CanvasTerminalHolder = BaseView.extend({
 
   onClick: function() {
     this.slideOut();
+  },
+
+  die: function() {
+    this.slideOut();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this));
   },
 
   slideOut: function() {
@@ -14477,6 +14554,10 @@ GitShim.prototype.insertShim = function() {
   this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
 };
 
+GitShim.prototype.removeShim = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
+};
+
 GitShim.prototype.processGitCommand = function(command, deferred) {
   this.beforeCB(command);
 
@@ -15696,6 +15777,10 @@ GitShim.prototype.insertShim = function() {
   this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
 };
 
+GitShim.prototype.removeShim = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
+};
+
 GitShim.prototype.processGitCommand = function(command, deferred) {
   this.beforeCB(command);
 
@@ -16066,6 +16151,10 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
   }
 
   throw new Error('ruh rho!! unsupported tyep for ' + objID);
+};
+
+GitEngine.prototype.tearDown = function() {
+  this.removeAll();
 };
 
 GitEngine.prototype.removeAll = function() {
@@ -17726,6 +17815,7 @@ var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
@@ -17743,8 +17833,23 @@ var Level = Sandbox.extend({
     this.treeCompare = new TreeCompare();
 
     this.initGoalData(options);
+    this.initName(options);
+
     Sandbox.prototype.initialize.apply(this, [options]);
     this.startOffCommand();
+  },
+
+  initName: function(options) {
+    this.levelName = options.levelName;
+    this.levelID = options.levelID;
+    if (!this.levelName || !this.levelID) {
+      this.levelName = 'Rebase Classic';
+      console.warn('REALLY BAD FORM need ids and names');
+    }
+
+    this.levelToolbar = new LevelToolbar({
+      levelName: this.levelName
+    });
   },
 
   initGoalData: function(options) {
@@ -17765,6 +17870,12 @@ var Level = Sandbox.extend({
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
     Sandbox.prototype.takeControl.apply(this);
+  },
+
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Sandbox.prototype.releaseControl.apply(this);
   },
 
   startOffCommand: function() {
@@ -17976,6 +18087,22 @@ var Level = Sandbox.extend({
     .then(function() {
       defer.resolve();
     });
+  },
+
+  die: function() {
+    this.levelToolbar.die();
+    this.goalCanvasHolder.die();
+
+    this.mainVis.die();
+    this.goalVis.die();
+    this.releaseControl();
+
+    this.clear();
+
+    delete this.commandCollection;
+    delete this.mainVis;
+    delete this.goalVis;
+    delete this.goalCanvasHolder;
   },
 
   getInstantCommands: function() {
@@ -18193,6 +18320,22 @@ var Sandbox = Backbone.View.extend({
     this.insertGitShim();
   },
 
+  releaseControl: function() {
+    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // functionality (which is included by default in ParseWaterfall())
+    Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
+    // we obviously take care of sandbox commands
+    Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
+
+    this.releaseGitShim();
+  },
+
+  releaseGitShim: function() {
+    if (this.gitShim) {
+      this.gitShim.removeShim();
+    }
+  },
+
   insertGitShim: function() {
     // and our git shim goes in after the git engine is ready so it doesn't steal the baton
     // too early
@@ -18230,7 +18373,9 @@ var Sandbox = Backbone.View.extend({
 
   clear: function(command, deferred) {
     Main.getEvents().trigger('clearOldCommands');
-    command.finishWith(deferred);
+    if (command && deferred) {
+      command.finishWith(deferred);
+    }
   },
 
   delay: function(command, deferred) {
@@ -18710,7 +18855,8 @@ var toGlobalize = {
   Views: require('../views'),
   MultiView: require('../views/multiView'),
   ZoomLevel: require('../util/zoomLevel'),
-  VisBranch: require('../visuals/visBranch')
+  VisBranch: require('../visuals/visBranch'),
+  Level: require('../level')
 };
 
 _.each(toGlobalize, function(module) {
@@ -19428,7 +19574,7 @@ var BaseView = Backbone.View.extend({
   },
 
   tearDown: function() {
-    this.$el.html('');
+    this.$el.remove();
     if (this.container) {
       this.container.tearDown();
     }
@@ -19594,7 +19740,6 @@ var ModalView = Backbone.View.extend({
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
     process.nextTick(_.bind(function() {
-      console.log('STEALING KEYBOARD in modal');
       this.toggleShow(true);
     }, this));
   },
@@ -19758,6 +19903,7 @@ var ZoomAlertWindow = Backbone.View.extend({
 
 var LevelToolbar = BaseView.extend({
   tagName: 'div',
+  className: 'levelToolbarHolder',
   template: _.template($('#level-toolbar-template').html()),
 
   initialize: function(options) {
@@ -19776,11 +19922,20 @@ var LevelToolbar = BaseView.extend({
     }
   },
 
+  getAnimationTime: function() { return 700; },
+
   render: function() {
     var HTML = this.template(this.JSON);
 
     this.$el.html(HTML);
     this.beforeDestination.after(this.el);
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime());
   },
 
   hide: function() {
@@ -19815,6 +19970,13 @@ var CanvasTerminalHolder = BaseView.extend({
 
   onClick: function() {
     this.slideOut();
+  },
+
+  die: function() {
+    this.slideOut();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this));
   },
 
   slideOut: function() {
@@ -22519,6 +22681,7 @@ var Visualization = Backbone.View.extend({
   tearDown: function() {
     // hmm -- dont think this will work to unbind the event listener...
     this.events.off('resize', this.myResize, this);
+    this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
   },
 

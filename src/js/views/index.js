@@ -13,7 +13,7 @@ var BaseView = Backbone.View.extend({
   },
 
   tearDown: function() {
-    this.$el.html('');
+    this.$el.remove();
     if (this.container) {
       this.container.tearDown();
     }
@@ -179,7 +179,6 @@ var ModalView = Backbone.View.extend({
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
     process.nextTick(_.bind(function() {
-      console.log('STEALING KEYBOARD in modal');
       this.toggleShow(true);
     }, this));
   },
@@ -343,6 +342,7 @@ var ZoomAlertWindow = Backbone.View.extend({
 
 var LevelToolbar = BaseView.extend({
   tagName: 'div',
+  className: 'levelToolbarHolder',
   template: _.template($('#level-toolbar-template').html()),
 
   initialize: function(options) {
@@ -361,11 +361,20 @@ var LevelToolbar = BaseView.extend({
     }
   },
 
+  getAnimationTime: function() { return 700; },
+
   render: function() {
     var HTML = this.template(this.JSON);
 
     this.$el.html(HTML);
     this.beforeDestination.after(this.el);
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime());
   },
 
   hide: function() {
@@ -400,6 +409,13 @@ var CanvasTerminalHolder = BaseView.extend({
 
   onClick: function() {
     this.slideOut();
+  },
+
+  die: function() {
+    this.slideOut();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this));
   },
 
   slideOut: function() {
