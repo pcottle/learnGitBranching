@@ -227,6 +227,7 @@ var Level = Sandbox.extend({
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
+    console.log('made my git shim');
   },
 
   getCommandsThatCount: function() {

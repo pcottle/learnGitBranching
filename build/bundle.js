@@ -4601,6 +4601,7 @@ var Sandbox = Backbone.View.extend({
     command.addWarning(
       "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
     );
+    command.set('status', 'error');
     deferred.resolve();
   },
 
@@ -6606,6 +6607,7 @@ var Level = Sandbox.extend({
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
+    console.log('made my git shim');
   },
 
   getCommandsThatCount: function() {
@@ -6826,11 +6828,12 @@ var Visualization = Backbone.View.extend({
     // we want to add our canvas somewhere
     var container = options.containerElement || $('#canvasHolder')[0];
     new Raphael(container, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this, options);
+      // raphael calls with paper as this for some inane reason...
+      var paper = this;
+      // use process.nextTick to go from sync to async
+      process.nextTick(function() {
+        _this.paperInitialize(paper, options);
+      });
     });
   },
 
@@ -18125,6 +18128,7 @@ var Level = Sandbox.extend({
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
+    console.log('made my git shim');
   },
 
   getCommandsThatCount: function() {
@@ -18497,6 +18501,7 @@ var Sandbox = Backbone.View.extend({
     command.addWarning(
       "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
     );
+    command.set('status', 'error');
     deferred.resolve();
   },
 
@@ -22773,11 +22778,12 @@ var Visualization = Backbone.View.extend({
     // we want to add our canvas somewhere
     var container = options.containerElement || $('#canvasHolder')[0];
     new Raphael(container, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this, options);
+      // raphael calls with paper as this for some inane reason...
+      var paper = this;
+      // use process.nextTick to go from sync to async
+      process.nextTick(function() {
+        _this.paperInitialize(paper, options);
+      });
     });
   },
 

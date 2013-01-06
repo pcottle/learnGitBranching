@@ -20,11 +20,12 @@ var Visualization = Backbone.View.extend({
     // we want to add our canvas somewhere
     var container = options.containerElement || $('#canvasHolder')[0];
     new Raphael(container, 200, 200, function() {
-
-      // for some reason raphael calls this function with a predefined
-      // context...
-      // so switch it
-      _this.paperInitialize(this, options);
+      // raphael calls with paper as this for some inane reason...
+      var paper = this;
+      // use process.nextTick to go from sync to async
+      process.nextTick(function() {
+        _this.paperInitialize(paper, options);
+      });
     });
   },
 

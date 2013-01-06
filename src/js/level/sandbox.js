@@ -133,6 +133,7 @@ var Sandbox = Backbone.View.extend({
     command.addWarning(
       "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
     );
+    command.set('status', 'error');
     deferred.resolve();
   },
 
