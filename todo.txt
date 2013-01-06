@@ -9,6 +9,7 @@ Big Graphic things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] level arbiter (has everything by ID)
+[ ] flip branches on the sides!! i wonder how to determine...
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

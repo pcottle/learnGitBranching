@@ -330,19 +330,23 @@ var Level = Sandbox.extend({
   },
 
   startLevel: function(command, deferred) {
-    command.addWarning(
-      "You are in a level! You can't start a new one before exiting. I'll add the command for you..."
-    );
-    command.set('status', 'error');
+    this.exitLevel();
 
+    Main.getSandbox().startLevel(command, deferred);
+    /*
     Main.getEventBaton().trigger('commandSubmitted',
       'delay 3000; exit level; delay 500;' + command.get('rawStr')
     );
-    deferred.resolve();
+    deferred.resolve();*/
   },
 
   exitLevel: function(command, deferred) {
     this.die();
+
+    if (!command || !deferred) {
+      return;
+    }
+
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.getAnimationTime());
