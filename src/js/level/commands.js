@@ -3,8 +3,7 @@ var _ = require('underscore');
 var regexMap = {
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/,
-  'exit level': /^exit level$/
+  'show solution': /^show solution$/
 };
 
 var parse = function(str) {

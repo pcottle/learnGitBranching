@@ -4583,12 +4583,21 @@ var Sandbox = Backbone.View.extend({
     }, this);
   },
 
+  exitLevel: function(command, deferred) {
+    command.addWarning(
+      "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
+    );
+    deferred.resolve();
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
-      help: this.helpDialog,
-      reset: this.reset,
-      delay: this.delay,
-      clear: this.clear
+      'help': this.helpDialog,
+      'reset': this.reset,
+      'delay': this.delay,
+      'clear': this.clear,
+      'exit level': this.exitLevel,
+      'start level': this.startLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -6701,8 +6710,7 @@ var Level = Sandbox.extend({
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution,
-      'exit level': this.exitLevel
+      'show solution': this.showSolution
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -12538,7 +12546,9 @@ var regexMap = {
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
   'delay': /^delay (\d+)$/,
-  'clear': /^clear($|\s)/
+  'clear': /^clear($|\s)/,
+  'exit level': /^exit level($|\s)/,
+  'start level': /^start level ([a-zA-Z0-9]+)/
 };
 
 var parse = function(str) {
@@ -14890,8 +14900,7 @@ require.define("/src/js/level/commands.js",function(require,module,exports,__dir
 var regexMap = {
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/,
-  'exit level': /^exit level$/
+  'show solution': /^show solution$/
 };
 
 var parse = function(str) {
@@ -17786,8 +17795,7 @@ require.define("/src/js/level/commands.js",function(require,module,exports,__dir
 var regexMap = {
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/,
-  'exit level': /^exit level$/
+  'show solution': /^show solution$/
 };
 
 var parse = function(str) {
@@ -18203,8 +18211,7 @@ var Level = Sandbox.extend({
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution,
-      'exit level': this.exitLevel
+      'show solution': this.showSolution
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -18440,12 +18447,21 @@ var Sandbox = Backbone.View.extend({
     }, this);
   },
 
+  exitLevel: function(command, deferred) {
+    command.addWarning(
+      "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
+    );
+    deferred.resolve();
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
-      help: this.helpDialog,
-      reset: this.reset,
-      delay: this.delay,
-      clear: this.clear
+      'help': this.helpDialog,
+      'reset': this.reset,
+      'delay': this.delay,
+      'clear': this.clear,
+      'exit level': this.exitLevel,
+      'start level': this.startLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -18546,7 +18562,9 @@ var regexMap = {
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
   'delay': /^delay (\d+)$/,
-  'clear': /^clear($|\s)/
+  'clear': /^clear($|\s)/,
+  'exit level': /^exit level($|\s)/,
+  'start level': /^start level ([a-zA-Z0-9]+)/
 };
 
 var parse = function(str) {

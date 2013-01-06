@@ -345,8 +345,7 @@ var Level = Sandbox.extend({
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution,
-      'exit level': this.exitLevel
+      'show solution': this.showSolution
     };
     var method = methodMap[command.get('method')];
     if (!method) {

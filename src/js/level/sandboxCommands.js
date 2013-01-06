@@ -40,7 +40,9 @@ var regexMap = {
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
   'delay': /^delay (\d+)$/,
-  'clear': /^clear($|\s)/
+  'clear': /^clear($|\s)/,
+  'exit level': /^exit level($|\s)/,
+  'start level': /^start level ([a-zA-Z0-9]+)/
 };
 
 var parse = function(str) {

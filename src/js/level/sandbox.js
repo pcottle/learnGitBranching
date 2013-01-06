@@ -115,12 +115,21 @@ var Sandbox = Backbone.View.extend({
     }, this);
   },
 
+  exitLevel: function(command, deferred) {
+    command.addWarning(
+      "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
+    );
+    deferred.resolve();
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
-      help: this.helpDialog,
-      reset: this.reset,
-      delay: this.delay,
-      clear: this.clear
+      'help': this.helpDialog,
+      'reset': this.reset,
+      'delay': this.delay,
+      'clear': this.clear,
+      'exit level': this.exitLevel,
+      'start level': this.startLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
