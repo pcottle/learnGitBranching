@@ -4482,7 +4482,6 @@ var GitShim = require('../git/gitShim').GitShim;
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
-
 var MultiView = require('../views/multiView').MultiView;
 
 var Sandbox = Backbone.View.extend({
@@ -4581,6 +4580,21 @@ var Sandbox = Backbone.View.extend({
         parseWaterfall: this.parseWaterfall
       }));
     }, this);
+  },
+
+  startLevel: function(command, deferred) {
+    var Level = require('../level').Level;
+    this.hide();
+    this.clear();
+
+    console.log(command.get('regexResults'));
+
+    // we don't even need a reference to this,
+    // everything will be handled via event baton :DDDDDDDDD
+    var a = new Level();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
   },
 
   exitLevel: function(command, deferred) {
@@ -6258,7 +6272,7 @@ var init = function() {
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  sandbox = new Level();
+  sandbox = new Sandbox();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -6825,7 +6839,6 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.mainEvents = options.events || Main.getEvents();
     // if we dont want to receive keyoard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
@@ -6853,7 +6866,11 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    this.mainEvents.on('resize', this.myResize, this);
+
+    $(window).on('resize', _.bind(function() {
+      this.myResize();
+    }, this));
+
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -6917,10 +6934,9 @@ var Visualization = Backbone.View.extend({
   },
 
   tearDown: function() {
-    // hmm -- dont think this will work to unbind the event listener...
-    this.mainEvents.off('resize', this.myResize, this);
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
+    delete this.paper;
   },
 
   die: function() {
@@ -6933,6 +6949,8 @@ var Visualization = Backbone.View.extend({
   },
 
   myResize: function() {
+    if (!this.paper) { return; }
+
     var smaller = 1;
     var el = this.el;
 
@@ -6941,7 +6959,7 @@ var Visualization = Backbone.View.extend({
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
-    if (!this.options.containerElement) {
+    if (!this.containerElement) {
       var left = el.offsetLeft;
       var top = el.offsetTop;
 
@@ -12548,7 +12566,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
-  'start level': /^start level ([a-zA-Z0-9]+)/
+  'start level': /^start level\s?([a-zA-Z0-9]*)/
 };
 
 var parse = function(str) {
@@ -13308,15 +13326,29 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 
 // we debounce here so we aren't firing a resize call on every resize event
 // but only after they stop
-GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
-  // refresh when we are ready
-  if (GLOBAL.isAnimating) {
-    var Main = require('../app');
-    Main.getEventBaton().trigger('commandSubmitted', 'refresh');
-  } else {
-    this.refreshTree();
+GitVisuals.prototype.canvasResize = function(width, height) {
+  if (!this.resizeFunc) {
+    this.genResizeFunc();
   }
-}, 200, true);
+  this.resizeFunc(width, height);
+};
+
+GitVisuals.prototype.genResizeFunc = function() {
+  this.resizeFunc = _.debounce(
+    _.bind(function(width, height) {
+
+      // refresh when we are ready if we are animating som ething
+      if (GLOBAL.isAnimating) {
+        var Main = require('../app');
+        Main.getEventBaton().trigger('commandSubmitted', 'refresh');
+      } else {
+        this.refreshTree();
+      }
+    }, this),
+    200,
+    true
+  );
+};
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
@@ -15487,7 +15519,7 @@ var init = function() {
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  sandbox = new Level();
+  sandbox = new Sandbox();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -18346,7 +18378,6 @@ var GitShim = require('../git/gitShim').GitShim;
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
-
 var MultiView = require('../views/multiView').MultiView;
 
 var Sandbox = Backbone.View.extend({
@@ -18445,6 +18476,21 @@ var Sandbox = Backbone.View.extend({
         parseWaterfall: this.parseWaterfall
       }));
     }, this);
+  },
+
+  startLevel: function(command, deferred) {
+    var Level = require('../level').Level;
+    this.hide();
+    this.clear();
+
+    console.log(command.get('regexResults'));
+
+    // we don't even need a reference to this,
+    // everything will be handled via event baton :DDDDDDDDD
+    var a = new Level();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
   },
 
   exitLevel: function(command, deferred) {
@@ -18564,7 +18610,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
-  'start level': /^start level ([a-zA-Z0-9]+)/
+  'start level': /^start level\s?([a-zA-Z0-9]*)/
 };
 
 var parse = function(str) {
@@ -21453,15 +21499,29 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 
 // we debounce here so we aren't firing a resize call on every resize event
 // but only after they stop
-GitVisuals.prototype.canvasResize = _.debounce(function(width, height) {
-  // refresh when we are ready
-  if (GLOBAL.isAnimating) {
-    var Main = require('../app');
-    Main.getEventBaton().trigger('commandSubmitted', 'refresh');
-  } else {
-    this.refreshTree();
+GitVisuals.prototype.canvasResize = function(width, height) {
+  if (!this.resizeFunc) {
+    this.genResizeFunc();
   }
-}, 200, true);
+  this.resizeFunc(width, height);
+};
+
+GitVisuals.prototype.genResizeFunc = function() {
+  this.resizeFunc = _.debounce(
+    _.bind(function(width, height) {
+
+      // refresh when we are ready if we are animating som ething
+      if (GLOBAL.isAnimating) {
+        var Main = require('../app');
+        Main.getEventBaton().trigger('commandSubmitted', 'refresh');
+      } else {
+        this.refreshTree();
+      }
+    }, this),
+    200,
+    true
+  );
+};
 
 GitVisuals.prototype.addNode = function(id, commit) {
   this.commitMap[id] = commit;
@@ -22726,7 +22786,6 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.mainEvents = options.events || Main.getEvents();
     // if we dont want to receive keyoard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
@@ -22754,7 +22813,11 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    this.mainEvents.on('resize', this.myResize, this);
+
+    $(window).on('resize', _.bind(function() {
+      this.myResize();
+    }, this));
+
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -22818,10 +22881,9 @@ var Visualization = Backbone.View.extend({
   },
 
   tearDown: function() {
-    // hmm -- dont think this will work to unbind the event listener...
-    this.mainEvents.off('resize', this.myResize, this);
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
+    delete this.paper;
   },
 
   die: function() {
@@ -22834,6 +22896,8 @@ var Visualization = Backbone.View.extend({
   },
 
   myResize: function() {
+    if (!this.paper) { return; }
+
     var smaller = 1;
     var el = this.el;
 
@@ -22842,7 +22906,7 @@ var Visualization = Backbone.View.extend({
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
-    if (!this.options.containerElement) {
+    if (!this.containerElement) {
       var left = el.offsetLeft;
       var top = el.offsetTop;
 

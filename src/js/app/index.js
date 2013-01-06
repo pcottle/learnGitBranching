@@ -30,7 +30,7 @@ var init = function() {
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
-  sandbox = new Level();
+  sandbox = new Sandbox();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {

@@ -14,7 +14,6 @@ var GitShim = require('../git/gitShim').GitShim;
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
-
 var MultiView = require('../views/multiView').MultiView;
 
 var Sandbox = Backbone.View.extend({
@@ -113,6 +112,21 @@ var Sandbox = Backbone.View.extend({
         parseWaterfall: this.parseWaterfall
       }));
     }, this);
+  },
+
+  startLevel: function(command, deferred) {
+    var Level = require('../level').Level;
+    this.hide();
+    this.clear();
+
+    console.log(command.get('regexResults'));
+
+    // we don't even need a reference to this,
+    // everything will be handled via event baton :DDDDDDDDD
+    var a = new Level();
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
   },
 
   exitLevel: function(command, deferred) {

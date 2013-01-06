@@ -33,7 +33,6 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    this.mainEvents = options.events || Main.getEvents();
     // if we dont want to receive keyoard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
@@ -61,7 +60,11 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.assignGitEngine(this.gitEngine);
 
     this.myResize();
-    this.mainEvents.on('resize', this.myResize, this);
+
+    $(window).on('resize', _.bind(function() {
+      this.myResize();
+    }, this));
+
     this.gitVisuals.drawTreeFirstTime();
 
     if (this.treeString) {
@@ -125,10 +128,9 @@ var Visualization = Backbone.View.extend({
   },
 
   tearDown: function() {
-    // hmm -- dont think this will work to unbind the event listener...
-    this.mainEvents.off('resize', this.myResize, this);
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
+    delete this.paper;
   },
 
   die: function() {
@@ -141,6 +143,8 @@ var Visualization = Backbone.View.extend({
   },
 
   myResize: function() {
+    if (!this.paper) { return; }
+
     var smaller = 1;
     var el = this.el;
 
@@ -149,7 +153,7 @@ var Visualization = Backbone.View.extend({
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
-    if (!this.options.containerElement) {
+    if (!this.containerElement) {
       var left = el.offsetLeft;
       var top = el.offsetTop;
 
