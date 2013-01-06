@@ -6440,7 +6440,7 @@ var Level = Sandbox.extend({
     this.initGoalData(options);
     this.initName(options);
 
-    Sandbox.prototype.initialize.apply(this, [options]);
+    Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
   },
 
@@ -6472,13 +6472,13 @@ var Level = Sandbox.extend({
   takeControl: function() {
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
-    Sandbox.prototype.takeControl.apply(this);
+    Level.__super__.takeControl.apply(this);
   },
 
   releaseControl: function() {
     Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
 
-    Sandbox.prototype.releaseControl.apply(this);
+    Level.__super__.releaseControl.apply(this);
   },
 
   startOffCommand: function() {
@@ -6737,7 +6737,7 @@ var Level = Sandbox.extend({
   reset: function() {
     this.gitCommandsIssued = 0;
     this.solved = false;
-    Sandbox.prototype.reset.apply(this, arguments);
+    Level.__super__.reset.apply(this, arguments);
   },
 
   startLevel: function(command, deferred) {
@@ -9875,7 +9875,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       markdowns: markdowns
     };
 
-    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
+    NextLevelConfirm.__super__.initialize.apply(this, [options]);
   }
 });
 
@@ -18355,7 +18355,7 @@ var Level = Sandbox.extend({
     this.initGoalData(options);
     this.initName(options);
 
-    Sandbox.prototype.initialize.apply(this, [options]);
+    Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
   },
 
@@ -18387,13 +18387,13 @@ var Level = Sandbox.extend({
   takeControl: function() {
     Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
 
-    Sandbox.prototype.takeControl.apply(this);
+    Level.__super__.takeControl.apply(this);
   },
 
   releaseControl: function() {
     Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
 
-    Sandbox.prototype.releaseControl.apply(this);
+    Level.__super__.releaseControl.apply(this);
   },
 
   startOffCommand: function() {
@@ -18652,7 +18652,7 @@ var Level = Sandbox.extend({
   reset: function() {
     this.gitCommandsIssued = 0;
     this.solved = false;
-    Sandbox.prototype.reset.apply(this, arguments);
+    Level.__super__.reset.apply(this, arguments);
   },
 
   startLevel: function(command, deferred) {
@@ -20588,7 +20588,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       markdowns: markdowns
     };
 
-    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
+    NextLevelConfirm.__super__.initialize.apply(this, [options]);
   }
 });
 

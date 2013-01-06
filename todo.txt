@@ -1,10 +1,9 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] levels dropdown selection?
-[ ] git demonstration view
+[ ] git demonstration view -- shouldnt be too bad
 [ ] level builder? :OOO
 
-[ ] rebase bug... ugh
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -22,6 +21,7 @@ Minor Bugs to fix:
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] rebase bug... ugh
 
 /*************************************
  ** Publish Things **

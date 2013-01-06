@@ -386,7 +386,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       markdowns: markdowns
     };
 
-    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
+    NextLevelConfirm.__super__.initialize.apply(this, [options]);
   }
 });
 
