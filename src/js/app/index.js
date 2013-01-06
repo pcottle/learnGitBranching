@@ -11,6 +11,7 @@ var events = _.clone(Backbone.Events);
 var commandUI;
 var sandbox;
 var eventBaton;
+var levelArbiter;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -27,10 +28,12 @@ var init = function() {
   var Sandbox = require('../level/sandbox').Sandbox;
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
+  var LevelArbiter = require('../level/arbiter').LevelArbiter;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
+  levelArbiter = new LevelArbiter();
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -128,6 +131,10 @@ exports.getEventBaton = function() {
 
 exports.getCommandUI = function() {
   return commandUI;
+};
+
+exports.getLevelArbiter = function() {
+  return levelArbiter;
 };
 
 exports.init = init;

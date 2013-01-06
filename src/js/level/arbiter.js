@@ -3,17 +3,8 @@ var Backbone = require('backbone');
 
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in order.
-
-var levelSequences = {
-  intro: [
-    require('../../levels/intro/1'),
-    require('../../levels/intro/2')
-  ],
-  rebase: [
-    require('../../levels/rebase/1'),
-    require('../../levels/rebase/2')
-  ]
-};
+var levelSequences = require('../levels').levelSequences;
+var sequenceInfo = require('../levels').sequenceInfo;
 
 function LevelArbiter() {
   this.levelMap = {};
@@ -21,7 +12,6 @@ function LevelArbiter() {
 }
 
 LevelArbiter.prototype.init = function() {
-
   var previousLevelID;
   _.each(levelSequences, function(levels, levelSequenceName) {
     // for this particular sequence...
@@ -43,7 +33,7 @@ LevelArbiter.prototype.validateLevel = function(level) {
   var requiredFields = [
     'id',
     'name',
-    'goalTree',
+    'goalTreeString',
     'solutionCommand'
   ];
 
@@ -56,7 +46,33 @@ LevelArbiter.prototype.validateLevel = function(level) {
     if (level[field] === undefined) {
       throw new Error('I need this field for a level: ' + field);
     }
-  })
+  });
+};
+
+LevelArbiter.prototype.getSequences = function() {
+  return _.keys(levelSequences);
+};
+
+LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
+  if (!levelSequences[sequenceName]) {
+    throw new Error('that sequecne name ' + sequenceName + 'does not exist');
+  }
+  return levelSequences[sequenceName];
+};
+
+LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
+  return sequenceInfo[sequenceName];
+};
+
+LevelArbiter.prototype.getLevel = function(id) {
+  return this.levelMap[id];
+};
+
+LevelArbiter.prototype.getNextLevel = function(id) {
+  if (!this.levelMap[id]) {
+    throw new Error('that level doesnt exist!');
+  }
+  return this.levelMap[id]['nextLevelID'];
 };
 
 exports.LevelArbiter = LevelArbiter;
