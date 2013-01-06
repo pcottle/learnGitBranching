@@ -348,7 +348,7 @@ var LevelToolbar = BaseView.extend({
   initialize: function(options) {
     options = options || {};
     this.JSON = {
-      levelName: options.levelName || 'Some level! (unknown name)'
+      name: options.name || 'Some level! (unknown name)'
     };
 
     this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);

@@ -6423,15 +6423,15 @@ var Level = Sandbox.extend({
   },
 
   initName: function(options) {
-    this.levelName = options.levelName;
-    this.levelID = options.levelID;
-    if (!this.levelName || !this.levelID) {
-      this.levelName = 'Rebase Classic';
+    this.name = options.name;
+    this.id = options.id;
+    if (!this.name || !this.id) {
+      this.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
 
     this.levelToolbar = new LevelToolbar({
-      levelName: this.levelName
+      name: this.name
     });
   },
 
@@ -6469,9 +6469,6 @@ var Level = Sandbox.extend({
   },
 
   initVisualization: function(options) {
-    if (!options.level.startTree) {
-      console.warn('No start tree specified for this level!!! using default...');
-    }
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
@@ -9807,7 +9804,7 @@ var LevelToolbar = BaseView.extend({
   initialize: function(options) {
     options = options || {};
     this.JSON = {
-      levelName: options.levelName || 'Some level! (unknown name)'
+      name: options.name || 'Some level! (unknown name)'
     };
 
     this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
@@ -15456,6 +15453,46 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 
 });
 
+require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+
+require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+
+require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+
+require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+
 require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
@@ -17849,7 +17886,70 @@ exports.TreeCompare = TreeCompare;
 });
 require("/src/js/git/treeCompare.js");
 
-require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){
+require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+// Each level is part of a "sequence;" levels within
+// a sequence proceed in order.
+
+var levelSequences = {
+  intro: [
+    require('../../levels/intro/1'),
+    require('../../levels/intro/2')
+  ],
+  rebase: [
+    require('../../levels/rebase/1'),
+    require('../../levels/rebase/2')
+  ]
+};
+
+function LevelArbiter() {
+  this.levelMap = {};
+  this.init();
+}
+
+LevelArbiter.prototype.init = function() {
+
+  var previousLevelID;
+  _.each(levelSequences, function(levels, levelSequenceName) {
+    // for this particular sequence...
+    _.each(levels, function(level) {
+      this.validateLevel(level);
+      this.levelMap[level.id] = level;
+
+      // build up the chaining between levels
+      if (previousLevelID) {
+        this.levelMap[previousLevelID]['nextLevelID'] = level.id;
+      }
+      previousLevelID = level.id;
+    }, this);
+  }, this);
+};
+
+LevelArbiter.prototype.validateLevel = function(level) {
+  level = level || {};
+  var requiredFields = [
+    'id',
+    'name',
+    'goalTree',
+    'solutionCommand'
+  ];
+
+  var optionalFields = [
+    'hint',
+    'disabledMap'
+  ];
+
+  _.each(requiredFields, function(field) {
+    if (level[field] === undefined) {
+      throw new Error('I need this field for a level: ' + field);
+    }
+  })
+};
+
+exports.LevelArbiter = LevelArbiter;
+
+
 });
 require("/src/js/level/arbiter.js");
 
@@ -17972,15 +18072,15 @@ var Level = Sandbox.extend({
   },
 
   initName: function(options) {
-    this.levelName = options.levelName;
-    this.levelID = options.levelID;
-    if (!this.levelName || !this.levelID) {
-      this.levelName = 'Rebase Classic';
+    this.name = options.name;
+    this.id = options.id;
+    if (!this.name || !this.id) {
+      this.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
 
     this.levelToolbar = new LevelToolbar({
-      levelName: this.levelName
+      name: this.name
     });
   },
 
@@ -18018,9 +18118,6 @@ var Level = Sandbox.extend({
   },
 
   initVisualization: function(options) {
-    if (!options.level.startTree) {
-      console.warn('No start tree specified for this level!!! using default...');
-    }
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
@@ -20140,7 +20237,7 @@ var LevelToolbar = BaseView.extend({
   initialize: function(options) {
     options = options || {};
     this.JSON = {
-      levelName: options.levelName || 'Some level! (unknown name)'
+      name: options.name || 'Some level! (unknown name)'
     };
 
     this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
@@ -22999,5 +23096,49 @@ exports.Visualization = Visualization;
 
 });
 require("/src/js/visuals/visualization.js");
+
+require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+require("/src/levels/intro/1.js");
+
+require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+require("/src/levels/intro/2.js");
+
+require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+require("/src/levels/rebase/1.js");
+
+require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports = {
+  id: 'intro1',
+  name: 'Introduction #1',
+  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
+  solutionCommand: 'git checkout -b win; git commit',
+  hint: 'Try checking out a branch named after Charlie Sheen'
+};
+
+});
+require("/src/levels/rebase/2.js");
 
 })();

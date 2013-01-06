@@ -43,15 +43,15 @@ var Level = Sandbox.extend({
   },
 
   initName: function(options) {
-    this.levelName = options.levelName;
-    this.levelID = options.levelID;
-    if (!this.levelName || !this.levelID) {
-      this.levelName = 'Rebase Classic';
+    this.name = options.name;
+    this.id = options.id;
+    if (!this.name || !this.id) {
+      this.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
 
     this.levelToolbar = new LevelToolbar({
-      levelName: this.levelName
+      name: this.name
     });
   },
 
@@ -89,9 +89,6 @@ var Level = Sandbox.extend({
   },
 
   initVisualization: function(options) {
-    if (!options.level.startTree) {
-      console.warn('No start tree specified for this level!!! using default...');
-    }
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
