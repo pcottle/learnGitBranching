@@ -4583,15 +4583,30 @@ var Sandbox = Backbone.View.extend({
   },
 
   startLevel: function(command, deferred) {
-    var Level = require('../level').Level;
+    var regexResults = command.get('regexResults') || [];
+    var desiredID = regexResults[1] || '';
+    var levelJSON = Main.getLevelArbiter().getLevel(desiredID);
+
+    // handle the case where that level is not found...
+    if (!levelJSON) {
+      command.addWarning(
+        'A level for that id "' + desiredID + '" was not found!!'
+      );
+      command.set('status', 'error');
+      deferred.resolve();
+      return;
+    }
+
+    // we are good to go!! lets prep a bit visually
     this.hide();
     this.clear();
 
-    console.log(command.get('regexResults'));
-
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
-    var a = new Level();
+    var Level = require('../level').Level;
+    var currentLevel = new Level({
+      level: levelJSON
+    });
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.getAnimationTime());
@@ -6413,6 +6428,8 @@ var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
     options.level = options.level || {};
+
+    console.log('the level im receiving is', options.level);
     this.level = options.level;
 
     this.gitCommandsIssued = 0;
@@ -6430,21 +6447,19 @@ var Level = Sandbox.extend({
   },
 
   initName: function(options) {
-    this.name = options.name;
-    this.id = options.id;
-    if (!this.name || !this.id) {
-      this.name = 'Rebase Classic';
+    if (!this.level.name || !this.level.id) {
+      this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
 
     this.levelToolbar = new LevelToolbar({
-      name: this.name
+      name: this.level.name
     });
   },
 
   initGoalData: function(options) {
-    this.goalTreeString = options.level.goalTree;
-    this.solutionCommand = options.level.solutionCommand;
+    this.goalTreeString = this.level.goalTreeString;
+    this.solutionCommand = this.level.solutionCommand;
 
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
@@ -6471,7 +6486,7 @@ var Level = Sandbox.extend({
   startOffCommand: function() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
-      'hint; show goal; delay 2000; hide goal'
+      'hint; delay 3000; show goal'
     );
   },
 
@@ -6719,12 +6734,10 @@ var Level = Sandbox.extend({
   startLevel: function(command, deferred) {
     this.exitLevel();
 
-    Main.getSandbox().startLevel(command, deferred);
-    /*
-    Main.getEventBaton().trigger('commandSubmitted',
-      'delay 3000; exit level; delay 500;' + command.get('rawStr')
-    );
-    deferred.resolve();*/
+    setTimeout(function() {
+      Main.getSandbox().startLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+    // wow! that was simple :D
   },
 
   exitLevel: function(command, deferred) {
@@ -9866,7 +9879,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || 'Goal To Reach',
-      text: options.text || 'You can hide this modal with "hide goal"'
+      text: options.text || 'You can hide this window with "hide goal"'
     };
 
     this.render();
@@ -12764,6 +12777,12 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
+  // eventually have origin support here
+  this.posBoundaries = {
+    min: 0,
+    max: 1
+  };
+
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
 }
@@ -13179,7 +13198,11 @@ GitVisuals.prototype.calcBranchStacks = function() {
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
 
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+  this.assignBoundsRecursive(
+    this.rootCommit,
+    this.posBoundaries.min,
+    this.posBoundaries.max
+  );
 };
 
 GitVisuals.prototype.maxWidthRecursive = function(commit) {
@@ -14073,6 +14096,14 @@ var VisBranch = VisBase.extend({
   getCommitPosition: function() {
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
+
+    var threshold = this.get('gitVisuals').posBoundaries.max;
+    // somewhat tricky flip management here
+    if (visNode.get('pos').x > threshold) {
+      this.set('flip', -1);
+    } else {
+      this.set('flip', 1);
+    }
     return visNode.getScreenCoords();
   },
 
@@ -18203,6 +18234,8 @@ var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
     options.level = options.level || {};
+
+    console.log('the level im receiving is', options.level);
     this.level = options.level;
 
     this.gitCommandsIssued = 0;
@@ -18220,21 +18253,19 @@ var Level = Sandbox.extend({
   },
 
   initName: function(options) {
-    this.name = options.name;
-    this.id = options.id;
-    if (!this.name || !this.id) {
-      this.name = 'Rebase Classic';
+    if (!this.level.name || !this.level.id) {
+      this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
 
     this.levelToolbar = new LevelToolbar({
-      name: this.name
+      name: this.level.name
     });
   },
 
   initGoalData: function(options) {
-    this.goalTreeString = options.level.goalTree;
-    this.solutionCommand = options.level.solutionCommand;
+    this.goalTreeString = this.level.goalTreeString;
+    this.solutionCommand = this.level.solutionCommand;
 
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
@@ -18261,7 +18292,7 @@ var Level = Sandbox.extend({
   startOffCommand: function() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
-      'hint; show goal; delay 2000; hide goal'
+      'hint; delay 3000; show goal'
     );
   },
 
@@ -18509,12 +18540,10 @@ var Level = Sandbox.extend({
   startLevel: function(command, deferred) {
     this.exitLevel();
 
-    Main.getSandbox().startLevel(command, deferred);
-    /*
-    Main.getEventBaton().trigger('commandSubmitted',
-      'delay 3000; exit level; delay 500;' + command.get('rawStr')
-    );
-    deferred.resolve();*/
+    setTimeout(function() {
+      Main.getSandbox().startLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+    // wow! that was simple :D
   },
 
   exitLevel: function(command, deferred) {
@@ -18772,15 +18801,30 @@ var Sandbox = Backbone.View.extend({
   },
 
   startLevel: function(command, deferred) {
-    var Level = require('../level').Level;
+    var regexResults = command.get('regexResults') || [];
+    var desiredID = regexResults[1] || '';
+    var levelJSON = Main.getLevelArbiter().getLevel(desiredID);
+
+    // handle the case where that level is not found...
+    if (!levelJSON) {
+      command.addWarning(
+        'A level for that id "' + desiredID + '" was not found!!'
+      );
+      command.set('status', 'error');
+      deferred.resolve();
+      return;
+    }
+
+    // we are good to go!! lets prep a bit visually
     this.hide();
     this.clear();
 
-    console.log(command.get('regexResults'));
-
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
-    var a = new Level();
+    var Level = require('../level').Level;
+    var currentLevel = new Level({
+      level: levelJSON
+    });
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.getAnimationTime());
@@ -20440,7 +20484,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || 'Goal To Reach',
-      text: options.text || 'You can hide this modal with "hide goal"'
+      text: options.text || 'You can hide this window with "hide goal"'
     };
 
     this.render();
@@ -21223,6 +21267,12 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
+  // eventually have origin support here
+  this.posBoundaries = {
+    min: 0,
+    max: 1
+  };
+
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
 }
@@ -21638,7 +21688,11 @@ GitVisuals.prototype.calcBranchStacks = function() {
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
 
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+  this.assignBoundsRecursive(
+    this.rootCommit,
+    this.posBoundaries.min,
+    this.posBoundaries.max
+  );
 };
 
 GitVisuals.prototype.maxWidthRecursive = function(commit) {
@@ -22096,6 +22150,14 @@ var VisBranch = VisBase.extend({
   getCommitPosition: function() {
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
+
+    var threshold = this.get('gitVisuals').posBoundaries.max;
+    // somewhat tricky flip management here
+    if (visNode.get('pos').x > threshold) {
+      this.set('flip', -1);
+    } else {
+      this.set('flip', 1);
+    }
     return visNode.getScreenCoords();
   },
 

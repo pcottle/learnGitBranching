@@ -77,6 +77,14 @@ var VisBranch = VisBase.extend({
   getCommitPosition: function() {
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
+
+    var threshold = this.get('gitVisuals').posBoundaries.max;
+    // somewhat tricky flip management here
+    if (visNode.get('pos').x > threshold) {
+      this.set('flip', -1);
+    } else {
+      this.set('flip', 1);
+    }
     return visNode.getScreenCoords();
   },
 

@@ -399,7 +399,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || 'Goal To Reach',
-      text: options.text || 'You can hide this modal with "hide goal"'
+      text: options.text || 'You can hide this window with "hide goal"'
     };
 
     this.render();

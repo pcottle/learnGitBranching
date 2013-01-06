@@ -115,15 +115,30 @@ var Sandbox = Backbone.View.extend({
   },
 
   startLevel: function(command, deferred) {
-    var Level = require('../level').Level;
+    var regexResults = command.get('regexResults') || [];
+    var desiredID = regexResults[1] || '';
+    var levelJSON = Main.getLevelArbiter().getLevel(desiredID);
+
+    // handle the case where that level is not found...
+    if (!levelJSON) {
+      command.addWarning(
+        'A level for that id "' + desiredID + '" was not found!!'
+      );
+      command.set('status', 'error');
+      deferred.resolve();
+      return;
+    }
+
+    // we are good to go!! lets prep a bit visually
     this.hide();
     this.clear();
 
-    console.log(command.get('regexResults'));
-
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
-    var a = new Level();
+    var Level = require('../level').Level;
+    var currentLevel = new Level({
+      level: levelJSON
+    });
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.getAnimationTime());

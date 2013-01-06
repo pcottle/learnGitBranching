@@ -26,6 +26,8 @@ var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
     options.level = options.level || {};
+
+    console.log('the level im receiving is', options.level);
     this.level = options.level;
 
     this.gitCommandsIssued = 0;
@@ -43,21 +45,19 @@ var Level = Sandbox.extend({
   },
 
   initName: function(options) {
-    this.name = options.name;
-    this.id = options.id;
-    if (!this.name || !this.id) {
-      this.name = 'Rebase Classic';
+    if (!this.level.name || !this.level.id) {
+      this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
 
     this.levelToolbar = new LevelToolbar({
-      name: this.name
+      name: this.level.name
     });
   },
 
   initGoalData: function(options) {
-    this.goalTreeString = options.level.goalTree;
-    this.solutionCommand = options.level.solutionCommand;
+    this.goalTreeString = this.level.goalTreeString;
+    this.solutionCommand = this.level.solutionCommand;
 
     if (!this.goalTreeString) {
       console.warn('woah no goal, using random other one');
@@ -84,7 +84,7 @@ var Level = Sandbox.extend({
   startOffCommand: function() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
-      'hint; show goal; delay 2000; hide goal'
+      'hint; delay 3000; show goal'
     );
   },
 
@@ -332,12 +332,10 @@ var Level = Sandbox.extend({
   startLevel: function(command, deferred) {
     this.exitLevel();
 
-    Main.getSandbox().startLevel(command, deferred);
-    /*
-    Main.getEventBaton().trigger('commandSubmitted',
-      'delay 3000; exit level; delay 500;' + command.get('rawStr')
-    );
-    deferred.resolve();*/
+    setTimeout(function() {
+      Main.getSandbox().startLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+    // wow! that was simple :D
   },
 
   exitLevel: function(command, deferred) {

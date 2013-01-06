@@ -38,6 +38,12 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
+  // eventually have origin support here
+  this.posBoundaries = {
+    min: 0,
+    max: 1
+  };
+
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
 }
@@ -453,7 +459,11 @@ GitVisuals.prototype.calcBranchStacks = function() {
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
 
-  this.assignBoundsRecursive(this.rootCommit, 0, 1);
+  this.assignBoundsRecursive(
+    this.rootCommit,
+    this.posBoundaries.min,
+    this.posBoundaries.max
+  );
 };
 
 GitVisuals.prototype.maxWidthRecursive = function(commit) {

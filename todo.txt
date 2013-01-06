@@ -9,7 +9,6 @@ Big Graphic things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] level arbiter (has everything by ID)
-[ ] flip branches on the sides!! i wonder how to determine...
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +28,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] flip branches on the sides!! i wonder how to determine...
 [x] click handlers on goal visualization for the actual canvas elements
 [x] sandbox can launch and takedown levels
 [x] TWO epic bugs squashed:
