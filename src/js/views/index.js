@@ -358,13 +358,32 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
     this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+
+    var markdowns = [
+      '## Great Job!!',
+      '',
+      'You solved the level in **' + options.numCommands + '** command(s); ',
+      'our solution uses ' + options.best + '. '
+    ];
+
+    if (options.numCommands <= options.best) {
+      markdowns.push(
+        'Awesome! You matched or exceeded our solution. '
+      );
+    } else {
+      markdowns.push(
+        'See if you can whittle it down to ' + options.best + ' command(s) :D '
+      );
+    }
+
+    markdowns = markdowns.concat([
+      '',
+      'Would you like to move onto "',
+      this.nextLevelName + '", the next level?'
+    ]);
+
     options.modalAlert = {
-      markdowns: [
-        '## Great Job!!',
-        '',
-        'You solved the level. Would you like to move onto "',
-        this.nextLevelName + '", the next level?'
-      ]
+      markdowns: markdowns
     };
 
     ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);

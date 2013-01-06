@@ -42,7 +42,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
-  'start level': /^start level\s?([a-zA-Z0-9]*)/
+  'level': /^level\s?([a-zA-Z0-9]*)/
 };
 
 var parse = function(str) {

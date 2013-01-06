@@ -4611,7 +4611,7 @@ var Sandbox = Backbone.View.extend({
 
   exitLevel: function(command, deferred) {
     command.addWarning(
-      "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
+      "You aren't in a level! You are in a sandbox, start a level with `level [id]`"
     );
     command.set('status', 'error');
     deferred.resolve();
@@ -4624,7 +4624,7 @@ var Sandbox = Backbone.View.extend({
       'delay': this.delay,
       'clear': this.clear,
       'exit level': this.exitLevel,
-      'start level': this.startLevel
+      'level': this.startLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -6417,6 +6417,7 @@ var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
@@ -6652,11 +6653,43 @@ var Level = Sandbox.extend({
     this.levelSolved(defer);
   },
 
+  getNumSolutionCommands: function() {
+    // strip semicolons in bad places
+    var toAnalyze = this.level.solutionCommand.replace(/^;|;$/g, '');
+    return toAnalyze.split(';').length;
+  },
+
   levelSolved: function(defer) {
     this.solved = true;
     this.hideGoal();
+
+    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var numCommands = this.gitCommandsIssued;
+    var best = this.getNumSolutionCommands();
+
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
+      // TODO if there is no future level...
+
+      // we want to ask if they will move onto the next level...
+      var nextDialog = new NextLevelConfirm({
+        nextLevelName: nextLevel.name,
+        numCommands: numCommands,
+        best: best
+      });
+
+      return nextDialog.getPromise();
+    })
+    .then(function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'level ' + nextLevel.id
+      );
+    })
+    .fail(function() {
+      // nothing to do, we will just close
+    })
+    .done(function() {
       defer.resolve();
     });
   },
@@ -6698,6 +6731,12 @@ var Level = Sandbox.extend({
       }]);
     }
     return instants;
+  },
+
+  reset: function() {
+    this.gitCommandsIssued = 0;
+    this.solved = false;
+    Sandbox.prototype.reset.apply(this, arguments);
   },
 
   startLevel: function(command, deferred) {
@@ -9807,13 +9846,32 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
     this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+
+    var markdowns = [
+      '## Great Job!!',
+      '',
+      'You solved the level in **' + options.numCommands + '** command(s); ',
+      'our solution uses ' + options.best + '. '
+    ];
+
+    if (options.numCommands <= options.best) {
+      markdowns.push(
+        'Awesome! You matched or exceeded our solution. '
+      );
+    } else {
+      markdowns.push(
+        'See if you can whittle it down to ' + options.best + ' command(s) :D '
+      );
+    }
+
+    markdowns = markdowns.concat([
+      '',
+      'Would you like to move onto "',
+      this.nextLevelName + '", the next level?'
+    ]);
+
     options.modalAlert = {
-      markdowns: [
-        '## Great Job!!',
-        '',
-        'You solved the level. Would you like to move onto "',
-        this.nextLevelName + '", the next level?'
-      ]
+      markdowns: markdowns
     };
 
     ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
@@ -12695,7 +12753,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
-  'start level': /^start level\s?([a-zA-Z0-9]*)/
+  'level': /^level\s?([a-zA-Z0-9]*)/
 };
 
 var parse = function(str) {
@@ -15133,7 +15191,12 @@ LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  return this.levelMap[id]['nextLevelID'];
+  var nextID = this.levelMap[id]['nextLevelID'];
+  return this.levelMap[nextID];
+};
+
+LevelArbiter.prototype.getNextLevelID = function(id) {
+  return this.getNextLevel(id)['id'];
 };
 
 exports.LevelArbiter = LevelArbiter;
@@ -18160,7 +18223,12 @@ LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  return this.levelMap[id]['nextLevelID'];
+  var nextID = this.levelMap[id]['nextLevelID'];
+  return this.levelMap[nextID];
+};
+
+LevelArbiter.prototype.getNextLevelID = function(id) {
+  return this.getNextLevel(id)['id'];
 };
 
 exports.LevelArbiter = LevelArbiter;
@@ -18263,6 +18331,7 @@ var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
@@ -18498,11 +18567,43 @@ var Level = Sandbox.extend({
     this.levelSolved(defer);
   },
 
+  getNumSolutionCommands: function() {
+    // strip semicolons in bad places
+    var toAnalyze = this.level.solutionCommand.replace(/^;|;$/g, '');
+    return toAnalyze.split(';').length;
+  },
+
   levelSolved: function(defer) {
     this.solved = true;
     this.hideGoal();
+
+    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var numCommands = this.gitCommandsIssued;
+    var best = this.getNumSolutionCommands();
+
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
+      // TODO if there is no future level...
+
+      // we want to ask if they will move onto the next level...
+      var nextDialog = new NextLevelConfirm({
+        nextLevelName: nextLevel.name,
+        numCommands: numCommands,
+        best: best
+      });
+
+      return nextDialog.getPromise();
+    })
+    .then(function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'level ' + nextLevel.id
+      );
+    })
+    .fail(function() {
+      // nothing to do, we will just close
+    })
+    .done(function() {
       defer.resolve();
     });
   },
@@ -18544,6 +18645,12 @@ var Level = Sandbox.extend({
       }]);
     }
     return instants;
+  },
+
+  reset: function() {
+    this.gitCommandsIssued = 0;
+    this.solved = false;
+    Sandbox.prototype.reset.apply(this, arguments);
   },
 
   startLevel: function(command, deferred) {
@@ -18838,7 +18945,7 @@ var Sandbox = Backbone.View.extend({
 
   exitLevel: function(command, deferred) {
     command.addWarning(
-      "You aren't in a level! You are in a sandbox, start a level with `start level [id]`"
+      "You aren't in a level! You are in a sandbox, start a level with `level [id]`"
     );
     command.set('status', 'error');
     deferred.resolve();
@@ -18851,7 +18958,7 @@ var Sandbox = Backbone.View.extend({
       'delay': this.delay,
       'clear': this.clear,
       'exit level': this.exitLevel,
-      'start level': this.startLevel
+      'level': this.startLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -18954,7 +19061,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
-  'start level': /^start level\s?([a-zA-Z0-9]*)/
+  'level': /^level\s?([a-zA-Z0-9]*)/
 };
 
 var parse = function(str) {
@@ -20449,13 +20556,32 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
     this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+
+    var markdowns = [
+      '## Great Job!!',
+      '',
+      'You solved the level in **' + options.numCommands + '** command(s); ',
+      'our solution uses ' + options.best + '. '
+    ];
+
+    if (options.numCommands <= options.best) {
+      markdowns.push(
+        'Awesome! You matched or exceeded our solution. '
+      );
+    } else {
+      markdowns.push(
+        'See if you can whittle it down to ' + options.best + ' command(s) :D '
+      );
+    }
+
+    markdowns = markdowns.concat([
+      '',
+      'Would you like to move onto "',
+      this.nextLevelName + '", the next level?'
+    ]);
+
     options.modalAlert = {
-      markdowns: [
-        '## Great Job!!',
-        '',
-        'You solved the level. Would you like to move onto "',
-        this.nextLevelName + '", the next level?'
-      ]
+      markdowns: markdowns
     };
 
     ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);

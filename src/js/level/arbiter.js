@@ -72,7 +72,12 @@ LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  return this.levelMap[id]['nextLevelID'];
+  var nextID = this.levelMap[id]['nextLevelID'];
+  return this.levelMap[nextID];
+};
+
+LevelArbiter.prototype.getNextLevelID = function(id) {
+  return this.getNextLevel(id)['id'];
 };
 
 exports.LevelArbiter = LevelArbiter;

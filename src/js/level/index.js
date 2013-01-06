@@ -18,6 +18,7 @@ var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
@@ -253,11 +254,43 @@ var Level = Sandbox.extend({
     this.levelSolved(defer);
   },
 
+  getNumSolutionCommands: function() {
+    // strip semicolons in bad places
+    var toAnalyze = this.level.solutionCommand.replace(/^;|;$/g, '');
+    return toAnalyze.split(';').length;
+  },
+
   levelSolved: function(defer) {
     this.solved = true;
     this.hideGoal();
+
+    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var numCommands = this.gitCommandsIssued;
+    var best = this.getNumSolutionCommands();
+
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
+      // TODO if there is no future level...
+
+      // we want to ask if they will move onto the next level...
+      var nextDialog = new NextLevelConfirm({
+        nextLevelName: nextLevel.name,
+        numCommands: numCommands,
+        best: best
+      });
+
+      return nextDialog.getPromise();
+    })
+    .then(function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'level ' + nextLevel.id
+      );
+    })
+    .fail(function() {
+      // nothing to do, we will just close
+    })
+    .done(function() {
       defer.resolve();
     });
   },
@@ -299,6 +332,12 @@ var Level = Sandbox.extend({
       }]);
     }
     return instants;
+  },
+
+  reset: function() {
+    this.gitCommandsIssued = 0;
+    this.solved = false;
+    Sandbox.prototype.reset.apply(this, arguments);
   },
 
   startLevel: function(command, deferred) {
