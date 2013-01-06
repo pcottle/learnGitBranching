@@ -4624,7 +4624,8 @@ var Sandbox = Backbone.View.extend({
       'delay': this.delay,
       'clear': this.clear,
       'exit level': this.exitLevel,
-      'level': this.startLevel
+      'level': this.startLevel,
+      'sandbox': this.exitLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -12753,6 +12754,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
+  'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/
 };
 
@@ -18958,7 +18960,8 @@ var Sandbox = Backbone.View.extend({
       'delay': this.delay,
       'clear': this.clear,
       'exit level': this.exitLevel,
-      'level': this.startLevel
+      'level': this.startLevel,
+      'sandbox': this.exitLevel
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -19061,6 +19064,7 @@ var regexMap = {
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
+  'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/
 };
 

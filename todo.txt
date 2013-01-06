@@ -1,20 +1,18 @@
-Big things:
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Big Graphic things:
+Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] levels dropdown selection?
 [ ] git demonstration view
+[ ] level builder? :OOO
+
+[ ] rebase bug... ugh
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cases to handle / things to edit
 =======================
-[ ] "next level?" dialog after beating level
 [ ] what if they just type "levels" ?
 [ ] show level dropdown
-[ ] gotoSandbox command
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,12 +26,14 @@ Big Bugs to fix:
 /*************************************
  ** Publish Things **
  ************************************/
-- cross browser support... ?
+- cross browser support... firefox only.
 - fix terminal input field in general
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] gotoSandbox command
+[x] "next level?" dialog after beating level
 [x] keyboard input for confirm / cancel
 [x] level arbiter (has everything by ID)
 [x] flip branches on the sides!! i wonder how to determine...
