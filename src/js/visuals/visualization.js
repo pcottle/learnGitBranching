@@ -47,7 +47,8 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
-      paper: this.paper
+      paper: this.paper,
+      noClick: this.options.noClick
     });
 
     var GitEngine = require('../git').GitEngine;

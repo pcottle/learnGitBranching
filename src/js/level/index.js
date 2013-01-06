@@ -114,7 +114,8 @@ var Level = Sandbox.extend({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
       treeString: this.goalTreeString,
-      noKeyboardInput: true
+      noKeyboardInput: true,
+      noClick: true
     });
   },
 
@@ -227,7 +228,6 @@ var Level = Sandbox.extend({
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
-    console.log('made my git shim');
   },
 
   getCommandsThatCount: function() {
@@ -330,6 +330,18 @@ var Level = Sandbox.extend({
       }]);
     }
     return instants;
+  },
+
+  startLevel: function(command, deferred) {
+    command.addWarning(
+      "You are in a level! You can't start a new one before exiting. I'll add the command for you..."
+    );
+    command.set('status', 'error');
+
+    Main.getEventBaton().trigger('commandSubmitted',
+      'delay 3000; exit level; delay 500;' + command.get('rawStr')
+    );
+    deferred.resolve();
   },
 
   exitLevel: function(command, deferred) {

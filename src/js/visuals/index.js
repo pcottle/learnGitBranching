@@ -16,6 +16,8 @@ var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
 function GitVisuals(options) {
+  options = options || {};
+  this.options = options;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};

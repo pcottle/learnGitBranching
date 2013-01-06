@@ -258,6 +258,7 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.tearDown = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
 };
 

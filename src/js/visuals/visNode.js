@@ -314,6 +314,9 @@ var VisNode = VisBase.extend({
   },
 
   attachClickHandlers: function() {
+    if (this.get('gitVisuals').options.noClick) {
+      return;
+    }
     var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {

@@ -6494,7 +6494,8 @@ var Level = Sandbox.extend({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
       treeString: this.goalTreeString,
-      noKeyboardInput: true
+      noKeyboardInput: true,
+      noClick: true
     });
   },
 
@@ -6607,7 +6608,6 @@ var Level = Sandbox.extend({
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
-    console.log('made my git shim');
   },
 
   getCommandsThatCount: function() {
@@ -6710,6 +6710,18 @@ var Level = Sandbox.extend({
       }]);
     }
     return instants;
+  },
+
+  startLevel: function(command, deferred) {
+    command.addWarning(
+      "You are in a level! You can't start a new one before exiting. I'll add the command for you..."
+    );
+    command.set('status', 'error');
+
+    Main.getEventBaton().trigger('commandSubmitted',
+      'delay 3000; exit level; delay 500;' + command.get('rawStr')
+    );
+    deferred.resolve();
   },
 
   exitLevel: function(command, deferred) {
@@ -6855,7 +6867,8 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
-      paper: this.paper
+      paper: this.paper,
+      noClick: this.options.noClick
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -7363,6 +7376,7 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.tearDown = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
 };
 
@@ -12720,6 +12734,8 @@ var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
 function GitVisuals(options) {
+  options = options || {};
+  this.options = options;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
@@ -13800,6 +13816,9 @@ var VisNode = VisBase.extend({
   },
 
   attachClickHandlers: function() {
+    if (this.get('gitVisuals').options.noClick) {
+      return;
+    }
     var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
@@ -14282,6 +14301,9 @@ var VisBranch = VisBase.extend({
   },
 
   attachClickHandlers: function() {
+    if (this.get('gitVisuals').options.noClick) {
+      return;
+    }
     var commandStr = 'git checkout ' + this.get('branch').get('id');
     var Main = require('../app');
     var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
@@ -14705,8 +14727,7 @@ exports.GitShim = GitShim;
 
 });
 
-require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
+require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
@@ -14717,6 +14738,8 @@ var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var GitError = require('../util/errors').GitError;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
@@ -16258,6 +16281,7 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.tearDown = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
 };
 
@@ -17825,6 +17849,10 @@ exports.TreeCompare = TreeCompare;
 });
 require("/src/js/git/treeCompare.js");
 
+require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){
+});
+require("/src/js/level/arbiter.js");
+
 require.define("/src/js/level/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var regexMap = {
@@ -18015,7 +18043,8 @@ var Level = Sandbox.extend({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
       treeString: this.goalTreeString,
-      noKeyboardInput: true
+      noKeyboardInput: true,
+      noClick: true
     });
   },
 
@@ -18128,7 +18157,6 @@ var Level = Sandbox.extend({
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
-    console.log('made my git shim');
   },
 
   getCommandsThatCount: function() {
@@ -18231,6 +18259,18 @@ var Level = Sandbox.extend({
       }]);
     }
     return instants;
+  },
+
+  startLevel: function(command, deferred) {
+    command.addWarning(
+      "You are in a level! You can't start a new one before exiting. I'll add the command for you..."
+    );
+    command.set('status', 'error');
+
+    Main.getEventBaton().trigger('commandSubmitted',
+      'delay 3000; exit level; delay 500;' + command.get('rawStr')
+    );
+    deferred.resolve();
   },
 
   exitLevel: function(command, deferred) {
@@ -19734,6 +19774,22 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 });
 require("/src/js/views/commandViews.js");
 
+require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
+var ModalAlert = require('../views').ModalAlert;
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+
+});
+require("/src/js/views/gitDemonstrationView.js");
+
 require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
@@ -20187,8 +20243,7 @@ exports.LevelToolbar = LevelToolbar;
 });
 require("/src/js/views/index.js");
 
-require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
+require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
@@ -20199,6 +20254,8 @@ var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var GitError = require('../util/errors').GitError;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
@@ -20895,6 +20952,8 @@ var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
 function GitVisuals(options) {
+  options = options || {};
+  this.options = options;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
@@ -22024,6 +22083,9 @@ var VisBranch = VisBase.extend({
   },
 
   attachClickHandlers: function() {
+    if (this.get('gitVisuals').options.noClick) {
+      return;
+    }
     var commandStr = 'git checkout ' + this.get('branch').get('id');
     var Main = require('../app');
     var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
@@ -22636,6 +22698,9 @@ var VisNode = VisBase.extend({
   },
 
   attachClickHandlers: function() {
+    if (this.get('gitVisuals').options.noClick) {
+      return;
+    }
     var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
     _.each([this.get('circle'), this.get('text')], function(rObj) {
@@ -22805,7 +22870,8 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
-      paper: this.paper
+      paper: this.paper,
+      noClick: this.options.noClick
     });
 
     var GitEngine = require('../git').GitEngine;

@@ -5,13 +5,10 @@ Big Graphic things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] levels dropdown selection?
 [ ] git demonstration view
-[ ] sandbox can launch and takedown levels
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Commands
-========
+[ ] level arbiter (has everything by ID)
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,7 +18,6 @@ Minor Bugs to fix:
 
 Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] click handlers on goal visualization for the actual canvas elements
 
 /*************************************
  ** Publish Things **
@@ -32,6 +28,11 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] click handlers on goal visualization for the actual canvas elements
+[x] sandbox can launch and takedown levels
+[x] TWO epic bugs squashed:
+    * Raphael process.nextTick needed
+    * _.debounce on prototype
 [x] window zoom alert thing -- this just needs to be timeouted one more time
 [x] level teardown
 [x] great die for levels

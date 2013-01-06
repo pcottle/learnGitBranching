@@ -313,6 +313,9 @@ var VisBranch = VisBase.extend({
   },
 
   attachClickHandlers: function() {
+    if (this.get('gitVisuals').options.noClick) {
+      return;
+    }
     var commandStr = 'git checkout ' + this.get('branch').get('id');
     var Main = require('../app');
     var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
