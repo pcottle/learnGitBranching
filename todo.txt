@@ -8,7 +8,14 @@ Big Graphic things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] level arbiter (has everything by ID)
+
+Cases to handle / things to edit
+=======================
+[ ] "next level?" dialog after beating level
+[ ] keyboard input for confirm / cancel
+[ ] what if they just type "levels" ?
+[ ] show level dropdown
+[ ] gotoSandbox command
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,6 +35,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] level arbiter (has everything by ID)
 [x] flip branches on the sides!! i wonder how to determine...
 [x] click handlers on goal visualization for the actual canvas elements
 [x] sandbox can launch and takedown levels

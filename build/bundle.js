@@ -4545,9 +4545,6 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
     Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
-    console.log('just released two things about to...');
-    console.log(Main.getEventBaton());
-
     // a few things to help transition between levels and sandbox
     Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 
@@ -6429,7 +6426,6 @@ var Level = Sandbox.extend({
     options = options || {};
     options.level = options.level || {};
 
-    console.log('the level im receiving is', options.level);
     this.level = options.level;
 
     this.gitCommandsIssued = 0;
@@ -6518,7 +6514,7 @@ var Level = Sandbox.extend({
     });
   },
 
-  showSolution: function(command, defer) {
+  showSolution: function(command, deferred) {
     var confirmDefer = Q.defer();
     var confirmView = new ConfirmCancelTerminal({
       modalAlert: {
@@ -6533,49 +6529,22 @@ var Level = Sandbox.extend({
 
     confirmDefer.promise
     .then(_.bind(function() {
-      // it's next tick because we need to close the
-      // dialog first or otherwise it will steal the event
-      // baton fire
-      process.nextTick(_.bind(function() {
-        Main.getEventBaton().trigger(
-          'commandSubmitted',
-          'reset;' + this.solutionCommand
-        );
-      }, this));
-      // we also need to defer this logic...
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
+      // ok great add the solution command
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'reset;' + this.solutionCommand
+      );
       this.hideGoal();
       command.setResult('Solution command added to the command queue...');
-
-      // start that process...
-      whenClosed.resolve();
     }, this))
     .fail(function() {
       command.setResult("Great! I'll let you get back to it");
-
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
-      whenClosed.resolve();
     })
     .done(function() {
-      confirmView.close();
+     // either way we animate, so both options can share this logic
+     setTimeout(function() {
+        command.finishWith(deferred);
+      }, confirmView.getAnimationTime());
     });
   },
 
@@ -9486,6 +9455,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var Main = require('../app');
 var Constants = require('../util/constants');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -9759,15 +9729,45 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
 
+
     this.deferred = options.deferred || Q.defer();
     this.modalAlert = new ModalAlert(_.extend(
       {},
       { markdown: '#you sure?' },
       options.modalAlert
     ));
+
+
+    var buttonDefer = Q.defer();
+    this.buttonDefer = buttonDefer;
     this.confirmCancel = new ConfirmCancelView({
-      deferred: this.deferred,
+      deferred: buttonDefer,
       destination: this.modalAlert.getDestination()
+    });
+
+    // whenever they hit a button. make sure
+    // we close and pass that to our deferred
+    buttonDefer.promise
+    .then(_.bind(function() {
+      this.deferred.resolve();
+    }, this))
+    .fail(_.bind(function() {
+      this.deferred.reject();
+    }, this))
+    .done(_.bind(function() {
+      this.close();
+    }, this));
+
+    // also setup keyboard
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        esc: 'negative'
+      }
     });
 
     if (!options.wait) {
@@ -9775,12 +9775,48 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     }
   },
 
+  positive: function() {
+    this.buttonDefer.resolve();
+  },
+
+  negative: function() {
+    this.buttonDefer.reject();
+  },
+
+  getAnimationTime: function() { return 700; },
+
+  show: function() {
+    this.modalAlert.show();
+  },
+
+  hide: function() {
+    this.modalAlert.hide();
+  },
+
   getPromise: function() {
     return this.deferred.promise;
   },
 
   close: function() {
+    this.keyboardListener.mute();
     this.modalAlert.die();
+  }
+});
+
+var NextLevelConfirm = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+    options.modalAlert = {
+      markdowns: [
+        '## Great Job!!',
+        '',
+        'You solved the level. Would you like to move onto "',
+        this.nextLevelName + '", the next level?'
+      ]
+    };
+
+    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
   }
 });
 
@@ -9926,6 +9962,61 @@ exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
+exports.NextLevelConfirm = NextLevelConfirm;
+
+
+});
+
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var mapKeycodeToKey = function(keycode) {
+  // HELP WANTED -- internationalize? Dvorak? I have no idea
+  var keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  return keyMap[keycode];
+};
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  this.keydownListener = _.bind(this.keydown, this);
+  this.listen();
+}
+
+KeyboardListener.prototype.listen = function() {
+  $(document).bind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.mute = function() {
+  $(document).unbind('keydown', this.keydownListener);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which;
+
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
+    return;
+  }
+
+  this.fireEvent(key);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName);
+};
+
+exports.KeyboardListener = KeyboardListener;
+exports.mapKeycodeToKey = mapKeycodeToKey;
 
 
 });
@@ -14938,60 +15029,6 @@ exports.MultiView = MultiView;
 
 });
 
-require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var mapKeycodeToKey = function(keycode) {
-  // HELP WANTED -- internationalize? Dvorak? I have no idea
-  var keyMap = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-    27: 'esc',
-    13: 'enter'
-  };
-  return keyMap[keycode];
-};
-
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
-}
-
-KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
-};
-
-KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
-
-  var key = mapKeycodeToKey(which);
-  if (key === undefined) {
-    return;
-  }
-
-  this.fireEvent(key);
-};
-
-KeyboardListener.prototype.fireEvent = function(eventName) {
-  eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
-};
-
-exports.KeyboardListener = KeyboardListener;
-exports.mapKeycodeToKey = mapKeycodeToKey;
-
-
-});
-
 require.define("/src/js/level/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var regexMap = {
@@ -18235,7 +18272,6 @@ var Level = Sandbox.extend({
     options = options || {};
     options.level = options.level || {};
 
-    console.log('the level im receiving is', options.level);
     this.level = options.level;
 
     this.gitCommandsIssued = 0;
@@ -18324,7 +18360,7 @@ var Level = Sandbox.extend({
     });
   },
 
-  showSolution: function(command, defer) {
+  showSolution: function(command, deferred) {
     var confirmDefer = Q.defer();
     var confirmView = new ConfirmCancelTerminal({
       modalAlert: {
@@ -18339,49 +18375,22 @@ var Level = Sandbox.extend({
 
     confirmDefer.promise
     .then(_.bind(function() {
-      // it's next tick because we need to close the
-      // dialog first or otherwise it will steal the event
-      // baton fire
-      process.nextTick(_.bind(function() {
-        Main.getEventBaton().trigger(
-          'commandSubmitted',
-          'reset;' + this.solutionCommand
-        );
-      }, this));
-      // we also need to defer this logic...
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
+      // ok great add the solution command
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'reset;' + this.solutionCommand
+      );
       this.hideGoal();
       command.setResult('Solution command added to the command queue...');
-
-      // start that process...
-      whenClosed.resolve();
     }, this))
     .fail(function() {
       command.setResult("Great! I'll let you get back to it");
-
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
-      whenClosed.resolve();
     })
     .done(function() {
-      confirmView.close();
+     // either way we animate, so both options can share this logic
+     setTimeout(function() {
+        command.finishWith(deferred);
+      }, confirmView.getAnimationTime());
     });
   },
 
@@ -18763,9 +18772,6 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
     Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
-    console.log('just released two things about to...');
-    console.log(Main.getEventBaton());
-
     // a few things to help transition between levels and sandbox
     Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 
@@ -20091,6 +20097,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var Main = require('../app');
 var Constants = require('../util/constants');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -20364,15 +20371,45 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
 
+
     this.deferred = options.deferred || Q.defer();
     this.modalAlert = new ModalAlert(_.extend(
       {},
       { markdown: '#you sure?' },
       options.modalAlert
     ));
+
+
+    var buttonDefer = Q.defer();
+    this.buttonDefer = buttonDefer;
     this.confirmCancel = new ConfirmCancelView({
-      deferred: this.deferred,
+      deferred: buttonDefer,
       destination: this.modalAlert.getDestination()
+    });
+
+    // whenever they hit a button. make sure
+    // we close and pass that to our deferred
+    buttonDefer.promise
+    .then(_.bind(function() {
+      this.deferred.resolve();
+    }, this))
+    .fail(_.bind(function() {
+      this.deferred.reject();
+    }, this))
+    .done(_.bind(function() {
+      this.close();
+    }, this));
+
+    // also setup keyboard
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        esc: 'negative'
+      }
     });
 
     if (!options.wait) {
@@ -20380,12 +20417,48 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     }
   },
 
+  positive: function() {
+    this.buttonDefer.resolve();
+  },
+
+  negative: function() {
+    this.buttonDefer.reject();
+  },
+
+  getAnimationTime: function() { return 700; },
+
+  show: function() {
+    this.modalAlert.show();
+  },
+
+  hide: function() {
+    this.modalAlert.hide();
+  },
+
   getPromise: function() {
     return this.deferred.promise;
   },
 
   close: function() {
+    this.keyboardListener.mute();
     this.modalAlert.die();
+  }
+});
+
+var NextLevelConfirm = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+    options.modalAlert = {
+      markdowns: [
+        '## Great Job!!',
+        '',
+        'You solved the level. Would you like to move onto "',
+        this.nextLevelName + '", the next level?'
+      ]
+    };
+
+    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
   }
 });
 
@@ -20531,6 +20604,7 @@ exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
+exports.NextLevelConfirm = NextLevelConfirm;
 
 
 });

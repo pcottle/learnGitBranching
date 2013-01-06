@@ -77,9 +77,6 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
     Main.getEventBaton().releaseBaton('processSandboxCommand', this.processSandboxCommand, this);
-    console.log('just released two things about to...');
-    console.log(Main.getEventBaton());
-
     // a few things to help transition between levels and sandbox
     Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 

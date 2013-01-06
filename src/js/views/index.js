@@ -6,6 +6,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var Main = require('../app');
 var Constants = require('../util/constants');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -279,15 +280,45 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
 
+
     this.deferred = options.deferred || Q.defer();
     this.modalAlert = new ModalAlert(_.extend(
       {},
       { markdown: '#you sure?' },
       options.modalAlert
     ));
+
+
+    var buttonDefer = Q.defer();
+    this.buttonDefer = buttonDefer;
     this.confirmCancel = new ConfirmCancelView({
-      deferred: this.deferred,
+      deferred: buttonDefer,
       destination: this.modalAlert.getDestination()
+    });
+
+    // whenever they hit a button. make sure
+    // we close and pass that to our deferred
+    buttonDefer.promise
+    .then(_.bind(function() {
+      this.deferred.resolve();
+    }, this))
+    .fail(_.bind(function() {
+      this.deferred.reject();
+    }, this))
+    .done(_.bind(function() {
+      this.close();
+    }, this));
+
+    // also setup keyboard
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        esc: 'negative'
+      }
     });
 
     if (!options.wait) {
@@ -295,12 +326,48 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     }
   },
 
+  positive: function() {
+    this.buttonDefer.resolve();
+  },
+
+  negative: function() {
+    this.buttonDefer.reject();
+  },
+
+  getAnimationTime: function() { return 700; },
+
+  show: function() {
+    this.modalAlert.show();
+  },
+
+  hide: function() {
+    this.modalAlert.hide();
+  },
+
   getPromise: function() {
     return this.deferred.promise;
   },
 
   close: function() {
+    this.keyboardListener.mute();
     this.modalAlert.die();
+  }
+});
+
+var NextLevelConfirm = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+    options.modalAlert = {
+      markdowns: [
+        '## Great Job!!',
+        '',
+        'You solved the level. Would you like to move onto "',
+        this.nextLevelName + '", the next level?'
+      ]
+    };
+
+    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
   }
 });
 
@@ -446,4 +513,5 @@ exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
+exports.NextLevelConfirm = NextLevelConfirm;
 

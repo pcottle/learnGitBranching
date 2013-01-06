@@ -27,7 +27,6 @@ var Level = Sandbox.extend({
     options = options || {};
     options.level = options.level || {};
 
-    console.log('the level im receiving is', options.level);
     this.level = options.level;
 
     this.gitCommandsIssued = 0;
@@ -116,7 +115,7 @@ var Level = Sandbox.extend({
     });
   },
 
-  showSolution: function(command, defer) {
+  showSolution: function(command, deferred) {
     var confirmDefer = Q.defer();
     var confirmView = new ConfirmCancelTerminal({
       modalAlert: {
@@ -131,49 +130,22 @@ var Level = Sandbox.extend({
 
     confirmDefer.promise
     .then(_.bind(function() {
-      // it's next tick because we need to close the
-      // dialog first or otherwise it will steal the event
-      // baton fire
-      process.nextTick(_.bind(function() {
-        Main.getEventBaton().trigger(
-          'commandSubmitted',
-          'reset;' + this.solutionCommand
-        );
-      }, this));
-      // we also need to defer this logic...
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
+      // ok great add the solution command
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'reset;' + this.solutionCommand
+      );
       this.hideGoal();
       command.setResult('Solution command added to the command queue...');
-
-      // start that process...
-      whenClosed.resolve();
     }, this))
     .fail(function() {
       command.setResult("Great! I'll let you get back to it");
-
-      var whenClosed = Q.defer();
-      whenClosed.promise
-      .then(function() {
-        return Q.delay(700);
-      })
-      .then(function() {
-        command.finishWith(defer);
-      })
-      .done();
-
-      whenClosed.resolve();
     })
     .done(function() {
-      confirmView.close();
+     // either way we animate, so both options can share this logic
+     setTimeout(function() {
+        command.finishWith(deferred);
+      }, confirmView.getAnimationTime());
     });
   },
 
