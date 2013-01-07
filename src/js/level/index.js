@@ -14,7 +14,6 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
-var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
@@ -42,6 +41,28 @@ var Level = Sandbox.extend({
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
+
+    this.handleOpen();
+  },
+
+  handleOpen: function() {
+    this.options.deferred = this.options.deferred || Q.defer();
+
+    // if there is a multiview in the beginning, open that
+    // and let it resolve our deferred
+    if (this.level.startDialog) {
+      new MultiView(_.extend(
+        {},
+        this.level.startDialog,
+        { deferred: this.options.deferred }
+      ));
+      return;
+    }
+
+    // otherwise, resolve after a 700 second delay
+    setTimeout(_.bind(function() {
+      this.options.deferred.resolve();
+    }, this), this.getAnimationTime() * 1.2);
   },
 
   initName: function(options) {

@@ -134,13 +134,17 @@ var Sandbox = Backbone.View.extend({
 
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
+    var whenLevelOpen = Q.defer();
     var Level = require('../level').Level;
+
     var currentLevel = new Level({
-      level: levelJSON
+      level: levelJSON,
+      deferred: whenLevelOpen
     });
-    setTimeout(function() {
+
+    whenLevelOpen.promise.then(function() {
       command.finishWith(deferred);
-    }, this.getAnimationTime());
+    });
   },
 
   exitLevel: function(command, deferred) {

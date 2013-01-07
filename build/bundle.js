@@ -4602,13 +4602,17 @@ var Sandbox = Backbone.View.extend({
 
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
+    var whenLevelOpen = Q.defer();
     var Level = require('../level').Level;
+
     var currentLevel = new Level({
-      level: levelJSON
+      level: levelJSON,
+      deferred: whenLevelOpen
     });
-    setTimeout(function() {
+
+    whenLevelOpen.promise.then(function() {
       command.finishWith(deferred);
-    }, this.getAnimationTime());
+    });
   },
 
   exitLevel: function(command, deferred) {
@@ -6444,7 +6448,6 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
-var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
@@ -6472,6 +6475,28 @@ var Level = Sandbox.extend({
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
+
+    this.handleOpen();
+  },
+
+  handleOpen: function() {
+    this.options.deferred = this.options.deferred || Q.defer();
+
+    // if there is a multiview in the beginning, open that
+    // and let it resolve our deferred
+    if (this.level.startDialog) {
+      new MultiView(_.extend(
+        {},
+        this.level.startDialog,
+        { deferred: this.options.deferred }
+      ));
+      return;
+    }
+
+    // otherwise, resolve after a 700 second delay
+    setTimeout(_.bind(function() {
+      this.options.deferred.resolve();
+    }, this), this.getAnimationTime() * 1.2);
   },
 
   initName: function(options) {
@@ -15488,6 +15513,9 @@ LevelArbiter.prototype.validateLevel = function(level) {
       throw new Error('I need this field for a level: ' + field);
     }
   });
+  if (this.levelMap[level.id]) {
+    throw new Error('woah that level already exists!');
+  }
 };
 
 LevelArbiter.prototype.getSequences = function() {
@@ -15557,6 +15585,19 @@ exports.sequenceInfo = {
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   id: 'intro1',
   name: 'Introduction #1',
+  startDialog: {
+    childViews: [{
+      type: 'GitDemonstrationView',
+      options: {
+        beforeMarkdowns: [
+          '## Committing in Git',
+          '',
+          'This is whats up with ```git commit```'
+        ],
+        command: 'git commit'
+      }
+    }]
+  },
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
   hint: 'Try checking out a branch named after Charlie Sheen'
@@ -15566,7 +15607,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 });
 
 require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
+  id: 'intro2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15577,7 +15618,7 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
 });
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
+  id: 'rebase1',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15588,7 +15629,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 });
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
+  id: 'rebase2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15729,17 +15770,17 @@ var SeriesView = BaseView.extend({
     // this is a bit hacky, it really should be some nice model
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
-      var id = el.id;
+      var id = $(el).attr('data-id');
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },
 
   click: function(ev) {
-    if (!ev || !ev.srcElement || !ev.srcElement.id) {
+    if (!ev || !ev.srcElement) {
       console.warn('wut, no id'); return;
     }
 
-    var id = ev.srcElement.id;
+    var id = $(ev.srcElement).attr('data-id');
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -18722,6 +18763,9 @@ LevelArbiter.prototype.validateLevel = function(level) {
       throw new Error('I need this field for a level: ' + field);
     }
   });
+  if (this.levelMap[level.id]) {
+    throw new Error('woah that level already exists!');
+  }
 };
 
 LevelArbiter.prototype.getSequences = function() {
@@ -18851,7 +18895,6 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
-var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
@@ -18879,6 +18922,28 @@ var Level = Sandbox.extend({
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
+
+    this.handleOpen();
+  },
+
+  handleOpen: function() {
+    this.options.deferred = this.options.deferred || Q.defer();
+
+    // if there is a multiview in the beginning, open that
+    // and let it resolve our deferred
+    if (this.level.startDialog) {
+      new MultiView(_.extend(
+        {},
+        this.level.startDialog,
+        { deferred: this.options.deferred }
+      ));
+      return;
+    }
+
+    // otherwise, resolve after a 700 second delay
+    setTimeout(_.bind(function() {
+      this.options.deferred.resolve();
+    }, this), this.getAnimationTime() * 1.2);
   },
 
   initName: function(options) {
@@ -19457,13 +19522,17 @@ var Sandbox = Backbone.View.extend({
 
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
+    var whenLevelOpen = Q.defer();
     var Level = require('../level').Level;
+
     var currentLevel = new Level({
-      level: levelJSON
+      level: levelJSON,
+      deferred: whenLevelOpen
     });
-    setTimeout(function() {
+
+    whenLevelOpen.promise.then(function() {
       command.finishWith(deferred);
-    }, this.getAnimationTime());
+    });
   },
 
   exitLevel: function(command, deferred) {
@@ -21617,17 +21686,17 @@ var SeriesView = BaseView.extend({
     // this is a bit hacky, it really should be some nice model
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
-      var id = el.id;
+      var id = $(el).attr('data-id');
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },
 
   click: function(ev) {
-    if (!ev || !ev.srcElement || !ev.srcElement.id) {
+    if (!ev || !ev.srcElement) {
       console.warn('wut, no id'); return;
     }
 
-    var id = ev.srcElement.id;
+    var id = $(ev.srcElement).attr('data-id');
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -24469,6 +24538,19 @@ require("/src/levels/index.js");
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   id: 'intro1',
   name: 'Introduction #1',
+  startDialog: {
+    childViews: [{
+      type: 'GitDemonstrationView',
+      options: {
+        beforeMarkdowns: [
+          '## Committing in Git',
+          '',
+          'This is whats up with ```git commit```'
+        ],
+        command: 'git commit'
+      }
+    }]
+  },
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
   hint: 'Try checking out a branch named after Charlie Sheen'
@@ -24479,7 +24561,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 require("/src/levels/intro/1.js");
 
 require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
+  id: 'intro2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -24491,7 +24573,7 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
 require("/src/levels/intro/2.js");
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
+  id: 'rebase1',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -24503,7 +24585,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 require("/src/levels/rebase/1.js");
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
+  id: 'rebase2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',

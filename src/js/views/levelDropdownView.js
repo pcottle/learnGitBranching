@@ -129,17 +129,17 @@ var SeriesView = BaseView.extend({
     // this is a bit hacky, it really should be some nice model
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
-      var id = el.id;
+      var id = $(el).attr('data-id');
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },
 
   click: function(ev) {
-    if (!ev || !ev.srcElement || !ev.srcElement.id) {
+    if (!ev || !ev.srcElement) {
       console.warn('wut, no id'); return;
     }
 
-    var id = ev.srcElement.id;
+    var id = $(ev.srcElement).attr('data-id');
     this.navEvents.trigger('clickedID', id);
   }
 });

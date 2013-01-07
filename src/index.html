@@ -191,10 +191,10 @@
     </p>
     <div class="iconHolder box horizontal">
       <% for (var i = 0; i < ids.length; i++) { %>
-        <div class="levelIcon box center centerAlign vertical" id="<%=ids[i]%>">
-          <div class="index box" id="<%=ids[i]%>">
+        <div class="levelIcon box center centerAlign vertical" data-id="<%=ids[i]%>">
+          <div class="index box" data-id="<%=ids[i]%>">
             <i class="icon-ok-circle"></i>
-            <div class="indexNum">
+            <div class="indexNum" data-id="<%=ids[i]%>">
               <%= i + 1 %>
             </div>
           </div>

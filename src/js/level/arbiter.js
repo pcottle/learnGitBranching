@@ -84,6 +84,9 @@ LevelArbiter.prototype.validateLevel = function(level) {
       throw new Error('I need this field for a level: ' + field);
     }
   });
+  if (this.levelMap[level.id]) {
+    throw new Error('woah that level already exists!');
+  }
 };
 
 LevelArbiter.prototype.getSequences = function() {
