@@ -1,8 +1,10 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] levels dropdown selection?
-
 [ ] level builder? :OOO
+    * basically just an extension of level (or sandbox), that has commands like
+      ```save tree beginning``` or ```save tree goal``` and then a final
+      dialog typing area thingy
 
 
 Medium things:

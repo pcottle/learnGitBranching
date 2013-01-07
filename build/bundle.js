@@ -19739,7 +19739,8 @@ var toGlobalize = {
   VisBranch: require('../visuals/visBranch'),
   Level: require('../level'),
   Sandbox: require('../level/sandbox'),
-  GitDemonstrationView: require('../views/gitDemonstrationView')
+  GitDemonstrationView: require('../views/gitDemonstrationView'),
+  Markdown: require('markdown')
 };
 
 _.each(toGlobalize, function(module) {
@@ -21225,6 +21226,10 @@ exports.NextLevelConfirm = NextLevelConfirm;
 
 });
 require("/src/js/views/index.js");
+
+require.define("/src/js/views/levelDropdown.js",function(require,module,exports,__dirname,__filename,process,global){
+});
+require("/src/js/views/levelDropdown.js");
 
 require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');

@@ -13,6 +13,12 @@ html, body {
   color: #eee;
 }
 
+code {
+  background: grey;
+  padding: 4px;
+  border: 1px solid black;
+}
+
 p {
   word-wrap: break-word;
 }

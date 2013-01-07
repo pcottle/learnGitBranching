@@ -20,7 +20,8 @@ var toGlobalize = {
   VisBranch: require('../visuals/visBranch'),
   Level: require('../level'),
   Sandbox: require('../level/sandbox'),
-  GitDemonstrationView: require('../views/gitDemonstrationView')
+  GitDemonstrationView: require('../views/gitDemonstrationView'),
+  Markdown: require('markdown')
 };
 
 _.each(toGlobalize, function(module) {
