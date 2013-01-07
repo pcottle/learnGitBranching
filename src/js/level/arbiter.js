@@ -6,11 +6,15 @@ var Backbone = require('backbone');
 var levelSequences = require('../levels').levelSequences;
 var sequenceInfo = require('../levels').sequenceInfo;
 
+var Main = require('../app');
+
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
   // TODO -- local storage sync
   this.solvedMap = {};
+
+  Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
 
 LevelArbiter.prototype.init = function() {
@@ -42,8 +46,11 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  console.log('is it solved', id);
   return Boolean(this.solvedMap[id]);
+};
+
+LevelArbiter.prototype.levelSolved = function(id) {
+  this.solvedMap[id] = true;
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {

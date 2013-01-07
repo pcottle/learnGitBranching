@@ -20,6 +20,8 @@ var LevelDropdownView = ContainedBase.extend({
     options = options || {};
     this.JSON = {};
 
+    Main.getEvents().on('levelSolved', this.updateSolvedStatus, this);
+
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       _.bind(this.loadLevelID, this),
@@ -37,6 +39,20 @@ var LevelDropdownView = ContainedBase.extend({
     if (!options.wait) {
       this.show();
     }
+  },
+
+  show: function(deferred) {
+    this.showDeferred = deferred;
+    LevelDropdownView.__super__.show.apply(this);
+  },
+
+  hide: function() {
+    if (this.showDeferred) {
+      this.showDeferred.resolve();
+    }
+    this.showDeferred = undefined;
+
+    LevelDropdownView.__super__.hide.apply(this);
   },
 
   loadLevelID: function(id) {
@@ -105,8 +121,6 @@ var SeriesView = BaseView.extend({
   },
 
   click: function(ev) {
-    console.log(ev.srcElement);
-    console.log(ev.srcElement.id);
     if (!ev || !ev.srcElement || !ev.srcElement.id) {
       console.warn('wut, no id'); return;
     }

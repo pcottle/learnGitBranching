@@ -1,6 +1,7 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] levels dropdown selection?
+[ ] local storage for solved map
+[ ] hookup for when solving happens
 [ ] level builder? :OOO
     * basically just an extension of level (or sandbox), that has commands like
       ```save tree beginning``` or ```save tree goal``` and then a final
@@ -34,6 +35,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] levels dropdown selection?
 [x] git demonstration view -- shouldnt be too bad. LOL WHAT A FUCKING JOKE like 4 hours
 [x] gotoSandbox command
 [x] "next level?" dialog after beating level

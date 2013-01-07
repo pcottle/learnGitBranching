@@ -12,6 +12,7 @@ var commandUI;
 var sandbox;
 var eventBaton;
 var levelArbiter;
+var levelDropdown;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -29,11 +30,15 @@ var init = function() {
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;
+  var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
   levelArbiter = new LevelArbiter();
+  levelDropdown = new LevelDropdownView({
+    wait: true
+  });
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -145,6 +150,10 @@ exports.getCommandUI = function() {
 
 exports.getLevelArbiter = function() {
   return levelArbiter;
+};
+
+exports.getLevelDropdown = function() {
+  return levelDropdown;
 };
 
 exports.init = init;

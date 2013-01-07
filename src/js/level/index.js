@@ -258,6 +258,7 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+    Main.getEvents().trigger('levelSolved', this.level.id);
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);

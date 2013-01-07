@@ -43,7 +43,8 @@ var regexMap = {
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
   'sandbox': /^sandbox($|\s)/,
-  'level': /^level\s?([a-zA-Z0-9]*)/
+  'level': /^level\s?([a-zA-Z0-9]*)/,
+  'levels': /^levels($|\s)/
 };
 
 var parse = function(str) {

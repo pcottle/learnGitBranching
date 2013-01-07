@@ -4617,6 +4617,14 @@ var Sandbox = Backbone.View.extend({
     deferred.resolve();
   },
 
+  showLevels: function(command, deferred) {
+    var whenClosed = Q.defer();
+    Main.getLevelDropdown().show(whenClosed);
+    whenClosed.promise.done(function() {
+      command.finishWith(deferred);
+    });
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       'help': this.helpDialog,
@@ -4625,7 +4633,8 @@ var Sandbox = Backbone.View.extend({
       'clear': this.clear,
       'exit level': this.exitLevel,
       'level': this.startLevel,
-      'sandbox': this.exitLevel
+      'sandbox': this.exitLevel,
+      'levels': this.showLevels
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -6268,6 +6277,7 @@ var commandUI;
 var sandbox;
 var eventBaton;
 var levelArbiter;
+var levelDropdown;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -6285,11 +6295,15 @@ var init = function() {
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;
+  var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
   levelArbiter = new LevelArbiter();
+  levelDropdown = new LevelDropdownView({
+    wait: true
+  });
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -6401,6 +6415,10 @@ exports.getCommandUI = function() {
 
 exports.getLevelArbiter = function() {
   return levelArbiter;
+};
+
+exports.getLevelDropdown = function() {
+  return levelDropdown;
 };
 
 exports.init = init;
@@ -6668,6 +6686,7 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+    Main.getEvents().trigger('levelSolved', this.level.id);
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
@@ -12784,7 +12803,8 @@ var regexMap = {
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
   'sandbox': /^sandbox($|\s)/,
-  'level': /^level\s?([a-zA-Z0-9]*)/
+  'level': /^level\s?([a-zA-Z0-9]*)/,
+  'levels': /^levels($|\s)/
 };
 
 var parse = function(str) {
@@ -15390,11 +15410,15 @@ var Backbone = require('backbone');
 var levelSequences = require('../levels').levelSequences;
 var sequenceInfo = require('../levels').sequenceInfo;
 
+var Main = require('../app');
+
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
   // TODO -- local storage sync
   this.solvedMap = {};
+
+  Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
 
 LevelArbiter.prototype.init = function() {
@@ -15426,8 +15450,11 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  console.log('is it solved', id);
   return Boolean(this.solvedMap[id]);
+};
+
+LevelArbiter.prototype.levelSolved = function(id) {
+  this.solvedMap[id] = true;
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {
@@ -15555,6 +15582,143 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
   solutionCommand: 'git checkout -b win; git commit',
   hint: 'Try checking out a branch named after Charlie Sheen'
 };
+
+
+});
+
+require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Main = require('../app');
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var BaseView = require('../views').BaseView;
+
+var LevelDropdownView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'levelDropdownView box vertical',
+  template: _.template($('#level-dropdown-view').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {};
+
+    Main.getEvents().on('levelSolved', this.updateSolvedStatus, this);
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('clickedID', _.debounce(
+      _.bind(this.loadLevelID, this),
+      300,
+      true
+    ));
+
+    this.sequences = Main.getLevelArbiter().getSequences();
+    this.container = new ModalTerminal({
+      title: 'Select a Level'
+    });
+    this.render();
+    this.buildSequences();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  show: function(deferred) {
+    this.showDeferred = deferred;
+    LevelDropdownView.__super__.show.apply(this);
+  },
+
+  hide: function() {
+    if (this.showDeferred) {
+      this.showDeferred.resolve();
+    }
+    this.showDeferred = undefined;
+
+    LevelDropdownView.__super__.hide.apply(this);
+  },
+
+  loadLevelID: function(id) {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'level ' + id
+    );
+    this.hide();
+  },
+
+  updateSolvedStatus: function() {
+    _.each(this.seriesViews, function(view) {
+      view.updateSolvedStatus();
+    }, this);
+  },
+
+  buildSequences: function() {
+    this.seriesViews = [];
+    _.each(this.sequences, function(sequenceName) {
+      this.seriesViews.push(new SeriesView({
+        destination: this.$el,
+        name: sequenceName,
+        navEvents: this.navEvents
+      }));
+    }, this);
+  }
+});
+
+var SeriesView = BaseView.extend({
+  tagName: 'div',
+  className: 'seriesView box flex1 vertical',
+  template: _.template($('#series-view').html()),
+  events: {
+    'click div.levelIcon': 'click'
+  },
+
+  initialize: function(options) {
+    this.name = options.name || 'intro';
+    this.navEvents = options.navEvents;
+    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
+    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
+
+    this.levelIDs = [];
+    _.each(this.levels, function(level) {
+      this.levelIDs.push(level.id);
+    }, this);
+
+    this.destination = options.destination;
+    this.JSON = {
+      displayName: this.info.displayName,
+      about: this.info.about,
+      ids: this.levelIDs
+    };
+
+    this.render();
+    this.updateSolvedStatus();
+  },
+
+  updateSolvedStatus: function() {
+    // this is a bit hacky, it really should be some nice model
+    // property changing but it's the 11th hour...
+    var toLoop = this.$('div.levelIcon').each(function(index, el) {
+      var id = el.id;
+      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+    });
+  },
+
+  click: function(ev) {
+    if (!ev || !ev.srcElement || !ev.srcElement.id) {
+      console.warn('wut, no id'); return;
+    }
+
+    var id = ev.srcElement.id;
+    this.navEvents.trigger('clickedID', id);
+  }
+});
+
+exports.LevelDropdownView = LevelDropdownView;
 
 
 });
@@ -16085,129 +16249,6 @@ exports.HeadlessGit = HeadlessGit;
 
 });
 
-require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var util = require('../util');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var Main = require('../app');
-
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var BaseView = require('../views').BaseView;
-
-var LevelDropdownView = ContainedBase.extend({
-  tagName: 'div',
-  className: 'levelDropdownView box vertical',
-  template: _.template($('#level-dropdown-view').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {};
-
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('clickedID', _.debounce(
-      _.bind(this.loadLevelID, this),
-      300,
-      true
-    ));
-
-    this.sequences = Main.getLevelArbiter().getSequences();
-    this.container = new ModalTerminal({
-      title: 'Select a Level'
-    });
-    this.render();
-    this.buildSequences();
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  loadLevelID: function(id) {
-    Main.getEventBaton().trigger(
-      'commandSubmitted',
-      'level ' + id
-    );
-    this.hide();
-  },
-
-  updateSolvedStatus: function() {
-    _.each(this.seriesViews, function(view) {
-      view.updateSolvedStatus();
-    }, this);
-  },
-
-  buildSequences: function() {
-    this.seriesViews = [];
-    _.each(this.sequences, function(sequenceName) {
-      this.seriesViews.push(new SeriesView({
-        destination: this.$el,
-        name: sequenceName,
-        navEvents: this.navEvents
-      }));
-    }, this);
-  }
-});
-
-var SeriesView = BaseView.extend({
-  tagName: 'div',
-  className: 'seriesView box flex1 vertical',
-  template: _.template($('#series-view').html()),
-  events: {
-    'click div.levelIcon': 'click'
-  },
-
-  initialize: function(options) {
-    this.name = options.name || 'intro';
-    this.navEvents = options.navEvents;
-    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
-    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
-
-    this.levelIDs = [];
-    _.each(this.levels, function(level) {
-      this.levelIDs.push(level.id);
-    }, this);
-
-    this.destination = options.destination;
-    this.JSON = {
-      displayName: this.info.displayName,
-      about: this.info.about,
-      ids: this.levelIDs
-    };
-
-    this.render();
-    this.updateSolvedStatus();
-  },
-
-  updateSolvedStatus: function() {
-    // this is a bit hacky, it really should be some nice model
-    // property changing but it's the 11th hour...
-    var toLoop = this.$('div.levelIcon').each(function(index, el) {
-      var id = el.id;
-      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
-    });
-  },
-
-  click: function(ev) {
-    console.log(ev.srcElement);
-    console.log(ev.srcElement.id);
-    if (!ev || !ev.srcElement || !ev.srcElement.id) {
-      console.warn('wut, no id'); return;
-    }
-
-    var id = ev.srcElement.id;
-    this.navEvents.trigger('clickedID', id);
-  }
-});
-
-exports.LevelDropdownView = LevelDropdownView;
-
-
-});
-
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -16222,6 +16263,7 @@ var commandUI;
 var sandbox;
 var eventBaton;
 var levelArbiter;
+var levelDropdown;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -16239,11 +16281,15 @@ var init = function() {
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;
+  var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
   levelArbiter = new LevelArbiter();
+  levelDropdown = new LevelDropdownView({
+    wait: true
+  });
 
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
@@ -16355,6 +16401,10 @@ exports.getCommandUI = function() {
 
 exports.getLevelArbiter = function() {
   return levelArbiter;
+};
+
+exports.getLevelDropdown = function() {
+  return levelDropdown;
 };
 
 exports.init = init;
@@ -18569,11 +18619,15 @@ var Backbone = require('backbone');
 var levelSequences = require('../levels').levelSequences;
 var sequenceInfo = require('../levels').sequenceInfo;
 
+var Main = require('../app');
+
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
   // TODO -- local storage sync
   this.solvedMap = {};
+
+  Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
 
 LevelArbiter.prototype.init = function() {
@@ -18605,8 +18659,11 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  console.log('is it solved', id);
   return Boolean(this.solvedMap[id]);
+};
+
+LevelArbiter.prototype.levelSolved = function(id) {
+  this.solvedMap[id] = true;
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {
@@ -19001,6 +19058,7 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+    Main.getEvents().trigger('levelSolved', this.level.id);
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
@@ -19377,6 +19435,14 @@ var Sandbox = Backbone.View.extend({
     deferred.resolve();
   },
 
+  showLevels: function(command, deferred) {
+    var whenClosed = Q.defer();
+    Main.getLevelDropdown().show(whenClosed);
+    whenClosed.promise.done(function() {
+      command.finishWith(deferred);
+    });
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       'help': this.helpDialog,
@@ -19385,7 +19451,8 @@ var Sandbox = Backbone.View.extend({
       'clear': this.clear,
       'exit level': this.exitLevel,
       'level': this.startLevel,
-      'sandbox': this.exitLevel
+      'sandbox': this.exitLevel,
+      'levels': this.showLevels
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
@@ -19489,7 +19556,8 @@ var regexMap = {
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
   'sandbox': /^sandbox($|\s)/,
-  'level': /^level\s?([a-zA-Z0-9]*)/
+  'level': /^level\s?([a-zA-Z0-9]*)/,
+  'levels': /^levels($|\s)/
 };
 
 var parse = function(str) {
@@ -19909,6 +19977,7 @@ $(document).ready(function() {
   window.eventBaton = toGlobalize.Main.getEventBaton();
   window.sandbox = toGlobalize.Main.getSandbox();
   window.modules = toGlobalize;
+  window.levelDropdown = toGlobalize.Main.getLevelDropdown();
 });
 
 
@@ -21403,6 +21472,8 @@ var LevelDropdownView = ContainedBase.extend({
     options = options || {};
     this.JSON = {};
 
+    Main.getEvents().on('levelSolved', this.updateSolvedStatus, this);
+
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       _.bind(this.loadLevelID, this),
@@ -21420,6 +21491,20 @@ var LevelDropdownView = ContainedBase.extend({
     if (!options.wait) {
       this.show();
     }
+  },
+
+  show: function(deferred) {
+    this.showDeferred = deferred;
+    LevelDropdownView.__super__.show.apply(this);
+  },
+
+  hide: function() {
+    if (this.showDeferred) {
+      this.showDeferred.resolve();
+    }
+    this.showDeferred = undefined;
+
+    LevelDropdownView.__super__.hide.apply(this);
   },
 
   loadLevelID: function(id) {
@@ -21488,8 +21573,6 @@ var SeriesView = BaseView.extend({
   },
 
   click: function(ev) {
-    console.log(ev.srcElement);
-    console.log(ev.srcElement.id);
     if (!ev || !ev.srcElement || !ev.srcElement.id) {
       console.warn('wut, no id'); return;
     }

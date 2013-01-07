@@ -34,5 +34,6 @@ $(document).ready(function() {
   window.eventBaton = toGlobalize.Main.getEventBaton();
   window.sandbox = toGlobalize.Main.getSandbox();
   window.modules = toGlobalize;
+  window.levelDropdown = toGlobalize.Main.getLevelDropdown();
 });
 

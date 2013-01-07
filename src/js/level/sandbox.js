@@ -149,6 +149,14 @@ var Sandbox = Backbone.View.extend({
     deferred.resolve();
   },
 
+  showLevels: function(command, deferred) {
+    var whenClosed = Q.defer();
+    Main.getLevelDropdown().show(whenClosed);
+    whenClosed.promise.done(function() {
+      command.finishWith(deferred);
+    });
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       'help': this.helpDialog,
@@ -157,7 +165,8 @@ var Sandbox = Backbone.View.extend({
       'clear': this.clear,
       'exit level': this.exitLevel,
       'level': this.startLevel,
-      'sandbox': this.exitLevel
+      'sandbox': this.exitLevel,
+      'levels': this.showLevels
     };
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
