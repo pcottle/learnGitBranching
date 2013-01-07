@@ -556,6 +556,86 @@ li.rebaseEntry.notPicked {
   -webkit-transform: translate3d(0,0,0);
 }
 
+/* Level dropdown view */
+.levelDropdownView {
+}
+
+div.displayName {
+  border-bottom: 1px dashed grey;
+  text-align: center;
+}
+
+div.displayName h3 {
+  margin: 4px;
+}
+
+div.iconHolder {
+}
+
+div.seriesView p.about {
+  margin: 0px;
+  padding: 4px;
+  font-size: 10px;
+  color: #CCC;
+}
+
+div.levelIcon {
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  margin: 10px 20px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+  background-image: -webkit-linear-gradient(top, white, #AAB1AA);
+  cursor: pointer;
+}
+
+div.levelIcon:hover {
+  background-image: -webkit-linear-gradient(top, #DADADA, #888686);
+}
+
+div.levelIcon:active {
+  background-image: -webkit-linear-gradient(top, #888686, #7A7A7A)
+}
+
+div.levelIcon.solved {
+  background: -webkit-gradient(linear, left top, left bottom, from(#F3F86B), to(#35A30F));
+  border-top: 1px solid #f4ffa1;
+}
+
+div.levelIcon.solved:hover {
+  border-top-color: #30f03d;
+  background: #30f03d;
+}
+
+div.levelIcon.solved:active {
+  border-top-color: #5edb15;
+  background: #5edb15;
+}
+
+div.levelIcon div.index {
+  font-weight: 400;
+  text-shadow: 1px 1px 2px #CCC, 0 2px 0 #C9C9C9;
+  font-size: 20px;
+  color: #333;
+  -webkit-text-stroke: 1px #111;
+}
+
+div.levelIcon div.index i {
+  display: none;
+}
+
+div.levelIcon.solved div.index i {
+  display: block;
+  color: white;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  font-size: 30px;
+}
+
+div.levelIcon.solved div.index div.indexNum {
+  display: none;
+}
+
 /* Git demonstration view */
 
 .gitDemonstrationView > div.demonstrationText {

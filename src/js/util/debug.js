@@ -21,7 +21,8 @@ var toGlobalize = {
   Level: require('../level'),
   Sandbox: require('../level/sandbox'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
-  Markdown: require('markdown')
+  Markdown: require('markdown'),
+  LevelDropdownView: require('../views/levelDropdownView')
 };
 
 _.each(toGlobalize, function(module) {

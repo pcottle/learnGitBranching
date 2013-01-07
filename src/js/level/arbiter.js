@@ -9,15 +9,21 @@ var sequenceInfo = require('../levels').sequenceInfo;
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
+  // TODO -- local storage sync
+  this.solvedMap = {};
 }
 
 LevelArbiter.prototype.init = function() {
   var previousLevelID;
   _.each(levelSequences, function(levels, levelSequenceName) {
     // for this particular sequence...
-    _.each(levels, function(level) {
+    _.each(levels, function(level, index) {
       this.validateLevel(level);
-      this.levelMap[level.id] = level;
+      this.levelMap[level.id] = _.extend(
+        {},
+        { index: index },
+        level
+      );
 
       // build up the chaining between levels
       if (previousLevelID) {
@@ -26,6 +32,18 @@ LevelArbiter.prototype.init = function() {
       previousLevelID = level.id;
     }, this);
   }, this);
+};
+
+LevelArbiter.prototype.getSolvedMap = function() {
+  return this.solvedMap;
+};
+
+LevelArbiter.prototype.isLevelSolved = function(id) {
+  if (!this.levelMap[id]) {
+    throw new Error('that level doesnt exist!');
+  }
+  console.log('is it solved', id);
+  return Boolean(this.solvedMap[id]);
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {

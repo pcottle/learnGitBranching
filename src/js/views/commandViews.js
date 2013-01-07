@@ -206,10 +206,6 @@ var CommandPromptView = Backbone.View.extend({
       ((value.length && this.index !== -1 &&
       this.commands.toArray()[this.index].get('text') !== value));
 
-    if (this.index !== -1) {
-      console.log(this.commands.toArray()[this.index]);
-    }
-
     if (!shouldAdd) {
       return;
     }

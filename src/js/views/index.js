@@ -523,6 +523,7 @@ var CanvasTerminalHolder = BaseView.extend({
   }
 });
 
+exports.BaseView = BaseView;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;

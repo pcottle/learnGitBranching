@@ -179,6 +179,30 @@
     </div>
   </script>
 
+  <script type="text/html" id="level-dropdown-view">
+  </script>
+
+  <script type="text/html" id="series-view">
+    <div class="displayName">
+      <h3> <%= displayName %> </h3>
+    </div>
+    <p class="about">
+      <%= about %>
+    </p>
+    <div class="iconHolder box horizontal">
+      <% for (var i = 0; i < ids.length; i++) { %>
+        <div class="levelIcon box center centerAlign vertical" id="<%=ids[i]%>">
+          <div class="index box" id="<%=ids[i]%>">
+            <i class="icon-ok-circle"></i>
+            <div class="indexNum">
+              <%= i %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </script>
+
   <script type="text/html" id="git-demonstration-view">
     <div class="demonstrationText box vertical">
       <div class="beforeText box flex1 vertical center">

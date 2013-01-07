@@ -10026,6 +10026,7 @@ var CanvasTerminalHolder = BaseView.extend({
   }
 });
 
+exports.BaseView = BaseView;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
@@ -15392,15 +15393,21 @@ var sequenceInfo = require('../levels').sequenceInfo;
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
+  // TODO -- local storage sync
+  this.solvedMap = {};
 }
 
 LevelArbiter.prototype.init = function() {
   var previousLevelID;
   _.each(levelSequences, function(levels, levelSequenceName) {
     // for this particular sequence...
-    _.each(levels, function(level) {
+    _.each(levels, function(level, index) {
       this.validateLevel(level);
-      this.levelMap[level.id] = level;
+      this.levelMap[level.id] = _.extend(
+        {},
+        { index: index },
+        level
+      );
 
       // build up the chaining between levels
       if (previousLevelID) {
@@ -15409,6 +15416,18 @@ LevelArbiter.prototype.init = function() {
       previousLevelID = level.id;
     }, this);
   }, this);
+};
+
+LevelArbiter.prototype.getSolvedMap = function() {
+  return this.solvedMap;
+};
+
+LevelArbiter.prototype.isLevelSolved = function(id) {
+  if (!this.levelMap[id]) {
+    throw new Error('that level doesnt exist!');
+  }
+  console.log('is it solved', id);
+  return Boolean(this.solvedMap[id]);
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {
@@ -15484,11 +15503,11 @@ exports.levelSequences = {
 // there are also cute names and such for sequences
 exports.sequenceInfo = {
   intro: {
-    name: 'Introduction Sequence',
+    displayName: 'Introduction Sequence',
     about: 'A nicely paced introduction to the majority of git commands'
   },
   rebase: {
-    name: 'Master the Rebase Luke!',
+    displayName: 'Master the Rebase Luke!',
     about: 'What is this whole rebase hotness everyone is talking about? Find out!'
   }
 };
@@ -15800,10 +15819,6 @@ var CommandPromptView = Backbone.View.extend({
       ((value.length && this.index !== -1 &&
       this.commands.toArray()[this.index].get('text') !== value));
 
-    if (this.index !== -1) {
-      console.log(this.commands.toArray()[this.index]);
-    }
-
     if (!shouldAdd) {
       return;
     }
@@ -16066,6 +16081,129 @@ HeadlessGit.prototype.sendCommand = function(value) {
 };
 
 exports.HeadlessGit = HeadlessGit;
+
+
+});
+
+require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Main = require('../app');
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var BaseView = require('../views').BaseView;
+
+var LevelDropdownView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'levelDropdownView box vertical',
+  template: _.template($('#level-dropdown-view').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {};
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('clickedID', _.debounce(
+      _.bind(this.loadLevelID, this),
+      300,
+      true
+    ));
+
+    this.sequences = Main.getLevelArbiter().getSequences();
+    this.container = new ModalTerminal({
+      title: 'Select a Level'
+    });
+    this.render();
+    this.buildSequences();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  loadLevelID: function(id) {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'level ' + id
+    );
+    this.hide();
+  },
+
+  updateSolvedStatus: function() {
+    _.each(this.seriesViews, function(view) {
+      view.updateSolvedStatus();
+    }, this);
+  },
+
+  buildSequences: function() {
+    this.seriesViews = [];
+    _.each(this.sequences, function(sequenceName) {
+      this.seriesViews.push(new SeriesView({
+        destination: this.$el,
+        name: sequenceName,
+        navEvents: this.navEvents
+      }));
+    }, this);
+  }
+});
+
+var SeriesView = BaseView.extend({
+  tagName: 'div',
+  className: 'seriesView box flex1 vertical',
+  template: _.template($('#series-view').html()),
+  events: {
+    'click div.levelIcon': 'click'
+  },
+
+  initialize: function(options) {
+    this.name = options.name || 'intro';
+    this.navEvents = options.navEvents;
+    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
+    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
+
+    this.levelIDs = [];
+    _.each(this.levels, function(level) {
+      this.levelIDs.push(level.id);
+    }, this);
+
+    this.destination = options.destination;
+    this.JSON = {
+      displayName: this.info.displayName,
+      about: this.info.about,
+      ids: this.levelIDs
+    };
+
+    this.render();
+    this.updateSolvedStatus();
+  },
+
+  updateSolvedStatus: function() {
+    // this is a bit hacky, it really should be some nice model
+    // property changing but it's the 11th hour...
+    var toLoop = this.$('div.levelIcon').each(function(index, el) {
+      var id = el.id;
+      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+    });
+  },
+
+  click: function(ev) {
+    console.log(ev.srcElement);
+    console.log(ev.srcElement.id);
+    if (!ev || !ev.srcElement || !ev.srcElement.id) {
+      console.warn('wut, no id'); return;
+    }
+
+    var id = ev.srcElement.id;
+    this.navEvents.trigger('clickedID', id);
+  }
+});
+
+exports.LevelDropdownView = LevelDropdownView;
 
 
 });
@@ -18434,15 +18572,21 @@ var sequenceInfo = require('../levels').sequenceInfo;
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
+  // TODO -- local storage sync
+  this.solvedMap = {};
 }
 
 LevelArbiter.prototype.init = function() {
   var previousLevelID;
   _.each(levelSequences, function(levels, levelSequenceName) {
     // for this particular sequence...
-    _.each(levels, function(level) {
+    _.each(levels, function(level, index) {
       this.validateLevel(level);
-      this.levelMap[level.id] = level;
+      this.levelMap[level.id] = _.extend(
+        {},
+        { index: index },
+        level
+      );
 
       // build up the chaining between levels
       if (previousLevelID) {
@@ -18451,6 +18595,18 @@ LevelArbiter.prototype.init = function() {
       previousLevelID = level.id;
     }, this);
   }, this);
+};
+
+LevelArbiter.prototype.getSolvedMap = function() {
+  return this.solvedMap;
+};
+
+LevelArbiter.prototype.isLevelSolved = function(id) {
+  if (!this.levelMap[id]) {
+    throw new Error('that level doesnt exist!');
+  }
+  console.log('is it solved', id);
+  return Boolean(this.solvedMap[id]);
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {
@@ -19740,7 +19896,8 @@ var toGlobalize = {
   Level: require('../level'),
   Sandbox: require('../level/sandbox'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
-  Markdown: require('markdown')
+  Markdown: require('markdown'),
+  LevelDropdownView: require('../views/levelDropdownView')
 };
 
 _.each(toGlobalize, function(module) {
@@ -20305,10 +20462,6 @@ var CommandPromptView = Backbone.View.extend({
     var shouldAdd = (value.length && this.index === -1) ||
       ((value.length && this.index !== -1 &&
       this.commands.toArray()[this.index].get('text') !== value));
-
-    if (this.index !== -1) {
-      console.log(this.commands.toArray()[this.index]);
-    }
 
     if (!shouldAdd) {
       return;
@@ -21210,6 +21363,7 @@ var CanvasTerminalHolder = BaseView.extend({
   }
 });
 
+exports.BaseView = BaseView;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
@@ -21227,9 +21381,129 @@ exports.NextLevelConfirm = NextLevelConfirm;
 });
 require("/src/js/views/index.js");
 
-require.define("/src/js/views/levelDropdown.js",function(require,module,exports,__dirname,__filename,process,global){
+require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Main = require('../app');
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var BaseView = require('../views').BaseView;
+
+var LevelDropdownView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'levelDropdownView box vertical',
+  template: _.template($('#level-dropdown-view').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {};
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('clickedID', _.debounce(
+      _.bind(this.loadLevelID, this),
+      300,
+      true
+    ));
+
+    this.sequences = Main.getLevelArbiter().getSequences();
+    this.container = new ModalTerminal({
+      title: 'Select a Level'
+    });
+    this.render();
+    this.buildSequences();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  loadLevelID: function(id) {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'level ' + id
+    );
+    this.hide();
+  },
+
+  updateSolvedStatus: function() {
+    _.each(this.seriesViews, function(view) {
+      view.updateSolvedStatus();
+    }, this);
+  },
+
+  buildSequences: function() {
+    this.seriesViews = [];
+    _.each(this.sequences, function(sequenceName) {
+      this.seriesViews.push(new SeriesView({
+        destination: this.$el,
+        name: sequenceName,
+        navEvents: this.navEvents
+      }));
+    }, this);
+  }
 });
-require("/src/js/views/levelDropdown.js");
+
+var SeriesView = BaseView.extend({
+  tagName: 'div',
+  className: 'seriesView box flex1 vertical',
+  template: _.template($('#series-view').html()),
+  events: {
+    'click div.levelIcon': 'click'
+  },
+
+  initialize: function(options) {
+    this.name = options.name || 'intro';
+    this.navEvents = options.navEvents;
+    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
+    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
+
+    this.levelIDs = [];
+    _.each(this.levels, function(level) {
+      this.levelIDs.push(level.id);
+    }, this);
+
+    this.destination = options.destination;
+    this.JSON = {
+      displayName: this.info.displayName,
+      about: this.info.about,
+      ids: this.levelIDs
+    };
+
+    this.render();
+    this.updateSolvedStatus();
+  },
+
+  updateSolvedStatus: function() {
+    // this is a bit hacky, it really should be some nice model
+    // property changing but it's the 11th hour...
+    var toLoop = this.$('div.levelIcon').each(function(index, el) {
+      var id = el.id;
+      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+    });
+  },
+
+  click: function(ev) {
+    console.log(ev.srcElement);
+    console.log(ev.srcElement.id);
+    if (!ev || !ev.srcElement || !ev.srcElement.id) {
+      console.warn('wut, no id'); return;
+    }
+
+    var id = ev.srcElement.id;
+    this.navEvents.trigger('clickedID', id);
+  }
+});
+
+exports.LevelDropdownView = LevelDropdownView;
+
+
+});
+require("/src/js/views/levelDropdownView.js");
 
 require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
@@ -24046,11 +24320,11 @@ exports.levelSequences = {
 // there are also cute names and such for sequences
 exports.sequenceInfo = {
   intro: {
-    name: 'Introduction Sequence',
+    displayName: 'Introduction Sequence',
     about: 'A nicely paced introduction to the majority of git commands'
   },
   rebase: {
-    name: 'Master the Rebase Luke!',
+    displayName: 'Master the Rebase Luke!',
     about: 'What is this whole rebase hotness everyone is talking about? Find out!'
   }
 };
