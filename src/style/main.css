@@ -597,6 +597,10 @@ div.levelIcon:active {
   background-image: -webkit-linear-gradient(top, #888686, #7A7A7A)
 }
 
+div.levelIcon.selected {
+  box-shadow: 0 0 15px #25F6FF;
+}
+
 div.levelIcon.solved {
   background: -webkit-gradient(linear, left top, left bottom, from(#F3F86B), to(#35A30F));
   border-top: 1px solid #f4ffa1;

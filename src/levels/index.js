@@ -7,7 +7,8 @@ exports.levelSequences = {
   ],
   rebase: [
     require('../../levels/rebase/1').level,
-    require('../../levels/rebase/2').level
+    require('../../levels/rebase/2').level,
+    require('../../levels/rebase/3').level
   ]
 };
 

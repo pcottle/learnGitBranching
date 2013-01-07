@@ -89,6 +89,10 @@ LevelArbiter.prototype.validateLevel = function(level) {
   }
 };
 
+LevelArbiter.prototype.getSequenceToLevels = function() {
+  return levelSequences;
+};
+
 LevelArbiter.prototype.getSequences = function() {
   return _.keys(levelSequences);
 };

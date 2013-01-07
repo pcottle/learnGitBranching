@@ -13,7 +13,6 @@ Cases to handle / things to edit
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[x] optional multiview on start
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -22,16 +21,21 @@ Big Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] rebase bug... ugh
 
+Ideas for cleaning
+~~~~~~~~~~~~~
+- CSS... a ton. Switch to less
+
 /*************************************
  ** Publish Things **
  ************************************/
 - cross browser support... firefox only LULZ. should be just css right?
 - fix terminal input field in general
-- maybe have keyboard navigation for level selection?
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] keyboard navigation for level selector
+[x] optional multiview on start
 [x] local storage for solved map
 [x] what if they just type "levels" ?
 [x] hookup for when solving happens
