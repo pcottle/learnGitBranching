@@ -15441,14 +15441,14 @@ function LevelArbiter() {
   this.levelMap = {};
   this.init();
 
-  var solvedMap = {};
+  var solvedMap;
   try {
-    solvedMap = JSON.parse(localStorage.getItem('solvedMap'));
+    solvedMap = JSON.parse(localStorage.getItem('solvedMap') || '{}');
   } catch (e) {
     console.warn('local storage failed', e);
-    throw e;
+    // throw e;
   }
-  this.solvedMap = solvedMap;
+  this.solvedMap = solvedMap || {};
 
   Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
@@ -18859,14 +18859,14 @@ function LevelArbiter() {
   this.levelMap = {};
   this.init();
 
-  var solvedMap = {};
+  var solvedMap;
   try {
-    solvedMap = JSON.parse(localStorage.getItem('solvedMap'));
+    solvedMap = JSON.parse(localStorage.getItem('solvedMap') || '{}');
   } catch (e) {
     console.warn('local storage failed', e);
-    throw e;
+    // throw e;
   }
-  this.solvedMap = solvedMap;
+  this.solvedMap = solvedMap || {};
 
   Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
