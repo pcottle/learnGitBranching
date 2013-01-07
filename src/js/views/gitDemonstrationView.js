@@ -18,7 +18,7 @@ var GitDemonstrationView = ContainedBase.extend({
   template: _.template($('#git-demonstration-view').html()),
 
   events: {
-    'click div.command > a.uiButton': 'positive'
+    'click div.command > p.uiButton': 'positive'
   },
 
   initialize: function(options) {
@@ -55,22 +55,23 @@ var GitDemonstrationView = ContainedBase.extend({
 
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
       aliasMap: {
         enter: 'positive',
-        right: 'positive'
+        right: 'positive',
+        left: 'negative'
       },
       wait: true
     });
 
+    this.visFinished = false;
+    this.initVis();
+
     if (!options.wait) {
       this.show();
     }
-
-    // show the canvas once we slide down
-    this.visFinished = false;
-    setTimeout(_.bind(this.initVis, this), this.getAnimationTime());
   },
 
   takeControl: function() {
@@ -88,30 +89,70 @@ var GitDemonstrationView = ContainedBase.extend({
     this.mainVis.reset();
     this.demonstrated = false;
     this.$el.toggleClass('demonstrated', false);
+    this.$el.toggleClass('demonstrating', false);
   },
 
   positive: function() {
     if (this.demonstrated) {
       return;
     }
-
-    this.$el.toggleClass('demonstrated', true);
-    this.dispatchCommand(this.JSON.command);
     this.demonstrated = true;
-    this.releaseControl();
+
+    this.$el.toggleClass('demonstrating', true);
+
+    var whenDone = Q.defer();
+    this.dispatchCommand(this.JSON.command, whenDone);
+    whenDone.promise.then(_.bind(function() {
+      this.$el.toggleClass('demonstrating', false);
+      this.$el.toggleClass('demonstrated', true);
+      this.releaseControl();
+    }, this));
   },
 
-  dispatchCommand: function(value) {
+  negative: function(e) {
+    if (this.$el.hasClass('demonstrating')) {
+      return;
+    }
+    this.keyboardListener.passEventBack(e);
+  },
+
+  dispatchCommand: function(value, whenDone) {
+    var commands = [];
     util.splitTextCommand(value, function(commandStr) {
-      var command = new Command({
+      commands.push(new Command({
         rawStr: commandStr
-      });
-      this.mainVis.gitEngine.dispatch(command, Q.defer());
+      }));
     }, this);
+
+    var chainDeferred = Q.defer();
+    var chainPromise = chainDeferred.promise;
+
+    _.each(commands, function(command, index) {
+      chainPromise = chainPromise.then(_.bind(function() {
+        var myDefer = Q.defer();
+        this.mainVis.gitEngine.dispatch(command, myDefer);
+        return myDefer.promise;
+      }, this));
+      chainPromise = chainPromise.then(function() {
+        return Q.delay(300);
+      });
+    }, this);
+
+    chainPromise = chainPromise.then(function() {
+      whenDone.resolve();
+    });
+
+    chainDeferred.resolve();
+  },
+
+  tearDown: function() {
+    this.mainVis.tearDown();
+    GitDemonstrationView.__super__.tearDown.apply(this);
   },
 
   hide: function() {
     this.releaseControl();
+    this.reset();
     if (this.visFinished) {
       this.mainVis.setTreeIndex(-1);
       this.mainVis.setTreeOpacity(0);
@@ -148,10 +189,14 @@ var GitDemonstrationView = ContainedBase.extend({
       noKeyboardInput: true,
       noClick: true,
       smallCanvas: true,
-      zIndex: 300
+      zIndex: -1
     });
     this.mainVis.customEvents.on('paperReady', _.bind(function() {
       this.visFinished = true;
+      if (this.shown) {
+        // show the canvas once its done if we are shown
+        this.show();
+      }
     }, this));
   }
 });

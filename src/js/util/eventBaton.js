@@ -50,6 +50,13 @@ EventBaton.prototype.getListenersThrow = function(name) {
   return listeners;
 };
 
+EventBaton.prototype.passBatonBackSoft = function(name, func, context, args) {
+  try {
+    return this.passBatonBack(name, func, context, args);
+  } catch (e) {
+  }
+};
+
 EventBaton.prototype.passBatonBack = function(name, func, context, args) {
   // this method will call the listener BEFORE the name/func pair. this
   // basically allows you to put in shims, where you steal batons but pass
@@ -81,7 +88,10 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   var found = false;
   _.each(listeners, function(listenerObj) {
     if (listenerObj.func === func && listenerObj.context === context) {
-      if (found) { console.warn('woah duplicates!!!'); }
+      if (found) {
+        console.warn('woah duplicates!!!');
+        console.log(listeners);
+      }
       found = true;
     } else {
       newListeners.push(listenerObj);

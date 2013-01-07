@@ -20,18 +20,22 @@ function KeyboardListener(options) {
   this.events = options.events || _.clone(Backbone.Events);
   this.aliasMap = options.aliasMap || {};
 
-  this.keydownListener = _.bind(this.keydown, this);
   if (!options.wait) {
     this.listen();
   }
 }
 
 KeyboardListener.prototype.listen = function() {
-  Main.getEventBaton().stealBaton('docKeydown', this.keydownListener, this);
+  if (this.listening) {
+    return;
+  }
+  this.listening = true;
+  Main.getEventBaton().stealBaton('docKeydown', this.keydown, this);
 };
 
 KeyboardListener.prototype.mute = function() {
-  Main.getEventBaton().releaseBaton('docKeydown', this.keydownListener, this);
+  this.listening = false;
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
 };
 
 KeyboardListener.prototype.keydown = function(e) {
@@ -42,12 +46,16 @@ KeyboardListener.prototype.keydown = function(e) {
     return;
   }
 
-  this.fireEvent(key);
+  this.fireEvent(key, e);
 };
 
-KeyboardListener.prototype.fireEvent = function(eventName) {
+KeyboardListener.prototype.fireEvent = function(eventName, e) {
   eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
+  this.events.trigger(eventName, e);
+};
+
+KeyboardListener.prototype.passEventBack = function(e) {
+  Main.getEventBaton().passBatonBackSoft('docKeydown', this.keydown, this, [e]);
 };
 
 exports.KeyboardListener = KeyboardListener;

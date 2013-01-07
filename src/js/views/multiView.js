@@ -8,20 +8,22 @@ var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
   // ms to debounce the nav functions
-  navEventDebounce: 750,
+  navEventDebounce: 550,
   deathTime: 700,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
-    ModalAlert: ModalAlert
+    ModalAlert: ModalAlert,
+    GitDemonstrationView: GitDemonstrationView
   },
 
   initialize: function(options) {
@@ -31,6 +33,11 @@ var MultiView = Backbone.View.extend({
       options: {
         markdown: 'Woah wtf!!'
       }
+     }, {
+       type: 'GitDemonstrationView',
+       options: {
+         command: 'git checkout -b side; git commit; git commit'
+       }
      }, {
       type: 'ModalAlert',
       options: {

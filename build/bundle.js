@@ -6950,7 +6950,7 @@ var Visualization = Backbone.View.extend({
       this.shown = false;
     }
 
-    $(this.paper.canvas).css('opacity', 0);
+    $(this.paper.canvas).css('opacity', level);
   },
 
   getAnimationTime: function() { return 300; },
@@ -10064,18 +10064,22 @@ function KeyboardListener(options) {
   this.events = options.events || _.clone(Backbone.Events);
   this.aliasMap = options.aliasMap || {};
 
-  this.keydownListener = _.bind(this.keydown, this);
   if (!options.wait) {
     this.listen();
   }
 }
 
 KeyboardListener.prototype.listen = function() {
-  Main.getEventBaton().stealBaton('docKeydown', this.keydownListener, this);
+  if (this.listening) {
+    return;
+  }
+  this.listening = true;
+  Main.getEventBaton().stealBaton('docKeydown', this.keydown, this);
 };
 
 KeyboardListener.prototype.mute = function() {
-  Main.getEventBaton().releaseBaton('docKeydown', this.keydownListener, this);
+  this.listening = false;
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
 };
 
 KeyboardListener.prototype.keydown = function(e) {
@@ -10086,12 +10090,16 @@ KeyboardListener.prototype.keydown = function(e) {
     return;
   }
 
-  this.fireEvent(key);
+  this.fireEvent(key, e);
 };
 
-KeyboardListener.prototype.fireEvent = function(eventName) {
+KeyboardListener.prototype.fireEvent = function(eventName, e) {
   eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
+  this.events.trigger(eventName, e);
+};
+
+KeyboardListener.prototype.passEventBack = function(e) {
+  Main.getEventBaton().passBatonBackSoft('docKeydown', this.keydown, this, [e]);
 };
 
 exports.KeyboardListener = KeyboardListener;
@@ -12857,6 +12865,13 @@ EventBaton.prototype.getListenersThrow = function(name) {
   return listeners;
 };
 
+EventBaton.prototype.passBatonBackSoft = function(name, func, context, args) {
+  try {
+    return this.passBatonBack(name, func, context, args);
+  } catch (e) {
+  }
+};
+
 EventBaton.prototype.passBatonBack = function(name, func, context, args) {
   // this method will call the listener BEFORE the name/func pair. this
   // basically allows you to put in shims, where you steal batons but pass
@@ -12888,7 +12903,10 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   var found = false;
   _.each(listeners, function(listenerObj) {
     if (listenerObj.func === func && listenerObj.context === context) {
-      if (found) { console.warn('woah duplicates!!!'); }
+      if (found) {
+        console.warn('woah duplicates!!!');
+        console.log(listeners);
+      }
       found = true;
     } else {
       newListeners.push(listenerObj);
@@ -14952,20 +14970,22 @@ var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
   // ms to debounce the nav functions
-  navEventDebounce: 750,
+  navEventDebounce: 550,
   deathTime: 700,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
-    ModalAlert: ModalAlert
+    ModalAlert: ModalAlert,
+    GitDemonstrationView: GitDemonstrationView
   },
 
   initialize: function(options) {
@@ -14975,6 +14995,11 @@ var MultiView = Backbone.View.extend({
       options: {
         markdown: 'Woah wtf!!'
       }
+     }, {
+       type: 'GitDemonstrationView',
+       options: {
+         command: 'git checkout -b side; git commit; git commit'
+       }
      }, {
       type: 'ModalAlert',
       options: {
@@ -15114,6 +15139,214 @@ var MultiView = Backbone.View.extend({
 });
 
 exports.MultiView = MultiView;
+
+
+});
+
+require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Command = require('../models/commandModel').Command;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+
+var Visualization = require('../visuals/visualization').Visualization;
+
+var GitDemonstrationView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'gitDemonstrationView box horizontal',
+  template: _.template($('#git-demonstration-view').html()),
+
+  events: {
+    'click div.command > p.uiButton': 'positive'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.options = options;
+    this.JSON = _.extend(
+      {
+        beforeMarkdowns: [
+          '## Git Commits',
+          '',
+          'Awesome!'
+        ],
+        command: 'git commit',
+        afterMarkdowns: [
+          'Now you have seen it in action',
+          '',
+          'Go ahead and try the level!'
+        ]
+      },
+      options
+    );
+
+    var convert = function(markdowns) {
+      return require('markdown').markdown.toHTML(markdowns.join('\n'));
+    };
+
+    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
+    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
+
+    this.container = new ModalTerminal({
+      title: options.title || 'Git Demonstration'
+    });
+    this.render();
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        right: 'positive',
+        left: 'negative'
+      },
+      wait: true
+    });
+
+    this.visFinished = false;
+    this.initVis();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  takeControl: function() {
+    this.hasControl = true;
+    this.keyboardListener.listen();
+  },
+
+  releaseControl: function() {
+    if (!this.hasControl) { return; }
+    this.hasControl = false;
+    this.keyboardListener.mute();
+  },
+
+  reset: function() {
+    this.mainVis.reset();
+    this.demonstrated = false;
+    this.$el.toggleClass('demonstrated', false);
+    this.$el.toggleClass('demonstrating', false);
+  },
+
+  positive: function() {
+    if (this.demonstrated) {
+      return;
+    }
+    this.demonstrated = true;
+
+    this.$el.toggleClass('demonstrating', true);
+
+    var whenDone = Q.defer();
+    this.dispatchCommand(this.JSON.command, whenDone);
+    whenDone.promise.then(_.bind(function() {
+      this.$el.toggleClass('demonstrating', false);
+      this.$el.toggleClass('demonstrated', true);
+      this.releaseControl();
+    }, this));
+  },
+
+  negative: function(e) {
+    if (this.$el.hasClass('demonstrating')) {
+      return;
+    }
+    this.keyboardListener.passEventBack(e);
+  },
+
+  dispatchCommand: function(value, whenDone) {
+    var commands = [];
+    util.splitTextCommand(value, function(commandStr) {
+      commands.push(new Command({
+        rawStr: commandStr
+      }));
+    }, this);
+
+    var chainDeferred = Q.defer();
+    var chainPromise = chainDeferred.promise;
+
+    _.each(commands, function(command, index) {
+      chainPromise = chainPromise.then(_.bind(function() {
+        var myDefer = Q.defer();
+        this.mainVis.gitEngine.dispatch(command, myDefer);
+        return myDefer.promise;
+      }, this));
+      chainPromise = chainPromise.then(function() {
+        return Q.delay(300);
+      });
+    }, this);
+
+    chainPromise = chainPromise.then(function() {
+      whenDone.resolve();
+    });
+
+    chainDeferred.resolve();
+  },
+
+  tearDown: function() {
+    this.mainVis.tearDown();
+    GitDemonstrationView.__super__.tearDown.apply(this);
+  },
+
+  hide: function() {
+    this.releaseControl();
+    this.reset();
+    if (this.visFinished) {
+      this.mainVis.setTreeIndex(-1);
+      this.mainVis.setTreeOpacity(0);
+    }
+
+    this.shown = false;
+    GitDemonstrationView.__super__.hide.apply(this);
+  },
+
+  show: function() {
+    this.takeControl();
+    if (this.visFinished) {
+      setTimeout(_.bind(function() {
+        if (this.shown) {
+          this.mainVis.setTreeIndex(300);
+          this.mainVis.showHarsh();
+        }
+      }, this), this.getAnimationTime() * 1);
+    }
+
+    this.shown = true;
+    GitDemonstrationView.__super__.show.apply(this);
+  },
+
+  die: function() {
+    if (!this.visFinished) { return; }
+
+    GitDemonstrationView.__super__.die.apply(this);
+  },
+
+  initVis: function() {
+    this.mainVis = new Visualization({
+      el: this.$('div.visHolder')[0],
+      noKeyboardInput: true,
+      noClick: true,
+      smallCanvas: true,
+      zIndex: -1
+    });
+    this.mainVis.customEvents.on('paperReady', _.bind(function() {
+      this.visFinished = true;
+      if (this.shown) {
+        // show the canvas once its done if we are shown
+        this.show();
+      }
+    }, this));
+  }
+});
+
+exports.GitDemonstrationView = GitDemonstrationView;
 
 
 });
@@ -15833,169 +16066,6 @@ HeadlessGit.prototype.sendCommand = function(value) {
 };
 
 exports.HeadlessGit = HeadlessGit;
-
-
-});
-
-require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var util = require('../util');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var Command = require('../models/commandModel').Command;
-
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-
-var Visualization = require('../visuals/visualization').Visualization;
-
-var GitDemonstrationView = ContainedBase.extend({
-  tagName: 'div',
-  className: 'gitDemonstrationView box horizontal',
-  template: _.template($('#git-demonstration-view').html()),
-
-  events: {
-    'click div.command > a.uiButton': 'positive'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.options = options;
-    this.JSON = _.extend(
-      {
-        beforeMarkdowns: [
-          '## Git Commits',
-          '',
-          'Awesome!'
-        ],
-        command: 'git commit',
-        afterMarkdowns: [
-          'Now you have seen it in action',
-          '',
-          'Go ahead and try the level!'
-        ]
-      },
-      options
-    );
-
-    var convert = function(markdowns) {
-      return require('markdown').markdown.toHTML(markdowns.join('\n'));
-    };
-
-    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
-    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
-
-    this.container = new ModalTerminal({
-      title: options.title || 'Git Demonstration'
-    });
-    this.render();
-
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('positive', this.positive, this);
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        enter: 'positive',
-        right: 'positive'
-      },
-      wait: true
-    });
-
-    if (!options.wait) {
-      this.show();
-    }
-
-    // show the canvas once we slide down
-    this.visFinished = false;
-    setTimeout(_.bind(this.initVis, this), this.getAnimationTime());
-  },
-
-  takeControl: function() {
-    this.hasControl = true;
-    this.keyboardListener.listen();
-  },
-
-  releaseControl: function() {
-    if (!this.hasControl) { return; }
-    this.hasControl = false;
-    this.keyboardListener.mute();
-  },
-
-  reset: function() {
-    this.mainVis.reset();
-    this.demonstrated = false;
-    this.$el.toggleClass('demonstrated', false);
-  },
-
-  positive: function() {
-    if (this.demonstrated) {
-      return;
-    }
-
-    this.$el.toggleClass('demonstrated', true);
-    this.dispatchCommand(this.JSON.command);
-    this.demonstrated = true;
-    this.releaseControl();
-  },
-
-  dispatchCommand: function(value) {
-    util.splitTextCommand(value, function(commandStr) {
-      var command = new Command({
-        rawStr: commandStr
-      });
-      this.mainVis.gitEngine.dispatch(command, Q.defer());
-    }, this);
-  },
-
-  hide: function() {
-    this.releaseControl();
-    if (this.visFinished) {
-      this.mainVis.setTreeIndex(-1);
-      this.mainVis.setTreeOpacity(0);
-    }
-
-    this.shown = false;
-    GitDemonstrationView.__super__.hide.apply(this);
-  },
-
-  show: function() {
-    this.takeControl();
-    if (this.visFinished) {
-      setTimeout(_.bind(function() {
-        if (this.shown) {
-          this.mainVis.setTreeIndex(300);
-          this.mainVis.showHarsh();
-        }
-      }, this), this.getAnimationTime() * 1);
-    }
-
-    this.shown = true;
-    GitDemonstrationView.__super__.show.apply(this);
-  },
-
-  die: function() {
-    if (!this.visFinished) { return; }
-
-    GitDemonstrationView.__super__.die.apply(this);
-  },
-
-  initVis: function() {
-    this.mainVis = new Visualization({
-      el: this.$('div.visHolder')[0],
-      noKeyboardInput: true,
-      noClick: true,
-      smallCanvas: true,
-      zIndex: 300
-    });
-    this.mainVis.customEvents.on('paperReady', _.bind(function() {
-      this.visFinished = true;
-    }, this));
-  }
-});
-
-exports.GitDemonstrationView = GitDemonstrationView;
 
 
 });
@@ -19804,6 +19874,13 @@ EventBaton.prototype.getListenersThrow = function(name) {
   return listeners;
 };
 
+EventBaton.prototype.passBatonBackSoft = function(name, func, context, args) {
+  try {
+    return this.passBatonBack(name, func, context, args);
+  } catch (e) {
+  }
+};
+
 EventBaton.prototype.passBatonBack = function(name, func, context, args) {
   // this method will call the listener BEFORE the name/func pair. this
   // basically allows you to put in shims, where you steal batons but pass
@@ -19835,7 +19912,10 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   var found = false;
   _.each(listeners, function(listenerObj) {
     if (listenerObj.func === func && listenerObj.context === context) {
-      if (found) { console.warn('woah duplicates!!!'); }
+      if (found) {
+        console.warn('woah duplicates!!!');
+        console.log(listeners);
+      }
       found = true;
     } else {
       newListeners.push(listenerObj);
@@ -19905,18 +19985,22 @@ function KeyboardListener(options) {
   this.events = options.events || _.clone(Backbone.Events);
   this.aliasMap = options.aliasMap || {};
 
-  this.keydownListener = _.bind(this.keydown, this);
   if (!options.wait) {
     this.listen();
   }
 }
 
 KeyboardListener.prototype.listen = function() {
-  Main.getEventBaton().stealBaton('docKeydown', this.keydownListener, this);
+  if (this.listening) {
+    return;
+  }
+  this.listening = true;
+  Main.getEventBaton().stealBaton('docKeydown', this.keydown, this);
 };
 
 KeyboardListener.prototype.mute = function() {
-  Main.getEventBaton().releaseBaton('docKeydown', this.keydownListener, this);
+  this.listening = false;
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
 };
 
 KeyboardListener.prototype.keydown = function(e) {
@@ -19927,12 +20011,16 @@ KeyboardListener.prototype.keydown = function(e) {
     return;
   }
 
-  this.fireEvent(key);
+  this.fireEvent(key, e);
 };
 
-KeyboardListener.prototype.fireEvent = function(eventName) {
+KeyboardListener.prototype.fireEvent = function(eventName, e) {
   eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName);
+  this.events.trigger(eventName, e);
+};
+
+KeyboardListener.prototype.passEventBack = function(e) {
+  Main.getEventBaton().passBatonBackSoft('docKeydown', this.keydown, this, [e]);
 };
 
 exports.KeyboardListener = KeyboardListener;
@@ -20407,7 +20495,7 @@ var GitDemonstrationView = ContainedBase.extend({
   template: _.template($('#git-demonstration-view').html()),
 
   events: {
-    'click div.command > a.uiButton': 'positive'
+    'click div.command > p.uiButton': 'positive'
   },
 
   initialize: function(options) {
@@ -20444,22 +20532,23 @@ var GitDemonstrationView = ContainedBase.extend({
 
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
       aliasMap: {
         enter: 'positive',
-        right: 'positive'
+        right: 'positive',
+        left: 'negative'
       },
       wait: true
     });
 
+    this.visFinished = false;
+    this.initVis();
+
     if (!options.wait) {
       this.show();
     }
-
-    // show the canvas once we slide down
-    this.visFinished = false;
-    setTimeout(_.bind(this.initVis, this), this.getAnimationTime());
   },
 
   takeControl: function() {
@@ -20477,30 +20566,70 @@ var GitDemonstrationView = ContainedBase.extend({
     this.mainVis.reset();
     this.demonstrated = false;
     this.$el.toggleClass('demonstrated', false);
+    this.$el.toggleClass('demonstrating', false);
   },
 
   positive: function() {
     if (this.demonstrated) {
       return;
     }
-
-    this.$el.toggleClass('demonstrated', true);
-    this.dispatchCommand(this.JSON.command);
     this.demonstrated = true;
-    this.releaseControl();
+
+    this.$el.toggleClass('demonstrating', true);
+
+    var whenDone = Q.defer();
+    this.dispatchCommand(this.JSON.command, whenDone);
+    whenDone.promise.then(_.bind(function() {
+      this.$el.toggleClass('demonstrating', false);
+      this.$el.toggleClass('demonstrated', true);
+      this.releaseControl();
+    }, this));
   },
 
-  dispatchCommand: function(value) {
+  negative: function(e) {
+    if (this.$el.hasClass('demonstrating')) {
+      return;
+    }
+    this.keyboardListener.passEventBack(e);
+  },
+
+  dispatchCommand: function(value, whenDone) {
+    var commands = [];
     util.splitTextCommand(value, function(commandStr) {
-      var command = new Command({
+      commands.push(new Command({
         rawStr: commandStr
-      });
-      this.mainVis.gitEngine.dispatch(command, Q.defer());
+      }));
     }, this);
+
+    var chainDeferred = Q.defer();
+    var chainPromise = chainDeferred.promise;
+
+    _.each(commands, function(command, index) {
+      chainPromise = chainPromise.then(_.bind(function() {
+        var myDefer = Q.defer();
+        this.mainVis.gitEngine.dispatch(command, myDefer);
+        return myDefer.promise;
+      }, this));
+      chainPromise = chainPromise.then(function() {
+        return Q.delay(300);
+      });
+    }, this);
+
+    chainPromise = chainPromise.then(function() {
+      whenDone.resolve();
+    });
+
+    chainDeferred.resolve();
+  },
+
+  tearDown: function() {
+    this.mainVis.tearDown();
+    GitDemonstrationView.__super__.tearDown.apply(this);
   },
 
   hide: function() {
     this.releaseControl();
+    this.reset();
     if (this.visFinished) {
       this.mainVis.setTreeIndex(-1);
       this.mainVis.setTreeOpacity(0);
@@ -20537,10 +20666,14 @@ var GitDemonstrationView = ContainedBase.extend({
       noKeyboardInput: true,
       noClick: true,
       smallCanvas: true,
-      zIndex: 300
+      zIndex: -1
     });
     this.mainVis.customEvents.on('paperReady', _.bind(function() {
       this.visFinished = true;
+      if (this.shown) {
+        // show the canvas once its done if we are shown
+        this.show();
+      }
     }, this));
   }
 });
@@ -21103,20 +21236,22 @@ var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
   className: 'multiView',
   // ms to debounce the nav functions
-  navEventDebounce: 750,
+  navEventDebounce: 550,
   deathTime: 700,
 
   // a simple mapping of what childViews we support
   typeToConstructor: {
-    ModalAlert: ModalAlert
+    ModalAlert: ModalAlert,
+    GitDemonstrationView: GitDemonstrationView
   },
 
   initialize: function(options) {
@@ -21126,6 +21261,11 @@ var MultiView = Backbone.View.extend({
       options: {
         markdown: 'Woah wtf!!'
       }
+     }, {
+       type: 'GitDemonstrationView',
+       options: {
+         command: 'git checkout -b side; git commit; git commit'
+       }
      }, {
       type: 'ModalAlert',
       options: {
@@ -23794,7 +23934,7 @@ var Visualization = Backbone.View.extend({
       this.shown = false;
     }
 
-    $(this.paper.canvas).css('opacity', 0);
+    $(this.paper.canvas).css('opacity', level);
   },
 
   getAnimationTime: function() { return 300; },

@@ -94,7 +94,7 @@ var Visualization = Backbone.View.extend({
       this.shown = false;
     }
 
-    $(this.paper.canvas).css('opacity', 0);
+    $(this.paper.canvas).css('opacity', level);
   },
 
   getAnimationTime: function() { return 300; },

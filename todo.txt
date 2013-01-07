@@ -1,7 +1,6 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] levels dropdown selection?
-[ ] git demonstration view -- shouldnt be too bad
 
 [ ] level builder? :OOO
 
@@ -33,6 +32,7 @@ Big Bugs to fix:
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] git demonstration view -- shouldnt be too bad. LOL WHAT A FUCKING JOKE like 4 hours
 [x] gotoSandbox command
 [x] "next level?" dialog after beating level
 [x] keyboard input for confirm / cancel

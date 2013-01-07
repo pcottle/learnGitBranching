@@ -562,8 +562,9 @@ li.rebaseEntry.notPicked {
   border: 1px solid black;
 }
 
-.gitDemonstrationView > div.demonstrationText p.command {
+.gitDemonstrationView > div.demonstrationText div.command {
   text-align: center;
+  padding: 10px;
 }
 
 .gitDemonstrationView {
@@ -578,7 +579,11 @@ li.rebaseEntry.notPicked {
   opacity: 1;
 }
 
-.gitDemonstrationView.demonstrated a.uiButton {
+.gitDemonstrationView.demonstrating p.uiButton {
+  opacity: 0.7;
+}
+
+.gitDemonstrationView.demonstrated p.uiButton {
   opacity: 0.4;
 }
 
