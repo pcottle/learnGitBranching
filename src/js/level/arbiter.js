@@ -11,8 +11,15 @@ var Main = require('../app');
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
-  // TODO -- local storage sync
-  this.solvedMap = {};
+
+  var solvedMap = {};
+  try {
+    solvedMap = JSON.parse(localStorage.getItem('solvedMap'));
+  } catch (e) {
+    console.warn('local storage failed', e);
+    throw e;
+  }
+  this.solvedMap = solvedMap;
 
   Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
@@ -38,10 +45,6 @@ LevelArbiter.prototype.init = function() {
   }, this);
 };
 
-LevelArbiter.prototype.getSolvedMap = function() {
-  return this.solvedMap;
-};
-
 LevelArbiter.prototype.isLevelSolved = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
@@ -51,6 +54,15 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
 
 LevelArbiter.prototype.levelSolved = function(id) {
   this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.syncToStorage = function() {
+  try {
+    localStorage.setItem('solvedMap', JSON.stringify(this.solvedMap));
+  } catch (e) {
+    console.warn('local storage fialed on set', e);
+  }
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {

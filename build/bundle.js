@@ -4587,8 +4587,10 @@ var Sandbox = Backbone.View.extend({
     // handle the case where that level is not found...
     if (!levelJSON) {
       command.addWarning(
-        'A level for that id "' + desiredID + '" was not found!!'
+        'A level for that id "' + desiredID + '" was not found!! Opening up level selection view...'
       );
+      Main.getEventBaton().trigger('commandSubmitted', 'levels');
+
       command.set('status', 'error');
       deferred.resolve();
       return;
@@ -12456,9 +12458,7 @@ var Command = Backbone.Model.extend({
 var CommandEntry = Backbone.Model.extend({
   defaults: {
     text: ''
-  },
-  // stub out if no plugin available
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+  }
 });
 
 exports.CommandEntry = CommandEntry;
@@ -15415,8 +15415,15 @@ var Main = require('../app');
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
-  // TODO -- local storage sync
-  this.solvedMap = {};
+
+  var solvedMap = {};
+  try {
+    solvedMap = JSON.parse(localStorage.getItem('solvedMap'));
+  } catch (e) {
+    console.warn('local storage failed', e);
+    throw e;
+  }
+  this.solvedMap = solvedMap;
 
   Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
@@ -15442,10 +15449,6 @@ LevelArbiter.prototype.init = function() {
   }, this);
 };
 
-LevelArbiter.prototype.getSolvedMap = function() {
-  return this.solvedMap;
-};
-
 LevelArbiter.prototype.isLevelSolved = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
@@ -15455,6 +15458,15 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
 
 LevelArbiter.prototype.levelSolved = function(id) {
   this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.syncToStorage = function() {
+  try {
+    localStorage.setItem('solvedMap', JSON.stringify(this.solvedMap));
+  } catch (e) {
+    console.warn('local storage fialed on set', e);
+  }
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {
@@ -15616,6 +15628,14 @@ var LevelDropdownView = ContainedBase.extend({
       300,
       true
     ));
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        esc: 'negative'
+      },
+      wait: true
+    });
 
     this.sequences = Main.getLevelArbiter().getSequences();
     this.container = new ModalTerminal({
@@ -15629,8 +15649,13 @@ var LevelDropdownView = ContainedBase.extend({
     }
   },
 
+  negative: function() {
+    this.hide();
+  },
+
   show: function(deferred) {
     this.showDeferred = deferred;
+    this.keyboardListener.listen();
     LevelDropdownView.__super__.show.apply(this);
   },
 
@@ -15639,6 +15664,7 @@ var LevelDropdownView = ContainedBase.extend({
       this.showDeferred.resolve();
     }
     this.showDeferred = undefined;
+    this.keyboardListener.mute();
 
     LevelDropdownView.__super__.hide.apply(this);
   },
@@ -15942,7 +15968,6 @@ var CommandPromptView = Backbone.View.extend({
     this.commands.each(function(c) {
       Backbone.sync('delete', c, function() { });
     }, this);
-    localStorage.setItem('CommandEntries', '');
   },
 
   setTextField: function(value) {
@@ -18624,8 +18649,15 @@ var Main = require('../app');
 function LevelArbiter() {
   this.levelMap = {};
   this.init();
-  // TODO -- local storage sync
-  this.solvedMap = {};
+
+  var solvedMap = {};
+  try {
+    solvedMap = JSON.parse(localStorage.getItem('solvedMap'));
+  } catch (e) {
+    console.warn('local storage failed', e);
+    throw e;
+  }
+  this.solvedMap = solvedMap;
 
   Main.getEvents().on('levelSolved', this.levelSolved, this);
 }
@@ -18651,10 +18683,6 @@ LevelArbiter.prototype.init = function() {
   }, this);
 };
 
-LevelArbiter.prototype.getSolvedMap = function() {
-  return this.solvedMap;
-};
-
 LevelArbiter.prototype.isLevelSolved = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
@@ -18664,6 +18692,15 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
 
 LevelArbiter.prototype.levelSolved = function(id) {
   this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.syncToStorage = function() {
+  try {
+    localStorage.setItem('solvedMap', JSON.stringify(this.solvedMap));
+  } catch (e) {
+    console.warn('local storage fialed on set', e);
+  }
 };
 
 LevelArbiter.prototype.validateLevel = function(level) {
@@ -19405,8 +19442,10 @@ var Sandbox = Backbone.View.extend({
     // handle the case where that level is not found...
     if (!levelJSON) {
       command.addWarning(
-        'A level for that id "' + desiredID + '" was not found!!'
+        'A level for that id "' + desiredID + '" was not found!! Opening up level selection view...'
       );
+      Main.getEventBaton().trigger('commandSubmitted', 'levels');
+
       command.set('status', 'error');
       deferred.resolve();
       return;
@@ -19874,9 +19913,7 @@ var Command = Backbone.Model.extend({
 var CommandEntry = Backbone.Model.extend({
   defaults: {
     text: ''
-  },
-  // stub out if no plugin available
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+  }
 });
 
 exports.CommandEntry = CommandEntry;
@@ -20491,7 +20528,6 @@ var CommandPromptView = Backbone.View.extend({
     this.commands.each(function(c) {
       Backbone.sync('delete', c, function() { });
     }, this);
-    localStorage.setItem('CommandEntries', '');
   },
 
   setTextField: function(value) {
@@ -21480,6 +21516,14 @@ var LevelDropdownView = ContainedBase.extend({
       300,
       true
     ));
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        esc: 'negative'
+      },
+      wait: true
+    });
 
     this.sequences = Main.getLevelArbiter().getSequences();
     this.container = new ModalTerminal({
@@ -21493,8 +21537,13 @@ var LevelDropdownView = ContainedBase.extend({
     }
   },
 
+  negative: function() {
+    this.hide();
+  },
+
   show: function(deferred) {
     this.showDeferred = deferred;
+    this.keyboardListener.listen();
     LevelDropdownView.__super__.show.apply(this);
   },
 
@@ -21503,6 +21552,7 @@ var LevelDropdownView = ContainedBase.extend({
       this.showDeferred.resolve();
     }
     this.showDeferred = undefined;
+    this.keyboardListener.mute();
 
     LevelDropdownView.__super__.hide.apply(this);
   },

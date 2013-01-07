@@ -1,20 +1,15 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] local storage for solved map
-[ ] hookup for when solving happens
 [ ] level builder? :OOO
     * basically just an extension of level (or sandbox), that has commands like
       ```save tree beginning``` or ```save tree goal``` and then a final
       dialog typing area thingy
-
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cases to handle / things to edit
 =======================
-[ ] what if they just type "levels" ?
-[ ] show level dropdown
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,12 +24,16 @@ Big Bugs to fix:
 /*************************************
  ** Publish Things **
  ************************************/
-- cross browser support... firefox only.
+- cross browser support... firefox only LULZ. should be just css right?
 - fix terminal input field in general
+- maybe have keyboard navigation for level selection?
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] local storage for solved map
+[x] what if they just type "levels" ?
+[x] hookup for when solving happens
 [x] levels dropdown selection?
 [x] git demonstration view -- shouldnt be too bad. LOL WHAT A FUCKING JOKE like 4 hours
 [x] gotoSandbox command

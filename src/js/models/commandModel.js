@@ -163,9 +163,7 @@ var Command = Backbone.Model.extend({
 var CommandEntry = Backbone.Model.extend({
   defaults: {
     text: ''
-  },
-  // stub out if no plugin available
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+  }
 });
 
 exports.CommandEntry = CommandEntry;

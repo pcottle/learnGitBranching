@@ -119,8 +119,10 @@ var Sandbox = Backbone.View.extend({
     // handle the case where that level is not found...
     if (!levelJSON) {
       command.addWarning(
-        'A level for that id "' + desiredID + '" was not found!!'
+        'A level for that id "' + desiredID + '" was not found!! Opening up level selection view...'
       );
+      Main.getEventBaton().trigger('commandSubmitted', 'levels');
+
       command.set('status', 'error');
       deferred.resolve();
       return;

@@ -165,7 +165,6 @@ var CommandPromptView = Backbone.View.extend({
     this.commands.each(function(c) {
       Backbone.sync('delete', c, function() { });
     }, this);
-    localStorage.setItem('CommandEntries', '');
   },
 
   setTextField: function(value) {

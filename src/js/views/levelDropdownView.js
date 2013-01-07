@@ -28,6 +28,14 @@ var LevelDropdownView = ContainedBase.extend({
       300,
       true
     ));
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        esc: 'negative'
+      },
+      wait: true
+    });
 
     this.sequences = Main.getLevelArbiter().getSequences();
     this.container = new ModalTerminal({
@@ -41,8 +49,13 @@ var LevelDropdownView = ContainedBase.extend({
     }
   },
 
+  negative: function() {
+    this.hide();
+  },
+
   show: function(deferred) {
     this.showDeferred = deferred;
+    this.keyboardListener.listen();
     LevelDropdownView.__super__.show.apply(this);
   },
 
@@ -51,6 +64,7 @@ var LevelDropdownView = ContainedBase.extend({
       this.showDeferred.resolve();
     }
     this.showDeferred = undefined;
+    this.keyboardListener.mute();
 
     LevelDropdownView.__super__.hide.apply(this);
   },
