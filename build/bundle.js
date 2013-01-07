@@ -6303,6 +6303,13 @@ var init = function() {
   $(document).click(function(e) {
     eventBaton.trigger('documentClick', e);
   });
+  $(document).bind('keydown', function(e) {
+    eventBaton.trigger('keydown', e);
+  });
+  $(document).bind('keyup', function(e) {
+    eventBaton.trigger('keyup', e);
+  });
+
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
@@ -6495,10 +6502,6 @@ var Level = Sandbox.extend({
     });
 
     this.initGoalVisualization(options);
-  },
-
-  getDefaultGoalVisEl: function() {
-    return $('#commandLineHistory');
   },
 
   initGoalVisualization: function(options) {
@@ -6898,7 +6901,8 @@ var Visualization = Backbone.View.extend({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
       paper: this.paper,
-      noClick: this.options.noClick
+      noClick: this.options.noClick,
+      smallCanvas: this.options.smallCanvas
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -6918,20 +6922,24 @@ var Visualization = Backbone.View.extend({
     }, this));
 
     this.gitVisuals.drawTreeFirstTime();
-
     if (this.treeString) {
       this.gitEngine.loadTreeFromString(this.treeString);
+    }
+    if (this.options.zIndex) {
+      this.setTreeIndex(this.options.zIndex);
     }
 
     this.shown = false;
     this.setTreeOpacity(0);
     // reflow needed
-    process.nextTick(_.bind(function() {
-      this.fadeTreeIn();
-    }, this));
+    process.nextTick(_.bind(this.fadeTreeIn, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
+  },
+
+  setTreeIndex: function(level) {
+    $(this.paper.canvas).css('z-index', level);
   },
 
   setTreeOpacity: function(level) {
@@ -6964,9 +6972,12 @@ var Visualization = Backbone.View.extend({
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
-    process.nextTick(_.bind(function() {
-      this.fadeTreeIn();
-    }, this));
+    setTimeout(_.bind(this.fadeTreeIn, this), 10);
+  },
+
+  showHarsh: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    this.setTreeOpacity(1);
   },
 
   reset: function() {
@@ -9934,9 +9945,7 @@ var LevelToolbar = BaseView.extend({
     this.render();
 
     if (!options.wait) {
-      process.nextTick(_.bind(function() {
-        this.show();
-      }, this));
+      process.nextTick(_.bind(this.show, this));
     }
   },
 
@@ -10051,7 +10060,9 @@ function KeyboardListener(options) {
   this.aliasMap = options.aliasMap || {};
 
   this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
+  if (!options.wait) {
+    this.listen();
+  }
 }
 
 KeyboardListener.prototype.listen = function() {
@@ -13509,9 +13520,14 @@ GitVisuals.prototype.animateEdges = function(speed) {
   }, this);
 };
 
+GitVisuals.prototype.getMinLayers = function() {
+  return (this.options.smallCanvas) ? 4 : 7;
+};
+
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
+  // assume there are at least a number of layers until later
+  // to have better visuals
+  maxDepth = Math.max(maxDepth, this.getMinLayers());
   var increment = 1.0 / maxDepth;
   return increment;
 };
@@ -15821,19 +15837,28 @@ var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Command = require('../models/commandModel').Command;
+
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var Visualization = require('../visuals/visualization').Visualization;
 
 var GitDemonstrationView = ContainedBase.extend({
   tagName: 'div',
   className: 'gitDemonstrationView box horizontal',
   template: _.template($('#git-demonstration-view').html()),
 
+  events: {
+    'click div.command > a.uiButton': 'positive'
+  },
+
   initialize: function(options) {
     options = options || {};
+    this.options = options;
     this.JSON = _.extend(
-      options,
       {
         beforeMarkdowns: [
           '## Git Commits',
@@ -15846,7 +15871,8 @@ var GitDemonstrationView = ContainedBase.extend({
           '',
           'Go ahead and try the level!'
         ]
-      }
+      },
+      options
     );
 
     var convert = function(markdowns) {
@@ -15861,9 +15887,106 @@ var GitDemonstrationView = ContainedBase.extend({
     });
     this.render();
 
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        right: 'positive'
+      },
+      wait: true
+    });
+
     if (!options.wait) {
       this.show();
     }
+
+    // show the canvas once we slide down
+    this.visFinished = false;
+    setTimeout(_.bind(this.initVis, this), this.getAnimationTime());
+  },
+
+  takeControl: function() {
+    this.hasControl = true;
+    this.keyboardListener.listen();
+  },
+
+  releaseControl: function() {
+    if (!this.hasControl) { return; }
+    this.hasControl = false;
+    this.keyboardListener.mute();
+  },
+
+  reset: function() {
+    this.mainVis.reset();
+    this.demonstrated = false;
+    this.$el.toggleClass('demonstrated', false);
+  },
+
+  positive: function() {
+    if (this.demonstrated) {
+      return;
+    }
+
+    this.$el.toggleClass('demonstrated', true);
+    this.dispatchCommand(this.JSON.command);
+    this.demonstrated = true;
+    this.releaseControl();
+  },
+
+  dispatchCommand: function(value) {
+    util.splitTextCommand(value, function(commandStr) {
+      var command = new Command({
+        rawStr: commandStr
+      });
+      this.mainVis.gitEngine.dispatch(command, Q.defer());
+    }, this);
+  },
+
+  hide: function() {
+    this.releaseControl();
+    if (this.visFinished) {
+      this.mainVis.setTreeIndex(-1);
+      this.mainVis.setTreeOpacity(0);
+    }
+
+    this.shown = false;
+    GitDemonstrationView.__super__.hide.apply(this);
+  },
+
+  show: function() {
+    this.takeControl();
+    if (this.visFinished) {
+      setTimeout(_.bind(function() {
+        if (this.shown) {
+          this.mainVis.setTreeIndex(300);
+          this.mainVis.showHarsh();
+        }
+      }, this), this.getAnimationTime() * 1);
+    }
+
+    this.shown = true;
+    GitDemonstrationView.__super__.show.apply(this);
+  },
+
+  die: function() {
+    if (!this.visFinished) { return; }
+
+    GitDemonstrationView.__super__.die.apply(this);
+  },
+
+  initVis: function() {
+    this.mainVis = new Visualization({
+      el: this.$('div.visHolder')[0],
+      noKeyboardInput: true,
+      noClick: true,
+      smallCanvas: true,
+      zIndex: 300
+    });
+    this.mainVis.customEvents.on('paperReady', _.bind(function() {
+      this.visFinished = true;
+    }, this));
   }
 });
 
@@ -15921,6 +16044,13 @@ var init = function() {
   $(document).click(function(e) {
     eventBaton.trigger('documentClick', e);
   });
+  $(document).bind('keydown', function(e) {
+    eventBaton.trigger('keydown', e);
+  });
+  $(document).bind('keyup', function(e) {
+    eventBaton.trigger('keyup', e);
+  });
+
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
@@ -18476,10 +18606,6 @@ var Level = Sandbox.extend({
     this.initGoalVisualization(options);
   },
 
-  getDefaultGoalVisEl: function() {
-    return $('#commandLineHistory');
-  },
-
   initGoalVisualization: function(options) {
     // first we make the goal visualization holder
     this.goalCanvasHolder = new CanvasTerminalHolder();
@@ -19770,7 +19896,9 @@ function KeyboardListener(options) {
   this.aliasMap = options.aliasMap || {};
 
   this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
+  if (!options.wait) {
+    this.listen();
+  }
 }
 
 KeyboardListener.prototype.listen = function() {
@@ -20254,19 +20382,28 @@ var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Command = require('../models/commandModel').Command;
+
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var Visualization = require('../visuals/visualization').Visualization;
 
 var GitDemonstrationView = ContainedBase.extend({
   tagName: 'div',
   className: 'gitDemonstrationView box horizontal',
   template: _.template($('#git-demonstration-view').html()),
 
+  events: {
+    'click div.command > a.uiButton': 'positive'
+  },
+
   initialize: function(options) {
     options = options || {};
+    this.options = options;
     this.JSON = _.extend(
-      options,
       {
         beforeMarkdowns: [
           '## Git Commits',
@@ -20279,7 +20416,8 @@ var GitDemonstrationView = ContainedBase.extend({
           '',
           'Go ahead and try the level!'
         ]
-      }
+      },
+      options
     );
 
     var convert = function(markdowns) {
@@ -20294,9 +20432,106 @@ var GitDemonstrationView = ContainedBase.extend({
     });
     this.render();
 
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        right: 'positive'
+      },
+      wait: true
+    });
+
     if (!options.wait) {
       this.show();
     }
+
+    // show the canvas once we slide down
+    this.visFinished = false;
+    setTimeout(_.bind(this.initVis, this), this.getAnimationTime());
+  },
+
+  takeControl: function() {
+    this.hasControl = true;
+    this.keyboardListener.listen();
+  },
+
+  releaseControl: function() {
+    if (!this.hasControl) { return; }
+    this.hasControl = false;
+    this.keyboardListener.mute();
+  },
+
+  reset: function() {
+    this.mainVis.reset();
+    this.demonstrated = false;
+    this.$el.toggleClass('demonstrated', false);
+  },
+
+  positive: function() {
+    if (this.demonstrated) {
+      return;
+    }
+
+    this.$el.toggleClass('demonstrated', true);
+    this.dispatchCommand(this.JSON.command);
+    this.demonstrated = true;
+    this.releaseControl();
+  },
+
+  dispatchCommand: function(value) {
+    util.splitTextCommand(value, function(commandStr) {
+      var command = new Command({
+        rawStr: commandStr
+      });
+      this.mainVis.gitEngine.dispatch(command, Q.defer());
+    }, this);
+  },
+
+  hide: function() {
+    this.releaseControl();
+    if (this.visFinished) {
+      this.mainVis.setTreeIndex(-1);
+      this.mainVis.setTreeOpacity(0);
+    }
+
+    this.shown = false;
+    GitDemonstrationView.__super__.hide.apply(this);
+  },
+
+  show: function() {
+    this.takeControl();
+    if (this.visFinished) {
+      setTimeout(_.bind(function() {
+        if (this.shown) {
+          this.mainVis.setTreeIndex(300);
+          this.mainVis.showHarsh();
+        }
+      }, this), this.getAnimationTime() * 1);
+    }
+
+    this.shown = true;
+    GitDemonstrationView.__super__.show.apply(this);
+  },
+
+  die: function() {
+    if (!this.visFinished) { return; }
+
+    GitDemonstrationView.__super__.die.apply(this);
+  },
+
+  initVis: function() {
+    this.mainVis = new Visualization({
+      el: this.$('div.visHolder')[0],
+      noKeyboardInput: true,
+      noClick: true,
+      smallCanvas: true,
+      zIndex: 300
+    });
+    this.mainVis.customEvents.on('paperReady', _.bind(function() {
+      this.visFinished = true;
+    }, this));
   }
 });
 
@@ -20753,9 +20988,7 @@ var LevelToolbar = BaseView.extend({
     this.render();
 
     if (!options.wait) {
-      process.nextTick(_.bind(function() {
-        this.show();
-      }, this));
+      process.nextTick(_.bind(this.show, this));
     }
   },
 
@@ -22162,9 +22395,14 @@ GitVisuals.prototype.animateEdges = function(speed) {
   }, this);
 };
 
+GitVisuals.prototype.getMinLayers = function() {
+  return (this.options.smallCanvas) ? 4 : 7;
+};
+
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
+  // assume there are at least a number of layers until later
+  // to have better visuals
+  maxDepth = Math.max(maxDepth, this.getMinLayers());
   var increment = 1.0 / maxDepth;
   return increment;
 };
@@ -23500,7 +23738,8 @@ var Visualization = Backbone.View.extend({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
       paper: this.paper,
-      noClick: this.options.noClick
+      noClick: this.options.noClick,
+      smallCanvas: this.options.smallCanvas
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -23520,20 +23759,24 @@ var Visualization = Backbone.View.extend({
     }, this));
 
     this.gitVisuals.drawTreeFirstTime();
-
     if (this.treeString) {
       this.gitEngine.loadTreeFromString(this.treeString);
+    }
+    if (this.options.zIndex) {
+      this.setTreeIndex(this.options.zIndex);
     }
 
     this.shown = false;
     this.setTreeOpacity(0);
     // reflow needed
-    process.nextTick(_.bind(function() {
-      this.fadeTreeIn();
-    }, this));
+    process.nextTick(_.bind(this.fadeTreeIn, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
+  },
+
+  setTreeIndex: function(level) {
+    $(this.paper.canvas).css('z-index', level);
   },
 
   setTreeOpacity: function(level) {
@@ -23566,9 +23809,12 @@ var Visualization = Backbone.View.extend({
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
-    process.nextTick(_.bind(function() {
-      this.fadeTreeIn();
-    }, this));
+    setTimeout(_.bind(this.fadeTreeIn, this), 10);
+  },
+
+  showHarsh: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    this.setTreeOpacity(1);
   },
 
   reset: function() {

@@ -445,9 +445,7 @@ var LevelToolbar = BaseView.extend({
     this.render();
 
     if (!options.wait) {
-      process.nextTick(_.bind(function() {
-        this.show();
-      }, this));
+      process.nextTick(_.bind(this.show, this));
     }
   },
 

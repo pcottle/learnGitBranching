@@ -19,7 +19,9 @@ function KeyboardListener(options) {
   this.aliasMap = options.aliasMap || {};
 
   this.keydownListener = _.bind(this.keydown, this);
-  this.listen();
+  if (!options.wait) {
+    this.listen();
+  }
 }
 
 KeyboardListener.prototype.listen = function() {

@@ -615,9 +615,14 @@ GitVisuals.prototype.animateEdges = function(speed) {
   }, this);
 };
 
+GitVisuals.prototype.getMinLayers = function() {
+  return (this.options.smallCanvas) ? 4 : 7;
+};
+
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
-  // assume there are at least 7 layers until later
-  maxDepth = Math.max(maxDepth, 7);
+  // assume there are at least a number of layers until later
+  // to have better visuals
+  maxDepth = Math.max(maxDepth, this.getMinLayers());
   var increment = 1.0 / maxDepth;
   return increment;
 };

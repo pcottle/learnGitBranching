@@ -47,6 +47,12 @@ var init = function() {
   $(document).click(function(e) {
     eventBaton.trigger('documentClick', e);
   });
+  $(document).bind('keydown', function(e) {
+    eventBaton.trigger('keydown', e);
+  });
+  $(document).bind('keyup', function(e) {
+    eventBaton.trigger('keyup', e);
+  });
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });

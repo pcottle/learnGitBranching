@@ -48,7 +48,8 @@ var Visualization = Backbone.View.extend({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
       paper: this.paper,
-      noClick: this.options.noClick
+      noClick: this.options.noClick,
+      smallCanvas: this.options.smallCanvas
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -68,20 +69,24 @@ var Visualization = Backbone.View.extend({
     }, this));
 
     this.gitVisuals.drawTreeFirstTime();
-
     if (this.treeString) {
       this.gitEngine.loadTreeFromString(this.treeString);
+    }
+    if (this.options.zIndex) {
+      this.setTreeIndex(this.options.zIndex);
     }
 
     this.shown = false;
     this.setTreeOpacity(0);
     // reflow needed
-    process.nextTick(_.bind(function() {
-      this.fadeTreeIn();
-    }, this));
+    process.nextTick(_.bind(this.fadeTreeIn, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
+  },
+
+  setTreeIndex: function(level) {
+    $(this.paper.canvas).css('z-index', level);
   },
 
   setTreeOpacity: function(level) {
@@ -114,9 +119,12 @@ var Visualization = Backbone.View.extend({
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
-    process.nextTick(_.bind(function() {
-      this.fadeTreeIn();
-    }, this));
+    setTimeout(_.bind(this.fadeTreeIn, this), 10);
+  },
+
+  showHarsh: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    this.setTreeOpacity(1);
   },
 
   reset: function() {

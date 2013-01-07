@@ -570,6 +570,18 @@ li.rebaseEntry.notPicked {
   min-height: 400px;
 }
 
+.gitDemonstrationView  div.afterText {
+  opacity: 0;
+}
+
+.gitDemonstrationView.demonstrated div.afterText {
+  opacity: 1;
+}
+
+.gitDemonstrationView.demonstrated a.uiButton {
+  opacity: 0.4;
+}
+
 /* LeftRightView */
 
 .leftRightView div i {

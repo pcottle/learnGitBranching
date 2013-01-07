@@ -97,10 +97,6 @@ var Level = Sandbox.extend({
     this.initGoalVisualization(options);
   },
 
-  getDefaultGoalVisEl: function() {
-    return $('#commandLineHistory');
-  },
-
   initGoalVisualization: function(options) {
     // first we make the goal visualization holder
     this.goalCanvasHolder = new CanvasTerminalHolder();
