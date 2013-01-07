@@ -9752,6 +9752,10 @@ var ModalAlert = ContainedBase.extend({
       title: 'Alert!'
     });
     this.render();
+
+    if (!options.wait) {
+      this.show();
+    }
   },
 
   render: function() {
@@ -15059,7 +15063,11 @@ var MultiView = Backbone.View.extend({
     if (!this.typeToConstructor[type]) {
       throw new Error('no constructor for type "' + type + '"');
     }
-    var view = new this.typeToConstructor[type](viewJSON.options);
+    var view = new this.typeToConstructor[type](_.extend(
+      {},
+      viewJSON.options,
+      { wait: true }
+    ));
     return view;
   },
 
@@ -15804,6 +15812,62 @@ HeadlessGit.prototype.sendCommand = function(value) {
 };
 
 exports.HeadlessGit = HeadlessGit;
+
+
+});
+
+require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var GitDemonstrationView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'gitDemonstrationView box horizontal',
+  template: _.template($('#git-demonstration-view').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = _.extend(
+      options,
+      {
+        beforeMarkdowns: [
+          '## Git Commits',
+          '',
+          'Awesome!'
+        ],
+        command: 'git commit',
+        afterMarkdowns: [
+          'Now you have seen it in action',
+          '',
+          'Go ahead and try the level!'
+        ]
+      }
+    );
+
+    var convert = function(markdowns) {
+      return require('markdown').markdown.toHTML(markdowns.join('\n'));
+    };
+
+    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
+    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
+
+    this.container = new ModalTerminal({
+      title: options.title || 'Git Demonstration'
+    });
+    this.render();
+
+    if (!options.wait) {
+      this.show();
+    }
+  }
+});
+
+exports.GitDemonstrationView = GitDemonstrationView;
 
 
 });
@@ -19470,7 +19534,8 @@ var toGlobalize = {
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
   Level: require('../level'),
-  Sandbox: require('../level/sandbox')
+  Sandbox: require('../level/sandbox'),
+  GitDemonstrationView: require('../views/gitDemonstrationView')
 };
 
 _.each(toGlobalize, function(module) {
@@ -20191,10 +20256,51 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
-var ModalAlert = require('../views').ModalAlert;
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var GitDemonstrationView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'gitDemonstrationView box horizontal',
+  template: _.template($('#git-demonstration-view').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = _.extend(
+      options,
+      {
+        beforeMarkdowns: [
+          '## Git Commits',
+          '',
+          'Awesome!'
+        ],
+        command: 'git commit',
+        afterMarkdowns: [
+          'Now you have seen it in action',
+          '',
+          'Go ahead and try the level!'
+        ]
+      }
+    );
+
+    var convert = function(markdowns) {
+      return require('markdown').markdown.toHTML(markdowns.join('\n'));
+    };
+
+    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
+    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
+
+    this.container = new ModalTerminal({
+      title: options.title || 'Git Demonstration'
+    });
+    this.render();
+
+    if (!options.wait) {
+      this.show();
+    }
+  }
+});
+
+exports.GitDemonstrationView = GitDemonstrationView;
 
 
 });
@@ -20465,6 +20571,10 @@ var ModalAlert = ContainedBase.extend({
       title: 'Alert!'
     });
     this.render();
+
+    if (!options.wait) {
+      this.show();
+    }
   },
 
   render: function() {
@@ -20882,7 +20992,11 @@ var MultiView = Backbone.View.extend({
     if (!this.typeToConstructor[type]) {
       throw new Error('no constructor for type "' + type + '"');
     }
-    var view = new this.typeToConstructor[type](viewJSON.options);
+    var view = new this.typeToConstructor[type](_.extend(
+      {},
+      viewJSON.options,
+      { wait: true }
+    ));
     return view;
   },
 

@@ -13,6 +13,10 @@ html, body {
   color: #eee;
 }
 
+p {
+  word-wrap: break-word;
+}
+
 /* Box Model */
 html,
 body,
@@ -45,6 +49,10 @@ body,
 
 .horizontal {
   -webkit-box-orient: horizontal;
+}
+
+.centerAlign {
+  -webkit-box-align: center;
 }
 
 .center {
@@ -130,6 +138,7 @@ div.canvasTerminalHolder {
   width: 100%;
 }
 
+div.gitDemonstrationView > div.visHolder,
 #mainVisSpace {
   background-color: #24A7FF;
 }
@@ -529,6 +538,7 @@ li.rebaseEntry.notPicked {
 
 .modalView .terminal-window-holder {
   border-radius: 5px;
+  max-width: 900px;
 }
 
 .modalView .terminal-window {
@@ -538,6 +548,26 @@ li.rebaseEntry.notPicked {
 
 .modalView.show .terminal-window {
   -webkit-transform: translate3d(0,0,0);
+}
+
+/* Git demonstration view */
+
+.gitDemonstrationView > div.demonstrationText {
+  width: 50%;
+}
+
+.gitDemonstrationView > div.visHolder {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.gitDemonstrationView > div.demonstrationText p.command {
+  text-align: center;
+}
+
+.gitDemonstrationView {
+  min-height: 400px;
 }
 
 /* LeftRightView */

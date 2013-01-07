@@ -19,7 +19,8 @@ var toGlobalize = {
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
   Level: require('../level'),
-  Sandbox: require('../level/sandbox')
+  Sandbox: require('../level/sandbox'),
+  GitDemonstrationView: require('../views/gitDemonstrationView')
 };
 
 _.each(toGlobalize, function(module) {

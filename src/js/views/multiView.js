@@ -140,7 +140,11 @@ var MultiView = Backbone.View.extend({
     if (!this.typeToConstructor[type]) {
       throw new Error('no constructor for type "' + type + '"');
     }
-    var view = new this.typeToConstructor[type](viewJSON.options);
+    var view = new this.typeToConstructor[type](_.extend(
+      {},
+      viewJSON.options,
+      { wait: true }
+    ));
     return view;
   },
 

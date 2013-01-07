@@ -179,6 +179,31 @@
     </div>
   </script>
 
+  <script type="text/html" id="git-demonstration-view">
+    <div class="demonstrationText box vertical">
+      <div class="beforeText box flex1 vertical center">
+        <p>
+          <%= beforeHTML %>
+        </p>
+      </div>
+
+      <div class="command box flex1 vertical center centerAlign">
+        <a class="uiButton uiButtonYellow">
+          <%= command %>
+        </a>
+      </div>
+
+      <div class="afterText box flex1 vertical center transitionOpacity">
+        <p>
+          <%= afterHTML %>
+        </p>
+      </div>
+    </div>
+
+    <div class="visHolder box vertical flex1">
+    </div>
+  </script>
+
   <script type="text/html" id="modal-alert-template">
     <h2>
       <%= title %>

@@ -263,6 +263,10 @@ var ModalAlert = ContainedBase.extend({
       title: 'Alert!'
     });
     this.render();
+
+    if (!options.wait) {
+      this.show();
+    }
   },
 
   render: function() {
