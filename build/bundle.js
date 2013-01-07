@@ -6304,15 +6304,18 @@ var init = function() {
     eventBaton.trigger('documentClick', e);
   });
   $(document).bind('keydown', function(e) {
-    eventBaton.trigger('keydown', e);
+    eventBaton.trigger('docKeydown', e);
   });
   $(document).bind('keyup', function(e) {
-    eventBaton.trigger('keyup', e);
+    eventBaton.trigger('docKeyup', e);
   });
 
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
+
+  eventBaton.stealBaton('docKeydown', function() { });
+  eventBaton.stealBaton('docKeyup', function() { });
 
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
@@ -10042,6 +10045,8 @@ exports.NextLevelConfirm = NextLevelConfirm;
 require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
+var Main = require('../app');
+
 var mapKeycodeToKey = function(keycode) {
   // HELP WANTED -- internationalize? Dvorak? I have no idea
   var keyMap = {
@@ -10066,11 +10071,11 @@ function KeyboardListener(options) {
 }
 
 KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
+  Main.getEventBaton().stealBaton('docKeydown', this.keydownListener, this);
 };
 
 KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydownListener, this);
 };
 
 KeyboardListener.prototype.keydown = function(e) {
@@ -16045,15 +16050,18 @@ var init = function() {
     eventBaton.trigger('documentClick', e);
   });
   $(document).bind('keydown', function(e) {
-    eventBaton.trigger('keydown', e);
+    eventBaton.trigger('docKeydown', e);
   });
   $(document).bind('keyup', function(e) {
-    eventBaton.trigger('keyup', e);
+    eventBaton.trigger('docKeyup', e);
   });
 
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
+
+  eventBaton.stealBaton('docKeydown', function() { });
+  eventBaton.stealBaton('docKeyup', function() { });
 
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
@@ -19878,6 +19886,8 @@ require("/src/js/util/index.js");
 require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
+var Main = require('../app');
+
 var mapKeycodeToKey = function(keycode) {
   // HELP WANTED -- internationalize? Dvorak? I have no idea
   var keyMap = {
@@ -19902,11 +19912,11 @@ function KeyboardListener(options) {
 }
 
 KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
+  Main.getEventBaton().stealBaton('docKeydown', this.keydownListener, this);
 };
 
 KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydownListener, this);
 };
 
 KeyboardListener.prototype.keydown = function(e) {

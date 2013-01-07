@@ -48,14 +48,18 @@ var init = function() {
     eventBaton.trigger('documentClick', e);
   });
   $(document).bind('keydown', function(e) {
-    eventBaton.trigger('keydown', e);
+    eventBaton.trigger('docKeydown', e);
   });
   $(document).bind('keyup', function(e) {
-    eventBaton.trigger('keyup', e);
+    eventBaton.trigger('docKeyup', e);
   });
+
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
+
+  eventBaton.stealBaton('docKeydown', function() { });
+  eventBaton.stealBaton('docKeyup', function() { });
 
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {

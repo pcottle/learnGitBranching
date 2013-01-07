@@ -1,6 +1,8 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
+var Main = require('../app');
+
 var mapKeycodeToKey = function(keycode) {
   // HELP WANTED -- internationalize? Dvorak? I have no idea
   var keyMap = {
@@ -25,11 +27,11 @@ function KeyboardListener(options) {
 }
 
 KeyboardListener.prototype.listen = function() {
-  $(document).bind('keydown', this.keydownListener);
+  Main.getEventBaton().stealBaton('docKeydown', this.keydownListener, this);
 };
 
 KeyboardListener.prototype.mute = function() {
-  $(document).unbind('keydown', this.keydownListener);
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydownListener, this);
 };
 
 KeyboardListener.prototype.keydown = function(e) {
