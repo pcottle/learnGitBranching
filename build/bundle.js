@@ -4398,7 +4398,7 @@ var GLOBAL = {
 };
 
 var VIEWPORT = {
-  minZoom: 0.66,
+  minZoom: 0.55,
   maxZoom: 1.25,
   minWidth: 600,
   minHeight: 600
@@ -20311,7 +20311,7 @@ var GLOBAL = {
 };
 
 var VIEWPORT = {
-  minZoom: 0.66,
+  minZoom: 0.55,
   maxZoom: 1.25,
   minWidth: 600,
   minHeight: 600
