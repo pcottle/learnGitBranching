@@ -117,6 +117,16 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
+    alert(1);
+    var Views = require('../views');
+    setTimeout(function() {
+      eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
+    }, 600);
+    setTimeout(function() {
+      new Views.iOSKeyboardView();
+    }, 1000);
+  }
 };
 
 $(document).ready(init);
