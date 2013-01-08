@@ -204,12 +204,16 @@ var Sandbox = Backbone.View.extend({
 
   iosAlert: function(command, deferred) {
     var whenClosed = Q.defer();
+    /*
     var view = new Views.iOSKeyboardView({
       deferred: whenClosed
     });
     whenClosed.promise.then(function() {
       command.finishWith(deferred);
-    });
+    });*/
+    // wow even this fails!
+    alert("Can't bring up the keyboard on iOS, try visiting on desktop! :D");
+    whenClosed.resolve();
   },
 
   delay: function(command, deferred) {
