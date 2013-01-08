@@ -65,7 +65,7 @@ var Level = Sandbox.extend({
     }, this), this.getAnimationTime() * 1.2);
   },
 
-  initName: function(options) {
+  initName: function() {
     if (!this.level.name || !this.level.id) {
       this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
