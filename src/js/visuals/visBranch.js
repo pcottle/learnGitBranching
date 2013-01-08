@@ -201,16 +201,22 @@ var VisBranch = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
       var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.clientWidth;
+    };
+
+    var firefoxFix = function(obj) {
+      if (!obj.w) { obj.w = 75; }
+      if (!obj.h) { obj.h = 20; }
+      return obj;
     };
 
     var textNode = this.get('text').node;
     if (this.get('isHead')) {
       // HEAD is a special case
-      return {
+      return firefoxFix({
         w: textNode.clientWidth,
         h: textNode.clientHeight
-      };
+      });
     }
 
     var maxWidth = 0;
@@ -219,11 +225,12 @@ var VisBranch = VisBase.extend({
         branch.obj.get('visBranch')
       ));
     });
+    console.log('getting text size', textNode, 'width', textNode.clientWidth);
 
-    return {
+    return firefoxFix({
       w: maxWidth,
       h: textNode.clientHeight
-    };
+    });
   },
 
   getSingleRectSize: function() {

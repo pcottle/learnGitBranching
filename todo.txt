@@ -13,6 +13,7 @@ Cases to handle / things to edit
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] esc on multiview quits absolutely
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

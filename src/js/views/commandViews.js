@@ -74,11 +74,16 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
+    console.log('on keydown');
+    console.log(e);
+
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
+    console.log('on key up');
+    console.log(e);
     this.onKeyDown(e);
 
     // we need to capture some of these events.
@@ -94,7 +99,7 @@ var CommandPromptView = Backbone.View.extend({
       }, this)
     };
 
-    var key = keyboard.mapKeycodeToKey(e.which);
+    var key = keyboard.mapKeycodeToKey(e.which || e.keyCode);
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
@@ -111,6 +116,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   updatePrompt: function(el) {
+    el = el || {};  // firefox
     // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
     // super annoying delay to every keystroke... I have tried everything
     // to make this more performant. getting the srcElement from the event,
@@ -118,16 +124,22 @@ var CommandPromptView = Backbone.View.extend({
     // there's a very annoying and sightly noticeable command delay.
     // try.github.com also has this, so I'm assuming those engineers gave up as
     // well...
-    var val = this.badHtmlEncode(el.value);
+    var text = $('#commandTextField').val();
+    var val = this.badHtmlEncode(text);
     this.commandSpan.innerHTML = val;
 
     // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    this.cursorUpdate(text.length, el.selectionStart, el.selectionEnd);
     // and scroll down due to some weird bug
     Main.getEvents().trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    if (selectionStart === undefined || selectionEnd === undefined) {
+      selectionStart = 0;
+      selectionEnd = 1;
+    }
+
     // 10px for monospaced font at "1" zoom
     var zoom = require('../util/zoomLevel').detectZoom();
     var widthPerChar = 10 * zoom;
@@ -136,7 +148,7 @@ var CommandPromptView = Backbone.View.extend({
     var width = String(numCharsSelected * widthPerChar) + 'px';
 
     // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var numLeft = (selectionStart !== undefined) ? Math.max(commandLength - selectionStart, 0) : 0;
     var left = String(-numLeft * widthPerChar) + 'px';
     // one reflow? :D
     $(this.commandCursor).css({

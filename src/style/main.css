@@ -895,3 +895,17 @@ div.levelIcon.solved div.index div.indexNum {
   background: #9bcbeb;
 }
 
+/* Go Home Firefox, you're drunk */
+@-moz-document url-prefix() {
+  body {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #interfaceWrapper {
+    width: 100%;
+    height: 100%;
+  }
+}
+

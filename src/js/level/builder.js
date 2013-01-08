@@ -45,7 +45,7 @@ var LevelBuilder = Level.extend({
     Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelCommand, this);
 
     LevelBuilder.__super__.releaseControl.apply(this);
-  },
+  }
 });
 
 exports.LevelBuilder = LevelBuilder;

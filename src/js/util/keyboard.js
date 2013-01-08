@@ -39,7 +39,7 @@ KeyboardListener.prototype.mute = function() {
 };
 
 KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
+  var which = e.which || e.keyCode;
 
   var key = mapKeycodeToKey(which);
   if (key === undefined) {

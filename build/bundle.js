@@ -6499,7 +6499,7 @@ var Level = Sandbox.extend({
     }, this), this.getAnimationTime() * 1.2);
   },
 
-  initName: function(options) {
+  initName: function() {
     if (!this.level.name || !this.level.id) {
       this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
@@ -10130,7 +10130,7 @@ KeyboardListener.prototype.mute = function() {
 };
 
 KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
+  var which = e.which || e.keyCode;
 
   var key = mapKeycodeToKey(which);
   if (key === undefined) {
@@ -14460,16 +14460,22 @@ var VisBranch = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
       var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.clientWidth;
+    };
+
+    var firefoxFix = function(obj) {
+      if (!obj.w) { obj.w = 75; }
+      if (!obj.h) { obj.h = 20; }
+      return obj;
     };
 
     var textNode = this.get('text').node;
     if (this.get('isHead')) {
       // HEAD is a special case
-      return {
+      return firefoxFix({
         w: textNode.clientWidth,
         h: textNode.clientHeight
-      };
+      });
     }
 
     var maxWidth = 0;
@@ -14478,11 +14484,12 @@ var VisBranch = VisBase.extend({
         branch.obj.get('visBranch')
       ));
     });
+    console.log('getting text size', textNode, 'width', textNode.clientWidth);
 
-    return {
+    return firefoxFix({
       w: maxWidth,
       h: textNode.clientHeight
-    };
+    });
   },
 
   getSingleRectSize: function() {
@@ -16086,11 +16093,16 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
+    console.log('on keydown');
+    console.log(e);
+
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
+    console.log('on key up');
+    console.log(e);
     this.onKeyDown(e);
 
     // we need to capture some of these events.
@@ -16106,7 +16118,7 @@ var CommandPromptView = Backbone.View.extend({
       }, this)
     };
 
-    var key = keyboard.mapKeycodeToKey(e.which);
+    var key = keyboard.mapKeycodeToKey(e.which || e.keyCode);
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
@@ -16123,6 +16135,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   updatePrompt: function(el) {
+    el = el || {};  // firefox
     // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
     // super annoying delay to every keystroke... I have tried everything
     // to make this more performant. getting the srcElement from the event,
@@ -16130,16 +16143,22 @@ var CommandPromptView = Backbone.View.extend({
     // there's a very annoying and sightly noticeable command delay.
     // try.github.com also has this, so I'm assuming those engineers gave up as
     // well...
-    var val = this.badHtmlEncode(el.value);
+    var text = $('#commandTextField').val();
+    var val = this.badHtmlEncode(text);
     this.commandSpan.innerHTML = val;
 
     // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    this.cursorUpdate(text.length, el.selectionStart, el.selectionEnd);
     // and scroll down due to some weird bug
     Main.getEvents().trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    if (selectionStart === undefined || selectionEnd === undefined) {
+      selectionStart = 0;
+      selectionEnd = 1;
+    }
+
     // 10px for monospaced font at "1" zoom
     var zoom = require('../util/zoomLevel').detectZoom();
     var widthPerChar = 10 * zoom;
@@ -16148,7 +16167,7 @@ var CommandPromptView = Backbone.View.extend({
     var width = String(numCharsSelected * widthPerChar) + 'px';
 
     // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var numLeft = (selectionStart !== undefined) ? Math.max(commandLength - selectionStart, 0) : 0;
     var left = String(-numLeft * widthPerChar) + 'px';
     // one reflow? :D
     $(this.commandCursor).css({
@@ -18977,6 +18996,61 @@ exports.LevelArbiter = LevelArbiter;
 });
 require("/src/js/level/arbiter.js");
 
+require.define("/src/js/level/builder.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var util = require('../util');
+var Main = require('../app');
+
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var Level = require('../level').Level;
+
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
+
+var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
+var LevelToolbar = require('../views').LevelToolbar;
+
+var LevelBuilder = Level.extend({
+  initialize: function(options) {
+    options = options || {};
+    this.options = options;
+    this.level = {};
+
+    this.levelToolbar = new LevelToolbar({
+      name: 'Level Builder'
+    });
+
+    this.level.startDialog = {
+    };
+
+    // call our grandparent, not us
+    Level.__super__.initialize.apply(this, [options]);
+  },
+
+  takeControl: function() {
+    Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelCommand, this);
+
+    LevelBuilder.__super__.takeControl.apply(this);
+  },
+
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelCommand, this);
+
+    LevelBuilder.__super__.releaseControl.apply(this);
+  }
+});
+
+exports.LevelBuilder = LevelBuilder;
+
+});
+require("/src/js/level/builder.js");
+
 require.define("/src/js/level/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var regexMap = {
@@ -19118,7 +19192,7 @@ var Level = Sandbox.extend({
     }, this), this.getAnimationTime() * 1.2);
   },
 
-  initName: function(options) {
+  initName: function() {
     if (!this.level.name || !this.level.id) {
       this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
@@ -20509,7 +20583,7 @@ KeyboardListener.prototype.mute = function() {
 };
 
 KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which;
+  var which = e.which || e.keyCode;
 
   var key = mapKeycodeToKey(which);
   if (key === undefined) {
@@ -20678,11 +20752,16 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
+    console.log('on keydown');
+    console.log(e);
+
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
+    console.log('on key up');
+    console.log(e);
     this.onKeyDown(e);
 
     // we need to capture some of these events.
@@ -20698,7 +20777,7 @@ var CommandPromptView = Backbone.View.extend({
       }, this)
     };
 
-    var key = keyboard.mapKeycodeToKey(e.which);
+    var key = keyboard.mapKeycodeToKey(e.which || e.keyCode);
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
@@ -20715,6 +20794,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   updatePrompt: function(el) {
+    el = el || {};  // firefox
     // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
     // super annoying delay to every keystroke... I have tried everything
     // to make this more performant. getting the srcElement from the event,
@@ -20722,16 +20802,22 @@ var CommandPromptView = Backbone.View.extend({
     // there's a very annoying and sightly noticeable command delay.
     // try.github.com also has this, so I'm assuming those engineers gave up as
     // well...
-    var val = this.badHtmlEncode(el.value);
+    var text = $('#commandTextField').val();
+    var val = this.badHtmlEncode(text);
     this.commandSpan.innerHTML = val;
 
     // now mutate the cursor...
-    this.cursorUpdate(el.value.length, el.selectionStart, el.selectionEnd);
+    this.cursorUpdate(text.length, el.selectionStart, el.selectionEnd);
     // and scroll down due to some weird bug
     Main.getEvents().trigger('commandScrollDown');
   },
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
+    if (selectionStart === undefined || selectionEnd === undefined) {
+      selectionStart = 0;
+      selectionEnd = 1;
+    }
+
     // 10px for monospaced font at "1" zoom
     var zoom = require('../util/zoomLevel').detectZoom();
     var widthPerChar = 10 * zoom;
@@ -20740,7 +20826,7 @@ var CommandPromptView = Backbone.View.extend({
     var width = String(numCharsSelected * widthPerChar) + 'px';
 
     // now for positioning
-    var numLeft = Math.max(commandLength - selectionStart, 0);
+    var numLeft = (selectionStart !== undefined) ? Math.max(commandLength - selectionStart, 0) : 0;
     var left = String(-numLeft * widthPerChar) + 'px';
     // one reflow? :D
     $(this.commandCursor).css({
@@ -23785,16 +23871,22 @@ var VisBranch = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
       var textNode = visBranch.get('text').node;
-      return (textNode === null) ? 1 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.clientWidth;
+    };
+
+    var firefoxFix = function(obj) {
+      if (!obj.w) { obj.w = 75; }
+      if (!obj.h) { obj.h = 20; }
+      return obj;
     };
 
     var textNode = this.get('text').node;
     if (this.get('isHead')) {
       // HEAD is a special case
-      return {
+      return firefoxFix({
         w: textNode.clientWidth,
         h: textNode.clientHeight
-      };
+      });
     }
 
     var maxWidth = 0;
@@ -23803,11 +23895,12 @@ var VisBranch = VisBase.extend({
         branch.obj.get('visBranch')
       ));
     });
+    console.log('getting text size', textNode, 'width', textNode.clientWidth);
 
-    return {
+    return firefoxFix({
       w: maxWidth,
       h: textNode.clientHeight
-    };
+    });
   },
 
   getSingleRectSize: function() {
