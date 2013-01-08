@@ -28,45 +28,74 @@ html,
 body,
 .box {
   display: -webkit-box;
-}
-
-.flex0 {
-  -webkit-box-flex: 0;
+  display: -moz-box;
+  display: box;
 }
 
 body,
 .flex1 {
   -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
 }
 
 .flex2 {
   -webkit-box-flex: 2;
+  -moz-box-flex: 2;
+  -ms-box-flex: 2;
+  box-flex: 2;
 }
 
 .flex3 {
   -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
 }
 
 html,
 body,
 .vertical {
   -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
 }
 
 .horizontal {
   -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  box-orient: horizontal;
 }
 
 .centerAlign {
   -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-box-align: center;
+  box-align: center;
+}
+
+.startAlign {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -ms-box-align: start;
+  box-align: start;
 }
 
 .center {
   -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-box-pack: center;
+  box-pack: center;
 }
 
 .justify {
   -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -ms-box-pack: justify;
+  box-pack: justify;
 }
 
 /* Transition */
@@ -158,10 +187,18 @@ div.canvasTerminalHolder > div.terminal-window-holder {
   margin: 100px 0;
   height: 100%;
   -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -o-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder.slideOut {
   -webkit-transform: translate3d(-150%,0,0);
+  -moz-transform: translate3d(-150%,0,0);
+  -o-transform: translate3d(-150%,0,0);
+  -ms-transform: translate3d(-150%,0,0);
+  transform: translate3d(-150%,0,0);
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
@@ -205,6 +242,11 @@ div.canvasTerminalHolder > div.terminal-window-holder,
 div.toolbar {
   /* borrowed from try.github.com along with a bunch of other things */
   background-image: -webkit-linear-gradient(top, #EFEDEE, #C1C1C1);
+  background-image: -moz-linear-gradient(top, #EFEDEE, #C1C1C1);
+  background-image: -o-linear-gradient(top, #EFEDEE, #C1C1C1);
+  background-image: -ms-linear-gradient(top, #EFEDEE, #C1C1C1);
+  background-image: linear-gradient(top, #EFEDEE, #C1C1C1);
+
   border-radius: 5px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -216,11 +258,14 @@ div.toolbar {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: black;
-  -webkit-box-pack: center;
 }
 
 div.toolbar.level-toolbar {
   background-image: -webkit-linear-gradient(top, #79F179, #29EE31);
+  background-image: -moz-linear-gradient(top, #79F179, #29EE31);
+  background-image: -o-linear-gradient(top, #79F179, #29EE31);
+  background-image: -ms-linear-gradient(top, #79F179, #29EE31);
+  background-image: linear-gradient(top, #79F179, #29EE31);
   border-radius: 0;
   height: 50px;
 }
@@ -241,7 +286,6 @@ div.toolbar > div.controls {
   left: 9px;
   width: 57px;
   height: 13px;
-  -webkit-box-pack: justify;
 }
 
 div.toolbar > div.controls div i {
@@ -432,7 +476,6 @@ li.rebaseEntry,
 
 #terminal {
   border-bottom: 0;
-  -webkit-box-align: start;
 }
 
 #commandLineBar,
@@ -471,11 +514,15 @@ div.terminal-text p.helperText,
 .iRebaseDialog div.entryHolders ul.rebaseEntries {
   list-style-type: none;
   -webkit-padding-start: 0;
+  -moz-padding-start: 0;
+  /* optimism, lol */
+  -o-padding-start: 0;
+  -ms-padding-start: 0;
 }
 
 li.rebaseEntry {
   margin: 10px;
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   cursor: move;
   padding: 10px 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -516,11 +563,8 @@ li.rebaseEntry.notPicked {
   position: fixed;
   top: 0px;
   left: 0px;
-  -webkit-transform-style: preserve-3d;
 
   background: rgba(0, 0, 0, 0.6);
-/*  -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.9);*/
-
   z-index: -1;
   opacity: 0;
 }
@@ -531,7 +575,7 @@ li.rebaseEntry.notPicked {
 
 .terminal-window .inside {
   padding: 10px;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
 .terminal-window .inside h2 {
@@ -550,10 +594,18 @@ li.rebaseEntry.notPicked {
 .modalView .terminal-window {
   margin-top: 10%;
   -webkit-transform: translate3d(0, -100%, 0);
+  -moz-transform: translate3d(0, -100%, 0);
+  -o-transform: translate3d(0, -100%, 0);
+  -ms-transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -100%, 0);
 }
 
 .modalView.show .terminal-window {
   -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -o-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
 }
 
 /* Level dropdown view */
@@ -586,15 +638,27 @@ div.levelIcon {
   margin: 10px 20px;
   box-shadow: 2px 2px 10px rgba(0,0,0,0.7);
   background-image: -webkit-linear-gradient(top, white, #AAB1AA);
+  background-image: -moz-linear-gradient(top, white, #AAB1AA);
+  background-image: -o-linear-gradient(top, white, #AAB1AA);
+  background-image: -ms-linear-gradient(top, white, #AAB1AA);
+  background-image: linear-gradient(top, white, #AAB1AA);
   cursor: pointer;
 }
 
 div.levelIcon:hover {
   background-image: -webkit-linear-gradient(top, #DADADA, #888686);
+  background-image: -moz-linear-gradient(top, #DADADA, #888686);
+  background-image: -o-linear-gradient(top, #DADADA, #888686);
+  background-image: -ms-linear-gradient(top, #DADADA, #888686);
+  background-image: linear-gradient(top, #DADADA, #888686);
 }
 
 div.levelIcon:active {
-  background-image: -webkit-linear-gradient(top, #888686, #7A7A7A)
+  background-image: -webkit-linear-gradient(top, #888686, #7A7A7A);
+  background-image: -moz-linear-gradient(top, #888686, #7A7A7A);
+  background-image: -o-linear-gradient(top, #888686, #7A7A7A);
+  background-image: -ms-linear-gradient(top, #888686, #7A7A7A);
+  background-image: linear-gradient(top, #888686, #7A7A7A);
 }
 
 div.levelIcon.selected {
@@ -602,7 +666,11 @@ div.levelIcon.selected {
 }
 
 div.levelIcon.solved {
-  background: -webkit-gradient(linear, left top, left bottom, from(#F3F86B), to(#35A30F));
+  background: -webkit-linear-gradient(top, #F3F86B, #35A30F);
+  background: -moz-linear-gradient(top, #F3F86B, #35A30F);
+  background: -o-linear-gradient(top, #F3F86B, #35A30F);
+  background: -ms-linear-gradient(top, #F3F86B, #35A30F);
+  background: linear-gradient(top, #F3F86B, #35A30F);
   border-top: 1px solid #f4ffa1;
 }
 
@@ -721,9 +789,11 @@ div.levelIcon.solved div.index div.indexNum {
   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
   background: -o-linear-gradient(top, #3e779d, #65a9d7);
   padding: 5px 10px;
+
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
+
   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
   box-shadow: rgba(0,0,0,1) 0 1px 0;
@@ -753,6 +823,7 @@ div.levelIcon.solved div.index div.indexNum {
   background: -ms-linear-gradient(top, #e0e63c, #288708);
   background: -o-linear-gradient(top, #e0e63c, #288708);
 }
+
 .uiButtonYellow:hover {
   border-top-color: #30f03d;
   background: #30f03d;
