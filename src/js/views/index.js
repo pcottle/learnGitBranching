@@ -288,28 +288,6 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
-var iOSKeyboardView = Backbone.View.extend({
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-
-    this.modalAlert = new ModalAlert({
-      markdowns: [
-        '## iOS device',
-        '',
-        'On iOS, user input is needed to bring up the keyboard. Click ',
-        'on this window to bring up the keyboard so you can type commands'
-      ]
-    });
-    this.modalAlert.container.navEvents.on('click', this.clicked, this);
-  },
-
-  clicked: function() {
-    this.modalAlert.die();
-    $('#commandTextField').focus();
-  }
-});
-
 var ConfirmCancelTerminal = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
@@ -320,7 +298,6 @@ var ConfirmCancelTerminal = Backbone.View.extend({
       { markdown: '#you sure?' },
       options.modalAlert
     ));
-
 
     var buttonDefer = Q.defer();
     this.buttonDefer = buttonDefer;
@@ -384,6 +361,23 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   close: function() {
     this.keyboardListener.mute();
     this.modalAlert.die();
+  }
+});
+
+var iOSKeyboardView = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.modalAlert = {
+      markdowns: [
+        '## iOS device',
+        '',
+        "On iOS, javascript can't bring up the software keyboard so unfortunately ",
+        "there's no way for you to enter commands :-/ Try visiting the site on desktop ",
+        "to get the full experience, or submit a pull request if you have an idea on how ",
+        "to integrate user input on iOS"
+      ]
+    };
+    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
   }
 });
 

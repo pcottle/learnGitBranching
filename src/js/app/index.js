@@ -119,17 +119,13 @@ var init = function() {
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix; help");
     }, 500);
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || true) {
-    var Views = require('../views');
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
+      eventBaton.trigger('commandSubmitted', 'iOS alert');
     }, 600);
-    setTimeout(function() {
-      new Views.iOSKeyboardView();
-    }, 1000);
   }
 };
 

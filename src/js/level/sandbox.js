@@ -12,6 +12,7 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
+var Views = require('../views');
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
@@ -172,8 +173,10 @@ var Sandbox = Backbone.View.extend({
       'exit level': this.exitLevel,
       'level': this.startLevel,
       'sandbox': this.exitLevel,
-      'levels': this.showLevels
+      'levels': this.showLevels,
+      'iosAlert': this.iosAlert
     };
+
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
@@ -197,6 +200,16 @@ var Sandbox = Backbone.View.extend({
     if (command && deferred) {
       command.finishWith(deferred);
     }
+  },
+
+  iosAlert: function(command, deferred) {
+    var whenClosed = Q.defer();
+    var view = new Views.iOSKeyboardView({
+      deferred: whenClosed
+    });
+    whenClosed.promise.then(function() {
+      command.finishWith(deferred);
+    });
   },
 
   delay: function(command, deferred) {

@@ -44,7 +44,8 @@ var regexMap = {
   'exit level': /^exit level($|\s)/,
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
-  'levels': /^levels($|\s)/
+  'levels': /^levels($|\s)/,
+  'iosAlert': /^iOS alert($|\s)/
 };
 
 var parse = function(str) {

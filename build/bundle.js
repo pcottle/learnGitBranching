@@ -4483,6 +4483,7 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
+var Views = require('../views');
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
@@ -4643,8 +4644,10 @@ var Sandbox = Backbone.View.extend({
       'exit level': this.exitLevel,
       'level': this.startLevel,
       'sandbox': this.exitLevel,
-      'levels': this.showLevels
+      'levels': this.showLevels,
+      'iosAlert': this.iosAlert
     };
+
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
@@ -4668,6 +4671,16 @@ var Sandbox = Backbone.View.extend({
     if (command && deferred) {
       command.finishWith(deferred);
     }
+  },
+
+  iosAlert: function(command, deferred) {
+    var whenClosed = Q.defer();
+    var view = new Views.iOSKeyboardView({
+      deferred: whenClosed
+    });
+    whenClosed.promise.then(function() {
+      command.finishWith(deferred);
+    });
   },
 
   delay: function(command, deferred) {
@@ -6393,17 +6406,13 @@ var init = function() {
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix; help");
     }, 500);
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || true) {
-    var Views = require('../views');
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
+      eventBaton.trigger('commandSubmitted', 'iOS alert');
     }, 600);
-    setTimeout(function() {
-      new Views.iOSKeyboardView();
-    }, 1000);
   }
 };
 
@@ -9867,28 +9876,6 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
-var iOSKeyboardView = Backbone.View.extend({
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-
-    this.modalAlert = new ModalAlert({
-      markdowns: [
-        '## iOS device',
-        '',
-        'On iOS, user input is needed to bring up the keyboard. Click ',
-        'on this window to bring up the keyboard so you can type commands'
-      ]
-    });
-    this.modalAlert.container.navEvents.on('click', this.clicked, this);
-  },
-
-  clicked: function() {
-    this.modalAlert.die();
-    $('#commandTextField').focus();
-  }
-});
-
 var ConfirmCancelTerminal = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
@@ -9899,7 +9886,6 @@ var ConfirmCancelTerminal = Backbone.View.extend({
       { markdown: '#you sure?' },
       options.modalAlert
     ));
-
 
     var buttonDefer = Q.defer();
     this.buttonDefer = buttonDefer;
@@ -9963,6 +9949,23 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   close: function() {
     this.keyboardListener.mute();
     this.modalAlert.die();
+  }
+});
+
+var iOSKeyboardView = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.modalAlert = {
+      markdowns: [
+        '## iOS device',
+        '',
+        "On iOS, javascript can't bring up the software keyboard so unfortunately ",
+        "there's no way for you to enter commands :-/ Try visiting the site on desktop ",
+        "to get the full experience, or submit a pull request if you have an idea on how ",
+        "to integrate user input on iOS"
+      ]
+    };
+    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
   }
 });
 
@@ -12920,7 +12923,8 @@ var regexMap = {
   'exit level': /^exit level($|\s)/,
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
-  'levels': /^levels($|\s)/
+  'levels': /^levels($|\s)/,
+  'iosAlert': /^iOS alert($|\s)/
 };
 
 var parse = function(str) {
@@ -16716,17 +16720,13 @@ var init = function() {
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
     setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
+      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix; help");
     }, 500);
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || true) {
-    var Views = require('../views');
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
+      eventBaton.trigger('commandSubmitted', 'iOS alert');
     }, 600);
-    setTimeout(function() {
-      new Views.iOSKeyboardView();
-    }, 1000);
   }
 };
 
@@ -19766,6 +19766,7 @@ var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
+var Views = require('../views');
 var ModalTerminal = require('../views').ModalTerminal;
 var ModalAlert = require('../views').ModalAlert;
 var MultiView = require('../views/multiView').MultiView;
@@ -19926,8 +19927,10 @@ var Sandbox = Backbone.View.extend({
       'exit level': this.exitLevel,
       'level': this.startLevel,
       'sandbox': this.exitLevel,
-      'levels': this.showLevels
+      'levels': this.showLevels,
+      'iosAlert': this.iosAlert
     };
+
     var method = commandMap[command.get('method')];
     if (!method) { throw new Error('no method for that wut'); }
 
@@ -19951,6 +19954,16 @@ var Sandbox = Backbone.View.extend({
     if (command && deferred) {
       command.finishWith(deferred);
     }
+  },
+
+  iosAlert: function(command, deferred) {
+    var whenClosed = Q.defer();
+    var view = new Views.iOSKeyboardView({
+      deferred: whenClosed
+    });
+    whenClosed.promise.then(function() {
+      command.finishWith(deferred);
+    });
   },
 
   delay: function(command, deferred) {
@@ -20031,7 +20044,8 @@ var regexMap = {
   'exit level': /^exit level($|\s)/,
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
-  'levels': /^levels($|\s)/
+  'levels': /^levels($|\s)/,
+  'iosAlert': /^iOS alert($|\s)/
 };
 
 var parse = function(str) {
@@ -21684,28 +21698,6 @@ var ModalAlert = ContainedBase.extend({
   }
 });
 
-var iOSKeyboardView = Backbone.View.extend({
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-
-    this.modalAlert = new ModalAlert({
-      markdowns: [
-        '## iOS device',
-        '',
-        'On iOS, user input is needed to bring up the keyboard. Click ',
-        'on this window to bring up the keyboard so you can type commands'
-      ]
-    });
-    this.modalAlert.container.navEvents.on('click', this.clicked, this);
-  },
-
-  clicked: function() {
-    this.modalAlert.die();
-    $('#commandTextField').focus();
-  }
-});
-
 var ConfirmCancelTerminal = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
@@ -21716,7 +21708,6 @@ var ConfirmCancelTerminal = Backbone.View.extend({
       { markdown: '#you sure?' },
       options.modalAlert
     ));
-
 
     var buttonDefer = Q.defer();
     this.buttonDefer = buttonDefer;
@@ -21780,6 +21771,23 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   close: function() {
     this.keyboardListener.mute();
     this.modalAlert.die();
+  }
+});
+
+var iOSKeyboardView = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.modalAlert = {
+      markdowns: [
+        '## iOS device',
+        '',
+        "On iOS, javascript can't bring up the software keyboard so unfortunately ",
+        "there's no way for you to enter commands :-/ Try visiting the site on desktop ",
+        "to get the full experience, or submit a pull request if you have an idea on how ",
+        "to integrate user input on iOS"
+      ]
+    };
+    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
   }
 });
 
