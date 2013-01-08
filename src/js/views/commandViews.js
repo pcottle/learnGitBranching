@@ -149,7 +149,6 @@ var CommandPromptView = Backbone.View.extend({
     // now for positioning
     var leftOffset = String(widthPerChar * (selectionStart % numCharsPerLine)) + 'px';
     var topOffset = String(Math.floor(selectionStart / numCharsPerLine) * heightPerRow) + 'px';
-    console.log('height per row', heightPerRow, 'selection start', selectionStart, 'num chars perline', numCharsPerLine);
 
     // one reflow? :D
     $(this.commandCursor).css({

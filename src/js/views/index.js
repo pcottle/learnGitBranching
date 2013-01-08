@@ -1,4 +1,4 @@
-qvar GitError = require('../util/errors').GitError;
+var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -417,7 +417,7 @@ var ViewportAlert = Backbone.View.extend({
   }
 });
 
-var WindowSizeAlertWindow = Backbone.View.extend({
+var WindowSizeAlertWindow = ViewportAlert.extend({
   initialize: function(options) {
     this.eventBatonName = 'windowSizeCheck';
     this.markdowns = [
@@ -425,19 +425,19 @@ var WindowSizeAlertWindow = Backbone.View.extend({
       'Please resize your window back to a supported size',
       '',
       '(and of course, pull requests to fix this are appreciated :D)'
-    ]
-    ZoomAlertWindow.__super__.initialize.apply(this, [options]);
+    ];
+    WindowSizeAlertWindow.__super__.initialize.apply(this, [options]);
   },
 
   batonFired: function(size) {
-    if (size.w < Constants.VIEWPORT.minWidth ||
-        size.h < Constants.VIEWPORT.minHeight) {
+    if (size.w > Constants.VIEWPORT.minWidth &&
+        size.h > Constants.VIEWPORT.minHeight) {
       this.finish();
     }
   }
 });
 
-var ZoomAlertWindow = Backbone.View.extend({
+var ZoomAlertWindow = ViewportAlert.extend({
   initialize: function(options) {
     this.eventBatonName = 'zoomChange';
     this.markdowns = [
@@ -445,7 +445,7 @@ var ZoomAlertWindow = Backbone.View.extend({
       'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
       '',
       '(and of course, pull requests to fix this are appreciated :D)'
-    ]
+    ];
     ZoomAlertWindow.__super__.initialize.apply(this, [options]);
   },
 

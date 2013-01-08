@@ -4,7 +4,6 @@ Big Things
     * basically just an extension of level (or sandbox), that has commands like
       ```save tree beginning``` or ```save tree goal``` and then a final
       dialog typing area thingy
-[ ] warning for window size
 
 
 Medium things:
@@ -30,11 +29,12 @@ Ideas for cleaning
 /*************************************
  ** Publish Things **
  ************************************/
-- fix terminal input field in general
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] fix terminal input field in general
+[x] warning for window size
 [x] esc on multiview quits absolutely
 [x] cross browser support... firefox only LULZ. should be just css right? WRONG
 [x] keyboard navigation for level selector

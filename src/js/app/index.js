@@ -63,7 +63,7 @@ var init = function() {
     events.trigger('resize', e);
   });
 
-  $(window).on('windowSizeCheck', _.throttle(function(e) {
+  $(window).on('resize', _.throttle(function(e) {
     var width = $(window).width();
     var height = $(window).height();
     eventBaton.trigger('windowSizeCheck', {w: width, h: height});
@@ -109,6 +109,7 @@ var init = function() {
 
   $('#commandTextField').on('keydown', makeKeyListener('keydown'));
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
+  $(window).trigger('resize');
 
   /* hacky demo functionality */
   if (/\?demo/.test(window.location.href)) {
