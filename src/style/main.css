@@ -176,6 +176,7 @@ div.canvasTerminalHolder {
 
 div.gitDemonstrationView > div.visHolder,
 #mainVisSpace {
+  background: #24A7FF;
   background-color: #24A7FF;
 }
 
@@ -389,26 +390,31 @@ p.commandLine.finished span.icons i.icon-check {
 }
 
 p.commandLine.warning span.icons {
+  background: #E0FF00;
   background-color: #E0FF00;
   color: black;
 }
 
 p.commandLine.inqueue span.icons {
+  background: #EBEB24;
   background-color: #EBEB24;
   color: black;
 }
 
 p.commandLine.processing span.icons {
+  background: #88E748;
   background-color: #88E748;
   color: black;
 }
 
 p.commandLine.finished span.icons {
+  background: #0066cc;
   background-color: #0066cc;
   color: white;
 }
 
 p.commandLine.error span.icons {
+  background: red;
   background-color: red;
 }
 
