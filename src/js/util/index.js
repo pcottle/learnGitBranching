@@ -21,3 +21,4 @@ exports.splitTextCommand = function(value, func, context) {
     func(command);
   });
 };
+

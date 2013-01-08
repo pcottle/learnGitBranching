@@ -1,4 +1,4 @@
-var GitError = require('../util/errors').GitError;
+qvar GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -394,39 +394,66 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   }
 });
 
-var ZoomAlertWindow = Backbone.View.extend({
+var ViewportAlert = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
     this.modalAlert = new ModalAlert({
-      markdowns: [
-        '## That zoom level is not supported :-/',
-        'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
-        '',
-        '(and of course, pull requests to fix this are appreciated :D)'
-      ]
+      markdowns: this.markdowns
     });
-
     this.modalAlert.show();
   },
 
   grabBatons: function() {
-    Main.getEventBaton().stealBaton('zoomChange', this.zoomChange, this);
+    Main.getEventBaton().stealBaton(this.eventBatonName, this.batonFired, this);
   },
 
   releaseBatons: function() {
-    Main.getEventBaton().releaseBaton('zoomChange', this.zoomChange, this);
-  },
-
-  zoomChange: function(level) {
-    if (level <= Constants.VIEWPORT.maxZoom &&
-        level >= Constants.VIEWPORT.minZoom) {
-      this.finish();
-    }
+    Main.getEventBaton().releaseBaton(this.eventBatonName, this.batonFired, this);
   },
 
   finish: function() {
     this.releaseBatons();
     this.modalAlert.die();
+  }
+});
+
+var WindowSizeAlertWindow = Backbone.View.extend({
+  initialize: function(options) {
+    this.eventBatonName = 'windowSizeCheck';
+    this.markdowns = [
+      '## That window size is not supported :-/',
+      'Please resize your window back to a supported size',
+      '',
+      '(and of course, pull requests to fix this are appreciated :D)'
+    ]
+    ZoomAlertWindow.__super__.initialize.apply(this, [options]);
+  },
+
+  batonFired: function(size) {
+    if (size.w < Constants.VIEWPORT.minWidth ||
+        size.h < Constants.VIEWPORT.minHeight) {
+      this.finish();
+    }
+  }
+});
+
+var ZoomAlertWindow = Backbone.View.extend({
+  initialize: function(options) {
+    this.eventBatonName = 'zoomChange';
+    this.markdowns = [
+      '## That zoom level is not supported :-/',
+      'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
+      '',
+      '(and of course, pull requests to fix this are appreciated :D)'
+    ]
+    ZoomAlertWindow.__super__.initialize.apply(this, [options]);
+  },
+
+  batonFired: function(level) {
+    if (level <= Constants.VIEWPORT.maxZoom &&
+        level >= Constants.VIEWPORT.minZoom) {
+      this.finish();
+    }
   }
 });
 
@@ -532,6 +559,7 @@ exports.ConfirmCancelView = ConfirmCancelView;
 exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
+exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;

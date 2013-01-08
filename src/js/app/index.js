@@ -63,6 +63,11 @@ var init = function() {
     events.trigger('resize', e);
   });
 
+  $(window).on('windowSizeCheck', _.throttle(function(e) {
+    var width = $(window).width();
+    var height = $(window).height();
+    eventBaton.trigger('windowSizeCheck', {w: width, h: height});
+  }, 500));
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
@@ -76,6 +81,13 @@ var init = function() {
         level < Constants.VIEWPORT.minZoom) {
       var Views = require('../views');
       var view = new Views.ZoomAlertWindow();
+    }
+  });
+  eventBaton.stealBaton('windowSizeCheck', function(size) {
+    if (size.w < Constants.VIEWPORT.minWidth ||
+        size.h < Constants.VIEWPORT.minHeight) {
+      var Views = require('../views');
+      var view = new Views.WindowSizeAlertWindow();
     }
   });
 
