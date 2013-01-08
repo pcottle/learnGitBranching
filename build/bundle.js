@@ -6345,6 +6345,9 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
+  /**
+    * I am disabling this for now, it works on desktop but is
+      hacky on iOS mobile and god knows the behavior on android...
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
     eventBaton.trigger('zoomChange', level);
@@ -6357,6 +6360,8 @@ var init = function() {
       var view = new Views.ZoomAlertWindow({level: level});
     }
   });
+  */
+
   eventBaton.stealBaton('windowSizeCheck', function(size) {
     if (size.w < Constants.VIEWPORT.minWidth ||
         size.h < Constants.VIEWPORT.minHeight) {
@@ -6391,8 +6396,7 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
-    alert(1);
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || true) {
     var Views = require('../views');
     setTimeout(function() {
       eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
@@ -9880,7 +9884,7 @@ var iOSKeyboardView = Backbone.View.extend({
   },
 
   clicked: function() {
-    this.modalAlert.close();
+    this.modalAlert.die();
     $('#commandTextField').focus();
   }
 });
@@ -16053,58 +16057,6 @@ exports.LevelDropdownView = LevelDropdownView;
 
 });
 
-require.define("/src/js/util/zoomLevel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var warnOnce = true;
-
-function detectZoom() {
-  /**
-   * Note: this method has only been tested on Chrome
-   * but seems to work. A much more elaborate library is available here:
-   * https://github.com/yonran/detect-zoom
-   * but seems to return a "2" zoom level for my computer (who knows)
-   * so I can't use it. The ecosystem for zoom level detection is a mess
-   */
-  if (!window.outerWidth || !window.innerWidth) {
-    if (warnOnce) {
-      console.warn("Can't detect zoom level correctly :-/");
-      warnOnce = false;
-    }
-    return 1;
-  }
-
-  return window.outerWidth / window.innerWidth;
-}
-
-var locked = true;
-var setupZoomPoll = function(callback, context) {
-  var currentZoom = 0;
-
-  setInterval(function() {
-    var newZoom = detectZoom();
-
-    if (newZoom !== currentZoom) {
-      // we need to wait one more before issuing callback
-      // to avoid window resize issues
-      if (locked) {
-        locked = false;
-        return;
-      }
-
-      currentZoom = newZoom;
-      callback.apply(context, [newZoom]);
-    } else {
-      locked = true;
-    }
-  }, 500);
-};
-
-exports.setupZoomPoll = setupZoomPoll;
-exports.detectZoom = detectZoom;
-
-
-});
-
 require.define("/src/js/views/commandViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -16490,6 +16442,58 @@ exports.CommandLineHistoryView = CommandLineHistoryView;
 
 });
 
+require.define("/src/js/util/zoomLevel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+var warnOnce = true;
+
+function detectZoom() {
+  /**
+   * Note: this method has only been tested on Chrome
+   * but seems to work. A much more elaborate library is available here:
+   * https://github.com/yonran/detect-zoom
+   * but seems to return a "2" zoom level for my computer (who knows)
+   * so I can't use it. The ecosystem for zoom level detection is a mess
+   */
+  if (!window.outerWidth || !window.innerWidth) {
+    if (warnOnce) {
+      console.warn("Can't detect zoom level correctly :-/");
+      warnOnce = false;
+    }
+    return 1;
+  }
+
+  return window.outerWidth / window.innerWidth;
+}
+
+var locked = true;
+var setupZoomPoll = function(callback, context) {
+  var currentZoom = 0;
+
+  setInterval(function() {
+    var newZoom = detectZoom();
+
+    if (newZoom !== currentZoom) {
+      // we need to wait one more before issuing callback
+      // to avoid window resize issues
+      if (locked) {
+        locked = false;
+        return;
+      }
+
+      currentZoom = newZoom;
+      callback.apply(context, [newZoom]);
+    } else {
+      locked = true;
+    }
+  }, 500);
+};
+
+exports.setupZoomPoll = setupZoomPoll;
+exports.detectZoom = detectZoom;
+
+
+});
+
 require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.helpDialog = [{
   type: 'ModalAlert',
   options: {
@@ -16664,6 +16668,9 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
+  /**
+    * I am disabling this for now, it works on desktop but is
+      hacky on iOS mobile and god knows the behavior on android...
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
     eventBaton.trigger('zoomChange', level);
@@ -16676,6 +16683,8 @@ var init = function() {
       var view = new Views.ZoomAlertWindow({level: level});
     }
   });
+  */
+
   eventBaton.stealBaton('windowSizeCheck', function(size) {
     if (size.w < Constants.VIEWPORT.minWidth ||
         size.h < Constants.VIEWPORT.minHeight) {
@@ -16710,8 +16719,7 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
-    alert(1);
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || true) {
     var Views = require('../views');
     setTimeout(function() {
       eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
@@ -21693,7 +21701,7 @@ var iOSKeyboardView = Backbone.View.extend({
   },
 
   clicked: function() {
-    this.modalAlert.close();
+    this.modalAlert.die();
     $('#commandTextField').focus();
   }
 });

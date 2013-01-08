@@ -305,7 +305,7 @@ var iOSKeyboardView = Backbone.View.extend({
   },
 
   clicked: function() {
-    this.modalAlert.close();
+    this.modalAlert.die();
     $('#commandTextField').focus();
   }
 });

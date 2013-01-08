@@ -71,6 +71,9 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
+  /**
+    * I am disabling this for now, it works on desktop but is
+      hacky on iOS mobile and god knows the behavior on android...
   // zoom level measure, I wish there was a jquery event for this :/
   require('../util/zoomLevel').setupZoomPoll(function(level) {
     eventBaton.trigger('zoomChange', level);
@@ -83,6 +86,8 @@ var init = function() {
       var view = new Views.ZoomAlertWindow({level: level});
     }
   });
+  */
+
   eventBaton.stealBaton('windowSizeCheck', function(size) {
     if (size.w < Constants.VIEWPORT.minWidth ||
         size.h < Constants.VIEWPORT.minHeight) {
@@ -117,8 +122,7 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix");
     }, 500);
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
-    alert(1);
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || true) {
     var Views = require('../views');
     setTimeout(function() {
       eventBaton.trigger('commandSubmitted', 'iOS keyboardPop');
