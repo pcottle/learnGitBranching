@@ -80,7 +80,7 @@ var init = function() {
     if (level > Constants.VIEWPORT.maxZoom ||
         level < Constants.VIEWPORT.minZoom) {
       var Views = require('../views');
-      var view = new Views.ZoomAlertWindow();
+      var view = new Views.ZoomAlertWindow({level: level});
     }
   });
   eventBaton.stealBaton('windowSizeCheck', function(size) {

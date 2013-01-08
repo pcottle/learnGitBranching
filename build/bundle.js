@@ -6354,7 +6354,7 @@ var init = function() {
     if (level > Constants.VIEWPORT.maxZoom ||
         level < Constants.VIEWPORT.minZoom) {
       var Views = require('../views');
-      var view = new Views.ZoomAlertWindow();
+      var view = new Views.ZoomAlertWindow({level: level});
     }
   });
   eventBaton.stealBaton('windowSizeCheck', function(size) {
@@ -10004,9 +10004,11 @@ var WindowSizeAlertWindow = ViewportAlert.extend({
 
 var ZoomAlertWindow = ViewportAlert.extend({
   initialize: function(options) {
+    if (!options || !options.level) { throw new Error('need level'); }
+
     this.eventBatonName = 'zoomChange';
     this.markdowns = [
-      '## That zoom level is not supported :-/',
+      '## That zoom level of ' + options.level + ' is not supported :-/',
       'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
       '',
       '(and of course, pull requests to fix this are appreciated :D)'
@@ -16630,7 +16632,7 @@ var init = function() {
     if (level > Constants.VIEWPORT.maxZoom ||
         level < Constants.VIEWPORT.minZoom) {
       var Views = require('../views');
-      var view = new Views.ZoomAlertWindow();
+      var view = new Views.ZoomAlertWindow({level: level});
     }
   });
   eventBaton.stealBaton('windowSizeCheck', function(size) {
@@ -21774,9 +21776,11 @@ var WindowSizeAlertWindow = ViewportAlert.extend({
 
 var ZoomAlertWindow = ViewportAlert.extend({
   initialize: function(options) {
+    if (!options || !options.level) { throw new Error('need level'); }
+
     this.eventBatonName = 'zoomChange';
     this.markdowns = [
-      '## That zoom level is not supported :-/',
+      '## That zoom level of ' + options.level + ' is not supported :-/',
       'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
       '',
       '(and of course, pull requests to fix this are appreciated :D)'
