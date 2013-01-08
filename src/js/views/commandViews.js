@@ -37,7 +37,7 @@ var CommandPromptView = Backbone.View.extend({
     });
 
     this.index = -1;
-    this.commandSpan = this.$('#prompt span.command')[0];
+    this.commandParagraph = this.$('#prompt p.command')[0];
     this.commandCursor = this.$('#prompt span.cursor')[0];
     this.focus();
 
@@ -74,16 +74,11 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
-    console.log('on keydown');
-    console.log(e);
-
     var el = e.srcElement;
     this.updatePrompt(el);
   },
 
   onKeyUp: function(e) {
-    console.log('on key up');
-    console.log(e);
     this.onKeyDown(e);
 
     // we need to capture some of these events.
@@ -126,7 +121,7 @@ var CommandPromptView = Backbone.View.extend({
     // well...
     var text = $('#commandTextField').val();
     var val = this.badHtmlEncode(text);
-    this.commandSpan.innerHTML = val;
+    this.commandParagraph.innerHTML = val;
 
     // now mutate the cursor...
     this.cursorUpdate(text.length, el.selectionStart, el.selectionEnd);
@@ -136,24 +131,31 @@ var CommandPromptView = Backbone.View.extend({
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
     if (selectionStart === undefined || selectionEnd === undefined) {
-      selectionStart = 0;
-      selectionEnd = 1;
+      selectionStart = commandLength - 1;
+      selectionEnd = commandLength;
     }
 
     // 10px for monospaced font at "1" zoom
     var zoom = require('../util/zoomLevel').detectZoom();
     var widthPerChar = 10 * zoom;
+    var heightPerRow = 22 * zoom;
 
-    var numCharsSelected = Math.max(1, selectionEnd - selectionStart);
-    var width = String(numCharsSelected * widthPerChar) + 'px';
+    var widthOfParagraph = $(this.commandParagraph).width();
+    var numCharsPerLine = widthOfParagraph / widthPerChar;
+
+    var numCharsSelected = Math.min(Math.max(1, selectionEnd - selectionStart), numCharsPerLine);
+    var widthOfSelection = String(numCharsSelected * widthPerChar) + 'px';
 
     // now for positioning
-    var numLeft = (selectionStart !== undefined) ? Math.max(commandLength - selectionStart, 0) : 0;
-    var left = String(-numLeft * widthPerChar) + 'px';
+    var leftOffset = String(widthPerChar * (selectionStart % numCharsPerLine)) + 'px';
+    var topOffset = String(Math.floor(selectionStart / numCharsPerLine) * heightPerRow) + 'px';
+    console.log('height per row', heightPerRow, 'selection start', selectionStart, 'num chars perline', numCharsPerLine);
+
     // one reflow? :D
     $(this.commandCursor).css({
-      width: width,
-      left: left
+      width: widthOfSelection,
+      left: leftOffset,
+      top: topOffset
     });
   },
 

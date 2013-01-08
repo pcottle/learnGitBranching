@@ -4,6 +4,8 @@ Big Things
     * basically just an extension of level (or sandbox), that has commands like
       ```save tree beginning``` or ```save tree goal``` and then a final
       dialog typing area thingy
+[ ] warning for window size
+
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -13,7 +15,6 @@ Cases to handle / things to edit
 
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] esc on multiview quits absolutely
 
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,12 +30,13 @@ Ideas for cleaning
 /*************************************
  ** Publish Things **
  ************************************/
-- cross browser support... firefox only LULZ. should be just css right?
 - fix terminal input field in general
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] esc on multiview quits absolutely
+[x] cross browser support... firefox only LULZ. should be just css right? WRONG
 [x] keyboard navigation for level selector
 [x] optional multiview on start
 [x] local storage for solved map

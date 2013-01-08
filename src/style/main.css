@@ -6,6 +6,7 @@ body {
   margin: 0px;
   border: 0px;
   padding: 0px;
+  overflow: hidden;
 }
 
 html, body {
@@ -27,9 +28,9 @@ p {
 html,
 body,
 .box {
-  display: -webkit-box;
-  display: -moz-box;
   display: box;
+  display: -moz-box;
+  display: -webkit-box;
 }
 
 body,
@@ -425,6 +426,11 @@ p.commandLine span.prompt {
   font-weight: bold;
 }
 
+#commandLineBar p.command {
+  margin: 0;
+  margin-left: 12px;
+}
+
 #commandLineBar #commandTextField {
   position: absolute;
   top: -1000px;
@@ -443,18 +449,21 @@ p.commandLine span.prompt {
 
 #prompt {
   text-align: left;
+  position: relative;
+  min-height: 22px;
 }
 
 #prompt span {
   padding: 0px;
   margin: 0px;
   border: 0px;
+  position: absolute;
 }
 
 #prompt span.cursor {
   background: #DDD;
-  position: relative;
   opacity: 0;
+  margin-left: 12px;
 }
 
 #prompt span.cursor.shown {

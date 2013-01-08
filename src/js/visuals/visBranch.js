@@ -225,7 +225,6 @@ var VisBranch = VisBase.extend({
         branch.obj.get('visBranch')
       ));
     });
-    console.log('getting text size', textNode, 'width', textNode.clientWidth);
 
     return firefoxFix({
       w: maxWidth,

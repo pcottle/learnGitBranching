@@ -52,13 +52,15 @@ var MultiView = Backbone.View.extend({
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('negative', this.getNegFunc(), this);
     this.navEvents.on('positive', this.getPosFunc(), this);
+    this.navEvents.on('quit', this.finish, this);
 
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
       aliasMap: {
         left: 'negative',
         right: 'positive',
-        enter: 'positive'
+        enter: 'positive',
+        esc: 'quit'
       }
     });
 
