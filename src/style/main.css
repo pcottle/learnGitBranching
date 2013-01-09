@@ -14,6 +14,10 @@ html, body {
   color: #eee;
 }
 
+li {
+  margin: 10px 0;
+}
+
 code {
   background: grey;
   padding: 4px;
@@ -22,6 +26,10 @@ code {
 
 p {
   word-wrap: break-word;
+}
+
+.textAlignCenter {
+  text-align: center;
 }
 
 /* Box Model */
@@ -514,6 +522,7 @@ li.rebaseEntry,
   margin-top: 30%;
 }
 
+p.helperText,
 div.terminal-text p.helperText,
 .iRebaseDialog p.helperText {
   font-size: 10px;
@@ -728,12 +737,28 @@ div.levelIcon.solved div.index div.indexNum {
   display: none;
 }
 
-/* Git demonstration view */
+/* Git demonstration view, and MarkdownGrabber */
 
+.MarkdownGrabber {
+  padding: 10px;
+}
+
+.MarkdownGrabber textarea {
+  width: 90%;
+  height: 600px;
+  resize: none;
+}
+
+.markdownGrabberPreview div.insidePreview {
+  padding: 8px;
+}
+
+.MarkdownGrabber > div.inputSide,
 .gitDemonstrationView > div.demonstrationText {
   width: 50%;
 }
 
+.MarkdownGrabber div.markdownGrabberPreview,
 .gitDemonstrationView > div.visHolder {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   border-radius: 3px;
@@ -745,6 +770,7 @@ div.levelIcon.solved div.index div.indexNum {
   padding: 10px;
 }
 
+.MarkdownGrabber,
 .gitDemonstrationView {
   min-height: 400px;
 }

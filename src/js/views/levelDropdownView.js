@@ -271,7 +271,6 @@ var SeriesView = BaseView.extend({
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
       var id = $(el).attr('data-id');
-      console.log('updating id', id);
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },

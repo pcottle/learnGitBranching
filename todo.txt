@@ -3,9 +3,9 @@ Big Things
 [ ] level builder dialog tester
 [ ] level builder dialog builder
 
-
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] get automated SHA hash appending in the html source :OOOOO... template? or what?
 
 Cases to handle / things to edit
 =======================
@@ -31,6 +31,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] sandbox and level command refresh
 [x] level builder finish
 [x] level builder? :OOO
     * basically just an extension of level (or sandbox), that has commands like

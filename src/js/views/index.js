@@ -1,4 +1,3 @@
-var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -7,6 +6,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 var Main = require('../app');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitError = require('../util/errors').GitError;
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
