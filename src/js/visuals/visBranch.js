@@ -273,6 +273,12 @@ var VisBranch = VisBase.extend({
     this.get('text').toFront();
   },
 
+  textToFrontIfInStack: function() {
+    if (this.getBranchStackIndex() !== 0) {
+      this.get('text').toFront();
+    }
+  },
+
   getFill: function() {
     // in the easy case, just return your own fill if you are:
     // - the HEAD ref

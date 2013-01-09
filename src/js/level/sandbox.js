@@ -148,6 +148,22 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  buildLevel: function(command, deferred) {
+    this.hide();
+    this.clear();
+
+    var whenBuilderOpen = Q.defer();
+
+    var LevelBuilder = require('../level/builder').LevelBuilder;
+    var levelBuilder = new LevelBuilder({
+      deferred: whenBuilderOpen
+    });
+
+    whenBuilderOpen.promise.then(function() {
+      command.finishWith(deferred);
+    });
+  },
+
   exitLevel: function(command, deferred) {
     command.addWarning(
       "You aren't in a level! You are in a sandbox, start a level with `level [id]`"
@@ -174,7 +190,8 @@ var Sandbox = Backbone.View.extend({
       'level': this.startLevel,
       'sandbox': this.exitLevel,
       'levels': this.showLevels,
-      'iosAlert': this.iosAlert
+      'iosAlert': this.iosAlert,
+      'build level': this.buildLevel
     };
 
     var method = commandMap[command.get('method')];

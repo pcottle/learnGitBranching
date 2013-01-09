@@ -225,6 +225,11 @@ div.canvasTerminalHolder > div.terminal-window-holder div.inside {
   background: #ff4c7e;
 }
 
+div.canvasTerminalHolder.startTree > div.terminal-window-holder div.terminal-text,
+div.canvasTerminalHolder.startTree > div.terminal-window-holder div.inside {
+  background: #4CA2FF;
+}
+
 div.canvasTerminalHolder > div.terminal-window-holder div.inside {
   min-height: 200px;
   border-radius: 0 0 5px 5px;

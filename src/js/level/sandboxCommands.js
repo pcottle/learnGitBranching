@@ -35,7 +35,7 @@ var instantCommands = [
       msg: 'Commands combined!'
     });
   }],
-  [/^echo "([a-zA-Z0-9 ]+)"$|^echo ([a-zA-Z0-9 ]+)$/, function(bits) {
+  [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
     var msg = bits[1] || bits[2];
     console.log(bits, msg);
     throw new CommandResult({
@@ -53,7 +53,8 @@ var regexMap = {
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
-  'iosAlert': /^iOS alert($|\s)/
+  'iosAlert': /^iOS alert($|\s)/,
+  'build level': /^build level($|\s)/
 };
 
 exports.instantCommands = instantCommands;

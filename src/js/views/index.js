@@ -526,6 +526,10 @@ var CanvasTerminalHolder = BaseView.extend({
     };
 
     this.render();
+
+    if (options.additionalClass) {
+      this.$el.addClass(options.additionalClass);
+    }
   },
 
   getAnimationTime: function() { return 700; },

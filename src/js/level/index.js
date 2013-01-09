@@ -118,10 +118,10 @@ var Level = Sandbox.extend({
       treeString: options.level.startTree
     });
 
-    this.initGoalVisualization(options);
+    this.initGoalVisualization();
   },
 
-  initGoalVisualization: function(options) {
+  initGoalVisualization: function() {
     // first we make the goal visualization holder
     this.goalCanvasHolder = new CanvasTerminalHolder();
 
@@ -172,6 +172,8 @@ var Level = Sandbox.extend({
 
   showGoal: function(command, defer) {
     this.goalCanvasHolder.slideIn();
+
+    if (!command || !defer) { return; }
     setTimeout(function() {
       command.finishWith(defer);
     }, this.goalCanvasHolder.getAnimationTime());

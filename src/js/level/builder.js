@@ -21,7 +21,8 @@ var LevelToolbar = require('../views').LevelToolbar;
 var regexMap = {
   'define goal': /^define goal$/,
   'define start': /^define start$/,
-  'show start': /^show start$/
+  'show start': /^show start$/,
+  'hide start': /^hide start$/
 };
 
 var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
@@ -75,7 +76,9 @@ var LevelBuilder = Level.extend({
   },
 
   initStartVisualization: function() {
-    this.startCanvasHolder = new CanvasTerminalHolder();
+    this.startCanvasHolder = new CanvasTerminalHolder({
+      additionalClass: 'startTree'
+    });
 
     this.startVis = new Visualization({
       el: this.startCanvasHolder.getCanvasLocation(),
@@ -111,12 +114,20 @@ var LevelBuilder = Level.extend({
     );
   },
 
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
   getInstantCommands: function() {
     return [];
   },
 
   takeControl: function() {
-    Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelCommand, this);
+    Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
 
     LevelBuilder.__super__.takeControl.apply(this);
   },
@@ -125,6 +136,70 @@ var LevelBuilder = Level.extend({
     Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
 
     LevelBuilder.__super__.releaseControl.apply(this);
+  },
+
+  showGoal: function() {
+    this.startCanvasHolder.slideOut();
+    LevelBuilder.__super__.showGoal.apply(this, arguments);
+  },
+
+  showStart: function(command, deferred) {
+    this.goalCanvasHolder.slideOut();
+    this.startCanvasHolder.slideIn();
+
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.startCanvasHolder.getAnimationTime());
+  },
+
+  hideStart: function(command, deferred) {
+    this.startCanvasHolder.slideOut();
+
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.startCanvasHolder.getAnimationTime());
+  },
+
+  defineStart: function(command, deferred) {
+    this.startDie();
+
+    command.addWarning(
+      'Defining start point... solution and goal will be overwritten if they were defined earlier'
+    );
+    this.reset();
+    this.solutionCommand = undefined;
+
+    this.level.startTree = this.mainVis.gitEngine.printTree();
+    this.initStartVisualization();
+
+    this.showStart(command, deferred);
+  },
+
+  defineGoal: function(command, deferred) {
+    this.goalDie();
+
+    if (!this.gitCommandsIssued.length) {
+      command.addWarning(
+        'Your solution is empty!! something is amiss'
+      );
+    }
+
+    this.solutionCommand = this.gitCommandsIssued.join(';');
+    this.goalTreeString = this.mainVis.gitEngine.printTree();
+    this.initGoalVisualization();
+
+    this.showGoal(command, deferred);
+  },
+
+  processLevelBuilderCommand: function(command, deferred) {
+    var methodMap = {
+      'define goal': this.defineGoal,
+      'define start': this.defineStart,
+      'show start': this.showStart,
+      'hide start': this.hideStart
+    };
+
+    methodMap[command.get('method')].apply(this, arguments);
   },
 
   afterCommandDefer: function(defer, command) {

@@ -724,6 +724,10 @@ GitVisuals.prototype.visBranchesFront = function() {
     vBranch.nonTextToFront();
     vBranch.textToFront();
   });
+
+  this.visBranchCollection.each(function(visBranch) {
+    vBranch.textToFrontIfInStack();
+  });
 };
 
 GitVisuals.prototype.drawTreeFromReload = function() {
