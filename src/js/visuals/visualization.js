@@ -127,6 +127,10 @@ var Visualization = Backbone.View.extend({
     this.setTreeOpacity(1);
   },
 
+  resetFromThisTreeNow: function(treeString) {
+    this.treeString = treeString;
+  },
+
   reset: function() {
     this.setTreeOpacity(0);
     if (this.treeString) {

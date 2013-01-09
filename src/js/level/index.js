@@ -85,10 +85,7 @@ var Level = Sandbox.extend({
   },
 
   initGoalData: function(options) {
-    this.goalTreeString = this.level.goalTreeString;
-    this.solutionCommand = this.level.solutionCommand;
-
-    if (!this.goalTreeString || !this.solutionCommand) {
+    if (!this.level.goalTreeString || !this.level.solutionCommand) {
       throw new Error('need goal tree and solution');
     }
   },
@@ -130,7 +127,7 @@ var Level = Sandbox.extend({
     this.goalVis = new Visualization({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString,
+      treeString: this.level.goalTreeString,
       noKeyboardInput: true,
       noClick: true
     });
@@ -154,7 +151,7 @@ var Level = Sandbox.extend({
       // ok great add the solution command
       Main.getEventBaton().trigger(
         'commandSubmitted',
-        'reset;' + this.solutionCommand
+        'reset;' + this.level.solutionCommand
       );
       this.hideGoal();
       command.setResult('Solution command added to the command queue...');
@@ -265,7 +262,7 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.goalTreeString);
+    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
 
     if (!solved) {
       defer.resolve();
@@ -347,6 +344,11 @@ var Level = Sandbox.extend({
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
+        });
+      }],
+      [/^build level$/, function() {
+        throw new Errors.GitError({
+          msg: "You can't build a level inside a level! Please exit level first"
         });
       }]
     ];

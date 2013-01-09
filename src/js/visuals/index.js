@@ -725,7 +725,7 @@ GitVisuals.prototype.visBranchesFront = function() {
     vBranch.textToFront();
   });
 
-  this.visBranchCollection.each(function(visBranch) {
+  this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFrontIfInStack();
   });
 };

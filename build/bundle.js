@@ -4648,7 +4648,7 @@ var Sandbox = Backbone.View.extend({
     var whenBuilderOpen = Q.defer();
 
     var LevelBuilder = require('../level/builder').LevelBuilder;
-    var levelBuilder = new LevelBuilder({
+    this.levelBuilder = new LevelBuilder({
       deferred: whenBuilderOpen
     });
 
@@ -4727,6 +4727,7 @@ var Sandbox = Backbone.View.extend({
 
   reset: function(command, deferred) {
     this.mainVis.reset();
+
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.mainVis.getAnimationTime());
@@ -6593,10 +6594,7 @@ var Level = Sandbox.extend({
   },
 
   initGoalData: function(options) {
-    this.goalTreeString = this.level.goalTreeString;
-    this.solutionCommand = this.level.solutionCommand;
-
-    if (!this.goalTreeString || !this.solutionCommand) {
+    if (!this.level.goalTreeString || !this.level.solutionCommand) {
       throw new Error('need goal tree and solution');
     }
   },
@@ -6638,7 +6636,7 @@ var Level = Sandbox.extend({
     this.goalVis = new Visualization({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString,
+      treeString: this.level.goalTreeString,
       noKeyboardInput: true,
       noClick: true
     });
@@ -6662,7 +6660,7 @@ var Level = Sandbox.extend({
       // ok great add the solution command
       Main.getEventBaton().trigger(
         'commandSubmitted',
-        'reset;' + this.solutionCommand
+        'reset;' + this.level.solutionCommand
       );
       this.hideGoal();
       command.setResult('Solution command added to the command queue...');
@@ -6773,7 +6771,7 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.goalTreeString);
+    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
 
     if (!solved) {
       defer.resolve();
@@ -6855,6 +6853,11 @@ var Level = Sandbox.extend({
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
+        });
+      }],
+      [/^build level$/, function() {
+        throw new Errors.GitError({
+          msg: "You can't build a level inside a level! Please exit level first"
         });
       }]
     ];
@@ -7101,6 +7104,10 @@ var Visualization = Backbone.View.extend({
   showHarsh: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     this.setTreeOpacity(1);
+  },
+
+  resetFromThisTreeNow: function(treeString) {
+    this.treeString = treeString;
   },
 
   reset: function() {
@@ -13802,7 +13809,7 @@ GitVisuals.prototype.visBranchesFront = function() {
     vBranch.textToFront();
   });
 
-  this.visBranchCollection.each(function(visBranch) {
+  this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFrontIfInStack();
   });
 };
@@ -16510,7 +16517,8 @@ var regexMap = {
   'define goal': /^define goal$/,
   'define start': /^define start$/,
   'show start': /^show start$/,
-  'hide start': /^hide start$/
+  'hide start': /^hide start$/,
+  'finish': /^finish$/
 };
 
 var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
@@ -16640,6 +16648,11 @@ var LevelBuilder = Level.extend({
     }, this.startCanvasHolder.getAnimationTime());
   },
 
+  resetSolution: function() {
+    this.gitCommandsIssued = [];
+    this.level.solutionCommand = undefined;
+  },
+
   hideStart: function(command, deferred) {
     this.startCanvasHolder.slideOut();
 
@@ -16654,10 +16667,11 @@ var LevelBuilder = Level.extend({
     command.addWarning(
       'Defining start point... solution and goal will be overwritten if they were defined earlier'
     );
-    this.reset();
-    this.solutionCommand = undefined;
+    this.resetSolution();
 
     this.level.startTree = this.mainVis.gitEngine.printTree();
+    this.mainVis.resetFromThisTreeNow(this.level.startTree);
+
     this.initStartVisualization();
 
     this.showStart(command, deferred);
@@ -16672,11 +16686,36 @@ var LevelBuilder = Level.extend({
       );
     }
 
-    this.solutionCommand = this.gitCommandsIssued.join(';');
-    this.goalTreeString = this.mainVis.gitEngine.printTree();
+    this.level.solutionCommand = this.gitCommandsIssued.join(';');
+    this.level.goalTreeString = this.mainVis.gitEngine.printTree();
     this.initGoalVisualization();
 
     this.showGoal(command, deferred);
+  },
+
+  setHint: function(command, deferred) {
+    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    if (command) { command.finishWith(deferred); }
+  },
+
+  setID: function(command, deferred) {
+    var id = prompt('Enter an ID');
+    while (!id || !id.length) {
+      id = prompt('Enter an ID... really this time');
+    }
+    this.level.id = id;
+
+    if (command) { command.finishWith(deferred); }
+  },
+
+  finish: function(command, deferred) {
+    if (!this.level.id) {
+      this.setID();
+    }
+    if (this.level.hint === undefined) {
+      this.setHint();
+    }
+    console.log(this.level, this.startTree);
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -16684,7 +16723,8 @@ var LevelBuilder = Level.extend({
       'define goal': this.defineGoal,
       'define start': this.defineStart,
       'show start': this.showStart,
-      'hide start': this.hideStart
+      'hide start': this.hideStart,
+      'finish': this.finish
     };
 
     methodMap[command.get('method')].apply(this, arguments);
@@ -19351,7 +19391,8 @@ var regexMap = {
   'define goal': /^define goal$/,
   'define start': /^define start$/,
   'show start': /^show start$/,
-  'hide start': /^hide start$/
+  'hide start': /^hide start$/,
+  'finish': /^finish$/
 };
 
 var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
@@ -19481,6 +19522,11 @@ var LevelBuilder = Level.extend({
     }, this.startCanvasHolder.getAnimationTime());
   },
 
+  resetSolution: function() {
+    this.gitCommandsIssued = [];
+    this.level.solutionCommand = undefined;
+  },
+
   hideStart: function(command, deferred) {
     this.startCanvasHolder.slideOut();
 
@@ -19495,10 +19541,11 @@ var LevelBuilder = Level.extend({
     command.addWarning(
       'Defining start point... solution and goal will be overwritten if they were defined earlier'
     );
-    this.reset();
-    this.solutionCommand = undefined;
+    this.resetSolution();
 
     this.level.startTree = this.mainVis.gitEngine.printTree();
+    this.mainVis.resetFromThisTreeNow(this.level.startTree);
+
     this.initStartVisualization();
 
     this.showStart(command, deferred);
@@ -19513,11 +19560,36 @@ var LevelBuilder = Level.extend({
       );
     }
 
-    this.solutionCommand = this.gitCommandsIssued.join(';');
-    this.goalTreeString = this.mainVis.gitEngine.printTree();
+    this.level.solutionCommand = this.gitCommandsIssued.join(';');
+    this.level.goalTreeString = this.mainVis.gitEngine.printTree();
     this.initGoalVisualization();
 
     this.showGoal(command, deferred);
+  },
+
+  setHint: function(command, deferred) {
+    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    if (command) { command.finishWith(deferred); }
+  },
+
+  setID: function(command, deferred) {
+    var id = prompt('Enter an ID');
+    while (!id || !id.length) {
+      id = prompt('Enter an ID... really this time');
+    }
+    this.level.id = id;
+
+    if (command) { command.finishWith(deferred); }
+  },
+
+  finish: function(command, deferred) {
+    if (!this.level.id) {
+      this.setID();
+    }
+    if (this.level.hint === undefined) {
+      this.setHint();
+    }
+    console.log(this.level, this.startTree);
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -19525,7 +19597,8 @@ var LevelBuilder = Level.extend({
       'define goal': this.defineGoal,
       'define start': this.defineStart,
       'show start': this.showStart,
-      'hide start': this.hideStart
+      'hide start': this.hideStart,
+      'finish': this.finish
     };
 
     methodMap[command.get('method')].apply(this, arguments);
@@ -19681,10 +19754,7 @@ var Level = Sandbox.extend({
   },
 
   initGoalData: function(options) {
-    this.goalTreeString = this.level.goalTreeString;
-    this.solutionCommand = this.level.solutionCommand;
-
-    if (!this.goalTreeString || !this.solutionCommand) {
+    if (!this.level.goalTreeString || !this.level.solutionCommand) {
       throw new Error('need goal tree and solution');
     }
   },
@@ -19726,7 +19796,7 @@ var Level = Sandbox.extend({
     this.goalVis = new Visualization({
       el: this.goalCanvasHolder.getCanvasLocation(),
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
-      treeString: this.goalTreeString,
+      treeString: this.level.goalTreeString,
       noKeyboardInput: true,
       noClick: true
     });
@@ -19750,7 +19820,7 @@ var Level = Sandbox.extend({
       // ok great add the solution command
       Main.getEventBaton().trigger(
         'commandSubmitted',
-        'reset;' + this.solutionCommand
+        'reset;' + this.level.solutionCommand
       );
       this.hideGoal();
       command.setResult('Solution command added to the command queue...');
@@ -19861,7 +19931,7 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.goalTreeString);
+    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
 
     if (!solved) {
       defer.resolve();
@@ -19943,6 +20013,11 @@ var Level = Sandbox.extend({
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
+        });
+      }],
+      [/^build level$/, function() {
+        throw new Errors.GitError({
+          msg: "You can't build a level inside a level! Please exit level first"
         });
       }]
     ];
@@ -20258,7 +20333,7 @@ var Sandbox = Backbone.View.extend({
     var whenBuilderOpen = Q.defer();
 
     var LevelBuilder = require('../level/builder').LevelBuilder;
-    var levelBuilder = new LevelBuilder({
+    this.levelBuilder = new LevelBuilder({
       deferred: whenBuilderOpen
     });
 
@@ -20337,6 +20412,7 @@ var Sandbox = Backbone.View.extend({
 
   reset: function(command, deferred) {
     this.mainVis.reset();
+
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.mainVis.getAnimationTime());
@@ -24098,7 +24174,7 @@ GitVisuals.prototype.visBranchesFront = function() {
     vBranch.textToFront();
   });
 
-  this.visBranchCollection.each(function(visBranch) {
+  this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFrontIfInStack();
   });
 };
@@ -25424,6 +25500,10 @@ var Visualization = Backbone.View.extend({
   showHarsh: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     this.setTreeOpacity(1);
+  },
+
+  resetFromThisTreeNow: function(treeString) {
+    this.treeString = treeString;
   },
 
   reset: function() {

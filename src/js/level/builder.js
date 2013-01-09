@@ -22,7 +22,8 @@ var regexMap = {
   'define goal': /^define goal$/,
   'define start': /^define start$/,
   'show start': /^show start$/,
-  'hide start': /^hide start$/
+  'hide start': /^hide start$/,
+  'finish': /^finish$/
 };
 
 var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
@@ -152,6 +153,11 @@ var LevelBuilder = Level.extend({
     }, this.startCanvasHolder.getAnimationTime());
   },
 
+  resetSolution: function() {
+    this.gitCommandsIssued = [];
+    this.level.solutionCommand = undefined;
+  },
+
   hideStart: function(command, deferred) {
     this.startCanvasHolder.slideOut();
 
@@ -166,10 +172,11 @@ var LevelBuilder = Level.extend({
     command.addWarning(
       'Defining start point... solution and goal will be overwritten if they were defined earlier'
     );
-    this.reset();
-    this.solutionCommand = undefined;
+    this.resetSolution();
 
     this.level.startTree = this.mainVis.gitEngine.printTree();
+    this.mainVis.resetFromThisTreeNow(this.level.startTree);
+
     this.initStartVisualization();
 
     this.showStart(command, deferred);
@@ -184,11 +191,46 @@ var LevelBuilder = Level.extend({
       );
     }
 
-    this.solutionCommand = this.gitCommandsIssued.join(';');
-    this.goalTreeString = this.mainVis.gitEngine.printTree();
+    this.level.solutionCommand = this.gitCommandsIssued.join(';');
+    this.level.goalTreeString = this.mainVis.gitEngine.printTree();
     this.initGoalVisualization();
 
     this.showGoal(command, deferred);
+  },
+
+  setHint: function(command, deferred) {
+    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    if (command) { command.finishWith(deferred); }
+  },
+
+  setID: function(command, deferred) {
+    var id = prompt('Enter an ID');
+    while (!id || !id.length) {
+      id = prompt('Enter an ID... really this time');
+    }
+    this.level.id = id;
+
+    if (command) { command.finishWith(deferred); }
+  },
+
+  finish: function(command, deferred) {
+    if (!this.gitCommandsIssued.length) {
+      command.set('error', new GitError({
+        msg: 'Your solution is empty!'
+      });
+      deferred.resolve();
+      return;
+    }
+
+    if (!this.level.id) {
+      this.setID();
+    }
+    if (this.level.hint === undefined) {
+      this.setHint();
+    }
+    console.log(this.level);
+
+    command.finishWith(deferred);
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -196,7 +238,8 @@ var LevelBuilder = Level.extend({
       'define goal': this.defineGoal,
       'define start': this.defineStart,
       'show start': this.showStart,
-      'hide start': this.hideStart
+      'hide start': this.hideStart,
+      'finish': this.finish
     };
 
     methodMap[command.get('method')].apply(this, arguments);

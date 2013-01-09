@@ -155,7 +155,7 @@ var Sandbox = Backbone.View.extend({
     var whenBuilderOpen = Q.defer();
 
     var LevelBuilder = require('../level/builder').LevelBuilder;
-    var levelBuilder = new LevelBuilder({
+    this.levelBuilder = new LevelBuilder({
       deferred: whenBuilderOpen
     });
 
@@ -234,6 +234,7 @@ var Sandbox = Backbone.View.extend({
 
   reset: function(command, deferred) {
     this.mainVis.reset();
+
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.mainVis.getAnimationTime());

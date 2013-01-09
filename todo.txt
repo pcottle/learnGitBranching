@@ -1,9 +1,8 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] level builder? :OOO
-    * basically just an extension of level (or sandbox), that has commands like
-      ```save tree beginning``` or ```save tree goal``` and then a final
-      dialog typing area thingy
+[ ] level builder finish
+[ ] level builder dialog tester
+[ ] level builder dialog builder
 
 
 Medium things:
@@ -33,6 +32,11 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] level builder? :OOO
+    * basically just an extension of level (or sandbox), that has commands like
+      ```save tree beginning``` or ```save tree goal``` and then a final
+      dialog typing area thingy
+[x] vis branch z index reflow bug
 [x] fix terminal input field in general
 [x] warning for window size
 [x] esc on multiview quits absolutely
