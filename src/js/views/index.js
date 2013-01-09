@@ -367,7 +367,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
-    this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+    var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
 
     var markdowns = [
       '## Great Job!!',
@@ -386,11 +386,18 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       );
     }
 
-    markdowns = markdowns.concat([
-      '',
-      'Would you like to move onto "',
-      this.nextLevelName + '", the next level?'
-    ]);
+    if (options.nextLevel) {
+      markdowns = markdowns.concat([
+        '',
+        'Would you like to move onto "',
+        nextLevelName + '", the next level?'
+      ]);
+    } else {
+      markdowns = markdowns.concat([
+        '',
+        'Wow!!! You finished the last level, congratulations!'
+      ]);
+    }
 
     options.modalAlert = {
       markdowns: markdowns

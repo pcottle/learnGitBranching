@@ -180,8 +180,18 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  resetSolved: function(command, deferred) {
+    Main.getLevelArbiter().resetSolvedMap();
+    command.addWarning(
+      "Solved map was reset, you are starting from a clean slate!"
+    );
+    deferred.resolve();
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
+      'reset solved': this.resetSolved,
+      'general help': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
       'delay': this.delay,

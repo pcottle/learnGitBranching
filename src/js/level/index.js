@@ -23,6 +23,8 @@ var LevelToolbar = require('../views').LevelToolbar;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var regexMap = {
+  'level help': /^level help$/,
+  'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
   'show solution': /^show solution$/
@@ -50,11 +52,11 @@ var Level = Sandbox.extend({
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
 
-    this.handleOpen();
+    this.handleOpen(options.deferred);
   },
 
-  handleOpen: function() {
-    this.options.deferred = this.options.deferred || Q.defer();
+  handleOpen: function(deferred) {
+    deferred = deferred || Q.defer();
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
@@ -62,15 +64,28 @@ var Level = Sandbox.extend({
       new MultiView(_.extend(
         {},
         this.level.startDialog,
-        { deferred: this.options.deferred }
+        { deferred: deferred }
       ));
       return;
     }
 
-    // otherwise, resolve after a 700 second delay
-    setTimeout(_.bind(function() {
-      this.options.deferred.resolve();
-    }, this), this.getAnimationTime() * 1.2);
+    // otherwise, resolve after a 700 second delay to allow
+    // for us to animate easily
+    setTimeout(function() {
+      deferred.resolve();
+    }, this.getAnimationTime() * 1.2);
+  },
+
+  startDialog: function(command, deferred) {
+    if (!this.level.startDialog) {
+      command.set('error', new Errors.GitError({
+        msg: 'There is no start dialog to show for this level!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.handleOpen(deferred);
   },
 
   initName: function() {
@@ -290,11 +305,10 @@ var Level = Sandbox.extend({
 
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
-      // TODO if there is no future level...
-
-      // we want to ask if they will move onto the next level...
+      // we want to ask if they will move onto the next level
+      // while giving them their results...
       var nextDialog = new NextLevelConfirm({
-        nextLevelName: nextLevel.name,
+        nextLevel: nextLevel,
         numCommands: numCommands,
         best: best
       });
@@ -302,10 +316,12 @@ var Level = Sandbox.extend({
       return nextDialog.getPromise();
     })
     .then(function() {
-      Main.getEventBaton().trigger(
-        'commandSubmitted',
-        'level ' + nextLevel.id
-      );
+      if (nextLevel) {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'level ' + nextLevel.id
+        );
+      }
     })
     .fail(function() {
       // nothing to do, we will just close
@@ -341,6 +357,12 @@ var Level = Sandbox.extend({
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
     return [
+      [/^help$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
+               '"level help" or "general help"'
+        });
+      }],
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
@@ -388,7 +410,9 @@ var Level = Sandbox.extend({
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution
+      'show solution': this.showSolution,
+      'start dialog': this.startDialog,
+      'level help': this.startDialog
     };
     var method = methodMap[command.get('method')];
     if (!method) {

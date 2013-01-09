@@ -56,7 +56,8 @@ var LevelBuilder = Level.extend({
 
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.initStartVisualization();
+    this.startDialog = undefined;
+    this.initStartDialog();
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -216,7 +217,19 @@ var LevelBuilder = Level.extend({
     if (this.level.hint === undefined) {
       this.setHint();
     }
-    console.log(this.level);
+
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+
+    console.log(compiledLevel);
 
     command.finishWith(deferred);
   },

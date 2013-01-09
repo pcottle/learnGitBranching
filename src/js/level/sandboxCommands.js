@@ -45,6 +45,8 @@ var instantCommands = [
 ];
 
 var regexMap = {
+  'reset solved': /^reset solved($|\s)/,
+  'general help': /^general help($|\s)/,
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
   'delay': /^delay (\d+)$/,

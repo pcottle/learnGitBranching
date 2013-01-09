@@ -10,6 +10,8 @@ var Main = require('../app');
 
 function LevelArbiter() {
   this.levelMap = {};
+  this.levelSequences = levelSequences;
+  this.sequences = [];
   this.init();
 
   var solvedMap;
@@ -26,24 +28,30 @@ function LevelArbiter() {
 
 LevelArbiter.prototype.init = function() {
   var previousLevelID;
-  _.each(levelSequences, function(levels, levelSequenceName) {
+  _.each(this.levelSequences, function(levels, levelSequenceName) {
+    this.sequences.push(levelSequenceName);
+    if (!levels || !levels.length) {
+      throw new Error('no empty sequences allowed');
+    }
+
     // for this particular sequence...
     _.each(levels, function(level, index) {
       this.validateLevel(level);
-      this.levelMap[level.id] = _.extend(
+
+      var id = levelSequenceName + String(index);
+      var compiledLevel = _.extend(
         {},
         level,
         {
           index: index,
-          id: levelSequenceName + String(index)
+          id: levelSequenceName + String(index),
+          sequenceName: levelSequenceName
         }
       );
 
-      // build up the chaining between levels
-      if (previousLevelID) {
-        this.levelMap[previousLevelID]['nextLevelID'] = level.id;
-      }
-      previousLevelID = level.id;
+      // update our internal data
+      this.levelMap[id] = compiledLevel;
+      this.levelSequences[levelSequenceName][index] = compiledLevel;
     }, this);
   }, this);
 };
@@ -56,7 +64,15 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
 };
 
 LevelArbiter.prototype.levelSolved = function(id) {
+  // called without an id when we reset solved status
+  if (!id) { return; }
+
   this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.resetSolvedMap = function() {
+  this.solvedMap = {};
   this.syncToStorage();
 };
 
@@ -87,24 +103,21 @@ LevelArbiter.prototype.validateLevel = function(level) {
       throw new Error('I need this field for a level: ' + field);
     }
   });
-  if (this.levelMap[level.id]) {
-    throw new Error('woah that level already exists!');
-  }
 };
 
 LevelArbiter.prototype.getSequenceToLevels = function() {
-  return levelSequences;
+  return this.levelSequences;
 };
 
 LevelArbiter.prototype.getSequences = function() {
-  return _.keys(levelSequences);
+  return _.keys(this.levelSequences);
 };
 
 LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
-  if (!levelSequences[sequenceName]) {
+  if (!this.levelSequences[sequenceName]) {
     throw new Error('that sequecne name ' + sequenceName + 'does not exist');
   }
-  return levelSequences[sequenceName];
+  return this.levelSequences[sequenceName];
 };
 
 LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
@@ -119,12 +132,28 @@ LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  var nextID = this.levelMap[id]['nextLevelID'];
-  return this.levelMap[nextID];
-};
 
-LevelArbiter.prototype.getNextLevelID = function(id) {
-  return this.getNextLevel(id)['id'];
+  // meh, this method could be better. It's a tradeoff between
+  // having the sequence structure be really simple JSON
+  // and having no connectivity information between levels, which means
+  // you have to build that up yourself on every query
+  var level = this.levelMap[id];
+  var sequenceName = level.sequenceName;
+  var sequence = this.levelSequences[sequenceName];
+
+  var nextIndex = level.index + 1;
+  if (nextIndex < sequence.length) {
+    return sequence[nextIndex];
+  }
+
+  var nextSequenceIndex = this.sequences.indexOf(sequenceName) + 1;
+  if (nextSequenceIndex < this.sequences.length) {
+    var nextSequenceName = this.sequences[nextSequenceIndex];
+    return this.levelSequences[nextSequenceName][0];
+  }
+
+  // they finished the last level!
+  return null;
 };
 
 exports.LevelArbiter = LevelArbiter;

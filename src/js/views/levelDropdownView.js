@@ -150,13 +150,8 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getSequenceIndex: function(name) {
-    var index;
-    _.each(this.sequences, function(_name, _index) {
-      if (_name == name) {
-        index = _index;
-      }
-    });
-    if (index === undefined) { throw new Error('didnt find'); }
+    var index = this.sequences.indexOf(name);
+    if (index < 0) { throw new Error('didnt find'); }
     return index;
   },
 

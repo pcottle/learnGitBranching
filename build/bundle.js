@@ -4673,8 +4673,18 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  resetSolved: function(command, deferred) {
+    Main.getLevelArbiter().resetSolvedMap();
+    command.addWarning(
+      "Solved map was reset, you are starting from a clean slate!"
+    );
+    deferred.resolve();
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
+      'reset solved': this.resetSolved,
+      'general help': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
       'delay': this.delay,
@@ -6532,6 +6542,8 @@ var LevelToolbar = require('../views').LevelToolbar;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var regexMap = {
+  'level help': /^level help$/,
+  'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
   'show solution': /^show solution$/
@@ -6559,11 +6571,11 @@ var Level = Sandbox.extend({
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
 
-    this.handleOpen();
+    this.handleOpen(options.deferred);
   },
 
-  handleOpen: function() {
-    this.options.deferred = this.options.deferred || Q.defer();
+  handleOpen: function(deferred) {
+    deferred = deferred || Q.defer();
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
@@ -6571,15 +6583,28 @@ var Level = Sandbox.extend({
       new MultiView(_.extend(
         {},
         this.level.startDialog,
-        { deferred: this.options.deferred }
+        { deferred: deferred }
       ));
       return;
     }
 
-    // otherwise, resolve after a 700 second delay
-    setTimeout(_.bind(function() {
-      this.options.deferred.resolve();
-    }, this), this.getAnimationTime() * 1.2);
+    // otherwise, resolve after a 700 second delay to allow
+    // for us to animate easily
+    setTimeout(function() {
+      deferred.resolve();
+    }, this.getAnimationTime() * 1.2);
+  },
+
+  startDialog: function(command, deferred) {
+    if (!this.level.startDialog) {
+      command.set('error', new Errors.GitError({
+        msg: 'There is no start dialog to show for this level!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.handleOpen(deferred);
   },
 
   initName: function() {
@@ -6799,11 +6824,10 @@ var Level = Sandbox.extend({
 
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
-      // TODO if there is no future level...
-
-      // we want to ask if they will move onto the next level...
+      // we want to ask if they will move onto the next level
+      // while giving them their results...
       var nextDialog = new NextLevelConfirm({
-        nextLevelName: nextLevel.name,
+        nextLevel: nextLevel,
         numCommands: numCommands,
         best: best
       });
@@ -6811,10 +6835,12 @@ var Level = Sandbox.extend({
       return nextDialog.getPromise();
     })
     .then(function() {
-      Main.getEventBaton().trigger(
-        'commandSubmitted',
-        'level ' + nextLevel.id
-      );
+      if (nextLevel) {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'level ' + nextLevel.id
+        );
+      }
     })
     .fail(function() {
       // nothing to do, we will just close
@@ -6850,6 +6876,12 @@ var Level = Sandbox.extend({
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
     return [
+      [/^help$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
+               '"level help" or "general help"'
+        });
+      }],
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
@@ -6897,7 +6929,9 @@ var Level = Sandbox.extend({
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution
+      'show solution': this.showSolution,
+      'start dialog': this.startDialog,
+      'level help': this.startDialog
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -9997,7 +10031,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
-    this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+    var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
 
     var markdowns = [
       '## Great Job!!',
@@ -10016,11 +10050,18 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       );
     }
 
-    markdowns = markdowns.concat([
-      '',
-      'Would you like to move onto "',
-      this.nextLevelName + '", the next level?'
-    ]);
+    if (options.nextLevel) {
+      markdowns = markdowns.concat([
+        '',
+        'Would you like to move onto "',
+        nextLevelName + '", the next level?'
+      ]);
+    } else {
+      markdowns = markdowns.concat([
+        '',
+        'Wow!!! You finished the last level, congratulations!'
+      ]);
+    }
 
     options.modalAlert = {
       markdowns: markdowns
@@ -12951,6 +12992,8 @@ var instantCommands = [
 ];
 
 var regexMap = {
+  'reset solved': /^reset solved($|\s)/,
+  'general help': /^general help($|\s)/,
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
   'delay': /^delay (\d+)$/,
@@ -15537,6 +15580,8 @@ var Main = require('../app');
 
 function LevelArbiter() {
   this.levelMap = {};
+  this.levelSequences = levelSequences;
+  this.sequences = [];
   this.init();
 
   var solvedMap;
@@ -15553,21 +15598,30 @@ function LevelArbiter() {
 
 LevelArbiter.prototype.init = function() {
   var previousLevelID;
-  _.each(levelSequences, function(levels, levelSequenceName) {
+  _.each(this.levelSequences, function(levels, levelSequenceName) {
+    this.sequences.push(levelSequenceName);
+    if (!levels || !levels.length) {
+      throw new Error('no empty sequences allowed');
+    }
+
     // for this particular sequence...
     _.each(levels, function(level, index) {
       this.validateLevel(level);
-      this.levelMap[level.id] = _.extend(
+
+      var id = levelSequenceName + String(index);
+      var compiledLevel = _.extend(
         {},
-        { index: index },
-        level
+        level,
+        {
+          index: index,
+          id: levelSequenceName + String(index),
+          sequenceName: levelSequenceName
+        }
       );
 
-      // build up the chaining between levels
-      if (previousLevelID) {
-        this.levelMap[previousLevelID]['nextLevelID'] = level.id;
-      }
-      previousLevelID = level.id;
+      // update our internal data
+      this.levelMap[id] = compiledLevel;
+      this.levelSequences[levelSequenceName][index] = compiledLevel;
     }, this);
   }, this);
 };
@@ -15580,7 +15634,15 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
 };
 
 LevelArbiter.prototype.levelSolved = function(id) {
+  // called without an id when we reset solved status
+  if (!id) { return; }
+
   this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.resetSolvedMap = function() {
+  this.solvedMap = {};
   this.syncToStorage();
 };
 
@@ -15595,7 +15657,6 @@ LevelArbiter.prototype.syncToStorage = function() {
 LevelArbiter.prototype.validateLevel = function(level) {
   level = level || {};
   var requiredFields = [
-    'id',
     'name',
     'goalTreeString',
     'solutionCommand'
@@ -15612,24 +15673,21 @@ LevelArbiter.prototype.validateLevel = function(level) {
       throw new Error('I need this field for a level: ' + field);
     }
   });
-  if (this.levelMap[level.id]) {
-    throw new Error('woah that level already exists!');
-  }
 };
 
 LevelArbiter.prototype.getSequenceToLevels = function() {
-  return levelSequences;
+  return this.levelSequences;
 };
 
 LevelArbiter.prototype.getSequences = function() {
-  return _.keys(levelSequences);
+  return _.keys(this.levelSequences);
 };
 
 LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
-  if (!levelSequences[sequenceName]) {
+  if (!this.levelSequences[sequenceName]) {
     throw new Error('that sequecne name ' + sequenceName + 'does not exist');
   }
-  return levelSequences[sequenceName];
+  return this.levelSequences[sequenceName];
 };
 
 LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
@@ -15644,12 +15702,28 @@ LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  var nextID = this.levelMap[id]['nextLevelID'];
-  return this.levelMap[nextID];
-};
 
-LevelArbiter.prototype.getNextLevelID = function(id) {
-  return this.getNextLevel(id)['id'];
+  // meh, this method could be better. It's a tradeoff between
+  // having the sequence structure be really simple JSON
+  // and having no connectivity information between levels, which means
+  // you have to build that up yourself on every query
+  var level = this.levelMap[id];
+  var sequenceName = level.sequenceName;
+  var sequence = this.levelSequences[sequenceName];
+
+  var nextIndex = level.index + 1;
+  if (nextIndex < sequence.length) {
+    return sequence[nextIndex];
+  }
+
+  var nextSequenceIndex = this.sequences.indexOf(sequenceName) + 1;
+  if (nextSequenceIndex < this.sequences.length) {
+    var nextSequenceName = this.sequences[nextSequenceIndex];
+    return this.levelSequences[nextSequenceName][0];
+  }
+
+  // they finished the last level!
+  return null;
 };
 
 exports.LevelArbiter = LevelArbiter;
@@ -15687,7 +15761,6 @@ exports.sequenceInfo = {
 });
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
   name: 'Introduction #1',
   startDialog: {
     childViews: [{
@@ -15711,7 +15784,6 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 });
 
 require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15722,7 +15794,6 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
 });
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'rebase1',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15733,7 +15804,6 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 });
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'rebase2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15744,7 +15814,6 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
 });
 
 require.define("/src/levels/rebase/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'rebase3',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -15906,25 +15975,13 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getSequenceIndex: function(name) {
-    var index;
-    _.each(this.sequences, function(_name, _index) {
-      if (_name == name) {
-        index = _index;
-      }
-    });
-    if (index === undefined) { throw new Error('didnt find'); }
+    var index = this.sequences.indexOf(name);
+    if (index < 0) { throw new Error('didnt find'); }
     return index;
   },
 
   getIndexForID: function(id) {
-    var index;
-    var levels = this.sequenceToLevels[this.selectedSequence];
-    _.each(levels, function(level, _index) {
-      if (level.id == id) {
-        index = _index;
-      }
-    });
-    return index;
+    return Main.getLevelArbiter().getLevel(id).index;
   },
 
   selectFirst: function() {
@@ -16520,6 +16577,7 @@ var regexMap = {
   'define start': /^define start$/,
   'show start': /^show start$/,
   'hide start': /^hide start$/,
+  'define hint': /^define hint$/,
   'finish': /^finish$/
 };
 
@@ -16542,6 +16600,7 @@ var LevelBuilder = Level.extend({
             '  * Define the starting tree with ```define start```',
             '  * Enter the series of git commands that compose the (optimal) solution',
             '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+            '  * Optionally define a hint with ```define hint```',
             '  * Enter the command ```finish``` to output your level JSON!'
           ]
         }
@@ -16550,7 +16609,8 @@ var LevelBuilder = Level.extend({
 
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.initStartVisualization();
+    this.startDialog = undefined;
+    this.initStartDialog();
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -16693,18 +16753,8 @@ var LevelBuilder = Level.extend({
     this.showGoal(command, deferred);
   },
 
-  setHint: function(command, deferred) {
+  defineHint: function(command, deferred) {
     this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
-    if (command) { command.finishWith(deferred); }
-  },
-
-  setID: function(command, deferred) {
-    var id = prompt('Enter an ID');
-    while (!id || !id.length) {
-      id = prompt('Enter an ID... really this time');
-    }
-    this.level.id = id;
-
     if (command) { command.finishWith(deferred); }
   },
 
@@ -16720,7 +16770,19 @@ var LevelBuilder = Level.extend({
     if (this.level.hint === undefined) {
       this.setHint();
     }
-    console.log(this.level);
+
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+
+    console.log(compiledLevel);
 
     command.finishWith(deferred);
   },
@@ -16731,7 +16793,8 @@ var LevelBuilder = Level.extend({
       'define start': this.defineStart,
       'show start': this.showStart,
       'hide start': this.hideStart,
-      'finish': this.finish
+      'finish': this.finish,
+      'define hint': this.defineHint
     };
 
     methodMap[command.get('method')].apply(this, arguments);
@@ -19254,6 +19317,8 @@ var Main = require('../app');
 
 function LevelArbiter() {
   this.levelMap = {};
+  this.levelSequences = levelSequences;
+  this.sequences = [];
   this.init();
 
   var solvedMap;
@@ -19270,21 +19335,30 @@ function LevelArbiter() {
 
 LevelArbiter.prototype.init = function() {
   var previousLevelID;
-  _.each(levelSequences, function(levels, levelSequenceName) {
+  _.each(this.levelSequences, function(levels, levelSequenceName) {
+    this.sequences.push(levelSequenceName);
+    if (!levels || !levels.length) {
+      throw new Error('no empty sequences allowed');
+    }
+
     // for this particular sequence...
     _.each(levels, function(level, index) {
       this.validateLevel(level);
-      this.levelMap[level.id] = _.extend(
+
+      var id = levelSequenceName + String(index);
+      var compiledLevel = _.extend(
         {},
-        { index: index },
-        level
+        level,
+        {
+          index: index,
+          id: levelSequenceName + String(index),
+          sequenceName: levelSequenceName
+        }
       );
 
-      // build up the chaining between levels
-      if (previousLevelID) {
-        this.levelMap[previousLevelID]['nextLevelID'] = level.id;
-      }
-      previousLevelID = level.id;
+      // update our internal data
+      this.levelMap[id] = compiledLevel;
+      this.levelSequences[levelSequenceName][index] = compiledLevel;
     }, this);
   }, this);
 };
@@ -19297,7 +19371,15 @@ LevelArbiter.prototype.isLevelSolved = function(id) {
 };
 
 LevelArbiter.prototype.levelSolved = function(id) {
+  // called without an id when we reset solved status
+  if (!id) { return; }
+
   this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.resetSolvedMap = function() {
+  this.solvedMap = {};
   this.syncToStorage();
 };
 
@@ -19312,7 +19394,6 @@ LevelArbiter.prototype.syncToStorage = function() {
 LevelArbiter.prototype.validateLevel = function(level) {
   level = level || {};
   var requiredFields = [
-    'id',
     'name',
     'goalTreeString',
     'solutionCommand'
@@ -19329,24 +19410,21 @@ LevelArbiter.prototype.validateLevel = function(level) {
       throw new Error('I need this field for a level: ' + field);
     }
   });
-  if (this.levelMap[level.id]) {
-    throw new Error('woah that level already exists!');
-  }
 };
 
 LevelArbiter.prototype.getSequenceToLevels = function() {
-  return levelSequences;
+  return this.levelSequences;
 };
 
 LevelArbiter.prototype.getSequences = function() {
-  return _.keys(levelSequences);
+  return _.keys(this.levelSequences);
 };
 
 LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
-  if (!levelSequences[sequenceName]) {
+  if (!this.levelSequences[sequenceName]) {
     throw new Error('that sequecne name ' + sequenceName + 'does not exist');
   }
-  return levelSequences[sequenceName];
+  return this.levelSequences[sequenceName];
 };
 
 LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
@@ -19361,12 +19439,28 @@ LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
     throw new Error('that level doesnt exist!');
   }
-  var nextID = this.levelMap[id]['nextLevelID'];
-  return this.levelMap[nextID];
-};
 
-LevelArbiter.prototype.getNextLevelID = function(id) {
-  return this.getNextLevel(id)['id'];
+  // meh, this method could be better. It's a tradeoff between
+  // having the sequence structure be really simple JSON
+  // and having no connectivity information between levels, which means
+  // you have to build that up yourself on every query
+  var level = this.levelMap[id];
+  var sequenceName = level.sequenceName;
+  var sequence = this.levelSequences[sequenceName];
+
+  var nextIndex = level.index + 1;
+  if (nextIndex < sequence.length) {
+    return sequence[nextIndex];
+  }
+
+  var nextSequenceIndex = this.sequences.indexOf(sequenceName) + 1;
+  if (nextSequenceIndex < this.sequences.length) {
+    var nextSequenceName = this.sequences[nextSequenceIndex];
+    return this.levelSequences[nextSequenceName][0];
+  }
+
+  // they finished the last level!
+  return null;
 };
 
 exports.LevelArbiter = LevelArbiter;
@@ -19401,6 +19495,7 @@ var regexMap = {
   'define start': /^define start$/,
   'show start': /^show start$/,
   'hide start': /^hide start$/,
+  'define hint': /^define hint$/,
   'finish': /^finish$/
 };
 
@@ -19423,6 +19518,7 @@ var LevelBuilder = Level.extend({
             '  * Define the starting tree with ```define start```',
             '  * Enter the series of git commands that compose the (optimal) solution',
             '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+            '  * Optionally define a hint with ```define hint```',
             '  * Enter the command ```finish``` to output your level JSON!'
           ]
         }
@@ -19431,7 +19527,8 @@ var LevelBuilder = Level.extend({
 
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.initStartVisualization();
+    this.startDialog = undefined;
+    this.initStartDialog();
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -19574,18 +19671,8 @@ var LevelBuilder = Level.extend({
     this.showGoal(command, deferred);
   },
 
-  setHint: function(command, deferred) {
+  defineHint: function(command, deferred) {
     this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
-    if (command) { command.finishWith(deferred); }
-  },
-
-  setID: function(command, deferred) {
-    var id = prompt('Enter an ID');
-    while (!id || !id.length) {
-      id = prompt('Enter an ID... really this time');
-    }
-    this.level.id = id;
-
     if (command) { command.finishWith(deferred); }
   },
 
@@ -19601,7 +19688,19 @@ var LevelBuilder = Level.extend({
     if (this.level.hint === undefined) {
       this.setHint();
     }
-    console.log(this.level);
+
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+
+    console.log(compiledLevel);
 
     command.finishWith(deferred);
   },
@@ -19612,7 +19711,8 @@ var LevelBuilder = Level.extend({
       'define start': this.defineStart,
       'show start': this.showStart,
       'hide start': this.hideStart,
-      'finish': this.finish
+      'finish': this.finish,
+      'define hint': this.defineHint
     };
 
     methodMap[command.get('method')].apply(this, arguments);
@@ -19706,6 +19806,8 @@ var LevelToolbar = require('../views').LevelToolbar;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var regexMap = {
+  'level help': /^level help$/,
+  'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
   'show solution': /^show solution$/
@@ -19733,11 +19835,11 @@ var Level = Sandbox.extend({
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
 
-    this.handleOpen();
+    this.handleOpen(options.deferred);
   },
 
-  handleOpen: function() {
-    this.options.deferred = this.options.deferred || Q.defer();
+  handleOpen: function(deferred) {
+    deferred = deferred || Q.defer();
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
@@ -19745,15 +19847,28 @@ var Level = Sandbox.extend({
       new MultiView(_.extend(
         {},
         this.level.startDialog,
-        { deferred: this.options.deferred }
+        { deferred: deferred }
       ));
       return;
     }
 
-    // otherwise, resolve after a 700 second delay
-    setTimeout(_.bind(function() {
-      this.options.deferred.resolve();
-    }, this), this.getAnimationTime() * 1.2);
+    // otherwise, resolve after a 700 second delay to allow
+    // for us to animate easily
+    setTimeout(function() {
+      deferred.resolve();
+    }, this.getAnimationTime() * 1.2);
+  },
+
+  startDialog: function(command, deferred) {
+    if (!this.level.startDialog) {
+      command.set('error', new Errors.GitError({
+        msg: 'There is no start dialog to show for this level!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.handleOpen(deferred);
   },
 
   initName: function() {
@@ -19973,11 +20088,10 @@ var Level = Sandbox.extend({
 
     this.mainVis.gitVisuals.finishAnimation()
     .then(function() {
-      // TODO if there is no future level...
-
-      // we want to ask if they will move onto the next level...
+      // we want to ask if they will move onto the next level
+      // while giving them their results...
       var nextDialog = new NextLevelConfirm({
-        nextLevelName: nextLevel.name,
+        nextLevel: nextLevel,
         numCommands: numCommands,
         best: best
       });
@@ -19985,10 +20099,12 @@ var Level = Sandbox.extend({
       return nextDialog.getPromise();
     })
     .then(function() {
-      Main.getEventBaton().trigger(
-        'commandSubmitted',
-        'level ' + nextLevel.id
-      );
+      if (nextLevel) {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'level ' + nextLevel.id
+        );
+      }
     })
     .fail(function() {
       // nothing to do, we will just close
@@ -20024,6 +20140,12 @@ var Level = Sandbox.extend({
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
     return [
+      [/^help$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
+               '"level help" or "general help"'
+        });
+      }],
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
@@ -20071,7 +20193,9 @@ var Level = Sandbox.extend({
     var methodMap = {
       'show goal': this.showGoal,
       'hide goal': this.hideGoal,
-      'show solution': this.showSolution
+      'show solution': this.showSolution,
+      'start dialog': this.startDialog,
+      'level help': this.startDialog
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -20372,8 +20496,18 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  resetSolved: function(command, deferred) {
+    Main.getLevelArbiter().resetSolvedMap();
+    command.addWarning(
+      "Solved map was reset, you are starting from a clean slate!"
+    );
+    deferred.resolve();
+  },
+
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
+      'reset solved': this.resetSolved,
+      'general help': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
       'delay': this.delay,
@@ -20497,6 +20631,8 @@ var instantCommands = [
 ];
 
 var regexMap = {
+  'reset solved': /^reset solved($|\s)/,
+  'general help': /^general help($|\s)/,
   'help': /^help($|\s)|\?/,
   'reset': /^reset($|\s)/,
   'delay': /^delay (\d+)$/,
@@ -22239,7 +22375,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
-    this.nextLevelName = options.nextLevelName || 'The mysterious next level';
+    var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
 
     var markdowns = [
       '## Great Job!!',
@@ -22258,11 +22394,18 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       );
     }
 
-    markdowns = markdowns.concat([
-      '',
-      'Would you like to move onto "',
-      this.nextLevelName + '", the next level?'
-    ]);
+    if (options.nextLevel) {
+      markdowns = markdowns.concat([
+        '',
+        'Would you like to move onto "',
+        nextLevelName + '", the next level?'
+      ]);
+    } else {
+      markdowns = markdowns.concat([
+        '',
+        'Wow!!! You finished the last level, congratulations!'
+      ]);
+    }
 
     options.modalAlert = {
       markdowns: markdowns
@@ -22605,25 +22748,13 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getSequenceIndex: function(name) {
-    var index;
-    _.each(this.sequences, function(_name, _index) {
-      if (_name == name) {
-        index = _index;
-      }
-    });
-    if (index === undefined) { throw new Error('didnt find'); }
+    var index = this.sequences.indexOf(name);
+    if (index < 0) { throw new Error('didnt find'); }
     return index;
   },
 
   getIndexForID: function(id) {
-    var index;
-    var levels = this.sequenceToLevels[this.selectedSequence];
-    _.each(levels, function(level, _index) {
-      if (level.id == id) {
-        index = _index;
-      }
-    });
-    return index;
+    return Main.getLevelArbiter().getLevel(id).index;
   },
 
   selectFirst: function() {
@@ -25609,7 +25740,6 @@ exports.sequenceInfo = {
 require("/src/levels/index.js");
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro1',
   name: 'Introduction #1',
   startDialog: {
     childViews: [{
@@ -25634,7 +25764,6 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 require("/src/levels/intro/1.js");
 
 require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'intro2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -25646,7 +25775,6 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
 require("/src/levels/intro/2.js");
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'rebase1',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -25658,7 +25786,6 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 require("/src/levels/rebase/1.js");
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'rebase2',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
@@ -25670,7 +25797,6 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
 require("/src/levels/rebase/2.js");
 
 require.define("/src/levels/rebase/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  id: 'rebase3',
   name: 'Introduction #1',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
