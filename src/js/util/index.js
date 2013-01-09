@@ -22,3 +22,21 @@ exports.splitTextCommand = function(value, func, context) {
   });
 };
 
+util.genParseCommand = function(regexMap, eventName) {
+  return function(str) {
+    var method;
+
+    _.each(regexMap, function(regex, _method) {
+      if (regex.test(str)) {
+        method = _method;
+      }
+    });
+
+    return (!method) ? false : {
+      toSet: {
+        eventName: 'processLevelBuilderCommand',
+        method: method
+      }
+    };
+  };
+};

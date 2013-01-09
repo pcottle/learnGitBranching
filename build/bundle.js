@@ -6648,7 +6648,7 @@ var Level = Sandbox.extend({
   },
 
   initParseWaterfall: function(options) {
-    this.parseWaterfall = new ParseWaterfall();
+    Level.__super__.initParseWaterfall.apply(this, [options]);
 
     // add our specific functionaity
     this.parseWaterfall.addFirst(
@@ -6779,10 +6779,9 @@ var Level = Sandbox.extend({
 
   die: function() {
     this.levelToolbar.die();
-    this.goalCanvasHolder.die();
 
+    this.goalDie();
     this.mainVis.die();
-    this.goalVis.die();
     this.releaseControl();
 
     this.clear();
@@ -6791,6 +6790,11 @@ var Level = Sandbox.extend({
     delete this.mainVis;
     delete this.goalVis;
     delete this.goalCanvasHolder;
+  },
+
+  goalDie: function() {
+    this.goalCanvasHolder.die();
+    this.goalVis.die();
   },
 
   getInstantCommands: function() {
@@ -19168,6 +19172,10 @@ var LevelBuilder = Level.extend({
     );
   },
 
+  initParseWaterfall: function() {
+    LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
+  },
+
   takeControl: function() {
     Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelCommand, this);
 
@@ -19441,7 +19449,7 @@ var Level = Sandbox.extend({
   },
 
   initParseWaterfall: function(options) {
-    this.parseWaterfall = new ParseWaterfall();
+    Level.__super__.initParseWaterfall.apply(this, [options]);
 
     // add our specific functionaity
     this.parseWaterfall.addFirst(
@@ -19572,10 +19580,9 @@ var Level = Sandbox.extend({
 
   die: function() {
     this.levelToolbar.die();
-    this.goalCanvasHolder.die();
 
+    this.goalDie();
     this.mainVis.die();
-    this.goalVis.die();
     this.releaseControl();
 
     this.clear();
@@ -19584,6 +19591,11 @@ var Level = Sandbox.extend({
     delete this.mainVis;
     delete this.goalVis;
     delete this.goalCanvasHolder;
+  },
+
+  goalDie: function() {
+    this.goalCanvasHolder.die();
+    this.goalVis.die();
   },
 
   getInstantCommands: function() {

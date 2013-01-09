@@ -22,6 +22,14 @@ var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
+var regexMap = {
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution$/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelCommand');
+
 var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
@@ -179,12 +187,12 @@ var Level = Sandbox.extend({
   },
 
   initParseWaterfall: function(options) {
-    this.parseWaterfall = new ParseWaterfall();
+    Level.__super__.initParseWaterfall.apply(this, [options]);
 
     // add our specific functionaity
     this.parseWaterfall.addFirst(
       'parseWaterfall',
-      require('../level/commands').parse
+      parse
     );
 
     this.parseWaterfall.addFirst(
@@ -310,10 +318,9 @@ var Level = Sandbox.extend({
 
   die: function() {
     this.levelToolbar.die();
-    this.goalCanvasHolder.die();
 
+    this.goalDie();
     this.mainVis.die();
-    this.goalVis.die();
     this.releaseControl();
 
     this.clear();
@@ -322,6 +329,11 @@ var Level = Sandbox.extend({
     delete this.mainVis;
     delete this.goalVis;
     delete this.goalCanvasHolder;
+  },
+
+  goalDie: function() {
+    this.goalCanvasHolder.die();
+    this.goalVis.die();
   },
 
   getInstantCommands: function() {

@@ -18,6 +18,12 @@ var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
+var regexMap = {
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution$/
+};
+
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
@@ -68,6 +74,19 @@ var LevelBuilder = Level.extend({
     Main.getEventBaton().trigger(
       'commandSubmitted',
       'echo "Get Building!!"'
+    );
+  },
+
+  initParseWaterfall: function() {
+    LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
+
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      parse
+    );
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
     );
   },
 

@@ -55,27 +55,6 @@ var regexMap = {
   'iosAlert': /^iOS alert($|\s)/
 };
 
-var parse = function(str) {
-  var sandboxMethod;
-  var regexResults;
-
-  _.each(regexMap, function(regex, method) {
-    var results = regex.exec(str);
-    if (results) {
-      sandboxMethod = method;
-      regexResults = results;
-    }
-  });
-
-  return (!sandboxMethod) ? false : {
-    toSet: {
-      eventName: 'processSandboxCommand',
-      method: sandboxMethod,
-      regexResults: regexResults
-    }
-  };
-};
-
 exports.instantCommands = instantCommands;
-exports.parse = parse;
+exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
