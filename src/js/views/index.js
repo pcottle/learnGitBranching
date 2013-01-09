@@ -364,23 +364,6 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   }
 });
 
-var iOSKeyboardView = ConfirmCancelTerminal.extend({
-  initialize: function(options) {
-    options = options || {};
-    options.modalAlert = {
-      markdowns: [
-        '## iOS device',
-        '',
-        "On iOS, javascript can't bring up the software keyboard so unfortunately ",
-        "there's no way for you to enter commands :-/ Try visiting the site on desktop ",
-        "to get the full experience, or submit a pull request if you have an idea on how ",
-        "to integrate user input on iOS"
-      ]
-    };
-    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
-  }
-});
-
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
@@ -589,6 +572,4 @@ exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
 exports.NextLevelConfirm = NextLevelConfirm;
-
-exports.iOSKeyboardView = iOSKeyboardView;
 

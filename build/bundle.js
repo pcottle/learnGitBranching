@@ -4675,14 +4675,6 @@ var Sandbox = Backbone.View.extend({
 
   iosAlert: function(command, deferred) {
     var whenClosed = Q.defer();
-    /*
-    var view = new Views.iOSKeyboardView({
-      deferred: whenClosed
-    });
-    whenClosed.promise.then(function() {
-      command.finishWith(deferred);
-    });*/
-    // wow even this fails!
     alert("Can't bring up the keyboard on iOS, try visiting on desktop! :D");
     whenClosed.resolve();
   },
@@ -6506,7 +6498,7 @@ var Level = Sandbox.extend({
 
     this.level = options.level;
 
-    this.gitCommandsIssued = 0;
+    this.gitCommandsIssued = [];
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
@@ -6557,13 +6549,8 @@ var Level = Sandbox.extend({
     this.goalTreeString = this.level.goalTreeString;
     this.solutionCommand = this.level.solutionCommand;
 
-    if (!this.goalTreeString) {
-      console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
-      this.solutionCommand = 'git checkout -b win; git commit';
-    }
-    if (!this.solutionCommand) {
-      console.warn('no solution provided, really bad form');
+    if (!this.goalTreeString || !this.solutionCommand) {
+      throw new Error('need goal tree and solution');
     }
   },
 
@@ -6721,7 +6708,7 @@ var Level = Sandbox.extend({
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {
-      this.gitCommandsIssued++;
+      this.gitCommandsIssued.push(command.get('rawStr'));
     }
   },
 
@@ -6760,7 +6747,7 @@ var Level = Sandbox.extend({
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
-    var numCommands = this.gitCommandsIssued;
+    var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
     this.mainVis.gitVisuals.finishAnimation()
@@ -6830,7 +6817,7 @@ var Level = Sandbox.extend({
   },
 
   reset: function() {
-    this.gitCommandsIssued = 0;
+    this.gitCommandsIssued = [];
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
   },
@@ -9956,23 +9943,6 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   }
 });
 
-var iOSKeyboardView = ConfirmCancelTerminal.extend({
-  initialize: function(options) {
-    options = options || {};
-    options.modalAlert = {
-      markdowns: [
-        '## iOS device',
-        '',
-        "On iOS, javascript can't bring up the software keyboard so unfortunately ",
-        "there's no way for you to enter commands :-/ Try visiting the site on desktop ",
-        "to get the full experience, or submit a pull request if you have an idea on how ",
-        "to integrate user input on iOS"
-      ]
-    };
-    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
-  }
-});
-
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
@@ -10181,8 +10151,6 @@ exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
 exports.NextLevelConfirm = NextLevelConfirm;
-
-exports.iOSKeyboardView = iOSKeyboardView;
 
 
 });
@@ -12915,6 +12883,13 @@ var instantCommands = [
     events.trigger('rollupCommands', bits[1]);
     throw new CommandResult({
       msg: 'Commands combined!'
+    });
+  }],
+  [/^echo "([a-zA-Z0-9 ]+)"$|^echo ([a-zA-Z0-9 ]+)$/, function(bits) {
+    var msg = bits[1] || bits[2];
+    console.log(bits, msg);
+    throw new CommandResult({
+      msg: msg
     });
   }]
 ];
@@ -19143,18 +19118,54 @@ var LevelToolbar = require('../views').LevelToolbar;
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
+
     this.options = options;
     this.level = {};
 
+    this.level.startDialog = {
+      childViews: [{
+        type: 'ModalAlert',
+        options: {
+          markdowns: [
+            '## Welcome to the level builder!',
+            '',
+            'Here are the main steps:',
+            '',
+            '  * Define the starting tree',
+            '  * Enter the series of git commands that compose of the (optimal) solution',
+            '  * Define the goal tree, which also defines the solution',
+            '  * Enter the command ```finish building``` to specify start dialogs and such'
+          ]
+        }
+      }]
+    };
+
+    LevelBuilder.__super__.initialize.apply(this, [options]);
+
+    // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
+    // include that functionality
+    delete this.treeCompare;
+    delete this.solved;
+  },
+
+  initName: function() {
     this.levelToolbar = new LevelToolbar({
       name: 'Level Builder'
     });
+  },
 
-    this.level.startDialog = {
-    };
+  initGoalData: function(options) {
+    // add some default behavior in the beginning
+    this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
+    this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
+    LevelBuilder.__super__.initGoalData.apply(this, [options]);
+  },
 
-    // call our grandparent, not us
-    Level.__super__.initialize.apply(this, [options]);
+  startOffCommand: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'echo "Get Building!!"'
+    );
   },
 
   takeControl: function() {
@@ -19280,7 +19291,7 @@ var Level = Sandbox.extend({
 
     this.level = options.level;
 
-    this.gitCommandsIssued = 0;
+    this.gitCommandsIssued = [];
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
@@ -19331,13 +19342,8 @@ var Level = Sandbox.extend({
     this.goalTreeString = this.level.goalTreeString;
     this.solutionCommand = this.level.solutionCommand;
 
-    if (!this.goalTreeString) {
-      console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
-      this.solutionCommand = 'git checkout -b win; git commit';
-    }
-    if (!this.solutionCommand) {
-      console.warn('no solution provided, really bad form');
+    if (!this.goalTreeString || !this.solutionCommand) {
+      throw new Error('need goal tree and solution');
     }
   },
 
@@ -19495,7 +19501,7 @@ var Level = Sandbox.extend({
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {
-      this.gitCommandsIssued++;
+      this.gitCommandsIssued.push(command.get('rawStr'));
     }
   },
 
@@ -19534,7 +19540,7 @@ var Level = Sandbox.extend({
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
-    var numCommands = this.gitCommandsIssued;
+    var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
     this.mainVis.gitVisuals.finishAnimation()
@@ -19604,7 +19610,7 @@ var Level = Sandbox.extend({
   },
 
   reset: function() {
-    this.gitCommandsIssued = 0;
+    this.gitCommandsIssued = [];
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
   },
@@ -19962,14 +19968,6 @@ var Sandbox = Backbone.View.extend({
 
   iosAlert: function(command, deferred) {
     var whenClosed = Q.defer();
-    /*
-    var view = new Views.iOSKeyboardView({
-      deferred: whenClosed
-    });
-    whenClosed.promise.then(function() {
-      command.finishWith(deferred);
-    });*/
-    // wow even this fails!
     alert("Can't bring up the keyboard on iOS, try visiting on desktop! :D");
     whenClosed.resolve();
   },
@@ -20040,6 +20038,13 @@ var instantCommands = [
     events.trigger('rollupCommands', bits[1]);
     throw new CommandResult({
       msg: 'Commands combined!'
+    });
+  }],
+  [/^echo "([a-zA-Z0-9 ]+)"$|^echo ([a-zA-Z0-9 ]+)$/, function(bits) {
+    var msg = bits[1] || bits[2];
+    console.log(bits, msg);
+    throw new CommandResult({
+      msg: msg
     });
   }]
 ];
@@ -21782,23 +21787,6 @@ var ConfirmCancelTerminal = Backbone.View.extend({
   }
 });
 
-var iOSKeyboardView = ConfirmCancelTerminal.extend({
-  initialize: function(options) {
-    options = options || {};
-    options.modalAlert = {
-      markdowns: [
-        '## iOS device',
-        '',
-        "On iOS, javascript can't bring up the software keyboard so unfortunately ",
-        "there's no way for you to enter commands :-/ Try visiting the site on desktop ",
-        "to get the full experience, or submit a pull request if you have an idea on how ",
-        "to integrate user input on iOS"
-      ]
-    };
-    ConfirmCancelTerminal.prototype.initialize.apply(this, [options]);
-  }
-});
-
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
@@ -22007,8 +21995,6 @@ exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
 exports.NextLevelConfirm = NextLevelConfirm;
-
-exports.iOSKeyboardView = iOSKeyboardView;
 
 
 });

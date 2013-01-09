@@ -33,6 +33,13 @@ var instantCommands = [
     throw new CommandResult({
       msg: 'Commands combined!'
     });
+  }],
+  [/^echo "([a-zA-Z0-9 ]+)"$|^echo ([a-zA-Z0-9 ]+)$/, function(bits) {
+    var msg = bits[1] || bits[2];
+    console.log(bits, msg);
+    throw new CommandResult({
+      msg: msg
+    });
   }]
 ];
 

@@ -29,7 +29,7 @@ var Level = Sandbox.extend({
 
     this.level = options.level;
 
-    this.gitCommandsIssued = 0;
+    this.gitCommandsIssued = [];
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
@@ -80,13 +80,8 @@ var Level = Sandbox.extend({
     this.goalTreeString = this.level.goalTreeString;
     this.solutionCommand = this.level.solutionCommand;
 
-    if (!this.goalTreeString) {
-      console.warn('woah no goal, using random other one');
-      this.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}';
-      this.solutionCommand = 'git checkout -b win; git commit';
-    }
-    if (!this.solutionCommand) {
-      console.warn('no solution provided, really bad form');
+    if (!this.goalTreeString || !this.solutionCommand) {
+      throw new Error('need goal tree and solution');
     }
   },
 
@@ -244,7 +239,7 @@ var Level = Sandbox.extend({
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {
-      this.gitCommandsIssued++;
+      this.gitCommandsIssued.push(command.get('rawStr'));
     }
   },
 
@@ -283,7 +278,7 @@ var Level = Sandbox.extend({
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
-    var numCommands = this.gitCommandsIssued;
+    var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
     this.mainVis.gitVisuals.finishAnimation()
@@ -353,7 +348,7 @@ var Level = Sandbox.extend({
   },
 
   reset: function() {
-    this.gitCommandsIssued = 0;
+    this.gitCommandsIssued = [];
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
   },

@@ -21,18 +21,54 @@ var LevelToolbar = require('../views').LevelToolbar;
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
+
     this.options = options;
     this.level = {};
 
+    this.level.startDialog = {
+      childViews: [{
+        type: 'ModalAlert',
+        options: {
+          markdowns: [
+            '## Welcome to the level builder!',
+            '',
+            'Here are the main steps:',
+            '',
+            '  * Define the starting tree',
+            '  * Enter the series of git commands that compose of the (optimal) solution',
+            '  * Define the goal tree, which also defines the solution',
+            '  * Enter the command ```finish building``` to specify start dialogs and such'
+          ]
+        }
+      }]
+    };
+
+    LevelBuilder.__super__.initialize.apply(this, [options]);
+
+    // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
+    // include that functionality
+    delete this.treeCompare;
+    delete this.solved;
+  },
+
+  initName: function() {
     this.levelToolbar = new LevelToolbar({
       name: 'Level Builder'
     });
+  },
 
-    this.level.startDialog = {
-    };
+  initGoalData: function(options) {
+    // add some default behavior in the beginning
+    this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
+    this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
+    LevelBuilder.__super__.initGoalData.apply(this, [options]);
+  },
 
-    // call our grandparent, not us
-    Level.__super__.initialize.apply(this, [options]);
+  startOffCommand: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'echo "Get Building!!"'
+    );
   },
 
   takeControl: function() {
