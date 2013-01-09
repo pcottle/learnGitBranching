@@ -20,8 +20,6 @@ var LevelDropdownView = ContainedBase.extend({
     options = options || {};
     this.JSON = {};
 
-    Main.getEvents().on('levelSolved', this.updateSolvedStatus, this);
-
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       _.bind(this.loadLevelID, this),
@@ -193,6 +191,9 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   show: function(deferred) {
+    // doing the update on show will allow us to fade which will be nice
+    this.updateSolvedStatus();
+
     this.showDeferred = deferred;
     this.keyboardListener.listen();
     LevelDropdownView.__super__.show.apply(this);
@@ -270,6 +271,7 @@ var SeriesView = BaseView.extend({
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
       var id = $(el).attr('data-id');
+      console.log('updating id', id);
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },

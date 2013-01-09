@@ -23,7 +23,7 @@ var LevelToolbar = require('../views').LevelToolbar;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var regexMap = {
-  'level help': /^level help$/,
+  'help level': /^help level$/,
   'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
@@ -360,7 +360,7 @@ var Level = Sandbox.extend({
       [/^help$/, function() {
         throw new Errors.CommandResult({
           msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
-               '"level help" or "general help"'
+               '"help level" or "help general"'
         });
       }],
       [/^hint$/, function() {

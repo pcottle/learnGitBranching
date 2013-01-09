@@ -38,13 +38,13 @@ LevelArbiter.prototype.init = function() {
     _.each(levels, function(level, index) {
       this.validateLevel(level);
 
-      var id = levelSequenceName + String(index);
+      var id = levelSequenceName + String(index + 1);
       var compiledLevel = _.extend(
         {},
         level,
         {
           index: index,
-          id: levelSequenceName + String(index),
+          id: id,
           sequenceName: levelSequenceName
         }
       );
@@ -74,6 +74,7 @@ LevelArbiter.prototype.levelSolved = function(id) {
 LevelArbiter.prototype.resetSolvedMap = function() {
   this.solvedMap = {};
   this.syncToStorage();
+  Main.getEvents().trigger('levelSolved');
 };
 
 LevelArbiter.prototype.syncToStorage = function() {

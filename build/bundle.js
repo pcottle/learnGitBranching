@@ -4678,13 +4678,13 @@ var Sandbox = Backbone.View.extend({
     command.addWarning(
       "Solved map was reset, you are starting from a clean slate!"
     );
-    deferred.resolve();
+    command.finishWith(deferred);
   },
 
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       'reset solved': this.resetSolved,
-      'general help': this.helpDialog,
+      'help general': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
       'delay': this.delay,
@@ -6542,7 +6542,7 @@ var LevelToolbar = require('../views').LevelToolbar;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var regexMap = {
-  'level help': /^level help$/,
+  'help level': /^help level$/,
   'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
@@ -6879,7 +6879,7 @@ var Level = Sandbox.extend({
       [/^help$/, function() {
         throw new Errors.CommandResult({
           msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
-               '"level help" or "general help"'
+               '"help level" or "help general"'
         });
       }],
       [/^hint$/, function() {
@@ -12993,9 +12993,8 @@ var instantCommands = [
 
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
-  'general help': /^general help($|\s)/,
-  'help': /^help($|\s)|\?/,
-  'reset': /^reset($|\s)/,
+  'help': /^help ?(general)?($|\s)/,
+  'reset': /^reset$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
@@ -15608,13 +15607,13 @@ LevelArbiter.prototype.init = function() {
     _.each(levels, function(level, index) {
       this.validateLevel(level);
 
-      var id = levelSequenceName + String(index);
+      var id = levelSequenceName + String(index + 1);
       var compiledLevel = _.extend(
         {},
         level,
         {
           index: index,
-          id: levelSequenceName + String(index),
+          id: id,
           sequenceName: levelSequenceName
         }
       );
@@ -15644,6 +15643,7 @@ LevelArbiter.prototype.levelSolved = function(id) {
 LevelArbiter.prototype.resetSolvedMap = function() {
   this.solvedMap = {};
   this.syncToStorage();
+  Main.getEvents().trigger('levelSolved');
 };
 
 LevelArbiter.prototype.syncToStorage = function() {
@@ -15845,8 +15845,6 @@ var LevelDropdownView = ContainedBase.extend({
     options = options || {};
     this.JSON = {};
 
-    Main.getEvents().on('levelSolved', this.updateSolvedStatus, this);
-
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       _.bind(this.loadLevelID, this),
@@ -16018,6 +16016,9 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   show: function(deferred) {
+    // doing the update on show will allow us to fade which will be nice
+    this.updateSolvedStatus();
+
     this.showDeferred = deferred;
     this.keyboardListener.listen();
     LevelDropdownView.__super__.show.apply(this);
@@ -16095,6 +16096,7 @@ var SeriesView = BaseView.extend({
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
       var id = $(el).attr('data-id');
+      console.log('updating id', id);
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },
@@ -19345,13 +19347,13 @@ LevelArbiter.prototype.init = function() {
     _.each(levels, function(level, index) {
       this.validateLevel(level);
 
-      var id = levelSequenceName + String(index);
+      var id = levelSequenceName + String(index + 1);
       var compiledLevel = _.extend(
         {},
         level,
         {
           index: index,
-          id: levelSequenceName + String(index),
+          id: id,
           sequenceName: levelSequenceName
         }
       );
@@ -19381,6 +19383,7 @@ LevelArbiter.prototype.levelSolved = function(id) {
 LevelArbiter.prototype.resetSolvedMap = function() {
   this.solvedMap = {};
   this.syncToStorage();
+  Main.getEvents().trigger('levelSolved');
 };
 
 LevelArbiter.prototype.syncToStorage = function() {
@@ -19806,7 +19809,7 @@ var LevelToolbar = require('../views').LevelToolbar;
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var regexMap = {
-  'level help': /^level help$/,
+  'help level': /^help level$/,
   'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
@@ -20143,7 +20146,7 @@ var Level = Sandbox.extend({
       [/^help$/, function() {
         throw new Errors.CommandResult({
           msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
-               '"level help" or "general help"'
+               '"help level" or "help general"'
         });
       }],
       [/^hint$/, function() {
@@ -20501,13 +20504,13 @@ var Sandbox = Backbone.View.extend({
     command.addWarning(
       "Solved map was reset, you are starting from a clean slate!"
     );
-    deferred.resolve();
+    command.finishWith(deferred);
   },
 
   processSandboxCommand: function(command, deferred) {
     var commandMap = {
       'reset solved': this.resetSolved,
-      'general help': this.helpDialog,
+      'help general': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
       'delay': this.delay,
@@ -20632,9 +20635,8 @@ var instantCommands = [
 
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
-  'general help': /^general help($|\s)/,
-  'help': /^help($|\s)|\?/,
-  'reset': /^reset($|\s)/,
+  'help': /^help ?(general)?($|\s)/,
+  'reset': /^reset$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
@@ -22618,8 +22620,6 @@ var LevelDropdownView = ContainedBase.extend({
     options = options || {};
     this.JSON = {};
 
-    Main.getEvents().on('levelSolved', this.updateSolvedStatus, this);
-
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       _.bind(this.loadLevelID, this),
@@ -22791,6 +22791,9 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   show: function(deferred) {
+    // doing the update on show will allow us to fade which will be nice
+    this.updateSolvedStatus();
+
     this.showDeferred = deferred;
     this.keyboardListener.listen();
     LevelDropdownView.__super__.show.apply(this);
@@ -22868,6 +22871,7 @@ var SeriesView = BaseView.extend({
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
       var id = $(el).attr('data-id');
+      console.log('updating id', id);
       $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
     });
   },
