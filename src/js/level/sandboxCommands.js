@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var util = require('../util');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;

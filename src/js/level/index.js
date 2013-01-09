@@ -341,22 +341,13 @@ var Level = Sandbox.extend({
       this.level.hint :
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
-    var instants = [
+    return [
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
         });
       }]
     ];
-
-    if (!this.solutionCommand) {
-      instants.push([/^show solution$/, function() {
-        throw new Errors.CommandResult({
-          msg: 'No solution provided for this level :-/'
-        });
-      }]);
-    }
-    return instants;
   },
 
   reset: function() {

@@ -4466,6 +4466,28 @@ exports.splitTextCommand = function(value, func, context) {
   });
 };
 
+exports.genParseCommand = function(regexMap, eventName) {
+  return function(str) {
+    var method;
+    var regexResults;
+
+    _.each(regexMap, function(regex, _method) {
+      var results = regex.exec(str);
+      if (results) {
+        method = _method;
+        regexResults = results;
+      }
+    });
+
+    return (!method) ? false : {
+      toSet: {
+        eventName: eventName,
+        method: method,
+        regexResults: regexResults
+      }
+    };
+  };
+};
 
 });
 
@@ -6491,6 +6513,14 @@ var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
 
+var regexMap = {
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution$/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelCommand');
+
 var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
@@ -6653,7 +6683,7 @@ var Level = Sandbox.extend({
     // add our specific functionaity
     this.parseWaterfall.addFirst(
       'parseWaterfall',
-      require('../level/commands').parse
+      parse
     );
 
     this.parseWaterfall.addFirst(
@@ -6802,22 +6832,13 @@ var Level = Sandbox.extend({
       this.level.hint :
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
-    var instants = [
+    return [
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
         });
       }]
     ];
-
-    if (!this.solutionCommand) {
-      instants.push([/^show solution$/, function() {
-        throw new Errors.CommandResult({
-          msg: 'No solution provided for this level :-/'
-        });
-      }]);
-    }
-    return instants;
   },
 
   reset: function() {
@@ -12854,6 +12875,7 @@ exports.ParseWaterfall = ParseWaterfall;
 });
 
 require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var util = require('../util');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -12910,29 +12932,8 @@ var regexMap = {
   'iosAlert': /^iOS alert($|\s)/
 };
 
-var parse = function(str) {
-  var sandboxMethod;
-  var regexResults;
-
-  _.each(regexMap, function(regex, method) {
-    var results = regex.exec(str);
-    if (results) {
-      sandboxMethod = method;
-      regexResults = results;
-    }
-  });
-
-  return (!sandboxMethod) ? false : {
-    toSet: {
-      eventName: 'processSandboxCommand',
-      method: sandboxMethod,
-      regexResults: regexResults
-    }
-  };
-};
-
 exports.instantCommands = instantCommands;
-exports.parse = parse;
+exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
 
 });
@@ -15479,36 +15480,6 @@ var GitDemonstrationView = ContainedBase.extend({
 });
 
 exports.GitDemonstrationView = GitDemonstrationView;
-
-
-});
-
-require.define("/src/js/level/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var regexMap = {
-  'show goal': /^show goal$/,
-  'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
-};
-
-var parse = function(str) {
-  var levelMethod;
-
-  _.each(regexMap, function(regex, method) {
-    if (regex.test(str)) {
-      levelMethod = method;
-    }
-  });
-
-  return (!levelMethod) ? false : {
-    toSet: {
-      eventName: 'processLevelCommand',
-      method: levelMethod
-    }
-  };
-};
-
-exports.parse = parse;
 
 
 });
@@ -19119,6 +19090,14 @@ var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
+var regexMap = {
+  'define goal': /^define goal$/,
+  'define start': /^define start$/,
+  'show start': /^show start$/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
+
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
@@ -19146,6 +19125,8 @@ var LevelBuilder = Level.extend({
 
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
+    this.initStartVisualization();
+
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
     delete this.treeCompare;
@@ -19158,11 +19139,28 @@ var LevelBuilder = Level.extend({
     });
   },
 
-  initGoalData: function(options) {
+  initGoalData: function() {
     // add some default behavior in the beginning
     this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
     this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
-    LevelBuilder.__super__.initGoalData.apply(this, [options]);
+    LevelBuilder.__super__.initGoalData.apply(this, arguments);
+  },
+
+  initStartVisualization: function() {
+    this.startCanvasHolder = new CanvasTerminalHolder();
+
+    this.startVis = new Visualization({
+      el: this.startCanvasHolder.getCanvasLocation(),
+      containerElement: this.startCanvasHolder.getCanvasLocation(),
+      treeString: this.level.startTree,
+      noKeyboardInput: true,
+      noClick: true
+    });
+  },
+
+  startDie: function() {
+    this.startCanvasHolder.die();
+    this.startVis.die();
   },
 
   startOffCommand: function() {
@@ -19172,8 +19170,21 @@ var LevelBuilder = Level.extend({
     );
   },
 
-  initParseWaterfall: function() {
+  initParseWaterfall: function(options) {
     LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
+
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      parse
+    );
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );
+  },
+
+  getInstantCommands: function() {
+    return [];
   },
 
   takeControl: function() {
@@ -19183,9 +19194,23 @@ var LevelBuilder = Level.extend({
   },
 
   releaseControl: function() {
-    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelCommand, this);
+    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
 
     LevelBuilder.__super__.releaseControl.apply(this);
+  },
+
+  afterCommandDefer: function(defer, command) {
+    // we dont need to compare against the goal anymore
+    defer.resolve();
+  },
+
+  die: function() {
+    this.startDie();
+
+    LevelBuilder.__super__.die.apply(this, arguments);
+
+    delete this.startVis;
+    delete this.startCanvasHolder;
   }
 });
 
@@ -19193,37 +19218,6 @@ exports.LevelBuilder = LevelBuilder;
 
 });
 require("/src/js/level/builder.js");
-
-require.define("/src/js/level/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var regexMap = {
-  'show goal': /^show goal$/,
-  'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
-};
-
-var parse = function(str) {
-  var levelMethod;
-
-  _.each(regexMap, function(regex, method) {
-    if (regex.test(str)) {
-      levelMethod = method;
-    }
-  });
-
-  return (!levelMethod) ? false : {
-    toSet: {
-      eventName: 'processLevelCommand',
-      method: levelMethod
-    }
-  };
-};
-
-exports.parse = parse;
-
-
-});
-require("/src/js/level/commands.js");
 
 require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
@@ -19291,6 +19285,14 @@ var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
 var TreeCompare = require('../git/treeCompare').TreeCompare;
+
+var regexMap = {
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution$/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelCommand');
 
 var Level = Sandbox.extend({
   initialize: function(options) {
@@ -19454,7 +19456,7 @@ var Level = Sandbox.extend({
     // add our specific functionaity
     this.parseWaterfall.addFirst(
       'parseWaterfall',
-      require('../level/commands').parse
+      parse
     );
 
     this.parseWaterfall.addFirst(
@@ -19603,22 +19605,13 @@ var Level = Sandbox.extend({
       this.level.hint :
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
-    var instants = [
+    return [
       [/^hint$/, function() {
         throw new Errors.CommandResult({
           msg: hintMsg
         });
       }]
     ];
-
-    if (!this.solutionCommand) {
-      instants.push([/^show solution$/, function() {
-        throw new Errors.CommandResult({
-          msg: 'No solution provided for this level :-/'
-        });
-      }]);
-    }
-    return instants;
   },
 
   reset: function() {
@@ -20017,6 +20010,7 @@ exports.Sandbox = Sandbox;
 require("/src/js/level/sandbox.js");
 
 require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var util = require('../util');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -20073,29 +20067,8 @@ var regexMap = {
   'iosAlert': /^iOS alert($|\s)/
 };
 
-var parse = function(str) {
-  var sandboxMethod;
-  var regexResults;
-
-  _.each(regexMap, function(regex, method) {
-    var results = regex.exec(str);
-    if (results) {
-      sandboxMethod = method;
-      regexResults = results;
-    }
-  });
-
-  return (!sandboxMethod) ? false : {
-    toSet: {
-      eventName: 'processSandboxCommand',
-      method: sandboxMethod,
-      regexResults: regexResults
-    }
-  };
-};
-
 exports.instantCommands = instantCommands;
-exports.parse = parse;
+exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
 
 });
@@ -20700,6 +20673,28 @@ exports.splitTextCommand = function(value, func, context) {
   });
 };
 
+exports.genParseCommand = function(regexMap, eventName) {
+  return function(str) {
+    var method;
+    var regexResults;
+
+    _.each(regexMap, function(regex, _method) {
+      var results = regex.exec(str);
+      if (results) {
+        method = _method;
+        regexResults = results;
+      }
+    });
+
+    return (!method) ? false : {
+      toSet: {
+        eventName: eventName,
+        method: method,
+        regexResults: regexResults
+      }
+    };
+  };
+};
 
 });
 require("/src/js/util/index.js");

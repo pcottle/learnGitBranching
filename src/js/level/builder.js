@@ -19,10 +19,12 @@ var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
 var regexMap = {
-  'show goal': /^show goal$/,
-  'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
+  'define goal': /^define goal$/,
+  'define start': /^define start$/,
+  'show start': /^show start$/
 };
+
+var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
 
 var LevelBuilder = Level.extend({
   initialize: function(options) {
@@ -51,6 +53,8 @@ var LevelBuilder = Level.extend({
 
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
+    this.initStartVisualization();
+
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
     delete this.treeCompare;
@@ -63,11 +67,28 @@ var LevelBuilder = Level.extend({
     });
   },
 
-  initGoalData: function(options) {
+  initGoalData: function() {
     // add some default behavior in the beginning
     this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
     this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
-    LevelBuilder.__super__.initGoalData.apply(this, [options]);
+    LevelBuilder.__super__.initGoalData.apply(this, arguments);
+  },
+
+  initStartVisualization: function() {
+    this.startCanvasHolder = new CanvasTerminalHolder();
+
+    this.startVis = new Visualization({
+      el: this.startCanvasHolder.getCanvasLocation(),
+      containerElement: this.startCanvasHolder.getCanvasLocation(),
+      treeString: this.level.startTree,
+      noKeyboardInput: true,
+      noClick: true
+    });
+  },
+
+  startDie: function() {
+    this.startCanvasHolder.die();
+    this.startVis.die();
   },
 
   startOffCommand: function() {
@@ -77,7 +98,7 @@ var LevelBuilder = Level.extend({
     );
   },
 
-  initParseWaterfall: function() {
+  initParseWaterfall: function(options) {
     LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
 
     this.parseWaterfall.addFirst(
@@ -90,6 +111,10 @@ var LevelBuilder = Level.extend({
     );
   },
 
+  getInstantCommands: function() {
+    return [];
+  },
+
   takeControl: function() {
     Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelCommand, this);
 
@@ -97,9 +122,23 @@ var LevelBuilder = Level.extend({
   },
 
   releaseControl: function() {
-    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelCommand, this);
+    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
 
     LevelBuilder.__super__.releaseControl.apply(this);
+  },
+
+  afterCommandDefer: function(defer, command) {
+    // we dont need to compare against the goal anymore
+    defer.resolve();
+  },
+
+  die: function() {
+    this.startDie();
+
+    LevelBuilder.__super__.die.apply(this, arguments);
+
+    delete this.startVis;
+    delete this.startCanvasHolder;
   }
 });
 
