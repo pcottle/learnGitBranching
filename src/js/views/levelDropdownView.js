@@ -161,14 +161,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getIndexForID: function(id) {
-    var index;
-    var levels = this.sequenceToLevels[this.selectedSequence];
-    _.each(levels, function(level, _index) {
-      if (level.id == id) {
-        index = _index;
-      }
-    });
-    return index;
+    return Main.getLevelArbiter().getLevel(id).index;
   },
 
   selectFirst: function() {

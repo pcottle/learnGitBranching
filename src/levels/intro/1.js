@@ -1,5 +1,4 @@
 exports.level = {
-  id: 'intro1',
   name: 'Introduction #1',
   startDialog: {
     childViews: [{

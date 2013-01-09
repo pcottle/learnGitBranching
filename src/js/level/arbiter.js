@@ -32,8 +32,11 @@ LevelArbiter.prototype.init = function() {
       this.validateLevel(level);
       this.levelMap[level.id] = _.extend(
         {},
-        { index: index },
-        level
+        level,
+        {
+          index: index,
+          id: levelSequenceName + String(index)
+        }
       );
 
       // build up the chaining between levels
@@ -68,7 +71,6 @@ LevelArbiter.prototype.syncToStorage = function() {
 LevelArbiter.prototype.validateLevel = function(level) {
   level = level || {};
   var requiredFields = [
-    'id',
     'name',
     'goalTreeString',
     'solutionCommand'

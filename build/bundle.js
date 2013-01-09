@@ -15603,7 +15603,8 @@ LevelArbiter.prototype.validateLevel = function(level) {
 
   var optionalFields = [
     'hint',
-    'disabledMap'
+    'disabledMap',
+    'startTree'
   ];
 
   _.each(requiredFields, function(field) {
@@ -16499,6 +16500,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -16526,11 +16528,9 @@ var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
+    options.level = options.level || {};
 
-    this.options = options;
-    this.level = {};
-
-    this.level.startDialog = {
+    options.level.startDialog = {
       childViews: [{
         type: 'ModalAlert',
         options: {
@@ -16539,10 +16539,10 @@ var LevelBuilder = Level.extend({
             '',
             'Here are the main steps:',
             '',
-            '  * Define the starting tree',
-            '  * Enter the series of git commands that compose of the (optimal) solution',
-            '  * Define the goal tree, which also defines the solution',
-            '  * Enter the command ```finish building``` to specify start dialogs and such'
+            '  * Define the starting tree with ```define start```',
+            '  * Enter the series of git commands that compose the (optimal) solution',
+            '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+            '  * Enter the command ```finish``` to output your level JSON!'
           ]
         }
       }]
@@ -16709,13 +16709,20 @@ var LevelBuilder = Level.extend({
   },
 
   finish: function(command, deferred) {
-    if (!this.level.id) {
-      this.setID();
+    if (!this.gitCommandsIssued.length) {
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty!'
+      }));
+      deferred.resolve();
+      return;
     }
+
     if (this.level.hint === undefined) {
       this.setHint();
     }
-    console.log(this.level, this.startTree);
+    console.log(this.level);
+
+    command.finishWith(deferred);
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -19313,7 +19320,8 @@ LevelArbiter.prototype.validateLevel = function(level) {
 
   var optionalFields = [
     'hint',
-    'disabledMap'
+    'disabledMap',
+    'startTree'
   ];
 
   _.each(requiredFields, function(field) {
@@ -19373,6 +19381,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -19400,11 +19409,9 @@ var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
+    options.level = options.level || {};
 
-    this.options = options;
-    this.level = {};
-
-    this.level.startDialog = {
+    options.level.startDialog = {
       childViews: [{
         type: 'ModalAlert',
         options: {
@@ -19413,10 +19420,10 @@ var LevelBuilder = Level.extend({
             '',
             'Here are the main steps:',
             '',
-            '  * Define the starting tree',
-            '  * Enter the series of git commands that compose of the (optimal) solution',
-            '  * Define the goal tree, which also defines the solution',
-            '  * Enter the command ```finish building``` to specify start dialogs and such'
+            '  * Define the starting tree with ```define start```',
+            '  * Enter the series of git commands that compose the (optimal) solution',
+            '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+            '  * Enter the command ```finish``` to output your level JSON!'
           ]
         }
       }]
@@ -19583,13 +19590,20 @@ var LevelBuilder = Level.extend({
   },
 
   finish: function(command, deferred) {
-    if (!this.level.id) {
-      this.setID();
+    if (!this.gitCommandsIssued.length) {
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty!'
+      }));
+      deferred.resolve();
+      return;
     }
+
     if (this.level.hint === undefined) {
       this.setHint();
     }
-    console.log(this.level, this.startTree);
+    console.log(this.level);
+
+    command.finishWith(deferred);
   },
 
   processLevelBuilderCommand: function(command, deferred) {

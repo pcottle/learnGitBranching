@@ -4,6 +4,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -23,6 +24,7 @@ var regexMap = {
   'define start': /^define start$/,
   'show start': /^show start$/,
   'hide start': /^hide start$/,
+  'define hint': /^define hint$/,
   'finish': /^finish$/
 };
 
@@ -31,11 +33,9 @@ var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
+    options.level = options.level || {};
 
-    this.options = options;
-    this.level = {};
-
-    this.level.startDialog = {
+    options.level.startDialog = {
       childViews: [{
         type: 'ModalAlert',
         options: {
@@ -44,10 +44,11 @@ var LevelBuilder = Level.extend({
             '',
             'Here are the main steps:',
             '',
-            '  * Define the starting tree',
-            '  * Enter the series of git commands that compose of the (optimal) solution',
-            '  * Define the goal tree, which also defines the solution',
-            '  * Enter the command ```finish building``` to specify start dialogs and such'
+            '  * Define the starting tree with ```define start```',
+            '  * Enter the series of git commands that compose the (optimal) solution',
+            '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+            '  * Optionally define a hint with ```define hint```',
+            '  * Enter the command ```finish``` to output your level JSON!'
           ]
         }
       }]
@@ -198,33 +199,20 @@ var LevelBuilder = Level.extend({
     this.showGoal(command, deferred);
   },
 
-  setHint: function(command, deferred) {
+  defineHint: function(command, deferred) {
     this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
-    if (command) { command.finishWith(deferred); }
-  },
-
-  setID: function(command, deferred) {
-    var id = prompt('Enter an ID');
-    while (!id || !id.length) {
-      id = prompt('Enter an ID... really this time');
-    }
-    this.level.id = id;
-
     if (command) { command.finishWith(deferred); }
   },
 
   finish: function(command, deferred) {
     if (!this.gitCommandsIssued.length) {
-      command.set('error', new GitError({
+      command.set('error', new Errors.GitError({
         msg: 'Your solution is empty!'
-      });
+      }));
       deferred.resolve();
       return;
     }
 
-    if (!this.level.id) {
-      this.setID();
-    }
     if (this.level.hint === undefined) {
       this.setHint();
     }
@@ -239,7 +227,8 @@ var LevelBuilder = Level.extend({
       'define start': this.defineStart,
       'show start': this.showStart,
       'hide start': this.hideStart,
-      'finish': this.finish
+      'finish': this.finish,
+      'define hint': this.defineHint
     };
 
     methodMap[command.get('method')].apply(this, arguments);
