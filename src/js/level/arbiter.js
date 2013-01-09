@@ -76,7 +76,8 @@ LevelArbiter.prototype.validateLevel = function(level) {
 
   var optionalFields = [
     'hint',
-    'disabledMap'
+    'disabledMap',
+    'startTree'
   ];
 
   _.each(requiredFields, function(field) {
