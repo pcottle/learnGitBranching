@@ -9733,6 +9733,49 @@ var ContainedBase = BaseView.extend({
   }
 });
 
+var GeneralButton = ContainedBase.extend({
+  tagName: 'a',
+  className: 'generalButton uiButton',
+  template: _.template($('#general-button').html()),
+  events: {
+    'click': 'click'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.navEvents = options.navEvents || _.clone(Backbone.Events);
+    this.destination = options.destination;
+    if (!this.destination) {
+      this.container = new ModalTerminal();
+    }
+
+    this.JSON = {
+      buttonText: options.buttonText || 'General Button',
+      wantsWrapper: (options.wantsWrapper !== undefined) ? options.wantsWrapper : true
+    };
+
+    this.render();
+
+    if (this.container && !options.wait) {
+      this.show();
+    }
+  },
+
+  click: function() {
+    if (!this.clickFunc) {
+      this.clickFunc = _.throttle(
+        _.bind(this.sendClick, this),
+        500
+      );
+    }
+    this.clickFunc();
+  },
+
+  sendClick: function() {
+    this.navEvents.trigger('click');
+  }
+});
+
 var ConfirmCancelView = ResolveRejectBase.extend({
   tagName: 'div',
   className: 'confirmCancelView box horizontal justify',
@@ -10234,6 +10277,7 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
+exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
@@ -16935,7 +16979,7 @@ var ContainedBase = Views.ContainedBase;
 
 var MarkdownGrabber = ContainedBase.extend({
   tagName: 'div',
-  className: 'MarkdownGrabber box horizontal',
+  className: 'markdownGrabber box horizontal',
   template: _.template($('#markdown-grabber-view').html()),
   events: {
     'keyup textarea': 'keyup'
@@ -16944,10 +16988,11 @@ var MarkdownGrabber = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.deferred = options.deferred || Q.defer();
-    this.options = options;
-    this.JSON = {};
+    this.JSON = {
+      previewText: options.previewText || 'Preview'
+    };
 
-    this.container = new ModalTerminal({
+    this.container = options.container || new ModalTerminal({
       title: options.title || 'Enter some markdown'
     });
     this.render();
@@ -16956,13 +17001,10 @@ var MarkdownGrabber = ContainedBase.extend({
       // do button stuff
       var buttonDefer = Q.defer();
       buttonDefer.promise
-      .then(_.bind(function() {
-        this.confirmed();
-      }, this))
-      .fail(_.bind(function() {
-        this.cancelled();
-      }, this))
+      .then(_.bind(this.confirmed, this))
+      .fail(_.bind(this.cancelled, this))
       .done();
+
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
         destination: this.getDestination()
@@ -17000,6 +17042,10 @@ var MarkdownGrabber = ContainedBase.extend({
     return this.$('textarea').val();
   },
 
+  exportToArray: function() {
+    return this.getRawText().split('\n');
+  },
+
   updatePreview: function() {
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
@@ -17007,7 +17053,83 @@ var MarkdownGrabber = ContainedBase.extend({
   }
 });
 
+var DemonstrationBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'demonstrationBuilder box vertical',
+  template: _.template($('#demonstration-builder').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+
+    this.JSON = {};
+    this.container = new ModalTerminal({
+      title: 'Demonstration Builder'
+    });
+    this.render();
+
+    // build the two markdown grabbers
+    this.beforeMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      previewText: 'Before demonstration Markdown'
+    });
+    this.afterMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      previewText: 'After demonstration Markdown'
+    });
+
+    // the test button
+    var testButton = new Views.GeneralButton({
+      destination: this.$('div.buttons')[0],
+      buttonText: 'Test View'
+    });
+    testButton.navEvents.on('click', this.testView, this);
+
+    // build confirm button
+    var buttonDeferred = Q.defer();
+    var confirmCancel = new Views.ConfirmCancelView({
+      deferred: buttonDeferred,
+      destination: this.getDestination()
+    });
+
+    buttonDeferred.promise
+    .then(_.bind(this.confirmed, this))
+    .fail(_.bind(this.cancelled, this))
+    .done();
+  },
+
+  testView: function() {
+    var module = require('../views/gitDemonstrationView');
+    new module.GitDemonstrationView(this.getExportObj());
+  },
+
+  getExportObj: function() {
+    return {
+      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
+      afterMarkdowns: this.afterMarkdownView.exportToArray(),
+      gitCommand: 'git commit'
+    };
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getExportObj());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  getInsideElement: function() {
+    return this.$('.insideBuilder')[0];
+  }
+});
+
 exports.MarkdownGrabber = MarkdownGrabber;
+exports.DemonstrationBuilder = DemonstrationBuilder;
 
 
 });
@@ -21518,7 +21640,7 @@ var ContainedBase = Views.ContainedBase;
 
 var MarkdownGrabber = ContainedBase.extend({
   tagName: 'div',
-  className: 'MarkdownGrabber box horizontal',
+  className: 'markdownGrabber box horizontal',
   template: _.template($('#markdown-grabber-view').html()),
   events: {
     'keyup textarea': 'keyup'
@@ -21527,10 +21649,11 @@ var MarkdownGrabber = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.deferred = options.deferred || Q.defer();
-    this.options = options;
-    this.JSON = {};
+    this.JSON = {
+      previewText: options.previewText || 'Preview'
+    };
 
-    this.container = new ModalTerminal({
+    this.container = options.container || new ModalTerminal({
       title: options.title || 'Enter some markdown'
     });
     this.render();
@@ -21539,13 +21662,10 @@ var MarkdownGrabber = ContainedBase.extend({
       // do button stuff
       var buttonDefer = Q.defer();
       buttonDefer.promise
-      .then(_.bind(function() {
-        this.confirmed();
-      }, this))
-      .fail(_.bind(function() {
-        this.cancelled();
-      }, this))
+      .then(_.bind(this.confirmed, this))
+      .fail(_.bind(this.cancelled, this))
       .done();
+
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
         destination: this.getDestination()
@@ -21583,6 +21703,10 @@ var MarkdownGrabber = ContainedBase.extend({
     return this.$('textarea').val();
   },
 
+  exportToArray: function() {
+    return this.getRawText().split('\n');
+  },
+
   updatePreview: function() {
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
@@ -21590,7 +21714,83 @@ var MarkdownGrabber = ContainedBase.extend({
   }
 });
 
+var DemonstrationBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'demonstrationBuilder box vertical',
+  template: _.template($('#demonstration-builder').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+
+    this.JSON = {};
+    this.container = new ModalTerminal({
+      title: 'Demonstration Builder'
+    });
+    this.render();
+
+    // build the two markdown grabbers
+    this.beforeMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      previewText: 'Before demonstration Markdown'
+    });
+    this.afterMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      previewText: 'After demonstration Markdown'
+    });
+
+    // the test button
+    var testButton = new Views.GeneralButton({
+      destination: this.$('div.buttons')[0],
+      buttonText: 'Test View'
+    });
+    testButton.navEvents.on('click', this.testView, this);
+
+    // build confirm button
+    var buttonDeferred = Q.defer();
+    var confirmCancel = new Views.ConfirmCancelView({
+      deferred: buttonDeferred,
+      destination: this.getDestination()
+    });
+
+    buttonDeferred.promise
+    .then(_.bind(this.confirmed, this))
+    .fail(_.bind(this.cancelled, this))
+    .done();
+  },
+
+  testView: function() {
+    var module = require('../views/gitDemonstrationView');
+    new module.GitDemonstrationView(this.getExportObj());
+  },
+
+  getExportObj: function() {
+    return {
+      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
+      afterMarkdowns: this.afterMarkdownView.exportToArray(),
+      gitCommand: 'git commit'
+    };
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getExportObj());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  getInsideElement: function() {
+    return this.$('.insideBuilder')[0];
+  }
+});
+
 exports.MarkdownGrabber = MarkdownGrabber;
+exports.DemonstrationBuilder = DemonstrationBuilder;
 
 
 });
@@ -22262,6 +22462,49 @@ var ContainedBase = BaseView.extend({
   }
 });
 
+var GeneralButton = ContainedBase.extend({
+  tagName: 'a',
+  className: 'generalButton uiButton',
+  template: _.template($('#general-button').html()),
+  events: {
+    'click': 'click'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.navEvents = options.navEvents || _.clone(Backbone.Events);
+    this.destination = options.destination;
+    if (!this.destination) {
+      this.container = new ModalTerminal();
+    }
+
+    this.JSON = {
+      buttonText: options.buttonText || 'General Button',
+      wantsWrapper: (options.wantsWrapper !== undefined) ? options.wantsWrapper : true
+    };
+
+    this.render();
+
+    if (this.container && !options.wait) {
+      this.show();
+    }
+  },
+
+  click: function() {
+    if (!this.clickFunc) {
+      this.clickFunc = _.throttle(
+        _.bind(this.sendClick, this),
+        500
+      );
+    }
+    this.clickFunc();
+  },
+
+  sendClick: function() {
+    this.navEvents.trigger('click');
+  }
+});
+
 var ConfirmCancelView = ResolveRejectBase.extend({
   tagName: 'div',
   className: 'confirmCancelView box horizontal justify',
@@ -22763,6 +23006,7 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
+exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;

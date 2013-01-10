@@ -621,7 +621,7 @@ li.rebaseEntry.notPicked {
 }
 
 .modalView .terminal-window {
-  margin-top: 10%;
+  margin-top: 5%;
   -webkit-transform: translate3d(0, -100%, 0);
   -moz-transform: translate3d(0, -100%, 0);
   -o-transform: translate3d(0, -100%, 0);
@@ -737,28 +737,49 @@ div.levelIcon.solved div.index div.indexNum {
   display: none;
 }
 
-/* Git demonstration view, and MarkdownGrabber */
+/* DemonstrationBuilder */
 
-.MarkdownGrabber {
+.demonstrationBuilder div.buttons {
+  margin: 8px 0;
+}
+
+.demonstrationBuilder .markdownGrabber{
+  min-height: 200px;
+}
+
+.markdownGrabberInput {
+  margin-top: 32px;
+}
+
+.demonstrationBuilder .markdownGrabber textarea {
+  height: auto;
+}
+
+/* Git demonstration view, and markdownGrabber */
+
+.markdownGrabber {
   padding: 10px;
 }
 
-.MarkdownGrabber textarea {
+.markdownGrabber textarea {
   width: 90%;
-  height: 600px;
-  resize: none;
+  height: 400px;
+}
+
+.demonstrationBuilder .markdownGrabber textarea {
+  height: 200px;
 }
 
 .markdownGrabberPreview div.insidePreview {
   padding: 8px;
 }
 
-.MarkdownGrabber > div.inputSide,
+.markdownGrabber > div.inputSide,
 .gitDemonstrationView > div.demonstrationText {
   width: 50%;
 }
 
-.MarkdownGrabber div.markdownGrabberPreview,
+.markdownGrabber div.markdownGrabberPreview,
 .gitDemonstrationView > div.visHolder {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   border-radius: 3px;
@@ -770,7 +791,7 @@ div.levelIcon.solved div.index div.indexNum {
   padding: 10px;
 }
 
-.MarkdownGrabber,
+.markdownGrabber,
 .gitDemonstrationView {
   min-height: 400px;
 }

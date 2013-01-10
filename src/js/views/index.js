@@ -69,6 +69,49 @@ var ContainedBase = BaseView.extend({
   }
 });
 
+var GeneralButton = ContainedBase.extend({
+  tagName: 'a',
+  className: 'generalButton uiButton',
+  template: _.template($('#general-button').html()),
+  events: {
+    'click': 'click'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.navEvents = options.navEvents || _.clone(Backbone.Events);
+    this.destination = options.destination;
+    if (!this.destination) {
+      this.container = new ModalTerminal();
+    }
+
+    this.JSON = {
+      buttonText: options.buttonText || 'General Button',
+      wantsWrapper: (options.wantsWrapper !== undefined) ? options.wantsWrapper : true
+    };
+
+    this.render();
+
+    if (this.container && !options.wait) {
+      this.show();
+    }
+  },
+
+  click: function() {
+    if (!this.clickFunc) {
+      this.clickFunc = _.throttle(
+        _.bind(this.sendClick, this),
+        500
+      );
+    }
+    this.clickFunc();
+  },
+
+  sendClick: function() {
+    this.navEvents.trigger('click');
+  }
+});
+
 var ConfirmCancelView = ResolveRejectBase.extend({
   tagName: 'div',
   className: 'confirmCancelView box horizontal justify',
@@ -570,6 +613,7 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
+exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
 exports.ModalAlert = ModalAlert;
