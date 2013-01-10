@@ -2,11 +2,13 @@ Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] level builder dialog tester
 [ ] level builder dialog builder
-[ ] allow demonstration view to have git commands beforehand
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] get automated SHA hash appending in the html source :OOOOO... template? or what?t
+[ ] text grabber for commands
+[ ] turn off button clicking for demonstration view :O
+
 
 Cases to handle / things to edit
 =======================
@@ -32,6 +34,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] way to close testing view
+[x] allow demonstration view to have git commands beforehand
 [x] demonstration builder progress
 [x] markdowngrabber
 [x] sandbox and level command refresh

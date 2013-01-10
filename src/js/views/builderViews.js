@@ -10,6 +10,41 @@ var Views = require('../views');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
+var MultiView = require('../views/multiView').MultiView;
+
+var TextGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'textGrabber box vertical',
+  template: _.template($('#text-grabber').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      helperText: options.helperText || 'Enter some text'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: 'Enter some text'
+    });
+    this.render();
+    if (options.initialText) {
+      this.setText(options.initialText);
+    }
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  getText: function() {
+    return this.$('textarea').val();
+  },
+
+  setText: function(str) {
+    this.$('textarea').val(str);
+  }
+});
+
 var MarkdownGrabber = ContainedBase.extend({
   tagName: 'div',
   className: 'markdownGrabber box horizontal',
@@ -40,7 +75,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
-        destination: this.getDestination()
+        destination: this
       });
     }
 
@@ -107,6 +142,18 @@ var DemonstrationBuilder = ContainedBase.extend({
       withoutButton: true,
       previewText: 'Before demonstration Markdown'
     });
+    this.beforeCommandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
+      initialText: 'git checkout -b bugFix'
+    });
+
+    this.commandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to demonstrate to the reader',
+      initialText: 'git commit'
+    });
+
     this.afterMarkdownView = new MarkdownGrabber({
       container: this,
       withoutButton: true,
@@ -134,15 +181,20 @@ var DemonstrationBuilder = ContainedBase.extend({
   },
 
   testView: function() {
-    var module = require('../views/gitDemonstrationView');
-    new module.GitDemonstrationView(this.getExportObj());
+    new MultiView({
+      childViews: [{
+        type: 'GitDemonstrationView',
+        options: this.getExportObj()
+      }]
+    });
   },
 
   getExportObj: function() {
     return {
       beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
       afterMarkdowns: this.afterMarkdownView.exportToArray(),
-      gitCommand: 'git commit'
+      command: this.commandView.getText(),
+      beforeCommand: this.beforeCommandView.getText()
     };
   },
 
@@ -163,4 +215,5 @@ var DemonstrationBuilder = ContainedBase.extend({
 
 exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
+exports.TextGrabber = TextGrabber;
 

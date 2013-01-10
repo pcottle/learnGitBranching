@@ -52,6 +52,7 @@ var GitDemonstrationView = ContainedBase.extend({
       title: options.title || 'Git Demonstration'
     });
     this.render();
+    this.checkScroll();
 
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
@@ -72,6 +73,31 @@ var GitDemonstrationView = ContainedBase.extend({
     if (!options.wait) {
       this.show();
     }
+  },
+
+  checkScroll: function() {
+    console.log('checking scroll');
+    var children = this.$('div.demonstrationText').children();
+    var heights = _.map(children, function(child) { return child.clientHeight; });
+    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
+    console.log(children, heights, totalHeight);
+    if (totalHeight < this.$('div.demonstrationText').height()) {
+      this.$('div.demonstrationText').addClass('noLongText');
+    }
+  },
+
+  dispatchBeforeCommand: function() {
+    if (!this.options.beforeCommand) {
+      return;
+    }
+    // here we just split the command and push them through to the git engine
+    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
+      this.mainVis.gitEngine.dispatch(new Command({
+        rawStr: commandStr
+      }), Q.defer());
+    }, this);
+    // then harsh refresh
+    this.mainVis.gitVisuals.refreshTreeHarsh();
   },
 
   takeControl: function() {
@@ -193,6 +219,7 @@ var GitDemonstrationView = ContainedBase.extend({
     });
     this.mainVis.customEvents.on('paperReady', _.bind(function() {
       this.visFinished = true;
+      this.dispatchBeforeCommand();
       if (this.shown) {
         // show the canvas once its done if we are shown
         this.show();

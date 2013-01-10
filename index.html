@@ -204,19 +204,19 @@
 
   <script type="text/html" id="git-demonstration-view">
     <div class="demonstrationText box vertical">
-      <div class="beforeText box flex1 vertical center">
+      <div class="beforeText">
         <p>
           <%= beforeHTML %>
         </p>
       </div>
 
-      <div class="command box flex1 vertical center centerAlign">
+      <div class="command center">
         <p class="uiButton uiButtonYellow transitionOpacity">
           <%= command %>
         </p>
       </div>
 
-      <div class="afterText box flex1 vertical center transitionOpacity">
+      <div class="afterText transitionOpacity">
         <p>
           <%= afterHTML %>
         </p>
@@ -236,6 +236,13 @@
     </div>
     <div class="buttons box horizontal center">
     </div>
+  </script>
+
+  <script type="text/html" id="text-grabber">
+    <p class="helperText">
+      <%= helperText %>
+    </p>
+    <textarea></textarea>
   </script>
 
   <script type="text/html" id="markdown-grabber-view">

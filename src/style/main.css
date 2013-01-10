@@ -739,12 +739,20 @@ div.levelIcon.solved div.index div.indexNum {
 
 /* DemonstrationBuilder */
 
+.demonstrationBuilder {
+  max-height: 600px;
+  overflow-y: scroll;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 .demonstrationBuilder div.buttons {
   margin: 8px 0;
 }
 
 .demonstrationBuilder .markdownGrabber{
-  min-height: 200px;
+  min-height: 100px;
 }
 
 .markdownGrabberInput {
@@ -753,6 +761,10 @@ div.levelIcon.solved div.index div.indexNum {
 
 .demonstrationBuilder .markdownGrabber textarea {
   height: auto;
+}
+
+.textGrabber textarea {
+  width: 70%;
 }
 
 /* Git demonstration view, and markdownGrabber */
@@ -767,7 +779,7 @@ div.levelIcon.solved div.index div.indexNum {
 }
 
 .demonstrationBuilder .markdownGrabber textarea {
-  height: 200px;
+  height: 100px;
 }
 
 .markdownGrabberPreview div.insidePreview {
@@ -777,6 +789,16 @@ div.levelIcon.solved div.index div.indexNum {
 .markdownGrabber > div.inputSide,
 .gitDemonstrationView > div.demonstrationText {
   width: 50%;
+}
+
+.gitDemonstrationView > div.demonstrationText {
+  margin-right: 10px;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.gitDemonstrationView > div.demonstrationText.noLongText {
+  overflow-y: hidden;
 }
 
 .markdownGrabber div.markdownGrabberPreview,
