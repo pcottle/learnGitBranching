@@ -75,12 +75,16 @@ var GitDemonstrationView = ContainedBase.extend({
     }
   },
 
+  receiveMetaNav: function(navView, metaContainerView) {
+    var _this = this;
+    navView.navEvents.on('positive', this.positive, this);
+    this.metaContainerView = metaContainerView;
+  },
+
   checkScroll: function() {
-    console.log('checking scroll');
     var children = this.$('div.demonstrationText').children();
     var heights = _.map(children, function(child) { return child.clientHeight; });
     var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
-    console.log(children, heights, totalHeight);
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');
     }
@@ -103,12 +107,16 @@ var GitDemonstrationView = ContainedBase.extend({
   takeControl: function() {
     this.hasControl = true;
     this.keyboardListener.listen();
+
+    if (this.metaContainerView) { this.metaContainerView.lock(); }
   },
 
   releaseControl: function() {
     if (!this.hasControl) { return; }
     this.hasControl = false;
     this.keyboardListener.mute();
+
+    if (this.metaContainerView) { this.metaContainerView.unlock(); }
   },
 
   reset: function() {
@@ -119,11 +127,17 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   positive: function() {
-    if (this.demonstrated) {
+    if (this.demonstrated || !this.hasControl) {
+      // dont do anything if we are demonstrating, and if
+      // we receive a meta nav event and we aren't listening,
+      // then dont do anything either
       return;
     }
     this.demonstrated = true;
+    this.demonstrate();
+  },
 
+  demonstrate: function() {
     this.$el.toggleClass('demonstrating', true);
 
     var whenDone = Q.defer();

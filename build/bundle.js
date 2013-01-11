@@ -9810,13 +9810,29 @@ var LeftRightView = PositiveNegativeBase.extend({
     'click .right': 'positive'
   },
 
+  positive: function() {
+    this.pipeEvents.trigger('positive');
+    LeftRightView.__super__.positive.apply(this);
+  },
+
+  negative: function() {
+    this.pipeEvents.trigger('negative');
+    LeftRightView.__super__.negative.apply(this);
+  },
+
   initialize: function(options) {
     if (!options.destination || !options.events) {
       throw new Error('needmore');
     }
 
     this.destination = options.destination;
-    this.navEvents = options.events;
+
+    // we switch to a system where every leftrightview has its own
+    // events system to add support for git demonstration view taking control of the
+    // click events
+    this.pipeEvents = options.events;
+    this.navEvents = _.clone(Backbone.Events);
+
     this.JSON = {
       showLeft: (options.showLeft === undefined) ? true : options.showLeft,
       lastNav: (options.lastNav === undefined) ? false : options.lastNav
@@ -15315,7 +15331,17 @@ var MultiView = Backbone.View.extend({
     }, this), this.navEventDebounce, true);
   },
 
+  lock: function() {
+    this.locked = true;
+  },
+
+  unlock: function() {
+    this.locked = false;
+  },
+
   navForward: function() {
+    // we need to prevent nav changes when a git demonstration view hasnt finished
+    if (this.locked) { return; }
     if (this.currentIndex === this.childViews.length - 1) {
       this.hideViewIndex(this.currentIndex);
       this.finish();
@@ -15386,6 +15412,9 @@ var MultiView = Backbone.View.extend({
       showLeft: (index !== 0),
       lastNav: (index === this.childViewJSONs.length - 1)
     });
+    if (view.receiveMetaNav) {
+      view.receiveMetaNav(leftRight, this);
+    }
   },
 
   render: function() {
@@ -15480,12 +15509,16 @@ var GitDemonstrationView = ContainedBase.extend({
     }
   },
 
+  receiveMetaNav: function(navView, metaContainerView) {
+    var _this = this;
+    navView.navEvents.on('positive', this.positive, this);
+    this.metaContainerView = metaContainerView;
+  },
+
   checkScroll: function() {
-    console.log('checking scroll');
     var children = this.$('div.demonstrationText').children();
     var heights = _.map(children, function(child) { return child.clientHeight; });
     var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
-    console.log(children, heights, totalHeight);
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');
     }
@@ -15508,12 +15541,16 @@ var GitDemonstrationView = ContainedBase.extend({
   takeControl: function() {
     this.hasControl = true;
     this.keyboardListener.listen();
+
+    if (this.metaContainerView) { this.metaContainerView.lock(); }
   },
 
   releaseControl: function() {
     if (!this.hasControl) { return; }
     this.hasControl = false;
     this.keyboardListener.mute();
+
+    if (this.metaContainerView) { this.metaContainerView.unlock(); }
   },
 
   reset: function() {
@@ -15524,11 +15561,17 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   positive: function() {
-    if (this.demonstrated) {
+    if (this.demonstrated || !this.hasControl) {
+      // dont do anything if we are demonstrating, and if
+      // we receive a meta nav event and we aren't listening,
+      // then dont do anything either
       return;
     }
     this.demonstrated = true;
+    this.demonstrate();
+  },
 
+  demonstrate: function() {
     this.$el.toggleClass('demonstrating', true);
 
     var whenDone = Q.defer();
@@ -22392,12 +22435,16 @@ var GitDemonstrationView = ContainedBase.extend({
     }
   },
 
+  receiveMetaNav: function(navView, metaContainerView) {
+    var _this = this;
+    navView.navEvents.on('positive', this.positive, this);
+    this.metaContainerView = metaContainerView;
+  },
+
   checkScroll: function() {
-    console.log('checking scroll');
     var children = this.$('div.demonstrationText').children();
     var heights = _.map(children, function(child) { return child.clientHeight; });
     var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
-    console.log(children, heights, totalHeight);
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');
     }
@@ -22420,12 +22467,16 @@ var GitDemonstrationView = ContainedBase.extend({
   takeControl: function() {
     this.hasControl = true;
     this.keyboardListener.listen();
+
+    if (this.metaContainerView) { this.metaContainerView.lock(); }
   },
 
   releaseControl: function() {
     if (!this.hasControl) { return; }
     this.hasControl = false;
     this.keyboardListener.mute();
+
+    if (this.metaContainerView) { this.metaContainerView.unlock(); }
   },
 
   reset: function() {
@@ -22436,11 +22487,17 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   positive: function() {
-    if (this.demonstrated) {
+    if (this.demonstrated || !this.hasControl) {
+      // dont do anything if we are demonstrating, and if
+      // we receive a meta nav event and we aren't listening,
+      // then dont do anything either
       return;
     }
     this.demonstrated = true;
+    this.demonstrate();
+  },
 
+  demonstrate: function() {
     this.$el.toggleClass('demonstrating', true);
 
     var whenDone = Q.defer();
@@ -22699,13 +22756,29 @@ var LeftRightView = PositiveNegativeBase.extend({
     'click .right': 'positive'
   },
 
+  positive: function() {
+    this.pipeEvents.trigger('positive');
+    LeftRightView.__super__.positive.apply(this);
+  },
+
+  negative: function() {
+    this.pipeEvents.trigger('negative');
+    LeftRightView.__super__.negative.apply(this);
+  },
+
   initialize: function(options) {
     if (!options.destination || !options.events) {
       throw new Error('needmore');
     }
 
     this.destination = options.destination;
-    this.navEvents = options.events;
+
+    // we switch to a system where every leftrightview has its own
+    // events system to add support for git demonstration view taking control of the
+    // click events
+    this.pipeEvents = options.events;
+    this.navEvents = _.clone(Backbone.Events);
+
     this.JSON = {
       showLeft: (options.showLeft === undefined) ? true : options.showLeft,
       lastNav: (options.lastNav === undefined) ? false : options.lastNav
@@ -23575,7 +23648,17 @@ var MultiView = Backbone.View.extend({
     }, this), this.navEventDebounce, true);
   },
 
+  lock: function() {
+    this.locked = true;
+  },
+
+  unlock: function() {
+    this.locked = false;
+  },
+
   navForward: function() {
+    // we need to prevent nav changes when a git demonstration view hasnt finished
+    if (this.locked) { return; }
     if (this.currentIndex === this.childViews.length - 1) {
       this.hideViewIndex(this.currentIndex);
       this.finish();
@@ -23646,6 +23729,9 @@ var MultiView = Backbone.View.extend({
       showLeft: (index !== 0),
       lastNav: (index === this.childViewJSONs.length - 1)
     });
+    if (view.receiveMetaNav) {
+      view.receiveMetaNav(leftRight, this);
+    }
   },
 
   render: function() {

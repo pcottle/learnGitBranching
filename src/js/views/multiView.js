@@ -95,7 +95,17 @@ var MultiView = Backbone.View.extend({
     }, this), this.navEventDebounce, true);
   },
 
+  lock: function() {
+    this.locked = true;
+  },
+
+  unlock: function() {
+    this.locked = false;
+  },
+
   navForward: function() {
+    // we need to prevent nav changes when a git demonstration view hasnt finished
+    if (this.locked) { return; }
     if (this.currentIndex === this.childViews.length - 1) {
       this.hideViewIndex(this.currentIndex);
       this.finish();
@@ -166,6 +176,9 @@ var MultiView = Backbone.View.extend({
       showLeft: (index !== 0),
       lastNav: (index === this.childViewJSONs.length - 1)
     });
+    if (view.receiveMetaNav) {
+      view.receiveMetaNav(leftRight, this);
+    }
   },
 
   render: function() {

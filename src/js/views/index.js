@@ -146,13 +146,29 @@ var LeftRightView = PositiveNegativeBase.extend({
     'click .right': 'positive'
   },
 
+  positive: function() {
+    this.pipeEvents.trigger('positive');
+    LeftRightView.__super__.positive.apply(this);
+  },
+
+  negative: function() {
+    this.pipeEvents.trigger('negative');
+    LeftRightView.__super__.negative.apply(this);
+  },
+
   initialize: function(options) {
     if (!options.destination || !options.events) {
       throw new Error('needmore');
     }
 
     this.destination = options.destination;
-    this.navEvents = options.events;
+
+    // we switch to a system where every leftrightview has its own
+    // events system to add support for git demonstration view taking control of the
+    // click events
+    this.pipeEvents = options.events;
+    this.navEvents = _.clone(Backbone.Events);
+
     this.JSON = {
       showLeft: (options.showLeft === undefined) ? true : options.showLeft,
       lastNav: (options.lastNav === undefined) ? false : options.lastNav
