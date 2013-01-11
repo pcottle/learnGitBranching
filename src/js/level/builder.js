@@ -214,9 +214,9 @@ var LevelBuilder = Level.extend({
       deferred: whenDoneEditing
     });
     whenDoneEditing.promise
-    .then(function(levelObj) {
+    .then(_.bind(function(levelObj) {
       this.startDialog = levelObj;
-    })
+    }, this))
     .fail(function() {
       // nothing to do, they dont want to edit it apparently
     })
