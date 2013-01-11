@@ -190,7 +190,12 @@ var LevelDropdownView = ContainedBase.extend({
     this.hide();
   },
 
-  show: function(deferred) {
+  testOption: function(str) {
+    return this.currentCommand && new RegExp('--' + str).test(this.currentCommand.get('rawStr'));
+  },
+
+  show: function(deferred, command) {
+    this.currentCommand = command;
     // doing the update on show will allow us to fade which will be nice
     this.updateSolvedStatus();
 
@@ -211,10 +216,12 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   loadLevelID: function(id) {
-    Main.getEventBaton().trigger(
-      'commandSubmitted',
-      'level ' + id
-    );
+    if (!this.testOption('noOutput')) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'level ' + id
+      );
+    }
     this.hide();
   },
 

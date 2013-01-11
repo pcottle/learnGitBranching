@@ -176,7 +176,7 @@ var Sandbox = Backbone.View.extend({
 
   showLevels: function(command, deferred) {
     var whenClosed = Q.defer();
-    Main.getLevelDropdown().show(whenClosed);
+    Main.getLevelDropdown().show(whenClosed, command);
     whenClosed.promise.done(function() {
       command.finishWith(deferred);
     });

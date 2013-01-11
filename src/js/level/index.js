@@ -300,7 +300,7 @@ var Level = Sandbox.extend({
   },
 
   testOption: function(option) {
-    return this.options.command && RegExp('--' + option).test(this.options.command.get('rawStr'));
+    return this.options.command && new RegExp('--' + option).test(this.options.command.get('rawStr'));
   },
 
   levelSolved: function(defer) {
