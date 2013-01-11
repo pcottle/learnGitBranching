@@ -1,5 +1,6 @@
 exports.level = {
   name: 'Introduction #1',
+  description: 'A description goes here',
   startDialog: {
     childViews: [{
       type: 'GitDemonstrationView',
