@@ -293,14 +293,17 @@
     <textarea></textarea>
   </script>
 
+  <script type="text/html" id="markdown-presenter">
+      <p class="helperText textAlignCenter">
+        <%= previewText %>
+      </p>
+        <textarea><%= fillerText %></textarea>
+  </script>
+
   <script type="text/html" id="markdown-grabber-view">
     <div class="inputSide box vertical">
       <div class="markdownGrabberInput">
-        <textarea>
-## Enter some markdown!
-
-
-</textarea>
+        <textarea><%= fillerText %></textarea>
       </div>
     </div>
 

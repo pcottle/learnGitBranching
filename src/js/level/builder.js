@@ -20,7 +20,9 @@ var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
+var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
 var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
+var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
 
 var regexMap = {
   'define goal': /^define goal$/,
@@ -291,21 +293,28 @@ var LevelBuilder = Level.extend({
     }
 
     chain = chain.done(_.bind(function() {
-      var compiledLevel = _.extend(
-        {},
-        this.level
-      );
-      // the start dialog now is just our help intro thing
-      delete compiledLevel.startDialog;
-      if (this.startDialog) {
-        compiledLevel.startDialog  = this.startDialog;
-      }
-      console.log(compiledLevel);
-      console.log(this.startDialog);
+      // ok great! lets just give them the goods
+      new MarkdownPresenter({
+        fillerText: JSON.stringify(this.getExportObj(), null, 2),
+        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+      });
       command.finishWith(deferred);
     }, this));
 
     masterDeferred.resolve();
+  },
+
+  getExportObj: function() {
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+    return compiledLevel;
   },
 
   processLevelBuilderCommand: function(command, deferred) {

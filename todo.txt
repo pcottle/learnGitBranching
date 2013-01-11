@@ -1,7 +1,7 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] edit dialog
 [ ] descriptions for levels?
+[ ] import random level
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,6 +28,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] edit dialog
 [x] level builder dialog builder
 [x] level builder dialog tester
 [x] turn off button clicking for demonstration view :O

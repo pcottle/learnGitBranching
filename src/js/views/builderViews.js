@@ -57,7 +57,8 @@ var MarkdownGrabber = ContainedBase.extend({
     options = options || {};
     this.deferred = options.deferred || Q.defer();
     this.JSON = {
-      previewText: options.previewText || 'Preview'
+      previewText: options.previewText || 'Preview',
+      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
     };
 
     this.container = options.container || new ModalTerminal({
@@ -124,6 +125,34 @@ var MarkdownGrabber = ContainedBase.extend({
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
     this.$('div.insidePreview').html(HTML);
+  }
+});
+
+var MarkdownPresenter = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownPresenter box vertical',
+  template: _.template($('#markdown-presenter').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      previewText: options.previewText || 'Here is something for you',
+      fillerText: options.fillerText || '# Yay'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Check this out...'
+    });
+    this.render();
+
+    var confirmCancel = new Views.ConfirmCancelView({
+      destination: this.getDestination()
+    });
+    confirmCancel.deferred.promise
+    .fail(function() { })
+    .done(_.bind(this.die, this));
+
+    this.show();
   }
 });
 
@@ -334,4 +363,5 @@ exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
+exports.MarkdownPresenter = MarkdownPresenter;
 

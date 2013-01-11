@@ -9792,12 +9792,12 @@ var ConfirmCancelView = ResolveRejectBase.extend({
   },
 
   initialize: function(options) {
-    if (!options.destination || !options.deferred) {
+    if (!options.destination) {
       throw new Error('needmore');
     }
 
     this.destination = options.destination;
-    this.deferred = options.deferred;
+    this.deferred = options.deferred || Q.defer();
     this.JSON = {
       confirm: options.confirm || 'Confirm',
       cancel: options.cancel || 'Cancel'
@@ -16660,7 +16660,9 @@ var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
+var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
 var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
+var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
 
 var regexMap = {
   'define goal': /^define goal$/,
@@ -16931,21 +16933,28 @@ var LevelBuilder = Level.extend({
     }
 
     chain = chain.done(_.bind(function() {
-      var compiledLevel = _.extend(
-        {},
-        this.level
-      );
-      // the start dialog now is just our help intro thing
-      delete compiledLevel.startDialog;
-      if (this.startDialog) {
-        compiledLevel.startDialog  = this.startDialog;
-      }
-      console.log(compiledLevel);
-      console.log(this.startDialog);
+      // ok great! lets just give them the goods
+      new MarkdownPresenter({
+        fillerText: JSON.stringify(this.getExportObj(), null, 2),
+        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+      });
       command.finishWith(deferred);
     }, this));
 
     masterDeferred.resolve();
+  },
+
+  getExportObj: function() {
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+    return compiledLevel;
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -17044,7 +17053,8 @@ var MarkdownGrabber = ContainedBase.extend({
     options = options || {};
     this.deferred = options.deferred || Q.defer();
     this.JSON = {
-      previewText: options.previewText || 'Preview'
+      previewText: options.previewText || 'Preview',
+      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
     };
 
     this.container = options.container || new ModalTerminal({
@@ -17111,6 +17121,34 @@ var MarkdownGrabber = ContainedBase.extend({
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
     this.$('div.insidePreview').html(HTML);
+  }
+});
+
+var MarkdownPresenter = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownPresenter box vertical',
+  template: _.template($('#markdown-presenter').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      previewText: options.previewText || 'Here is something for you',
+      fillerText: options.fillerText || '# Yay'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Check this out...'
+    });
+    this.render();
+
+    var confirmCancel = new Views.ConfirmCancelView({
+      destination: this.getDestination()
+    });
+    confirmCancel.deferred.promise
+    .fail(function() { })
+    .done(_.bind(this.die, this));
+
+    this.show();
   }
 });
 
@@ -17321,6 +17359,7 @@ exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
+exports.MarkdownPresenter = MarkdownPresenter;
 
 
 });
@@ -20045,7 +20084,9 @@ var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
+var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
 var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
+var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
 
 var regexMap = {
   'define goal': /^define goal$/,
@@ -20316,21 +20357,28 @@ var LevelBuilder = Level.extend({
     }
 
     chain = chain.done(_.bind(function() {
-      var compiledLevel = _.extend(
-        {},
-        this.level
-      );
-      // the start dialog now is just our help intro thing
-      delete compiledLevel.startDialog;
-      if (this.startDialog) {
-        compiledLevel.startDialog  = this.startDialog;
-      }
-      console.log(compiledLevel);
-      console.log(this.startDialog);
+      // ok great! lets just give them the goods
+      new MarkdownPresenter({
+        fillerText: JSON.stringify(this.getExportObj(), null, 2),
+        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+      });
       command.finishWith(deferred);
     }, this));
 
     masterDeferred.resolve();
+  },
+
+  getExportObj: function() {
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+    return compiledLevel;
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -22105,7 +22153,8 @@ var MarkdownGrabber = ContainedBase.extend({
     options = options || {};
     this.deferred = options.deferred || Q.defer();
     this.JSON = {
-      previewText: options.previewText || 'Preview'
+      previewText: options.previewText || 'Preview',
+      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
     };
 
     this.container = options.container || new ModalTerminal({
@@ -22172,6 +22221,34 @@ var MarkdownGrabber = ContainedBase.extend({
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
     this.$('div.insidePreview').html(HTML);
+  }
+});
+
+var MarkdownPresenter = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownPresenter box vertical',
+  template: _.template($('#markdown-presenter').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      previewText: options.previewText || 'Here is something for you',
+      fillerText: options.fillerText || '# Yay'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Check this out...'
+    });
+    this.render();
+
+    var confirmCancel = new Views.ConfirmCancelView({
+      destination: this.getDestination()
+    });
+    confirmCancel.deferred.promise
+    .fail(function() { })
+    .done(_.bind(this.die, this));
+
+    this.show();
   }
 });
 
@@ -22382,6 +22459,7 @@ exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
+exports.MarkdownPresenter = MarkdownPresenter;
 
 
 });
@@ -23150,12 +23228,12 @@ var ConfirmCancelView = ResolveRejectBase.extend({
   },
 
   initialize: function(options) {
-    if (!options.destination || !options.deferred) {
+    if (!options.destination) {
       throw new Error('needmore');
     }
 
     this.destination = options.destination;
-    this.deferred = options.deferred;
+    this.deferred = options.deferred || Q.defer();
     this.JSON = {
       confirm: options.confirm || 'Confirm',
       cancel: options.cancel || 'Cancel'

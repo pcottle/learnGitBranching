@@ -788,6 +788,12 @@ div.levelIcon.solved div.index div.indexNum {
 
 /* Git demonstration view, and markdownGrabber */
 
+.markdownPresenter textarea {
+  min-height: 400px;
+  width: 90%;
+  margin: 10px;
+}
+
 .markdownGrabber {
   padding: 10px;
 }
