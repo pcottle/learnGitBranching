@@ -28,6 +28,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] optimistic parsing of level and level builder commands, man that was toughwith circular imports
 [x] edit dialog
 [x] level builder dialog builder
 [x] level builder dialog tester
