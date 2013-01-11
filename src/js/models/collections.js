@@ -91,6 +91,19 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     var Main = require('../app');
+    var eventBaton = Main.getEventBaton();
+
+    var numListeners = eventBaton.getNumListeners(eventName);
+    if (!numListeners) {
+      var Errors = require('../util/errors');
+      command.set('error', new Errors.GitError({
+        msg: 'That command is valid, but not supported in this current environment!' +
+             ' Try entering a level or level builder to use that command'
+      }));
+      deferred.resolve();
+      return;
+    }
+
     Main.getEventBaton().trigger(eventName, command, deferred);
   },
 

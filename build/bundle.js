@@ -6449,11 +6449,18 @@ var init = function() {
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
   $(window).trigger('resize');
 
-  /* hacky demo functionality */
+  // demo functionality
   if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix; help");
-    }, 500);
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger(
+        'commandSubmitted',
+        [
+          "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
+          "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
+          "git merge bugFix; levels; level rebase1; delay 3000;",
+          "git checkout -b win; git commit; help"
+        ].join(''));
+    });
   }
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
@@ -6946,7 +6953,7 @@ var Level = Sandbox.extend({
 });
 
 exports.Level = Level;
-
+exports.regexMap = regexMap;
 
 });
 
@@ -7297,6 +7304,19 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     var Main = require('../app');
+    var eventBaton = Main.getEventBaton();
+
+    var numListeners = eventBaton.getNumListeners(eventName);
+    if (!numListeners) {
+      var Errors = require('../util/errors');
+      command.set('error', new Errors.GitError({
+        msg: 'That command is valid, but not supported in this current environment!' +
+             ' Try entering a level or level builder to use that command'
+      }));
+      deferred.resolve();
+      return;
+    }
+
     Main.getEventBaton().trigger(eventName, command, deferred);
   },
 
@@ -10124,9 +10144,11 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       ]);
     }
 
-    options.modalAlert = {
-      markdowns: markdowns
-    };
+    options = _.extend(
+      {},
+      options,
+      { markdowns: markdowns }
+    );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);
   }
@@ -12912,8 +12934,9 @@ var GitCommands = require('../git/commands');
 var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
-function ParseWaterfall(options) {
+var ParseWaterfall = function(options) {
   options = options || {};
+  this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];
@@ -12923,11 +12946,19 @@ function ParseWaterfall(options) {
     SandboxCommands.instantCommands
   ];
 
-  this.parseWaterfall = options.parseWaterfall || [
+  // defer the parse waterfall until later...
+};
+
+ParseWaterfall.prototype.initParseWaterfall = function() {
+  // by deferring the initialization here, we dont require()
+  // level too early (which barfs our init)
+  this.parseWaterfall = this.options.parseWaterfall || [
     GitCommands.parse,
-    SandboxCommands.parse
+    SandboxCommands.parse,
+    SandboxCommands.getOptimisticLevelParse(),
+    SandboxCommands.getOptimisticLevelBuilderParse()
   ];
-}
+};
 
 ParseWaterfall.prototype.clone = function() {
   return new ParseWaterfall({
@@ -12938,6 +12969,9 @@ ParseWaterfall.prototype.clone = function() {
 };
 
 ParseWaterfall.prototype.getWaterfallMap = function() {
+  if (!this.parseWaterfall) {
+    this.initParseWaterfall();
+  }
   return {
     shortcutWaterfall: this.shortcutWaterfall,
     instantWaterfall: this.instantWaterfall,
@@ -12991,6 +13025,10 @@ ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) 
 };
 
 ParseWaterfall.prototype.parseAll = function(commandStr) {
+  if (!this.parseWaterfall) {
+    this.initParseWaterfall();
+  }
+
   var toReturn = false;
   _.each(this.parseWaterfall, function(parseFunc) {
     var results = parseFunc(commandStr);
@@ -13069,6 +13107,1308 @@ var regexMap = {
 exports.instantCommands = instantCommands;
 exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
+// optimistically parse some level and level builder commands; we do this
+// so you can enter things like "level intro1; show goal" and not
+// have it barf. when the
+// command fires the event, it will check if there is a listener and if not throw
+// an error
+
+// note: these are getters / setters because the require kills us
+exports.getOptimisticLevelParse = function() {
+  return util.genParseCommand(
+    require('../level').regexMap,
+    'processLevelCommand'
+  );
+};
+
+exports.getOptimisticLevelBuilderParse = function() {
+  return util.genParseCommand(
+    require('../level/builder').regexMap,
+    'processLevelBuilderCommand'
+  );
+};
+
+});
+
+require.define("/src/js/level/builder.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var util = require('../util');
+var Main = require('../app');
+var Errors = require('../util/errors');
+
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var Level = require('../level').Level;
+
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
+
+var MultiView = require('../views/multiView').MultiView;
+
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
+var LevelToolbar = require('../views').LevelToolbar;
+
+var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
+var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
+var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
+
+var regexMap = {
+  'define goal': /^define goal$/,
+  'help builder': /^help builder$/,
+  'define start': /^define start$/,
+  'edit dialog': /^edit dialog$/,
+  'show start': /^show start$/,
+  'hide start': /^hide start$/,
+  'define hint': /^define hint$/,
+  'finish': /^finish$/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
+
+var LevelBuilder = Level.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.level = options.level || {};
+
+    options.level.startDialog = {
+      childViews: require('../dialogs/levelBuilder').dialog
+    };
+    LevelBuilder.__super__.initialize.apply(this, [options]);
+
+    this.initStartVisualization();
+    this.startDialog = undefined;
+    this.definedGoal = false;
+
+    // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
+    // include that functionality
+    delete this.treeCompare;
+    delete this.solved;
+  },
+
+  initName: function() {
+    this.levelToolbar = new LevelToolbar({
+      name: 'Level Builder'
+    });
+  },
+
+  initGoalData: function() {
+    // add some default behavior in the beginning
+    this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
+    this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
+    LevelBuilder.__super__.initGoalData.apply(this, arguments);
+  },
+
+  initStartVisualization: function() {
+    this.startCanvasHolder = new CanvasTerminalHolder({
+      additionalClass: 'startTree',
+      text: 'You can hide this window with "hide start"'
+    });
+
+    this.startVis = new Visualization({
+      el: this.startCanvasHolder.getCanvasLocation(),
+      containerElement: this.startCanvasHolder.getCanvasLocation(),
+      treeString: this.level.startTree,
+      noKeyboardInput: true,
+      noClick: true
+    });
+  },
+
+  startDie: function() {
+    this.startCanvasHolder.die();
+    this.startVis.die();
+  },
+
+  startOffCommand: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'echo "Get Building!!"'
+    );
+  },
+
+  initParseWaterfall: function(options) {
+    LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
+
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      parse
+    );
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );
+  },
+
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
+  getInstantCommands: function() {
+    return [
+      [/^help$|^\?$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level builder, so multiple forms of ' +
+               'help are available. Please select either ' +
+               '"help general" or "help builder"'
+        });
+      }]
+    ];
+  },
+
+  takeControl: function() {
+    Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
+
+    LevelBuilder.__super__.takeControl.apply(this);
+  },
+
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
+
+    LevelBuilder.__super__.releaseControl.apply(this);
+  },
+
+  showGoal: function() {
+    this.startCanvasHolder.slideOut();
+    LevelBuilder.__super__.showGoal.apply(this, arguments);
+  },
+
+  showStart: function(command, deferred) {
+    this.goalCanvasHolder.slideOut();
+    this.startCanvasHolder.slideIn();
+
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.startCanvasHolder.getAnimationTime());
+  },
+
+  resetSolution: function() {
+    this.gitCommandsIssued = [];
+    this.level.solutionCommand = undefined;
+  },
+
+  hideStart: function(command, deferred) {
+    this.startCanvasHolder.slideOut();
+
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.startCanvasHolder.getAnimationTime());
+  },
+
+  defineStart: function(command, deferred) {
+    this.startDie();
+
+    command.addWarning(
+      'Defining start point... solution and goal will be overwritten if they were defined earlier'
+    );
+    this.resetSolution();
+
+    this.level.startTree = this.mainVis.gitEngine.printTree();
+    this.mainVis.resetFromThisTreeNow(this.level.startTree);
+
+    this.initStartVisualization();
+
+    this.showStart(command, deferred);
+  },
+
+  defineGoal: function(command, deferred) {
+    this.goalDie();
+
+    if (!this.gitCommandsIssued.length) {
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty!! something is amiss'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.definedGoal = true;
+    this.level.solutionCommand = this.gitCommandsIssued.join(';');
+    this.level.goalTreeString = this.mainVis.gitEngine.printTree();
+    this.initGoalVisualization();
+
+    this.showGoal(command, deferred);
+  },
+
+  defineHint: function(command, deferred) {
+    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    if (command) { command.finishWith(deferred); }
+  },
+
+  editDialog: function(command, deferred) {
+    var whenDoneEditing = Q.defer();
+    new MultiViewBuilder({
+      multiViewJSON: this.startDialog,
+      deferred: whenDoneEditing
+    });
+    whenDoneEditing.promise
+    .then(_.bind(function(levelObj) {
+      this.startDialog = levelObj;
+    }, this))
+    .fail(function() {
+      // nothing to do, they dont want to edit it apparently
+    })
+    .done(function() {
+      if (command) {
+        command.finishWith(deferred);
+      } else {
+        deferred.resolve();
+      }
+    });
+  },
+
+  finish: function(command, deferred) {
+    if (!this.gitCommandsIssued.length || !this.definedGoal) {
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty or goal is undefined!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    var masterDeferred = Q.defer();
+    var chain = masterDeferred.promise;
+
+    if (this.level.hint === undefined) {
+      var askForHintDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForHintDeferred.promise;
+      });
+
+      // ask for a hint if there is none
+      var askForHintView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a hint, would you like to add one?'
+        ]
+      });
+      askForHintView.getPromise()
+      .then(_.bind(this.defineHint, this))
+      .fail(_.bind(function() {
+        this.level.hint = '';
+      }, this))
+      .done(function() {
+        askForHintDeferred.resolve();
+      });
+    }
+
+    if (this.startDialog === undefined) {
+      var askForStartDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForStartDeferred.promise;
+      });
+
+      var askForStartView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a start dialog, would you like to add one?'
+        ]
+      });
+      askForStartView.getPromise()
+      .then(_.bind(function() {
+        // oh boy this is complex
+        var whenEditedDialog = Q.defer();
+        // the undefined here is the command that doesnt need resolving just yet...
+        this.editDialog(undefined, whenEditedDialog);
+        return whenEditedDialog.promise;
+      }, this))
+      .fail(function() {
+        // if they dont want to edit the start dialog, do nothing
+      })
+      .done(function() {
+        askForStartDeferred.resolve();
+      });
+    }
+
+    chain = chain.done(_.bind(function() {
+      // ok great! lets just give them the goods
+      new MarkdownPresenter({
+        fillerText: JSON.stringify(this.getExportObj(), null, 2),
+        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+      });
+      command.finishWith(deferred);
+    }, this));
+
+    masterDeferred.resolve();
+  },
+
+  getExportObj: function() {
+    var compiledLevel = _.extend(
+      {},
+      this.level
+    );
+    // the start dialog now is just our help intro thing
+    delete compiledLevel.startDialog;
+    if (this.startDialog) {
+      compiledLevel.startDialog  = this.startDialog;
+    }
+    return compiledLevel;
+  },
+
+  processLevelBuilderCommand: function(command, deferred) {
+    var methodMap = {
+      'define goal': this.defineGoal,
+      'define start': this.defineStart,
+      'show start': this.showStart,
+      'hide start': this.hideStart,
+      'finish': this.finish,
+      'define hint': this.defineHint,
+      'edit dialog': this.editDialog,
+      'help builder': LevelBuilder.__super__.startDialog
+    };
+    if (!methodMap[command.get('method')]) {
+      throw new Error('woah we dont support that method yet');
+    }
+
+    methodMap[command.get('method')].apply(this, arguments);
+  },
+
+  afterCommandDefer: function(defer, command) {
+    // we dont need to compare against the goal anymore
+    defer.resolve();
+  },
+
+  die: function() {
+    this.startDie();
+
+    LevelBuilder.__super__.die.apply(this, arguments);
+
+    delete this.startVis;
+    delete this.startCanvasHolder;
+  }
+});
+
+exports.LevelBuilder = LevelBuilder;
+exports.regexMap = regexMap;
+
+});
+
+require.define("/src/js/git/gitShim.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+
+var Main = require('../app');
+var MultiView = require('../views/multiView').MultiView;
+
+function GitShim(options) {
+  options = options || {};
+
+  // these variables are just functions called before / after for
+  // simple things (like incrementing a counter)
+  this.beforeCB = options.beforeCB || function() {};
+  this.afterCB = options.afterCB || function() {};
+
+  // these guys handle an optional async process before the git
+  // command executes or afterwards. If there is none,
+  // it just resolves the deferred immediately
+  var resolveImmediately = function(deferred) {
+    deferred.resolve();
+  };
+  this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
+  this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
+  this.eventBaton = options.eventBaton || Main.getEventBaton();
+}
+
+GitShim.prototype.insertShim = function() {
+  this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
+};
+
+GitShim.prototype.removeShim = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
+};
+
+GitShim.prototype.processGitCommand = function(command, deferred) {
+  this.beforeCB(command);
+
+  // ok we make a NEW deferred that will, upon resolution,
+  // call our afterGitCommandProcessed. This inserts the 'after' shim
+  // functionality. we give this new deferred to the eventBaton handler
+  var newDeferred = Q.defer();
+  newDeferred.promise
+  .then(_.bind(function() {
+    // give this method the original defer so it can resolve it
+    this.afterGitCommandProcessed(command, deferred);
+  }, this))
+  .done();
+
+  // now our shim owner might want to launch some kind of deferred beforehand, like
+  // a modal or something. in order to do this, we need to defer the passing
+  // of the event baton backwards, and either resolve that promise immediately or
+  // give it to our shim owner.
+  var passBaton = _.bind(function() {
+    // punt to the previous listener
+    this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newDeferred]);
+  }, this);
+
+  var beforeDefer = Q.defer();
+  beforeDefer.promise
+  .then(passBaton)
+  .done();
+
+  // if we didnt receive a defer handler in the options, this just
+  // resolves immediately
+  this.beforeDeferHandler(beforeDefer, command);
+};
+
+GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
+  this.afterCB(command);
+
+  // again we can't just resolve this deferred right away... our shim owner might
+  // want to insert some promise functionality before that happens. so again
+  // we make a defer
+  var afterDefer = Q.defer();
+  afterDefer.promise
+  .then(function() {
+    deferred.resolve();
+  })
+  .done();
+
+  this.afterDeferHandler(afterDefer, command);
+};
+
+exports.GitShim = GitShim;
+
+
+});
+
+require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
+var ModalAlert = require('../views').ModalAlert;
+var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
+
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitError = require('../util/errors').GitError;
+
+var MultiView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'multiView',
+  // ms to debounce the nav functions
+  navEventDebounce: 550,
+  deathTime: 700,
+
+  // a simple mapping of what childViews we support
+  typeToConstructor: {
+    ModalAlert: ModalAlert,
+    GitDemonstrationView: GitDemonstrationView
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.childViewJSONs = options.childViews || [{
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Woah wtf!!'
+      }
+     }, {
+       type: 'GitDemonstrationView',
+       options: {
+         command: 'git checkout -b side; git commit; git commit'
+       }
+     }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }];
+    this.deferred = options.deferred || Q.defer();
+
+    this.childViews = [];
+    this.currentIndex = 0;
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('negative', this.getNegFunc(), this);
+    this.navEvents.on('positive', this.getPosFunc(), this);
+    this.navEvents.on('quit', this.finish, this);
+
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        left: 'negative',
+        right: 'positive',
+        enter: 'positive',
+        esc: 'quit'
+      }
+    });
+
+    this.render();
+    if (!options.wait) {
+      this.start();
+    }
+  },
+
+  onWindowFocus: function() {
+    // nothing here for now...
+    // TODO -- add a cool glow effect?
+  },
+
+  getAnimationTime: function() {
+    return 700;
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
+  },
+
+  getPosFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navForward();
+    }, this), this.navEventDebounce, true);
+  },
+
+  getNegFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navBackward();
+    }, this), this.navEventDebounce, true);
+  },
+
+  lock: function() {
+    this.locked = true;
+  },
+
+  unlock: function() {
+    this.locked = false;
+  },
+
+  navForward: function() {
+    // we need to prevent nav changes when a git demonstration view hasnt finished
+    if (this.locked) { return; }
+    if (this.currentIndex === this.childViews.length - 1) {
+      this.hideViewIndex(this.currentIndex);
+      this.finish();
+      return;
+    }
+
+    this.navIndexChange(1);
+  },
+
+  navBackward: function() {
+    if (this.currentIndex === 0) {
+      return;
+    }
+
+    this.navIndexChange(-1);
+  },
+
+  navIndexChange: function(delta) {
+    this.hideViewIndex(this.currentIndex);
+    this.currentIndex += delta;
+    this.showViewIndex(this.currentIndex);
+  },
+
+  hideViewIndex: function(index) {
+    this.childViews[index].hide();
+  },
+
+  showViewIndex: function(index) {
+    this.childViews[index].show();
+  },
+
+  finish: function() {
+    // first we stop listening to keyboard and give that back to UI, which
+    // other views will take if they need to
+    this.keyboardListener.mute();
+
+    _.each(this.childViews, function(childView) {
+      childView.die();
+    });
+
+    this.deferred.resolve();
+  },
+
+  start: function() {
+    // steal the window focus baton
+    this.showViewIndex(this.currentIndex);
+  },
+
+  createChildView: function(viewJSON) {
+    var type = viewJSON.type;
+    if (!this.typeToConstructor[type]) {
+      throw new Error('no constructor for type "' + type + '"');
+    }
+    var view = new this.typeToConstructor[type](_.extend(
+      {},
+      viewJSON.options,
+      { wait: true }
+    ));
+    return view;
+  },
+
+  addNavToView: function(view, index) {
+    var leftRight = new LeftRightView({
+      events: this.navEvents,
+      // we want the arrows to be on the same level as the content (not
+      // beneath), so we go one level up with getDestination()
+      destination: view.getDestination(),
+      showLeft: (index !== 0),
+      lastNav: (index === this.childViewJSONs.length - 1)
+    });
+    if (view.receiveMetaNav) {
+      view.receiveMetaNav(leftRight, this);
+    }
+  },
+
+  render: function() {
+    // go through each and render... show the first
+    _.each(this.childViewJSONs, function(childViewJSON, index) {
+      var childView = this.createChildView(childViewJSON);
+      this.childViews.push(childView);
+      this.addNavToView(childView, index);
+    }, this);
+  }
+});
+
+exports.MultiView = MultiView;
+
+
+});
+
+require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Command = require('../models/commandModel').Command;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+
+var Visualization = require('../visuals/visualization').Visualization;
+
+var GitDemonstrationView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'gitDemonstrationView box horizontal',
+  template: _.template($('#git-demonstration-view').html()),
+
+  events: {
+    'click div.command > p.uiButton': 'positive'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.options = options;
+    this.JSON = _.extend(
+      {
+        beforeMarkdowns: [
+          '## Git Commits',
+          '',
+          'Awesome!'
+        ],
+        command: 'git commit',
+        afterMarkdowns: [
+          'Now you have seen it in action',
+          '',
+          'Go ahead and try the level!'
+        ]
+      },
+      options
+    );
+
+    var convert = function(markdowns) {
+      return require('markdown').markdown.toHTML(markdowns.join('\n'));
+    };
+
+    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
+    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
+
+    this.container = new ModalTerminal({
+      title: options.title || 'Git Demonstration'
+    });
+    this.render();
+    this.checkScroll();
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        right: 'positive',
+        left: 'negative'
+      },
+      wait: true
+    });
+
+    this.visFinished = false;
+    this.initVis();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  receiveMetaNav: function(navView, metaContainerView) {
+    var _this = this;
+    navView.navEvents.on('positive', this.positive, this);
+    this.metaContainerView = metaContainerView;
+  },
+
+  checkScroll: function() {
+    var children = this.$('div.demonstrationText').children();
+    var heights = _.map(children, function(child) { return child.clientHeight; });
+    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
+    if (totalHeight < this.$('div.demonstrationText').height()) {
+      this.$('div.demonstrationText').addClass('noLongText');
+    }
+  },
+
+  dispatchBeforeCommand: function() {
+    if (!this.options.beforeCommand) {
+      return;
+    }
+    // here we just split the command and push them through to the git engine
+    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
+      this.mainVis.gitEngine.dispatch(new Command({
+        rawStr: commandStr
+      }), Q.defer());
+    }, this);
+    // then harsh refresh
+    this.mainVis.gitVisuals.refreshTreeHarsh();
+  },
+
+  takeControl: function() {
+    this.hasControl = true;
+    this.keyboardListener.listen();
+
+    if (this.metaContainerView) { this.metaContainerView.lock(); }
+  },
+
+  releaseControl: function() {
+    if (!this.hasControl) { return; }
+    this.hasControl = false;
+    this.keyboardListener.mute();
+
+    if (this.metaContainerView) { this.metaContainerView.unlock(); }
+  },
+
+  reset: function() {
+    this.mainVis.reset();
+    this.demonstrated = false;
+    this.$el.toggleClass('demonstrated', false);
+    this.$el.toggleClass('demonstrating', false);
+  },
+
+  positive: function() {
+    if (this.demonstrated || !this.hasControl) {
+      // dont do anything if we are demonstrating, and if
+      // we receive a meta nav event and we aren't listening,
+      // then dont do anything either
+      return;
+    }
+    this.demonstrated = true;
+    this.demonstrate();
+  },
+
+  demonstrate: function() {
+    this.$el.toggleClass('demonstrating', true);
+
+    var whenDone = Q.defer();
+    this.dispatchCommand(this.JSON.command, whenDone);
+    whenDone.promise.then(_.bind(function() {
+      this.$el.toggleClass('demonstrating', false);
+      this.$el.toggleClass('demonstrated', true);
+      this.releaseControl();
+    }, this));
+  },
+
+  negative: function(e) {
+    if (this.$el.hasClass('demonstrating')) {
+      return;
+    }
+    this.keyboardListener.passEventBack(e);
+  },
+
+  dispatchCommand: function(value, whenDone) {
+    var commands = [];
+    util.splitTextCommand(value, function(commandStr) {
+      commands.push(new Command({
+        rawStr: commandStr
+      }));
+    }, this);
+
+    var chainDeferred = Q.defer();
+    var chainPromise = chainDeferred.promise;
+
+    _.each(commands, function(command, index) {
+      chainPromise = chainPromise.then(_.bind(function() {
+        var myDefer = Q.defer();
+        this.mainVis.gitEngine.dispatch(command, myDefer);
+        return myDefer.promise;
+      }, this));
+      chainPromise = chainPromise.then(function() {
+        return Q.delay(300);
+      });
+    }, this);
+
+    chainPromise = chainPromise.then(function() {
+      whenDone.resolve();
+    });
+
+    chainDeferred.resolve();
+  },
+
+  tearDown: function() {
+    this.mainVis.tearDown();
+    GitDemonstrationView.__super__.tearDown.apply(this);
+  },
+
+  hide: function() {
+    this.releaseControl();
+    this.reset();
+    if (this.visFinished) {
+      this.mainVis.setTreeIndex(-1);
+      this.mainVis.setTreeOpacity(0);
+    }
+
+    this.shown = false;
+    GitDemonstrationView.__super__.hide.apply(this);
+  },
+
+  show: function() {
+    this.takeControl();
+    if (this.visFinished) {
+      setTimeout(_.bind(function() {
+        if (this.shown) {
+          this.mainVis.setTreeIndex(300);
+          this.mainVis.showHarsh();
+        }
+      }, this), this.getAnimationTime() * 1);
+    }
+
+    this.shown = true;
+    GitDemonstrationView.__super__.show.apply(this);
+  },
+
+  die: function() {
+    if (!this.visFinished) { return; }
+
+    GitDemonstrationView.__super__.die.apply(this);
+  },
+
+  initVis: function() {
+    this.mainVis = new Visualization({
+      el: this.$('div.visHolder')[0],
+      noKeyboardInput: true,
+      noClick: true,
+      smallCanvas: true,
+      zIndex: -1
+    });
+    this.mainVis.customEvents.on('paperReady', _.bind(function() {
+      this.visFinished = true;
+      this.dispatchBeforeCommand();
+      if (this.shown) {
+        // show the canvas once its done if we are shown
+        this.show();
+      }
+    }, this));
+  }
+});
+
+exports.GitDemonstrationView = GitDemonstrationView;
+
+
+});
+
+require.define("/src/js/views/builderViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var Views = require('../views');
+var ModalTerminal = Views.ModalTerminal;
+var ContainedBase = Views.ContainedBase;
+
+var MultiView = require('../views/multiView').MultiView;
+
+var TextGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'textGrabber box vertical',
+  template: _.template($('#text-grabber').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      helperText: options.helperText || 'Enter some text'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: 'Enter some text'
+    });
+    this.render();
+    if (options.initialText) {
+      this.setText(options.initialText);
+    }
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  getText: function() {
+    return this.$('textarea').val();
+  },
+
+  setText: function(str) {
+    this.$('textarea').val(str);
+  }
+});
+
+var MarkdownGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownGrabber box horizontal',
+  template: _.template($('#markdown-grabber-view').html()),
+  events: {
+    'keyup textarea': 'keyup'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.JSON = {
+      previewText: options.previewText || 'Preview',
+      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: options.title || 'Enter some markdown'
+    });
+    this.render();
+
+    if (!options.withoutButton) {
+      // do button stuff
+      var buttonDefer = Q.defer();
+      buttonDefer.promise
+      .then(_.bind(this.confirmed, this))
+      .fail(_.bind(this.cancelled, this))
+      .done();
+
+      var confirmCancel = new Views.ConfirmCancelView({
+        deferred: buttonDefer,
+        destination: this.getDestination()
+      });
+    }
+
+    this.updatePreview();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getRawText());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  keyup: function() {
+    if (!this.throttledPreview) {
+      this.throttledPreview = _.throttle(
+        _.bind(this.updatePreview, this),
+        500
+      );
+    }
+    this.throttledPreview();
+  },
+
+  getRawText: function() {
+    return this.$('textarea').val();
+  },
+
+  exportToArray: function() {
+    return this.getRawText().split('\n');
+  },
+
+  getExportObj: function() {
+    return {
+      markdowns: this.exportToArray()
+    };
+  },
+
+  updatePreview: function() {
+    var raw = this.getRawText();
+    var HTML = require('markdown').markdown.toHTML(raw);
+    this.$('div.insidePreview').html(HTML);
+  }
+});
+
+var MarkdownPresenter = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownPresenter box vertical',
+  template: _.template($('#markdown-presenter').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      previewText: options.previewText || 'Here is something for you',
+      fillerText: options.fillerText || '# Yay'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Check this out...'
+    });
+    this.render();
+
+    var confirmCancel = new Views.ConfirmCancelView({
+      destination: this.getDestination()
+    });
+    confirmCancel.deferred.promise
+    .fail(function() { })
+    .done(_.bind(this.die, this));
+
+    this.show();
+  }
+});
+
+var DemonstrationBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'demonstrationBuilder box vertical',
+  template: _.template($('#demonstration-builder').html()),
+  events: {
+    'click div.testButton': 'testView'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+
+    this.JSON = {};
+    this.container = new ModalTerminal({
+      title: 'Demonstration Builder'
+    });
+    this.render();
+
+    // build the two markdown grabbers
+    this.beforeMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      previewText: 'Before demonstration Markdown'
+    });
+    this.beforeCommandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
+      initialText: 'git checkout -b bugFix'
+    });
+
+    this.commandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to demonstrate to the reader',
+      initialText: 'git commit'
+    });
+
+    this.afterMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      previewText: 'After demonstration Markdown'
+    });
+
+    // build confirm button
+    var buttonDeferred = Q.defer();
+    var confirmCancel = new Views.ConfirmCancelView({
+      deferred: buttonDeferred,
+      destination: this.getDestination()
+    });
+
+    buttonDeferred.promise
+    .then(_.bind(this.confirmed, this))
+    .fail(_.bind(this.cancelled, this))
+    .done();
+  },
+
+  testView: function() {
+    new MultiView({
+      childViews: [{
+        type: 'GitDemonstrationView',
+        options: this.getExportObj()
+      }]
+    });
+  },
+
+  getExportObj: function() {
+    return {
+      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
+      afterMarkdowns: this.afterMarkdownView.exportToArray(),
+      command: this.commandView.getText(),
+      beforeCommand: this.beforeCommandView.getText()
+    };
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getExportObj());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  getInsideElement: function() {
+    return this.$('.insideBuilder')[0];
+  }
+});
+
+var MultiViewBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'multiViewBuilder box vertical',
+  template: _.template($('#multi-view-builder').html()),
+  typeToConstructor: {
+    ModalAlert: MarkdownGrabber,
+    GitDemonstrationView: DemonstrationBuilder
+  },
+
+  events: {
+    'click div.deleteButton': 'deleteView',
+    'click div.testButton': 'testOneView',
+    'click div.testEntireView': 'testEntireView',
+    'click div.addView': 'addView',
+    'click div.saveView': 'saveView',
+    'click div.cancelView': 'cancel'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.multiViewJSON = options.multiViewJSON || {};
+
+    this.JSON = {
+      views: this.getChildViews(),
+      supportedViews: _.keys(this.typeToConstructor)
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Build a MultiView!'
+    });
+    this.render();
+
+    this.show();
+  },
+
+  saveView: function() {
+    this.hide();
+    this.deferred.resolve(this.multiViewJSON);
+  },
+
+  cancel: function() {
+    this.hide();
+    this.deferred.resolve();
+  },
+
+  addView: function(ev) {
+    var el = ev.srcElement;
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var Constructor = this.typeToConstructor[type];
+    var builder = new Constructor({
+      deferred: whenDone
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      this.addChildViewObj(newView);
+    }, this))
+    .fail(function() {
+      // they dont want to add the view apparently, so just return
+    })
+    .done();
+  },
+
+  testOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toTest = this.getChildViews()[index];
+    new MultiView({
+      childViews: [toTest]
+    });
+  },
+
+  testEntireView: function() {
+    new MultiView({
+      childViews: this.getChildViews()
+    });
+  },
+
+  deleteView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toSlice = this.getChildViews();
+
+    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
+    this.setChildViews(updated);
+    this.update();
+  },
+
+  addChildViewObj: function(newObj) {
+    var childViews = this.getChildViews();
+    childViews.push(newObj);
+    this.setChildViews(childViews);
+    this.update();
+  },
+
+  setChildViews: function(newArray) {
+    this.multiViewJSON.childViews = newArray;
+  },
+
+  getChildViews: function() {
+    return this.multiViewJSON.childViews || [];
+  },
+
+  update: function() {
+    this.JSON.views = this.getChildViews();
+    this.renderAgain();
+  }
+});
+
+exports.MarkdownGrabber = MarkdownGrabber;
+exports.DemonstrationBuilder = DemonstrationBuilder;
+exports.TextGrabber = TextGrabber;
+exports.MultiViewBuilder = MultiViewBuilder;
+exports.MarkdownPresenter = MarkdownPresenter;
+
+
+});
+
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to the level builder!',
+      '',
+      'Here are the main steps:',
+      '',
+      '  * Set up the initial environment with git commands',
+      '  * Define the starting tree with ```define start```',
+      '  * Enter the series of git commands that compose the (optimal) solution',
+      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+      '  * Optionally define a hint with ```define hint```',
+      '  * Optionally define a nice start dialog with ```edit dialog```',
+      '  * Enter the command ```finish``` to output your level JSON!'
+    ]
+  }
+}];
 
 });
 
@@ -13114,6 +14454,11 @@ EventBaton.prototype.trigger = function(name) {
   // call the top most listener with context and such
   var toCall = listeners.slice(-1)[0];
   toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.getNumListeners = function(name) {
+  var listeners = this.eventMap[name] || [];
+  return listeners.length;
 };
 
 EventBaton.prototype.getListenersThrow = function(name) {
@@ -15148,540 +16493,6 @@ exports.DisabledMap = DisabledMap;
 
 });
 
-require.define("/src/js/git/gitShim.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-
-var Main = require('../app');
-var MultiView = require('../views/multiView').MultiView;
-
-function GitShim(options) {
-  options = options || {};
-
-  // these variables are just functions called before / after for
-  // simple things (like incrementing a counter)
-  this.beforeCB = options.beforeCB || function() {};
-  this.afterCB = options.afterCB || function() {};
-
-  // these guys handle an optional async process before the git
-  // command executes or afterwards. If there is none,
-  // it just resolves the deferred immediately
-  var resolveImmediately = function(deferred) {
-    deferred.resolve();
-  };
-  this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
-  this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
-  this.eventBaton = options.eventBaton || Main.getEventBaton();
-}
-
-GitShim.prototype.insertShim = function() {
-  this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
-};
-
-GitShim.prototype.removeShim = function() {
-  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
-};
-
-GitShim.prototype.processGitCommand = function(command, deferred) {
-  this.beforeCB(command);
-
-  // ok we make a NEW deferred that will, upon resolution,
-  // call our afterGitCommandProcessed. This inserts the 'after' shim
-  // functionality. we give this new deferred to the eventBaton handler
-  var newDeferred = Q.defer();
-  newDeferred.promise
-  .then(_.bind(function() {
-    // give this method the original defer so it can resolve it
-    this.afterGitCommandProcessed(command, deferred);
-  }, this))
-  .done();
-
-  // now our shim owner might want to launch some kind of deferred beforehand, like
-  // a modal or something. in order to do this, we need to defer the passing
-  // of the event baton backwards, and either resolve that promise immediately or
-  // give it to our shim owner.
-  var passBaton = _.bind(function() {
-    // punt to the previous listener
-    this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newDeferred]);
-  }, this);
-
-  var beforeDefer = Q.defer();
-  beforeDefer.promise
-  .then(passBaton)
-  .done();
-
-  // if we didnt receive a defer handler in the options, this just
-  // resolves immediately
-  this.beforeDeferHandler(beforeDefer, command);
-};
-
-GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
-  this.afterCB(command);
-
-  // again we can't just resolve this deferred right away... our shim owner might
-  // want to insert some promise functionality before that happens. so again
-  // we make a defer
-  var afterDefer = Q.defer();
-  afterDefer.promise
-  .then(function() {
-    deferred.resolve();
-  })
-  .done();
-
-  this.afterDeferHandler(afterDefer, command);
-};
-
-exports.GitShim = GitShim;
-
-
-});
-
-require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
-var ModalAlert = require('../views').ModalAlert;
-var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
-
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var GitError = require('../util/errors').GitError;
-
-var MultiView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'multiView',
-  // ms to debounce the nav functions
-  navEventDebounce: 550,
-  deathTime: 700,
-
-  // a simple mapping of what childViews we support
-  typeToConstructor: {
-    ModalAlert: ModalAlert,
-    GitDemonstrationView: GitDemonstrationView
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.childViewJSONs = options.childViews || [{
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Woah wtf!!'
-      }
-     }, {
-       type: 'GitDemonstrationView',
-       options: {
-         command: 'git checkout -b side; git commit; git commit'
-       }
-     }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }];
-    this.deferred = options.deferred || Q.defer();
-
-    this.childViews = [];
-    this.currentIndex = 0;
-
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('negative', this.getNegFunc(), this);
-    this.navEvents.on('positive', this.getPosFunc(), this);
-    this.navEvents.on('quit', this.finish, this);
-
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        left: 'negative',
-        right: 'positive',
-        enter: 'positive',
-        esc: 'quit'
-      }
-    });
-
-    this.render();
-    if (!options.wait) {
-      this.start();
-    }
-  },
-
-  onWindowFocus: function() {
-    // nothing here for now...
-    // TODO -- add a cool glow effect?
-  },
-
-  getAnimationTime: function() {
-    return 700;
-  },
-
-  getPromise: function() {
-    return this.deferred.promise;
-  },
-
-  getPosFunc: function() {
-    return _.debounce(_.bind(function() {
-      this.navForward();
-    }, this), this.navEventDebounce, true);
-  },
-
-  getNegFunc: function() {
-    return _.debounce(_.bind(function() {
-      this.navBackward();
-    }, this), this.navEventDebounce, true);
-  },
-
-  lock: function() {
-    this.locked = true;
-  },
-
-  unlock: function() {
-    this.locked = false;
-  },
-
-  navForward: function() {
-    // we need to prevent nav changes when a git demonstration view hasnt finished
-    if (this.locked) { return; }
-    if (this.currentIndex === this.childViews.length - 1) {
-      this.hideViewIndex(this.currentIndex);
-      this.finish();
-      return;
-    }
-
-    this.navIndexChange(1);
-  },
-
-  navBackward: function() {
-    if (this.currentIndex === 0) {
-      return;
-    }
-
-    this.navIndexChange(-1);
-  },
-
-  navIndexChange: function(delta) {
-    this.hideViewIndex(this.currentIndex);
-    this.currentIndex += delta;
-    this.showViewIndex(this.currentIndex);
-  },
-
-  hideViewIndex: function(index) {
-    this.childViews[index].hide();
-  },
-
-  showViewIndex: function(index) {
-    this.childViews[index].show();
-  },
-
-  finish: function() {
-    // first we stop listening to keyboard and give that back to UI, which
-    // other views will take if they need to
-    this.keyboardListener.mute();
-
-    _.each(this.childViews, function(childView) {
-      childView.die();
-    });
-
-    this.deferred.resolve();
-  },
-
-  start: function() {
-    // steal the window focus baton
-    this.showViewIndex(this.currentIndex);
-  },
-
-  createChildView: function(viewJSON) {
-    var type = viewJSON.type;
-    if (!this.typeToConstructor[type]) {
-      throw new Error('no constructor for type "' + type + '"');
-    }
-    var view = new this.typeToConstructor[type](_.extend(
-      {},
-      viewJSON.options,
-      { wait: true }
-    ));
-    return view;
-  },
-
-  addNavToView: function(view, index) {
-    var leftRight = new LeftRightView({
-      events: this.navEvents,
-      // we want the arrows to be on the same level as the content (not
-      // beneath), so we go one level up with getDestination()
-      destination: view.getDestination(),
-      showLeft: (index !== 0),
-      lastNav: (index === this.childViewJSONs.length - 1)
-    });
-    if (view.receiveMetaNav) {
-      view.receiveMetaNav(leftRight, this);
-    }
-  },
-
-  render: function() {
-    // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON, index) {
-      var childView = this.createChildView(childViewJSON);
-      this.childViews.push(childView);
-      this.addNavToView(childView, index);
-    }, this);
-  }
-});
-
-exports.MultiView = MultiView;
-
-
-});
-
-require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var util = require('../util');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var Command = require('../models/commandModel').Command;
-
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-
-var Visualization = require('../visuals/visualization').Visualization;
-
-var GitDemonstrationView = ContainedBase.extend({
-  tagName: 'div',
-  className: 'gitDemonstrationView box horizontal',
-  template: _.template($('#git-demonstration-view').html()),
-
-  events: {
-    'click div.command > p.uiButton': 'positive'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.options = options;
-    this.JSON = _.extend(
-      {
-        beforeMarkdowns: [
-          '## Git Commits',
-          '',
-          'Awesome!'
-        ],
-        command: 'git commit',
-        afterMarkdowns: [
-          'Now you have seen it in action',
-          '',
-          'Go ahead and try the level!'
-        ]
-      },
-      options
-    );
-
-    var convert = function(markdowns) {
-      return require('markdown').markdown.toHTML(markdowns.join('\n'));
-    };
-
-    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
-    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
-
-    this.container = new ModalTerminal({
-      title: options.title || 'Git Demonstration'
-    });
-    this.render();
-    this.checkScroll();
-
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('positive', this.positive, this);
-    this.navEvents.on('negative', this.negative, this);
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        enter: 'positive',
-        right: 'positive',
-        left: 'negative'
-      },
-      wait: true
-    });
-
-    this.visFinished = false;
-    this.initVis();
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  receiveMetaNav: function(navView, metaContainerView) {
-    var _this = this;
-    navView.navEvents.on('positive', this.positive, this);
-    this.metaContainerView = metaContainerView;
-  },
-
-  checkScroll: function() {
-    var children = this.$('div.demonstrationText').children();
-    var heights = _.map(children, function(child) { return child.clientHeight; });
-    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
-    if (totalHeight < this.$('div.demonstrationText').height()) {
-      this.$('div.demonstrationText').addClass('noLongText');
-    }
-  },
-
-  dispatchBeforeCommand: function() {
-    if (!this.options.beforeCommand) {
-      return;
-    }
-    // here we just split the command and push them through to the git engine
-    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
-      this.mainVis.gitEngine.dispatch(new Command({
-        rawStr: commandStr
-      }), Q.defer());
-    }, this);
-    // then harsh refresh
-    this.mainVis.gitVisuals.refreshTreeHarsh();
-  },
-
-  takeControl: function() {
-    this.hasControl = true;
-    this.keyboardListener.listen();
-
-    if (this.metaContainerView) { this.metaContainerView.lock(); }
-  },
-
-  releaseControl: function() {
-    if (!this.hasControl) { return; }
-    this.hasControl = false;
-    this.keyboardListener.mute();
-
-    if (this.metaContainerView) { this.metaContainerView.unlock(); }
-  },
-
-  reset: function() {
-    this.mainVis.reset();
-    this.demonstrated = false;
-    this.$el.toggleClass('demonstrated', false);
-    this.$el.toggleClass('demonstrating', false);
-  },
-
-  positive: function() {
-    if (this.demonstrated || !this.hasControl) {
-      // dont do anything if we are demonstrating, and if
-      // we receive a meta nav event and we aren't listening,
-      // then dont do anything either
-      return;
-    }
-    this.demonstrated = true;
-    this.demonstrate();
-  },
-
-  demonstrate: function() {
-    this.$el.toggleClass('demonstrating', true);
-
-    var whenDone = Q.defer();
-    this.dispatchCommand(this.JSON.command, whenDone);
-    whenDone.promise.then(_.bind(function() {
-      this.$el.toggleClass('demonstrating', false);
-      this.$el.toggleClass('demonstrated', true);
-      this.releaseControl();
-    }, this));
-  },
-
-  negative: function(e) {
-    if (this.$el.hasClass('demonstrating')) {
-      return;
-    }
-    this.keyboardListener.passEventBack(e);
-  },
-
-  dispatchCommand: function(value, whenDone) {
-    var commands = [];
-    util.splitTextCommand(value, function(commandStr) {
-      commands.push(new Command({
-        rawStr: commandStr
-      }));
-    }, this);
-
-    var chainDeferred = Q.defer();
-    var chainPromise = chainDeferred.promise;
-
-    _.each(commands, function(command, index) {
-      chainPromise = chainPromise.then(_.bind(function() {
-        var myDefer = Q.defer();
-        this.mainVis.gitEngine.dispatch(command, myDefer);
-        return myDefer.promise;
-      }, this));
-      chainPromise = chainPromise.then(function() {
-        return Q.delay(300);
-      });
-    }, this);
-
-    chainPromise = chainPromise.then(function() {
-      whenDone.resolve();
-    });
-
-    chainDeferred.resolve();
-  },
-
-  tearDown: function() {
-    this.mainVis.tearDown();
-    GitDemonstrationView.__super__.tearDown.apply(this);
-  },
-
-  hide: function() {
-    this.releaseControl();
-    this.reset();
-    if (this.visFinished) {
-      this.mainVis.setTreeIndex(-1);
-      this.mainVis.setTreeOpacity(0);
-    }
-
-    this.shown = false;
-    GitDemonstrationView.__super__.hide.apply(this);
-  },
-
-  show: function() {
-    this.takeControl();
-    if (this.visFinished) {
-      setTimeout(_.bind(function() {
-        if (this.shown) {
-          this.mainVis.setTreeIndex(300);
-          this.mainVis.showHarsh();
-        }
-      }, this), this.getAnimationTime() * 1);
-    }
-
-    this.shown = true;
-    GitDemonstrationView.__super__.show.apply(this);
-  },
-
-  die: function() {
-    if (!this.visFinished) { return; }
-
-    GitDemonstrationView.__super__.die.apply(this);
-  },
-
-  initVis: function() {
-    this.mainVis = new Visualization({
-      el: this.$('div.visHolder')[0],
-      noKeyboardInput: true,
-      noClick: true,
-      smallCanvas: true,
-      zIndex: -1
-    });
-    this.mainVis.customEvents.on('paperReady', _.bind(function() {
-      this.visFinished = true;
-      this.dispatchBeforeCommand();
-      if (this.shown) {
-        // show the canvas once its done if we are shown
-        this.show();
-      }
-    }, this));
-  }
-});
-
-exports.GitDemonstrationView = GitDemonstrationView;
-
-
-});
-
 require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -16638,753 +17449,6 @@ exports.detectZoom = detectZoom;
 
 });
 
-require.define("/src/js/level/builder.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var Q = require('q');
-
-var util = require('../util');
-var Main = require('../app');
-var Errors = require('../util/errors');
-
-var Visualization = require('../visuals/visualization').Visualization;
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
-var Level = require('../level').Level;
-
-var Command = require('../models/commandModel').Command;
-var GitShim = require('../git/gitShim').GitShim;
-
-var MultiView = require('../views/multiView').MultiView;
-
-var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
-var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
-var NextLevelConfirm = require('../views').NextLevelConfirm;
-var LevelToolbar = require('../views').LevelToolbar;
-
-var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
-var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
-var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
-
-var regexMap = {
-  'define goal': /^define goal$/,
-  'help builder': /^help builder$/,
-  'define start': /^define start$/,
-  'edit dialog': /^edit dialog$/,
-  'show start': /^show start$/,
-  'hide start': /^hide start$/,
-  'define hint': /^define hint$/,
-  'finish': /^finish$/
-};
-
-var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
-
-var LevelBuilder = Level.extend({
-  initialize: function(options) {
-    options = options || {};
-    options.level = options.level || {};
-
-    options.level.startDialog = {
-      childViews: require('../dialogs/levelBuilder').dialog
-    };
-    LevelBuilder.__super__.initialize.apply(this, [options]);
-
-    this.initStartVisualization();
-    this.startDialog = undefined;
-    this.definedGoal = false;
-
-    // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
-    // include that functionality
-    delete this.treeCompare;
-    delete this.solved;
-  },
-
-  initName: function() {
-    this.levelToolbar = new LevelToolbar({
-      name: 'Level Builder'
-    });
-  },
-
-  initGoalData: function() {
-    // add some default behavior in the beginning
-    this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
-    this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
-    LevelBuilder.__super__.initGoalData.apply(this, arguments);
-  },
-
-  initStartVisualization: function() {
-    this.startCanvasHolder = new CanvasTerminalHolder({
-      additionalClass: 'startTree',
-      text: 'You can hide this window with "hide start"'
-    });
-
-    this.startVis = new Visualization({
-      el: this.startCanvasHolder.getCanvasLocation(),
-      containerElement: this.startCanvasHolder.getCanvasLocation(),
-      treeString: this.level.startTree,
-      noKeyboardInput: true,
-      noClick: true
-    });
-  },
-
-  startDie: function() {
-    this.startCanvasHolder.die();
-    this.startVis.die();
-  },
-
-  startOffCommand: function() {
-    Main.getEventBaton().trigger(
-      'commandSubmitted',
-      'echo "Get Building!!"'
-    );
-  },
-
-  initParseWaterfall: function(options) {
-    LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
-
-    this.parseWaterfall.addFirst(
-      'parseWaterfall',
-      parse
-    );
-    this.parseWaterfall.addFirst(
-      'instantWaterfall',
-      this.getInstantCommands()
-    );
-  },
-
-  buildLevel: function(command, deferred) {
-    this.exitLevel();
-
-    setTimeout(function() {
-      Main.getSandbox().buildLevel(command, deferred);
-    }, this.getAnimationTime() * 1.5);
-  },
-
-  getInstantCommands: function() {
-    return [
-      [/^help$|^\?$/, function() {
-        throw new Errors.CommandResult({
-          msg: 'You are in a level builder, so multiple forms of ' +
-               'help are available. Please select either ' +
-               '"help general" or "help builder"'
-        });
-      }]
-    ];
-  },
-
-  takeControl: function() {
-    Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
-
-    LevelBuilder.__super__.takeControl.apply(this);
-  },
-
-  releaseControl: function() {
-    Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
-
-    LevelBuilder.__super__.releaseControl.apply(this);
-  },
-
-  showGoal: function() {
-    this.startCanvasHolder.slideOut();
-    LevelBuilder.__super__.showGoal.apply(this, arguments);
-  },
-
-  showStart: function(command, deferred) {
-    this.goalCanvasHolder.slideOut();
-    this.startCanvasHolder.slideIn();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
-  },
-
-  resetSolution: function() {
-    this.gitCommandsIssued = [];
-    this.level.solutionCommand = undefined;
-  },
-
-  hideStart: function(command, deferred) {
-    this.startCanvasHolder.slideOut();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
-  },
-
-  defineStart: function(command, deferred) {
-    this.startDie();
-
-    command.addWarning(
-      'Defining start point... solution and goal will be overwritten if they were defined earlier'
-    );
-    this.resetSolution();
-
-    this.level.startTree = this.mainVis.gitEngine.printTree();
-    this.mainVis.resetFromThisTreeNow(this.level.startTree);
-
-    this.initStartVisualization();
-
-    this.showStart(command, deferred);
-  },
-
-  defineGoal: function(command, deferred) {
-    this.goalDie();
-
-    if (!this.gitCommandsIssued.length) {
-      command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!! something is amiss'
-      }));
-      deferred.resolve();
-      return;
-    }
-
-    this.definedGoal = true;
-    this.level.solutionCommand = this.gitCommandsIssued.join(';');
-    this.level.goalTreeString = this.mainVis.gitEngine.printTree();
-    this.initGoalVisualization();
-
-    this.showGoal(command, deferred);
-  },
-
-  defineHint: function(command, deferred) {
-    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
-    if (command) { command.finishWith(deferred); }
-  },
-
-  editDialog: function(command, deferred) {
-    var whenDoneEditing = Q.defer();
-    new MultiViewBuilder({
-      multiViewJSON: this.startDialog,
-      deferred: whenDoneEditing
-    });
-    whenDoneEditing.promise
-    .then(_.bind(function(levelObj) {
-      this.startDialog = levelObj;
-    }, this))
-    .fail(function() {
-      // nothing to do, they dont want to edit it apparently
-    })
-    .done(function() {
-      if (command) {
-        command.finishWith(deferred);
-      } else {
-        deferred.resolve();
-      }
-    });
-  },
-
-  finish: function(command, deferred) {
-    if (!this.gitCommandsIssued.length || !this.definedGoal) {
-      command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty or goal is undefined!'
-      }));
-      deferred.resolve();
-      return;
-    }
-
-    var masterDeferred = Q.defer();
-    var chain = masterDeferred.promise;
-
-    if (this.level.hint === undefined) {
-      var askForHintDeferred = Q.defer();
-      chain = chain.then(function() {
-        return askForHintDeferred.promise;
-      });
-
-      // ask for a hint if there is none
-      var askForHintView = new ConfirmCancelTerminal({
-        markdowns: [
-          'You have not specified a hint, would you like to add one?'
-        ]
-      });
-      askForHintView.getPromise()
-      .then(_.bind(this.defineHint, this))
-      .fail(_.bind(function() {
-        this.level.hint = '';
-      }, this))
-      .done(function() {
-        askForHintDeferred.resolve();
-      });
-    }
-
-    if (this.startDialog === undefined) {
-      var askForStartDeferred = Q.defer();
-      chain = chain.then(function() {
-        return askForStartDeferred.promise;
-      });
-
-      var askForStartView = new ConfirmCancelTerminal({
-        markdowns: [
-          'You have not specified a start dialog, would you like to add one?'
-        ]
-      });
-      askForStartView.getPromise()
-      .then(_.bind(function() {
-        // oh boy this is complex
-        var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesnt need resolving just yet...
-        this.editDialog(undefined, whenEditedDialog);
-        return whenEditedDialog.promise;
-      }, this))
-      .fail(function() {
-        // if they dont want to edit the start dialog, do nothing
-      })
-      .done(function() {
-        askForStartDeferred.resolve();
-      });
-    }
-
-    chain = chain.done(_.bind(function() {
-      // ok great! lets just give them the goods
-      new MarkdownPresenter({
-        fillerText: JSON.stringify(this.getExportObj(), null, 2),
-        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
-      });
-      command.finishWith(deferred);
-    }, this));
-
-    masterDeferred.resolve();
-  },
-
-  getExportObj: function() {
-    var compiledLevel = _.extend(
-      {},
-      this.level
-    );
-    // the start dialog now is just our help intro thing
-    delete compiledLevel.startDialog;
-    if (this.startDialog) {
-      compiledLevel.startDialog  = this.startDialog;
-    }
-    return compiledLevel;
-  },
-
-  processLevelBuilderCommand: function(command, deferred) {
-    var methodMap = {
-      'define goal': this.defineGoal,
-      'define start': this.defineStart,
-      'show start': this.showStart,
-      'hide start': this.hideStart,
-      'finish': this.finish,
-      'define hint': this.defineHint,
-      'edit dialog': this.editDialog,
-      'help builder': LevelBuilder.__super__.startDialog
-    };
-    if (!methodMap[command.get('method')]) {
-      throw new Error('woah we dont support that method yet');
-    }
-
-    methodMap[command.get('method')].apply(this, arguments);
-  },
-
-  afterCommandDefer: function(defer, command) {
-    // we dont need to compare against the goal anymore
-    defer.resolve();
-  },
-
-  die: function() {
-    this.startDie();
-
-    LevelBuilder.__super__.die.apply(this, arguments);
-
-    delete this.startVis;
-    delete this.startCanvasHolder;
-  }
-});
-
-exports.LevelBuilder = LevelBuilder;
-
-});
-
-require.define("/src/js/views/builderViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var util = require('../util');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-
-var Views = require('../views');
-var ModalTerminal = Views.ModalTerminal;
-var ContainedBase = Views.ContainedBase;
-
-var MultiView = require('../views/multiView').MultiView;
-
-var TextGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'textGrabber box vertical',
-  template: _.template($('#text-grabber').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      helperText: options.helperText || 'Enter some text'
-    };
-
-    this.container = options.container || new ModalTerminal({
-      title: 'Enter some text'
-    });
-    this.render();
-    if (options.initialText) {
-      this.setText(options.initialText);
-    }
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  getText: function() {
-    return this.$('textarea').val();
-  },
-
-  setText: function(str) {
-    this.$('textarea').val(str);
-  }
-});
-
-var MarkdownGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownGrabber box horizontal',
-  template: _.template($('#markdown-grabber-view').html()),
-  events: {
-    'keyup textarea': 'keyup'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    this.JSON = {
-      previewText: options.previewText || 'Preview',
-      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
-    };
-
-    this.container = options.container || new ModalTerminal({
-      title: options.title || 'Enter some markdown'
-    });
-    this.render();
-
-    if (!options.withoutButton) {
-      // do button stuff
-      var buttonDefer = Q.defer();
-      buttonDefer.promise
-      .then(_.bind(this.confirmed, this))
-      .fail(_.bind(this.cancelled, this))
-      .done();
-
-      var confirmCancel = new Views.ConfirmCancelView({
-        deferred: buttonDefer,
-        destination: this.getDestination()
-      });
-    }
-
-    this.updatePreview();
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  confirmed: function() {
-    this.die();
-    this.deferred.resolve(this.getRawText());
-  },
-
-  cancelled: function() {
-    this.die();
-    this.deferred.resolve();
-  },
-
-  keyup: function() {
-    if (!this.throttledPreview) {
-      this.throttledPreview = _.throttle(
-        _.bind(this.updatePreview, this),
-        500
-      );
-    }
-    this.throttledPreview();
-  },
-
-  getRawText: function() {
-    return this.$('textarea').val();
-  },
-
-  exportToArray: function() {
-    return this.getRawText().split('\n');
-  },
-
-  getExportObj: function() {
-    return {
-      markdowns: this.exportToArray()
-    };
-  },
-
-  updatePreview: function() {
-    var raw = this.getRawText();
-    var HTML = require('markdown').markdown.toHTML(raw);
-    this.$('div.insidePreview').html(HTML);
-  }
-});
-
-var MarkdownPresenter = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownPresenter box vertical',
-  template: _.template($('#markdown-presenter').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      previewText: options.previewText || 'Here is something for you',
-      fillerText: options.fillerText || '# Yay'
-    };
-
-    this.container = new ModalTerminal({
-      title: 'Check this out...'
-    });
-    this.render();
-
-    var confirmCancel = new Views.ConfirmCancelView({
-      destination: this.getDestination()
-    });
-    confirmCancel.deferred.promise
-    .fail(function() { })
-    .done(_.bind(this.die, this));
-
-    this.show();
-  }
-});
-
-var DemonstrationBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'demonstrationBuilder box vertical',
-  template: _.template($('#demonstration-builder').html()),
-  events: {
-    'click div.testButton': 'testView'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-
-    this.JSON = {};
-    this.container = new ModalTerminal({
-      title: 'Demonstration Builder'
-    });
-    this.render();
-
-    // build the two markdown grabbers
-    this.beforeMarkdownView = new MarkdownGrabber({
-      container: this,
-      withoutButton: true,
-      previewText: 'Before demonstration Markdown'
-    });
-    this.beforeCommandView = new TextGrabber({
-      container: this,
-      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
-      initialText: 'git checkout -b bugFix'
-    });
-
-    this.commandView = new TextGrabber({
-      container: this,
-      helperText: 'The git command(s) to demonstrate to the reader',
-      initialText: 'git commit'
-    });
-
-    this.afterMarkdownView = new MarkdownGrabber({
-      container: this,
-      withoutButton: true,
-      previewText: 'After demonstration Markdown'
-    });
-
-    // build confirm button
-    var buttonDeferred = Q.defer();
-    var confirmCancel = new Views.ConfirmCancelView({
-      deferred: buttonDeferred,
-      destination: this.getDestination()
-    });
-
-    buttonDeferred.promise
-    .then(_.bind(this.confirmed, this))
-    .fail(_.bind(this.cancelled, this))
-    .done();
-  },
-
-  testView: function() {
-    new MultiView({
-      childViews: [{
-        type: 'GitDemonstrationView',
-        options: this.getExportObj()
-      }]
-    });
-  },
-
-  getExportObj: function() {
-    return {
-      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
-      afterMarkdowns: this.afterMarkdownView.exportToArray(),
-      command: this.commandView.getText(),
-      beforeCommand: this.beforeCommandView.getText()
-    };
-  },
-
-  confirmed: function() {
-    this.die();
-    this.deferred.resolve(this.getExportObj());
-  },
-
-  cancelled: function() {
-    this.die();
-    this.deferred.resolve();
-  },
-
-  getInsideElement: function() {
-    return this.$('.insideBuilder')[0];
-  }
-});
-
-var MultiViewBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'multiViewBuilder box vertical',
-  template: _.template($('#multi-view-builder').html()),
-  typeToConstructor: {
-    ModalAlert: MarkdownGrabber,
-    GitDemonstrationView: DemonstrationBuilder
-  },
-
-  events: {
-    'click div.deleteButton': 'deleteView',
-    'click div.testButton': 'testOneView',
-    'click div.testEntireView': 'testEntireView',
-    'click div.addView': 'addView',
-    'click div.saveView': 'saveView',
-    'click div.cancelView': 'cancel'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    this.multiViewJSON = options.multiViewJSON || {};
-
-    this.JSON = {
-      views: this.getChildViews(),
-      supportedViews: _.keys(this.typeToConstructor)
-    };
-
-    this.container = new ModalTerminal({
-      title: 'Build a MultiView!'
-    });
-    this.render();
-
-    this.show();
-  },
-
-  saveView: function() {
-    this.hide();
-    this.deferred.resolve(this.multiViewJSON);
-  },
-
-  cancel: function() {
-    this.hide();
-    this.deferred.resolve();
-  },
-
-  addView: function(ev) {
-    var el = ev.srcElement;
-    var type = $(el).attr('data-type');
-
-    var whenDone = Q.defer();
-    var Constructor = this.typeToConstructor[type];
-    var builder = new Constructor({
-      deferred: whenDone
-    });
-    whenDone.promise
-    .then(_.bind(function() {
-      var newView = {
-        type: type,
-        options: builder.getExportObj()
-      };
-      this.addChildViewObj(newView);
-    }, this))
-    .fail(function() {
-      // they dont want to add the view apparently, so just return
-    })
-    .done();
-  },
-
-  testOneView: function(ev) {
-    var el = ev.srcElement;
-    var index = $(el).attr('data-index');
-    var toTest = this.getChildViews()[index];
-    new MultiView({
-      childViews: [toTest]
-    });
-  },
-
-  testEntireView: function() {
-    new MultiView({
-      childViews: this.getChildViews()
-    });
-  },
-
-  deleteView: function(ev) {
-    var el = ev.srcElement;
-    var index = $(el).attr('data-index');
-    var toSlice = this.getChildViews();
-
-    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
-    this.setChildViews(updated);
-    this.update();
-  },
-
-  addChildViewObj: function(newObj) {
-    var childViews = this.getChildViews();
-    childViews.push(newObj);
-    this.setChildViews(childViews);
-    this.update();
-  },
-
-  setChildViews: function(newArray) {
-    this.multiViewJSON.childViews = newArray;
-  },
-
-  getChildViews: function() {
-    return this.multiViewJSON.childViews || [];
-  },
-
-  update: function() {
-    this.JSON.views = this.getChildViews();
-    this.renderAgain();
-  }
-});
-
-exports.MarkdownGrabber = MarkdownGrabber;
-exports.DemonstrationBuilder = DemonstrationBuilder;
-exports.TextGrabber = TextGrabber;
-exports.MultiViewBuilder = MultiViewBuilder;
-exports.MarkdownPresenter = MarkdownPresenter;
-
-
-});
-
-require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
-      '## Welcome to the level builder!',
-      '',
-      'Here are the main steps:',
-      '',
-      '  * Set up the initial environment with git commands',
-      '  * Define the starting tree with ```define start```',
-      '  * Enter the series of git commands that compose the (optimal) solution',
-      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-      '  * Optionally define a hint with ```define hint```',
-      '  * Optionally define a nice start dialog with ```edit dialog```',
-      '  * Enter the command ```finish``` to output your level JSON!'
-    ]
-  }
-}];
-
-});
-
 require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
   type: 'ModalAlert',
   options: {
@@ -17605,11 +17669,18 @@ var init = function() {
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
   $(window).trigger('resize');
 
-  /* hacky demo functionality */
+  // demo functionality
   if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix; help");
-    }, 500);
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger(
+        'commandSubmitted',
+        [
+          "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
+          "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
+          "git merge bugFix; levels; level rebase1; delay 3000;",
+          "git checkout -b win; git commit; help"
+        ].join(''));
+    });
   }
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
@@ -20415,6 +20486,7 @@ var LevelBuilder = Level.extend({
 });
 
 exports.LevelBuilder = LevelBuilder;
+exports.regexMap = regexMap;
 
 });
 require("/src/js/level/builder.js");
@@ -20891,7 +20963,7 @@ var Level = Sandbox.extend({
 });
 
 exports.Level = Level;
-
+exports.regexMap = regexMap;
 
 });
 require("/src/js/level/index.js");
@@ -20902,8 +20974,9 @@ var GitCommands = require('../git/commands');
 var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
-function ParseWaterfall(options) {
+var ParseWaterfall = function(options) {
   options = options || {};
+  this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];
@@ -20913,11 +20986,19 @@ function ParseWaterfall(options) {
     SandboxCommands.instantCommands
   ];
 
-  this.parseWaterfall = options.parseWaterfall || [
+  // defer the parse waterfall until later...
+};
+
+ParseWaterfall.prototype.initParseWaterfall = function() {
+  // by deferring the initialization here, we dont require()
+  // level too early (which barfs our init)
+  this.parseWaterfall = this.options.parseWaterfall || [
     GitCommands.parse,
-    SandboxCommands.parse
+    SandboxCommands.parse,
+    SandboxCommands.getOptimisticLevelParse(),
+    SandboxCommands.getOptimisticLevelBuilderParse()
   ];
-}
+};
 
 ParseWaterfall.prototype.clone = function() {
   return new ParseWaterfall({
@@ -20928,6 +21009,9 @@ ParseWaterfall.prototype.clone = function() {
 };
 
 ParseWaterfall.prototype.getWaterfallMap = function() {
+  if (!this.parseWaterfall) {
+    this.initParseWaterfall();
+  }
   return {
     shortcutWaterfall: this.shortcutWaterfall,
     instantWaterfall: this.instantWaterfall,
@@ -20981,6 +21065,10 @@ ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) 
 };
 
 ParseWaterfall.prototype.parseAll = function(commandStr) {
+  if (!this.parseWaterfall) {
+    this.initParseWaterfall();
+  }
+
   var toReturn = false;
   _.each(this.parseWaterfall, function(parseFunc) {
     var results = parseFunc(commandStr);
@@ -21330,6 +21418,26 @@ var regexMap = {
 exports.instantCommands = instantCommands;
 exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
+// optimistically parse some level and level builder commands; we do this
+// so you can enter things like "level intro1; show goal" and not
+// have it barf. when the
+// command fires the event, it will check if there is a listener and if not throw
+// an error
+
+// note: these are getters / setters because the require kills us
+exports.getOptimisticLevelParse = function() {
+  return util.genParseCommand(
+    require('../level').regexMap,
+    'processLevelCommand'
+  );
+};
+
+exports.getOptimisticLevelBuilderParse = function() {
+  return util.genParseCommand(
+    require('../level/builder').regexMap,
+    'processLevelBuilderCommand'
+  );
+};
 
 });
 require("/src/js/level/sandboxCommands.js");
@@ -21427,6 +21535,19 @@ var CommandBuffer = Backbone.Model.extend({
     }
 
     var Main = require('../app');
+    var eventBaton = Main.getEventBaton();
+
+    var numListeners = eventBaton.getNumListeners(eventName);
+    if (!numListeners) {
+      var Errors = require('../util/errors');
+      command.set('error', new Errors.GitError({
+        msg: 'That command is valid, but not supported in this current environment!' +
+             ' Try entering a level or level builder to use that command'
+      }));
+      deferred.resolve();
+      return;
+    }
+
     Main.getEventBaton().trigger(eventName, command, deferred);
   },
 
@@ -21838,6 +21959,11 @@ EventBaton.prototype.trigger = function(name) {
   // call the top most listener with context and such
   var toCall = listeners.slice(-1)[0];
   toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.getNumListeners = function(name) {
+  var listeners = this.eventMap[name] || [];
+  return listeners.length;
 };
 
 EventBaton.prototype.getListenersThrow = function(name) {
@@ -23560,9 +23686,11 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       ]);
     }
 
-    options.modalAlert = {
-      markdowns: markdowns
-    };
+    options = _.extend(
+      {},
+      options,
+      { markdowns: markdowns }
+    );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);
   }

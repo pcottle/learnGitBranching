@@ -4,8 +4,9 @@ var GitCommands = require('../git/commands');
 var SandboxCommands = require('../level/SandboxCommands');
 
 // more or less a static class
-function ParseWaterfall(options) {
+var ParseWaterfall = function(options) {
   options = options || {};
+  this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
     GitCommands.shortcutMap
   ];
@@ -15,11 +16,19 @@ function ParseWaterfall(options) {
     SandboxCommands.instantCommands
   ];
 
-  this.parseWaterfall = options.parseWaterfall || [
+  // defer the parse waterfall until later...
+};
+
+ParseWaterfall.prototype.initParseWaterfall = function() {
+  // by deferring the initialization here, we dont require()
+  // level too early (which barfs our init)
+  this.parseWaterfall = this.options.parseWaterfall || [
     GitCommands.parse,
-    SandboxCommands.parse
+    SandboxCommands.parse,
+    SandboxCommands.getOptimisticLevelParse(),
+    SandboxCommands.getOptimisticLevelBuilderParse()
   ];
-}
+};
 
 ParseWaterfall.prototype.clone = function() {
   return new ParseWaterfall({
@@ -30,6 +39,9 @@ ParseWaterfall.prototype.clone = function() {
 };
 
 ParseWaterfall.prototype.getWaterfallMap = function() {
+  if (!this.parseWaterfall) {
+    this.initParseWaterfall();
+  }
   return {
     shortcutWaterfall: this.shortcutWaterfall,
     instantWaterfall: this.instantWaterfall,
@@ -83,6 +95,10 @@ ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) 
 };
 
 ParseWaterfall.prototype.parseAll = function(commandStr) {
+  if (!this.parseWaterfall) {
+    this.initParseWaterfall();
+  }
+
   var toReturn = false;
   _.each(this.parseWaterfall, function(parseFunc) {
     var results = parseFunc(commandStr);

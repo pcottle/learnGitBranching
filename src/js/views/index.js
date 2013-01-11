@@ -457,9 +457,11 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       ]);
     }
 
-    options.modalAlert = {
-      markdowns: markdowns
-    };
+    options = _.extend(
+      {},
+      options,
+      { markdowns: markdowns }
+    );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);
   }

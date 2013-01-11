@@ -427,4 +427,4 @@ var Level = Sandbox.extend({
 });
 
 exports.Level = Level;
-
+exports.regexMap = regexMap;

@@ -60,3 +60,23 @@ var regexMap = {
 exports.instantCommands = instantCommands;
 exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
+// optimistically parse some level and level builder commands; we do this
+// so you can enter things like "level intro1; show goal" and not
+// have it barf. when the
+// command fires the event, it will check if there is a listener and if not throw
+// an error
+
+// note: these are getters / setters because the require kills us
+exports.getOptimisticLevelParse = function() {
+  return util.genParseCommand(
+    require('../level').regexMap,
+    'processLevelCommand'
+  );
+};
+
+exports.getOptimisticLevelBuilderParse = function() {
+  return util.genParseCommand(
+    require('../level/builder').regexMap,
+    'processLevelBuilderCommand'
+  );
+};

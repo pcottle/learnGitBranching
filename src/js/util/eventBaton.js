@@ -42,6 +42,11 @@ EventBaton.prototype.trigger = function(name) {
   toCall.func.apply(toCall.context, argsToApply);
 };
 
+EventBaton.prototype.getNumListeners = function(name) {
+  var listeners = this.eventMap[name] || [];
+  return listeners.length;
+};
+
 EventBaton.prototype.getListenersThrow = function(name) {
   var listeners = this.eventMap[name];
   if (!listeners || !listeners.length) {

@@ -116,11 +116,18 @@ var init = function() {
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
   $(window).trigger('resize');
 
-  /* hacky demo functionality */
+  // demo functionality
   if (/\?demo/.test(window.location.href)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc; gc; git rebase -i HEAD~2; git rebase master; git checkout master; gc; gc; git merge bugFix; help");
-    }, 500);
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger(
+        'commandSubmitted',
+        [
+          "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
+          "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
+          "git merge bugFix; levels; level rebase1; delay 3000;",
+          "git checkout -b win; git commit; help"
+        ].join(''));
+    });
   }
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
