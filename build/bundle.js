@@ -6457,7 +6457,7 @@ var init = function() {
         [
           "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
           "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
-          "git merge bugFix; levels; level rebase1; delay 3000;",
+          "git merge bugFix; levels; level rebase1; show goal; delay 3000;",
           "git checkout -b win; git commit; help"
         ].join(''));
     });
@@ -17677,7 +17677,7 @@ var init = function() {
         [
           "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
           "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
-          "git merge bugFix; levels; level rebase1; delay 3000;",
+          "git merge bugFix; levels; level rebase1; show goal; delay 3000;",
           "git checkout -b win; git commit; help"
         ].join(''));
     });
