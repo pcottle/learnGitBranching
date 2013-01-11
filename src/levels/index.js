@@ -2,13 +2,10 @@
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level
+    require('../../levels/intro/1').level
   ],
   rebase: [
-    require('../../levels/rebase/1').level,
-    require('../../levels/rebase/2').level,
-    require('../../levels/rebase/3').level
+    require('../../levels/rebase/1').level
   ]
 };
 

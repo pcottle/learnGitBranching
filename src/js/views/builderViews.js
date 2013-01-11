@@ -75,7 +75,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
-        destination: this
+        destination: this.getDestination()
       });
     }
 
@@ -114,6 +114,12 @@ var MarkdownGrabber = ContainedBase.extend({
     return this.getRawText().split('\n');
   },
 
+  getExportObj: function() {
+    return {
+      markdowns: this.exportToArray()
+    };
+  },
+
   updatePreview: function() {
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
@@ -125,6 +131,9 @@ var DemonstrationBuilder = ContainedBase.extend({
   tagName: 'div',
   className: 'demonstrationBuilder box vertical',
   template: _.template($('#demonstration-builder').html()),
+  events: {
+    'click div.testButton': 'testView'
+  },
 
   initialize: function(options) {
     options = options || {};
@@ -159,13 +168,6 @@ var DemonstrationBuilder = ContainedBase.extend({
       withoutButton: true,
       previewText: 'After demonstration Markdown'
     });
-
-    // the test button
-    var testButton = new Views.GeneralButton({
-      destination: this.$('div.buttons')[0],
-      buttonText: 'Test View'
-    });
-    testButton.navEvents.on('click', this.testView, this);
 
     // build confirm button
     var buttonDeferred = Q.defer();
@@ -213,7 +215,123 @@ var DemonstrationBuilder = ContainedBase.extend({
   }
 });
 
+var MultiViewBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'multiViewBuilder box vertical',
+  template: _.template($('#multi-view-builder').html()),
+  typeToConstructor: {
+    ModalAlert: MarkdownGrabber,
+    GitDemonstrationView: DemonstrationBuilder
+  },
+
+  events: {
+    'click div.deleteButton': 'deleteView',
+    'click div.testButton': 'testOneView',
+    'click div.testEntireView': 'testEntireView',
+    'click div.addView': 'addView',
+    'click div.saveView': 'saveView',
+    'click div.cancelView': 'cancel'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.multiViewJSON = options.multiViewJSON || {};
+
+    this.JSON = {
+      views: this.getChildViews(),
+      supportedViews: _.keys(this.typeToConstructor)
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Build a MultiView!'
+    });
+    this.render();
+
+    this.show();
+  },
+
+  saveView: function() {
+    this.hide();
+    this.deferred.resolve(this.multiViewJSON);
+  },
+
+  cancel: function() {
+    this.hide();
+    this.deferred.resolve();
+  },
+
+  addView: function(ev) {
+    var el = ev.srcElement;
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var Constructor = this.typeToConstructor[type];
+    var builder = new Constructor({
+      deferred: whenDone
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      this.addChildViewObj(newView);
+    }, this))
+    .fail(function() {
+      // they dont want to add the view apparently, so just return
+    })
+    .done();
+  },
+
+  testOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toTest = this.getChildViews()[index];
+    new MultiView({
+      childViews: [toTest]
+    });
+  },
+
+  testEntireView: function() {
+    new MultiView({
+      childViews: this.getChildViews()
+    });
+  },
+
+  deleteView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toSlice = this.getChildViews();
+
+    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
+    this.setChildViews(updated);
+    this.update();
+  },
+
+  addChildViewObj: function(newObj) {
+    var childViews = this.getChildViews();
+    childViews.push(newObj);
+    this.setChildViews(childViews);
+    this.update();
+  },
+
+  setChildViews: function(newArray) {
+    this.multiViewJSON.childViewJSONs = newArray;
+  },
+
+  getChildViews: function() {
+    return this.multiViewJSON.childViewJSONs || [];
+  },
+
+  update: function() {
+    this.JSON.views = this.getChildViews();
+    this.renderAgain();
+  }
+});
+
 exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
+exports.MultiViewBuilder = MultiViewBuilder;
 

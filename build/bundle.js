@@ -9684,12 +9684,15 @@ var BaseView = Backbone.View.extend({
     }
   },
 
-  render: function(HTML) {
+  renderAgain: function(HTML) {
     // flexibility
-    var destination = this.getDestination();
     HTML = HTML || this.template(this.JSON);
-
     this.$el.html(HTML);
+  },
+
+  render: function(HTML) {
+    this.renderAgain(HTML);
+    var destination = this.getDestination();
     $(destination).append(this.el);
   }
 });
@@ -15785,6 +15788,7 @@ LevelArbiter.prototype.validateLevel = function(level) {
 
   _.each(requiredFields, function(field) {
     if (level[field] === undefined) {
+      console.log(level);
       throw new Error('I need this field for a level: ' + field);
     }
   });
@@ -15850,13 +15854,10 @@ require.define("/src/levels/index.js",function(require,module,exports,__dirname,
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level
+    require('../../levels/intro/1').level
   ],
   rebase: [
-    require('../../levels/rebase/1').level,
-    require('../../levels/rebase/2').level,
-    require('../../levels/rebase/3').level
+    require('../../levels/rebase/1').level
   ]
 };
 
@@ -15877,6 +15878,7 @@ exports.sequenceInfo = {
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   name: 'Introduction #1',
+  description: 'A description goes here',
   startDialog: {
     childViews: [{
       type: 'GitDemonstrationView',
@@ -15898,38 +15900,9 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
-};
-
-
-});
-
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   name: 'Introduction #1',
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
-};
-
-
-});
-
-require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
-};
-
-
-});
-
-require.define("/src/levels/rebase/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
+  description: 'Oh wut?',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
   hint: 'Try checking out a branch named after Charlie Sheen'
@@ -17113,7 +17086,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
-        destination: this
+        destination: this.getDestination()
       });
     }
 
@@ -17152,6 +17125,12 @@ var MarkdownGrabber = ContainedBase.extend({
     return this.getRawText().split('\n');
   },
 
+  getExportObj: function() {
+    return {
+      markdowns: this.exportToArray()
+    };
+  },
+
   updatePreview: function() {
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
@@ -17163,6 +17142,9 @@ var DemonstrationBuilder = ContainedBase.extend({
   tagName: 'div',
   className: 'demonstrationBuilder box vertical',
   template: _.template($('#demonstration-builder').html()),
+  events: {
+    'click div.testButton': 'testView'
+  },
 
   initialize: function(options) {
     options = options || {};
@@ -17197,13 +17179,6 @@ var DemonstrationBuilder = ContainedBase.extend({
       withoutButton: true,
       previewText: 'After demonstration Markdown'
     });
-
-    // the test button
-    var testButton = new Views.GeneralButton({
-      destination: this.$('div.buttons')[0],
-      buttonText: 'Test View'
-    });
-    testButton.navEvents.on('click', this.testView, this);
 
     // build confirm button
     var buttonDeferred = Q.defer();
@@ -17251,9 +17226,125 @@ var DemonstrationBuilder = ContainedBase.extend({
   }
 });
 
+var MultiViewBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'multiViewBuilder box vertical',
+  template: _.template($('#multi-view-builder').html()),
+  typeToConstructor: {
+    ModalAlert: MarkdownGrabber,
+    GitDemonstrationView: DemonstrationBuilder
+  },
+
+  events: {
+    'click div.deleteButton': 'deleteView',
+    'click div.testButton': 'testOneView',
+    'click div.testEntireView': 'testEntireView',
+    'click div.addView': 'addView',
+    'click div.saveView': 'saveView',
+    'click div.cancelView': 'cancel'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.multiViewJSON = options.multiViewJSON || {};
+
+    this.JSON = {
+      views: this.getChildViews(),
+      supportedViews: _.keys(this.typeToConstructor)
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Build a MultiView!'
+    });
+    this.render();
+
+    this.show();
+  },
+
+  saveView: function() {
+    this.hide();
+    this.deferred.resolve(this.multiViewJSON);
+  },
+
+  cancel: function() {
+    this.hide();
+    this.deferred.resolve();
+  },
+
+  addView: function(ev) {
+    var el = ev.srcElement;
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var Constructor = this.typeToConstructor[type];
+    var builder = new Constructor({
+      deferred: whenDone
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      this.addChildViewObj(newView);
+    }, this))
+    .fail(function() {
+      // they dont want to add the view apparently, so just return
+    })
+    .done();
+  },
+
+  testOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toTest = this.getChildViews()[index];
+    new MultiView({
+      childViews: [toTest]
+    });
+  },
+
+  testEntireView: function() {
+    new MultiView({
+      childViews: this.getChildViews()
+    });
+  },
+
+  deleteView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toSlice = this.getChildViews();
+
+    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
+    this.setChildViews(updated);
+    this.update();
+  },
+
+  addChildViewObj: function(newObj) {
+    var childViews = this.getChildViews();
+    childViews.push(newObj);
+    this.setChildViews(childViews);
+    this.update();
+  },
+
+  setChildViews: function(newArray) {
+    this.multiViewJSON.childViewJSONs = newArray;
+  },
+
+  getChildViews: function() {
+    return this.multiViewJSON.childViewJSONs || [];
+  },
+
+  update: function() {
+    this.JSON.views = this.getChildViews();
+    this.renderAgain();
+  }
+});
+
 exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
+exports.MultiViewBuilder = MultiViewBuilder;
 
 
 });
@@ -19747,6 +19838,7 @@ LevelArbiter.prototype.validateLevel = function(level) {
 
   _.each(requiredFields, function(field) {
     if (level[field] === undefined) {
+      console.log(level);
       throw new Error('I need this field for a level: ' + field);
     }
   });
@@ -21828,7 +21920,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
-        destination: this
+        destination: this.getDestination()
       });
     }
 
@@ -21867,6 +21959,12 @@ var MarkdownGrabber = ContainedBase.extend({
     return this.getRawText().split('\n');
   },
 
+  getExportObj: function() {
+    return {
+      markdowns: this.exportToArray()
+    };
+  },
+
   updatePreview: function() {
     var raw = this.getRawText();
     var HTML = require('markdown').markdown.toHTML(raw);
@@ -21878,6 +21976,9 @@ var DemonstrationBuilder = ContainedBase.extend({
   tagName: 'div',
   className: 'demonstrationBuilder box vertical',
   template: _.template($('#demonstration-builder').html()),
+  events: {
+    'click div.testButton': 'testView'
+  },
 
   initialize: function(options) {
     options = options || {};
@@ -21912,13 +22013,6 @@ var DemonstrationBuilder = ContainedBase.extend({
       withoutButton: true,
       previewText: 'After demonstration Markdown'
     });
-
-    // the test button
-    var testButton = new Views.GeneralButton({
-      destination: this.$('div.buttons')[0],
-      buttonText: 'Test View'
-    });
-    testButton.navEvents.on('click', this.testView, this);
 
     // build confirm button
     var buttonDeferred = Q.defer();
@@ -21966,9 +22060,125 @@ var DemonstrationBuilder = ContainedBase.extend({
   }
 });
 
+var MultiViewBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'multiViewBuilder box vertical',
+  template: _.template($('#multi-view-builder').html()),
+  typeToConstructor: {
+    ModalAlert: MarkdownGrabber,
+    GitDemonstrationView: DemonstrationBuilder
+  },
+
+  events: {
+    'click div.deleteButton': 'deleteView',
+    'click div.testButton': 'testOneView',
+    'click div.testEntireView': 'testEntireView',
+    'click div.addView': 'addView',
+    'click div.saveView': 'saveView',
+    'click div.cancelView': 'cancel'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.multiViewJSON = options.multiViewJSON || {};
+
+    this.JSON = {
+      views: this.getChildViews(),
+      supportedViews: _.keys(this.typeToConstructor)
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Build a MultiView!'
+    });
+    this.render();
+
+    this.show();
+  },
+
+  saveView: function() {
+    this.hide();
+    this.deferred.resolve(this.multiViewJSON);
+  },
+
+  cancel: function() {
+    this.hide();
+    this.deferred.resolve();
+  },
+
+  addView: function(ev) {
+    var el = ev.srcElement;
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var Constructor = this.typeToConstructor[type];
+    var builder = new Constructor({
+      deferred: whenDone
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      this.addChildViewObj(newView);
+    }, this))
+    .fail(function() {
+      // they dont want to add the view apparently, so just return
+    })
+    .done();
+  },
+
+  testOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toTest = this.getChildViews()[index];
+    new MultiView({
+      childViews: [toTest]
+    });
+  },
+
+  testEntireView: function() {
+    new MultiView({
+      childViews: this.getChildViews()
+    });
+  },
+
+  deleteView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toSlice = this.getChildViews();
+
+    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
+    this.setChildViews(updated);
+    this.update();
+  },
+
+  addChildViewObj: function(newObj) {
+    var childViews = this.getChildViews();
+    childViews.push(newObj);
+    this.setChildViews(childViews);
+    this.update();
+  },
+
+  setChildViews: function(newArray) {
+    this.multiViewJSON.childViewJSONs = newArray;
+  },
+
+  getChildViews: function() {
+    return this.multiViewJSON.childViewJSONs || [];
+  },
+
+  update: function() {
+    this.JSON.views = this.getChildViews();
+    this.renderAgain();
+  }
+});
+
 exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
+exports.MultiViewBuilder = MultiViewBuilder;
 
 
 });
@@ -22632,12 +22842,15 @@ var BaseView = Backbone.View.extend({
     }
   },
 
-  render: function(HTML) {
+  renderAgain: function(HTML) {
     // flexibility
-    var destination = this.getDestination();
     HTML = HTML || this.template(this.JSON);
-
     this.$el.html(HTML);
+  },
+
+  render: function(HTML) {
+    this.renderAgain(HTML);
+    var destination = this.getDestination();
     $(destination).append(this.el);
   }
 });
@@ -26391,13 +26604,10 @@ require.define("/src/levels/index.js",function(require,module,exports,__dirname,
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level
+    require('../../levels/intro/1').level
   ],
   rebase: [
-    require('../../levels/rebase/1').level,
-    require('../../levels/rebase/2').level,
-    require('../../levels/rebase/3').level
+    require('../../levels/rebase/1').level
   ]
 };
 
@@ -26419,6 +26629,7 @@ require("/src/levels/index.js");
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   name: 'Introduction #1',
+  description: 'A description goes here',
   startDialog: {
     childViews: [{
       type: 'GitDemonstrationView',
@@ -26441,19 +26652,9 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 });
 require("/src/levels/intro/1.js");
 
-require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
-};
-
-
-});
-require("/src/levels/intro/2.js");
-
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   name: 'Introduction #1',
+  description: 'Oh wut?',
   goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
   solutionCommand: 'git checkout -b win; git commit',
   hint: 'Try checking out a branch named after Charlie Sheen'
@@ -26462,27 +26663,5 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 
 });
 require("/src/levels/rebase/1.js");
-
-require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
-};
-
-
-});
-require("/src/levels/rebase/2.js");
-
-require.define("/src/levels/rebase/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
-};
-
-
-});
-require("/src/levels/rebase/3.js");
 
 })();

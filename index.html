@@ -235,7 +235,55 @@
     <div class="insideBuilder box vertical">
     </div>
     <div class="buttons box horizontal center">
+      <div class="uiButton testButton">
+        Test View
+      </div>
     </div>
+  </script>
+
+  <script type="text/html" id="multi-view-builder">
+    <div class="viewSoFar box vertical">
+      <% if (!views.length) { %>
+        <h3> You have no views specified yet! Add some with the buttons below </h3>
+      <% } %>
+      <% for (var i = 0; i < views.length; i++) { %>
+        <div class="view box horizontal centerAlign justify">
+          <div class="box horizontal">
+            <div class="info">
+              View #<%= i + 1 %>: <%= views[i].type %>
+            </div>
+          </div>
+          <div class="singleViewButtons box horizontal">
+            <div class="uiButton uiButtonRed box deleteButton" data-index="<%=i%>">
+              Delete
+            </div>
+            <div class="uiButton box testButton" data-index="<%=i%>">
+              Test
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+    <div class="buttons box horizontal center">
+      <% for (var i = 0; i < supportedViews.length; i++) { %>
+        <div class="uiButton addView uiButtonYellow" data-type="<%=supportedViews[i]%>">
+        Add <%=supportedViews[i]%> View
+        </div>
+      <% } %>
+    </div>
+    <div class="controlsForView box horizontal center">
+        <div class="uiButton uiButtonRed cancelView">
+          Cancel
+        </div>
+        <% if (views.length) { %>
+          <div class="uiButton uiButtonWhite testEntireView">
+            Test Entire View
+          </div>
+          <div class="uiButton saveView">
+            Save Entire View
+          </div>
+        <% } %>
+   </div>
   </script>
 
   <script type="text/html" id="text-grabber">

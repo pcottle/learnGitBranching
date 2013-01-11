@@ -737,6 +737,25 @@ div.levelIcon.solved div.index div.indexNum {
   display: none;
 }
 
+/* MultiView Builder */
+.multiViewBuilder div.view {
+  margin: 10px 0;
+}
+
+.multiViewBuilder .uiButton {
+  margin: 0 10px;
+}
+
+.multiViewBuilder .buttons {
+  margin: 20px 0;
+}
+
+.multiViewBuilder div.controlsForView {
+  margin: 10px 0;
+  border-top: 1px dashed grey;
+  padding-top: 10px;
+}
+
 /* DemonstrationBuilder */
 
 .demonstrationBuilder {

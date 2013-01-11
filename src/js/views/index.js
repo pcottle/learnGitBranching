@@ -20,12 +20,15 @@ var BaseView = Backbone.View.extend({
     }
   },
 
-  render: function(HTML) {
+  renderAgain: function(HTML) {
     // flexibility
-    var destination = this.getDestination();
     HTML = HTML || this.template(this.JSON);
-
     this.$el.html(HTML);
+  },
+
+  render: function(HTML) {
+    this.renderAgain(HTML);
+    var destination = this.getDestination();
     $(destination).append(this.el);
   }
 });
