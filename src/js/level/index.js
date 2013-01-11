@@ -121,10 +121,12 @@ var Level = Sandbox.extend({
   },
 
   startOffCommand: function() {
-    Main.getEventBaton().trigger(
-      'commandSubmitted',
-      'hint; delay 3000; show goal'
-    );
+    if (!this.testOption('noStartCommand')) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'hint; delay 2000; show goal'
+      );
+    }
   },
 
   initVisualization: function(options) {
@@ -297,6 +299,10 @@ var Level = Sandbox.extend({
     return toAnalyze.split(';').length;
   },
 
+  testOption: function(option) {
+    return this.options.command && RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
   levelSolved: function(defer) {
     this.solved = true;
     Main.getEvents().trigger('levelSolved', this.level.id);
@@ -306,20 +312,26 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    this.mainVis.gitVisuals.finishAnimation()
-    .then(function() {
-      // we want to ask if they will move onto the next level
-      // while giving them their results...
-      var nextDialog = new NextLevelConfirm({
-        nextLevel: nextLevel,
-        numCommands: numCommands,
-        best: best
-      });
+    var skipFinishDialog = this.testOption('noFinishDialog');
+    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (!skipFinishDialog) {
+      finishAnimationChain = finishAnimationChain
+      .then(function() {
+        // we want to ask if they will move onto the next level
+        // while giving them their results...
+        var nextDialog = new NextLevelConfirm({
+          nextLevel: nextLevel,
+          numCommands: numCommands,
+          best: best
+        });
 
-      return nextDialog.getPromise();
-    })
+        return nextDialog.getPromise();
+      });
+    }
+
+    finishAnimationChain
     .then(function() {
-      if (nextLevel) {
+      if (!skipFinishDialog && nextLevel) {
         Main.getEventBaton().trigger(
           'commandSubmitted',
           'level ' + nextLevel.id

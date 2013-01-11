@@ -4516,6 +4516,7 @@ var Sandbox = Backbone.View.extend({
   tagName: 'div',
   initialize: function(options) {
     options = options || {};
+    this.options = options;
 
     this.initVisualization(options);
     this.initCommandCollection(options);
@@ -4633,7 +4634,8 @@ var Sandbox = Backbone.View.extend({
 
     var currentLevel = new Level({
       level: levelJSON,
-      deferred: whenLevelOpen
+      deferred: whenLevelOpen,
+      command: command
     });
 
     whenLevelOpen.promise.then(function() {
@@ -6647,10 +6649,12 @@ var Level = Sandbox.extend({
   },
 
   startOffCommand: function() {
-    Main.getEventBaton().trigger(
-      'commandSubmitted',
-      'hint; delay 3000; show goal'
-    );
+    if (!this.testOption('noStartCommand')) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'hint; delay 2000; show goal'
+      );
+    }
   },
 
   initVisualization: function(options) {
@@ -6823,6 +6827,10 @@ var Level = Sandbox.extend({
     return toAnalyze.split(';').length;
   },
 
+  testOption: function(option) {
+    return this.options.command && RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
   levelSolved: function(defer) {
     this.solved = true;
     Main.getEvents().trigger('levelSolved', this.level.id);
@@ -6832,20 +6840,26 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    this.mainVis.gitVisuals.finishAnimation()
-    .then(function() {
-      // we want to ask if they will move onto the next level
-      // while giving them their results...
-      var nextDialog = new NextLevelConfirm({
-        nextLevel: nextLevel,
-        numCommands: numCommands,
-        best: best
-      });
+    var skipFinishDialog = this.testOption('noFinishDialog');
+    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (!skipFinishDialog) {
+      finishAnimationChain = finishAnimationChain
+      .then(function() {
+        // we want to ask if they will move onto the next level
+        // while giving them their results...
+        var nextDialog = new NextLevelConfirm({
+          nextLevel: nextLevel,
+          numCommands: numCommands,
+          best: best
+        });
 
-      return nextDialog.getPromise();
-    })
+        return nextDialog.getPromise();
+      });
+    }
+
+    finishAnimationChain
     .then(function() {
-      if (nextLevel) {
+      if (!skipFinishDialog && nextLevel) {
         Main.getEventBaton().trigger(
           'commandSubmitted',
           'level ' + nextLevel.id
@@ -20657,10 +20671,12 @@ var Level = Sandbox.extend({
   },
 
   startOffCommand: function() {
-    Main.getEventBaton().trigger(
-      'commandSubmitted',
-      'hint; delay 3000; show goal'
-    );
+    if (!this.testOption('noStartCommand')) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'hint; delay 2000; show goal'
+      );
+    }
   },
 
   initVisualization: function(options) {
@@ -20833,6 +20849,10 @@ var Level = Sandbox.extend({
     return toAnalyze.split(';').length;
   },
 
+  testOption: function(option) {
+    return this.options.command && RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
   levelSolved: function(defer) {
     this.solved = true;
     Main.getEvents().trigger('levelSolved', this.level.id);
@@ -20842,20 +20862,26 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    this.mainVis.gitVisuals.finishAnimation()
-    .then(function() {
-      // we want to ask if they will move onto the next level
-      // while giving them their results...
-      var nextDialog = new NextLevelConfirm({
-        nextLevel: nextLevel,
-        numCommands: numCommands,
-        best: best
-      });
+    var skipFinishDialog = this.testOption('noFinishDialog');
+    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (!skipFinishDialog) {
+      finishAnimationChain = finishAnimationChain
+      .then(function() {
+        // we want to ask if they will move onto the next level
+        // while giving them their results...
+        var nextDialog = new NextLevelConfirm({
+          nextLevel: nextLevel,
+          numCommands: numCommands,
+          best: best
+        });
 
-      return nextDialog.getPromise();
-    })
+        return nextDialog.getPromise();
+      });
+    }
+
+    finishAnimationChain
     .then(function() {
-      if (nextLevel) {
+      if (!skipFinishDialog && nextLevel) {
         Main.getEventBaton().trigger(
           'commandSubmitted',
           'level ' + nextLevel.id
@@ -21111,6 +21137,7 @@ var Sandbox = Backbone.View.extend({
   tagName: 'div',
   initialize: function(options) {
     options = options || {};
+    this.options = options;
 
     this.initVisualization(options);
     this.initCommandCollection(options);
@@ -21228,7 +21255,8 @@ var Sandbox = Backbone.View.extend({
 
     var currentLevel = new Level({
       level: levelJSON,
-      deferred: whenLevelOpen
+      deferred: whenLevelOpen,
+      command: command
     });
 
     whenLevelOpen.promise.then(function() {

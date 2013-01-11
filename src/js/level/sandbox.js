@@ -23,6 +23,7 @@ var Sandbox = Backbone.View.extend({
   tagName: 'div',
   initialize: function(options) {
     options = options || {};
+    this.options = options;
 
     this.initVisualization(options);
     this.initCommandCollection(options);
@@ -140,7 +141,8 @@ var Sandbox = Backbone.View.extend({
 
     var currentLevel = new Level({
       level: levelJSON,
-      deferred: whenLevelOpen
+      deferred: whenLevelOpen,
+      command: command
     });
 
     whenLevelOpen.promise.then(function() {
