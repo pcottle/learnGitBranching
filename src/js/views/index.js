@@ -371,12 +371,8 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     // whenever they hit a button. make sure
     // we close and pass that to our deferred
     buttonDefer.promise
-    .then(_.bind(function() {
-      this.deferred.resolve();
-    }, this))
-    .fail(_.bind(function() {
-      this.deferred.reject();
-    }, this))
+    .then(this.deferred.resolve)
+    .fail(this.deferred.reject)
     .done(_.bind(function() {
       this.close();
     }, this));

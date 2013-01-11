@@ -1,4 +1,4 @@
-exports.helpDialog = [{
+exports.dialog = [{
   type: 'ModalAlert',
   options: {
     markdowns: [
@@ -26,3 +26,4 @@ exports.helpDialog = [{
     ]
   }
 }];
+

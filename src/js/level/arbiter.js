@@ -90,8 +90,8 @@ LevelArbiter.prototype.validateLevel = function(level) {
   var requiredFields = [
     'name',
     'goalTreeString',
-    'solutionCommand',
-    'description'
+    //'description',
+    'solutionCommand'
   ];
 
   var optionalFields = [

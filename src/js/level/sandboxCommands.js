@@ -37,7 +37,6 @@ var instantCommands = [
   }],
   [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
     var msg = bits[1] || bits[2];
-    console.log(bits, msg);
     throw new CommandResult({
       msg: msg
     });
@@ -46,7 +45,7 @@ var instantCommands = [
 
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
-  'help': /^help ?(general)?($|\s)/,
+  'help': /^help( general)?$|^\?$/,
   'reset': /^reset$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,

@@ -252,7 +252,7 @@ var Sandbox = Backbone.View.extend({
 
   helpDialog: function(command, deferred) {
     var helpDialog = new MultiView({
-      childViews: require('../dialogs/sandbox').helpDialog
+      childViews: require('../dialogs/sandbox').dialog
     });
     helpDialog.getPromise().then(_.bind(function() {
       // the view has been closed, lets go ahead and resolve our command

@@ -86,6 +86,9 @@ var Level = Sandbox.extend({
     }
 
     this.handleOpen(deferred);
+    deferred.promise.then(function() {
+      command.set('status', 'finished');
+    });
   },
 
   initName: function() {
@@ -357,7 +360,7 @@ var Level = Sandbox.extend({
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
     return [
-      [/^help$/, function() {
+      [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
           msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
                '"help level" or "help general"'
@@ -412,7 +415,7 @@ var Level = Sandbox.extend({
       'hide goal': this.hideGoal,
       'show solution': this.showSolution,
       'start dialog': this.startDialog,
-      'level help': this.startDialog
+      'help level': this.startDialog
     };
     var method = methodMap[command.get('method')];
     if (!method) {

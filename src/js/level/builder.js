@@ -21,7 +21,9 @@ var LevelToolbar = require('../views').LevelToolbar;
 
 var regexMap = {
   'define goal': /^define goal$/,
+  'help builder': /^help builder$/,
   'define start': /^define start$/,
+  'edit dialog': /^edit dialog$/,
   'show start': /^show start$/,
   'hide start': /^hide start$/,
   'define hint': /^define hint$/,
@@ -36,28 +38,12 @@ var LevelBuilder = Level.extend({
     options.level = options.level || {};
 
     options.level.startDialog = {
-      childViews: [{
-        type: 'ModalAlert',
-        options: {
-          markdowns: [
-            '## Welcome to the level builder!',
-            '',
-            'Here are the main steps:',
-            '',
-            '  * Define the starting tree with ```define start```',
-            '  * Enter the series of git commands that compose the (optimal) solution',
-            '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-            '  * Optionally define a hint with ```define hint```',
-            '  * Enter the command ```finish``` to output your level JSON!'
-          ]
-        }
-      }]
+      childViews: require('../dialogs/levelBuilder').dialog
     };
-
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
+    this.initStartVisualization();
     this.startDialog = undefined;
-    this.initStartDialog();
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -80,7 +66,8 @@ var LevelBuilder = Level.extend({
 
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
-      additionalClass: 'startTree'
+      additionalClass: 'startTree',
+      text: 'You can hide this window with "hide start"'
     });
 
     this.startVis = new Visualization({
@@ -126,7 +113,15 @@ var LevelBuilder = Level.extend({
   },
 
   getInstantCommands: function() {
-    return [];
+    return [
+      [/^help$|^\?$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level builder, so multiple forms of ' +
+               'help are available. Please select either ' +
+               '"help general" or "help builder"'
+        });
+      }]
+    ];
   },
 
   takeControl: function() {
@@ -214,24 +209,66 @@ var LevelBuilder = Level.extend({
       return;
     }
 
+    var masterDeferred = Q.defer();
+    var chain = masterDeferred.promise;
+
     if (this.level.hint === undefined) {
-      this.setHint();
+      var askForHintDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForHintDeferred.promise;
+      });
+
+      // ask for a hint if there is none
+      var askForHintView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a hint, would you like to add one?'
+        ]
+      });
+      askForHintView.getPromise()
+      .then(_.bind(this.setHint, this))
+      .fail(_.bind(function() {
+        this.level.hint = '';
+      }, this))
+      .done(function() {
+        askForHintDeferred.resolve();
+      });
     }
 
-    var compiledLevel = _.extend(
-      {},
-      this.level
-    );
+    if (this.startDialog === undefined) {
+      var askForStartDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForStartDeferred.promise;
+      });
 
-    // the start dialog now is just our help intro thing
-    delete compiledLevel.startDialog;
-    if (this.startDialog) {
-      compiledLevel.startDialog  = this.startDialog;
+      var askForStartView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a start dialog, would you like to add one?'
+        ]
+      });
+      askForStartView.getPromise()
+      .then(function() {
+        alert(1);
+      })
+      .done(function() {
+        askForStartDeferred.resolve();
+      });
     }
 
-    console.log(compiledLevel);
+    chain = chain.done(_.bind(function() {
+      var compiledLevel = _.extend(
+        {},
+        this.level
+      );
+      // the start dialog now is just our help intro thing
+      delete compiledLevel.startDialog;
+      if (this.startDialog) {
+        compiledLevel.startDialog  = this.startDialog;
+      }
+      console.log(compiledLevel);
+      command.finishWith(deferred);
+    }, this));
 
-    command.finishWith(deferred);
+    masterDeferred.resolve();
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -241,7 +278,8 @@ var LevelBuilder = Level.extend({
       'show start': this.showStart,
       'hide start': this.hideStart,
       'finish': this.finish,
-      'define hint': this.defineHint
+      'define hint': this.defineHint,
+      'help builder': LevelBuilder.__super__.startDialog
     };
 
     methodMap[command.get('method')].apply(this, arguments);

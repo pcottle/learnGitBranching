@@ -4745,7 +4745,7 @@ var Sandbox = Backbone.View.extend({
 
   helpDialog: function(command, deferred) {
     var helpDialog = new MultiView({
-      childViews: require('../dialogs/sandbox').helpDialog
+      childViews: require('../dialogs/sandbox').dialog
     });
     helpDialog.getPromise().then(_.bind(function() {
       // the view has been closed, lets go ahead and resolve our command
@@ -6605,6 +6605,9 @@ var Level = Sandbox.extend({
     }
 
     this.handleOpen(deferred);
+    deferred.promise.then(function() {
+      command.set('status', 'finished');
+    });
   },
 
   initName: function() {
@@ -6876,7 +6879,7 @@ var Level = Sandbox.extend({
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
     return [
-      [/^help$/, function() {
+      [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
           msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
                '"help level" or "help general"'
@@ -6931,7 +6934,7 @@ var Level = Sandbox.extend({
       'hide goal': this.hideGoal,
       'show solution': this.showSolution,
       'start dialog': this.startDialog,
-      'level help': this.startDialog
+      'help level': this.startDialog
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -10035,12 +10038,8 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     // whenever they hit a button. make sure
     // we close and pass that to our deferred
     buttonDefer.promise
-    .then(_.bind(function() {
-      this.deferred.resolve();
-    }, this))
-    .fail(_.bind(function() {
-      this.deferred.reject();
-    }, this))
+    .then(this.deferred.resolve)
+    .fail(this.deferred.reject)
     .done(_.bind(function() {
       this.close();
     }, this));
@@ -13047,7 +13046,6 @@ var instantCommands = [
   }],
   [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
     var msg = bits[1] || bits[2];
-    console.log(bits, msg);
     throw new CommandResult({
       msg: msg
     });
@@ -13056,7 +13054,7 @@ var instantCommands = [
 
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
-  'help': /^help ?(general)?($|\s)/,
+  'help': /^help( general)?$|^\?$/,
   'reset': /^reset$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
@@ -15776,8 +15774,8 @@ LevelArbiter.prototype.validateLevel = function(level) {
   var requiredFields = [
     'name',
     'goalTreeString',
-    'solutionCommand',
-    'description'
+    //'description',
+    'solutionCommand'
   ];
 
   var optionalFields = [
@@ -16663,7 +16661,9 @@ var LevelToolbar = require('../views').LevelToolbar;
 
 var regexMap = {
   'define goal': /^define goal$/,
+  'help builder': /^help builder$/,
   'define start': /^define start$/,
+  'edit dialog': /^edit dialog$/,
   'show start': /^show start$/,
   'hide start': /^hide start$/,
   'define hint': /^define hint$/,
@@ -16678,28 +16678,12 @@ var LevelBuilder = Level.extend({
     options.level = options.level || {};
 
     options.level.startDialog = {
-      childViews: [{
-        type: 'ModalAlert',
-        options: {
-          markdowns: [
-            '## Welcome to the level builder!',
-            '',
-            'Here are the main steps:',
-            '',
-            '  * Define the starting tree with ```define start```',
-            '  * Enter the series of git commands that compose the (optimal) solution',
-            '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-            '  * Optionally define a hint with ```define hint```',
-            '  * Enter the command ```finish``` to output your level JSON!'
-          ]
-        }
-      }]
+      childViews: require('../dialogs/levelBuilder').dialog
     };
-
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
+    this.initStartVisualization();
     this.startDialog = undefined;
-    this.initStartDialog();
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -16722,7 +16706,8 @@ var LevelBuilder = Level.extend({
 
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
-      additionalClass: 'startTree'
+      additionalClass: 'startTree',
+      text: 'You can hide this window with "hide start"'
     });
 
     this.startVis = new Visualization({
@@ -16768,7 +16753,15 @@ var LevelBuilder = Level.extend({
   },
 
   getInstantCommands: function() {
-    return [];
+    return [
+      [/^help$|^\?$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level builder, so multiple forms of ' +
+               'help are available. Please select either ' +
+               '"help general" or "help builder"'
+        });
+      }]
+    ];
   },
 
   takeControl: function() {
@@ -16856,24 +16849,66 @@ var LevelBuilder = Level.extend({
       return;
     }
 
+    var masterDeferred = Q.defer();
+    var chain = masterDeferred.promise;
+
     if (this.level.hint === undefined) {
-      this.setHint();
+      var askForHintDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForHintDeferred.promise;
+      });
+
+      // ask for a hint if there is none
+      var askForHintView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a hint, would you like to add one?'
+        ]
+      });
+      askForHintView.getPromise()
+      .then(_.bind(this.setHint, this))
+      .fail(_.bind(function() {
+        this.level.hint = '';
+      }, this))
+      .done(function() {
+        askForHintDeferred.resolve();
+      });
     }
 
-    var compiledLevel = _.extend(
-      {},
-      this.level
-    );
+    if (this.startDialog === undefined) {
+      var askForStartDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForStartDeferred.promise;
+      });
 
-    // the start dialog now is just our help intro thing
-    delete compiledLevel.startDialog;
-    if (this.startDialog) {
-      compiledLevel.startDialog  = this.startDialog;
+      var askForStartView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a start dialog, would you like to add one?'
+        ]
+      });
+      askForStartView.getPromise()
+      .then(function() {
+        alert(1);
+      })
+      .done(function() {
+        askForStartDeferred.resolve();
+      });
     }
 
-    console.log(compiledLevel);
+    chain = chain.done(_.bind(function() {
+      var compiledLevel = _.extend(
+        {},
+        this.level
+      );
+      // the start dialog now is just our help intro thing
+      delete compiledLevel.startDialog;
+      if (this.startDialog) {
+        compiledLevel.startDialog  = this.startDialog;
+      }
+      console.log(compiledLevel);
+      command.finishWith(deferred);
+    }, this));
 
-    command.finishWith(deferred);
+    masterDeferred.resolve();
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -16883,7 +16918,8 @@ var LevelBuilder = Level.extend({
       'show start': this.showStart,
       'hide start': this.hideStart,
       'finish': this.finish,
-      'define hint': this.defineHint
+      'define hint': this.defineHint,
+      'help builder': LevelBuilder.__super__.startDialog
     };
 
     methodMap[command.get('method')].apply(this, arguments);
@@ -16908,7 +16944,28 @@ exports.LevelBuilder = LevelBuilder;
 
 });
 
-require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.helpDialog = [{
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to the level builder!',
+      '',
+      'Here are the main steps:',
+      '',
+      '  * Set up the initial environment with git commands',
+      '  * Define the starting tree with ```define start```',
+      '  * Enter the series of git commands that compose the (optimal) solution',
+      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+      '  * Optionally define a hint with ```define hint```',
+      '  * Optionally define a nice start dialog with ```edit dialog```',
+      '  * Enter the command ```finish``` to output your level JSON!'
+    ]
+  }
+}];
+
+});
+
+require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
   type: 'ModalAlert',
   options: {
     markdowns: [
@@ -16936,6 +16993,7 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
     ]
   }
 }];
+
 
 });
 
@@ -17536,7 +17594,29 @@ exports.init = init;
 });
 require("/src/js/app/index.js");
 
-require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.helpDialog = [{
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to the level builder!',
+      '',
+      'Here are the main steps:',
+      '',
+      '  * Set up the initial environment with git commands',
+      '  * Define the starting tree with ```define start```',
+      '  * Enter the series of git commands that compose the (optimal) solution',
+      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+      '  * Optionally define a hint with ```define hint```',
+      '  * Optionally define a nice start dialog with ```edit dialog```',
+      '  * Enter the command ```finish``` to output your level JSON!'
+    ]
+  }
+}];
+
+});
+require("/src/js/dialogs/levelBuilder.js");
+
+require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
   type: 'ModalAlert',
   options: {
     markdowns: [
@@ -17564,6 +17644,7 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
     ]
   }
 }];
+
 
 });
 require("/src/js/dialogs/sandbox.js");
@@ -19826,8 +19907,8 @@ LevelArbiter.prototype.validateLevel = function(level) {
   var requiredFields = [
     'name',
     'goalTreeString',
-    'solutionCommand',
-    'description'
+    //'description',
+    'solutionCommand'
   ];
 
   var optionalFields = [
@@ -19924,7 +20005,9 @@ var LevelToolbar = require('../views').LevelToolbar;
 
 var regexMap = {
   'define goal': /^define goal$/,
+  'help builder': /^help builder$/,
   'define start': /^define start$/,
+  'edit dialog': /^edit dialog$/,
   'show start': /^show start$/,
   'hide start': /^hide start$/,
   'define hint': /^define hint$/,
@@ -19939,28 +20022,12 @@ var LevelBuilder = Level.extend({
     options.level = options.level || {};
 
     options.level.startDialog = {
-      childViews: [{
-        type: 'ModalAlert',
-        options: {
-          markdowns: [
-            '## Welcome to the level builder!',
-            '',
-            'Here are the main steps:',
-            '',
-            '  * Define the starting tree with ```define start```',
-            '  * Enter the series of git commands that compose the (optimal) solution',
-            '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-            '  * Optionally define a hint with ```define hint```',
-            '  * Enter the command ```finish``` to output your level JSON!'
-          ]
-        }
-      }]
+      childViews: require('../dialogs/levelBuilder').dialog
     };
-
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
+    this.initStartVisualization();
     this.startDialog = undefined;
-    this.initStartDialog();
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -19983,7 +20050,8 @@ var LevelBuilder = Level.extend({
 
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
-      additionalClass: 'startTree'
+      additionalClass: 'startTree',
+      text: 'You can hide this window with "hide start"'
     });
 
     this.startVis = new Visualization({
@@ -20029,7 +20097,15 @@ var LevelBuilder = Level.extend({
   },
 
   getInstantCommands: function() {
-    return [];
+    return [
+      [/^help$|^\?$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level builder, so multiple forms of ' +
+               'help are available. Please select either ' +
+               '"help general" or "help builder"'
+        });
+      }]
+    ];
   },
 
   takeControl: function() {
@@ -20117,24 +20193,66 @@ var LevelBuilder = Level.extend({
       return;
     }
 
+    var masterDeferred = Q.defer();
+    var chain = masterDeferred.promise;
+
     if (this.level.hint === undefined) {
-      this.setHint();
+      var askForHintDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForHintDeferred.promise;
+      });
+
+      // ask for a hint if there is none
+      var askForHintView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a hint, would you like to add one?'
+        ]
+      });
+      askForHintView.getPromise()
+      .then(_.bind(this.setHint, this))
+      .fail(_.bind(function() {
+        this.level.hint = '';
+      }, this))
+      .done(function() {
+        askForHintDeferred.resolve();
+      });
     }
 
-    var compiledLevel = _.extend(
-      {},
-      this.level
-    );
+    if (this.startDialog === undefined) {
+      var askForStartDeferred = Q.defer();
+      chain = chain.then(function() {
+        return askForStartDeferred.promise;
+      });
 
-    // the start dialog now is just our help intro thing
-    delete compiledLevel.startDialog;
-    if (this.startDialog) {
-      compiledLevel.startDialog  = this.startDialog;
+      var askForStartView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You have not specified a start dialog, would you like to add one?'
+        ]
+      });
+      askForStartView.getPromise()
+      .then(function() {
+        alert(1);
+      })
+      .done(function() {
+        askForStartDeferred.resolve();
+      });
     }
 
-    console.log(compiledLevel);
+    chain = chain.done(_.bind(function() {
+      var compiledLevel = _.extend(
+        {},
+        this.level
+      );
+      // the start dialog now is just our help intro thing
+      delete compiledLevel.startDialog;
+      if (this.startDialog) {
+        compiledLevel.startDialog  = this.startDialog;
+      }
+      console.log(compiledLevel);
+      command.finishWith(deferred);
+    }, this));
 
-    command.finishWith(deferred);
+    masterDeferred.resolve();
   },
 
   processLevelBuilderCommand: function(command, deferred) {
@@ -20144,7 +20262,8 @@ var LevelBuilder = Level.extend({
       'show start': this.showStart,
       'hide start': this.hideStart,
       'finish': this.finish,
-      'define hint': this.defineHint
+      'define hint': this.defineHint,
+      'help builder': LevelBuilder.__super__.startDialog
     };
 
     methodMap[command.get('method')].apply(this, arguments);
@@ -20301,6 +20420,9 @@ var Level = Sandbox.extend({
     }
 
     this.handleOpen(deferred);
+    deferred.promise.then(function() {
+      command.set('status', 'finished');
+    });
   },
 
   initName: function() {
@@ -20572,7 +20694,7 @@ var Level = Sandbox.extend({
       "Hmm, there doesn't seem to be a hint for this level :-/";
 
     return [
-      [/^help$/, function() {
+      [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
           msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
                '"help level" or "help general"'
@@ -20627,7 +20749,7 @@ var Level = Sandbox.extend({
       'hide goal': this.hideGoal,
       'show solution': this.showSolution,
       'start dialog': this.startDialog,
-      'level help': this.startDialog
+      'help level': this.startDialog
     };
     var method = methodMap[command.get('method')];
     if (!method) {
@@ -21000,7 +21122,7 @@ var Sandbox = Backbone.View.extend({
 
   helpDialog: function(command, deferred) {
     var helpDialog = new MultiView({
-      childViews: require('../dialogs/sandbox').helpDialog
+      childViews: require('../dialogs/sandbox').dialog
     });
     helpDialog.getPromise().then(_.bind(function() {
       // the view has been closed, lets go ahead and resolve our command
@@ -21055,7 +21177,6 @@ var instantCommands = [
   }],
   [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
     var msg = bits[1] || bits[2];
-    console.log(bits, msg);
     throw new CommandResult({
       msg: msg
     });
@@ -21064,7 +21185,7 @@ var instantCommands = [
 
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
-  'help': /^help ?(general)?($|\s)/,
+  'help': /^help( general)?$|^\?$/,
   'reset': /^reset$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
@@ -23193,12 +23314,8 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     // whenever they hit a button. make sure
     // we close and pass that to our deferred
     buttonDefer.promise
-    .then(_.bind(function() {
-      this.deferred.resolve();
-    }, this))
-    .fail(_.bind(function() {
-      this.deferred.reject();
-    }, this))
+    .then(this.deferred.resolve)
+    .fail(this.deferred.reject)
     .done(_.bind(function() {
       this.close();
     }, this));

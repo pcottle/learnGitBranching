@@ -1,7 +1,7 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] level builder dialog tester
-[ ] level builder dialog builder
+[ ] edit dialog
+[ ] descriptions for levels?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,13 +25,11 @@ Ideas for cleaning
 ~~~~~~~~~~~~~
 - CSS... a ton. Switch to less
 
-/*************************************
- ** Publish Things **
- ************************************/
-
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] level builder dialog builder
+[x] level builder dialog tester
 [x] turn off button clicking for demonstration view :O
 [x] text grabber for commands
 [x] way to close testing view
