@@ -10025,7 +10025,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     this.modalAlert = new ModalAlert(_.extend(
       {},
       { markdown: '#you sure?' },
-      options.modalAlert
+      options
     ));
 
     var buttonDefer = Q.defer();
@@ -16654,10 +16654,13 @@ var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
 var MultiView = require('../views/multiView').MultiView;
+
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
+
+var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
 
 var regexMap = {
   'define goal': /^define goal$/,
@@ -16684,6 +16687,7 @@ var LevelBuilder = Level.extend({
 
     this.initStartVisualization();
     this.startDialog = undefined;
+    this.definedGoal = false;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -16823,11 +16827,14 @@ var LevelBuilder = Level.extend({
     this.goalDie();
 
     if (!this.gitCommandsIssued.length) {
-      command.addWarning(
-        'Your solution is empty!! something is amiss'
-      );
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty!! something is amiss'
+      }));
+      deferred.resolve();
+      return;
     }
 
+    this.definedGoal = true;
     this.level.solutionCommand = this.gitCommandsIssued.join(';');
     this.level.goalTreeString = this.mainVis.gitEngine.printTree();
     this.initGoalVisualization();
@@ -16840,10 +16847,32 @@ var LevelBuilder = Level.extend({
     if (command) { command.finishWith(deferred); }
   },
 
+  editDialog: function(command, deferred) {
+    var whenDoneEditing = Q.defer();
+    new MultiViewBuilder({
+      multiViewJSON: this.startDialog,
+      deferred: whenDoneEditing
+    });
+    whenDoneEditing.promise
+    .then(function(levelObj) {
+      this.startDialog = levelObj;
+    })
+    .fail(function() {
+      // nothing to do, they dont want to edit it apparently
+    })
+    .done(function() {
+      if (command) {
+        command.finishWith(deferred);
+      } else {
+        deferred.resolve();
+      }
+    });
+  },
+
   finish: function(command, deferred) {
-    if (!this.gitCommandsIssued.length) {
+    if (!this.gitCommandsIssued.length || !this.definedGoal) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!'
+        msg: 'Your solution is empty or goal is undefined!'
       }));
       deferred.resolve();
       return;
@@ -16865,7 +16894,7 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForHintView.getPromise()
-      .then(_.bind(this.setHint, this))
+      .then(_.bind(this.defineHint, this))
       .fail(_.bind(function() {
         this.level.hint = '';
       }, this))
@@ -16886,8 +16915,15 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForStartView.getPromise()
-      .then(function() {
-        alert(1);
+      .then(_.bind(function() {
+        // oh boy this is complex
+        var whenEditedDialog = Q.defer();
+        // the undefined here is the command that doesnt need resolving just yet...
+        this.editDialog(undefined, whenEditedDialog);
+        return whenEditedDialog.promise;
+      }, this))
+      .fail(function() {
+        // if they dont want to edit the start dialog, do nothing
       })
       .done(function() {
         askForStartDeferred.resolve();
@@ -16905,6 +16941,7 @@ var LevelBuilder = Level.extend({
         compiledLevel.startDialog  = this.startDialog;
       }
       console.log(compiledLevel);
+      console.log(this.startDialog);
       command.finishWith(deferred);
     }, this));
 
@@ -16919,8 +16956,12 @@ var LevelBuilder = Level.extend({
       'hide start': this.hideStart,
       'finish': this.finish,
       'define hint': this.defineHint,
+      'edit dialog': this.editDialog,
       'help builder': LevelBuilder.__super__.startDialog
     };
+    if (!methodMap[command.get('method')]) {
+      throw new Error('woah we dont support that method yet');
+    }
 
     methodMap[command.get('method')].apply(this, arguments);
   },
@@ -16941,129 +16982,6 @@ var LevelBuilder = Level.extend({
 });
 
 exports.LevelBuilder = LevelBuilder;
-
-});
-
-require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
-      '## Welcome to the level builder!',
-      '',
-      'Here are the main steps:',
-      '',
-      '  * Set up the initial environment with git commands',
-      '  * Define the starting tree with ```define start```',
-      '  * Enter the series of git commands that compose the (optimal) solution',
-      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-      '  * Optionally define a hint with ```define hint```',
-      '  * Optionally define a nice start dialog with ```edit dialog```',
-      '  * Enter the command ```finish``` to output your level JSON!'
-    ]
-  }
-}];
-
-});
-
-require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
-      '## Welcome to LearnGitBranching!',
-      '',
-      'This application is designed to help beginners grasp ',
-      'the powerful concepts behind branching when working ',
-      'with git. We hope you enjoy this application and maybe ',
-      'even learn something!',
-      ''
-    ]
-  }
-}, {
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
-      '## The LearnGitBranching Interface',
-      '',
-      'There are features to use within the user interface behind ',
-      'this modal dialog. A list:',
-      '',
-      '  * git commands (to interact with git)',
-      '  * level commands (to get level hints or solutions)',
-      '  * sandbox commands (like this one)'
-    ]
-  }
-}];
-
-
-});
-
-require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
-  var dummy = {};
-  var stub = function() {};
-
-  for (var key in Constructor.prototype) {
-    dummy[key] = stub;
-  }
-  return dummy;
-};
-
-
-});
-
-require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var Q = require('q');
-
-var GitEngine = require('../git').GitEngine;
-var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
-var GitVisuals = require('../visuals').GitVisuals;
-var TreeCompare = require('../git/treeCompare').TreeCompare;
-var EventBaton = require('../util/eventBaton').EventBaton;
-
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-var Command = require('../models/commandModel').Command;
-
-var mock = require('../util/mock').mock;
-var util = require('../util');
-
-var HeadlessGit = function() {
-  this.init();
-};
-
-HeadlessGit.prototype.init = function() {
-  this.commitCollection = new CommitCollection();
-  this.branchCollection = new BranchCollection();
-  this.treeCompare = new TreeCompare();
-
-  // here we mock visuals and animation factory so the git engine
-  // is headless
-  var animationFactory = mock(AnimationFactory);
-  var gitVisuals = mock(GitVisuals);
-
-  this.gitEngine = new GitEngine({
-    collection: this.commitCollection,
-    branches: this.branchCollection,
-    gitVisuals: gitVisuals,
-    animationFactory: animationFactory,
-    eventBaton: new EventBaton()
-  });
-  this.gitEngine.init();
-};
-
-HeadlessGit.prototype.sendCommand = function(value) {
-  util.splitTextCommand(value, function(commandStr) {
-    var commandObj = new Command({
-      rawStr: commandStr
-    });
-    console.log('dispatching command "', commandStr, '"');
-    this.gitEngine.dispatch(commandObj, Q.defer());
-  }, this);
-};
-
-exports.HeadlessGit = HeadlessGit;
-
 
 });
 
@@ -17386,11 +17304,11 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   setChildViews: function(newArray) {
-    this.multiViewJSON.childViewJSONs = newArray;
+    this.multiViewJSON.childViews = newArray;
   },
 
   getChildViews: function() {
-    return this.multiViewJSON.childViewJSONs || [];
+    return this.multiViewJSON.childViews || [];
   },
 
   update: function() {
@@ -17403,6 +17321,129 @@ exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
+
+
+});
+
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to the level builder!',
+      '',
+      'Here are the main steps:',
+      '',
+      '  * Set up the initial environment with git commands',
+      '  * Define the starting tree with ```define start```',
+      '  * Enter the series of git commands that compose the (optimal) solution',
+      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+      '  * Optionally define a hint with ```define hint```',
+      '  * Optionally define a nice start dialog with ```edit dialog```',
+      '  * Enter the command ```finish``` to output your level JSON!'
+    ]
+  }
+}];
+
+});
+
+require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to LearnGitBranching!',
+      '',
+      'This application is designed to help beginners grasp ',
+      'the powerful concepts behind branching when working ',
+      'with git. We hope you enjoy this application and maybe ',
+      'even learn something!',
+      ''
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## The LearnGitBranching Interface',
+      '',
+      'There are features to use within the user interface behind ',
+      'this modal dialog. A list:',
+      '',
+      '  * git commands (to interact with git)',
+      '  * level commands (to get level hints or solutions)',
+      '  * sandbox commands (like this one)'
+    ]
+  }
+}];
+
+
+});
+
+require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
+  var dummy = {};
+  var stub = function() {};
+
+  for (var key in Constructor.prototype) {
+    dummy[key] = stub;
+  }
+  return dummy;
+};
+
+
+});
+
+require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var GitEngine = require('../git').GitEngine;
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
+var GitVisuals = require('../visuals').GitVisuals;
+var TreeCompare = require('../git/treeCompare').TreeCompare;
+var EventBaton = require('../util/eventBaton').EventBaton;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+var Command = require('../models/commandModel').Command;
+
+var mock = require('../util/mock').mock;
+var util = require('../util');
+
+var HeadlessGit = function() {
+  this.init();
+};
+
+HeadlessGit.prototype.init = function() {
+  this.commitCollection = new CommitCollection();
+  this.branchCollection = new BranchCollection();
+  this.treeCompare = new TreeCompare();
+
+  // here we mock visuals and animation factory so the git engine
+  // is headless
+  var animationFactory = mock(AnimationFactory);
+  var gitVisuals = mock(GitVisuals);
+
+  this.gitEngine = new GitEngine({
+    collection: this.commitCollection,
+    branches: this.branchCollection,
+    gitVisuals: gitVisuals,
+    animationFactory: animationFactory,
+    eventBaton: new EventBaton()
+  });
+  this.gitEngine.init();
+};
+
+HeadlessGit.prototype.sendCommand = function(value) {
+  util.splitTextCommand(value, function(commandStr) {
+    var commandObj = new Command({
+      rawStr: commandStr
+    });
+    console.log('dispatching command "', commandStr, '"');
+    this.gitEngine.dispatch(commandObj, Q.defer());
+  }, this);
+};
+
+exports.HeadlessGit = HeadlessGit;
 
 
 });
@@ -19998,10 +20039,13 @@ var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
 var MultiView = require('../views/multiView').MultiView;
+
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
+
+var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
 
 var regexMap = {
   'define goal': /^define goal$/,
@@ -20028,6 +20072,7 @@ var LevelBuilder = Level.extend({
 
     this.initStartVisualization();
     this.startDialog = undefined;
+    this.definedGoal = false;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -20167,11 +20212,14 @@ var LevelBuilder = Level.extend({
     this.goalDie();
 
     if (!this.gitCommandsIssued.length) {
-      command.addWarning(
-        'Your solution is empty!! something is amiss'
-      );
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty!! something is amiss'
+      }));
+      deferred.resolve();
+      return;
     }
 
+    this.definedGoal = true;
     this.level.solutionCommand = this.gitCommandsIssued.join(';');
     this.level.goalTreeString = this.mainVis.gitEngine.printTree();
     this.initGoalVisualization();
@@ -20184,10 +20232,32 @@ var LevelBuilder = Level.extend({
     if (command) { command.finishWith(deferred); }
   },
 
+  editDialog: function(command, deferred) {
+    var whenDoneEditing = Q.defer();
+    new MultiViewBuilder({
+      multiViewJSON: this.startDialog,
+      deferred: whenDoneEditing
+    });
+    whenDoneEditing.promise
+    .then(function(levelObj) {
+      this.startDialog = levelObj;
+    })
+    .fail(function() {
+      // nothing to do, they dont want to edit it apparently
+    })
+    .done(function() {
+      if (command) {
+        command.finishWith(deferred);
+      } else {
+        deferred.resolve();
+      }
+    });
+  },
+
   finish: function(command, deferred) {
-    if (!this.gitCommandsIssued.length) {
+    if (!this.gitCommandsIssued.length || !this.definedGoal) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!'
+        msg: 'Your solution is empty or goal is undefined!'
       }));
       deferred.resolve();
       return;
@@ -20209,7 +20279,7 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForHintView.getPromise()
-      .then(_.bind(this.setHint, this))
+      .then(_.bind(this.defineHint, this))
       .fail(_.bind(function() {
         this.level.hint = '';
       }, this))
@@ -20230,8 +20300,15 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForStartView.getPromise()
-      .then(function() {
-        alert(1);
+      .then(_.bind(function() {
+        // oh boy this is complex
+        var whenEditedDialog = Q.defer();
+        // the undefined here is the command that doesnt need resolving just yet...
+        this.editDialog(undefined, whenEditedDialog);
+        return whenEditedDialog.promise;
+      }, this))
+      .fail(function() {
+        // if they dont want to edit the start dialog, do nothing
       })
       .done(function() {
         askForStartDeferred.resolve();
@@ -20249,6 +20326,7 @@ var LevelBuilder = Level.extend({
         compiledLevel.startDialog  = this.startDialog;
       }
       console.log(compiledLevel);
+      console.log(this.startDialog);
       command.finishWith(deferred);
     }, this));
 
@@ -20263,8 +20341,12 @@ var LevelBuilder = Level.extend({
       'hide start': this.hideStart,
       'finish': this.finish,
       'define hint': this.defineHint,
+      'edit dialog': this.editDialog,
       'help builder': LevelBuilder.__super__.startDialog
     };
+    if (!methodMap[command.get('method')]) {
+      throw new Error('woah we dont support that method yet');
+    }
 
     methodMap[command.get('method')].apply(this, arguments);
   },
@@ -22283,11 +22365,11 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   setChildViews: function(newArray) {
-    this.multiViewJSON.childViewJSONs = newArray;
+    this.multiViewJSON.childViews = newArray;
   },
 
   getChildViews: function() {
-    return this.multiViewJSON.childViewJSONs || [];
+    return this.multiViewJSON.childViews || [];
   },
 
   update: function() {
@@ -23301,7 +23383,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     this.modalAlert = new ModalAlert(_.extend(
       {},
       { markdown: '#you sure?' },
-      options.modalAlert
+      options
     ));
 
     var buttonDefer = Q.defer();

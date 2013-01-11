@@ -317,11 +317,11 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   setChildViews: function(newArray) {
-    this.multiViewJSON.childViewJSONs = newArray;
+    this.multiViewJSON.childViews = newArray;
   },
 
   getChildViews: function() {
-    return this.multiViewJSON.childViewJSONs || [];
+    return this.multiViewJSON.childViews || [];
   },
 
   update: function() {

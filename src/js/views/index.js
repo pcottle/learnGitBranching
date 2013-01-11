@@ -358,7 +358,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     this.modalAlert = new ModalAlert(_.extend(
       {},
       { markdown: '#you sure?' },
-      options.modalAlert
+      options
     ));
 
     var buttonDefer = Q.defer();

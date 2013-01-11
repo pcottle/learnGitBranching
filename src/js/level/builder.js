@@ -14,10 +14,13 @@ var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
 var MultiView = require('../views/multiView').MultiView;
+
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
+
+var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
 
 var regexMap = {
   'define goal': /^define goal$/,
@@ -44,6 +47,7 @@ var LevelBuilder = Level.extend({
 
     this.initStartVisualization();
     this.startDialog = undefined;
+    this.definedGoal = false;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -183,11 +187,14 @@ var LevelBuilder = Level.extend({
     this.goalDie();
 
     if (!this.gitCommandsIssued.length) {
-      command.addWarning(
-        'Your solution is empty!! something is amiss'
-      );
+      command.set('error', new Errors.GitError({
+        msg: 'Your solution is empty!! something is amiss'
+      }));
+      deferred.resolve();
+      return;
     }
 
+    this.definedGoal = true;
     this.level.solutionCommand = this.gitCommandsIssued.join(';');
     this.level.goalTreeString = this.mainVis.gitEngine.printTree();
     this.initGoalVisualization();
@@ -200,10 +207,32 @@ var LevelBuilder = Level.extend({
     if (command) { command.finishWith(deferred); }
   },
 
+  editDialog: function(command, deferred) {
+    var whenDoneEditing = Q.defer();
+    new MultiViewBuilder({
+      multiViewJSON: this.startDialog,
+      deferred: whenDoneEditing
+    });
+    whenDoneEditing.promise
+    .then(function(levelObj) {
+      this.startDialog = levelObj;
+    })
+    .fail(function() {
+      // nothing to do, they dont want to edit it apparently
+    })
+    .done(function() {
+      if (command) {
+        command.finishWith(deferred);
+      } else {
+        deferred.resolve();
+      }
+    });
+  },
+
   finish: function(command, deferred) {
-    if (!this.gitCommandsIssued.length) {
+    if (!this.gitCommandsIssued.length || !this.definedGoal) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!'
+        msg: 'Your solution is empty or goal is undefined!'
       }));
       deferred.resolve();
       return;
@@ -225,7 +254,7 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForHintView.getPromise()
-      .then(_.bind(this.setHint, this))
+      .then(_.bind(this.defineHint, this))
       .fail(_.bind(function() {
         this.level.hint = '';
       }, this))
@@ -246,8 +275,15 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForStartView.getPromise()
-      .then(function() {
-        alert(1);
+      .then(_.bind(function() {
+        // oh boy this is complex
+        var whenEditedDialog = Q.defer();
+        // the undefined here is the command that doesnt need resolving just yet...
+        this.editDialog(undefined, whenEditedDialog);
+        return whenEditedDialog.promise;
+      }, this))
+      .fail(function() {
+        // if they dont want to edit the start dialog, do nothing
       })
       .done(function() {
         askForStartDeferred.resolve();
@@ -265,6 +301,7 @@ var LevelBuilder = Level.extend({
         compiledLevel.startDialog  = this.startDialog;
       }
       console.log(compiledLevel);
+      console.log(this.startDialog);
       command.finishWith(deferred);
     }, this));
 
@@ -279,8 +316,12 @@ var LevelBuilder = Level.extend({
       'hide start': this.hideStart,
       'finish': this.finish,
       'define hint': this.defineHint,
+      'edit dialog': this.editDialog,
       'help builder': LevelBuilder.__super__.startDialog
     };
+    if (!methodMap[command.get('method')]) {
+      throw new Error('woah we dont support that method yet');
+    }
 
     methodMap[command.get('method')].apply(this, arguments);
   },
