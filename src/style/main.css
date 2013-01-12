@@ -26,7 +26,11 @@ code {
 
 p {
   word-wrap: break-word;
-  line-height: 26px;
+}
+
+div.modalTerminal p {
+  line-height: 24px;
+  margin: 1.5em 0;
 }
 
 .textAlignCenter {

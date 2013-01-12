@@ -78,7 +78,7 @@ exports.level = {
             "make a new branch named `bugFix` and switch to that branch"
           ]
         }
-      },
+      }
     ]
   }
 };

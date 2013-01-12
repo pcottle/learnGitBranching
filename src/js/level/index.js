@@ -282,7 +282,7 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+    var solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
 
     if (!solved) {
       defer.resolve();

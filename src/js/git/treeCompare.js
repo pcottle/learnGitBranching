@@ -5,6 +5,13 @@ function TreeCompare() {
 
 }
 
+TreeCompare.prototype.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+
+  return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
+};
+
 TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
@@ -31,12 +38,7 @@ TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branch
   return result;
 };
 
-TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-
-  this.reduceTreeFields([treeA, treeB]);
-
+TreeCompare.prototype.getRecurseCompare = function(treeA, treeB) {
   // we need a recursive comparison function to bubble up the  branch
   var recurseCompare = function(commitA, commitB) {
     // this is the short-circuit base case
@@ -58,7 +60,15 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
     // if each of our children recursively are equal, we are good
     return result;
   };
+  return recurseCompare;
+};
 
+TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  var recurseCompare = this.getRecurseCompare(treeA, treeB);
   var branchA = treeA.branches[branchName];
   var branchB = treeB.branches[branchName];
 
