@@ -43,7 +43,6 @@ var Level = Sandbox.extend({
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
-    // possible options on how stringent to be on comparisons go here
     this.treeCompare = new TreeCompare();
 
     this.initGoalData(options);
@@ -156,13 +155,11 @@ var Level = Sandbox.extend({
   showSolution: function(command, deferred) {
     var confirmDefer = Q.defer();
     var confirmView = new ConfirmCancelTerminal({
-      modalAlert: {
-        markdowns: [
-          '## Are you sure you want to see the solution?',
-          '',
-          'I believe in you! You can do it'
-        ]
-      },
+      markdowns: [
+        '## Are you sure you want to see the solution?',
+        '',
+        'I believe in you! You can do it'
+      ],
       deferred: confirmDefer
     });
 
@@ -282,7 +279,12 @@ var Level = Sandbox.extend({
 
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+    var solved;
+    if (this.level.compareOnlyMaster) {
+      solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+    } else {
+      solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+    }
 
     if (!solved) {
       defer.resolve();

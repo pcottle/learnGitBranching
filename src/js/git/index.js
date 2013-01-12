@@ -897,6 +897,7 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
   var dateB = new Date(cB.get('createTime'));
   if (dateA - dateB === 0) {
     console.warn('WUT it is equal');
+    console.log(cA, cB);
   }
   return dateA - dateB;
 };
