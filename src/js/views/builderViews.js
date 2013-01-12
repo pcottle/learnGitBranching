@@ -56,6 +56,11 @@ var MarkdownGrabber = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.deferred = options.deferred || Q.defer();
+
+    if (options.fromObj) {
+      options.fillerText = options.fromObj.options.markdowns.join('\n');
+    }
+
     this.JSON = {
       previewText: options.previewText || 'Preview',
       fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
@@ -167,6 +172,18 @@ var DemonstrationBuilder = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.deferred = options.deferred || Q.defer();
+    if (options.fromObj) {
+      var toEdit = options.fromObj.options;
+      options = _.extend(
+        {},
+        options,
+        toEdit,
+        {
+          beforeMarkdown: toEdit.beforeMarkdowns.join('\n'),
+          afterMarkdown: toEdit.afterMarkdowns.join('\n')
+        }
+      );
+    }
 
     this.JSON = {};
     this.container = new ModalTerminal({
@@ -178,23 +195,25 @@ var DemonstrationBuilder = ContainedBase.extend({
     this.beforeMarkdownView = new MarkdownGrabber({
       container: this,
       withoutButton: true,
+      fillerText: options.beforeMarkdown,
       previewText: 'Before demonstration Markdown'
     });
     this.beforeCommandView = new TextGrabber({
       container: this,
       helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
-      initialText: 'git checkout -b bugFix'
+      initialText: options.beforeCommand || 'git checkout -b bugFix'
     });
 
     this.commandView = new TextGrabber({
       container: this,
       helperText: 'The git command(s) to demonstrate to the reader',
-      initialText: 'git commit'
+      initialText: options.command || 'git commit'
     });
 
     this.afterMarkdownView = new MarkdownGrabber({
       container: this,
       withoutButton: true,
+      fillerText: options.afterMarkdown,
       previewText: 'After demonstration Markdown'
     });
 
@@ -254,8 +273,9 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   events: {
-    'click div.deleteButton': 'deleteView',
+    'click div.deleteButton': 'deleteOneView',
     'click div.testButton': 'testOneView',
+    'click div.editButton': 'editOneView',
     'click div.testEntireView': 'testEntireView',
     'click div.addView': 'addView',
     'click div.saveView': 'saveView',
@@ -328,7 +348,31 @@ var MultiViewBuilder = ContainedBase.extend({
     });
   },
 
-  deleteView: function(ev) {
+  editOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var builder = new this.typeToConstructor[type]({
+      deferred: whenDone,
+      fromObj: this.getChildViews()[index]
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      var views = this.getChildViews();
+      views[index] = newView;
+      this.setChildViews(views);
+    }, this))
+    .fail(function() { })
+    .done();
+  },
+
+  deleteOneView: function(ev) {
     var el = ev.srcElement;
     var index = $(el).attr('data-index');
     var toSlice = this.getChildViews();
@@ -338,7 +382,7 @@ var MultiViewBuilder = ContainedBase.extend({
     this.update();
   },
 
-  addChildViewObj: function(newObj) {
+  addChildViewObj: function(newObj, index) {
     var childViews = this.getChildViews();
     childViews.push(newObj);
     this.setChildViews(childViews);
