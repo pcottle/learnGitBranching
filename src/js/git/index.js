@@ -977,7 +977,6 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
-  console.log('this is what our rebase rough array is', toRebaseRough);
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
@@ -1090,6 +1089,17 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     if (!changesAlreadyMade[baseID]) {
       toRebase.push(commit);
     }
+  }, this);
+
+  toRebaseRough = toRebase;
+  toRebase = [];
+  // finally, make the set unique
+  var uniqueIDs = {};
+  _.each(toRebaseRough, function(commit) {
+    if (uniqueIDs[commit.get('id')]) { return; }
+
+    uniqueIDs[commit.get('id')] = true;
+    toRebase.push(commit);
   }, this);
 
   if (!toRebase.length) {
