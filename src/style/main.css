@@ -825,6 +825,7 @@ div.levelIcon.solved div.index div.indexNum {
   margin-right: 10px;
   max-height: 400px;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .gitDemonstrationView > div.demonstrationText.noLongText {

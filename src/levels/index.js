@@ -3,7 +3,9 @@
 exports.levelSequences = {
   intro: [
     require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level
+    require('../../levels/intro/2').level,
+    require('../../levels/intro/3').level,
+    require('../../levels/intro/4').level
   ],
   rebase: [
     require('../../levels/rebase/1').level

@@ -8256,6 +8256,9 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 GitEngine.prototype.dateSortFunc = function(cA, cB) {
   var dateA = new Date(cA.get('createTime'));
   var dateB = new Date(cB.get('createTime'));
+  if (dateA - dateB === 0) {
+    console.warn('WUT it is equal');
+  }
   return dateA - dateB;
 };
 
@@ -8336,6 +8339,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
+  console.log('this is what our rebase rough array is', toRebaseRough);
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
@@ -8456,8 +8460,6 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     });
   }
 
-  // now reverse it once more to get it in the right order
-  toRebase.reverse();
   animationResponse.toRebaseArray = toRebase.slice(0);
 
   // now pop all of these commits onto targetLocation
@@ -9608,6 +9610,7 @@ var InteractiveRebaseView = ContainedBase.extend({
         toRebase.unshift(this.rebaseMap[id]);
       }
     }, this);
+    toRebase.reverse();
 
     this.deferred.resolve(toRebase);
     // garbage collection will get us
@@ -16744,7 +16747,9 @@ require.define("/src/levels/index.js",function(require,module,exports,__dirname,
 exports.levelSequences = {
   intro: [
     require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level
+    require('../../levels/intro/2').level,
+    require('../../levels/intro/3').level,
+    require('../../levels/intro/4').level
   ],
   rebase: [
     require('../../levels/rebase/1').level
@@ -16907,6 +16912,159 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
     ]
   }
 };
+});
+
+require.define("/src/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
+  "name": "Merging in Git",
+  "hint": "Remember to commit in the order specified (bugFix before master)",
+  "startDialog": {
+    "childViews": [
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "## Branches and Merging",
+            "",
+            "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
+            "",
+            "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
+            "",
+            "It's easier with visuals, let's check it out in the next view"
+          ]
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+            "",
+            "We will `merge` the branch `bugFix` into `master`"
+          ],
+          "afterMarkdowns": [
+            "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+            "",
+            "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+            "",
+            "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+          ],
+          "command": "git merge bugFix master",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Let's merge `master` into `bugFix`:"
+          ],
+          "afterMarkdowns": [
+            "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+            "",
+            "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+          ],
+          "command": "git merge master bugFix",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+        }
+      },
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "To complete this level, do the following steps:",
+            "",
+            "* Make a new branch called `bugFix`",
+            "* Commit once",
+            "* Go back to `master` with `git checkout`",
+            "* Commit another time",
+            "* Merge the branch `bugFix` into `master` with `git merge`",
+            "",
+            "*Remember, you can always re-display this dialog with \"help level\"!*"
+          ]
+        }
+      }
+    ]
+  }
+};
+
+});
+
+require.define("/src/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
+  "name": "Rebase Introduction",
+  "hint": "Make sure you commit from bugFix first",
+  "startDialog": {
+    "childViews": [
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "## Git Rebase",
+            "",
+            "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
+            "",
+            "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
+            "",
+            "Let's see it in action..."
+          ]
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+            "",
+            "We would like to move our work from bugFix directly onto the work from master. That way it woud look like these two features were developed sequentially, when in reality they were developed in parallel.",
+            "",
+            "Let's do that with the `git rebase` command"
+          ],
+          "afterMarkdowns": [
+            "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
+            "",
+            "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
+            "",
+            "The only problem is that master hasn't been updated either, let's do that now..."
+          ],
+          "command": "git rebase master",
+          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+          ],
+          "afterMarkdowns": [
+            "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+          ],
+          "command": "git rebase bugFix",
+          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+        }
+      },
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "To complete this level, do the following",
+            "",
+            "* Checkout a new branch named `bugFix`",
+            "* Commit once",
+            "* Go back to master and commit again",
+            "* Check out bugFix again and rebase onto master",
+            "",
+            "Good luck!"
+          ]
+        }
+      }
+    ]
+  }
+};
+
 });
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -19244,6 +19402,9 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 GitEngine.prototype.dateSortFunc = function(cA, cB) {
   var dateA = new Date(cA.get('createTime'));
   var dateB = new Date(cB.get('createTime'));
+  if (dateA - dateB === 0) {
+    console.warn('WUT it is equal');
+  }
   return dateA - dateB;
 };
 
@@ -19324,6 +19485,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
+  console.log('this is what our rebase rough array is', toRebaseRough);
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
@@ -19444,8 +19606,6 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     });
   }
 
-  // now reverse it once more to get it in the right order
-  toRebase.reverse();
   animationResponse.toRebaseArray = toRebase.slice(0);
 
   // now pop all of these commits onto targetLocation
@@ -24723,6 +24883,7 @@ var InteractiveRebaseView = ContainedBase.extend({
         toRebase.unshift(this.rebaseMap[id]);
       }
     }, this);
+    toRebase.reverse();
 
     this.deferred.resolve(toRebase);
     // garbage collection will get us
@@ -27304,7 +27465,9 @@ require.define("/src/levels/index.js",function(require,module,exports,__dirname,
 exports.levelSequences = {
   intro: [
     require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level
+    require('../../levels/intro/2').level,
+    require('../../levels/intro/3').level,
+    require('../../levels/intro/4').level
   ],
   rebase: [
     require('../../levels/rebase/1').level
@@ -27485,7 +27648,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
           "markdowns": [
             "## Branches and Merging",
             "",
-            "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then branch it back in.",
+            "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
             "",
             "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
             "",
@@ -27502,9 +27665,9 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
             "We will `merge` the branch `bugFix` into `master`"
           ],
           "afterMarkdowns": [
-            "Woah! See that? FIrst of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+            "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
             "",
-            "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that color.",
+            "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
             "",
             "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
           ],
@@ -27549,6 +27712,83 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
 
 });
 require("/src/levels/intro/3.js");
+
+require.define("/src/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
+  "name": "Rebase Introduction",
+  "hint": "Make sure you commit from bugFix first",
+  "startDialog": {
+    "childViews": [
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "## Git Rebase",
+            "",
+            "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
+            "",
+            "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
+            "",
+            "Let's see it in action..."
+          ]
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+            "",
+            "We would like to move our work from bugFix directly onto the work from master. That way it woud look like these two features were developed sequentially, when in reality they were developed in parallel.",
+            "",
+            "Let's do that with the `git rebase` command"
+          ],
+          "afterMarkdowns": [
+            "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
+            "",
+            "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
+            "",
+            "The only problem is that master hasn't been updated either, let's do that now..."
+          ],
+          "command": "git rebase master",
+          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+          ],
+          "afterMarkdowns": [
+            "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+          ],
+          "command": "git rebase bugFix",
+          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+        }
+      },
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "To complete this level, do the following",
+            "",
+            "* Checkout a new branch named `bugFix`",
+            "* Commit once",
+            "* Go back to master and commit again",
+            "* Check out bugFix again and rebase onto master",
+            "",
+            "Good luck!"
+          ]
+        }
+      }
+    ]
+  }
+};
+
+});
+require("/src/levels/intro/4.js");
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   name: 'Introduction #1',

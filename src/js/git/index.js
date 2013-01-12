@@ -895,6 +895,9 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
 GitEngine.prototype.dateSortFunc = function(cA, cB) {
   var dateA = new Date(cA.get('createTime'));
   var dateB = new Date(cB.get('createTime'));
+  if (dateA - dateB === 0) {
+    console.warn('WUT it is equal');
+  }
   return dateA - dateB;
 };
 
@@ -975,6 +978,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     // keep searching
     pQueue = pQueue.concat(popped.get('parents'));
   }
+  console.log('this is what our rebase rough array is', toRebaseRough);
 
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
@@ -1095,8 +1099,6 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     });
   }
 
-  // now reverse it once more to get it in the right order
-  toRebase.reverse();
   animationResponse.toRebaseArray = toRebase.slice(0);
 
   // now pop all of these commits onto targetLocation

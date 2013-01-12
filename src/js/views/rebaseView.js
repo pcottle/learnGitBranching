@@ -57,6 +57,7 @@ var InteractiveRebaseView = ContainedBase.extend({
         toRebase.unshift(this.rebaseMap[id]);
       }
     }, this);
+    toRebase.reverse();
 
     this.deferred.resolve(toRebase);
     // garbage collection will get us
