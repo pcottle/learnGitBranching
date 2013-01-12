@@ -288,6 +288,7 @@ var SeriesView = BaseView.extend({
     }
 
     var id = $(ev.srcElement).attr('data-id');
+    console.log(id, ev, ev.srcElement);
     this.navEvents.trigger('clickedID', id);
   }
 });

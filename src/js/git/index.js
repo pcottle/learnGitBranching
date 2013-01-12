@@ -164,21 +164,15 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   }
   this.refs = createdSoFar;
 
+  this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
     this.gitVisuals.addBranch(branch);
   }, this);
 };
 
 GitEngine.prototype.reloadGraphics = function() {
-  // get the root commit, no better way to do it
-  var rootCommit = null;
-  this.commitCollection.each(function(commit) {
-    if (commit.get('id') == 'C0') {
-      rootCommit = commit;
-    }
-  });
-  this.gitVisuals.rootCommit = rootCommit;
-
+  // get the root commit
+  this.gitVisuals.rootCommit = this.refs['C0'];
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff... one day
   this.gitVisuals.initHeadBranch();

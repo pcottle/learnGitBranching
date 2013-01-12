@@ -557,15 +557,6 @@ GitVisuals.prototype.animateNodePositions = function(speed) {
   }, this);
 };
 
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
 GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
   var action = _.bind(function() {
     this.addBranch(branch);
@@ -588,6 +579,10 @@ GitVisuals.prototype.addBranch = function(branch) {
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
     visBranch.genGraphics(this.paper);
+  } else {
+    this.defer(_.bind(function() {
+      visBranch.genGraphics(this.paper);
+    }, this));
   }
 };
 

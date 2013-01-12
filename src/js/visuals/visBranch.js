@@ -55,8 +55,7 @@ var VisBranch = VisBase.extend({
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
     if (!this.gitEngine) {
-      console.log('throw damnit');
-      throw new Error('asd');
+      throw new Error('asd wtf');
     }
 
     this.get('branch').set('visBranch', this);
@@ -200,7 +199,7 @@ var VisBranch = VisBase.extend({
 
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
+      var textNode = (visBranch.get('text')) ? visBranch.get('text').node : null;
       return (textNode === null) ? 0 : textNode.clientWidth;
     };
 

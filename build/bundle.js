@@ -7527,21 +7527,15 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   }
   this.refs = createdSoFar;
 
+  this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
     this.gitVisuals.addBranch(branch);
   }, this);
 };
 
 GitEngine.prototype.reloadGraphics = function() {
-  // get the root commit, no better way to do it
-  var rootCommit = null;
-  this.commitCollection.each(function(commit) {
-    if (commit.get('id') == 'C0') {
-      rootCommit = commit;
-    }
-  });
-  this.gitVisuals.rootCommit = rootCommit;
-
+  // get the root commit
+  this.gitVisuals.rootCommit = this.refs['C0'];
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff... one day
   this.gitVisuals.initHeadBranch();
@@ -15175,15 +15169,6 @@ GitVisuals.prototype.animateNodePositions = function(speed) {
   }, this);
 };
 
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
 GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
   var action = _.bind(function() {
     this.addBranch(branch);
@@ -15206,6 +15191,10 @@ GitVisuals.prototype.addBranch = function(branch) {
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
     visBranch.genGraphics(this.paper);
+  } else {
+    this.defer(_.bind(function() {
+      visBranch.genGraphics(this.paper);
+    }, this));
   }
 };
 
@@ -15962,8 +15951,7 @@ var VisBranch = VisBase.extend({
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
     if (!this.gitEngine) {
-      console.log('throw damnit');
-      throw new Error('asd');
+      throw new Error('asd wtf');
     }
 
     this.get('branch').set('visBranch', this);
@@ -16107,7 +16095,7 @@ var VisBranch = VisBase.extend({
 
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
+      var textNode = (visBranch.get('text')) ? visBranch.get('text').node : null;
       return (textNode === null) ? 0 : textNode.clientWidth;
     };
 
@@ -17389,6 +17377,7 @@ var SeriesView = BaseView.extend({
     }
 
     var id = $(ev.srcElement).attr('data-id');
+    console.log(id, ev, ev.srcElement);
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -18692,21 +18681,15 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   }
   this.refs = createdSoFar;
 
+  this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
     this.gitVisuals.addBranch(branch);
   }, this);
 };
 
 GitEngine.prototype.reloadGraphics = function() {
-  // get the root commit, no better way to do it
-  var rootCommit = null;
-  this.commitCollection.each(function(commit) {
-    if (commit.get('id') == 'C0') {
-      rootCommit = commit;
-    }
-  });
-  this.gitVisuals.rootCommit = rootCommit;
-
+  // get the root commit
+  this.gitVisuals.rootCommit = this.refs['C0'];
   // this just basically makes the HEAD branch. the head branch really should have been
   // a member of a collection and not this annoying edge case stuff... one day
   this.gitVisuals.initHeadBranch();
@@ -24639,6 +24622,7 @@ var SeriesView = BaseView.extend({
     }
 
     var id = $(ev.srcElement).attr('data-id');
+    console.log(id, ev, ev.srcElement);
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -25926,15 +25910,6 @@ GitVisuals.prototype.animateNodePositions = function(speed) {
   }, this);
 };
 
-GitVisuals.prototype.turnOnPaper = function() {
-  this.gitReady = false;
-};
-
-// does making an accessor method make it any less hacky? that is the true question
-GitVisuals.prototype.turnOffPaper = function() {
-  this.gitReady = true;
-};
-
 GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
   var action = _.bind(function() {
     this.addBranch(branch);
@@ -25957,6 +25932,10 @@ GitVisuals.prototype.addBranch = function(branch) {
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
     visBranch.genGraphics(this.paper);
+  } else {
+    this.defer(_.bind(function() {
+      visBranch.genGraphics(this.paper);
+    }, this));
   }
 };
 
@@ -26277,8 +26256,7 @@ var VisBranch = VisBase.extend({
     this.gitVisuals = this.get('gitVisuals');
     this.gitEngine = this.get('gitEngine');
     if (!this.gitEngine) {
-      console.log('throw damnit');
-      throw new Error('asd');
+      throw new Error('asd wtf');
     }
 
     this.get('branch').set('visBranch', this);
@@ -26422,7 +26400,7 @@ var VisBranch = VisBase.extend({
 
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
-      var textNode = visBranch.get('text').node;
+      var textNode = (visBranch.get('text')) ? visBranch.get('text').node : null;
       return (textNode === null) ? 0 : textNode.clientWidth;
     };
 
