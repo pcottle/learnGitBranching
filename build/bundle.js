@@ -8253,8 +8253,12 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
   var dateA = new Date(cA.get('createTime'));
   var dateB = new Date(cB.get('createTime'));
   if (dateA - dateB === 0) {
-    console.warn('WUT it is equal');
-    console.log(cA, cB);
+    // hmmmmm this still needs fixing. we need to know basically just WHEN a commit was created, but since
+    // we strip off the date creation field, when loading a tree from string this fails :-/
+    // there's actually no way to determine it...
+    //console.warn('WUT it is equal');
+    //console.log(cA, cB);
+    return GitEngine.prototype.idSortFunc(cA, cB);
   }
   return dateA - dateB;
 };
@@ -17377,7 +17381,6 @@ var SeriesView = BaseView.extend({
     }
 
     var id = $(ev.srcElement).attr('data-id');
-    console.log(id, ev, ev.srcElement);
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -19407,8 +19410,12 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
   var dateA = new Date(cA.get('createTime'));
   var dateB = new Date(cB.get('createTime'));
   if (dateA - dateB === 0) {
-    console.warn('WUT it is equal');
-    console.log(cA, cB);
+    // hmmmmm this still needs fixing. we need to know basically just WHEN a commit was created, but since
+    // we strip off the date creation field, when loading a tree from string this fails :-/
+    // there's actually no way to determine it...
+    //console.warn('WUT it is equal');
+    //console.log(cA, cB);
+    return GitEngine.prototype.idSortFunc(cA, cB);
   }
   return dateA - dateB;
 };
@@ -24622,7 +24629,6 @@ var SeriesView = BaseView.extend({
     }
 
     var id = $(ev.srcElement).attr('data-id');
-    console.log(id, ev, ev.srcElement);
     this.navEvents.trigger('clickedID', id);
   }
 });
