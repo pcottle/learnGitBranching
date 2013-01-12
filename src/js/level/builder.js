@@ -26,6 +26,7 @@ var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
 
 var regexMap = {
   'define goal': /^define goal$/,
+  'define name': /^define name$/,
   'help builder': /^help builder$/,
   'define start': /^define start$/,
   'edit dialog': /^edit dialog$/,
@@ -204,6 +205,11 @@ var LevelBuilder = Level.extend({
     this.showGoal(command, deferred);
   },
 
+  defineName: function(command, deferred) {
+    this.level.name = prompt('Enter the name for the level');
+    if (command) { command.finishWith(deferred); }
+  },
+
   defineHint: function(command, deferred) {
     this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
     if (command) { command.finishWith(deferred); }
@@ -238,6 +244,10 @@ var LevelBuilder = Level.extend({
       }));
       deferred.resolve();
       return;
+    }
+
+    while (!this.level.name) {
+      this.defineName();
     }
 
     var masterDeferred = Q.defer();

@@ -13173,6 +13173,7 @@ var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
 
 var regexMap = {
   'define goal': /^define goal$/,
+  'define name': /^define name$/,
   'help builder': /^help builder$/,
   'define start': /^define start$/,
   'edit dialog': /^edit dialog$/,
@@ -13351,6 +13352,11 @@ var LevelBuilder = Level.extend({
     this.showGoal(command, deferred);
   },
 
+  defineName: function(command, deferred) {
+    this.level.name = prompt('Enter the name for the level');
+    if (command) { command.finishWith(deferred); }
+  },
+
   defineHint: function(command, deferred) {
     this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
     if (command) { command.finishWith(deferred); }
@@ -13385,6 +13391,10 @@ var LevelBuilder = Level.extend({
       }));
       deferred.resolve();
       return;
+    }
+
+    while (!this.level.name) {
+      this.defineName();
     }
 
     var masterDeferred = Q.defer();
@@ -14463,6 +14473,7 @@ require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports
       '  * Enter the series of git commands that compose the (optimal) solution',
       '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
       '  * Optionally define a hint with ```define hint```',
+      '  * Edit the name with ```define name```',
       '  * Optionally define a nice start dialog with ```edit dialog```',
       '  * Enter the command ```finish``` to output your level JSON!'
     ]
@@ -16745,26 +16756,59 @@ exports.sequenceInfo = {
 });
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  description: 'A description goes here',
-  startDialog: {
-    childViews: [{
-      type: 'GitDemonstrationView',
-      options: {
-        beforeMarkdowns: [
-          '## Committing in Git',
-          '',
-          'This is whats up with ```git commit```'
-        ],
-        command: 'git commit'
+  "name": 'Introduction to Git Commits',
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git commit;git commit",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "hint": "Just type in 'git commit' twice to finish!",
+  "startDialog": {
+    "childViews": [
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "## Git Commits",
+            "",
+            "A commit in git is a recorded set of changes that you have made -- for instance, it's the 10 lines you added for a new feature or a new image added to the assets folder.",
+            "",
+            "Because git commits are simply *delta*'s (or changes between states) rather than entire copies of the repository, they make Git's version control quite lightweight and efficient. The days of copying your entire codebase onto an external hard drive are over!",
+            "",
+            "The only tricky thing is that if you want to download an entire codebase, you have to download every single commit (essentially the history of the repository) and apply them all on top of each other to get the current version. This is why you might see the command line output:",
+            "",
+            "```",
+            "Resolving Deltas...",
+            "```",
+            "",
+            "When you clone a git repo. Git essentially replays the entire development history on your computer in a few seconds, leaving you (at the end) with the current version of the repository!"
+          ]
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+            "",
+            "Hit the button below to make a new commit"
+          ],
+          "afterMarkdowns": [
+            "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+          ],
+          "command": "git commit",
+          "beforeCommand": ""
+        }
+      },
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+          ]
+        }
       }
-    }]
-  },
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
+    ]
+  }
 };
-
 
 });
 
@@ -17825,6 +17869,7 @@ require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports
       '  * Enter the series of git commands that compose the (optimal) solution',
       '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
       '  * Optionally define a hint with ```define hint```',
+      '  * Edit the name with ```define name```',
       '  * Optionally define a nice start dialog with ```edit dialog```',
       '  * Enter the command ```finish``` to output your level JSON!'
     ]
@@ -20228,6 +20273,7 @@ var MarkdownGrabber = require('../views/builderViews').MarkdownGrabber;
 
 var regexMap = {
   'define goal': /^define goal$/,
+  'define name': /^define name$/,
   'help builder': /^help builder$/,
   'define start': /^define start$/,
   'edit dialog': /^edit dialog$/,
@@ -20406,6 +20452,11 @@ var LevelBuilder = Level.extend({
     this.showGoal(command, deferred);
   },
 
+  defineName: function(command, deferred) {
+    this.level.name = prompt('Enter the name for the level');
+    if (command) { command.finishWith(deferred); }
+  },
+
   defineHint: function(command, deferred) {
     this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
     if (command) { command.finishWith(deferred); }
@@ -20440,6 +20491,10 @@ var LevelBuilder = Level.extend({
       }));
       deferred.resolve();
       return;
+    }
+
+    while (!this.level.name) {
+      this.defineName();
     }
 
     var masterDeferred = Q.defer();
@@ -27165,26 +27220,59 @@ exports.sequenceInfo = {
 require("/src/levels/index.js");
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  name: 'Introduction #1',
-  description: 'A description goes here',
-  startDialog: {
-    childViews: [{
-      type: 'GitDemonstrationView',
-      options: {
-        beforeMarkdowns: [
-          '## Committing in Git',
-          '',
-          'This is whats up with ```git commit```'
-        ],
-        command: 'git commit'
+  "name": 'Introduction to Git Commits',
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git commit;git commit",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "hint": "Just type in 'git commit' twice to finish!",
+  "startDialog": {
+    "childViews": [
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "## Git Commits",
+            "",
+            "A commit in git is a recorded set of changes that you have made -- for instance, it's the 10 lines you added for a new feature or a new image added to the assets folder.",
+            "",
+            "Because git commits are simply *delta*'s (or changes between states) rather than entire copies of the repository, they make Git's version control quite lightweight and efficient. The days of copying your entire codebase onto an external hard drive are over!",
+            "",
+            "The only tricky thing is that if you want to download an entire codebase, you have to download every single commit (essentially the history of the repository) and apply them all on top of each other to get the current version. This is why you might see the command line output:",
+            "",
+            "```",
+            "Resolving Deltas...",
+            "```",
+            "",
+            "When you clone a git repo. Git essentially replays the entire development history on your computer in a few seconds, leaving you (at the end) with the current version of the repository!"
+          ]
+        }
+      },
+      {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": [
+            "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+            "",
+            "Hit the button below to make a new commit"
+          ],
+          "afterMarkdowns": [
+            "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+          ],
+          "command": "git commit",
+          "beforeCommand": ""
+        }
+      },
+      {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": [
+            "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+          ]
+        }
       }
-    }]
-  },
-  goalTreeString: '{"branches":{"master":{"target":"C1","id":"master"},"win":{"target":"C2","id":"win"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"win","id":"HEAD"}}',
-  solutionCommand: 'git checkout -b win; git commit',
-  hint: 'Try checking out a branch named after Charlie Sheen'
+    ]
+  }
 };
-
 
 });
 require("/src/levels/intro/1.js");
