@@ -26,6 +26,7 @@ code {
 
 p {
   word-wrap: break-word;
+  line-height: 26px;
 }
 
 .textAlignCenter {

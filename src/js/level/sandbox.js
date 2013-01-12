@@ -139,7 +139,7 @@ var Sandbox = Backbone.View.extend({
     var whenLevelOpen = Q.defer();
     var Level = require('../level').Level;
 
-    var currentLevel = new Level({
+    this.currentLevel = new Level({
       level: levelJSON,
       deferred: whenLevelOpen,
       command: command

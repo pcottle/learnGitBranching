@@ -217,7 +217,7 @@ var LevelBuilder = Level.extend({
 
   editDialog: function(command, deferred) {
     var whenDoneEditing = Q.defer();
-    new MultiViewBuilder({
+    this.currentBuilder = new MultiViewBuilder({
       multiViewJSON: this.startDialog,
       deferred: whenDoneEditing
     });
