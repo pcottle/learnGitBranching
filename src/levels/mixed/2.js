@@ -4,7 +4,7 @@ exports.level = {
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": "Juggling Commits",
-  "hint": "",
+  "hint": "The first command is git rebase -i HEAD~2",
   "startDialog": {
     "childViews": [
       {
@@ -28,9 +28,9 @@ exports.level = {
             "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
             "* We will `commit --amend` to make the slight modification",
             "* Then we will re-oder the commits back to how they were previously with `git rebase -i`",
-            "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)"
+            "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
             "",
-            "There are many ways to accomplish this overall goal (I see you eyeing cherrypick), and we will see more of them later, but for now let's focus on this technique."
+            "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
           ]
         }
       },
