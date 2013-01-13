@@ -6460,8 +6460,8 @@ var init = function() {
           "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
           "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
           "git merge bugFix; levels --noOutput; level rebase1 --noFinishDialog --noStartCommand;",
-          "show goal; delay 1000; hide goal;",
-          "git checkout -b win; git commit; help"
+          "show goal; delay 1000; hide goal; show solution --force --noReset;",
+          "help; levels"
         ].join(''));
     });
   }
@@ -6556,7 +6556,7 @@ var regexMap = {
   'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
+  'show solution': /^show solution($|\s)/
 };
 
 var parse = util.genParseCommand(regexMap, 'processLevelCommand');
@@ -6682,6 +6682,25 @@ var Level = Sandbox.extend({
   },
 
   showSolution: function(command, deferred) {
+    var toIssue = this.level.solutionCommand;
+    var issueFunc = function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        toIssue
+      );
+    };
+
+    var commandStr = command.get('rawStr');
+    if (!this.testOptionOnString(commandStr, 'noReset')) {
+      toIssue = 'reset; ' + toIssue;
+    }
+    if (this.testOptionOnString(commandStr, 'force')) {
+      issueFunc();
+      command.finishWith(deferred);
+      return;
+    }
+
+    // allow them for force the solution
     var confirmDefer = Q.defer();
     var confirmView = new ConfirmCancelTerminal({
       markdowns: [
@@ -6693,15 +6712,7 @@ var Level = Sandbox.extend({
     });
 
     confirmDefer.promise
-    .then(_.bind(function() {
-      // ok great add the solution command
-      Main.getEventBaton().trigger(
-        'commandSubmitted',
-        'reset;' + this.level.solutionCommand
-      );
-      this.hideGoal();
-      command.setResult('Solution command added to the command queue...');
-    }, this))
+    .then(issueFunc)
     .fail(function() {
       command.setResult("Great! I'll let you get back to it");
     })
@@ -6834,6 +6845,10 @@ var Level = Sandbox.extend({
 
   testOption: function(option) {
     return this.options.command && new RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
+  testOptionOnString: function(str, option) {
+    return str && new RegExp('--' + option).test(str);
   },
 
   levelSolved: function(defer) {
@@ -18341,8 +18356,8 @@ var init = function() {
           "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
           "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
           "git merge bugFix; levels --noOutput; level rebase1 --noFinishDialog --noStartCommand;",
-          "show goal; delay 1000; hide goal;",
-          "git checkout -b win; git commit; help"
+          "show goal; delay 1000; hide goal; show solution --force --noReset;",
+          "help; levels"
         ].join(''));
     });
   }
@@ -21259,7 +21274,7 @@ var regexMap = {
   'start dialog': /^start dialog$/,
   'show goal': /^show goal$/,
   'hide goal': /^hide goal$/,
-  'show solution': /^show solution$/
+  'show solution': /^show solution($|\s)/
 };
 
 var parse = util.genParseCommand(regexMap, 'processLevelCommand');
@@ -21385,6 +21400,25 @@ var Level = Sandbox.extend({
   },
 
   showSolution: function(command, deferred) {
+    var toIssue = this.level.solutionCommand;
+    var issueFunc = function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        toIssue
+      );
+    };
+
+    var commandStr = command.get('rawStr');
+    if (!this.testOptionOnString(commandStr, 'noReset')) {
+      toIssue = 'reset; ' + toIssue;
+    }
+    if (this.testOptionOnString(commandStr, 'force')) {
+      issueFunc();
+      command.finishWith(deferred);
+      return;
+    }
+
+    // allow them for force the solution
     var confirmDefer = Q.defer();
     var confirmView = new ConfirmCancelTerminal({
       markdowns: [
@@ -21396,15 +21430,7 @@ var Level = Sandbox.extend({
     });
 
     confirmDefer.promise
-    .then(_.bind(function() {
-      // ok great add the solution command
-      Main.getEventBaton().trigger(
-        'commandSubmitted',
-        'reset;' + this.level.solutionCommand
-      );
-      this.hideGoal();
-      command.setResult('Solution command added to the command queue...');
-    }, this))
+    .then(issueFunc)
     .fail(function() {
       command.setResult("Great! I'll let you get back to it");
     })
@@ -21537,6 +21563,10 @@ var Level = Sandbox.extend({
 
   testOption: function(option) {
     return this.options.command && new RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
+  testOptionOnString: function(str, option) {
+    return str && new RegExp('--' + option).test(str);
   },
 
   levelSolved: function(defer) {

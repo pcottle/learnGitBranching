@@ -125,8 +125,8 @@ var init = function() {
           "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
           "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
           "git merge bugFix; levels --noOutput; level rebase1 --noFinishDialog --noStartCommand;",
-          "show goal; delay 1000; hide goal;",
-          "git checkout -b win; git commit; help"
+          "show goal; delay 1000; hide goal; show solution --force --noReset;",
+          "help; levels"
         ].join(''));
     });
   }
