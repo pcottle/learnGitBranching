@@ -122,10 +122,12 @@ var init = function() {
       eventBaton.trigger(
         'commandSubmitted',
         [
-          "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
-          "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
-          "git merge bugFix; levels --noOutput; level rebase1 --noFinishDialog --noStartCommand;",
-          "show goal; delay 1000; hide goal; show solution --force --noReset;",
+          "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
+          "delay 1000; reset;",
+          "level rebase1 --noFinishDialog --noStartCommand --noIntroDialog;",
+          "delay 2000; show goal; delay 1000; hide goal;",
+          "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
+          "git checkout another; git rebase side; git rebase another master;",
           "help; levels"
         ].join(''));
     });

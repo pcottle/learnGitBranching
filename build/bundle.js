@@ -6457,10 +6457,12 @@ var init = function() {
       eventBaton.trigger(
         'commandSubmitted',
         [
-          "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
-          "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
-          "git merge bugFix; levels --noOutput; level rebase1 --noFinishDialog --noStartCommand;",
-          "show goal; delay 1000; hide goal; show solution --force --noReset;",
+          "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
+          "delay 1000; reset;",
+          "level rebase1 --noFinishDialog --noStartCommand --noIntroDialog;",
+          "delay 2000; show goal; delay 1000; hide goal;",
+          "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
+          "git checkout another; git rebase side; git rebase another master;",
           "help; levels"
         ].join(''));
     });
@@ -6588,7 +6590,7 @@ var Level = Sandbox.extend({
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
-    if (this.level.startDialog) {
+    if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
         this.level.startDialog,
@@ -18151,7 +18153,9 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       '',
       '  * git commands (to interact with git)',
       '  * level commands (to get level hints or solutions)',
-      '  * sandbox commands (like this one)'
+      '  * sandbox commands (like this one)',
+      '',
+      '# This dialog is NOT FINISHED **TODO**'
     ]
   }
 }];
@@ -18353,10 +18357,12 @@ var init = function() {
       eventBaton.trigger(
         'commandSubmitted',
         [
-          "gc; git checkout HEAD~1; git commit; git checkout -b bugFix; gc;",
-          "git rebase -i HEAD~3; git rebase master; git checkout master; gc;",
-          "git merge bugFix; levels --noOutput; level rebase1 --noFinishDialog --noStartCommand;",
-          "show goal; delay 1000; hide goal; show solution --force --noReset;",
+          "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
+          "delay 1000; reset;",
+          "level rebase1 --noFinishDialog --noStartCommand --noIntroDialog;",
+          "delay 2000; show goal; delay 1000; hide goal;",
+          "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
+          "git checkout another; git rebase side; git rebase another master;",
           "help; levels"
         ].join(''));
     });
@@ -18471,7 +18477,9 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       '',
       '  * git commands (to interact with git)',
       '  * level commands (to get level hints or solutions)',
-      '  * sandbox commands (like this one)'
+      '  * sandbox commands (like this one)',
+      '',
+      '# This dialog is NOT FINISHED **TODO**'
     ]
   }
 }];
@@ -21306,7 +21314,7 @@ var Level = Sandbox.extend({
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
-    if (this.level.startDialog) {
+    if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
         this.level.startDialog,

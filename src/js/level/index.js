@@ -59,7 +59,7 @@ var Level = Sandbox.extend({
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
-    if (this.level.startDialog) {
+    if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
         this.level.startDialog,

@@ -22,7 +22,9 @@ exports.dialog = [{
       '',
       '  * git commands (to interact with git)',
       '  * level commands (to get level hints or solutions)',
-      '  * sandbox commands (like this one)'
+      '  * sandbox commands (like this one)',
+      '',
+      '# This dialog is NOT FINISHED **TODO**'
     ]
   }
 }];
