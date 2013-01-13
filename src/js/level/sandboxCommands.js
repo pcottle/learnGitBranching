@@ -56,7 +56,8 @@ var regexMap = {
   'iosAlert': /^iOS alert($|\s)/,
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
-  'import tree': /^import tree$/
+  'import tree': /^import tree$/,
+  'import level': /^import level$/
 };
 
 exports.instantCommands = instantCommands;

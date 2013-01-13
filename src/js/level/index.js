@@ -91,7 +91,7 @@ var Level = Sandbox.extend({
   },
 
   initName: function() {
-    if (!this.level.name || !this.level.id) {
+    if (!this.level.name) {
       this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
@@ -401,11 +401,6 @@ var Level = Sandbox.extend({
         throw new Errors.CommandResult({
           msg: hintMsg
         });
-      }],
-      [/^build level$/, function() {
-        throw new Errors.GitError({
-          msg: "You can't build a level inside a level! Please exit level first"
-        });
       }]
     ];
   },
@@ -414,6 +409,20 @@ var Level = Sandbox.extend({
     this.gitCommandsIssued = [];
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
+  },
+
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
+  importLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().importLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
   },
 
   startLevel: function(command, deferred) {

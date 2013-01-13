@@ -208,7 +208,8 @@ var Sandbox = Backbone.View.extend({
       'iosAlert': this.iosAlert,
       'build level': this.buildLevel,
       'export tree': this.exportTree,
-      'import tree': this.importTree
+      'import tree': this.importTree,
+      'import level': this.importLevel
     };
 
     var method = commandMap[command.get('method')];
@@ -260,6 +261,51 @@ var Sandbox = Backbone.View.extend({
     .done(function() {
       command.finishWith(deferred);
     });
+  },
+
+  importLevel: function(command, deferred) {
+    var jsonGrabber = new BuilderViews.MarkdownPresenter({
+      previewText: 'Paste a level JSON blob in here!',
+      fillerText: ' '
+    });
+
+    jsonGrabber.deferred.promise
+    .then(_.bind(function(inputText) {
+      var Level = require('../level').Level;
+      try {
+        var levelJSON = JSON.parse(inputText);
+        var whenLevelOpen = Q.defer();
+        this.currentLevel = new Level({
+          level: levelJSON,
+          deferred: whenLevelOpen,
+          command: command
+        });
+
+        whenLevelOpen.promise.then(function() {
+          command.finishWith(deferred);
+        });
+      } catch(e) {
+        new MultiView({
+          childViews: [{
+            type: 'ModalAlert',
+            options: {
+              markdowns: [
+                '## Error!',
+                '',
+                'Something is wrong with that level JSON, this happened:',
+                '',
+                String(e)
+              ]
+            }
+          }]
+        });
+        command.finishWith(deferred);
+      }
+    }, this))
+    .fail(function() {
+      command.finishWith(deferred);
+    })
+    .done();
   },
 
   exportTree: function(command, deferred) {

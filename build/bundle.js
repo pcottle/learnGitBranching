@@ -4701,7 +4701,8 @@ var Sandbox = Backbone.View.extend({
       'iosAlert': this.iosAlert,
       'build level': this.buildLevel,
       'export tree': this.exportTree,
-      'import tree': this.importTree
+      'import tree': this.importTree,
+      'import level': this.importLevel
     };
 
     var method = commandMap[command.get('method')];
@@ -4753,6 +4754,51 @@ var Sandbox = Backbone.View.extend({
     .done(function() {
       command.finishWith(deferred);
     });
+  },
+
+  importLevel: function(command, deferred) {
+    var jsonGrabber = new BuilderViews.MarkdownPresenter({
+      previewText: 'Paste a level JSON blob in here!',
+      fillerText: ' '
+    });
+
+    jsonGrabber.deferred.promise
+    .then(_.bind(function(inputText) {
+      var Level = require('../level').Level;
+      try {
+        var levelJSON = JSON.parse(inputText);
+        var whenLevelOpen = Q.defer();
+        this.currentLevel = new Level({
+          level: levelJSON,
+          deferred: whenLevelOpen,
+          command: command
+        });
+
+        whenLevelOpen.promise.then(function() {
+          command.finishWith(deferred);
+        });
+      } catch(e) {
+        new MultiView({
+          childViews: [{
+            type: 'ModalAlert',
+            options: {
+              markdowns: [
+                '## Error!',
+                '',
+                'Something is wrong with that level JSON, this happened:',
+                '',
+                String(e)
+              ]
+            }
+          }]
+        });
+        command.finishWith(deferred);
+      }
+    }, this))
+    .fail(function() {
+      command.finishWith(deferred);
+    })
+    .done();
   },
 
   exportTree: function(command, deferred) {
@@ -6680,7 +6726,7 @@ var Level = Sandbox.extend({
   },
 
   initName: function() {
-    if (!this.level.name || !this.level.id) {
+    if (!this.level.name) {
       this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
@@ -6990,11 +7036,6 @@ var Level = Sandbox.extend({
         throw new Errors.CommandResult({
           msg: hintMsg
         });
-      }],
-      [/^build level$/, function() {
-        throw new Errors.GitError({
-          msg: "You can't build a level inside a level! Please exit level first"
-        });
       }]
     ];
   },
@@ -7003,6 +7044,20 @@ var Level = Sandbox.extend({
     this.gitCommandsIssued = [];
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
+  },
+
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
+  importLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().importLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
   },
 
   startLevel: function(command, deferred) {
@@ -13219,7 +13274,8 @@ var regexMap = {
   'iosAlert': /^iOS alert($|\s)/,
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
-  'import tree': /^import tree$/
+  'import tree': /^import tree$/,
+  'import level': /^import level$/
 };
 
 exports.instantCommands = instantCommands;
@@ -21422,7 +21478,7 @@ var Level = Sandbox.extend({
   },
 
   initName: function() {
-    if (!this.level.name || !this.level.id) {
+    if (!this.level.name) {
       this.level.name = 'Rebase Classic';
       console.warn('REALLY BAD FORM need ids and names');
     }
@@ -21732,11 +21788,6 @@ var Level = Sandbox.extend({
         throw new Errors.CommandResult({
           msg: hintMsg
         });
-      }],
-      [/^build level$/, function() {
-        throw new Errors.GitError({
-          msg: "You can't build a level inside a level! Please exit level first"
-        });
       }]
     ];
   },
@@ -21745,6 +21796,20 @@ var Level = Sandbox.extend({
     this.gitCommandsIssued = [];
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
+  },
+
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
+  importLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().importLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
   },
 
   startLevel: function(command, deferred) {
@@ -22122,7 +22187,8 @@ var Sandbox = Backbone.View.extend({
       'iosAlert': this.iosAlert,
       'build level': this.buildLevel,
       'export tree': this.exportTree,
-      'import tree': this.importTree
+      'import tree': this.importTree,
+      'import level': this.importLevel
     };
 
     var method = commandMap[command.get('method')];
@@ -22174,6 +22240,51 @@ var Sandbox = Backbone.View.extend({
     .done(function() {
       command.finishWith(deferred);
     });
+  },
+
+  importLevel: function(command, deferred) {
+    var jsonGrabber = new BuilderViews.MarkdownPresenter({
+      previewText: 'Paste a level JSON blob in here!',
+      fillerText: ' '
+    });
+
+    jsonGrabber.deferred.promise
+    .then(_.bind(function(inputText) {
+      var Level = require('../level').Level;
+      try {
+        var levelJSON = JSON.parse(inputText);
+        var whenLevelOpen = Q.defer();
+        this.currentLevel = new Level({
+          level: levelJSON,
+          deferred: whenLevelOpen,
+          command: command
+        });
+
+        whenLevelOpen.promise.then(function() {
+          command.finishWith(deferred);
+        });
+      } catch(e) {
+        new MultiView({
+          childViews: [{
+            type: 'ModalAlert',
+            options: {
+              markdowns: [
+                '## Error!',
+                '',
+                'Something is wrong with that level JSON, this happened:',
+                '',
+                String(e)
+              ]
+            }
+          }]
+        });
+        command.finishWith(deferred);
+      }
+    }, this))
+    .fail(function() {
+      command.finishWith(deferred);
+    })
+    .done();
   },
 
   exportTree: function(command, deferred) {
@@ -22300,7 +22411,8 @@ var regexMap = {
   'iosAlert': /^iOS alert($|\s)/,
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
-  'import tree': /^import tree$/
+  'import tree': /^import tree$/,
+  'import level': /^import level$/
 };
 
 exports.instantCommands = instantCommands;
