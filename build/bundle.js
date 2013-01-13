@@ -16761,7 +16761,8 @@ exports.levelSequences = {
     require('../../levels/rebase/1').level
   ],
   mixed: [
-    require('../../levels/mixed/1').level
+    require('../../levels/mixed/1').level,
+    require('../../levels/mixed/2').level
   ]
 };
 
@@ -27635,7 +27636,8 @@ exports.levelSequences = {
     require('../../levels/rebase/1').level
   ],
   mixed: [
-    require('../../levels/mixed/1').level
+    require('../../levels/mixed/1').level,
+    require('../../levels/mixed/2').level
   ]
 };
 
@@ -28085,6 +28087,10 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
 
 });
 require("/src/levels/mixed/1.js");
+
+require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){undefined
+});
+require("/src/levels/mixed/2.js");
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMaster": true,
