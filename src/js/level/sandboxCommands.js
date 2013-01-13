@@ -54,7 +54,9 @@ var regexMap = {
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
   'iosAlert': /^iOS alert($|\s)/,
-  'build level': /^build level($|\s)/
+  'build level': /^build level($|\s)/,
+  'export tree': /^export tree$/,
+  'import tree': /^import tree$/
 };
 
 exports.instantCommands = instantCommands;

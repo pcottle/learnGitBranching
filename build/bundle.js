@@ -4506,8 +4506,9 @@ var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
 var Views = require('../views');
-var ModalTerminal = require('../views').ModalTerminal;
-var ModalAlert = require('../views').ModalAlert;
+var ModalTerminal = Views.ModalTerminal;
+var ModalAlert = Views.ModalAlert;
+var BuilderViews = require('../views/builderViews');
 var MultiView = require('../views/multiView').MultiView;
 
 var Sandbox = Backbone.View.extend({
@@ -4684,6 +4685,8 @@ var Sandbox = Backbone.View.extend({
   },
 
   processSandboxCommand: function(command, deferred) {
+    // I'm tempted to do camcel case conversion, but there are
+    // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,
       'help general': this.helpDialog,
@@ -4696,7 +4699,9 @@ var Sandbox = Backbone.View.extend({
       'sandbox': this.exitLevel,
       'levels': this.showLevels,
       'iosAlert': this.iosAlert,
-      'build level': this.buildLevel
+      'build level': this.buildLevel,
+      'export tree': this.exportTree,
+      'import tree': this.importTree
     };
 
     var method = commandMap[command.get('method')];
@@ -4715,6 +4720,59 @@ var Sandbox = Backbone.View.extend({
 
   show: function() {
     this.mainVis.show();
+  },
+
+  importTree: function(command, deferred) {
+    var jsonGrabber = new BuilderViews.MarkdownPresenter({
+      previewText: "Paste a tree JSON blob below!",
+      fillerText: ' '
+    });
+    jsonGrabber.deferred.promise
+    .then(_.bind(function(treeJSON) {
+      try {
+        this.mainVis.gitEngine.loadTree(JSON.parse(treeJSON));
+      } catch(e) {
+        this.mainVis.reset();
+        new MultiView({
+          childViews: [{
+            type: 'ModalAlert',
+            options: {
+              markdowns: [
+                '## Error!',
+                '',
+                'Something is wrong with that JSON! Here is the error:',
+                '',
+                String(e)
+              ]
+            }
+          }]
+        });
+      }
+    }, this))
+    .fail(function() { })
+    .done(function() {
+      command.finishWith(deferred);
+    });
+  },
+
+  exportTree: function(command, deferred) {
+    var treeJSON = JSON.stringify(this.mainVis.gitEngine.exportTree(), null, 2);
+
+    var showJSON = new MultiView({
+      childViews: [{
+        type: 'MarkdownPresenter',
+        options: {
+          previewText: 'Share this tree with friends! They can load it with "import tree"',
+          fillerText: treeJSON,
+          noConfirmCancel: true
+        }
+      }]
+    });
+    showJSON.getPromise()
+    .then(function() {
+      command.finishWith(deferred);
+    })
+    .done();
   },
 
   clear: function(command, deferred) {
@@ -13159,7 +13217,9 @@ var regexMap = {
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
   'iosAlert': /^iOS alert($|\s)/,
-  'build level': /^build level($|\s)/
+  'build level': /^build level($|\s)/,
+  'export tree': /^export tree$/,
+  'import tree': /^import tree$/
 };
 
 exports.instantCommands = instantCommands;
@@ -13654,6 +13714,9 @@ var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
+var BuilderViews = require('../views/builderViews');
+var MarkdownPresenter = BuilderViews.MarkdownPresenter;
+
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
 
@@ -13667,7 +13730,8 @@ var MultiView = Backbone.View.extend({
   // a simple mapping of what childViews we support
   typeToConstructor: {
     ModalAlert: ModalAlert,
-    GitDemonstrationView: GitDemonstrationView
+    GitDemonstrationView: GitDemonstrationView,
+    MarkdownPresenter: MarkdownPresenter
   },
 
   initialize: function(options) {
@@ -14231,6 +14295,7 @@ var MarkdownPresenter = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.deferred = options.deferred || Q.defer();
     this.JSON = {
       previewText: options.previewText || 'Here is something for you',
       fillerText: options.fillerText || '# Yay'
@@ -14241,14 +14306,25 @@ var MarkdownPresenter = ContainedBase.extend({
     });
     this.render();
 
-    var confirmCancel = new Views.ConfirmCancelView({
-      destination: this.getDestination()
-    });
-    confirmCancel.deferred.promise
-    .fail(function() { })
-    .done(_.bind(this.die, this));
+    if (!options.noConfirmCancel) {
+      var confirmCancel = new Views.ConfirmCancelView({
+        destination: this.getDestination()
+      });
+      confirmCancel.deferred.promise
+      .then(_.bind(function() {
+        this.deferred.resolve(this.grabText());
+      }, this))
+      .fail(_.bind(function() {
+        this.deferred.reject();
+      }, this))
+      .done(_.bind(this.die, this));
+    }
 
     this.show();
+  },
+
+  grabText: function() {
+    return this.$('textarea').val();
   }
 });
 
@@ -21851,8 +21927,9 @@ var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 
 var Views = require('../views');
-var ModalTerminal = require('../views').ModalTerminal;
-var ModalAlert = require('../views').ModalAlert;
+var ModalTerminal = Views.ModalTerminal;
+var ModalAlert = Views.ModalAlert;
+var BuilderViews = require('../views/builderViews');
 var MultiView = require('../views/multiView').MultiView;
 
 var Sandbox = Backbone.View.extend({
@@ -22029,6 +22106,8 @@ var Sandbox = Backbone.View.extend({
   },
 
   processSandboxCommand: function(command, deferred) {
+    // I'm tempted to do camcel case conversion, but there are
+    // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,
       'help general': this.helpDialog,
@@ -22041,7 +22120,9 @@ var Sandbox = Backbone.View.extend({
       'sandbox': this.exitLevel,
       'levels': this.showLevels,
       'iosAlert': this.iosAlert,
-      'build level': this.buildLevel
+      'build level': this.buildLevel,
+      'export tree': this.exportTree,
+      'import tree': this.importTree
     };
 
     var method = commandMap[command.get('method')];
@@ -22060,6 +22141,59 @@ var Sandbox = Backbone.View.extend({
 
   show: function() {
     this.mainVis.show();
+  },
+
+  importTree: function(command, deferred) {
+    var jsonGrabber = new BuilderViews.MarkdownPresenter({
+      previewText: "Paste a tree JSON blob below!",
+      fillerText: ' '
+    });
+    jsonGrabber.deferred.promise
+    .then(_.bind(function(treeJSON) {
+      try {
+        this.mainVis.gitEngine.loadTree(JSON.parse(treeJSON));
+      } catch(e) {
+        this.mainVis.reset();
+        new MultiView({
+          childViews: [{
+            type: 'ModalAlert',
+            options: {
+              markdowns: [
+                '## Error!',
+                '',
+                'Something is wrong with that JSON! Here is the error:',
+                '',
+                String(e)
+              ]
+            }
+          }]
+        });
+      }
+    }, this))
+    .fail(function() { })
+    .done(function() {
+      command.finishWith(deferred);
+    });
+  },
+
+  exportTree: function(command, deferred) {
+    var treeJSON = JSON.stringify(this.mainVis.gitEngine.exportTree(), null, 2);
+
+    var showJSON = new MultiView({
+      childViews: [{
+        type: 'MarkdownPresenter',
+        options: {
+          previewText: 'Share this tree with friends! They can load it with "import tree"',
+          fillerText: treeJSON,
+          noConfirmCancel: true
+        }
+      }]
+    });
+    showJSON.getPromise()
+    .then(function() {
+      command.finishWith(deferred);
+    })
+    .done();
   },
 
   clear: function(command, deferred) {
@@ -22164,7 +22298,9 @@ var regexMap = {
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
   'iosAlert': /^iOS alert($|\s)/,
-  'build level': /^build level($|\s)/
+  'build level': /^build level($|\s)/,
+  'export tree': /^export tree$/,
+  'import tree': /^import tree$/
 };
 
 exports.instantCommands = instantCommands;
@@ -23114,6 +23250,7 @@ var MarkdownPresenter = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.deferred = options.deferred || Q.defer();
     this.JSON = {
       previewText: options.previewText || 'Here is something for you',
       fillerText: options.fillerText || '# Yay'
@@ -23124,14 +23261,25 @@ var MarkdownPresenter = ContainedBase.extend({
     });
     this.render();
 
-    var confirmCancel = new Views.ConfirmCancelView({
-      destination: this.getDestination()
-    });
-    confirmCancel.deferred.promise
-    .fail(function() { })
-    .done(_.bind(this.die, this));
+    if (!options.noConfirmCancel) {
+      var confirmCancel = new Views.ConfirmCancelView({
+        destination: this.getDestination()
+      });
+      confirmCancel.deferred.promise
+      .then(_.bind(function() {
+        this.deferred.resolve(this.grabText());
+      }, this))
+      .fail(_.bind(function() {
+        this.deferred.reject();
+      }, this))
+      .done(_.bind(this.die, this));
+    }
 
     this.show();
+  },
+
+  grabText: function() {
+    return this.$('textarea').val();
   }
 });
 
@@ -24986,6 +25134,9 @@ var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
+var BuilderViews = require('../views/builderViews');
+var MarkdownPresenter = BuilderViews.MarkdownPresenter;
+
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
 
@@ -24999,7 +25150,8 @@ var MultiView = Backbone.View.extend({
   // a simple mapping of what childViews we support
   typeToConstructor: {
     ModalAlert: ModalAlert,
-    GitDemonstrationView: GitDemonstrationView
+    GitDemonstrationView: GitDemonstrationView,
+    MarkdownPresenter: MarkdownPresenter
   },
 
   initialize: function(options) {

@@ -10,6 +10,9 @@ var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
+var BuilderViews = require('../views/builderViews');
+var MarkdownPresenter = BuilderViews.MarkdownPresenter;
+
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
 
@@ -23,7 +26,8 @@ var MultiView = Backbone.View.extend({
   // a simple mapping of what childViews we support
   typeToConstructor: {
     ModalAlert: ModalAlert,
-    GitDemonstrationView: GitDemonstrationView
+    GitDemonstrationView: GitDemonstrationView,
+    MarkdownPresenter: MarkdownPresenter
   },
 
   initialize: function(options) {

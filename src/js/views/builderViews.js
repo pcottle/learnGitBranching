@@ -140,6 +140,7 @@ var MarkdownPresenter = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.deferred = options.deferred || Q.defer();
     this.JSON = {
       previewText: options.previewText || 'Here is something for you',
       fillerText: options.fillerText || '# Yay'
@@ -150,14 +151,25 @@ var MarkdownPresenter = ContainedBase.extend({
     });
     this.render();
 
-    var confirmCancel = new Views.ConfirmCancelView({
-      destination: this.getDestination()
-    });
-    confirmCancel.deferred.promise
-    .fail(function() { })
-    .done(_.bind(this.die, this));
+    if (!options.noConfirmCancel) {
+      var confirmCancel = new Views.ConfirmCancelView({
+        destination: this.getDestination()
+      });
+      confirmCancel.deferred.promise
+      .then(_.bind(function() {
+        this.deferred.resolve(this.grabText());
+      }, this))
+      .fail(_.bind(function() {
+        this.deferred.reject();
+      }, this))
+      .done(_.bind(this.die, this));
+    }
 
     this.show();
+  },
+
+  grabText: function() {
+    return this.$('textarea').val();
   }
 });
 
