@@ -282,6 +282,8 @@ var Level = Sandbox.extend({
     var solved;
     if (this.level.compareOnlyMaster) {
       solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+    } else if (this.level.compareOnlyBranches) {
+      solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
