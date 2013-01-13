@@ -1,6 +1,5 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] import random level JSON
 [ ] compare settings for a level!!! integrated into builder...
 
 Medium things:
@@ -22,11 +21,12 @@ Big Bugs to fix:
 
 Ideas for cleaning
 ~~~~~~~~~~~~~
-- CSS... a ton. Switch to less
+- CSS... a ton. Switch to less ?
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] import random level JSON
 [x] export / import tree from JSON
 [x] rebase bug... ugh
 [x] bug with weird tree string:

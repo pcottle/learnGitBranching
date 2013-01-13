@@ -132,6 +132,13 @@ var init = function() {
         ].join(''));
     });
   }
+  if (/command=/.test(window.location.href)) {
+    var commandRaw = window.location.href.split('command=')[1].split('&')[0];
+    var command = unescape(commandRaw);
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', command);
+    });
+  }
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
     setTimeout(function() {
       eventBaton.trigger('commandSubmitted', 'iOS alert');
