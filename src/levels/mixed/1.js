@@ -3,7 +3,7 @@ exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git cherry-pick C4 master;git checkout master;git cherry-pick C4;git branch -f bugFix C4'",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "name": "Remember, interactive rebasing or cherry-picking is your friend here",
+  "name": "Grabbing Just 1 Commit",
   "hint": "Remember, interactive rebase or cherry-pick is your friend here",
   "startDialog": {
     "childViews": [
@@ -25,7 +25,7 @@ exports.level = {
         "type": "ModalAlert",
         "options": {
           "markdowns": [
-            "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward are:",
+            "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
             "",
             "* `git rebase -i`",
             "* `git cherry-pick`",
@@ -34,22 +34,6 @@ exports.level = {
             "",
             "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
           ]
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            ""
-          ],
-          "afterMarkdowns": [
-            "## Enter some markdown!",
-            "",
-            "",
-            ""
-          ],
-          "command": "git commit",
-          "beforeCommand": "git checkout -b bugFix"
         }
       },
       {
