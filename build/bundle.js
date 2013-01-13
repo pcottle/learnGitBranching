@@ -16771,6 +16771,10 @@ exports.sequenceInfo = {
   rebase: {
     displayName: 'Master the Rebase Luke!',
     about: 'What is this whole rebase hotness everyone is talking about? Find out!'
+  },
+  mixed: {
+    displayName: 'A Mixed Bag',
+    about: 'A mixed bag of Git techniques, tricks, and tips'
   }
 };
 
@@ -27586,6 +27590,10 @@ exports.sequenceInfo = {
   rebase: {
     displayName: 'Master the Rebase Luke!',
     about: 'What is this whole rebase hotness everyone is talking about? Find out!'
+  },
+  mixed: {
+    displayName: 'A Mixed Bag',
+    about: 'A mixed bag of Git techniques, tricks, and tips'
   }
 };
 
