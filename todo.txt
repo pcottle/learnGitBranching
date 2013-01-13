@@ -1,6 +1,5 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] descriptions for levels?
 [ ] import random level JSON
 [ ] export / import tree from JSON
 [ ] compare settings for a level!!! integrated into builder...
