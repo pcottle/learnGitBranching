@@ -334,7 +334,7 @@ GitVisuals.prototype.genSnapshot = function() {
 };
 
 GitVisuals.prototype.refreshTree = function(speed) {
-  if (!this.gitReady) {
+  if (!this.gitReady || !this.gitEngine.rootCommit) {
     return;
   }
 
