@@ -27795,7 +27795,9 @@ var VisNode = VisBase.extend({
   remove: function() {
     this.removeKeys(['circle'], ['text']);
     // needs a manual removal of text for whatever reason
-    this.get('text').remove();
+    if (this.get('text')) {
+      this.get('text').remove();
+    }
 
     this.gitVisuals.removeVisNode(this);
   },
