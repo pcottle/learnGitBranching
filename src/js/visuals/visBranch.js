@@ -2,7 +2,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
-var VisBase = require('../visuals/tree').VisBase;
+var VisBase = require('../visuals/visBase').VisBase;
 
 var randomHueString = function() {
   var hue = Math.random();
