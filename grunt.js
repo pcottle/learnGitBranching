@@ -28,13 +28,17 @@ module.exports = function(grunt) {
   grunt.registerTask('buildIndex', 'stick in hashed resources', function() {
     grunt.log.writeln('Building index...');
 
-    // first find the one in here that has the hash
-    var hashRegex = /bundle\.min\.\w+\.js/;
+    // first find the one in here that we want
     var buildFiles = fs.readdirSync('build');
 
     var hashedMinFile;
+    if (buildFiles.length == 2) {
+      grunt.log.writeln('Assuming debug mode wanted');
+      hashedMinFile = 'bundle.js';
+    }
+    var jsRegex = /bundle\.min\.\w+\.js/;
     _.each(buildFiles, function(jsFile) {
-      if (hashRegex.test(jsFile)) {
+      if (jsRegex.test(jsFile)) {
         if (hashedMinFile) {
           throw new Error('more than one hashed file: ' + jsFile + hashedMinFile);
         }
@@ -158,6 +162,7 @@ module.exports = function(grunt) {
     }
   });
 
+  // all my npm helpers
   grunt.loadNpmTasks('grunt-jslint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-jasmine-node');
@@ -165,12 +170,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-rm');
   grunt.loadNpmTasks('grunt-shell');
 
-  //grunt.registerTask('default', 'lint jasmine_node browserify rm min hash compliment');
-  grunt.registerTask('build', 'rm browserify min hash buildIndex');
-  grunt.registerTask('fastBuild', 'rm browserify hash buildDebugIndex');
+  grunt.registerTask('build', 'rm browserify min hash buildIndex shell');
+  grunt.registerTask('fastBuild', 'rm browserify hash buildIndex shell');
+
   grunt.registerTask('default', 'lint jasmine_node build compliment');
 
-  grunt.registerTask('watching', 'build lint');
+  grunt.registerTask('watching', 'fastBuild lint');
   grunt.registerTask('test', 'jasmine_node');
 };
 
