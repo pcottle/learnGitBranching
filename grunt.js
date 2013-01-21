@@ -1,3 +1,18 @@
+var _ = require('underscore');
+var fs = require('fs');
+
+// Haha, this is so tricky. so we have a template for index.html to stick
+// in the hashed JS and style files -- that template also contains
+// templates used in the app. in order to avoid evaluating those
+// templates, we change the regexes so we can effectively nest templates
+_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
+_.templateSettings.escape = /\{\{\{(.*?)\}\}\}/g;
+_.templateSettings.evaluate = /\{\{-(.*?)\}\}/g;
+
+// precompile for speed
+var indexFile = fs.readFileSync('template.index.html').toString();
+var indexTemplate = _.template(indexFile);
+
 /*global module:false*/
 module.exports = function(grunt) {
   // eventually have sound...?
@@ -8,6 +23,48 @@ module.exports = function(grunt) {
     var index = Math.floor(Math.random() * compliments.length);
 
     grunt.log.writeln(compliments[index]);
+  });
+
+  grunt.registerTask('buildIndex', 'stick in hashed resources', function() {
+    grunt.log.writeln('Building index...');
+
+    // first find the one in here that has the hash
+    var hashRegex = /bundle\.min\.\w+\.js/;
+    var buildFiles = fs.readdirSync('build');
+
+    var hashedMinFile;
+    _.each(buildFiles, function(jsFile) {
+      if (hashRegex.test(jsFile)) {
+        if (hashedMinFile) {
+          throw new Error('more than one hashed file: ' + jsFile + hashedMinFile);
+        }
+        hashedMinFile = jsFile;
+      }
+    });
+    if (!hashedMinFile) { throw new Error('no hashed min file found!'); }
+
+    grunt.log.writeln('Found hashed js file: ' + hashedMinFile);
+
+    var styleRegex = /main\.\w+\.css/;
+    var hashedStyleFile;
+    _.each(buildFiles, function(styleFile) {
+      if (styleRegex.test(styleFile)) {
+        if (hashedStyleFile) {
+          throw new Error('more than one hashed style: ' + styleFile + hashedStyleFile);
+        }
+        hashedStyleFile = styleFile;
+      }
+    });
+    if (!hashedStyleFile) { throw new Error('no style found'); }
+
+    grunt.log.writeln('Found hashed style file: ' + hashedStyleFile);
+
+    // output these filenames to our index template
+    var outputIndex = indexTemplate({
+      jsFile: hashedMinFile,
+      styleFile: hashedStyleFile
+    });
+    fs.writeFileSync('index.html', outputIndex);
   });
 
   grunt.initConfig({
@@ -23,7 +80,7 @@ module.exports = function(grunt) {
       ]
     },
     hash: {
-      src: ['build/bundle.min.js'],
+      src: ['build/bundle.min.js', 'src/style/main.css'],
       dest: 'build/'
     },
     jasmine_node: {
@@ -43,7 +100,12 @@ module.exports = function(grunt) {
       }
     },
     rm: {
-      build: 'build/*min*js'
+      build: 'build/*'
+    },
+    shell: {
+      gitAdd: {
+        command: 'git add build/'
+      }
     },
     jshint: {
       options: {
@@ -89,7 +151,7 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
-      'build/bundle2.js': {
+      'build/bundle.js': {
         entries: ['src/**/*.js', 'src/js/**/*.js']
         //prepend: ['<banner:meta.banner>'],
       }
@@ -101,13 +163,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-rm');
+  grunt.loadNpmTasks('grunt-shell');
 
   //grunt.registerTask('default', 'lint jasmine_node browserify rm min hash compliment');
-  grunt.registerTask('default', 'lint jasmine_node browserify compliment');
+  grunt.registerTask('build', 'rm browserify min hash buildIndex');
+  grunt.registerTask('fastBuild', 'rm browserify hash buildDebugIndex');
+  grunt.registerTask('default', 'lint jasmine_node build compliment');
 
-  grunt.registerTask('watching', 'browserify lint');
-  grunt.registerTask('brow', 'browserify');
-  grunt.registerTask('export', 'browserify min');
+  grunt.registerTask('watching', 'build lint');
   grunt.registerTask('test', 'jasmine_node');
 };
 
