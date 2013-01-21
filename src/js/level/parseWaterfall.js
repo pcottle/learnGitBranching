@@ -20,6 +20,12 @@ var ParseWaterfall = function(options) {
 };
 
 ParseWaterfall.prototype.initParseWaterfall = function() {
+  // check for node when testing
+  if (!require('../util').isBrowser()) {
+    this.parseWaterfall = [GitCommands.parse];
+    return;
+  }
+
   // by deferring the initialization here, we dont require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [

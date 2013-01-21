@@ -146,7 +146,10 @@ var init = function() {
   }
 };
 
-$(document).ready(init);
+if (require('../util').isBrowser()) {
+  // this file gets included via node sometimes as well
+  $(document).ready(init);
+}
 
 /**
   * the UI method simply bootstraps the command buffer and

@@ -6585,7 +6585,10 @@ var init = function() {
   }
 };
 
-$(document).ready(init);
+if (require('../util').isBrowser()) {
+  // this file gets included via node sometimes as well
+  $(document).ready(init);
+}
 
 /**
   * the UI method simply bootstraps the command buffer and
@@ -13128,6 +13131,12 @@ var ParseWaterfall = function(options) {
 };
 
 ParseWaterfall.prototype.initParseWaterfall = function() {
+  // check for node when testing
+  if (!require('../util').isBrowser()) {
+    this.parseWaterfall = [GitCommands.parse];
+    return;
+  }
+
   // by deferring the initialization here, we dont require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
@@ -18413,7 +18422,6 @@ HeadlessGit.prototype.sendCommand = function(value) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    console.log('dispatching command "', commandStr, '"');
     this.gitEngine.dispatch(commandObj, Q.defer());
   }, this);
 };
@@ -18571,7 +18579,10 @@ var init = function() {
   }
 };
 
-$(document).ready(init);
+if (require('../util').isBrowser()) {
+  // this file gets included via node sometimes as well
+  $(document).ready(init);
+}
 
 /**
   * the UI method simply bootstraps the command buffer and
@@ -19012,7 +19023,6 @@ HeadlessGit.prototype.sendCommand = function(value) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    console.log('dispatching command "', commandStr, '"');
     this.gitEngine.dispatch(commandObj, Q.defer());
   }, this);
 };
@@ -21946,6 +21956,12 @@ var ParseWaterfall = function(options) {
 };
 
 ParseWaterfall.prototype.initParseWaterfall = function() {
+  // check for node when testing
+  if (!require('../util').isBrowser()) {
+    this.parseWaterfall = [GitCommands.parse];
+    return;
+  }
+
   // by deferring the initialization here, we dont require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
