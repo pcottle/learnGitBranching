@@ -18300,13 +18300,13 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       '## The LearnGitBranching Interface',
       '',
       'There are features to use within the user interface behind ',
-      'this modal dialog. A list:',
+      'this modal dialog. A list',
       '',
       '  * git commands (to interact with git)',
       '  * level commands (to get level hints or solutions)',
       '  * sandbox commands (like this one)',
       '',
-      '# This dialog is NOT FINISHED **TODO**'
+      '# This dialog is NOT FINISHED TODO'
     ]
   }
 }];
@@ -18681,13 +18681,13 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       '## The LearnGitBranching Interface',
       '',
       'There are features to use within the user interface behind ',
-      'this modal dialog. A list:',
+      'this modal dialog. A list',
       '',
       '  * git commands (to interact with git)',
       '  * level commands (to get level hints or solutions)',
       '  * sandbox commands (like this one)',
       '',
-      '# This dialog is NOT FINISHED **TODO**'
+      '# This dialog is NOT FINISHED TODO'
     ]
   }
 }];

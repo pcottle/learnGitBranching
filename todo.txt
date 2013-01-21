@@ -4,8 +4,6 @@ Big Things
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] get automated SHA hash appending in the html source :OOOOO... template? or what?t
-
 
 Cases to handle / things to edit
 =======================
@@ -26,6 +24,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] get automated SHA hash appending in the html source :OOOOO... template? or what?t
 [x] import random level JSON
 [x] export / import tree from JSON
 [x] rebase bug... ugh
