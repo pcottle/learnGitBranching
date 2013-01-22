@@ -5,6 +5,8 @@ Big Things
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] fix clickthrough when goal and start are shown
+[ ] animating lock refactor -- not just a boolean, but a stack
+[ ] fix refreshing during solution animation
 
 Cases to handle / things to edit
 =======================

@@ -133,7 +133,8 @@ LevelArbiter.prototype.getLevel = function(id) {
 
 LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
-    throw new Error('that level doesnt exist!');
+    console.warn('that level doesnt exist!!!');
+    return null;
   }
 
   // meh, this method could be better. It's a tradeoff between

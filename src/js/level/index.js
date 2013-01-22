@@ -332,6 +332,7 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
+    Constants.GLOBAL.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
     if (!skipFinishDialog) {
@@ -362,6 +363,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
+      Constants.GLOBAL.isAnimating = false;
       defer.resolve();
     });
   },

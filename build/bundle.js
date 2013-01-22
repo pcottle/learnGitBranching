@@ -6976,6 +6976,7 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
+    Constants.GLOBAL.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
     if (!skipFinishDialog) {
@@ -7006,6 +7007,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
+      Constants.GLOBAL.isAnimating = false;
       defer.resolve();
     });
   },
@@ -16886,7 +16888,8 @@ LevelArbiter.prototype.getLevel = function(id) {
 
 LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
-    throw new Error('that level doesnt exist!');
+    console.warn('that level doesnt exist!!!');
+    return null;
   }
 
   // meh, this method could be better. It's a tradeoff between
@@ -21017,7 +21020,8 @@ LevelArbiter.prototype.getLevel = function(id) {
 
 LevelArbiter.prototype.getNextLevel = function(id) {
   if (!this.levelMap[id]) {
-    throw new Error('that level doesnt exist!');
+    console.warn('that level doesnt exist!!!');
+    return null;
   }
 
   // meh, this method could be better. It's a tradeoff between
@@ -21794,6 +21798,7 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
+    Constants.GLOBAL.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
     if (!skipFinishDialog) {
@@ -21824,6 +21829,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
+      Constants.GLOBAL.isAnimating = false;
       defer.resolve();
     });
   },
