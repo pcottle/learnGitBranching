@@ -10,7 +10,7 @@ _.templateSettings.escape = /\{\{\{(.*?)\}\}\}/g;
 _.templateSettings.evaluate = /\{\{-(.*?)\}\}/g;
 
 // precompile for speed
-var indexFile = fs.readFileSync('template.index.html').toString();
+var indexFile = fs.readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
 
 /*global module:false*/

@@ -66,6 +66,8 @@
 
   </div>
 
+  <a href="https://github.com/pcottle/learnGitBranching" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
   <!-- Dependencies -->
   <script src="lib/jquery-1.8.0.min.js"></script>
   <script src="lib/jquery-ui-1.9.0.custom.min.js"></script>
@@ -74,7 +76,9 @@
   <script src="lib/backbone.localStorage-min.js"></script>
   <script src="lib/raphael-min.js"></script>
 
-  <!-- Templates -->
+  <!-- Templates from here on out. Someone seriously needs to fix template
+       management for node.js apps. I know there is the text plugin
+       for requireJS but that's lame. For now, they are all listed here... -->
   <script type="text/html" id="command-template">
        <p class="commandLine transitionBackground <%= status %>">
         <span class="prompt">$</span>
