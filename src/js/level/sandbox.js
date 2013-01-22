@@ -205,7 +205,7 @@ var Sandbox = Backbone.View.extend({
       'level': this.startLevel,
       'sandbox': this.exitLevel,
       'levels': this.showLevels,
-      'iosAlert': this.iosAlert,
+      'mobileAlert': this.mobileAlert,
       'build level': this.buildLevel,
       'export tree': this.exportTree,
       'import tree': this.importTree,
@@ -335,10 +335,9 @@ var Sandbox = Backbone.View.extend({
     }
   },
 
-  iosAlert: function(command, deferred) {
-    var whenClosed = Q.defer();
-    alert("Can't bring up the keyboard on iOS, try visiting on desktop! :D");
-    whenClosed.resolve();
+  mobileAlert: function(command, deferred) {
+    alert("Can't bring up the keyboard on mobile / tablet :( try visiting on desktop! :D");
+    command.finishWith(deferred);
   },
 
   delay: function(command, deferred) {

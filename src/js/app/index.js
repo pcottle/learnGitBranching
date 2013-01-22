@@ -139,10 +139,10 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', command);
     });
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', 'iOS alert');
-    }, 600);
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', 'mobile alert');
+    });
   }
 };
 

@@ -7,6 +7,7 @@ var Main = require('../app');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
+var Constants = require('../util/constants');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;

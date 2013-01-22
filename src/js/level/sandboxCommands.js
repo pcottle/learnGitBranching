@@ -53,7 +53,7 @@ var regexMap = {
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
-  'iosAlert': /^iOS alert($|\s)/,
+  'mobileAlert': /^mobile alert($|\s)/,
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
   'import tree': /^import tree$/,

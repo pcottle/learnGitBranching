@@ -4698,7 +4698,7 @@ var Sandbox = Backbone.View.extend({
       'level': this.startLevel,
       'sandbox': this.exitLevel,
       'levels': this.showLevels,
-      'iosAlert': this.iosAlert,
+      'mobileAlert': this.mobileAlert,
       'build level': this.buildLevel,
       'export tree': this.exportTree,
       'import tree': this.importTree,
@@ -4828,10 +4828,9 @@ var Sandbox = Backbone.View.extend({
     }
   },
 
-  iosAlert: function(command, deferred) {
-    var whenClosed = Q.defer();
-    alert("Can't bring up the keyboard on iOS, try visiting on desktop! :D");
-    whenClosed.resolve();
+  mobileAlert: function(command, deferred) {
+    alert("Can't bring up the keyboard on mobile / tablet :( try visiting on desktop! :D");
+    command.finishWith(deferred);
   },
 
   delay: function(command, deferred) {
@@ -6578,10 +6577,10 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', command);
     });
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', 'iOS alert');
-    }, 600);
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', 'mobile alert');
+    });
   }
 };
 
@@ -6652,6 +6651,7 @@ var Main = require('../app');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
+var Constants = require('../util/constants');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -13287,7 +13287,7 @@ var regexMap = {
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
-  'iosAlert': /^iOS alert($|\s)/,
+  'mobileAlert': /^mobile alert($|\s)/,
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
   'import tree': /^import tree$/,
@@ -18572,10 +18572,10 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', command);
     });
   }
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent)) {
-    setTimeout(function() {
-      eventBaton.trigger('commandSubmitted', 'iOS alert');
-    }, 600);
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', 'mobile alert');
+    });
   }
 };
 
@@ -21469,6 +21469,7 @@ var Main = require('../app');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
+var Constants = require('../util/constants');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -22265,7 +22266,7 @@ var Sandbox = Backbone.View.extend({
       'level': this.startLevel,
       'sandbox': this.exitLevel,
       'levels': this.showLevels,
-      'iosAlert': this.iosAlert,
+      'mobileAlert': this.mobileAlert,
       'build level': this.buildLevel,
       'export tree': this.exportTree,
       'import tree': this.importTree,
@@ -22395,10 +22396,9 @@ var Sandbox = Backbone.View.extend({
     }
   },
 
-  iosAlert: function(command, deferred) {
-    var whenClosed = Q.defer();
-    alert("Can't bring up the keyboard on iOS, try visiting on desktop! :D");
-    whenClosed.resolve();
+  mobileAlert: function(command, deferred) {
+    alert("Can't bring up the keyboard on mobile / tablet :( try visiting on desktop! :D");
+    command.finishWith(deferred);
   },
 
   delay: function(command, deferred) {
@@ -22489,7 +22489,7 @@ var regexMap = {
   'sandbox': /^sandbox($|\s)/,
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
-  'iosAlert': /^iOS alert($|\s)/,
+  'mobileAlert': /^mobile alert($|\s)/,
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
   'import tree': /^import tree$/,
