@@ -283,11 +283,12 @@ var SeriesView = BaseView.extend({
   },
 
   click: function(ev) {
-    if (!ev || !ev.srcElement) {
+    var element = ev.srcElement || ev.currentTarget;
+    if (!element) {
       console.warn('wut, no id'); return;
     }
 
-    var id = $(ev.srcElement).attr('data-id');
+    var id = $(element).attr('data-id');
     this.navEvents.trigger('clickedID', id);
   }
 });
