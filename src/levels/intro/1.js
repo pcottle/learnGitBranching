@@ -11,18 +11,17 @@ exports.level = {
         "options": {
           "markdowns": [
             "## Git Commits",
+            "A commit in git specifies the state of the repository. This state encodes what each file looks like, so you can think of it as a snapshot of everything you're working on.",
             "",
-            "A commit in git is a recorded set of changes that you have made -- for instance, it's the 10 lines you added for a new feature or a new image added to the assets folder.",
+            "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next.",
             "",
-            "Because git commits are simply *delta*'s (or changes between states) rather than entire copies of the repository, they make Git's version control quite lightweight and efficient. The days of copying your entire codebase onto an external hard drive are over!",
+            "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
             "",
-            "The only tricky thing is that if you want to download an entire codebase, you have to download every single commit (essentially the history of the repository) and apply them all on top of each other to get the current version. This is why you might see the command line output:",
+            "`resolving deltas`",
             "",
-            "```",
-            "Resolving Deltas...",
-            "```",
+            "when cloning a repo.",
             "",
-            "When you clone a git repo. Git essentially replays the entire development history on your computer in a few seconds, leaving you (at the end) with the current version of the repository!"
+            "It's a tricky concept, but for now you can think of commits as snapshots of the directory that are stored as deltas. Combining all the deltas together inside an empty folder gives you the full repository!"
           ]
         }
       },
