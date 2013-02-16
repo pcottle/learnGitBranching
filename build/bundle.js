@@ -6526,13 +6526,14 @@ var init = function() {
   });
   */
 
+  /*
   eventBaton.stealBaton('windowSizeCheck', function(size) {
     if (size.w < Constants.VIEWPORT.minWidth ||
         size.h < Constants.VIEWPORT.minHeight) {
       var Views = require('../views');
       var view = new Views.WindowSizeAlertWindow();
     }
-  });
+  });*/
 
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
@@ -18590,13 +18591,14 @@ var init = function() {
   });
   */
 
+  /*
   eventBaton.stealBaton('windowSizeCheck', function(size) {
     if (size.w < Constants.VIEWPORT.minWidth ||
         size.h < Constants.VIEWPORT.minHeight) {
       var Views = require('../views');
       var view = new Views.WindowSizeAlertWindow();
     }
-  });
+  });*/
 
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
