@@ -6569,7 +6569,7 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
-  } else {
+  } else if (!(/\?NODEMO/.test(window.location.href))) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -8726,6 +8726,12 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
 GitEngine.prototype.checkoutStarter = function() {
   var args = null;
   if (this.commandOptions['-b']) {
+    if (this.generalArgs.length) {
+      throw new GitError({
+        msg: "I don't expect general args before -b!"
+      });
+    }
+
     // the user is really trying to just make a branch and then switch to it. so first:
     args = this.commandOptions['-b'];
     this.twoArgsImpliedHead(args, '-b');
@@ -18626,7 +18632,7 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
-  } else {
+  } else if (!(/\?NODEMO/.test(window.location.href))) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -20364,6 +20370,12 @@ GitEngine.prototype.merge = function(targetSource, currentLocation) {
 GitEngine.prototype.checkoutStarter = function() {
   var args = null;
   if (this.commandOptions['-b']) {
+    if (this.generalArgs.length) {
+      throw new GitError({
+        msg: "I don't expect general args before -b!"
+      });
+    }
+
     // the user is really trying to just make a branch and then switch to it. so first:
     args = this.commandOptions['-b'];
     this.twoArgsImpliedHead(args, '-b');

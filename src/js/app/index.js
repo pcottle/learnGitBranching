@@ -131,7 +131,7 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
-  } else {
+  } else if (!(/\?NODEMO/.test(window.location.href))) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
