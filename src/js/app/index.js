@@ -137,7 +137,7 @@ var init = function() {
         'commandSubmitted',
         [
           "git help;",
-          "delay 3000;",
+          "delay 1000;",
           "help"
         ].join(''));
     });
