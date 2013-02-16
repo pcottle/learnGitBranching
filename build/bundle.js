@@ -18354,6 +18354,22 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       ' * merge'
     ]
   }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Sharing is caring!',
+      '',
+      'Share trees with your friends via',
+      '',
+      ' * export tree',
+      ' * import tree',
+      '',
+      'Have a great lesson to share? Try building a level with',
+      '',
+      ' * build level'
+    ]
+  }
 }];
 
 
@@ -18775,6 +18791,22 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       ' * revert',
       ' * rebase',
       ' * merge'
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Sharing is caring!',
+      '',
+      'Share trees with your friends via',
+      '',
+      ' * export tree',
+      ' * import tree',
+      '',
+      'Have a great lesson to share? Try building a level with',
+      '',
+      ' * build level'
     ]
   }
 }];

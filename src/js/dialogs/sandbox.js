@@ -59,5 +59,21 @@ exports.dialog = [{
       ' * merge'
     ]
   }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Sharing is caring!',
+      '',
+      'Share trees with your friends via',
+      '',
+      ' * export tree',
+      ' * import tree',
+      '',
+      'Have a great lesson to share? Try building a level with',
+      '',
+      ' * build level'
+    ]
+  }
 }];
 
