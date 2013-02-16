@@ -28,6 +28,11 @@ p {
   word-wrap: break-word;
 }
 
+div.modalTerminal a {
+  color: rgb(253, 152, 209);
+  font-weight: bold;
+}
+
 div.modalTerminal p {
   line-height: 24px;
   margin: 1.5em 0;
