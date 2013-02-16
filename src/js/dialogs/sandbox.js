@@ -36,15 +36,6 @@ exports.dialog = [{
   type: 'ModalAlert',
   options: {
     markdowns: [
-      '## Levels',
-      '',
-      'The best way to learn is with levels. Type in "levels" to get started!'
-    ]
-  }
-}, {
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
       '## Git commands',
       '',
       'You have a large variety of git commands available in sandbox mode. These include',
@@ -73,6 +64,15 @@ exports.dialog = [{
       'Have a great lesson to share? Try building a level with',
       '',
       ' * build level'
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Levels',
+      '',
+      'The best way to learn is with levels. Type in "levels" to get started!'
     ]
   }
 }];

@@ -138,7 +138,8 @@ var init = function() {
         [
           "git help;",
           "delay 1000;",
-          "help"
+          "help;",
+          "levels"
         ].join(''));
     });
   }

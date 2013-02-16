@@ -6576,7 +6576,8 @@ var init = function() {
         [
           "git help;",
           "delay 1000;",
-          "help"
+          "help;",
+          "levels"
         ].join(''));
     });
   }
@@ -18331,15 +18332,6 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
   type: 'ModalAlert',
   options: {
     markdowns: [
-      '## Levels',
-      '',
-      'The best way to learn is with levels. Type in "levels" to get started!'
-    ]
-  }
-}, {
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
       '## Git commands',
       '',
       'You have a large variety of git commands available in sandbox mode. These include',
@@ -18368,6 +18360,15 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       'Have a great lesson to share? Try building a level with',
       '',
       ' * build level'
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Levels',
+      '',
+      'The best way to learn is with levels. Type in "levels" to get started!'
     ]
   }
 }];
@@ -18632,7 +18633,8 @@ var init = function() {
         [
           "git help;",
           "delay 1000;",
-          "help"
+          "help;",
+          "levels"
         ].join(''));
     });
   }
@@ -18770,15 +18772,6 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
   type: 'ModalAlert',
   options: {
     markdowns: [
-      '## Levels',
-      '',
-      'The best way to learn is with levels. Type in "levels" to get started!'
-    ]
-  }
-}, {
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
       '## Git commands',
       '',
       'You have a large variety of git commands available in sandbox mode. These include',
@@ -18807,6 +18800,15 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       'Have a great lesson to share? Try building a level with',
       '',
       ' * build level'
+    ]
+  }
+}, {
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Levels',
+      '',
+      'The best way to learn is with levels. Type in "levels" to get started!'
     ]
   }
 }];
