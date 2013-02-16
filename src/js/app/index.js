@@ -131,6 +131,16 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
+  } else {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger(
+        'commandSubmitted',
+        [
+          "git help;",
+          "delay 3000;",
+          "help"
+        ].join(''));
+    });
   }
   if (/command=/.test(window.location.href)) {
     var commandRaw = window.location.href.split('command=')[1].split('&')[0];
