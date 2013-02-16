@@ -3,6 +3,9 @@ exports.level = {
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "hint": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
   "name": "Branching in Git",
+  "disabledMap" : {
+    "git revert": true
+  },
   "startDialog": {
     "childViews": [
       {

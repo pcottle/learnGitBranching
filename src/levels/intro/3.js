@@ -3,6 +3,9 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": "Merging in Git",
   "hint": "Remember to commit in the order specified (bugFix before master)",
+  "disabledMap" : {
+    "git revert": true
+  },
   "startDialog": {
     "childViews": [
       {

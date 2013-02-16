@@ -4,6 +4,9 @@ exports.level = {
   "solutionCommand": "git commit;git commit",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": "Just type in 'git commit' twice to finish!",
+  "disabledMap" : {
+    "git revert": true
+  },
   "startDialog": {
     "childViews": [
       {

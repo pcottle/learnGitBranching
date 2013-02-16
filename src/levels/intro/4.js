@@ -3,6 +3,9 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": "Rebase Introduction",
   "hint": "Make sure you commit from bugFix first",
+  "disabledMap" : {
+    "git revert": true
+  },
   "startDialog": {
     "childViews": [
       {
