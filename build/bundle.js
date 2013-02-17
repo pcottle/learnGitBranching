@@ -17385,7 +17385,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
             "",
             "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
             "",
-            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check our our solution and see if you can do it in fewer commands!"
+            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
           ]
         }
       }
@@ -28936,7 +28936,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
             "",
             "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
             "",
-            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check our our solution and see if you can do it in fewer commands!"
+            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
           ]
         }
       }
