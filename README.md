@@ -56,6 +56,7 @@ Also huge shoutout for everyone who has put up a pull request
 * Stephen Cavaliere
 * Andrew Ardill
 * Shao-Chung Chen
+* Tobias Pfeiffer
 
 And reported an issue that was successfully closed!
 
