@@ -63,6 +63,7 @@ exports.level = {
             "To complete this level, do the following steps:",
             "",
             "* Make a new branch called `bugFix`",
+            "* Checkout the `bugFix` branch with `git checkout bugFix`",
             "* Commit once",
             "* Go back to `master` with `git checkout`",
             "* Commit another time",
