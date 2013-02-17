@@ -335,6 +335,7 @@ var LevelBuilder = Level.extend({
       'hide start': this.hideStart,
       'finish': this.finish,
       'define hint': this.defineHint,
+      'define name': this.defineName,
       'edit dialog': this.editDialog,
       'help builder': LevelBuilder.__super__.startDialog
     };

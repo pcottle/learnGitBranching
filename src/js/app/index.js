@@ -71,7 +71,7 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
-  $('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
+  //$('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
 
   /**
     * I am disabling this for now, it works on desktop but is

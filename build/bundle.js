@@ -6509,7 +6509,7 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
-  $('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
+  //$('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
 
   /**
     * I am disabling this for now, it works on desktop but is
@@ -13679,6 +13679,7 @@ var LevelBuilder = Level.extend({
       'hide start': this.hideStart,
       'finish': this.finish,
       'define hint': this.defineHint,
+      'define name': this.defineName,
       'edit dialog': this.editDialog,
       'help builder': LevelBuilder.__super__.startDialog
     };
@@ -18575,7 +18576,7 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
-  $('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
+  //$('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
 
   /**
     * I am disabling this for now, it works on desktop but is
@@ -21499,6 +21500,7 @@ var LevelBuilder = Level.extend({
       'hide start': this.hideStart,
       'finish': this.finish,
       'define hint': this.defineHint,
+      'define name': this.defineName,
       'edit dialog': this.editDialog,
       'help builder': LevelBuilder.__super__.startDialog
     };
