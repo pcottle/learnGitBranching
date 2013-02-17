@@ -1,6 +1,8 @@
 # LearnGitBranching
 
-LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / challenges to accelerate the understanding of how git commit trees work. It supports a fairly wide range of commands and dynamically visualizes the effects each change has on a commit tree visualization next to the command box:
+LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / challenges to accelerate the understanding of how git commit trees work. The ideal audience is a complete newcomer to git, but a wide range of experience levels should be able ot benefit from these tutorials.
+
+It supports a fairly wide range of commands and dynamically visualizes the effects each change has on a commit tree visualization next to the command box:
 
 <img src="https://raw.github.com/pcottle/learnGitBranching/master/assets/learnGitBranching.png"/>
 
@@ -42,5 +44,19 @@ A big shoutout to these brave souls for extensively testing our sandbox and find
 * Nikita Kouevda
 * Maksim Ioffe
 * Dan Miller
+
+Also huge shoutout for everyone who has put up a pull request
+
 * Stephen Cavaliere
+* Andrew Ardill
+* Shao-Chung Chen
+
+And reported an issue that was successfully closed!
+
+* Caspar Krieger
+* Stuart Knightley
+* John Gietzen
+* Chris Greene
+* "datton"
+* Jaymes Bearden
 
