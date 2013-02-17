@@ -6,6 +6,14 @@ It supports a fairly wide range of commands and dynamically visualizes the effec
 
 <img src="https://raw.github.com/pcottle/learnGitBranching/master/assets/learnGitBranching.png"/>
 
+You can see the demo here:
+
+(http://pcottle.github.com/learnGitBranching/?demo)[http://pcottle.github.com/learnGitBranching/?demo]
+
+or use the vanilla app here:
+
+(http://pcottle.github.com/learnGitBranching/)[http://pcottle.github.com/learnGitBranching/]
+
 ### Sandbox Mode
 
 Sandbox mode is where you can mess around and just see what certain git commands do. It is moderately helpful, but the real magic lies in levels...
