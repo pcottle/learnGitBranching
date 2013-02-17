@@ -14,7 +14,7 @@ exports.level = {
         "options": {
           "markdowns": [
             "## Git Commits",
-            "A commit in a git repository records a snapshot of the all the files in your directory. It\'s like a giant copy and paste, but even better!",
+            "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
             "",
             "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
             "",
