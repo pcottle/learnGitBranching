@@ -22,7 +22,7 @@ I would love for more levels to be added! I think there is a ton to learn and a 
 
 ## Contributing
 
-I really loose about contributing levels. For contributing functionality, you will need to install the `grunt` build tool. The general steps:
+I am really loose about contributing levels. For contributing functionality, you will need to install the `grunt` build tool. The general steps:
 
 ```
 git clone <your fork of the repo>
