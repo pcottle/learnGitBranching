@@ -26,7 +26,7 @@ You can build levels with `build level`. The dialog should walk you through the 
 
 ### Contributing Levels
 
-I would love for more levels to be added! I think there is a ton to learn and a ton to cover. Hopefully the community together can build a great tool for all git newcomers.
+I would love for more levels to be added! I think there is a ton to learn and cover. Hopefully the community together can build a great tool for all git newcomers.
 
 ## Contributing
 
