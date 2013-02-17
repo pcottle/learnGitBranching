@@ -8,11 +8,11 @@ It supports a fairly wide range of commands and dynamically visualizes the effec
 
 You can see the demo here:
 
-(http://pcottle.github.com/learnGitBranching/?demo)[http://pcottle.github.com/learnGitBranching/?demo]
+http://pcottle.github.com/learnGitBranching/?demo
 
 or use the vanilla app here:
 
-(http://pcottle.github.com/learnGitBranching/)[http://pcottle.github.com/learnGitBranching/]
+http://pcottle.github.com/learnGitBranching/
 
 ### Sandbox Mode
 
@@ -67,4 +67,5 @@ And reported an issue that was successfully closed!
 * Chris Greene
 * "datton"
 * Jaymes Bearden
+* Jan-Erik Rediger
 
