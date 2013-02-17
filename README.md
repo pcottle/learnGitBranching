@@ -1,6 +1,6 @@
 # LearnGitBranching
 
-LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / challenges to accelerate the understanding of how git commit trees work. The ideal audience is a complete newcomer to git, but a wide range of experience levels should be able ot benefit from these tutorials.
+LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / challenges to accelerate the understanding of how git commit trees work. The ideal audience is a complete newcomer to git, but a wide range of experience levels should be able to benefit from these tutorials.
 
 It supports a fairly wide range of commands and dynamically visualizes the effects each change has on a commit tree visualization next to the command box:
 
@@ -22,7 +22,7 @@ Type `levels` to see the available levels. These are a mix of tutorials and chal
 
 ### Level Builder
 
-You can build levels with `build level`. The dialog should walk you through the majority of the commands -- at the end you will get a JSON blob that you can share with friends or paste into a github issue.
+You can build levels with `build level`. The dialog should walk you through the majority of the commands -- at the end you will get a JSON blob that you can share with friends or paste into a Github issue.
 
 ### Contributing Levels
 
