@@ -17517,7 +17517,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
             "",
             "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
             "* We will `commit --amend` to make the slight modification",
-            "* Then we will re-oder the commits back to how they were previously with `git rebase -i`",
+            "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
             "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
             "",
             "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
@@ -28835,7 +28835,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
             "",
             "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
             "* We will `commit --amend` to make the slight modification",
-            "* Then we will re-oder the commits back to how they were previously with `git rebase -i`",
+            "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
             "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
             "",
             "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
