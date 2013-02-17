@@ -6509,6 +6509,8 @@ var init = function() {
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
 
+  $('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol. Skeumorphic design ftw'); });
+
   /**
     * I am disabling this for now, it works on desktop but is
       hacky on iOS mobile and god knows the behavior on android...
@@ -18597,6 +18599,8 @@ var init = function() {
   }, 500));
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
+
+  $('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol. Skeumorphic design ftw'); });
 
   /**
     * I am disabling this for now, it works on desktop but is
