@@ -42,4 +42,5 @@ A big shoutout to these brave souls for extensively testing our sandbox and find
 * Nikita Kouevda
 * Maksim Ioffe
 * Dan Miller
+* Stephen Cavaliere
 
