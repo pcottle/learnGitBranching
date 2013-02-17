@@ -14,17 +14,21 @@ exports.level = {
         "options": {
           "markdowns": [
             "## Git Commits",
-            "A commit in git specifies the state of the repository. This state encodes what each file looks like, so you can think of it as a snapshot of everything you're working on.",
+            "A commit in a git repository records a snapshot of the files in your directory. Every file included in the commit is copied from the directory to the repository's *object store*, and an *index* of each file's location is stored with the commit.",
             "",
-            "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next.",
+            "To recreate our directory as recorded in a commit, git reads the objects referenced in the commit's index from the object store and writes them into place in the directory. This makes switching between different development *branches* extremely fast and easy, as no calculations need to be performed.",
             "",
-            "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
+            "Git keeps each commit as lightweight as possible by reusing any objects that have already been stored. Each version of a file is only stored once, even if you move it around within the repository.",
+            "",
+            "Git will occasionally compress the object store, to save disk space or increase network transfer speeds. This *packing* process creates *deltas* that only store the changes made in each version of a file, instead of complete snapshots.",
+            "",
+            "When cloning a repository, you often have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
             "",
             "`resolving deltas`",
             "",
             "when cloning a repo.",
             "",
-            "It's a tricky concept, but for now you can think of commits as snapshots of the directory that are stored as deltas. Combining all the deltas together inside an empty folder gives you the full repository!"
+            "There is a lot to take in, but for now just remember that commits record a snapshot of the directory, and that switching between snapshots is fast and easy because of this."
           ]
         }
       },
