@@ -17341,7 +17341,7 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           "afterMarkdowns": [
             "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
             "",
-            "With resetting, you can push out your changes to share with others."
+            "With reverting, you can push out your changes to share with others."
           ],
           "command": "git revert HEAD",
           "beforeCommand": "git commit"
@@ -28723,7 +28723,7 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           "afterMarkdowns": [
             "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
             "",
-            "With resetting, you can push out your changes to share with others."
+            "With reverting, you can push out your changes to share with others."
           ],
           "command": "git revert HEAD",
           "beforeCommand": "git commit"
