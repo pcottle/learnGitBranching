@@ -8145,6 +8145,10 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
   }
+  // case insensitive also
+  if (this.refs[ref.toUpperCase()]) {
+    return this.refs[ref.toUpperCase()];
+  }
 
   // may be something like HEAD~2 or master^^
   var relativeRefs = [
@@ -19765,6 +19769,10 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
 GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
+  }
+  // case insensitive also
+  if (this.refs[ref.toUpperCase()]) {
+    return this.refs[ref.toUpperCase()];
   }
 
   // may be something like HEAD~2 or master^^
