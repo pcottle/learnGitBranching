@@ -21,21 +21,6 @@ exports.dialog = [{
   type: 'ModalAlert',
   options: {
     markdowns: [
-      '## The LearnGitBranching Interface',
-      '',
-      'There are features to use within the user interface behind ',
-      'this modal dialog. A list',
-      '',
-      '  * git commands (to interact with git)',
-      '  * level commands (to get level hints or solutions)',
-      '  * sandbox commands (like this one)',
-      ''
-    ]
-  }
-}, {
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
       '## Git commands',
       '',
       'You have a large variety of git commands available in sandbox mode. These include',
@@ -56,23 +41,11 @@ exports.dialog = [{
     markdowns: [
       '## Sharing is caring!',
       '',
-      'Share trees with your friends via',
+      'Share trees with your friends via `export tree` and `import tree`',
       '',
-      ' * export tree',
-      ' * import tree',
+      'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
       '',
-      'Have a great lesson to share? Try building a level with',
-      '',
-      ' * build level'
-    ]
-  }
-}, {
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
-      '## Levels',
-      '',
-      'The best way to learn is with levels. Type in "levels" to get started!'
+      'For now let\'s get you started on the `levels`...'
     ]
   }
 }];
