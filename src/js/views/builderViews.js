@@ -10,7 +10,6 @@ var Views = require('../views');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
-var MultiView = require('../views/multiView').MultiView;
 
 var TextGrabber = ContainedBase.extend({
   tagName: 'div',
@@ -243,6 +242,7 @@ var DemonstrationBuilder = ContainedBase.extend({
   },
 
   testView: function() {
+    var MultiView = require('../views/multiView').MultiView;
     new MultiView({
       childViews: [{
         type: 'GitDemonstrationView',
@@ -349,12 +349,14 @@ var MultiViewBuilder = ContainedBase.extend({
     var el = ev.srcElement;
     var index = $(el).attr('data-index');
     var toTest = this.getChildViews()[index];
+    var MultiView = require('../views/multiView').MultiView;
     new MultiView({
       childViews: [toTest]
     });
   },
 
   testEntireView: function() {
+    var MultiView = require('../views/multiView').MultiView;
     new MultiView({
       childViews: this.getChildViews()
     });
