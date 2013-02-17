@@ -10341,7 +10341,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
     if (options.nextLevel) {
       markdowns = markdowns.concat([
         '',
-        'Would you like to move onto "',
+        'Would you like to move onto "' +
         nextLevelName + '", the next level?'
       ]);
     } else {
@@ -24940,7 +24940,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
     if (options.nextLevel) {
       markdowns = markdowns.concat([
         '',
-        'Would you like to move onto "',
+        'Would you like to move onto "' +
         nextLevelName + '", the next level?'
       ]);
     } else {
