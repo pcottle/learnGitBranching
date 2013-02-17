@@ -58,6 +58,7 @@ Also huge shoutout for everyone who has put up a pull request
 * Shao-Chung Chen
 * Tobias Pfeiffer
 * Luke Kysow
+* Adam Brodzinski
 
 And reported an issue that was successfully closed!
 
