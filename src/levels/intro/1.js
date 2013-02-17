@@ -14,9 +14,9 @@ exports.level = {
         "options": {
           "markdowns": [
             "## Git Commits",
-            "A commit in git specifies the state of the repository. This state encodes what each file looks like, so you can think of it as a snapshot of everything you're working on.",
+            "A commit in a git repository records a snapshot of the all the files in your directory. It\'s like a giant copy and paste, but even better!",
             "",
-            "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next.",
+            "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
             "",
             "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
             "",
@@ -24,7 +24,7 @@ exports.level = {
             "",
             "when cloning a repo.",
             "",
-            "It's a tricky concept, but for now you can think of commits as snapshots of the directory that are stored as deltas. Combining all the deltas together inside an empty folder gives you the full repository!"
+            "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
           ]
         }
       },
