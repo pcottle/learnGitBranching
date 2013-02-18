@@ -14099,6 +14099,8 @@ var GitDemonstrationView = ContainedBase.extend({
     if (!this.options.beforeCommand) {
       return;
     }
+    console.log('doing before command');
+
     // here we just split the command and push them through to the git engine
     util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
       this.mainVis.gitEngine.dispatch(new Command({
@@ -14126,6 +14128,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
   reset: function() {
     this.mainVis.reset();
+    this.dispatchBeforeCommand();
     this.demonstrated = false;
     this.$el.toggleClass('demonstrated', false);
     this.$el.toggleClass('demonstrating', false);
@@ -24338,6 +24341,8 @@ var GitDemonstrationView = ContainedBase.extend({
     if (!this.options.beforeCommand) {
       return;
     }
+    console.log('doing before command');
+
     // here we just split the command and push them through to the git engine
     util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
       this.mainVis.gitEngine.dispatch(new Command({
@@ -24365,6 +24370,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
   reset: function() {
     this.mainVis.reset();
+    this.dispatchBeforeCommand();
     this.demonstrated = false;
     this.$el.toggleClass('demonstrated', false);
     this.$el.toggleClass('demonstrating', false);
