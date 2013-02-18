@@ -289,6 +289,7 @@ var Level = Sandbox.extend({
       return;
     }
 
+    // TODO refactor this ugly ass switch statement...
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
@@ -296,6 +297,10 @@ var Level = Sandbox.extend({
       solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
     } else if (this.level.compareOnlyBranches) {
       solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+    } else if (this.level.compareAllBranchesHashAgnostic) {
+      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+    } else if (this.level.compareOnlyMasterHashAgnostic) {
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }

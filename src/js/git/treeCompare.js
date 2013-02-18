@@ -52,6 +52,23 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
 };
 
 TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+  var branchNames = [];
+  _.each(allBranches, function(obj, name) { branchNames.push(name); });
+  console.log(branchNames);
+
+  return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
+};
+
+TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
   // we can't DRY unfortunately here because we need a special _.isEqual function
   // for both the recursive compare and the branch compare
   treeA = this.convertTreeSafe(treeA);
@@ -71,16 +88,10 @@ TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA
   // and a function to compare recursively without worrying about hashes
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
-  var allBranches = _.extend(
-    {},
-    treeA.branches,
-    treeB.branches
-  );
-
   var result = true;
-  _.each(allBranches, function(branchObj, branchName) {
-    branchA = treeA.branches[branchName];
-    branchB = treeB.branches[branchName];
+  _.each(branches, function(branchName) {
+    var branchA = treeA.branches[branchName];
+    var branchB = treeB.branches[branchName];
 
     result = result && compareBranchObjs(branchA, branchB) &&
       recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);

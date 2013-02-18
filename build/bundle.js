@@ -6949,6 +6949,7 @@ var Level = Sandbox.extend({
       return;
     }
 
+    // TODO refactor this ugly ass switch statement...
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
@@ -6956,6 +6957,10 @@ var Level = Sandbox.extend({
       solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
     } else if (this.level.compareOnlyBranches) {
       solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+    } else if (this.level.compareAllBranchesHashAgnostic) {
+      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+    } else if (this.level.compareOnlyMasterHashAgnostic) {
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
@@ -9640,6 +9645,23 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
 };
 
 TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+  var branchNames = [];
+  _.each(allBranches, function(obj, name) { branchNames.push(name); });
+  console.log(branchNames);
+
+  return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
+};
+
+TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
   // we can't DRY unfortunately here because we need a special _.isEqual function
   // for both the recursive compare and the branch compare
   treeA = this.convertTreeSafe(treeA);
@@ -9659,16 +9681,10 @@ TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA
   // and a function to compare recursively without worrying about hashes
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
-  var allBranches = _.extend(
-    {},
-    treeA.branches,
-    treeB.branches
-  );
-
   var result = true;
-  _.each(allBranches, function(branchObj, branchName) {
-    branchA = treeA.branches[branchName];
-    branchB = treeB.branches[branchName];
+  _.each(branches, function(branchName) {
+    var branchA = treeA.branches[branchName];
+    var branchB = treeB.branches[branchName];
 
     result = result && compareBranchObjs(branchA, branchB) &&
       recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
@@ -17450,7 +17466,7 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
 });
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
   },
@@ -17482,7 +17498,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 });
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyBranches": true,
+  "compareAllBranchesHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
   },
@@ -20994,6 +21010,23 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
 };
 
 TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+  var branchNames = [];
+  _.each(allBranches, function(obj, name) { branchNames.push(name); });
+  console.log(branchNames);
+
+  return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
+};
+
+TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
   // we can't DRY unfortunately here because we need a special _.isEqual function
   // for both the recursive compare and the branch compare
   treeA = this.convertTreeSafe(treeA);
@@ -21013,16 +21046,10 @@ TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA
   // and a function to compare recursively without worrying about hashes
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
-  var allBranches = _.extend(
-    {},
-    treeA.branches,
-    treeB.branches
-  );
-
   var result = true;
-  _.each(allBranches, function(branchObj, branchName) {
-    branchA = treeA.branches[branchName];
-    branchB = treeB.branches[branchName];
+  _.each(branches, function(branchName) {
+    var branchA = treeA.branches[branchName];
+    var branchB = treeB.branches[branchName];
 
     result = result && compareBranchObjs(branchA, branchB) &&
       recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
@@ -22034,6 +22061,7 @@ var Level = Sandbox.extend({
       return;
     }
 
+    // TODO refactor this ugly ass switch statement...
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
@@ -22041,6 +22069,10 @@ var Level = Sandbox.extend({
       solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
     } else if (this.level.compareOnlyBranches) {
       solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+    } else if (this.level.compareAllBranchesHashAgnostic) {
+      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+    } else if (this.level.compareOnlyMasterHashAgnostic) {
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
@@ -29087,7 +29119,7 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
 require("/src/levels/mixed/3.js");
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
   },
@@ -29120,7 +29152,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 require("/src/levels/rebase/1.js");
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyBranches": true,
+  "compareAllBranchesHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
   },

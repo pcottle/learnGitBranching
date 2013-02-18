@@ -1,5 +1,5 @@
 exports.level = {
-  "compareOnlyBranches": true,
+  "compareAllBranchesHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
   },
