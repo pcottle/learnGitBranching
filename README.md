@@ -60,6 +60,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Luke Kysow - 2
 * Adam Brodzinski
 * Hamish Macpherson
+* Cameron Wills
 
 Or reported an issue that was successfully closed!
 
