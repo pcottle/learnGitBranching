@@ -593,6 +593,7 @@ var CanvasTerminalHolder = BaseView.extend({
     };
 
     this.render();
+    this.inDom = true;
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -602,14 +603,16 @@ var CanvasTerminalHolder = BaseView.extend({
   getAnimationTime: function() { return 700; },
 
   onClick: function() {
-    this.slideOut();
+    this.die();
   },
 
   die: function() {
     this.slideOut();
+    this.inDom = false;
+
     setTimeout(_.bind(function() {
       this.tearDown();
-    }, this));
+    }, this), this.getAnimationTime());
   },
 
   slideOut: function() {

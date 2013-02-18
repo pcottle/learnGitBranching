@@ -6794,8 +6794,6 @@ var Level = Sandbox.extend({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
     });
-
-    this.initGoalVisualization();
   },
 
   initGoalVisualization: function() {
@@ -6811,6 +6809,12 @@ var Level = Sandbox.extend({
       noKeyboardInput: true,
       noClick: true
     });
+  },
+
+  onGoalVisualizationClick: function() {
+    // we need to destory this entire view whenever it is hidden so the scroll bar
+    // still works. unfortunately this
+    delete this.goalCanvasHolder;
   },
 
   showSolution: function(command, deferred) {
@@ -6857,6 +6861,9 @@ var Level = Sandbox.extend({
   },
 
   showGoal: function(command, defer) {
+    if (!this.goalCanvasHolder || !this.goalCanvasHolder.inDom) {
+      this.initGoalVisualization();
+    }
     this.goalCanvasHolder.slideIn();
 
     if (!command || !defer) { return; }
@@ -6866,7 +6873,7 @@ var Level = Sandbox.extend({
   },
 
   hideGoal: function(command, defer) {
-    this.goalCanvasHolder.slideOut();
+    this.goalCanvasHolder.die();
     if (!command || !defer) { return; }
 
     setTimeout(function() {
@@ -10580,6 +10587,7 @@ var CanvasTerminalHolder = BaseView.extend({
     };
 
     this.render();
+    this.inDom = true;
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -10589,14 +10597,16 @@ var CanvasTerminalHolder = BaseView.extend({
   getAnimationTime: function() { return 700; },
 
   onClick: function() {
-    this.slideOut();
+    this.die();
   },
 
   die: function() {
     this.slideOut();
+    this.inDom = false;
+
     setTimeout(_.bind(function() {
       this.tearDown();
-    }, this));
+    }, this), this.getAnimationTime());
   },
 
   slideOut: function() {
@@ -21903,8 +21913,6 @@ var Level = Sandbox.extend({
       el: options.el || this.getDefaultVisEl(),
       treeString: options.level.startTree
     });
-
-    this.initGoalVisualization();
   },
 
   initGoalVisualization: function() {
@@ -21920,6 +21928,12 @@ var Level = Sandbox.extend({
       noKeyboardInput: true,
       noClick: true
     });
+  },
+
+  onGoalVisualizationClick: function() {
+    // we need to destory this entire view whenever it is hidden so the scroll bar
+    // still works. unfortunately this
+    delete this.goalCanvasHolder;
   },
 
   showSolution: function(command, deferred) {
@@ -21966,6 +21980,9 @@ var Level = Sandbox.extend({
   },
 
   showGoal: function(command, defer) {
+    if (!this.goalCanvasHolder || !this.goalCanvasHolder.inDom) {
+      this.initGoalVisualization();
+    }
     this.goalCanvasHolder.slideIn();
 
     if (!command || !defer) { return; }
@@ -21975,7 +21992,7 @@ var Level = Sandbox.extend({
   },
 
   hideGoal: function(command, defer) {
-    this.goalCanvasHolder.slideOut();
+    this.goalCanvasHolder.die();
     if (!command || !defer) { return; }
 
     setTimeout(function() {
@@ -25277,6 +25294,7 @@ var CanvasTerminalHolder = BaseView.extend({
     };
 
     this.render();
+    this.inDom = true;
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -25286,14 +25304,16 @@ var CanvasTerminalHolder = BaseView.extend({
   getAnimationTime: function() { return 700; },
 
   onClick: function() {
-    this.slideOut();
+    this.die();
   },
 
   die: function() {
     this.slideOut();
+    this.inDom = false;
+
     setTimeout(_.bind(function() {
       this.tearDown();
-    }, this));
+    }, this), this.getAnimationTime());
   },
 
   slideOut: function() {
