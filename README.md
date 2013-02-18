@@ -69,5 +69,6 @@ And reported an issue that was successfully closed!
 * "datton"
 * Jaymes Bearden
 * Jan-Erik Rediger
-* "epheph"
+* Scott Bigelow
+* "ortin"
 
