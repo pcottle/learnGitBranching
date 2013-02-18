@@ -38,31 +38,6 @@ TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branch
   return result;
 };
 
-TreeCompare.prototype.getRecurseCompare = function(treeA, treeB) {
-  // we need a recursive comparison function to bubble up the  branch
-  var recurseCompare = function(commitA, commitB) {
-    // this is the short-circuit base case
-    var result = _.isEqual(commitA, commitB);
-    if (!result) {
-      return false;
-    }
-
-    // we loop through each parent ID. we sort the parent ID's beforehand
-    // so the index lookup is valid
-    _.each(commitA.parents, function(pAid, index) {
-      var pBid = commitB.parents[index];
-
-      var childA = treeA.commits[pAid];
-      var childB = treeB.commits[pBid];
-
-      result = result && recurseCompare(childA, childB);
-    }, this);
-    // if each of our children recursively are equal, we are good
-    return result;
-  };
-  return recurseCompare;
-};
-
 TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
@@ -74,6 +49,106 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
 
   return _.isEqual(branchA, branchB) &&
     recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+};
+
+TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
+  // we can't DRY unfortunately here because we need a special _.isEqual function
+  // for both the recursive compare and the branch compare
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  // get a function to compare branch objects without hashes
+  var compareBranchObjs = _.bind(function(branchA, branchB) {
+    if (!branchA || !branchB) {
+      return false;
+    }
+    branchA.target = this.getBaseRef(branchA.target);
+    branchB.target = this.getBaseRef(branchB.target);
+
+    return _.isEqual(branchA, branchB);
+  }, this);
+  // and a function to compare recursively without worrying about hashes
+  var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
+
+  var allBranches = _.extend(
+    {},
+    treeA.branches,
+    treeB.branches
+  );
+
+  var result = true;
+  _.each(allBranches, function(branchObj, branchName) {
+    branchA = treeA.branches[branchName];
+    branchB = treeB.branches[branchName];
+
+    result = result && compareBranchObjs(branchA, branchB) &&
+      recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+  }, this);
+  return result;
+};
+
+TreeCompare.prototype.getBaseRef = function(ref) {
+  var idRegex = /^C(\d+)/;
+  var bits = idRegex.exec(ref);
+  if (!bits) { throw new Error('no regex matchy for ' + ref); }
+  // no matter what hash this is (aka C1', C1'', C1'^3, etc) we
+  // return C1
+  return 'C' + bits[1];
+};
+
+TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
+  // here we pass in a special comparison function to pass into the base
+  // recursive compare.
+
+  // some buildup functions
+  var getStrippedCommitCopy = _.bind(function(commit) {
+    return _.extend(
+      {},
+      commit,
+      {id: this.getBaseRef(commit.id)
+    });
+  }, this);
+
+  var isEqual = function(commitA, commitB) {
+    return _.isEqual(
+      getStrippedCommitCopy(commitA),
+      getStrippedCommitCopy(commitB)
+    );
+  };
+  return this.getRecurseCompare(treeA, treeB, {isEqual: isEqual});
+};
+
+TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
+  options = options || {};
+
+  // we need a recursive comparison function to bubble up the branch
+  var recurseCompare = function(commitA, commitB) {
+    // this is the short-circuit base case
+    var result = options.isEqual ?
+      options.isEqual(commitA, commitB) : _.isEqual(commitA, commitB);
+    if (!result) {
+      return false;
+    }
+
+    // we loop through each parent ID. we sort the parent ID's beforehand
+    // so the index lookup is valid. for merge commits this will duplicate some of the
+    // checking (because we aren't doing graph search) but it's not a huge deal
+    var allParents = _.unique(commitA.parents.concat(commitB.parents));
+    _.each(allParents, function(pAid, index) {
+      var pBid = commitB.parents[index];
+
+      // if treeA or treeB doesn't have this parent,
+      // then we get an undefined child which is fine when we pass into _.isEqual
+      var childA = treeA.commits[pAid];
+      var childB = treeB.commits[pBid];
+
+      result = result && recurseCompare(childA, childB);
+    }, this);
+    // if each of our children recursively are equal, we are good
+    return result;
+  };
+  return recurseCompare;
 };
 
 TreeCompare.prototype.convertTreeSafe = function(tree) {

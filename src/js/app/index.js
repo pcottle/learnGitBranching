@@ -63,15 +63,16 @@ var init = function() {
     events.trigger('resize', e);
   });
 
+  /*
   $(window).on('resize', _.throttle(function(e) {
     var width = $(window).width();
     var height = $(window).height();
     eventBaton.trigger('windowSizeCheck', {w: width, h: height});
   }, 500));
+  */
+
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
-
-  //$('body').delegate('div.close', 'click', function() { alert('these dont actually work sorry lol.'); });
 
   /**
     * I am disabling this for now, it works on desktop but is
@@ -90,7 +91,7 @@ var init = function() {
   });
   */
 
-  /*
+  /* people were pissed about this apparently
   eventBaton.stealBaton('windowSizeCheck', function(size) {
     if (size.w < Constants.VIEWPORT.minWidth ||
         size.h < Constants.VIEWPORT.minHeight) {
@@ -153,6 +154,7 @@ var init = function() {
       eventBaton.trigger('commandSubmitted', command);
     });
   }
+
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger('commandSubmitted', 'mobile alert');

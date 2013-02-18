@@ -1,11 +1,20 @@
+Mega Things
+~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] origin support
+
+
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
+[ ] hash agnostic comparison
+[ ] rebase -i solution demonstration (blink and fade thing)
+[ ] hash agnotisc comparison with asserts for ammends
+[ ] tree pruning
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] fix clickthrough when goal and start are shown
-[ ] animating lock refactor -- not just a boolean, but a stack
+[ ] animating lock refactor -- not just a boolean, but a stack?
 [ ] fix refreshing during solution animation
 
 Cases to handle / things to edit
