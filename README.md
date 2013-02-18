@@ -73,4 +73,6 @@ Or reported an issue that was successfully closed!
 * Jan-Erik Rediger
 * Scott Bigelow
 * "ortin"
+* Dave Myron
+* "chosenken"
 
