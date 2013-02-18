@@ -51,7 +51,7 @@ A big shoutout to these brave souls for extensively testing our sandbox and find
 * Maksim Ioffe
 * Dan Miller
 
-Also huge shoutout for everyone who has put up a pull request
+Also huge shoutout for everyone who has put up a pull request that was pulled:
 
 * Stephen Cavaliere
 * Andrew Ardill
@@ -59,8 +59,9 @@ Also huge shoutout for everyone who has put up a pull request
 * Tobias Pfeiffer
 * Luke Kysow
 * Adam Brodzinski
+* Hamish Macpherson
 
-And reported an issue that was successfully closed!
+Or reported an issue that was successfully closed!
 
 * Caspar Krieger
 * Stuart Knightley
