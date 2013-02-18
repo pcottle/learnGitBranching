@@ -63,7 +63,6 @@ TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA
   );
   var branchNames = [];
   _.each(allBranches, function(obj, name) { branchNames.push(name); });
-  console.log(branchNames);
 
   return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
 };

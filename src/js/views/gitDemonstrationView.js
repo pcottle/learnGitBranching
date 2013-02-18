@@ -94,7 +94,6 @@ var GitDemonstrationView = ContainedBase.extend({
     if (!this.options.beforeCommand) {
       return;
     }
-    console.log('doing before command');
 
     // here we just split the command and push them through to the git engine
     util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
