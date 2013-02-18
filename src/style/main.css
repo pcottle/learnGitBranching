@@ -21,7 +21,7 @@ li {
 code {
   background: grey;
   padding: 4px;
-  border: 1px solid black;
+  border: 1px solid #333;
 }
 
 p {
@@ -282,15 +282,15 @@ div.toolbar {
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  color: black;
+  color: #333;
 }
 
 div.toolbar.level-toolbar {
-  background-image: -webkit-linear-gradient(top, #79F179, #29EE31);
-  background-image: -moz-linear-gradient(top, #79F179, #29EE31);
-  background-image: -o-linear-gradient(top, #79F179, #29EE31);
-  background-image: -ms-linear-gradient(top, #79F179, #29EE31);
-  background-image: linear-gradient(top, #79F179, #29EE31);
+  background-image: -webkit-linear-gradient(top, #B2FF2E, #8AD247);
+  background-image: -moz-linear-gradient(top, #B2FF2E, #8AD247);
+  background-image: -o-linear-gradient(top, #B2FF2E, #8AD247);
+  background-image: -ms-linear-gradient(top, #B2FF2E, #8AD247);
+  background-image: linear-gradient(top, #B2FF2E, #8AD247);
   border-radius: 0;
   height: 50px;
 }
@@ -322,41 +322,39 @@ div.toolbar > div.controls div.box.flex1 {
 }
 
 div.toolbar > div.controls div.box.flex1 div {
+  border-radius: 100%;
+  display: inline-block;
   width: 12px;
-  height: 11px;
-  border-radius: 24px;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.7) inset;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-top: 1px solid #413838;
-  border-bottom: 1px solid #8B8B8B;
+  height: 12px;
+  margin: 1px 0 0 1px;
+  position: relative;
+  text-indent: -9999px;
   cursor: pointer;
+
+  -webkit-box-shadow: 0 2px 0 rgba(255, 255, 255, .8), inset 0 0 3px 1px rgba(0, 0, 0, .6), 0 -1px 1px 1px rgba(0, 0, 0, .4);
+  box-shadow: 0 2px 0 rgba(255, 255, 255, .8), inset 0 0 3px 1px rgba(0, 0, 0, .6), 0 -1px 1px 1px rgba(0, 0, 0, .4);
+
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fff 95%, #fff 100%);
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fff 95%, #fff 100%);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fff 95%, #fff 100%);
+  background-image: -ms-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fff 95%, #fff 100%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fff 95%, #fff 100%);
+}
+
+div.toolbar > div.controls div.box.flex1 div:hover {
+
 }
 
 div.controls div.box.flex1 div.close {
-  background: #ed7171;
-  background: -webkit-gradient(linear, left top, left bottom, from(#960000), to(#ed7171));
-  background: -webkit-linear-gradient(top, #960000, #ed7171);
-  background: -moz-linear-gradient(top, #960000, #ed7171);
-  background: -ms-linear-gradient(top, #960000, #ed7171);
-  background: -o-linear-gradient(top, #960000, #ed7171);
+  background-color: #fb625f;
 }
 
 div.controls div.box.flex1 div.minimize {
-  background: #e2ed93;
-  background: -webkit-gradient(linear, left top, left bottom, from(#e6f51b), to(#e2ed93));
-  background: -webkit-linear-gradient(top, #e6f51b, #e2ed93);
-  background: -moz-linear-gradient(top, #e6f51b, #e2ed93);
-  background: -ms-linear-gradient(top, #e6f51b, #e2ed93);
-  background: -o-linear-gradient(top, #e6f51b, #e2ed93);
+  background-color: #f9c57a;
 }
 
 div.controls div.box.flex1 div.plus {
-  background: #75e86f;
-  background: -webkit-gradient(linear, left top, left bottom, from(#36b309), to(#75e86f));
-  background: -webkit-linear-gradient(top, #36b309, #75e86f);
-  background: -moz-linear-gradient(top, #36b309, #75e86f);
-  background: -ms-linear-gradient(top, #36b309, #75e86f);
-  background: -o-linear-gradient(top, #36b309, #75e86f);
+  background-color: #8ac872;
 }
 
 /* Command Line */
@@ -415,19 +413,19 @@ p.commandLine.finished span.icons i.icon-check {
 p.commandLine.warning span.icons {
   background: #E0FF00;
   background-color: #E0FF00;
-  color: black;
+  color: #333;
 }
 
 p.commandLine.inqueue span.icons {
   background: #EBEB24;
   background-color: #EBEB24;
-  color: black;
+  color: #333;
 }
 
 p.commandLine.processing span.icons {
   background: #88E748;
   background-color: #88E748;
-  color: black;
+  color: #333;
 }
 
 p.commandLine.finished span.icons {
@@ -841,7 +839,7 @@ div.levelIcon.solved div.index div.indexNum {
 .gitDemonstrationView > div.visHolder {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   border-radius: 3px;
-  border: 1px solid black;
+  border: 1px solid #333;
 }
 
 .gitDemonstrationView > div.demonstrationText div.command {
@@ -952,7 +950,7 @@ div.levelIcon.solved div.index div.indexNum {
 .uiButtonYellow:hover {
   border-top-color: #30f03d;
   background: #30f03d;
-  color: #000000;
+  color: #333;
 }
 .uiButtonYellow:active {
   border-top-color: #5edb15;
