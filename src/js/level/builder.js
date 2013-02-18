@@ -48,7 +48,6 @@ var LevelBuilder = Level.extend({
     };
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.initStartVisualization();
     this.startDialog = undefined;
     this.definedGoal = false;
 
@@ -84,11 +83,7 @@ var LevelBuilder = Level.extend({
       noKeyboardInput: true,
       noClick: true
     });
-  },
-
-  startDie: function() {
-    this.startCanvasHolder.die();
-    this.startVis.die();
+    return this.startCanvasHolder;
   },
 
   startOffCommand: function() {
@@ -144,17 +139,13 @@ var LevelBuilder = Level.extend({
   },
 
   showGoal: function() {
-    this.startCanvasHolder.slideOut();
+    this.hideStart();
     LevelBuilder.__super__.showGoal.apply(this, arguments);
   },
 
   showStart: function(command, deferred) {
-    this.goalCanvasHolder.slideOut();
-    this.startCanvasHolder.slideIn();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
+    this.hideGoal();
+    this.showSideVis(command, deferred, this.startCanvasHolder, this.initStartVisualization);
   },
 
   resetSolution: function() {
@@ -163,15 +154,11 @@ var LevelBuilder = Level.extend({
   },
 
   hideStart: function(command, deferred) {
-    this.startCanvasHolder.slideOut();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
+    this.hideSideVis(command, deferred, this.startCanvasHolder);
   },
 
   defineStart: function(command, deferred) {
-    this.startDie();
+    this.hideStart();
 
     command.addWarning(
       'Defining start point... solution and goal will be overwritten if they were defined earlier'
@@ -181,13 +168,11 @@ var LevelBuilder = Level.extend({
     this.level.startTree = this.mainVis.gitEngine.printTree();
     this.mainVis.resetFromThisTreeNow(this.level.startTree);
 
-    this.initStartVisualization();
-
     this.showStart(command, deferred);
   },
 
   defineGoal: function(command, deferred) {
-    this.goalDie();
+    this.hideGoal();
 
     if (!this.gitCommandsIssued.length) {
       command.set('error', new Errors.GitError({
@@ -352,7 +337,7 @@ var LevelBuilder = Level.extend({
   },
 
   die: function() {
-    this.startDie();
+    this.hideStart();
 
     LevelBuilder.__super__.die.apply(this, arguments);
 

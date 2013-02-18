@@ -6809,12 +6809,7 @@ var Level = Sandbox.extend({
       noKeyboardInput: true,
       noClick: true
     });
-  },
-
-  onGoalVisualizationClick: function() {
-    // we need to destory this entire view whenever it is hidden so the scroll bar
-    // still works. unfortunately this
-    delete this.goalCanvasHolder;
+    return this.goalCanvasHolder;
   },
 
   showSolution: function(command, deferred) {
@@ -6861,24 +6856,36 @@ var Level = Sandbox.extend({
   },
 
   showGoal: function(command, defer) {
-    if (!this.goalCanvasHolder || !this.goalCanvasHolder.inDom) {
-      this.initGoalVisualization();
-    }
-    this.goalCanvasHolder.slideIn();
+    this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
+  },
 
-    if (!command || !defer) { return; }
-    setTimeout(function() {
-      command.finishWith(defer);
-    }, this.goalCanvasHolder.getAnimationTime());
+  showSideVis: function(command, defer, canvasHolder, initMethod) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+    if (!canvasHolder || !canvasHolder.inDom) {
+      canvasHolder = initMethod.apply(this);
+    }
+
+    canvasHolder.slideIn();
+    setTimeout(safeFinish, canvasHolder.getAnimationTime());
   },
 
   hideGoal: function(command, defer) {
-    this.goalCanvasHolder.die();
-    if (!command || !defer) { return; }
+    this.hideSideVis(command, defer, this.goalCanvasHolder);
+  },
 
-    setTimeout(function() {
-      command.finishWith(defer);
-    }, this.goalCanvasHolder.getAnimationTime());
+  hideSideVis: function(command, defer, canvasHolder, vis) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+
+    if (canvasHolder && canvasHolder.inDom) {
+      canvasHolder.die();
+      setTimeout(safeFinish, canvasHolder.getAnimationTime());
+    } else {
+      safeFinish();
+    }
   },
 
   initParseWaterfall: function(options) {
@@ -7043,7 +7050,7 @@ var Level = Sandbox.extend({
   die: function() {
     this.levelToolbar.die();
 
-    this.goalDie();
+    this.hideGoal();
     this.mainVis.die();
     this.releaseControl();
 
@@ -7053,11 +7060,6 @@ var Level = Sandbox.extend({
     delete this.mainVis;
     delete this.goalVis;
     delete this.goalCanvasHolder;
-  },
-
-  goalDie: function() {
-    this.goalCanvasHolder.die();
-    this.goalVis.die();
   },
 
   getInstantCommands: function() {
@@ -13499,7 +13501,6 @@ var LevelBuilder = Level.extend({
     };
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.initStartVisualization();
     this.startDialog = undefined;
     this.definedGoal = false;
 
@@ -13535,11 +13536,7 @@ var LevelBuilder = Level.extend({
       noKeyboardInput: true,
       noClick: true
     });
-  },
-
-  startDie: function() {
-    this.startCanvasHolder.die();
-    this.startVis.die();
+    return this.startCanvasHolder;
   },
 
   startOffCommand: function() {
@@ -13595,17 +13592,13 @@ var LevelBuilder = Level.extend({
   },
 
   showGoal: function() {
-    this.startCanvasHolder.slideOut();
+    this.hideStart();
     LevelBuilder.__super__.showGoal.apply(this, arguments);
   },
 
   showStart: function(command, deferred) {
-    this.goalCanvasHolder.slideOut();
-    this.startCanvasHolder.slideIn();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
+    this.hideGoal();
+    this.showSideVis(command, deferred, this.startCanvasHolder, this.initStartVisualization);
   },
 
   resetSolution: function() {
@@ -13614,15 +13607,11 @@ var LevelBuilder = Level.extend({
   },
 
   hideStart: function(command, deferred) {
-    this.startCanvasHolder.slideOut();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
+    this.hideSideVis(command, deferred, this.startCanvasHolder);
   },
 
   defineStart: function(command, deferred) {
-    this.startDie();
+    this.hideStart();
 
     command.addWarning(
       'Defining start point... solution and goal will be overwritten if they were defined earlier'
@@ -13632,13 +13621,11 @@ var LevelBuilder = Level.extend({
     this.level.startTree = this.mainVis.gitEngine.printTree();
     this.mainVis.resetFromThisTreeNow(this.level.startTree);
 
-    this.initStartVisualization();
-
     this.showStart(command, deferred);
   },
 
   defineGoal: function(command, deferred) {
-    this.goalDie();
+    this.hideGoal();
 
     if (!this.gitCommandsIssued.length) {
       command.set('error', new Errors.GitError({
@@ -13803,7 +13790,7 @@ var LevelBuilder = Level.extend({
   },
 
   die: function() {
-    this.startDie();
+    this.hideStart();
 
     LevelBuilder.__super__.die.apply(this, arguments);
 
@@ -21415,7 +21402,6 @@ var LevelBuilder = Level.extend({
     };
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.initStartVisualization();
     this.startDialog = undefined;
     this.definedGoal = false;
 
@@ -21451,11 +21437,7 @@ var LevelBuilder = Level.extend({
       noKeyboardInput: true,
       noClick: true
     });
-  },
-
-  startDie: function() {
-    this.startCanvasHolder.die();
-    this.startVis.die();
+    return this.startCanvasHolder;
   },
 
   startOffCommand: function() {
@@ -21511,17 +21493,13 @@ var LevelBuilder = Level.extend({
   },
 
   showGoal: function() {
-    this.startCanvasHolder.slideOut();
+    this.hideStart();
     LevelBuilder.__super__.showGoal.apply(this, arguments);
   },
 
   showStart: function(command, deferred) {
-    this.goalCanvasHolder.slideOut();
-    this.startCanvasHolder.slideIn();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
+    this.hideGoal();
+    this.showSideVis(command, deferred, this.startCanvasHolder, this.initStartVisualization);
   },
 
   resetSolution: function() {
@@ -21530,15 +21508,11 @@ var LevelBuilder = Level.extend({
   },
 
   hideStart: function(command, deferred) {
-    this.startCanvasHolder.slideOut();
-
-    setTimeout(function() {
-      command.finishWith(deferred);
-    }, this.startCanvasHolder.getAnimationTime());
+    this.hideSideVis(command, deferred, this.startCanvasHolder);
   },
 
   defineStart: function(command, deferred) {
-    this.startDie();
+    this.hideStart();
 
     command.addWarning(
       'Defining start point... solution and goal will be overwritten if they were defined earlier'
@@ -21548,13 +21522,11 @@ var LevelBuilder = Level.extend({
     this.level.startTree = this.mainVis.gitEngine.printTree();
     this.mainVis.resetFromThisTreeNow(this.level.startTree);
 
-    this.initStartVisualization();
-
     this.showStart(command, deferred);
   },
 
   defineGoal: function(command, deferred) {
-    this.goalDie();
+    this.hideGoal();
 
     if (!this.gitCommandsIssued.length) {
       command.set('error', new Errors.GitError({
@@ -21719,7 +21691,7 @@ var LevelBuilder = Level.extend({
   },
 
   die: function() {
-    this.startDie();
+    this.hideStart();
 
     LevelBuilder.__super__.die.apply(this, arguments);
 
@@ -21928,12 +21900,7 @@ var Level = Sandbox.extend({
       noKeyboardInput: true,
       noClick: true
     });
-  },
-
-  onGoalVisualizationClick: function() {
-    // we need to destory this entire view whenever it is hidden so the scroll bar
-    // still works. unfortunately this
-    delete this.goalCanvasHolder;
+    return this.goalCanvasHolder;
   },
 
   showSolution: function(command, deferred) {
@@ -21980,24 +21947,36 @@ var Level = Sandbox.extend({
   },
 
   showGoal: function(command, defer) {
-    if (!this.goalCanvasHolder || !this.goalCanvasHolder.inDom) {
-      this.initGoalVisualization();
-    }
-    this.goalCanvasHolder.slideIn();
+    this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
+  },
 
-    if (!command || !defer) { return; }
-    setTimeout(function() {
-      command.finishWith(defer);
-    }, this.goalCanvasHolder.getAnimationTime());
+  showSideVis: function(command, defer, canvasHolder, initMethod) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+    if (!canvasHolder || !canvasHolder.inDom) {
+      canvasHolder = initMethod.apply(this);
+    }
+
+    canvasHolder.slideIn();
+    setTimeout(safeFinish, canvasHolder.getAnimationTime());
   },
 
   hideGoal: function(command, defer) {
-    this.goalCanvasHolder.die();
-    if (!command || !defer) { return; }
+    this.hideSideVis(command, defer, this.goalCanvasHolder);
+  },
 
-    setTimeout(function() {
-      command.finishWith(defer);
-    }, this.goalCanvasHolder.getAnimationTime());
+  hideSideVis: function(command, defer, canvasHolder, vis) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+
+    if (canvasHolder && canvasHolder.inDom) {
+      canvasHolder.die();
+      setTimeout(safeFinish, canvasHolder.getAnimationTime());
+    } else {
+      safeFinish();
+    }
   },
 
   initParseWaterfall: function(options) {
@@ -22162,7 +22141,7 @@ var Level = Sandbox.extend({
   die: function() {
     this.levelToolbar.die();
 
-    this.goalDie();
+    this.hideGoal();
     this.mainVis.die();
     this.releaseControl();
 
@@ -22172,11 +22151,6 @@ var Level = Sandbox.extend({
     delete this.mainVis;
     delete this.goalVis;
     delete this.goalCanvasHolder;
-  },
-
-  goalDie: function() {
-    this.goalCanvasHolder.die();
-    this.goalVis.die();
   },
 
   getInstantCommands: function() {
