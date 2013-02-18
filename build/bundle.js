@@ -15023,7 +15023,9 @@ GitVisuals.prototype.getScreenPadding = function() {
   // for now we return the node radius subtracted from the walls
   return {
     widthPadding: GRAPHICS.nodeRadius * 1.5,
-    heightPadding: GRAPHICS.nodeRadius * 1.5
+    topHeightPadding: GRAPHICS.nodeRadius * 1.5,
+    // we pad the bottom a lot more so the branches wont go off screen
+    bottomHeightPadding: GRAPHICS.nodeRadius * 5
   };
 };
 
@@ -15036,10 +15038,14 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var shrink = function(frac, total, padding) {
     return padding + frac * (total - padding * 2);
   };
+  
+  var asymShrink = function(frac, total, paddingTop, paddingBelow) {
+    return paddingTop + frac * (total - paddingBelow - paddingTop);
+  };
 
   return {
     x: shrink(pos.x, this.paper.width, padding.widthPadding),
-    y: shrink(pos.y, this.paper.height, padding.heightPadding)
+    y: asymShrink(pos.y, this.paper.height, padding.topHeightPadding, padding.bottomHeightPadding)
   };
 };
 
@@ -26461,7 +26467,9 @@ GitVisuals.prototype.getScreenPadding = function() {
   // for now we return the node radius subtracted from the walls
   return {
     widthPadding: GRAPHICS.nodeRadius * 1.5,
-    heightPadding: GRAPHICS.nodeRadius * 1.5
+    topHeightPadding: GRAPHICS.nodeRadius * 1.5,
+    // we pad the bottom a lot more so the branches wont go off screen
+    bottomHeightPadding: GRAPHICS.nodeRadius * 5
   };
 };
 
@@ -26474,10 +26482,14 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var shrink = function(frac, total, padding) {
     return padding + frac * (total - padding * 2);
   };
+  
+  var asymShrink = function(frac, total, paddingTop, paddingBelow) {
+    return paddingTop + frac * (total - paddingBelow - paddingTop);
+  };
 
   return {
     x: shrink(pos.x, this.paper.width, padding.widthPadding),
-    y: shrink(pos.y, this.paper.height, padding.heightPadding)
+    y: asymShrink(pos.y, this.paper.height, padding.topHeightPadding, padding.bottomHeightPadding)
   };
 };
 
