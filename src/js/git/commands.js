@@ -7,12 +7,12 @@ var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
 var shortcutMap = {
-  'git commit': /^gc($|\s)/,
+  'git commit': /^(gc|git ci)($|\s)/,
   'git add': /^ga($|\s)/,
-  'git checkout': /^go($|\s)/,
+  'git checkout': /^(go|git co)($|\s)/,
   'git rebase': /^gr($|\s)/,
-  'git branch': /^gb($|\s)/,
-  'git status': /^gs($|\s)/,
+  'git branch': /^(gb|git br)($|\s)/,
+  'git status': /^(gst|git st)($|\s)/,
   'git help': /^git$/
 };
 
