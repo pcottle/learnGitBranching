@@ -57,7 +57,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Andrew Ardill
 * Shao-Chung Chen
 * Tobias Pfeiffer
-* Luke Kysow
+* Luke Kysow - 2
 * Adam Brodzinski
 * Hamish Macpherson
 

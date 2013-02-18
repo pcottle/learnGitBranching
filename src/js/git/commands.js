@@ -12,7 +12,7 @@ var shortcutMap = {
   'git checkout': /^(go|git co)($|\s)/,
   'git rebase': /^gr($|\s)/,
   'git branch': /^(gb|git br)($|\s)/,
-  'git status': /^(gst|git st)($|\s)/,
+  'git status': /^(gst|gs|git st)($|\s)/,
   'git help': /^git$/
 };
 
