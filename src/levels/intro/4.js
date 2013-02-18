@@ -28,7 +28,7 @@ exports.level = {
           "beforeMarkdowns": [
             "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
             "",
-            "We would like to move our work from bugFix directly onto the work from master. That way it woud look like these two features were developed sequentially, when in reality they were developed in parallel.",
+            "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
             "",
             "Let's do that with the `git rebase` command"
           ],
