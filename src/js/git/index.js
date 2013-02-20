@@ -782,55 +782,6 @@ GitEngine.prototype.getOneBeforeCommit = function(ref) {
   return start;
 };
 
-GitEngine.prototype.numBackFrom = function(commit, numBack) {
-  // going back '3' from a given ref is not trivial, for you might have
-  // a bunch of merge commits and such. like this situation:
-  //
-  //      * merge master into new
-  //      |\
-  //      | \* commit here
-  //      |* \ commit there
-  //      |  |* commit here
-  //      \ /
-  //       | * root
-  //
-  //
-  // hence we need to do a BFS search, with the commit date being the
-  // value to sort off of (rather than just purely the level)
-  if (numBack === 0) {
-    return commit;
-  }
-
-  // we use a special sorting function here that
-  // prefers the later commits over the earlier ones
-  var sortQueue = _.bind(function(queue) {
-    queue.sort(this.dateSortFunc);
-  }, this);
-
-  var pQueue = [].concat(commit.get('parents') || []);
-  sortQueue(pQueue);
-  numBack--;
-
-  while (pQueue.length && numBack !== 0) {
-    var popped = pQueue.shift(0);
-    var parents = popped.get('parents');
-
-    if (parents && parents.length) {
-      pQueue = pQueue.concat(parents);
-    }
-
-    sortQueue(pQueue);
-    numBack--;
-  }
-
-  if (numBack !== 0 || pQueue.length === 0) {
-    throw new GitError({
-      msg: "Sorry, I can't go that many commits back"
-    });
-  }
-  return pQueue.shift(0);
-};
-
 GitEngine.prototype.scrapeBaseID = function(id) {
   var results = /^C(\d+)/.exec(id);
 
