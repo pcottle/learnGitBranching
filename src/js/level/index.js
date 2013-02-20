@@ -257,6 +257,7 @@ var Level = Sandbox.extend({
   initGitShim: function(options) {
     // ok we definitely want a shim here
     this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this),
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
@@ -281,6 +282,11 @@ var Level = Sandbox.extend({
       myRegexMap[method] = GitCommands.regexMap[method];
     });
     return myRegexMap;
+  },
+
+  undo: function() {
+    this.gitCommandsIssued.pop();
+    Level.__super__.undo.apply(this, arguments);
   },
 
   afterCommandCB: function(command) {

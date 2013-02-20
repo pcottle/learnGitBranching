@@ -131,10 +131,11 @@ var Visualization = Backbone.View.extend({
     this.treeString = treeString;
   },
 
-  reset: function() {
+  reset: function(tree) {
+    var treeString = tree || this.treeString;
     this.setTreeOpacity(0);
     if (this.treeString) {
-      this.gitEngine.loadTreeFromString(this.treeString);
+      this.gitEngine.loadTreeFromString(treeString);
     } else {
       this.gitEngine.defaultInit();
     }

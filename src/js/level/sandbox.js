@@ -5,6 +5,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var util = require('../util');
 var Main = require('../app');
+var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -30,6 +31,7 @@ var Sandbox = Backbone.View.extend({
     this.initCommandCollection(options);
     this.initParseWaterfall(options);
     this.initGitShim(options);
+    this.initUndoStack(options);
 
     if (!options.wait) {
       this.takeControl();
@@ -48,6 +50,10 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  initUndoStack: function(options) {
+    this.undoStack = [];
+  },
+
   initCommandCollection: function(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
@@ -59,6 +65,9 @@ var Sandbox = Backbone.View.extend({
   },
 
   initGitShim: function(options) {
+    this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this)
+    });
   },
 
   takeControl: function() {
@@ -100,6 +109,31 @@ var Sandbox = Backbone.View.extend({
           this.gitShim.insertShim();
       },this);
     }
+  },
+
+  beforeCommandCB: function(command) {
+    this.pushUndo();
+  },
+
+  pushUndo: function() {
+    // go ahead and push the three onto the stack
+    this.undoStack.push(this.mainVis.gitEngine.printTree());
+  },
+
+  undo: function(command, deferred) {
+    var toRestore = this.undoStack.pop();
+    if (!toRestore) {
+      command.set('error', new Errors.GitError({
+        msg: 'The undo stack is empty!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.mainVis.reset(toRestore);
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.mainVis.getAnimationTime());
   },
 
   commandSubmitted: function(value) {
@@ -196,6 +230,7 @@ var Sandbox = Backbone.View.extend({
     // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,
+      'undo': this.undo,
       'help general': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
@@ -349,6 +384,7 @@ var Sandbox = Backbone.View.extend({
 
   reset: function(command, deferred) {
     this.mainVis.reset();
+    this.initUndoStack();
 
     setTimeout(function() {
       command.finishWith(deferred);

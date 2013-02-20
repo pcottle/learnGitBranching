@@ -4498,6 +4498,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var util = require('../util');
 var Main = require('../app');
+var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -4523,6 +4524,7 @@ var Sandbox = Backbone.View.extend({
     this.initCommandCollection(options);
     this.initParseWaterfall(options);
     this.initGitShim(options);
+    this.initUndoStack(options);
 
     if (!options.wait) {
       this.takeControl();
@@ -4541,6 +4543,10 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  initUndoStack: function(options) {
+    this.undoStack = [];
+  },
+
   initCommandCollection: function(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
@@ -4552,6 +4558,9 @@ var Sandbox = Backbone.View.extend({
   },
 
   initGitShim: function(options) {
+    this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this)
+    });
   },
 
   takeControl: function() {
@@ -4593,6 +4602,31 @@ var Sandbox = Backbone.View.extend({
           this.gitShim.insertShim();
       },this);
     }
+  },
+
+  beforeCommandCB: function(command) {
+    this.pushUndo();
+  },
+
+  pushUndo: function() {
+    // go ahead and push the three onto the stack
+    this.undoStack.push(this.mainVis.gitEngine.printTree());
+  },
+
+  undo: function(command, deferred) {
+    var toRestore = this.undoStack.pop();
+    if (!toRestore) {
+      command.set('error', new Errors.GitError({
+        msg: 'The undo stack is empty!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.mainVis.reset(toRestore);
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.mainVis.getAnimationTime());
   },
 
   commandSubmitted: function(value) {
@@ -4689,6 +4723,7 @@ var Sandbox = Backbone.View.extend({
     // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,
+      'undo': this.undo,
       'help general': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
@@ -4842,6 +4877,7 @@ var Sandbox = Backbone.View.extend({
 
   reset: function(command, deferred) {
     this.mainVis.reset();
+    this.initUndoStack();
 
     setTimeout(function() {
       command.finishWith(deferred);
@@ -6917,6 +6953,7 @@ var Level = Sandbox.extend({
   initGitShim: function(options) {
     // ok we definitely want a shim here
     this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this),
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
@@ -6941,6 +6978,11 @@ var Level = Sandbox.extend({
       myRegexMap[method] = GitCommands.regexMap[method];
     });
     return myRegexMap;
+  },
+
+  undo: function() {
+    this.gitCommandsIssued.pop();
+    Level.__super__.undo.apply(this, arguments);
   },
 
   afterCommandCB: function(command) {
@@ -7345,10 +7387,11 @@ var Visualization = Backbone.View.extend({
     this.treeString = treeString;
   },
 
-  reset: function() {
+  reset: function(tree) {
+    var treeString = tree || this.treeString;
     this.setTreeOpacity(0);
     if (this.treeString) {
-      this.gitEngine.loadTreeFromString(this.treeString);
+      this.gitEngine.loadTreeFromString(treeString);
     } else {
       this.gitEngine.defaultInit();
     }
@@ -13424,7 +13467,8 @@ var regexMap = {
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
   'import tree': /^import tree$/,
-  'import level': /^import level$/
+  'import level': /^import level$/,
+  'undo': /^undo($|\s)/
 };
 
 exports.instantCommands = instantCommands;
@@ -22016,6 +22060,7 @@ var Level = Sandbox.extend({
   initGitShim: function(options) {
     // ok we definitely want a shim here
     this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this),
       afterCB: _.bind(this.afterCommandCB, this),
       afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
@@ -22040,6 +22085,11 @@ var Level = Sandbox.extend({
       myRegexMap[method] = GitCommands.regexMap[method];
     });
     return myRegexMap;
+  },
+
+  undo: function() {
+    this.gitCommandsIssued.pop();
+    Level.__super__.undo.apply(this, arguments);
   },
 
   afterCommandCB: function(command) {
@@ -22379,6 +22429,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var util = require('../util');
 var Main = require('../app');
+var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -22404,6 +22455,7 @@ var Sandbox = Backbone.View.extend({
     this.initCommandCollection(options);
     this.initParseWaterfall(options);
     this.initGitShim(options);
+    this.initUndoStack(options);
 
     if (!options.wait) {
       this.takeControl();
@@ -22422,6 +22474,10 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  initUndoStack: function(options) {
+    this.undoStack = [];
+  },
+
   initCommandCollection: function(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
@@ -22433,6 +22489,9 @@ var Sandbox = Backbone.View.extend({
   },
 
   initGitShim: function(options) {
+    this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this)
+    });
   },
 
   takeControl: function() {
@@ -22474,6 +22533,31 @@ var Sandbox = Backbone.View.extend({
           this.gitShim.insertShim();
       },this);
     }
+  },
+
+  beforeCommandCB: function(command) {
+    this.pushUndo();
+  },
+
+  pushUndo: function() {
+    // go ahead and push the three onto the stack
+    this.undoStack.push(this.mainVis.gitEngine.printTree());
+  },
+
+  undo: function(command, deferred) {
+    var toRestore = this.undoStack.pop();
+    if (!toRestore) {
+      command.set('error', new Errors.GitError({
+        msg: 'The undo stack is empty!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.mainVis.reset(toRestore);
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.mainVis.getAnimationTime());
   },
 
   commandSubmitted: function(value) {
@@ -22570,6 +22654,7 @@ var Sandbox = Backbone.View.extend({
     // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,
+      'undo': this.undo,
       'help general': this.helpDialog,
       'help': this.helpDialog,
       'reset': this.reset,
@@ -22723,6 +22808,7 @@ var Sandbox = Backbone.View.extend({
 
   reset: function(command, deferred) {
     this.mainVis.reset();
+    this.initUndoStack();
 
     setTimeout(function() {
       command.finishWith(deferred);
@@ -22806,7 +22892,8 @@ var regexMap = {
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
   'import tree': /^import tree$/,
-  'import level': /^import level$/
+  'import level': /^import level$/,
+  'undo': /^undo($|\s)/
 };
 
 exports.instantCommands = instantCommands;
@@ -28471,10 +28558,11 @@ var Visualization = Backbone.View.extend({
     this.treeString = treeString;
   },
 
-  reset: function() {
+  reset: function(tree) {
+    var treeString = tree || this.treeString;
     this.setTreeOpacity(0);
     if (this.treeString) {
-      this.gitEngine.loadTreeFromString(this.treeString);
+      this.gitEngine.loadTreeFromString(treeString);
     } else {
       this.gitEngine.defaultInit();
     }

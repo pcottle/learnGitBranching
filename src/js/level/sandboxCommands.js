@@ -57,7 +57,8 @@ var regexMap = {
   'build level': /^build level($|\s)/,
   'export tree': /^export tree$/,
   'import tree': /^import tree$/,
-  'import level': /^import level$/
+  'import level': /^import level$/,
+  'undo': /^undo($|\s)/
 };
 
 exports.instantCommands = instantCommands;
