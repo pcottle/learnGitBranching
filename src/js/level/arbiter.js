@@ -3,8 +3,8 @@ var Backbone = require('backbone');
 
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in order.
-var levelSequences = require('../levels').levelSequences;
-var sequenceInfo = require('../levels').sequenceInfo;
+var levelSequences = require('../../levels').levelSequences;
+var sequenceInfo = require('../../levels').sequenceInfo;
 
 var Main = require('../app');
 
