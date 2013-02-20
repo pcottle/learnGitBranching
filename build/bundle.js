@@ -10422,11 +10422,13 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
     var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
+    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
+    var pluralBest = (options.best == 1) ? '' : 's';
 
     var markdowns = [
       '## Great Job!!',
       '',
-      'You solved the level in **' + options.numCommands + '** command(s); ',
+      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
       'our solution uses ' + options.best + '. '
     ];
 
@@ -10436,7 +10438,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       );
     } else {
       markdowns.push(
-        'See if you can whittle it down to ' + options.best + ' command(s) :D '
+        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
       );
     }
 
@@ -25107,11 +25109,13 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
     var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
+    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
+    var pluralBest = (options.best == 1) ? '' : 's';
 
     var markdowns = [
       '## Great Job!!',
       '',
-      'You solved the level in **' + options.numCommands + '** command(s); ',
+      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
       'our solution uses ' + options.best + '. '
     ];
 
@@ -25121,7 +25125,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
       );
     } else {
       markdowns.push(
-        'See if you can whittle it down to ' + options.best + ' command(s) :D '
+        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
       );
     }
 

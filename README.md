@@ -61,6 +61,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Adam Brodzinski
 * Hamish Macpherson
 * Cameron Wills
+* Johan ("josso")
 
 Or reported an issue that was successfully closed!
 
