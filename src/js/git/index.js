@@ -621,6 +621,36 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
   return this.resolveStringRef(idOrTarget);
 };
 
+GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
+  var regex = /([~^])(\d*)/g;
+  var matches;
+
+  while (matches = regex.exec(relative)) {
+    var next = commit;
+    var num = matches[2] ? parseInt(matches[2], 10) : 1;
+
+    if (matches[1] == '^') {
+      next = commit.getParent(num-1);
+    }
+    else {
+      while(next && num--) {
+        next = next.getParent(0);
+      }
+    }
+
+    if (!next) {
+      var msg = "Commit " + commit.id + " doesn't have a " + matches[0];
+      throw new GitError({
+        msg: msg
+      });
+    }
+
+    commit = next;
+  }
+
+  return commit;
+};
+
 GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
@@ -630,33 +660,21 @@ GitEngine.prototype.resolveStringRef = function(ref) {
     return this.refs[ref.toUpperCase()];
   }
 
-  // may be something like HEAD~2 or master^^
-  var relativeRefs = [
-    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2], 10);
-    }],
-    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
-      return matches[2].length;
-    }]
-  ];
-
+  // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
-  var numBack = null;
-  _.each(relativeRefs, function(config) {
-    var regex = config[0];
-    var parse = config[1];
-    if (regex.test(ref)) {
-      var matches = regex.exec(ref);
-      numBack = parse(matches);
-      startRef = matches[1];
-    }
-  }, this);
-
-  if (!startRef) {
+  var relative = null;
+  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var matches = regex.exec(ref);
+  if (matches) {
+    startRef = matches[1];
+    relative = matches[2];
+  }
+  else {
     throw new GitError({
       msg: 'unknown ref ' + ref
     });
   }
+
   if (!this.refs[startRef]) {
     throw new GitError({
       msg: 'the ref ' + startRef +' does not exist.'
@@ -664,7 +682,11 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   }
   var commit = this.getCommitFromRef(startRef);
 
-  return this.numBackFrom(commit, numBack);
+  if (relative) {
+    commit = this.resolveRelativeRef( commit, relative );
+  }
+
+  return commit;
 };
 
 GitEngine.prototype.getCommitFromRef = function(ref) {
