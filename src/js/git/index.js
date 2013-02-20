@@ -1685,6 +1685,13 @@ var Commit = Backbone.Model.extend({
     this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
   },
 
+  getParent: function(parentNum) {
+    if (this && this.attributes && this.attributes.parents)
+      return this.attributes.parents[parentNum];
+    else
+      return null;
+  },
+
   isMainParent: function(parent) {
     var index = this.get('parents').indexOf(parent);
     return index === 0;
