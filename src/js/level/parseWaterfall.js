@@ -1,7 +1,7 @@
 var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
-var SandboxCommands = require('../level/SandboxCommands');
+var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
 var ParseWaterfall = function(options) {
