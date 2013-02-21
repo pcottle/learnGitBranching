@@ -78,4 +78,5 @@ Or reported an issue that was successfully closed!
 * "chosenken"
 * Mael P ("maelp")
 * "flying-sheep"
+* "arianvp"
 
