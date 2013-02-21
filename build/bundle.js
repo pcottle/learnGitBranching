@@ -8201,6 +8201,36 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
   return this.resolveStringRef(idOrTarget);
 };
 
+GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
+  var regex = /([~^])(\d*)/g;
+  var matches;
+
+  while (matches = regex.exec(relative)) {
+    var next = commit;
+    var num = matches[2] ? parseInt(matches[2], 10) : 1;
+
+    if (matches[1] == '^') {
+      next = commit.getParent(num-1);
+    }
+    else {
+      while(next && num--) {
+        next = next.getParent(0);
+      }
+    }
+
+    if (!next) {
+      var msg = "Commit " + commit.id + " doesn't have a " + matches[0];
+      throw new GitError({
+        msg: msg
+      });
+    }
+
+    commit = next;
+  }
+
+  return commit;
+};
+
 GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
@@ -8210,33 +8240,21 @@ GitEngine.prototype.resolveStringRef = function(ref) {
     return this.refs[ref.toUpperCase()];
   }
 
-  // may be something like HEAD~2 or master^^
-  var relativeRefs = [
-    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2], 10);
-    }],
-    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
-      return matches[2].length;
-    }]
-  ];
-
+  // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
-  var numBack = null;
-  _.each(relativeRefs, function(config) {
-    var regex = config[0];
-    var parse = config[1];
-    if (regex.test(ref)) {
-      var matches = regex.exec(ref);
-      numBack = parse(matches);
-      startRef = matches[1];
-    }
-  }, this);
-
-  if (!startRef) {
+  var relative = null;
+  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var matches = regex.exec(ref);
+  if (matches) {
+    startRef = matches[1];
+    relative = matches[2];
+  }
+  else {
     throw new GitError({
       msg: 'unknown ref ' + ref
     });
   }
+
   if (!this.refs[startRef]) {
     throw new GitError({
       msg: 'the ref ' + startRef +' does not exist.'
@@ -8244,7 +8262,11 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   }
   var commit = this.getCommitFromRef(startRef);
 
-  return this.numBackFrom(commit, numBack);
+  if (relative) {
+    commit = this.resolveRelativeRef( commit, relative );
+  }
+
+  return commit;
 };
 
 GitEngine.prototype.getCommitFromRef = function(ref) {
@@ -8338,55 +8360,6 @@ GitEngine.prototype.getOneBeforeCommit = function(ref) {
     start = start.get('target');
   }
   return start;
-};
-
-GitEngine.prototype.numBackFrom = function(commit, numBack) {
-  // going back '3' from a given ref is not trivial, for you might have
-  // a bunch of merge commits and such. like this situation:
-  //
-  //      * merge master into new
-  //      |\
-  //      | \* commit here
-  //      |* \ commit there
-  //      |  |* commit here
-  //      \ /
-  //       | * root
-  //
-  //
-  // hence we need to do a BFS search, with the commit date being the
-  // value to sort off of (rather than just purely the level)
-  if (numBack === 0) {
-    return commit;
-  }
-
-  // we use a special sorting function here that
-  // prefers the later commits over the earlier ones
-  var sortQueue = _.bind(function(queue) {
-    queue.sort(this.dateSortFunc);
-  }, this);
-
-  var pQueue = [].concat(commit.get('parents') || []);
-  sortQueue(pQueue);
-  numBack--;
-
-  while (pQueue.length && numBack !== 0) {
-    var popped = pQueue.shift(0);
-    var parents = popped.get('parents');
-
-    if (parents && parents.length) {
-      pQueue = pQueue.concat(parents);
-    }
-
-    sortQueue(pQueue);
-    numBack--;
-  }
-
-  if (numBack !== 0 || pQueue.length === 0) {
-    throw new GitError({
-      msg: "Sorry, I can't go that many commits back"
-    });
-  }
-  return pQueue.shift(0);
 };
 
 GitEngine.prototype.scrapeBaseID = function(id) {
@@ -8738,9 +8711,9 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 };
 
 GitEngine.prototype.mergeStarter = function() {
-  this.twoArgsImpliedHead(this.generalArgs);
+  this.validateArgBounds(this.generalArgs, 1, 1);
 
-  var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
+  var newCommit = this.merge(this.generalArgs[0]);
 
   if (newCommit === undefined) {
     // its just a fast forwrard
@@ -8751,7 +8724,9 @@ GitEngine.prototype.mergeStarter = function() {
   this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
-GitEngine.prototype.merge = function(targetSource, currentLocation) {
+GitEngine.prototype.merge = function(targetSource) {
+  var currentLocation = 'HEAD';
+
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation) ||
       this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
@@ -9263,6 +9238,13 @@ var Commit = Backbone.Model.extend({
 
   addEdgeToVisuals: function(parent) {
     this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
+  },
+
+  getParent: function(parentNum) {
+    if (this && this.attributes && this.attributes.parents)
+      return this.attributes.parents[parentNum];
+    else
+      return null;
   },
 
   isMainParent: function(parent) {
@@ -13292,7 +13274,7 @@ exports.regexMap = regexMap;
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
-var SandboxCommands = require('../level/SandboxCommands');
+var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
 var ParseWaterfall = function(options) {
@@ -13412,7 +13394,7 @@ exports.ParseWaterfall = ParseWaterfall;
 
 });
 
-require.define("/src/js/level/SandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var util = require('../util');
 
 var Errors = require('../util/errors');
@@ -16933,8 +16915,8 @@ var Backbone = require('backbone');
 
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in order.
-var levelSequences = require('../levels').levelSequences;
-var sequenceInfo = require('../levels').sequenceInfo;
+var levelSequences = require('../../levels').levelSequences;
+var sequenceInfo = require('../../levels').sequenceInfo;
 
 var Main = require('../app');
 
@@ -17135,7 +17117,7 @@ exports.sequenceInfo = {
 
 });
 
-require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "name": 'Introduction to Git Commits',
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -17194,7 +17176,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "hint": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -17283,7 +17265,7 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
 };
 });
 
-require.define("/src/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": "Merging in Git",
@@ -17322,7 +17304,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
             "",
             "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
           ],
-          "command": "git merge bugFix master",
+          "command": "git merge bugFix",
           "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
         }
       },
@@ -17337,8 +17319,8 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
             "",
             "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
           ],
-          "command": "git merge master bugFix",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          "command": "git checkout bugFix; git merge master",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
         }
       },
       {
@@ -17364,7 +17346,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": "Rebase Introduction",
@@ -17443,7 +17425,7 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/intro/5.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
@@ -17516,7 +17498,7 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
@@ -17548,7 +17530,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
 
 });
 
-require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareAllBranchesHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
@@ -17582,7 +17564,7 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
 
 });
 
-require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap" : {
     "git revert": true
@@ -17637,7 +17619,7 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "disabledMap" : {
     "git cherry-pick": true,
     "git revert": true
@@ -17692,7 +17674,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
 
 });
 
-require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
   "disabledMap" : {
@@ -19918,6 +19900,36 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
   return this.resolveStringRef(idOrTarget);
 };
 
+GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
+  var regex = /([~^])(\d*)/g;
+  var matches;
+
+  while (matches = regex.exec(relative)) {
+    var next = commit;
+    var num = matches[2] ? parseInt(matches[2], 10) : 1;
+
+    if (matches[1] == '^') {
+      next = commit.getParent(num-1);
+    }
+    else {
+      while(next && num--) {
+        next = next.getParent(0);
+      }
+    }
+
+    if (!next) {
+      var msg = "Commit " + commit.id + " doesn't have a " + matches[0];
+      throw new GitError({
+        msg: msg
+      });
+    }
+
+    commit = next;
+  }
+
+  return commit;
+};
+
 GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
@@ -19927,33 +19939,21 @@ GitEngine.prototype.resolveStringRef = function(ref) {
     return this.refs[ref.toUpperCase()];
   }
 
-  // may be something like HEAD~2 or master^^
-  var relativeRefs = [
-    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2], 10);
-    }],
-    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
-      return matches[2].length;
-    }]
-  ];
-
+  // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
-  var numBack = null;
-  _.each(relativeRefs, function(config) {
-    var regex = config[0];
-    var parse = config[1];
-    if (regex.test(ref)) {
-      var matches = regex.exec(ref);
-      numBack = parse(matches);
-      startRef = matches[1];
-    }
-  }, this);
-
-  if (!startRef) {
+  var relative = null;
+  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var matches = regex.exec(ref);
+  if (matches) {
+    startRef = matches[1];
+    relative = matches[2];
+  }
+  else {
     throw new GitError({
       msg: 'unknown ref ' + ref
     });
   }
+
   if (!this.refs[startRef]) {
     throw new GitError({
       msg: 'the ref ' + startRef +' does not exist.'
@@ -19961,7 +19961,11 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   }
   var commit = this.getCommitFromRef(startRef);
 
-  return this.numBackFrom(commit, numBack);
+  if (relative) {
+    commit = this.resolveRelativeRef( commit, relative );
+  }
+
+  return commit;
 };
 
 GitEngine.prototype.getCommitFromRef = function(ref) {
@@ -20055,55 +20059,6 @@ GitEngine.prototype.getOneBeforeCommit = function(ref) {
     start = start.get('target');
   }
   return start;
-};
-
-GitEngine.prototype.numBackFrom = function(commit, numBack) {
-  // going back '3' from a given ref is not trivial, for you might have
-  // a bunch of merge commits and such. like this situation:
-  //
-  //      * merge master into new
-  //      |\
-  //      | \* commit here
-  //      |* \ commit there
-  //      |  |* commit here
-  //      \ /
-  //       | * root
-  //
-  //
-  // hence we need to do a BFS search, with the commit date being the
-  // value to sort off of (rather than just purely the level)
-  if (numBack === 0) {
-    return commit;
-  }
-
-  // we use a special sorting function here that
-  // prefers the later commits over the earlier ones
-  var sortQueue = _.bind(function(queue) {
-    queue.sort(this.dateSortFunc);
-  }, this);
-
-  var pQueue = [].concat(commit.get('parents') || []);
-  sortQueue(pQueue);
-  numBack--;
-
-  while (pQueue.length && numBack !== 0) {
-    var popped = pQueue.shift(0);
-    var parents = popped.get('parents');
-
-    if (parents && parents.length) {
-      pQueue = pQueue.concat(parents);
-    }
-
-    sortQueue(pQueue);
-    numBack--;
-  }
-
-  if (numBack !== 0 || pQueue.length === 0) {
-    throw new GitError({
-      msg: "Sorry, I can't go that many commits back"
-    });
-  }
-  return pQueue.shift(0);
 };
 
 GitEngine.prototype.scrapeBaseID = function(id) {
@@ -20455,9 +20410,9 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 };
 
 GitEngine.prototype.mergeStarter = function() {
-  this.twoArgsImpliedHead(this.generalArgs);
+  this.validateArgBounds(this.generalArgs, 1, 1);
 
-  var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
+  var newCommit = this.merge(this.generalArgs[0]);
 
   if (newCommit === undefined) {
     // its just a fast forwrard
@@ -20468,7 +20423,9 @@ GitEngine.prototype.mergeStarter = function() {
   this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
-GitEngine.prototype.merge = function(targetSource, currentLocation) {
+GitEngine.prototype.merge = function(targetSource) {
+  var currentLocation = 'HEAD';
+
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation) ||
       this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
@@ -20982,6 +20939,13 @@ var Commit = Backbone.Model.extend({
     this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
   },
 
+  getParent: function(parentNum) {
+    if (this && this.attributes && this.attributes.parents)
+      return this.attributes.parents[parentNum];
+    else
+      return null;
+  },
+
   isMainParent: function(parent) {
     var index = this.get('parents').indexOf(parent);
     return index === 0;
@@ -21249,8 +21213,8 @@ var Backbone = require('backbone');
 
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in order.
-var levelSequences = require('../levels').levelSequences;
-var sequenceInfo = require('../levels').sequenceInfo;
+var levelSequences = require('../../levels').levelSequences;
+var sequenceInfo = require('../../levels').sequenceInfo;
 
 var Main = require('../app');
 
@@ -22309,7 +22273,7 @@ require("/src/js/level/index.js");
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
-var SandboxCommands = require('../level/SandboxCommands');
+var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
 var ParseWaterfall = function(options) {
@@ -28855,7 +28819,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
             "",
             "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
           ],
-          "command": "git merge bugFix master",
+          "command": "git merge bugFix",
           "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
         }
       },
@@ -28870,8 +28834,8 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
             "",
             "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
           ],
-          "command": "git merge master bugFix",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          "command": "git checkout bugFix; git merge master",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
         }
       },
       {

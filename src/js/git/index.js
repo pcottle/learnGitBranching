@@ -621,6 +621,36 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
   return this.resolveStringRef(idOrTarget);
 };
 
+GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
+  var regex = /([~^])(\d*)/g;
+  var matches;
+
+  while (matches = regex.exec(relative)) {
+    var next = commit;
+    var num = matches[2] ? parseInt(matches[2], 10) : 1;
+
+    if (matches[1] == '^') {
+      next = commit.getParent(num-1);
+    }
+    else {
+      while(next && num--) {
+        next = next.getParent(0);
+      }
+    }
+
+    if (!next) {
+      var msg = "Commit " + commit.id + " doesn't have a " + matches[0];
+      throw new GitError({
+        msg: msg
+      });
+    }
+
+    commit = next;
+  }
+
+  return commit;
+};
+
 GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
@@ -630,33 +660,21 @@ GitEngine.prototype.resolveStringRef = function(ref) {
     return this.refs[ref.toUpperCase()];
   }
 
-  // may be something like HEAD~2 or master^^
-  var relativeRefs = [
-    [/^([a-zA-Z0-9]+)~(\d+)\s*$/, function(matches) {
-      return parseInt(matches[2], 10);
-    }],
-    [/^([a-zA-Z0-9]+)(\^+)\s*$/, function(matches) {
-      return matches[2].length;
-    }]
-  ];
-
+  // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
-  var numBack = null;
-  _.each(relativeRefs, function(config) {
-    var regex = config[0];
-    var parse = config[1];
-    if (regex.test(ref)) {
-      var matches = regex.exec(ref);
-      numBack = parse(matches);
-      startRef = matches[1];
-    }
-  }, this);
-
-  if (!startRef) {
+  var relative = null;
+  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var matches = regex.exec(ref);
+  if (matches) {
+    startRef = matches[1];
+    relative = matches[2];
+  }
+  else {
     throw new GitError({
       msg: 'unknown ref ' + ref
     });
   }
+
   if (!this.refs[startRef]) {
     throw new GitError({
       msg: 'the ref ' + startRef +' does not exist.'
@@ -664,7 +682,11 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   }
   var commit = this.getCommitFromRef(startRef);
 
-  return this.numBackFrom(commit, numBack);
+  if (relative) {
+    commit = this.resolveRelativeRef( commit, relative );
+  }
+
+  return commit;
 };
 
 GitEngine.prototype.getCommitFromRef = function(ref) {
@@ -758,55 +780,6 @@ GitEngine.prototype.getOneBeforeCommit = function(ref) {
     start = start.get('target');
   }
   return start;
-};
-
-GitEngine.prototype.numBackFrom = function(commit, numBack) {
-  // going back '3' from a given ref is not trivial, for you might have
-  // a bunch of merge commits and such. like this situation:
-  //
-  //      * merge master into new
-  //      |\
-  //      | \* commit here
-  //      |* \ commit there
-  //      |  |* commit here
-  //      \ /
-  //       | * root
-  //
-  //
-  // hence we need to do a BFS search, with the commit date being the
-  // value to sort off of (rather than just purely the level)
-  if (numBack === 0) {
-    return commit;
-  }
-
-  // we use a special sorting function here that
-  // prefers the later commits over the earlier ones
-  var sortQueue = _.bind(function(queue) {
-    queue.sort(this.dateSortFunc);
-  }, this);
-
-  var pQueue = [].concat(commit.get('parents') || []);
-  sortQueue(pQueue);
-  numBack--;
-
-  while (pQueue.length && numBack !== 0) {
-    var popped = pQueue.shift(0);
-    var parents = popped.get('parents');
-
-    if (parents && parents.length) {
-      pQueue = pQueue.concat(parents);
-    }
-
-    sortQueue(pQueue);
-    numBack--;
-  }
-
-  if (numBack !== 0 || pQueue.length === 0) {
-    throw new GitError({
-      msg: "Sorry, I can't go that many commits back"
-    });
-  }
-  return pQueue.shift(0);
 };
 
 GitEngine.prototype.scrapeBaseID = function(id) {
@@ -1685,6 +1658,13 @@ var Commit = Backbone.Model.extend({
 
   addEdgeToVisuals: function(parent) {
     this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
+  },
+
+  getParent: function(parentNum) {
+    if (this && this.attributes && this.attributes.parents)
+      return this.attributes.parents[parentNum];
+    else
+      return null;
   },
 
   isMainParent: function(parent) {
