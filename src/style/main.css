@@ -589,7 +589,7 @@ li.rebaseEntry a#toggleButton {
   position: relative;
   font-size: 14px;
   top: -5px;
-  right; -5px;
+  right: -5px;
 }
 
 li.rebaseEntry.notPicked {
