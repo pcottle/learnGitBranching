@@ -26,11 +26,17 @@ You can build levels with `build level`. The dialog should walk you through the 
 
 ### Contributing Levels
 
-I would love for more levels to be added! I think there is a ton to learn and cover. Hopefully the community together can build a great tool for all git newcomers.
+I would love for more levels to be added! I think there is a ton to learn and cover. Hopefully the community together can build a great tool for all git newcomers. You can make your own levels with
 
-## Contributing
+```
+build level
+```
 
-I am really loose about contributing levels. For contributing functionality, you will need to install the `grunt` build tool. The general steps:
+In the application. You will be walked through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes!
+
+## Contributing Functionality
+
+For contributing core functionality in the app, you will need to install the `grunt` build tool. The general steps:
 
 ```
 git clone <your fork of the repo>
@@ -38,6 +44,9 @@ cd learnGitBranching
 npm install
 git checkout -b newAwesomeFeature
 # some changes
+grunt build # now you can open up your browser to the index.html and see your changes
+grunt watch # will keep watch over files and fastBuild whenever they change
+# more changes
 grunt build
 git commit -am "My new sweet feature!"
 git push
