@@ -76,4 +76,6 @@ Or reported an issue that was successfully closed!
 * "ortin"
 * Dave Myron
 * "chosenken"
+* Mael P ("maelp")
+* "flying-sheep"
 

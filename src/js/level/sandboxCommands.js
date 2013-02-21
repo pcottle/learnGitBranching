@@ -45,7 +45,7 @@ var instantCommands = [
 
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
-  'help': /^help( general)?$|^\?$/,
+  'help': /^help( +general)?$|^\?$/,
   'reset': /^reset$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
@@ -54,10 +54,10 @@ var regexMap = {
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
   'mobileAlert': /^mobile alert($|\s)/,
-  'build level': /^build level($|\s)/,
-  'export tree': /^export tree$/,
-  'import tree': /^import tree$/,
-  'import level': /^import level$/,
+  'build level': /^build +level($|\s)/,
+  'export tree': /^export +tree$/,
+  'import tree': /^import +tree$/,
+  'import level': /^import +level$/,
   'undo': /^undo($|\s)/
 };
 
