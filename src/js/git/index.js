@@ -1158,9 +1158,9 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 };
 
 GitEngine.prototype.mergeStarter = function() {
-  this.twoArgsImpliedHead(this.generalArgs);
+  this.validateArgBounds(this.generalArgs, 1, 1);
 
-  var newCommit = this.merge(this.generalArgs[0], this.generalArgs[1]);
+  var newCommit = this.merge(this.generalArgs[0]);
 
   if (newCommit === undefined) {
     // its just a fast forwrard
@@ -1171,7 +1171,9 @@ GitEngine.prototype.mergeStarter = function() {
   this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
-GitEngine.prototype.merge = function(targetSource, currentLocation) {
+GitEngine.prototype.merge = function(targetSource) {
+  var currentLocation = 'HEAD';
+
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation) ||
       this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
