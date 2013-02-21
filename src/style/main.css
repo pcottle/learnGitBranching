@@ -827,9 +827,14 @@ div.levelIcon.solved div.index div.indexNum {
   width: 50%;
 }
 
+div.gitDemonstrationView {
+  width:100%;
+}
+
 .gitDemonstrationView > div.demonstrationText {
   margin-right: 10px;
   max-height: 400px;
+  max-width: 450px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
