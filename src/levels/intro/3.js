@@ -37,7 +37,7 @@ exports.level = {
             "",
             "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
           ],
-          "command": "git merge bugFix master",
+          "command": "git merge bugFix",
           "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
         }
       },
@@ -52,8 +52,8 @@ exports.level = {
             "",
             "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
           ],
-          "command": "git merge master bugFix",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          "command": "git checkout bugFix; git merge master",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
         }
       },
       {
