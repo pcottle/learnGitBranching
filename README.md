@@ -90,4 +90,5 @@ Or reported an issue that was successfully closed!
 * Mael P ("maelp")
 * "flying-sheep"
 * "arianvp"
+* "MaPePeR"
 

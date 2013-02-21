@@ -357,7 +357,13 @@ var CommandLineHistoryView = Backbone.View.extend({
     var cD = $('#commandDisplay')[0];
     var t = $('#terminal')[0];
 
-    var shouldScroll = (cD.clientHeight > t.clientHeight);
+    console.log('I AM CHECKING scroll ehight');
+    console.log(cD, t);
+    console.log(cD.clientHeight, t.clientHeight);
+
+    // firefox hack
+    var shouldScroll = (cD.clientHeight > t.clientHeight) ||
+      ($(window).height() < cD.clientHeight);
     $(t).toggleClass('scrolling', shouldScroll);
     if (shouldScroll) {
       t.scrollTop = t.scrollHeight;
