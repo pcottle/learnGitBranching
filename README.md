@@ -53,7 +53,7 @@ A big shoutout to these brave souls for extensively testing our sandbox and find
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
-* Aaron Schrab - 3x!!
+* Aaron Schrab - 4x!!
 * Stephen Cavaliere
 * Andrew Ardill
 * Shao-Chung Chen
