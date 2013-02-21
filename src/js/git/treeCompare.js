@@ -79,6 +79,10 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
     if (!branchA || !branchB) {
       return false;
     }
+
+    // dont mess up the rest of comparison
+    branchA = _.clone(branchA);
+    branchB = _.clone(branchB);
     branchA.target = this.getBaseRef(branchA.target);
     branchB.target = this.getBaseRef(branchB.target);
 
