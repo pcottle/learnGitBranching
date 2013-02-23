@@ -9,12 +9,15 @@ exports.dialog = [{
       'with git. We hope you enjoy this application and maybe ',
       'even learn something!',
       '',
-      '# Attention HN!!',
+      '# Demo!',
       '',
-      'Unfortunately this was submitted before I finished all the help ',
-      'and tutorial sections, so forgive the scarcity. See the demo here:',
+      'If you have not seen the demo, please check it out here:',
       '',
-      '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)'
+      '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+      '',
+      'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
+      '',
+      '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
     ]
   }
 }, {

@@ -1,6 +1,15 @@
 var _ = require('underscore');
 var constants = require('../util/constants');
 
+exports.parseQueryString = function(uri) {
+  var params = {};
+  uri.replace(
+      new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+      function($0, $1, $2, $3) { params[$1] = $3; }
+  );
+  return params;
+};
+
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
@@ -10,8 +19,11 @@ exports.getLocale = function() {
   if (constants.GLOBAL.locale) {
     return constants.GLOBAL.locale;
   }
-  console.warn('No locale found...');
-  return 'en';
+  return exports.getDefaultLocale();
+};
+
+exports.getDefaultLocale = function() {
+  return 'en_US';
 };
 
 exports.splitTextCommand = function(value, func, context) {

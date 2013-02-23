@@ -1,6 +1,8 @@
 var _ = require('underscore');
 var util = require('../util');
 
+var constants = require('../util/constants');
+
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -16,6 +18,19 @@ var instantCommands = [
   [/^cd/, function() {
     throw new CommandResult({
       msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+    });
+  }],
+  [/^(locale|locale reset)$/, function(bits) {
+    constants.GLOBAL.locale = util.getDefaultLocale();
+    throw new CommandResult({
+      msg: 'Locale reset to default, which is ' + util.getDefaultLocale()
+    });
+  }],
+  [/^locale (\w+)$/, function(bits) {
+    constants.GLOBAL.locale = bits[1];
+
+    throw new CommandResult({
+      msg: "Locale set to " + bits[1]
     });
   }],
   [/^refresh$/, function() {

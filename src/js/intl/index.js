@@ -38,7 +38,7 @@ var getStartDialog = exports.getStartDialog = function(level) {
   if (!level || !level.startDialog) {
     throw new Error('start dialog doesnt exist in that blob');
   }
-  if (!level.startDialog.en) {
+  if (!level.startDialog[util.getDefaultLocale()]) {
     console.warn('WARNING!! This dialog does not have intl support: ', level);
   }
   var locale = util.getLocale();
@@ -47,15 +47,16 @@ var getStartDialog = exports.getStartDialog = function(level) {
   }
 
   // we need to return english but add their locale error
-  var startCopy = _.clone(level.startDialog.en || level.startDialog);
+  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
+  console.log('start copy is', startCopy, 'and defaukt', level);
   var errorAlert = {
     type: 'ModalAlert',
     options: {
       markdown: str('error-untranslated')
     }
   };
-
   startCopy.childViews.unshift(errorAlert);
+
   return startCopy;
 };
 

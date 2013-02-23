@@ -4394,9 +4394,7 @@ var TIME = {
 
 // useful for locks, etc
 var GLOBAL = {
-  isAnimating: false,
-  // default locale, this changes
-  locale: 'en'
+  isAnimating: false
 };
 
 var VIEWPORT = {
@@ -4447,6 +4445,15 @@ exports.VIEWPORT = VIEWPORT;
 require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var constants = require('../util/constants');
 
+exports.parseQueryString = function(uri) {
+  var params = {};
+  uri.replace(
+      new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+      function($0, $1, $2, $3) { params[$1] = $3; }
+  );
+  return params;
+};
+
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
@@ -4456,8 +4463,11 @@ exports.getLocale = function() {
   if (constants.GLOBAL.locale) {
     return constants.GLOBAL.locale;
   }
-  console.warn('No locale found...');
-  return 'en';
+  return exports.getDefaultLocale();
+};
+
+exports.getDefaultLocale = function() {
+  return 'en_US';
 };
 
 exports.splitTextCommand = function(value, func, context) {
@@ -6486,7 +6496,7 @@ var qEndingLine = captureLine();
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
-var Constants = require('../util/constants');
+var constants = require('../util/constants');
 var util = require('../util');
 
 /**
@@ -6525,6 +6535,11 @@ var init = function() {
     wait: true
   });
 
+  initRootEvents(eventBaton);
+  initDemo(sandbox);
+};
+
+var initRootEvents = function(eventBaton) {
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
     $('#commandTextField').focus();
@@ -6548,42 +6563,8 @@ var init = function() {
     events.trigger('resize', e);
   });
 
-  /*
-  $(window).on('resize', _.throttle(function(e) {
-    var width = $(window).width();
-    var height = $(window).height();
-    eventBaton.trigger('windowSizeCheck', {w: width, h: height});
-  }, 500));
-  */
-
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
-
-  /**
-    * I am disabling this for now, it works on desktop but is
-      hacky on iOS mobile and god knows the behavior on android...
-  // zoom level measure, I wish there was a jquery event for this :/
-  require('../util/zoomLevel').setupZoomPoll(function(level) {
-    eventBaton.trigger('zoomChange', level);
-  }, this);
-
-  eventBaton.stealBaton('zoomChange', function(level) {
-    if (level > Constants.VIEWPORT.maxZoom ||
-        level < Constants.VIEWPORT.minZoom) {
-      var Views = require('../views');
-      var view = new Views.ZoomAlertWindow({level: level});
-    }
-  });
-  */
-
-  /* people were pissed about this apparently
-  eventBaton.stealBaton('windowSizeCheck', function(size) {
-    if (size.w < Constants.VIEWPORT.minWidth ||
-        size.h < Constants.VIEWPORT.minHeight) {
-      var Views = require('../views');
-      var view = new Views.WindowSizeAlertWindow();
-    }
-  });*/
 
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
@@ -6604,9 +6585,14 @@ var init = function() {
   $('#commandTextField').on('keydown', makeKeyListener('keydown'));
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
   $(window).trigger('resize');
+};
 
-  // demo functionality
-  if (/\?demo/.test(window.location.href)) {
+var initDemo = function(sandbox) {
+  var params = util.parseQueryString(window.location.href);
+
+  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // I have to check if the key exists here
+  if (params.hasOwnProperty('demo')) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -6620,7 +6606,7 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
-  } else if (!(/\?NODEMO/.test(window.location.href))) {
+  } else if (!params.hasOwnProperty('NODEMO')) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -6632,9 +6618,13 @@ var init = function() {
         ].join(''));
     });
   }
-  if (/command=/.test(window.location.href)) {
-    var commandRaw = window.location.href.split('command=')[1].split('&')[0];
-    var command = unescape(commandRaw);
+
+  if (params.locale !== undefined && params.locale.length) {
+    constants.GLOBAL.locale = params.locale;
+  }
+
+  if (params.command) {
+    var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger('commandSubmitted', command);
     });
@@ -7242,7 +7232,7 @@ var getStartDialog = exports.getStartDialog = function(level) {
   if (!level || !level.startDialog) {
     throw new Error('start dialog doesnt exist in that blob');
   }
-  if (!level.startDialog.en) {
+  if (!level.startDialog[util.getDefaultLocale()]) {
     console.warn('WARNING!! This dialog does not have intl support: ', level);
   }
   var locale = util.getLocale();
@@ -7251,15 +7241,16 @@ var getStartDialog = exports.getStartDialog = function(level) {
   }
 
   // we need to return english but add their locale error
-  var startCopy = _.clone(level.startDialog.en || level.startDialog);
+  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
+  console.log('start copy is', startCopy, 'and defaukt', level);
   var errorAlert = {
     type: 'ModalAlert',
     options: {
       markdown: str('error-untranslated')
     }
   };
-
   startCopy.childViews.unshift(errorAlert);
+
   return startCopy;
 };
 
@@ -13493,6 +13484,8 @@ exports.ParseWaterfall = ParseWaterfall;
 require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var util = require('../util');
 
+var constants = require('../util/constants');
+
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -13508,6 +13501,19 @@ var instantCommands = [
   [/^cd/, function() {
     throw new CommandResult({
       msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+    });
+  }],
+  [/^(locale|locale reset)$/, function(bits) {
+    constants.GLOBAL.locale = util.getDefaultLocale();
+    throw new CommandResult({
+      msg: 'Locale reset to default, which is ' + util.getDefaultLocale()
+    });
+  }],
+  [/^locale (\w+)$/, function(bits) {
+    constants.GLOBAL.locale = bits[1];
+
+    throw new CommandResult({
+      msg: "Locale set to " + bits[1]
     });
   }],
   [/^refresh$/, function() {
@@ -17218,12 +17224,15 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "hint": "Just type in 'git commit' twice to finish!",
+  "hint": {
+      "en_US": "Just type in 'git commit' twice to finish!",
+      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01"
+    },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17268,6 +17277,50 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "",
+              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "",
+              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "",
+              "`resolving deltas`",
+              "",
+              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "",
+              "点下面的按钮来生成一个新的提交。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17277,13 +17330,16 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
 require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
-  "hint": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
   "name": "Branching in Git",
+  "hint": {
+      "en_US": "Just type in 'git commit' twice to finish!",
+      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01"
+  },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17360,6 +17416,50 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "",
+              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "",
+              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "",
+              "`resolving deltas`",
+              "",
+              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "",
+              "点下面的按钮来生成一个新的提交。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17369,12 +17469,15 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": "Merging in Git",
-  "hint": "Remember to commit in the order specified (bugFix before master)",
+  "hint": {
+    "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09"
+  },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17442,6 +17545,75 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
+              "",
+              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
+              "",
+              "听起来可能有点拗口，看看下一张就明白了。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
+              "",
+              "我们将要把分支 `bugFix` 合并到 `master` 上"
+            ],
+            "command": "git merge bugFix master",
+            "afterMarkdowns": [
+              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
+              "",
+              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
+              "",
+              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们把 `master` 分支合并到 `bugFix` 吧。"
+            ],
+            "command": "git merge master bugFix",
+            "afterMarkdowns": [
+              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
+              "",
+              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想刷过这关，要按照下面的步骤来：",
+              "",
+              "* 创建一个叫 `bugFix` 的新分支",
+              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
+              "* 创建一个提交",
+              "* 再用 `git checkout` 切换回 `master` 上",
+              "* 创建另外一个提交",
+              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
+              "",
+              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17452,12 +17624,15 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": "Rebase Introduction",
-  "hint": "Make sure you commit from bugFix first",
+  "hint": {
+    "en_US": "Make sure you commit from bugFix first",
+    "zh_CN": "\u786e\u4fdd\u4f60\u5148\u5728 bugFix \u5206\u652f\u8fdb\u884c\u63d0\u4ea4"
+  },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17523,6 +17698,73 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "第二种合并不用分支工作的方法是 *衍合（rebasing）*。衍合就是取出一系列的提交，\"组合（compies）\"它们，然后把它们在某个地方重新放下来（重新实施一遍）。",
+              "",
+              "这可能看上去很难明白，而衍合的最大好处就是可以用来创造更线性的提交历史。假如一个项目只允许使用衍合（来合并工作），那么它的提交记录/历史会变得好看很多。",
+              "",
+              "让我们亲身体会下……"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们有两个分支，注意当前分支是 bugFix（看那颗星）",
+              "",
+              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法会让我们觉得这两个特性分支的工作是顺序提交的，但实际上它们是平行发展提交的。",
+              "",
+              "要做到这个效果，我们用 `git rebase`"
+            ],
+            "command": "git rebase master",
+            "afterMarkdowns": [
+              "碉堡吧，现在我们在 bugFix 分支上的工作已经移到了 master 的最前端，同时我们也得到了一个很好的直线型提交历史。",
+              "",
+              "注意一下提交 C3 其实还存在在我们的仓库的某个角落里（阴影的那货就是你了，还看什么看），而 C3' 是它一个在 master 分支上的\"拷贝\"提交。",
+              "",
+              "现在还有唯一一个问题就是 master 分支还没有更新……下面就来更新它吧"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们可以切换到了 `master` 分支。接下来就把它衍合到 `bugFix` 吧……"
+            ],
+            "command": "git rebase bugFix",
+            "afterMarkdowns": [
+              "看！因为 `master` 是 `bugFix` 的上游，所以 git 只把 `master` 分支的记录前进到 `bugFix` 上。"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想刷过这关，要按照下面的步骤来：",
+              "",
+              "* 切换到一个叫 `bugFix` 的新分支",
+              "* 创建一个提交",
+              "* 回到 master 分支并且创建另外一个提交",
+              "* 再次切换到 bugFix 分支，然后把它衍合到 master 上",
+              "",
+              "祝你好运啦！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17534,9 +17776,12 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": "Reversing Changes in Git",
-  "hint": "",
+  "hint": {
+      "en_US": "",
+      "zh_CN": ""
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17598,6 +17843,69 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 撤销 Git 里面的变动",
+              "",
+              "在 Git 里有很多方法撤销（reverse）变动。和 commit 一样，在 Git 里撤销变动同时具有底层次的部分（暂存一些独立的文件或者片段）和高层次的部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
+              "",
+              "在 Git 里主要有两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` 通过把分支记录回退上一个提交来实现撤销改动。这意味着你可以把它的行为当作是\"重写历史\"。`git reset` 会令分支记录回退，做到最新的提交好像没有提交过一样。",
+              "",
+              "让我们看看具体的操作："
+            ],
+            "command": "git reset HEAD~1",
+            "afterMarkdowns": [
+              "Nice! Git 就简单地把 master 分支的记录移回 `C1`；现在我们的本地仓库就处于好像提交 `C2` 没有发生过的状态了。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "虽然在你机子的本地环境中这样来撤销变更看起来很方便，但是这种“改写历史”的方法对别人用的远端分支是无效的哦！",
+              "",
+              "为了撤销分支并把这些变动*分享*给别人，我们需要 `git revert`。下面继续看它是怎么运作的。"
+            ],
+            "command": "git revert HEAD",
+            "afterMarkdowns": [
+              "怪哉！在我们要撤销的提交之后居然多了一个新提交！这是因为这个新提交 `C2'` 提供了*变动*（introduces changes） —— 刚好是用来撤销 `C2` 这个提交的。",
+              "",
+              "借助 revert，现在你可以把你的改动分享给别人啦。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要刷过这关，请分别把 `local` 分支和 `pushed` 分支上最近的一个提交撤销掉。",
+              "",
+              "记住 `pushes` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17613,9 +17921,12 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
   "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": "Rebasing over 9000 times",
-  "hint": "Remember, the most efficient way might be to only update master at the end...",
+  "hint": {
+    "en_US": "Remember, the most efficient way might be to only update master at the end...",
+    "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17628,6 +17939,24 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 多分支衍合",
+              "",
+              "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
+              "",
+              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "",
+              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
             ]
           }
         }
@@ -17647,9 +17976,12 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": "Branch Spaghetti",
-  "hint": "There are multiple ways to solve this! Cherry-pick is the easy / long way, but rebase -i can be a shortcut",
+  "hint": {
+    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17664,6 +17996,26 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "哇塞大神！这关我们要来点不同的！",
+              "",
+              "现在我们的 `master` 分支是比 `one` `two` 和 `three` 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）",
+              "",
+              "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
+              "",
+              "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
             ]
           }
         }
@@ -17683,9 +18035,12 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git checkout master;git cherry-pick C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": "Grabbing Just 1 Commit",
-  "hint": "Remember, interactive rebase or cherry-pick is your friend here",
+  "hint": {
+      "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+      "zh_CN": "\u8bb0\u4f4f\uff0c\u4ea4\u4e92\u5f0f rebase \u6216\u8005 cherry-pick \u4f1a\u5f88\u6709\u5e2e\u52a9"
+    },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17725,6 +18080,47 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 本地栈式提交 (Locally stacked commits)",
+              "",
+              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些 debug 语句和打印语句。",
+              "",
+              "所有的这些调试和打印语句到只在它们的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "",
+              "但有个问题就是现在我要把 `bugFix` 分支的工作合并回 `master` 分支上，我可以简单地快进（fast-forward） `master` 分支，但这样的话 `master` 分支就会包含我这些调试语句了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "现在就是 Git 大显神通的时候啦。我们有几种方法来解决这个问题，但最直接的方法是：",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "交互（`-i`）衍合允许你选择哪些提交是要被保留，哪些要被舍弃。它允许你将提交重新排序。假如你要舍弃一些工作，这个会帮上很大的忙。",
+              "",
+              "Cherry-picking 能让你选择单独一个提交并且把它放到 `HEAD` 的最前端。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17741,9 +18137,12 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": "Juggling Commits",
-  "hint": "The first command is git rebase -i HEAD~2",
+  "hint": {
+      "en_US": "The first command is git rebase -i HEAD~2",
+      "zh_CN": "\u7b2c\u4e00\u4e2a\u547d\u4ee4\u662f 'git rebase -i HEAD~2'"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17781,6 +18180,45 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
+              "",
+              "有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 `newImage` 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "为了实现他的愿望，我们可以按照下面的方法来做：",
+              "",
+              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交挪到最前",
+              "* 然后用 `commit --amend` 来进行一些小修改",
+              "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
+              "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
+              "",
+              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -17797,9 +18235,12 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMaster": true,
   "name": "Juggling Commits #2",
-  "hint": "Don't forget to forward master to the updated changes!",
+  "hint": {
+      "en_US": "Don't forget to forward master to the updated changes!",
+      "zh_CN": "\u522b\u5fd8\u8bb0\u4e86\u5c06 master \u5feb\u8fdb\u5230\u6700\u65b0\u7684\u66f4\u65b0\u4e0a\uff01"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -17835,6 +18276,47 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "options": {
             "markdowns": [
               "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "",
+              "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
+              "",
+              "但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 `git cherry-pick` 是怎么做的吧。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "要在心理牢记 cherry-pick 可以从提交树的任何地方拿一个提交来放在 HEAD 上（尽管那个提交不在上游）。",
+              "",
+              "下面是一个小小的演示："
+            ],
+            "command": "git cherry-pick C2",
+            "afterMarkdowns": [
+              "好滴咧，我们继续"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
             ]
           }
         }
@@ -18595,12 +19077,15 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       'with git. We hope you enjoy this application and maybe ',
       'even learn something!',
       '',
-      '# Attention HN!!',
+      '# Demo!',
       '',
-      'Unfortunately this was submitted before I finished all the help ',
-      'and tutorial sections, so forgive the scarcity. See the demo here:',
+      'If you have not seen the demo, please check it out here:',
       '',
-      '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)'
+      '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+      '',
+      'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
+      '',
+      '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
     ]
   }
 }, {
@@ -18759,7 +19244,7 @@ exports.HeadlessGit = HeadlessGit;
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
-var Constants = require('../util/constants');
+var constants = require('../util/constants');
 var util = require('../util');
 
 /**
@@ -18798,6 +19283,11 @@ var init = function() {
     wait: true
   });
 
+  initRootEvents(eventBaton);
+  initDemo(sandbox);
+};
+
+var initRootEvents = function(eventBaton) {
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
     $('#commandTextField').focus();
@@ -18821,42 +19311,8 @@ var init = function() {
     events.trigger('resize', e);
   });
 
-  /*
-  $(window).on('resize', _.throttle(function(e) {
-    var width = $(window).width();
-    var height = $(window).height();
-    eventBaton.trigger('windowSizeCheck', {w: width, h: height});
-  }, 500));
-  */
-
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
-
-  /**
-    * I am disabling this for now, it works on desktop but is
-      hacky on iOS mobile and god knows the behavior on android...
-  // zoom level measure, I wish there was a jquery event for this :/
-  require('../util/zoomLevel').setupZoomPoll(function(level) {
-    eventBaton.trigger('zoomChange', level);
-  }, this);
-
-  eventBaton.stealBaton('zoomChange', function(level) {
-    if (level > Constants.VIEWPORT.maxZoom ||
-        level < Constants.VIEWPORT.minZoom) {
-      var Views = require('../views');
-      var view = new Views.ZoomAlertWindow({level: level});
-    }
-  });
-  */
-
-  /* people were pissed about this apparently
-  eventBaton.stealBaton('windowSizeCheck', function(size) {
-    if (size.w < Constants.VIEWPORT.minWidth ||
-        size.h < Constants.VIEWPORT.minHeight) {
-      var Views = require('../views');
-      var view = new Views.WindowSizeAlertWindow();
-    }
-  });*/
 
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
@@ -18877,9 +19333,14 @@ var init = function() {
   $('#commandTextField').on('keydown', makeKeyListener('keydown'));
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
   $(window).trigger('resize');
+};
 
-  // demo functionality
-  if (/\?demo/.test(window.location.href)) {
+var initDemo = function(sandbox) {
+  var params = util.parseQueryString(window.location.href);
+
+  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // I have to check if the key exists here
+  if (params.hasOwnProperty('demo')) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -18893,7 +19354,7 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
-  } else if (!(/\?NODEMO/.test(window.location.href))) {
+  } else if (!params.hasOwnProperty('NODEMO')) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -18905,9 +19366,13 @@ var init = function() {
         ].join(''));
     });
   }
-  if (/command=/.test(window.location.href)) {
-    var commandRaw = window.location.href.split('command=')[1].split('&')[0];
-    var command = unescape(commandRaw);
+
+  if (params.locale !== undefined && params.locale.length) {
+    constants.GLOBAL.locale = params.locale;
+  }
+
+  if (params.command) {
+    var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger('commandSubmitted', command);
     });
@@ -19013,12 +19478,15 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       'with git. We hope you enjoy this application and maybe ',
       'even learn something!',
       '',
-      '# Attention HN!!',
+      '# Demo!',
       '',
-      'Unfortunately this was submitted before I finished all the help ',
-      'and tutorial sections, so forgive the scarcity. See the demo here:',
+      'If you have not seen the demo, please check it out here:',
       '',
-      '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)'
+      '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+      '',
+      'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
+      '',
+      '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
     ]
   }
 }, {
@@ -21366,7 +21834,7 @@ var getStartDialog = exports.getStartDialog = function(level) {
   if (!level || !level.startDialog) {
     throw new Error('start dialog doesnt exist in that blob');
   }
-  if (!level.startDialog.en) {
+  if (!level.startDialog[util.getDefaultLocale()]) {
     console.warn('WARNING!! This dialog does not have intl support: ', level);
   }
   var locale = util.getLocale();
@@ -21375,15 +21843,16 @@ var getStartDialog = exports.getStartDialog = function(level) {
   }
 
   // we need to return english but add their locale error
-  var startCopy = _.clone(level.startDialog.en || level.startDialog);
+  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
+  console.log('start copy is', startCopy, 'and defaukt', level);
   var errorAlert = {
     type: 'ModalAlert',
     options: {
       markdown: str('error-untranslated')
     }
   };
-
   startCopy.childViews.unshift(errorAlert);
+
   return startCopy;
 };
 
@@ -23013,6 +23482,8 @@ require("/src/js/level/sandbox.js");
 require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var util = require('../util');
 
+var constants = require('../util/constants');
+
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -23028,6 +23499,19 @@ var instantCommands = [
   [/^cd/, function() {
     throw new CommandResult({
       msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+    });
+  }],
+  [/^(locale|locale reset)$/, function(bits) {
+    constants.GLOBAL.locale = util.getDefaultLocale();
+    throw new CommandResult({
+      msg: 'Locale reset to default, which is ' + util.getDefaultLocale()
+    });
+  }],
+  [/^locale (\w+)$/, function(bits) {
+    constants.GLOBAL.locale = bits[1];
+
+    throw new CommandResult({
+      msg: "Locale set to " + bits[1]
     });
   }],
   [/^refresh$/, function() {
@@ -23417,9 +23901,7 @@ var TIME = {
 
 // useful for locks, etc
 var GLOBAL = {
-  isAnimating: false,
-  // default locale, this changes
-  locale: 'en'
+  isAnimating: false
 };
 
 var VIEWPORT = {
@@ -23699,6 +24181,15 @@ require("/src/js/util/eventBaton.js");
 require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var constants = require('../util/constants');
 
+exports.parseQueryString = function(uri) {
+  var params = {};
+  uri.replace(
+      new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+      function($0, $1, $2, $3) { params[$1] = $3; }
+  );
+  return params;
+};
+
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
@@ -23708,8 +24199,11 @@ exports.getLocale = function() {
   if (constants.GLOBAL.locale) {
     return constants.GLOBAL.locale;
   }
-  console.warn('No locale found...');
-  return 'en';
+  return exports.getDefaultLocale();
+};
+
+exports.getDefaultLocale = function() {
+  return 'en_US';
 };
 
 exports.splitTextCommand = function(value, func, context) {
@@ -28853,12 +29347,15 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "hint": "Just type in 'git commit' twice to finish!",
+  "hint": {
+      "en_US": "Just type in 'git commit' twice to finish!",
+      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01"
+    },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -28903,6 +29400,50 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "",
+              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "",
+              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "",
+              "`resolving deltas`",
+              "",
+              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "",
+              "点下面的按钮来生成一个新的提交。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -28913,13 +29454,16 @@ require("/src/levels/intro/1.js");
 require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
-  "hint": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
   "name": "Branching in Git",
+  "hint": {
+      "en_US": "Just type in 'git commit' twice to finish!",
+      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01"
+  },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -28996,6 +29540,50 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "",
+              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "",
+              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "",
+              "`resolving deltas`",
+              "",
+              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "",
+              "点下面的按钮来生成一个新的提交。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29006,12 +29594,15 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": "Merging in Git",
-  "hint": "Remember to commit in the order specified (bugFix before master)",
+  "hint": {
+    "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09"
+  },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29079,6 +29670,75 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
+              "",
+              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
+              "",
+              "听起来可能有点拗口，看看下一张就明白了。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
+              "",
+              "我们将要把分支 `bugFix` 合并到 `master` 上"
+            ],
+            "command": "git merge bugFix master",
+            "afterMarkdowns": [
+              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
+              "",
+              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
+              "",
+              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们把 `master` 分支合并到 `bugFix` 吧。"
+            ],
+            "command": "git merge master bugFix",
+            "afterMarkdowns": [
+              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
+              "",
+              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想刷过这关，要按照下面的步骤来：",
+              "",
+              "* 创建一个叫 `bugFix` 的新分支",
+              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
+              "* 创建一个提交",
+              "* 再用 `git checkout` 切换回 `master` 上",
+              "* 创建另外一个提交",
+              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
+              "",
+              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29090,12 +29750,15 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": "Rebase Introduction",
-  "hint": "Make sure you commit from bugFix first",
+  "hint": {
+    "en_US": "Make sure you commit from bugFix first",
+    "zh_CN": "\u786e\u4fdd\u4f60\u5148\u5728 bugFix \u5206\u652f\u8fdb\u884c\u63d0\u4ea4"
+  },
   "disabledMap" : {
     "git revert": true
   },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29161,6 +29824,73 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "第二种合并不用分支工作的方法是 *衍合（rebasing）*。衍合就是取出一系列的提交，\"组合（compies）\"它们，然后把它们在某个地方重新放下来（重新实施一遍）。",
+              "",
+              "这可能看上去很难明白，而衍合的最大好处就是可以用来创造更线性的提交历史。假如一个项目只允许使用衍合（来合并工作），那么它的提交记录/历史会变得好看很多。",
+              "",
+              "让我们亲身体会下……"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们有两个分支，注意当前分支是 bugFix（看那颗星）",
+              "",
+              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法会让我们觉得这两个特性分支的工作是顺序提交的，但实际上它们是平行发展提交的。",
+              "",
+              "要做到这个效果，我们用 `git rebase`"
+            ],
+            "command": "git rebase master",
+            "afterMarkdowns": [
+              "碉堡吧，现在我们在 bugFix 分支上的工作已经移到了 master 的最前端，同时我们也得到了一个很好的直线型提交历史。",
+              "",
+              "注意一下提交 C3 其实还存在在我们的仓库的某个角落里（阴影的那货就是你了，还看什么看），而 C3' 是它一个在 master 分支上的\"拷贝\"提交。",
+              "",
+              "现在还有唯一一个问题就是 master 分支还没有更新……下面就来更新它吧"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们可以切换到了 `master` 分支。接下来就把它衍合到 `bugFix` 吧……"
+            ],
+            "command": "git rebase bugFix",
+            "afterMarkdowns": [
+              "看！因为 `master` 是 `bugFix` 的上游，所以 git 只把 `master` 分支的记录前进到 `bugFix` 上。"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想刷过这关，要按照下面的步骤来：",
+              "",
+              "* 切换到一个叫 `bugFix` 的新分支",
+              "* 创建一个提交",
+              "* 回到 master 分支并且创建另外一个提交",
+              "* 再次切换到 bugFix 分支，然后把它衍合到 master 上",
+              "",
+              "祝你好运啦！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29173,9 +29903,12 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": "Reversing Changes in Git",
-  "hint": "",
+  "hint": {
+      "en_US": "",
+      "zh_CN": ""
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29237,6 +29970,69 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 撤销 Git 里面的变动",
+              "",
+              "在 Git 里有很多方法撤销（reverse）变动。和 commit 一样，在 Git 里撤销变动同时具有底层次的部分（暂存一些独立的文件或者片段）和高层次的部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
+              "",
+              "在 Git 里主要有两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` 通过把分支记录回退上一个提交来实现撤销改动。这意味着你可以把它的行为当作是\"重写历史\"。`git reset` 会令分支记录回退，做到最新的提交好像没有提交过一样。",
+              "",
+              "让我们看看具体的操作："
+            ],
+            "command": "git reset HEAD~1",
+            "afterMarkdowns": [
+              "Nice! Git 就简单地把 master 分支的记录移回 `C1`；现在我们的本地仓库就处于好像提交 `C2` 没有发生过的状态了。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "虽然在你机子的本地环境中这样来撤销变更看起来很方便，但是这种“改写历史”的方法对别人用的远端分支是无效的哦！",
+              "",
+              "为了撤销分支并把这些变动*分享*给别人，我们需要 `git revert`。下面继续看它是怎么运作的。"
+            ],
+            "command": "git revert HEAD",
+            "afterMarkdowns": [
+              "怪哉！在我们要撤销的提交之后居然多了一个新提交！这是因为这个新提交 `C2'` 提供了*变动*（introduces changes） —— 刚好是用来撤销 `C2` 这个提交的。",
+              "",
+              "借助 revert，现在你可以把你的改动分享给别人啦。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要刷过这关，请分别把 `local` 分支和 `pushed` 分支上最近的一个提交撤销掉。",
+              "",
+              "记住 `pushes` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29253,9 +30049,12 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
   "solutionCommand": "git checkout master;git cherry-pick C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": "Grabbing Just 1 Commit",
-  "hint": "Remember, interactive rebase or cherry-pick is your friend here",
+  "hint": {
+      "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+      "zh_CN": "\u8bb0\u4f4f\uff0c\u4ea4\u4e92\u5f0f rebase \u6216\u8005 cherry-pick \u4f1a\u5f88\u6709\u5e2e\u52a9"
+    },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29295,6 +30094,47 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 本地栈式提交 (Locally stacked commits)",
+              "",
+              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些 debug 语句和打印语句。",
+              "",
+              "所有的这些调试和打印语句到只在它们的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "",
+              "但有个问题就是现在我要把 `bugFix` 分支的工作合并回 `master` 分支上，我可以简单地快进（fast-forward） `master` 分支，但这样的话 `master` 分支就会包含我这些调试语句了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "现在就是 Git 大显神通的时候啦。我们有几种方法来解决这个问题，但最直接的方法是：",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "交互（`-i`）衍合允许你选择哪些提交是要被保留，哪些要被舍弃。它允许你将提交重新排序。假如你要舍弃一些工作，这个会帮上很大的忙。",
+              "",
+              "Cherry-picking 能让你选择单独一个提交并且把它放到 `HEAD` 的最前端。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29312,9 +30152,12 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": "Juggling Commits",
-  "hint": "The first command is git rebase -i HEAD~2",
+  "hint": {
+      "en_US": "The first command is git rebase -i HEAD~2",
+      "zh_CN": "\u7b2c\u4e00\u4e2a\u547d\u4ee4\u662f 'git rebase -i HEAD~2'"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29352,6 +30195,45 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
+              "",
+              "有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 `newImage` 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "为了实现他的愿望，我们可以按照下面的方法来做：",
+              "",
+              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交挪到最前",
+              "* 然后用 `commit --amend` 来进行一些小修改",
+              "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
+              "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
+              "",
+              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29369,9 +30251,12 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMaster": true,
   "name": "Juggling Commits #2",
-  "hint": "Don't forget to forward master to the updated changes!",
+  "hint": {
+      "en_US": "Don't forget to forward master to the updated changes!",
+      "zh_CN": "\u522b\u5fd8\u8bb0\u4e86\u5c06 master \u5feb\u8fdb\u5230\u6700\u65b0\u7684\u66f4\u65b0\u4e0a\uff01"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29411,6 +30296,47 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "",
+              "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
+              "",
+              "但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 `git cherry-pick` 是怎么做的吧。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "要在心理牢记 cherry-pick 可以从提交树的任何地方拿一个提交来放在 HEAD 上（尽管那个提交不在上游）。",
+              "",
+              "下面是一个小小的演示："
+            ],
+            "command": "git cherry-pick C2",
+            "afterMarkdowns": [
+              "好滴咧，我们继续"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29427,9 +30353,12 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
   "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": "Rebasing over 9000 times",
-  "hint": "Remember, the most efficient way might be to only update master at the end...",
+  "hint": {
+    "en_US": "Remember, the most efficient way might be to only update master at the end...",
+    "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29442,6 +30371,24 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 多分支衍合",
+              "",
+              "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
+              "",
+              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "",
+              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
             ]
           }
         }
@@ -29462,9 +30409,12 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": "Branch Spaghetti",
-  "hint": "There are multiple ways to solve this! Cherry-pick is the easy / long way, but rebase -i can be a shortcut",
+  "hint": {
+    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29479,6 +30429,26 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "哇塞大神！这关我们要来点不同的！",
+              "",
+              "现在我们的 `master` 分支是比 `one` `two` 和 `three` 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）",
+              "",
+              "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
+              "",
+              "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
             ]
           }
         }

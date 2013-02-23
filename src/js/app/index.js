@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var Constants = require('../util/constants');
+var constants = require('../util/constants');
 var util = require('../util');
 
 /**
@@ -40,6 +40,11 @@ var init = function() {
     wait: true
   });
 
+  initRootEvents(eventBaton);
+  initDemo(sandbox);
+};
+
+var initRootEvents = function(eventBaton) {
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
     $('#commandTextField').focus();
@@ -63,42 +68,8 @@ var init = function() {
     events.trigger('resize', e);
   });
 
-  /*
-  $(window).on('resize', _.throttle(function(e) {
-    var width = $(window).width();
-    var height = $(window).height();
-    eventBaton.trigger('windowSizeCheck', {w: width, h: height});
-  }, 500));
-  */
-
   eventBaton.stealBaton('docKeydown', function() { });
   eventBaton.stealBaton('docKeyup', function() { });
-
-  /**
-    * I am disabling this for now, it works on desktop but is
-      hacky on iOS mobile and god knows the behavior on android...
-  // zoom level measure, I wish there was a jquery event for this :/
-  require('../util/zoomLevel').setupZoomPoll(function(level) {
-    eventBaton.trigger('zoomChange', level);
-  }, this);
-
-  eventBaton.stealBaton('zoomChange', function(level) {
-    if (level > Constants.VIEWPORT.maxZoom ||
-        level < Constants.VIEWPORT.minZoom) {
-      var Views = require('../views');
-      var view = new Views.ZoomAlertWindow({level: level});
-    }
-  });
-  */
-
-  /* people were pissed about this apparently
-  eventBaton.stealBaton('windowSizeCheck', function(size) {
-    if (size.w < Constants.VIEWPORT.minWidth ||
-        size.h < Constants.VIEWPORT.minHeight) {
-      var Views = require('../views');
-      var view = new Views.WindowSizeAlertWindow();
-    }
-  });*/
 
   // the default action on window focus and document click is to just focus the text area
   eventBaton.stealBaton('windowFocus', focusTextArea);
@@ -119,9 +90,14 @@ var init = function() {
   $('#commandTextField').on('keydown', makeKeyListener('keydown'));
   $('#commandTextField').on('keyup', makeKeyListener('keyup'));
   $(window).trigger('resize');
+};
 
-  // demo functionality
-  if (/\?demo/.test(window.location.href)) {
+var initDemo = function(sandbox) {
+  var params = util.parseQueryString(window.location.href);
+
+  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // I have to check if the key exists here
+  if (params.hasOwnProperty('demo')) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -135,7 +111,7 @@ var init = function() {
           "help; levels"
         ].join(''));
     });
-  } else if (!(/\?NODEMO/.test(window.location.href))) {
+  } else if (!params.hasOwnProperty('NODEMO')) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger(
         'commandSubmitted',
@@ -147,9 +123,13 @@ var init = function() {
         ].join(''));
     });
   }
-  if (/command=/.test(window.location.href)) {
-    var commandRaw = window.location.href.split('command=')[1].split('&')[0];
-    var command = unescape(commandRaw);
+
+  if (params.locale !== undefined && params.locale.length) {
+    constants.GLOBAL.locale = params.locale;
+  }
+
+  if (params.command) {
+    var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
       eventBaton.trigger('commandSubmitted', command);
     });

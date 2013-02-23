@@ -7,9 +7,12 @@ exports.level = {
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": "Branch Spaghetti",
-  "hint": "There are multiple ways to solve this! Cherry-pick is the easy / long way, but rebase -i can be a shortcut",
+  "hint": {
+    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
+  },
   "startDialog": {
-    "en": {
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -24,6 +27,26 @@ exports.level = {
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "哇塞大神！这关我们要来点不同的！",
+              "",
+              "现在我们的 `master` 分支是比 `one` `two` 和 `three` 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）",
+              "",
+              "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
+              "",
+              "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
             ]
           }
         }
