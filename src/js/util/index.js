@@ -2,6 +2,7 @@ var _ = require('underscore');
 var constants = require('../util/constants');
 
 exports.parseQueryString = function(uri) {
+  // from http://stevenbenner.com/2010/03/javascript-regex-trick-parse-a-query-string-into-an-object/
   var params = {};
   uri.replace(
       new RegExp("([^?=&]+)(=([^&]*))?", "g"),

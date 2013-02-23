@@ -9,6 +9,7 @@ exports.level = {
   "name": "Rebasing over 9000 times",
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
+    "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
   },
   "startDialog": {
@@ -43,6 +44,28 @@ exports.level = {
               "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
               "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "### Rebasing Multiple Branches",
+              "### 여러 브랜치를 리베이스(rebase)하기 ",
+              "",
+              // "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 master에 리베이스 해볼까요?",
+              "",
+              // "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
+              "",
+              // "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+              "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
             ]
           }
         }

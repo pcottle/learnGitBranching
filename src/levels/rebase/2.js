@@ -9,6 +9,7 @@ exports.level = {
   "name": "Branch Spaghetti",
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
   },
   "startDialog": {
@@ -47,6 +48,31 @@ exports.level = {
               "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
               "",
               "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Branch Spaghetti",
+              "## 브랜치 스파게티",
+              "",
+              // "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
+              "음, 이번에는 만만치 않습니다!",
+              "",
+              // "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
+              "여기 `master` 브랜치의 몇 번 이전 커밋에 `one`, `two`,`three` 총 3개의 브랜치가 있습니다. 어떤 이유인지는 몰라도, master의 최근 커밋 몇 개를 나머지 세 개의 브랜치에 반영하려고 합니다.",
+              "",
+              // "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
+              "`one` 브랜치는 순서를 바꾸고 `C5`커밋을 삭제하고, `two`브랜치는 순서만 바꾸며, `three`브랜치는 하나의 커밋만 가져옵시다!",
+              "",
+              // "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+              "자유롭게 이 문제를 풀어보시고 나서 `show solution`명령어로 모범 답안을 확인해보세요."
             ]
           }
         }

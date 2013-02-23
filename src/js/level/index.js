@@ -64,7 +64,7 @@ var Level = Sandbox.extend({
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
-        intl.getStartDialog(this.level),
+        intl.getStartDialog(this.level)
         { deferred: deferred }
       ));
       return;
