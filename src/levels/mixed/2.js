@@ -10,43 +10,45 @@ exports.level = {
   "name": "Juggling Commits",
   "hint": "The first command is git rebase -i HEAD~2",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Juggling Commits",
-            "",
-            "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
-            "",
-            "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
+              "",
+              "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "We will overcome this difficulty by doing the following:",
+              "",
+              "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
+              "* We will `commit --amend` to make the slight modification",
+              "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
+              "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
+              "",
+              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+            ]
+          }
         }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "We will overcome this difficulty by doing the following:",
-            "",
-            "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
-            "* We will `commit --amend` to make the slight modification",
-            "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
-            "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
-            "",
-            "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
-          ]
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 

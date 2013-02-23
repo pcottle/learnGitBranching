@@ -9,21 +9,23 @@ exports.level = {
   "name": "Rebasing over 9000 times",
   "hint": "Remember, the most efficient way might be to only update master at the end...",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "### Rebasing Multiple Branches",
-            "",
-            "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
-            "",
-            "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
-            "",
-            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebasing Multiple Branches",
+              "",
+              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "",
+              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "",
+              "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };

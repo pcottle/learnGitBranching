@@ -9,44 +9,46 @@ exports.level = {
   "name": "Grabbing Just 1 Commit",
   "hint": "Remember, interactive rebase or cherry-pick is your friend here",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Locally stacked commits",
-            "",
-            "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
-            "",
-            "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
-            "",
-            "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
+              "",
+              "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
+              "",
+              "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
+              "",
+              "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
         }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
-            "",
-            "* `git rebase -i`",
-            "* `git cherry-pick`",
-            "",
-            "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
-            "",
-            "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
-          ]
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };

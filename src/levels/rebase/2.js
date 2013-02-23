@@ -9,23 +9,25 @@ exports.level = {
   "name": "Branch Spaghetti",
   "hint": "There are multiple ways to solve this! Cherry-pick is the easy / long way, but rebase -i can be a shortcut",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Branch Spaghetti",
-            "",
-            "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
-            "",
-            "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
-            "",
-            "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
-            "",
-            "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
+              "",
+              "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
+              "",
+              "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
+              "",
+              "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };

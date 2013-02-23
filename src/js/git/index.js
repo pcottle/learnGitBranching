@@ -622,7 +622,7 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
 };
 
 GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
-  var regex = /([~^])(\d*)/g;
+  var regex = /([~\^])(\d*)/g;
   var matches;
 
   while (matches = regex.exec(relative)) {
@@ -631,9 +631,8 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
 
     if (matches[1] == '^') {
       next = commit.getParent(num-1);
-    }
-    else {
-      while(next && num--) {
+    } else {
+      while (next && num--) {
         next = next.getParent(0);
       }
     }
@@ -663,7 +662,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
   var relative = null;
-  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var regex = /^([a-zA-Z0-9]+)(([~\^]\d*)*)/;
   var matches = regex.exec(ref);
   if (matches) {
     startRef = matches[1];
@@ -1661,10 +1660,11 @@ var Commit = Backbone.Model.extend({
   },
 
   getParent: function(parentNum) {
-    if (this && this.attributes && this.attributes.parents)
+    if (this && this.attributes && this.attributes.parents) {
       return this.attributes.parents[parentNum];
-    else
+    } else {
       return null;
+    }
   },
 
   isMainParent: function(parent) {

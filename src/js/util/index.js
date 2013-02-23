@@ -1,8 +1,17 @@
 var _ = require('underscore');
+var constants = require('../util/constants');
 
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
+};
+
+exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  console.warn('No locale found...');
+  return 'en';
 };
 
 exports.splitTextCommand = function(value, func, context) {

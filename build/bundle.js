@@ -4394,7 +4394,9 @@ var TIME = {
 
 // useful for locks, etc
 var GLOBAL = {
-  isAnimating: false
+  isAnimating: false,
+  // default locale, this changes
+  locale: 'en'
 };
 
 var VIEWPORT = {
@@ -4443,10 +4445,19 @@ exports.VIEWPORT = VIEWPORT;
 });
 
 require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var constants = require('../util/constants');
 
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
+};
+
+exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  console.warn('No locale found...');
+  return 'en';
 };
 
 exports.splitTextCommand = function(value, func, context) {
@@ -6700,6 +6711,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
@@ -6759,7 +6771,7 @@ var Level = Sandbox.extend({
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
-        this.level.startDialog,
+        intl.getStartDialog(this.level),
         { deferred: deferred }
       ));
       return;
@@ -7187,6 +7199,90 @@ var Level = Sandbox.extend({
 
 exports.Level = Level;
 exports.regexMap = regexMap;
+
+});
+
+require.define("/src/js/intl/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var constants = require('../util/constants');
+var util = require('../util');
+
+var strings = require('../intl/strings').strings;
+
+var str = exports.str = function(key, params) {
+  // this function takes a key like "error-branch-delete"
+  // and parameters like {branchName: 'bugFix', num: 3}.
+  //
+  // it sticks those into a translation string like:
+  //   'en': 'You can not delete the branch {branchName} because' +
+  //         'you are currently on that branch! This is error number + {num}'
+  //
+  // to produce:
+  //
+  // 'You can not delete the branch bugFix because you are currently on that branch!
+  //  This is error number 3'
+
+  var locale = util.getLocale();
+  if (!strings[key]) {
+    console.warn('NO INTL support for key ' + key);
+    return 'NO INTL support for key ' + key;
+  }
+
+  if (!strings[key][locale]) {
+    if (key !== 'error-untranslated') {
+      return str('error-untranslated');
+    }
+    return 'No translation for that key ' + key;
+  }
+
+  // TODO - interpolation
+  return strings[key][locale];
+};
+
+var getStartDialog = exports.getStartDialog = function(level) {
+  if (!level || !level.startDialog) {
+    throw new Error('start dialog doesnt exist in that blob');
+  }
+  if (!level.startDialog.en) {
+    console.warn('WARNING!! This dialog does not have intl support: ', level);
+  }
+  var locale = util.getLocale();
+  if (level.startDialog[locale]) {
+    return level.startDialog[locale];
+  }
+
+  // we need to return english but add their locale error
+  var startCopy = _.clone(level.startDialog.en || level.startDialog);
+  var errorAlert = {
+    type: 'ModalAlert',
+    options: {
+      markdown: str('error-untranslated')
+    }
+  };
+
+  startCopy.childViews.unshift(errorAlert);
+  return startCopy;
+};
+
+
+
+});
+
+require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ////////////////////////////////////////////////////////////////////////////
+  'error-untranslated-key': {
+    '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
+    '__params__': {
+      'key': 'The name of the translation key that is missing'
+    },
+    'en': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+  },
+  ////////////////////////////////////////////////////////////////////////////
+  'error-untranslated': {
+    '__desc__': 'The general error when we encounter a dialog that is not translated',
+    'en': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+  }
+};
+
 
 });
 
@@ -8202,7 +8298,7 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
 };
 
 GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
-  var regex = /([~^])(\d*)/g;
+  var regex = /([~\^])(\d*)/g;
   var matches;
 
   while (matches = regex.exec(relative)) {
@@ -8211,9 +8307,8 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
 
     if (matches[1] == '^') {
       next = commit.getParent(num-1);
-    }
-    else {
-      while(next && num--) {
+    } else {
+      while (next && num--) {
         next = next.getParent(0);
       }
     }
@@ -8243,7 +8338,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
   var relative = null;
-  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var regex = /^([a-zA-Z0-9]+)(([~\^]\d*)*)/;
   var matches = regex.exec(ref);
   if (matches) {
     startRef = matches[1];
@@ -9241,10 +9336,11 @@ var Commit = Backbone.Model.extend({
   },
 
   getParent: function(parentNum) {
-    if (this && this.attributes && this.attributes.parents)
+    if (this && this.attributes && this.attributes.parents) {
       return this.attributes.parents[parentNum];
-    else
+    } else {
       return null;
+    }
   },
 
   isMainParent: function(parent) {
@@ -17127,50 +17223,52 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Git Commits",
-            "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
-            "",
-            "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
-            "",
-            "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
-            "",
-            "`resolving deltas`",
-            "",
-            "when cloning a repo.",
-            "",
-            "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
+              "",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
+              "",
+              "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
+              "",
+              "`resolving deltas`",
+              "",
+              "when cloning a repo.",
+              "",
+              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+              "",
+              "Hit the button below to make a new commit"
+            ],
+            "afterMarkdowns": [
+              "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
-            "",
-            "Hit the button below to make a new commit"
-          ],
-          "afterMarkdowns": [
-            "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
-          ],
-          "command": "git commit",
-          "beforeCommand": ""
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17185,82 +17283,84 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Git Branches",
-            "",
-            "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
-            "",
-            "```",
-            "branch early, and branch often",
-            "```",
-            "",
-            "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
-            "",
-            "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
+              "",
+              "```",
+              "branch early, and branch often",
+              "```",
+              "",
+              "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
+              "",
+              "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see what branches look like in practice.",
+              "",
+              "Here we will check out a new branch named `newImage`"
+            ],
+            "afterMarkdowns": [
+              "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's try to put some work on this new branch. Hit the button below"
+            ],
+            "afterMarkdowns": [
+              "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's tell git we want to checkout the branch with",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "This will put us on the new branch before committing our changes"
+            ],
+            "afterMarkdowns": [
+              "There we go! Our changes were recorded on the new branch"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! You are all ready to get branching. Once this window closes,",
+              "make a new branch named `bugFix` and switch to that branch"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's see what branches look like in practice.",
-            "",
-            "Here we will check out a new branch named `newImage`"
-          ],
-          "afterMarkdowns": [
-            "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
-          ],
-          "command": "git branch newImage",
-          "beforeCommand": ""
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's try to put some work on this new branch. Hit the button below"
-          ],
-          "afterMarkdowns": [
-            "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
-          ],
-          "command": "git commit",
-          "beforeCommand": "git branch newImage"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's tell git we want to checkout the branch with",
-            "",
-            "```",
-            "git checkout [name]",
-            "```",
-            "",
-            "This will put us on the new branch before committing our changes"
-          ],
-          "afterMarkdowns": [
-            "There we go! Our changes were recorded on the new branch"
-          ],
-          "command": "git checkout newImage; git commit",
-          "beforeCommand": "git branch newImage"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Ok! You are all ready to get branching. Once this window closes,",
-            "make a new branch named `bugFix` and switch to that branch"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 });
@@ -17274,73 +17374,75 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Branches and Merging",
-            "",
-            "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
-            "",
-            "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
-            "",
-            "It's easier with visuals, let's check it out in the next view"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
+              "",
+              "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
+              "",
+              "It's easier with visuals, let's check it out in the next view"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "",
+              "We will `merge` the branch `bugFix` into `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "",
+              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "",
+              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's merge `master` into `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "",
+              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, do the following steps:",
+              "",
+              "* Make a new branch called `bugFix`",
+              "* Checkout the `bugFix` branch with `git checkout bugFix`",
+              "* Commit once",
+              "* Go back to `master` with `git checkout`",
+              "* Commit another time",
+              "* Merge the branch `bugFix` into `master` with `git merge`",
+              "",
+              "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
-            "",
-            "We will `merge` the branch `bugFix` into `master`"
-          ],
-          "afterMarkdowns": [
-            "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
-            "",
-            "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
-            "",
-            "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
-          ],
-          "command": "git merge bugFix",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's merge `master` into `bugFix`:"
-          ],
-          "afterMarkdowns": [
-            "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
-            "",
-            "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
-          ],
-          "command": "git checkout bugFix; git merge master",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "To complete this level, do the following steps:",
-            "",
-            "* Make a new branch called `bugFix`",
-            "* Checkout the `bugFix` branch with `git checkout bugFix`",
-            "* Commit once",
-            "* Go back to `master` with `git checkout`",
-            "* Commit another time",
-            "* Merge the branch `bugFix` into `master` with `git merge`",
-            "",
-            "*Remember, you can always re-display this dialog with \"help level\"!*"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17355,71 +17457,73 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Git Rebase",
-            "",
-            "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
-            "",
-            "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
-            "",
-            "Let's see it in action..."
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
+              "",
+              "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
+              "",
+              "Let's see it in action..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+              "",
+              "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
+              "",
+              "Let's do that with the `git rebase` command"
+            ],
+            "afterMarkdowns": [
+              "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
+              "",
+              "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
+              "",
+              "The only problem is that master hasn't been updated either, let's do that now..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, do the following",
+              "",
+              "* Checkout a new branch named `bugFix`",
+              "* Commit once",
+              "* Go back to master and commit again",
+              "* Check out bugFix again and rebase onto master",
+              "",
+              "Good luck!"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
-            "",
-            "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
-            "",
-            "Let's do that with the `git rebase` command"
-          ],
-          "afterMarkdowns": [
-            "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
-            "",
-            "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
-            "",
-            "The only problem is that master hasn't been updated either, let's do that now..."
-          ],
-          "command": "git rebase master",
-          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
-          ],
-          "afterMarkdowns": [
-            "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
-          ],
-          "command": "git rebase bugFix",
-          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "To complete this level, do the following",
-            "",
-            "* Checkout a new branch named `bugFix`",
-            "* Commit once",
-            "* Go back to master and commit again",
-            "* Check out bugFix again and rebase onto master",
-            "",
-            "Good luck!"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17432,67 +17536,69 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
   "name": "Reversing Changes in Git",
   "hint": "",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Reversing Changes in Git",
-            "",
-            "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
-            "",
-            "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
-            ""
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Reversing Changes in Git",
+              "",
+              "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
+              "",
+              "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
+              "",
+              "Let's see what that looks like:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "",
+              "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
+            ],
+            "afterMarkdowns": [
+              "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
+              "",
+              "With reverting, you can push out your changes to share with others."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
+              "",
+              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "## Git Reset",
-            "",
-            "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
-            "",
-            "Let's see what that looks like:"
-          ],
-          "afterMarkdowns": [
-            "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
-          ],
-          "command": "git reset HEAD~1",
-          "beforeCommand": "git commit"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "## Git Revert",
-            "",
-            "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
-            "",
-            "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
-          ],
-          "afterMarkdowns": [
-            "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
-            "",
-            "With reverting, you can push out your changes to share with others."
-          ],
-          "command": "git revert HEAD",
-          "beforeCommand": "git commit"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
-            "",
-            "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17509,22 +17615,24 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
   "name": "Rebasing over 9000 times",
   "hint": "Remember, the most efficient way might be to only update master at the end...",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "### Rebasing Multiple Branches",
-            "",
-            "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
-            "",
-            "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
-            "",
-            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebasing Multiple Branches",
+              "",
+              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "",
+              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "",
+              "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17541,24 +17649,26 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
   "name": "Branch Spaghetti",
   "hint": "There are multiple ways to solve this! Cherry-pick is the easy / long way, but rebase -i can be a shortcut",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Branch Spaghetti",
-            "",
-            "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
-            "",
-            "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
-            "",
-            "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
-            "",
-            "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
+              "",
+              "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
+              "",
+              "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
+              "",
+              "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17575,45 +17685,47 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
   "name": "Grabbing Just 1 Commit",
   "hint": "Remember, interactive rebase or cherry-pick is your friend here",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Locally stacked commits",
-            "",
-            "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
-            "",
-            "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
-            "",
-            "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
+              "",
+              "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
+              "",
+              "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
+              "",
+              "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
         }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
-            "",
-            "* `git rebase -i`",
-            "* `git cherry-pick`",
-            "",
-            "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
-            "",
-            "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
-          ]
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17631,43 +17743,45 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "name": "Juggling Commits",
   "hint": "The first command is git rebase -i HEAD~2",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Juggling Commits",
-            "",
-            "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
-            "",
-            "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
+              "",
+              "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "We will overcome this difficulty by doing the following:",
+              "",
+              "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
+              "* We will `commit --amend` to make the slight modification",
+              "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
+              "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
+              "",
+              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+            ]
+          }
         }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "We will overcome this difficulty by doing the following:",
-            "",
-            "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
-            "* We will `commit --amend` to make the slight modification",
-            "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
-            "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
-            "",
-            "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
-          ]
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -17685,45 +17799,47 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
   "name": "Juggling Commits #2",
   "hint": "Don't forget to forward master to the updated changes!",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Juggling Commits #2",
-            "",
-            "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
-            "",
-            "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
-            "",
-            "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
+              "",
+              "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
+              "",
+              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "",
+              "Here's a small refresher demo:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Let's move on"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
-            "",
-            "Here's a small refresher demo:"
-          ],
-          "afterMarkdowns": [
-            "Nice! Let's move on"
-          ],
-          "command": "git cherry-pick C2",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -19903,7 +20019,7 @@ GitEngine.prototype.resolveID = function(idOrTarget) {
 };
 
 GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
-  var regex = /([~^])(\d*)/g;
+  var regex = /([~\^])(\d*)/g;
   var matches;
 
   while (matches = regex.exec(relative)) {
@@ -19912,9 +20028,8 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
 
     if (matches[1] == '^') {
       next = commit.getParent(num-1);
-    }
-    else {
-      while(next && num--) {
+    } else {
+      while (next && num--) {
         next = next.getParent(0);
       }
     }
@@ -19944,7 +20059,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
   var relative = null;
-  var regex = /^([a-zA-Z0-9]+)(([~^]\d*)*)/;
+  var regex = /^([a-zA-Z0-9]+)(([~\^]\d*)*)/;
   var matches = regex.exec(ref);
   if (matches) {
     startRef = matches[1];
@@ -20942,10 +21057,11 @@ var Commit = Backbone.Model.extend({
   },
 
   getParent: function(parentNum) {
-    if (this && this.attributes && this.attributes.parents)
+    if (this && this.attributes && this.attributes.parents) {
       return this.attributes.parents[parentNum];
-    else
+    } else {
       return null;
+    }
   },
 
   isMainParent: function(parent) {
@@ -21209,6 +21325,92 @@ exports.TreeCompare = TreeCompare;
 
 });
 require("/src/js/git/treeCompare.js");
+
+require.define("/src/js/intl/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var constants = require('../util/constants');
+var util = require('../util');
+
+var strings = require('../intl/strings').strings;
+
+var str = exports.str = function(key, params) {
+  // this function takes a key like "error-branch-delete"
+  // and parameters like {branchName: 'bugFix', num: 3}.
+  //
+  // it sticks those into a translation string like:
+  //   'en': 'You can not delete the branch {branchName} because' +
+  //         'you are currently on that branch! This is error number + {num}'
+  //
+  // to produce:
+  //
+  // 'You can not delete the branch bugFix because you are currently on that branch!
+  //  This is error number 3'
+
+  var locale = util.getLocale();
+  if (!strings[key]) {
+    console.warn('NO INTL support for key ' + key);
+    return 'NO INTL support for key ' + key;
+  }
+
+  if (!strings[key][locale]) {
+    if (key !== 'error-untranslated') {
+      return str('error-untranslated');
+    }
+    return 'No translation for that key ' + key;
+  }
+
+  // TODO - interpolation
+  return strings[key][locale];
+};
+
+var getStartDialog = exports.getStartDialog = function(level) {
+  if (!level || !level.startDialog) {
+    throw new Error('start dialog doesnt exist in that blob');
+  }
+  if (!level.startDialog.en) {
+    console.warn('WARNING!! This dialog does not have intl support: ', level);
+  }
+  var locale = util.getLocale();
+  if (level.startDialog[locale]) {
+    return level.startDialog[locale];
+  }
+
+  // we need to return english but add their locale error
+  var startCopy = _.clone(level.startDialog.en || level.startDialog);
+  var errorAlert = {
+    type: 'ModalAlert',
+    options: {
+      markdown: str('error-untranslated')
+    }
+  };
+
+  startCopy.childViews.unshift(errorAlert);
+  return startCopy;
+};
+
+
+
+});
+require("/src/js/intl/index.js");
+
+require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ////////////////////////////////////////////////////////////////////////////
+  'error-untranslated-key': {
+    '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
+    '__params__': {
+      'key': 'The name of the translation key that is missing'
+    },
+    'en': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+  },
+  ////////////////////////////////////////////////////////////////////////////
+  'error-untranslated': {
+    '__desc__': 'The general error when we encounter a dialog that is not translated',
+    'en': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+  }
+};
+
+
+});
+require("/src/js/intl/strings.js");
 
 require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
@@ -21781,6 +21983,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
@@ -21840,7 +22043,7 @@ var Level = Sandbox.extend({
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
-        this.level.startDialog,
+        intl.getStartDialog(this.level),
         { deferred: deferred }
       ));
       return;
@@ -23214,7 +23417,9 @@ var TIME = {
 
 // useful for locks, etc
 var GLOBAL = {
-  isAnimating: false
+  isAnimating: false,
+  // default locale, this changes
+  locale: 'en'
 };
 
 var VIEWPORT = {
@@ -23492,10 +23697,19 @@ exports.EventBaton = EventBaton;
 require("/src/js/util/eventBaton.js");
 
 require.define("/src/js/util/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var constants = require('../util/constants');
 
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
+};
+
+exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  console.warn('No locale found...');
+  return 'en';
 };
 
 exports.splitTextCommand = function(value, func, context) {
@@ -28644,50 +28858,52 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Git Commits",
-            "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
-            "",
-            "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
-            "",
-            "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
-            "",
-            "`resolving deltas`",
-            "",
-            "when cloning a repo.",
-            "",
-            "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
+              "",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
+              "",
+              "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
+              "",
+              "`resolving deltas`",
+              "",
+              "when cloning a repo.",
+              "",
+              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+              "",
+              "Hit the button below to make a new commit"
+            ],
+            "afterMarkdowns": [
+              "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
-            "",
-            "Hit the button below to make a new commit"
-          ],
-          "afterMarkdowns": [
-            "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
-          ],
-          "command": "git commit",
-          "beforeCommand": ""
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -28703,82 +28919,84 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Git Branches",
-            "",
-            "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
-            "",
-            "```",
-            "branch early, and branch often",
-            "```",
-            "",
-            "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
-            "",
-            "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
+              "",
+              "```",
+              "branch early, and branch often",
+              "```",
+              "",
+              "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
+              "",
+              "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see what branches look like in practice.",
+              "",
+              "Here we will check out a new branch named `newImage`"
+            ],
+            "afterMarkdowns": [
+              "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's try to put some work on this new branch. Hit the button below"
+            ],
+            "afterMarkdowns": [
+              "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's tell git we want to checkout the branch with",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "This will put us on the new branch before committing our changes"
+            ],
+            "afterMarkdowns": [
+              "There we go! Our changes were recorded on the new branch"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! You are all ready to get branching. Once this window closes,",
+              "make a new branch named `bugFix` and switch to that branch"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's see what branches look like in practice.",
-            "",
-            "Here we will check out a new branch named `newImage`"
-          ],
-          "afterMarkdowns": [
-            "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
-          ],
-          "command": "git branch newImage",
-          "beforeCommand": ""
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's try to put some work on this new branch. Hit the button below"
-          ],
-          "afterMarkdowns": [
-            "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
-          ],
-          "command": "git commit",
-          "beforeCommand": "git branch newImage"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's tell git we want to checkout the branch with",
-            "",
-            "```",
-            "git checkout [name]",
-            "```",
-            "",
-            "This will put us on the new branch before committing our changes"
-          ],
-          "afterMarkdowns": [
-            "There we go! Our changes were recorded on the new branch"
-          ],
-          "command": "git checkout newImage; git commit",
-          "beforeCommand": "git branch newImage"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Ok! You are all ready to get branching. Once this window closes,",
-            "make a new branch named `bugFix` and switch to that branch"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 });
@@ -28793,73 +29011,75 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Branches and Merging",
-            "",
-            "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
-            "",
-            "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
-            "",
-            "It's easier with visuals, let's check it out in the next view"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
+              "",
+              "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
+              "",
+              "It's easier with visuals, let's check it out in the next view"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "",
+              "We will `merge` the branch `bugFix` into `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "",
+              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "",
+              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's merge `master` into `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "",
+              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, do the following steps:",
+              "",
+              "* Make a new branch called `bugFix`",
+              "* Checkout the `bugFix` branch with `git checkout bugFix`",
+              "* Commit once",
+              "* Go back to `master` with `git checkout`",
+              "* Commit another time",
+              "* Merge the branch `bugFix` into `master` with `git merge`",
+              "",
+              "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
-            "",
-            "We will `merge` the branch `bugFix` into `master`"
-          ],
-          "afterMarkdowns": [
-            "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
-            "",
-            "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
-            "",
-            "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
-          ],
-          "command": "git merge bugFix",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Let's merge `master` into `bugFix`:"
-          ],
-          "afterMarkdowns": [
-            "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
-            "",
-            "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
-          ],
-          "command": "git checkout bugFix; git merge master",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "To complete this level, do the following steps:",
-            "",
-            "* Make a new branch called `bugFix`",
-            "* Checkout the `bugFix` branch with `git checkout bugFix`",
-            "* Commit once",
-            "* Go back to `master` with `git checkout`",
-            "* Commit another time",
-            "* Merge the branch `bugFix` into `master` with `git merge`",
-            "",
-            "*Remember, you can always re-display this dialog with \"help level\"!*"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -28875,71 +29095,73 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
     "git revert": true
   },
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Git Rebase",
-            "",
-            "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
-            "",
-            "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
-            "",
-            "Let's see it in action..."
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
+              "",
+              "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
+              "",
+              "Let's see it in action..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+              "",
+              "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
+              "",
+              "Let's do that with the `git rebase` command"
+            ],
+            "afterMarkdowns": [
+              "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
+              "",
+              "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
+              "",
+              "The only problem is that master hasn't been updated either, let's do that now..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, do the following",
+              "",
+              "* Checkout a new branch named `bugFix`",
+              "* Commit once",
+              "* Go back to master and commit again",
+              "* Check out bugFix again and rebase onto master",
+              "",
+              "Good luck!"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
-            "",
-            "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
-            "",
-            "Let's do that with the `git rebase` command"
-          ],
-          "afterMarkdowns": [
-            "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
-            "",
-            "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
-            "",
-            "The only problem is that master hasn't been updated either, let's do that now..."
-          ],
-          "command": "git rebase master",
-          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
-          ],
-          "afterMarkdowns": [
-            "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
-          ],
-          "command": "git rebase bugFix",
-          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "To complete this level, do the following",
-            "",
-            "* Checkout a new branch named `bugFix`",
-            "* Commit once",
-            "* Go back to master and commit again",
-            "* Check out bugFix again and rebase onto master",
-            "",
-            "Good luck!"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -28953,67 +29175,69 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
   "name": "Reversing Changes in Git",
   "hint": "",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Reversing Changes in Git",
-            "",
-            "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
-            "",
-            "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
-            ""
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Reversing Changes in Git",
+              "",
+              "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
+              "",
+              "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
+              "",
+              "Let's see what that looks like:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "",
+              "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
+            ],
+            "afterMarkdowns": [
+              "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
+              "",
+              "With reverting, you can push out your changes to share with others."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
+              "",
+              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "## Git Reset",
-            "",
-            "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
-            "",
-            "Let's see what that looks like:"
-          ],
-          "afterMarkdowns": [
-            "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
-          ],
-          "command": "git reset HEAD~1",
-          "beforeCommand": "git commit"
-        }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "## Git Revert",
-            "",
-            "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
-            "",
-            "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
-          ],
-          "afterMarkdowns": [
-            "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
-            "",
-            "With reverting, you can push out your changes to share with others."
-          ],
-          "command": "git revert HEAD",
-          "beforeCommand": "git commit"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
-            "",
-            "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -29031,45 +29255,47 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
   "name": "Grabbing Just 1 Commit",
   "hint": "Remember, interactive rebase or cherry-pick is your friend here",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Locally stacked commits",
-            "",
-            "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
-            "",
-            "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
-            "",
-            "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
+              "",
+              "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
+              "",
+              "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
+              "",
+              "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
         }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
-            "",
-            "* `git rebase -i`",
-            "* `git cherry-pick`",
-            "",
-            "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
-            "",
-            "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
-          ]
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -29088,43 +29314,45 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "name": "Juggling Commits",
   "hint": "The first command is git rebase -i HEAD~2",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Juggling Commits",
-            "",
-            "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
-            "",
-            "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
+              "",
+              "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "We will overcome this difficulty by doing the following:",
+              "",
+              "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
+              "* We will `commit --amend` to make the slight modification",
+              "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
+              "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
+              "",
+              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+            ]
+          }
         }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "We will overcome this difficulty by doing the following:",
-            "",
-            "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
-            "* We will `commit --amend` to make the slight modification",
-            "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
-            "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
-            "",
-            "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
-          ]
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -29143,45 +29371,47 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
   "name": "Juggling Commits #2",
   "hint": "Don't forget to forward master to the updated changes!",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Juggling Commits #2",
-            "",
-            "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
-            "",
-            "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
-            "",
-            "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
+              "",
+              "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
+              "",
+              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "",
+              "Here's a small refresher demo:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Let's move on"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
-            "",
-            "Here's a small refresher demo:"
-          ],
-          "afterMarkdowns": [
-            "Nice! Let's move on"
-          ],
-          "command": "git cherry-pick C2",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -29199,22 +29429,24 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
   "name": "Rebasing over 9000 times",
   "hint": "Remember, the most efficient way might be to only update master at the end...",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "### Rebasing Multiple Branches",
-            "",
-            "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
-            "",
-            "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
-            "",
-            "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebasing Multiple Branches",
+              "",
+              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "",
+              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "",
+              "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };
 
@@ -29232,24 +29464,26 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
   "name": "Branch Spaghetti",
   "hint": "There are multiple ways to solve this! Cherry-pick is the easy / long way, but rebase -i can be a shortcut",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Branch Spaghetti",
-            "",
-            "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
-            "",
-            "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
-            "",
-            "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
-            "",
-            "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
+              "",
+              "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
+              "",
+              "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
+              "",
+              "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };
 

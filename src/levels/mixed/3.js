@@ -9,44 +9,46 @@ exports.level = {
   "name": "Juggling Commits #2",
   "hint": "Don't forget to forward master to the updated changes!",
   "startDialog": {
-    "childViews": [
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "## Juggling Commits #2",
-            "",
-            "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
-            "",
-            "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
-            "",
-            "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
-          ]
+    "en": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
+              "",
+              "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
+              "",
+              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "",
+              "Here's a small refresher demo:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Let's move on"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+            ]
+          }
         }
-      },
-      {
-        "type": "GitDemonstrationView",
-        "options": {
-          "beforeMarkdowns": [
-            "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
-            "",
-            "Here's a small refresher demo:"
-          ],
-          "afterMarkdowns": [
-            "Nice! Let's move on"
-          ],
-          "command": "git cherry-pick C2",
-          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-        }
-      },
-      {
-        "type": "ModalAlert",
-        "options": {
-          "markdowns": [
-            "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
-          ]
-        }
-      }
-    ]
+      ]
+    }
   }
 };

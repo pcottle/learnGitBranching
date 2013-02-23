@@ -4,6 +4,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
@@ -63,7 +64,7 @@ var Level = Sandbox.extend({
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
       new MultiView(_.extend(
         {},
-        this.level.startDialog,
+        intl.getStartDialog(this.level),
         { deferred: deferred }
       ));
       return;
