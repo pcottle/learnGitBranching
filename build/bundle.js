@@ -6696,3079 +6696,584 @@ exports.init = init;
 
 });
 
-require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-function EventBaton() {
-  this.eventMap = {};
-}
-
-// this method steals the "baton" -- aka, only this method will now
-// get called. analogous to events.on
-// EventBaton.prototype.on = function(name, func, context) {
-EventBaton.prototype.stealBaton = function(name, func, context) {
-  if (!name) { throw new Error('need name'); }
-  if (!func) { throw new Error('need func!'); }
-
-  var listeners = this.eventMap[name] || [];
-  listeners.push({
-    func: func,
-    context: context
-  });
-  this.eventMap[name] = listeners;
-};
-
-EventBaton.prototype.sliceOffArgs = function(num, args) {
-  var newArgs = [];
-  for (var i = num; i < args.length; i++) {
-    newArgs.push(args[i]);
-  }
-  return newArgs;
-};
-
-EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
-  var argsToApply = this.sliceOffArgs(1, arguments);
-
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    console.warn('no listeners for', name);
-    return;
-  }
-
-  // call the top most listener with context and such
-  var toCall = listeners.slice(-1)[0];
-  toCall.func.apply(toCall.context, argsToApply);
-};
-
-EventBaton.prototype.getNumListeners = function(name) {
-  var listeners = this.eventMap[name] || [];
-  return listeners.length;
-};
-
-EventBaton.prototype.getListenersThrow = function(name) {
-  var listeners = this.eventMap[name];
-  if (!listeners || !listeners.length) {
-    throw new Error('no one has that baton!' + name);
-  }
-  return listeners;
-};
-
-EventBaton.prototype.passBatonBackSoft = function(name, func, context, args) {
-  try {
-    return this.passBatonBack(name, func, context, args);
-  } catch (e) {
-  }
-};
-
-EventBaton.prototype.passBatonBack = function(name, func, context, args) {
-  // this method will call the listener BEFORE the name/func pair. this
-  // basically allows you to put in shims, where you steal batons but pass
-  // them back if they don't meet certain conditions
-  var listeners = this.getListenersThrow(name);
-
-  var indexBefore;
-  _.each(listeners, function(listenerObj, index) {
-    // skip the first
-    if (index === 0) { return; }
-    if (listenerObj.func === func && listenerObj.context === context) {
-      indexBefore = index - 1;
-    }
-  }, this);
-  if (indexBefore === undefined) {
-    throw new Error('you are the last baton holder! or i didnt find you');
-  }
-  var toCallObj = listeners[indexBefore];
-
-  toCallObj.func.apply(toCallObj.context, args);
-};
-
-EventBaton.prototype.releaseBaton = function(name, func, context) {
-  // might be in the middle of the stack, so we have to loop instead of
-  // just popping blindly
-  var listeners = this.getListenersThrow(name);
-
-  var newListeners = [];
-  var found = false;
-  _.each(listeners, function(listenerObj) {
-    if (listenerObj.func === func && listenerObj.context === context) {
-      if (found) {
-        console.warn('woah duplicates!!!');
-        console.log(listeners);
-      }
-      found = true;
-    } else {
-      newListeners.push(listenerObj);
-    }
-  }, this);
-
-  if (!found) {
-    console.log('did not find that function', func, context, name, arguments);
-    console.log(this.eventMap);
-    throw new Error('cant releasebaton if yu dont have it');
-  }
-  this.eventMap[name] = newListeners;
-};
-
-exports.EventBaton = EventBaton;
-
-
-});
-
-require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
-
-// Each level is part of a "sequence;" levels within
-// a sequence proceed in order.
-var levelSequences = require('../../levels').levelSequences;
-var sequenceInfo = require('../../levels').sequenceInfo;
-
-var Main = require('../app');
-
-function LevelArbiter() {
-  this.levelMap = {};
-  this.levelSequences = levelSequences;
-  this.sequences = [];
-  this.init();
-
-  var solvedMap;
-  try {
-    solvedMap = JSON.parse(localStorage.getItem('solvedMap') || '{}');
-  } catch (e) {
-    console.warn('local storage failed', e);
-    // throw e;
-  }
-  this.solvedMap = solvedMap || {};
-
-  Main.getEvents().on('levelSolved', this.levelSolved, this);
-}
-
-LevelArbiter.prototype.init = function() {
-  var previousLevelID;
-  _.each(this.levelSequences, function(levels, levelSequenceName) {
-    this.sequences.push(levelSequenceName);
-    if (!levels || !levels.length) {
-      throw new Error('no empty sequences allowed');
-    }
-
-    // for this particular sequence...
-    _.each(levels, function(level, index) {
-      this.validateLevel(level);
-
-      var id = levelSequenceName + String(index + 1);
-      var compiledLevel = _.extend(
-        {},
-        level,
-        {
-          index: index,
-          id: id,
-          sequenceName: levelSequenceName
-        }
-      );
-
-      // update our internal data
-      this.levelMap[id] = compiledLevel;
-      this.levelSequences[levelSequenceName][index] = compiledLevel;
-    }, this);
-  }, this);
-};
-
-LevelArbiter.prototype.isLevelSolved = function(id) {
-  if (!this.levelMap[id]) {
-    throw new Error('that level doesnt exist!');
-  }
-  return Boolean(this.solvedMap[id]);
-};
-
-LevelArbiter.prototype.levelSolved = function(id) {
-  // called without an id when we reset solved status
-  if (!id) { return; }
-
-  this.solvedMap[id] = true;
-  this.syncToStorage();
-};
-
-LevelArbiter.prototype.resetSolvedMap = function() {
-  this.solvedMap = {};
-  this.syncToStorage();
-  Main.getEvents().trigger('levelSolved');
-};
-
-LevelArbiter.prototype.syncToStorage = function() {
-  try {
-    localStorage.setItem('solvedMap', JSON.stringify(this.solvedMap));
-  } catch (e) {
-    console.warn('local storage fialed on set', e);
-  }
-};
-
-LevelArbiter.prototype.validateLevel = function(level) {
-  level = level || {};
-  var requiredFields = [
-    'name',
-    'goalTreeString',
-    //'description',
-    'solutionCommand'
-  ];
-
-  var optionalFields = [
-    'hint',
-    'disabledMap',
-    'startTree'
-  ];
-
-  _.each(requiredFields, function(field) {
-    if (level[field] === undefined) {
-      console.log(level);
-      throw new Error('I need this field for a level: ' + field);
-    }
-  });
-};
-
-LevelArbiter.prototype.getSequenceToLevels = function() {
-  return this.levelSequences;
-};
-
-LevelArbiter.prototype.getSequences = function() {
-  return _.keys(this.levelSequences);
-};
-
-LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
-  if (!this.levelSequences[sequenceName]) {
-    throw new Error('that sequecne name ' + sequenceName + 'does not exist');
-  }
-  return this.levelSequences[sequenceName];
-};
-
-LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
-  return sequenceInfo[sequenceName];
-};
-
-LevelArbiter.prototype.getLevel = function(id) {
-  return this.levelMap[id];
-};
-
-LevelArbiter.prototype.getNextLevel = function(id) {
-  if (!this.levelMap[id]) {
-    console.warn('that level doesnt exist!!!');
-    return null;
-  }
-
-  // meh, this method could be better. It's a tradeoff between
-  // having the sequence structure be really simple JSON
-  // and having no connectivity information between levels, which means
-  // you have to build that up yourself on every query
-  var level = this.levelMap[id];
-  var sequenceName = level.sequenceName;
-  var sequence = this.levelSequences[sequenceName];
-
-  var nextIndex = level.index + 1;
-  if (nextIndex < sequence.length) {
-    return sequence[nextIndex];
-  }
-
-  var nextSequenceIndex = this.sequences.indexOf(sequenceName) + 1;
-  if (nextSequenceIndex < this.sequences.length) {
-    var nextSequenceName = this.sequences[nextSequenceIndex];
-    return this.levelSequences[nextSequenceName][0];
-  }
-
-  // they finished the last level!
-  return null;
-};
-
-exports.LevelArbiter = LevelArbiter;
-
-
-});
-
-require.define("/src/levels/index.js",function(require,module,exports,__dirname,__filename,process,global){// Each level is part of a "sequence;" levels within
-// a sequence proceed in the order listed here
-exports.levelSequences = {
-  intro: [
-    require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level,
-    require('../../levels/intro/3').level,
-    require('../../levels/intro/4').level,
-    require('../../levels/intro/5').level
-  ],
-  rebase: [
-    require('../../levels/rebase/1').level,
-    require('../../levels/rebase/2').level
-  ],
-  mixed: [
-    require('../../levels/mixed/1').level,
-    require('../../levels/mixed/2').level,
-    require('../../levels/mixed/3').level
-  ]
-};
-
-// there are also cute names and such for sequences
-exports.sequenceInfo = {
-  intro: {
-    displayName: 'Introduction Sequence',
-    about: 'A nicely paced introduction to the majority of git commands'
-  },
-  rebase: {
-    displayName: 'Master the Rebase Luke!',
-    about: 'What is this whole rebase hotness everyone is talking about? Find out!'
-  },
-  mixed: {
-    displayName: 'A Mixed Bag',
-    about: 'A mixed bag of Git techniques, tricks, and tips'
-  }
-};
-
-
-});
-
-require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "name": 'Introduction to Git Commits',
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git commit;git commit",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "hint": {
-      "en_US": "Just type in 'git commit' twice to finish!",
-      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01",
-      "ko": "'git commit'이라고 두 번 치세요!"
-    },
-  "disabledMap" : {
-    "git revert": true
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Commits",
-              "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
-              "",
-              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
-              "",
-              "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
-              "",
-              "`resolving deltas`",
-              "",
-              "when cloning a repo.",
-              "",
-              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
-              "",
-              "Hit the button below to make a new commit"
-            ],
-            "afterMarkdowns": [
-              "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
-            ],
-            "command": "git commit",
-            "beforeCommand": ""
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git 커밋",
-              // "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
-              "커밋은 Git 저장소에 여러분의 디렉토리에 있는 모든 파일에 대한 스냅샷을 기록하는 것입니다. 디렉토리 전체에 대한 복사해 붙이기와 비슷하지만 훨씬 유용합니다!",
-              "",
-              // "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
-              "Git은 커밋을 가능한한 가볍게 유지하고자 해서, 커밋할 때마다 디렉토리 전체를 복사하는 일은 하지 않습니다. 각 커밋은 저장소의 이전 버전과 다음 버전의 변경내역(\"delta\"라고도 함)을 저장합니다. 그래서 대부분의 커밋이 그 커밋 위에 부모 커밋을 가리키고 있게 되는 것입니다. -- 곧 그림으로 된 화면에서 살펴보게 될 것입니다.",
-              "",
-              //"In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
-              "저장소를 복제(clone)하려면, 그 모든 변경분(delta)를 풀어내야하는데, 그 때문에 명령행 결과로 아래와 같이 보게됩니다. ",
-              "",
-              "`resolving deltas`",
-              "",
-              //"when cloning a repo.",
-              //"",
-              //"It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
-              "알아야할 것이 꽤 많습니다만, 일단은 커밋을 프로젝트의 각각의 스냅샷들로 생각하시는 걸로 충분합니다. 커밋은 매우 가볍고 커밋 사이의 전환도 매우 빠르다는 것을 기억해주세요!"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
-              "연습할 때 어떻게 보이는지 확인해보죠. 오른쪽 화면에 git 저장소를 그림으로 표현해 놓았습니다. 현재 두번 커밋한 상태입니다 -- 첫번째 커밋으로 `C0`, 그 다음으로 `C1`이라는 어떤 의미있는 변화가 있는 커밋이 있습니다.",
-              "",
-              // "Hit the button below to make a new commit"
-              "아래 버튼을 눌러 새로운 커밋을 만들어보세요"
-            ],
-            "afterMarkdowns": [
-              // "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
-              "이렇게 보입니다! 멋지죠. 우리는 방금 저장소 내용을 변경해서 한번의 커밋으로 저장했습니다. 방금 만든 커밋은 부모는 `C1`이고, 어떤 커밋을 기반으로 변경된 것인지를 가리킵니다."
-            ],
-            "command": "git commit",
-            "beforeCommand": ""
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
-              "계속해서 직접 한번 해보세요! 이 창을 닫고, 커밋을 두 번 하면 다음 레벨로 넘어갑니다"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Commits",
-              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
-              "",
-              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
-              "",
-              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
-              "",
-              "`resolving deltas`",
-              "",
-              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
-              "",
-              "点下面的按钮来生成一个新的提交。"
-            ],
-            "command": "git commit",
-            "afterMarkdowns": [
-                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
-            ],
-            "beforeCommand": ""
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git branch bugFix;git checkout bugFix",
-  "name": "Branching in Git",
-  "hint": {
-      "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
-      "zh_CN": "\u7528 'git branch [\u65b0\u5206\u652f\u540d\u5b57]' \u6765\u521b\u5efa\u65b0\u5206\u652f\uff0c\u5e76\u7528 'git checkout [\u65b0\u5206\u652f]' \u5207\u6362\u5230\u65b0\u5206\u652f",
-      "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
-  },
-  "disabledMap" : {
-    "git revert": true
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Branches",
-              "",
-              "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
-              "",
-              "```",
-              "branch early, and branch often",
-              "```",
-              "",
-              "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
-              "",
-              "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Let's see what branches look like in practice.",
-              "",
-              "Here we will check out a new branch named `newImage`"
-            ],
-            "afterMarkdowns": [
-              "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
-            ],
-            "command": "git branch newImage",
-            "beforeCommand": ""
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Let's try to put some work on this new branch. Hit the button below"
-            ],
-            "afterMarkdowns": [
-              "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
-            ],
-            "command": "git commit",
-            "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Let's tell git we want to checkout the branch with",
-              "",
-              "```",
-              "git checkout [name]",
-              "```",
-              "",
-              "This will put us on the new branch before committing our changes"
-            ],
-            "afterMarkdowns": [
-              "There we go! Our changes were recorded on the new branch"
-            ],
-            "command": "git checkout newImage; git commit",
-            "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Ok! You are all ready to get branching. Once this window closes,",
-              "make a new branch named `bugFix` and switch to that branch"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Branches",
-              "",
-              "在 Git 里面，分支也是非常轻量。它们实际上就是对特定的提交的一个简单参照（reference） —— 对，就是那么简单。所以许多鼓吹 Git 的玩家会反复吟诵这么一句咒语：",
-              "",
-              "```",
-              "早点开分支！多点开分支！（branch early, and branch often）",
-              "```",
-              "",
-              "因为创建分支不会带来任何储存（硬盘和内存）上的开销，所以你大可以根据需要将你的工作划分成几个分支，而不是使用只使用一个巨大的分支（beefy）。",
-              "",
-              "当我们开始将分支和提交混合一起使用之后，将会看见两者混合所带来的特性。从现在开始，只要记住使用分支其实就是在说：“我想把这次提交和它的父提交都包含进去。（I want to include the work of this commit and all parent commits.）”"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "让我们在实践中看看分支究竟是怎样的。",
-              "",
-              "现在我们会检出（check out）到一个叫 `newImage` 的新分支。"
-            ],
-            "command": "git branch newImage",
-            "afterMarkdowns": [
-              "看，这就是分支啦！`newImage` 这个分支现在是指向提交 `C1`。"
-            ],
-            "beforeCommand": ""
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "现在让我们往这个新分支里添加一点修改。按一下下面的按钮。"
-            ],
-            "command": "git commit",
-            "afterMarkdowns": [
-              "啊摔！`master` 分支前进了，但是 `newImage` 分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
-            ],
-            "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "要切换到一个分支，我们可以这样告诉 git",
-              "",
-              "```",
-              "git checkout [name]",
-              "```",
-              "",
-              "这样就可以让我们在提交修改之前切换到新的分支了。"
-            ],
-            "command": "git checkout newImage; git commit",
-            "afterMarkdowns": [
-              "好的嘞！我们的修改已经记录在新的分支里了。"
-            ],
-            "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "好啦，现在你可以准备使用分支了。这个窗口关闭以后，",
-              "创建一个叫 `bugFix` 的新分支，然后切换到那里。"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Git Branches",
-              "## Git 브랜치",
-              "",
-              // "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
-              "깃의 브랜치도 놀랍도록 가볍습니다. 브랜치는 특정 커밋에 대한 참조(reference)에 지나지 않습니다. 이런 사실 때문에 수많은 Git 애찬론자들이 자주 이렇게 말하곤 합니다:",
-              "",
-              "```",
-              // "branch early, and branch often",
-              "브랜치를 서둘러서, 그리고 자주 만드세요",
-              "```",
-              "",
-              // "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
-              "브랜치를 많이 만들어도 메모리나 디스크 공간에 부담이 되지 않기 때문에, 여러분의 작업을 커다른 브랜치로 만들기 보다, 작은 단위로 잘게 나누는 것이 좋습니다.",
-              "",
-              // "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
-              "브랜치와 커밋을 같이 쓸 때, 어떻게 두 기능이 조화를 이루는지 알아보겠습니다. 하지만 우선은, 단순히 브랜치를 \"하나의 커밋과 그 부모 커밋들을 포함하는 작업 내역\"이라고 기억하시면 됩니다."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Let's see what branches look like in practice.",
-              "브랜치가 어떤 것인지 연습해보죠.",
-              "",
-              // "Here we will check out a new branch named `newImage`"
-              "`newImage`라는 브랜치를 살펴보겠습니다."
-            ],
-            "afterMarkdowns": [
-              // "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
-              "저 그림에 브랜치의 모든 것이 담겨있습니다! 브랜치 `newImage`가 커밋 `C1`를 가리킵니다"
-            ],
-            "command": "git branch newImage",
-            "beforeCommand": ""
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Let's try to put some work on this new branch. Hit the button below"
-              "이 새로운 브랜치에 약간의 작업을 더해봅시다. 아래 버튼을 눌러주세요"
-            ],
-            "afterMarkdowns": [
-              // "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
-              "앗! `master` 브랜치가 움직이고, `newImage` 브랜치는 이동하지 않았네요! 그건 우리가 새 브랜치 위에 있지 않았었기 때문입니다. 별표(*)가 `master`에 있었던 것이죠."
-            ],
-            "command": "git commit",
-            "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Let's tell git we want to checkout the branch with",
-              // "",
-              // "```",
-              // "git checkout [name]",
-              // "```",
-              // "",
-              // "This will put us on the new branch before committing our changes"
-              "아래의 명령으로 새 브랜치로 이동해 봅시다.",
-              "",
-              "```",
-              "git checkout [브랜치명]",
-              "```",
-              "",
-              "이렇게 하면 변경분을 커밋하기 전에 새 브랜치로 이동하게 됩니다."
-
-            ],
-            "afterMarkdowns": [
-              // "There we go! Our changes were recorded on the new branch"
-              "이거죠! 이제 우리의 변경이 새 브랜치에 기록되었습니다!"
-            ],
-            "command": "git checkout newImage; git commit",
-            "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "Ok! You are all ready to get branching. Once this window closes,",
-              // "make a new branch named `bugFix` and switch to that branch"
-              "좋아요! 이제 직접 브랜치 작업을 연습해봅시다. 이 창을 닫고,",
-              "`bugFix`라는 새 브랜치를 만드시고, 그 브랜치로 이동해보세요"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-});
-
-require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
-  "name": "Merging in Git",
-  "hint": {
-    "en_US": "Remember to commit in the order specified (bugFix before master)",
-    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09",
-    "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
-  },
-  "disabledMap" : {
-    "git revert": true
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Branches and Merging",
-              "",
-              "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
-              "",
-              "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
-              "",
-              "It's easier with visuals, let's check it out in the next view"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
-              "",
-              "We will `merge` the branch `bugFix` into `master`"
-            ],
-            "afterMarkdowns": [
-              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
-              "",
-              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
-              "",
-              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
-            ],
-            "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Let's merge `master` into `bugFix`:"
-            ],
-            "afterMarkdowns": [
-              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
-              "",
-              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
-            ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "To complete this level, do the following steps:",
-              "",
-              "* Make a new branch called `bugFix`",
-              "* Checkout the `bugFix` branch with `git checkout bugFix`",
-              "* Commit once",
-              "* Go back to `master` with `git checkout`",
-              "* Commit another time",
-              "* Merge the branch `bugFix` into `master` with `git merge`",
-              "",
-              "*Remember, you can always re-display this dialog with \"help level\"!*"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Branches and Merging",
-              "",
-              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
-              "",
-              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
-              "",
-              "听起来可能有点拗口，看看下一张就明白了。"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
-              "",
-              "我们将要把分支 `bugFix` 合并到 `master` 上"
-            ],
-            "command": "git merge bugFix master",
-            "afterMarkdowns": [
-              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
-              "",
-              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
-              "",
-              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
-            ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "让我们把 `master` 分支合并到 `bugFix` 吧。"
-            ],
-            "command": "git merge master bugFix",
-            "afterMarkdowns": [
-              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
-              "",
-              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
-            ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
-              "",
-              "* 创建一个叫 `bugFix` 的新分支",
-              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
-              "* 创建一个提交",
-              "* 再用 `git checkout` 切换回 `master` 上",
-              "* 创建另外一个提交",
-              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
-              "",
-              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## 브랜치와 합치기(Merge)",
-              "",
-              "좋습니다! 지금까지 커밋하고 브랜치를 만드는 방법을 알아봤습니다. 이제 두 별도의 브랜치를 합치는 몇가지 방법을 알아볼 차례입니다. 이제부터 배우는 방법으로 브랜치를 따고, 새 기능을 개발 한 다음 합칠 수 있게 될 것입니다.",
-              "",
-              "처음으로 살펴볼 방법은 `git merge`입니다. Git의 합치기(merge)는 두 개의 부모(parent)를 가리키는 특별한 커밋을 만들어 냅니다. 두개의 부모가 있는 커밋이라는 것은 \"한 부모의 모든 작업내역과 나머지 부모의 모든 작업, *그리고* 그 두 부모의 모든 부모들의 작업내역을 포함한다\"라는 의미가 있습니다. ",
-              "",
-              "그림으로 보는게 이해하기 쉬워요. 다음 화면을 봅시다."
-
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "여기에 브랜치가 두 개 있습니다. 각 브랜치에 독립된 커밋이 하나씩 있구요. 그 말은 이 저장소에 지금까지 작업한 내역이 나뉘어 담겨 있다는 얘기입니다. 두 브랜치를 합쳐서(merge) 이 문제를 해결해 볼까요?",
-              "",
-              "`bugFix` 브랜치를 `master` 브랜치에 합쳐(merge) 보겠습니다."
-            ],
-            "afterMarkdowns": [
-              "보셨어요? 우선, `master`가 두 부모가 있는 커밋을 가리키고 있습니다. ",
-              "",
-              "또, 커밋들의 색이 바뀐 것을 눈치 채셨나요? 이해를 돕기위해 색상으로 구분해 표현했습니다. 각 브랜치는 그 브랜치만의 색상으로 그렸습니다. 브랜치가 합쳐지는 커밋의 경우에는, 그 브랜치들의 색을 조합한 색상으로 표시 했습니다.",
-              "",
-              "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `master` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
-            ],
-            "command": "git merge bugFix master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "이제 `master` 브랜치에 `bugFix`를 합쳐(merge) 봅시다:"
-            ],
-            "afterMarkdowns": [
-              "`bugFix`가 `master`의 부모쪽에 있었기 때문에, git이 별다른 일을 할 필요가 없었습니다; 간단히 `bugFix`를 `master`가 붙어 있는 커밋으로 이동시켰을 뿐입니다.",
-              "",
-              "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
-            ],
-            "command": "git merge master bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "아래 작업을 해서 이 레벨을 통과하세요:",
-              "",
-              "* `bugFix`라는 새 브랜치를 만듭니다",
-              "* `git checkout bugFix`를 입력해 `bugFix` 브랜치로 이동(checkout)합니다.",
-              "* 커밋 한 번 하세요",
-              "* `git checkout` 명령어를 이용해 `master`브랜치로 돌아갑니다",
-              "* 커밋 또 하세요",
-              "* `git merge` 명령어로 `bugFix`브랜치를 `master`에 합쳐 넣습니다.",
-              "",
-              "*아 그리고, \"help level\" 명령어로 이 안내창을 다시 볼 수 있다는 것을 기억해 두세요!*"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
-  "name": "Rebase Introduction",
-  "hint": {
-    "en_US": "Make sure you commit from bugFix first",
-    "ko": "bugFix 브랜치에서 먼저 커밋하세요",
-    "zh_CN": "\u786e\u4fdd\u4f60\u5148\u5728 bugFix \u5206\u652f\u8fdb\u884c\u63d0\u4ea4"
-  },
-  "disabledMap" : {
-    "git revert": true
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Rebase",
-              "",
-              "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
-              "",
-              "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
-              "",
-              "Let's see it in action..."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
-              "",
-              "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
-              "",
-              "Let's do that with the `git rebase` command"
-            ],
-            "afterMarkdowns": [
-              "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
-              "",
-              "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
-              "",
-              "The only problem is that master hasn't been updated either, let's do that now..."
-            ],
-            "command": "git rebase master",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
-            ],
-            "afterMarkdowns": [
-              "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
-            ],
-            "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "To complete this level, do the following",
-              "",
-              "* Checkout a new branch named `bugFix`",
-              "* Commit once",
-              "* Go back to master and commit again",
-              "* Check out bugFix again and rebase onto master",
-              "",
-              "Good luck!"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Rebase",
-              "",
-              "第二种合并不用分支工作的方法是 *衍合（rebasing）*。衍合就是取出一系列的提交，\"组合（compies）\"它们，然后把它们在某个地方重新放下来（重新实施一遍）。",
-              "",
-              "这可能看上去很难明白，而衍合的最大好处就是可以用来创造更线性的提交历史。假如一个项目只允许使用衍合（来合并工作），那么它的提交记录/历史会变得好看很多。",
-              "",
-              "让我们亲身体会下……"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "现在我们有两个分支，注意当前分支是 bugFix（看那颗星）",
-              "",
-              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法会让我们觉得这两个特性分支的工作是顺序提交的，但实际上它们是平行发展提交的。",
-              "",
-              "要做到这个效果，我们用 `git rebase`"
-            ],
-            "command": "git rebase master",
-            "afterMarkdowns": [
-              "碉堡吧，现在我们在 bugFix 分支上的工作已经移到了 master 的最前端，同时我们也得到了一个很好的直线型提交历史。",
-              "",
-              "注意一下提交 C3 其实还存在在我们的仓库的某个角落里（阴影的那货就是你了，还看什么看），而 C3' 是它一个在 master 分支上的\"拷贝\"提交。",
-              "",
-              "现在还有唯一一个问题就是 master 分支还没有更新……下面就来更新它吧"
-            ],
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "现在我们可以切换到了 `master` 分支。接下来就把它衍合到 `bugFix` 吧……"
-            ],
-            "command": "git rebase bugFix",
-            "afterMarkdowns": [
-              "看！因为 `master` 是 `bugFix` 的上游，所以 git 只把 `master` 分支的记录前进到 `bugFix` 上。"
-            ],
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
-              "",
-              "* 切换到一个叫 `bugFix` 的新分支",
-              "* 创建一个提交",
-              "* 回到 master 分支并且创建另外一个提交",
-              "* 再次切换到 bugFix 分支，然后把它衍合到 master 上",
-              "",
-              "祝你好运啦！"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Git Rebase",
-              "## Git 리베이스(Rebase)",
-              "",
-              // "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
-              "브랜치끼리의 작업을 접목하는 두번째 방법은 *리베이스(rebase)*입니다. 리베이스는 기본적으로 커밋들을 모아서 복사한 뒤, 다른 곳에 떨궈 놓는 것입니다.",
-              "",
-              // "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
-              "조금 어려게 느껴질 수 있지만, 리베이스를 하면 커밋들의 흐름을 보기 좋게 한 줄로 만들 수 있다는 장점이 있습니다. 리베이스를 쓰면 저장소의 커밋 로그와 이력이 한결 깨끗해집니다.",
-              "",
-              // "Let's see it in action..."
-              "어떻게 동작하는지 살펴볼까요..."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
-              "여기 또 브랜치 두 개가 있습니다; bugFix브랜치가 현재 선택됐다는 점 눈여겨 보세요 (별표 표시)",
-              "",
-              // "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
-              "bugFix 브랜치에서의 작업을 master 브랜치 위로 직접 옮겨 놓으려고 합니다. 그렇게 하면, 실제로는 두 기능을 따로따로 개발했지만, 마치 순서대로 개발한 것처럼 보이게 됩니다.",
-              "",
-              // "Let's do that with the `git rebase` command"
-              "`git rebase` 명령어로 함께 해보죠."
-            ],
-            "afterMarkdowns": [
-              // "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
-              "오! 이제 bugFix 브랜치의 작업 내용이 master의 바로 위에 깔끔한 한 줄의 커밋으로 보이게 됐습니다.",
-              "",
-              // "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
-              "C3 커밋은 어딘가에 아직 남아있고(그림에서 흐려짐), C3'는 master 위에 올려 놓은 복사본입니다.",
-              "",
-              // "The only problem is that master hasn't been updated either, let's do that now..."
-              "master가 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
-            ],
-            "command": "git rebase master",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
-              "우리는 지금 `master` 브랜치를 선택한 상태입니다. `bugFix` 브랜치쪽으로 리베이스 해보겠습니다..."
-            ],
-            "afterMarkdowns": [
-              // "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
-              "보세요! `master`가 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
-            ],
-            "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "To complete this level, do the following",
-              "이하 작업을 하면 이번 레벨을 통과합니다",
-              "",
-              // "* Checkout a new branch named `bugFix`",
-              "* `bugFix`라는 새 브랜치를 만들어 선택하세요",
-              // "* Commit once",
-              "* 커밋 한 번 합니다",
-              // "* Go back to master and commit again",
-              "* master로 돌아가서 또 커밋합니다",
-              // "* Check out bugFix again and rebase onto master",
-              "* bugFix를 다시 선택하고 master에 리베이스 하세요",
-              "",
-              // "Good luck!"
-              "화이팅!"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
-  "name": "Reversing Changes in Git",
-  "hint": {
-      "en_US": "",
-      "zh_CN": "",
-      "ko": ""
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Reversing Changes in Git",
-              "",
-              "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
-              "",
-              "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
-              ""
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "## Git Reset",
-              "",
-              "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
-              "",
-              "Let's see what that looks like:"
-            ],
-            "afterMarkdowns": [
-              "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
-            ],
-            "command": "git reset HEAD~1",
-            "beforeCommand": "git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "## Git Revert",
-              "",
-              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
-              "",
-              "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
-            ],
-            "afterMarkdowns": [
-              "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
-              "",
-              "With reverting, you can push out your changes to share with others."
-            ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
-              "",
-              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## 撤销 Git 里面的变动",
-              "",
-              "在 Git 里有很多方法撤销（reverse）变动。和 commit 一样，在 Git 里撤销变动同时具有底层次的部分（暂存一些独立的文件或者片段）和高层次的部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
-              "",
-              "在 Git 里主要有两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
-              ""
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "## Git Reset",
-              "",
-              "`git reset` 通过把分支记录回退上一个提交来实现撤销改动。这意味着你可以把它的行为当作是\"重写历史\"。`git reset` 会令分支记录回退，做到最新的提交好像没有提交过一样。",
-              "",
-              "让我们看看具体的操作："
-            ],
-            "command": "git reset HEAD~1",
-            "afterMarkdowns": [
-              "Nice! Git 就简单地把 master 分支的记录移回 `C1`；现在我们的本地仓库就处于好像提交 `C2` 没有发生过的状态了。"
-            ],
-            "beforeCommand": "git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "## Git Revert",
-              "",
-              "虽然在你机子的本地环境中这样来撤销变更看起来很方便，但是这种“改写历史”的方法对别人用的远端分支是无效的哦！",
-              "",
-              "为了撤销分支并把这些变动*分享*给别人，我们需要 `git revert`。下面继续看它是怎么运作的。"
-            ],
-            "command": "git revert HEAD",
-            "afterMarkdowns": [
-              "怪哉！在我们要撤销的提交之后居然多了一个新提交！这是因为这个新提交 `C2'` 提供了*变动*（introduces changes） —— 刚好是用来撤销 `C2` 这个提交的。",
-              "",
-              "借助 revert，现在你可以把你的改动分享给别人啦。"
-            ],
-            "beforeCommand": "git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "要刷过这关，请分别把 `local` 分支和 `pushed` 分支上最近的一个提交撤销掉。",
-              "",
-              "记住 `pushes` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Reversing Changes in Git",
-              "## Git에서 작업 되돌리기",
-              "",
-              // "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
-              "Git에는 작업한 것을 되돌리는 여러가지 방법이 있습니다. 변경내역을 되돌리는 것도 커밋과 마찬가지로 낮은 수준의 일(개별 파일이나 묶음을 스테이징 하는 것)과 높은 수준의 일(실제 변경이 복구되는 방법)이 있는데요, 여기서는 후자에 집중해 알려드릴게요.",
-              "",
-              // "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
-              "Git에서 변경한 내용을 되돌리는 방법은 크게 두가지가 있습니다 -- 하나는 `git reset`을 쓰는거고, 다른 하나는 `git revert`를 사용하는 것입니다. 다음 화면에서 하나씩 알아보겠습니다.",
-              ""
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "## Git Reset",
-              "## Git 리셋(reset)",
-              "",
-              // "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
-              "`git reset`은 브랜치로 하여금 예전의 커밋을 가리키도록 이동시키는 방식으로 변경 내용을 되돌립니다. 이런 관점에서 \"히스토리를 고쳐쓴다\"라고 말할 수 있습니다. 즉, `git reset`은 마치 애초에 커밋하지 않은 것처럼 예전 커밋으로 브랜치를 옮기는 것입니다.",
-              "",
-              // "Let's see what that looks like:"
-              "어떤 그림인지 한번 보죠:"
-            ],
-            "afterMarkdowns": [
-              // "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
-              "그림에서처럼 master 브랜치가 가리키던 커밋을 `C1`로 다시 옮겼습니다; 이러면 로컬 저장소에는 마치 `C2`커밋이 아예 없었던 것과 마찬가지 상태가 됩니다."
-            ],
-            "command": "git reset HEAD~1",
-            "beforeCommand": "git commit"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "## Git Revert",
-              "## Git 리버트(revert)",
-              "",
-              // "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
-              "각자의 컴퓨터에서 작업하는 로컬 브랜치의 경우 리셋(reset)을 잘 쓸 수 있습니다만, \"히스토리를 고쳐쓴다\"는 점 때문에 다른 사람이 작업하는 리모트 브랜치에는 쓸 수 없습니다.",
-              "",
-              // "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
-              "변경분을 되돌리고, 이 되돌린 내용을 다른 사람들과 *공유하기* 위해서는, `git revert`를 써야합니다. 예제로 살펴볼게요."
-            ],
-            "afterMarkdowns": [
-              // "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
-              "어색하게도, 우리가 되돌리려고한 커밋의 아래에 새로운 커밋이 생겼습니다. `C2`라는 새로운 커밋에 *변경내용*이 기록되는데요, 이 변경내역이 정확히 `C2` 커밋 내용의 반대되는 내용입니다.",
-              "",
-              // "With reverting, you can push out your changes to share with others."
-              "리버트를 하면 다른 사람들에게도 변경 내역을 밀어(push) 보낼 수 있습니다."
-            ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
-              "이 레벨을 통과하려면, `local` 브랜치와 `pushed` 브랜치에 있는 최근 두 번의 커밋을 되돌려 보세요.",
-              "",
-              // "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
-              "`pushed`는 리모트 브랜치이고, `local`은 로컬 브랜치임을 신경쓰셔서 작업하세요 -- 어떤 방법을 선택하실지 떠오르시죠?"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyMasterHashAgnostic": true,
-  "disabledMap" : {
-    "git revert": true
-  },
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C6%27%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "name": "Rebasing over 9000 times",
-  "hint": {
-    "en_US": "Remember, the most efficient way might be to only update master at the end...",
-    "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "### Rebasing Multiple Branches",
-              "",
-              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
-              "",
-              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
-              "",
-              "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "### 多分支衍合",
-              "",
-              "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
-              "",
-              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
-              "",
-              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "### Rebasing Multiple Branches",
-              "### 여러 브랜치를 리베이스(rebase)하기 ",
-              "",
-              // "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
-              "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 master에 리베이스 해볼까요?",
-              "",
-              // "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
-              "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
-              "",
-              // "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
-              "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareAllBranchesHashAgnostic": true,
-  "disabledMap" : {
-    "git revert": true
-  },
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22master%22%7D%2C%22one%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22one%22%7D%2C%22two%22%3A%7B%22target%22%3A%22C2%27%27%22%2C%22id%22%3A%22two%22%7D%2C%22three%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22three%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C4%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22two%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "name": "Branch Spaghetti",
-  "hint": {
-    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
-    "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Branch Spaghetti",
-              "",
-              "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
-              "",
-              "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
-              "",
-              "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
-              "",
-              "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Branch Spaghetti",
-              "",
-              "哇塞大神！这关我们要来点不同的！",
-              "",
-              "现在我们的 `master` 分支是比 `one` `two` 和 `three` 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）",
-              "",
-              "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
-              "",
-              "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Branch Spaghetti",
-              "## 브랜치 스파게티",
-              "",
-              // "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
-              "음, 이번에는 만만치 않습니다!",
-              "",
-              // "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
-              "여기 `master` 브랜치의 몇 번 이전 커밋에 `one`, `two`,`three` 총 3개의 브랜치가 있습니다. 어떤 이유인지는 몰라도, master의 최근 커밋 몇 개를 나머지 세 개의 브랜치에 반영하려고 합니다.",
-              "",
-              // "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
-              "`one` 브랜치는 순서를 바꾸고 `C5`커밋을 삭제하고, `two`브랜치는 순서만 바꾸며, `three`브랜치는 하나의 커밋만 가져옵시다!",
-              "",
-              // "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
-              "자유롭게 이 문제를 풀어보시고 나서 `show solution`명령어로 모범 답안을 확인해보세요."
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyMasterHashAgnostic": true,
-  "disabledMap" : {
-    "git revert": true
-  },
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout master;git cherry-pick C4",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "name": "Grabbing Just 1 Commit",
-  "hint": {
-      "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
-      "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
-      "zh_CN": "\u8bb0\u4f4f\uff0c\u4ea4\u4e92\u5f0f rebase \u6216\u8005 cherry-pick \u4f1a\u5f88\u6709\u5e2e\u52a9"
-    },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Locally stacked commits",
-              "",
-              "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
-              "",
-              "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
-              "",
-              "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
-              "",
-              "* `git rebase -i`",
-              "* `git cherry-pick`",
-              "",
-              "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
-              "",
-              "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## 本地栈式提交 (Locally stacked commits)",
-              "",
-              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些 debug 语句和打印语句。",
-              "",
-              "所有的这些调试和打印语句到只在它们的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
-              "",
-              "但有个问题就是现在我要把 `bugFix` 分支的工作合并回 `master` 分支上，我可以简单地快进（fast-forward） `master` 分支，但这样的话 `master` 分支就会包含我这些调试语句了。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "现在就是 Git 大显神通的时候啦。我们有几种方法来解决这个问题，但最直接的方法是：",
-              "",
-              "* `git rebase -i`",
-              "* `git cherry-pick`",
-              "",
-              "交互（`-i`）衍合允许你选择哪些提交是要被保留，哪些要被舍弃。它允许你将提交重新排序。假如你要舍弃一些工作，这个会帮上很大的忙。",
-              "",
-              "Cherry-picking 能让你选择单独一个提交并且把它放到 `HEAD` 的最前端。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-                "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Locally stacked commits",
-              "## 로컬에 쌓인 커밋들",
-              "",
-              // "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
-              "개발중에 종종 이런 상황이 생깁니다: 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
-              "",
-              // "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
-              "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
-              "",
-              // "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
-              "이제 `bugFix`브랜치의 내용을 `master`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `master`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
-              "여기에서 Git의 마법이 드러납니다. 이 문제를 해결하는 여러가지 방법이 있습니다만, 가장 간단한 두가지 방법 아래와 같습니다:",
-              "",
-              "* `git rebase -i`",
-              "* `git cherry-pick`",
-              "",
-              // "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
-              "대화형 (-i 옵션) 리베이스(rebase)로는 어떤 커밋을 취하거나 버릴지를 선택할 수 있습니다. 또 커밋의 순서를 바꿀 수도 있습니다. 이 커맨드로 어떤 작업의 일부만 골라내기에 유용합니다.",
-              "",
-              // "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
-              "체리픽(cherry-pick)은 개별 커밋을 골라서 `HEAD`위에 떨어뜨릴 수 있습니다."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
-              "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `master`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "disabledMap" : {
-    "git cherry-pick": true,
-    "git revert": true
-  },
-  "compareOnlyMaster": true,
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "name": "Juggling Commits",
-  "hint": {
-      "en_US": "The first command is git rebase -i HEAD~2",
-      "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-      "zh_CN": "\u7b2c\u4e00\u4e2a\u547d\u4ee4\u662f 'git rebase -i HEAD~2'"
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Juggling Commits",
-              "",
-              "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
-              "",
-              "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "We will overcome this difficulty by doing the following:",
-              "",
-              "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
-              "* We will `commit --amend` to make the slight modification",
-              "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
-              "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
-              "",
-              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Juggling Commits",
-              "",
-              "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
-              "",
-              "有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 `newImage` 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "为了实现他的愿望，我们可以按照下面的方法来做：",
-              "",
-              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交挪到最前",
-              "* 然后用 `commit --amend` 来进行一些小修改",
-              "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
-              "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
-              "",
-              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-                "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Juggling Commits",
-              "## 커밋들 갖고 놀기",
-              "",
-              // "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
-              "이번에도 꽤 자주 발생하는 상황입니다. `newImage`와 `caption` 브랜치에 각각의 변경내역이 있고 서로 약간 관련이 있어서, 저장소에 차례로 쌓여있는 상황입니다.",
-              "",
-              // "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
-              "때로는 이전 커밋의 내용을 살짝 바꿔야하는 골치아픈 상황에 빠지게 됩니다. 이번에는 디자인 쪽에서 우리의 작업이력(history)에서는 이미 한참 전의 커밋 내용에 있는 `newImage`의 크기를 살짝 바꿔달라는 요청이 들어왔습니다."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "We will overcome this difficulty by doing the following:",
-              "이 문제를 다음과 같이 풀어봅시다:",
-              "",
-              // "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
-              "* `git rebase -i` 명령으로 우리가 바꿀 커밋을 가장 최근 순서로 바꾸어 놓습니다",
-              // "* We will `commit --amend` to make the slight modification",
-              "* `commit --amend` 명령으로 커밋 내용을 정정합니다",
-              // "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
-              "* 다시 `git rebase -i` 명령으로 이 전의 커밋 순서대로 되돌려 놓습니다",
-              // "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
-              "* 마지막으로, master를 지금 트리가 변경된 부분으로 이동합니다. (편하신 방법으로 하세요)",
-              "",
-              // "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
-              "이 목표를 달성하기 위해서는 많은 방법이 있는데요(체리픽을 고민중이시죠?), 체리픽은 나중에 더 살펴보기로 하고, 우선은 위의 방법으로 해결해보세요."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
-              "최종적으로, 목표 결과를 눈여겨 보세요 -- 우리가 커밋을 두 번 옮겼기 때문에, 두 커밋 모두 따옴표 표시가 붙어있습니다. 정정한(amend) 커밋은 따옴표가 추가로 하나 더 붙어있습니다."
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-
-});
-
-require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
-  "disabledMap" : {
-    "git revert": true
-  },
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "compareOnlyMaster": true,
-  "name": "Juggling Commits #2",
-  "hint": {
-      "en_US": "Don't forget to forward master to the updated changes!",
-      "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-      "zh_CN": "\u522b\u5fd8\u8bb0\u4e86\u5c06 master \u5feb\u8fdb\u5230\u6700\u65b0\u7684\u66f4\u65b0\u4e0a\uff01"
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Juggling Commits #2",
-              "",
-              "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
-              "",
-              "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
-              "",
-              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
-              "",
-              "Here's a small refresher demo:"
-            ],
-            "afterMarkdowns": [
-              "Nice! Let's move on"
-            ],
-            "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Juggling Commits #2",
-              "",
-              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
-              "",
-              "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
-              "",
-              "但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 `git cherry-pick` 是怎么做的吧。"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "要在心理牢记 cherry-pick 可以从提交树的任何地方拿一个提交来放在 HEAD 上（尽管那个提交不在上游）。",
-              "",
-              "下面是一个小小的演示："
-            ],
-            "command": "git cherry-pick C2",
-            "afterMarkdowns": [
-              "好滴咧，我们继续"
-            ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
-            ]
-          }
-        }
-      ]
-    },
-    "ko": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "## Juggling Commits #2",
-              "## 커밋 갖고 놀기 #2",
-              "",
-              // "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
-              "*만약 이전 레벨의 커밋 갖고 놀기 #1을 풀지 않으셨다면, 계속하기에 앞서서 꼭 풀어보세요*",
-              "",
-              // "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
-              "이전 레벨에서 보셨듯이 `rebase -i` 명령으로 커밋의 순서를 바꿀 수 있습니다. 정정할 커밋이 바로 직전(top)에 있으면 간단히 --amend로 수정할 수 있고, 그리고 나서 다시 원하는 순서로 되돌려 놓으면 됩니다.",
-              "",
-              // "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
-              "이번에 한가지 문제는 순서를 꽤 많이 바꿔야한다는 점인데요, 그러다가 리베이스중에 충돌이 날 수 있습니다. 이번에는 다른 방법인 `git cherry-pick`으로 해결해 봅시다."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              // "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
-              "git cherry-pick으로 HEAD에다 어떤 커밋이든 떨어 뜨려 놓을 수 있다고 알려드린것 기억나세요? (단, 그 커밋이 현재 가리키고 있는 커밋이 아니어야합니다)",
-              "",
-              // "Here's a small refresher demo:"
-              "간단한 데모로 다시 알려드리겠습니다:"
-            ],
-            "afterMarkdowns": [
-              // "Nice! Let's move on"
-              "좋아요! 계속할게요"
-            ],
-            "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              // "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
-              "그럼 이번 레벨에서는 아까와 마찬가지로 `C2` 커밋의 내용을 정정하되, `rebase -i`를 쓰지 말고 해보세요. ^.~"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
+var intl = require('../intl');
 
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var BaseView = require('../views').BaseView;
+var Errors = require('../util/errors');
+var Sandbox = require('../level/sandbox').Sandbox;
+var Constants = require('../util/constants');
 
-var LevelDropdownView = ContainedBase.extend({
-  tagName: 'div',
-  className: 'levelDropdownView box vertical',
-  template: _.template($('#level-dropdown-view').html()),
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var DisabledMap = require('../level/disabledMap').DisabledMap;
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
 
+var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
+var LevelToolbar = require('../views').LevelToolbar;
+
+var TreeCompare = require('../git/treeCompare').TreeCompare;
+
+var regexMap = {
+  'help level': /^help level$/,
+  'start dialog': /^start dialog$/,
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution($|\s)/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelCommand');
+
+var Level = Sandbox.extend({
   initialize: function(options) {
     options = options || {};
-    this.JSON = {};
+    options.level = options.level || {};
 
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('clickedID', _.debounce(
-      _.bind(this.loadLevelID, this),
-      300,
-      true
-    ));
-    this.navEvents.on('negative', this.negative, this);
-    this.navEvents.on('positive', this.positive, this);
-    this.navEvents.on('left', this.left, this);
-    this.navEvents.on('right', this.right, this);
-    this.navEvents.on('up', this.up, this);
-    this.navEvents.on('down', this.down, this);
+    this.level = options.level;
 
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        esc: 'negative',
-        enter: 'positive'
-      },
-      wait: true
+    this.gitCommandsIssued = [];
+    this.commandsThatCount = this.getCommandsThatCount();
+    this.solved = false;
+
+    this.treeCompare = new TreeCompare();
+
+    this.initGoalData(options);
+    this.initName(options);
+
+    Level.__super__.initialize.apply(this, [options]);
+    this.startOffCommand();
+
+    this.handleOpen(options.deferred);
+  },
+
+  handleOpen: function(deferred) {
+    deferred = deferred || Q.defer();
+
+    // if there is a multiview in the beginning, open that
+    // and let it resolve our deferred
+    if (this.level.startDialog && !this.testOption('noIntroDialog')) {
+      new MultiView(_.extend(
+        {},
+        intl.getStartDialog(this.level),
+        { deferred: deferred }
+      ));
+      return;
+    }
+
+    // otherwise, resolve after a 700 second delay to allow
+    // for us to animate easily
+    setTimeout(function() {
+      deferred.resolve();
+    }, this.getAnimationTime() * 1.2);
+  },
+
+  startDialog: function(command, deferred) {
+    if (!this.level.startDialog) {
+      command.set('error', new Errors.GitError({
+        msg: 'There is no start dialog to show for this level!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.handleOpen(deferred);
+    deferred.promise.then(function() {
+      command.set('status', 'finished');
     });
+  },
 
-    this.sequences = Main.getLevelArbiter().getSequences();
-    this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
+  initName: function() {
+    if (!this.level.name) {
+      this.level.name = 'Rebase Classic';
+      console.warn('REALLY BAD FORM need ids and names');
+    }
 
-    this.container = new ModalTerminal({
-      title: 'Select a Level'
+    this.levelToolbar = new LevelToolbar({
+      name: this.level.name
     });
-    this.render();
-    this.buildSequences();
+  },
 
-    if (!options.wait) {
-      this.show();
+  initGoalData: function(options) {
+    if (!this.level.goalTreeString || !this.level.solutionCommand) {
+      throw new Error('need goal tree and solution');
     }
   },
 
-  positive: function() {
-    if (!this.selectedID) {
-      return;
-    }
-    this.loadLevelID(this.selectedID);
+  takeControl: function() {
+    Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Level.__super__.takeControl.apply(this);
   },
 
-  left: function() {
-    if (this.turnOnKeyboardSelection()) {
-      return;
-    }
-    this.leftOrRight(-1);
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Level.__super__.releaseControl.apply(this);
   },
 
-  leftOrRight: function(delta) {
-    this.deselectIconByID(this.selectedID);
-    this.selectedIndex = this.wrapIndex(this.selectedIndex + delta, this.getCurrentSequence());
-    this.selectedID = this.getSelectedID();
-    this.selectIconByID(this.selectedID);
-  },
-
-  right: function() {
-    if (this.turnOnKeyboardSelection()) {
-      return;
-    }
-    this.leftOrRight(1);
-  },
-
-  up: function() {
-    if (this.turnOnKeyboardSelection()) {
-      return;
-    }
-    this.selectedSequence = this.getPreviousSequence();
-    this.downOrUp();
-  },
-
-  down: function() {
-    if (this.turnOnKeyboardSelection()) {
-      return;
-    }
-    this.selectedSequence = this.getNextSequence();
-    this.downOrUp();
-  },
-
-  downOrUp: function() {
-    this.selectedIndex = this.boundIndex(this.selectedIndex, this.getCurrentSequence());
-    this.deselectIconByID(this.selectedID);
-    this.selectedID = this.getSelectedID();
-    this.selectIconByID(this.selectedID);
-  },
-
-  turnOnKeyboardSelection: function() {
-    if (!this.selectedID) {
-      this.selectFirst();
-      return true;
-    }
-    return false;
-  },
-
-  turnOffKeyboardSelection: function() {
-    if (!this.selectedID) { return; }
-    this.deselectIconByID(this.selectedID);
-    this.selectedID = undefined;
-    this.selectedIndex = undefined;
-    this.selectedSequence = undefined;
-  },
-
-  wrapIndex: function(index, arr) {
-    index = (index >= arr.length) ? 0 : index;
-    index = (index < 0) ? arr.length - 1 : index;
-    return index;
-  },
-
-  boundIndex: function(index, arr) {
-    index = (index >= arr.length) ? arr.length - 1 : index;
-    index = (index < 0) ? 0 : index;
-    return index;
-  },
-
-  getNextSequence: function() {
-    var current = this.getSequenceIndex(this.selectedSequence);
-    var desired = this.wrapIndex(current + 1, this.sequences);
-    return this.sequences[desired];
-  },
-
-  getPreviousSequence: function() {
-    var current = this.getSequenceIndex(this.selectedSequence);
-    var desired = this.wrapIndex(current - 1, this.sequences);
-    return this.sequences[desired];
-  },
-
-  getSequenceIndex: function(name) {
-    var index = this.sequences.indexOf(name);
-    if (index < 0) { throw new Error('didnt find'); }
-    return index;
-  },
-
-  getIndexForID: function(id) {
-    return Main.getLevelArbiter().getLevel(id).index;
-  },
-
-  selectFirst: function() {
-    var firstID = this.sequenceToLevels[this.sequences[0]][0].id;
-    this.selectIconByID(firstID);
-    this.selectedIndex = 0;
-    this.selectedSequence = this.sequences[0];
-  },
-
-  getCurrentSequence: function() {
-    return this.sequenceToLevels[this.selectedSequence];
-  },
-
-  getSelectedID: function() {
-    return this.sequenceToLevels[this.selectedSequence][this.selectedIndex].id;
-  },
-
-  selectIconByID: function(id) {
-    this.toggleIconSelect(id, true);
-  },
-
-  deselectIconByID: function(id) {
-    this.toggleIconSelect(id, false);
-  },
-
-  toggleIconSelect: function(id, value) {
-    this.selectedID = id;
-    var selector = '#levelIcon-' + id;
-    $(selector).toggleClass('selected', value);
-  },
-
-  negative: function() {
-    this.hide();
-  },
-
-  testOption: function(str) {
-    return this.currentCommand && new RegExp('--' + str).test(this.currentCommand.get('rawStr'));
-  },
-
-  show: function(deferred, command) {
-    this.currentCommand = command;
-    // doing the update on show will allow us to fade which will be nice
-    this.updateSolvedStatus();
-
-    this.showDeferred = deferred;
-    this.keyboardListener.listen();
-    LevelDropdownView.__super__.show.apply(this);
-  },
-
-  hide: function() {
-    if (this.showDeferred) {
-      this.showDeferred.resolve();
-    }
-    this.showDeferred = undefined;
-    this.keyboardListener.mute();
-    this.turnOffKeyboardSelection();
-
-    LevelDropdownView.__super__.hide.apply(this);
-  },
-
-  loadLevelID: function(id) {
-    if (!this.testOption('noOutput')) {
+  startOffCommand: function() {
+    if (!this.testOption('noStartCommand')) {
       Main.getEventBaton().trigger(
         'commandSubmitted',
-        'level ' + id
+        'hint; delay 2000; show goal'
       );
     }
-    this.hide();
   },
 
-  updateSolvedStatus: function() {
-    _.each(this.seriesViews, function(view) {
-      view.updateSolvedStatus();
-    }, this);
-  },
-
-  buildSequences: function() {
-    this.seriesViews = [];
-    _.each(this.sequences, function(sequenceName) {
-      this.seriesViews.push(new SeriesView({
-        destination: this.$el,
-        name: sequenceName,
-        navEvents: this.navEvents
-      }));
-    }, this);
-  }
-});
-
-var SeriesView = BaseView.extend({
-  tagName: 'div',
-  className: 'seriesView box flex1 vertical',
-  template: _.template($('#series-view').html()),
-  events: {
-    'click div.levelIcon': 'click'
-  },
-
-  initialize: function(options) {
-    this.name = options.name || 'intro';
-    this.navEvents = options.navEvents;
-    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
-    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
-
-    this.levelIDs = [];
-    _.each(this.levels, function(level) {
-      this.levelIDs.push(level.id);
-    }, this);
-
-    this.destination = options.destination;
-    this.JSON = {
-      displayName: this.info.displayName,
-      about: this.info.about,
-      ids: this.levelIDs
-    };
-
-    this.render();
-    this.updateSolvedStatus();
-  },
-
-  updateSolvedStatus: function() {
-    // this is a bit hacky, it really should be some nice model
-    // property changing but it's the 11th hour...
-    var toLoop = this.$('div.levelIcon').each(function(index, el) {
-      var id = $(el).attr('data-id');
-      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+  initVisualization: function(options) {
+    this.mainVis = new Visualization({
+      el: options.el || this.getDefaultVisEl(),
+      treeString: options.level.startTree
     });
   },
 
-  click: function(ev) {
-    var element = ev.srcElement || ev.currentTarget;
-    if (!element) {
-      console.warn('wut, no id'); return;
-    }
-
-    var id = $(element).attr('data-id');
-    this.navEvents.trigger('clickedID', id);
-  }
-});
-
-exports.LevelDropdownView = LevelDropdownView;
-
-
-});
-
-require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-
-var Main = require('../app');
-
-var mapKeycodeToKey = function(keycode) {
-  // HELP WANTED -- internationalize? Dvorak? I have no idea
-  var keyMap = {
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-    27: 'esc',
-    13: 'enter'
-  };
-  return keyMap[keycode];
-};
-
-function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
-  this.aliasMap = options.aliasMap || {};
-
-  if (!options.wait) {
-    this.listen();
-  }
-}
-
-KeyboardListener.prototype.listen = function() {
-  if (this.listening) {
-    return;
-  }
-  this.listening = true;
-  Main.getEventBaton().stealBaton('docKeydown', this.keydown, this);
-};
-
-KeyboardListener.prototype.mute = function() {
-  this.listening = false;
-  Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
-};
-
-KeyboardListener.prototype.keydown = function(e) {
-  var which = e.which || e.keyCode;
-
-  var key = mapKeycodeToKey(which);
-  if (key === undefined) {
-    return;
-  }
-
-  this.fireEvent(key, e);
-};
-
-KeyboardListener.prototype.fireEvent = function(eventName, e) {
-  eventName = this.aliasMap[eventName] || eventName;
-  this.events.trigger(eventName, e);
-};
-
-KeyboardListener.prototype.passEventBack = function(e) {
-  Main.getEventBaton().passBatonBackSoft('docKeydown', this.keydown, this, [e]);
-};
-
-exports.KeyboardListener = KeyboardListener;
-exports.mapKeycodeToKey = mapKeycodeToKey;
-
-
-});
-
-require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var Main = require('../app');
-var Constants = require('../util/constants');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var GitError = require('../util/errors').GitError;
-
-var BaseView = Backbone.View.extend({
-  getDestination: function() {
-    return this.destination || this.container.getInsideElement();
-  },
-
-  tearDown: function() {
-    this.$el.remove();
-    if (this.container) {
-      this.container.tearDown();
-    }
-  },
-
-  renderAgain: function(HTML) {
-    // flexibility
-    HTML = HTML || this.template(this.JSON);
-    this.$el.html(HTML);
-  },
-
-  render: function(HTML) {
-    this.renderAgain(HTML);
-    var destination = this.getDestination();
-    $(destination).append(this.el);
-  }
-});
-
-var ResolveRejectBase = BaseView.extend({
-  resolve: function() {
-    this.deferred.resolve();
-  },
-
-  reject: function() {
-    this.deferred.reject();
-  }
-});
-
-var PositiveNegativeBase = BaseView.extend({
-  positive: function() {
-    this.navEvents.trigger('positive');
-  },
-
-  negative: function() {
-    this.navEvents.trigger('negative');
-  }
-});
-
-var ContainedBase = BaseView.extend({
-  getAnimationTime: function() { return 700; },
-
-  show: function() {
-    this.container.show();
-  },
-
-  hide: function() {
-    this.container.hide();
-  },
-
-  die: function() {
-    this.hide();
-    setTimeout(_.bind(function() {
-      this.tearDown();
-    }, this), this.getAnimationTime() * 1.1);
-  }
-});
-
-var GeneralButton = ContainedBase.extend({
-  tagName: 'a',
-  className: 'generalButton uiButton',
-  template: _.template($('#general-button').html()),
-  events: {
-    'click': 'click'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.navEvents = options.navEvents || _.clone(Backbone.Events);
-    this.destination = options.destination;
-    if (!this.destination) {
-      this.container = new ModalTerminal();
-    }
-
-    this.JSON = {
-      buttonText: options.buttonText || 'General Button',
-      wantsWrapper: (options.wantsWrapper !== undefined) ? options.wantsWrapper : true
-    };
-
-    this.render();
-
-    if (this.container && !options.wait) {
-      this.show();
-    }
-  },
-
-  click: function() {
-    if (!this.clickFunc) {
-      this.clickFunc = _.throttle(
-        _.bind(this.sendClick, this),
-        500
-      );
-    }
-    this.clickFunc();
-  },
-
-  sendClick: function() {
-    this.navEvents.trigger('click');
-  }
-});
-
-var ConfirmCancelView = ResolveRejectBase.extend({
-  tagName: 'div',
-  className: 'confirmCancelView box horizontal justify',
-  template: _.template($('#confirm-cancel-template').html()),
-  events: {
-    'click .confirmButton': 'resolve',
-    'click .cancelButton': 'reject'
-  },
-
-  initialize: function(options) {
-    if (!options.destination) {
-      throw new Error('needmore');
-    }
-
-    this.destination = options.destination;
-    this.deferred = options.deferred || Q.defer();
-    this.JSON = {
-      confirm: options.confirm || 'Confirm',
-      cancel: options.cancel || 'Cancel'
-    };
-
-    this.render();
-  }
-});
-
-var LeftRightView = PositiveNegativeBase.extend({
-  tagName: 'div',
-  className: 'leftRightView box horizontal center',
-  template: _.template($('#left-right-template').html()),
-  events: {
-    'click .left': 'negative',
-    'click .right': 'positive'
-  },
-
-  positive: function() {
-    this.pipeEvents.trigger('positive');
-    LeftRightView.__super__.positive.apply(this);
-  },
-
-  negative: function() {
-    this.pipeEvents.trigger('negative');
-    LeftRightView.__super__.negative.apply(this);
-  },
-
-  initialize: function(options) {
-    if (!options.destination || !options.events) {
-      throw new Error('needmore');
-    }
-
-    this.destination = options.destination;
-
-    // we switch to a system where every leftrightview has its own
-    // events system to add support for git demonstration view taking control of the
-    // click events
-    this.pipeEvents = options.events;
-    this.navEvents = _.clone(Backbone.Events);
-
-    this.JSON = {
-      showLeft: (options.showLeft === undefined) ? true : options.showLeft,
-      lastNav: (options.lastNav === undefined) ? false : options.lastNav
-    };
-
-    this.render();
-  }
-});
-
-var ModalView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'modalView box horizontal center transitionOpacityLinear',
-  template: _.template($('#modal-view-template').html()),
-
-  getAnimationTime: function() { return 700; },
-
-  initialize: function(options) {
-    this.shown = false;
-    this.render();
-  },
-
-  render: function() {
-    // add ourselves to the DOM
-    this.$el.html(this.template({}));
-    $('body').append(this.el);
-    // this doesnt necessarily show us though...
-  },
-
-  stealKeyboard: function() {
-    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
-    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
-    Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
-
-    // blur the text input field so keydown events will not be caught by our
-    // preventDefaulters, allowing people to still refresh and launch inspector (etc)
-    $('#commandTextField').blur();
-  },
-
-  releaseKeyboard: function() {
-    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
-    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
-    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
-    Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
-
-    Main.getEventBaton().trigger('windowFocus');
-  },
-
-  onWindowFocus: function(e) {
-    //console.log('window focus doing nothing', e);
-  },
-
-  onDocumentClick: function(e) {
-    //console.log('doc click doing nothing', e);
-  },
-
-  onKeyDown: function(e) {
-    e.preventDefault();
-  },
-
-  onKeyUp: function(e) {
-    e.preventDefault();
-  },
-
-  show: function() {
-    this.toggleZ(true);
-    // on reflow, change our class to animate. for whatever
-    // reason if this is done immediately, chrome might combine
-    // the two changes and lose the ability to animate and it looks bad.
-    process.nextTick(_.bind(function() {
-      this.toggleShow(true);
-    }, this));
-  },
-
-  hide: function() {
-    this.toggleShow(false);
-    setTimeout(_.bind(function() {
-      // if we are still hidden...
-      if (!this.shown) {
-        this.toggleZ(false);
-      }
-    }, this), this.getAnimationTime());
-  },
-
-  getInsideElement: function() {
-    return this.$('.contentHolder');
-  },
-
-  toggleShow: function(value) {
-    // this prevents releasing keyboard twice
-    if (this.shown === value) { return; }
-
-    if (value) {
-      this.stealKeyboard();
-    } else {
-      this.releaseKeyboard();
-    }
-
-    this.shown = value;
-    this.$el.toggleClass('show', value);
-  },
-
-  toggleZ: function(value) {
-    this.$el.toggleClass('inFront', value);
-  },
-
-  tearDown: function() {
-    this.$el.html('');
-    $('body')[0].removeChild(this.el);
-  }
-});
-
-var ModalTerminal = ContainedBase.extend({
-  tagName: 'div',
-  className: 'modalTerminal box flex1',
-  template: _.template($('#terminal-window-template').html()),
-  events: {
-    'click div.inside': 'onClick'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.navEvents = options.events || _.clone(Backbone.Events);
-
-    this.container = new ModalView();
-    this.JSON = {
-      title: options.title || 'Heed This Warning!'
-    };
-
-    this.render();
-  },
-
-  onClick: function() {
-    this.navEvents.trigger('click');
-  },
-
-  getInsideElement: function() {
-    return this.$('.inside');
-  }
-});
-
-var ModalAlert = ContainedBase.extend({
-  tagName: 'div',
-  template: _.template($('#modal-alert-template').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      title: options.title || 'Something to say',
-      text: options.text || 'Here is a paragraph',
-      markdown: options.markdown
-    };
-
-    if (options.markdowns) {
-      this.JSON.markdown = options.markdowns.join('\n');
-    }
-
-    this.container = new ModalTerminal({
-      title: 'Alert!'
+  initGoalVisualization: function() {
+    // first we make the goal visualization holder
+    this.goalCanvasHolder = new CanvasTerminalHolder();
+
+    // then we make a visualization. the "el" here is the element to
+    // track for size information. the container is where the canvas will be placed
+    this.goalVis = new Visualization({
+      el: this.goalCanvasHolder.getCanvasLocation(),
+      containerElement: this.goalCanvasHolder.getCanvasLocation(),
+      treeString: this.level.goalTreeString,
+      noKeyboardInput: true,
+      noClick: true
     });
-    this.render();
-
-    if (!options.wait) {
-      this.show();
-    }
+    return this.goalCanvasHolder;
   },
 
-  render: function() {
-    var HTML = (this.JSON.markdown) ?
-      require('markdown').markdown.toHTML(this.JSON.markdown) :
-      this.template(this.JSON);
-
-    // call to super, not super elegant but better than
-    // copy paste code
-    ModalAlert.__super__.render.apply(this, [HTML]);
-  }
-});
-
-var ConfirmCancelTerminal = Backbone.View.extend({
-  initialize: function(options) {
-    options = options || {};
-
-    this.deferred = options.deferred || Q.defer();
-    this.modalAlert = new ModalAlert(_.extend(
-      {},
-      { markdown: '#you sure?' },
-      options
-    ));
-
-    var buttonDefer = Q.defer();
-    this.buttonDefer = buttonDefer;
-    this.confirmCancel = new ConfirmCancelView({
-      deferred: buttonDefer,
-      destination: this.modalAlert.getDestination()
-    });
-
-    // whenever they hit a button. make sure
-    // we close and pass that to our deferred
-    buttonDefer.promise
-    .then(this.deferred.resolve)
-    .fail(this.deferred.reject)
-    .done(_.bind(function() {
-      this.close();
-    }, this));
-
-    // also setup keyboard
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('positive', this.positive, this);
-    this.navEvents.on('negative', this.negative, this);
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        enter: 'positive',
-        esc: 'negative'
-      }
-    });
-
-    if (!options.wait) {
-      this.modalAlert.show();
-    }
-  },
-
-  positive: function() {
-    this.buttonDefer.resolve();
-  },
-
-  negative: function() {
-    this.buttonDefer.reject();
-  },
-
-  getAnimationTime: function() { return 700; },
-
-  show: function() {
-    this.modalAlert.show();
-  },
-
-  hide: function() {
-    this.modalAlert.hide();
-  },
-
-  getPromise: function() {
-    return this.deferred.promise;
-  },
-
-  close: function() {
-    this.keyboardListener.mute();
-    this.modalAlert.die();
-  }
-});
-
-var NextLevelConfirm = ConfirmCancelTerminal.extend({
-  initialize: function(options) {
-    options = options || {};
-    var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
-    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
-    var pluralBest = (options.best == 1) ? '' : 's';
-
-    var markdowns = [
-      '## Great Job!!',
-      '',
-      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
-      'our solution uses ' + options.best + '. '
-    ];
-
-    if (options.numCommands <= options.best) {
-      markdowns.push(
-        'Awesome! You matched or exceeded our solution. '
+  showSolution: function(command, deferred) {
+    var toIssue = this.level.solutionCommand;
+    var issueFunc = function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        toIssue
       );
-    } else {
-      markdowns.push(
-        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
-      );
+    };
+
+    var commandStr = command.get('rawStr');
+    if (!this.testOptionOnString(commandStr, 'noReset')) {
+      toIssue = 'reset; ' + toIssue;
+    }
+    if (this.testOptionOnString(commandStr, 'force')) {
+      issueFunc();
+      command.finishWith(deferred);
+      return;
     }
 
-    if (options.nextLevel) {
-      markdowns = markdowns.concat([
+    // allow them for force the solution
+    var confirmDefer = Q.defer();
+    var confirmView = new ConfirmCancelTerminal({
+      markdowns: [
+        '## Are you sure you want to see the solution?',
         '',
-        'Would you like to move onto "' +
-        nextLevelName + '", the next level?'
-      ]);
-    } else {
-      markdowns = markdowns.concat([
-        '',
-        'Wow!!! You finished the last level, congratulations!'
-      ]);
+        'I believe in you! You can do it'
+      ],
+      deferred: confirmDefer
+    });
+
+    confirmDefer.promise
+    .then(issueFunc)
+    .fail(function() {
+      command.setResult("Great! I'll let you get back to it");
+    })
+    .done(function() {
+     // either way we animate, so both options can share this logic
+     setTimeout(function() {
+        command.finishWith(deferred);
+      }, confirmView.getAnimationTime());
+    });
+  },
+
+  showGoal: function(command, defer) {
+    this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
+  },
+
+  showSideVis: function(command, defer, canvasHolder, initMethod) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+    if (!canvasHolder || !canvasHolder.inDom) {
+      canvasHolder = initMethod.apply(this);
     }
 
-    options = _.extend(
-      {},
-      options,
-      { markdowns: markdowns }
+    canvasHolder.slideIn();
+    setTimeout(safeFinish, canvasHolder.getAnimationTime());
+  },
+
+  hideGoal: function(command, defer) {
+    this.hideSideVis(command, defer, this.goalCanvasHolder);
+  },
+
+  hideSideVis: function(command, defer, canvasHolder, vis) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+
+    if (canvasHolder && canvasHolder.inDom) {
+      canvasHolder.die();
+      setTimeout(safeFinish, canvasHolder.getAnimationTime());
+    } else {
+      safeFinish();
+    }
+  },
+
+  initParseWaterfall: function(options) {
+    Level.__super__.initParseWaterfall.apply(this, [options]);
+
+    // add our specific functionaity
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      parse
     );
 
-    NextLevelConfirm.__super__.initialize.apply(this, [options]);
-  }
-});
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );
 
-var ViewportAlert = Backbone.View.extend({
-  initialize: function(options) {
-    this.grabBatons();
-    this.modalAlert = new ModalAlert({
-      markdowns: this.markdowns
+    // if we want to disable certain commands...
+    if (options.level.disabledMap) {
+      // disable these other commands
+      this.parseWaterfall.addFirst(
+        'instantWaterfall',
+        new DisabledMap({
+          disabledMap: options.level.disabledMap
+        }).getInstantCommands()
+      );
+    }
+  },
+
+  initGitShim: function(options) {
+    // ok we definitely want a shim here
+    this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this),
+      afterCB: _.bind(this.afterCommandCB, this),
+      afterDeferHandler: _.bind(this.afterCommandDefer, this)
     });
-    this.modalAlert.show();
   },
 
-  grabBatons: function() {
-    Main.getEventBaton().stealBaton(this.eventBatonName, this.batonFired, this);
-  },
-
-  releaseBatons: function() {
-    Main.getEventBaton().releaseBaton(this.eventBatonName, this.batonFired, this);
-  },
-
-  finish: function() {
-    this.releaseBatons();
-    this.modalAlert.die();
-  }
-});
-
-var WindowSizeAlertWindow = ViewportAlert.extend({
-  initialize: function(options) {
-    this.eventBatonName = 'windowSizeCheck';
-    this.markdowns = [
-      '## That window size is not supported :-/',
-      'Please resize your window back to a supported size',
-      '',
-      '(and of course, pull requests to fix this are appreciated :D)'
+  getCommandsThatCount: function() {
+    var GitCommands = require('../git/commands');
+    var toCount = [
+      'git commit',
+      'git checkout',
+      'git rebase',
+      'git reset',
+      'git branch',
+      'git revert',
+      'git merge',
+      'git cherry-pick'
     ];
-    WindowSizeAlertWindow.__super__.initialize.apply(this, [options]);
+    var myRegexMap = {};
+    _.each(toCount, function(method) {
+      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
+
+      myRegexMap[method] = GitCommands.regexMap[method];
+    });
+    return myRegexMap;
   },
 
-  batonFired: function(size) {
-    if (size.w > Constants.VIEWPORT.minWidth &&
-        size.h > Constants.VIEWPORT.minHeight) {
-      this.finish();
-    }
-  }
-});
-
-var ZoomAlertWindow = ViewportAlert.extend({
-  initialize: function(options) {
-    if (!options || !options.level) { throw new Error('need level'); }
-
-    this.eventBatonName = 'zoomChange';
-    this.markdowns = [
-      '## That zoom level of ' + options.level + ' is not supported :-/',
-      'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
-      '',
-      '(and of course, pull requests to fix this are appreciated :D)'
-    ];
-    ZoomAlertWindow.__super__.initialize.apply(this, [options]);
+  undo: function() {
+    this.gitCommandsIssued.pop();
+    Level.__super__.undo.apply(this, arguments);
   },
 
-  batonFired: function(level) {
-    if (level <= Constants.VIEWPORT.maxZoom &&
-        level >= Constants.VIEWPORT.minZoom) {
-      this.finish();
-    }
-  }
-});
-
-var LevelToolbar = BaseView.extend({
-  tagName: 'div',
-  className: 'levelToolbarHolder',
-  template: _.template($('#level-toolbar-template').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      name: options.name || 'Some level! (unknown name)'
-    };
-
-    this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
-    this.render();
-
-    if (!options.wait) {
-      process.nextTick(_.bind(this.show, this));
+  afterCommandCB: function(command) {
+    var matched = false;
+    _.each(this.commandsThatCount, function(regex) {
+      matched = matched || regex.test(command.get('rawStr'));
+    });
+    if (matched) {
+      this.gitCommandsIssued.push(command.get('rawStr'));
     }
   },
 
-  getAnimationTime: function() { return 700; },
+  afterCommandDefer: function(defer, command) {
+    if (this.solved) {
+      command.addWarning(
+        "You've already solved this level, try other levels with 'show levels'" +
+        "or go back to the sandbox with 'sandbox'"
+      );
+      defer.resolve();
+      return;
+    }
 
-  render: function() {
-    var HTML = this.template(this.JSON);
+    // TODO refactor this ugly ass switch statement...
+    // ok so lets see if they solved it...
+    var current = this.mainVis.gitEngine.exportTree();
+    var solved;
+    if (this.level.compareOnlyMaster) {
+      solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+    } else if (this.level.compareOnlyBranches) {
+      solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+    } else if (this.level.compareAllBranchesHashAgnostic) {
+      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+    } else if (this.level.compareOnlyMasterHashAgnostic) {
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+    } else {
+      solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+    }
 
-    this.$el.html(HTML);
-    this.beforeDestination.after(this.el);
+    if (!solved) {
+      defer.resolve();
+      return;
+    }
+
+    // woohoo!!! they solved the level, lets animate and such
+    this.levelSolved(defer);
+  },
+
+  getNumSolutionCommands: function() {
+    // strip semicolons in bad places
+    var toAnalyze = this.level.solutionCommand.replace(/^;|;$/g, '');
+    return toAnalyze.split(';').length;
+  },
+
+  testOption: function(option) {
+    return this.options.command && new RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
+  testOptionOnString: function(str, option) {
+    return str && new RegExp('--' + option).test(str);
+  },
+
+  levelSolved: function(defer) {
+    this.solved = true;
+    Main.getEvents().trigger('levelSolved', this.level.id);
+    this.hideGoal();
+
+    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var numCommands = this.gitCommandsIssued.length;
+    var best = this.getNumSolutionCommands();
+
+    Constants.GLOBAL.isAnimating = true;
+    var skipFinishDialog = this.testOption('noFinishDialog');
+    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (!skipFinishDialog) {
+      finishAnimationChain = finishAnimationChain
+      .then(function() {
+        // we want to ask if they will move onto the next level
+        // while giving them their results...
+        var nextDialog = new NextLevelConfirm({
+          nextLevel: nextLevel,
+          numCommands: numCommands,
+          best: best
+        });
+
+        return nextDialog.getPromise();
+      });
+    }
+
+    finishAnimationChain
+    .then(function() {
+      if (!skipFinishDialog && nextLevel) {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'level ' + nextLevel.id
+        );
+      }
+    })
+    .fail(function() {
+      // nothing to do, we will just close
+    })
+    .done(function() {
+      Constants.GLOBAL.isAnimating = false;
+      defer.resolve();
+    });
   },
 
   die: function() {
-    this.hide();
-    setTimeout(_.bind(function() {
-      this.tearDown();
-    }, this), this.getAnimationTime());
+    this.levelToolbar.die();
+
+    this.hideGoal();
+    this.mainVis.die();
+    this.releaseControl();
+
+    this.clear();
+
+    delete this.commandCollection;
+    delete this.mainVis;
+    delete this.goalVis;
+    delete this.goalCanvasHolder;
   },
 
-  hide: function() {
-    this.$('div.toolbar').toggleClass('hidden', true);
+  getInstantCommands: function() {
+    var hintMsg = (this.level.hint) ?
+      this.level.hint :
+      "Hmm, there doesn't seem to be a hint for this level :-/";
+
+    return [
+      [/^help$|^\?$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
+               '"help level" or "help general"'
+        });
+      }],
+      [/^hint$/, function() {
+        throw new Errors.CommandResult({
+          msg: hintMsg
+        });
+      }]
+    ];
   },
 
-  show: function() {
-    this.$('div.toolbar').toggleClass('hidden', false);
-  }
-});
-
-var CanvasTerminalHolder = BaseView.extend({
-  tagName: 'div',
-  className: 'canvasTerminalHolder box flex1',
-  template: _.template($('#terminal-window-bare-template').html()),
-  events: {
-    'click div.wrapper': 'onClick'
+  reset: function() {
+    this.gitCommandsIssued = [];
+    this.solved = false;
+    Level.__super__.reset.apply(this, arguments);
   },
 
-  initialize: function(options) {
-    options = options || {};
-    this.destination = $('body');
-    this.JSON = {
-      title: options.title || 'Goal To Reach',
-      text: options.text || 'You can hide this window with "hide goal"'
-    };
-
-    this.render();
-    this.inDom = true;
-
-    if (options.additionalClass) {
-      this.$el.addClass(options.additionalClass);
-    }
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
   },
 
-  getAnimationTime: function() { return 700; },
+  importLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().importLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
 
-  onClick: function() {
+  startLevel: function(command, deferred) {
+    this.exitLevel();
+
+    setTimeout(function() {
+      Main.getSandbox().startLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+    // wow! that was simple :D
+  },
+
+  exitLevel: function(command, deferred) {
     this.die();
+
+    if (!command || !deferred) {
+      return;
+    }
+
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
+
+    // we need to fade in the sandbox
+    Main.getEventBaton().trigger('levelExited');
   },
 
-  die: function() {
-    this.slideOut();
-    this.inDom = false;
+  processLevelCommand: function(command, defer) {
+    var methodMap = {
+      'show goal': this.showGoal,
+      'hide goal': this.hideGoal,
+      'show solution': this.showSolution,
+      'start dialog': this.startDialog,
+      'help level': this.startDialog
+    };
+    var method = methodMap[command.get('method')];
+    if (!method) {
+      throw new Error('woah we dont support that method yet', method);
+    }
 
-    setTimeout(_.bind(function() {
-      this.tearDown();
-    }, this), this.getAnimationTime());
-  },
-
-  slideOut: function() {
-    this.slideToggle(true);
-  },
-
-  slideIn: function() {
-    this.slideToggle(false);
-  },
-
-  slideToggle: function(value) {
-    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
-  },
-
-  getCanvasLocation: function() {
-    return this.$('div.inside')[0];
+    method.apply(this, [command, defer]);
   }
 });
 
-exports.BaseView = BaseView;
-exports.GeneralButton = GeneralButton;
-exports.ModalView = ModalView;
-exports.ModalTerminal = ModalTerminal;
-exports.ModalAlert = ModalAlert;
-exports.ContainedBase = ContainedBase;
-exports.ConfirmCancelView = ConfirmCancelView;
-exports.LeftRightView = LeftRightView;
-exports.ZoomAlertWindow = ZoomAlertWindow;
-exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
-exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
+exports.Level = Level;
+exports.regexMap = regexMap;
 
-exports.CanvasTerminalHolder = CanvasTerminalHolder;
-exports.LevelToolbar = LevelToolbar;
-exports.NextLevelConfirm = NextLevelConfirm;
+});
+
+require.define("/src/js/intl/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var constants = require('../util/constants');
+var util = require('../util');
+
+var strings = require('../intl/strings').strings;
+
+var str = exports.str = function(key, params) {
+  // this function takes a key like "error-branch-delete"
+  // and parameters like {branchName: 'bugFix', num: 3}.
+  //
+  // it sticks those into a translation string like:
+  //   'en': 'You can not delete the branch {branchName} because' +
+  //         'you are currently on that branch! This is error number + {num}'
+  //
+  // to produce:
+  //
+  // 'You can not delete the branch bugFix because you are currently on that branch!
+  //  This is error number 3'
+
+  var locale = util.getLocale();
+  if (!strings[key]) {
+    console.warn('NO INTL support for key ' + key);
+    return 'NO INTL support for key ' + key;
+  }
+
+  if (!strings[key][locale]) {
+    if (key !== 'error-untranslated') {
+      return str('error-untranslated');
+    }
+    return 'No translation for that key ' + key;
+  }
+
+  // TODO - interpolation
+  return strings[key][locale];
+};
+
+var getStartDialog = exports.getStartDialog = function(level) {
+  if (!level || !level.startDialog) {
+    throw new Error('start dialog doesnt exist in that blob');
+  }
+  if (!level.startDialog[util.getDefaultLocale()]) {
+    console.warn('WARNING!! This dialog does not have intl support: ', level);
+  }
+  var locale = util.getLocale();
+  if (level.startDialog[locale]) {
+    return level.startDialog[locale];
+  }
+
+  // we need to return english but add their locale error
+  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
+  console.log('start copy is', startCopy, 'and defaukt', level);
+  var errorAlert = {
+    type: 'ModalAlert',
+    options: {
+      markdown: str('error-untranslated')
+    }
+  };
+  startCopy.childViews.unshift(errorAlert);
+
+  return startCopy;
+};
+
+
+
+});
+
+require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ////////////////////////////////////////////////////////////////////////////
+  'error-untranslated-key': {
+    '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
+    '__params__': {
+      'key': 'The name of the translation key that is missing'
+    },
+    'en': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+  },
+  ////////////////////////////////////////////////////////////////////////////
+  'error-untranslated': {
+    '__desc__': 'The general error when we encounter a dialog that is not translated',
+    'en': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+  }
+};
 
 
 });
@@ -9837,2166 +7342,194 @@ exports.filterError = filterError;
 
 });
 
-require.define("/node_modules/markdown/package.json",function(require,module,exports,__dirname,__filename,process,global){module.exports = {"main":"./lib/index.js"}
-});
-
-require.define("/node_modules/markdown/lib/index.js",function(require,module,exports,__dirname,__filename,process,global){// super simple module for the most common nodejs use case.
-exports.markdown = require("./markdown");
-exports.parse = exports.markdown.toHTML;
-
-});
-
-require.define("/node_modules/markdown/lib/markdown.js",function(require,module,exports,__dirname,__filename,process,global){// Released under MIT license
-// Copyright (c) 2009-2010 Dominic Baggott
-// Copyright (c) 2009-2010 Ash Berlin
-// Copyright (c) 2011 Christoph Dorn <christoph@christophdorn.com> (http://www.christophdorn.com)
-
-(function( expose ) {
-
-/**
- *  class Markdown
- *
- *  Markdown processing in Javascript done right. We have very particular views
- *  on what constitutes 'right' which include:
- *
- *  - produces well-formed HTML (this means that em and strong nesting is
- *    important)
- *
- *  - has an intermediate representation to allow processing of parsed data (We
- *    in fact have two, both as [JsonML]: a markdown tree and an HTML tree).
- *
- *  - is easily extensible to add new dialects without having to rewrite the
- *    entire parsing mechanics
- *
- *  - has a good test suite
- *
- *  This implementation fulfills all of these (except that the test suite could
- *  do with expanding to automatically run all the fixtures from other Markdown
- *  implementations.)
- *
- *  ##### Intermediate Representation
- *
- *  *TODO* Talk about this :) Its JsonML, but document the node names we use.
- *
- *  [JsonML]: http://jsonml.org/ "JSON Markup Language"
- **/
-var Markdown = expose.Markdown = function Markdown(dialect) {
-  switch (typeof dialect) {
-    case "undefined":
-      this.dialect = Markdown.dialects.Gruber;
-      break;
-    case "object":
-      this.dialect = dialect;
-      break;
-    default:
-      if (dialect in Markdown.dialects) {
-        this.dialect = Markdown.dialects[dialect];
-      }
-      else {
-        throw new Error("Unknown Markdown dialect '" + String(dialect) + "'");
-      }
-      break;
-  }
-  this.em_state = [];
-  this.strong_state = [];
-  this.debug_indent = "";
-};
-
-/**
- *  parse( markdown, [dialect] ) -> JsonML
- *  - markdown (String): markdown string to parse
- *  - dialect (String | Dialect): the dialect to use, defaults to gruber
- *
- *  Parse `markdown` and return a markdown document as a Markdown.JsonML tree.
- **/
-expose.parse = function( source, dialect ) {
-  // dialect will default if undefined
-  var md = new Markdown( dialect );
-  return md.toTree( source );
-};
-
-/**
- *  toHTML( markdown, [dialect]  ) -> String
- *  toHTML( md_tree ) -> String
- *  - markdown (String): markdown string to parse
- *  - md_tree (Markdown.JsonML): parsed markdown tree
- *
- *  Take markdown (either as a string or as a JsonML tree) and run it through
- *  [[toHTMLTree]] then turn it into a well-formated HTML fragment.
- **/
-expose.toHTML = function toHTML( source , dialect , options ) {
-  var input = expose.toHTMLTree( source , dialect , options );
-
-  return expose.renderJsonML( input );
-};
-
-/**
- *  toHTMLTree( markdown, [dialect] ) -> JsonML
- *  toHTMLTree( md_tree ) -> JsonML
- *  - markdown (String): markdown string to parse
- *  - dialect (String | Dialect): the dialect to use, defaults to gruber
- *  - md_tree (Markdown.JsonML): parsed markdown tree
- *
- *  Turn markdown into HTML, represented as a JsonML tree. If a string is given
- *  to this function, it is first parsed into a markdown tree by calling
- *  [[parse]].
- **/
-expose.toHTMLTree = function toHTMLTree( input, dialect , options ) {
-  // convert string input to an MD tree
-  if ( typeof input ==="string" ) input = this.parse( input, dialect );
-
-  // Now convert the MD tree to an HTML tree
-
-  // remove references from the tree
-  var attrs = extract_attr( input ),
-      refs = {};
-
-  if ( attrs && attrs.references ) {
-    refs = attrs.references;
-  }
-
-  var html = convert_tree_to_html( input, refs , options );
-  merge_text_nodes( html );
-  return html;
-};
-
-// For Spidermonkey based engines
-function mk_block_toSource() {
-  return "Markdown.mk_block( " +
-          uneval(this.toString()) +
-          ", " +
-          uneval(this.trailing) +
-          ", " +
-          uneval(this.lineNumber) +
-          " )";
-}
-
-// node
-function mk_block_inspect() {
-  var util = require('util');
-  return "Markdown.mk_block( " +
-          util.inspect(this.toString()) +
-          ", " +
-          util.inspect(this.trailing) +
-          ", " +
-          util.inspect(this.lineNumber) +
-          " )";
-
-}
-
-var mk_block = Markdown.mk_block = function(block, trail, line) {
-  // Be helpful for default case in tests.
-  if ( arguments.length == 1 ) trail = "\n\n";
-
-  var s = new String(block);
-  s.trailing = trail;
-  // To make it clear its not just a string
-  s.inspect = mk_block_inspect;
-  s.toSource = mk_block_toSource;
-
-  if (line != undefined)
-    s.lineNumber = line;
-
-  return s;
-};
-
-function count_lines( str ) {
-  var n = 0, i = -1;
-  while ( ( i = str.indexOf('\n', i+1) ) !== -1) n++;
-  return n;
-}
-
-// Internal - split source into rough blocks
-Markdown.prototype.split_blocks = function splitBlocks( input, startLine ) {
-  // [\s\S] matches _anything_ (newline or space)
-  var re = /([\s\S]+?)($|\n(?:\s*\n|$)+)/g,
-      blocks = [],
-      m;
-
-  var line_no = 1;
-
-  if ( ( m = /^(\s*\n)/.exec(input) ) != null ) {
-    // skip (but count) leading blank lines
-    line_no += count_lines( m[0] );
-    re.lastIndex = m[0].length;
-  }
-
-  while ( ( m = re.exec(input) ) !== null ) {
-    blocks.push( mk_block( m[1], m[2], line_no ) );
-    line_no += count_lines( m[0] );
-  }
-
-  return blocks;
-};
-
-/**
- *  Markdown#processBlock( block, next ) -> undefined | [ JsonML, ... ]
- *  - block (String): the block to process
- *  - next (Array): the following blocks
- *
- * Process `block` and return an array of JsonML nodes representing `block`.
- *
- * It does this by asking each block level function in the dialect to process
- * the block until one can. Succesful handling is indicated by returning an
- * array (with zero or more JsonML nodes), failure by a false value.
- *
- * Blocks handlers are responsible for calling [[Markdown#processInline]]
- * themselves as appropriate.
- *
- * If the blocks were split incorrectly or adjacent blocks need collapsing you
- * can adjust `next` in place using shift/splice etc.
- *
- * If any of this default behaviour is not right for the dialect, you can
- * define a `__call__` method on the dialect that will get invoked to handle
- * the block processing.
- */
-Markdown.prototype.processBlock = function processBlock( block, next ) {
-  var cbs = this.dialect.block,
-      ord = cbs.__order__;
-
-  if ( "__call__" in cbs ) {
-    return cbs.__call__.call(this, block, next);
-  }
-
-  for ( var i = 0; i < ord.length; i++ ) {
-    //D:this.debug( "Testing", ord[i] );
-    var res = cbs[ ord[i] ].call( this, block, next );
-    if ( res ) {
-      //D:this.debug("  matched");
-      if ( !isArray(res) || ( res.length > 0 && !( isArray(res[0]) ) ) )
-        this.debug(ord[i], "didn't return a proper array");
-      //D:this.debug( "" );
-      return res;
-    }
-  }
-
-  // Uhoh! no match! Should we throw an error?
-  return [];
-};
-
-Markdown.prototype.processInline = function processInline( block ) {
-  return this.dialect.inline.__call__.call( this, String( block ) );
-};
-
-/**
- *  Markdown#toTree( source ) -> JsonML
- *  - source (String): markdown source to parse
- *
- *  Parse `source` into a JsonML tree representing the markdown document.
- **/
-// custom_tree means set this.tree to `custom_tree` and restore old value on return
-Markdown.prototype.toTree = function toTree( source, custom_root ) {
-  var blocks = source instanceof Array ? source : this.split_blocks( source );
-
-  // Make tree a member variable so its easier to mess with in extensions
-  var old_tree = this.tree;
-  try {
-    this.tree = custom_root || this.tree || [ "markdown" ];
-
-    blocks:
-    while ( blocks.length ) {
-      var b = this.processBlock( blocks.shift(), blocks );
-
-      // Reference blocks and the like won't return any content
-      if ( !b.length ) continue blocks;
-
-      this.tree.push.apply( this.tree, b );
-    }
-    return this.tree;
-  }
-  finally {
-    if ( custom_root ) {
-      this.tree = old_tree;
-    }
-  }
-};
-
-// Noop by default
-Markdown.prototype.debug = function () {
-  var args = Array.prototype.slice.call( arguments);
-  args.unshift(this.debug_indent);
-  if (typeof print !== "undefined")
-      print.apply( print, args );
-  if (typeof console !== "undefined" && typeof console.log !== "undefined")
-      console.log.apply( null, args );
-}
-
-Markdown.prototype.loop_re_over_block = function( re, block, cb ) {
-  // Dont use /g regexps with this
-  var m,
-      b = block.valueOf();
-
-  while ( b.length && (m = re.exec(b) ) != null) {
-    b = b.substr( m[0].length );
-    cb.call(this, m);
-  }
-  return b;
-};
-
-/**
- * Markdown.dialects
- *
- * Namespace of built-in dialects.
- **/
-Markdown.dialects = {};
-
-/**
- * Markdown.dialects.Gruber
- *
- * The default dialect that follows the rules set out by John Gruber's
- * markdown.pl as closely as possible. Well actually we follow the behaviour of
- * that script which in some places is not exactly what the syntax web page
- * says.
- **/
-Markdown.dialects.Gruber = {
-  block: {
-    atxHeader: function atxHeader( block, next ) {
-      var m = block.match( /^(#{1,6})\s*(.*?)\s*#*\s*(?:\n|$)/ );
-
-      if ( !m ) return undefined;
-
-      var header = [ "header", { level: m[ 1 ].length } ];
-      Array.prototype.push.apply(header, this.processInline(m[ 2 ]));
-
-      if ( m[0].length < block.length )
-        next.unshift( mk_block( block.substr( m[0].length ), block.trailing, block.lineNumber + 2 ) );
-
-      return [ header ];
-    },
-
-    setextHeader: function setextHeader( block, next ) {
-      var m = block.match( /^(.*)\n([-=])\2\2+(?:\n|$)/ );
-
-      if ( !m ) return undefined;
-
-      var level = ( m[ 2 ] === "=" ) ? 1 : 2;
-      var header = [ "header", { level : level }, m[ 1 ] ];
-
-      if ( m[0].length < block.length )
-        next.unshift( mk_block( block.substr( m[0].length ), block.trailing, block.lineNumber + 2 ) );
-
-      return [ header ];
-    },
-
-    code: function code( block, next ) {
-      // |    Foo
-      // |bar
-      // should be a code block followed by a paragraph. Fun
-      //
-      // There might also be adjacent code block to merge.
-
-      var ret = [],
-          re = /^(?: {0,3}\t| {4})(.*)\n?/,
-          lines;
-
-      // 4 spaces + content
-      if ( !block.match( re ) ) return undefined;
-
-      block_search:
-      do {
-        // Now pull out the rest of the lines
-        var b = this.loop_re_over_block(
-                  re, block.valueOf(), function( m ) { ret.push( m[1] ); } );
-
-        if (b.length) {
-          // Case alluded to in first comment. push it back on as a new block
-          next.unshift( mk_block(b, block.trailing) );
-          break block_search;
-        }
-        else if (next.length) {
-          // Check the next block - it might be code too
-          if ( !next[0].match( re ) ) break block_search;
-
-          // Pull how how many blanks lines follow - minus two to account for .join
-          ret.push ( block.trailing.replace(/[^\n]/g, '').substring(2) );
-
-          block = next.shift();
-        }
-        else {
-          break block_search;
-        }
-      } while (true);
-
-      return [ [ "code_block", ret.join("\n") ] ];
-    },
-
-    horizRule: function horizRule( block, next ) {
-      // this needs to find any hr in the block to handle abutting blocks
-      var m = block.match( /^(?:([\s\S]*?)\n)?[ \t]*([-_*])(?:[ \t]*\2){2,}[ \t]*(?:\n([\s\S]*))?$/ );
-
-      if ( !m ) {
-        return undefined;
-      }
-
-      var jsonml = [ [ "hr" ] ];
-
-      // if there's a leading abutting block, process it
-      if ( m[ 1 ] ) {
-        jsonml.unshift.apply( jsonml, this.processBlock( m[ 1 ], [] ) );
-      }
-
-      // if there's a trailing abutting block, stick it into next
-      if ( m[ 3 ] ) {
-        next.unshift( mk_block( m[ 3 ] ) );
-      }
-
-      return jsonml;
-    },
-
-    // There are two types of lists. Tight and loose. Tight lists have no whitespace
-    // between the items (and result in text just in the <li>) and loose lists,
-    // which have an empty line between list items, resulting in (one or more)
-    // paragraphs inside the <li>.
-    //
-    // There are all sorts weird edge cases about the original markdown.pl's
-    // handling of lists:
-    //
-    // * Nested lists are supposed to be indented by four chars per level. But
-    //   if they aren't, you can get a nested list by indenting by less than
-    //   four so long as the indent doesn't match an indent of an existing list
-    //   item in the 'nest stack'.
-    //
-    // * The type of the list (bullet or number) is controlled just by the
-    //    first item at the indent. Subsequent changes are ignored unless they
-    //    are for nested lists
-    //
-    lists: (function( ) {
-      // Use a closure to hide a few variables.
-      var any_list = "[*+-]|\\d+\\.",
-          bullet_list = /[*+-]/,
-          number_list = /\d+\./,
-          // Capture leading indent as it matters for determining nested lists.
-          is_list_re = new RegExp( "^( {0,3})(" + any_list + ")[ \t]+" ),
-          indent_re = "(?: {0,3}\\t| {4})";
-
-      // TODO: Cache this regexp for certain depths.
-      // Create a regexp suitable for matching an li for a given stack depth
-      function regex_for_depth( depth ) {
-
-        return new RegExp(
-          // m[1] = indent, m[2] = list_type
-          "(?:^(" + indent_re + "{0," + depth + "} {0,3})(" + any_list + ")\\s+)|" +
-          // m[3] = cont
-          "(^" + indent_re + "{0," + (depth-1) + "}[ ]{0,4})"
-        );
-      }
-      function expand_tab( input ) {
-        return input.replace( / {0,3}\t/g, "    " );
-      }
-
-      // Add inline content `inline` to `li`. inline comes from processInline
-      // so is an array of content
-      function add(li, loose, inline, nl) {
-        if (loose) {
-          li.push( [ "para" ].concat(inline) );
-          return;
-        }
-        // Hmmm, should this be any block level element or just paras?
-        var add_to = li[li.length -1] instanceof Array && li[li.length - 1][0] == "para"
-                   ? li[li.length -1]
-                   : li;
-
-        // If there is already some content in this list, add the new line in
-        if (nl && li.length > 1) inline.unshift(nl);
-
-        for (var i=0; i < inline.length; i++) {
-          var what = inline[i],
-              is_str = typeof what == "string";
-          if (is_str && add_to.length > 1 && typeof add_to[add_to.length-1] == "string" ) {
-            add_to[ add_to.length-1 ] += what;
-          }
-          else {
-            add_to.push( what );
-          }
-        }
-      }
-
-      // contained means have an indent greater than the current one. On
-      // *every* line in the block
-      function get_contained_blocks( depth, blocks ) {
-
-        var re = new RegExp( "^(" + indent_re + "{" + depth + "}.*?\\n?)*$" ),
-            replace = new RegExp("^" + indent_re + "{" + depth + "}", "gm"),
-            ret = [];
-
-        while ( blocks.length > 0 ) {
-          if ( re.exec( blocks[0] ) ) {
-            var b = blocks.shift(),
-                // Now remove that indent
-                x = b.replace( replace, "");
-
-            ret.push( mk_block( x, b.trailing, b.lineNumber ) );
-          }
-          break;
-        }
-        return ret;
-      }
-
-      // passed to stack.forEach to turn list items up the stack into paras
-      function paragraphify(s, i, stack) {
-        var list = s.list;
-        var last_li = list[list.length-1];
-
-        if (last_li[1] instanceof Array && last_li[1][0] == "para") {
-          return;
-        }
-        if (i+1 == stack.length) {
-          // Last stack frame
-          // Keep the same array, but replace the contents
-          last_li.push( ["para"].concat( last_li.splice(1) ) );
-        }
-        else {
-          var sublist = last_li.pop();
-          last_li.push( ["para"].concat( last_li.splice(1) ), sublist );
-        }
-      }
-
-      // The matcher function
-      return function( block, next ) {
-        var m = block.match( is_list_re );
-        if ( !m ) return undefined;
-
-        function make_list( m ) {
-          var list = bullet_list.exec( m[2] )
-                   ? ["bulletlist"]
-                   : ["numberlist"];
-
-          stack.push( { list: list, indent: m[1] } );
-          return list;
-        }
-
-
-        var stack = [], // Stack of lists for nesting.
-            list = make_list( m ),
-            last_li,
-            loose = false,
-            ret = [ stack[0].list ],
-            i;
-
-        // Loop to search over block looking for inner block elements and loose lists
-        loose_search:
-        while( true ) {
-          // Split into lines preserving new lines at end of line
-          var lines = block.split( /(?=\n)/ );
-
-          // We have to grab all lines for a li and call processInline on them
-          // once as there are some inline things that can span lines.
-          var li_accumulate = "";
-
-          // Loop over the lines in this block looking for tight lists.
-          tight_search:
-          for (var line_no=0; line_no < lines.length; line_no++) {
-            var nl = "",
-                l = lines[line_no].replace(/^\n/, function(n) { nl = n; return ""; });
-
-            // TODO: really should cache this
-            var line_re = regex_for_depth( stack.length );
-
-            m = l.match( line_re );
-            //print( "line:", uneval(l), "\nline match:", uneval(m) );
-
-            // We have a list item
-            if ( m[1] !== undefined ) {
-              // Process the previous list item, if any
-              if ( li_accumulate.length ) {
-                add( last_li, loose, this.processInline( li_accumulate ), nl );
-                // Loose mode will have been dealt with. Reset it
-                loose = false;
-                li_accumulate = "";
-              }
-
-              m[1] = expand_tab( m[1] );
-              var wanted_depth = Math.floor(m[1].length/4)+1;
-              //print( "want:", wanted_depth, "stack:", stack.length);
-              if ( wanted_depth > stack.length ) {
-                // Deep enough for a nested list outright
-                //print ( "new nested list" );
-                list = make_list( m );
-                last_li.push( list );
-                last_li = list[1] = [ "listitem" ];
-              }
-              else {
-                // We aren't deep enough to be strictly a new level. This is
-                // where Md.pl goes nuts. If the indent matches a level in the
-                // stack, put it there, else put it one deeper then the
-                // wanted_depth deserves.
-                var found = false;
-                for (i = 0; i < stack.length; i++) {
-                  if ( stack[ i ].indent != m[1] ) continue;
-                  list = stack[ i ].list;
-                  stack.splice( i+1 );
-                  found = true;
-                  break;
-                }
-
-                if (!found) {
-                  //print("not found. l:", uneval(l));
-                  wanted_depth++;
-                  if (wanted_depth <= stack.length) {
-                    stack.splice(wanted_depth);
-                    //print("Desired depth now", wanted_depth, "stack:", stack.length);
-                    list = stack[wanted_depth-1].list;
-                    //print("list:", uneval(list) );
-                  }
-                  else {
-                    //print ("made new stack for messy indent");
-                    list = make_list(m);
-                    last_li.push(list);
-                  }
-                }
-
-                //print( uneval(list), "last", list === stack[stack.length-1].list );
-                last_li = [ "listitem" ];
-                list.push(last_li);
-              } // end depth of shenegains
-              nl = "";
-            }
-
-            // Add content
-            if (l.length > m[0].length) {
-              li_accumulate += nl + l.substr( m[0].length );
-            }
-          } // tight_search
-
-          if ( li_accumulate.length ) {
-            add( last_li, loose, this.processInline( li_accumulate ), nl );
-            // Loose mode will have been dealt with. Reset it
-            loose = false;
-            li_accumulate = "";
-          }
-
-          // Look at the next block - we might have a loose list. Or an extra
-          // paragraph for the current li
-          var contained = get_contained_blocks( stack.length, next );
-
-          // Deal with code blocks or properly nested lists
-          if (contained.length > 0) {
-            // Make sure all listitems up the stack are paragraphs
-            forEach( stack, paragraphify, this);
-
-            last_li.push.apply( last_li, this.toTree( contained, [] ) );
-          }
-
-          var next_block = next[0] && next[0].valueOf() || "";
-
-          if ( next_block.match(is_list_re) || next_block.match( /^ / ) ) {
-            block = next.shift();
-
-            // Check for an HR following a list: features/lists/hr_abutting
-            var hr = this.dialect.block.horizRule( block, next );
-
-            if (hr) {
-              ret.push.apply(ret, hr);
-              break;
-            }
-
-            // Make sure all listitems up the stack are paragraphs
-            forEach( stack, paragraphify, this);
-
-            loose = true;
-            continue loose_search;
-          }
-          break;
-        } // loose_search
-
-        return ret;
-      };
-    })(),
-
-    blockquote: function blockquote( block, next ) {
-      if ( !block.match( /^>/m ) )
-        return undefined;
-
-      var jsonml = [];
-
-      // separate out the leading abutting block, if any
-      if ( block[ 0 ] != ">" ) {
-        var lines = block.split( /\n/ ),
-            prev = [];
-
-        // keep shifting lines until you find a crotchet
-        while ( lines.length && lines[ 0 ][ 0 ] != ">" ) {
-            prev.push( lines.shift() );
-        }
-
-        // reassemble!
-        block = lines.join( "\n" );
-        jsonml.push.apply( jsonml, this.processBlock( prev.join( "\n" ), [] ) );
-      }
-
-      // if the next block is also a blockquote merge it in
-      while ( next.length && next[ 0 ][ 0 ] == ">" ) {
-        var b = next.shift();
-        block = new String(block + block.trailing + b);
-        block.trailing = b.trailing;
-      }
-
-      // Strip off the leading "> " and re-process as a block.
-      var input = block.replace( /^> ?/gm, '' ),
-          old_tree = this.tree;
-      jsonml.push( this.toTree( input, [ "blockquote" ] ) );
-
-      return jsonml;
-    },
-
-    referenceDefn: function referenceDefn( block, next) {
-      var re = /^\s*\[(.*?)\]:\s*(\S+)(?:\s+(?:(['"])(.*?)\3|\((.*?)\)))?\n?/;
-      // interesting matches are [ , ref_id, url, , title, title ]
-
-      if ( !block.match(re) )
-        return undefined;
-
-      // make an attribute node if it doesn't exist
-      if ( !extract_attr( this.tree ) ) {
-        this.tree.splice( 1, 0, {} );
-      }
-
-      var attrs = extract_attr( this.tree );
-
-      // make a references hash if it doesn't exist
-      if ( attrs.references === undefined ) {
-        attrs.references = {};
-      }
-
-      var b = this.loop_re_over_block(re, block, function( m ) {
-
-        if ( m[2] && m[2][0] == '<' && m[2][m[2].length-1] == '>' )
-          m[2] = m[2].substring( 1, m[2].length - 1 );
-
-        var ref = attrs.references[ m[1].toLowerCase() ] = {
-          href: m[2]
-        };
-
-        if (m[4] !== undefined)
-          ref.title = m[4];
-        else if (m[5] !== undefined)
-          ref.title = m[5];
-
-      } );
-
-      if (b.length)
-        next.unshift( mk_block( b, block.trailing ) );
-
-      return [];
-    },
-
-    para: function para( block, next ) {
-      // everything's a para!
-      return [ ["para"].concat( this.processInline( block ) ) ];
-    }
-  }
-};
-
-Markdown.dialects.Gruber.inline = {
-
-    __oneElement__: function oneElement( text, patterns_or_re, previous_nodes ) {
-      var m,
-          res,
-          lastIndex = 0;
-
-      patterns_or_re = patterns_or_re || this.dialect.inline.__patterns__;
-      var re = new RegExp( "([\\s\\S]*?)(" + (patterns_or_re.source || patterns_or_re) + ")" );
-
-      m = re.exec( text );
-      if (!m) {
-        // Just boring text
-        return [ text.length, text ];
-      }
-      else if ( m[1] ) {
-        // Some un-interesting text matched. Return that first
-        return [ m[1].length, m[1] ];
-      }
-
-      var res;
-      if ( m[2] in this.dialect.inline ) {
-        res = this.dialect.inline[ m[2] ].call(
-                  this,
-                  text.substr( m.index ), m, previous_nodes || [] );
-      }
-      // Default for now to make dev easier. just slurp special and output it.
-      res = res || [ m[2].length, m[2] ];
-      return res;
-    },
-
-    __call__: function inline( text, patterns ) {
-
-      var out = [],
-          res;
-
-      function add(x) {
-        //D:self.debug("  adding output", uneval(x));
-        if (typeof x == "string" && typeof out[out.length-1] == "string")
-          out[ out.length-1 ] += x;
-        else
-          out.push(x);
-      }
-
-      while ( text.length > 0 ) {
-        res = this.dialect.inline.__oneElement__.call(this, text, patterns, out );
-        text = text.substr( res.shift() );
-        forEach(res, add )
-      }
-
-      return out;
-    },
-
-    // These characters are intersting elsewhere, so have rules for them so that
-    // chunks of plain text blocks don't include them
-    "]": function () {},
-    "}": function () {},
-
-    "\\": function escaped( text ) {
-      // [ length of input processed, node/children to add... ]
-      // Only esacape: \ ` * _ { } [ ] ( ) # * + - . !
-      if ( text.match( /^\\[\\`\*_{}\[\]()#\+.!\-]/ ) )
-        return [ 2, text[1] ];
-      else
-        // Not an esacpe
-        return [ 1, "\\" ];
-    },
-
-    "![": function image( text ) {
-
-      // Unlike images, alt text is plain text only. no other elements are
-      // allowed in there
-
-      // ![Alt text](/path/to/img.jpg "Optional title")
-      //      1          2            3       4         <--- captures
-      var m = text.match( /^!\[(.*?)\][ \t]*\([ \t]*(\S*)(?:[ \t]+(["'])(.*?)\3)?[ \t]*\)/ );
-
-      if ( m ) {
-        if ( m[2] && m[2][0] == '<' && m[2][m[2].length-1] == '>' )
-          m[2] = m[2].substring( 1, m[2].length - 1 );
-
-        m[2] = this.dialect.inline.__call__.call( this, m[2], /\\/ )[0];
-
-        var attrs = { alt: m[1], href: m[2] || "" };
-        if ( m[4] !== undefined)
-          attrs.title = m[4];
-
-        return [ m[0].length, [ "img", attrs ] ];
-      }
-
-      // ![Alt text][id]
-      m = text.match( /^!\[(.*?)\][ \t]*\[(.*?)\]/ );
-
-      if ( m ) {
-        // We can't check if the reference is known here as it likely wont be
-        // found till after. Check it in md tree->hmtl tree conversion
-        return [ m[0].length, [ "img_ref", { alt: m[1], ref: m[2].toLowerCase(), original: m[0] } ] ];
-      }
-
-      // Just consume the '!['
-      return [ 2, "![" ];
-    },
-
-    "[": function link( text ) {
-
-      var orig = String(text);
-      // Inline content is possible inside `link text`
-      var res = Markdown.DialectHelpers.inline_until_char.call( this, text.substr(1), ']' );
-
-      // No closing ']' found. Just consume the [
-      if ( !res ) return [ 1, '[' ];
-
-      var consumed = 1 + res[ 0 ],
-          children = res[ 1 ],
-          link,
-          attrs;
-
-      // At this point the first [...] has been parsed. See what follows to find
-      // out which kind of link we are (reference or direct url)
-      text = text.substr( consumed );
-
-      // [link text](/path/to/img.jpg "Optional title")
-      //                 1            2       3         <--- captures
-      // This will capture up to the last paren in the block. We then pull
-      // back based on if there a matching ones in the url
-      //    ([here](/url/(test))
-      // The parens have to be balanced
-      var m = text.match( /^\s*\([ \t]*(\S+)(?:[ \t]+(["'])(.*?)\2)?[ \t]*\)/ );
-      if ( m ) {
-        var url = m[1];
-        consumed += m[0].length;
-
-        if ( url && url[0] == '<' && url[url.length-1] == '>' )
-          url = url.substring( 1, url.length - 1 );
-
-        // If there is a title we don't have to worry about parens in the url
-        if ( !m[3] ) {
-          var open_parens = 1; // One open that isn't in the capture
-          for (var len = 0; len < url.length; len++) {
-            switch ( url[len] ) {
-            case '(':
-              open_parens++;
-              break;
-            case ')':
-              if ( --open_parens == 0) {
-                consumed -= url.length - len;
-                url = url.substring(0, len);
-              }
-              break;
-            }
-          }
-        }
-
-        // Process escapes only
-        url = this.dialect.inline.__call__.call( this, url, /\\/ )[0];
-
-        attrs = { href: url || "" };
-        if ( m[3] !== undefined)
-          attrs.title = m[3];
-
-        link = [ "link", attrs ].concat( children );
-        return [ consumed, link ];
-      }
-
-      // [Alt text][id]
-      // [Alt text] [id]
-      m = text.match( /^\s*\[(.*?)\]/ );
-
-      if ( m ) {
-
-        consumed += m[ 0 ].length;
-
-        // [links][] uses links as its reference
-        attrs = { ref: ( m[ 1 ] || String(children) ).toLowerCase(),  original: orig.substr( 0, consumed ) };
-
-        link = [ "link_ref", attrs ].concat( children );
-
-        // We can't check if the reference is known here as it likely wont be
-        // found till after. Check it in md tree->hmtl tree conversion.
-        // Store the original so that conversion can revert if the ref isn't found.
-        return [ consumed, link ];
-      }
-
-      // [id]
-      // Only if id is plain (no formatting.)
-      if ( children.length == 1 && typeof children[0] == "string" ) {
-
-        attrs = { ref: children[0].toLowerCase(),  original: orig.substr( 0, consumed ) };
-        link = [ "link_ref", attrs, children[0] ];
-        return [ consumed, link ];
-      }
-
-      // Just consume the '['
-      return [ 1, "[" ];
-    },
-
-
-    "<": function autoLink( text ) {
-      var m;
-
-      if ( ( m = text.match( /^<(?:((https?|ftp|mailto):[^>]+)|(.*?@.*?\.[a-zA-Z]+))>/ ) ) != null ) {
-        if ( m[3] ) {
-          return [ m[0].length, [ "link", { href: "mailto:" + m[3] }, m[3] ] ];
-
-        }
-        else if ( m[2] == "mailto" ) {
-          return [ m[0].length, [ "link", { href: m[1] }, m[1].substr("mailto:".length ) ] ];
-        }
-        else
-          return [ m[0].length, [ "link", { href: m[1] }, m[1] ] ];
-      }
-
-      return [ 1, "<" ];
-    },
-
-    "`": function inlineCode( text ) {
-      // Inline code block. as many backticks as you like to start it
-      // Always skip over the opening ticks.
-      var m = text.match( /(`+)(([\s\S]*?)\1)/ );
-
-      if ( m && m[2] )
-        return [ m[1].length + m[2].length, [ "inlinecode", m[3] ] ];
-      else {
-        // TODO: No matching end code found - warn!
-        return [ 1, "`" ];
-      }
-    },
-
-    "  \n": function lineBreak( text ) {
-      return [ 3, [ "linebreak" ] ];
-    }
-
-};
-
-// Meta Helper/generator method for em and strong handling
-function strong_em( tag, md ) {
-
-  var state_slot = tag + "_state",
-      other_slot = tag == "strong" ? "em_state" : "strong_state";
-
-  function CloseTag(len) {
-    this.len_after = len;
-    this.name = "close_" + md;
-  }
-
-  return function ( text, orig_match ) {
-
-    if (this[state_slot][0] == md) {
-      // Most recent em is of this type
-      //D:this.debug("closing", md);
-      this[state_slot].shift();
-
-      // "Consume" everything to go back to the recrusion in the else-block below
-      return[ text.length, new CloseTag(text.length-md.length) ];
-    }
-    else {
-      // Store a clone of the em/strong states
-      var other = this[other_slot].slice(),
-          state = this[state_slot].slice();
-
-      this[state_slot].unshift(md);
-
-      //D:this.debug_indent += "  ";
-
-      // Recurse
-      var res = this.processInline( text.substr( md.length ) );
-      //D:this.debug_indent = this.debug_indent.substr(2);
-
-      var last = res[res.length - 1];
-
-      //D:this.debug("processInline from", tag + ": ", uneval( res ) );
-
-      var check = this[state_slot].shift();
-      if (last instanceof CloseTag) {
-        res.pop();
-        // We matched! Huzzah.
-        var consumed = text.length - last.len_after;
-        return [ consumed, [ tag ].concat(res) ];
-      }
-      else {
-        // Restore the state of the other kind. We might have mistakenly closed it.
-        this[other_slot] = other;
-        this[state_slot] = state;
-
-        // We can't reuse the processed result as it could have wrong parsing contexts in it.
-        return [ md.length, md ];
-      }
-    }
-  }; // End returned function
-}
-
-Markdown.dialects.Gruber.inline["**"] = strong_em("strong", "**");
-Markdown.dialects.Gruber.inline["__"] = strong_em("strong", "__");
-Markdown.dialects.Gruber.inline["*"]  = strong_em("em", "*");
-Markdown.dialects.Gruber.inline["_"]  = strong_em("em", "_");
-
-
-// Build default order from insertion order.
-Markdown.buildBlockOrder = function(d) {
-  var ord = [];
-  for ( var i in d ) {
-    if ( i == "__order__" || i == "__call__" ) continue;
-    ord.push( i );
-  }
-  d.__order__ = ord;
-};
-
-// Build patterns for inline matcher
-Markdown.buildInlinePatterns = function(d) {
-  var patterns = [];
-
-  for ( var i in d ) {
-    // __foo__ is reserved and not a pattern
-    if ( i.match( /^__.*__$/) ) continue;
-    var l = i.replace( /([\\.*+?|()\[\]{}])/g, "\\$1" )
-             .replace( /\n/, "\\n" );
-    patterns.push( i.length == 1 ? l : "(?:" + l + ")" );
-  }
-
-  patterns = patterns.join("|");
-  d.__patterns__ = patterns;
-  //print("patterns:", uneval( patterns ) );
-
-  var fn = d.__call__;
-  d.__call__ = function(text, pattern) {
-    if (pattern != undefined) {
-      return fn.call(this, text, pattern);
-    }
-    else
-    {
-      return fn.call(this, text, patterns);
-    }
-  };
-};
-
-Markdown.DialectHelpers = {};
-Markdown.DialectHelpers.inline_until_char = function( text, want ) {
-  var consumed = 0,
-      nodes = [];
-
-  while ( true ) {
-    if ( text[ consumed ] == want ) {
-      // Found the character we were looking for
-      consumed++;
-      return [ consumed, nodes ];
-    }
-
-    if ( consumed >= text.length ) {
-      // No closing char found. Abort.
-      return null;
-    }
-
-    res = this.dialect.inline.__oneElement__.call(this, text.substr( consumed ) );
-    consumed += res[ 0 ];
-    // Add any returned nodes.
-    nodes.push.apply( nodes, res.slice( 1 ) );
-  }
-}
-
-// Helper function to make sub-classing a dialect easier
-Markdown.subclassDialect = function( d ) {
-  function Block() {}
-  Block.prototype = d.block;
-  function Inline() {}
-  Inline.prototype = d.inline;
-
-  return { block: new Block(), inline: new Inline() };
-};
-
-Markdown.buildBlockOrder ( Markdown.dialects.Gruber.block );
-Markdown.buildInlinePatterns( Markdown.dialects.Gruber.inline );
-
-Markdown.dialects.Maruku = Markdown.subclassDialect( Markdown.dialects.Gruber );
-
-Markdown.dialects.Maruku.processMetaHash = function processMetaHash( meta_string ) {
-  var meta = split_meta_hash( meta_string ),
-      attr = {};
-
-  for ( var i = 0; i < meta.length; ++i ) {
-    // id: #foo
-    if ( /^#/.test( meta[ i ] ) ) {
-      attr.id = meta[ i ].substring( 1 );
-    }
-    // class: .foo
-    else if ( /^\./.test( meta[ i ] ) ) {
-      // if class already exists, append the new one
-      if ( attr['class'] ) {
-        attr['class'] = attr['class'] + meta[ i ].replace( /./, " " );
-      }
-      else {
-        attr['class'] = meta[ i ].substring( 1 );
-      }
-    }
-    // attribute: foo=bar
-    else if ( /\=/.test( meta[ i ] ) ) {
-      var s = meta[ i ].split( /\=/ );
-      attr[ s[ 0 ] ] = s[ 1 ];
-    }
-  }
-
-  return attr;
-}
-
-function split_meta_hash( meta_string ) {
-  var meta = meta_string.split( "" ),
-      parts = [ "" ],
-      in_quotes = false;
-
-  while ( meta.length ) {
-    var letter = meta.shift();
-    switch ( letter ) {
-      case " " :
-        // if we're in a quoted section, keep it
-        if ( in_quotes ) {
-          parts[ parts.length - 1 ] += letter;
-        }
-        // otherwise make a new part
-        else {
-          parts.push( "" );
-        }
-        break;
-      case "'" :
-      case '"' :
-        // reverse the quotes and move straight on
-        in_quotes = !in_quotes;
-        break;
-      case "\\" :
-        // shift off the next letter to be used straight away.
-        // it was escaped so we'll keep it whatever it is
-        letter = meta.shift();
-      default :
-        parts[ parts.length - 1 ] += letter;
-        break;
-    }
-  }
-
-  return parts;
-}
-
-Markdown.dialects.Maruku.block.document_meta = function document_meta( block, next ) {
-  // we're only interested in the first block
-  if ( block.lineNumber > 1 ) return undefined;
-
-  // document_meta blocks consist of one or more lines of `Key: Value\n`
-  if ( ! block.match( /^(?:\w+:.*\n)*\w+:.*$/ ) ) return undefined;
-
-  // make an attribute node if it doesn't exist
-  if ( !extract_attr( this.tree ) ) {
-    this.tree.splice( 1, 0, {} );
-  }
-
-  var pairs = block.split( /\n/ );
-  for ( p in pairs ) {
-    var m = pairs[ p ].match( /(\w+):\s*(.*)$/ ),
-        key = m[ 1 ].toLowerCase(),
-        value = m[ 2 ];
-
-    this.tree[ 1 ][ key ] = value;
-  }
-
-  // document_meta produces no content!
-  return [];
-};
-
-Markdown.dialects.Maruku.block.block_meta = function block_meta( block, next ) {
-  // check if the last line of the block is an meta hash
-  var m = block.match( /(^|\n) {0,3}\{:\s*((?:\\\}|[^\}])*)\s*\}$/ );
-  if ( !m ) return undefined;
-
-  // process the meta hash
-  var attr = this.dialect.processMetaHash( m[ 2 ] );
-
-  var hash;
-
-  // if we matched ^ then we need to apply meta to the previous block
-  if ( m[ 1 ] === "" ) {
-    var node = this.tree[ this.tree.length - 1 ];
-    hash = extract_attr( node );
-
-    // if the node is a string (rather than JsonML), bail
-    if ( typeof node === "string" ) return undefined;
-
-    // create the attribute hash if it doesn't exist
-    if ( !hash ) {
-      hash = {};
-      node.splice( 1, 0, hash );
-    }
-
-    // add the attributes in
-    for ( a in attr ) {
-      hash[ a ] = attr[ a ];
-    }
-
-    // return nothing so the meta hash is removed
-    return [];
-  }
-
-  // pull the meta hash off the block and process what's left
-  var b = block.replace( /\n.*$/, "" ),
-      result = this.processBlock( b, [] );
-
-  // get or make the attributes hash
-  hash = extract_attr( result[ 0 ] );
-  if ( !hash ) {
-    hash = {};
-    result[ 0 ].splice( 1, 0, hash );
-  }
-
-  // attach the attributes to the block
-  for ( a in attr ) {
-    hash[ a ] = attr[ a ];
-  }
-
-  return result;
-};
-
-Markdown.dialects.Maruku.block.definition_list = function definition_list( block, next ) {
-  // one or more terms followed by one or more definitions, in a single block
-  var tight = /^((?:[^\s:].*\n)+):\s+([\s\S]+)$/,
-      list = [ "dl" ],
-      i;
-
-  // see if we're dealing with a tight or loose block
-  if ( ( m = block.match( tight ) ) ) {
-    // pull subsequent tight DL blocks out of `next`
-    var blocks = [ block ];
-    while ( next.length && tight.exec( next[ 0 ] ) ) {
-      blocks.push( next.shift() );
-    }
-
-    for ( var b = 0; b < blocks.length; ++b ) {
-      var m = blocks[ b ].match( tight ),
-          terms = m[ 1 ].replace( /\n$/, "" ).split( /\n/ ),
-          defns = m[ 2 ].split( /\n:\s+/ );
-
-      // print( uneval( m ) );
-
-      for ( i = 0; i < terms.length; ++i ) {
-        list.push( [ "dt", terms[ i ] ] );
-      }
-
-      for ( i = 0; i < defns.length; ++i ) {
-        // run inline processing over the definition
-        list.push( [ "dd" ].concat( this.processInline( defns[ i ].replace( /(\n)\s+/, "$1" ) ) ) );
-      }
-    }
-  }
-  else {
-    return undefined;
-  }
-
-  return [ list ];
-};
-
-Markdown.dialects.Maruku.inline[ "{:" ] = function inline_meta( text, matches, out ) {
-  if ( !out.length ) {
-    return [ 2, "{:" ];
-  }
-
-  // get the preceeding element
-  var before = out[ out.length - 1 ];
-
-  if ( typeof before === "string" ) {
-    return [ 2, "{:" ];
-  }
-
-  // match a meta hash
-  var m = text.match( /^\{:\s*((?:\\\}|[^\}])*)\s*\}/ );
-
-  // no match, false alarm
-  if ( !m ) {
-    return [ 2, "{:" ];
-  }
-
-  // attach the attributes to the preceeding element
-  var meta = this.dialect.processMetaHash( m[ 1 ] ),
-      attr = extract_attr( before );
-
-  if ( !attr ) {
-    attr = {};
-    before.splice( 1, 0, attr );
-  }
-
-  for ( var k in meta ) {
-    attr[ k ] = meta[ k ];
-  }
-
-  // cut out the string and replace it with nothing
-  return [ m[ 0 ].length, "" ];
-};
-
-Markdown.buildBlockOrder ( Markdown.dialects.Maruku.block );
-Markdown.buildInlinePatterns( Markdown.dialects.Maruku.inline );
-
-var isArray = Array.isArray || function(obj) {
-  return Object.prototype.toString.call(obj) == '[object Array]';
-};
-
-var forEach;
-// Don't mess with Array.prototype. Its not friendly
-if ( Array.prototype.forEach ) {
-  forEach = function( arr, cb, thisp ) {
-    return arr.forEach( cb, thisp );
-  };
-}
-else {
-  forEach = function(arr, cb, thisp) {
-    for (var i = 0; i < arr.length; i++) {
-      cb.call(thisp || arr, arr[i], i, arr);
-    }
-  }
-}
-
-function extract_attr( jsonml ) {
-  return isArray(jsonml)
-      && jsonml.length > 1
-      && typeof jsonml[ 1 ] === "object"
-      && !( isArray(jsonml[ 1 ]) )
-      ? jsonml[ 1 ]
-      : undefined;
-}
-
-
-
-/**
- *  renderJsonML( jsonml[, options] ) -> String
- *  - jsonml (Array): JsonML array to render to XML
- *  - options (Object): options
- *
- *  Converts the given JsonML into well-formed XML.
- *
- *  The options currently understood are:
- *
- *  - root (Boolean): wether or not the root node should be included in the
- *    output, or just its children. The default `false` is to not include the
- *    root itself.
- */
-expose.renderJsonML = function( jsonml, options ) {
-  options = options || {};
-  // include the root element in the rendered output?
-  options.root = options.root || false;
-
-  var content = [];
-
-  if ( options.root ) {
-    content.push( render_tree( jsonml ) );
-  }
-  else {
-    jsonml.shift(); // get rid of the tag
-    if ( jsonml.length && typeof jsonml[ 0 ] === "object" && !( jsonml[ 0 ] instanceof Array ) ) {
-      jsonml.shift(); // get rid of the attributes
-    }
-
-    while ( jsonml.length ) {
-      content.push( render_tree( jsonml.shift() ) );
-    }
-  }
-
-  return content.join( "\n\n" );
-};
-
-function escapeHTML( text ) {
-  return text.replace( /&/g, "&amp;" )
-             .replace( /</g, "&lt;" )
-             .replace( />/g, "&gt;" )
-             .replace( /"/g, "&quot;" )
-             .replace( /'/g, "&#39;" );
-}
-
-function render_tree( jsonml ) {
-  // basic case
-  if ( typeof jsonml === "string" ) {
-    return escapeHTML( jsonml );
-  }
-
-  var tag = jsonml.shift(),
-      attributes = {},
-      content = [];
-
-  if ( jsonml.length && typeof jsonml[ 0 ] === "object" && !( jsonml[ 0 ] instanceof Array ) ) {
-    attributes = jsonml.shift();
-  }
-
-  while ( jsonml.length ) {
-    content.push( arguments.callee( jsonml.shift() ) );
-  }
-
-  var tag_attrs = "";
-  for ( var a in attributes ) {
-    tag_attrs += " " + a + '="' + escapeHTML( attributes[ a ] ) + '"';
-  }
-
-  // be careful about adding whitespace here for inline elements
-  if ( tag == "img" || tag == "br" || tag == "hr" ) {
-    return "<"+ tag + tag_attrs + "/>";
-  }
-  else {
-    return "<"+ tag + tag_attrs + ">" + content.join( "" ) + "</" + tag + ">";
-  }
-}
-
-function convert_tree_to_html( tree, references, options ) {
-  var i;
-  options = options || {};
-
-  // shallow clone
-  var jsonml = tree.slice( 0 );
-
-  if (typeof options.preprocessTreeNode === "function") {
-      jsonml = options.preprocessTreeNode(jsonml, references);
-  }
-
-  // Clone attributes if they exist
-  var attrs = extract_attr( jsonml );
-  if ( attrs ) {
-    jsonml[ 1 ] = {};
-    for ( i in attrs ) {
-      jsonml[ 1 ][ i ] = attrs[ i ];
-    }
-    attrs = jsonml[ 1 ];
-  }
-
-  // basic case
-  if ( typeof jsonml === "string" ) {
-    return jsonml;
-  }
-
-  // convert this node
-  switch ( jsonml[ 0 ] ) {
-    case "header":
-      jsonml[ 0 ] = "h" + jsonml[ 1 ].level;
-      delete jsonml[ 1 ].level;
-      break;
-    case "bulletlist":
-      jsonml[ 0 ] = "ul";
-      break;
-    case "numberlist":
-      jsonml[ 0 ] = "ol";
-      break;
-    case "listitem":
-      jsonml[ 0 ] = "li";
-      break;
-    case "para":
-      jsonml[ 0 ] = "p";
-      break;
-    case "markdown":
-      jsonml[ 0 ] = "html";
-      if ( attrs ) delete attrs.references;
-      break;
-    case "code_block":
-      jsonml[ 0 ] = "pre";
-      i = attrs ? 2 : 1;
-      var code = [ "code" ];
-      code.push.apply( code, jsonml.splice( i ) );
-      jsonml[ i ] = code;
-      break;
-    case "inlinecode":
-      jsonml[ 0 ] = "code";
-      break;
-    case "img":
-      jsonml[ 1 ].src = jsonml[ 1 ].href;
-      delete jsonml[ 1 ].href;
-      break;
-    case "linebreak":
-      jsonml[ 0 ] = "br";
-    break;
-    case "link":
-      jsonml[ 0 ] = "a";
-      break;
-    case "link_ref":
-      jsonml[ 0 ] = "a";
-
-      // grab this ref and clean up the attribute node
-      var ref = references[ attrs.ref ];
-
-      // if the reference exists, make the link
-      if ( ref ) {
-        delete attrs.ref;
-
-        // add in the href and title, if present
-        attrs.href = ref.href;
-        if ( ref.title ) {
-          attrs.title = ref.title;
-        }
-
-        // get rid of the unneeded original text
-        delete attrs.original;
-      }
-      // the reference doesn't exist, so revert to plain text
-      else {
-        return attrs.original;
-      }
-      break;
-    case "img_ref":
-      jsonml[ 0 ] = "img";
-
-      // grab this ref and clean up the attribute node
-      var ref = references[ attrs.ref ];
-
-      // if the reference exists, make the link
-      if ( ref ) {
-        delete attrs.ref;
-
-        // add in the href and title, if present
-        attrs.src = ref.href;
-        if ( ref.title ) {
-          attrs.title = ref.title;
-        }
-
-        // get rid of the unneeded original text
-        delete attrs.original;
-      }
-      // the reference doesn't exist, so revert to plain text
-      else {
-        return attrs.original;
-      }
-      break;
-  }
-
-  // convert all the children
-  i = 1;
-
-  // deal with the attribute node, if it exists
-  if ( attrs ) {
-    // if there are keys, skip over it
-    for ( var key in jsonml[ 1 ] ) {
-      i = 2;
-    }
-    // if there aren't, remove it
-    if ( i === 1 ) {
-      jsonml.splice( i, 1 );
-    }
-  }
-
-  for ( ; i < jsonml.length; ++i ) {
-    jsonml[ i ] = arguments.callee( jsonml[ i ], references, options );
-  }
-
-  return jsonml;
-}
-
-
-// merges adjacent text nodes into a single node
-function merge_text_nodes( jsonml ) {
-  // skip the tag name and attribute hash
-  var i = extract_attr( jsonml ) ? 2 : 1;
-
-  while ( i < jsonml.length ) {
-    // if it's a string check the next item too
-    if ( typeof jsonml[ i ] === "string" ) {
-      if ( i + 1 < jsonml.length && typeof jsonml[ i + 1 ] === "string" ) {
-        // merge the second string into the first and remove it
-        jsonml[ i ] += jsonml.splice( i + 1, 1 )[ 0 ];
-      }
-      else {
-        ++i;
-      }
-    }
-    // if it's not a string recurse
-    else {
-      arguments.callee( jsonml[ i ] );
-      ++i;
-    }
-  }
-}
-
-} )( (function() {
-  if ( typeof exports === "undefined" ) {
-    window.markdown = {};
-    return window.markdown;
-  }
-  else {
-    return exports;
-  }
-} )() );
-
-});
-
-require.define("util",function(require,module,exports,__dirname,__filename,process,global){var events = require('events');
-
-exports.isArray = isArray;
-exports.isDate = function(obj){return Object.prototype.toString.call(obj) === '[object Date]'};
-exports.isRegExp = function(obj){return Object.prototype.toString.call(obj) === '[object RegExp]'};
-
-
-exports.print = function () {};
-exports.puts = function () {};
-exports.debug = function() {};
-
-exports.inspect = function(obj, showHidden, depth, colors) {
-  var seen = [];
-
-  var stylize = function(str, styleType) {
-    // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-    var styles =
-        { 'bold' : [1, 22],
-          'italic' : [3, 23],
-          'underline' : [4, 24],
-          'inverse' : [7, 27],
-          'white' : [37, 39],
-          'grey' : [90, 39],
-          'black' : [30, 39],
-          'blue' : [34, 39],
-          'cyan' : [36, 39],
-          'green' : [32, 39],
-          'magenta' : [35, 39],
-          'red' : [31, 39],
-          'yellow' : [33, 39] };
-
-    var style =
-        { 'special': 'cyan',
-          'number': 'blue',
-          'boolean': 'yellow',
-          'undefined': 'grey',
-          'null': 'bold',
-          'string': 'green',
-          'date': 'magenta',
-          // "name": intentionally not styling
-          'regexp': 'red' }[styleType];
-
-    if (style) {
-      return '\033[' + styles[style][0] + 'm' + str +
-             '\033[' + styles[style][1] + 'm';
-    } else {
-      return str;
-    }
-  };
-  if (! colors) {
-    stylize = function(str, styleType) { return str; };
-  }
-
-  function format(value, recurseTimes) {
-    // Provide a hook for user-specified inspect functions.
-    // Check that value is an object with an inspect function on it
-    if (value && typeof value.inspect === 'function' &&
-        // Filter out the util module, it's inspect function is special
-        value !== exports &&
-        // Also filter out any prototype objects using the circular check.
-        !(value.constructor && value.constructor.prototype === value)) {
-      return value.inspect(recurseTimes);
-    }
-
-    // Primitive types cannot have properties
-    switch (typeof value) {
-      case 'undefined':
-        return stylize('undefined', 'undefined');
-
-      case 'string':
-        var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                                 .replace(/'/g, "\\'")
-                                                 .replace(/\\"/g, '"') + '\'';
-        return stylize(simple, 'string');
-
-      case 'number':
-        return stylize('' + value, 'number');
-
-      case 'boolean':
-        return stylize('' + value, 'boolean');
-    }
-    // For some reason typeof null is "object", so special case here.
-    if (value === null) {
-      return stylize('null', 'null');
-    }
-
-    // Look up the keys of the object.
-    var visible_keys = Object_keys(value);
-    var keys = showHidden ? Object_getOwnPropertyNames(value) : visible_keys;
-
-    // Functions without properties can be shortcutted.
-    if (typeof value === 'function' && keys.length === 0) {
-      if (isRegExp(value)) {
-        return stylize('' + value, 'regexp');
-      } else {
-        var name = value.name ? ': ' + value.name : '';
-        return stylize('[Function' + name + ']', 'special');
-      }
-    }
-
-    // Dates without properties can be shortcutted
-    if (isDate(value) && keys.length === 0) {
-      return stylize(value.toUTCString(), 'date');
-    }
-
-    var base, type, braces;
-    // Determine the object type
-    if (isArray(value)) {
-      type = 'Array';
-      braces = ['[', ']'];
-    } else {
-      type = 'Object';
-      braces = ['{', '}'];
-    }
-
-    // Make functions say that they are functions
-    if (typeof value === 'function') {
-      var n = value.name ? ': ' + value.name : '';
-      base = (isRegExp(value)) ? ' ' + value : ' [Function' + n + ']';
-    } else {
-      base = '';
-    }
-
-    // Make dates with properties first say the date
-    if (isDate(value)) {
-      base = ' ' + value.toUTCString();
-    }
-
-    if (keys.length === 0) {
-      return braces[0] + base + braces[1];
-    }
-
-    if (recurseTimes < 0) {
-      if (isRegExp(value)) {
-        return stylize('' + value, 'regexp');
-      } else {
-        return stylize('[Object]', 'special');
-      }
-    }
-
-    seen.push(value);
-
-    var output = keys.map(function(key) {
-      var name, str;
-      if (value.__lookupGetter__) {
-        if (value.__lookupGetter__(key)) {
-          if (value.__lookupSetter__(key)) {
-            str = stylize('[Getter/Setter]', 'special');
-          } else {
-            str = stylize('[Getter]', 'special');
-          }
-        } else {
-          if (value.__lookupSetter__(key)) {
-            str = stylize('[Setter]', 'special');
-          }
-        }
-      }
-      if (visible_keys.indexOf(key) < 0) {
-        name = '[' + key + ']';
-      }
-      if (!str) {
-        if (seen.indexOf(value[key]) < 0) {
-          if (recurseTimes === null) {
-            str = format(value[key]);
-          } else {
-            str = format(value[key], recurseTimes - 1);
-          }
-          if (str.indexOf('\n') > -1) {
-            if (isArray(value)) {
-              str = str.split('\n').map(function(line) {
-                return '  ' + line;
-              }).join('\n').substr(2);
-            } else {
-              str = '\n' + str.split('\n').map(function(line) {
-                return '   ' + line;
-              }).join('\n');
-            }
-          }
-        } else {
-          str = stylize('[Circular]', 'special');
-        }
-      }
-      if (typeof name === 'undefined') {
-        if (type === 'Array' && key.match(/^\d+$/)) {
-          return str;
-        }
-        name = JSON.stringify('' + key);
-        if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-          name = name.substr(1, name.length - 2);
-          name = stylize(name, 'name');
-        } else {
-          name = name.replace(/'/g, "\\'")
-                     .replace(/\\"/g, '"')
-                     .replace(/(^"|"$)/g, "'");
-          name = stylize(name, 'string');
-        }
-      }
-
-      return name + ': ' + str;
+require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+var EventBaton = require('../util/eventBaton').EventBaton;
+
+var GitVisuals = require('../visuals').GitVisuals;
+
+var Visualization = Backbone.View.extend({
+  initialize: function(options) {
+    options = options || {};
+    this.options = options;
+    this.customEvents = _.clone(Backbone.Events);
+    this.containerElement = options.containerElement;
+
+    var _this = this;
+    // we want to add our canvas somewhere
+    var container = options.containerElement || $('#canvasHolder')[0];
+    new Raphael(container, 200, 200, function() {
+      // raphael calls with paper as this for some inane reason...
+      var paper = this;
+      // use process.nextTick to go from sync to async
+      process.nextTick(function() {
+        _this.paperInitialize(paper, options);
+      });
+    });
+  },
+
+  paperInitialize: function(paper, options) {
+    this.treeString = options.treeString;
+    this.paper = paper;
+
+    var Main = require('../app');
+    // if we dont want to receive keyoard input (directly),
+    // make a new event baton so git engine steals something that no one
+    // is broadcasting to
+    this.eventBaton = (options.noKeyboardInput) ?
+      new EventBaton():
+      Main.getEventBaton();
+
+    this.commitCollection = new CommitCollection();
+    this.branchCollection = new BranchCollection();
+
+    this.gitVisuals = new GitVisuals({
+      commitCollection: this.commitCollection,
+      branchCollection: this.branchCollection,
+      paper: this.paper,
+      noClick: this.options.noClick,
+      smallCanvas: this.options.smallCanvas
     });
 
-    seen.pop();
+    var GitEngine = require('../git').GitEngine;
+    this.gitEngine = new GitEngine({
+      collection: this.commitCollection,
+      branches: this.branchCollection,
+      gitVisuals: this.gitVisuals,
+      eventBaton: this.eventBaton
+    });
+    this.gitEngine.init();
+    this.gitVisuals.assignGitEngine(this.gitEngine);
 
-    var numLinesEst = 0;
-    var length = output.reduce(function(prev, cur) {
-      numLinesEst++;
-      if (cur.indexOf('\n') >= 0) numLinesEst++;
-      return prev + cur.length + 1;
-    }, 0);
+    this.myResize();
 
-    if (length > 50) {
-      output = braces[0] +
-               (base === '' ? '' : base + '\n ') +
-               ' ' +
-               output.join(',\n  ') +
-               ' ' +
-               braces[1];
+    $(window).on('resize', _.bind(function() {
+      this.myResize();
+    }, this));
 
+    this.gitVisuals.drawTreeFirstTime();
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(this.treeString);
+    }
+    if (this.options.zIndex) {
+      this.setTreeIndex(this.options.zIndex);
+    }
+
+    this.shown = false;
+    this.setTreeOpacity(0);
+    // reflow needed
+    process.nextTick(_.bind(this.fadeTreeIn, this));
+
+    this.customEvents.trigger('gitEngineReady');
+    this.customEvents.trigger('paperReady');
+  },
+
+  setTreeIndex: function(level) {
+    $(this.paper.canvas).css('z-index', level);
+  },
+
+  setTreeOpacity: function(level) {
+    if (level === 0) {
+      this.shown = false;
+    }
+
+    $(this.paper.canvas).css('opacity', level);
+  },
+
+  getAnimationTime: function() { return 300; },
+
+  fadeTreeIn: function() {
+    this.shown = true;
+    $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+  },
+
+  fadeTreeOut: function() {
+    this.shown = false;
+    $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+  },
+
+  hide: function() {
+    this.fadeTreeOut();
+    // remove click handlers by toggling visibility
+    setTimeout(_.bind(function() {
+      $(this.paper.canvas).css('visibility', 'hidden');
+    }, this), this.getAnimationTime());
+  },
+
+  show: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    setTimeout(_.bind(this.fadeTreeIn, this), 10);
+  },
+
+  showHarsh: function() {
+    $(this.paper.canvas).css('visibility', 'visible');
+    this.setTreeOpacity(1);
+  },
+
+  resetFromThisTreeNow: function(treeString) {
+    this.treeString = treeString;
+  },
+
+  reset: function(tree) {
+    var treeString = tree || this.treeString;
+    this.setTreeOpacity(0);
+    if (this.treeString) {
+      this.gitEngine.loadTreeFromString(treeString);
     } else {
-      output = braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+      this.gitEngine.defaultInit();
+    }
+    this.fadeTreeIn();
+  },
+
+  tearDown: function() {
+    this.gitEngine.tearDown();
+    this.gitVisuals.tearDown();
+    delete this.paper;
+  },
+
+  die: function() {
+    this.fadeTreeOut();
+    setTimeout(_.bind(function() {
+      if (!this.shown) {
+        this.tearDown();
+      }
+    }, this), this.getAnimationTime());
+  },
+
+  myResize: function() {
+    if (!this.paper) { return; }
+
+    var smaller = 1;
+    var el = this.el;
+
+    var width = el.clientWidth - smaller;
+    var height = el.clientHeight - smaller;
+
+    // if we don't have a container, we need to set our
+    // position absolutely to whatever we are tracking
+    if (!this.containerElement) {
+      var left = el.offsetLeft;
+      var top = el.offsetTop;
+
+      $(this.paper.canvas).css({
+        position: 'absolute',
+        left: left + 'px',
+        top: top + 'px'
+      });
     }
 
-    return output;
+    this.paper.setSize(width, height);
+    this.gitVisuals.canvasResize(width, height);
   }
-  return format(obj, (typeof depth === 'undefined' ? 2 : depth));
-};
-
-
-function isArray(ar) {
-  return ar instanceof Array ||
-         Array.isArray(ar) ||
-         (ar && ar !== Object.prototype && isArray(ar.__proto__));
-}
-
-
-function isRegExp(re) {
-  return re instanceof RegExp ||
-    (typeof re === 'object' && Object.prototype.toString.call(re) === '[object RegExp]');
-}
-
-
-function isDate(d) {
-  if (d instanceof Date) return true;
-  if (typeof d !== 'object') return false;
-  var properties = Date.prototype && Object_getOwnPropertyNames(Date.prototype);
-  var proto = d.__proto__ && Object_getOwnPropertyNames(d.__proto__);
-  return JSON.stringify(proto) === JSON.stringify(properties);
-}
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-exports.log = function (msg) {};
-
-exports.pump = null;
-
-var Object_keys = Object.keys || function (obj) {
-    var res = [];
-    for (var key in obj) res.push(key);
-    return res;
-};
-
-var Object_getOwnPropertyNames = Object.getOwnPropertyNames || function (obj) {
-    var res = [];
-    for (var key in obj) {
-        if (Object.hasOwnProperty.call(obj, key)) res.push(key);
-    }
-    return res;
-};
-
-var Object_create = Object.create || function (prototype, properties) {
-    // from es5-shim
-    var object;
-    if (prototype === null) {
-        object = { '__proto__' : null };
-    }
-    else {
-        if (typeof prototype !== 'object') {
-            throw new TypeError(
-                'typeof prototype[' + (typeof prototype) + '] != \'object\''
-            );
-        }
-        var Type = function () {};
-        Type.prototype = prototype;
-        object = new Type();
-        object.__proto__ = prototype;
-    }
-    if (typeof properties !== 'undefined' && Object.defineProperties) {
-        Object.defineProperties(object, properties);
-    }
-    return object;
-};
-
-exports.inherits = function(ctor, superCtor) {
-  ctor.super_ = superCtor;
-  ctor.prototype = Object_create(superCtor.prototype, {
-    constructor: {
-      value: ctor,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-};
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function(f) {
-  if (typeof f !== 'string') {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(exports.inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
-      case '%j': return JSON.stringify(args[i++]);
-      default:
-        return x;
-    }
-  });
-  for(var x = args[i]; i < len; x = args[++i]){
-    if (x === null || typeof x !== 'object') {
-      str += ' ' + x;
-    } else {
-      str += ' ' + exports.inspect(x);
-    }
-  }
-  return str;
-};
-
 });
 
-require.define("events",function(require,module,exports,__dirname,__filename,process,global){if (!process.EventEmitter) process.EventEmitter = function () {};
+exports.Visualization = Visualization;
 
-var EventEmitter = exports.EventEmitter = process.EventEmitter;
-var isArray = typeof Array.isArray === 'function'
-    ? Array.isArray
-    : function (xs) {
-        return Object.prototype.toString.call(xs) === '[object Array]'
-    }
-;
-function indexOf (xs, x) {
-    if (xs.indexOf) return xs.indexOf(x);
-    for (var i = 0; i < xs.length; i++) {
-        if (x === xs[i]) return i;
-    }
-    return -1;
-}
-
-// By default EventEmitters will print a warning if more than
-// 10 listeners are added to it. This is a useful default which
-// helps finding memory leaks.
-//
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-var defaultMaxListeners = 10;
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!this._events) this._events = {};
-  this._events.maxListeners = n;
-};
-
-
-EventEmitter.prototype.emit = function(type) {
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events || !this._events.error ||
-        (isArray(this._events.error) && !this._events.error.length))
-    {
-      if (arguments[1] instanceof Error) {
-        throw arguments[1]; // Unhandled 'error' event
-      } else {
-        throw new Error("Uncaught, unspecified 'error' event.");
-      }
-      return false;
-    }
-  }
-
-  if (!this._events) return false;
-  var handler = this._events[type];
-  if (!handler) return false;
-
-  if (typeof handler == 'function') {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        var args = Array.prototype.slice.call(arguments, 1);
-        handler.apply(this, args);
-    }
-    return true;
-
-  } else if (isArray(handler)) {
-    var args = Array.prototype.slice.call(arguments, 1);
-
-    var listeners = handler.slice();
-    for (var i = 0, l = listeners.length; i < l; i++) {
-      listeners[i].apply(this, args);
-    }
-    return true;
-
-  } else {
-    return false;
-  }
-};
-
-// EventEmitter is defined in src/node_events.cc
-// EventEmitter.prototype.emit() is also defined there.
-EventEmitter.prototype.addListener = function(type, listener) {
-  if ('function' !== typeof listener) {
-    throw new Error('addListener only takes instances of Function');
-  }
-
-  if (!this._events) this._events = {};
-
-  // To avoid recursion in the case that type == "newListeners"! Before
-  // adding it to the listeners, first emit "newListeners".
-  this.emit('newListener', type, listener);
-
-  if (!this._events[type]) {
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  } else if (isArray(this._events[type])) {
-
-    // Check for listener leak
-    if (!this._events[type].warned) {
-      var m;
-      if (this._events.maxListeners !== undefined) {
-        m = this._events.maxListeners;
-      } else {
-        m = defaultMaxListeners;
-      }
-
-      if (m && m > 0 && this._events[type].length > m) {
-        this._events[type].warned = true;
-        console.error('(node) warning: possible EventEmitter memory ' +
-                      'leak detected. %d listeners added. ' +
-                      'Use emitter.setMaxListeners() to increase limit.',
-                      this._events[type].length);
-        console.trace();
-      }
-    }
-
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  } else {
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  var self = this;
-  self.on(type, function g() {
-    self.removeListener(type, g);
-    listener.apply(this, arguments);
-  });
-
-  return this;
-};
-
-EventEmitter.prototype.removeListener = function(type, listener) {
-  if ('function' !== typeof listener) {
-    throw new Error('removeListener only takes instances of Function');
-  }
-
-  // does not use listeners(), so no side effect of creating _events[type]
-  if (!this._events || !this._events[type]) return this;
-
-  var list = this._events[type];
-
-  if (isArray(list)) {
-    var i = indexOf(list, listener);
-    if (i < 0) return this;
-    list.splice(i, 1);
-    if (list.length == 0)
-      delete this._events[type];
-  } else if (this._events[type] === listener) {
-    delete this._events[type];
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  // does not use listeners(), so no side effect of creating _events[type]
-  if (type && this._events && this._events[type]) this._events[type] = null;
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  if (!this._events) this._events = {};
-  if (!this._events[type]) this._events[type] = [];
-  if (!isArray(this._events[type])) {
-    this._events[type] = [this._events[type]];
-  }
-  return this._events[type];
-};
 
 });
 
@@ -14578,6 +10111,2890 @@ exports.InteractiveRebaseView = InteractiveRebaseView;
 
 });
 
+require.define("/src/js/views/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var Main = require('../app');
+var Constants = require('../util/constants');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitError = require('../util/errors').GitError;
+
+var BaseView = Backbone.View.extend({
+  getDestination: function() {
+    return this.destination || this.container.getInsideElement();
+  },
+
+  tearDown: function() {
+    this.$el.remove();
+    if (this.container) {
+      this.container.tearDown();
+    }
+  },
+
+  renderAgain: function(HTML) {
+    // flexibility
+    HTML = HTML || this.template(this.JSON);
+    this.$el.html(HTML);
+  },
+
+  render: function(HTML) {
+    this.renderAgain(HTML);
+    var destination = this.getDestination();
+    $(destination).append(this.el);
+  }
+});
+
+var ResolveRejectBase = BaseView.extend({
+  resolve: function() {
+    this.deferred.resolve();
+  },
+
+  reject: function() {
+    this.deferred.reject();
+  }
+});
+
+var PositiveNegativeBase = BaseView.extend({
+  positive: function() {
+    this.navEvents.trigger('positive');
+  },
+
+  negative: function() {
+    this.navEvents.trigger('negative');
+  }
+});
+
+var ContainedBase = BaseView.extend({
+  getAnimationTime: function() { return 700; },
+
+  show: function() {
+    this.container.show();
+  },
+
+  hide: function() {
+    this.container.hide();
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime() * 1.1);
+  }
+});
+
+var GeneralButton = ContainedBase.extend({
+  tagName: 'a',
+  className: 'generalButton uiButton',
+  template: _.template($('#general-button').html()),
+  events: {
+    'click': 'click'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.navEvents = options.navEvents || _.clone(Backbone.Events);
+    this.destination = options.destination;
+    if (!this.destination) {
+      this.container = new ModalTerminal();
+    }
+
+    this.JSON = {
+      buttonText: options.buttonText || 'General Button',
+      wantsWrapper: (options.wantsWrapper !== undefined) ? options.wantsWrapper : true
+    };
+
+    this.render();
+
+    if (this.container && !options.wait) {
+      this.show();
+    }
+  },
+
+  click: function() {
+    if (!this.clickFunc) {
+      this.clickFunc = _.throttle(
+        _.bind(this.sendClick, this),
+        500
+      );
+    }
+    this.clickFunc();
+  },
+
+  sendClick: function() {
+    this.navEvents.trigger('click');
+  }
+});
+
+var ConfirmCancelView = ResolveRejectBase.extend({
+  tagName: 'div',
+  className: 'confirmCancelView box horizontal justify',
+  template: _.template($('#confirm-cancel-template').html()),
+  events: {
+    'click .confirmButton': 'resolve',
+    'click .cancelButton': 'reject'
+  },
+
+  initialize: function(options) {
+    if (!options.destination) {
+      throw new Error('needmore');
+    }
+
+    this.destination = options.destination;
+    this.deferred = options.deferred || Q.defer();
+    this.JSON = {
+      confirm: options.confirm || 'Confirm',
+      cancel: options.cancel || 'Cancel'
+    };
+
+    this.render();
+  }
+});
+
+var LeftRightView = PositiveNegativeBase.extend({
+  tagName: 'div',
+  className: 'leftRightView box horizontal center',
+  template: _.template($('#left-right-template').html()),
+  events: {
+    'click .left': 'negative',
+    'click .right': 'positive'
+  },
+
+  positive: function() {
+    this.pipeEvents.trigger('positive');
+    LeftRightView.__super__.positive.apply(this);
+  },
+
+  negative: function() {
+    this.pipeEvents.trigger('negative');
+    LeftRightView.__super__.negative.apply(this);
+  },
+
+  initialize: function(options) {
+    if (!options.destination || !options.events) {
+      throw new Error('needmore');
+    }
+
+    this.destination = options.destination;
+
+    // we switch to a system where every leftrightview has its own
+    // events system to add support for git demonstration view taking control of the
+    // click events
+    this.pipeEvents = options.events;
+    this.navEvents = _.clone(Backbone.Events);
+
+    this.JSON = {
+      showLeft: (options.showLeft === undefined) ? true : options.showLeft,
+      lastNav: (options.lastNav === undefined) ? false : options.lastNav
+    };
+
+    this.render();
+  }
+});
+
+var ModalView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'modalView box horizontal center transitionOpacityLinear',
+  template: _.template($('#modal-view-template').html()),
+
+  getAnimationTime: function() { return 700; },
+
+  initialize: function(options) {
+    this.shown = false;
+    this.render();
+  },
+
+  render: function() {
+    // add ourselves to the DOM
+    this.$el.html(this.template({}));
+    $('body').append(this.el);
+    // this doesnt necessarily show us though...
+  },
+
+  stealKeyboard: function() {
+    Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().stealBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().stealBaton('documentClick', this.onDocumentClick, this);
+
+    // blur the text input field so keydown events will not be caught by our
+    // preventDefaulters, allowing people to still refresh and launch inspector (etc)
+    $('#commandTextField').blur();
+  },
+
+  releaseKeyboard: function() {
+    Main.getEventBaton().releaseBaton('keydown', this.onKeyDown, this);
+    Main.getEventBaton().releaseBaton('keyup', this.onKeyUp, this);
+    Main.getEventBaton().releaseBaton('windowFocus', this.onWindowFocus, this);
+    Main.getEventBaton().releaseBaton('documentClick', this.onDocumentClick, this);
+
+    Main.getEventBaton().trigger('windowFocus');
+  },
+
+  onWindowFocus: function(e) {
+    //console.log('window focus doing nothing', e);
+  },
+
+  onDocumentClick: function(e) {
+    //console.log('doc click doing nothing', e);
+  },
+
+  onKeyDown: function(e) {
+    e.preventDefault();
+  },
+
+  onKeyUp: function(e) {
+    e.preventDefault();
+  },
+
+  show: function() {
+    this.toggleZ(true);
+    // on reflow, change our class to animate. for whatever
+    // reason if this is done immediately, chrome might combine
+    // the two changes and lose the ability to animate and it looks bad.
+    process.nextTick(_.bind(function() {
+      this.toggleShow(true);
+    }, this));
+  },
+
+  hide: function() {
+    this.toggleShow(false);
+    setTimeout(_.bind(function() {
+      // if we are still hidden...
+      if (!this.shown) {
+        this.toggleZ(false);
+      }
+    }, this), this.getAnimationTime());
+  },
+
+  getInsideElement: function() {
+    return this.$('.contentHolder');
+  },
+
+  toggleShow: function(value) {
+    // this prevents releasing keyboard twice
+    if (this.shown === value) { return; }
+
+    if (value) {
+      this.stealKeyboard();
+    } else {
+      this.releaseKeyboard();
+    }
+
+    this.shown = value;
+    this.$el.toggleClass('show', value);
+  },
+
+  toggleZ: function(value) {
+    this.$el.toggleClass('inFront', value);
+  },
+
+  tearDown: function() {
+    this.$el.html('');
+    $('body')[0].removeChild(this.el);
+  }
+});
+
+var ModalTerminal = ContainedBase.extend({
+  tagName: 'div',
+  className: 'modalTerminal box flex1',
+  template: _.template($('#terminal-window-template').html()),
+  events: {
+    'click div.inside': 'onClick'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.navEvents = options.events || _.clone(Backbone.Events);
+
+    this.container = new ModalView();
+    this.JSON = {
+      title: options.title || 'Heed This Warning!'
+    };
+
+    this.render();
+  },
+
+  onClick: function() {
+    this.navEvents.trigger('click');
+  },
+
+  getInsideElement: function() {
+    return this.$('.inside');
+  }
+});
+
+var ModalAlert = ContainedBase.extend({
+  tagName: 'div',
+  template: _.template($('#modal-alert-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      title: options.title || 'Something to say',
+      text: options.text || 'Here is a paragraph',
+      markdown: options.markdown
+    };
+
+    if (options.markdowns) {
+      this.JSON.markdown = options.markdowns.join('\n');
+    }
+
+    this.container = new ModalTerminal({
+      title: 'Alert!'
+    });
+    this.render();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  render: function() {
+    var HTML = (this.JSON.markdown) ?
+      require('markdown').markdown.toHTML(this.JSON.markdown) :
+      this.template(this.JSON);
+
+    // call to super, not super elegant but better than
+    // copy paste code
+    ModalAlert.__super__.render.apply(this, [HTML]);
+  }
+});
+
+var ConfirmCancelTerminal = Backbone.View.extend({
+  initialize: function(options) {
+    options = options || {};
+
+    this.deferred = options.deferred || Q.defer();
+    this.modalAlert = new ModalAlert(_.extend(
+      {},
+      { markdown: '#you sure?' },
+      options
+    ));
+
+    var buttonDefer = Q.defer();
+    this.buttonDefer = buttonDefer;
+    this.confirmCancel = new ConfirmCancelView({
+      deferred: buttonDefer,
+      destination: this.modalAlert.getDestination()
+    });
+
+    // whenever they hit a button. make sure
+    // we close and pass that to our deferred
+    buttonDefer.promise
+    .then(this.deferred.resolve)
+    .fail(this.deferred.reject)
+    .done(_.bind(function() {
+      this.close();
+    }, this));
+
+    // also setup keyboard
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        esc: 'negative'
+      }
+    });
+
+    if (!options.wait) {
+      this.modalAlert.show();
+    }
+  },
+
+  positive: function() {
+    this.buttonDefer.resolve();
+  },
+
+  negative: function() {
+    this.buttonDefer.reject();
+  },
+
+  getAnimationTime: function() { return 700; },
+
+  show: function() {
+    this.modalAlert.show();
+  },
+
+  hide: function() {
+    this.modalAlert.hide();
+  },
+
+  getPromise: function() {
+    return this.deferred.promise;
+  },
+
+  close: function() {
+    this.keyboardListener.mute();
+    this.modalAlert.die();
+  }
+});
+
+var NextLevelConfirm = ConfirmCancelTerminal.extend({
+  initialize: function(options) {
+    options = options || {};
+    var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
+    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
+    var pluralBest = (options.best == 1) ? '' : 's';
+
+    var markdowns = [
+      '## Great Job!!',
+      '',
+      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
+      'our solution uses ' + options.best + '. '
+    ];
+
+    if (options.numCommands <= options.best) {
+      markdowns.push(
+        'Awesome! You matched or exceeded our solution. '
+      );
+    } else {
+      markdowns.push(
+        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
+      );
+    }
+
+    if (options.nextLevel) {
+      markdowns = markdowns.concat([
+        '',
+        'Would you like to move onto "' +
+        nextLevelName + '", the next level?'
+      ]);
+    } else {
+      markdowns = markdowns.concat([
+        '',
+        'Wow!!! You finished the last level, congratulations!'
+      ]);
+    }
+
+    options = _.extend(
+      {},
+      options,
+      { markdowns: markdowns }
+    );
+
+    NextLevelConfirm.__super__.initialize.apply(this, [options]);
+  }
+});
+
+var ViewportAlert = Backbone.View.extend({
+  initialize: function(options) {
+    this.grabBatons();
+    this.modalAlert = new ModalAlert({
+      markdowns: this.markdowns
+    });
+    this.modalAlert.show();
+  },
+
+  grabBatons: function() {
+    Main.getEventBaton().stealBaton(this.eventBatonName, this.batonFired, this);
+  },
+
+  releaseBatons: function() {
+    Main.getEventBaton().releaseBaton(this.eventBatonName, this.batonFired, this);
+  },
+
+  finish: function() {
+    this.releaseBatons();
+    this.modalAlert.die();
+  }
+});
+
+var WindowSizeAlertWindow = ViewportAlert.extend({
+  initialize: function(options) {
+    this.eventBatonName = 'windowSizeCheck';
+    this.markdowns = [
+      '## That window size is not supported :-/',
+      'Please resize your window back to a supported size',
+      '',
+      '(and of course, pull requests to fix this are appreciated :D)'
+    ];
+    WindowSizeAlertWindow.__super__.initialize.apply(this, [options]);
+  },
+
+  batonFired: function(size) {
+    if (size.w > Constants.VIEWPORT.minWidth &&
+        size.h > Constants.VIEWPORT.minHeight) {
+      this.finish();
+    }
+  }
+});
+
+var ZoomAlertWindow = ViewportAlert.extend({
+  initialize: function(options) {
+    if (!options || !options.level) { throw new Error('need level'); }
+
+    this.eventBatonName = 'zoomChange';
+    this.markdowns = [
+      '## That zoom level of ' + options.level + ' is not supported :-/',
+      'Please zoom back to a supported zoom level with Ctrl + and Ctrl -',
+      '',
+      '(and of course, pull requests to fix this are appreciated :D)'
+    ];
+    ZoomAlertWindow.__super__.initialize.apply(this, [options]);
+  },
+
+  batonFired: function(level) {
+    if (level <= Constants.VIEWPORT.maxZoom &&
+        level >= Constants.VIEWPORT.minZoom) {
+      this.finish();
+    }
+  }
+});
+
+var LevelToolbar = BaseView.extend({
+  tagName: 'div',
+  className: 'levelToolbarHolder',
+  template: _.template($('#level-toolbar-template').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      name: options.name || 'Some level! (unknown name)'
+    };
+
+    this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
+    this.render();
+
+    if (!options.wait) {
+      process.nextTick(_.bind(this.show, this));
+    }
+  },
+
+  getAnimationTime: function() { return 700; },
+
+  render: function() {
+    var HTML = this.template(this.JSON);
+
+    this.$el.html(HTML);
+    this.beforeDestination.after(this.el);
+  },
+
+  die: function() {
+    this.hide();
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime());
+  },
+
+  hide: function() {
+    this.$('div.toolbar').toggleClass('hidden', true);
+  },
+
+  show: function() {
+    this.$('div.toolbar').toggleClass('hidden', false);
+  }
+});
+
+var CanvasTerminalHolder = BaseView.extend({
+  tagName: 'div',
+  className: 'canvasTerminalHolder box flex1',
+  template: _.template($('#terminal-window-bare-template').html()),
+  events: {
+    'click div.wrapper': 'onClick'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+    this.JSON = {
+      title: options.title || 'Goal To Reach',
+      text: options.text || 'You can hide this window with "hide goal"'
+    };
+
+    this.render();
+    this.inDom = true;
+
+    if (options.additionalClass) {
+      this.$el.addClass(options.additionalClass);
+    }
+  },
+
+  getAnimationTime: function() { return 700; },
+
+  onClick: function() {
+    this.die();
+  },
+
+  die: function() {
+    this.slideOut();
+    this.inDom = false;
+
+    setTimeout(_.bind(function() {
+      this.tearDown();
+    }, this), this.getAnimationTime());
+  },
+
+  slideOut: function() {
+    this.slideToggle(true);
+  },
+
+  slideIn: function() {
+    this.slideToggle(false);
+  },
+
+  slideToggle: function(value) {
+    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
+  },
+
+  getCanvasLocation: function() {
+    return this.$('div.inside')[0];
+  }
+});
+
+exports.BaseView = BaseView;
+exports.GeneralButton = GeneralButton;
+exports.ModalView = ModalView;
+exports.ModalTerminal = ModalTerminal;
+exports.ModalAlert = ModalAlert;
+exports.ContainedBase = ContainedBase;
+exports.ConfirmCancelView = ConfirmCancelView;
+exports.LeftRightView = LeftRightView;
+exports.ZoomAlertWindow = ZoomAlertWindow;
+exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
+exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
+
+exports.CanvasTerminalHolder = CanvasTerminalHolder;
+exports.LevelToolbar = LevelToolbar;
+exports.NextLevelConfirm = NextLevelConfirm;
+
+
+});
+
+require.define("/src/js/util/keyboard.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+
+var Main = require('../app');
+
+var mapKeycodeToKey = function(keycode) {
+  // HELP WANTED -- internationalize? Dvorak? I have no idea
+  var keyMap = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down',
+    27: 'esc',
+    13: 'enter'
+  };
+  return keyMap[keycode];
+};
+
+function KeyboardListener(options) {
+  this.events = options.events || _.clone(Backbone.Events);
+  this.aliasMap = options.aliasMap || {};
+
+  if (!options.wait) {
+    this.listen();
+  }
+}
+
+KeyboardListener.prototype.listen = function() {
+  if (this.listening) {
+    return;
+  }
+  this.listening = true;
+  Main.getEventBaton().stealBaton('docKeydown', this.keydown, this);
+};
+
+KeyboardListener.prototype.mute = function() {
+  this.listening = false;
+  Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
+};
+
+KeyboardListener.prototype.keydown = function(e) {
+  var which = e.which || e.keyCode;
+
+  var key = mapKeycodeToKey(which);
+  if (key === undefined) {
+    return;
+  }
+
+  this.fireEvent(key, e);
+};
+
+KeyboardListener.prototype.fireEvent = function(eventName, e) {
+  eventName = this.aliasMap[eventName] || eventName;
+  this.events.trigger(eventName, e);
+};
+
+KeyboardListener.prototype.passEventBack = function(e) {
+  Main.getEventBaton().passBatonBackSoft('docKeydown', this.keydown, this, [e]);
+};
+
+exports.KeyboardListener = KeyboardListener;
+exports.mapKeycodeToKey = mapKeycodeToKey;
+
+
+});
+
+require.define("/node_modules/markdown/package.json",function(require,module,exports,__dirname,__filename,process,global){module.exports = {"main":"./lib/index.js"}
+});
+
+require.define("/node_modules/markdown/lib/index.js",function(require,module,exports,__dirname,__filename,process,global){// super simple module for the most common nodejs use case.
+exports.markdown = require("./markdown");
+exports.parse = exports.markdown.toHTML;
+
+});
+
+require.define("/node_modules/markdown/lib/markdown.js",function(require,module,exports,__dirname,__filename,process,global){// Released under MIT license
+// Copyright (c) 2009-2010 Dominic Baggott
+// Copyright (c) 2009-2010 Ash Berlin
+// Copyright (c) 2011 Christoph Dorn <christoph@christophdorn.com> (http://www.christophdorn.com)
+
+(function( expose ) {
+
+/**
+ *  class Markdown
+ *
+ *  Markdown processing in Javascript done right. We have very particular views
+ *  on what constitutes 'right' which include:
+ *
+ *  - produces well-formed HTML (this means that em and strong nesting is
+ *    important)
+ *
+ *  - has an intermediate representation to allow processing of parsed data (We
+ *    in fact have two, both as [JsonML]: a markdown tree and an HTML tree).
+ *
+ *  - is easily extensible to add new dialects without having to rewrite the
+ *    entire parsing mechanics
+ *
+ *  - has a good test suite
+ *
+ *  This implementation fulfills all of these (except that the test suite could
+ *  do with expanding to automatically run all the fixtures from other Markdown
+ *  implementations.)
+ *
+ *  ##### Intermediate Representation
+ *
+ *  *TODO* Talk about this :) Its JsonML, but document the node names we use.
+ *
+ *  [JsonML]: http://jsonml.org/ "JSON Markup Language"
+ **/
+var Markdown = expose.Markdown = function Markdown(dialect) {
+  switch (typeof dialect) {
+    case "undefined":
+      this.dialect = Markdown.dialects.Gruber;
+      break;
+    case "object":
+      this.dialect = dialect;
+      break;
+    default:
+      if (dialect in Markdown.dialects) {
+        this.dialect = Markdown.dialects[dialect];
+      }
+      else {
+        throw new Error("Unknown Markdown dialect '" + String(dialect) + "'");
+      }
+      break;
+  }
+  this.em_state = [];
+  this.strong_state = [];
+  this.debug_indent = "";
+};
+
+/**
+ *  parse( markdown, [dialect] ) -> JsonML
+ *  - markdown (String): markdown string to parse
+ *  - dialect (String | Dialect): the dialect to use, defaults to gruber
+ *
+ *  Parse `markdown` and return a markdown document as a Markdown.JsonML tree.
+ **/
+expose.parse = function( source, dialect ) {
+  // dialect will default if undefined
+  var md = new Markdown( dialect );
+  return md.toTree( source );
+};
+
+/**
+ *  toHTML( markdown, [dialect]  ) -> String
+ *  toHTML( md_tree ) -> String
+ *  - markdown (String): markdown string to parse
+ *  - md_tree (Markdown.JsonML): parsed markdown tree
+ *
+ *  Take markdown (either as a string or as a JsonML tree) and run it through
+ *  [[toHTMLTree]] then turn it into a well-formated HTML fragment.
+ **/
+expose.toHTML = function toHTML( source , dialect , options ) {
+  var input = expose.toHTMLTree( source , dialect , options );
+
+  return expose.renderJsonML( input );
+};
+
+/**
+ *  toHTMLTree( markdown, [dialect] ) -> JsonML
+ *  toHTMLTree( md_tree ) -> JsonML
+ *  - markdown (String): markdown string to parse
+ *  - dialect (String | Dialect): the dialect to use, defaults to gruber
+ *  - md_tree (Markdown.JsonML): parsed markdown tree
+ *
+ *  Turn markdown into HTML, represented as a JsonML tree. If a string is given
+ *  to this function, it is first parsed into a markdown tree by calling
+ *  [[parse]].
+ **/
+expose.toHTMLTree = function toHTMLTree( input, dialect , options ) {
+  // convert string input to an MD tree
+  if ( typeof input ==="string" ) input = this.parse( input, dialect );
+
+  // Now convert the MD tree to an HTML tree
+
+  // remove references from the tree
+  var attrs = extract_attr( input ),
+      refs = {};
+
+  if ( attrs && attrs.references ) {
+    refs = attrs.references;
+  }
+
+  var html = convert_tree_to_html( input, refs , options );
+  merge_text_nodes( html );
+  return html;
+};
+
+// For Spidermonkey based engines
+function mk_block_toSource() {
+  return "Markdown.mk_block( " +
+          uneval(this.toString()) +
+          ", " +
+          uneval(this.trailing) +
+          ", " +
+          uneval(this.lineNumber) +
+          " )";
+}
+
+// node
+function mk_block_inspect() {
+  var util = require('util');
+  return "Markdown.mk_block( " +
+          util.inspect(this.toString()) +
+          ", " +
+          util.inspect(this.trailing) +
+          ", " +
+          util.inspect(this.lineNumber) +
+          " )";
+
+}
+
+var mk_block = Markdown.mk_block = function(block, trail, line) {
+  // Be helpful for default case in tests.
+  if ( arguments.length == 1 ) trail = "\n\n";
+
+  var s = new String(block);
+  s.trailing = trail;
+  // To make it clear its not just a string
+  s.inspect = mk_block_inspect;
+  s.toSource = mk_block_toSource;
+
+  if (line != undefined)
+    s.lineNumber = line;
+
+  return s;
+};
+
+function count_lines( str ) {
+  var n = 0, i = -1;
+  while ( ( i = str.indexOf('\n', i+1) ) !== -1) n++;
+  return n;
+}
+
+// Internal - split source into rough blocks
+Markdown.prototype.split_blocks = function splitBlocks( input, startLine ) {
+  // [\s\S] matches _anything_ (newline or space)
+  var re = /([\s\S]+?)($|\n(?:\s*\n|$)+)/g,
+      blocks = [],
+      m;
+
+  var line_no = 1;
+
+  if ( ( m = /^(\s*\n)/.exec(input) ) != null ) {
+    // skip (but count) leading blank lines
+    line_no += count_lines( m[0] );
+    re.lastIndex = m[0].length;
+  }
+
+  while ( ( m = re.exec(input) ) !== null ) {
+    blocks.push( mk_block( m[1], m[2], line_no ) );
+    line_no += count_lines( m[0] );
+  }
+
+  return blocks;
+};
+
+/**
+ *  Markdown#processBlock( block, next ) -> undefined | [ JsonML, ... ]
+ *  - block (String): the block to process
+ *  - next (Array): the following blocks
+ *
+ * Process `block` and return an array of JsonML nodes representing `block`.
+ *
+ * It does this by asking each block level function in the dialect to process
+ * the block until one can. Succesful handling is indicated by returning an
+ * array (with zero or more JsonML nodes), failure by a false value.
+ *
+ * Blocks handlers are responsible for calling [[Markdown#processInline]]
+ * themselves as appropriate.
+ *
+ * If the blocks were split incorrectly or adjacent blocks need collapsing you
+ * can adjust `next` in place using shift/splice etc.
+ *
+ * If any of this default behaviour is not right for the dialect, you can
+ * define a `__call__` method on the dialect that will get invoked to handle
+ * the block processing.
+ */
+Markdown.prototype.processBlock = function processBlock( block, next ) {
+  var cbs = this.dialect.block,
+      ord = cbs.__order__;
+
+  if ( "__call__" in cbs ) {
+    return cbs.__call__.call(this, block, next);
+  }
+
+  for ( var i = 0; i < ord.length; i++ ) {
+    //D:this.debug( "Testing", ord[i] );
+    var res = cbs[ ord[i] ].call( this, block, next );
+    if ( res ) {
+      //D:this.debug("  matched");
+      if ( !isArray(res) || ( res.length > 0 && !( isArray(res[0]) ) ) )
+        this.debug(ord[i], "didn't return a proper array");
+      //D:this.debug( "" );
+      return res;
+    }
+  }
+
+  // Uhoh! no match! Should we throw an error?
+  return [];
+};
+
+Markdown.prototype.processInline = function processInline( block ) {
+  return this.dialect.inline.__call__.call( this, String( block ) );
+};
+
+/**
+ *  Markdown#toTree( source ) -> JsonML
+ *  - source (String): markdown source to parse
+ *
+ *  Parse `source` into a JsonML tree representing the markdown document.
+ **/
+// custom_tree means set this.tree to `custom_tree` and restore old value on return
+Markdown.prototype.toTree = function toTree( source, custom_root ) {
+  var blocks = source instanceof Array ? source : this.split_blocks( source );
+
+  // Make tree a member variable so its easier to mess with in extensions
+  var old_tree = this.tree;
+  try {
+    this.tree = custom_root || this.tree || [ "markdown" ];
+
+    blocks:
+    while ( blocks.length ) {
+      var b = this.processBlock( blocks.shift(), blocks );
+
+      // Reference blocks and the like won't return any content
+      if ( !b.length ) continue blocks;
+
+      this.tree.push.apply( this.tree, b );
+    }
+    return this.tree;
+  }
+  finally {
+    if ( custom_root ) {
+      this.tree = old_tree;
+    }
+  }
+};
+
+// Noop by default
+Markdown.prototype.debug = function () {
+  var args = Array.prototype.slice.call( arguments);
+  args.unshift(this.debug_indent);
+  if (typeof print !== "undefined")
+      print.apply( print, args );
+  if (typeof console !== "undefined" && typeof console.log !== "undefined")
+      console.log.apply( null, args );
+}
+
+Markdown.prototype.loop_re_over_block = function( re, block, cb ) {
+  // Dont use /g regexps with this
+  var m,
+      b = block.valueOf();
+
+  while ( b.length && (m = re.exec(b) ) != null) {
+    b = b.substr( m[0].length );
+    cb.call(this, m);
+  }
+  return b;
+};
+
+/**
+ * Markdown.dialects
+ *
+ * Namespace of built-in dialects.
+ **/
+Markdown.dialects = {};
+
+/**
+ * Markdown.dialects.Gruber
+ *
+ * The default dialect that follows the rules set out by John Gruber's
+ * markdown.pl as closely as possible. Well actually we follow the behaviour of
+ * that script which in some places is not exactly what the syntax web page
+ * says.
+ **/
+Markdown.dialects.Gruber = {
+  block: {
+    atxHeader: function atxHeader( block, next ) {
+      var m = block.match( /^(#{1,6})\s*(.*?)\s*#*\s*(?:\n|$)/ );
+
+      if ( !m ) return undefined;
+
+      var header = [ "header", { level: m[ 1 ].length } ];
+      Array.prototype.push.apply(header, this.processInline(m[ 2 ]));
+
+      if ( m[0].length < block.length )
+        next.unshift( mk_block( block.substr( m[0].length ), block.trailing, block.lineNumber + 2 ) );
+
+      return [ header ];
+    },
+
+    setextHeader: function setextHeader( block, next ) {
+      var m = block.match( /^(.*)\n([-=])\2\2+(?:\n|$)/ );
+
+      if ( !m ) return undefined;
+
+      var level = ( m[ 2 ] === "=" ) ? 1 : 2;
+      var header = [ "header", { level : level }, m[ 1 ] ];
+
+      if ( m[0].length < block.length )
+        next.unshift( mk_block( block.substr( m[0].length ), block.trailing, block.lineNumber + 2 ) );
+
+      return [ header ];
+    },
+
+    code: function code( block, next ) {
+      // |    Foo
+      // |bar
+      // should be a code block followed by a paragraph. Fun
+      //
+      // There might also be adjacent code block to merge.
+
+      var ret = [],
+          re = /^(?: {0,3}\t| {4})(.*)\n?/,
+          lines;
+
+      // 4 spaces + content
+      if ( !block.match( re ) ) return undefined;
+
+      block_search:
+      do {
+        // Now pull out the rest of the lines
+        var b = this.loop_re_over_block(
+                  re, block.valueOf(), function( m ) { ret.push( m[1] ); } );
+
+        if (b.length) {
+          // Case alluded to in first comment. push it back on as a new block
+          next.unshift( mk_block(b, block.trailing) );
+          break block_search;
+        }
+        else if (next.length) {
+          // Check the next block - it might be code too
+          if ( !next[0].match( re ) ) break block_search;
+
+          // Pull how how many blanks lines follow - minus two to account for .join
+          ret.push ( block.trailing.replace(/[^\n]/g, '').substring(2) );
+
+          block = next.shift();
+        }
+        else {
+          break block_search;
+        }
+      } while (true);
+
+      return [ [ "code_block", ret.join("\n") ] ];
+    },
+
+    horizRule: function horizRule( block, next ) {
+      // this needs to find any hr in the block to handle abutting blocks
+      var m = block.match( /^(?:([\s\S]*?)\n)?[ \t]*([-_*])(?:[ \t]*\2){2,}[ \t]*(?:\n([\s\S]*))?$/ );
+
+      if ( !m ) {
+        return undefined;
+      }
+
+      var jsonml = [ [ "hr" ] ];
+
+      // if there's a leading abutting block, process it
+      if ( m[ 1 ] ) {
+        jsonml.unshift.apply( jsonml, this.processBlock( m[ 1 ], [] ) );
+      }
+
+      // if there's a trailing abutting block, stick it into next
+      if ( m[ 3 ] ) {
+        next.unshift( mk_block( m[ 3 ] ) );
+      }
+
+      return jsonml;
+    },
+
+    // There are two types of lists. Tight and loose. Tight lists have no whitespace
+    // between the items (and result in text just in the <li>) and loose lists,
+    // which have an empty line between list items, resulting in (one or more)
+    // paragraphs inside the <li>.
+    //
+    // There are all sorts weird edge cases about the original markdown.pl's
+    // handling of lists:
+    //
+    // * Nested lists are supposed to be indented by four chars per level. But
+    //   if they aren't, you can get a nested list by indenting by less than
+    //   four so long as the indent doesn't match an indent of an existing list
+    //   item in the 'nest stack'.
+    //
+    // * The type of the list (bullet or number) is controlled just by the
+    //    first item at the indent. Subsequent changes are ignored unless they
+    //    are for nested lists
+    //
+    lists: (function( ) {
+      // Use a closure to hide a few variables.
+      var any_list = "[*+-]|\\d+\\.",
+          bullet_list = /[*+-]/,
+          number_list = /\d+\./,
+          // Capture leading indent as it matters for determining nested lists.
+          is_list_re = new RegExp( "^( {0,3})(" + any_list + ")[ \t]+" ),
+          indent_re = "(?: {0,3}\\t| {4})";
+
+      // TODO: Cache this regexp for certain depths.
+      // Create a regexp suitable for matching an li for a given stack depth
+      function regex_for_depth( depth ) {
+
+        return new RegExp(
+          // m[1] = indent, m[2] = list_type
+          "(?:^(" + indent_re + "{0," + depth + "} {0,3})(" + any_list + ")\\s+)|" +
+          // m[3] = cont
+          "(^" + indent_re + "{0," + (depth-1) + "}[ ]{0,4})"
+        );
+      }
+      function expand_tab( input ) {
+        return input.replace( / {0,3}\t/g, "    " );
+      }
+
+      // Add inline content `inline` to `li`. inline comes from processInline
+      // so is an array of content
+      function add(li, loose, inline, nl) {
+        if (loose) {
+          li.push( [ "para" ].concat(inline) );
+          return;
+        }
+        // Hmmm, should this be any block level element or just paras?
+        var add_to = li[li.length -1] instanceof Array && li[li.length - 1][0] == "para"
+                   ? li[li.length -1]
+                   : li;
+
+        // If there is already some content in this list, add the new line in
+        if (nl && li.length > 1) inline.unshift(nl);
+
+        for (var i=0; i < inline.length; i++) {
+          var what = inline[i],
+              is_str = typeof what == "string";
+          if (is_str && add_to.length > 1 && typeof add_to[add_to.length-1] == "string" ) {
+            add_to[ add_to.length-1 ] += what;
+          }
+          else {
+            add_to.push( what );
+          }
+        }
+      }
+
+      // contained means have an indent greater than the current one. On
+      // *every* line in the block
+      function get_contained_blocks( depth, blocks ) {
+
+        var re = new RegExp( "^(" + indent_re + "{" + depth + "}.*?\\n?)*$" ),
+            replace = new RegExp("^" + indent_re + "{" + depth + "}", "gm"),
+            ret = [];
+
+        while ( blocks.length > 0 ) {
+          if ( re.exec( blocks[0] ) ) {
+            var b = blocks.shift(),
+                // Now remove that indent
+                x = b.replace( replace, "");
+
+            ret.push( mk_block( x, b.trailing, b.lineNumber ) );
+          }
+          break;
+        }
+        return ret;
+      }
+
+      // passed to stack.forEach to turn list items up the stack into paras
+      function paragraphify(s, i, stack) {
+        var list = s.list;
+        var last_li = list[list.length-1];
+
+        if (last_li[1] instanceof Array && last_li[1][0] == "para") {
+          return;
+        }
+        if (i+1 == stack.length) {
+          // Last stack frame
+          // Keep the same array, but replace the contents
+          last_li.push( ["para"].concat( last_li.splice(1) ) );
+        }
+        else {
+          var sublist = last_li.pop();
+          last_li.push( ["para"].concat( last_li.splice(1) ), sublist );
+        }
+      }
+
+      // The matcher function
+      return function( block, next ) {
+        var m = block.match( is_list_re );
+        if ( !m ) return undefined;
+
+        function make_list( m ) {
+          var list = bullet_list.exec( m[2] )
+                   ? ["bulletlist"]
+                   : ["numberlist"];
+
+          stack.push( { list: list, indent: m[1] } );
+          return list;
+        }
+
+
+        var stack = [], // Stack of lists for nesting.
+            list = make_list( m ),
+            last_li,
+            loose = false,
+            ret = [ stack[0].list ],
+            i;
+
+        // Loop to search over block looking for inner block elements and loose lists
+        loose_search:
+        while( true ) {
+          // Split into lines preserving new lines at end of line
+          var lines = block.split( /(?=\n)/ );
+
+          // We have to grab all lines for a li and call processInline on them
+          // once as there are some inline things that can span lines.
+          var li_accumulate = "";
+
+          // Loop over the lines in this block looking for tight lists.
+          tight_search:
+          for (var line_no=0; line_no < lines.length; line_no++) {
+            var nl = "",
+                l = lines[line_no].replace(/^\n/, function(n) { nl = n; return ""; });
+
+            // TODO: really should cache this
+            var line_re = regex_for_depth( stack.length );
+
+            m = l.match( line_re );
+            //print( "line:", uneval(l), "\nline match:", uneval(m) );
+
+            // We have a list item
+            if ( m[1] !== undefined ) {
+              // Process the previous list item, if any
+              if ( li_accumulate.length ) {
+                add( last_li, loose, this.processInline( li_accumulate ), nl );
+                // Loose mode will have been dealt with. Reset it
+                loose = false;
+                li_accumulate = "";
+              }
+
+              m[1] = expand_tab( m[1] );
+              var wanted_depth = Math.floor(m[1].length/4)+1;
+              //print( "want:", wanted_depth, "stack:", stack.length);
+              if ( wanted_depth > stack.length ) {
+                // Deep enough for a nested list outright
+                //print ( "new nested list" );
+                list = make_list( m );
+                last_li.push( list );
+                last_li = list[1] = [ "listitem" ];
+              }
+              else {
+                // We aren't deep enough to be strictly a new level. This is
+                // where Md.pl goes nuts. If the indent matches a level in the
+                // stack, put it there, else put it one deeper then the
+                // wanted_depth deserves.
+                var found = false;
+                for (i = 0; i < stack.length; i++) {
+                  if ( stack[ i ].indent != m[1] ) continue;
+                  list = stack[ i ].list;
+                  stack.splice( i+1 );
+                  found = true;
+                  break;
+                }
+
+                if (!found) {
+                  //print("not found. l:", uneval(l));
+                  wanted_depth++;
+                  if (wanted_depth <= stack.length) {
+                    stack.splice(wanted_depth);
+                    //print("Desired depth now", wanted_depth, "stack:", stack.length);
+                    list = stack[wanted_depth-1].list;
+                    //print("list:", uneval(list) );
+                  }
+                  else {
+                    //print ("made new stack for messy indent");
+                    list = make_list(m);
+                    last_li.push(list);
+                  }
+                }
+
+                //print( uneval(list), "last", list === stack[stack.length-1].list );
+                last_li = [ "listitem" ];
+                list.push(last_li);
+              } // end depth of shenegains
+              nl = "";
+            }
+
+            // Add content
+            if (l.length > m[0].length) {
+              li_accumulate += nl + l.substr( m[0].length );
+            }
+          } // tight_search
+
+          if ( li_accumulate.length ) {
+            add( last_li, loose, this.processInline( li_accumulate ), nl );
+            // Loose mode will have been dealt with. Reset it
+            loose = false;
+            li_accumulate = "";
+          }
+
+          // Look at the next block - we might have a loose list. Or an extra
+          // paragraph for the current li
+          var contained = get_contained_blocks( stack.length, next );
+
+          // Deal with code blocks or properly nested lists
+          if (contained.length > 0) {
+            // Make sure all listitems up the stack are paragraphs
+            forEach( stack, paragraphify, this);
+
+            last_li.push.apply( last_li, this.toTree( contained, [] ) );
+          }
+
+          var next_block = next[0] && next[0].valueOf() || "";
+
+          if ( next_block.match(is_list_re) || next_block.match( /^ / ) ) {
+            block = next.shift();
+
+            // Check for an HR following a list: features/lists/hr_abutting
+            var hr = this.dialect.block.horizRule( block, next );
+
+            if (hr) {
+              ret.push.apply(ret, hr);
+              break;
+            }
+
+            // Make sure all listitems up the stack are paragraphs
+            forEach( stack, paragraphify, this);
+
+            loose = true;
+            continue loose_search;
+          }
+          break;
+        } // loose_search
+
+        return ret;
+      };
+    })(),
+
+    blockquote: function blockquote( block, next ) {
+      if ( !block.match( /^>/m ) )
+        return undefined;
+
+      var jsonml = [];
+
+      // separate out the leading abutting block, if any
+      if ( block[ 0 ] != ">" ) {
+        var lines = block.split( /\n/ ),
+            prev = [];
+
+        // keep shifting lines until you find a crotchet
+        while ( lines.length && lines[ 0 ][ 0 ] != ">" ) {
+            prev.push( lines.shift() );
+        }
+
+        // reassemble!
+        block = lines.join( "\n" );
+        jsonml.push.apply( jsonml, this.processBlock( prev.join( "\n" ), [] ) );
+      }
+
+      // if the next block is also a blockquote merge it in
+      while ( next.length && next[ 0 ][ 0 ] == ">" ) {
+        var b = next.shift();
+        block = new String(block + block.trailing + b);
+        block.trailing = b.trailing;
+      }
+
+      // Strip off the leading "> " and re-process as a block.
+      var input = block.replace( /^> ?/gm, '' ),
+          old_tree = this.tree;
+      jsonml.push( this.toTree( input, [ "blockquote" ] ) );
+
+      return jsonml;
+    },
+
+    referenceDefn: function referenceDefn( block, next) {
+      var re = /^\s*\[(.*?)\]:\s*(\S+)(?:\s+(?:(['"])(.*?)\3|\((.*?)\)))?\n?/;
+      // interesting matches are [ , ref_id, url, , title, title ]
+
+      if ( !block.match(re) )
+        return undefined;
+
+      // make an attribute node if it doesn't exist
+      if ( !extract_attr( this.tree ) ) {
+        this.tree.splice( 1, 0, {} );
+      }
+
+      var attrs = extract_attr( this.tree );
+
+      // make a references hash if it doesn't exist
+      if ( attrs.references === undefined ) {
+        attrs.references = {};
+      }
+
+      var b = this.loop_re_over_block(re, block, function( m ) {
+
+        if ( m[2] && m[2][0] == '<' && m[2][m[2].length-1] == '>' )
+          m[2] = m[2].substring( 1, m[2].length - 1 );
+
+        var ref = attrs.references[ m[1].toLowerCase() ] = {
+          href: m[2]
+        };
+
+        if (m[4] !== undefined)
+          ref.title = m[4];
+        else if (m[5] !== undefined)
+          ref.title = m[5];
+
+      } );
+
+      if (b.length)
+        next.unshift( mk_block( b, block.trailing ) );
+
+      return [];
+    },
+
+    para: function para( block, next ) {
+      // everything's a para!
+      return [ ["para"].concat( this.processInline( block ) ) ];
+    }
+  }
+};
+
+Markdown.dialects.Gruber.inline = {
+
+    __oneElement__: function oneElement( text, patterns_or_re, previous_nodes ) {
+      var m,
+          res,
+          lastIndex = 0;
+
+      patterns_or_re = patterns_or_re || this.dialect.inline.__patterns__;
+      var re = new RegExp( "([\\s\\S]*?)(" + (patterns_or_re.source || patterns_or_re) + ")" );
+
+      m = re.exec( text );
+      if (!m) {
+        // Just boring text
+        return [ text.length, text ];
+      }
+      else if ( m[1] ) {
+        // Some un-interesting text matched. Return that first
+        return [ m[1].length, m[1] ];
+      }
+
+      var res;
+      if ( m[2] in this.dialect.inline ) {
+        res = this.dialect.inline[ m[2] ].call(
+                  this,
+                  text.substr( m.index ), m, previous_nodes || [] );
+      }
+      // Default for now to make dev easier. just slurp special and output it.
+      res = res || [ m[2].length, m[2] ];
+      return res;
+    },
+
+    __call__: function inline( text, patterns ) {
+
+      var out = [],
+          res;
+
+      function add(x) {
+        //D:self.debug("  adding output", uneval(x));
+        if (typeof x == "string" && typeof out[out.length-1] == "string")
+          out[ out.length-1 ] += x;
+        else
+          out.push(x);
+      }
+
+      while ( text.length > 0 ) {
+        res = this.dialect.inline.__oneElement__.call(this, text, patterns, out );
+        text = text.substr( res.shift() );
+        forEach(res, add )
+      }
+
+      return out;
+    },
+
+    // These characters are intersting elsewhere, so have rules for them so that
+    // chunks of plain text blocks don't include them
+    "]": function () {},
+    "}": function () {},
+
+    "\\": function escaped( text ) {
+      // [ length of input processed, node/children to add... ]
+      // Only esacape: \ ` * _ { } [ ] ( ) # * + - . !
+      if ( text.match( /^\\[\\`\*_{}\[\]()#\+.!\-]/ ) )
+        return [ 2, text[1] ];
+      else
+        // Not an esacpe
+        return [ 1, "\\" ];
+    },
+
+    "![": function image( text ) {
+
+      // Unlike images, alt text is plain text only. no other elements are
+      // allowed in there
+
+      // ![Alt text](/path/to/img.jpg "Optional title")
+      //      1          2            3       4         <--- captures
+      var m = text.match( /^!\[(.*?)\][ \t]*\([ \t]*(\S*)(?:[ \t]+(["'])(.*?)\3)?[ \t]*\)/ );
+
+      if ( m ) {
+        if ( m[2] && m[2][0] == '<' && m[2][m[2].length-1] == '>' )
+          m[2] = m[2].substring( 1, m[2].length - 1 );
+
+        m[2] = this.dialect.inline.__call__.call( this, m[2], /\\/ )[0];
+
+        var attrs = { alt: m[1], href: m[2] || "" };
+        if ( m[4] !== undefined)
+          attrs.title = m[4];
+
+        return [ m[0].length, [ "img", attrs ] ];
+      }
+
+      // ![Alt text][id]
+      m = text.match( /^!\[(.*?)\][ \t]*\[(.*?)\]/ );
+
+      if ( m ) {
+        // We can't check if the reference is known here as it likely wont be
+        // found till after. Check it in md tree->hmtl tree conversion
+        return [ m[0].length, [ "img_ref", { alt: m[1], ref: m[2].toLowerCase(), original: m[0] } ] ];
+      }
+
+      // Just consume the '!['
+      return [ 2, "![" ];
+    },
+
+    "[": function link( text ) {
+
+      var orig = String(text);
+      // Inline content is possible inside `link text`
+      var res = Markdown.DialectHelpers.inline_until_char.call( this, text.substr(1), ']' );
+
+      // No closing ']' found. Just consume the [
+      if ( !res ) return [ 1, '[' ];
+
+      var consumed = 1 + res[ 0 ],
+          children = res[ 1 ],
+          link,
+          attrs;
+
+      // At this point the first [...] has been parsed. See what follows to find
+      // out which kind of link we are (reference or direct url)
+      text = text.substr( consumed );
+
+      // [link text](/path/to/img.jpg "Optional title")
+      //                 1            2       3         <--- captures
+      // This will capture up to the last paren in the block. We then pull
+      // back based on if there a matching ones in the url
+      //    ([here](/url/(test))
+      // The parens have to be balanced
+      var m = text.match( /^\s*\([ \t]*(\S+)(?:[ \t]+(["'])(.*?)\2)?[ \t]*\)/ );
+      if ( m ) {
+        var url = m[1];
+        consumed += m[0].length;
+
+        if ( url && url[0] == '<' && url[url.length-1] == '>' )
+          url = url.substring( 1, url.length - 1 );
+
+        // If there is a title we don't have to worry about parens in the url
+        if ( !m[3] ) {
+          var open_parens = 1; // One open that isn't in the capture
+          for (var len = 0; len < url.length; len++) {
+            switch ( url[len] ) {
+            case '(':
+              open_parens++;
+              break;
+            case ')':
+              if ( --open_parens == 0) {
+                consumed -= url.length - len;
+                url = url.substring(0, len);
+              }
+              break;
+            }
+          }
+        }
+
+        // Process escapes only
+        url = this.dialect.inline.__call__.call( this, url, /\\/ )[0];
+
+        attrs = { href: url || "" };
+        if ( m[3] !== undefined)
+          attrs.title = m[3];
+
+        link = [ "link", attrs ].concat( children );
+        return [ consumed, link ];
+      }
+
+      // [Alt text][id]
+      // [Alt text] [id]
+      m = text.match( /^\s*\[(.*?)\]/ );
+
+      if ( m ) {
+
+        consumed += m[ 0 ].length;
+
+        // [links][] uses links as its reference
+        attrs = { ref: ( m[ 1 ] || String(children) ).toLowerCase(),  original: orig.substr( 0, consumed ) };
+
+        link = [ "link_ref", attrs ].concat( children );
+
+        // We can't check if the reference is known here as it likely wont be
+        // found till after. Check it in md tree->hmtl tree conversion.
+        // Store the original so that conversion can revert if the ref isn't found.
+        return [ consumed, link ];
+      }
+
+      // [id]
+      // Only if id is plain (no formatting.)
+      if ( children.length == 1 && typeof children[0] == "string" ) {
+
+        attrs = { ref: children[0].toLowerCase(),  original: orig.substr( 0, consumed ) };
+        link = [ "link_ref", attrs, children[0] ];
+        return [ consumed, link ];
+      }
+
+      // Just consume the '['
+      return [ 1, "[" ];
+    },
+
+
+    "<": function autoLink( text ) {
+      var m;
+
+      if ( ( m = text.match( /^<(?:((https?|ftp|mailto):[^>]+)|(.*?@.*?\.[a-zA-Z]+))>/ ) ) != null ) {
+        if ( m[3] ) {
+          return [ m[0].length, [ "link", { href: "mailto:" + m[3] }, m[3] ] ];
+
+        }
+        else if ( m[2] == "mailto" ) {
+          return [ m[0].length, [ "link", { href: m[1] }, m[1].substr("mailto:".length ) ] ];
+        }
+        else
+          return [ m[0].length, [ "link", { href: m[1] }, m[1] ] ];
+      }
+
+      return [ 1, "<" ];
+    },
+
+    "`": function inlineCode( text ) {
+      // Inline code block. as many backticks as you like to start it
+      // Always skip over the opening ticks.
+      var m = text.match( /(`+)(([\s\S]*?)\1)/ );
+
+      if ( m && m[2] )
+        return [ m[1].length + m[2].length, [ "inlinecode", m[3] ] ];
+      else {
+        // TODO: No matching end code found - warn!
+        return [ 1, "`" ];
+      }
+    },
+
+    "  \n": function lineBreak( text ) {
+      return [ 3, [ "linebreak" ] ];
+    }
+
+};
+
+// Meta Helper/generator method for em and strong handling
+function strong_em( tag, md ) {
+
+  var state_slot = tag + "_state",
+      other_slot = tag == "strong" ? "em_state" : "strong_state";
+
+  function CloseTag(len) {
+    this.len_after = len;
+    this.name = "close_" + md;
+  }
+
+  return function ( text, orig_match ) {
+
+    if (this[state_slot][0] == md) {
+      // Most recent em is of this type
+      //D:this.debug("closing", md);
+      this[state_slot].shift();
+
+      // "Consume" everything to go back to the recrusion in the else-block below
+      return[ text.length, new CloseTag(text.length-md.length) ];
+    }
+    else {
+      // Store a clone of the em/strong states
+      var other = this[other_slot].slice(),
+          state = this[state_slot].slice();
+
+      this[state_slot].unshift(md);
+
+      //D:this.debug_indent += "  ";
+
+      // Recurse
+      var res = this.processInline( text.substr( md.length ) );
+      //D:this.debug_indent = this.debug_indent.substr(2);
+
+      var last = res[res.length - 1];
+
+      //D:this.debug("processInline from", tag + ": ", uneval( res ) );
+
+      var check = this[state_slot].shift();
+      if (last instanceof CloseTag) {
+        res.pop();
+        // We matched! Huzzah.
+        var consumed = text.length - last.len_after;
+        return [ consumed, [ tag ].concat(res) ];
+      }
+      else {
+        // Restore the state of the other kind. We might have mistakenly closed it.
+        this[other_slot] = other;
+        this[state_slot] = state;
+
+        // We can't reuse the processed result as it could have wrong parsing contexts in it.
+        return [ md.length, md ];
+      }
+    }
+  }; // End returned function
+}
+
+Markdown.dialects.Gruber.inline["**"] = strong_em("strong", "**");
+Markdown.dialects.Gruber.inline["__"] = strong_em("strong", "__");
+Markdown.dialects.Gruber.inline["*"]  = strong_em("em", "*");
+Markdown.dialects.Gruber.inline["_"]  = strong_em("em", "_");
+
+
+// Build default order from insertion order.
+Markdown.buildBlockOrder = function(d) {
+  var ord = [];
+  for ( var i in d ) {
+    if ( i == "__order__" || i == "__call__" ) continue;
+    ord.push( i );
+  }
+  d.__order__ = ord;
+};
+
+// Build patterns for inline matcher
+Markdown.buildInlinePatterns = function(d) {
+  var patterns = [];
+
+  for ( var i in d ) {
+    // __foo__ is reserved and not a pattern
+    if ( i.match( /^__.*__$/) ) continue;
+    var l = i.replace( /([\\.*+?|()\[\]{}])/g, "\\$1" )
+             .replace( /\n/, "\\n" );
+    patterns.push( i.length == 1 ? l : "(?:" + l + ")" );
+  }
+
+  patterns = patterns.join("|");
+  d.__patterns__ = patterns;
+  //print("patterns:", uneval( patterns ) );
+
+  var fn = d.__call__;
+  d.__call__ = function(text, pattern) {
+    if (pattern != undefined) {
+      return fn.call(this, text, pattern);
+    }
+    else
+    {
+      return fn.call(this, text, patterns);
+    }
+  };
+};
+
+Markdown.DialectHelpers = {};
+Markdown.DialectHelpers.inline_until_char = function( text, want ) {
+  var consumed = 0,
+      nodes = [];
+
+  while ( true ) {
+    if ( text[ consumed ] == want ) {
+      // Found the character we were looking for
+      consumed++;
+      return [ consumed, nodes ];
+    }
+
+    if ( consumed >= text.length ) {
+      // No closing char found. Abort.
+      return null;
+    }
+
+    res = this.dialect.inline.__oneElement__.call(this, text.substr( consumed ) );
+    consumed += res[ 0 ];
+    // Add any returned nodes.
+    nodes.push.apply( nodes, res.slice( 1 ) );
+  }
+}
+
+// Helper function to make sub-classing a dialect easier
+Markdown.subclassDialect = function( d ) {
+  function Block() {}
+  Block.prototype = d.block;
+  function Inline() {}
+  Inline.prototype = d.inline;
+
+  return { block: new Block(), inline: new Inline() };
+};
+
+Markdown.buildBlockOrder ( Markdown.dialects.Gruber.block );
+Markdown.buildInlinePatterns( Markdown.dialects.Gruber.inline );
+
+Markdown.dialects.Maruku = Markdown.subclassDialect( Markdown.dialects.Gruber );
+
+Markdown.dialects.Maruku.processMetaHash = function processMetaHash( meta_string ) {
+  var meta = split_meta_hash( meta_string ),
+      attr = {};
+
+  for ( var i = 0; i < meta.length; ++i ) {
+    // id: #foo
+    if ( /^#/.test( meta[ i ] ) ) {
+      attr.id = meta[ i ].substring( 1 );
+    }
+    // class: .foo
+    else if ( /^\./.test( meta[ i ] ) ) {
+      // if class already exists, append the new one
+      if ( attr['class'] ) {
+        attr['class'] = attr['class'] + meta[ i ].replace( /./, " " );
+      }
+      else {
+        attr['class'] = meta[ i ].substring( 1 );
+      }
+    }
+    // attribute: foo=bar
+    else if ( /\=/.test( meta[ i ] ) ) {
+      var s = meta[ i ].split( /\=/ );
+      attr[ s[ 0 ] ] = s[ 1 ];
+    }
+  }
+
+  return attr;
+}
+
+function split_meta_hash( meta_string ) {
+  var meta = meta_string.split( "" ),
+      parts = [ "" ],
+      in_quotes = false;
+
+  while ( meta.length ) {
+    var letter = meta.shift();
+    switch ( letter ) {
+      case " " :
+        // if we're in a quoted section, keep it
+        if ( in_quotes ) {
+          parts[ parts.length - 1 ] += letter;
+        }
+        // otherwise make a new part
+        else {
+          parts.push( "" );
+        }
+        break;
+      case "'" :
+      case '"' :
+        // reverse the quotes and move straight on
+        in_quotes = !in_quotes;
+        break;
+      case "\\" :
+        // shift off the next letter to be used straight away.
+        // it was escaped so we'll keep it whatever it is
+        letter = meta.shift();
+      default :
+        parts[ parts.length - 1 ] += letter;
+        break;
+    }
+  }
+
+  return parts;
+}
+
+Markdown.dialects.Maruku.block.document_meta = function document_meta( block, next ) {
+  // we're only interested in the first block
+  if ( block.lineNumber > 1 ) return undefined;
+
+  // document_meta blocks consist of one or more lines of `Key: Value\n`
+  if ( ! block.match( /^(?:\w+:.*\n)*\w+:.*$/ ) ) return undefined;
+
+  // make an attribute node if it doesn't exist
+  if ( !extract_attr( this.tree ) ) {
+    this.tree.splice( 1, 0, {} );
+  }
+
+  var pairs = block.split( /\n/ );
+  for ( p in pairs ) {
+    var m = pairs[ p ].match( /(\w+):\s*(.*)$/ ),
+        key = m[ 1 ].toLowerCase(),
+        value = m[ 2 ];
+
+    this.tree[ 1 ][ key ] = value;
+  }
+
+  // document_meta produces no content!
+  return [];
+};
+
+Markdown.dialects.Maruku.block.block_meta = function block_meta( block, next ) {
+  // check if the last line of the block is an meta hash
+  var m = block.match( /(^|\n) {0,3}\{:\s*((?:\\\}|[^\}])*)\s*\}$/ );
+  if ( !m ) return undefined;
+
+  // process the meta hash
+  var attr = this.dialect.processMetaHash( m[ 2 ] );
+
+  var hash;
+
+  // if we matched ^ then we need to apply meta to the previous block
+  if ( m[ 1 ] === "" ) {
+    var node = this.tree[ this.tree.length - 1 ];
+    hash = extract_attr( node );
+
+    // if the node is a string (rather than JsonML), bail
+    if ( typeof node === "string" ) return undefined;
+
+    // create the attribute hash if it doesn't exist
+    if ( !hash ) {
+      hash = {};
+      node.splice( 1, 0, hash );
+    }
+
+    // add the attributes in
+    for ( a in attr ) {
+      hash[ a ] = attr[ a ];
+    }
+
+    // return nothing so the meta hash is removed
+    return [];
+  }
+
+  // pull the meta hash off the block and process what's left
+  var b = block.replace( /\n.*$/, "" ),
+      result = this.processBlock( b, [] );
+
+  // get or make the attributes hash
+  hash = extract_attr( result[ 0 ] );
+  if ( !hash ) {
+    hash = {};
+    result[ 0 ].splice( 1, 0, hash );
+  }
+
+  // attach the attributes to the block
+  for ( a in attr ) {
+    hash[ a ] = attr[ a ];
+  }
+
+  return result;
+};
+
+Markdown.dialects.Maruku.block.definition_list = function definition_list( block, next ) {
+  // one or more terms followed by one or more definitions, in a single block
+  var tight = /^((?:[^\s:].*\n)+):\s+([\s\S]+)$/,
+      list = [ "dl" ],
+      i;
+
+  // see if we're dealing with a tight or loose block
+  if ( ( m = block.match( tight ) ) ) {
+    // pull subsequent tight DL blocks out of `next`
+    var blocks = [ block ];
+    while ( next.length && tight.exec( next[ 0 ] ) ) {
+      blocks.push( next.shift() );
+    }
+
+    for ( var b = 0; b < blocks.length; ++b ) {
+      var m = blocks[ b ].match( tight ),
+          terms = m[ 1 ].replace( /\n$/, "" ).split( /\n/ ),
+          defns = m[ 2 ].split( /\n:\s+/ );
+
+      // print( uneval( m ) );
+
+      for ( i = 0; i < terms.length; ++i ) {
+        list.push( [ "dt", terms[ i ] ] );
+      }
+
+      for ( i = 0; i < defns.length; ++i ) {
+        // run inline processing over the definition
+        list.push( [ "dd" ].concat( this.processInline( defns[ i ].replace( /(\n)\s+/, "$1" ) ) ) );
+      }
+    }
+  }
+  else {
+    return undefined;
+  }
+
+  return [ list ];
+};
+
+Markdown.dialects.Maruku.inline[ "{:" ] = function inline_meta( text, matches, out ) {
+  if ( !out.length ) {
+    return [ 2, "{:" ];
+  }
+
+  // get the preceeding element
+  var before = out[ out.length - 1 ];
+
+  if ( typeof before === "string" ) {
+    return [ 2, "{:" ];
+  }
+
+  // match a meta hash
+  var m = text.match( /^\{:\s*((?:\\\}|[^\}])*)\s*\}/ );
+
+  // no match, false alarm
+  if ( !m ) {
+    return [ 2, "{:" ];
+  }
+
+  // attach the attributes to the preceeding element
+  var meta = this.dialect.processMetaHash( m[ 1 ] ),
+      attr = extract_attr( before );
+
+  if ( !attr ) {
+    attr = {};
+    before.splice( 1, 0, attr );
+  }
+
+  for ( var k in meta ) {
+    attr[ k ] = meta[ k ];
+  }
+
+  // cut out the string and replace it with nothing
+  return [ m[ 0 ].length, "" ];
+};
+
+Markdown.buildBlockOrder ( Markdown.dialects.Maruku.block );
+Markdown.buildInlinePatterns( Markdown.dialects.Maruku.inline );
+
+var isArray = Array.isArray || function(obj) {
+  return Object.prototype.toString.call(obj) == '[object Array]';
+};
+
+var forEach;
+// Don't mess with Array.prototype. Its not friendly
+if ( Array.prototype.forEach ) {
+  forEach = function( arr, cb, thisp ) {
+    return arr.forEach( cb, thisp );
+  };
+}
+else {
+  forEach = function(arr, cb, thisp) {
+    for (var i = 0; i < arr.length; i++) {
+      cb.call(thisp || arr, arr[i], i, arr);
+    }
+  }
+}
+
+function extract_attr( jsonml ) {
+  return isArray(jsonml)
+      && jsonml.length > 1
+      && typeof jsonml[ 1 ] === "object"
+      && !( isArray(jsonml[ 1 ]) )
+      ? jsonml[ 1 ]
+      : undefined;
+}
+
+
+
+/**
+ *  renderJsonML( jsonml[, options] ) -> String
+ *  - jsonml (Array): JsonML array to render to XML
+ *  - options (Object): options
+ *
+ *  Converts the given JsonML into well-formed XML.
+ *
+ *  The options currently understood are:
+ *
+ *  - root (Boolean): wether or not the root node should be included in the
+ *    output, or just its children. The default `false` is to not include the
+ *    root itself.
+ */
+expose.renderJsonML = function( jsonml, options ) {
+  options = options || {};
+  // include the root element in the rendered output?
+  options.root = options.root || false;
+
+  var content = [];
+
+  if ( options.root ) {
+    content.push( render_tree( jsonml ) );
+  }
+  else {
+    jsonml.shift(); // get rid of the tag
+    if ( jsonml.length && typeof jsonml[ 0 ] === "object" && !( jsonml[ 0 ] instanceof Array ) ) {
+      jsonml.shift(); // get rid of the attributes
+    }
+
+    while ( jsonml.length ) {
+      content.push( render_tree( jsonml.shift() ) );
+    }
+  }
+
+  return content.join( "\n\n" );
+};
+
+function escapeHTML( text ) {
+  return text.replace( /&/g, "&amp;" )
+             .replace( /</g, "&lt;" )
+             .replace( />/g, "&gt;" )
+             .replace( /"/g, "&quot;" )
+             .replace( /'/g, "&#39;" );
+}
+
+function render_tree( jsonml ) {
+  // basic case
+  if ( typeof jsonml === "string" ) {
+    return escapeHTML( jsonml );
+  }
+
+  var tag = jsonml.shift(),
+      attributes = {},
+      content = [];
+
+  if ( jsonml.length && typeof jsonml[ 0 ] === "object" && !( jsonml[ 0 ] instanceof Array ) ) {
+    attributes = jsonml.shift();
+  }
+
+  while ( jsonml.length ) {
+    content.push( arguments.callee( jsonml.shift() ) );
+  }
+
+  var tag_attrs = "";
+  for ( var a in attributes ) {
+    tag_attrs += " " + a + '="' + escapeHTML( attributes[ a ] ) + '"';
+  }
+
+  // be careful about adding whitespace here for inline elements
+  if ( tag == "img" || tag == "br" || tag == "hr" ) {
+    return "<"+ tag + tag_attrs + "/>";
+  }
+  else {
+    return "<"+ tag + tag_attrs + ">" + content.join( "" ) + "</" + tag + ">";
+  }
+}
+
+function convert_tree_to_html( tree, references, options ) {
+  var i;
+  options = options || {};
+
+  // shallow clone
+  var jsonml = tree.slice( 0 );
+
+  if (typeof options.preprocessTreeNode === "function") {
+      jsonml = options.preprocessTreeNode(jsonml, references);
+  }
+
+  // Clone attributes if they exist
+  var attrs = extract_attr( jsonml );
+  if ( attrs ) {
+    jsonml[ 1 ] = {};
+    for ( i in attrs ) {
+      jsonml[ 1 ][ i ] = attrs[ i ];
+    }
+    attrs = jsonml[ 1 ];
+  }
+
+  // basic case
+  if ( typeof jsonml === "string" ) {
+    return jsonml;
+  }
+
+  // convert this node
+  switch ( jsonml[ 0 ] ) {
+    case "header":
+      jsonml[ 0 ] = "h" + jsonml[ 1 ].level;
+      delete jsonml[ 1 ].level;
+      break;
+    case "bulletlist":
+      jsonml[ 0 ] = "ul";
+      break;
+    case "numberlist":
+      jsonml[ 0 ] = "ol";
+      break;
+    case "listitem":
+      jsonml[ 0 ] = "li";
+      break;
+    case "para":
+      jsonml[ 0 ] = "p";
+      break;
+    case "markdown":
+      jsonml[ 0 ] = "html";
+      if ( attrs ) delete attrs.references;
+      break;
+    case "code_block":
+      jsonml[ 0 ] = "pre";
+      i = attrs ? 2 : 1;
+      var code = [ "code" ];
+      code.push.apply( code, jsonml.splice( i ) );
+      jsonml[ i ] = code;
+      break;
+    case "inlinecode":
+      jsonml[ 0 ] = "code";
+      break;
+    case "img":
+      jsonml[ 1 ].src = jsonml[ 1 ].href;
+      delete jsonml[ 1 ].href;
+      break;
+    case "linebreak":
+      jsonml[ 0 ] = "br";
+    break;
+    case "link":
+      jsonml[ 0 ] = "a";
+      break;
+    case "link_ref":
+      jsonml[ 0 ] = "a";
+
+      // grab this ref and clean up the attribute node
+      var ref = references[ attrs.ref ];
+
+      // if the reference exists, make the link
+      if ( ref ) {
+        delete attrs.ref;
+
+        // add in the href and title, if present
+        attrs.href = ref.href;
+        if ( ref.title ) {
+          attrs.title = ref.title;
+        }
+
+        // get rid of the unneeded original text
+        delete attrs.original;
+      }
+      // the reference doesn't exist, so revert to plain text
+      else {
+        return attrs.original;
+      }
+      break;
+    case "img_ref":
+      jsonml[ 0 ] = "img";
+
+      // grab this ref and clean up the attribute node
+      var ref = references[ attrs.ref ];
+
+      // if the reference exists, make the link
+      if ( ref ) {
+        delete attrs.ref;
+
+        // add in the href and title, if present
+        attrs.src = ref.href;
+        if ( ref.title ) {
+          attrs.title = ref.title;
+        }
+
+        // get rid of the unneeded original text
+        delete attrs.original;
+      }
+      // the reference doesn't exist, so revert to plain text
+      else {
+        return attrs.original;
+      }
+      break;
+  }
+
+  // convert all the children
+  i = 1;
+
+  // deal with the attribute node, if it exists
+  if ( attrs ) {
+    // if there are keys, skip over it
+    for ( var key in jsonml[ 1 ] ) {
+      i = 2;
+    }
+    // if there aren't, remove it
+    if ( i === 1 ) {
+      jsonml.splice( i, 1 );
+    }
+  }
+
+  for ( ; i < jsonml.length; ++i ) {
+    jsonml[ i ] = arguments.callee( jsonml[ i ], references, options );
+  }
+
+  return jsonml;
+}
+
+
+// merges adjacent text nodes into a single node
+function merge_text_nodes( jsonml ) {
+  // skip the tag name and attribute hash
+  var i = extract_attr( jsonml ) ? 2 : 1;
+
+  while ( i < jsonml.length ) {
+    // if it's a string check the next item too
+    if ( typeof jsonml[ i ] === "string" ) {
+      if ( i + 1 < jsonml.length && typeof jsonml[ i + 1 ] === "string" ) {
+        // merge the second string into the first and remove it
+        jsonml[ i ] += jsonml.splice( i + 1, 1 )[ 0 ];
+      }
+      else {
+        ++i;
+      }
+    }
+    // if it's not a string recurse
+    else {
+      arguments.callee( jsonml[ i ] );
+      ++i;
+    }
+  }
+}
+
+} )( (function() {
+  if ( typeof exports === "undefined" ) {
+    window.markdown = {};
+    return window.markdown;
+  }
+  else {
+    return exports;
+  }
+} )() );
+
+});
+
+require.define("util",function(require,module,exports,__dirname,__filename,process,global){var events = require('events');
+
+exports.isArray = isArray;
+exports.isDate = function(obj){return Object.prototype.toString.call(obj) === '[object Date]'};
+exports.isRegExp = function(obj){return Object.prototype.toString.call(obj) === '[object RegExp]'};
+
+
+exports.print = function () {};
+exports.puts = function () {};
+exports.debug = function() {};
+
+exports.inspect = function(obj, showHidden, depth, colors) {
+  var seen = [];
+
+  var stylize = function(str, styleType) {
+    // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+    var styles =
+        { 'bold' : [1, 22],
+          'italic' : [3, 23],
+          'underline' : [4, 24],
+          'inverse' : [7, 27],
+          'white' : [37, 39],
+          'grey' : [90, 39],
+          'black' : [30, 39],
+          'blue' : [34, 39],
+          'cyan' : [36, 39],
+          'green' : [32, 39],
+          'magenta' : [35, 39],
+          'red' : [31, 39],
+          'yellow' : [33, 39] };
+
+    var style =
+        { 'special': 'cyan',
+          'number': 'blue',
+          'boolean': 'yellow',
+          'undefined': 'grey',
+          'null': 'bold',
+          'string': 'green',
+          'date': 'magenta',
+          // "name": intentionally not styling
+          'regexp': 'red' }[styleType];
+
+    if (style) {
+      return '\033[' + styles[style][0] + 'm' + str +
+             '\033[' + styles[style][1] + 'm';
+    } else {
+      return str;
+    }
+  };
+  if (! colors) {
+    stylize = function(str, styleType) { return str; };
+  }
+
+  function format(value, recurseTimes) {
+    // Provide a hook for user-specified inspect functions.
+    // Check that value is an object with an inspect function on it
+    if (value && typeof value.inspect === 'function' &&
+        // Filter out the util module, it's inspect function is special
+        value !== exports &&
+        // Also filter out any prototype objects using the circular check.
+        !(value.constructor && value.constructor.prototype === value)) {
+      return value.inspect(recurseTimes);
+    }
+
+    // Primitive types cannot have properties
+    switch (typeof value) {
+      case 'undefined':
+        return stylize('undefined', 'undefined');
+
+      case 'string':
+        var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                                 .replace(/'/g, "\\'")
+                                                 .replace(/\\"/g, '"') + '\'';
+        return stylize(simple, 'string');
+
+      case 'number':
+        return stylize('' + value, 'number');
+
+      case 'boolean':
+        return stylize('' + value, 'boolean');
+    }
+    // For some reason typeof null is "object", so special case here.
+    if (value === null) {
+      return stylize('null', 'null');
+    }
+
+    // Look up the keys of the object.
+    var visible_keys = Object_keys(value);
+    var keys = showHidden ? Object_getOwnPropertyNames(value) : visible_keys;
+
+    // Functions without properties can be shortcutted.
+    if (typeof value === 'function' && keys.length === 0) {
+      if (isRegExp(value)) {
+        return stylize('' + value, 'regexp');
+      } else {
+        var name = value.name ? ': ' + value.name : '';
+        return stylize('[Function' + name + ']', 'special');
+      }
+    }
+
+    // Dates without properties can be shortcutted
+    if (isDate(value) && keys.length === 0) {
+      return stylize(value.toUTCString(), 'date');
+    }
+
+    var base, type, braces;
+    // Determine the object type
+    if (isArray(value)) {
+      type = 'Array';
+      braces = ['[', ']'];
+    } else {
+      type = 'Object';
+      braces = ['{', '}'];
+    }
+
+    // Make functions say that they are functions
+    if (typeof value === 'function') {
+      var n = value.name ? ': ' + value.name : '';
+      base = (isRegExp(value)) ? ' ' + value : ' [Function' + n + ']';
+    } else {
+      base = '';
+    }
+
+    // Make dates with properties first say the date
+    if (isDate(value)) {
+      base = ' ' + value.toUTCString();
+    }
+
+    if (keys.length === 0) {
+      return braces[0] + base + braces[1];
+    }
+
+    if (recurseTimes < 0) {
+      if (isRegExp(value)) {
+        return stylize('' + value, 'regexp');
+      } else {
+        return stylize('[Object]', 'special');
+      }
+    }
+
+    seen.push(value);
+
+    var output = keys.map(function(key) {
+      var name, str;
+      if (value.__lookupGetter__) {
+        if (value.__lookupGetter__(key)) {
+          if (value.__lookupSetter__(key)) {
+            str = stylize('[Getter/Setter]', 'special');
+          } else {
+            str = stylize('[Getter]', 'special');
+          }
+        } else {
+          if (value.__lookupSetter__(key)) {
+            str = stylize('[Setter]', 'special');
+          }
+        }
+      }
+      if (visible_keys.indexOf(key) < 0) {
+        name = '[' + key + ']';
+      }
+      if (!str) {
+        if (seen.indexOf(value[key]) < 0) {
+          if (recurseTimes === null) {
+            str = format(value[key]);
+          } else {
+            str = format(value[key], recurseTimes - 1);
+          }
+          if (str.indexOf('\n') > -1) {
+            if (isArray(value)) {
+              str = str.split('\n').map(function(line) {
+                return '  ' + line;
+              }).join('\n').substr(2);
+            } else {
+              str = '\n' + str.split('\n').map(function(line) {
+                return '   ' + line;
+              }).join('\n');
+            }
+          }
+        } else {
+          str = stylize('[Circular]', 'special');
+        }
+      }
+      if (typeof name === 'undefined') {
+        if (type === 'Array' && key.match(/^\d+$/)) {
+          return str;
+        }
+        name = JSON.stringify('' + key);
+        if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+          name = name.substr(1, name.length - 2);
+          name = stylize(name, 'name');
+        } else {
+          name = name.replace(/'/g, "\\'")
+                     .replace(/\\"/g, '"')
+                     .replace(/(^"|"$)/g, "'");
+          name = stylize(name, 'string');
+        }
+      }
+
+      return name + ': ' + str;
+    });
+
+    seen.pop();
+
+    var numLinesEst = 0;
+    var length = output.reduce(function(prev, cur) {
+      numLinesEst++;
+      if (cur.indexOf('\n') >= 0) numLinesEst++;
+      return prev + cur.length + 1;
+    }, 0);
+
+    if (length > 50) {
+      output = braces[0] +
+               (base === '' ? '' : base + '\n ') +
+               ' ' +
+               output.join(',\n  ') +
+               ' ' +
+               braces[1];
+
+    } else {
+      output = braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+    }
+
+    return output;
+  }
+  return format(obj, (typeof depth === 'undefined' ? 2 : depth));
+};
+
+
+function isArray(ar) {
+  return ar instanceof Array ||
+         Array.isArray(ar) ||
+         (ar && ar !== Object.prototype && isArray(ar.__proto__));
+}
+
+
+function isRegExp(re) {
+  return re instanceof RegExp ||
+    (typeof re === 'object' && Object.prototype.toString.call(re) === '[object RegExp]');
+}
+
+
+function isDate(d) {
+  if (d instanceof Date) return true;
+  if (typeof d !== 'object') return false;
+  var properties = Date.prototype && Object_getOwnPropertyNames(Date.prototype);
+  var proto = d.__proto__ && Object_getOwnPropertyNames(d.__proto__);
+  return JSON.stringify(proto) === JSON.stringify(properties);
+}
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+exports.log = function (msg) {};
+
+exports.pump = null;
+
+var Object_keys = Object.keys || function (obj) {
+    var res = [];
+    for (var key in obj) res.push(key);
+    return res;
+};
+
+var Object_getOwnPropertyNames = Object.getOwnPropertyNames || function (obj) {
+    var res = [];
+    for (var key in obj) {
+        if (Object.hasOwnProperty.call(obj, key)) res.push(key);
+    }
+    return res;
+};
+
+var Object_create = Object.create || function (prototype, properties) {
+    // from es5-shim
+    var object;
+    if (prototype === null) {
+        object = { '__proto__' : null };
+    }
+    else {
+        if (typeof prototype !== 'object') {
+            throw new TypeError(
+                'typeof prototype[' + (typeof prototype) + '] != \'object\''
+            );
+        }
+        var Type = function () {};
+        Type.prototype = prototype;
+        object = new Type();
+        object.__proto__ = prototype;
+    }
+    if (typeof properties !== 'undefined' && Object.defineProperties) {
+        Object.defineProperties(object, properties);
+    }
+    return object;
+};
+
+exports.inherits = function(ctor, superCtor) {
+  ctor.super_ = superCtor;
+  ctor.prototype = Object_create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+};
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (typeof f !== 'string') {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(exports.inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j': return JSON.stringify(args[i++]);
+      default:
+        return x;
+    }
+  });
+  for(var x = args[i]; i < len; x = args[++i]){
+    if (x === null || typeof x !== 'object') {
+      str += ' ' + x;
+    } else {
+      str += ' ' + exports.inspect(x);
+    }
+  }
+  return str;
+};
+
+});
+
+require.define("events",function(require,module,exports,__dirname,__filename,process,global){if (!process.EventEmitter) process.EventEmitter = function () {};
+
+var EventEmitter = exports.EventEmitter = process.EventEmitter;
+var isArray = typeof Array.isArray === 'function'
+    ? Array.isArray
+    : function (xs) {
+        return Object.prototype.toString.call(xs) === '[object Array]'
+    }
+;
+function indexOf (xs, x) {
+    if (xs.indexOf) return xs.indexOf(x);
+    for (var i = 0; i < xs.length; i++) {
+        if (x === xs[i]) return i;
+    }
+    return -1;
+}
+
+// By default EventEmitters will print a warning if more than
+// 10 listeners are added to it. This is a useful default which
+// helps finding memory leaks.
+//
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+var defaultMaxListeners = 10;
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!this._events) this._events = {};
+  this._events.maxListeners = n;
+};
+
+
+EventEmitter.prototype.emit = function(type) {
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events || !this._events.error ||
+        (isArray(this._events.error) && !this._events.error.length))
+    {
+      if (arguments[1] instanceof Error) {
+        throw arguments[1]; // Unhandled 'error' event
+      } else {
+        throw new Error("Uncaught, unspecified 'error' event.");
+      }
+      return false;
+    }
+  }
+
+  if (!this._events) return false;
+  var handler = this._events[type];
+  if (!handler) return false;
+
+  if (typeof handler == 'function') {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        var args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+    return true;
+
+  } else if (isArray(handler)) {
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    var listeners = handler.slice();
+    for (var i = 0, l = listeners.length; i < l; i++) {
+      listeners[i].apply(this, args);
+    }
+    return true;
+
+  } else {
+    return false;
+  }
+};
+
+// EventEmitter is defined in src/node_events.cc
+// EventEmitter.prototype.emit() is also defined there.
+EventEmitter.prototype.addListener = function(type, listener) {
+  if ('function' !== typeof listener) {
+    throw new Error('addListener only takes instances of Function');
+  }
+
+  if (!this._events) this._events = {};
+
+  // To avoid recursion in the case that type == "newListeners"! Before
+  // adding it to the listeners, first emit "newListeners".
+  this.emit('newListener', type, listener);
+
+  if (!this._events[type]) {
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  } else if (isArray(this._events[type])) {
+
+    // Check for listener leak
+    if (!this._events[type].warned) {
+      var m;
+      if (this._events.maxListeners !== undefined) {
+        m = this._events.maxListeners;
+      } else {
+        m = defaultMaxListeners;
+      }
+
+      if (m && m > 0 && this._events[type].length > m) {
+        this._events[type].warned = true;
+        console.error('(node) warning: possible EventEmitter memory ' +
+                      'leak detected. %d listeners added. ' +
+                      'Use emitter.setMaxListeners() to increase limit.',
+                      this._events[type].length);
+        console.trace();
+      }
+    }
+
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  } else {
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  var self = this;
+  self.on(type, function g() {
+    self.removeListener(type, g);
+    listener.apply(this, arguments);
+  });
+
+  return this;
+};
+
+EventEmitter.prototype.removeListener = function(type, listener) {
+  if ('function' !== typeof listener) {
+    throw new Error('removeListener only takes instances of Function');
+  }
+
+  // does not use listeners(), so no side effect of creating _events[type]
+  if (!this._events || !this._events[type]) return this;
+
+  var list = this._events[type];
+
+  if (isArray(list)) {
+    var i = indexOf(list, listener);
+    if (i < 0) return this;
+    list.splice(i, 1);
+    if (list.length == 0)
+      delete this._events[type];
+  } else if (this._events[type] === listener) {
+    delete this._events[type];
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  // does not use listeners(), so no side effect of creating _events[type]
+  if (type && this._events && this._events[type]) this._events[type] = null;
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  if (!this._events) this._events = {};
+  if (!this._events[type]) this._events[type] = [];
+  if (!isArray(this._events[type])) {
+    this._events[type] = [this._events[type]];
+  }
+  return this._events[type];
+};
+
+});
+
 require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -15522,193 +13939,1110 @@ exports.regexMap = regexMap;
 
 });
 
-require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/git/gitShim.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+
+var Main = require('../app');
+var MultiView = require('../views/multiView').MultiView;
+
+function GitShim(options) {
+  options = options || {};
+
+  // these variables are just functions called before / after for
+  // simple things (like incrementing a counter)
+  this.beforeCB = options.beforeCB || function() {};
+  this.afterCB = options.afterCB || function() {};
+
+  // these guys handle an optional async process before the git
+  // command executes or afterwards. If there is none,
+  // it just resolves the deferred immediately
+  var resolveImmediately = function(deferred) {
+    deferred.resolve();
+  };
+  this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
+  this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
+  this.eventBaton = options.eventBaton || Main.getEventBaton();
+}
+
+GitShim.prototype.insertShim = function() {
+  this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
+};
+
+GitShim.prototype.removeShim = function() {
+  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
+};
+
+GitShim.prototype.processGitCommand = function(command, deferred) {
+  this.beforeCB(command);
+
+  // ok we make a NEW deferred that will, upon resolution,
+  // call our afterGitCommandProcessed. This inserts the 'after' shim
+  // functionality. we give this new deferred to the eventBaton handler
+  var newDeferred = Q.defer();
+  newDeferred.promise
+  .then(_.bind(function() {
+    // give this method the original defer so it can resolve it
+    this.afterGitCommandProcessed(command, deferred);
+  }, this))
+  .done();
+
+  // now our shim owner might want to launch some kind of deferred beforehand, like
+  // a modal or something. in order to do this, we need to defer the passing
+  // of the event baton backwards, and either resolve that promise immediately or
+  // give it to our shim owner.
+  var passBaton = _.bind(function() {
+    // punt to the previous listener
+    this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newDeferred]);
+  }, this);
+
+  var beforeDefer = Q.defer();
+  beforeDefer.promise
+  .then(passBaton)
+  .done();
+
+  // if we didnt receive a defer handler in the options, this just
+  // resolves immediately
+  this.beforeDeferHandler(beforeDefer, command);
+};
+
+GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
+  this.afterCB(command);
+
+  // again we can't just resolve this deferred right away... our shim owner might
+  // want to insert some promise functionality before that happens. so again
+  // we make a defer
+  var afterDefer = Q.defer();
+  afterDefer.promise
+  .then(function() {
+    deferred.resolve();
+  })
+  .done();
+
+  this.afterDeferHandler(afterDefer, command);
+};
+
+exports.GitShim = GitShim;
+
+
+});
+
+require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-var EventBaton = require('../util/eventBaton').EventBaton;
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+var ConfirmCancelView = require('../views').ConfirmCancelView;
+var LeftRightView = require('../views').LeftRightView;
+var ModalAlert = require('../views').ModalAlert;
+var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
 
-var GitVisuals = require('../visuals').GitVisuals;
+var BuilderViews = require('../views/builderViews');
+var MarkdownPresenter = BuilderViews.MarkdownPresenter;
 
-var Visualization = Backbone.View.extend({
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var GitError = require('../util/errors').GitError;
+
+var MultiView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'multiView',
+  // ms to debounce the nav functions
+  navEventDebounce: 550,
+  deathTime: 700,
+
+  // a simple mapping of what childViews we support
+  typeToConstructor: {
+    ModalAlert: ModalAlert,
+    GitDemonstrationView: GitDemonstrationView,
+    MarkdownPresenter: MarkdownPresenter
+  },
+
   initialize: function(options) {
     options = options || {};
-    this.options = options;
-    this.customEvents = _.clone(Backbone.Events);
-    this.containerElement = options.containerElement;
-
-    var _this = this;
-    // we want to add our canvas somewhere
-    var container = options.containerElement || $('#canvasHolder')[0];
-    new Raphael(container, 200, 200, function() {
-      // raphael calls with paper as this for some inane reason...
-      var paper = this;
-      // use process.nextTick to go from sync to async
-      process.nextTick(function() {
-        _this.paperInitialize(paper, options);
-      });
-    });
-  },
-
-  paperInitialize: function(paper, options) {
-    this.treeString = options.treeString;
-    this.paper = paper;
-
-    var Main = require('../app');
-    // if we dont want to receive keyoard input (directly),
-    // make a new event baton so git engine steals something that no one
-    // is broadcasting to
-    this.eventBaton = (options.noKeyboardInput) ?
-      new EventBaton():
-      Main.getEventBaton();
-
-    this.commitCollection = new CommitCollection();
-    this.branchCollection = new BranchCollection();
-
-    this.gitVisuals = new GitVisuals({
-      commitCollection: this.commitCollection,
-      branchCollection: this.branchCollection,
-      paper: this.paper,
-      noClick: this.options.noClick,
-      smallCanvas: this.options.smallCanvas
-    });
-
-    var GitEngine = require('../git').GitEngine;
-    this.gitEngine = new GitEngine({
-      collection: this.commitCollection,
-      branches: this.branchCollection,
-      gitVisuals: this.gitVisuals,
-      eventBaton: this.eventBaton
-    });
-    this.gitEngine.init();
-    this.gitVisuals.assignGitEngine(this.gitEngine);
-
-    this.myResize();
-
-    $(window).on('resize', _.bind(function() {
-      this.myResize();
-    }, this));
-
-    this.gitVisuals.drawTreeFirstTime();
-    if (this.treeString) {
-      this.gitEngine.loadTreeFromString(this.treeString);
-    }
-    if (this.options.zIndex) {
-      this.setTreeIndex(this.options.zIndex);
-    }
-
-    this.shown = false;
-    this.setTreeOpacity(0);
-    // reflow needed
-    process.nextTick(_.bind(this.fadeTreeIn, this));
-
-    this.customEvents.trigger('gitEngineReady');
-    this.customEvents.trigger('paperReady');
-  },
-
-  setTreeIndex: function(level) {
-    $(this.paper.canvas).css('z-index', level);
-  },
-
-  setTreeOpacity: function(level) {
-    if (level === 0) {
-      this.shown = false;
-    }
-
-    $(this.paper.canvas).css('opacity', level);
-  },
-
-  getAnimationTime: function() { return 300; },
-
-  fadeTreeIn: function() {
-    this.shown = true;
-    $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
-  },
-
-  fadeTreeOut: function() {
-    this.shown = false;
-    $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
-  },
-
-  hide: function() {
-    this.fadeTreeOut();
-    // remove click handlers by toggling visibility
-    setTimeout(_.bind(function() {
-      $(this.paper.canvas).css('visibility', 'hidden');
-    }, this), this.getAnimationTime());
-  },
-
-  show: function() {
-    $(this.paper.canvas).css('visibility', 'visible');
-    setTimeout(_.bind(this.fadeTreeIn, this), 10);
-  },
-
-  showHarsh: function() {
-    $(this.paper.canvas).css('visibility', 'visible');
-    this.setTreeOpacity(1);
-  },
-
-  resetFromThisTreeNow: function(treeString) {
-    this.treeString = treeString;
-  },
-
-  reset: function(tree) {
-    var treeString = tree || this.treeString;
-    this.setTreeOpacity(0);
-    if (this.treeString) {
-      this.gitEngine.loadTreeFromString(treeString);
-    } else {
-      this.gitEngine.defaultInit();
-    }
-    this.fadeTreeIn();
-  },
-
-  tearDown: function() {
-    this.gitEngine.tearDown();
-    this.gitVisuals.tearDown();
-    delete this.paper;
-  },
-
-  die: function() {
-    this.fadeTreeOut();
-    setTimeout(_.bind(function() {
-      if (!this.shown) {
-        this.tearDown();
+    this.childViewJSONs = options.childViews || [{
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Woah wtf!!'
       }
-    }, this), this.getAnimationTime());
+     }, {
+       type: 'GitDemonstrationView',
+       options: {
+         command: 'git checkout -b side; git commit; git commit'
+       }
+     }, {
+      type: 'ModalAlert',
+      options: {
+        markdown: 'Im second'
+      }
+    }];
+    this.deferred = options.deferred || Q.defer();
+
+    this.childViews = [];
+    this.currentIndex = 0;
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('negative', this.getNegFunc(), this);
+    this.navEvents.on('positive', this.getPosFunc(), this);
+    this.navEvents.on('quit', this.finish, this);
+
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        left: 'negative',
+        right: 'positive',
+        enter: 'positive',
+        esc: 'quit'
+      }
+    });
+
+    this.render();
+    if (!options.wait) {
+      this.start();
+    }
   },
 
-  myResize: function() {
-    if (!this.paper) { return; }
+  onWindowFocus: function() {
+    // nothing here for now...
+    // TODO -- add a cool glow effect?
+  },
 
-    var smaller = 1;
-    var el = this.el;
+  getAnimationTime: function() {
+    return 700;
+  },
 
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
+  getPromise: function() {
+    return this.deferred.promise;
+  },
 
-    // if we don't have a container, we need to set our
-    // position absolutely to whatever we are tracking
-    if (!this.containerElement) {
-      var left = el.offsetLeft;
-      var top = el.offsetTop;
+  getPosFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navForward();
+    }, this), this.navEventDebounce, true);
+  },
 
-      $(this.paper.canvas).css({
-        position: 'absolute',
-        left: left + 'px',
-        top: top + 'px'
-      });
+  getNegFunc: function() {
+    return _.debounce(_.bind(function() {
+      this.navBackward();
+    }, this), this.navEventDebounce, true);
+  },
+
+  lock: function() {
+    this.locked = true;
+  },
+
+  unlock: function() {
+    this.locked = false;
+  },
+
+  navForward: function() {
+    // we need to prevent nav changes when a git demonstration view hasnt finished
+    if (this.locked) { return; }
+    if (this.currentIndex === this.childViews.length - 1) {
+      this.hideViewIndex(this.currentIndex);
+      this.finish();
+      return;
     }
 
-    this.paper.setSize(width, height);
-    this.gitVisuals.canvasResize(width, height);
+    this.navIndexChange(1);
+  },
+
+  navBackward: function() {
+    if (this.currentIndex === 0) {
+      return;
+    }
+
+    this.navIndexChange(-1);
+  },
+
+  navIndexChange: function(delta) {
+    this.hideViewIndex(this.currentIndex);
+    this.currentIndex += delta;
+    this.showViewIndex(this.currentIndex);
+  },
+
+  hideViewIndex: function(index) {
+    this.childViews[index].hide();
+  },
+
+  showViewIndex: function(index) {
+    this.childViews[index].show();
+  },
+
+  finish: function() {
+    // first we stop listening to keyboard and give that back to UI, which
+    // other views will take if they need to
+    this.keyboardListener.mute();
+
+    _.each(this.childViews, function(childView) {
+      childView.die();
+    });
+
+    this.deferred.resolve();
+  },
+
+  start: function() {
+    // steal the window focus baton
+    this.showViewIndex(this.currentIndex);
+  },
+
+  createChildView: function(viewJSON) {
+    var type = viewJSON.type;
+    if (!this.typeToConstructor[type]) {
+      throw new Error('no constructor for type "' + type + '"');
+    }
+    var view = new this.typeToConstructor[type](_.extend(
+      {},
+      viewJSON.options,
+      { wait: true }
+    ));
+    return view;
+  },
+
+  addNavToView: function(view, index) {
+    var leftRight = new LeftRightView({
+      events: this.navEvents,
+      // we want the arrows to be on the same level as the content (not
+      // beneath), so we go one level up with getDestination()
+      destination: view.getDestination(),
+      showLeft: (index !== 0),
+      lastNav: (index === this.childViewJSONs.length - 1)
+    });
+    if (view.receiveMetaNav) {
+      view.receiveMetaNav(leftRight, this);
+    }
+  },
+
+  render: function() {
+    // go through each and render... show the first
+    _.each(this.childViewJSONs, function(childViewJSON, index) {
+      var childView = this.createChildView(childViewJSON);
+      this.childViews.push(childView);
+      this.addNavToView(childView, index);
+    }, this);
   }
 });
 
-exports.Visualization = Visualization;
+exports.MultiView = MultiView;
+
+
+});
+
+require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var Command = require('../models/commandModel').Command;
+
+var ModalTerminal = require('../views').ModalTerminal;
+var ContainedBase = require('../views').ContainedBase;
+
+var Visualization = require('../visuals/visualization').Visualization;
+
+var GitDemonstrationView = ContainedBase.extend({
+  tagName: 'div',
+  className: 'gitDemonstrationView box horizontal',
+  template: _.template($('#git-demonstration-view').html()),
+
+  events: {
+    'click div.command > p.uiButton': 'positive'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.options = options;
+    this.JSON = _.extend(
+      {
+        beforeMarkdowns: [
+          '## Git Commits',
+          '',
+          'Awesome!'
+        ],
+        command: 'git commit',
+        afterMarkdowns: [
+          'Now you have seen it in action',
+          '',
+          'Go ahead and try the level!'
+        ]
+      },
+      options
+    );
+
+    var convert = function(markdowns) {
+      return require('markdown').markdown.toHTML(markdowns.join('\n'));
+    };
+
+    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
+    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
+
+    this.container = new ModalTerminal({
+      title: options.title || 'Git Demonstration'
+    });
+    this.render();
+    this.checkScroll();
+
+    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('negative', this.negative, this);
+    this.keyboardListener = new KeyboardListener({
+      events: this.navEvents,
+      aliasMap: {
+        enter: 'positive',
+        right: 'positive',
+        left: 'negative'
+      },
+      wait: true
+    });
+
+    this.visFinished = false;
+    this.initVis();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  receiveMetaNav: function(navView, metaContainerView) {
+    var _this = this;
+    navView.navEvents.on('positive', this.positive, this);
+    this.metaContainerView = metaContainerView;
+  },
+
+  checkScroll: function() {
+    var children = this.$('div.demonstrationText').children();
+    var heights = _.map(children, function(child) { return child.clientHeight; });
+    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
+    if (totalHeight < this.$('div.demonstrationText').height()) {
+      this.$('div.demonstrationText').addClass('noLongText');
+    }
+  },
+
+  dispatchBeforeCommand: function() {
+    if (!this.options.beforeCommand) {
+      return;
+    }
+
+    // here we just split the command and push them through to the git engine
+    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
+      this.mainVis.gitEngine.dispatch(new Command({
+        rawStr: commandStr
+      }), Q.defer());
+    }, this);
+    // then harsh refresh
+    this.mainVis.gitVisuals.refreshTreeHarsh();
+  },
+
+  takeControl: function() {
+    this.hasControl = true;
+    this.keyboardListener.listen();
+
+    if (this.metaContainerView) { this.metaContainerView.lock(); }
+  },
+
+  releaseControl: function() {
+    if (!this.hasControl) { return; }
+    this.hasControl = false;
+    this.keyboardListener.mute();
+
+    if (this.metaContainerView) { this.metaContainerView.unlock(); }
+  },
+
+  reset: function() {
+    this.mainVis.reset();
+    this.dispatchBeforeCommand();
+    this.demonstrated = false;
+    this.$el.toggleClass('demonstrated', false);
+    this.$el.toggleClass('demonstrating', false);
+  },
+
+  positive: function() {
+    if (this.demonstrated || !this.hasControl) {
+      // dont do anything if we are demonstrating, and if
+      // we receive a meta nav event and we aren't listening,
+      // then dont do anything either
+      return;
+    }
+    this.demonstrated = true;
+    this.demonstrate();
+  },
+
+  demonstrate: function() {
+    this.$el.toggleClass('demonstrating', true);
+
+    var whenDone = Q.defer();
+    this.dispatchCommand(this.JSON.command, whenDone);
+    whenDone.promise.then(_.bind(function() {
+      this.$el.toggleClass('demonstrating', false);
+      this.$el.toggleClass('demonstrated', true);
+      this.releaseControl();
+    }, this));
+  },
+
+  negative: function(e) {
+    if (this.$el.hasClass('demonstrating')) {
+      return;
+    }
+    this.keyboardListener.passEventBack(e);
+  },
+
+  dispatchCommand: function(value, whenDone) {
+    var commands = [];
+    util.splitTextCommand(value, function(commandStr) {
+      commands.push(new Command({
+        rawStr: commandStr
+      }));
+    }, this);
+
+    var chainDeferred = Q.defer();
+    var chainPromise = chainDeferred.promise;
+
+    _.each(commands, function(command, index) {
+      chainPromise = chainPromise.then(_.bind(function() {
+        var myDefer = Q.defer();
+        this.mainVis.gitEngine.dispatch(command, myDefer);
+        return myDefer.promise;
+      }, this));
+      chainPromise = chainPromise.then(function() {
+        return Q.delay(300);
+      });
+    }, this);
+
+    chainPromise = chainPromise.then(function() {
+      whenDone.resolve();
+    });
+
+    chainDeferred.resolve();
+  },
+
+  tearDown: function() {
+    this.mainVis.tearDown();
+    GitDemonstrationView.__super__.tearDown.apply(this);
+  },
+
+  hide: function() {
+    this.releaseControl();
+    this.reset();
+    if (this.visFinished) {
+      this.mainVis.setTreeIndex(-1);
+      this.mainVis.setTreeOpacity(0);
+    }
+
+    this.shown = false;
+    GitDemonstrationView.__super__.hide.apply(this);
+  },
+
+  show: function() {
+    this.takeControl();
+    if (this.visFinished) {
+      setTimeout(_.bind(function() {
+        if (this.shown) {
+          this.mainVis.setTreeIndex(300);
+          this.mainVis.showHarsh();
+        }
+      }, this), this.getAnimationTime() * 1);
+    }
+
+    this.shown = true;
+    GitDemonstrationView.__super__.show.apply(this);
+  },
+
+  die: function() {
+    if (!this.visFinished) { return; }
+
+    GitDemonstrationView.__super__.die.apply(this);
+  },
+
+  initVis: function() {
+    this.mainVis = new Visualization({
+      el: this.$('div.visHolder')[0],
+      noKeyboardInput: true,
+      noClick: true,
+      smallCanvas: true,
+      zIndex: -1
+    });
+    this.mainVis.customEvents.on('paperReady', _.bind(function() {
+      this.visFinished = true;
+      this.dispatchBeforeCommand();
+      if (this.shown) {
+        // show the canvas once its done if we are shown
+        this.show();
+      }
+    }, this));
+  }
+});
+
+exports.GitDemonstrationView = GitDemonstrationView;
+
+
+});
+
+require.define("/src/js/views/builderViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var Views = require('../views');
+var ModalTerminal = Views.ModalTerminal;
+var ContainedBase = Views.ContainedBase;
+
+
+var TextGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'textGrabber box vertical',
+  template: _.template($('#text-grabber').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      helperText: options.helperText || 'Enter some text'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: 'Enter some text'
+    });
+    this.render();
+    if (options.initialText) {
+      this.setText(options.initialText);
+    }
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  getText: function() {
+    return this.$('textarea').val();
+  },
+
+  setText: function(str) {
+    this.$('textarea').val(str);
+  }
+});
+
+var MarkdownGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownGrabber box horizontal',
+  template: _.template($('#markdown-grabber-view').html()),
+  events: {
+    'keyup textarea': 'keyup'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+
+    if (options.fromObj) {
+      options.fillerText = options.fromObj.options.markdowns.join('\n');
+    }
+
+    this.JSON = {
+      previewText: options.previewText || 'Preview',
+      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: options.title || 'Enter some markdown'
+    });
+    this.render();
+
+    if (!options.withoutButton) {
+      // do button stuff
+      var buttonDefer = Q.defer();
+      buttonDefer.promise
+      .then(_.bind(this.confirmed, this))
+      .fail(_.bind(this.cancelled, this))
+      .done();
+
+      var confirmCancel = new Views.ConfirmCancelView({
+        deferred: buttonDefer,
+        destination: this.getDestination()
+      });
+    }
+
+    this.updatePreview();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getRawText());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  keyup: function() {
+    if (!this.throttledPreview) {
+      this.throttledPreview = _.throttle(
+        _.bind(this.updatePreview, this),
+        500
+      );
+    }
+    this.throttledPreview();
+  },
+
+  getRawText: function() {
+    return this.$('textarea').val();
+  },
+
+  exportToArray: function() {
+    return this.getRawText().split('\n');
+  },
+
+  getExportObj: function() {
+    return {
+      markdowns: this.exportToArray()
+    };
+  },
+
+  updatePreview: function() {
+    var raw = this.getRawText();
+    var HTML = require('markdown').markdown.toHTML(raw);
+    this.$('div.insidePreview').html(HTML);
+  }
+});
+
+var MarkdownPresenter = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownPresenter box vertical',
+  template: _.template($('#markdown-presenter').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.JSON = {
+      previewText: options.previewText || 'Here is something for you',
+      fillerText: options.fillerText || '# Yay'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Check this out...'
+    });
+    this.render();
+
+    if (!options.noConfirmCancel) {
+      var confirmCancel = new Views.ConfirmCancelView({
+        destination: this.getDestination()
+      });
+      confirmCancel.deferred.promise
+      .then(_.bind(function() {
+        this.deferred.resolve(this.grabText());
+      }, this))
+      .fail(_.bind(function() {
+        this.deferred.reject();
+      }, this))
+      .done(_.bind(this.die, this));
+    }
+
+    this.show();
+  },
+
+  grabText: function() {
+    return this.$('textarea').val();
+  }
+});
+
+var DemonstrationBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'demonstrationBuilder box vertical',
+  template: _.template($('#demonstration-builder').html()),
+  events: {
+    'click div.testButton': 'testView'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    if (options.fromObj) {
+      var toEdit = options.fromObj.options;
+      options = _.extend(
+        {},
+        options,
+        toEdit,
+        {
+          beforeMarkdown: toEdit.beforeMarkdowns.join('\n'),
+          afterMarkdown: toEdit.afterMarkdowns.join('\n')
+        }
+      );
+    }
+
+    this.JSON = {};
+    this.container = new ModalTerminal({
+      title: 'Demonstration Builder'
+    });
+    this.render();
+
+    // build the two markdown grabbers
+    this.beforeMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      fillerText: options.beforeMarkdown,
+      previewText: 'Before demonstration Markdown'
+    });
+    this.beforeCommandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
+      initialText: options.beforeCommand || 'git checkout -b bugFix'
+    });
+
+    this.commandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to demonstrate to the reader',
+      initialText: options.command || 'git commit'
+    });
+
+    this.afterMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      fillerText: options.afterMarkdown,
+      previewText: 'After demonstration Markdown'
+    });
+
+    // build confirm button
+    var buttonDeferred = Q.defer();
+    var confirmCancel = new Views.ConfirmCancelView({
+      deferred: buttonDeferred,
+      destination: this.getDestination()
+    });
+
+    buttonDeferred.promise
+    .then(_.bind(this.confirmed, this))
+    .fail(_.bind(this.cancelled, this))
+    .done();
+  },
+
+  testView: function() {
+    var MultiView = require('../views/multiView').MultiView;
+    new MultiView({
+      childViews: [{
+        type: 'GitDemonstrationView',
+        options: this.getExportObj()
+      }]
+    });
+  },
+
+  getExportObj: function() {
+    return {
+      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
+      afterMarkdowns: this.afterMarkdownView.exportToArray(),
+      command: this.commandView.getText(),
+      beforeCommand: this.beforeCommandView.getText()
+    };
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getExportObj());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  getInsideElement: function() {
+    return this.$('.insideBuilder')[0];
+  }
+});
+
+var MultiViewBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'multiViewBuilder box vertical',
+  template: _.template($('#multi-view-builder').html()),
+  typeToConstructor: {
+    ModalAlert: MarkdownGrabber,
+    GitDemonstrationView: DemonstrationBuilder
+  },
+
+  events: {
+    'click div.deleteButton': 'deleteOneView',
+    'click div.testButton': 'testOneView',
+    'click div.editButton': 'editOneView',
+    'click div.testEntireView': 'testEntireView',
+    'click div.addView': 'addView',
+    'click div.saveView': 'saveView',
+    'click div.cancelView': 'cancel'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.multiViewJSON = options.multiViewJSON || {};
+
+    this.JSON = {
+      views: this.getChildViews(),
+      supportedViews: _.keys(this.typeToConstructor)
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Build a MultiView!'
+    });
+    this.render();
+
+    this.show();
+  },
+
+  saveView: function() {
+    this.hide();
+    this.deferred.resolve(this.multiViewJSON);
+  },
+
+  cancel: function() {
+    this.hide();
+    this.deferred.resolve();
+  },
+
+  addView: function(ev) {
+    var el = ev.srcElement;
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var Constructor = this.typeToConstructor[type];
+    var builder = new Constructor({
+      deferred: whenDone
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      this.addChildViewObj(newView);
+    }, this))
+    .fail(function() {
+      // they dont want to add the view apparently, so just return
+    })
+    .done();
+  },
+
+  testOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toTest = this.getChildViews()[index];
+    var MultiView = require('../views/multiView').MultiView;
+    new MultiView({
+      childViews: [toTest]
+    });
+  },
+
+  testEntireView: function() {
+    var MultiView = require('../views/multiView').MultiView;
+    new MultiView({
+      childViews: this.getChildViews()
+    });
+  },
+
+  editOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var builder = new this.typeToConstructor[type]({
+      deferred: whenDone,
+      fromObj: this.getChildViews()[index]
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      var views = this.getChildViews();
+      views[index] = newView;
+      this.setChildViews(views);
+    }, this))
+    .fail(function() { })
+    .done();
+  },
+
+  deleteOneView: function(ev) {
+    var el = ev.srcElement;
+    var index = $(el).attr('data-index');
+    var toSlice = this.getChildViews();
+
+    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
+    this.setChildViews(updated);
+    this.update();
+  },
+
+  addChildViewObj: function(newObj, index) {
+    var childViews = this.getChildViews();
+    childViews.push(newObj);
+    this.setChildViews(childViews);
+    this.update();
+  },
+
+  setChildViews: function(newArray) {
+    this.multiViewJSON.childViews = newArray;
+  },
+
+  getChildViews: function() {
+    return this.multiViewJSON.childViews || [];
+  },
+
+  update: function() {
+    this.JSON.views = this.getChildViews();
+    this.renderAgain();
+  }
+});
+
+exports.MarkdownGrabber = MarkdownGrabber;
+exports.DemonstrationBuilder = DemonstrationBuilder;
+exports.TextGrabber = TextGrabber;
+exports.MultiViewBuilder = MultiViewBuilder;
+exports.MarkdownPresenter = MarkdownPresenter;
+
+
+});
+
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
+  type: 'ModalAlert',
+  options: {
+    markdowns: [
+      '## Welcome to the level builder!',
+      '',
+      'Here are the main steps:',
+      '',
+      '  * Set up the initial environment with git commands',
+      '  * Define the starting tree with ```define start```',
+      '  * Enter the series of git commands that compose the (optimal) solution',
+      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+      '  * Optionally define a hint with ```define hint```',
+      '  * Edit the name with ```define name```',
+      '  * Optionally define a nice start dialog with ```edit dialog```',
+      '  * Enter the command ```finish``` to output your level JSON!'
+    ]
+  }
+}];
+
+});
+
+require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+
+function EventBaton() {
+  this.eventMap = {};
+}
+
+// this method steals the "baton" -- aka, only this method will now
+// get called. analogous to events.on
+// EventBaton.prototype.on = function(name, func, context) {
+EventBaton.prototype.stealBaton = function(name, func, context) {
+  if (!name) { throw new Error('need name'); }
+  if (!func) { throw new Error('need func!'); }
+
+  var listeners = this.eventMap[name] || [];
+  listeners.push({
+    func: func,
+    context: context
+  });
+  this.eventMap[name] = listeners;
+};
+
+EventBaton.prototype.sliceOffArgs = function(num, args) {
+  var newArgs = [];
+  for (var i = num; i < args.length; i++) {
+    newArgs.push(args[i]);
+  }
+  return newArgs;
+};
+
+EventBaton.prototype.trigger = function(name) {
+  // arguments is weird and doesnt do slice right
+  var argsToApply = this.sliceOffArgs(1, arguments);
+
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    console.warn('no listeners for', name);
+    return;
+  }
+
+  // call the top most listener with context and such
+  var toCall = listeners.slice(-1)[0];
+  toCall.func.apply(toCall.context, argsToApply);
+};
+
+EventBaton.prototype.getNumListeners = function(name) {
+  var listeners = this.eventMap[name] || [];
+  return listeners.length;
+};
+
+EventBaton.prototype.getListenersThrow = function(name) {
+  var listeners = this.eventMap[name];
+  if (!listeners || !listeners.length) {
+    throw new Error('no one has that baton!' + name);
+  }
+  return listeners;
+};
+
+EventBaton.prototype.passBatonBackSoft = function(name, func, context, args) {
+  try {
+    return this.passBatonBack(name, func, context, args);
+  } catch (e) {
+  }
+};
+
+EventBaton.prototype.passBatonBack = function(name, func, context, args) {
+  // this method will call the listener BEFORE the name/func pair. this
+  // basically allows you to put in shims, where you steal batons but pass
+  // them back if they don't meet certain conditions
+  var listeners = this.getListenersThrow(name);
+
+  var indexBefore;
+  _.each(listeners, function(listenerObj, index) {
+    // skip the first
+    if (index === 0) { return; }
+    if (listenerObj.func === func && listenerObj.context === context) {
+      indexBefore = index - 1;
+    }
+  }, this);
+  if (indexBefore === undefined) {
+    throw new Error('you are the last baton holder! or i didnt find you');
+  }
+  var toCallObj = listeners[indexBefore];
+
+  toCallObj.func.apply(toCallObj.context, args);
+};
+
+EventBaton.prototype.releaseBaton = function(name, func, context) {
+  // might be in the middle of the stack, so we have to loop instead of
+  // just popping blindly
+  var listeners = this.getListenersThrow(name);
+
+  var newListeners = [];
+  var found = false;
+  _.each(listeners, function(listenerObj) {
+    if (listenerObj.func === func && listenerObj.context === context) {
+      if (found) {
+        console.warn('woah duplicates!!!');
+        console.log(listeners);
+      }
+      found = true;
+    } else {
+      newListeners.push(listenerObj);
+    }
+  }, this);
+
+  if (!found) {
+    console.log('did not find that function', func, context, name, arguments);
+    console.log(this.eventMap);
+    throw new Error('cant releasebaton if yu dont have it');
+  }
+  this.eventMap[name] = newListeners;
+};
+
+exports.EventBaton = EventBaton;
 
 
 });
@@ -17637,993 +16971,2283 @@ exports.VisEdge = VisEdge;
 
 });
 
-require.define("/src/js/git/gitShim.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
+require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
-var Main = require('../app');
-var MultiView = require('../views/multiView').MultiView;
+var GitCommands = require('../git/commands');
 
-function GitShim(options) {
+var Errors = require('../util/errors');
+var GitError = Errors.GitError;
+
+function DisabledMap(options) {
   options = options || {};
-
-  // these variables are just functions called before / after for
-  // simple things (like incrementing a counter)
-  this.beforeCB = options.beforeCB || function() {};
-  this.afterCB = options.afterCB || function() {};
-
-  // these guys handle an optional async process before the git
-  // command executes or afterwards. If there is none,
-  // it just resolves the deferred immediately
-  var resolveImmediately = function(deferred) {
-    deferred.resolve();
+  this.disabledMap = options.disabledMap || {
+    'git cherry-pick': true,
+    'git rebase': true
   };
-  this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
-  this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
-  this.eventBaton = options.eventBaton || Main.getEventBaton();
 }
 
-GitShim.prototype.insertShim = function() {
-  this.eventBaton.stealBaton('processGitCommand', this.processGitCommand, this);
+DisabledMap.prototype.getInstantCommands = function() {
+  // this produces an array of regex / function pairs that can be
+  // piped into a parse waterfall to disable certain git commmands
+  // :D
+  var instants = [];
+  var onMatch = function() {
+    throw new GitError({
+      msg: 'That git command is disabled for this level!'
+    });
+  };
+
+  _.each(this.disabledMap, function(val, disabledCommand) {
+    var gitRegex = GitCommands.regexMap[disabledCommand];
+    if (!gitRegex) {
+      throw new Error('wuttttt this disbaled command' + disabledCommand +
+        ' has no regex matching');
+    }
+    instants.push([gitRegex, onMatch]);
+  });
+  return instants;
 };
 
-GitShim.prototype.removeShim = function() {
-  this.eventBaton.releaseBaton('processGitCommand', this.processGitCommand, this);
-};
-
-GitShim.prototype.processGitCommand = function(command, deferred) {
-  this.beforeCB(command);
-
-  // ok we make a NEW deferred that will, upon resolution,
-  // call our afterGitCommandProcessed. This inserts the 'after' shim
-  // functionality. we give this new deferred to the eventBaton handler
-  var newDeferred = Q.defer();
-  newDeferred.promise
-  .then(_.bind(function() {
-    // give this method the original defer so it can resolve it
-    this.afterGitCommandProcessed(command, deferred);
-  }, this))
-  .done();
-
-  // now our shim owner might want to launch some kind of deferred beforehand, like
-  // a modal or something. in order to do this, we need to defer the passing
-  // of the event baton backwards, and either resolve that promise immediately or
-  // give it to our shim owner.
-  var passBaton = _.bind(function() {
-    // punt to the previous listener
-    this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newDeferred]);
-  }, this);
-
-  var beforeDefer = Q.defer();
-  beforeDefer.promise
-  .then(passBaton)
-  .done();
-
-  // if we didnt receive a defer handler in the options, this just
-  // resolves immediately
-  this.beforeDeferHandler(beforeDefer, command);
-};
-
-GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
-  this.afterCB(command);
-
-  // again we can't just resolve this deferred right away... our shim owner might
-  // want to insert some promise functionality before that happens. so again
-  // we make a defer
-  var afterDefer = Q.defer();
-  afterDefer.promise
-  .then(function() {
-    deferred.resolve();
-  })
-  .done();
-
-  this.afterDeferHandler(afterDefer, command);
-};
-
-exports.GitShim = GitShim;
+exports.DisabledMap = DisabledMap;
 
 
 });
 
-require.define("/src/js/views/multiView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
 
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
-var LeftRightView = require('../views').LeftRightView;
-var ModalAlert = require('../views').ModalAlert;
-var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
+// Each level is part of a "sequence;" levels within
+// a sequence proceed in order.
+var levelSequences = require('../../levels').levelSequences;
+var sequenceInfo = require('../../levels').sequenceInfo;
 
-var BuilderViews = require('../views/builderViews');
-var MarkdownPresenter = BuilderViews.MarkdownPresenter;
+var Main = require('../app');
 
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var GitError = require('../util/errors').GitError;
+function LevelArbiter() {
+  this.levelMap = {};
+  this.levelSequences = levelSequences;
+  this.sequences = [];
+  this.init();
 
-var MultiView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'multiView',
-  // ms to debounce the nav functions
-  navEventDebounce: 550,
-  deathTime: 700,
-
-  // a simple mapping of what childViews we support
-  typeToConstructor: {
-    ModalAlert: ModalAlert,
-    GitDemonstrationView: GitDemonstrationView,
-    MarkdownPresenter: MarkdownPresenter
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.childViewJSONs = options.childViews || [{
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Woah wtf!!'
-      }
-     }, {
-       type: 'GitDemonstrationView',
-       options: {
-         command: 'git checkout -b side; git commit; git commit'
-       }
-     }, {
-      type: 'ModalAlert',
-      options: {
-        markdown: 'Im second'
-      }
-    }];
-    this.deferred = options.deferred || Q.defer();
-
-    this.childViews = [];
-    this.currentIndex = 0;
-
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('negative', this.getNegFunc(), this);
-    this.navEvents.on('positive', this.getPosFunc(), this);
-    this.navEvents.on('quit', this.finish, this);
-
-    this.keyboardListener = new KeyboardListener({
-      events: this.navEvents,
-      aliasMap: {
-        left: 'negative',
-        right: 'positive',
-        enter: 'positive',
-        esc: 'quit'
-      }
-    });
-
-    this.render();
-    if (!options.wait) {
-      this.start();
-    }
-  },
-
-  onWindowFocus: function() {
-    // nothing here for now...
-    // TODO -- add a cool glow effect?
-  },
-
-  getAnimationTime: function() {
-    return 700;
-  },
-
-  getPromise: function() {
-    return this.deferred.promise;
-  },
-
-  getPosFunc: function() {
-    return _.debounce(_.bind(function() {
-      this.navForward();
-    }, this), this.navEventDebounce, true);
-  },
-
-  getNegFunc: function() {
-    return _.debounce(_.bind(function() {
-      this.navBackward();
-    }, this), this.navEventDebounce, true);
-  },
-
-  lock: function() {
-    this.locked = true;
-  },
-
-  unlock: function() {
-    this.locked = false;
-  },
-
-  navForward: function() {
-    // we need to prevent nav changes when a git demonstration view hasnt finished
-    if (this.locked) { return; }
-    if (this.currentIndex === this.childViews.length - 1) {
-      this.hideViewIndex(this.currentIndex);
-      this.finish();
-      return;
-    }
-
-    this.navIndexChange(1);
-  },
-
-  navBackward: function() {
-    if (this.currentIndex === 0) {
-      return;
-    }
-
-    this.navIndexChange(-1);
-  },
-
-  navIndexChange: function(delta) {
-    this.hideViewIndex(this.currentIndex);
-    this.currentIndex += delta;
-    this.showViewIndex(this.currentIndex);
-  },
-
-  hideViewIndex: function(index) {
-    this.childViews[index].hide();
-  },
-
-  showViewIndex: function(index) {
-    this.childViews[index].show();
-  },
-
-  finish: function() {
-    // first we stop listening to keyboard and give that back to UI, which
-    // other views will take if they need to
-    this.keyboardListener.mute();
-
-    _.each(this.childViews, function(childView) {
-      childView.die();
-    });
-
-    this.deferred.resolve();
-  },
-
-  start: function() {
-    // steal the window focus baton
-    this.showViewIndex(this.currentIndex);
-  },
-
-  createChildView: function(viewJSON) {
-    var type = viewJSON.type;
-    if (!this.typeToConstructor[type]) {
-      throw new Error('no constructor for type "' + type + '"');
-    }
-    var view = new this.typeToConstructor[type](_.extend(
-      {},
-      viewJSON.options,
-      { wait: true }
-    ));
-    return view;
-  },
-
-  addNavToView: function(view, index) {
-    var leftRight = new LeftRightView({
-      events: this.navEvents,
-      // we want the arrows to be on the same level as the content (not
-      // beneath), so we go one level up with getDestination()
-      destination: view.getDestination(),
-      showLeft: (index !== 0),
-      lastNav: (index === this.childViewJSONs.length - 1)
-    });
-    if (view.receiveMetaNav) {
-      view.receiveMetaNav(leftRight, this);
-    }
-  },
-
-  render: function() {
-    // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON, index) {
-      var childView = this.createChildView(childViewJSON);
-      this.childViews.push(childView);
-      this.addNavToView(childView, index);
-    }, this);
+  var solvedMap;
+  try {
+    solvedMap = JSON.parse(localStorage.getItem('solvedMap') || '{}');
+  } catch (e) {
+    console.warn('local storage failed', e);
+    // throw e;
   }
+  this.solvedMap = solvedMap || {};
+
+  Main.getEvents().on('levelSolved', this.levelSolved, this);
+}
+
+LevelArbiter.prototype.init = function() {
+  var previousLevelID;
+  _.each(this.levelSequences, function(levels, levelSequenceName) {
+    this.sequences.push(levelSequenceName);
+    if (!levels || !levels.length) {
+      throw new Error('no empty sequences allowed');
+    }
+
+    // for this particular sequence...
+    _.each(levels, function(level, index) {
+      this.validateLevel(level);
+
+      var id = levelSequenceName + String(index + 1);
+      var compiledLevel = _.extend(
+        {},
+        level,
+        {
+          index: index,
+          id: id,
+          sequenceName: levelSequenceName
+        }
+      );
+
+      // update our internal data
+      this.levelMap[id] = compiledLevel;
+      this.levelSequences[levelSequenceName][index] = compiledLevel;
+    }, this);
+  }, this);
+};
+
+LevelArbiter.prototype.isLevelSolved = function(id) {
+  if (!this.levelMap[id]) {
+    throw new Error('that level doesnt exist!');
+  }
+  return Boolean(this.solvedMap[id]);
+};
+
+LevelArbiter.prototype.levelSolved = function(id) {
+  // called without an id when we reset solved status
+  if (!id) { return; }
+
+  this.solvedMap[id] = true;
+  this.syncToStorage();
+};
+
+LevelArbiter.prototype.resetSolvedMap = function() {
+  this.solvedMap = {};
+  this.syncToStorage();
+  Main.getEvents().trigger('levelSolved');
+};
+
+LevelArbiter.prototype.syncToStorage = function() {
+  try {
+    localStorage.setItem('solvedMap', JSON.stringify(this.solvedMap));
+  } catch (e) {
+    console.warn('local storage fialed on set', e);
+  }
+};
+
+LevelArbiter.prototype.validateLevel = function(level) {
+  level = level || {};
+  var requiredFields = [
+    'name',
+    'goalTreeString',
+    //'description',
+    'solutionCommand'
+  ];
+
+  var optionalFields = [
+    'hint',
+    'disabledMap',
+    'startTree'
+  ];
+
+  _.each(requiredFields, function(field) {
+    if (level[field] === undefined) {
+      console.log(level);
+      throw new Error('I need this field for a level: ' + field);
+    }
+  });
+};
+
+LevelArbiter.prototype.getSequenceToLevels = function() {
+  return this.levelSequences;
+};
+
+LevelArbiter.prototype.getSequences = function() {
+  return _.keys(this.levelSequences);
+};
+
+LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
+  if (!this.levelSequences[sequenceName]) {
+    throw new Error('that sequecne name ' + sequenceName + 'does not exist');
+  }
+  return this.levelSequences[sequenceName];
+};
+
+LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
+  return sequenceInfo[sequenceName];
+};
+
+LevelArbiter.prototype.getLevel = function(id) {
+  return this.levelMap[id];
+};
+
+LevelArbiter.prototype.getNextLevel = function(id) {
+  if (!this.levelMap[id]) {
+    console.warn('that level doesnt exist!!!');
+    return null;
+  }
+
+  // meh, this method could be better. It's a tradeoff between
+  // having the sequence structure be really simple JSON
+  // and having no connectivity information between levels, which means
+  // you have to build that up yourself on every query
+  var level = this.levelMap[id];
+  var sequenceName = level.sequenceName;
+  var sequence = this.levelSequences[sequenceName];
+
+  var nextIndex = level.index + 1;
+  if (nextIndex < sequence.length) {
+    return sequence[nextIndex];
+  }
+
+  var nextSequenceIndex = this.sequences.indexOf(sequenceName) + 1;
+  if (nextSequenceIndex < this.sequences.length) {
+    var nextSequenceName = this.sequences[nextSequenceIndex];
+    return this.levelSequences[nextSequenceName][0];
+  }
+
+  // they finished the last level!
+  return null;
+};
+
+exports.LevelArbiter = LevelArbiter;
+
+
 });
 
-exports.MultiView = MultiView;
+require.define("/src/levels/index.js",function(require,module,exports,__dirname,__filename,process,global){// Each level is part of a "sequence;" levels within
+// a sequence proceed in the order listed here
+exports.levelSequences = {
+  intro: [
+    require('../../levels/intro/1').level,
+    require('../../levels/intro/2').level,
+    require('../../levels/intro/3').level,
+    require('../../levels/intro/4').level,
+    require('../../levels/intro/5').level
+  ],
+  rebase: [
+    require('../../levels/rebase/1').level,
+    require('../../levels/rebase/2').level
+  ],
+  mixed: [
+    require('../../levels/mixed/1').level,
+    require('../../levels/mixed/2').level,
+    require('../../levels/mixed/3').level
+  ]
+};
+
+// there are also cute names and such for sequences
+exports.sequenceInfo = {
+  intro: {
+    displayName: 'Introduction Sequence',
+    about: 'A nicely paced introduction to the majority of git commands'
+  },
+  rebase: {
+    displayName: 'Master the Rebase Luke!',
+    about: 'What is this whole rebase hotness everyone is talking about? Find out!'
+  },
+  mixed: {
+    displayName: 'A Mixed Bag',
+    about: 'A mixed bag of Git techniques, tricks, and tips'
+  }
+};
 
 
 });
 
-require.define("/src/js/views/gitDemonstrationView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "name": 'Introduction to Git Commits',
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git commit;git commit",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "hint": {
+      "en_US": "Just type in 'git commit' twice to finish!",
+      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01",
+      "ko": "'git commit'이라고 두 번 치세요!"
+    },
+  "disabledMap" : {
+    "git revert": true
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
+              "",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
+              "",
+              "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
+              "",
+              "`resolving deltas`",
+              "",
+              "when cloning a repo.",
+              "",
+              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+              "",
+              "Hit the button below to make a new commit"
+            ],
+            "afterMarkdowns": [
+              "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git 커밋",
+              // "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
+              "커밋은 Git 저장소에 여러분의 디렉토리에 있는 모든 파일에 대한 스냅샷을 기록하는 것입니다. 디렉토리 전체에 대한 복사해 붙이기와 비슷하지만 훨씬 유용합니다!",
+              "",
+              // "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
+              "Git은 커밋을 가능한한 가볍게 유지하고자 해서, 커밋할 때마다 디렉토리 전체를 복사하는 일은 하지 않습니다. 각 커밋은 저장소의 이전 버전과 다음 버전의 변경내역(\"delta\"라고도 함)을 저장합니다. 그래서 대부분의 커밋이 그 커밋 위에 부모 커밋을 가리키고 있게 되는 것입니다. -- 곧 그림으로 된 화면에서 살펴보게 될 것입니다.",
+              "",
+              //"In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
+              "저장소를 복제(clone)하려면, 그 모든 변경분(delta)를 풀어내야하는데, 그 때문에 명령행 결과로 아래와 같이 보게됩니다. ",
+              "",
+              "`resolving deltas`",
+              "",
+              //"when cloning a repo.",
+              //"",
+              //"It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
+              "알아야할 것이 꽤 많습니다만, 일단은 커밋을 프로젝트의 각각의 스냅샷들로 생각하시는 걸로 충분합니다. 커밋은 매우 가볍고 커밋 사이의 전환도 매우 빠르다는 것을 기억해주세요!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+              "연습할 때 어떻게 보이는지 확인해보죠. 오른쪽 화면에 git 저장소를 그림으로 표현해 놓았습니다. 현재 두번 커밋한 상태입니다 -- 첫번째 커밋으로 `C0`, 그 다음으로 `C1`이라는 어떤 의미있는 변화가 있는 커밋이 있습니다.",
+              "",
+              // "Hit the button below to make a new commit"
+              "아래 버튼을 눌러 새로운 커밋을 만들어보세요"
+            ],
+            "afterMarkdowns": [
+              // "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+              "이렇게 보입니다! 멋지죠. 우리는 방금 저장소 내용을 변경해서 한번의 커밋으로 저장했습니다. 방금 만든 커밋은 부모는 `C1`이고, 어떤 커밋을 기반으로 변경된 것인지를 가리킵니다."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+              "계속해서 직접 한번 해보세요! 이 창을 닫고, 커밋을 두 번 하면 다음 레벨로 넘어갑니다"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "",
+              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "",
+              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "",
+              "`resolving deltas`",
+              "",
+              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "",
+              "点下面的按钮来生成一个新的提交。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git branch bugFix;git checkout bugFix",
+  "name": "Branching in Git",
+  "hint": {
+      "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
+      "zh_CN": "\u7528 'git branch [\u65b0\u5206\u652f\u540d\u5b57]' \u6765\u521b\u5efa\u65b0\u5206\u652f\uff0c\u5e76\u7528 'git checkout [\u65b0\u5206\u652f]' \u5207\u6362\u5230\u65b0\u5206\u652f",
+      "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
+  },
+  "disabledMap" : {
+    "git revert": true
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
+              "",
+              "```",
+              "branch early, and branch often",
+              "```",
+              "",
+              "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
+              "",
+              "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see what branches look like in practice.",
+              "",
+              "Here we will check out a new branch named `newImage`"
+            ],
+            "afterMarkdowns": [
+              "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's try to put some work on this new branch. Hit the button below"
+            ],
+            "afterMarkdowns": [
+              "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's tell git we want to checkout the branch with",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "This will put us on the new branch before committing our changes"
+            ],
+            "afterMarkdowns": [
+              "There we go! Our changes were recorded on the new branch"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! You are all ready to get branching. Once this window closes,",
+              "make a new branch named `bugFix` and switch to that branch"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "在 Git 里面，分支也是非常轻量。它们实际上就是对特定的提交的一个简单参照（reference） —— 对，就是那么简单。所以许多鼓吹 Git 的玩家会反复吟诵这么一句咒语：",
+              "",
+              "```",
+              "早点开分支！多点开分支！（branch early, and branch often）",
+              "```",
+              "",
+              "因为创建分支不会带来任何储存（硬盘和内存）上的开销，所以你大可以根据需要将你的工作划分成几个分支，而不是使用只使用一个巨大的分支（beefy）。",
+              "",
+              "当我们开始将分支和提交混合一起使用之后，将会看见两者混合所带来的特性。从现在开始，只要记住使用分支其实就是在说：“我想把这次提交和它的父提交都包含进去。（I want to include the work of this commit and all parent commits.）”"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们在实践中看看分支究竟是怎样的。",
+              "",
+              "现在我们会检出（check out）到一个叫 `newImage` 的新分支。"
+            ],
+            "command": "git branch newImage",
+            "afterMarkdowns": [
+              "看，这就是分支啦！`newImage` 这个分支现在是指向提交 `C1`。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在让我们往这个新分支里添加一点修改。按一下下面的按钮。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+              "啊摔！`master` 分支前进了，但是 `newImage` 分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
+            ],
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "要切换到一个分支，我们可以这样告诉 git",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "这样就可以让我们在提交修改之前切换到新的分支了。"
+            ],
+            "command": "git checkout newImage; git commit",
+            "afterMarkdowns": [
+              "好的嘞！我们的修改已经记录在新的分支里了。"
+            ],
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好啦，现在你可以准备使用分支了。这个窗口关闭以后，",
+              "创建一个叫 `bugFix` 的新分支，然后切换到那里。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Git Branches",
+              "## Git 브랜치",
+              "",
+              // "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
+              "깃의 브랜치도 놀랍도록 가볍습니다. 브랜치는 특정 커밋에 대한 참조(reference)에 지나지 않습니다. 이런 사실 때문에 수많은 Git 애찬론자들이 자주 이렇게 말하곤 합니다:",
+              "",
+              "```",
+              // "branch early, and branch often",
+              "브랜치를 서둘러서, 그리고 자주 만드세요",
+              "```",
+              "",
+              // "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
+              "브랜치를 많이 만들어도 메모리나 디스크 공간에 부담이 되지 않기 때문에, 여러분의 작업을 커다른 브랜치로 만들기 보다, 작은 단위로 잘게 나누는 것이 좋습니다.",
+              "",
+              // "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
+              "브랜치와 커밋을 같이 쓸 때, 어떻게 두 기능이 조화를 이루는지 알아보겠습니다. 하지만 우선은, 단순히 브랜치를 \"하나의 커밋과 그 부모 커밋들을 포함하는 작업 내역\"이라고 기억하시면 됩니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Let's see what branches look like in practice.",
+              "브랜치가 어떤 것인지 연습해보죠.",
+              "",
+              // "Here we will check out a new branch named `newImage`"
+              "`newImage`라는 브랜치를 살펴보겠습니다."
+            ],
+            "afterMarkdowns": [
+              // "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
+              "저 그림에 브랜치의 모든 것이 담겨있습니다! 브랜치 `newImage`가 커밋 `C1`를 가리킵니다"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Let's try to put some work on this new branch. Hit the button below"
+              "이 새로운 브랜치에 약간의 작업을 더해봅시다. 아래 버튼을 눌러주세요"
+            ],
+            "afterMarkdowns": [
+              // "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
+              "앗! `master` 브랜치가 움직이고, `newImage` 브랜치는 이동하지 않았네요! 그건 우리가 새 브랜치 위에 있지 않았었기 때문입니다. 별표(*)가 `master`에 있었던 것이죠."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Let's tell git we want to checkout the branch with",
+              // "",
+              // "```",
+              // "git checkout [name]",
+              // "```",
+              // "",
+              // "This will put us on the new branch before committing our changes"
+              "아래의 명령으로 새 브랜치로 이동해 봅시다.",
+              "",
+              "```",
+              "git checkout [브랜치명]",
+              "```",
+              "",
+              "이렇게 하면 변경분을 커밋하기 전에 새 브랜치로 이동하게 됩니다."
+
+            ],
+            "afterMarkdowns": [
+              // "There we go! Our changes were recorded on the new branch"
+              "이거죠! 이제 우리의 변경이 새 브랜치에 기록되었습니다!"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "Ok! You are all ready to get branching. Once this window closes,",
+              // "make a new branch named `bugFix` and switch to that branch"
+              "좋아요! 이제 직접 브랜치 작업을 연습해봅시다. 이 창을 닫고,",
+              "`bugFix`라는 새 브랜치를 만드시고, 그 브랜치로 이동해보세요"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+});
+
+require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
+  "name": "Merging in Git",
+  "hint": {
+    "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09",
+    "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
+  },
+  "disabledMap" : {
+    "git revert": true
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
+              "",
+              "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
+              "",
+              "It's easier with visuals, let's check it out in the next view"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "",
+              "We will `merge` the branch `bugFix` into `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "",
+              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "",
+              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's merge `master` into `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "",
+              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, do the following steps:",
+              "",
+              "* Make a new branch called `bugFix`",
+              "* Checkout the `bugFix` branch with `git checkout bugFix`",
+              "* Commit once",
+              "* Go back to `master` with `git checkout`",
+              "* Commit another time",
+              "* Merge the branch `bugFix` into `master` with `git merge`",
+              "",
+              "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
+              "",
+              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
+              "",
+              "听起来可能有点拗口，看看下一张就明白了。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
+              "",
+              "我们将要把分支 `bugFix` 合并到 `master` 上"
+            ],
+            "command": "git merge bugFix master",
+            "afterMarkdowns": [
+              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
+              "",
+              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
+              "",
+              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们把 `master` 分支合并到 `bugFix` 吧。"
+            ],
+            "command": "git merge master bugFix",
+            "afterMarkdowns": [
+              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
+              "",
+              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想刷过这关，要按照下面的步骤来：",
+              "",
+              "* 创建一个叫 `bugFix` 的新分支",
+              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
+              "* 创建一个提交",
+              "* 再用 `git checkout` 切换回 `master` 上",
+              "* 创建另外一个提交",
+              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
+              "",
+              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 브랜치와 합치기(Merge)",
+              "",
+              "좋습니다! 지금까지 커밋하고 브랜치를 만드는 방법을 알아봤습니다. 이제 두 별도의 브랜치를 합치는 몇가지 방법을 알아볼 차례입니다. 이제부터 배우는 방법으로 브랜치를 따고, 새 기능을 개발 한 다음 합칠 수 있게 될 것입니다.",
+              "",
+              "처음으로 살펴볼 방법은 `git merge`입니다. Git의 합치기(merge)는 두 개의 부모(parent)를 가리키는 특별한 커밋을 만들어 냅니다. 두개의 부모가 있는 커밋이라는 것은 \"한 부모의 모든 작업내역과 나머지 부모의 모든 작업, *그리고* 그 두 부모의 모든 부모들의 작업내역을 포함한다\"라는 의미가 있습니다. ",
+              "",
+              "그림으로 보는게 이해하기 쉬워요. 다음 화면을 봅시다."
+
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "여기에 브랜치가 두 개 있습니다. 각 브랜치에 독립된 커밋이 하나씩 있구요. 그 말은 이 저장소에 지금까지 작업한 내역이 나뉘어 담겨 있다는 얘기입니다. 두 브랜치를 합쳐서(merge) 이 문제를 해결해 볼까요?",
+              "",
+              "`bugFix` 브랜치를 `master` 브랜치에 합쳐(merge) 보겠습니다."
+            ],
+            "afterMarkdowns": [
+              "보셨어요? 우선, `master`가 두 부모가 있는 커밋을 가리키고 있습니다. ",
+              "",
+              "또, 커밋들의 색이 바뀐 것을 눈치 채셨나요? 이해를 돕기위해 색상으로 구분해 표현했습니다. 각 브랜치는 그 브랜치만의 색상으로 그렸습니다. 브랜치가 합쳐지는 커밋의 경우에는, 그 브랜치들의 색을 조합한 색상으로 표시 했습니다.",
+              "",
+              "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `master` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
+            ],
+            "command": "git merge bugFix master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "이제 `master` 브랜치에 `bugFix`를 합쳐(merge) 봅시다:"
+            ],
+            "afterMarkdowns": [
+              "`bugFix`가 `master`의 부모쪽에 있었기 때문에, git이 별다른 일을 할 필요가 없었습니다; 간단히 `bugFix`를 `master`가 붙어 있는 커밋으로 이동시켰을 뿐입니다.",
+              "",
+              "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
+            ],
+            "command": "git merge master bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "아래 작업을 해서 이 레벨을 통과하세요:",
+              "",
+              "* `bugFix`라는 새 브랜치를 만듭니다",
+              "* `git checkout bugFix`를 입력해 `bugFix` 브랜치로 이동(checkout)합니다.",
+              "* 커밋 한 번 하세요",
+              "* `git checkout` 명령어를 이용해 `master`브랜치로 돌아갑니다",
+              "* 커밋 또 하세요",
+              "* `git merge` 명령어로 `bugFix`브랜치를 `master`에 합쳐 넣습니다.",
+              "",
+              "*아 그리고, \"help level\" 명령어로 이 안내창을 다시 볼 수 있다는 것을 기억해 두세요!*"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
+  "name": "Rebase Introduction",
+  "hint": {
+    "en_US": "Make sure you commit from bugFix first",
+    "ko": "bugFix 브랜치에서 먼저 커밋하세요",
+    "zh_CN": "\u786e\u4fdd\u4f60\u5148\u5728 bugFix \u5206\u652f\u8fdb\u884c\u63d0\u4ea4"
+  },
+  "disabledMap" : {
+    "git revert": true
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
+              "",
+              "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
+              "",
+              "Let's see it in action..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+              "",
+              "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
+              "",
+              "Let's do that with the `git rebase` command"
+            ],
+            "afterMarkdowns": [
+              "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
+              "",
+              "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
+              "",
+              "The only problem is that master hasn't been updated either, let's do that now..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, do the following",
+              "",
+              "* Checkout a new branch named `bugFix`",
+              "* Commit once",
+              "* Go back to master and commit again",
+              "* Check out bugFix again and rebase onto master",
+              "",
+              "Good luck!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "第二种合并不用分支工作的方法是 *衍合（rebasing）*。衍合就是取出一系列的提交，\"组合（compies）\"它们，然后把它们在某个地方重新放下来（重新实施一遍）。",
+              "",
+              "这可能看上去很难明白，而衍合的最大好处就是可以用来创造更线性的提交历史。假如一个项目只允许使用衍合（来合并工作），那么它的提交记录/历史会变得好看很多。",
+              "",
+              "让我们亲身体会下……"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们有两个分支，注意当前分支是 bugFix（看那颗星）",
+              "",
+              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法会让我们觉得这两个特性分支的工作是顺序提交的，但实际上它们是平行发展提交的。",
+              "",
+              "要做到这个效果，我们用 `git rebase`"
+            ],
+            "command": "git rebase master",
+            "afterMarkdowns": [
+              "碉堡吧，现在我们在 bugFix 分支上的工作已经移到了 master 的最前端，同时我们也得到了一个很好的直线型提交历史。",
+              "",
+              "注意一下提交 C3 其实还存在在我们的仓库的某个角落里（阴影的那货就是你了，还看什么看），而 C3' 是它一个在 master 分支上的\"拷贝\"提交。",
+              "",
+              "现在还有唯一一个问题就是 master 分支还没有更新……下面就来更新它吧"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在我们可以切换到了 `master` 分支。接下来就把它衍合到 `bugFix` 吧……"
+            ],
+            "command": "git rebase bugFix",
+            "afterMarkdowns": [
+              "看！因为 `master` 是 `bugFix` 的上游，所以 git 只把 `master` 分支的记录前进到 `bugFix` 上。"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想刷过这关，要按照下面的步骤来：",
+              "",
+              "* 切换到一个叫 `bugFix` 的新分支",
+              "* 创建一个提交",
+              "* 回到 master 分支并且创建另外一个提交",
+              "* 再次切换到 bugFix 分支，然后把它衍合到 master 上",
+              "",
+              "祝你好运啦！"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Git Rebase",
+              "## Git 리베이스(Rebase)",
+              "",
+              // "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
+              "브랜치끼리의 작업을 접목하는 두번째 방법은 *리베이스(rebase)*입니다. 리베이스는 기본적으로 커밋들을 모아서 복사한 뒤, 다른 곳에 떨궈 놓는 것입니다.",
+              "",
+              // "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
+              "조금 어려게 느껴질 수 있지만, 리베이스를 하면 커밋들의 흐름을 보기 좋게 한 줄로 만들 수 있다는 장점이 있습니다. 리베이스를 쓰면 저장소의 커밋 로그와 이력이 한결 깨끗해집니다.",
+              "",
+              // "Let's see it in action..."
+              "어떻게 동작하는지 살펴볼까요..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+              "여기 또 브랜치 두 개가 있습니다; bugFix브랜치가 현재 선택됐다는 점 눈여겨 보세요 (별표 표시)",
+              "",
+              // "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
+              "bugFix 브랜치에서의 작업을 master 브랜치 위로 직접 옮겨 놓으려고 합니다. 그렇게 하면, 실제로는 두 기능을 따로따로 개발했지만, 마치 순서대로 개발한 것처럼 보이게 됩니다.",
+              "",
+              // "Let's do that with the `git rebase` command"
+              "`git rebase` 명령어로 함께 해보죠."
+            ],
+            "afterMarkdowns": [
+              // "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
+              "오! 이제 bugFix 브랜치의 작업 내용이 master의 바로 위에 깔끔한 한 줄의 커밋으로 보이게 됐습니다.",
+              "",
+              // "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
+              "C3 커밋은 어딘가에 아직 남아있고(그림에서 흐려짐), C3'는 master 위에 올려 놓은 복사본입니다.",
+              "",
+              // "The only problem is that master hasn't been updated either, let's do that now..."
+              "master가 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+              "우리는 지금 `master` 브랜치를 선택한 상태입니다. `bugFix` 브랜치쪽으로 리베이스 해보겠습니다..."
+            ],
+            "afterMarkdowns": [
+              // "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+              "보세요! `master`가 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "To complete this level, do the following",
+              "이하 작업을 하면 이번 레벨을 통과합니다",
+              "",
+              // "* Checkout a new branch named `bugFix`",
+              "* `bugFix`라는 새 브랜치를 만들어 선택하세요",
+              // "* Commit once",
+              "* 커밋 한 번 합니다",
+              // "* Go back to master and commit again",
+              "* master로 돌아가서 또 커밋합니다",
+              // "* Check out bugFix again and rebase onto master",
+              "* bugFix를 다시 선택하고 master에 리베이스 하세요",
+              "",
+              // "Good luck!"
+              "화이팅!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
+  "name": "Reversing Changes in Git",
+  "hint": {
+      "en_US": "",
+      "zh_CN": "",
+      "ko": ""
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Reversing Changes in Git",
+              "",
+              "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
+              "",
+              "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
+              "",
+              "Let's see what that looks like:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "",
+              "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
+            ],
+            "afterMarkdowns": [
+              "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
+              "",
+              "With reverting, you can push out your changes to share with others."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
+              "",
+              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 撤销 Git 里面的变动",
+              "",
+              "在 Git 里有很多方法撤销（reverse）变动。和 commit 一样，在 Git 里撤销变动同时具有底层次的部分（暂存一些独立的文件或者片段）和高层次的部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
+              "",
+              "在 Git 里主要有两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` 通过把分支记录回退上一个提交来实现撤销改动。这意味着你可以把它的行为当作是\"重写历史\"。`git reset` 会令分支记录回退，做到最新的提交好像没有提交过一样。",
+              "",
+              "让我们看看具体的操作："
+            ],
+            "command": "git reset HEAD~1",
+            "afterMarkdowns": [
+              "Nice! Git 就简单地把 master 分支的记录移回 `C1`；现在我们的本地仓库就处于好像提交 `C2` 没有发生过的状态了。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "虽然在你机子的本地环境中这样来撤销变更看起来很方便，但是这种“改写历史”的方法对别人用的远端分支是无效的哦！",
+              "",
+              "为了撤销分支并把这些变动*分享*给别人，我们需要 `git revert`。下面继续看它是怎么运作的。"
+            ],
+            "command": "git revert HEAD",
+            "afterMarkdowns": [
+              "怪哉！在我们要撤销的提交之后居然多了一个新提交！这是因为这个新提交 `C2'` 提供了*变动*（introduces changes） —— 刚好是用来撤销 `C2` 这个提交的。",
+              "",
+              "借助 revert，现在你可以把你的改动分享给别人啦。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要刷过这关，请分别把 `local` 分支和 `pushed` 分支上最近的一个提交撤销掉。",
+              "",
+              "记住 `pushes` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Reversing Changes in Git",
+              "## Git에서 작업 되돌리기",
+              "",
+              // "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
+              "Git에는 작업한 것을 되돌리는 여러가지 방법이 있습니다. 변경내역을 되돌리는 것도 커밋과 마찬가지로 낮은 수준의 일(개별 파일이나 묶음을 스테이징 하는 것)과 높은 수준의 일(실제 변경이 복구되는 방법)이 있는데요, 여기서는 후자에 집중해 알려드릴게요.",
+              "",
+              // "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
+              "Git에서 변경한 내용을 되돌리는 방법은 크게 두가지가 있습니다 -- 하나는 `git reset`을 쓰는거고, 다른 하나는 `git revert`를 사용하는 것입니다. 다음 화면에서 하나씩 알아보겠습니다.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "## Git Reset",
+              "## Git 리셋(reset)",
+              "",
+              // "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
+              "`git reset`은 브랜치로 하여금 예전의 커밋을 가리키도록 이동시키는 방식으로 변경 내용을 되돌립니다. 이런 관점에서 \"히스토리를 고쳐쓴다\"라고 말할 수 있습니다. 즉, `git reset`은 마치 애초에 커밋하지 않은 것처럼 예전 커밋으로 브랜치를 옮기는 것입니다.",
+              "",
+              // "Let's see what that looks like:"
+              "어떤 그림인지 한번 보죠:"
+            ],
+            "afterMarkdowns": [
+              // "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
+              "그림에서처럼 master 브랜치가 가리키던 커밋을 `C1`로 다시 옮겼습니다; 이러면 로컬 저장소에는 마치 `C2`커밋이 아예 없었던 것과 마찬가지 상태가 됩니다."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "## Git Revert",
+              "## Git 리버트(revert)",
+              "",
+              // "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "각자의 컴퓨터에서 작업하는 로컬 브랜치의 경우 리셋(reset)을 잘 쓸 수 있습니다만, \"히스토리를 고쳐쓴다\"는 점 때문에 다른 사람이 작업하는 리모트 브랜치에는 쓸 수 없습니다.",
+              "",
+              // "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
+              "변경분을 되돌리고, 이 되돌린 내용을 다른 사람들과 *공유하기* 위해서는, `git revert`를 써야합니다. 예제로 살펴볼게요."
+            ],
+            "afterMarkdowns": [
+              // "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
+              "어색하게도, 우리가 되돌리려고한 커밋의 아래에 새로운 커밋이 생겼습니다. `C2`라는 새로운 커밋에 *변경내용*이 기록되는데요, 이 변경내역이 정확히 `C2` 커밋 내용의 반대되는 내용입니다.",
+              "",
+              // "With reverting, you can push out your changes to share with others."
+              "리버트를 하면 다른 사람들에게도 변경 내역을 밀어(push) 보낼 수 있습니다."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
+              "이 레벨을 통과하려면, `local` 브랜치와 `pushed` 브랜치에 있는 최근 두 번의 커밋을 되돌려 보세요.",
+              "",
+              // "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+              "`pushed`는 리모트 브랜치이고, `local`은 로컬 브랜치임을 신경쓰셔서 작업하세요 -- 어떤 방법을 선택하실지 떠오르시죠?"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "compareOnlyMasterHashAgnostic": true,
+  "disabledMap" : {
+    "git revert": true
+  },
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C6%27%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": "Rebasing over 9000 times",
+  "hint": {
+    "en_US": "Remember, the most efficient way might be to only update master at the end...",
+    "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
+    "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebasing Multiple Branches",
+              "",
+              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "",
+              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "",
+              "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 多分支衍合",
+              "",
+              "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
+              "",
+              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "",
+              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "### Rebasing Multiple Branches",
+              "### 여러 브랜치를 리베이스(rebase)하기 ",
+              "",
+              // "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 master에 리베이스 해볼까요?",
+              "",
+              // "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
+              "",
+              // "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+              "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "compareAllBranchesHashAgnostic": true,
+  "disabledMap" : {
+    "git revert": true
+  },
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22master%22%7D%2C%22one%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22one%22%7D%2C%22two%22%3A%7B%22target%22%3A%22C2%27%27%22%2C%22id%22%3A%22two%22%7D%2C%22three%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22three%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C4%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22two%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": "Branch Spaghetti",
+  "hint": {
+    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
+    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
+              "",
+              "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
+              "",
+              "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
+              "",
+              "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "哇塞大神！这关我们要来点不同的！",
+              "",
+              "现在我们的 `master` 分支是比 `one` `two` 和 `three` 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）",
+              "",
+              "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
+              "",
+              "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Branch Spaghetti",
+              "## 브랜치 스파게티",
+              "",
+              // "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
+              "음, 이번에는 만만치 않습니다!",
+              "",
+              // "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
+              "여기 `master` 브랜치의 몇 번 이전 커밋에 `one`, `two`,`three` 총 3개의 브랜치가 있습니다. 어떤 이유인지는 몰라도, master의 최근 커밋 몇 개를 나머지 세 개의 브랜치에 반영하려고 합니다.",
+              "",
+              // "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
+              "`one` 브랜치는 순서를 바꾸고 `C5`커밋을 삭제하고, `two`브랜치는 순서만 바꾸며, `three`브랜치는 하나의 커밋만 가져옵시다!",
+              "",
+              // "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+              "자유롭게 이 문제를 풀어보시고 나서 `show solution`명령어로 모범 답안을 확인해보세요."
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "compareOnlyMasterHashAgnostic": true,
+  "disabledMap" : {
+    "git revert": true
+  },
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout master;git cherry-pick C4",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
+  "name": "Grabbing Just 1 Commit",
+  "hint": {
+      "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+      "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
+      "zh_CN": "\u8bb0\u4f4f\uff0c\u4ea4\u4e92\u5f0f rebase \u6216\u8005 cherry-pick \u4f1a\u5f88\u6709\u5e2e\u52a9"
+    },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
+              "",
+              "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
+              "",
+              "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
+              "",
+              "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 本地栈式提交 (Locally stacked commits)",
+              "",
+              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些 debug 语句和打印语句。",
+              "",
+              "所有的这些调试和打印语句到只在它们的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "",
+              "但有个问题就是现在我要把 `bugFix` 分支的工作合并回 `master` 分支上，我可以简单地快进（fast-forward） `master` 分支，但这样的话 `master` 分支就会包含我这些调试语句了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "现在就是 Git 大显神通的时候啦。我们有几种方法来解决这个问题，但最直接的方法是：",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "交互（`-i`）衍合允许你选择哪些提交是要被保留，哪些要被舍弃。它允许你将提交重新排序。假如你要舍弃一些工作，这个会帮上很大的忙。",
+              "",
+              "Cherry-picking 能让你选择单独一个提交并且把它放到 `HEAD` 的最前端。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Locally stacked commits",
+              "## 로컬에 쌓인 커밋들",
+              "",
+              // "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
+              "개발중에 종종 이런 상황이 생깁니다: 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
+              "",
+              // "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
+              "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
+              "",
+              // "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
+              "이제 `bugFix`브랜치의 내용을 `master`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `master`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
+              "여기에서 Git의 마법이 드러납니다. 이 문제를 해결하는 여러가지 방법이 있습니다만, 가장 간단한 두가지 방법 아래와 같습니다:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              // "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
+              "대화형 (-i 옵션) 리베이스(rebase)로는 어떤 커밋을 취하거나 버릴지를 선택할 수 있습니다. 또 커밋의 순서를 바꿀 수도 있습니다. 이 커맨드로 어떤 작업의 일부만 골라내기에 유용합니다.",
+              "",
+              // "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
+              "체리픽(cherry-pick)은 개별 커밋을 골라서 `HEAD`위에 떨어뜨릴 수 있습니다."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+              "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `master`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "disabledMap" : {
+    "git cherry-pick": true,
+    "git revert": true
+  },
+  "compareOnlyMaster": true,
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
+  "name": "Juggling Commits",
+  "hint": {
+      "en_US": "The first command is git rebase -i HEAD~2",
+      "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
+      "zh_CN": "\u7b2c\u4e00\u4e2a\u547d\u4ee4\u662f 'git rebase -i HEAD~2'"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
+              "",
+              "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "We will overcome this difficulty by doing the following:",
+              "",
+              "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
+              "* We will `commit --amend` to make the slight modification",
+              "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
+              "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
+              "",
+              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits",
+              "",
+              "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
+              "",
+              "有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 `newImage` 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "为了实现他的愿望，我们可以按照下面的方法来做：",
+              "",
+              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交挪到最前",
+              "* 然后用 `commit --amend` 来进行一些小修改",
+              "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
+              "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
+              "",
+              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+                "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Juggling Commits",
+              "## 커밋들 갖고 놀기",
+              "",
+              // "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
+              "이번에도 꽤 자주 발생하는 상황입니다. `newImage`와 `caption` 브랜치에 각각의 변경내역이 있고 서로 약간 관련이 있어서, 저장소에 차례로 쌓여있는 상황입니다.",
+              "",
+              // "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
+              "때로는 이전 커밋의 내용을 살짝 바꿔야하는 골치아픈 상황에 빠지게 됩니다. 이번에는 디자인 쪽에서 우리의 작업이력(history)에서는 이미 한참 전의 커밋 내용에 있는 `newImage`의 크기를 살짝 바꿔달라는 요청이 들어왔습니다."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "We will overcome this difficulty by doing the following:",
+              "이 문제를 다음과 같이 풀어봅시다:",
+              "",
+              // "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
+              "* `git rebase -i` 명령으로 우리가 바꿀 커밋을 가장 최근 순서로 바꾸어 놓습니다",
+              // "* We will `commit --amend` to make the slight modification",
+              "* `commit --amend` 명령으로 커밋 내용을 정정합니다",
+              // "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
+              "* 다시 `git rebase -i` 명령으로 이 전의 커밋 순서대로 되돌려 놓습니다",
+              // "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
+              "* 마지막으로, master를 지금 트리가 변경된 부분으로 이동합니다. (편하신 방법으로 하세요)",
+              "",
+              // "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
+              "이 목표를 달성하기 위해서는 많은 방법이 있는데요(체리픽을 고민중이시죠?), 체리픽은 나중에 더 살펴보기로 하고, 우선은 위의 방법으로 해결해보세요."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+              "최종적으로, 목표 결과를 눈여겨 보세요 -- 우리가 커밋을 두 번 옮겼기 때문에, 두 커밋 모두 따옴표 표시가 붙어있습니다. 정정한(amend) 커밋은 따옴표가 추가로 하나 더 붙어있습니다."
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+
+});
+
+require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
+  "disabledMap" : {
+    "git revert": true
+  },
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
+  "compareOnlyMaster": true,
+  "name": "Juggling Commits #2",
+  "hint": {
+      "en_US": "Don't forget to forward master to the updated changes!",
+      "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+      "zh_CN": "\u522b\u5fd8\u8bb0\u4e86\u5c06 master \u5feb\u8fdb\u5230\u6700\u65b0\u7684\u66f4\u65b0\u4e0a\uff01"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
+              "",
+              "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
+              "",
+              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "",
+              "Here's a small refresher demo:"
+            ],
+            "afterMarkdowns": [
+              "Nice! Let's move on"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juggling Commits #2",
+              "",
+              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "",
+              "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
+              "",
+              "但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 `git cherry-pick` 是怎么做的吧。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "要在心理牢记 cherry-pick 可以从提交树的任何地方拿一个提交来放在 HEAD 上（尽管那个提交不在上游）。",
+              "",
+              "下面是一个小小的演示："
+            ],
+            "command": "git cherry-pick C2",
+            "afterMarkdowns": [
+              "好滴咧，我们继续"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "## Juggling Commits #2",
+              "## 커밋 갖고 놀기 #2",
+              "",
+              // "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
+              "*만약 이전 레벨의 커밋 갖고 놀기 #1을 풀지 않으셨다면, 계속하기에 앞서서 꼭 풀어보세요*",
+              "",
+              // "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
+              "이전 레벨에서 보셨듯이 `rebase -i` 명령으로 커밋의 순서를 바꿀 수 있습니다. 정정할 커밋이 바로 직전(top)에 있으면 간단히 --amend로 수정할 수 있고, 그리고 나서 다시 원하는 순서로 되돌려 놓으면 됩니다.",
+              "",
+              // "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
+              "이번에 한가지 문제는 순서를 꽤 많이 바꿔야한다는 점인데요, 그러다가 리베이스중에 충돌이 날 수 있습니다. 이번에는 다른 방법인 `git cherry-pick`으로 해결해 봅시다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              // "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "git cherry-pick으로 HEAD에다 어떤 커밋이든 떨어 뜨려 놓을 수 있다고 알려드린것 기억나세요? (단, 그 커밋이 현재 가리키고 있는 커밋이 아니어야합니다)",
+              "",
+              // "Here's a small refresher demo:"
+              "간단한 데모로 다시 알려드리겠습니다:"
+            ],
+            "afterMarkdowns": [
+              // "Nice! Let's move on"
+              "좋아요! 계속할게요"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              // "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+              "그럼 이번 레벨에서는 아까와 마찬가지로 `C2` 커밋의 내용을 정정하되, `rebase -i`를 쓰지 말고 해보세요. ^.~"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var Command = require('../models/commandModel').Command;
+var Main = require('../app');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
+var BaseView = require('../views').BaseView;
 
-var Visualization = require('../visuals/visualization').Visualization;
-
-var GitDemonstrationView = ContainedBase.extend({
+var LevelDropdownView = ContainedBase.extend({
   tagName: 'div',
-  className: 'gitDemonstrationView box horizontal',
-  template: _.template($('#git-demonstration-view').html()),
-
-  events: {
-    'click div.command > p.uiButton': 'positive'
-  },
+  className: 'levelDropdownView box vertical',
+  template: _.template($('#level-dropdown-view').html()),
 
   initialize: function(options) {
     options = options || {};
-    this.options = options;
-    this.JSON = _.extend(
-      {
-        beforeMarkdowns: [
-          '## Git Commits',
-          '',
-          'Awesome!'
-        ],
-        command: 'git commit',
-        afterMarkdowns: [
-          'Now you have seen it in action',
-          '',
-          'Go ahead and try the level!'
-        ]
-      },
-      options
-    );
-
-    var convert = function(markdowns) {
-      return require('markdown').markdown.toHTML(markdowns.join('\n'));
-    };
-
-    this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
-    this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
-
-    this.container = new ModalTerminal({
-      title: options.title || 'Git Demonstration'
-    });
-    this.render();
-    this.checkScroll();
+    this.JSON = {};
 
     this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('clickedID', _.debounce(
+      _.bind(this.loadLevelID, this),
+      300,
+      true
+    ));
     this.navEvents.on('negative', this.negative, this);
+    this.navEvents.on('positive', this.positive, this);
+    this.navEvents.on('left', this.left, this);
+    this.navEvents.on('right', this.right, this);
+    this.navEvents.on('up', this.up, this);
+    this.navEvents.on('down', this.down, this);
+
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
       aliasMap: {
-        enter: 'positive',
-        right: 'positive',
-        left: 'negative'
+        esc: 'negative',
+        enter: 'positive'
       },
       wait: true
     });
 
-    this.visFinished = false;
-    this.initVis();
+    this.sequences = Main.getLevelArbiter().getSequences();
+    this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
+
+    this.container = new ModalTerminal({
+      title: 'Select a Level'
+    });
+    this.render();
+    this.buildSequences();
 
     if (!options.wait) {
       this.show();
     }
-  },
-
-  receiveMetaNav: function(navView, metaContainerView) {
-    var _this = this;
-    navView.navEvents.on('positive', this.positive, this);
-    this.metaContainerView = metaContainerView;
-  },
-
-  checkScroll: function() {
-    var children = this.$('div.demonstrationText').children();
-    var heights = _.map(children, function(child) { return child.clientHeight; });
-    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
-    if (totalHeight < this.$('div.demonstrationText').height()) {
-      this.$('div.demonstrationText').addClass('noLongText');
-    }
-  },
-
-  dispatchBeforeCommand: function() {
-    if (!this.options.beforeCommand) {
-      return;
-    }
-
-    // here we just split the command and push them through to the git engine
-    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
-      this.mainVis.gitEngine.dispatch(new Command({
-        rawStr: commandStr
-      }), Q.defer());
-    }, this);
-    // then harsh refresh
-    this.mainVis.gitVisuals.refreshTreeHarsh();
-  },
-
-  takeControl: function() {
-    this.hasControl = true;
-    this.keyboardListener.listen();
-
-    if (this.metaContainerView) { this.metaContainerView.lock(); }
-  },
-
-  releaseControl: function() {
-    if (!this.hasControl) { return; }
-    this.hasControl = false;
-    this.keyboardListener.mute();
-
-    if (this.metaContainerView) { this.metaContainerView.unlock(); }
-  },
-
-  reset: function() {
-    this.mainVis.reset();
-    this.dispatchBeforeCommand();
-    this.demonstrated = false;
-    this.$el.toggleClass('demonstrated', false);
-    this.$el.toggleClass('demonstrating', false);
   },
 
   positive: function() {
-    if (this.demonstrated || !this.hasControl) {
-      // dont do anything if we are demonstrating, and if
-      // we receive a meta nav event and we aren't listening,
-      // then dont do anything either
+    if (!this.selectedID) {
       return;
     }
-    this.demonstrated = true;
-    this.demonstrate();
+    this.loadLevelID(this.selectedID);
   },
 
-  demonstrate: function() {
-    this.$el.toggleClass('demonstrating', true);
-
-    var whenDone = Q.defer();
-    this.dispatchCommand(this.JSON.command, whenDone);
-    whenDone.promise.then(_.bind(function() {
-      this.$el.toggleClass('demonstrating', false);
-      this.$el.toggleClass('demonstrated', true);
-      this.releaseControl();
-    }, this));
-  },
-
-  negative: function(e) {
-    if (this.$el.hasClass('demonstrating')) {
+  left: function() {
+    if (this.turnOnKeyboardSelection()) {
       return;
     }
-    this.keyboardListener.passEventBack(e);
+    this.leftOrRight(-1);
   },
 
-  dispatchCommand: function(value, whenDone) {
-    var commands = [];
-    util.splitTextCommand(value, function(commandStr) {
-      commands.push(new Command({
-        rawStr: commandStr
-      }));
-    }, this);
-
-    var chainDeferred = Q.defer();
-    var chainPromise = chainDeferred.promise;
-
-    _.each(commands, function(command, index) {
-      chainPromise = chainPromise.then(_.bind(function() {
-        var myDefer = Q.defer();
-        this.mainVis.gitEngine.dispatch(command, myDefer);
-        return myDefer.promise;
-      }, this));
-      chainPromise = chainPromise.then(function() {
-        return Q.delay(300);
-      });
-    }, this);
-
-    chainPromise = chainPromise.then(function() {
-      whenDone.resolve();
-    });
-
-    chainDeferred.resolve();
+  leftOrRight: function(delta) {
+    this.deselectIconByID(this.selectedID);
+    this.selectedIndex = this.wrapIndex(this.selectedIndex + delta, this.getCurrentSequence());
+    this.selectedID = this.getSelectedID();
+    this.selectIconByID(this.selectedID);
   },
 
-  tearDown: function() {
-    this.mainVis.tearDown();
-    GitDemonstrationView.__super__.tearDown.apply(this);
+  right: function() {
+    if (this.turnOnKeyboardSelection()) {
+      return;
+    }
+    this.leftOrRight(1);
+  },
+
+  up: function() {
+    if (this.turnOnKeyboardSelection()) {
+      return;
+    }
+    this.selectedSequence = this.getPreviousSequence();
+    this.downOrUp();
+  },
+
+  down: function() {
+    if (this.turnOnKeyboardSelection()) {
+      return;
+    }
+    this.selectedSequence = this.getNextSequence();
+    this.downOrUp();
+  },
+
+  downOrUp: function() {
+    this.selectedIndex = this.boundIndex(this.selectedIndex, this.getCurrentSequence());
+    this.deselectIconByID(this.selectedID);
+    this.selectedID = this.getSelectedID();
+    this.selectIconByID(this.selectedID);
+  },
+
+  turnOnKeyboardSelection: function() {
+    if (!this.selectedID) {
+      this.selectFirst();
+      return true;
+    }
+    return false;
+  },
+
+  turnOffKeyboardSelection: function() {
+    if (!this.selectedID) { return; }
+    this.deselectIconByID(this.selectedID);
+    this.selectedID = undefined;
+    this.selectedIndex = undefined;
+    this.selectedSequence = undefined;
+  },
+
+  wrapIndex: function(index, arr) {
+    index = (index >= arr.length) ? 0 : index;
+    index = (index < 0) ? arr.length - 1 : index;
+    return index;
+  },
+
+  boundIndex: function(index, arr) {
+    index = (index >= arr.length) ? arr.length - 1 : index;
+    index = (index < 0) ? 0 : index;
+    return index;
+  },
+
+  getNextSequence: function() {
+    var current = this.getSequenceIndex(this.selectedSequence);
+    var desired = this.wrapIndex(current + 1, this.sequences);
+    return this.sequences[desired];
+  },
+
+  getPreviousSequence: function() {
+    var current = this.getSequenceIndex(this.selectedSequence);
+    var desired = this.wrapIndex(current - 1, this.sequences);
+    return this.sequences[desired];
+  },
+
+  getSequenceIndex: function(name) {
+    var index = this.sequences.indexOf(name);
+    if (index < 0) { throw new Error('didnt find'); }
+    return index;
+  },
+
+  getIndexForID: function(id) {
+    return Main.getLevelArbiter().getLevel(id).index;
+  },
+
+  selectFirst: function() {
+    var firstID = this.sequenceToLevels[this.sequences[0]][0].id;
+    this.selectIconByID(firstID);
+    this.selectedIndex = 0;
+    this.selectedSequence = this.sequences[0];
+  },
+
+  getCurrentSequence: function() {
+    return this.sequenceToLevels[this.selectedSequence];
+  },
+
+  getSelectedID: function() {
+    return this.sequenceToLevels[this.selectedSequence][this.selectedIndex].id;
+  },
+
+  selectIconByID: function(id) {
+    this.toggleIconSelect(id, true);
+  },
+
+  deselectIconByID: function(id) {
+    this.toggleIconSelect(id, false);
+  },
+
+  toggleIconSelect: function(id, value) {
+    this.selectedID = id;
+    var selector = '#levelIcon-' + id;
+    $(selector).toggleClass('selected', value);
+  },
+
+  negative: function() {
+    this.hide();
+  },
+
+  testOption: function(str) {
+    return this.currentCommand && new RegExp('--' + str).test(this.currentCommand.get('rawStr'));
+  },
+
+  show: function(deferred, command) {
+    this.currentCommand = command;
+    // doing the update on show will allow us to fade which will be nice
+    this.updateSolvedStatus();
+
+    this.showDeferred = deferred;
+    this.keyboardListener.listen();
+    LevelDropdownView.__super__.show.apply(this);
   },
 
   hide: function() {
-    this.releaseControl();
-    this.reset();
-    if (this.visFinished) {
-      this.mainVis.setTreeIndex(-1);
-      this.mainVis.setTreeOpacity(0);
+    if (this.showDeferred) {
+      this.showDeferred.resolve();
     }
+    this.showDeferred = undefined;
+    this.keyboardListener.mute();
+    this.turnOffKeyboardSelection();
 
-    this.shown = false;
-    GitDemonstrationView.__super__.hide.apply(this);
+    LevelDropdownView.__super__.hide.apply(this);
   },
 
-  show: function() {
-    this.takeControl();
-    if (this.visFinished) {
-      setTimeout(_.bind(function() {
-        if (this.shown) {
-          this.mainVis.setTreeIndex(300);
-          this.mainVis.showHarsh();
-        }
-      }, this), this.getAnimationTime() * 1);
-    }
-
-    this.shown = true;
-    GitDemonstrationView.__super__.show.apply(this);
-  },
-
-  die: function() {
-    if (!this.visFinished) { return; }
-
-    GitDemonstrationView.__super__.die.apply(this);
-  },
-
-  initVis: function() {
-    this.mainVis = new Visualization({
-      el: this.$('div.visHolder')[0],
-      noKeyboardInput: true,
-      noClick: true,
-      smallCanvas: true,
-      zIndex: -1
-    });
-    this.mainVis.customEvents.on('paperReady', _.bind(function() {
-      this.visFinished = true;
-      this.dispatchBeforeCommand();
-      if (this.shown) {
-        // show the canvas once its done if we are shown
-        this.show();
-      }
-    }, this));
-  }
-});
-
-exports.GitDemonstrationView = GitDemonstrationView;
-
-
-});
-
-require.define("/src/js/views/builderViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var util = require('../util');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
-
-var Views = require('../views');
-var ModalTerminal = Views.ModalTerminal;
-var ContainedBase = Views.ContainedBase;
-
-
-var TextGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'textGrabber box vertical',
-  template: _.template($('#text-grabber').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      helperText: options.helperText || 'Enter some text'
-    };
-
-    this.container = options.container || new ModalTerminal({
-      title: 'Enter some text'
-    });
-    this.render();
-    if (options.initialText) {
-      this.setText(options.initialText);
-    }
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  getText: function() {
-    return this.$('textarea').val();
-  },
-
-  setText: function(str) {
-    this.$('textarea').val(str);
-  }
-});
-
-var MarkdownGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownGrabber box horizontal',
-  template: _.template($('#markdown-grabber-view').html()),
-  events: {
-    'keyup textarea': 'keyup'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-
-    if (options.fromObj) {
-      options.fillerText = options.fromObj.options.markdowns.join('\n');
-    }
-
-    this.JSON = {
-      previewText: options.previewText || 'Preview',
-      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
-    };
-
-    this.container = options.container || new ModalTerminal({
-      title: options.title || 'Enter some markdown'
-    });
-    this.render();
-
-    if (!options.withoutButton) {
-      // do button stuff
-      var buttonDefer = Q.defer();
-      buttonDefer.promise
-      .then(_.bind(this.confirmed, this))
-      .fail(_.bind(this.cancelled, this))
-      .done();
-
-      var confirmCancel = new Views.ConfirmCancelView({
-        deferred: buttonDefer,
-        destination: this.getDestination()
-      });
-    }
-
-    this.updatePreview();
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  confirmed: function() {
-    this.die();
-    this.deferred.resolve(this.getRawText());
-  },
-
-  cancelled: function() {
-    this.die();
-    this.deferred.resolve();
-  },
-
-  keyup: function() {
-    if (!this.throttledPreview) {
-      this.throttledPreview = _.throttle(
-        _.bind(this.updatePreview, this),
-        500
+  loadLevelID: function(id) {
+    if (!this.testOption('noOutput')) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'level ' + id
       );
     }
-    this.throttledPreview();
+    this.hide();
   },
 
-  getRawText: function() {
-    return this.$('textarea').val();
+  updateSolvedStatus: function() {
+    _.each(this.seriesViews, function(view) {
+      view.updateSolvedStatus();
+    }, this);
   },
 
-  exportToArray: function() {
-    return this.getRawText().split('\n');
-  },
-
-  getExportObj: function() {
-    return {
-      markdowns: this.exportToArray()
-    };
-  },
-
-  updatePreview: function() {
-    var raw = this.getRawText();
-    var HTML = require('markdown').markdown.toHTML(raw);
-    this.$('div.insidePreview').html(HTML);
+  buildSequences: function() {
+    this.seriesViews = [];
+    _.each(this.sequences, function(sequenceName) {
+      this.seriesViews.push(new SeriesView({
+        destination: this.$el,
+        name: sequenceName,
+        navEvents: this.navEvents
+      }));
+    }, this);
   }
 });
 
-var MarkdownPresenter = ContainedBase.extend({
+var SeriesView = BaseView.extend({
   tagName: 'div',
-  className: 'markdownPresenter box vertical',
-  template: _.template($('#markdown-presenter').html()),
+  className: 'seriesView box flex1 vertical',
+  template: _.template($('#series-view').html()),
+  events: {
+    'click div.levelIcon': 'click'
+  },
 
   initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
+    this.name = options.name || 'intro';
+    this.navEvents = options.navEvents;
+    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
+    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
+
+    this.levelIDs = [];
+    _.each(this.levels, function(level) {
+      this.levelIDs.push(level.id);
+    }, this);
+
+    this.destination = options.destination;
     this.JSON = {
-      previewText: options.previewText || 'Here is something for you',
-      fillerText: options.fillerText || '# Yay'
+      displayName: this.info.displayName,
+      about: this.info.about,
+      ids: this.levelIDs
     };
 
-    this.container = new ModalTerminal({
-      title: 'Check this out...'
-    });
     this.render();
+    this.updateSolvedStatus();
+  },
 
-    if (!options.noConfirmCancel) {
-      var confirmCancel = new Views.ConfirmCancelView({
-        destination: this.getDestination()
-      });
-      confirmCancel.deferred.promise
-      .then(_.bind(function() {
-        this.deferred.resolve(this.grabText());
-      }, this))
-      .fail(_.bind(function() {
-        this.deferred.reject();
-      }, this))
-      .done(_.bind(this.die, this));
+  updateSolvedStatus: function() {
+    // this is a bit hacky, it really should be some nice model
+    // property changing but it's the 11th hour...
+    var toLoop = this.$('div.levelIcon').each(function(index, el) {
+      var id = $(el).attr('data-id');
+      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+    });
+  },
+
+  click: function(ev) {
+    var element = ev.srcElement || ev.currentTarget;
+    if (!element) {
+      console.warn('wut, no id'); return;
     }
 
-    this.show();
-  },
-
-  grabText: function() {
-    return this.$('textarea').val();
+    var id = $(element).attr('data-id');
+    this.navEvents.trigger('clickedID', id);
   }
 });
 
-var DemonstrationBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'demonstrationBuilder box vertical',
-  template: _.template($('#demonstration-builder').html()),
-  events: {
-    'click div.testButton': 'testView'
-  },
+exports.LevelDropdownView = LevelDropdownView;
 
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    if (options.fromObj) {
-      var toEdit = options.fromObj.options;
-      options = _.extend(
-        {},
-        options,
-        toEdit,
-        {
-          beforeMarkdown: toEdit.beforeMarkdowns.join('\n'),
-          afterMarkdown: toEdit.afterMarkdowns.join('\n')
-        }
-      );
-    }
-
-    this.JSON = {};
-    this.container = new ModalTerminal({
-      title: 'Demonstration Builder'
-    });
-    this.render();
-
-    // build the two markdown grabbers
-    this.beforeMarkdownView = new MarkdownGrabber({
-      container: this,
-      withoutButton: true,
-      fillerText: options.beforeMarkdown,
-      previewText: 'Before demonstration Markdown'
-    });
-    this.beforeCommandView = new TextGrabber({
-      container: this,
-      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
-      initialText: options.beforeCommand || 'git checkout -b bugFix'
-    });
-
-    this.commandView = new TextGrabber({
-      container: this,
-      helperText: 'The git command(s) to demonstrate to the reader',
-      initialText: options.command || 'git commit'
-    });
-
-    this.afterMarkdownView = new MarkdownGrabber({
-      container: this,
-      withoutButton: true,
-      fillerText: options.afterMarkdown,
-      previewText: 'After demonstration Markdown'
-    });
-
-    // build confirm button
-    var buttonDeferred = Q.defer();
-    var confirmCancel = new Views.ConfirmCancelView({
-      deferred: buttonDeferred,
-      destination: this.getDestination()
-    });
-
-    buttonDeferred.promise
-    .then(_.bind(this.confirmed, this))
-    .fail(_.bind(this.cancelled, this))
-    .done();
-  },
-
-  testView: function() {
-    var MultiView = require('../views/multiView').MultiView;
-    new MultiView({
-      childViews: [{
-        type: 'GitDemonstrationView',
-        options: this.getExportObj()
-      }]
-    });
-  },
-
-  getExportObj: function() {
-    return {
-      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
-      afterMarkdowns: this.afterMarkdownView.exportToArray(),
-      command: this.commandView.getText(),
-      beforeCommand: this.beforeCommandView.getText()
-    };
-  },
-
-  confirmed: function() {
-    this.die();
-    this.deferred.resolve(this.getExportObj());
-  },
-
-  cancelled: function() {
-    this.die();
-    this.deferred.resolve();
-  },
-
-  getInsideElement: function() {
-    return this.$('.insideBuilder')[0];
-  }
-});
-
-var MultiViewBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'multiViewBuilder box vertical',
-  template: _.template($('#multi-view-builder').html()),
-  typeToConstructor: {
-    ModalAlert: MarkdownGrabber,
-    GitDemonstrationView: DemonstrationBuilder
-  },
-
-  events: {
-    'click div.deleteButton': 'deleteOneView',
-    'click div.testButton': 'testOneView',
-    'click div.editButton': 'editOneView',
-    'click div.testEntireView': 'testEntireView',
-    'click div.addView': 'addView',
-    'click div.saveView': 'saveView',
-    'click div.cancelView': 'cancel'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    this.multiViewJSON = options.multiViewJSON || {};
-
-    this.JSON = {
-      views: this.getChildViews(),
-      supportedViews: _.keys(this.typeToConstructor)
-    };
-
-    this.container = new ModalTerminal({
-      title: 'Build a MultiView!'
-    });
-    this.render();
-
-    this.show();
-  },
-
-  saveView: function() {
-    this.hide();
-    this.deferred.resolve(this.multiViewJSON);
-  },
-
-  cancel: function() {
-    this.hide();
-    this.deferred.resolve();
-  },
-
-  addView: function(ev) {
-    var el = ev.srcElement;
-    var type = $(el).attr('data-type');
-
-    var whenDone = Q.defer();
-    var Constructor = this.typeToConstructor[type];
-    var builder = new Constructor({
-      deferred: whenDone
-    });
-    whenDone.promise
-    .then(_.bind(function() {
-      var newView = {
-        type: type,
-        options: builder.getExportObj()
-      };
-      this.addChildViewObj(newView);
-    }, this))
-    .fail(function() {
-      // they dont want to add the view apparently, so just return
-    })
-    .done();
-  },
-
-  testOneView: function(ev) {
-    var el = ev.srcElement;
-    var index = $(el).attr('data-index');
-    var toTest = this.getChildViews()[index];
-    var MultiView = require('../views/multiView').MultiView;
-    new MultiView({
-      childViews: [toTest]
-    });
-  },
-
-  testEntireView: function() {
-    var MultiView = require('../views/multiView').MultiView;
-    new MultiView({
-      childViews: this.getChildViews()
-    });
-  },
-
-  editOneView: function(ev) {
-    var el = ev.srcElement;
-    var index = $(el).attr('data-index');
-    var type = $(el).attr('data-type');
-
-    var whenDone = Q.defer();
-    var builder = new this.typeToConstructor[type]({
-      deferred: whenDone,
-      fromObj: this.getChildViews()[index]
-    });
-    whenDone.promise
-    .then(_.bind(function() {
-      var newView = {
-        type: type,
-        options: builder.getExportObj()
-      };
-      var views = this.getChildViews();
-      views[index] = newView;
-      this.setChildViews(views);
-    }, this))
-    .fail(function() { })
-    .done();
-  },
-
-  deleteOneView: function(ev) {
-    var el = ev.srcElement;
-    var index = $(el).attr('data-index');
-    var toSlice = this.getChildViews();
-
-    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
-    this.setChildViews(updated);
-    this.update();
-  },
-
-  addChildViewObj: function(newObj, index) {
-    var childViews = this.getChildViews();
-    childViews.push(newObj);
-    this.setChildViews(childViews);
-    this.update();
-  },
-
-  setChildViews: function(newArray) {
-    this.multiViewJSON.childViews = newArray;
-  },
-
-  getChildViews: function() {
-    return this.multiViewJSON.childViews || [];
-  },
-
-  update: function() {
-    this.JSON.views = this.getChildViews();
-    this.renderAgain();
-  }
-});
-
-exports.MarkdownGrabber = MarkdownGrabber;
-exports.DemonstrationBuilder = DemonstrationBuilder;
-exports.TextGrabber = TextGrabber;
-exports.MultiViewBuilder = MultiViewBuilder;
-exports.MarkdownPresenter = MarkdownPresenter;
-
-
-});
-
-require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
-  type: 'ModalAlert',
-  options: {
-    markdowns: [
-      '## Welcome to the level builder!',
-      '',
-      'Here are the main steps:',
-      '',
-      '  * Set up the initial environment with git commands',
-      '  * Define the starting tree with ```define start```',
-      '  * Enter the series of git commands that compose the (optimal) solution',
-      '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-      '  * Optionally define a hint with ```define hint```',
-      '  * Edit the name with ```define name```',
-      '  * Optionally define a nice start dialog with ```edit dialog```',
-      '  * Enter the command ```finish``` to output your level JSON!'
-    ]
-  }
-}];
 
 });
 
@@ -19066,48 +19690,6 @@ exports.detectZoom = detectZoom;
 
 });
 
-require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-
-var GitCommands = require('../git/commands');
-
-var Errors = require('../util/errors');
-var GitError = Errors.GitError;
-
-function DisabledMap(options) {
-  options = options || {};
-  this.disabledMap = options.disabledMap || {
-    'git cherry-pick': true,
-    'git rebase': true
-  };
-}
-
-DisabledMap.prototype.getInstantCommands = function() {
-  // this produces an array of regex / function pairs that can be
-  // piped into a parse waterfall to disable certain git commmands
-  // :D
-  var instants = [];
-  var onMatch = function() {
-    throw new GitError({
-      msg: 'That git command is disabled for this level!'
-    });
-  };
-
-  _.each(this.disabledMap, function(val, disabledCommand) {
-    var gitRegex = GitCommands.regexMap[disabledCommand];
-    if (!gitRegex) {
-      throw new Error('wuttttt this disbaled command' + disabledCommand +
-        ' has no regex matching');
-    }
-    instants.push([gitRegex, onMatch]);
-  });
-  return instants;
-};
-
-exports.DisabledMap = DisabledMap;
-
-
-});
-
 require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = [{
   type: 'ModalAlert',
   options: {
@@ -19174,25 +19756,6 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
     dummy[key] = stub;
   }
   return dummy;
-};
-
-
-});
-
-require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
-  ////////////////////////////////////////////////////////////////////////////
-  'error-untranslated-key': {
-    '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
-    '__params__': {
-      'key': 'The name of the translation key that is missing'
-    },
-    'en': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
-  },
-  ////////////////////////////////////////////////////////////////////////////
-  'error-untranslated': {
-    '__desc__': 'The general error when we encounter a dialog that is not translated',
-    'en': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
-  }
 };
 
 
@@ -22507,7 +23070,501 @@ exports.DisabledMap = DisabledMap;
 });
 require("/src/js/level/disabledMap.js");
 
-require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){undefined
+require.define("/src/js/level/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
+var Q = require('q');
+
+var util = require('../util');
+var Main = require('../app');
+var intl = require('../intl');
+
+var Errors = require('../util/errors');
+var Sandbox = require('../level/sandbox').Sandbox;
+var Constants = require('../util/constants');
+
+var Visualization = require('../visuals/visualization').Visualization;
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var DisabledMap = require('../level/disabledMap').DisabledMap;
+var Command = require('../models/commandModel').Command;
+var GitShim = require('../git/gitShim').GitShim;
+
+var MultiView = require('../views/multiView').MultiView;
+var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
+var NextLevelConfirm = require('../views').NextLevelConfirm;
+var LevelToolbar = require('../views').LevelToolbar;
+
+var TreeCompare = require('../git/treeCompare').TreeCompare;
+
+var regexMap = {
+  'help level': /^help level$/,
+  'start dialog': /^start dialog$/,
+  'show goal': /^show goal$/,
+  'hide goal': /^hide goal$/,
+  'show solution': /^show solution($|\s)/
+};
+
+var parse = util.genParseCommand(regexMap, 'processLevelCommand');
+
+var Level = Sandbox.extend({
+  initialize: function(options) {
+    options = options || {};
+    options.level = options.level || {};
+
+    this.level = options.level;
+
+    this.gitCommandsIssued = [];
+    this.commandsThatCount = this.getCommandsThatCount();
+    this.solved = false;
+
+    this.treeCompare = new TreeCompare();
+
+    this.initGoalData(options);
+    this.initName(options);
+
+    Level.__super__.initialize.apply(this, [options]);
+    this.startOffCommand();
+
+    this.handleOpen(options.deferred);
+  },
+
+  handleOpen: function(deferred) {
+    deferred = deferred || Q.defer();
+
+    // if there is a multiview in the beginning, open that
+    // and let it resolve our deferred
+    if (this.level.startDialog && !this.testOption('noIntroDialog')) {
+      new MultiView(_.extend(
+        {},
+        intl.getStartDialog(this.level),
+        { deferred: deferred }
+      ));
+      return;
+    }
+
+    // otherwise, resolve after a 700 second delay to allow
+    // for us to animate easily
+    setTimeout(function() {
+      deferred.resolve();
+    }, this.getAnimationTime() * 1.2);
+  },
+
+  startDialog: function(command, deferred) {
+    if (!this.level.startDialog) {
+      command.set('error', new Errors.GitError({
+        msg: 'There is no start dialog to show for this level!'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    this.handleOpen(deferred);
+    deferred.promise.then(function() {
+      command.set('status', 'finished');
+    });
+  },
+
+  initName: function() {
+    if (!this.level.name) {
+      this.level.name = 'Rebase Classic';
+      console.warn('REALLY BAD FORM need ids and names');
+    }
+
+    this.levelToolbar = new LevelToolbar({
+      name: this.level.name
+    });
+  },
+
+  initGoalData: function(options) {
+    if (!this.level.goalTreeString || !this.level.solutionCommand) {
+      throw new Error('need goal tree and solution');
+    }
+  },
+
+  takeControl: function() {
+    Main.getEventBaton().stealBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Level.__super__.takeControl.apply(this);
+  },
+
+  releaseControl: function() {
+    Main.getEventBaton().releaseBaton('processLevelCommand', this.processLevelCommand, this);
+
+    Level.__super__.releaseControl.apply(this);
+  },
+
+  startOffCommand: function() {
+    if (!this.testOption('noStartCommand')) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'hint; delay 2000; show goal'
+      );
+    }
+  },
+
+  initVisualization: function(options) {
+    this.mainVis = new Visualization({
+      el: options.el || this.getDefaultVisEl(),
+      treeString: options.level.startTree
+    });
+  },
+
+  initGoalVisualization: function() {
+    // first we make the goal visualization holder
+    this.goalCanvasHolder = new CanvasTerminalHolder();
+
+    // then we make a visualization. the "el" here is the element to
+    // track for size information. the container is where the canvas will be placed
+    this.goalVis = new Visualization({
+      el: this.goalCanvasHolder.getCanvasLocation(),
+      containerElement: this.goalCanvasHolder.getCanvasLocation(),
+      treeString: this.level.goalTreeString,
+      noKeyboardInput: true,
+      noClick: true
+    });
+    return this.goalCanvasHolder;
+  },
+
+  showSolution: function(command, deferred) {
+    var toIssue = this.level.solutionCommand;
+    var issueFunc = function() {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        toIssue
+      );
+    };
+
+    var commandStr = command.get('rawStr');
+    if (!this.testOptionOnString(commandStr, 'noReset')) {
+      toIssue = 'reset; ' + toIssue;
+    }
+    if (this.testOptionOnString(commandStr, 'force')) {
+      issueFunc();
+      command.finishWith(deferred);
+      return;
+    }
+
+    // allow them for force the solution
+    var confirmDefer = Q.defer();
+    var confirmView = new ConfirmCancelTerminal({
+      markdowns: [
+        '## Are you sure you want to see the solution?',
+        '',
+        'I believe in you! You can do it'
+      ],
+      deferred: confirmDefer
+    });
+
+    confirmDefer.promise
+    .then(issueFunc)
+    .fail(function() {
+      command.setResult("Great! I'll let you get back to it");
+    })
+    .done(function() {
+     // either way we animate, so both options can share this logic
+     setTimeout(function() {
+        command.finishWith(deferred);
+      }, confirmView.getAnimationTime());
+    });
+  },
+
+  showGoal: function(command, defer) {
+    this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
+  },
+
+  showSideVis: function(command, defer, canvasHolder, initMethod) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+    if (!canvasHolder || !canvasHolder.inDom) {
+      canvasHolder = initMethod.apply(this);
+    }
+
+    canvasHolder.slideIn();
+    setTimeout(safeFinish, canvasHolder.getAnimationTime());
+  },
+
+  hideGoal: function(command, defer) {
+    this.hideSideVis(command, defer, this.goalCanvasHolder);
+  },
+
+  hideSideVis: function(command, defer, canvasHolder, vis) {
+    var safeFinish = function() {
+      if (command) { command.finishWith(defer); }
+    };
+
+    if (canvasHolder && canvasHolder.inDom) {
+      canvasHolder.die();
+      setTimeout(safeFinish, canvasHolder.getAnimationTime());
+    } else {
+      safeFinish();
+    }
+  },
+
+  initParseWaterfall: function(options) {
+    Level.__super__.initParseWaterfall.apply(this, [options]);
+
+    // add our specific functionaity
+    this.parseWaterfall.addFirst(
+      'parseWaterfall',
+      parse
+    );
+
+    this.parseWaterfall.addFirst(
+      'instantWaterfall',
+      this.getInstantCommands()
+    );
+
+    // if we want to disable certain commands...
+    if (options.level.disabledMap) {
+      // disable these other commands
+      this.parseWaterfall.addFirst(
+        'instantWaterfall',
+        new DisabledMap({
+          disabledMap: options.level.disabledMap
+        }).getInstantCommands()
+      );
+    }
+  },
+
+  initGitShim: function(options) {
+    // ok we definitely want a shim here
+    this.gitShim = new GitShim({
+      beforeCB: _.bind(this.beforeCommandCB, this),
+      afterCB: _.bind(this.afterCommandCB, this),
+      afterDeferHandler: _.bind(this.afterCommandDefer, this)
+    });
+  },
+
+  getCommandsThatCount: function() {
+    var GitCommands = require('../git/commands');
+    var toCount = [
+      'git commit',
+      'git checkout',
+      'git rebase',
+      'git reset',
+      'git branch',
+      'git revert',
+      'git merge',
+      'git cherry-pick'
+    ];
+    var myRegexMap = {};
+    _.each(toCount, function(method) {
+      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
+
+      myRegexMap[method] = GitCommands.regexMap[method];
+    });
+    return myRegexMap;
+  },
+
+  undo: function() {
+    this.gitCommandsIssued.pop();
+    Level.__super__.undo.apply(this, arguments);
+  },
+
+  afterCommandCB: function(command) {
+    var matched = false;
+    _.each(this.commandsThatCount, function(regex) {
+      matched = matched || regex.test(command.get('rawStr'));
+    });
+    if (matched) {
+      this.gitCommandsIssued.push(command.get('rawStr'));
+    }
+  },
+
+  afterCommandDefer: function(defer, command) {
+    if (this.solved) {
+      command.addWarning(
+        "You've already solved this level, try other levels with 'show levels'" +
+        "or go back to the sandbox with 'sandbox'"
+      );
+      defer.resolve();
+      return;
+    }
+
+    // TODO refactor this ugly ass switch statement...
+    // ok so lets see if they solved it...
+    var current = this.mainVis.gitEngine.exportTree();
+    var solved;
+    if (this.level.compareOnlyMaster) {
+      solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+    } else if (this.level.compareOnlyBranches) {
+      solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+    } else if (this.level.compareAllBranchesHashAgnostic) {
+      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+    } else if (this.level.compareOnlyMasterHashAgnostic) {
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+    } else {
+      solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+    }
+
+    if (!solved) {
+      defer.resolve();
+      return;
+    }
+
+    // woohoo!!! they solved the level, lets animate and such
+    this.levelSolved(defer);
+  },
+
+  getNumSolutionCommands: function() {
+    // strip semicolons in bad places
+    var toAnalyze = this.level.solutionCommand.replace(/^;|;$/g, '');
+    return toAnalyze.split(';').length;
+  },
+
+  testOption: function(option) {
+    return this.options.command && new RegExp('--' + option).test(this.options.command.get('rawStr'));
+  },
+
+  testOptionOnString: function(str, option) {
+    return str && new RegExp('--' + option).test(str);
+  },
+
+  levelSolved: function(defer) {
+    this.solved = true;
+    Main.getEvents().trigger('levelSolved', this.level.id);
+    this.hideGoal();
+
+    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var numCommands = this.gitCommandsIssued.length;
+    var best = this.getNumSolutionCommands();
+
+    Constants.GLOBAL.isAnimating = true;
+    var skipFinishDialog = this.testOption('noFinishDialog');
+    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (!skipFinishDialog) {
+      finishAnimationChain = finishAnimationChain
+      .then(function() {
+        // we want to ask if they will move onto the next level
+        // while giving them their results...
+        var nextDialog = new NextLevelConfirm({
+          nextLevel: nextLevel,
+          numCommands: numCommands,
+          best: best
+        });
+
+        return nextDialog.getPromise();
+      });
+    }
+
+    finishAnimationChain
+    .then(function() {
+      if (!skipFinishDialog && nextLevel) {
+        Main.getEventBaton().trigger(
+          'commandSubmitted',
+          'level ' + nextLevel.id
+        );
+      }
+    })
+    .fail(function() {
+      // nothing to do, we will just close
+    })
+    .done(function() {
+      Constants.GLOBAL.isAnimating = false;
+      defer.resolve();
+    });
+  },
+
+  die: function() {
+    this.levelToolbar.die();
+
+    this.hideGoal();
+    this.mainVis.die();
+    this.releaseControl();
+
+    this.clear();
+
+    delete this.commandCollection;
+    delete this.mainVis;
+    delete this.goalVis;
+    delete this.goalCanvasHolder;
+  },
+
+  getInstantCommands: function() {
+    var hintMsg = (this.level.hint) ?
+      this.level.hint :
+      "Hmm, there doesn't seem to be a hint for this level :-/";
+
+    return [
+      [/^help$|^\?$/, function() {
+        throw new Errors.CommandResult({
+          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
+               '"help level" or "help general"'
+        });
+      }],
+      [/^hint$/, function() {
+        throw new Errors.CommandResult({
+          msg: hintMsg
+        });
+      }]
+    ];
+  },
+
+  reset: function() {
+    this.gitCommandsIssued = [];
+    this.solved = false;
+    Level.__super__.reset.apply(this, arguments);
+  },
+
+  buildLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().buildLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
+  importLevel: function(command, deferred) {
+    this.exitLevel();
+    setTimeout(function() {
+      Main.getSandbox().importLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+  },
+
+  startLevel: function(command, deferred) {
+    this.exitLevel();
+
+    setTimeout(function() {
+      Main.getSandbox().startLevel(command, deferred);
+    }, this.getAnimationTime() * 1.5);
+    // wow! that was simple :D
+  },
+
+  exitLevel: function(command, deferred) {
+    this.die();
+
+    if (!command || !deferred) {
+      return;
+    }
+
+    setTimeout(function() {
+      command.finishWith(deferred);
+    }, this.getAnimationTime());
+
+    // we need to fade in the sandbox
+    Main.getEventBaton().trigger('levelExited');
+  },
+
+  processLevelCommand: function(command, defer) {
+    var methodMap = {
+      'show goal': this.showGoal,
+      'hide goal': this.hideGoal,
+      'show solution': this.showSolution,
+      'start dialog': this.startDialog,
+      'help level': this.startDialog
+    };
+    var method = methodMap[command.get('method')];
+    if (!method) {
+      throw new Error('woah we dont support that method yet', method);
+    }
+
+    method.apply(this, [command, defer]);
+  }
+});
+
+exports.Level = Level;
+exports.regexMap = regexMap;
+
 });
 require("/src/js/level/index.js");
 
