@@ -41,7 +41,7 @@ exports.level = {
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
+              "Interactive (the `-i`) rebasing allows you to choose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
               "",
               "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
             ]
