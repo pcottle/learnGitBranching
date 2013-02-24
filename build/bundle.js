@@ -4508,6 +4508,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var Main = require('../app');
 var Errors = require('../util/errors');
 
@@ -4628,7 +4629,7 @@ var Sandbox = Backbone.View.extend({
     var toRestore = this.undoStack.pop();
     if (!toRestore) {
       command.set('error', new Errors.GitError({
-        msg: 'The undo stack is empty!'
+        msg: intl.str('undo-stack-empty')
       }));
       deferred.resolve();
       return;
@@ -4660,7 +4661,10 @@ var Sandbox = Backbone.View.extend({
     // handle the case where that level is not found...
     if (!levelJSON) {
       command.addWarning(
-        'A level for that id "' + desiredID + '" was not found!! Opening up level selection view...'
+        intl.str(
+          'level-no-id',
+          { id: desiredID }
+        )
       );
       Main.getEventBaton().trigger('commandSubmitted', 'levels');
 
@@ -4707,7 +4711,7 @@ var Sandbox = Backbone.View.extend({
 
   exitLevel: function(command, deferred) {
     command.addWarning(
-      "You aren't in a level! You are in a sandbox, start a level with `level [id]`"
+      intl.str('level-cant-exit')
     );
     command.set('status', 'error');
     deferred.resolve();
@@ -4724,7 +4728,7 @@ var Sandbox = Backbone.View.extend({
   resetSolved: function(command, deferred) {
     Main.getLevelArbiter().resetSolvedMap();
     command.addWarning(
-      "Solved map was reset, you are starting from a clean slate!"
+      intl.str('solved-map-reset')
     );
     command.finishWith(deferred);
   },
@@ -4771,7 +4775,7 @@ var Sandbox = Backbone.View.extend({
 
   importTree: function(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
-      previewText: "Paste a tree JSON blob below!",
+      previewText: intl.str('paste-json'),
       fillerText: ' '
     });
     jsonGrabber.deferred.promise
@@ -4804,7 +4808,7 @@ var Sandbox = Backbone.View.extend({
 
   importLevel: function(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
-      previewText: 'Paste a level JSON blob in here!',
+      previewText: intl.str('paste-json'),
       fillerText: ' '
     });
 
@@ -4854,7 +4858,7 @@ var Sandbox = Backbone.View.extend({
       childViews: [{
         type: 'MarkdownPresenter',
         options: {
-          previewText: 'Share this tree with friends! They can load it with "import tree"',
+          previewText: intl.str('share-tree'),
           fillerText: treeJSON,
           noConfirmCancel: true
         }
@@ -4875,7 +4879,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   mobileAlert: function(command, deferred) {
-    alert("Can't bring up the keyboard on mobile / tablet :( try visiting on desktop! :D");
+    alert(intl.str('mobile-alert'));
     command.finishWith(deferred);
   },
 
@@ -6483,6 +6487,260 @@ var qEndingLine = captureLine();
 
 });
 
+require.define("/src/js/intl/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var constants = require('../util/constants');
+var util = require('../util');
+
+var strings = require('../intl/strings').strings;
+
+var getDefaultLocale = exports.getDefaultLocale = function() {
+  return 'en_US';
+};
+
+var getLocale = exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  return getDefaultLocale();
+};
+
+// lets change underscores template settings so it interpolates
+// things like "{branchName} does not exist".
+var templateSettings = _.clone(_.templateSettings);
+templateSettings.interpolate = /\{(.+?)\}/g;
+var template = function(str, params) {
+  return _.template(str, params, templateSettings);
+};
+
+var str = exports.str = function(key, params) {
+  params = params || {};
+  // this function takes a key like "error-branch-delete"
+  // and parameters like {branchName: 'bugFix', num: 3}.
+  //
+  // it sticks those into a translation string like:
+  //   'en': 'You can not delete the branch {branchName} because' +
+  //         'you are currently on that branch! This is error number + {num}'
+  //
+  // to produce:
+  //
+  // 'You can not delete the branch bugFix because you are currently on that branch!
+  //  This is error number 3'
+
+  var locale = getLocale();
+  if (!strings[key]) {
+    console.warn('NO INTL support for key ' + key);
+    return 'NO INTL support for key ' + key;
+  }
+
+  if (!strings[key][locale]) {
+    if (key !== 'error-untranslated') {
+      return str('error-untranslated');
+    }
+    return 'No translation for the key "' + key + '"';
+  }
+
+  return template(
+    strings[key][locale],
+    params
+  );
+};
+
+var getIntlKey = exports.getIntlKey = function(obj, key) {
+  if (!obj || !obj[key]) {
+    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+  }
+  if (!obj[key][getDefaultLocale()]) {
+    console.warn(
+      'WARNING!! This blob does not have intl support:',
+      obj,
+      'for this key',
+      key
+    );
+  }
+
+  return obj[key][getLocale()];
+};
+
+var getHint = exports.getHint = function(level) {
+  return getIntlKey(level, 'hint') || str('error-untranslated');
+};
+
+var getName = exports.getName = function(level) {
+  return getIntlKey(level, 'name') || str('error-untranslated');
+};
+
+var getStartDialog = exports.getStartDialog = function(level) {
+  var startDialog = getIntlKey(level, 'startDialog');
+  if (startDialog) { return startDialog; }
+
+  // this level translation isnt supported yet, so lets add
+  // an alert to the front and give the english version.
+  var errorAlert = {
+    type: 'ModalAlert',
+    options: {
+      markdown: str('error-untranslated')
+    }
+  };
+  var startCopy = _.clone(
+    level.startDialog[util.getDefaultLocale()] || level.startDialog
+  );
+  startCopy.childViews.unshift(errorAlert);
+
+  return startCopy;
+};
+
+
+
+});
+
+require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  'refresh-tree-command': {
+    '__desc__': 'when the tree is visually refreshed',
+    'en_US': 'Refreshing tree...'
+  },
+  'locale-command': {
+    '__desc__': 'when the locale is set to something',
+    'en_US': 'Locale set to {locale}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'locale-reset-command': {
+    '__desc__': 'when the locale is reset',
+    'en_US': 'Locale reset to default, which is {locale}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'cd-command': {
+    '__desc__': 'dummy command output for the command in the key',
+    'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'ls-command': {
+    '__desc__': 'Dummy command output for the command in the key',
+    'en_US': 'DontWorryAboutFilesInThisDemo.txt'
+  },
+  'mobile-alert': {
+    '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
+    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'share-tree': {
+    '__desc__': 'When you export a tree, we want you to share the tree with friends',
+    'en_US': 'Share this tree with friends! They can load it with "import tree"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'paste-json': {
+    '__desc__': 'When you are importing a level or tree',
+    'en_US': 'Paste a JSON blob below!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'solved-map-reset': {
+    '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
+    'en_US': 'Solved map was reset, you are starting from a clean slate!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-cant-exit': {
+    '__desc__': 'When the user tries to exit a level when they are not in one',
+    'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-no-id': {
+    '__desc__': 'When you say an id but that level doesnt exist',
+    'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'undo-stack-empty': {
+    '__desc__': 'The undo command can only undo back until the last time the level was reset or the beginning of the level',
+    'en_US': 'The undo stack is empty!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'already-solved': {
+    '__desc__': 'When you play in a level that is already solved',
+    'en_US': 'You have alreaady solved this levle, try other levels with "levels" or go back to sandbox with "sandbox"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-disabled': {
+    '__desc__': 'When you try a command that is disabled',
+    'en_US': 'That git command is disabled for this level!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'share-json': {
+    '__desc__': 'when you have made the level, prompt to share this',
+    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'want-start-dialog': {
+    '__desc__': 'prompt to add a start dialog',
+    'en_US': 'You have not specified a start dialog, would you like to add one?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'want-hint': {
+    '__desc__': 'prompt to add a hint',
+    'en_US': 'You have not specified a hint, would you like to add one?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'prompt-hint': {
+    '__desc__': 'prompt for hint',
+    'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'prompt-name': {
+    '__desc__': 'prompt for level name',
+    'en_US': 'Enter the name for the level'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'solution-empty': {
+    '__desc__': 'If you define a solution without any commands, aka a level that is solved without doing anything',
+    'en_US': 'Your solution is empty!! Something is amiss'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'define-start-warning': {
+    '__desc__': 'When you define the start point again, it overwrites the solution and goal so we add a warning',
+    'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'help-vague-level': {
+    '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'help-vague-builder': {
+    '__desc__': 'When you are in a level builder, the help command is vague so you need to specify what you mean',
+    'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hide-start': {
+    '__desc__': 'The helper message for the window that shows the start tree for a level',
+    'en_US': 'You can hide this window with "hide start"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-builder': {
+    '__desc__': 'The name for the environment where you build levels',
+    'en_US': 'Level Builder'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'no-start-dialog': {
+    '__desc__': 'when the user tries to open a start dialog for a level that does not have one',
+    'en_US': 'There is no start dialog to show for this level!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'no-hint': {
+    '__desc__': 'when no hint is available for a level',
+    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'error-untranslated-key': {
+    '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
+    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'error-untranslated': {
+    '__desc__': 'The general error when we encounter a dialog that is not translated',
+    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+  }
+};
+
+
+});
+
 require.define("/src/js/app/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -6767,7 +7025,7 @@ var Level = Sandbox.extend({
   startDialog: function(command, deferred) {
     if (!this.level.startDialog) {
       command.set('error', new Errors.GitError({
-        msg: 'There is no start dialog to show for this level!'
+        msg: intl.str('no-start-dialog')
       }));
       deferred.resolve();
       return;
@@ -6858,6 +7116,7 @@ var Level = Sandbox.extend({
 
     // allow them for force the solution
     var confirmDefer = Q.defer();
+    // TODO intl
     var confirmView = new ConfirmCancelTerminal({
       markdowns: [
         '## Are you sure you want to see the solution?',
@@ -6870,7 +7129,7 @@ var Level = Sandbox.extend({
     confirmDefer.promise
     .then(issueFunc)
     .fail(function() {
-      command.setResult("Great! I'll let you get back to it");
+      command.setResult("");
     })
     .done(function() {
      // either way we animate, so both options can share this logic
@@ -6986,10 +7245,7 @@ var Level = Sandbox.extend({
 
   afterCommandDefer: function(defer, command) {
     if (this.solved) {
-      command.addWarning(
-        "You've already solved this level, try other levels with 'show levels'" +
-        "or go back to the sandbox with 'sandbox'"
-      );
+      command.addWarning(intl.str('already-solved'));
       defer.resolve();
       return;
     }
@@ -7102,15 +7358,10 @@ var Level = Sandbox.extend({
       return hint;
     }, this);
 
-    var hintMsg = (this.level.hint) ?
-      this.level.hint :
-      "Hmm, there doesn't seem to be a hint for this level :-/";
-
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
-          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
-               '"help level" or "help general"'
+          msg: intl.str('help-vague-level')
         });
       }],
       [/^hint$/, function() {
@@ -7184,133 +7435,6 @@ var Level = Sandbox.extend({
 
 exports.Level = Level;
 exports.regexMap = regexMap;
-
-});
-
-require.define("/src/js/intl/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var constants = require('../util/constants');
-var util = require('../util');
-
-var strings = require('../intl/strings').strings;
-
-var getDefaultLocale = exports.getDefaultLocale = function() {
-  return 'en_US';
-};
-
-var getLocale = exports.getLocale = function() {
-  if (constants.GLOBAL.locale) {
-    return constants.GLOBAL.locale;
-  }
-  return getDefaultLocale();
-};
-
-// lets change underscores template settings so it interpolates
-// things like "{branchName} does not exist".
-var templateSettings = _.clone(_.templateSettings);
-templateSettings.interpolate = /\{(.+?)\}/g;
-var template = function(str, params) {
-  return _.template(str, params, templateSettings);
-};
-
-var str = exports.str = function(key, params) {
-  params = params || {};
-  // this function takes a key like "error-branch-delete"
-  // and parameters like {branchName: 'bugFix', num: 3}.
-  //
-  // it sticks those into a translation string like:
-  //   'en': 'You can not delete the branch {branchName} because' +
-  //         'you are currently on that branch! This is error number + {num}'
-  //
-  // to produce:
-  //
-  // 'You can not delete the branch bugFix because you are currently on that branch!
-  //  This is error number 3'
-
-  var locale = getLocale();
-  if (!strings[key]) {
-    console.warn('NO INTL support for key ' + key);
-    return 'NO INTL support for key ' + key;
-  }
-
-  if (!strings[key][locale]) {
-    if (key !== 'error-untranslated') {
-      return str('error-untranslated');
-    }
-    return 'No translation for the key "' + key + '"';
-  }
-
-  return template(
-    strings[key][locale],
-    params
-  );
-};
-
-var getIntlKey = exports.getIntlKey = function(obj, key) {
-  if (!obj || !obj[key]) {
-    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
-  }
-  if (!obj[key][getDefaultLocale()]) {
-    console.warn(
-      'WARNING!! This blob does not have intl support:',
-      obj,
-      'for this key',
-      key
-    );
-  }
-
-  return obj[key][getLocale()];
-};
-
-var getHint = exports.getHint = function(level) {
-  return getIntlKey(level, 'hint') || str('error-untranslated');
-};
-
-var getName = exports.getName = function(level) {
-  return getIntlKey(level, 'name') || str('error-untranslated');
-};
-
-var getStartDialog = exports.getStartDialog = function(level) {
-  var startDialog = getIntlKey(level, 'startDialog');
-  if (startDialog) { return startDialog; }
-
-  // this level translation isnt supported yet, so lets add
-  // an alert to the front and give the english version.
-  var errorAlert = {
-    type: 'ModalAlert',
-    options: {
-      markdown: str('error-untranslated')
-    }
-  };
-  var startCopy = _.clone(
-    level.startDialog[util.getDefaultLocale()] || level.startDialog
-  );
-  startCopy.childViews.unshift(errorAlert);
-
-  return startCopy;
-};
-
-
-
-});
-
-require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
-  ////////////////////////////////////////////////////////////////////////////
-  'no-hint': {
-    '__desc__': 'when no hint is available for a level',
-    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
-  },
-  ////////////////////////////////////////////////////////////////////////////
-  'error-untranslated-key': {
-    '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
-    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
-  },
-  ////////////////////////////////////////////////////////////////////////////
-  'error-untranslated': {
-    '__desc__': 'The general error when we encounter a dialog that is not translated',
-    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
-  }
-};
-
 
 });
 
@@ -13533,25 +13657,31 @@ var CommandResult = Errors.CommandResult;
 var instantCommands = [
   [/^ls/, function() {
     throw new CommandResult({
-      msg: "DontWorryAboutFilesInThisDemo.txt"
+      msg: intl.str('ls-command')
     });
   }],
   [/^cd/, function() {
     throw new CommandResult({
-      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+      msg: intl.str('cd-command')
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
     constants.GLOBAL.locale = intl.getDefaultLocale();
     throw new CommandResult({
-      msg: 'Locale reset to default, which is ' + intl.getDefaultLocale()
+      msg: intl.str(
+        'locale-reset-command',
+        { locale: intl.getDefaultLocale() }
+      )
     });
   }],
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
     throw new CommandResult({
-      msg: "Locale set to " + bits[1]
+      msg: intl.str(
+        'locale-command',
+        { locale: bits[1] }
+      )
     });
   }],
   [/^refresh$/, function() {
@@ -13559,7 +13689,7 @@ var instantCommands = [
 
     events.trigger('refreshTree');
     throw new CommandResult({
-      msg: "Refreshing tree..."
+      msg: intl.str('refresh-tree-command')
     });
   }],
   [/^rollup (\d+)$/, function(bits) {
@@ -13629,6 +13759,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var intl = require('../intl');
 var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -13684,7 +13815,7 @@ var LevelBuilder = Level.extend({
 
   initName: function() {
     this.levelToolbar = new LevelToolbar({
-      name: 'Level Builder'
+      name: intl.str('level-builder')
     });
   },
 
@@ -13698,7 +13829,7 @@ var LevelBuilder = Level.extend({
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
       additionalClass: 'startTree',
-      text: 'You can hide this window with "hide start"'
+      text: intl.str('hide-start')
     });
 
     this.startVis = new Visualization({
@@ -13714,7 +13845,7 @@ var LevelBuilder = Level.extend({
   startOffCommand: function() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
-      'echo "Get Building!!"'
+      'echo :D'
     );
   },
 
@@ -13743,9 +13874,7 @@ var LevelBuilder = Level.extend({
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
-          msg: 'You are in a level builder, so multiple forms of ' +
-               'help are available. Please select either ' +
-               '"help general" or "help builder"'
+          msg: intl.str('help-vague-builder')
         });
       }]
     ];
@@ -13785,9 +13914,7 @@ var LevelBuilder = Level.extend({
   defineStart: function(command, deferred) {
     this.hideStart();
 
-    command.addWarning(
-      'Defining start point... solution and goal will be overwritten if they were defined earlier'
-    );
+    command.addWarning(intl.str('define-start-warning'));
     this.resetSolution();
 
     this.level.startTree = this.mainVis.gitEngine.printTree();
@@ -13801,7 +13928,7 @@ var LevelBuilder = Level.extend({
 
     if (!this.gitCommandsIssued.length) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!! something is amiss'
+        msg: intl.str('solution-empty')
       }));
       deferred.resolve();
       return;
@@ -13816,12 +13943,12 @@ var LevelBuilder = Level.extend({
   },
 
   defineName: function(command, deferred) {
-    this.level.name = prompt('Enter the name for the level');
+    this.level.name = prompt(intl.str('prompt-name'));
     if (command) { command.finishWith(deferred); }
   },
 
   defineHint: function(command, deferred) {
-    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    this.level.hint = prompt(intl.str('prompt-hint'));
     if (command) { command.finishWith(deferred); }
   },
 
@@ -13850,7 +13977,7 @@ var LevelBuilder = Level.extend({
   finish: function(command, deferred) {
     if (!this.gitCommandsIssued.length || !this.definedGoal) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty or goal is undefined!'
+        msg: intl.str('solution-empty')
       }));
       deferred.resolve();
       return;
@@ -13872,7 +13999,7 @@ var LevelBuilder = Level.extend({
       // ask for a hint if there is none
       var askForHintView = new ConfirmCancelTerminal({
         markdowns: [
-          'You have not specified a hint, would you like to add one?'
+          intl.str('want-hint')
         ]
       });
       askForHintView.getPromise()
@@ -13893,7 +14020,7 @@ var LevelBuilder = Level.extend({
 
       var askForStartView = new ConfirmCancelTerminal({
         markdowns: [
-          'You have not specified a start dialog, would you like to add one?'
+          intl.str('want-start-dialog')
         ]
       });
       askForStartView.getPromise()
@@ -13916,7 +14043,7 @@ var LevelBuilder = Level.extend({
       // ok great! lets just give them the goods
       new MarkdownPresenter({
         fillerText: JSON.stringify(this.getExportObj(), null, 2),
-        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+        previewText: intl.str('share-json')
       });
       command.finishWith(deferred);
     }, this));
@@ -17009,6 +17136,7 @@ exports.VisEdge = VisEdge;
 });
 
 require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
 
@@ -17030,7 +17158,7 @@ DisabledMap.prototype.getInstantCommands = function() {
   var instants = [];
   var onMatch = function() {
     throw new GitError({
-      msg: 'That git command is disabled for this level!'
+      msg: intl.str('command-disabled')
     });
   };
 
@@ -18617,7 +18745,7 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
 });
 
 require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "disabledMap" : {
+  "disabledMap": {
     "git cherry-pick": true,
     "git revert": true
   },
@@ -18625,11 +18753,13 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "name": "Juggling Commits",
+  "name": {
+    "en_US": "Juggling Commits"
+  },
   "hint": {
-      "en_US": "The first command is git rebase -i HEAD~2",
-      "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-      "zh_CN": "\u7b2c\u4e00\u4e2a\u547d\u4ee4\u662f 'git rebase -i HEAD~2'"
+    "en_US": "The first command is git rebase -i HEAD~2",
+    "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
+    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'"
   },
   "startDialog": {
     "en_US": {
@@ -18704,7 +18834,7 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-                "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+              "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
             ]
           }
         }
@@ -18716,13 +18846,10 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Juggling Commits",
               "## 커밋들 갖고 놀기",
               "",
-              // "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
               "이번에도 꽤 자주 발생하는 상황입니다. `newImage`와 `caption` 브랜치에 각각의 변경내역이 있고 서로 약간 관련이 있어서, 저장소에 차례로 쌓여있는 상황입니다.",
               "",
-              // "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
               "때로는 이전 커밋의 내용을 살짝 바꿔야하는 골치아픈 상황에 빠지게 됩니다. 이번에는 디자인 쪽에서 우리의 작업이력(history)에서는 이미 한참 전의 커밋 내용에 있는 `newImage`의 크기를 살짝 바꿔달라는 요청이 들어왔습니다."
             ]
           }
@@ -18731,19 +18858,13 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "We will overcome this difficulty by doing the following:",
               "이 문제를 다음과 같이 풀어봅시다:",
               "",
-              // "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
               "* `git rebase -i` 명령으로 우리가 바꿀 커밋을 가장 최근 순서로 바꾸어 놓습니다",
-              // "* We will `commit --amend` to make the slight modification",
               "* `commit --amend` 명령으로 커밋 내용을 정정합니다",
-              // "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
               "* 다시 `git rebase -i` 명령으로 이 전의 커밋 순서대로 되돌려 놓습니다",
-              // "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
               "* 마지막으로, master를 지금 트리가 변경된 부분으로 이동합니다. (편하신 방법으로 하세요)",
               "",
-              // "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
               "이 목표를 달성하기 위해서는 많은 방법이 있는데요(체리픽을 고민중이시죠?), 체리픽은 나중에 더 살펴보기로 하고, 우선은 위의 방법으로 해결해보세요."
             ]
           }
@@ -18752,7 +18873,6 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
               "최종적으로, 목표 결과를 눈여겨 보세요 -- 우리가 커밋을 두 번 옮겼기 때문에, 두 커밋 모두 따옴표 표시가 붙어있습니다. 정정한(amend) 커밋은 따옴표가 추가로 하나 더 붙어있습니다."
             ]
           }
@@ -18761,23 +18881,23 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
-
 });
 
 require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMaster": true,
-  "name": "Juggling Commits #2",
+  "name": {
+    "en_US": "Juggling Commits #2"
+  },
   "hint": {
-      "en_US": "Don't forget to forward master to the updated changes!",
-      "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-      "zh_CN": "\u522b\u5fd8\u8bb0\u4e86\u5c06 master \u5feb\u8fdb\u5230\u6700\u65b0\u7684\u66f4\u65b0\u4e0a\uff01"
+    "en_US": "Don't forget to forward master to the updated changes!",
+    "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+    "zh_CN": "别忘记了将 master 快进到最新的更新上！"
   },
   "startDialog": {
     "en_US": {
@@ -18868,16 +18988,12 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Juggling Commits #2",
               "## 커밋 갖고 놀기 #2",
               "",
-              // "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
               "*만약 이전 레벨의 커밋 갖고 놀기 #1을 풀지 않으셨다면, 계속하기에 앞서서 꼭 풀어보세요*",
               "",
-              // "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
               "이전 레벨에서 보셨듯이 `rebase -i` 명령으로 커밋의 순서를 바꿀 수 있습니다. 정정할 커밋이 바로 직전(top)에 있으면 간단히 --amend로 수정할 수 있고, 그리고 나서 다시 원하는 순서로 되돌려 놓으면 됩니다.",
               "",
-              // "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
               "이번에 한가지 문제는 순서를 꽤 많이 바꿔야한다는 점인데요, 그러다가 리베이스중에 충돌이 날 수 있습니다. 이번에는 다른 방법인 `git cherry-pick`으로 해결해 봅시다."
             ]
           }
@@ -18886,14 +19002,11 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
               "git cherry-pick으로 HEAD에다 어떤 커밋이든 떨어 뜨려 놓을 수 있다고 알려드린것 기억나세요? (단, 그 커밋이 현재 가리키고 있는 커밋이 아니어야합니다)",
               "",
-              // "Here's a small refresher demo:"
               "간단한 데모로 다시 알려드리겠습니다:"
             ],
             "afterMarkdowns": [
-              // "Nice! Let's move on"
               "좋아요! 계속할게요"
             ],
             "command": "git cherry-pick C2",
@@ -18904,7 +19017,6 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
               "그럼 이번 레벨에서는 아까와 마찬가지로 `C2` 커밋의 내용을 정정하되, `rebase -i`를 쓰지 말고 해보세요. ^.~"
             ]
           }
@@ -18913,7 +19025,6 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
 });
 
 require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
@@ -19723,10 +19834,6 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
   return dummy;
 };
 
-
-});
-
-require.define("fs",function(require,module,exports,__dirname,__filename,process,global){// nothing to see here... no file methods for the browser
 
 });
 
@@ -22494,58 +22601,145 @@ var getStartDialog = exports.getStartDialog = function(level) {
 });
 require("/src/js/intl/index.js");
 
-require.define("/src/js/intl/merge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var fs = require('fs');
-
-var intlKey = exports.intlKey = function(obj, key) {
-  if (typeof obj[key] !== 'string') {
-    return;
-  }
-
-  obj[key] = {
-    'en_US': obj[key]
-  };
-  return obj;
-};
-
-var intlLevel = exports.intlLevel = function(level) {
-  var keys = [
-    'hint',
-    'name'
-  ];
-  _.each(keys, function(key) {
-    intlKey(level, key);
-  }, this);
-
-  return level;
-};
-
-var intlPath = exports.intlPath = function(path) {
-  var level = require(path).level;
-  level = intlLevel(level);
-
-  var output = 'exports.level = ' +
-    JSON.stringify(level, null, 2) +
-    ';';
-  fs.writeFileSync(path, output);
-};
-
-
-});
-require("/src/js/intl/merge.js");
-
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
-  ////////////////////////////////////////////////////////////////////////////
+  'refresh-tree-command': {
+    '__desc__': 'when the tree is visually refreshed',
+    'en_US': 'Refreshing tree...'
+  },
+  'locale-command': {
+    '__desc__': 'when the locale is set to something',
+    'en_US': 'Locale set to {locale}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'locale-reset-command': {
+    '__desc__': 'when the locale is reset',
+    'en_US': 'Locale reset to default, which is {locale}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'cd-command': {
+    '__desc__': 'dummy command output for the command in the key',
+    'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'ls-command': {
+    '__desc__': 'Dummy command output for the command in the key',
+    'en_US': 'DontWorryAboutFilesInThisDemo.txt'
+  },
+  'mobile-alert': {
+    '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
+    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'share-tree': {
+    '__desc__': 'When you export a tree, we want you to share the tree with friends',
+    'en_US': 'Share this tree with friends! They can load it with "import tree"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'paste-json': {
+    '__desc__': 'When you are importing a level or tree',
+    'en_US': 'Paste a JSON blob below!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'solved-map-reset': {
+    '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
+    'en_US': 'Solved map was reset, you are starting from a clean slate!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-cant-exit': {
+    '__desc__': 'When the user tries to exit a level when they are not in one',
+    'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-no-id': {
+    '__desc__': 'When you say an id but that level doesnt exist',
+    'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'undo-stack-empty': {
+    '__desc__': 'The undo command can only undo back until the last time the level was reset or the beginning of the level',
+    'en_US': 'The undo stack is empty!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'already-solved': {
+    '__desc__': 'When you play in a level that is already solved',
+    'en_US': 'You have alreaady solved this levle, try other levels with "levels" or go back to sandbox with "sandbox"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-disabled': {
+    '__desc__': 'When you try a command that is disabled',
+    'en_US': 'That git command is disabled for this level!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'share-json': {
+    '__desc__': 'when you have made the level, prompt to share this',
+    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'want-start-dialog': {
+    '__desc__': 'prompt to add a start dialog',
+    'en_US': 'You have not specified a start dialog, would you like to add one?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'want-hint': {
+    '__desc__': 'prompt to add a hint',
+    'en_US': 'You have not specified a hint, would you like to add one?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'prompt-hint': {
+    '__desc__': 'prompt for hint',
+    'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'prompt-name': {
+    '__desc__': 'prompt for level name',
+    'en_US': 'Enter the name for the level'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'solution-empty': {
+    '__desc__': 'If you define a solution without any commands, aka a level that is solved without doing anything',
+    'en_US': 'Your solution is empty!! Something is amiss'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'define-start-warning': {
+    '__desc__': 'When you define the start point again, it overwrites the solution and goal so we add a warning',
+    'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'help-vague-level': {
+    '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'help-vague-builder': {
+    '__desc__': 'When you are in a level builder, the help command is vague so you need to specify what you mean',
+    'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hide-start': {
+    '__desc__': 'The helper message for the window that shows the start tree for a level',
+    'en_US': 'You can hide this window with "hide start"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-builder': {
+    '__desc__': 'The name for the environment where you build levels',
+    'en_US': 'Level Builder'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'no-start-dialog': {
+    '__desc__': 'when the user tries to open a start dialog for a level that does not have one',
+    'en_US': 'There is no start dialog to show for this level!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
     '__desc__': 'when no hint is available for a level',
     'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
   },
-  ////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
     'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
   },
-  ////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
@@ -22730,6 +22924,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var intl = require('../intl');
 var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -22785,7 +22980,7 @@ var LevelBuilder = Level.extend({
 
   initName: function() {
     this.levelToolbar = new LevelToolbar({
-      name: 'Level Builder'
+      name: intl.str('level-builder')
     });
   },
 
@@ -22799,7 +22994,7 @@ var LevelBuilder = Level.extend({
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
       additionalClass: 'startTree',
-      text: 'You can hide this window with "hide start"'
+      text: intl.str('hide-start')
     });
 
     this.startVis = new Visualization({
@@ -22815,7 +23010,7 @@ var LevelBuilder = Level.extend({
   startOffCommand: function() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
-      'echo "Get Building!!"'
+      'echo :D'
     );
   },
 
@@ -22844,9 +23039,7 @@ var LevelBuilder = Level.extend({
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
-          msg: 'You are in a level builder, so multiple forms of ' +
-               'help are available. Please select either ' +
-               '"help general" or "help builder"'
+          msg: intl.str('help-vague-builder')
         });
       }]
     ];
@@ -22886,9 +23079,7 @@ var LevelBuilder = Level.extend({
   defineStart: function(command, deferred) {
     this.hideStart();
 
-    command.addWarning(
-      'Defining start point... solution and goal will be overwritten if they were defined earlier'
-    );
+    command.addWarning(intl.str('define-start-warning'));
     this.resetSolution();
 
     this.level.startTree = this.mainVis.gitEngine.printTree();
@@ -22902,7 +23093,7 @@ var LevelBuilder = Level.extend({
 
     if (!this.gitCommandsIssued.length) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!! something is amiss'
+        msg: intl.str('solution-empty')
       }));
       deferred.resolve();
       return;
@@ -22917,12 +23108,12 @@ var LevelBuilder = Level.extend({
   },
 
   defineName: function(command, deferred) {
-    this.level.name = prompt('Enter the name for the level');
+    this.level.name = prompt(intl.str('prompt-name'));
     if (command) { command.finishWith(deferred); }
   },
 
   defineHint: function(command, deferred) {
-    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    this.level.hint = prompt(intl.str('prompt-hint'));
     if (command) { command.finishWith(deferred); }
   },
 
@@ -22951,7 +23142,7 @@ var LevelBuilder = Level.extend({
   finish: function(command, deferred) {
     if (!this.gitCommandsIssued.length || !this.definedGoal) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty or goal is undefined!'
+        msg: intl.str('solution-empty')
       }));
       deferred.resolve();
       return;
@@ -22973,7 +23164,7 @@ var LevelBuilder = Level.extend({
       // ask for a hint if there is none
       var askForHintView = new ConfirmCancelTerminal({
         markdowns: [
-          'You have not specified a hint, would you like to add one?'
+          intl.str('want-hint')
         ]
       });
       askForHintView.getPromise()
@@ -22994,7 +23185,7 @@ var LevelBuilder = Level.extend({
 
       var askForStartView = new ConfirmCancelTerminal({
         markdowns: [
-          'You have not specified a start dialog, would you like to add one?'
+          intl.str('want-start-dialog')
         ]
       });
       askForStartView.getPromise()
@@ -23017,7 +23208,7 @@ var LevelBuilder = Level.extend({
       // ok great! lets just give them the goods
       new MarkdownPresenter({
         fillerText: JSON.stringify(this.getExportObj(), null, 2),
-        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+        previewText: intl.str('share-json')
       });
       command.finishWith(deferred);
     }, this));
@@ -23079,6 +23270,7 @@ exports.regexMap = regexMap;
 require("/src/js/level/builder.js");
 
 require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
 
@@ -23100,7 +23292,7 @@ DisabledMap.prototype.getInstantCommands = function() {
   var instants = [];
   var onMatch = function() {
     throw new GitError({
-      msg: 'That git command is disabled for this level!'
+      msg: intl.str('command-disabled')
     });
   };
 
@@ -23203,7 +23395,7 @@ var Level = Sandbox.extend({
   startDialog: function(command, deferred) {
     if (!this.level.startDialog) {
       command.set('error', new Errors.GitError({
-        msg: 'There is no start dialog to show for this level!'
+        msg: intl.str('no-start-dialog')
       }));
       deferred.resolve();
       return;
@@ -23294,6 +23486,7 @@ var Level = Sandbox.extend({
 
     // allow them for force the solution
     var confirmDefer = Q.defer();
+    // TODO intl
     var confirmView = new ConfirmCancelTerminal({
       markdowns: [
         '## Are you sure you want to see the solution?',
@@ -23306,7 +23499,7 @@ var Level = Sandbox.extend({
     confirmDefer.promise
     .then(issueFunc)
     .fail(function() {
-      command.setResult("Great! I'll let you get back to it");
+      command.setResult("");
     })
     .done(function() {
      // either way we animate, so both options can share this logic
@@ -23422,10 +23615,7 @@ var Level = Sandbox.extend({
 
   afterCommandDefer: function(defer, command) {
     if (this.solved) {
-      command.addWarning(
-        "You've already solved this level, try other levels with 'show levels'" +
-        "or go back to the sandbox with 'sandbox'"
-      );
+      command.addWarning(intl.str('already-solved'));
       defer.resolve();
       return;
     }
@@ -23538,15 +23728,10 @@ var Level = Sandbox.extend({
       return hint;
     }, this);
 
-    var hintMsg = (this.level.hint) ?
-      this.level.hint :
-      "Hmm, there doesn't seem to be a hint for this level :-/";
-
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
-          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
-               '"help level" or "help general"'
+          msg: intl.str('help-vague-level')
         });
       }],
       [/^hint$/, function() {
@@ -23754,6 +23939,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var Main = require('../app');
 var Errors = require('../util/errors');
 
@@ -23874,7 +24060,7 @@ var Sandbox = Backbone.View.extend({
     var toRestore = this.undoStack.pop();
     if (!toRestore) {
       command.set('error', new Errors.GitError({
-        msg: 'The undo stack is empty!'
+        msg: intl.str('undo-stack-empty')
       }));
       deferred.resolve();
       return;
@@ -23906,7 +24092,10 @@ var Sandbox = Backbone.View.extend({
     // handle the case where that level is not found...
     if (!levelJSON) {
       command.addWarning(
-        'A level for that id "' + desiredID + '" was not found!! Opening up level selection view...'
+        intl.str(
+          'level-no-id',
+          { id: desiredID }
+        )
       );
       Main.getEventBaton().trigger('commandSubmitted', 'levels');
 
@@ -23953,7 +24142,7 @@ var Sandbox = Backbone.View.extend({
 
   exitLevel: function(command, deferred) {
     command.addWarning(
-      "You aren't in a level! You are in a sandbox, start a level with `level [id]`"
+      intl.str('level-cant-exit')
     );
     command.set('status', 'error');
     deferred.resolve();
@@ -23970,7 +24159,7 @@ var Sandbox = Backbone.View.extend({
   resetSolved: function(command, deferred) {
     Main.getLevelArbiter().resetSolvedMap();
     command.addWarning(
-      "Solved map was reset, you are starting from a clean slate!"
+      intl.str('solved-map-reset')
     );
     command.finishWith(deferred);
   },
@@ -24017,7 +24206,7 @@ var Sandbox = Backbone.View.extend({
 
   importTree: function(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
-      previewText: "Paste a tree JSON blob below!",
+      previewText: intl.str('paste-json'),
       fillerText: ' '
     });
     jsonGrabber.deferred.promise
@@ -24050,7 +24239,7 @@ var Sandbox = Backbone.View.extend({
 
   importLevel: function(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
-      previewText: 'Paste a level JSON blob in here!',
+      previewText: intl.str('paste-json'),
       fillerText: ' '
     });
 
@@ -24100,7 +24289,7 @@ var Sandbox = Backbone.View.extend({
       childViews: [{
         type: 'MarkdownPresenter',
         options: {
-          previewText: 'Share this tree with friends! They can load it with "import tree"',
+          previewText: intl.str('share-tree'),
           fillerText: treeJSON,
           noConfirmCancel: true
         }
@@ -24121,7 +24310,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   mobileAlert: function(command, deferred) {
-    alert("Can't bring up the keyboard on mobile / tablet :( try visiting on desktop! :D");
+    alert(intl.str('mobile-alert'));
     command.finishWith(deferred);
   },
 
@@ -24174,25 +24363,31 @@ var CommandResult = Errors.CommandResult;
 var instantCommands = [
   [/^ls/, function() {
     throw new CommandResult({
-      msg: "DontWorryAboutFilesInThisDemo.txt"
+      msg: intl.str('ls-command')
     });
   }],
   [/^cd/, function() {
     throw new CommandResult({
-      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+      msg: intl.str('cd-command')
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
     constants.GLOBAL.locale = intl.getDefaultLocale();
     throw new CommandResult({
-      msg: 'Locale reset to default, which is ' + intl.getDefaultLocale()
+      msg: intl.str(
+        'locale-reset-command',
+        { locale: intl.getDefaultLocale() }
+      )
     });
   }],
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
     throw new CommandResult({
-      msg: "Locale set to " + bits[1]
+      msg: intl.str(
+        'locale-command',
+        { locale: bits[1] }
+      )
     });
   }],
   [/^refresh$/, function() {
@@ -24200,7 +24395,7 @@ var instantCommands = [
 
     events.trigger('refreshTree');
     throw new CommandResult({
-      msg: "Refreshing tree..."
+      msg: intl.str('refresh-tree-command')
     });
   }],
   [/^rollup (\d+)$/, function(bits) {
@@ -31365,16 +31560,18 @@ require("/src/levels/mixed/2.js");
 require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMaster": true,
-  "name": "Juggling Commits #2",
+  "name": {
+    "en_US": "Juggling Commits #2"
+  },
   "hint": {
-      "en_US": "Don't forget to forward master to the updated changes!",
-      "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-      "zh_CN": "\u522b\u5fd8\u8bb0\u4e86\u5c06 master \u5feb\u8fdb\u5230\u6700\u65b0\u7684\u66f4\u65b0\u4e0a\uff01"
+    "en_US": "Don't forget to forward master to the updated changes!",
+    "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+    "zh_CN": "别忘记了将 master 快进到最新的更新上！"
   },
   "startDialog": {
     "en_US": {
@@ -31465,16 +31662,12 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Juggling Commits #2",
               "## 커밋 갖고 놀기 #2",
               "",
-              // "*If you haven't completed Juggling Commits #1 (the previous level), please do so before continuing*",
               "*만약 이전 레벨의 커밋 갖고 놀기 #1을 풀지 않으셨다면, 계속하기에 앞서서 꼭 풀어보세요*",
               "",
-              // "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
               "이전 레벨에서 보셨듯이 `rebase -i` 명령으로 커밋의 순서를 바꿀 수 있습니다. 정정할 커밋이 바로 직전(top)에 있으면 간단히 --amend로 수정할 수 있고, 그리고 나서 다시 원하는 순서로 되돌려 놓으면 됩니다.",
               "",
-              // "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
               "이번에 한가지 문제는 순서를 꽤 많이 바꿔야한다는 점인데요, 그러다가 리베이스중에 충돌이 날 수 있습니다. 이번에는 다른 방법인 `git cherry-pick`으로 해결해 봅시다."
             ]
           }
@@ -31483,14 +31676,11 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
               "git cherry-pick으로 HEAD에다 어떤 커밋이든 떨어 뜨려 놓을 수 있다고 알려드린것 기억나세요? (단, 그 커밋이 현재 가리키고 있는 커밋이 아니어야합니다)",
               "",
-              // "Here's a small refresher demo:"
               "간단한 데모로 다시 알려드리겠습니다:"
             ],
             "afterMarkdowns": [
-              // "Nice! Let's move on"
               "좋아요! 계속할게요"
             ],
             "command": "git cherry-pick C2",
@@ -31501,7 +31691,6 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
               "그럼 이번 레벨에서는 아까와 마찬가지로 `C2` 커밋의 내용을 정정하되, `rebase -i`를 쓰지 말고 해보세요. ^.~"
             ]
           }
@@ -31510,7 +31699,6 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
     }
   }
 };
-
 });
 require("/src/levels/mixed/3.js");
 

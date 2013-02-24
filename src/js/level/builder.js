@@ -4,6 +4,7 @@ var Q = require('q');
 
 var util = require('../util');
 var Main = require('../app');
+var intl = require('../intl');
 var Errors = require('../util/errors');
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -59,7 +60,7 @@ var LevelBuilder = Level.extend({
 
   initName: function() {
     this.levelToolbar = new LevelToolbar({
-      name: 'Level Builder'
+      name: intl.str('level-builder')
     });
   },
 
@@ -73,7 +74,7 @@ var LevelBuilder = Level.extend({
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
       additionalClass: 'startTree',
-      text: 'You can hide this window with "hide start"'
+      text: intl.str('hide-start')
     });
 
     this.startVis = new Visualization({
@@ -89,7 +90,7 @@ var LevelBuilder = Level.extend({
   startOffCommand: function() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
-      'echo "Get Building!!"'
+      'echo :D'
     );
   },
 
@@ -118,9 +119,7 @@ var LevelBuilder = Level.extend({
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
-          msg: 'You are in a level builder, so multiple forms of ' +
-               'help are available. Please select either ' +
-               '"help general" or "help builder"'
+          msg: intl.str('help-vague-builder')
         });
       }]
     ];
@@ -160,9 +159,7 @@ var LevelBuilder = Level.extend({
   defineStart: function(command, deferred) {
     this.hideStart();
 
-    command.addWarning(
-      'Defining start point... solution and goal will be overwritten if they were defined earlier'
-    );
+    command.addWarning(intl.str('define-start-warning'));
     this.resetSolution();
 
     this.level.startTree = this.mainVis.gitEngine.printTree();
@@ -176,7 +173,7 @@ var LevelBuilder = Level.extend({
 
     if (!this.gitCommandsIssued.length) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty!! something is amiss'
+        msg: intl.str('solution-empty')
       }));
       deferred.resolve();
       return;
@@ -191,12 +188,12 @@ var LevelBuilder = Level.extend({
   },
 
   defineName: function(command, deferred) {
-    this.level.name = prompt('Enter the name for the level');
+    this.level.name = prompt(intl.str('prompt-name'));
     if (command) { command.finishWith(deferred); }
   },
 
   defineHint: function(command, deferred) {
-    this.level.hint = prompt('Enter a hint! Or blank if you dont want one');
+    this.level.hint = prompt(intl.str('prompt-hint'));
     if (command) { command.finishWith(deferred); }
   },
 
@@ -225,7 +222,7 @@ var LevelBuilder = Level.extend({
   finish: function(command, deferred) {
     if (!this.gitCommandsIssued.length || !this.definedGoal) {
       command.set('error', new Errors.GitError({
-        msg: 'Your solution is empty or goal is undefined!'
+        msg: intl.str('solution-empty')
       }));
       deferred.resolve();
       return;
@@ -247,7 +244,7 @@ var LevelBuilder = Level.extend({
       // ask for a hint if there is none
       var askForHintView = new ConfirmCancelTerminal({
         markdowns: [
-          'You have not specified a hint, would you like to add one?'
+          intl.str('want-hint')
         ]
       });
       askForHintView.getPromise()
@@ -268,7 +265,7 @@ var LevelBuilder = Level.extend({
 
       var askForStartView = new ConfirmCancelTerminal({
         markdowns: [
-          'You have not specified a start dialog, would you like to add one?'
+          intl.str('want-start-dialog')
         ]
       });
       askForStartView.getPromise()
@@ -291,7 +288,7 @@ var LevelBuilder = Level.extend({
       // ok great! lets just give them the goods
       new MarkdownPresenter({
         fillerText: JSON.stringify(this.getExportObj(), null, 2),
-        previewText: 'Here is the JSON for this level! Share it with someone or send it to me on Github!'
+        previewText: intl.str('share-json')
       });
       command.finishWith(deferred);
     }, this));

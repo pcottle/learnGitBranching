@@ -4,6 +4,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var Main = require('../app');
 var Errors = require('../util/errors');
 
@@ -124,7 +125,7 @@ var Sandbox = Backbone.View.extend({
     var toRestore = this.undoStack.pop();
     if (!toRestore) {
       command.set('error', new Errors.GitError({
-        msg: 'The undo stack is empty!'
+        msg: intl.str('undo-stack-empty')
       }));
       deferred.resolve();
       return;
@@ -156,7 +157,10 @@ var Sandbox = Backbone.View.extend({
     // handle the case where that level is not found...
     if (!levelJSON) {
       command.addWarning(
-        'A level for that id "' + desiredID + '" was not found!! Opening up level selection view...'
+        intl.str(
+          'level-no-id',
+          { id: desiredID }
+        )
       );
       Main.getEventBaton().trigger('commandSubmitted', 'levels');
 
@@ -203,7 +207,7 @@ var Sandbox = Backbone.View.extend({
 
   exitLevel: function(command, deferred) {
     command.addWarning(
-      "You aren't in a level! You are in a sandbox, start a level with `level [id]`"
+      intl.str('level-cant-exit')
     );
     command.set('status', 'error');
     deferred.resolve();
@@ -220,7 +224,7 @@ var Sandbox = Backbone.View.extend({
   resetSolved: function(command, deferred) {
     Main.getLevelArbiter().resetSolvedMap();
     command.addWarning(
-      "Solved map was reset, you are starting from a clean slate!"
+      intl.str('solved-map-reset')
     );
     command.finishWith(deferred);
   },
@@ -267,7 +271,7 @@ var Sandbox = Backbone.View.extend({
 
   importTree: function(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
-      previewText: "Paste a tree JSON blob below!",
+      previewText: intl.str('paste-json'),
       fillerText: ' '
     });
     jsonGrabber.deferred.promise
@@ -300,7 +304,7 @@ var Sandbox = Backbone.View.extend({
 
   importLevel: function(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
-      previewText: 'Paste a level JSON blob in here!',
+      previewText: intl.str('paste-json'),
       fillerText: ' '
     });
 
@@ -350,7 +354,7 @@ var Sandbox = Backbone.View.extend({
       childViews: [{
         type: 'MarkdownPresenter',
         options: {
-          previewText: 'Share this tree with friends! They can load it with "import tree"',
+          previewText: intl.str('share-tree'),
           fillerText: treeJSON,
           noConfirmCancel: true
         }
@@ -371,7 +375,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   mobileAlert: function(command, deferred) {
-    alert("Can't bring up the keyboard on mobile / tablet :( try visiting on desktop! :D");
+    alert(intl.str('mobile-alert'));
     command.finishWith(deferred);
   },
 

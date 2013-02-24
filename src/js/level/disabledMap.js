@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
 
@@ -20,7 +21,7 @@ DisabledMap.prototype.getInstantCommands = function() {
   var instants = [];
   var onMatch = function() {
     throw new GitError({
-      msg: 'That git command is disabled for this level!'
+      msg: intl.str('command-disabled')
     });
   };
 

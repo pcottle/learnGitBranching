@@ -80,7 +80,7 @@ var Level = Sandbox.extend({
   startDialog: function(command, deferred) {
     if (!this.level.startDialog) {
       command.set('error', new Errors.GitError({
-        msg: 'There is no start dialog to show for this level!'
+        msg: intl.str('no-start-dialog')
       }));
       deferred.resolve();
       return;
@@ -171,6 +171,7 @@ var Level = Sandbox.extend({
 
     // allow them for force the solution
     var confirmDefer = Q.defer();
+    // TODO intl
     var confirmView = new ConfirmCancelTerminal({
       markdowns: [
         '## Are you sure you want to see the solution?',
@@ -183,7 +184,7 @@ var Level = Sandbox.extend({
     confirmDefer.promise
     .then(issueFunc)
     .fail(function() {
-      command.setResult("Great! I'll let you get back to it");
+      command.setResult("");
     })
     .done(function() {
      // either way we animate, so both options can share this logic
@@ -299,10 +300,7 @@ var Level = Sandbox.extend({
 
   afterCommandDefer: function(defer, command) {
     if (this.solved) {
-      command.addWarning(
-        "You've already solved this level, try other levels with 'show levels'" +
-        "or go back to the sandbox with 'sandbox'"
-      );
+      command.addWarning(intl.str('already-solved'));
       defer.resolve();
       return;
     }
@@ -415,15 +413,10 @@ var Level = Sandbox.extend({
       return hint;
     }, this);
 
-    var hintMsg = (this.level.hint) ?
-      this.level.hint :
-      "Hmm, there doesn't seem to be a hint for this level :-/";
-
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
-          msg: 'You are in a level, so multiple forms of help are available. Please select either ' +
-               '"help level" or "help general"'
+          msg: intl.str('help-vague-level')
         });
       }],
       [/^hint$/, function() {

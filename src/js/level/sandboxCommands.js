@@ -13,25 +13,31 @@ var CommandResult = Errors.CommandResult;
 var instantCommands = [
   [/^ls/, function() {
     throw new CommandResult({
-      msg: "DontWorryAboutFilesInThisDemo.txt"
+      msg: intl.str('ls-command')
     });
   }],
   [/^cd/, function() {
     throw new CommandResult({
-      msg: "Directory Changed to '/directories/dont/matter/in/this/demo'"
+      msg: intl.str('cd-command')
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
     constants.GLOBAL.locale = intl.getDefaultLocale();
     throw new CommandResult({
-      msg: 'Locale reset to default, which is ' + intl.getDefaultLocale()
+      msg: intl.str(
+        'locale-reset-command',
+        { locale: intl.getDefaultLocale() }
+      )
     });
   }],
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
     throw new CommandResult({
-      msg: "Locale set to " + bits[1]
+      msg: intl.str(
+        'locale-command',
+        { locale: bits[1] }
+      )
     });
   }],
   [/^refresh$/, function() {
@@ -39,7 +45,7 @@ var instantCommands = [
 
     events.trigger('refreshTree');
     throw new CommandResult({
-      msg: "Refreshing tree..."
+      msg: intl.str('refresh-tree-command')
     });
   }],
   [/^rollup (\d+)$/, function(bits) {
