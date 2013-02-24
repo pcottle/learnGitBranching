@@ -28,7 +28,9 @@ var intlPath = exports.intlPath = function(path) {
   var level = require(path).level;
   level = intlLevel(level);
 
-  var output = JSON.stringify(level, null, 2);
+  var output = 'exports.level = ' +
+    JSON.stringify(level, null, 2) +
+    ';';
   fs.writeFileSync(path, output);
 };
 

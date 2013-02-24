@@ -93,13 +93,10 @@ var Level = Sandbox.extend({
   },
 
   initName: function() {
-    if (!this.level.name) {
-      this.level.name = 'Rebase Classic';
-      console.warn('REALLY BAD FORM need ids and names');
-    }
+    var name = intl.getName(this.level);
 
     this.levelToolbar = new LevelToolbar({
-      name: this.level.name
+      name: name
     });
   },
 
@@ -410,6 +407,14 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
+    var getHint = _.bind(function() {
+      var hint = intl.getHint(this.level);
+      if (!hint || !hint.length) {
+        return intl.str('no-hint');
+      }
+      return hint;
+    }, this);
+
     var hintMsg = (this.level.hint) ?
       this.level.hint :
       "Hmm, there doesn't seem to be a hint for this level :-/";
@@ -423,7 +428,7 @@ var Level = Sandbox.extend({
       }],
       [/^hint$/, function() {
         throw new Errors.CommandResult({
-          msg: hintMsg
+          msg: getHint()
         });
       }]
     ];

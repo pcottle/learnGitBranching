@@ -1,13 +1,15 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
-  "name": "Merging in Git",
+  "name": {
+    "en_US": "Merging in Git"
+  },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
-    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09",
+    "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -162,7 +164,6 @@ exports.level = {
               "처음으로 살펴볼 방법은 `git merge`입니다. Git의 합치기(merge)는 두 개의 부모(parent)를 가리키는 특별한 커밋을 만들어 냅니다. 두개의 부모가 있는 커밋이라는 것은 \"한 부모의 모든 작업내역과 나머지 부모의 모든 작업, *그리고* 그 두 부모의 모든 부모들의 작업내역을 포함한다\"라는 의미가 있습니다. ",
               "",
               "그림으로 보는게 이해하기 쉬워요. 다음 화면을 봅시다."
-
             ]
           }
         },

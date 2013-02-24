@@ -6780,13 +6780,10 @@ var Level = Sandbox.extend({
   },
 
   initName: function() {
-    if (!this.level.name) {
-      this.level.name = 'Rebase Classic';
-      console.warn('REALLY BAD FORM need ids and names');
-    }
+    var name = intl.getName(this.level);
 
     this.levelToolbar = new LevelToolbar({
-      name: this.level.name
+      name: name
     });
   },
 
@@ -7097,6 +7094,14 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
+    var getHint = _.bind(function() {
+      var hint = intl.getHint(this.level);
+      if (!hint || !hint.length) {
+        return intl.str('no-hint');
+      }
+      return hint;
+    }, this);
+
     var hintMsg = (this.level.hint) ?
       this.level.hint :
       "Hmm, there doesn't seem to be a hint for this level :-/";
@@ -7110,7 +7115,7 @@ var Level = Sandbox.extend({
       }],
       [/^hint$/, function() {
         throw new Errors.CommandResult({
-          msg: hintMsg
+          msg: getHint()
         });
       }]
     ];
@@ -7231,7 +7236,7 @@ var str = exports.str = function(key, params) {
     if (key !== 'error-untranslated') {
       return str('error-untranslated');
     }
-    return 'No translation for that key ' + key;
+    return 'No translation for the key "' + key + '"';
   }
 
   return template(
@@ -7257,11 +7262,11 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
 };
 
 var getHint = exports.getHint = function(level) {
-  return getIntlKey(level, 'hint') || '';
+  return getIntlKey(level, 'hint') || str('error-untranslated');
 };
 
 var getName = exports.getName = function(level) {
-  return getIntlKey(level, 'name') || '';
+  return getIntlKey(level, 'name') || str('error-untranslated');
 };
 
 var getStartDialog = exports.getStartDialog = function(level) {
@@ -7290,17 +7295,19 @@ var getStartDialog = exports.getStartDialog = function(level) {
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ////////////////////////////////////////////////////////////////////////////
+  'no-hint': {
+    '__desc__': 'when no hint is available for a level',
+    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
+  },
+  ////////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
-    '__params__': {
-      'key': 'The name of the translation key that is missing'
-    },
-    'en': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
   },
   ////////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
-    'en': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
   }
 };
 
@@ -17251,16 +17258,18 @@ exports.sequenceInfo = {
 });
 
 require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "name": 'Introduction to Git Commits',
+  "name": {
+    "en_US": "Introduction to Git Commits"
+  },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
-      "en_US": "Just type in 'git commit' twice to finish!",
-      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01",
-      "ko": "'git commit'이라고 두 번 치세요!"
-    },
-  "disabledMap" : {
+    "en_US": "Just type in 'git commit' twice to finish!",
+    "zh_CN": "敲两次 'git commit' 就好啦！",
+    "ko": "'git commit'이라고 두 번 치세요!"
+  },
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -17271,9 +17280,9 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "options": {
             "markdowns": [
               "## Git Commits",
-              "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
+              "A commit in a git repository records a snapshot of all the files in your directory. It's like a giant copy and paste, but even better!",
               "",
-              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That's why most commits have a parent commit above them -- you'll see this later in our visualizations.",
               "",
               "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
               "",
@@ -17317,20 +17326,14 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "options": {
             "markdowns": [
               "## Git 커밋",
-              // "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
               "커밋은 Git 저장소에 여러분의 디렉토리에 있는 모든 파일에 대한 스냅샷을 기록하는 것입니다. 디렉토리 전체에 대한 복사해 붙이기와 비슷하지만 훨씬 유용합니다!",
               "",
-              // "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
               "Git은 커밋을 가능한한 가볍게 유지하고자 해서, 커밋할 때마다 디렉토리 전체를 복사하는 일은 하지 않습니다. 각 커밋은 저장소의 이전 버전과 다음 버전의 변경내역(\"delta\"라고도 함)을 저장합니다. 그래서 대부분의 커밋이 그 커밋 위에 부모 커밋을 가리키고 있게 되는 것입니다. -- 곧 그림으로 된 화면에서 살펴보게 될 것입니다.",
               "",
-              //"In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
               "저장소를 복제(clone)하려면, 그 모든 변경분(delta)를 풀어내야하는데, 그 때문에 명령행 결과로 아래와 같이 보게됩니다. ",
               "",
               "`resolving deltas`",
               "",
-              //"when cloning a repo.",
-              //"",
-              //"It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
               "알아야할 것이 꽤 많습니다만, 일단은 커밋을 프로젝트의 각각의 스냅샷들로 생각하시는 걸로 충분합니다. 커밋은 매우 가볍고 커밋 사이의 전환도 매우 빠르다는 것을 기억해주세요!"
             ]
           }
@@ -17339,14 +17342,11 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
               "연습할 때 어떻게 보이는지 확인해보죠. 오른쪽 화면에 git 저장소를 그림으로 표현해 놓았습니다. 현재 두번 커밋한 상태입니다 -- 첫번째 커밋으로 `C0`, 그 다음으로 `C1`이라는 어떤 의미있는 변화가 있는 커밋이 있습니다.",
               "",
-              // "Hit the button below to make a new commit"
               "아래 버튼을 눌러 새로운 커밋을 만들어보세요"
             ],
             "afterMarkdowns": [
-              // "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
               "이렇게 보입니다! 멋지죠. 우리는 방금 저장소 내용을 변경해서 한번의 커밋으로 저장했습니다. 방금 만든 커밋은 부모는 `C1`이고, 어떤 커밋을 기반으로 변경된 것인지를 가리킵니다."
             ],
             "command": "git commit",
@@ -17357,7 +17357,6 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
               "계속해서 직접 한번 해보세요! 이 창을 닫고, 커밋을 두 번 하면 다음 레벨로 넘어갑니다"
             ]
           }
@@ -17393,7 +17392,7 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
             ],
             "command": "git commit",
             "afterMarkdowns": [
-                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+              "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
             ],
             "beforeCommand": ""
           }
@@ -17402,7 +17401,7 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+              "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
             ]
           }
         }
@@ -17410,19 +17409,20 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
 });
 
 require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
-  "name": "Branching in Git",
-  "hint": {
-      "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
-      "zh_CN": "\u7528 'git branch [\u65b0\u5206\u652f\u540d\u5b57]' \u6765\u521b\u5efa\u65b0\u5206\u652f\uff0c\u5e76\u7528 'git checkout [\u65b0\u5206\u652f]' \u5207\u6362\u5230\u65b0\u5206\u652f",
-      "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
+  "name": {
+    "en_US": "Branching in Git"
   },
-  "disabledMap" : {
+  "hint": {
+    "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
+    "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
+    "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
+  },
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -17588,21 +17588,16 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Git Branches",
               "## Git 브랜치",
               "",
-              // "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
               "깃의 브랜치도 놀랍도록 가볍습니다. 브랜치는 특정 커밋에 대한 참조(reference)에 지나지 않습니다. 이런 사실 때문에 수많은 Git 애찬론자들이 자주 이렇게 말하곤 합니다:",
               "",
               "```",
-              // "branch early, and branch often",
               "브랜치를 서둘러서, 그리고 자주 만드세요",
               "```",
               "",
-              // "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
               "브랜치를 많이 만들어도 메모리나 디스크 공간에 부담이 되지 않기 때문에, 여러분의 작업을 커다른 브랜치로 만들기 보다, 작은 단위로 잘게 나누는 것이 좋습니다.",
               "",
-              // "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
               "브랜치와 커밋을 같이 쓸 때, 어떻게 두 기능이 조화를 이루는지 알아보겠습니다. 하지만 우선은, 단순히 브랜치를 \"하나의 커밋과 그 부모 커밋들을 포함하는 작업 내역\"이라고 기억하시면 됩니다."
             ]
           }
@@ -17611,14 +17606,11 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's see what branches look like in practice.",
               "브랜치가 어떤 것인지 연습해보죠.",
               "",
-              // "Here we will check out a new branch named `newImage`"
               "`newImage`라는 브랜치를 살펴보겠습니다."
             ],
             "afterMarkdowns": [
-              // "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
               "저 그림에 브랜치의 모든 것이 담겨있습니다! 브랜치 `newImage`가 커밋 `C1`를 가리킵니다"
             ],
             "command": "git branch newImage",
@@ -17629,11 +17621,9 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's try to put some work on this new branch. Hit the button below"
               "이 새로운 브랜치에 약간의 작업을 더해봅시다. 아래 버튼을 눌러주세요"
             ],
             "afterMarkdowns": [
-              // "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
               "앗! `master` 브랜치가 움직이고, `newImage` 브랜치는 이동하지 않았네요! 그건 우리가 새 브랜치 위에 있지 않았었기 때문입니다. 별표(*)가 `master`에 있었던 것이죠."
             ],
             "command": "git commit",
@@ -17644,13 +17634,6 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's tell git we want to checkout the branch with",
-              // "",
-              // "```",
-              // "git checkout [name]",
-              // "```",
-              // "",
-              // "This will put us on the new branch before committing our changes"
               "아래의 명령으로 새 브랜치로 이동해 봅시다.",
               "",
               "```",
@@ -17658,10 +17641,8 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
               "```",
               "",
               "이렇게 하면 변경분을 커밋하기 전에 새 브랜치로 이동하게 됩니다."
-
             ],
             "afterMarkdowns": [
-              // "There we go! Our changes were recorded on the new branch"
               "이거죠! 이제 우리의 변경이 새 브랜치에 기록되었습니다!"
             ],
             "command": "git checkout newImage; git commit",
@@ -17672,8 +17653,6 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "Ok! You are all ready to get branching. Once this window closes,",
-              // "make a new branch named `bugFix` and switch to that branch"
               "좋아요! 이제 직접 브랜치 작업을 연습해봅시다. 이 창을 닫고,",
               "`bugFix`라는 새 브랜치를 만드시고, 그 브랜치로 이동해보세요"
             ]
@@ -17688,13 +17667,15 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
 require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
-  "name": "Merging in Git",
+  "name": {
+    "en_US": "Merging in Git"
+  },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
-    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09",
+    "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -17849,7 +17830,6 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
               "처음으로 살펴볼 방법은 `git merge`입니다. Git의 합치기(merge)는 두 개의 부모(parent)를 가리키는 특별한 커밋을 만들어 냅니다. 두개의 부모가 있는 커밋이라는 것은 \"한 부모의 모든 작업내역과 나머지 부모의 모든 작업, *그리고* 그 두 부모의 모든 부모들의 작업내역을 포함한다\"라는 의미가 있습니다. ",
               "",
               "그림으로 보는게 이해하기 쉬워요. 다음 화면을 봅시다."
-
             ]
           }
         },
@@ -17908,19 +17888,20 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
 });
 
 require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
-  "name": "Rebase Introduction",
+  "name": {
+    "en_US": "Rebase Introduction"
+  },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
-    "zh_CN": "\u786e\u4fdd\u4f60\u5148\u5728 bugFix \u5206\u652f\u8fdb\u884c\u63d0\u4ea4"
+    "zh_CN": "确保你先在 bugFix 分支进行提交"
   },
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -18064,16 +18045,12 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Git Rebase",
               "## Git 리베이스(Rebase)",
               "",
-              // "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
               "브랜치끼리의 작업을 접목하는 두번째 방법은 *리베이스(rebase)*입니다. 리베이스는 기본적으로 커밋들을 모아서 복사한 뒤, 다른 곳에 떨궈 놓는 것입니다.",
               "",
-              // "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
               "조금 어려게 느껴질 수 있지만, 리베이스를 하면 커밋들의 흐름을 보기 좋게 한 줄로 만들 수 있다는 장점이 있습니다. 리베이스를 쓰면 저장소의 커밋 로그와 이력이 한결 깨끗해집니다.",
               "",
-              // "Let's see it in action..."
               "어떻게 동작하는지 살펴볼까요..."
             ]
           }
@@ -18082,23 +18059,17 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
               "여기 또 브랜치 두 개가 있습니다; bugFix브랜치가 현재 선택됐다는 점 눈여겨 보세요 (별표 표시)",
               "",
-              // "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
               "bugFix 브랜치에서의 작업을 master 브랜치 위로 직접 옮겨 놓으려고 합니다. 그렇게 하면, 실제로는 두 기능을 따로따로 개발했지만, 마치 순서대로 개발한 것처럼 보이게 됩니다.",
               "",
-              // "Let's do that with the `git rebase` command"
               "`git rebase` 명령어로 함께 해보죠."
             ],
             "afterMarkdowns": [
-              // "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
               "오! 이제 bugFix 브랜치의 작업 내용이 master의 바로 위에 깔끔한 한 줄의 커밋으로 보이게 됐습니다.",
               "",
-              // "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
               "C3 커밋은 어딘가에 아직 남아있고(그림에서 흐려짐), C3'는 master 위에 올려 놓은 복사본입니다.",
               "",
-              // "The only problem is that master hasn't been updated either, let's do that now..."
               "master가 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
             ],
             "command": "git rebase master",
@@ -18109,11 +18080,9 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
               "우리는 지금 `master` 브랜치를 선택한 상태입니다. `bugFix` 브랜치쪽으로 리베이스 해보겠습니다..."
             ],
             "afterMarkdowns": [
-              // "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
               "보세요! `master`가 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
             ],
             "command": "git rebase bugFix",
@@ -18124,19 +18093,13 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "To complete this level, do the following",
               "이하 작업을 하면 이번 레벨을 통과합니다",
               "",
-              // "* Checkout a new branch named `bugFix`",
               "* `bugFix`라는 새 브랜치를 만들어 선택하세요",
-              // "* Commit once",
               "* 커밋 한 번 합니다",
-              // "* Go back to master and commit again",
               "* master로 돌아가서 또 커밋합니다",
-              // "* Check out bugFix again and rebase onto master",
               "* bugFix를 다시 선택하고 master에 리베이스 하세요",
               "",
-              // "Good luck!"
               "화이팅!"
             ]
           }
@@ -18145,18 +18108,19 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
 });
 
 require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
-  "name": "Reversing Changes in Git",
+  "name": {
+    "en_US": "Reversing Changes in Git"
+  },
   "hint": {
-      "en_US": "",
-      "zh_CN": "",
-      "ko": ""
+    "en_US": "",
+    "zh_CN": "",
+    "ko": ""
   },
   "startDialog": {
     "en_US": {
@@ -18291,13 +18255,10 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Reversing Changes in Git",
               "## Git에서 작업 되돌리기",
               "",
-              // "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
               "Git에는 작업한 것을 되돌리는 여러가지 방법이 있습니다. 변경내역을 되돌리는 것도 커밋과 마찬가지로 낮은 수준의 일(개별 파일이나 묶음을 스테이징 하는 것)과 높은 수준의 일(실제 변경이 복구되는 방법)이 있는데요, 여기서는 후자에 집중해 알려드릴게요.",
               "",
-              // "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
               "Git에서 변경한 내용을 되돌리는 방법은 크게 두가지가 있습니다 -- 하나는 `git reset`을 쓰는거고, 다른 하나는 `git revert`를 사용하는 것입니다. 다음 화면에서 하나씩 알아보겠습니다.",
               ""
             ]
@@ -18307,17 +18268,13 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "## Git Reset",
               "## Git 리셋(reset)",
               "",
-              // "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
               "`git reset`은 브랜치로 하여금 예전의 커밋을 가리키도록 이동시키는 방식으로 변경 내용을 되돌립니다. 이런 관점에서 \"히스토리를 고쳐쓴다\"라고 말할 수 있습니다. 즉, `git reset`은 마치 애초에 커밋하지 않은 것처럼 예전 커밋으로 브랜치를 옮기는 것입니다.",
               "",
-              // "Let's see what that looks like:"
               "어떤 그림인지 한번 보죠:"
             ],
             "afterMarkdowns": [
-              // "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
               "그림에서처럼 master 브랜치가 가리키던 커밋을 `C1`로 다시 옮겼습니다; 이러면 로컬 저장소에는 마치 `C2`커밋이 아예 없었던 것과 마찬가지 상태가 됩니다."
             ],
             "command": "git reset HEAD~1",
@@ -18328,20 +18285,15 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "## Git Revert",
               "## Git 리버트(revert)",
               "",
-              // "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "각자의 컴퓨터에서 작업하는 로컬 브랜치의 경우 리셋(reset)을 잘 쓸 수 있습니다만, \"히스토리를 고쳐쓴다\"는 점 때문에 다른 사람이 작업하는 리모트 브랜치에는 쓸 수 없습니다.",
               "",
-              // "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
               "변경분을 되돌리고, 이 되돌린 내용을 다른 사람들과 *공유하기* 위해서는, `git revert`를 써야합니다. 예제로 살펴볼게요."
             ],
             "afterMarkdowns": [
-              // "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
               "어색하게도, 우리가 되돌리려고한 커밋의 아래에 새로운 커밋이 생겼습니다. `C2`라는 새로운 커밋에 *변경내용*이 기록되는데요, 이 변경내역이 정확히 `C2` 커밋 내용의 반대되는 내용입니다.",
               "",
-              // "With reverting, you can push out your changes to share with others."
               "리버트를 하면 다른 사람들에게도 변경 내역을 밀어(push) 보낼 수 있습니다."
             ],
             "command": "git revert HEAD",
@@ -18352,10 +18304,8 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "이 레벨을 통과하려면, `local` 브랜치와 `pushed` 브랜치에 있는 최근 두 번의 커밋을 되돌려 보세요.",
               "",
-              // "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
               "`pushed`는 리모트 브랜치이고, `local`은 로컬 브랜치임을 신경쓰셔서 작업하세요 -- 어떤 방법을 선택하실지 떠오르시죠?"
             ]
           }
@@ -18364,22 +18314,23 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
 });
 
 require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C6%27%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "name": "Rebasing over 9000 times",
+  "name": {
+    "en_US": "Rebasing over 9000 times"
+  },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
+    "zh_CN": "记住，可能最终最高效的方法就是更新 master 分支..."
   },
   "startDialog": {
     "en_US": {
@@ -18424,16 +18375,12 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "### Rebasing Multiple Branches",
               "### 여러 브랜치를 리베이스(rebase)하기 ",
               "",
-              // "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
               "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 master에 리베이스 해볼까요?",
               "",
-              // "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
               "",
-              // "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
               "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
             ]
           }
@@ -18442,22 +18389,23 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
     }
   }
 };
-
 });
 
 require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareAllBranchesHashAgnostic": true,
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22master%22%7D%2C%22one%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22one%22%7D%2C%22two%22%3A%7B%22target%22%3A%22C2%27%27%22%2C%22id%22%3A%22two%22%7D%2C%22three%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22three%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C4%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22two%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "name": "Branch Spaghetti",
+  "name": {
+    "en_US": "Branch Spaghetti"
+  },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 one, 再操作分支 two, 最后才是分支 three"
   },
   "startDialog": {
     "en_US": {
@@ -18506,19 +18454,14 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Branch Spaghetti",
               "## 브랜치 스파게티",
               "",
-              // "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
               "음, 이번에는 만만치 않습니다!",
               "",
-              // "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
               "여기 `master` 브랜치의 몇 번 이전 커밋에 `one`, `two`,`three` 총 3개의 브랜치가 있습니다. 어떤 이유인지는 몰라도, master의 최근 커밋 몇 개를 나머지 세 개의 브랜치에 반영하려고 합니다.",
               "",
-              // "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "`one` 브랜치는 순서를 바꾸고 `C5`커밋을 삭제하고, `two`브랜치는 순서만 바꾸며, `three`브랜치는 하나의 커밋만 가져옵시다!",
               "",
-              // "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
               "자유롭게 이 문제를 풀어보시고 나서 `show solution`명령어로 모범 답안을 확인해보세요."
             ]
           }
@@ -18527,23 +18470,24 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
     }
   }
 };
-
 });
 
 require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "name": "Grabbing Just 1 Commit",
+  "name": {
+    "en_US": "Grabbing Just 1 Commit"
+  },
   "hint": {
-      "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
-      "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
-      "zh_CN": "\u8bb0\u4f4f\uff0c\u4ea4\u4e92\u5f0f rebase \u6216\u8005 cherry-pick \u4f1a\u5f88\u6709\u5e2e\u52a9"
-    },
+    "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+    "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
+    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
+  },
   "startDialog": {
     "en_US": {
       "childViews": [
@@ -18621,7 +18565,7 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-                "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+              "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
             ]
           }
         }
@@ -18633,16 +18577,12 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Locally stacked commits",
               "## 로컬에 쌓인 커밋들",
               "",
-              // "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
               "개발중에 종종 이런 상황이 생깁니다: 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
               "",
-              // "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
               "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
               "",
-              // "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
               "이제 `bugFix`브랜치의 내용을 `master`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `master`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
             ]
           }
@@ -18651,16 +18591,13 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
               "여기에서 Git의 마법이 드러납니다. 이 문제를 해결하는 여러가지 방법이 있습니다만, 가장 간단한 두가지 방법 아래와 같습니다:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              // "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
               "대화형 (-i 옵션) 리베이스(rebase)로는 어떤 커밋을 취하거나 버릴지를 선택할 수 있습니다. 또 커밋의 순서를 바꿀 수도 있습니다. 이 커맨드로 어떤 작업의 일부만 골라내기에 유용합니다.",
               "",
-              // "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
               "체리픽(cherry-pick)은 개별 커밋을 골라서 `HEAD`위에 떨어뜨릴 수 있습니다."
             ]
           }
@@ -18669,7 +18606,6 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
               "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `master`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
             ]
           }
@@ -18678,7 +18614,6 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
     }
   }
 };
-
 });
 
 require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -22501,7 +22436,7 @@ var str = exports.str = function(key, params) {
     if (key !== 'error-untranslated') {
       return str('error-untranslated');
     }
-    return 'No translation for that key ' + key;
+    return 'No translation for the key "' + key + '"';
   }
 
   return template(
@@ -22527,11 +22462,11 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
 };
 
 var getHint = exports.getHint = function(level) {
-  return getIntlKey(level, 'hint') || '';
+  return getIntlKey(level, 'hint') || str('error-untranslated');
 };
 
 var getName = exports.getName = function(level) {
-  return getIntlKey(level, 'name') || '';
+  return getIntlKey(level, 'name') || str('error-untranslated');
 };
 
 var getStartDialog = exports.getStartDialog = function(level) {
@@ -22589,7 +22524,9 @@ var intlPath = exports.intlPath = function(path) {
   var level = require(path).level;
   level = intlLevel(level);
 
-  var output = JSON.stringify(level, null, 2);
+  var output = 'exports.level = ' +
+    JSON.stringify(level, null, 2) +
+    ';';
   fs.writeFileSync(path, output);
 };
 
@@ -22599,17 +22536,19 @@ require("/src/js/intl/merge.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ////////////////////////////////////////////////////////////////////////////
+  'no-hint': {
+    '__desc__': 'when no hint is available for a level',
+    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
+  },
+  ////////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
-    '__params__': {
-      'key': 'The name of the translation key that is missing'
-    },
-    'en': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
   },
   ////////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
-    'en': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
   }
 };
 
@@ -23277,13 +23216,10 @@ var Level = Sandbox.extend({
   },
 
   initName: function() {
-    if (!this.level.name) {
-      this.level.name = 'Rebase Classic';
-      console.warn('REALLY BAD FORM need ids and names');
-    }
+    var name = intl.getName(this.level);
 
     this.levelToolbar = new LevelToolbar({
-      name: this.level.name
+      name: name
     });
   },
 
@@ -23594,6 +23530,14 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
+    var getHint = _.bind(function() {
+      var hint = intl.getHint(this.level);
+      if (!hint || !hint.length) {
+        return intl.str('no-hint');
+      }
+      return hint;
+    }, this);
+
     var hintMsg = (this.level.hint) ?
       this.level.hint :
       "Hmm, there doesn't seem to be a hint for this level :-/";
@@ -23607,7 +23551,7 @@ var Level = Sandbox.extend({
       }],
       [/^hint$/, function() {
         throw new Errors.CommandResult({
-          msg: hintMsg
+          msg: getHint()
         });
       }]
     ];
@@ -30070,16 +30014,18 @@ exports.sequenceInfo = {
 require("/src/levels/index.js");
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "name": 'Introduction to Git Commits',
+  "name": {
+    "en_US": "Introduction to Git Commits"
+  },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
-      "en_US": "Just type in 'git commit' twice to finish!",
-      "zh_CN": "\u6572\u4e24\u6b21 'git commit' \u5c31\u597d\u5566\uff01",
-      "ko": "'git commit'이라고 두 번 치세요!"
-    },
-  "disabledMap" : {
+    "en_US": "Just type in 'git commit' twice to finish!",
+    "zh_CN": "敲两次 'git commit' 就好啦！",
+    "ko": "'git commit'이라고 두 번 치세요!"
+  },
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -30090,9 +30036,9 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "options": {
             "markdowns": [
               "## Git Commits",
-              "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
+              "A commit in a git repository records a snapshot of all the files in your directory. It's like a giant copy and paste, but even better!",
               "",
-              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That's why most commits have a parent commit above them -- you'll see this later in our visualizations.",
               "",
               "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
               "",
@@ -30136,20 +30082,14 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "options": {
             "markdowns": [
               "## Git 커밋",
-              // "A commit in a git repository records a snapshot of all the files in your directory. It\'s like a giant copy and paste, but even better!",
               "커밋은 Git 저장소에 여러분의 디렉토리에 있는 모든 파일에 대한 스냅샷을 기록하는 것입니다. 디렉토리 전체에 대한 복사해 붙이기와 비슷하지만 훨씬 유용합니다!",
               "",
-              // "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That\'s why most commits have a parent commit above them -- you\'ll see this later in our visualizations.",
               "Git은 커밋을 가능한한 가볍게 유지하고자 해서, 커밋할 때마다 디렉토리 전체를 복사하는 일은 하지 않습니다. 각 커밋은 저장소의 이전 버전과 다음 버전의 변경내역(\"delta\"라고도 함)을 저장합니다. 그래서 대부분의 커밋이 그 커밋 위에 부모 커밋을 가리키고 있게 되는 것입니다. -- 곧 그림으로 된 화면에서 살펴보게 될 것입니다.",
               "",
-              //"In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
               "저장소를 복제(clone)하려면, 그 모든 변경분(delta)를 풀어내야하는데, 그 때문에 명령행 결과로 아래와 같이 보게됩니다. ",
               "",
               "`resolving deltas`",
               "",
-              //"when cloning a repo.",
-              //"",
-              //"It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
               "알아야할 것이 꽤 많습니다만, 일단은 커밋을 프로젝트의 각각의 스냅샷들로 생각하시는 걸로 충분합니다. 커밋은 매우 가볍고 커밋 사이의 전환도 매우 빠르다는 것을 기억해주세요!"
             ]
           }
@@ -30158,14 +30098,11 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
               "연습할 때 어떻게 보이는지 확인해보죠. 오른쪽 화면에 git 저장소를 그림으로 표현해 놓았습니다. 현재 두번 커밋한 상태입니다 -- 첫번째 커밋으로 `C0`, 그 다음으로 `C1`이라는 어떤 의미있는 변화가 있는 커밋이 있습니다.",
               "",
-              // "Hit the button below to make a new commit"
               "아래 버튼을 눌러 새로운 커밋을 만들어보세요"
             ],
             "afterMarkdowns": [
-              // "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
               "이렇게 보입니다! 멋지죠. 우리는 방금 저장소 내용을 변경해서 한번의 커밋으로 저장했습니다. 방금 만든 커밋은 부모는 `C1`이고, 어떤 커밋을 기반으로 변경된 것인지를 가리킵니다."
             ],
             "command": "git commit",
@@ -30176,7 +30113,6 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
               "계속해서 직접 한번 해보세요! 이 창을 닫고, 커밋을 두 번 하면 다음 레벨로 넘어갑니다"
             ]
           }
@@ -30212,7 +30148,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
             ],
             "command": "git commit",
             "afterMarkdowns": [
-                "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+              "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
             ],
             "beforeCommand": ""
           }
@@ -30221,7 +30157,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-                "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+              "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
             ]
           }
         }
@@ -30229,20 +30165,21 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
     }
   }
 };
-
 });
 require("/src/levels/intro/1.js");
 
 require.define("/src/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
-  "name": "Branching in Git",
-  "hint": {
-      "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
-      "zh_CN": "\u7528 'git branch [\u65b0\u5206\u652f\u540d\u5b57]' \u6765\u521b\u5efa\u65b0\u5206\u652f\uff0c\u5e76\u7528 'git checkout [\u65b0\u5206\u652f]' \u5207\u6362\u5230\u65b0\u5206\u652f",
-      "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
+  "name": {
+    "en_US": "Branching in Git"
   },
-  "disabledMap" : {
+  "hint": {
+    "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
+    "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
+    "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
+  },
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -30408,21 +30345,16 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Git Branches",
               "## Git 브랜치",
               "",
-              // "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
               "깃의 브랜치도 놀랍도록 가볍습니다. 브랜치는 특정 커밋에 대한 참조(reference)에 지나지 않습니다. 이런 사실 때문에 수많은 Git 애찬론자들이 자주 이렇게 말하곤 합니다:",
               "",
               "```",
-              // "branch early, and branch often",
               "브랜치를 서둘러서, 그리고 자주 만드세요",
               "```",
               "",
-              // "Because there is no storage / memory overhead with making many branches, it's easier to logically divide up your work than have big beefy branches.",
               "브랜치를 많이 만들어도 메모리나 디스크 공간에 부담이 되지 않기 때문에, 여러분의 작업을 커다른 브랜치로 만들기 보다, 작은 단위로 잘게 나누는 것이 좋습니다.",
               "",
-              // "When we start mixing branches and commits, we will see how these two features combine. For now though, just remember that a branch essentially says \"I want to include the work of this commit and all parent commits.\""
               "브랜치와 커밋을 같이 쓸 때, 어떻게 두 기능이 조화를 이루는지 알아보겠습니다. 하지만 우선은, 단순히 브랜치를 \"하나의 커밋과 그 부모 커밋들을 포함하는 작업 내역\"이라고 기억하시면 됩니다."
             ]
           }
@@ -30431,14 +30363,11 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's see what branches look like in practice.",
               "브랜치가 어떤 것인지 연습해보죠.",
               "",
-              // "Here we will check out a new branch named `newImage`"
               "`newImage`라는 브랜치를 살펴보겠습니다."
             ],
             "afterMarkdowns": [
-              // "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
               "저 그림에 브랜치의 모든 것이 담겨있습니다! 브랜치 `newImage`가 커밋 `C1`를 가리킵니다"
             ],
             "command": "git branch newImage",
@@ -30449,11 +30378,9 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's try to put some work on this new branch. Hit the button below"
               "이 새로운 브랜치에 약간의 작업을 더해봅시다. 아래 버튼을 눌러주세요"
             ],
             "afterMarkdowns": [
-              // "Oh no! The `master` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`"
               "앗! `master` 브랜치가 움직이고, `newImage` 브랜치는 이동하지 않았네요! 그건 우리가 새 브랜치 위에 있지 않았었기 때문입니다. 별표(*)가 `master`에 있었던 것이죠."
             ],
             "command": "git commit",
@@ -30464,13 +30391,6 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Let's tell git we want to checkout the branch with",
-              // "",
-              // "```",
-              // "git checkout [name]",
-              // "```",
-              // "",
-              // "This will put us on the new branch before committing our changes"
               "아래의 명령으로 새 브랜치로 이동해 봅시다.",
               "",
               "```",
@@ -30478,10 +30398,8 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
               "```",
               "",
               "이렇게 하면 변경분을 커밋하기 전에 새 브랜치로 이동하게 됩니다."
-
             ],
             "afterMarkdowns": [
-              // "There we go! Our changes were recorded on the new branch"
               "이거죠! 이제 우리의 변경이 새 브랜치에 기록되었습니다!"
             ],
             "command": "git checkout newImage; git commit",
@@ -30492,8 +30410,6 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "Ok! You are all ready to get branching. Once this window closes,",
-              // "make a new branch named `bugFix` and switch to that branch"
               "좋아요! 이제 직접 브랜치 작업을 연습해봅시다. 이 창을 닫고,",
               "`bugFix`라는 새 브랜치를 만드시고, 그 브랜치로 이동해보세요"
             ]
@@ -30509,13 +30425,15 @@ require("/src/levels/intro/2.js");
 require.define("/src/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
-  "name": "Merging in Git",
+  "name": {
+    "en_US": "Merging in Git"
+  },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
-    "zh_CN": "\u8bb0\u5f97\u6309\u7167\u7ed9\u5b9a\u7684\u987a\u5e8f\u6765\u8fdb\u884c\u63d0\u4ea4(commit) \uff08bugFix \u8981\u5728 master \u4e4b\u524d\uff09",
+    "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -30670,7 +30588,6 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
               "처음으로 살펴볼 방법은 `git merge`입니다. Git의 합치기(merge)는 두 개의 부모(parent)를 가리키는 특별한 커밋을 만들어 냅니다. 두개의 부모가 있는 커밋이라는 것은 \"한 부모의 모든 작업내역과 나머지 부모의 모든 작업, *그리고* 그 두 부모의 모든 부모들의 작업내역을 포함한다\"라는 의미가 있습니다. ",
               "",
               "그림으로 보는게 이해하기 쉬워요. 다음 화면을 봅시다."
-
             ]
           }
         },
@@ -30729,20 +30646,21 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
     }
   }
 };
-
 });
 require("/src/levels/intro/3.js");
 
 require.define("/src/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
-  "name": "Rebase Introduction",
+  "name": {
+    "en_US": "Rebase Introduction"
+  },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
-    "zh_CN": "\u786e\u4fdd\u4f60\u5148\u5728 bugFix \u5206\u652f\u8fdb\u884c\u63d0\u4ea4"
+    "zh_CN": "确保你先在 bugFix 分支进行提交"
   },
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "startDialog": {
@@ -30886,16 +30804,12 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Git Rebase",
               "## Git 리베이스(Rebase)",
               "",
-              // "The second way of combining work between branches is *rebasing.* Rebasing essentially takes a set of commits, \"copies\" them, and plops them down somewhere else.",
               "브랜치끼리의 작업을 접목하는 두번째 방법은 *리베이스(rebase)*입니다. 리베이스는 기본적으로 커밋들을 모아서 복사한 뒤, 다른 곳에 떨궈 놓는 것입니다.",
               "",
-              // "While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.",
               "조금 어려게 느껴질 수 있지만, 리베이스를 하면 커밋들의 흐름을 보기 좋게 한 줄로 만들 수 있다는 장점이 있습니다. 리베이스를 쓰면 저장소의 커밋 로그와 이력이 한결 깨끗해집니다.",
               "",
-              // "Let's see it in action..."
               "어떻게 동작하는지 살펴볼까요..."
             ]
           }
@@ -30904,23 +30818,17 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
               "여기 또 브랜치 두 개가 있습니다; bugFix브랜치가 현재 선택됐다는 점 눈여겨 보세요 (별표 표시)",
               "",
-              // "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
               "bugFix 브랜치에서의 작업을 master 브랜치 위로 직접 옮겨 놓으려고 합니다. 그렇게 하면, 실제로는 두 기능을 따로따로 개발했지만, 마치 순서대로 개발한 것처럼 보이게 됩니다.",
               "",
-              // "Let's do that with the `git rebase` command"
               "`git rebase` 명령어로 함께 해보죠."
             ],
             "afterMarkdowns": [
-              // "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
               "오! 이제 bugFix 브랜치의 작업 내용이 master의 바로 위에 깔끔한 한 줄의 커밋으로 보이게 됐습니다.",
               "",
-              // "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto master.",
               "C3 커밋은 어딘가에 아직 남아있고(그림에서 흐려짐), C3'는 master 위에 올려 놓은 복사본입니다.",
               "",
-              // "The only problem is that master hasn't been updated either, let's do that now..."
               "master가 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
             ],
             "command": "git rebase master",
@@ -30931,11 +30839,9 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
               "우리는 지금 `master` 브랜치를 선택한 상태입니다. `bugFix` 브랜치쪽으로 리베이스 해보겠습니다..."
             ],
             "afterMarkdowns": [
-              // "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
               "보세요! `master`가 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
             ],
             "command": "git rebase bugFix",
@@ -30946,19 +30852,13 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "To complete this level, do the following",
               "이하 작업을 하면 이번 레벨을 통과합니다",
               "",
-              // "* Checkout a new branch named `bugFix`",
               "* `bugFix`라는 새 브랜치를 만들어 선택하세요",
-              // "* Commit once",
               "* 커밋 한 번 합니다",
-              // "* Go back to master and commit again",
               "* master로 돌아가서 또 커밋합니다",
-              // "* Check out bugFix again and rebase onto master",
               "* bugFix를 다시 선택하고 master에 리베이스 하세요",
               "",
-              // "Good luck!"
               "화이팅!"
             ]
           }
@@ -30967,7 +30867,6 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
     }
   }
 };
-
 });
 require("/src/levels/intro/4.js");
 
@@ -30975,11 +30874,13 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
-  "name": "Reversing Changes in Git",
+  "name": {
+    "en_US": "Reversing Changes in Git"
+  },
   "hint": {
-      "en_US": "",
-      "zh_CN": "",
-      "ko": ""
+    "en_US": "",
+    "zh_CN": "",
+    "ko": ""
   },
   "startDialog": {
     "en_US": {
@@ -31114,13 +31015,10 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Reversing Changes in Git",
               "## Git에서 작업 되돌리기",
               "",
-              // "There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.",
               "Git에는 작업한 것을 되돌리는 여러가지 방법이 있습니다. 변경내역을 되돌리는 것도 커밋과 마찬가지로 낮은 수준의 일(개별 파일이나 묶음을 스테이징 하는 것)과 높은 수준의 일(실제 변경이 복구되는 방법)이 있는데요, 여기서는 후자에 집중해 알려드릴게요.",
               "",
-              // "There are two primary ways to undo changes in Git -- one is using `git reset` and the other is using `git revert`. We will look at each of these in the next dialog",
               "Git에서 변경한 내용을 되돌리는 방법은 크게 두가지가 있습니다 -- 하나는 `git reset`을 쓰는거고, 다른 하나는 `git revert`를 사용하는 것입니다. 다음 화면에서 하나씩 알아보겠습니다.",
               ""
             ]
@@ -31130,17 +31028,13 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "## Git Reset",
               "## Git 리셋(reset)",
               "",
-              // "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
               "`git reset`은 브랜치로 하여금 예전의 커밋을 가리키도록 이동시키는 방식으로 변경 내용을 되돌립니다. 이런 관점에서 \"히스토리를 고쳐쓴다\"라고 말할 수 있습니다. 즉, `git reset`은 마치 애초에 커밋하지 않은 것처럼 예전 커밋으로 브랜치를 옮기는 것입니다.",
               "",
-              // "Let's see what that looks like:"
               "어떤 그림인지 한번 보죠:"
             ],
             "afterMarkdowns": [
-              // "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
               "그림에서처럼 master 브랜치가 가리키던 커밋을 `C1`로 다시 옮겼습니다; 이러면 로컬 저장소에는 마치 `C2`커밋이 아예 없었던 것과 마찬가지 상태가 됩니다."
             ],
             "command": "git reset HEAD~1",
@@ -31151,20 +31045,15 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              // "## Git Revert",
               "## Git 리버트(revert)",
               "",
-              // "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "각자의 컴퓨터에서 작업하는 로컬 브랜치의 경우 리셋(reset)을 잘 쓸 수 있습니다만, \"히스토리를 고쳐쓴다\"는 점 때문에 다른 사람이 작업하는 리모트 브랜치에는 쓸 수 없습니다.",
               "",
-              // "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
               "변경분을 되돌리고, 이 되돌린 내용을 다른 사람들과 *공유하기* 위해서는, `git revert`를 써야합니다. 예제로 살펴볼게요."
             ],
             "afterMarkdowns": [
-              // "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
               "어색하게도, 우리가 되돌리려고한 커밋의 아래에 새로운 커밋이 생겼습니다. `C2`라는 새로운 커밋에 *변경내용*이 기록되는데요, 이 변경내역이 정확히 `C2` 커밋 내용의 반대되는 내용입니다.",
               "",
-              // "With reverting, you can push out your changes to share with others."
               "리버트를 하면 다른 사람들에게도 변경 내역을 밀어(push) 보낼 수 있습니다."
             ],
             "command": "git revert HEAD",
@@ -31175,10 +31064,8 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "이 레벨을 통과하려면, `local` 브랜치와 `pushed` 브랜치에 있는 최근 두 번의 커밋을 되돌려 보세요.",
               "",
-              // "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
               "`pushed`는 리모트 브랜치이고, `local`은 로컬 브랜치임을 신경쓰셔서 작업하세요 -- 어떤 방법을 선택하실지 떠오르시죠?"
             ]
           }
@@ -31187,24 +31074,25 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
     }
   }
 };
-
 });
 require("/src/levels/intro/5.js");
 
 require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "name": "Grabbing Just 1 Commit",
+  "name": {
+    "en_US": "Grabbing Just 1 Commit"
+  },
   "hint": {
-      "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
-      "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
-      "zh_CN": "\u8bb0\u4f4f\uff0c\u4ea4\u4e92\u5f0f rebase \u6216\u8005 cherry-pick \u4f1a\u5f88\u6709\u5e2e\u52a9"
-    },
+    "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+    "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
+    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
+  },
   "startDialog": {
     "en_US": {
       "childViews": [
@@ -31282,7 +31170,7 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-                "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+              "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
             ]
           }
         }
@@ -31294,16 +31182,12 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Locally stacked commits",
               "## 로컬에 쌓인 커밋들",
               "",
-              // "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
               "개발중에 종종 이런 상황이 생깁니다: 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
               "",
-              // "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
               "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
               "",
-              // "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
               "이제 `bugFix`브랜치의 내용을 `master`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `master`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
             ]
           }
@@ -31312,16 +31196,13 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
               "여기에서 Git의 마법이 드러납니다. 이 문제를 해결하는 여러가지 방법이 있습니다만, 가장 간단한 두가지 방법 아래와 같습니다:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              // "Interactive (the `-i`) rebasing allows you to chose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
               "대화형 (-i 옵션) 리베이스(rebase)로는 어떤 커밋을 취하거나 버릴지를 선택할 수 있습니다. 또 커밋의 순서를 바꿀 수도 있습니다. 이 커맨드로 어떤 작업의 일부만 골라내기에 유용합니다.",
               "",
-              // "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
               "체리픽(cherry-pick)은 개별 커밋을 골라서 `HEAD`위에 떨어뜨릴 수 있습니다."
             ]
           }
@@ -31330,7 +31211,6 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
               "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `master`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
             ]
           }
@@ -31339,12 +31219,11 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
     }
   }
 };
-
 });
 require("/src/levels/mixed/1.js");
 
 require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "disabledMap" : {
+  "disabledMap": {
     "git cherry-pick": true,
     "git revert": true
   },
@@ -31352,11 +31231,13 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "name": "Juggling Commits",
+  "name": {
+    "en_US": "Juggling Commits"
+  },
   "hint": {
-      "en_US": "The first command is git rebase -i HEAD~2",
-      "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-      "zh_CN": "\u7b2c\u4e00\u4e2a\u547d\u4ee4\u662f 'git rebase -i HEAD~2'"
+    "en_US": "The first command is git rebase -i HEAD~2",
+    "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
+    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'"
   },
   "startDialog": {
     "en_US": {
@@ -31431,7 +31312,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-                "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+              "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
             ]
           }
         }
@@ -31443,13 +31324,10 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Juggling Commits",
               "## 커밋들 갖고 놀기",
               "",
-              // "Here's another situation that happens quite commonly. You have some changes (`newImage`) and another set of changes (`caption`) that are related, so they are stacked on top of each other in your repository (aka one after another).",
               "이번에도 꽤 자주 발생하는 상황입니다. `newImage`와 `caption` 브랜치에 각각의 변경내역이 있고 서로 약간 관련이 있어서, 저장소에 차례로 쌓여있는 상황입니다.",
               "",
-              // "The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of `newImage` slightly, even though that commit is way back in our history!!"
               "때로는 이전 커밋의 내용을 살짝 바꿔야하는 골치아픈 상황에 빠지게 됩니다. 이번에는 디자인 쪽에서 우리의 작업이력(history)에서는 이미 한참 전의 커밋 내용에 있는 `newImage`의 크기를 살짝 바꿔달라는 요청이 들어왔습니다."
             ]
           }
@@ -31458,19 +31336,13 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "We will overcome this difficulty by doing the following:",
               "이 문제를 다음과 같이 풀어봅시다:",
               "",
-              // "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
               "* `git rebase -i` 명령으로 우리가 바꿀 커밋을 가장 최근 순서로 바꾸어 놓습니다",
-              // "* We will `commit --amend` to make the slight modification",
               "* `commit --amend` 명령으로 커밋 내용을 정정합니다",
-              // "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
               "* 다시 `git rebase -i` 명령으로 이 전의 커밋 순서대로 되돌려 놓습니다",
-              // "* Finally, we will move master to this updated part of the tree to finish the level (via your method of choosing)",
               "* 마지막으로, master를 지금 트리가 변경된 부분으로 이동합니다. (편하신 방법으로 하세요)",
               "",
-              // "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
               "이 목표를 달성하기 위해서는 많은 방법이 있는데요(체리픽을 고민중이시죠?), 체리픽은 나중에 더 살펴보기로 하고, 우선은 위의 방법으로 해결해보세요."
             ]
           }
@@ -31479,7 +31351,6 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
               "최종적으로, 목표 결과를 눈여겨 보세요 -- 우리가 커밋을 두 번 옮겼기 때문에, 두 커밋 모두 따옴표 표시가 붙어있습니다. 정정한(amend) 커밋은 따옴표가 추가로 하나 더 붙어있습니다."
             ]
           }
@@ -31488,8 +31359,6 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
     }
   }
 };
-
-
 });
 require("/src/levels/mixed/2.js");
 
@@ -31647,17 +31516,19 @@ require("/src/levels/mixed/3.js");
 
 require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C6%27%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "name": "Rebasing over 9000 times",
+  "name": {
+    "en_US": "Rebasing over 9000 times"
+  },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "\u8bb0\u4f4f\uff0c\u53ef\u80fd\u6700\u7ec8\u6700\u9ad8\u6548\u7684\u65b9\u6cd5\u5c31\u662f\u66f4\u65b0 master \u5206\u652f..."
+    "zh_CN": "记住，可能最终最高效的方法就是更新 master 分支..."
   },
   "startDialog": {
     "en_US": {
@@ -31702,16 +31573,12 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "### Rebasing Multiple Branches",
               "### 여러 브랜치를 리베이스(rebase)하기 ",
               "",
-              // "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
               "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 master에 리베이스 해볼까요?",
               "",
-              // "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
               "",
-              // "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
               "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
             ]
           }
@@ -31720,23 +31587,24 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
     }
   }
 };
-
 });
 require("/src/levels/rebase/1.js");
 
 require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareAllBranchesHashAgnostic": true,
-  "disabledMap" : {
+  "disabledMap": {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22master%22%7D%2C%22one%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22one%22%7D%2C%22two%22%3A%7B%22target%22%3A%22C2%27%27%22%2C%22id%22%3A%22two%22%7D%2C%22three%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22three%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C4%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22two%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
-  "name": "Branch Spaghetti",
+  "name": {
+    "en_US": "Branch Spaghetti"
+  },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "\u786e\u4fdd\u4f60\u662f\u6309\u7167\u6b63\u786e\u7684\u987a\u5e8f\u6765\u64cd\u4f5c\uff01\u5148\u64cd\u4f5c\u5206\u652f one, \u518d\u64cd\u4f5c\u5206\u652f two, \u6700\u540e\u624d\u662f\u5206\u652f three"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 one, 再操作分支 two, 最后才是分支 three"
   },
   "startDialog": {
     "en_US": {
@@ -31785,19 +31653,14 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              // "## Branch Spaghetti",
               "## 브랜치 스파게티",
               "",
-              // "WOAHHHhhh Nelly! We have quite the goal to reach in this level.",
               "음, 이번에는 만만치 않습니다!",
               "",
-              // "Here we have `master` that is a few commits ahead of branches `one` `two` and `three`. For whatever reason, we need to update these three other branches with modified versions of the last few commits on master.",
               "여기 `master` 브랜치의 몇 번 이전 커밋에 `one`, `two`,`three` 총 3개의 브랜치가 있습니다. 어떤 이유인지는 몰라도, master의 최근 커밋 몇 개를 나머지 세 개의 브랜치에 반영하려고 합니다.",
               "",
-              // "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "`one` 브랜치는 순서를 바꾸고 `C5`커밋을 삭제하고, `two`브랜치는 순서만 바꾸며, `three`브랜치는 하나의 커밋만 가져옵시다!",
               "",
-              // "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
               "자유롭게 이 문제를 풀어보시고 나서 `show solution`명령어로 모범 답안을 확인해보세요."
             ]
           }
@@ -31806,7 +31669,6 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
     }
   }
 };
-
 });
 require("/src/levels/rebase/2.js");
 

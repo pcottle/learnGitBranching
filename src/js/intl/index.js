@@ -47,7 +47,7 @@ var str = exports.str = function(key, params) {
     if (key !== 'error-untranslated') {
       return str('error-untranslated');
     }
-    return 'No translation for that key ' + key;
+    return 'No translation for the key "' + key + '"';
   }
 
   return template(
@@ -73,11 +73,11 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
 };
 
 var getHint = exports.getHint = function(level) {
-  return getIntlKey(level, 'hint') || '';
+  return getIntlKey(level, 'hint') || str('error-untranslated');
 };
 
 var getName = exports.getName = function(level) {
-  return getIntlKey(level, 'name') || '';
+  return getIntlKey(level, 'name') || str('error-untranslated');
 };
 
 var getStartDialog = exports.getStartDialog = function(level) {
