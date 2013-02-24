@@ -72,6 +72,11 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
   return obj[key][getLocale()];
 };
 
+var getDialog = exports.getDialog = function(obj) {
+  var defaultLocale = getDefaultLocale();
+  return getIntlKey(obj, 'dialog') || obj.dialog[defaultLocale];
+};
+
 var getHint = exports.getHint = function(level) {
   return getIntlKey(level, 'hint') || str('error-untranslated');
 };

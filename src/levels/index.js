@@ -24,10 +24,12 @@ exports.sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
+      'zh_CN': '简介序列',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
+      'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },

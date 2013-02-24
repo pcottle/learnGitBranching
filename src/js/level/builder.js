@@ -44,8 +44,10 @@ var LevelBuilder = Level.extend({
     options = options || {};
     options.level = options.level || {};
 
-    options.level.startDialog = {
-      childViews: require('../dialogs/levelBuilder').dialog
+    var locale = intl.getLocale();
+    options.level.startDialog = {};
+    options.level.startDialog[locale] = {
+      childViews: intl.getDialog(require('../dialogs/levelBuilder'))
     };
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
