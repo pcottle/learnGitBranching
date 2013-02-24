@@ -40,8 +40,19 @@ var init = function() {
     wait: true
   });
 
+  events.on('localeChanged', intlRefresh);
+
   initRootEvents(eventBaton);
   initDemo(sandbox);
+};
+
+var intlRefresh = function() {
+  if (!window.$) { return; }
+  $('span.intl-aware').each(function(i, el) {
+    var intl = require('../intl');
+    var key = $(el).attr('data-intl');
+    $(el).text(intl.str(key).toUpperCase());
+  });
 };
 
 var initRootEvents = function(eventBaton) {

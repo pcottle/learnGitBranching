@@ -6602,7 +6602,8 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
-    'en_US': 'Learn Git Branching'
+    'en_US': 'Learn Git Branching',
+    'ko': 'Git 브랜치 배우기'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -6845,8 +6846,19 @@ var init = function() {
     wait: true
   });
 
+  events.on('localeChanged', intlRefresh);
+
   initRootEvents(eventBaton);
   initDemo(sandbox);
+};
+
+var intlRefresh = function() {
+  if (!window.$) { return; }
+  $('span.intl-aware').each(function(i, el) {
+    var intl = require('../intl');
+    var key = $(el).attr('data-intl');
+    $(el).text(intl.str(key).toUpperCase());
+  });
 };
 
 var initRootEvents = function(eventBaton) {
@@ -13747,6 +13759,8 @@ var instantCommands = [
   }],
   [/^(locale|locale reset)$/, function(bits) {
     constants.GLOBAL.locale = intl.getDefaultLocale();
+    var Main = require('../app').getEvents().trigger('localeChanged');
+
     throw new CommandResult({
       msg: intl.str(
         'locale-reset-command',
@@ -13757,6 +13771,7 @@ var instantCommands = [
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
+    var Main = require('../app').getEvents().trigger('localeChanged');
     throw new CommandResult({
       msg: intl.str(
         'locale-command',
@@ -20173,8 +20188,19 @@ var init = function() {
     wait: true
   });
 
+  events.on('localeChanged', intlRefresh);
+
   initRootEvents(eventBaton);
   initDemo(sandbox);
+};
+
+var intlRefresh = function() {
+  if (!window.$) { return; }
+  $('span.intl-aware').each(function(i, el) {
+    var intl = require('../intl');
+    var key = $(el).attr('data-intl');
+    $(el).text(intl.str(key).toUpperCase());
+  });
 };
 
 var initRootEvents = function(eventBaton) {
@@ -22887,7 +22913,8 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
-    'en_US': 'Learn Git Branching'
+    'en_US': 'Learn Git Branching',
+    'ko': 'Git 브랜치 배우기'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -24714,6 +24741,8 @@ var instantCommands = [
   }],
   [/^(locale|locale reset)$/, function(bits) {
     constants.GLOBAL.locale = intl.getDefaultLocale();
+    var Main = require('../app').getEvents().trigger('localeChanged');
+
     throw new CommandResult({
       msg: intl.str(
         'locale-reset-command',
@@ -24724,6 +24753,7 @@ var instantCommands = [
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
+    var Main = require('../app').getEvents().trigger('localeChanged');
     throw new CommandResult({
       msg: intl.str(
         'locale-command',
@@ -25192,7 +25222,8 @@ var toGlobalize = {
   GitDemonstrationView: require('../views/gitDemonstrationView'),
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
-  BuilderViews: require('../views/builderViews')
+  BuilderViews: require('../views/builderViews'),
+  Intl: require('../intl')
 };
 
 _.each(toGlobalize, function(module) {

@@ -2,7 +2,8 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
-    'en_US': 'Learn Git Branching'
+    'en_US': 'Learn Git Branching',
+    'ko': 'Git 브랜치 배우기'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {

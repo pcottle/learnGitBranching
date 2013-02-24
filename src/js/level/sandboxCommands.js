@@ -23,6 +23,8 @@ var instantCommands = [
   }],
   [/^(locale|locale reset)$/, function(bits) {
     constants.GLOBAL.locale = intl.getDefaultLocale();
+    var Main = require('../app').getEvents().trigger('localeChanged');
+
     throw new CommandResult({
       msg: intl.str(
         'locale-reset-command',
@@ -33,6 +35,7 @@ var instantCommands = [
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
+    var Main = require('../app').getEvents().trigger('localeChanged');
     throw new CommandResult({
       msg: intl.str(
         'locale-command',

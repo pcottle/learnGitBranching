@@ -23,7 +23,8 @@ var toGlobalize = {
   GitDemonstrationView: require('../views/gitDemonstrationView'),
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
-  BuilderViews: require('../views/builderViews')
+  BuilderViews: require('../views/builderViews'),
+  Intl: require('../intl')
 };
 
 _.each(toGlobalize, function(module) {
