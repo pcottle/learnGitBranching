@@ -1,5 +1,10 @@
 exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'learn-git-branching': {
+    '__desc__': 'The title of the app, with spaces',
+    'en_US': 'Learn Git Branching'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
     '__desc__': 'The prompt to select a level on the drop down view',
     'en_US': 'Select a level'
@@ -152,6 +157,16 @@ exports.strings = {
   'help-vague-builder': {
     '__desc__': 'When you are in a level builder, the help command is vague so you need to specify what you mean',
     'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'goal-to-reach': {
+    '__desc__': 'title of window that shoes the goal tree to reach',
+    'en_US': 'Goal To Reach'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hide-goal': {
+    '__desc__': 'the helper message for the window that shows the goal tree',
+    'en_US': 'You can hide this window with "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {

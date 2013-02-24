@@ -4,6 +4,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var Main = require('../app');
+var intl = require('../intl');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
@@ -590,8 +591,8 @@ var CanvasTerminalHolder = BaseView.extend({
     options = options || {};
     this.destination = $('body');
     this.JSON = {
-      title: options.title || 'Goal To Reach',
-      text: options.text || 'You can hide this window with "hide goal"'
+      title: options.title || intl.str('goal-to-reach'),
+      text: options.text || intl.str('hide-goal')
     };
 
     this.render();

@@ -2,19 +2,21 @@ Mega Things
 ~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] origin support
 
+Intl TODO
+~~~~~~~~~~~~~~~~~~~
+[ ] git/index.js translation -- rest of the strings
+[ ] next level confirm translation
+[ ] rest of views/index translation
 
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
-[ ] hash agnostic comparison
-[ ] rebase -i solution demonstration (blink and fade thing)
+[ ] rebase -i solution demonstration (blink and fade thing?)
 [ ] hash agnotisc comparison with asserts for ammends
 [ ] tree pruning
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] fix clickthrough when goal and start are shown
-[ ] animating lock refactor -- not just a boolean, but a stack?
 [ ] fix refreshing during solution animation
 
 Cases to handle / things to edit
@@ -36,6 +38,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] fix clickthrough when goal is shown
+[x] hash agnostic comparison
 [x] get automated SHA hash appending in the html source :OOOOO... template? or what?t
 [x] import random level JSON
 [x] export / import tree from JSON
