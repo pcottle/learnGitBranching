@@ -4,6 +4,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 
@@ -46,10 +47,15 @@ var LevelDropdownView = ContainedBase.extend({
     this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
 
     this.container = new ModalTerminal({
-      title: 'Select a Level'
+      title: intl.str('select-a-level')
     });
+
     this.render();
     this.buildSequences();
+    Main.getEvents().on('localeChanged', function() {
+      this.render();
+      this.buildSequences();
+    }, this);
 
     if (!options.wait) {
       this.show();
@@ -264,8 +270,8 @@ var SeriesView = BaseView.extend({
 
     this.destination = options.destination;
     this.JSON = {
-      displayName: this.info.displayName,
-      about: this.info.about,
+      displayName: intl.getIntlKey(this.info, 'displayName'),
+      about: intl.getIntlKey(this.info, 'about'),
       ids: this.levelIDs
     };
 

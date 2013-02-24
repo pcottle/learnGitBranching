@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -19,12 +20,12 @@ var shortcutMap = {
 var instantCommands = [
   [/^git help($|\s)/, function() {
     var lines = [
-      'Git Version PCOTTLE.1.0',
+      intl.str('git-version'),
       '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
+      intl.str('git-usage'),
+      _.escape(intl.str('git-usage-command')),
       '<br/>',
-      'Supported commands:',
+      intl.str('git-supported-commands'),
       '<br/>'
     ];
     var commands = GitOptionParser.prototype.getMasterOptionMap();
@@ -159,7 +160,10 @@ GitOptionParser.prototype.explodeAndSet = function() {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
         throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
+          msg: intl.str(
+            'option-not-supported',
+            { option: part }
+          )
         });
       }
 

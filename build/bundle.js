@@ -6542,7 +6542,7 @@ var str = exports.str = function(key, params) {
   return template(
     strings[key][locale],
     params
-  );
+  ).toUpperCase();
 };
 
 var getIntlKey = exports.getIntlKey = function(obj, key) {
@@ -6594,10 +6594,52 @@ var getStartDialog = exports.getStartDialog = function(level) {
 });
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ///////////////////////////////////////////////////////////////////////////
+  'select-a-level': {
+    '__desc__': 'The prompt to select a level on the drop down view',
+    'en_US': 'Select a level'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'branch-name-short': {
+    '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
+    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'bad-branch-name': {
+    '__desc__': 'When the user enters a branch name thats not ok',
+    'en_US': 'That branch name "{branch}" is not allowed!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'option-not-supported': {
+    '__desc__': 'When the user specifies an option that is not supported by our demo',
+    'en_US': 'The option "{option}" is not supported!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-usage-command': {
+    '__desc__': 'The line that shows how to format a git command',
+    'en_US': 'git <command> [<args>]'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-supported-commands': {
+    '__desc__': 'In the git help command, the header above the supported commands',
+    'en_US': 'Supported commands:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-usage': {
+    '__desc__': 'In the dummy git output, the header before showing all the commands',
+    'en_US': 'Usage:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-version': {
+    '__desc__': 'The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead',
+    'en_US': 'Git Version PCOTTLE.1.0'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
     '__desc__': 'when the tree is visually refreshed',
     'en_US': 'Refreshing tree...'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
     '__desc__': 'when the locale is set to something',
     'en_US': 'Locale set to {locale}'
@@ -6806,7 +6848,6 @@ var initRootEvents = function(eventBaton) {
   $(document).bind('keyup', function(e) {
     eventBaton.trigger('docKeyup', e);
   });
-
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
@@ -6869,6 +6910,7 @@ var initDemo = function(sandbox) {
 
   if (params.locale !== undefined && params.locale.length) {
     constants.GLOBAL.locale = params.locale;
+    events.trigger('localeChanged');
   }
 
   if (params.command) {
@@ -7831,6 +7873,8 @@ require.define("/src/js/git/index.js",function(require,module,exports,__dirname,
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 var Q = require('q');
 
+var intl = require('../intl');
+
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
@@ -8106,19 +8150,27 @@ GitEngine.prototype.validateBranchName = function(name) {
   name = name.replace(/\s/g, '');
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new GitError({
-      msg: 'woah bad branch name!! This is not ok: ' + name
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
   if (/[hH][eE][aA][dD]/.test(name)) {
     throw new GitError({
-      msg: 'branch name of "head" is ambiguous, dont name it that'
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
   if (name.length > 9) {
     name = name.slice(0, 9);
     this.command.addWarning(
-      'Sorry, we need to keep branch names short for the visuals. Your branch ' +
-      'name was truncated to 9 characters, resulting in ' + name
+      intl.str(
+        'branch-name-short',
+        { branch: name }
+      )
     );
   }
   return name;
@@ -8128,7 +8180,10 @@ GitEngine.prototype.makeBranch = function(id, target) {
   id = this.validateBranchName(id);
   if (this.refs[id]) {
     throw new GitError({
-      msg: 'that branch id either matches a commit hash or already exists!'
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
 
@@ -13329,6 +13384,7 @@ exports.Command = Command;
 });
 
 require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -13349,12 +13405,12 @@ var shortcutMap = {
 var instantCommands = [
   [/^git help($|\s)/, function() {
     var lines = [
-      'Git Version PCOTTLE.1.0',
+      intl.str('git-version'),
       '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
+      intl.str('git-usage'),
+      _.escape(intl.str('git-usage-command')),
       '<br/>',
-      'Supported commands:',
+      intl.str('git-supported-commands'),
       '<br/>'
     ];
     var commands = GitOptionParser.prototype.getMasterOptionMap();
@@ -13489,7 +13545,10 @@ GitOptionParser.prototype.explodeAndSet = function() {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
         throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
+          msg: intl.str(
+            'option-not-supported',
+            { option: part }
+          )
         });
       }
 
@@ -17369,16 +17428,34 @@ exports.levelSequences = {
 // there are also cute names and such for sequences
 exports.sequenceInfo = {
   intro: {
-    displayName: 'Introduction Sequence',
-    about: 'A nicely paced introduction to the majority of git commands'
+    displayName: {
+      'en_US': 'Introduction Sequence',
+      'ko': '기본 명령어'
+    },
+    about: {
+      'en_US': 'A nicely paced introduction to the majority of git commands',
+      'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
+    }
   },
   rebase: {
-    displayName: 'Master the Rebase Luke!',
-    about: 'What is this whole rebase hotness everyone is talking about? Find out!'
+    displayName: {
+      'en_US': 'Master the Rebase Luke!',
+      'ko': '리베이스 완전정복!'
+    },
+    about: {
+      'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
+    }
   },
   mixed: {
-    displayName: 'A Mixed Bag',
-    about: 'A mixed bag of Git techniques, tricks, and tips'
+    displayName: {
+      'en_US': 'A Mixed Bag',
+      'ko': '종합선물세트'
+    },
+    about: {
+      'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
+    }
   }
 };
 
@@ -17387,7 +17464,8 @@ exports.sequenceInfo = {
 
 require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "name": {
-    "en_US": "Introduction to Git Commits"
+    "en_US": "Introduction to Git Commits",
+    'ko': 'Git 커밋 소개'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -17543,6 +17621,7 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
+    "ko": "Git에서 브랜치 쓰기",
     "en_US": "Branching in Git"
   },
   "hint": {
@@ -17796,7 +17875,8 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
-    "en_US": "Merging in Git"
+    "en_US": "Merging in Git",
+    "ko": "Git에서 브랜치 합치기(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -18022,7 +18102,8 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
-    "en_US": "Rebase Introduction"
+    "en_US": "Rebase Introduction",
+    "ko": "리베이스(rebase)의 기본"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -18243,7 +18324,8 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Reversing Changes in Git"
+    "en_US": "Reversing Changes in Git",
+    "ko": "Git에서 작업 되돌리기"
   },
   "hint": {
     "en_US": "",
@@ -18453,6 +18535,7 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
   "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "9천번이 넘는 리베이스",
     "en_US": "Rebasing over 9000 times"
   },
   "hint": {
@@ -18528,6 +18611,7 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti"
   },
   "hint": {
@@ -18609,6 +18693,7 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git checkout master;git cherry-pick C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit"
   },
   "hint": {
@@ -18754,6 +18839,7 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits"
   },
   "hint": {
@@ -18892,6 +18978,7 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMaster": true,
   "name": {
+    "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2"
   },
   "hint": {
@@ -19033,6 +19120,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 
@@ -19075,10 +19163,15 @@ var LevelDropdownView = ContainedBase.extend({
     this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
 
     this.container = new ModalTerminal({
-      title: 'Select a Level'
+      title: intl.str('select-a-level')
     });
+
     this.render();
     this.buildSequences();
+    Main.getEvents().on('localeChanged', function() {
+      this.render();
+      this.buildSequences();
+    }, this);
 
     if (!options.wait) {
       this.show();
@@ -19293,8 +19386,8 @@ var SeriesView = BaseView.extend({
 
     this.destination = options.destination;
     this.JSON = {
-      displayName: this.info.displayName,
-      about: this.info.about,
+      displayName: intl.getIntlKey(this.info, 'displayName'),
+      about: intl.getIntlKey(this.info, 'about'),
       ids: this.levelIDs
     };
 
@@ -20006,7 +20099,6 @@ var initRootEvents = function(eventBaton) {
   $(document).bind('keyup', function(e) {
     eventBaton.trigger('docKeyup', e);
   });
-
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
@@ -20069,6 +20161,7 @@ var initDemo = function(sandbox) {
 
   if (params.locale !== undefined && params.locale.length) {
     constants.GLOBAL.locale = params.locale;
+    events.trigger('localeChanged');
   }
 
   if (params.command) {
@@ -20227,6 +20320,7 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
 require("/src/js/dialogs/sandbox.js");
 
 require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -20247,12 +20341,12 @@ var shortcutMap = {
 var instantCommands = [
   [/^git help($|\s)/, function() {
     var lines = [
-      'Git Version PCOTTLE.1.0',
+      intl.str('git-version'),
       '<br/>',
-      'Usage:',
-      _.escape('\t git <command> [<args>]'),
+      intl.str('git-usage'),
+      _.escape(intl.str('git-usage-command')),
       '<br/>',
-      'Supported commands:',
+      intl.str('git-supported-commands'),
       '<br/>'
     ];
     var commands = GitOptionParser.prototype.getMasterOptionMap();
@@ -20387,7 +20481,10 @@ GitOptionParser.prototype.explodeAndSet = function() {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
         throw new CommandProcessError({
-          msg: 'The option "' + part + '" is not supported'
+          msg: intl.str(
+            'option-not-supported',
+            { option: part }
+          )
         });
       }
 
@@ -20567,6 +20664,8 @@ require.define("/src/js/git/index.js",function(require,module,exports,__dirname,
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 var Q = require('q');
+
+var intl = require('../intl');
 
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
@@ -20843,19 +20942,27 @@ GitEngine.prototype.validateBranchName = function(name) {
   name = name.replace(/\s/g, '');
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new GitError({
-      msg: 'woah bad branch name!! This is not ok: ' + name
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
   if (/[hH][eE][aA][dD]/.test(name)) {
     throw new GitError({
-      msg: 'branch name of "head" is ambiguous, dont name it that'
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
   if (name.length > 9) {
     name = name.slice(0, 9);
     this.command.addWarning(
-      'Sorry, we need to keep branch names short for the visuals. Your branch ' +
-      'name was truncated to 9 characters, resulting in ' + name
+      intl.str(
+        'branch-name-short',
+        { branch: name }
+      )
     );
   }
   return name;
@@ -20865,7 +20972,10 @@ GitEngine.prototype.makeBranch = function(id, target) {
   id = this.validateBranchName(id);
   if (this.refs[id]) {
     throw new GitError({
-      msg: 'that branch id either matches a commit hash or already exists!'
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
 
@@ -22549,7 +22659,7 @@ var str = exports.str = function(key, params) {
   return template(
     strings[key][locale],
     params
-  );
+  ).toUpperCase();
 };
 
 var getIntlKey = exports.getIntlKey = function(obj, key) {
@@ -22602,10 +22712,52 @@ var getStartDialog = exports.getStartDialog = function(level) {
 require("/src/js/intl/index.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ///////////////////////////////////////////////////////////////////////////
+  'select-a-level': {
+    '__desc__': 'The prompt to select a level on the drop down view',
+    'en_US': 'Select a level'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'branch-name-short': {
+    '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
+    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'bad-branch-name': {
+    '__desc__': 'When the user enters a branch name thats not ok',
+    'en_US': 'That branch name "{branch}" is not allowed!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'option-not-supported': {
+    '__desc__': 'When the user specifies an option that is not supported by our demo',
+    'en_US': 'The option "{option}" is not supported!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-usage-command': {
+    '__desc__': 'The line that shows how to format a git command',
+    'en_US': 'git <command> [<args>]'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-supported-commands': {
+    '__desc__': 'In the git help command, the header above the supported commands',
+    'en_US': 'Supported commands:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-usage': {
+    '__desc__': 'In the dummy git output, the header before showing all the commands',
+    'en_US': 'Usage:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-version': {
+    '__desc__': 'The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead',
+    'en_US': 'Git Version PCOTTLE.1.0'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
     '__desc__': 'when the tree is visually refreshed',
     'en_US': 'Refreshing tree...'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
     '__desc__': 'when the locale is set to something',
     'en_US': 'Locale set to {locale}'
@@ -26980,6 +27132,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 
@@ -27022,10 +27175,15 @@ var LevelDropdownView = ContainedBase.extend({
     this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
 
     this.container = new ModalTerminal({
-      title: 'Select a Level'
+      title: intl.str('select-a-level')
     });
+
     this.render();
     this.buildSequences();
+    Main.getEvents().on('localeChanged', function() {
+      this.render();
+      this.buildSequences();
+    }, this);
 
     if (!options.wait) {
       this.show();
@@ -27240,8 +27398,8 @@ var SeriesView = BaseView.extend({
 
     this.destination = options.destination;
     this.JSON = {
-      displayName: this.info.displayName,
-      about: this.info.about,
+      displayName: intl.getIntlKey(this.info, 'displayName'),
+      about: intl.getIntlKey(this.info, 'about'),
       ids: this.levelIDs
     };
 
@@ -30191,16 +30349,34 @@ exports.levelSequences = {
 // there are also cute names and such for sequences
 exports.sequenceInfo = {
   intro: {
-    displayName: 'Introduction Sequence',
-    about: 'A nicely paced introduction to the majority of git commands'
+    displayName: {
+      'en_US': 'Introduction Sequence',
+      'ko': '기본 명령어'
+    },
+    about: {
+      'en_US': 'A nicely paced introduction to the majority of git commands',
+      'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
+    }
   },
   rebase: {
-    displayName: 'Master the Rebase Luke!',
-    about: 'What is this whole rebase hotness everyone is talking about? Find out!'
+    displayName: {
+      'en_US': 'Master the Rebase Luke!',
+      'ko': '리베이스 완전정복!'
+    },
+    about: {
+      'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
+    }
   },
   mixed: {
-    displayName: 'A Mixed Bag',
-    about: 'A mixed bag of Git techniques, tricks, and tips'
+    displayName: {
+      'en_US': 'A Mixed Bag',
+      'ko': '종합선물세트'
+    },
+    about: {
+      'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
+    }
   }
 };
 
@@ -30210,7 +30386,8 @@ require("/src/levels/index.js");
 
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "name": {
-    "en_US": "Introduction to Git Commits"
+    "en_US": "Introduction to Git Commits",
+    'ko': 'Git 커밋 소개'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -30367,6 +30544,7 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
+    "ko": "Git에서 브랜치 쓰기",
     "en_US": "Branching in Git"
   },
   "hint": {
@@ -30621,7 +30799,8 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
-    "en_US": "Merging in Git"
+    "en_US": "Merging in Git",
+    "ko": "Git에서 브랜치 합치기(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -30848,7 +31027,8 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
-    "en_US": "Rebase Introduction"
+    "en_US": "Rebase Introduction",
+    "ko": "리베이스(rebase)의 기본"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -31070,7 +31250,8 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Reversing Changes in Git"
+    "en_US": "Reversing Changes in Git",
+    "ko": "Git에서 작업 되돌리기"
   },
   "hint": {
     "en_US": "",
@@ -31281,6 +31462,7 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
   "solutionCommand": "git checkout master;git cherry-pick C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit"
   },
   "hint": {
@@ -31427,6 +31609,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits"
   },
   "hint": {
@@ -31566,6 +31749,7 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMaster": true,
   "name": {
+    "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2"
   },
   "hint": {
@@ -31711,6 +31895,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
   "solutionCommand": "git checkout bugFix;git rebase master;git checkout side;git rebase bugFix;git checkout another;git rebase side;git rebase another master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "9천번이 넘는 리베이스",
     "en_US": "Rebasing over 9000 times"
   },
   "hint": {
@@ -31787,6 +31972,7 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
   "solutionCommand": "git checkout one; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git checkout two; git cherry-pick C5; git cherry-pick C4; git cherry-pick C3; git cherry-pick C2; git branch -f three C2",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
+    "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti"
   },
   "hint": {

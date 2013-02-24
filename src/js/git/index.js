@@ -3,6 +3,8 @@ var _ = require('underscore');
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 var Q = require('q');
 
+var intl = require('../intl');
+
 var AnimationFactoryModule = require('../visuals/animation/animationFactory');
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
@@ -278,19 +280,27 @@ GitEngine.prototype.validateBranchName = function(name) {
   name = name.replace(/\s/g, '');
   if (!/^[a-zA-Z0-9]+$/.test(name)) {
     throw new GitError({
-      msg: 'woah bad branch name!! This is not ok: ' + name
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
   if (/[hH][eE][aA][dD]/.test(name)) {
     throw new GitError({
-      msg: 'branch name of "head" is ambiguous, dont name it that'
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
   if (name.length > 9) {
     name = name.slice(0, 9);
     this.command.addWarning(
-      'Sorry, we need to keep branch names short for the visuals. Your branch ' +
-      'name was truncated to 9 characters, resulting in ' + name
+      intl.str(
+        'branch-name-short',
+        { branch: name }
+      )
     );
   }
   return name;
@@ -300,7 +310,10 @@ GitEngine.prototype.makeBranch = function(id, target) {
   id = this.validateBranchName(id);
   if (this.refs[id]) {
     throw new GitError({
-      msg: 'that branch id either matches a commit hash or already exists!'
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
     });
   }
 

@@ -63,7 +63,6 @@ var initRootEvents = function(eventBaton) {
   $(document).bind('keyup', function(e) {
     eventBaton.trigger('docKeyup', e);
   });
-
   $(window).on('resize', function(e) {
     events.trigger('resize', e);
   });
@@ -126,6 +125,7 @@ var initDemo = function(sandbox) {
 
   if (params.locale !== undefined && params.locale.length) {
     constants.GLOBAL.locale = params.locale;
+    events.trigger('localeChanged');
   }
 
   if (params.command) {

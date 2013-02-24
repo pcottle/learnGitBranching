@@ -1,8 +1,50 @@
 exports.strings = {
+  ///////////////////////////////////////////////////////////////////////////
+  'select-a-level': {
+    '__desc__': 'The prompt to select a level on the drop down view',
+    'en_US': 'Select a level'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'branch-name-short': {
+    '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
+    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'bad-branch-name': {
+    '__desc__': 'When the user enters a branch name thats not ok',
+    'en_US': 'That branch name "{branch}" is not allowed!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'option-not-supported': {
+    '__desc__': 'When the user specifies an option that is not supported by our demo',
+    'en_US': 'The option "{option}" is not supported!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-usage-command': {
+    '__desc__': 'The line that shows how to format a git command',
+    'en_US': 'git <command> [<args>]'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-supported-commands': {
+    '__desc__': 'In the git help command, the header above the supported commands',
+    'en_US': 'Supported commands:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-usage': {
+    '__desc__': 'In the dummy git output, the header before showing all the commands',
+    'en_US': 'Usage:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-version': {
+    '__desc__': 'The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead',
+    'en_US': 'Git Version PCOTTLE.1.0'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
     '__desc__': 'when the tree is visually refreshed',
     'en_US': 'Refreshing tree...'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
     '__desc__': 'when the locale is set to something',
     'en_US': 'Locale set to {locale}'

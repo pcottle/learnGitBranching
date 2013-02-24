@@ -53,7 +53,7 @@ var str = exports.str = function(key, params) {
   return template(
     strings[key][locale],
     params
-  );
+  ).toUpperCase();
 };
 
 var getIntlKey = exports.getIntlKey = function(obj, key) {
