@@ -16,17 +16,6 @@ exports.isBrowser = function() {
   return inBrowser;
 };
 
-exports.getLocale = function() {
-  if (constants.GLOBAL.locale) {
-    return constants.GLOBAL.locale;
-  }
-  return exports.getDefaultLocale();
-};
-
-exports.getDefaultLocale = function() {
-  return 'en_US';
-};
-
 exports.splitTextCommand = function(value, func, context) {
   func = _.bind(func, context);
   _.each(value.split(';'), function(command, index) {

@@ -4460,17 +4460,6 @@ exports.isBrowser = function() {
   return inBrowser;
 };
 
-exports.getLocale = function() {
-  if (constants.GLOBAL.locale) {
-    return constants.GLOBAL.locale;
-  }
-  return exports.getDefaultLocale();
-};
-
-exports.getDefaultLocale = function() {
-  return 'en_US';
-};
-
 exports.splitTextCommand = function(value, func, context) {
   func = _.bind(func, context);
   _.each(value.split(';'), function(command, index) {
@@ -7199,7 +7188,27 @@ var util = require('../util');
 
 var strings = require('../intl/strings').strings;
 
+var getDefaultLocale = exports.getDefaultLocale = function() {
+  return 'en_US';
+};
+
+var getLocale = exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  return getDefaultLocale();
+};
+
+// lets change underscores template settings so it interpolates
+// things like "{branchName} does not exist".
+var templateSettings = _.clone(_.templateSettings);
+templateSettings.interpolate = /\{(.+?)\}/g;
+var template = function(str, params) {
+  return _.template(str, params, templateSettings);
+};
+
 var str = exports.str = function(key, params) {
+  params = params || {};
   // this function takes a key like "error-branch-delete"
   // and parameters like {branchName: 'bugFix', num: 3}.
   //
@@ -7212,7 +7221,7 @@ var str = exports.str = function(key, params) {
   // 'You can not delete the branch bugFix because you are currently on that branch!
   //  This is error number 3'
 
-  var locale = util.getLocale();
+  var locale = getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key;
@@ -7225,31 +7234,51 @@ var str = exports.str = function(key, params) {
     return 'No translation for that key ' + key;
   }
 
-  // TODO - interpolation
-  return strings[key][locale];
+  return template(
+    strings[key][locale],
+    params
+  );
+};
+
+var getIntlKey = exports.getIntlKey = function(obj, key) {
+  if (!obj || !obj[key]) {
+    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+  }
+  if (!obj[key][getDefaultLocale()]) {
+    console.warn(
+      'WARNING!! This blob does not have intl support:',
+      obj,
+      'for this key',
+      key
+    );
+  }
+
+  return obj[key][getLocale()];
+};
+
+var getHint = exports.getHint = function(level) {
+  return getIntlKey(level, 'hint') || '';
+};
+
+var getName = exports.getName = function(level) {
+  return getIntlKey(level, 'name') || '';
 };
 
 var getStartDialog = exports.getStartDialog = function(level) {
-  if (!level || !level.startDialog) {
-    throw new Error('start dialog doesnt exist in that blob');
-  }
-  if (!level.startDialog[util.getDefaultLocale()]) {
-    console.warn('WARNING!! This dialog does not have intl support: ', level);
-  }
-  var locale = util.getLocale();
-  if (level.startDialog[locale]) {
-    return level.startDialog[locale];
-  }
+  var startDialog = getIntlKey(level, 'startDialog');
+  if (startDialog) { return startDialog; }
 
-  // we need to return english but add their locale error
-  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
-  console.log('start copy is', startCopy, 'and defaukt', level);
+  // this level translation isnt supported yet, so lets add
+  // an alert to the front and give the english version.
   var errorAlert = {
     type: 'ModalAlert',
     options: {
       markdown: str('error-untranslated')
     }
   };
+  var startCopy = _.clone(
+    level.startDialog[util.getDefaultLocale()] || level.startDialog
+  );
   startCopy.childViews.unshift(errorAlert);
 
   return startCopy;
@@ -13486,6 +13515,7 @@ require.define("/src/js/level/sandboxCommands.js",function(require,module,export
 var util = require('../util');
 
 var constants = require('../util/constants');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -13505,9 +13535,9 @@ var instantCommands = [
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
-    constants.GLOBAL.locale = util.getDefaultLocale();
+    constants.GLOBAL.locale = intl.getDefaultLocale();
     throw new CommandResult({
-      msg: 'Locale reset to default, which is ' + util.getDefaultLocale()
+      msg: 'Locale reset to default, which is ' + intl.getDefaultLocale()
     });
   }],
   [/^locale (\w+)$/, function(bits) {
@@ -19761,6 +19791,10 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 
 });
 
+require.define("fs",function(require,module,exports,__dirname,__filename,process,global){// nothing to see here... no file methods for the browser
+
+});
+
 require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -22424,7 +22458,27 @@ var util = require('../util');
 
 var strings = require('../intl/strings').strings;
 
+var getDefaultLocale = exports.getDefaultLocale = function() {
+  return 'en_US';
+};
+
+var getLocale = exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  return getDefaultLocale();
+};
+
+// lets change underscores template settings so it interpolates
+// things like "{branchName} does not exist".
+var templateSettings = _.clone(_.templateSettings);
+templateSettings.interpolate = /\{(.+?)\}/g;
+var template = function(str, params) {
+  return _.template(str, params, templateSettings);
+};
+
 var str = exports.str = function(key, params) {
+  params = params || {};
   // this function takes a key like "error-branch-delete"
   // and parameters like {branchName: 'bugFix', num: 3}.
   //
@@ -22437,7 +22491,7 @@ var str = exports.str = function(key, params) {
   // 'You can not delete the branch bugFix because you are currently on that branch!
   //  This is error number 3'
 
-  var locale = util.getLocale();
+  var locale = getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key;
@@ -22450,31 +22504,51 @@ var str = exports.str = function(key, params) {
     return 'No translation for that key ' + key;
   }
 
-  // TODO - interpolation
-  return strings[key][locale];
+  return template(
+    strings[key][locale],
+    params
+  );
+};
+
+var getIntlKey = exports.getIntlKey = function(obj, key) {
+  if (!obj || !obj[key]) {
+    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+  }
+  if (!obj[key][getDefaultLocale()]) {
+    console.warn(
+      'WARNING!! This blob does not have intl support:',
+      obj,
+      'for this key',
+      key
+    );
+  }
+
+  return obj[key][getLocale()];
+};
+
+var getHint = exports.getHint = function(level) {
+  return getIntlKey(level, 'hint') || '';
+};
+
+var getName = exports.getName = function(level) {
+  return getIntlKey(level, 'name') || '';
 };
 
 var getStartDialog = exports.getStartDialog = function(level) {
-  if (!level || !level.startDialog) {
-    throw new Error('start dialog doesnt exist in that blob');
-  }
-  if (!level.startDialog[util.getDefaultLocale()]) {
-    console.warn('WARNING!! This dialog does not have intl support: ', level);
-  }
-  var locale = util.getLocale();
-  if (level.startDialog[locale]) {
-    return level.startDialog[locale];
-  }
+  var startDialog = getIntlKey(level, 'startDialog');
+  if (startDialog) { return startDialog; }
 
-  // we need to return english but add their locale error
-  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
-  console.log('start copy is', startCopy, 'and defaukt', level);
+  // this level translation isnt supported yet, so lets add
+  // an alert to the front and give the english version.
   var errorAlert = {
     type: 'ModalAlert',
     options: {
       markdown: str('error-untranslated')
     }
   };
+  var startCopy = _.clone(
+    level.startDialog[util.getDefaultLocale()] || level.startDialog
+  );
   startCopy.childViews.unshift(errorAlert);
 
   return startCopy;
@@ -22484,6 +22558,44 @@ var getStartDialog = exports.getStartDialog = function(level) {
 
 });
 require("/src/js/intl/index.js");
+
+require.define("/src/js/intl/merge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var fs = require('fs');
+
+var intlKey = exports.intlKey = function(obj, key) {
+  if (typeof obj[key] !== 'string') {
+    return;
+  }
+
+  obj[key] = {
+    'en_US': obj[key]
+  };
+  return obj;
+};
+
+var intlLevel = exports.intlLevel = function(level) {
+  var keys = [
+    'hint',
+    'name'
+  ];
+  _.each(keys, function(key) {
+    intlKey(level, key);
+  }, this);
+
+  return level;
+};
+
+var intlPath = exports.intlPath = function(path) {
+  var level = require(path).level;
+  level = intlLevel(level);
+
+  var output = JSON.stringify(level, null, 2);
+  fs.writeFileSync(path, output);
+};
+
+
+});
+require("/src/js/intl/merge.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ////////////////////////////////////////////////////////////////////////////
@@ -24107,6 +24219,7 @@ require.define("/src/js/level/sandboxCommands.js",function(require,module,export
 var util = require('../util');
 
 var constants = require('../util/constants');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -24126,9 +24239,9 @@ var instantCommands = [
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
-    constants.GLOBAL.locale = util.getDefaultLocale();
+    constants.GLOBAL.locale = intl.getDefaultLocale();
     throw new CommandResult({
-      msg: 'Locale reset to default, which is ' + util.getDefaultLocale()
+      msg: 'Locale reset to default, which is ' + intl.getDefaultLocale()
     });
   }],
   [/^locale (\w+)$/, function(bits) {
@@ -24818,17 +24931,6 @@ exports.parseQueryString = function(uri) {
 exports.isBrowser = function() {
   var inBrowser = String(typeof window) !== 'undefined';
   return inBrowser;
-};
-
-exports.getLocale = function() {
-  if (constants.GLOBAL.locale) {
-    return constants.GLOBAL.locale;
-  }
-  return exports.getDefaultLocale();
-};
-
-exports.getDefaultLocale = function() {
-  return 'en_US';
 };
 
 exports.splitTextCommand = function(value, func, context) {

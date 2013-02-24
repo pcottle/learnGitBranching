@@ -4,7 +4,27 @@ var util = require('../util');
 
 var strings = require('../intl/strings').strings;
 
+var getDefaultLocale = exports.getDefaultLocale = function() {
+  return 'en_US';
+};
+
+var getLocale = exports.getLocale = function() {
+  if (constants.GLOBAL.locale) {
+    return constants.GLOBAL.locale;
+  }
+  return getDefaultLocale();
+};
+
+// lets change underscores template settings so it interpolates
+// things like "{branchName} does not exist".
+var templateSettings = _.clone(_.templateSettings);
+templateSettings.interpolate = /\{(.+?)\}/g;
+var template = function(str, params) {
+  return _.template(str, params, templateSettings);
+};
+
 var str = exports.str = function(key, params) {
+  params = params || {};
   // this function takes a key like "error-branch-delete"
   // and parameters like {branchName: 'bugFix', num: 3}.
   //
@@ -17,7 +37,7 @@ var str = exports.str = function(key, params) {
   // 'You can not delete the branch bugFix because you are currently on that branch!
   //  This is error number 3'
 
-  var locale = util.getLocale();
+  var locale = getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key;
@@ -30,31 +50,51 @@ var str = exports.str = function(key, params) {
     return 'No translation for that key ' + key;
   }
 
-  // TODO - interpolation
-  return strings[key][locale];
+  return template(
+    strings[key][locale],
+    params
+  );
+};
+
+var getIntlKey = exports.getIntlKey = function(obj, key) {
+  if (!obj || !obj[key]) {
+    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+  }
+  if (!obj[key][getDefaultLocale()]) {
+    console.warn(
+      'WARNING!! This blob does not have intl support:',
+      obj,
+      'for this key',
+      key
+    );
+  }
+
+  return obj[key][getLocale()];
+};
+
+var getHint = exports.getHint = function(level) {
+  return getIntlKey(level, 'hint') || '';
+};
+
+var getName = exports.getName = function(level) {
+  return getIntlKey(level, 'name') || '';
 };
 
 var getStartDialog = exports.getStartDialog = function(level) {
-  if (!level || !level.startDialog) {
-    throw new Error('start dialog doesnt exist in that blob');
-  }
-  if (!level.startDialog[util.getDefaultLocale()]) {
-    console.warn('WARNING!! This dialog does not have intl support: ', level);
-  }
-  var locale = util.getLocale();
-  if (level.startDialog[locale]) {
-    return level.startDialog[locale];
-  }
+  var startDialog = getIntlKey(level, 'startDialog');
+  if (startDialog) { return startDialog; }
 
-  // we need to return english but add their locale error
-  var startCopy = _.clone(level.startDialog[util.getDefaultLocale()] || level.startDialog);
-  console.log('start copy is', startCopy, 'and defaukt', level);
+  // this level translation isnt supported yet, so lets add
+  // an alert to the front and give the english version.
   var errorAlert = {
     type: 'ModalAlert',
     options: {
       markdown: str('error-untranslated')
     }
   };
+  var startCopy = _.clone(
+    level.startDialog[util.getDefaultLocale()] || level.startDialog
+  );
   startCopy.childViews.unshift(errorAlert);
 
   return startCopy;

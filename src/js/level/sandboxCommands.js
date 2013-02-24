@@ -2,6 +2,7 @@ var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');
+var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
@@ -21,9 +22,9 @@ var instantCommands = [
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
-    constants.GLOBAL.locale = util.getDefaultLocale();
+    constants.GLOBAL.locale = intl.getDefaultLocale();
     throw new CommandResult({
-      msg: 'Locale reset to default, which is ' + util.getDefaultLocale()
+      msg: 'Locale reset to default, which is ' + intl.getDefaultLocale()
     });
   }],
   [/^locale (\w+)$/, function(bits) {
