@@ -73,6 +73,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Cameron Wills
 * Johan ("josso")
 * Frode Austvik
+* Don Kirkby
 
 Or reported an issue that was successfully closed!
 
