@@ -1026,8 +1026,23 @@ div.gitDemonstrationView {
   background: #9bcbeb;
 }
 
+
 /* Go Home Firefox, you're drunk */
 @-moz-document url-prefix() {
+  div.wrapper.box.vertical {
+    -moz-box-flex: 3;
+    box-flex: 3;
+  }
+
+  div.toolbar.level-toolbar.box.vertical.center.transitionAll {
+    width: 100%;
+  }
+
+  div.controls.box.horizontal.justify {
+    left: 0 !important;
+    top: -4px !important;
+  }
+
   body {
     display: block;
     width: 100%;
