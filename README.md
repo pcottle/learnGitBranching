@@ -60,6 +60,11 @@ A big shoutout to these brave souls for extensively testing our sandbox and find
 * Maksim Ioffe
 * Dan Miller
 
+And the following heroes for assisting in translating:
+* Jake Chen
+* 우리깃 ("urigit")
+* "bcho"
+
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
 * Aaron Schrab - 4x!!
