@@ -426,7 +426,9 @@ var ConfirmCancelTerminal = Backbone.View.extend({
 var NextLevelConfirm = ConfirmCancelTerminal.extend({
   initialize: function(options) {
     options = options || {};
-    var nextLevelName = (options.nextLevel) ? options.nextLevel.name : '';
+    var nextLevelName = (options.nextLevel) ?
+      intl.getName(options.nextLevel) :
+      '';
     var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
     var pluralBest = (options.best == 1) ? '' : 's';
 

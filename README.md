@@ -92,4 +92,6 @@ Or reported an issue that was successfully closed!
 * "flying-sheep"
 * "arianvp"
 * "MaPePeR"
+* Lutz ("mobilutz")
+* Jan Philipp
 
