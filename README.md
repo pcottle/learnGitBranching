@@ -94,4 +94,5 @@ Or reported an issue that was successfully closed!
 * "MaPePeR"
 * Lutz ("mobilutz")
 * Jan Philipp
+* Jon Frisby
 

@@ -522,22 +522,53 @@ GitEngine.prototype.reset = function(target) {
 };
 
 GitEngine.prototype.cherrypickStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, 1);
-  var newCommit = this.cherrypick(this.generalArgs[0]);
+  this.validateArgBounds(this.generalArgs, 1, Number.MAX_VALUE);
 
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  var set = this.getUpstreamSet('HEAD');
+  // first resolve all the refs (as an error check)
+  _.each(this.generalArgs, function(arg) {
+    var commit = this.resolveID(arg);
+    // and check that its not upstream
+    if (set[commit.get('id')]) {
+      throw new GitError({
+        msg: 'The commit ' + commit.get('id') +
+          ' already exists in your changes set, aborting!'
+      });
+    }
+  }, this);
+  // error checks are all good, lets go!
+
+  // hack up the rebase response to animate this better
+  var animationResponse = {};
+  animationResponse.destinationBranch = this.resolveID('HEAD');
+  animationResponse.toRebaseArray = [];
+  animationResponse.rebaseSteps = [];
+
+  // now lets start going through
+  var beforeSnapshot = this.gitVisuals.genSnapshot();
+  var afterSnapshot;
+  var newCommit;
+  _.each(this.generalArgs, function(arg) {
+    var oldCommit = this.resolveID(arg);
+    animationResponse.toRebaseArray.push(oldCommit);
+
+    newCommit = this.cherrypick(arg);
+
+    afterSnapshot = this.gitVisuals.genSnapshot();
+    animationResponse.rebaseSteps.push({
+      oldCommit: oldCommit,
+      newCommit: newCommit,
+      beforeSnapshot: beforeSnapshot,
+      afterSnapshot: this.gitVisuals.genSnapshot()
+    });
+    beforeSnapshot = afterSnapshot;
+  }, this);
+
+  this.animationFactory.rebaseAnimation(this.animationQueue, animationResponse, this, this.gitVisuals);
 };
 
 GitEngine.prototype.cherrypick = function(ref) {
   var commit = this.getCommitFromRef(ref);
-  // check if we already have that
-  var set = this.getUpstreamSet('HEAD');
-  if (set[commit.get('id')]) {
-    throw new GitError({
-      msg: "We already have that commit in our changes history! You can't cherry-pick it " +
-           "if it shows up in git log."
-    });
-  }
 
   // alter the ID slightly
   var id = this.rebaseAltID(commit.get('id'));
@@ -545,6 +576,7 @@ GitEngine.prototype.cherrypick = function(ref) {
   // now commit with that id onto HEAD
   var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
   this.setTargetLocation(this.HEAD, newCommit);
+
   return newCommit;
 };
 
