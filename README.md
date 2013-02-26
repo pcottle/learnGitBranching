@@ -100,4 +100,5 @@ Or reported an issue that was successfully closed!
 * Lutz ("mobilutz")
 * Jan Philipp
 * Jon Frisby
+* Matthew Walker
 
