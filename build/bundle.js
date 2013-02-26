@@ -7308,6 +7308,11 @@ var Level = Sandbox.extend({
   },
 
   afterCommandCB: function(command) {
+    if (command.get('error')) {
+      // dont count errors towards our count
+      return;
+    }
+
     var matched = false;
     _.each(this.commandsThatCount, function(regex) {
       matched = matched || regex.test(command.get('rawStr'));
@@ -24039,6 +24044,11 @@ var Level = Sandbox.extend({
   },
 
   afterCommandCB: function(command) {
+    if (command.get('error')) {
+      // dont count errors towards our count
+      return;
+    }
+
     var matched = false;
     _.each(this.commandsThatCount, function(regex) {
       matched = matched || regex.test(command.get('rawStr'));
