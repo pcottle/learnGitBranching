@@ -1,5 +1,24 @@
 exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'git-status-detached': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'Detached head!'
+  },
+  'git-status-onbranch': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'On branch {branch}'
+  },
+  'git-status-readytocommit': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'Ready to commit! (as always in this demo)'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-dummy-msg': {
+    '__desc__': 'The dummy commit message for all commits. Feel free to put in a ' +
+      'shoutout to your school / city / whatever!',
+    'en_US': 'Quick commit. Go Bears!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
@@ -71,10 +90,10 @@ exports.strings = {
     'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
   },
   ///////////////////////////////////////////////////////////////////////////
-  'git-error-soft': {
+  'git-error-staging': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'You can\'t use --soft in this demo because there is no concept of ' +
-      'stashing changes or staging files'
+    'en_US': 'There is no concept of adding / staging files, so that option or ' +
+      'command is invalid!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
