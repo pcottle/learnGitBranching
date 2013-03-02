@@ -6600,6 +6600,25 @@ var getStartDialog = exports.getStartDialog = function(level) {
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'git-status-detached': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'Detached head!'
+  },
+  'git-status-onbranch': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'On branch {branch}'
+  },
+  'git-status-readytocommit': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'Ready to commit! (as always in this demo)'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-dummy-msg': {
+    '__desc__': 'The dummy commit message for all commits. Feel free to put in a ' +
+      'shoutout to your school / city / whatever!',
+    'en_US': 'Quick commit. Go Bears!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
@@ -6671,10 +6690,10 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
   },
   ///////////////////////////////////////////////////////////////////////////
-  'git-error-soft': {
+  'git-error-staging': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'You can\'t use --soft in this demo because there is no concept of ' +
-      'stashing changes or staging files'
+    'en_US': 'There is no concept of adding / staging files, so that option or ' +
+      'command is invalid!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -8523,7 +8542,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 GitEngine.prototype.resetStarter = function() {
   if (this.commandOptions['--soft']) {
     throw new GitError({
-      msg: intl.str('git-error-soft')
+      msg: intl.str('git-error-staging')
     });
   }
   if (this.commandOptions['--hard']) {
@@ -9478,16 +9497,16 @@ GitEngine.prototype.show = function(ref) {
 GitEngine.prototype.statusStarter = function() {
   var lines = [];
   if (this.getDetachedHead()) {
-    lines.push('Detached Head!');
+    lines.push(intl.str('git-status-detached'));
   } else {
     var branchName = this.HEAD.get('target').get('id');
-    lines.push('On branch ' + branchName);
+    lines.push(intl.str('git-stauts-onbranch', {branch: branchName}));
   }
   lines.push('Changes to be committed:');
   lines.push('');
   lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
   lines.push('');
-  lines.push('Ready to commit! (as always in this demo)');
+  lines.push(intl.str('git-status-readytocommit'));
 
   var msg = '';
   _.each(lines, function(line) {
@@ -9506,7 +9525,7 @@ GitEngine.prototype.logStarter = function() {
       this.logWithout(this.generalArgs[0], this.generalArgs[1]);
     } else {
       throw new GitError({
-        msg: 'I need a not branch (^branchName) when getting two arguments!'
+        msg: intl.str('git-error-options')
       });
     }
   }
@@ -9560,8 +9579,7 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
 GitEngine.prototype.addStarter = function() {
   throw new CommandResult({
-    msg: "This demo is meant to demonstrate git branching, so don't worry about " +
-         "adding / staging files. Just go ahead and commit away!"
+    msg: intl.str('git-error-staging')
   });
 };
 
@@ -9710,7 +9728,7 @@ var Commit = Backbone.Model.extend({
       this.set('createTime', new Date().toString());
     }
     if (!this.get('commitMessage')) {
-      this.set('commitMessage', 'Quick Commit. Go Bears!');
+      this.set('commitMessage', intl.str('git-dummy-msg'));
     }
 
     this.set('children', []);
@@ -21530,7 +21548,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 GitEngine.prototype.resetStarter = function() {
   if (this.commandOptions['--soft']) {
     throw new GitError({
-      msg: intl.str('git-error-soft')
+      msg: intl.str('git-error-staging')
     });
   }
   if (this.commandOptions['--hard']) {
@@ -22485,16 +22503,16 @@ GitEngine.prototype.show = function(ref) {
 GitEngine.prototype.statusStarter = function() {
   var lines = [];
   if (this.getDetachedHead()) {
-    lines.push('Detached Head!');
+    lines.push(intl.str('git-status-detached'));
   } else {
     var branchName = this.HEAD.get('target').get('id');
-    lines.push('On branch ' + branchName);
+    lines.push(intl.str('git-stauts-onbranch', {branch: branchName}));
   }
   lines.push('Changes to be committed:');
   lines.push('');
   lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
   lines.push('');
-  lines.push('Ready to commit! (as always in this demo)');
+  lines.push(intl.str('git-status-readytocommit'));
 
   var msg = '';
   _.each(lines, function(line) {
@@ -22513,7 +22531,7 @@ GitEngine.prototype.logStarter = function() {
       this.logWithout(this.generalArgs[0], this.generalArgs[1]);
     } else {
       throw new GitError({
-        msg: 'I need a not branch (^branchName) when getting two arguments!'
+        msg: intl.str('git-error-options')
       });
     }
   }
@@ -22567,8 +22585,7 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
 GitEngine.prototype.addStarter = function() {
   throw new CommandResult({
-    msg: "This demo is meant to demonstrate git branching, so don't worry about " +
-         "adding / staging files. Just go ahead and commit away!"
+    msg: intl.str('git-error-staging')
   });
 };
 
@@ -22717,7 +22734,7 @@ var Commit = Backbone.Model.extend({
       this.set('createTime', new Date().toString());
     }
     if (!this.get('commitMessage')) {
-      this.set('commitMessage', 'Quick Commit. Go Bears!');
+      this.set('commitMessage', intl.str('git-dummy-msg'));
     }
 
     this.set('children', []);
@@ -23123,6 +23140,25 @@ require("/src/js/intl/index.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'git-status-detached': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'Detached head!'
+  },
+  'git-status-onbranch': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'On branch {branch}'
+  },
+  'git-status-readytocommit': {
+    '__desc__': 'One of the lines for git status output',
+    'en_US': 'Ready to commit! (as always in this demo)'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-dummy-msg': {
+    '__desc__': 'The dummy commit message for all commits. Feel free to put in a ' +
+      'shoutout to your school / city / whatever!',
+    'en_US': 'Quick commit. Go Bears!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
@@ -23194,10 +23230,10 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
   },
   ///////////////////////////////////////////////////////////////////////////
-  'git-error-soft': {
+  'git-error-staging': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'You can\'t use --soft in this demo because there is no concept of ' +
-      'stashing changes or staging files'
+    'en_US': 'There is no concept of adding / staging files, so that option or ' +
+      'command is invalid!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
