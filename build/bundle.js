@@ -6508,7 +6508,7 @@ var getLocale = exports.getLocale = function() {
 // things like "{branchName} does not exist".
 var templateSettings = _.clone(_.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;
-var template = function(str, params) {
+var template = exports.template = function(str, params) {
   return _.template(str, params, templateSettings);
 };
 
@@ -6600,14 +6600,36 @@ var getStartDialog = exports.getStartDialog = function(level) {
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-finished': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Wow! You finished the last level, great!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-next': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-win': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Awesome! You matched or exceeded our solution.'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-lose': {
+    '__desc__': 'When the user entered more commands than our best, encourage them to do better',
+    'en_US': 'See if you can whittle it down to {best} :D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'On branch {branch}'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Ready to commit! (as always in this demo)'
@@ -10965,43 +10987,32 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
     var nextLevelName = (options.nextLevel) ?
       intl.getName(options.nextLevel) :
       '';
-    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
-    var pluralBest = (options.best == 1) ? '' : 's';
 
-    var markdowns = [
-      '## Great Job!!',
-      '',
-      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
-      'our solution uses ' + options.best + '. '
-    ];
+    // lol hax
+    var markdowns = intl.getDialog(require('../dialogs/nextLevel'))[0].options.markdowns;
+    var markdown = markdowns.join('\n');
+    markdown = intl.template(markdown, {
+      numCommands: options.numCommands,
+      best: options.best
+    });
 
     if (options.numCommands <= options.best) {
-      markdowns.push(
-        'Awesome! You matched or exceeded our solution. '
-      );
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-win');
     } else {
-      markdowns.push(
-        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
-      );
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-lose', {best: options.best});
     }
 
+    markdown = markdown + '\n\n';
     if (options.nextLevel) {
-      markdowns = markdowns.concat([
-        '',
-        'Would you like to move onto "' +
-        nextLevelName + '", the next level?'
-      ]);
+      markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
-      markdowns = markdowns.concat([
-        '',
-        'Wow!!! You finished the last level, congratulations!'
-      ]);
+      markdown = markdown + intl.str('finish-dialog-finished');
     }
 
     options = _.extend(
       {},
       options,
-      { markdowns: markdowns }
+      { markdown: markdown }
     );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);
@@ -13418,6 +13429,23 @@ EventEmitter.prototype.listeners = function(type) {
   }
   return this._events[type];
 };
+
+});
+
+require.define("/src/js/dialogs/nextLevel.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Great Job!!',
+        '',
+        'You solved the level in *{numCommands}* command(s); ',
+        'our solution uses {best}.'
+      ]
+    }
+  }]
+};
+
 
 });
 
@@ -20564,6 +20592,24 @@ require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports
 });
 require("/src/js/dialogs/levelBuilder.js");
 
+require.define("/src/js/dialogs/nextLevel.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Great Job!!',
+        '',
+        'You solved the level in *{numCommands}* command(s); ',
+        'our solution uses {best}.'
+      ]
+    }
+  }]
+};
+
+
+});
+require("/src/js/dialogs/nextLevel.js");
+
 require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -23047,7 +23093,7 @@ var getLocale = exports.getLocale = function() {
 // things like "{branchName} does not exist".
 var templateSettings = _.clone(_.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;
-var template = function(str, params) {
+var template = exports.template = function(str, params) {
   return _.template(str, params, templateSettings);
 };
 
@@ -23140,14 +23186,36 @@ require("/src/js/intl/index.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-finished': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Wow! You finished the last level, great!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-next': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-win': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Awesome! You matched or exceeded our solution.'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-lose': {
+    '__desc__': 'When the user entered more commands than our best, encourage them to do better',
+    'en_US': 'See if you can whittle it down to {best} :D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'On branch {branch}'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Ready to commit! (as always in this demo)'
@@ -27476,43 +27544,32 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
     var nextLevelName = (options.nextLevel) ?
       intl.getName(options.nextLevel) :
       '';
-    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
-    var pluralBest = (options.best == 1) ? '' : 's';
 
-    var markdowns = [
-      '## Great Job!!',
-      '',
-      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
-      'our solution uses ' + options.best + '. '
-    ];
+    // lol hax
+    var markdowns = intl.getDialog(require('../dialogs/nextLevel'))[0].options.markdowns;
+    var markdown = markdowns.join('\n');
+    markdown = intl.template(markdown, {
+      numCommands: options.numCommands,
+      best: options.best
+    });
 
     if (options.numCommands <= options.best) {
-      markdowns.push(
-        'Awesome! You matched or exceeded our solution. '
-      );
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-win');
     } else {
-      markdowns.push(
-        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
-      );
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-lose', {best: options.best});
     }
 
+    markdown = markdown + '\n\n';
     if (options.nextLevel) {
-      markdowns = markdowns.concat([
-        '',
-        'Would you like to move onto "' +
-        nextLevelName + '", the next level?'
-      ]);
+      markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
-      markdowns = markdowns.concat([
-        '',
-        'Wow!!! You finished the last level, congratulations!'
-      ]);
+      markdown = markdown + intl.str('finish-dialog-finished');
     }
 
     options = _.extend(
       {},
       options,
-      { markdowns: markdowns }
+      { markdown: markdown }
     );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);

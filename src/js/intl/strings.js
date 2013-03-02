@@ -1,13 +1,35 @@
 exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-finished': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Wow! You finished the last level, great!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-next': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-win': {
+    '__desc__': 'One of the lines in the next level dialog',
+    'en_US': 'Awesome! You matched or exceeded our solution.'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'finish-dialog-lose': {
+    '__desc__': 'When the user entered more commands than our best, encourage them to do better',
+    'en_US': 'See if you can whittle it down to {best} :D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'On branch {branch}'
   },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Ready to commit! (as always in this demo)'

@@ -429,43 +429,32 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
     var nextLevelName = (options.nextLevel) ?
       intl.getName(options.nextLevel) :
       '';
-    var pluralNumCommands = (options.numCommands == 1) ? '' : 's';
-    var pluralBest = (options.best == 1) ? '' : 's';
 
-    var markdowns = [
-      '## Great Job!!',
-      '',
-      'You solved the level in **' + options.numCommands + '** command' + pluralNumCommands + '; ',
-      'our solution uses ' + options.best + '. '
-    ];
+    // lol hax
+    var markdowns = intl.getDialog(require('../dialogs/nextLevel'))[0].options.markdowns;
+    var markdown = markdowns.join('\n');
+    markdown = intl.template(markdown, {
+      numCommands: options.numCommands,
+      best: options.best
+    });
 
     if (options.numCommands <= options.best) {
-      markdowns.push(
-        'Awesome! You matched or exceeded our solution. '
-      );
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-win');
     } else {
-      markdowns.push(
-        'See if you can whittle it down to ' + options.best + ' command' + pluralBest + ' :D '
-      );
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-lose', {best: options.best});
     }
 
+    markdown = markdown + '\n\n';
     if (options.nextLevel) {
-      markdowns = markdowns.concat([
-        '',
-        'Would you like to move onto "' +
-        nextLevelName + '", the next level?'
-      ]);
+      markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
-      markdowns = markdowns.concat([
-        '',
-        'Wow!!! You finished the last level, congratulations!'
-      ]);
+      markdown = markdown + intl.str('finish-dialog-finished');
     }
 
     options = _.extend(
       {},
       options,
-      { markdowns: markdowns }
+      { markdown: markdown }
     );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);
