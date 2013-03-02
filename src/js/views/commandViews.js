@@ -74,7 +74,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
-    var el = e.srcElement;
+    var el = e.srcElement || e.currentTarget;
     this.updatePrompt(el);
   },
 
@@ -131,7 +131,7 @@ var CommandPromptView = Backbone.View.extend({
 
   cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
     if (selectionStart === undefined || selectionEnd === undefined) {
-      selectionStart = commandLength - 1;
+      selectionStart = Math.max(commandLength - 1, 0);
       selectionEnd = commandLength;
     }
 

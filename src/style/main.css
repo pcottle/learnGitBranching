@@ -1049,6 +1049,10 @@ div.gitDemonstrationView {
     height: 100%;
   }
 
+  #commandLineBar {
+    min-height: 30px;
+  }
+
   #interfaceWrapper {
     width: 100%;
     height: 100%;
