@@ -19,7 +19,7 @@ var getLocale = exports.getLocale = function() {
 // things like "{branchName} does not exist".
 var templateSettings = _.clone(_.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;
-var template = function(str, params) {
+var template = exports.template = function(str, params) {
   return _.template(str, params, templateSettings);
 };
 

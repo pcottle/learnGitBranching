@@ -4,14 +4,11 @@ Mega Things
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
-[ ] git/index.js translation -- rest of the strings
-[ ] next level confirm translation
 [ ] rest of views/index translation
 
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
-[ ] rebase -i solution demonstration (blink and fade thing?)
 [ ] hash agnotisc comparison with asserts for ammends
 [ ] tree pruning
 
@@ -38,6 +35,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] git/index.js translation -- rest of the strings
+[x] next level confirm translation
 [x] fix clickthrough when goal is shown
 [x] hash agnostic comparison
 [x] get automated SHA hash appending in the html source :OOOOO... template? or what?t
