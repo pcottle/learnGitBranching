@@ -4,7 +4,6 @@ Mega Things
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
-[ ] rest of views/index translation
 
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +34,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] level builder intl aware
+[x] rest of views/index translation
 [x] git/index.js translation -- rest of the strings
 [x] next level confirm translation
 [x] fix clickthrough when goal is shown
