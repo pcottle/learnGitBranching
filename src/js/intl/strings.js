@@ -1,4 +1,36 @@
 exports.strings = {
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-branch': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
+      'aren\'t branches'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-merge-msg': {
+    '__desc__': 'The commit message for a merge commit',
+    'en_US': 'Merge {target} into {current}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-rebase-none': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-nothing': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Nothing to do...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-fastforward': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Fast forwarding...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-uptodate': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Branch already up-to-date'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The ref {ref} does not exist or is unknown'
@@ -21,7 +53,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Those options you specified are incompatible'
+    'en_US': 'Those options you specified are incompatible or incorrect'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
