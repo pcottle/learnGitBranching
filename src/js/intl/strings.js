@@ -1,4 +1,74 @@
 exports.strings = {
+  'git-error-exist': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The ref {ref} does not exist or is unknown'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-relative-ref': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Commit {commit} doesnot have a {match}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-detached': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'Warning!! Detached HEAD state'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-add': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'No need to add files in this demo'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-options': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Those options you specified are incompatible'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-already-exists': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The commit {commit} already exists in your changes set, aborting!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-reset-detached': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-hard': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-soft': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You can\'t use --soft in this demo because there is no concept of ' +
+      'stashing changes or staging files'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-revert-msg': {
+    '__desc__': 'Message for reverting git command',
+    'en_US': 'Reverting {oldCommit}: {oldMsg}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-args-many': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'I expect at most {upper} argument(s) for {what}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-args-few': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'I expect at least {lower} argument(s) for {what}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-no-general-args': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'That command accepts no general arguments'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'copy-tree-string': {
+    '__desc__': 'The prompt to copy the tree when sharing',
+    'en_US': 'Copy the tree string below'
+  },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',

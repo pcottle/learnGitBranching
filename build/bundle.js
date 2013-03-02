@@ -6599,6 +6599,76 @@ var getStartDialog = exports.getStartDialog = function(level) {
 });
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  'git-error-exist': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The ref {ref} does not exist or is unknown'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-relative-ref': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Commit {commit} doesnot have a {match}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-detached': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'Warning!! Detached HEAD state'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-add': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'No need to add files in this demo'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-options': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Those options you specified are incompatible'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-already-exists': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The commit {commit} already exists in your changes set, aborting!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-reset-detached': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-hard': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-soft': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You can\'t use --soft in this demo because there is no concept of ' +
+      'stashing changes or staging files'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-revert-msg': {
+    '__desc__': 'Message for reverting git command',
+    'en_US': 'Reverting {oldCommit}: {oldMsg}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-args-many': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'I expect at most {upper} argument(s) for {what}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-args-few': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'I expect at least {lower} argument(s) for {what}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-no-general-args': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'That command accepts no general arguments'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'copy-tree-string': {
+    '__desc__': 'The prompt to copy the tree when sharing',
+    'en_US': 'Copy the tree string below'
+  },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
@@ -8030,7 +8100,10 @@ GitEngine.prototype.printTree = function(tree) {
 };
 
 GitEngine.prototype.printAndCopyTree = function() {
-  window.prompt('Copy the tree string below', this.printTree());
+  window.prompt(
+    intl.str('Copy the tree string below'),
+    this.printTree()
+  );
 };
 
 GitEngine.prototype.loadTree = function(tree) {
@@ -8299,7 +8372,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
 GitEngine.prototype.acceptNoGeneralArgs = function() {
   if (this.generalArgs.length) {
     throw new GitError({
-      msg: "That command accepts no general arguments"
+      msg: intl.str('git-error-no-general-args')
     });
   }
 };
@@ -8313,12 +8386,24 @@ GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
 
   if (args.length < lower) {
     throw new GitError({
-      msg: 'I expect at least ' + String(lower) + ' argument(s) ' + what
+      msg: intl.str(
+        'git-error-args-few',
+        {
+          lower: String(lower),
+          what: what
+        }
+      )
     });
   }
   if (args.length > upper) {
     throw new GitError({
-      msg: 'I expect at most ' + String(upper) + ' argument(s) ' + what
+      msg: intl.str(
+        'git-error-args-many',
+        {
+          upper: String(upper),
+          what: what
+        }
+      )
     });
   }
 };
@@ -8372,9 +8457,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   _.each(toRebase, function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
 
+    var commitMessage = intl.str(
+      'git-revert-msg',
+      {
+        oldCommit: this.resolveName(oldCommit),
+        oldMsg: oldCommit.get('commitMessage')
+      }
+    );
+
     var newCommit = this.makeCommit([base], newId, {
-        commitMessage: 'Reverting ' + this.resolveName(oldCommit) +
-          ': "' + oldCommit.get('commitMessage') + '"'
+      commitMessage: commitMessage
     });
 
     base = newCommit;
@@ -8399,15 +8491,12 @@ GitEngine.prototype.revert = function(whichCommits) {
 GitEngine.prototype.resetStarter = function() {
   if (this.commandOptions['--soft']) {
     throw new GitError({
-      msg: "You can't use --soft because there is no concept of stashing" +
-           " changes or staging files, so you will lose your progress." +
-           " Try using interactive rebasing (or just rebasing) to move commits."
+      msg: intl.str('git-error-soft')
     });
   }
   if (this.commandOptions['--hard']) {
     this.command.addWarning(
-      'Nice! You are using --hard. The default behavior is a hard reset in ' +
-      "this demo, so don't worry about specifying the option explicity"
+      intl.str('git-warning-hard')
     );
     // dont absorb the arg off of --hard
     this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
@@ -8417,7 +8506,7 @@ GitEngine.prototype.resetStarter = function() {
 
   if (this.getDetachedHead()) {
     throw new GitError({
-      msg: "Cant reset in detached head! Use checkout if you want to move"
+      msg: intl.str('git-error-reset-detached')
     });
   }
 
@@ -8438,8 +8527,10 @@ GitEngine.prototype.cherrypickStarter = function() {
     // and check that its not upstream
     if (set[commit.get('id')]) {
       throw new GitError({
-        msg: 'The commit ' + commit.get('id') +
-          ' already exists in your changes set, aborting!'
+        msg: intl.str(
+          'git-error-already-exists',
+          { commit: commit.get('id') }
+        )
       });
     }
   }, this);
@@ -8492,23 +8583,19 @@ GitEngine.prototype.commitStarter = function() {
   if (this.commandOptions['-am'] && (
       this.commandOptions['-a'] || this.commandOptions['-m'])) {
     throw new GitError({
-      msg: "You can't have -am with another -m or -a!"
+      msg: intl.str('git-error-options')
     });
   }
 
   var msg = null;
   var args = null;
   if (this.commandOptions['-a']) {
-    this.command.addWarning('No need to add files in this demo');
+    this.command.addWarning(intl.str('git-warning-add'));
   }
 
   if (this.commandOptions['-am']) {
     args = this.commandOptions['-am'];
     this.validateArgBounds(args, 1, 1, '-am');
-
-    this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message anyways, but you can commit without a message " +
-      "in this demo as well");
     msg = args[0];
   }
 
@@ -8542,7 +8629,7 @@ GitEngine.prototype.commit = function() {
 
   var newCommit = this.makeCommit([targetCommit], id);
   if (this.getDetachedHead()) {
-    this.command.addWarning('Warning!! Detached HEAD state');
+    this.command.addWarning(intl.str('git-warning-detached'));
   }
 
   this.setTargetLocation(this.HEAD, newCommit);
@@ -8590,7 +8677,13 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
     }
 
     if (!next) {
-      var msg = "Commit " + commit.id + " doesn't have a " + matches[0];
+      var msg = intl.str(
+        'git-error-relative-ref',
+        {
+          commit: commit.id,
+          match: matches[0]
+        }
+      );
       throw new GitError({
         msg: msg
       });
@@ -8619,16 +8712,15 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   if (matches) {
     startRef = matches[1];
     relative = matches[2];
-  }
-  else {
+  } else {
     throw new GitError({
-      msg: 'unknown ref ' + ref
+      msg: intl.str('git-error-exist', {ref: ref})
     });
   }
 
   if (!this.refs[startRef]) {
     throw new GitError({
-      msg: 'the ref ' + startRef +' does not exist.'
+      msg: intl.str('git-error-exist', {ref: ref})
     });
   }
   var commit = this.getCommitFromRef(startRef);
@@ -21018,7 +21110,10 @@ GitEngine.prototype.printTree = function(tree) {
 };
 
 GitEngine.prototype.printAndCopyTree = function() {
-  window.prompt('Copy the tree string below', this.printTree());
+  window.prompt(
+    intl.str('Copy the tree string below'),
+    this.printTree()
+  );
 };
 
 GitEngine.prototype.loadTree = function(tree) {
@@ -21287,7 +21382,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
 GitEngine.prototype.acceptNoGeneralArgs = function() {
   if (this.generalArgs.length) {
     throw new GitError({
-      msg: "That command accepts no general arguments"
+      msg: intl.str('git-error-no-general-args')
     });
   }
 };
@@ -21301,12 +21396,24 @@ GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
 
   if (args.length < lower) {
     throw new GitError({
-      msg: 'I expect at least ' + String(lower) + ' argument(s) ' + what
+      msg: intl.str(
+        'git-error-args-few',
+        {
+          lower: String(lower),
+          what: what
+        }
+      )
     });
   }
   if (args.length > upper) {
     throw new GitError({
-      msg: 'I expect at most ' + String(upper) + ' argument(s) ' + what
+      msg: intl.str(
+        'git-error-args-many',
+        {
+          upper: String(upper),
+          what: what
+        }
+      )
     });
   }
 };
@@ -21360,9 +21467,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   _.each(toRebase, function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
 
+    var commitMessage = intl.str(
+      'git-revert-msg',
+      {
+        oldCommit: this.resolveName(oldCommit),
+        oldMsg: oldCommit.get('commitMessage')
+      }
+    );
+
     var newCommit = this.makeCommit([base], newId, {
-        commitMessage: 'Reverting ' + this.resolveName(oldCommit) +
-          ': "' + oldCommit.get('commitMessage') + '"'
+      commitMessage: commitMessage
     });
 
     base = newCommit;
@@ -21387,15 +21501,12 @@ GitEngine.prototype.revert = function(whichCommits) {
 GitEngine.prototype.resetStarter = function() {
   if (this.commandOptions['--soft']) {
     throw new GitError({
-      msg: "You can't use --soft because there is no concept of stashing" +
-           " changes or staging files, so you will lose your progress." +
-           " Try using interactive rebasing (or just rebasing) to move commits."
+      msg: intl.str('git-error-soft')
     });
   }
   if (this.commandOptions['--hard']) {
     this.command.addWarning(
-      'Nice! You are using --hard. The default behavior is a hard reset in ' +
-      "this demo, so don't worry about specifying the option explicity"
+      intl.str('git-warning-hard')
     );
     // dont absorb the arg off of --hard
     this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
@@ -21405,7 +21516,7 @@ GitEngine.prototype.resetStarter = function() {
 
   if (this.getDetachedHead()) {
     throw new GitError({
-      msg: "Cant reset in detached head! Use checkout if you want to move"
+      msg: intl.str('git-error-reset-detached')
     });
   }
 
@@ -21426,8 +21537,10 @@ GitEngine.prototype.cherrypickStarter = function() {
     // and check that its not upstream
     if (set[commit.get('id')]) {
       throw new GitError({
-        msg: 'The commit ' + commit.get('id') +
-          ' already exists in your changes set, aborting!'
+        msg: intl.str(
+          'git-error-already-exists',
+          { commit: commit.get('id') }
+        )
       });
     }
   }, this);
@@ -21480,23 +21593,19 @@ GitEngine.prototype.commitStarter = function() {
   if (this.commandOptions['-am'] && (
       this.commandOptions['-a'] || this.commandOptions['-m'])) {
     throw new GitError({
-      msg: "You can't have -am with another -m or -a!"
+      msg: intl.str('git-error-options')
     });
   }
 
   var msg = null;
   var args = null;
   if (this.commandOptions['-a']) {
-    this.command.addWarning('No need to add files in this demo');
+    this.command.addWarning(intl.str('git-warning-add'));
   }
 
   if (this.commandOptions['-am']) {
     args = this.commandOptions['-am'];
     this.validateArgBounds(args, 1, 1, '-am');
-
-    this.command.addWarning("Don't worry about adding files in this demo. I'll take " +
-      "down your commit message anyways, but you can commit without a message " +
-      "in this demo as well");
     msg = args[0];
   }
 
@@ -21530,7 +21639,7 @@ GitEngine.prototype.commit = function() {
 
   var newCommit = this.makeCommit([targetCommit], id);
   if (this.getDetachedHead()) {
-    this.command.addWarning('Warning!! Detached HEAD state');
+    this.command.addWarning(intl.str('git-warning-detached'));
   }
 
   this.setTargetLocation(this.HEAD, newCommit);
@@ -21578,7 +21687,13 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
     }
 
     if (!next) {
-      var msg = "Commit " + commit.id + " doesn't have a " + matches[0];
+      var msg = intl.str(
+        'git-error-relative-ref',
+        {
+          commit: commit.id,
+          match: matches[0]
+        }
+      );
       throw new GitError({
         msg: msg
       });
@@ -21607,16 +21722,15 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   if (matches) {
     startRef = matches[1];
     relative = matches[2];
-  }
-  else {
+  } else {
     throw new GitError({
-      msg: 'unknown ref ' + ref
+      msg: intl.str('git-error-exist', {ref: ref})
     });
   }
 
   if (!this.refs[startRef]) {
     throw new GitError({
-      msg: 'the ref ' + startRef +' does not exist.'
+      msg: intl.str('git-error-exist', {ref: ref})
     });
   }
   var commit = this.getCommitFromRef(startRef);
@@ -22982,6 +23096,76 @@ var getStartDialog = exports.getStartDialog = function(level) {
 require("/src/js/intl/index.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  'git-error-exist': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The ref {ref} does not exist or is unknown'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-relative-ref': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Commit {commit} doesnot have a {match}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-detached': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'Warning!! Detached HEAD state'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-add': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'No need to add files in this demo'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-options': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Those options you specified are incompatible'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-already-exists': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The commit {commit} already exists in your changes set, aborting!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-reset-detached': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-warning-hard': {
+    '__desc__': 'One of the warning messages for git',
+    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-soft': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You can\'t use --soft in this demo because there is no concept of ' +
+      'stashing changes or staging files'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-revert-msg': {
+    '__desc__': 'Message for reverting git command',
+    'en_US': 'Reverting {oldCommit}: {oldMsg}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-args-many': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'I expect at most {upper} argument(s) for {what}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-args-few': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'I expect at least {lower} argument(s) for {what}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-no-general-args': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'That command accepts no general arguments'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'copy-tree-string': {
+    '__desc__': 'The prompt to copy the tree when sharing',
+    'en_US': 'Copy the tree string below'
+  },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
