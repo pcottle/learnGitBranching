@@ -14246,12 +14246,17 @@ var LevelBuilder = Level.extend({
   },
 
   defineName: function(command, deferred) {
-    this.level.name = prompt(intl.str('prompt-name'));
+    this.level.name = {
+      'en_US': prompt(intl.str('prompt-name'))
+    };
+
     if (command) { command.finishWith(deferred); }
   },
 
   defineHint: function(command, deferred) {
-    this.level.hint = prompt(intl.str('prompt-hint'));
+    this.level.hint = {
+      'en_US': prompt(intl.str('prompt-hint'))
+    };
     if (command) { command.finishWith(deferred); }
   },
 
@@ -14308,7 +14313,7 @@ var LevelBuilder = Level.extend({
       askForHintView.getPromise()
       .then(_.bind(this.defineHint, this))
       .fail(_.bind(function() {
-        this.level.hint = '';
+        this.level.hint = {'en_US': ''};
       }, this))
       .done(function() {
         askForHintDeferred.resolve();
@@ -14362,7 +14367,7 @@ var LevelBuilder = Level.extend({
     // the start dialog now is just our help intro thing
     delete compiledLevel.startDialog;
     if (this.startDialog) {
-      compiledLevel.startDialog  = this.startDialog;
+      compiledLevel.startDialog = {'en_US': this.startDialog};
     }
     return compiledLevel;
   },
@@ -14952,6 +14957,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var Views = require('../views');
@@ -23894,12 +23900,17 @@ var LevelBuilder = Level.extend({
   },
 
   defineName: function(command, deferred) {
-    this.level.name = prompt(intl.str('prompt-name'));
+    this.level.name = {
+      'en_US': prompt(intl.str('prompt-name'))
+    };
+
     if (command) { command.finishWith(deferred); }
   },
 
   defineHint: function(command, deferred) {
-    this.level.hint = prompt(intl.str('prompt-hint'));
+    this.level.hint = {
+      'en_US': prompt(intl.str('prompt-hint'))
+    };
     if (command) { command.finishWith(deferred); }
   },
 
@@ -23956,7 +23967,7 @@ var LevelBuilder = Level.extend({
       askForHintView.getPromise()
       .then(_.bind(this.defineHint, this))
       .fail(_.bind(function() {
-        this.level.hint = '';
+        this.level.hint = {'en_US': ''};
       }, this))
       .done(function() {
         askForHintDeferred.resolve();
@@ -24010,7 +24021,7 @@ var LevelBuilder = Level.extend({
     // the start dialog now is just our help intro thing
     delete compiledLevel.startDialog;
     if (this.startDialog) {
-      compiledLevel.startDialog  = this.startDialog;
+      compiledLevel.startDialog = {'en_US': this.startDialog};
     }
     return compiledLevel;
   },
@@ -26050,6 +26061,7 @@ var Q = require('q');
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var Views = require('../views');
