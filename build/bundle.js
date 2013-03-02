@@ -6599,6 +6599,38 @@ var getStartDialog = exports.getStartDialog = function(level) {
 });
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-branch': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
+      'aren\'t branches'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-merge-msg': {
+    '__desc__': 'The commit message for a merge commit',
+    'en_US': 'Merge {target} into {current}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-rebase-none': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-nothing': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Nothing to do...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-fastforward': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Fast forwarding...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-uptodate': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Branch already up-to-date'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The ref {ref} does not exist or is unknown'
@@ -6621,7 +6653,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Those options you specified are incompatible'
+    'en_US': 'Those options you specified are incompatible or incorrect'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -8951,7 +8983,7 @@ GitEngine.prototype.rebaseStarter = function() {
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
-    this.command.setResult('Branch already up-to-date');
+    this.command.setResult(intl.str('git-result-uptodate'));
 
     // git for some reason always checks out the branch you are rebasing,
     // no matter the result of the rebase
@@ -8966,7 +8998,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // we need the refresh tree animation to happen, so set the result directly
     // instead of throwing
-    this.command.setResult('Fast-forwarding...');
+    this.command.setResult(intl.str('git-result-fastforward'));
 
     this.checkout(currentLocation);
     return;
@@ -9009,8 +9041,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // first if we are upstream of the target
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     throw new GitError({
-      msg: 'Nothing to do... (git throws a "noop" status here); ' +
-        'Your source is upstream of your rebase target'
+      msg: intl.str('git-result-nothing')
     });
   }
 
@@ -9043,7 +9074,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
   if (!toRebase.length) {
     throw new GitError({
-      msg: 'No commits to rebase! Everything is a merge commit'
+      msg: intl.str('git-error-rebase-none')
     });
   }
 
@@ -9057,7 +9088,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     // first, they might have dropped everything (annoying)
     if (!userSpecifiedRebase.length) {
       throw new CommandResult({
-        msg: 'Nothing to do...'
+        msg: intl.str('git-result-nothing')
       });
     }
 
@@ -9125,7 +9156,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 
   if (!toRebase.length) {
     throw new GitError({
-      msg: 'No Commits to Rebase! Everything else is merge commits or changes already have been applied'
+      msg: intl.str('git-error-rebase-none')
     });
   }
 
@@ -9194,7 +9225,7 @@ GitEngine.prototype.merge = function(targetSource) {
   if (this.isUpstreamOf(targetSource, currentLocation) ||
       this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
     throw new CommandResult({
-      msg: 'Branch already up-to-date'
+      msg: intl.str('git-result-uptodate')
     });
   }
 
@@ -9202,7 +9233,7 @@ GitEngine.prototype.merge = function(targetSource) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
-    this.command.setResult('Fast-forwarding...');
+    this.command.setResult(intl.str('git-result-fastforward'));
     return;
   }
 
@@ -9211,9 +9242,13 @@ GitEngine.prototype.merge = function(targetSource) {
   var parent2 = this.getCommitFromRef(targetSource);
 
   // we need a fancy commit message
-  var msg = 'Merge ' + this.resolveName(targetSource) +
-    ' into ' + this.resolveName(currentLocation);
-
+  var msg = intl.str(
+    'git-merge-msg',
+    {
+      target: this.resolveName(targetSource),
+      current: this.resolveName(currentLocation)
+    }
+  );
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
   var mergeCommit = this.makeCommit(
@@ -9233,7 +9268,7 @@ GitEngine.prototype.checkoutStarter = function() {
   if (this.commandOptions['-b']) {
     if (this.generalArgs.length) {
       throw new GitError({
-        msg: "I don't expect general args before -b!"
+        msg: intl.str('git-error-options')
       });
     }
 
@@ -9252,7 +9287,7 @@ GitEngine.prototype.checkoutStarter = function() {
     var lastPlace = this.HEAD.get('lastLastTarget');
     if (!lastPlace) {
       throw new GitError({
-        msg: 'Need a previous location to do - switching'
+        msg: intl.str('git-result-nothing')
       });
     }
     this.HEAD.set('target', lastPlace);
@@ -9284,7 +9319,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   var type = target.get('type');
   if (type !== 'branch' && type !== 'commit') {
     throw new GitError({
-      msg: 'can only checkout branches and commits!'
+      msg: intl.str('git-error-options')
     });
   }
 
@@ -9339,7 +9374,7 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
   var branch = this.resolveID(branchName);
   if (branch.get('type') !== 'branch') {
     throw new GitError({
-      msg: "Can't force move anything but a branch!!"
+      msg: intl.str('git-error-options')
     });
   }
 
@@ -9356,19 +9391,13 @@ GitEngine.prototype.branch = function(name, ref) {
 GitEngine.prototype.deleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveID(name);
-  if (target.get('type') !== 'branch') {
+
+  if (target.get('type') !== 'branch' ||
+      target.get('id') == 'master' ||
+      this.HEAD.get('target') === target) {
+
     throw new GitError({
-      msg: "You can't delete things that arent branches with branch command"
-    });
-  }
-  if (target.get('id') == 'master') {
-    throw new GitError({
-      msg: "You can't delete the master branch!"
-    });
-  }
-  if (this.HEAD.get('target') === target) {
-    throw new GitError({
-      msg: "Cannot delete the branch you are currently on"
+      msg: intl.str('git-error-brnach')
     });
   }
 
@@ -21961,7 +21990,7 @@ GitEngine.prototype.rebaseStarter = function() {
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
-    this.command.setResult('Branch already up-to-date');
+    this.command.setResult(intl.str('git-result-uptodate'));
 
     // git for some reason always checks out the branch you are rebasing,
     // no matter the result of the rebase
@@ -21976,7 +22005,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // we need the refresh tree animation to happen, so set the result directly
     // instead of throwing
-    this.command.setResult('Fast-forwarding...');
+    this.command.setResult(intl.str('git-result-fastforward'));
 
     this.checkout(currentLocation);
     return;
@@ -22019,8 +22048,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // first if we are upstream of the target
   if (this.isUpstreamOf(currentLocation, targetSource)) {
     throw new GitError({
-      msg: 'Nothing to do... (git throws a "noop" status here); ' +
-        'Your source is upstream of your rebase target'
+      msg: intl.str('git-result-nothing')
     });
   }
 
@@ -22053,7 +22081,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
 
   if (!toRebase.length) {
     throw new GitError({
-      msg: 'No commits to rebase! Everything is a merge commit'
+      msg: intl.str('git-error-rebase-none')
     });
   }
 
@@ -22067,7 +22095,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     // first, they might have dropped everything (annoying)
     if (!userSpecifiedRebase.length) {
       throw new CommandResult({
-        msg: 'Nothing to do...'
+        msg: intl.str('git-result-nothing')
       });
     }
 
@@ -22135,7 +22163,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
 
   if (!toRebase.length) {
     throw new GitError({
-      msg: 'No Commits to Rebase! Everything else is merge commits or changes already have been applied'
+      msg: intl.str('git-error-rebase-none')
     });
   }
 
@@ -22204,7 +22232,7 @@ GitEngine.prototype.merge = function(targetSource) {
   if (this.isUpstreamOf(targetSource, currentLocation) ||
       this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
     throw new CommandResult({
-      msg: 'Branch already up-to-date'
+      msg: intl.str('git-result-uptodate')
     });
   }
 
@@ -22212,7 +22240,7 @@ GitEngine.prototype.merge = function(targetSource) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
-    this.command.setResult('Fast-forwarding...');
+    this.command.setResult(intl.str('git-result-fastforward'));
     return;
   }
 
@@ -22221,9 +22249,13 @@ GitEngine.prototype.merge = function(targetSource) {
   var parent2 = this.getCommitFromRef(targetSource);
 
   // we need a fancy commit message
-  var msg = 'Merge ' + this.resolveName(targetSource) +
-    ' into ' + this.resolveName(currentLocation);
-
+  var msg = intl.str(
+    'git-merge-msg',
+    {
+      target: this.resolveName(targetSource),
+      current: this.resolveName(currentLocation)
+    }
+  );
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
   var mergeCommit = this.makeCommit(
@@ -22243,7 +22275,7 @@ GitEngine.prototype.checkoutStarter = function() {
   if (this.commandOptions['-b']) {
     if (this.generalArgs.length) {
       throw new GitError({
-        msg: "I don't expect general args before -b!"
+        msg: intl.str('git-error-options')
       });
     }
 
@@ -22262,7 +22294,7 @@ GitEngine.prototype.checkoutStarter = function() {
     var lastPlace = this.HEAD.get('lastLastTarget');
     if (!lastPlace) {
       throw new GitError({
-        msg: 'Need a previous location to do - switching'
+        msg: intl.str('git-result-nothing')
       });
     }
     this.HEAD.set('target', lastPlace);
@@ -22294,7 +22326,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   var type = target.get('type');
   if (type !== 'branch' && type !== 'commit') {
     throw new GitError({
-      msg: 'can only checkout branches and commits!'
+      msg: intl.str('git-error-options')
     });
   }
 
@@ -22349,7 +22381,7 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
   var branch = this.resolveID(branchName);
   if (branch.get('type') !== 'branch') {
     throw new GitError({
-      msg: "Can't force move anything but a branch!!"
+      msg: intl.str('git-error-options')
     });
   }
 
@@ -22366,19 +22398,13 @@ GitEngine.prototype.branch = function(name, ref) {
 GitEngine.prototype.deleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveID(name);
-  if (target.get('type') !== 'branch') {
+
+  if (target.get('type') !== 'branch' ||
+      target.get('id') == 'master' ||
+      this.HEAD.get('target') === target) {
+
     throw new GitError({
-      msg: "You can't delete things that arent branches with branch command"
-    });
-  }
-  if (target.get('id') == 'master') {
-    throw new GitError({
-      msg: "You can't delete the master branch!"
-    });
-  }
-  if (this.HEAD.get('target') === target) {
-    throw new GitError({
-      msg: "Cannot delete the branch you are currently on"
+      msg: intl.str('git-error-brnach')
     });
   }
 
@@ -23096,6 +23122,38 @@ var getStartDialog = exports.getStartDialog = function(level) {
 require("/src/js/intl/index.js");
 
 require.define("/src/js/intl/strings.js",function(require,module,exports,__dirname,__filename,process,global){exports.strings = {
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-branch': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
+      'aren\'t branches'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-merge-msg': {
+    '__desc__': 'The commit message for a merge commit',
+    'en_US': 'Merge {target} into {current}'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-rebase-none': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-nothing': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Nothing to do...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-fastforward': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Fast forwarding...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-result-uptodate': {
+    '__desc__': 'The message that explains the result of a git command',
+    'en_US': 'Branch already up-to-date'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The ref {ref} does not exist or is unknown'
@@ -23118,7 +23176,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Those options you specified are incompatible'
+    'en_US': 'Those options you specified are incompatible or incorrect'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
