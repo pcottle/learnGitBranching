@@ -1388,7 +1388,7 @@ GitEngine.prototype.deleteBranch = function(name) {
       this.HEAD.get('target') === target) {
 
     throw new GitError({
-      msg: intl.str('git-error-brnach')
+      msg: intl.str('git-error-branch')
     });
   }
 
@@ -1472,7 +1472,7 @@ GitEngine.prototype.statusStarter = function() {
     lines.push(intl.str('git-status-detached'));
   } else {
     var branchName = this.HEAD.get('target').get('id');
-    lines.push(intl.str('git-stauts-onbranch', {branch: branchName}));
+    lines.push(intl.str('git-status-onbranch', {branch: branchName}));
   }
   lines.push('Changes to be committed:');
   lines.push('');
