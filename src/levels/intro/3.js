@@ -3,7 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
-    "en_US": "Faire des 'merge' (fusions de branches) avec Git",
+    "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)"
   },
   "hint": {

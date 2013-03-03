@@ -64,6 +64,7 @@ And the following heroes for assisting in translating:
 * Jake Chen
 * 우리깃 ("urigit")
 * "bcho"
+* "scientific-coder"
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
@@ -79,6 +80,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Johan ("josso")
 * Frode Austvik
 * Don Kirkby
+* "scientific-coder"
 
 Or reported an issue that was successfully closed!
 

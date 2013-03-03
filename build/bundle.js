@@ -17682,11 +17682,13 @@ exports.sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
+      'fr_FR': 'Sequence d\'introduction',
       'zh_CN': '简介序列',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
+      'f_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
@@ -17694,20 +17696,24 @@ exports.sequenceInfo = {
   rebase: {
     displayName: {
       'en_US': 'Master the Rebase Luke!',
+      'fr_FR': 'Maîtrise Rebase, Luke!',
       'ko': '리베이스 완전정복!'
     },
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
     }
   },
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
+      'fr_FR': 'Un assortiment',
       'ko': '종합선물세트'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
     }
   }
@@ -17719,6 +17725,7 @@ exports.sequenceInfo = {
 require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
+    "fr_FR": "Introduction aux commits avec Git",
     'ko': 'Git 커밋 소개'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -17726,6 +17733,7 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
+    "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -17774,6 +17782,52 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "options": {
             "markdowns": [
               "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits Git",
+              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller g'eant, mais en bien mieux !",
+              "",
+              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tous le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
+              "",
+              "Pour cloner un dépôt, il faut décompresser (\"résoudre\") tous ces deltas. C'est la raison pour laquelle la commande écrit :",
+              "",
+              "`resolving deltas`",
+              "",
+              "lorsque l'on clone un dépôt.",
+              "",
+              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont tr légers et passer de l'un à l'autre est très rapide !"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons à quoi cela ressemble en pratique. Sur la droite, on peut visualiser un (petit) dépôt git. Il y a pour l'instant deux commits -- le premier commit initial, `C0`, et un commit suivant `C1` qui aurait des changements significatifs.",
+              "",
+              "Appuyez sur le bouton ci-dessous pour faire un nouveau commit"
+            ],
+            "afterMarkdowns": [
+              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de saugevarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Allez-y et essayez par vous-même ! Après la fermeture de cettefenêtre, faites deux commits pour terminer ce niveau."
             ]
           }
         }
@@ -17869,6 +17923,7 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
     }
   }
 };
+
 });
 
 require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -17876,10 +17931,12 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
     "ko": "Git에서 브랜치 쓰기",
+    "fr_FR": "Gérer les branches avec Git",
     "en_US": "Branching in Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
+    "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
@@ -17960,6 +18017,84 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
             "markdowns": [
               "Ok! You are all ready to get branching. Once this window closes,",
               "make a new branch named `bugFix` and switch to that branch"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches Git",
+              "",
+              "Les branches sous Git sont incroyablement légères aussi. Elles sont simplment des références un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "",
+              "```",
+              "n'attendez pas pour faire des branches, et faites souvent des branches",
+              "```",
+              "",
+              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associés aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
+              "",
+              "Nous verrons comment les banches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Regardons à quoi ressemblent les branches en pratique.",
+              "",
+              "Nous allons nous positionner (checkout) dans une nouvelle branche appellée `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Et voilà, c'est tout ! La branche `newImage` se réfère désormais au commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
+            ],
+            "afterMarkdowns": [
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce aue nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Indiquons à git que nous voulons nous positionner sur la branche avec ",
+              "",
+              "```",
+              "git checkout [nom]",
+              "```",
+              "",
+              "Ceci nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
+            ],
+            "afterMarkdowns": [
+              "C'est parti ! Nos modifications ont été enregistrées sur la nouvelle branche"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Vous êtes fin prêt pour faire des branches. Après la fermeture de cette fenêtre,",
+              "faites une nouvelle branche nommée `bugFix` et positionnez-vous sur cette branche"
             ]
           }
         }
@@ -18123,6 +18258,7 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
     }
   }
 };
+
 });
 
 require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -18130,10 +18266,12 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
+    "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
@@ -18205,6 +18343,75 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
               "* Merge the branch `bugFix` into `master` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches et Merges",
+              "",
+                "Super! Nous savons désormais comment faire des commits et de branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
+              "",
+              "La première méthode que nous alons voir pour combiner le conenu de deux branches est `git merge`. Faire un 'merge' en git Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le conenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
+              "",
+              "C'est plus facile en visualisant, regardons dans la vue suivante"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "",
+              "We will `merge` the branch `bugFix` into `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "",
+              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "",
+              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Faisons un merge  de `master` dans `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "",
+              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour accomplir ce niveau, effectuez les opérations suivantes :",
+              "",
+              "* Faites une nouvelle branche appelée `bugFix`",
+              "* Positionnez-vous sur la branche `bugFix` avec `git checkout bugFix`",
+              "* Faites un commit",
+              "* Retournez sur la branche `master` (commande `git checkout`)",
+              "* Faites un nouveau commit",
+              "* Fusionnez la branche `bugFix` dans `master` avec `git merge`",
+              "",
+              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"help level\"!*"
             ]
           }
         }
@@ -18350,6 +18557,7 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
     }
   }
 };
+
 });
 
 require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -18357,10 +18565,12 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
     "en_US": "Rebase Introduction",
+    "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
+    "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交"
   },
@@ -18430,6 +18640,71 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
               "* Check out bugFix again and rebase onto master",
               "",
               "Good luck!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "La seconde façon de combiner les contenus de deux branches est *rebase*. Rebase prend un enselble de commits, les \"recopie\", et les ajoute en bout de chaine à un autre endroit.",
+              "",
+              "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéeire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
+              "",
+              "Voyons rebase en action…"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'asterisque)",
+              "",
+              "Nous voudrions transferer notre travail sur la branche 'bugFix' directement sur le travail dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
+              "",
+              "Faisons cela avec la commande `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "Super! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'master' et non avons une belle séquence linéaire de commits.",
+              "",
+              "Notez que le commit C3 existe toujours quelquepart (il est en grisé sur l'arbre), et C3' est la  \"copie\" que nous avons créée sur master avec rebase.",
+              "",
+              "Le seul problème est que master n'a pas été mis à jour, faisons cela maintenant…"
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nous sommes désormais positionnés sur la branche `master`. Continuons en faisant le rebase sur `bugFix`…",
+              "Et voilà ! Puisque `master` était un ascendant de `bugFix`, git a simplement déplacé la référence de la branche `master` en avant dans le temps."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour acomplir ce niveau, faites les opérations suivantes",
+              "",
+              "* Positionnez-vous (checkout) sur une nouvelle branche nommée `bugFix`",
+              "* Faites un commit",
+              "* Retournez sur master et faites un nouveau commit",
+              "* Positionnez-vous à nouveau sur bugFix et faites un rebase sur master",
+              "",
+              "Bonne chance !"
             ]
           }
         }
@@ -18571,6 +18846,7 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
     }
   }
 };
+
 });
 
 require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -18579,10 +18855,12 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
+    "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기"
   },
   "hint": {
     "en_US": "",
+    "fr_FR": "",
     "zh_CN": "",
     "ko": ""
   },
@@ -18645,6 +18923,69 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Annuler des changements avec Git",
+              "",
+              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion dans le 'staging' des fichiers et morceaux de fichiers) et un aspect de plus haut niveau 9comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "",
+              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` annule des changements en déplaçant la référence en arrière dans le temps sur un commit plus ancien. En ce sens, on peut considérer cela comme une façon de \"réécrire l'histoire\"; `git reset` fait remonter une branche en arrière comme si le(s) commit(s) n'avait jamais eu lieu.",
+              "",
+              "Regardons à quoi cela ressemble :"
+            ],
+            "afterMarkdowns": [
+              "Bravo ! Git a simplement déplacé la référence de la branche master en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Bien que le reset marche parfaitement pour les branches locales sur notre propre machine, cette façon de \"réécrire l'histoire\" ne marche pas avec les banches distantes (remote) que d'autres personnes utilisent.",
+              "",
+              "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne"
+            ],
+            "afterMarkdowns": [
+              "Étrangement, un nouveau commit est appaaru en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
+              "",
+              "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour accomplir ce niveau, annulez les deux derniers commits à la fois sur `local` et sur `pushed`.",
+              "",
+              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale -- cela devrait vous guider dans le choix de la méthode à employer."
             ]
           }
         }
@@ -18778,6 +19119,7 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
     }
   }
 };
+
 });
 
 require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -30998,11 +31340,13 @@ exports.sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
+      'fr_FR': 'Sequence d\'introduction',
       'zh_CN': '简介序列',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
+      'f_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
@@ -31010,20 +31354,24 @@ exports.sequenceInfo = {
   rebase: {
     displayName: {
       'en_US': 'Master the Rebase Luke!',
+      'fr_FR': 'Maîtrise Rebase, Luke!',
       'ko': '리베이스 완전정복!'
     },
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
     }
   },
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
+      'fr_FR': 'Un assortiment',
       'ko': '종합선물세트'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
     }
   }
@@ -31036,6 +31384,7 @@ require("/src/levels/index.js");
 require.define("/src/levels/intro/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
+    "fr_FR": "Introduction aux commits avec Git",
     'ko': 'Git 커밋 소개'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -31043,6 +31392,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
+    "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -31091,6 +31441,52 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "options": {
             "markdowns": [
               "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits Git",
+              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller g'eant, mais en bien mieux !",
+              "",
+              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tous le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
+              "",
+              "Pour cloner un dépôt, il faut décompresser (\"résoudre\") tous ces deltas. C'est la raison pour laquelle la commande écrit :",
+              "",
+              "`resolving deltas`",
+              "",
+              "lorsque l'on clone un dépôt.",
+              "",
+              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont tr légers et passer de l'un à l'autre est très rapide !"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons à quoi cela ressemble en pratique. Sur la droite, on peut visualiser un (petit) dépôt git. Il y a pour l'instant deux commits -- le premier commit initial, `C0`, et un commit suivant `C1` qui aurait des changements significatifs.",
+              "",
+              "Appuyez sur le bouton ci-dessous pour faire un nouveau commit"
+            ],
+            "afterMarkdowns": [
+              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de saugevarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Allez-y et essayez par vous-même ! Après la fermeture de cettefenêtre, faites deux commits pour terminer ce niveau."
             ]
           }
         }
@@ -31186,6 +31582,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
     }
   }
 };
+
 });
 require("/src/levels/intro/1.js");
 
@@ -31194,10 +31591,12 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
     "ko": "Git에서 브랜치 쓰기",
+    "fr_FR": "Gérer les branches avec Git",
     "en_US": "Branching in Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
+    "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
@@ -31278,6 +31677,84 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
             "markdowns": [
               "Ok! You are all ready to get branching. Once this window closes,",
               "make a new branch named `bugFix` and switch to that branch"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches Git",
+              "",
+              "Les branches sous Git sont incroyablement légères aussi. Elles sont simplment des références un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "",
+              "```",
+              "n'attendez pas pour faire des branches, et faites souvent des branches",
+              "```",
+              "",
+              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associés aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
+              "",
+              "Nous verrons comment les banches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Regardons à quoi ressemblent les branches en pratique.",
+              "",
+              "Nous allons nous positionner (checkout) dans une nouvelle branche appellée `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Et voilà, c'est tout ! La branche `newImage` se réfère désormais au commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
+            ],
+            "afterMarkdowns": [
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce aue nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Indiquons à git que nous voulons nous positionner sur la branche avec ",
+              "",
+              "```",
+              "git checkout [nom]",
+              "```",
+              "",
+              "Ceci nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
+            ],
+            "afterMarkdowns": [
+              "C'est parti ! Nos modifications ont été enregistrées sur la nouvelle branche"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Vous êtes fin prêt pour faire des branches. Après la fermeture de cette fenêtre,",
+              "faites une nouvelle branche nommée `bugFix` et positionnez-vous sur cette branche"
             ]
           }
         }
@@ -31441,6 +31918,7 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
     }
   }
 };
+
 });
 require("/src/levels/intro/2.js");
 
@@ -31449,10 +31927,12 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
+    "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
@@ -31524,6 +32004,75 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
               "* Merge the branch `bugFix` into `master` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches et Merges",
+              "",
+                "Super! Nous savons désormais comment faire des commits et de branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
+              "",
+              "La première méthode que nous alons voir pour combiner le conenu de deux branches est `git merge`. Faire un 'merge' en git Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le conenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
+              "",
+              "C'est plus facile en visualisant, regardons dans la vue suivante"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "",
+              "We will `merge` the branch `bugFix` into `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "",
+              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "",
+              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Faisons un merge  de `master` dans `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "",
+              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour accomplir ce niveau, effectuez les opérations suivantes :",
+              "",
+              "* Faites une nouvelle branche appelée `bugFix`",
+              "* Positionnez-vous sur la branche `bugFix` avec `git checkout bugFix`",
+              "* Faites un commit",
+              "* Retournez sur la branche `master` (commande `git checkout`)",
+              "* Faites un nouveau commit",
+              "* Fusionnez la branche `bugFix` dans `master` avec `git merge`",
+              "",
+              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"help level\"!*"
             ]
           }
         }
@@ -31669,6 +32218,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
     }
   }
 };
+
 });
 require("/src/levels/intro/3.js");
 
@@ -31677,10 +32227,12 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
     "en_US": "Rebase Introduction",
+    "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
+    "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交"
   },
@@ -31750,6 +32302,71 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
               "* Check out bugFix again and rebase onto master",
               "",
               "Good luck!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "La seconde façon de combiner les contenus de deux branches est *rebase*. Rebase prend un enselble de commits, les \"recopie\", et les ajoute en bout de chaine à un autre endroit.",
+              "",
+              "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéeire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
+              "",
+              "Voyons rebase en action…"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'asterisque)",
+              "",
+              "Nous voudrions transferer notre travail sur la branche 'bugFix' directement sur le travail dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
+              "",
+              "Faisons cela avec la commande `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "Super! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'master' et non avons une belle séquence linéaire de commits.",
+              "",
+              "Notez que le commit C3 existe toujours quelquepart (il est en grisé sur l'arbre), et C3' est la  \"copie\" que nous avons créée sur master avec rebase.",
+              "",
+              "Le seul problème est que master n'a pas été mis à jour, faisons cela maintenant…"
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nous sommes désormais positionnés sur la branche `master`. Continuons en faisant le rebase sur `bugFix`…",
+              "Et voilà ! Puisque `master` était un ascendant de `bugFix`, git a simplement déplacé la référence de la branche `master` en avant dans le temps."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour acomplir ce niveau, faites les opérations suivantes",
+              "",
+              "* Positionnez-vous (checkout) sur une nouvelle branche nommée `bugFix`",
+              "* Faites un commit",
+              "* Retournez sur master et faites un nouveau commit",
+              "* Positionnez-vous à nouveau sur bugFix et faites un rebase sur master",
+              "",
+              "Bonne chance !"
             ]
           }
         }
@@ -31891,6 +32508,7 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
     }
   }
 };
+
 });
 require("/src/levels/intro/4.js");
 
@@ -31900,10 +32518,12 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
+    "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기"
   },
   "hint": {
     "en_US": "",
+    "fr_FR": "",
     "zh_CN": "",
     "ko": ""
   },
@@ -31966,6 +32586,69 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Annuler des changements avec Git",
+              "",
+              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion dans le 'staging' des fichiers et morceaux de fichiers) et un aspect de plus haut niveau 9comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "",
+              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` annule des changements en déplaçant la référence en arrière dans le temps sur un commit plus ancien. En ce sens, on peut considérer cela comme une façon de \"réécrire l'histoire\"; `git reset` fait remonter une branche en arrière comme si le(s) commit(s) n'avait jamais eu lieu.",
+              "",
+              "Regardons à quoi cela ressemble :"
+            ],
+            "afterMarkdowns": [
+              "Bravo ! Git a simplement déplacé la référence de la branche master en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Bien que le reset marche parfaitement pour les branches locales sur notre propre machine, cette façon de \"réécrire l'histoire\" ne marche pas avec les banches distantes (remote) que d'autres personnes utilisent.",
+              "",
+              "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne"
+            ],
+            "afterMarkdowns": [
+              "Étrangement, un nouveau commit est appaaru en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
+              "",
+              "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour accomplir ce niveau, annulez les deux derniers commits à la fois sur `local` et sur `pushed`.",
+              "",
+              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale -- cela devrait vous guider dans le choix de la méthode à employer."
             ]
           }
         }
@@ -32099,6 +32782,7 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
     }
   }
 };
+
 });
 require("/src/levels/intro/5.js");
 
