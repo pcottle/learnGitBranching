@@ -4,10 +4,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
+    "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기"
   },
   "hint": {
     "en_US": "",
+    "fr_FR": "",
     "zh_CN": "",
     "ko": ""
   },
@@ -70,6 +72,69 @@ exports.level = {
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Annuler des changements avec Git",
+              "",
+              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion dans le 'staging' des fichiers et morceaux de fichiers) et un aspect de plus haut niveau 9comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "",
+              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` annule des changements en déplaçant la référence en arrière dans le temps sur un commit plus ancien. En ce sens, on peut considérer cela comme une façon de \"réécrire l'histoire\"; `git reset` fait remonter une branche en arrière comme si le(s) commit(s) n'avait jamais eu lieu.",
+              "",
+              "Regardons à quoi cela ressemble :"
+            ],
+            "afterMarkdowns": [
+              "Bravo ! Git a simplement déplacé la référence de la branche master en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Bien que le reset marche parfaitement pour les branches locales sur notre propre machine, cette façon de \"réécrire l'histoire\" ne marche pas avec les banches distantes (remote) que d'autres personnes utilisent.",
+              "",
+              "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne"
+            ],
+            "afterMarkdowns": [
+              "Étrangement, un nouveau commit est appaaru en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
+              "",
+              "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour accomplir ce niveau, annulez les deux derniers commits à la fois sur `local` et sur `pushed`.",
+              "",
+              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale -- cela devrait vous guider dans le choix de la méthode à employer."
             ]
           }
         }
