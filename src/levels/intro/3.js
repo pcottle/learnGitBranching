@@ -3,7 +3,8 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
-    "ko": "Git에서 브랜치 합치기(Merge)"
+    "ko": "Git에서 브랜치 합치기(Merge)",
+    "zh_CN": "Git合并(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -107,7 +108,7 @@ exports.level = {
               "",
               "我们将要把分支 `bugFix` 合并到 `master` 上"
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "afterMarkdowns": [
               "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
               "",
@@ -124,7 +125,7 @@ exports.level = {
             "beforeMarkdowns": [
               "让我们把 `master` 分支合并到 `bugFix` 吧。"
             ],
-            "command": "git merge master bugFix",
+            "command": "git merge master",
             "afterMarkdowns": [
               "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
               "",

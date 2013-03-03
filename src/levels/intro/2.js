@@ -3,7 +3,8 @@ exports.level = {
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
     "ko": "Git에서 브랜치 쓰기",
-    "en_US": "Branching in Git"
+    "en_US": "Branching in Git",
+    "zh_CN": "Git开分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",

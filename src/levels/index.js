@@ -36,21 +36,25 @@ exports.sequenceInfo = {
   rebase: {
     displayName: {
       'en_US': 'Master the Rebase Luke!',
-      'ko': '리베이스 완전정복!'
+      'ko': '리베이스 완전정복!',
+      'zh_CN': '掌握衍合，兄弟！'
     },
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
-      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
+      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
+      'zh_CN': '大家说的火热的衍合都是些神马？看看吧！'
     }
   },
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
-      'ko': '종합선물세트'
+      'ko': '종합선물세트',
+      'zh_CN': '大杂烩？'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
-      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
+      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
+      'zh_CN': 'Git技术，技巧与贴士'
     }
   }
 };
