@@ -124,7 +124,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Nous sommes désormais positionnés sur la branche `master`. Continuons en faisant le rebase sur `bugFix`…": [
+              "Nous sommes désormais positionnés sur la branche `master`. Continuons en faisant le rebase sur `bugFix`…",
               "Et voilà ! Puisque `master` était un ascendant de `bugFix`, git a simplement déplacé la référence de la branche `master` en avant dans le temps."
             ],
             "command": "git rebase bugFix",
