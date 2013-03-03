@@ -3,7 +3,8 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
     "en_US": "Rebase Introduction",
-    "ko": "리베이스(rebase)의 기본"
+    "ko": "리베이스(rebase)의 기본",
+    "zh_CN": "介绍衍合(rebase)"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
