@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
+    "en_US": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
@@ -78,6 +80,75 @@ exports.level = {
               "* Merge the branch `bugFix` into `master` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches et Merges",
+              "",
+                "Super! Nous savons désormais comment faire des commits et de branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
+              "",
+              "La première méthode que nous alons voir pour combiner le conenu de deux branches est `git merge`. Faire un 'merge' en git Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le conenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
+              "",
+              "C'est plus facile en visualisant, regardons dans la vue suivante"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "",
+              "We will `merge` the branch `bugFix` into `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "",
+              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "",
+              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Faisons un merge  de `master` dans `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "",
+              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour accomplir ce niveau, effectuez les opérations suivantes :",
+              "",
+              "* Faites une nouvelle branche appelée `bugFix`",
+              "* Positionnez-vous sur la branche `bugFix` avec `git checkout bugFix`",
+              "* Faites un commit",
+              "* Retournez sur la branche `master` (commande `git checkout`)",
+              "* Faites un nouveau commit",
+              "* Fusionnez la branche `bugFix` dans `master` avec `git merge`",
+              "",
+              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"help level\"!*"
             ]
           }
         }
