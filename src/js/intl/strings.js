@@ -273,7 +273,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
     '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
-    'en_US': 'La carte des solutions a été effacée, vous repartez de zéro !',
+    'fr_FR': 'La carte des solutions a été effacée, vous repartez de zéro !',
     'en_US': 'Solved map was reset, you are starting from a clean slate!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -405,7 +405,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
-    'en_US': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
+    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
   }
 };
