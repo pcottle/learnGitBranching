@@ -1,6 +1,7 @@
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
+    "fr_FR": "Introduction aux commits avec Git",
     'ko': 'Git 커밋 소개'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -8,6 +9,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
+    "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -56,6 +58,52 @@ exports.level = {
           "options": {
             "markdowns": [
               "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits Git",
+              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller g'eant, mais en bien mieux !",
+              "",
+              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tous le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
+              "",
+              "Pour cloner un dépôt, il faut décompresser (\"résoudre\") tous ces deltas. C'est la raison pour laquelle la commande écrit :",
+              "",
+              "`resolving deltas`",
+              "",
+              "lorsque l'on clone un dépôt.",
+              "",
+              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont tr légers et passer de l'un à l'autre est très rapide !"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons à quoi cela ressemble en pratique. Sur la droite, on peut visualiser un (petit) dépôt git. Il y a pour l'instant deux commits -- le premier commit initial, `C0`, et un commit suivant `C1` qui aurait des changements significatifs.",
+              "",
+              "Appuyez sur le bouton ci-dessous pour faire un nouveau commit"
+            ],
+            "afterMarkdowns": [
+              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de saugevarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Allez-y et essayez par vous-même ! Après la fermeture de cettefenêtre, faites deux commits pour terminer ce niveau."
             ]
           }
         }

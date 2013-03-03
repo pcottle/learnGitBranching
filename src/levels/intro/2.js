@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
     "ko": "Git에서 브랜치 쓰기",
+    "fr_FR": "Gérer les branches avec Git",
     "en_US": "Branching in Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
+    "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
@@ -87,6 +89,84 @@ exports.level = {
             "markdowns": [
               "Ok! You are all ready to get branching. Once this window closes,",
               "make a new branch named `bugFix` and switch to that branch"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches Git",
+              "",
+              "Les branches sous Git sont incroyablement légères aussi. Elles sont simplment des références un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "",
+              "```",
+              "n'attendez pas pour faire des branches, et faites souvent des branches",
+              "```",
+              "",
+              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associés aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
+              "",
+              "Nous verrons comment les banches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Regardons à quoi ressemblent les branches en pratique.",
+              "",
+              "Nous allons nous positionner (checkout) dans une nouvelle branche appellée `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Et voilà, c'est tout ! La branche `newImage` se réfère désormais au commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
+            ],
+            "afterMarkdowns": [
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce aue nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Indiquons à git que nous voulons nous positionner sur la branche avec ",
+              "",
+              "```",
+              "git checkout [nom]",
+              "```",
+              "",
+              "Ceci nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
+            ],
+            "afterMarkdowns": [
+              "C'est parti ! Nos modifications ont été enregistrées sur la nouvelle branche"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Vous êtes fin prêt pour faire des branches. Après la fermeture de cette fenêtre,",
+              "faites une nouvelle branche nommée `bugFix` et positionnez-vous sur cette branche"
             ]
           }
         }
