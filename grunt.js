@@ -25,6 +25,13 @@ module.exports = function(grunt) {
     grunt.log.writeln(compliments[index]);
   });
 
+  grunt.registerTask('lintStrings', 'Find if an INTL string doesnt exist', function() {
+    var child_process = require('child_process');
+    var output = child_process.exec('node src/js/intl/checkStrings', function(err, output) {
+      grunt.log.writeln(output);
+    });
+  });
+
   grunt.registerTask('buildIndex', 'stick in hashed resources', function() {
     grunt.log.writeln('Building index...');
 
@@ -173,9 +180,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build', 'rm browserify min hash buildIndex shell');
   grunt.registerTask('fastBuild', 'rm browserify hash buildIndex shell');
 
-  grunt.registerTask('default', 'lint jasmine_node build compliment');
+  grunt.registerTask('default', 'lint lintStrings jasmine_node build compliment');
 
-  grunt.registerTask('watching', 'fastBuild lint');
+  grunt.registerTask('watching', 'fastBuild lint lintStrings');
   grunt.registerTask('test', 'jasmine_node');
 };
 
