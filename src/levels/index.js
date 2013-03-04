@@ -30,7 +30,7 @@ exports.sequenceInfo = {
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
-      'f_FR': 'Une introduction en douceur à la majoité des commandes git',
+      'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
