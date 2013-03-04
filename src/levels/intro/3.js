@@ -4,7 +4,8 @@ exports.level = {
   "name": {
     "en_US": "Merging in Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
-    "ko": "Git에서 브랜치 합치기(Merge)"
+    "ko": "Git에서 브랜치 합치기(Merge)",
+    "zh_CN": "Git合并(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -178,7 +179,7 @@ exports.level = {
               "",
               "我们将要把分支 `bugFix` 合并到 `master` 上"
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "afterMarkdowns": [
               "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
               "",
@@ -195,13 +196,13 @@ exports.level = {
             "beforeMarkdowns": [
               "让我们把 `master` 分支合并到 `bugFix` 吧。"
             ],
-            "command": "git merge master bugFix",
+            "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
               "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
               "",
               "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
         },
         {
@@ -254,7 +255,7 @@ exports.level = {
               "",
               "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `master` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
         },
@@ -269,8 +270,8 @@ exports.level = {
               "",
               "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
             ],
-            "command": "git merge master bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
         },
         {

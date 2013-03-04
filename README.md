@@ -65,6 +65,7 @@ And the following heroes for assisting in translating:
 * 우리깃 ("urigit")
 * "bcho"
 * "scientific-coder"
+* "ace-coder"
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
@@ -81,6 +82,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Frode Austvik
 * Don Kirkby
 * "scientific-coder"
+* "ace-coder"
 
 Or reported an issue that was successfully closed!
 

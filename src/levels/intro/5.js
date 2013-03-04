@@ -5,7 +5,8 @@ exports.level = {
   "name": {
     "en_US": "Reversing Changes in Git",
     "fr_FR": "Annuler des changements avec Git",
-    "ko": "Git에서 작업 되돌리기"
+    "ko": "Git에서 작업 되돌리기",
+    "zh_CN": "Git撤销改变"
   },
   "hint": {
     "en_US": "",

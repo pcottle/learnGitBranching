@@ -2,9 +2,10 @@ exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
+    "en_US": "Branching in Git",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "en_US": "Branching in Git"
+    "zh_CN": "Git开分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",

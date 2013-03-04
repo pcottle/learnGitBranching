@@ -4,7 +4,8 @@ exports.level = {
   "name": {
     "en_US": "Rebase Introduction",
     "fr_FR": "Introduction à rebase",
-    "ko": "리베이스(rebase)의 기본"
+    "ko": "리베이스(rebase)의 기본",
+    "zh_CN": "介绍衍合(rebase)"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
