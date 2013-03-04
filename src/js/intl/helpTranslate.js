@@ -4,12 +4,14 @@
  */
 
 var child_process = require('child_process');
+var fs = require('fs');
 var _ = require('underscore');
 var Q = require('q');
 var intl = require('../intl');
 
 var shouldBegin = Q.defer();
 var translateQueue = [];
+var outputLocale = 'pirate';
 
 var translate = function(context, path, key, blob) {
   translateQueue.push({
@@ -144,11 +146,63 @@ var popTranslateQueue = function(queueObj) {
   });
 };
 
+var appendLineAfterNeedleToFile = function(path, needle, line) {
+  // silly relative paths
+  var endPath;
+  try {
+    var easyPath = path + '.js';
+    fs.readFileSync(easyPath);
+    endPath = easyPath;
+  } catch (err) {
+  }
+  if (!endPath) {
+    // perhaps an index.js
+    try {
+      var indexPath = path + '/index.js';
+      indexPath = indexPath.replace('//', '/');
+      fs.readFileSync(indexPath);
+      endPath = indexPath;
+    } catch (err) {
+    }
+  }
+
+  if (!endPath) {
+    throw new Error('Could not find path ' + path + ' !!');
+  }
+
+  // ok now do the needle thing
+  var fileContents = fs.readFileSync(endPath).toString();
+  var fileLines = fileContents.split('\n');
+
+  var toEscape = '()[]?+*'.split('');
+  _.each(toEscape, function(chr) {
+    needle = needle.replace(chr, '\\' + chr);
+  });
+
+  var regex = new RegExp(needle);
+  var numberMatches = 0;
+  _.each(fileLines, function(line) {
+    if (regex.test(line)) {
+      numberMatches++;
+    }
+  });
+
+  if (numberMatches !== 1) {
+    console.log('WARNING couldnt find needle\n', needle, 'in path\n', endPath);
+    return;
+  }
+
+  // now output :OOO
+
+};
+
 var outputTranslation = function(queueObj, input) {
   console.log(queueObj.blob);
   var path = queueObj.path;
   var needle = queueObj.blob['en_US'];
   console.log('the needle \n', needle, '\n in path', path);
+
+  appendLineAfterNeedleToFile(path, needle, 'haha');
 };
 
 shouldBegin.promise
