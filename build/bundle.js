@@ -6830,6 +6830,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
     '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
+    'fr_FR': 'La carte des solutions a été effacée, vous repartez de zéro !',
     'en_US': 'Solved map was reset, you are starting from a clean slate!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -6940,6 +6941,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
+    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
   }
 };
@@ -9438,7 +9440,7 @@ GitEngine.prototype.deleteBranch = function(name) {
       this.HEAD.get('target') === target) {
 
     throw new GitError({
-      msg: intl.str('git-error-brnach')
+      msg: intl.str('git-error-branch')
     });
   }
 
@@ -9522,7 +9524,7 @@ GitEngine.prototype.statusStarter = function() {
     lines.push(intl.str('git-status-detached'));
   } else {
     var branchName = this.HEAD.get('target').get('id');
-    lines.push(intl.str('git-stauts-onbranch', {branch: branchName}));
+    lines.push(intl.str('git-status-onbranch', {branch: branchName}));
   }
   lines.push('Changes to be committed:');
   lines.push('');
@@ -17688,7 +17690,7 @@ exports.sequenceInfo = {
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
-      'f_FR': 'Une introduction en douceur à la majoité des commandes git',
+      'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
@@ -17794,7 +17796,7 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
           "options": {
             "markdowns": [
               "## Commits Git",
-              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller g'eant, mais en bien mieux !",
+              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
               "",
               "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tous le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
               "",
@@ -17804,7 +17806,7 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
               "",
               "lorsque l'on clone un dépôt.",
               "",
-              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont tr légers et passer de l'un à l'autre est très rapide !"
+              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont très légers et passer de l'un à l'autre est très rapide !"
             ]
           }
         },
@@ -20597,6 +20599,19 @@ require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,
 
 });
 
+require.define("sys",function(require,module,exports,__dirname,__filename,process,global){module.exports = require('util');
+
+});
+
+require.define("child_process",function(require,module,exports,__dirname,__filename,process,global){exports.spawn = function () {};
+exports.exec = function () {};
+
+});
+
+require.define("fs",function(require,module,exports,__dirname,__filename,process,global){// nothing to see here... no file methods for the browser
+
+});
+
 require.define("/src/js/visuals/tree.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -22816,7 +22831,7 @@ GitEngine.prototype.deleteBranch = function(name) {
       this.HEAD.get('target') === target) {
 
     throw new GitError({
-      msg: intl.str('git-error-brnach')
+      msg: intl.str('git-error-branch')
     });
   }
 
@@ -22900,7 +22915,7 @@ GitEngine.prototype.statusStarter = function() {
     lines.push(intl.str('git-status-detached'));
   } else {
     var branchName = this.HEAD.get('target').get('id');
-    lines.push(intl.str('git-stauts-onbranch', {branch: branchName}));
+    lines.push(intl.str('git-status-onbranch', {branch: branchName}));
   }
   lines.push('Changes to be committed:');
   lines.push('');
@@ -23420,6 +23435,274 @@ exports.TreeCompare = TreeCompare;
 });
 require("/src/js/git/treeCompare.js");
 
+require.define("/src/js/intl/checkStrings.js",function(require,module,exports,__dirname,__filename,process,global){var sys = require('sys');
+var _ = require('underscore');
+var child_process = require('child_process');
+var strings = require('../intl/strings').strings;
+
+var searchCommand = 'grep -C 2 -r "intl.str(" ../../';
+var genBadKeyCommand = function(key) {
+  return 'grep -r "' + key + '" ../../';
+};
+
+var easyRegex = /intl.str\('([a-zA-Z-]+)'/g;
+var hardRegex = /\s+'([a-z-]+)',/g;
+
+var findKey = function(badKey) {
+  child_process.exec(genBadKeyCommand(badKey), function(err, output) {
+    console.log(output);
+  });
+};
+
+var validateKey = function(key) {
+  if (!strings[key]) {
+    console.log('NO KEY for: "', key, '"');
+    findKey(key);
+  }
+};
+
+var processLines = function(lines) {
+  _.each(lines, function(line) {
+    var results = easyRegex.exec(line);
+    if (results && results[1]) {
+      validateKey(results[1]);
+      return;
+    }
+    // could be a multi-liner
+    results = hardRegex.exec(line);
+    if (results && results[1]) {
+      validateKey(results[1]);
+    }
+  });
+};
+
+child_process.exec(
+  searchCommand,
+  function(err, output) {
+    processLines(output.split('\n'));
+});
+
+
+});
+require("/src/js/intl/checkStrings.js");
+
+require.define("/src/js/intl/helpTranslate.js",function(require,module,exports,__dirname,__filename,process,global){/*
+ * Warning!! This is this hackiest goddamn script evarrr. Don't
+ * judge :D
+ */
+
+var child_process = require('child_process');
+var fs = require('fs');
+var _ = require('underscore');
+var Q = require('q');
+var intl = require('../intl');
+
+var shouldBegin = Q.defer();
+var translateQueue = [];
+var outputLocale = 'pirate';
+
+var translate = function(context, path, key, blob) {
+  translateQueue.push({
+    context: context,
+    path: path,
+    key: key,
+    blob: blob
+  });
+};
+
+// CONFIG stuff
+var findLevelsCommand = 'find ../../levels -name "*.js"';
+
+var processLevelIndex = function() {
+  var path = '../../levels';
+  var sequenceInfo = require(path).sequenceInfo;
+
+  var genNameContext = function(sequence) {
+    var name = intl.getIntlKey(sequence, 'displayName');
+    return [
+      'This is a title of a level sequence "' + name + '" ',
+      'What is the best translation for that title?'
+    ].join('\n');
+  };
+
+  var genAboutContext = function(sequence) {
+    var name = intl.getIntlKey(sequence, 'displayName');
+    var about = intl.getIntlKey(sequence, 'about');
+    return [
+      'For the level sequence "' + name + '",',
+      'the about section is:',
+      '~~"' + about + '"',
+      '',
+      'What is the best translation for the about section?'
+    ].join('\n');
+  };
+
+  _.each(sequenceInfo, function(sequence) {
+    translate(
+      genNameContext(sequence),
+      path,
+      'displayName',
+      sequence.displayName
+    );
+
+    translate(
+      genAboutContext(sequence),
+      path,
+      'about',
+      sequence.about
+    );
+  });
+};
+
+var processLevel = function(levelPath) {
+  if (/index.js/.test(levelPath)) {
+    return;
+  }
+
+  var level = require(levelPath).level;
+  // TODO
+};
+
+child_process.exec(findLevelsCommand, function(err, output) {
+  _.each(output.split('\n'), function(levelPath) {
+    if (!levelPath || !levelPath.length) {
+      return;
+    }
+
+    processLevel(levelPath);
+  });
+
+  processLevelIndex();
+  shouldBegin.resolve();
+});
+
+var printContext = function(queueObj) {
+  if (typeof queueObj.context === 'string') {
+    console.log(queueObj.context);
+  } else {
+    var results = queueObj.context();
+    if (results) { console.log(results); }
+  }
+};
+
+var printSeparator = function() {
+  var printLn = function() {
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  };
+
+  var printSpace = function(num) {
+    num = (num === undefined) ? 1 : num;
+    for (var i = 0; i < num; i++) {
+      console.log('\n');
+    }
+  };
+
+  var printRandomEmoji = function() {
+    var emojis = [
+      ':D',
+      '~~~ (> O o)> ~~~~'
+    ];
+
+    var index = Math.floor(Math.random() * emojis.length);
+    console.log(emojis[index]);
+  };
+
+  printLn();
+  printSpace(1);
+  printRandomEmoji();
+  printSpace(1);
+  printLn();
+};
+
+var printPrompt = function() {
+  console.log('(input)>>');
+};
+
+var collectInput = function(cb) {
+  setTimeout(function() {
+    cb('hihi');
+  }, 50);
+};
+
+var popTranslateQueue = function(queueObj) {
+  printSeparator();
+  printContext(queueObj);
+  printPrompt();
+
+  collectInput(function(input) {
+    outputTranslation(queueObj, input);
+  });
+};
+
+var appendLineAfterNeedleToFile = function(path, needle, line) {
+  // silly relative paths
+  var endPath;
+  try {
+    var easyPath = path + '.js';
+    fs.readFileSync(easyPath);
+    endPath = easyPath;
+  } catch (err) {
+  }
+  if (!endPath) {
+    // perhaps an index.js
+    try {
+      var indexPath = path + '/index.js';
+      indexPath = indexPath.replace('//', '/');
+      fs.readFileSync(indexPath);
+      endPath = indexPath;
+    } catch (err) {
+    }
+  }
+
+  if (!endPath) {
+    throw new Error('Could not find path ' + path + ' !!');
+  }
+
+  // ok now do the needle thing
+  var fileContents = fs.readFileSync(endPath).toString();
+  var fileLines = fileContents.split('\n');
+
+  var toEscape = '()[]?+*'.split('');
+  _.each(toEscape, function(chr) {
+    needle = needle.replace(chr, '\\' + chr);
+  });
+
+  var regex = new RegExp(needle);
+  var numberMatches = 0;
+  _.each(fileLines, function(line) {
+    if (regex.test(line)) {
+      numberMatches++;
+    }
+  });
+
+  if (numberMatches !== 1) {
+    console.log('WARNING couldnt find needle\n', needle, 'in path\n', endPath);
+    return;
+  }
+
+  // now output :OOO
+
+};
+
+var outputTranslation = function(queueObj, input) {
+  console.log(queueObj.blob);
+  var path = queueObj.path;
+  var needle = queueObj.blob['en_US'];
+  console.log('the needle \n', needle, '\n in path', path);
+
+  appendLineAfterNeedleToFile(path, needle, 'haha');
+};
+
+shouldBegin.promise
+.then(function() {
+  _.each(translateQueue, popTranslateQueue);
+});
+
+
+
+});
+require("/src/js/intl/helpTranslate.js");
+
 require.define("/src/js/intl/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var constants = require('../util/constants');
 var util = require('../util');
@@ -23764,6 +24047,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
     '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
+    'fr_FR': 'La carte des solutions a été effacée, vous repartez de zéro !',
     'en_US': 'Solved map was reset, you are starting from a clean slate!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -23874,6 +24158,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
+    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
   }
 };
@@ -31346,7 +31631,7 @@ exports.sequenceInfo = {
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
-      'f_FR': 'Une introduction en douceur à la majoité des commandes git',
+      'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
@@ -31453,7 +31738,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
           "options": {
             "markdowns": [
               "## Commits Git",
-              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller g'eant, mais en bien mieux !",
+              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
               "",
               "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tous le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
               "",
@@ -31463,7 +31748,7 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
               "",
               "lorsque l'on clone un dépôt.",
               "",
-              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont tr légers et passer de l'un à l'autre est très rapide !"
+              "C'est beaucoup à absorber, mais pour l'instant vous pouvez considérer les commits comme des snapshots du projet. Les commits sont très légers et passer de l'un à l'autre est très rapide !"
             ]
           }
         },
