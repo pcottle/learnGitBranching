@@ -6746,203 +6746,243 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
     'en_US': 'Learn Git Branching',
-    'ko': 'Git 브랜치 배우기'
+    'ko': 'Git 브랜치 배우기',
+    'zh_CN': '学习Git分支'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
     '__desc__': 'The prompt to select a level on the drop down view',
-    'en_US': 'Select a level'
+    'en_US': 'Select a level',
+    'zh_CN': '选择一关'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
     '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
-    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"'
+    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
+    'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
     '__desc__': 'When the user enters a branch name thats not ok',
-    'en_US': 'That branch name "{branch}" is not allowed!'
+    'en_US': 'That branch name "{branch}" is not allowed!',
+    'zh_CN': '不能给分支起这个名字 "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
     '__desc__': 'When the user specifies an option that is not supported by our demo',
-    'en_US': 'The option "{option}" is not supported!'
+    'en_US': 'The option "{option}" is not supported!',
+    'zh_CN': '不支持选项 "{option}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
     '__desc__': 'The line that shows how to format a git command',
-    'en_US': 'git <command> [<args>]'
+    'en_US': 'git <command> [<args>]',
+    'zh_CN': 'git <命令> [<参数>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
     '__desc__': 'In the git help command, the header above the supported commands',
-    'en_US': 'Supported commands:'
+    'en_US': 'Supported commands:',
+    'zh_CN': '支持的命令有:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
     '__desc__': 'In the dummy git output, the header before showing all the commands',
-    'en_US': 'Usage:'
+    'en_US': 'Usage:',
+    'zh_CN': '使用:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
     '__desc__': 'The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead',
-    'en_US': 'Git Version PCOTTLE.1.0'
+    'en_US': 'Git Version PCOTTLE.1.0',
+    'zh_CN': 'Git 版本 PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
     '__desc__': 'when the tree is visually refreshed',
-    'en_US': 'Refreshing tree...'
+    'en_US': 'Refreshing tree...',
+    'zh_CN': '正在刷新树结构...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
     '__desc__': 'when the locale is set to something',
-    'en_US': 'Locale set to {locale}'
+    'en_US': 'Locale set to {locale}',
+    'zh_CN': '语言更改为 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
     '__desc__': 'when the locale is reset',
-    'en_US': 'Locale reset to default, which is {locale}'
+    'en_US': 'Locale reset to default, which is {locale}',
+    'zh_CN': '语言重置为默认的 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
     '__desc__': 'dummy command output for the command in the key',
-    'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"'
+    'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
+    'zh_CN': '目录切换到 "/directories/dont/matter/in/this/demo"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
     '__desc__': 'Dummy command output for the command in the key',
-    'en_US': 'DontWorryAboutFilesInThisDemo.txt'
+    'en_US': 'DontWorryAboutFilesInThisDemo.txt',
+    'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
-    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D'
+    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D',
+    'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
     '__desc__': 'When you export a tree, we want you to share the tree with friends',
-    'en_US': 'Share this tree with friends! They can load it with "import tree"'
+    'en_US': 'Share this tree with friends! They can load it with "import tree"',
+    'zh_CN': '与你的好友分享提交树！他们可以用 "import tree" 加载它'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
     '__desc__': 'When you are importing a level or tree',
-    'en_US': 'Paste a JSON blob below!'
+    'en_US': 'Paste a JSON blob below!',
+    'zh_CN': '在下边粘贴一个JSON串'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
     '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
     'fr_FR': 'La carte des solutions a été effacée, vous repartez de zéro !',
-    'en_US': 'Solved map was reset, you are starting from a clean slate!'
+    'en_US': 'Solved map was reset, you are starting from a clean slate!',
+    'zh_CN': '解决列表已重置，您现在从零开始了'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
     '__desc__': 'When the user tries to exit a level when they are not in one',
-    'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"'
+    'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"',
+    'zh_CN': '您没在关卡中！您在沙盒中，要开始关卡请输入 "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
     '__desc__': 'When you say an id but that level doesnt exist',
-    'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view'
+    'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
+    'zh_CN': '没找到id为 "{id}" 的关卡！打开关卡选择框'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
     '__desc__': 'The undo command can only undo back until the last time the level was reset or the beginning of the level',
-    'en_US': 'The undo stack is empty!'
+    'en_US': 'The undo stack is empty!',
+    'zh_CN': '还没有什么可以撤销'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
     '__desc__': 'When you play in a level that is already solved',
-    'en_US': 'You have alreaady solved this levle, try other levels with "levels" or go back to sandbox with "sandbox"'
+    'en_US': 'You have alreaady solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
+    'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
     '__desc__': 'When you try a command that is disabled',
-    'en_US': 'That git command is disabled for this level!'
+    'en_US': 'That git command is disabled for this level!',
+    'zh_CN': '该命令在本关不允许使用！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
     '__desc__': 'when you have made the level, prompt to share this',
-    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github'
+    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
+    'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
     '__desc__': 'prompt to add a start dialog',
-    'en_US': 'You have not specified a start dialog, would you like to add one?'
+    'en_US': 'You have not specified a start dialog, would you like to add one?',
+    'zh_CN': '您还没有定义一开始的介绍，是否添加一个？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
     '__desc__': 'prompt to add a hint',
-    'en_US': 'You have not specified a hint, would you like to add one?'
+    'en_US': 'You have not specified a hint, would you like to add one?',
+    'zh_CN': '您还没有定义提示，是否添加一个？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
     '__desc__': 'prompt for hint',
-    'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one'
+    'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one',
+    'zh_CN': '请输入关卡提示，或者故意留空'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
     '__desc__': 'prompt for level name',
-    'en_US': 'Enter the name for the level'
+    'en_US': 'Enter the name for the level',
+    'zh_CN': '输入关卡名'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
     '__desc__': 'If you define a solution without any commands, aka a level that is solved without doing anything',
-    'en_US': 'Your solution is empty!! Something is amiss'
+    'en_US': 'Your solution is empty!! Something is amiss',
+    'zh_CN': '你的解法是空的!! 这应该是出错了'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
     '__desc__': 'When you define the start point again, it overwrites the solution and goal so we add a warning',
-    'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier'
+    'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
+    'zh_CN': '定义开始点... 解决方法和目标会被新的替代'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
-    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"'
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"',
+    'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
     '__desc__': 'When you are in a level builder, the help command is vague so you need to specify what you mean',
-    'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"'
+    'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"',
+    'zh_CN': '您正在进行关卡构建中，这里有多种形式的帮助，请选择 "help general" (一般帮助)或 "help builder" (关卡构建帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
-    'en_US': 'Goal To Reach'
+    'en_US': 'Goal To Reach',
+    'zh_CN': '目标'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
     '__desc__': 'the helper message for the window that shows the goal tree',
-    'en_US': 'You can hide this window with "hide goal"'
+    'en_US': 'You can hide this window with "hide goal"',
+    'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
     '__desc__': 'The helper message for the window that shows the start tree for a level',
-    'en_US': 'You can hide this window with "hide start"'
+    'en_US': 'You can hide this window with "hide start"',
+    'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
     '__desc__': 'The name for the environment where you build levels',
-    'en_US': 'Level Builder'
+    'en_US': 'Level Builder',
+    'zh_CN': '关卡生成器'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
     '__desc__': 'when the user tries to open a start dialog for a level that does not have one',
-    'en_US': 'There is no start dialog to show for this level!'
+    'en_US': 'There is no start dialog to show for this level!',
+    'zh_CN': '介绍? 这关真没有!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
     '__desc__': 'when no hint is available for a level',
-    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
+    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
+    'zh_CN': "提示？嗯，这关真没有哎~ :-/"
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
-    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!',
+    'zh_CN': '还没翻译 {key} :( 请在gitHub上贡献你的翻译!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
-    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
+    'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!'
   }
 };
 
@@ -17699,24 +17739,28 @@ exports.sequenceInfo = {
     displayName: {
       'en_US': 'Master the Rebase Luke!',
       'fr_FR': 'Maîtrise Rebase, Luke!',
+      'zh_CN': '掌握衍合，兄弟！',
       'ko': '리베이스 완전정복!'
     },
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
       'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
-      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
+      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
+      'zh_CN': '大家说的火热的衍合都是些神马？看看吧！'
     }
   },
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
       'fr_FR': 'Un assortiment',
-      'ko': '종합선물세트'
+      'ko': '종합선물세트',
+      'zh_CN': '大杂烩？'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
-      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
+      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
+      'zh_CN': 'Git技术，技巧与贴士'
     }
   }
 };
@@ -17728,7 +17772,8 @@ require.define("/levels/intro/1.js",function(require,module,exports,__dirname,__
   "name": {
     "en_US": "Introduction to Git Commits",
     "fr_FR": "Introduction aux commits avec Git",
-    'ko': 'Git 커밋 소개'
+    'ko': 'Git 커밋 소개',
+    'zh_CN': '介绍Git提交'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -17932,9 +17977,10 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
+    "en_US": "Branching in Git",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "en_US": "Branching in Git"
+    "zh_CN": "Git开分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -18269,7 +18315,8 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
   "name": {
     "en_US": "Merging in Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
-    "ko": "Git에서 브랜치 합치기(Merge)"
+    "ko": "Git에서 브랜치 합치기(Merge)",
+    "zh_CN": "Git合并(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -18443,7 +18490,7 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
               "",
               "我们将要把分支 `bugFix` 合并到 `master` 上"
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "afterMarkdowns": [
               "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
               "",
@@ -18460,13 +18507,13 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
             "beforeMarkdowns": [
               "让我们把 `master` 分支合并到 `bugFix` 吧。"
             ],
-            "command": "git merge master bugFix",
+            "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
               "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
               "",
               "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
         },
         {
@@ -18519,7 +18566,7 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
               "",
               "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `master` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
         },
@@ -18534,8 +18581,8 @@ require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__
               "",
               "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
             ],
-            "command": "git merge master bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
         },
         {
@@ -18568,7 +18615,8 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
   "name": {
     "en_US": "Rebase Introduction",
     "fr_FR": "Introduction à rebase",
-    "ko": "리베이스(rebase)의 기본"
+    "ko": "리베이스(rebase)의 기본",
+    "zh_CN": "介绍衍合(rebase)"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -18858,7 +18906,8 @@ require.define("/levels/intro/5.js",function(require,module,exports,__dirname,__
   "name": {
     "en_US": "Reversing Changes in Git",
     "fr_FR": "Annuler des changements avec Git",
-    "ko": "Git에서 작업 되돌리기"
+    "ko": "Git에서 작업 되돌리기",
+    "zh_CN": "Git撤销改变"
   },
   "hint": {
     "en_US": "",
@@ -19293,7 +19342,8 @@ require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "딱 한개의 커밋만 가져오기",
-    "en_US": "Grabbing Just 1 Commit"
+    "en_US": "Grabbing Just 1 Commit",
+    "zh_CN": "私藏一个提交"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -19440,7 +19490,8 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "커밋들 갖고 놀기",
-    "en_US": "Juggling Commits"
+    "en_US": "Juggling Commits",
+    "zh_CN": "Git提交戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -19580,7 +19631,8 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
   "compareOnlyMaster": true,
   "name": {
     "ko": "커밋 갖고 놀기 #2",
-    "en_US": "Juggling Commits #2"
+    "en_US": "Juggling Commits #2",
+    "zh_CN": "提交交换戏法 #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
@@ -23963,203 +24015,243 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
     'en_US': 'Learn Git Branching',
-    'ko': 'Git 브랜치 배우기'
+    'ko': 'Git 브랜치 배우기',
+    'zh_CN': '学习Git分支'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
     '__desc__': 'The prompt to select a level on the drop down view',
-    'en_US': 'Select a level'
+    'en_US': 'Select a level',
+    'zh_CN': '选择一关'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
     '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
-    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"'
+    'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
+    'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
     '__desc__': 'When the user enters a branch name thats not ok',
-    'en_US': 'That branch name "{branch}" is not allowed!'
+    'en_US': 'That branch name "{branch}" is not allowed!',
+    'zh_CN': '不能给分支起这个名字 "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
     '__desc__': 'When the user specifies an option that is not supported by our demo',
-    'en_US': 'The option "{option}" is not supported!'
+    'en_US': 'The option "{option}" is not supported!',
+    'zh_CN': '不支持选项 "{option}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
     '__desc__': 'The line that shows how to format a git command',
-    'en_US': 'git <command> [<args>]'
+    'en_US': 'git <command> [<args>]',
+    'zh_CN': 'git <命令> [<参数>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
     '__desc__': 'In the git help command, the header above the supported commands',
-    'en_US': 'Supported commands:'
+    'en_US': 'Supported commands:',
+    'zh_CN': '支持的命令有:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
     '__desc__': 'In the dummy git output, the header before showing all the commands',
-    'en_US': 'Usage:'
+    'en_US': 'Usage:',
+    'zh_CN': '使用:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
     '__desc__': 'The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead',
-    'en_US': 'Git Version PCOTTLE.1.0'
+    'en_US': 'Git Version PCOTTLE.1.0',
+    'zh_CN': 'Git 版本 PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
     '__desc__': 'when the tree is visually refreshed',
-    'en_US': 'Refreshing tree...'
+    'en_US': 'Refreshing tree...',
+    'zh_CN': '正在刷新树结构...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
     '__desc__': 'when the locale is set to something',
-    'en_US': 'Locale set to {locale}'
+    'en_US': 'Locale set to {locale}',
+    'zh_CN': '语言更改为 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
     '__desc__': 'when the locale is reset',
-    'en_US': 'Locale reset to default, which is {locale}'
+    'en_US': 'Locale reset to default, which is {locale}',
+    'zh_CN': '语言重置为默认的 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
     '__desc__': 'dummy command output for the command in the key',
-    'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"'
+    'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
+    'zh_CN': '目录切换到 "/directories/dont/matter/in/this/demo"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
     '__desc__': 'Dummy command output for the command in the key',
-    'en_US': 'DontWorryAboutFilesInThisDemo.txt'
+    'en_US': 'DontWorryAboutFilesInThisDemo.txt',
+    'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
-    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D'
+    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D',
+    'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
     '__desc__': 'When you export a tree, we want you to share the tree with friends',
-    'en_US': 'Share this tree with friends! They can load it with "import tree"'
+    'en_US': 'Share this tree with friends! They can load it with "import tree"',
+    'zh_CN': '与你的好友分享提交树！他们可以用 "import tree" 加载它'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
     '__desc__': 'When you are importing a level or tree',
-    'en_US': 'Paste a JSON blob below!'
+    'en_US': 'Paste a JSON blob below!',
+    'zh_CN': '在下边粘贴一个JSON串'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
     '__desc__': 'When you reset the solved map to clear your solved history, in case someone else wants to use your browser',
     'fr_FR': 'La carte des solutions a été effacée, vous repartez de zéro !',
-    'en_US': 'Solved map was reset, you are starting from a clean slate!'
+    'en_US': 'Solved map was reset, you are starting from a clean slate!',
+    'zh_CN': '解决列表已重置，您现在从零开始了'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
     '__desc__': 'When the user tries to exit a level when they are not in one',
-    'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"'
+    'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"',
+    'zh_CN': '您没在关卡中！您在沙盒中，要开始关卡请输入 "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
     '__desc__': 'When you say an id but that level doesnt exist',
-    'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view'
+    'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
+    'zh_CN': '没找到id为 "{id}" 的关卡！打开关卡选择框'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
     '__desc__': 'The undo command can only undo back until the last time the level was reset or the beginning of the level',
-    'en_US': 'The undo stack is empty!'
+    'en_US': 'The undo stack is empty!',
+    'zh_CN': '还没有什么可以撤销'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
     '__desc__': 'When you play in a level that is already solved',
-    'en_US': 'You have alreaady solved this levle, try other levels with "levels" or go back to sandbox with "sandbox"'
+    'en_US': 'You have alreaady solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
+    'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
     '__desc__': 'When you try a command that is disabled',
-    'en_US': 'That git command is disabled for this level!'
+    'en_US': 'That git command is disabled for this level!',
+    'zh_CN': '该命令在本关不允许使用！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
     '__desc__': 'when you have made the level, prompt to share this',
-    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github'
+    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
+    'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
     '__desc__': 'prompt to add a start dialog',
-    'en_US': 'You have not specified a start dialog, would you like to add one?'
+    'en_US': 'You have not specified a start dialog, would you like to add one?',
+    'zh_CN': '您还没有定义一开始的介绍，是否添加一个？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
     '__desc__': 'prompt to add a hint',
-    'en_US': 'You have not specified a hint, would you like to add one?'
+    'en_US': 'You have not specified a hint, would you like to add one?',
+    'zh_CN': '您还没有定义提示，是否添加一个？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
     '__desc__': 'prompt for hint',
-    'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one'
+    'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one',
+    'zh_CN': '请输入关卡提示，或者故意留空'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
     '__desc__': 'prompt for level name',
-    'en_US': 'Enter the name for the level'
+    'en_US': 'Enter the name for the level',
+    'zh_CN': '输入关卡名'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
     '__desc__': 'If you define a solution without any commands, aka a level that is solved without doing anything',
-    'en_US': 'Your solution is empty!! Something is amiss'
+    'en_US': 'Your solution is empty!! Something is amiss',
+    'zh_CN': '你的解法是空的!! 这应该是出错了'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
     '__desc__': 'When you define the start point again, it overwrites the solution and goal so we add a warning',
-    'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier'
+    'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
+    'zh_CN': '定义开始点... 解决方法和目标会被新的替代'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
-    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"'
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"',
+    'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
     '__desc__': 'When you are in a level builder, the help command is vague so you need to specify what you mean',
-    'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"'
+    'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"',
+    'zh_CN': '您正在进行关卡构建中，这里有多种形式的帮助，请选择 "help general" (一般帮助)或 "help builder" (关卡构建帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
-    'en_US': 'Goal To Reach'
+    'en_US': 'Goal To Reach',
+    'zh_CN': '目标'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
     '__desc__': 'the helper message for the window that shows the goal tree',
-    'en_US': 'You can hide this window with "hide goal"'
+    'en_US': 'You can hide this window with "hide goal"',
+    'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
     '__desc__': 'The helper message for the window that shows the start tree for a level',
-    'en_US': 'You can hide this window with "hide start"'
+    'en_US': 'You can hide this window with "hide start"',
+    'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
     '__desc__': 'The name for the environment where you build levels',
-    'en_US': 'Level Builder'
+    'en_US': 'Level Builder',
+    'zh_CN': '关卡生成器'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
     '__desc__': 'when the user tries to open a start dialog for a level that does not have one',
-    'en_US': 'There is no start dialog to show for this level!'
+    'en_US': 'There is no start dialog to show for this level!',
+    'zh_CN': '介绍? 这关真没有!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
     '__desc__': 'when no hint is available for a level',
-    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/"
+    'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
+    'zh_CN': "提示？嗯，这关真没有哎~ :-/"
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
-    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!'
+    'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!',
+    'zh_CN': '还没翻译 {key} :( 请在gitHub上贡献你的翻译!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
-    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!'
+    'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
+    'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!'
   }
 };
 
@@ -31640,24 +31732,28 @@ exports.sequenceInfo = {
     displayName: {
       'en_US': 'Master the Rebase Luke!',
       'fr_FR': 'Maîtrise Rebase, Luke!',
+      'zh_CN': '掌握衍合，兄弟！',
       'ko': '리베이스 완전정복!'
     },
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
       'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
-      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!'
+      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
+      'zh_CN': '大家说的火热的衍合都是些神马？看看吧！'
     }
   },
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
       'fr_FR': 'Un assortiment',
-      'ko': '종합선물세트'
+      'ko': '종합선물세트',
+      'zh_CN': '大杂烩？'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
-      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다'
+      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
+      'zh_CN': 'Git技术，技巧与贴士'
     }
   }
 };
@@ -31670,7 +31766,8 @@ require.define("/src/levels/intro/1.js",function(require,module,exports,__dirnam
   "name": {
     "en_US": "Introduction to Git Commits",
     "fr_FR": "Introduction aux commits avec Git",
-    'ko': 'Git 커밋 소개'
+    'ko': 'Git 커밋 소개',
+    'zh_CN': '介绍Git提交'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -31875,9 +31972,10 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
+    "en_US": "Branching in Git",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "en_US": "Branching in Git"
+    "zh_CN": "Git开分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -32213,7 +32311,8 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
   "name": {
     "en_US": "Merging in Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
-    "ko": "Git에서 브랜치 합치기(Merge)"
+    "ko": "Git에서 브랜치 합치기(Merge)",
+    "zh_CN": "Git合并(Merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -32387,7 +32486,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
               "",
               "我们将要把分支 `bugFix` 合并到 `master` 上"
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "afterMarkdowns": [
               "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
               "",
@@ -32404,13 +32503,13 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
             "beforeMarkdowns": [
               "让我们把 `master` 分支合并到 `bugFix` 吧。"
             ],
-            "command": "git merge master bugFix",
+            "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
               "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
               "",
               "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
         },
         {
@@ -32463,7 +32562,7 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
               "",
               "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `master` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
             ],
-            "command": "git merge bugFix master",
+            "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
         },
@@ -32478,8 +32577,8 @@ require.define("/src/levels/intro/3.js",function(require,module,exports,__dirnam
               "",
               "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
             ],
-            "command": "git merge master bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix master"
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
         },
         {
@@ -32513,7 +32612,8 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
   "name": {
     "en_US": "Rebase Introduction",
     "fr_FR": "Introduction à rebase",
-    "ko": "리베이스(rebase)의 기본"
+    "ko": "리베이스(rebase)의 기본",
+    "zh_CN": "介绍衍合(rebase)"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -32804,7 +32904,8 @@ require.define("/src/levels/intro/5.js",function(require,module,exports,__dirnam
   "name": {
     "en_US": "Reversing Changes in Git",
     "fr_FR": "Annuler des changements avec Git",
-    "ko": "Git에서 작업 되돌리기"
+    "ko": "Git에서 작업 되돌리기",
+    "zh_CN": "Git撤销改变"
   },
   "hint": {
     "en_US": "",
@@ -33081,7 +33182,8 @@ require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirnam
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "딱 한개의 커밋만 가져오기",
-    "en_US": "Grabbing Just 1 Commit"
+    "en_US": "Grabbing Just 1 Commit",
+    "zh_CN": "私藏一个提交"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -33229,7 +33331,8 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "커밋들 갖고 놀기",
-    "en_US": "Juggling Commits"
+    "en_US": "Juggling Commits",
+    "zh_CN": "Git提交戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -33370,7 +33473,8 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
   "compareOnlyMaster": true,
   "name": {
     "ko": "커밋 갖고 놀기 #2",
-    "en_US": "Juggling Commits #2"
+    "en_US": "Juggling Commits #2",
+    "zh_CN": "提交交换戏法 #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
