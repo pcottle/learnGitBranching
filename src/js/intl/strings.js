@@ -2,145 +2,173 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-finished': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Wow! You finished the last level, great!'
+    'en_US': 'Wow! You finished the last level, great!',
+    'zh_CN': '我的个天！你完成了最后一关，碉堡了！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?'
+    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?',
+    'zh_CN': '要不前进到下一关 *“{nextLevel}”*？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Awesome! You matched or exceeded our solution.'
+    'en_US': 'Awesome! You matched or exceeded our solution.',
+    'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
     '__desc__': 'When the user entered more commands than our best, encourage them to do better',
-    'en_US': 'See if you can whittle it down to {best} :D'
+    'en_US': 'See if you can whittle it down to {best} :D',
+    'zh_CN': '试试看你能否在 {best} 之内搞定 :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'Detached head!'
+    'en_US': 'Detached head!',
+    'zh_CN': '脑袋搬家（Detached head）了！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'On branch {branch}'
+    'en_US': 'On branch {branch}',
+    'zh_CN': '切换到分支 {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'Ready to commit! (as always in this demo)'
+    'en_US': 'Ready to commit! (as always in this demo)',
+    'zh_CN': '可以提交啦！（这演示里一直可以提交）'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
     '__desc__': 'The dummy commit message for all commits. Feel free to put in a ' +
       'shoutout to your school / city / whatever!',
-    'en_US': 'Quick commit. Go Bears!'
+    'en_US': 'Quick commit. Go Bears!',
+    'zh_CN': '快速提交。上啊月熊！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
-      'aren\'t branches'
+      'aren\'t branches',
+    'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
     '__desc__': 'The commit message for a merge commit',
-    'en_US': 'Merge {target} into {current}'
+    'en_US': 'Merge {target} into {current}',
+    'zh_CN': '合并 {target} 到 {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied'
+    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
+    'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Nothing to do...'
+    'en_US': 'Nothing to do...',
+    'zh_CN': '没啥鸟事……'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Fast forwarding...'
+    'en_US': 'Fast forwarding...',
+    'zh_CN': '快速前进……'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Branch already up-to-date'
+    'en_US': 'Branch already up-to-date',
+    'zh_CN': '分支已经是最新啦'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'The ref {ref} does not exist or is unknown'
+    'en_US': 'The ref {ref} does not exist or is unknown',
+    'zh_CN': '索引 {ref} 不存在，或者找不到。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Commit {commit} doesnot have a {match}'
+    'en_US': 'Commit {commit} doesnot have a {match}',
+    'zh_CN': '提交 {commit} 并没有 {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'Warning!! Detached HEAD state'
+    'en_US': 'Warning!! Detached HEAD state',
+    'zh_CN': '警告！脑袋搬家（Detached HEAD）状态'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'No need to add files in this demo'
+    'en_US': 'No need to add files in this demo',
+    'zh_CN': '此演示中不需要添加文件'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Those options you specified are incompatible or incorrect'
+    'en_US': 'Those options you specified are incompatible or incorrect',
+    'zh_CN': '你所指定的参数不兼容或者不准确'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'The commit {commit} already exists in your changes set, aborting!'
+    'en_US': 'The commit {commit} already exists in your changes set, aborting!',
+    'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move'
+    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
+    'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
+    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
+    'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'There is no concept of adding / staging files, so that option or ' +
-      'command is invalid!'
+      'command is invalid!',
+    'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
     '__desc__': 'Message for reverting git command',
-    'en_US': 'Reverting {oldCommit}: {oldMsg}'
+    'en_US': 'Reverting {oldCommit}: {oldMsg}',
+    'zh_CN': '撤销 {oldCommit}：{oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'I expect at most {upper} argument(s) for {what}'
+    'en_US': 'I expect at most {upper} argument(s) for {what}',
+    'zh_CN': '{what} 期望最多 {upper} 个参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'I expect at least {lower} argument(s) for {what}'
+    'en_US': 'I expect at least {lower} argument(s) for {what}',
+    'zh_CN': '{what} 期望最少 {lower} 个参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'That command accepts no general arguments'
+    'en_US': 'That command accepts no general arguments',
+    'zh_CN': '该命令不接收参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
     '__desc__': 'The prompt to copy the tree when sharing',
-    'en_US': 'Copy the tree string below'
+    'en_US': 'Copy the tree string below',
+    'zh_CN': '拷贝下面的树字符串'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
