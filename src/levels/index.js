@@ -5,8 +5,10 @@ exports.levelSequences = {
     require('../../levels/intro/1').level,
     require('../../levels/intro/2').level,
     require('../../levels/intro/3').level,
-    require('../../levels/intro/4').level,
-    require('../../levels/intro/5').level
+    require('../../levels/intro/4').level
+  ],
+  rampup: [
+    require('../../levels/rampup/2').level
   ],
   rebase: [
     require('../../levels/rebase/1').level,
@@ -33,6 +35,14 @@ exports.sequenceInfo = {
       'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
+    }
+  },
+  rampup: {
+    displayName: {
+      'en_US': 'Ramping Up',
+    },
+    about: {
+      'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry'
     }
   },
   rebase: {

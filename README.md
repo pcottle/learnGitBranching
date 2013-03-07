@@ -106,4 +106,5 @@ Or reported an issue that was successfully closed!
 * Jon Frisby
 * Matthew Walker
 * Duane Johnson
+* Neil Chue Hong
 
