@@ -7231,7 +7231,7 @@ var TreeCompare = require('../git/treeCompare').TreeCompare;
 var regexMap = {
   'help level': /^help level$/,
   'start dialog': /^start dialog$/,
-  'show goal': /^show goal$/,
+  'show goal': /^(show goal|goal|help goal)$/,
   'hide goal': /^hide goal$/,
   'show solution': /^show solution($|\s)/
 };
@@ -24858,7 +24858,7 @@ var TreeCompare = require('../git/treeCompare').TreeCompare;
 var regexMap = {
   'help level': /^help level$/,
   'start dialog': /^start dialog$/,
-  'show goal': /^show goal$/,
+  'show goal': /^(show goal|goal|help goal)$/,
   'hide goal': /^hide goal$/,
   'show solution': /^show solution($|\s)/
 };

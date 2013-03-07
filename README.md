@@ -105,4 +105,5 @@ Or reported an issue that was successfully closed!
 * Jan Philipp
 * Jon Frisby
 * Matthew Walker
+* Duane Johnson
 
