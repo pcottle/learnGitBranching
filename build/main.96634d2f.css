@@ -597,6 +597,10 @@ li.rebaseEntry.notPicked {
 }
 /* Modal Views */
 
+div.modalView.box.inFront.show {
+  overflow-y: auto;
+}
+
 .modalView {
   width: 100%;
   height: 100%;
@@ -633,6 +637,7 @@ li.rebaseEntry.notPicked {
 
 .modalView .terminal-window {
   margin-top: 5%;
+  margin-bottom: 5%;
   -webkit-transform: translate3d(0, -100%, 0);
   -moz-transform: translate3d(0, -100%, 0);
   -o-transform: translate3d(0, -100%, 0);
