@@ -51,15 +51,18 @@ var LevelDropdownView = ContainedBase.extend({
     });
 
     this.render();
-    this.buildSequences();
-    Main.getEvents().on('localeChanged', function() {
-      this.render();
-      this.buildSequences();
-    }, this);
+
+    Main.getEvents().on('resetMapSolved', this.render, this);
+    Main.getEvents().on('localeChanged', this.render, this);
 
     if (!options.wait) {
       this.show();
     }
+  },
+
+  render: function() {
+    LevelDropdownView.__super__.render.apply(this, arguments);
+    this.buildSequences();
   },
 
   positive: function() {
