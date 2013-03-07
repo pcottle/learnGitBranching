@@ -18005,12 +18005,13 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "9천번이 넘는 리베이스",
-    "en_US": "Rebasing over 9000 times"
+    "en_US": "Rebasing over 9000 times",
+    "zh_CN": "衍合一百遍啊一百遍"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，可能最终最高效的方法就是更新 master 分支..."
+    "zh_CN": "记住，可能最终最高效的方法就是更新主分支（master）……"
   },
   "startDialog": {
     "en_US": {
@@ -18041,7 +18042,7 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
               "",
               "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
               "",
-              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "但是上头（upper management）找了点麻烦 —— 他们要希望提交历史是有序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
               "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
             ]
@@ -18081,12 +18082,13 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "브랜치 스파게티",
-    "en_US": "Branch Spaghetti"
+    "en_US": "Branch Spaghetti",
+    "zh_CN": "分支浆糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 one, 再操作分支 two, 最后才是分支 three"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`"
   },
   "startDialog": {
     "en_US": {
@@ -18313,7 +18315,7 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
-    "zh_CN": "Git提交戏法"
+    "zh_CN": "提交变换戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -18366,7 +18368,7 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits",
+              "## 提交变换戏法",
               "",
               "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
               "",
@@ -18509,9 +18511,9 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits #2",
+              "## 提交变换戏法 #2",
               "",
-              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "*假如你还没有完成提交变换戏法 #1（前一关），这关不让玩哦！*",
               "",
               "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
               "",
@@ -32340,7 +32342,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
-    "zh_CN": "Git提交戏法"
+    "zh_CN": "提交变换戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -32393,7 +32395,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits",
+              "## 提交变换戏法",
               "",
               "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
               "",
@@ -32537,9 +32539,9 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits #2",
+              "## 提交变换戏法 #2",
               "",
-              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "*假如你还没有完成提交变换戏法 #1（前一关），这关不让玩哦！*",
               "",
               "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
               "",
@@ -32628,12 +32630,13 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "9천번이 넘는 리베이스",
-    "en_US": "Rebasing over 9000 times"
+    "en_US": "Rebasing over 9000 times",
+    "zh_CN": "衍合一百遍啊一百遍"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，可能最终最高效的方法就是更新 master 分支..."
+    "zh_CN": "记住，可能最终最高效的方法就是更新主分支（master）……"
   },
   "startDialog": {
     "en_US": {
@@ -32664,7 +32667,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
               "",
               "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
               "",
-              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "但是上头（upper management）找了点麻烦 —— 他们要希望提交历史是有序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
               "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
             ]
@@ -32705,12 +32708,13 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "브랜치 스파게티",
-    "en_US": "Branch Spaghetti"
+    "en_US": "Branch Spaghetti",
+    "zh_CN": "分支浆糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 one, 再操作分支 two, 最后才是分支 three"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`"
   },
   "startDialog": {
     "en_US": {
