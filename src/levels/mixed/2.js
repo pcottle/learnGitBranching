@@ -10,7 +10,7 @@ exports.level = {
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
-    "zh_CN": "Git提交戏法"
+    "zh_CN": "提交变换戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -63,7 +63,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits",
+              "## 提交变换戏法",
               "",
               "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
               "",

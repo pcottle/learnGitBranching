@@ -9,6 +9,16 @@ exports.dialog = {
         'our solution uses {best}.'
       ]
     }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 碉堡了！',
+        '',
+        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
+      ]
+    }
   }]
 };
 
