@@ -7356,16 +7356,17 @@ var Level = Sandbox.extend({
 
   showSolution: function(command, deferred) {
     var toIssue = this.level.solutionCommand;
-    var issueFunc = function() {
+    var issueFunc = _.bind(function() {
+      this.isShowingSolution = true;
       Main.getEventBaton().trigger(
         'commandSubmitted',
         toIssue
       );
-    };
+    }, this);
 
     var commandStr = command.get('rawStr');
     if (!this.testOptionOnString(commandStr, 'noReset')) {
-      toIssue = 'reset; ' + toIssue;
+      toIssue = 'reset --forSolution; ' + toIssue;
     }
     if (this.testOptionOnString(commandStr, 'force')) {
       issueFunc();
@@ -7375,13 +7376,9 @@ var Level = Sandbox.extend({
 
     // allow them for force the solution
     var confirmDefer = Q.defer();
-    // TODO intl
+    var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
     var confirmView = new ConfirmCancelTerminal({
-      markdowns: [
-        '## Are you sure you want to see the solution?',
-        '',
-        'I believe in you! You can do it'
-      ],
+      markdowns: dialog.options.markdowns,
       deferred: confirmDefer
     });
 
@@ -7555,7 +7552,10 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
-    Main.getEvents().trigger('levelSolved', this.level.id);
+    if (!this.isShowingSolution) {
+      Main.getEvents().trigger('levelSolved', this.level.id);
+    }
+
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
@@ -7636,8 +7636,13 @@ var Level = Sandbox.extend({
     ];
   },
 
-  reset: function() {
+  reset: function(command, deferred) {
     this.gitCommandsIssued = [];
+
+    var commandStr = (command) ? command.get('rawStr') : '';
+    if (!this.testOptionOnString(commandStr, 'forSolution')) {
+      this.isShowingSolution = false;
+    }
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
   },
@@ -14055,7 +14060,7 @@ var instantCommands = [
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
   'help': /^help( +general)?$|^\?$/,
-  'reset': /^reset$/,
+  'reset': /^reset( +--forSolution)?$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
@@ -17531,6 +17536,22 @@ exports.DisabledMap = DisabledMap;
 
 });
 
+require.define("/src/js/dialogs/confirmShowSolution.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Are you sure you want to see the solution?',
+        '',
+        'I believe in you! You can do it'
+      ]
+    }
+  }]
+};
+
+
+});
+
 require.define("/src/js/level/arbiter.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -20981,6 +21002,23 @@ exports.init = init;
 
 });
 require("/src/js/app/index.js");
+
+require.define("/src/js/dialogs/confirmShowSolution.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Are you sure you want to see the solution?',
+        '',
+        'I believe in you! You can do it'
+      ]
+    }
+  }]
+};
+
+
+});
+require("/src/js/dialogs/confirmShowSolution.js");
 
 require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
   'en_US': [{
@@ -24983,16 +25021,17 @@ var Level = Sandbox.extend({
 
   showSolution: function(command, deferred) {
     var toIssue = this.level.solutionCommand;
-    var issueFunc = function() {
+    var issueFunc = _.bind(function() {
+      this.isShowingSolution = true;
       Main.getEventBaton().trigger(
         'commandSubmitted',
         toIssue
       );
-    };
+    }, this);
 
     var commandStr = command.get('rawStr');
     if (!this.testOptionOnString(commandStr, 'noReset')) {
-      toIssue = 'reset; ' + toIssue;
+      toIssue = 'reset --forSolution; ' + toIssue;
     }
     if (this.testOptionOnString(commandStr, 'force')) {
       issueFunc();
@@ -25002,13 +25041,9 @@ var Level = Sandbox.extend({
 
     // allow them for force the solution
     var confirmDefer = Q.defer();
-    // TODO intl
+    var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
     var confirmView = new ConfirmCancelTerminal({
-      markdowns: [
-        '## Are you sure you want to see the solution?',
-        '',
-        'I believe in you! You can do it'
-      ],
+      markdowns: dialog.options.markdowns,
       deferred: confirmDefer
     });
 
@@ -25182,7 +25217,10 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
-    Main.getEvents().trigger('levelSolved', this.level.id);
+    if (!this.isShowingSolution) {
+      Main.getEvents().trigger('levelSolved', this.level.id);
+    }
+
     this.hideGoal();
 
     var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
@@ -25263,8 +25301,13 @@ var Level = Sandbox.extend({
     ];
   },
 
-  reset: function() {
+  reset: function(command, deferred) {
     this.gitCommandsIssued = [];
+
+    var commandStr = (command) ? command.get('rawStr') : '';
+    if (!this.testOptionOnString(commandStr, 'forSolution')) {
+      this.isShowingSolution = false;
+    }
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
   },
@@ -25942,7 +25985,7 @@ var instantCommands = [
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
   'help': /^help( +general)?$|^\?$/,
-  'reset': /^reset$/,
+  'reset': /^reset( +--forSolution)?$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,

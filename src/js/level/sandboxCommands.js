@@ -71,7 +71,7 @@ var instantCommands = [
 var regexMap = {
   'reset solved': /^reset solved($|\s)/,
   'help': /^help( +general)?$|^\?$/,
-  'reset': /^reset$/,
+  'reset': /^reset( +--forSolution)?$/,
   'delay': /^delay (\d+)$/,
   'clear': /^clear($|\s)/,
   'exit level': /^exit level($|\s)/,
