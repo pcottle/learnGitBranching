@@ -39,7 +39,7 @@ exports.sequenceInfo = {
   },
   rampup: {
     displayName: {
-      'en_US': 'Ramping Up',
+      'en_US': 'Ramping Up'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry'
