@@ -8671,7 +8671,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var set = this.getUpstreamSet('HEAD');
   // first resolve all the refs (as an error check)
   _.each(this.generalArgs, function(arg) {
-    var commit = this.resolveID(arg);
+    var commit = this.getCommitFromRef(arg);
     // and check that its not upstream
     if (set[commit.get('id')]) {
       throw new GitError({
@@ -8695,7 +8695,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var afterSnapshot;
   var newCommit;
   _.each(this.generalArgs, function(arg) {
-    var oldCommit = this.resolveID(arg);
+    var oldCommit = this.getCommitFromRef(arg);
     animationResponse.toRebaseArray.push(oldCommit);
 
     newCommit = this.cherrypick(arg);
@@ -15671,7 +15671,7 @@ function GitVisuals(options) {
     min: 0,
     max: 1
   };
-  this.flipFraction = 0.51;
+  this.flipFraction = 0.65;
 
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
@@ -22291,7 +22291,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var set = this.getUpstreamSet('HEAD');
   // first resolve all the refs (as an error check)
   _.each(this.generalArgs, function(arg) {
-    var commit = this.resolveID(arg);
+    var commit = this.getCommitFromRef(arg);
     // and check that its not upstream
     if (set[commit.get('id')]) {
       throw new GitError({
@@ -22315,7 +22315,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var afterSnapshot;
   var newCommit;
   _.each(this.generalArgs, function(arg) {
-    var oldCommit = this.resolveID(arg);
+    var oldCommit = this.getCommitFromRef(arg);
     animationResponse.toRebaseArray.push(oldCommit);
 
     newCommit = this.cherrypick(arg);
@@ -29852,7 +29852,7 @@ function GitVisuals(options) {
     min: 0,
     max: 1
   };
-  this.flipFraction = 0.51;
+  this.flipFraction = 0.65;
 
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);

@@ -107,4 +107,5 @@ Or reported an issue that was successfully closed!
 * Matthew Walker
 * Duane Johnson
 * Neil Chue Hong
+* "Goodwine"
 

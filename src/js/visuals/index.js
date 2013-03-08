@@ -43,7 +43,7 @@ function GitVisuals(options) {
     min: 0,
     max: 1
   };
-  this.flipFraction = 0.51;
+  this.flipFraction = 0.65;
 
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
