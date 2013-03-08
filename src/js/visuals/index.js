@@ -43,6 +43,7 @@ function GitVisuals(options) {
     min: 0,
     max: 1
   };
+  this.flipFraction = 0.51;
 
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
@@ -115,6 +116,12 @@ GitVisuals.prototype.getScreenPadding = function() {
   };
 };
 
+GitVisuals.prototype.getFlipPos = function() {
+  var min = this.posBoundaries.min;
+  var max = this.posBoundaries.max;
+  return this.flipFraction * (max - min) + min;
+};
+
 GitVisuals.prototype.toScreenCoords = function(pos) {
   if (!this.paper.width) {
     throw new Error('being called too early for screen coords');
@@ -124,7 +131,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var shrink = function(frac, total, padding) {
     return padding + frac * (total - padding * 2);
   };
-  
+
   var asymShrink = function(frac, total, paddingTop, paddingBelow) {
     return paddingTop + frac * (total - paddingBelow - paddingTop);
   };

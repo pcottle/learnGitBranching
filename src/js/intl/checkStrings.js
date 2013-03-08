@@ -8,8 +8,8 @@ var genBadKeyCommand = function(key) {
   return 'grep -r "' + key + '" ../../';
 };
 
-var easyRegex = /intl.str\('([a-zA-Z-]+)'/g;
-var hardRegex = /\s+'([a-z-]+)',/g;
+var easyRegex = /intl.str\('([a-zA-Z\-]+)'/g;
+var hardRegex = /\s+'([a-z\-]+)',/g;
 
 var findKey = function(badKey) {
   child_process.exec(genBadKeyCommand(badKey), function(err, output) {

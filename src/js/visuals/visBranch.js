@@ -77,9 +77,9 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    var threshold = this.get('gitVisuals').posBoundaries.max;
+    var threshold = this.get('gitVisuals').getFlipPos();
     // somewhat tricky flip management here
-    if (visNode.get('pos').x > threshold) {
+    if (visNode.get('pos').x > threshold || this.get('isHead')) {
       this.set('flip', -1);
     } else {
       this.set('flip', 1);

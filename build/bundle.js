@@ -15671,6 +15671,7 @@ function GitVisuals(options) {
     min: 0,
     max: 1
   };
+  this.flipFraction = 0.51;
 
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
@@ -15743,6 +15744,12 @@ GitVisuals.prototype.getScreenPadding = function() {
   };
 };
 
+GitVisuals.prototype.getFlipPos = function() {
+  var min = this.posBoundaries.min;
+  var max = this.posBoundaries.max;
+  return this.flipFraction * (max - min) + min;
+};
+
 GitVisuals.prototype.toScreenCoords = function(pos) {
   if (!this.paper.width) {
     throw new Error('being called too early for screen coords');
@@ -15752,7 +15759,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var shrink = function(frac, total, padding) {
     return padding + frac * (total - padding * 2);
   };
-  
+
   var asymShrink = function(frac, total, paddingTop, paddingBelow) {
     return paddingTop + frac * (total - paddingBelow - paddingTop);
   };
@@ -16998,9 +17005,9 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    var threshold = this.get('gitVisuals').posBoundaries.max;
+    var threshold = this.get('gitVisuals').getFlipPos();
     // somewhat tricky flip management here
-    if (visNode.get('pos').x > threshold) {
+    if (visNode.get('pos').x > threshold || this.get('isHead')) {
       this.set('flip', -1);
     } else {
       this.set('flip', 1);
@@ -23740,8 +23747,8 @@ var genBadKeyCommand = function(key) {
   return 'grep -r "' + key + '" ../../';
 };
 
-var easyRegex = /intl.str\('([a-zA-Z-]+)'/g;
-var hardRegex = /\s+'([a-z-]+)',/g;
+var easyRegex = /intl.str\('([a-zA-Z\-]+)'/g;
+var hardRegex = /\s+'([a-z\-]+)',/g;
 
 var findKey = function(badKey) {
   child_process.exec(genBadKeyCommand(badKey), function(err, output) {
@@ -29845,6 +29852,7 @@ function GitVisuals(options) {
     min: 0,
     max: 1
   };
+  this.flipFraction = 0.51;
 
   var Main = require('../app');
   Main.getEvents().on('refreshTree', this.refreshTree, this);
@@ -29917,6 +29925,12 @@ GitVisuals.prototype.getScreenPadding = function() {
   };
 };
 
+GitVisuals.prototype.getFlipPos = function() {
+  var min = this.posBoundaries.min;
+  var max = this.posBoundaries.max;
+  return this.flipFraction * (max - min) + min;
+};
+
 GitVisuals.prototype.toScreenCoords = function(pos) {
   if (!this.paper.width) {
     throw new Error('being called too early for screen coords');
@@ -29926,7 +29940,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var shrink = function(frac, total, padding) {
     return padding + frac * (total - padding * 2);
   };
-  
+
   var asymShrink = function(frac, total, paddingTop, paddingBelow) {
     return paddingTop + frac * (total - paddingBelow - paddingTop);
   };
@@ -30782,9 +30796,9 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    var threshold = this.get('gitVisuals').posBoundaries.max;
+    var threshold = this.get('gitVisuals').getFlipPos();
     // somewhat tricky flip management here
-    if (visNode.get('pos').x > threshold) {
+    if (visNode.get('pos').x > threshold || this.get('isHead')) {
       this.set('flip', -1);
     } else {
       this.set('flip', 1);
