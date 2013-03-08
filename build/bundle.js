@@ -6602,145 +6602,173 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-finished': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Wow! You finished the last level, great!'
+    'en_US': 'Wow! You finished the last level, great!',
+    'zh_CN': '我的个天！你完成了最后一关，碉堡了！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?'
+    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?',
+    'zh_CN': '要不前进到下一关 *“{nextLevel}”*？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Awesome! You matched or exceeded our solution.'
+    'en_US': 'Awesome! You matched or exceeded our solution.',
+    'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
     '__desc__': 'When the user entered more commands than our best, encourage them to do better',
-    'en_US': 'See if you can whittle it down to {best} :D'
+    'en_US': 'See if you can whittle it down to {best} :D',
+    'zh_CN': '试试看你能否在 {best} 之内搞定 :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'Detached head!'
+    'en_US': 'Detached head!',
+    'zh_CN': '脑袋搬家（Detached head）了！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'On branch {branch}'
+    'en_US': 'On branch {branch}',
+    'zh_CN': '切换到分支 {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'Ready to commit! (as always in this demo)'
+    'en_US': 'Ready to commit! (as always in this demo)',
+    'zh_CN': '可以提交啦！（这演示里一直可以提交）'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
     '__desc__': 'The dummy commit message for all commits. Feel free to put in a ' +
       'shoutout to your school / city / whatever!',
-    'en_US': 'Quick commit. Go Bears!'
+    'en_US': 'Quick commit. Go Bears!',
+    'zh_CN': '快速提交。上啊月熊！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
-      'aren\'t branches'
+      'aren\'t branches',
+    'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
     '__desc__': 'The commit message for a merge commit',
-    'en_US': 'Merge {target} into {current}'
+    'en_US': 'Merge {target} into {current}',
+    'zh_CN': '合并 {target} 到 {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied'
+    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
+    'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Nothing to do...'
+    'en_US': 'Nothing to do...',
+    'zh_CN': '没啥鸟事……'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Fast forwarding...'
+    'en_US': 'Fast forwarding...',
+    'zh_CN': '快速前进……'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Branch already up-to-date'
+    'en_US': 'Branch already up-to-date',
+    'zh_CN': '分支已经是最新啦'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'The ref {ref} does not exist or is unknown'
+    'en_US': 'The ref {ref} does not exist or is unknown',
+    'zh_CN': '索引 {ref} 不存在，或者找不到。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Commit {commit} doesnot have a {match}'
+    'en_US': 'Commit {commit} doesnot have a {match}',
+    'zh_CN': '提交 {commit} 并没有 {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'Warning!! Detached HEAD state'
+    'en_US': 'Warning!! Detached HEAD state',
+    'zh_CN': '警告！脑袋搬家（Detached HEAD）状态'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'No need to add files in this demo'
+    'en_US': 'No need to add files in this demo',
+    'zh_CN': '此演示中不需要添加文件'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Those options you specified are incompatible or incorrect'
+    'en_US': 'Those options you specified are incompatible or incorrect',
+    'zh_CN': '你所指定的参数不兼容或者不准确'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'The commit {commit} already exists in your changes set, aborting!'
+    'en_US': 'The commit {commit} already exists in your changes set, aborting!',
+    'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move'
+    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
+    'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
+    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
+    'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'There is no concept of adding / staging files, so that option or ' +
-      'command is invalid!'
+      'command is invalid!',
+    'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
     '__desc__': 'Message for reverting git command',
-    'en_US': 'Reverting {oldCommit}: {oldMsg}'
+    'en_US': 'Reverting {oldCommit}: {oldMsg}',
+    'zh_CN': '撤销 {oldCommit}：{oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'I expect at most {upper} argument(s) for {what}'
+    'en_US': 'I expect at most {upper} argument(s) for {what}',
+    'zh_CN': '{what} 期望最多 {upper} 个参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'I expect at least {lower} argument(s) for {what}'
+    'en_US': 'I expect at least {lower} argument(s) for {what}',
+    'zh_CN': '{what} 期望最少 {lower} 个参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'That command accepts no general arguments'
+    'en_US': 'That command accepts no general arguments',
+    'zh_CN': '该命令不接收参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
     '__desc__': 'The prompt to copy the tree when sharing',
-    'en_US': 'Copy the tree string below'
+    'en_US': 'Copy the tree string below',
+    'zh_CN': '拷贝下面的树字符串'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -13490,6 +13518,16 @@ require.define("/src/js/dialogs/nextLevel.js",function(require,module,exports,__
         'our solution uses {best}.'
       ]
     }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 碉堡了！',
+        '',
+        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
+      ]
+    }
   }]
 };
 
@@ -15444,6 +15482,25 @@ require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports
         '  * Edit the name with ```define name```',
         '  * Optionally define a nice start dialog with ```edit dialog```',
         '  * Enter the command ```finish``` to output your level JSON!'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎使用关卡生成器！',
+        '',
+        '主要步骤如下：',
+        '',
+        '  * 使用 git 命令布置好初始环境',
+        '  * 使用 ```define start``` 命令定义起始树',
+        '  * 输入一系列 git 命令，编好答案',
+        '  * 使用 ```define goal``` 命令定义目标树。定义目标的同时定义答案',
+        '  * 还可以用 ```define hint``` 命令定义一个提示',
+        '  * 用 ```define name``` 修改名称',
+        '  * 还可以用 ```edit dialog``` 定义一个漂亮的开始对话框',
+        '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
       ]
     }
   }]
@@ -17760,7 +17817,7 @@ exports.sequenceInfo = {
   },
   rampup: {
     displayName: {
-      'en_US': 'Ramping Up',
+      'en_US': 'Ramping Up'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry'
@@ -19214,12 +19271,13 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "9천번이 넘는 리베이스",
-    "en_US": "Rebasing over 9000 times"
+    "en_US": "Rebasing over 9000 times",
+    "zh_CN": "衍合一百遍啊一百遍"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，可能最终最高效的方法就是更新 master 分支..."
+    "zh_CN": "记住，可能最终最高效的方法就是更新主分支（master）……"
   },
   "startDialog": {
     "en_US": {
@@ -19250,7 +19308,7 @@ require.define("/levels/rebase/1.js",function(require,module,exports,__dirname,_
               "",
               "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
               "",
-              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "但是上头（upper management）找了点麻烦 —— 他们要希望提交历史是有序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
               "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
             ]
@@ -19290,12 +19348,13 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "브랜치 스파게티",
-    "en_US": "Branch Spaghetti"
+    "en_US": "Branch Spaghetti",
+    "zh_CN": "分支浆糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 one, 再操作分支 two, 最后才是分支 three"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`"
   },
   "startDialog": {
     "en_US": {
@@ -19522,7 +19581,7 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
-    "zh_CN": "Git提交戏法"
+    "zh_CN": "提交变换戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -19575,7 +19634,7 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits",
+              "## 提交变换戏法",
               "",
               "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
               "",
@@ -19718,9 +19777,9 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits #2",
+              "## 提交变换戏法 #2",
               "",
-              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "*假如你还没有完成提交变换戏法 #1（前一关），这关不让玩哦！*",
               "",
               "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
               "",
@@ -20601,6 +20660,58 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
       ]
     }
   }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎光临 LearnGitBranching!',
+        '',
+        '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
+        '希望你能喜欢这个应用，并学到知识！',
+        '',
+        '# 演示!',
+        '',
+        '如果你还没看过演示，请到此查看：',
+        '',
+        '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+        '',
+        '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
+        '',
+        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Git 命令',
+        '',
+        '在沙盒模式里，你有好多命令可用。 包括：',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 分享即关怀',
+        '',
+        '使用 `export tree` 和 `import tree` 与朋友分享 Git 树',
+        '',
+        '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
+        '',
+        '言归正传，让我们先从 `levels` 开始……'
+      ]
+    }
+  }],
   'ko': [{
     type: 'ModalAlert',
     options: {
@@ -21052,6 +21163,25 @@ require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports
         '  * Enter the command ```finish``` to output your level JSON!'
       ]
     }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎使用关卡生成器！',
+        '',
+        '主要步骤如下：',
+        '',
+        '  * 使用 git 命令布置好初始环境',
+        '  * 使用 ```define start``` 命令定义起始树',
+        '  * 输入一系列 git 命令，编好答案',
+        '  * 使用 ```define goal``` 命令定义目标树。定义目标的同时定义答案',
+        '  * 还可以用 ```define hint``` 命令定义一个提示',
+        '  * 用 ```define name``` 修改名称',
+        '  * 还可以用 ```edit dialog``` 定义一个漂亮的开始对话框',
+        '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
+      ]
+    }
   }]
 };
 
@@ -21067,6 +21197,16 @@ require.define("/src/js/dialogs/nextLevel.js",function(require,module,exports,__
         '',
         'You solved the level in *{numCommands}* command(s); ',
         'our solution uses {best}.'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 碉堡了！',
+        '',
+        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
       ]
     }
   }]
@@ -21128,6 +21268,58 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
         '',
         'For now let\'s get you started on the `levels`...'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎光临 LearnGitBranching!',
+        '',
+        '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
+        '希望你能喜欢这个应用，并学到知识！',
+        '',
+        '# 演示!',
+        '',
+        '如果你还没看过演示，请到此查看：',
+        '',
+        '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+        '',
+        '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
+        '',
+        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Git 命令',
+        '',
+        '在沙盒模式里，你有好多命令可用。 包括：',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 分享即关怀',
+        '',
+        '使用 `export tree` 和 `import tree` 与朋友分享 Git 树',
+        '',
+        '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
+        '',
+        '言归正传，让我们先从 `levels` 开始……'
       ]
     }
   }],
@@ -23922,145 +24114,173 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-finished': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Wow! You finished the last level, great!'
+    'en_US': 'Wow! You finished the last level, great!',
+    'zh_CN': '我的个天！你完成了最后一关，碉堡了！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?'
+    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?',
+    'zh_CN': '要不前进到下一关 *“{nextLevel}”*？'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Awesome! You matched or exceeded our solution.'
+    'en_US': 'Awesome! You matched or exceeded our solution.',
+    'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
     '__desc__': 'When the user entered more commands than our best, encourage them to do better',
-    'en_US': 'See if you can whittle it down to {best} :D'
+    'en_US': 'See if you can whittle it down to {best} :D',
+    'zh_CN': '试试看你能否在 {best} 之内搞定 :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'Detached head!'
+    'en_US': 'Detached head!',
+    'zh_CN': '脑袋搬家（Detached head）了！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'On branch {branch}'
+    'en_US': 'On branch {branch}',
+    'zh_CN': '切换到分支 {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
     '__desc__': 'One of the lines for git status output',
-    'en_US': 'Ready to commit! (as always in this demo)'
+    'en_US': 'Ready to commit! (as always in this demo)',
+    'zh_CN': '可以提交啦！（这演示里一直可以提交）'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
     '__desc__': 'The dummy commit message for all commits. Feel free to put in a ' +
       'shoutout to your school / city / whatever!',
-    'en_US': 'Quick commit. Go Bears!'
+    'en_US': 'Quick commit. Go Bears!',
+    'zh_CN': '快速提交。上啊月熊！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
-      'aren\'t branches'
+      'aren\'t branches',
+    'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
     '__desc__': 'The commit message for a merge commit',
-    'en_US': 'Merge {target} into {current}'
+    'en_US': 'Merge {target} into {current}',
+    'zh_CN': '合并 {target} 到 {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied'
+    'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
+    'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Nothing to do...'
+    'en_US': 'Nothing to do...',
+    'zh_CN': '没啥鸟事……'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Fast forwarding...'
+    'en_US': 'Fast forwarding...',
+    'zh_CN': '快速前进……'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
     '__desc__': 'The message that explains the result of a git command',
-    'en_US': 'Branch already up-to-date'
+    'en_US': 'Branch already up-to-date',
+    'zh_CN': '分支已经是最新啦'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'The ref {ref} does not exist or is unknown'
+    'en_US': 'The ref {ref} does not exist or is unknown',
+    'zh_CN': '索引 {ref} 不存在，或者找不到。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Commit {commit} doesnot have a {match}'
+    'en_US': 'Commit {commit} doesnot have a {match}',
+    'zh_CN': '提交 {commit} 并没有 {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'Warning!! Detached HEAD state'
+    'en_US': 'Warning!! Detached HEAD state',
+    'zh_CN': '警告！脑袋搬家（Detached HEAD）状态'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'No need to add files in this demo'
+    'en_US': 'No need to add files in this demo',
+    'zh_CN': '此演示中不需要添加文件'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Those options you specified are incompatible or incorrect'
+    'en_US': 'Those options you specified are incompatible or incorrect',
+    'zh_CN': '你所指定的参数不兼容或者不准确'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'The commit {commit} already exists in your changes set, aborting!'
+    'en_US': 'The commit {commit} already exists in your changes set, aborting!',
+    'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move'
+    'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
+    'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!'
+    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
+    'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'There is no concept of adding / staging files, so that option or ' +
-      'command is invalid!'
+      'command is invalid!',
+    'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
     '__desc__': 'Message for reverting git command',
-    'en_US': 'Reverting {oldCommit}: {oldMsg}'
+    'en_US': 'Reverting {oldCommit}: {oldMsg}',
+    'zh_CN': '撤销 {oldCommit}：{oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'I expect at most {upper} argument(s) for {what}'
+    'en_US': 'I expect at most {upper} argument(s) for {what}',
+    'zh_CN': '{what} 期望最多 {upper} 个参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'I expect at least {lower} argument(s) for {what}'
+    'en_US': 'I expect at least {lower} argument(s) for {what}',
+    'zh_CN': '{what} 期望最少 {lower} 个参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'That command accepts no general arguments'
+    'en_US': 'That command accepts no general arguments',
+    'zh_CN': '该命令不接收参数'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
     '__desc__': 'The prompt to copy the tree when sharing',
-    'en_US': 'Copy the tree string below'
+    'en_US': 'Copy the tree string below',
+    'zh_CN': '拷贝下面的树字符串'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -31791,7 +32011,7 @@ exports.sequenceInfo = {
   },
   rampup: {
     displayName: {
-      'en_US': 'Ramping Up',
+      'en_US': 'Ramping Up'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry'
@@ -33126,7 +33346,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
-    "zh_CN": "Git提交戏法"
+    "zh_CN": "提交变换戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -33179,7 +33399,7 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits",
+              "## 提交变换戏法",
               "",
               "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
               "",
@@ -33323,9 +33543,9 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juggling Commits #2",
+              "## 提交变换戏法 #2",
               "",
-              "*假如你还没有完成 Juggling Commits #1（前一关），这关不让玩哦！*",
+              "*假如你还没有完成提交变换戏法 #1（前一关），这关不让玩哦！*",
               "",
               "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
               "",
@@ -33689,12 +33909,13 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "9천번이 넘는 리베이스",
-    "en_US": "Rebasing over 9000 times"
+    "en_US": "Rebasing over 9000 times",
+    "zh_CN": "衍合一百遍啊一百遍"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，可能最终最高效的方法就是更新 master 分支..."
+    "zh_CN": "记住，可能最终最高效的方法就是更新主分支（master）……"
   },
   "startDialog": {
     "en_US": {
@@ -33725,7 +33946,7 @@ require.define("/src/levels/rebase/1.js",function(require,module,exports,__dirna
               "",
               "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
               "",
-              "但是上头（upper management）给出了一点障碍 —— 他们要希望提交历史是有顺序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "但是上头（upper management）找了点麻烦 —— 他们要希望提交历史是有序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
               "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
             ]
@@ -33766,12 +33987,13 @@ require.define("/src/levels/rebase/2.js",function(require,module,exports,__dirna
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"one\":{\"target\":\"C1\",\"id\":\"one\"},\"two\":{\"target\":\"C1\",\"id\":\"two\"},\"three\":{\"target\":\"C1\",\"id\":\"three\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "브랜치 스파게티",
-    "en_US": "Branch Spaghetti"
+    "en_US": "Branch Spaghetti",
+    "zh_CN": "分支浆糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 one, 再操作分支 two, 最后才是分支 three"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`"
   },
   "startDialog": {
     "en_US": {
