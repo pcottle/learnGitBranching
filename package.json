@@ -9,7 +9,8 @@
     "grunt-jasmine-node": "latest",
     "grunt-hash": "latest",
     "grunt-rm": "~0.0.3",
-    "grunt-shell": "latest"
+    "grunt-shell": "latest",
+    "prompt": "latest"
   },
   "dependencies": {
     "backbone": "~0.9.9",

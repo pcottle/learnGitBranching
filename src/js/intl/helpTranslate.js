@@ -8,10 +8,19 @@ var fs = require('fs');
 var _ = require('underscore');
 var Q = require('q');
 var intl = require('../intl');
+var prompt = require('prompt');
 
 var shouldBegin = Q.defer();
 var translateQueue = [];
 var outputLocale = 'pirate';
+
+var schema = {
+  properties: {
+    translation: {
+      message: 'What is the best translation for that title?'
+    }
+  }
+};
 
 var translate = function(context, path, key, blob) {
   translateQueue.push({
@@ -33,7 +42,6 @@ var processLevelIndex = function() {
     var name = intl.getIntlKey(sequence, 'displayName');
     return [
       'This is a title of a level sequence "' + name + '" ',
-      'What is the best translation for that title?'
     ].join('\n');
   };
 
@@ -112,7 +120,15 @@ var printSeparator = function() {
   var printRandomEmoji = function() {
     var emojis = [
       ':D',
-      '~~~ (> O o)> ~~~~'
+      '~~~ (> O o)> ~~~~',
+      '(╯°□°)╯︵ ┻━┻',
+      'ʕ •ᴥ•ʔ',
+      '٩(⁎❛ᴗ❛⁎)۶',
+      '୧(﹒︠ᴗ﹒︡)୨',
+      '(̿▀̿ ̿Ĺ̯̿̿▀̿ ̿)̄',
+      '( •_•)σ',
+      'ಠ_ಠ',
+      '¯\(º_o)/¯'
     ];
 
     var index = Math.floor(Math.random() * emojis.length);
@@ -126,22 +142,18 @@ var printSeparator = function() {
   printLn();
 };
 
-var printPrompt = function() {
-  console.log('(input)>>');
-};
-
 var collectInput = function(cb) {
-  setTimeout(function() {
-    cb('hihi');
-  }, 50);
+  prompt.get(schema, function(err, result) {
+    cb(result);
+  });
 };
 
 var popTranslateQueue = function(queueObj) {
   printSeparator();
   printContext(queueObj);
-  printPrompt();
 
   collectInput(function(input) {
+    console.log(input);
     outputTranslation(queueObj, input);
   });
 };
@@ -207,7 +219,8 @@ var outputTranslation = function(queueObj, input) {
 
 shouldBegin.promise
 .then(function() {
-  _.each(translateQueue, popTranslateQueue);
+  popTranslateQueue(translateQueue[0]);
+  //_.each(translateQueue, popTranslateQueue);
 });
 
 
