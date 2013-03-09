@@ -53,7 +53,7 @@ var processLevelIndex = function() {
   var genNameContext = function(sequence) {
     var name = intl.getIntlKey(sequence, 'displayName');
     return [
-      'This is a title of a level sequence "' + name + '" ',
+      'This is a title of a level sequence "' + name + '" '
     ].join('\n');
   };
 
@@ -140,8 +140,7 @@ var printSeparator = function() {
       '୧(﹒︠ᴗ﹒︡)୨',
       '(̿▀̿ ̿Ĺ̯̿̿▀̿ ̿)̄',
       '( •_•)σ',
-      'ಠ_ಠ',
-      '¯\(º_o)/¯'
+      'ಠ_ಠ'
     ];
 
     var index = Math.floor(Math.random() * emojis.length);
