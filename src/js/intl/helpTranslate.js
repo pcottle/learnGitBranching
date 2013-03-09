@@ -44,6 +44,8 @@ var translate = function(context, path, key, blob, schema) {
 // CONFIG stuff
 var findLevelsCommand = 'find ../../levels -name "*.js"';
 
+// START functions
+
 var processLevelIndex = function() {
   var path = '../../levels';
   var sequenceInfo = require(path).sequenceInfo;
@@ -71,14 +73,16 @@ var processLevelIndex = function() {
       genNameContext(sequence),
       path,
       'displayName',
-      sequence.displayName
+      sequence.displayName,
+      titleSchema
     );
 
     translate(
       genAboutContext(sequence),
       path,
       'about',
-      sequence.about
+      sequence.about,
+      aboutSchema
     );
   });
 };
@@ -151,10 +155,20 @@ var printSeparator = function() {
   printLn();
 };
 
-var collectInput = function(cb) {
-  prompt.get(schema, function(err, result) {
-    cb(result);
-  });
+var collectInput = function(schema, cb) {
+  var defer = Q.defer();
+  Q.nfcall(prompt.get, schema)
+  .then(defer.resolve)
+  .fail(defer.reject)
+  .done();
+  return defer.promise;
+};
+
+var getInput = function(obj) {
+  if (!obj || !_.keys(obj).length) {
+    return null;
+  }
+  return obj[_.keys(obj)[0]];
 };
 
 var popTranslateQueue = function(queueObj) {
@@ -162,11 +176,17 @@ var popTranslateQueue = function(queueObj) {
   printSeparator();
   printContext(queueObj);
 
-  collectInput(function(input) {
+  collectInput(queueObj.schema)
+  .then(function(inputObj) {
+    var input = getInput(inputObj);
+
     console.log(input);
     outputTranslation(queueObj, input);
     defer.resolve();
-  });
+  })
+  .fail(defer.reject)
+  .done();
+
   return defer.promise;
 };
 
@@ -198,7 +218,7 @@ var appendLineAfterNeedleToFile = function(path, needle, line) {
   var fileContents = fs.readFileSync(endPath).toString();
   var fileLines = fileContents.split('\n');
 
-  var toEscape = '()[]?+*'.split('');
+  var toEscape = '()[]?+*\''.split('');
   _.each(toEscape, function(chr) {
     needle = needle.replace(chr, '\\' + chr);
   });
@@ -213,6 +233,7 @@ var appendLineAfterNeedleToFile = function(path, needle, line) {
 
   if (numberMatches !== 1) {
     console.log('WARNING couldnt find needle\n', needle, 'in path\n', endPath);
+    console.log(numberMatches);
     return;
   }
 
@@ -231,6 +252,7 @@ var outputTranslation = function(queueObj, input) {
 
 shouldBegin.promise
 .then(function() {
+  console.log('translating ' + translateQueue.length + ' items');
   // the tricky thing here is that we need to make a chain of promises
   var popChain = Q.defer();
   var promise = popChain.promise;
@@ -239,8 +261,10 @@ shouldBegin.promise
       return popTranslateQueue(queueItem);
     });
   });
+  promise.fail(function(err) {
+    console.log('ERROR:\n' + err);
+  });
 
   popChain.resolve();
 });
-
 
