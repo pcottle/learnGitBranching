@@ -9,22 +9,32 @@ var _ = require('underscore');
 var Q = require('q');
 var intl = require('../intl');
 var prompt = require('prompt');
+prompt.start();
 
 var shouldBegin = Q.defer();
 var translateQueue = [];
 var outputLocale = 'pirate';
 
-var schema = {
+var titleSchema = {
   properties: {
-    translation: {
+    title: {
       message: 'What is the best translation for that title?'
     }
   }
 };
 
-var translate = function(context, path, key, blob) {
+var aboutSchema = {
+  properties: {
+    about: {
+      message: 'What is the best translation for that about section?'
+    }
+  }
+};
+
+var translate = function(context, path, key, blob, schema) {
   translateQueue.push({
     context: context,
+    schema: schema,
     path: path,
     key: key,
     blob: blob
@@ -52,8 +62,7 @@ var processLevelIndex = function() {
       'For the level sequence "' + name + '",',
       'the about section is:',
       '~~"' + about + '"',
-      '',
-      'What is the best translation for the about section?'
+      ''
     ].join('\n');
   };
 
@@ -149,13 +158,16 @@ var collectInput = function(cb) {
 };
 
 var popTranslateQueue = function(queueObj) {
+  var defer = Q.defer();
   printSeparator();
   printContext(queueObj);
 
   collectInput(function(input) {
     console.log(input);
     outputTranslation(queueObj, input);
+    defer.resolve();
   });
+  return defer.promise;
 };
 
 var appendLineAfterNeedleToFile = function(path, needle, line) {
@@ -219,8 +231,16 @@ var outputTranslation = function(queueObj, input) {
 
 shouldBegin.promise
 .then(function() {
-  popTranslateQueue(translateQueue[0]);
-  //_.each(translateQueue, popTranslateQueue);
+  // the tricky thing here is that we need to make a chain of promises
+  var popChain = Q.defer();
+  var promise = popChain.promise;
+  _.each(translateQueue, function(queueItem) {
+    promise = promise.then(function() {
+      return popTranslateQueue(queueItem);
+    });
+  });
+
+  popChain.resolve();
 });
 
 
