@@ -49,6 +49,8 @@ exports.dialog = {
         '',
         'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
         '',
+        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
+        '',
         'For now let\'s get you started on the `levels`...'
       ]
     }

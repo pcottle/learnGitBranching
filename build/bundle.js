@@ -14946,21 +14946,37 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
     }
   }, this);
 
-  var prevBound = min;
+  var checkPortion = function(portion, index) {
+    if (myLength < 0.99 || children.length < 2) {
+      return portion;
+    }
+    // we introduce a VERY specific rule here, to push out
+    // the first "divergence" of the graph
+    if (index === 0) {
+      portion *= 1/3;
+    } else if (index === children.length - 1) {
+      portion *= 5/3;
+    }
+    return portion;
+  };
 
+  var prevBound = min;
   // now go through and do everything
   // TODO: order so the max width children are in the middle!!
-  _.each(children, function(child) {
+  _.each(children, function(child, index) {
     if (!child.isMainParent(commit)) {
       return;
     }
 
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
+    var adjustedPortion = checkPortion(portion, index);
+
     var childMin = prevBound;
-    var childMax = childMin + portion;
+    var childMax = childMin + adjustedPortion;
+
     this.assignBoundsRecursive(child, childMin, childMax);
-    prevBound = childMax;
+    prevBound = childMin + portion;
   }, this);
 };
 
@@ -19733,6 +19749,8 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
         '',
+        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
+        '',
         'For now let\'s get you started on the `levels`...'
       ]
     }
@@ -20349,6 +20367,8 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         'Share trees with your friends via `export tree` and `import tree`',
         '',
         'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
+        '',
+        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
         '',
         'For now let\'s get you started on the `levels`...'
       ]
@@ -29239,21 +29259,37 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
     }
   }, this);
 
-  var prevBound = min;
+  var checkPortion = function(portion, index) {
+    if (myLength < 0.99 || children.length < 2) {
+      return portion;
+    }
+    // we introduce a VERY specific rule here, to push out
+    // the first "divergence" of the graph
+    if (index === 0) {
+      portion *= 1/3;
+    } else if (index === children.length - 1) {
+      portion *= 5/3;
+    }
+    return portion;
+  };
 
+  var prevBound = min;
   // now go through and do everything
   // TODO: order so the max width children are in the middle!!
-  _.each(children, function(child) {
+  _.each(children, function(child, index) {
     if (!child.isMainParent(commit)) {
       return;
     }
 
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
+    var adjustedPortion = checkPortion(portion, index);
+
     var childMin = prevBound;
-    var childMax = childMin + portion;
+    var childMax = childMin + adjustedPortion;
+
     this.assignBoundsRecursive(child, childMin, childMax);
-    prevBound = childMax;
+    prevBound = childMin + portion;
   }, this);
 };
 
