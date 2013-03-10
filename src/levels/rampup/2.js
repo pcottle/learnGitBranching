@@ -31,12 +31,12 @@ exports.level = {
             "markdowns": [
               "Like I said, specifying commits by their hash isn't the most convenient thing ever, which is why Git has relative refs. They are awesome!",
               "",
-              "You can essentially start somewhere memorable (like the branch `bugFix` or `HEAD`) and work backwards from there.",
+              "With relative refs, you can start somewhere memorable (like the branch `bugFix` or `HEAD`) and work from there.",
               "",
               "Relative commits are powerful, but we will introduce two simple ones here:",
               "",
-              "* Moving backwards once at a time with `^`",
-              "* Moving backwards a number of times with `~<num>`"
+              "* Moving upwards once at a time with `^`",
+              "* Moving upwards a number of times with `~<num>`"
             ]
           }
         },
@@ -44,12 +44,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's look at the Caret (^) operator first. Each time you append that to a ref name, you are telling git to go one more backwards.",
+              "Let's look at the Caret (^) operator first. Each time you append that to a ref name, you are telling Git to find the parent of the specified commit.",
               "",
-              "Let's check out the commit behind master here"
+              "So saying `master^` is equivalent to \"the first parent of `master`\".",
+              "",
+              "`master^^` is the second parent (or grandparent) of `master`",
+              "",
+              "Let's check out the commit above master here"
             ],
             "afterMarkdowns": [
-              "Boom! Done. Way easier than typing the commit name"
+              "Boom! Done. Way easier than typing the commit hash"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -59,7 +63,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "You can also reference `HEAD` as a relative ref. Let's use that a couple of times to move backwards"
+              "You can also reference `HEAD` as a relative ref. Let's use that a couple of times to move upwards in the commit tree"
             ],
             "afterMarkdowns": [
               "Easy! We can travel backwards in time with `HEAD^`"
@@ -72,7 +76,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, check out the commit **behind** `bugFix` now. ",
+              "To complete this level, check out the parent commit of `bugFix`. This will detach `HEAD`.",
               "",
               "You can specify the hash if you want, but try using relative refs instead!"
             ]

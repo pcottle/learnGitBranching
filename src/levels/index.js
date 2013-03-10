@@ -9,7 +9,9 @@ exports.levelSequences = {
   ],
   rampup: [
     require('../../levels/rampup/1').level,
-    require('../../levels/rampup/2').level
+    require('../../levels/rampup/2').level,
+    require('../../levels/rampup/3').level,
+    require('../../levels/rampup/4').level
   ],
   rebase: [
     require('../../levels/rebase/1').level,
