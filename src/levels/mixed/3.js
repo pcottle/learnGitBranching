@@ -6,10 +6,10 @@ exports.level = {
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMasterHashAgnosticWithAsserts": true,
-  "asserts": {
+  "goalAsserts": {
     "master": [
       function(data) {
-        return data.C2 === data.C3 + 1;
+        return data.C2 > data.C3;
       },
       function(data) {
         return data.C2 > data.C1;

@@ -321,7 +321,6 @@ var Level = Sandbox.extend({
     } else if (this.level.compareOnlyMasterHashAgnostic) {
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      console.log('doing it this way');
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
       solved = solved && this.treeCompare.evalAsserts(
         current,

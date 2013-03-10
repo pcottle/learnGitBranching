@@ -6310,7 +6310,6 @@ var Level = Sandbox.extend({
     } else if (this.level.compareOnlyMasterHashAgnostic) {
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      console.log('doing it this way');
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
       solved = solved && this.treeCompare.evalAsserts(
         current,
@@ -9104,12 +9103,13 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
 };
 
 TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
-
   var result = true;
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
-  return true;
+
+  console.log('EVAL ASSETS was', result);
+  return result;
 };
 
 TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
@@ -9126,10 +9126,12 @@ TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) 
     return false;
   }
 
-  var queue = [branchName.target];
+  var branch = tree.branches[branchName];
+  var queue = [branch.target];
   var data = {};
   while (queue.length) {
     var commitRef = queue.pop();
+    console.log(commitRef);
     data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
 
     queue = queue.concat(tree.commits[commitRef].parents);
@@ -9188,11 +9190,15 @@ TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
 
   // some buildup functions
   var getStrippedCommitCopy = _.bind(function(commit) {
+    if (!commit) { return {}; }
     return _.extend(
       {},
       commit,
-      {id: this.getBaseRef(commit.id)
-    });
+      {
+        id: this.getBaseRef(commit.id),
+        parents: null
+      }
+    );
   }, this);
 
   var isEqual = function(commitA, commitB) {
@@ -9219,8 +9225,9 @@ TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
     // we loop through each parent ID. we sort the parent ID's beforehand
     // so the index lookup is valid. for merge commits this will duplicate some of the
     // checking (because we aren't doing graph search) but it's not a huge deal
-    var allParents = _.unique(commitA.parents.concat(commitB.parents));
-    _.each(allParents, function(pAid, index) {
+    var maxNumParents = Math.max(commitA.parents.length, commitB.parents.length);
+    _.each(_.range(maxNumParents), function(index) {
+      var pAid = commitA.parents[index];
       var pBid = commitB.parents[index];
 
       // if treeA or treeB doesn't have this parent,
@@ -18898,10 +18905,10 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMasterHashAgnosticWithAsserts": true,
-  "asserts": {
+  "goalAsserts": {
     "master": [
       function(data) {
-        return data.C2 === data.C3 + 1;
+        return data.C2 > data.C3;
       },
       function(data) {
         return data.C2 > data.C1;
@@ -22798,12 +22805,13 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
 };
 
 TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
-
   var result = true;
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
-  return true;
+
+  console.log('EVAL ASSETS was', result);
+  return result;
 };
 
 TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
@@ -22820,10 +22828,12 @@ TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) 
     return false;
   }
 
-  var queue = [branchName.target];
+  var branch = tree.branches[branchName];
+  var queue = [branch.target];
   var data = {};
   while (queue.length) {
     var commitRef = queue.pop();
+    console.log(commitRef);
     data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
 
     queue = queue.concat(tree.commits[commitRef].parents);
@@ -22882,11 +22892,15 @@ TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
 
   // some buildup functions
   var getStrippedCommitCopy = _.bind(function(commit) {
+    if (!commit) { return {}; }
     return _.extend(
       {},
       commit,
-      {id: this.getBaseRef(commit.id)
-    });
+      {
+        id: this.getBaseRef(commit.id),
+        parents: null
+      }
+    );
   }, this);
 
   var isEqual = function(commitA, commitB) {
@@ -22913,8 +22927,9 @@ TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
     // we loop through each parent ID. we sort the parent ID's beforehand
     // so the index lookup is valid. for merge commits this will duplicate some of the
     // checking (because we aren't doing graph search) but it's not a huge deal
-    var allParents = _.unique(commitA.parents.concat(commitB.parents));
-    _.each(allParents, function(pAid, index) {
+    var maxNumParents = Math.max(commitA.parents.length, commitB.parents.length);
+    _.each(_.range(maxNumParents), function(index) {
+      var pAid = commitA.parents[index];
       var pBid = commitB.parents[index];
 
       // if treeA or treeB doesn't have this parent,
@@ -24486,7 +24501,6 @@ var Level = Sandbox.extend({
     } else if (this.level.compareOnlyMasterHashAgnostic) {
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      console.log('doing it this way');
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
       solved = solved && this.treeCompare.evalAsserts(
         current,
@@ -32637,10 +32651,10 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "compareOnlyMasterHashAgnosticWithAsserts": true,
-  "asserts": {
+  "goalAsserts": {
     "master": [
       function(data) {
-        return data.C2 === data.C3 + 1;
+        return data.C2 > data.C3;
       },
       function(data) {
         return data.C2 > data.C1;
