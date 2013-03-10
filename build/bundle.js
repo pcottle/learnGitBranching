@@ -18609,7 +18609,14 @@ require.define("/levels/rebase/2.js",function(require,module,exports,__dirname,_
 });
 
 require.define("/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyMasterHashAgnostic": true,
+  "compareOnlyMasterHashAgnosticWithAsserts": true,
+  "goalAsserts": {
+    "master": [
+      function(data) {
+        return data.C4 > data.C1;
+      }
+    ]
+  },
   "disabledMap": {
     "git revert": true
   },
@@ -18818,7 +18825,9 @@ require.define("/levels/mixed/2.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
+              "",
+              "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit"
             ]
           }
         }
@@ -18971,7 +18980,9 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
+              "",
+              "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere"
             ]
           }
         }
@@ -32363,7 +32374,14 @@ require.define("/src/levels/intro/4.js",function(require,module,exports,__dirnam
 require("/src/levels/intro/4.js");
 
 require.define("/src/levels/mixed/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "compareOnlyMasterHashAgnostic": true,
+  "compareOnlyMasterHashAgnosticWithAsserts": true,
+  "goalAsserts": {
+    "master": [
+      function(data) {
+        return data.C4 > data.C1;
+      }
+    ]
+  },
   "disabledMap": {
     "git revert": true
   },
@@ -32573,7 +32591,9 @@ require.define("/src/levels/mixed/2.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree "
+              "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
+              "",
+              "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit"
             ]
           }
         }
@@ -32727,7 +32747,9 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D"
+              "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
+              "",
+              "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere"
             ]
           }
         }

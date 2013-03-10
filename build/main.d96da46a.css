@@ -193,9 +193,9 @@ div.canvasTerminalHolder {
 }
 
 div.gitDemonstrationView > div.visHolder,
-#mainVisSpace {
-  background: #24A7FF;
-  background-color: #24A7FF;
+.visBackgroundColor {
+  background: #5cbcfc;
+  background-color: #5cbcfc;
 }
 
 #interfaceWrapper {
@@ -259,10 +259,6 @@ div.canvasTerminalHolder > div.terminal-window-holder div.inside {
 
 div.canvasTerminalHolder > div.terminal-window-holder {
   max-width: 500px;
-}
-
-#controls {
-  background: #EEE;
 }
 
 /* Toolbar */
@@ -470,6 +466,7 @@ p.commandLine span.prompt {
 #commandLineHistory {
   margin: 10px;
   border-radius: 5px;
+  box-shadow: 1px 0px 15px rgba(255,255,255,1);
 }
 
 #commandLineHistory #terminal.scrolling {
@@ -515,6 +512,7 @@ li.rebaseEntry,
 
 #terminal {
   border-bottom: 0;
+  padding: 0 5px;
 }
 
 #commandLineBar,

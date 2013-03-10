@@ -1,5 +1,12 @@
 exports.level = {
-  "compareOnlyMasterHashAgnostic": true,
+  "compareOnlyMasterHashAgnosticWithAsserts": true,
+  "goalAsserts": {
+    "master": [
+      function(data) {
+        return data.C4 > data.C1;
+      }
+    ]
+  },
   "disabledMap": {
     "git revert": true
   },
