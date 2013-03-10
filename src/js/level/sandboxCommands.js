@@ -33,9 +33,9 @@ var instantCommands = [
     });
   }],
   [/^show$/, function(bits) {
-
-    lines = [
+    var lines = [
       intl.str('show-command'),
+      '<br/>',
       'show commands',
       'show solution',
       'show goal'
@@ -78,6 +78,20 @@ var instantCommands = [
     throw new CommandResult({
       msg: msg
     });
+  }],
+  [/^show +commands$/, function(bits) {
+    var allCommands = getAllCommands();
+    var lines = [
+      intl.str('show-all-commands'),
+      '<br/>'
+    ];
+    _.each(allCommands, function(regex, command) {
+      lines.push(command);
+    });
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
   }]
 ];
 
@@ -97,6 +111,24 @@ var regexMap = {
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
   'undo': /^undo($|\s)/
+};
+
+var getAllCommands = function() {
+  var toDelete = [
+    'mobileAlert'
+  ];
+
+  var allCommands = _.extend(
+    {},
+    require('../git/commands').regexMap,
+    require('../level').regexMap,
+    regexMap
+  );
+  _.each(toDelete, function(key) {
+    delete allCommands[key];
+  });
+
+  return allCommands;
 };
 
 exports.instantCommands = instantCommands;

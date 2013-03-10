@@ -5591,6 +5591,16 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'zh_CN': '语言重置为默认的 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'show-command': {
+    '__desc__': 'command output title from "show"',
+    'en_US': 'Please use one of the following commands for more info:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'show-all-commands': {
+    '__desc__': 'command output title from "show commands"',
+    'en_US': 'Here is a list of all the commmands available:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
     '__desc__': 'dummy command output for the command in the key',
     'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
@@ -12806,6 +12816,19 @@ var instantCommands = [
       )
     });
   }],
+  [/^show$/, function(bits) {
+    var lines = [
+      intl.str('show-command'),
+      '<br/>',
+      'show commands',
+      'show solution',
+      'show goal'
+    ];
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
+  }],
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
@@ -12839,6 +12862,20 @@ var instantCommands = [
     throw new CommandResult({
       msg: msg
     });
+  }],
+  [/^show +commands$/, function(bits) {
+    var allCommands = getAllCommands();
+    var lines = [
+      intl.str('show-all-commands'),
+      '<br/>'
+    ];
+    _.each(allCommands, function(regex, command) {
+      lines.push(command);
+    });
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
   }]
 ];
 
@@ -12858,6 +12895,24 @@ var regexMap = {
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
   'undo': /^undo($|\s)/
+};
+
+var getAllCommands = function() {
+  var toDelete = [
+    'mobileAlert'
+  ];
+
+  var allCommands = _.extend(
+    {},
+    require('../git/commands').regexMap,
+    require('../level').regexMap,
+    regexMap
+  );
+  _.each(toDelete, function(key) {
+    delete allCommands[key];
+  });
+
+  return allCommands;
 };
 
 exports.instantCommands = instantCommands;
@@ -23167,6 +23222,16 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'zh_CN': '语言重置为默认的 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'show-command': {
+    '__desc__': 'command output title from "show"',
+    'en_US': 'Please use one of the following commands for more info:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'show-all-commands': {
+    '__desc__': 'command output title from "show commands"',
+    'en_US': 'Here is a list of all the commmands available:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
     '__desc__': 'dummy command output for the command in the key',
     'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
@@ -24990,6 +25055,19 @@ var instantCommands = [
       )
     });
   }],
+  [/^show$/, function(bits) {
+    var lines = [
+      intl.str('show-command'),
+      '<br/>',
+      'show commands',
+      'show solution',
+      'show goal'
+    ];
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
+  }],
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 
@@ -25023,6 +25101,20 @@ var instantCommands = [
     throw new CommandResult({
       msg: msg
     });
+  }],
+  [/^show +commands$/, function(bits) {
+    var allCommands = getAllCommands();
+    var lines = [
+      intl.str('show-all-commands'),
+      '<br/>'
+    ];
+    _.each(allCommands, function(regex, command) {
+      lines.push(command);
+    });
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
   }]
 ];
 
@@ -25042,6 +25134,24 @@ var regexMap = {
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
   'undo': /^undo($|\s)/
+};
+
+var getAllCommands = function() {
+  var toDelete = [
+    'mobileAlert'
+  ];
+
+  var allCommands = _.extend(
+    {},
+    require('../git/commands').regexMap,
+    require('../level').regexMap,
+    regexMap
+  );
+  _.each(toDelete, function(key) {
+    delete allCommands[key];
+  });
+
+  return allCommands;
 };
 
 exports.instantCommands = instantCommands;

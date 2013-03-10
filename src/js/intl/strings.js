@@ -245,8 +245,13 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
-    '__desc__': 'command output from "show"',
-    'en_US': 'Please one of the following commands for more info:'
+    '__desc__': 'command output title from "show"',
+    'en_US': 'Please use one of the following commands for more info:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'show-all-commands': {
+    '__desc__': 'command output title from "show commands"',
+    'en_US': 'Here is a list of all the commmands available:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
