@@ -15754,10 +15754,13 @@ var VisBranch = VisBase.extend({
 
     var threshold = this.get('gitVisuals').getFlipPos();
     // somewhat tricky flip management here
-    if (visNode.get('pos').x > threshold || this.get('isHead')) {
-      this.set('flip', -1);
+    var flip;
+    if (visNode.get('pos').x > threshold) {
+      flip = (this.get('isHead')) ? 1 : -1;
+      this.set('flip', flip);
     } else {
-      this.set('flip', 1);
+      flip = (this.get('isHead')) ? -1 : 1;
+      this.set('flip', flip);
     }
     return visNode.getScreenCoords();
   },
@@ -16550,6 +16553,7 @@ exports.levelSequences = {
     require('../../levels/intro/4').level
   ],
   rampup: [
+    require('../../levels/rampup/1').level,
     require('../../levels/rampup/2').level
   ],
   rebase: [
@@ -17749,6 +17753,99 @@ require.define("/levels/intro/4.js",function(require,module,exports,__dirname,__
   }
 };
 
+});
+
+require.define("/levels/rampup/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git checkout C4",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Detach yo' HEAD"
+  },
+  "hint": {
+    "en_US": "Use the label (hash) on the commit for help!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moving around in Git",
+              "",
+              "Before we get to some of the more advanced features of Git, it's important to understand different ways to move through the commit tree that represents your project.",
+              "",
+              "Once you're comfortable moving around, your powers with other git commands will be amplified!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "First we have to talk about \"HEAD.\" HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.",
+              "",
+              "The working directory will always match the current state of HEAD, so by moving HEAD, you actually change the contents of your directory.",
+              "",
+              "Normally HEAD points to a branch name (like `bugFix`). When you commit, both bugFix and HEAD move together"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this in action. Here we will reveal HEAD before and after a commit."
+            ],
+            "afterMarkdowns": [
+              "See! HEAD was hiding underneath our `master` branch all along."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Detaching HEAD",
+              "",
+              "Detaching HEAD just means attaching it to a commit instead of a branch. This is what it looks like beforehand:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "And now it's",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, let's detach HEAD to the commit that `bugFix` is pointing to.",
+              "",
+              "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
 });
 
 require.define("/levels/rampup/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -29344,10 +29441,13 @@ var VisBranch = VisBase.extend({
 
     var threshold = this.get('gitVisuals').getFlipPos();
     // somewhat tricky flip management here
-    if (visNode.get('pos').x > threshold || this.get('isHead')) {
-      this.set('flip', -1);
+    var flip;
+    if (visNode.get('pos').x > threshold) {
+      flip = (this.get('isHead')) ? 1 : -1;
+      this.set('flip', flip);
     } else {
-      this.set('flip', 1);
+      flip = (this.get('isHead')) ? -1 : 1;
+      this.set('flip', flip);
     }
     return visNode.getScreenCoords();
   },
@@ -30540,6 +30640,7 @@ exports.levelSequences = {
     require('../../levels/intro/4').level
   ],
   rampup: [
+    require('../../levels/rampup/1').level,
     require('../../levels/rampup/2').level
   ],
   rebase: [
@@ -32183,6 +32284,100 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
 };
 });
 require("/src/levels/mixed/3.js");
+
+require.define("/src/levels/rampup/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git checkout C4",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Detach yo' HEAD"
+  },
+  "hint": {
+    "en_US": "Use the label (hash) on the commit for help!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moving around in Git",
+              "",
+              "Before we get to some of the more advanced features of Git, it's important to understand different ways to move through the commit tree that represents your project.",
+              "",
+              "Once you're comfortable moving around, your powers with other git commands will be amplified!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "First we have to talk about \"HEAD.\" HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.",
+              "",
+              "The working directory will always match the current state of HEAD, so by moving HEAD, you actually change the contents of your directory.",
+              "",
+              "Normally HEAD points to a branch name (like `bugFix`). When you commit, both bugFix and HEAD move together"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this in action. Here we will reveal HEAD before and after a commit."
+            ],
+            "afterMarkdowns": [
+              "See! HEAD was hiding underneath our `master` branch all along."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Detaching HEAD",
+              "",
+              "Detaching HEAD just means attaching it to a commit instead of a branch. This is what it looks like beforehand:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "And now it's",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, let's detach HEAD to the commit that `bugFix` is pointing to.",
+              "",
+              "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+});
+require("/src/levels/rampup/1.js");
 
 require.define("/src/levels/rampup/2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",

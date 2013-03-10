@@ -79,10 +79,13 @@ var VisBranch = VisBase.extend({
 
     var threshold = this.get('gitVisuals').getFlipPos();
     // somewhat tricky flip management here
-    if (visNode.get('pos').x > threshold || this.get('isHead')) {
-      this.set('flip', -1);
+    var flip;
+    if (visNode.get('pos').x > threshold) {
+      flip = (this.get('isHead')) ? 1 : -1;
+      this.set('flip', flip);
     } else {
-      this.set('flip', 1);
+      flip = (this.get('isHead')) ? -1 : 1;
+      this.set('flip', flip);
     }
     return visNode.getScreenCoords();
   },

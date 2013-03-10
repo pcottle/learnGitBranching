@@ -178,7 +178,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('build', 'rm browserify min hash buildIndex shell');
-  grunt.registerTask('fastBuild', 'rm browserify hash buildIndex shell');
+  grunt.registerTask('fastBuild', 'rm browserify hash buildIndex');
 
   grunt.registerTask('default', 'lint lintStrings jasmine_node build compliment');
 
