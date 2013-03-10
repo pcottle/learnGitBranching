@@ -6297,6 +6297,7 @@ var Level = Sandbox.extend({
     }
 
     // TODO refactor this ugly ass switch statement...
+    // BIG TODO REALLY REFACTOR HAX HAX
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
@@ -6308,6 +6309,13 @@ var Level = Sandbox.extend({
       solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
     } else if (this.level.compareOnlyMasterHashAgnostic) {
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+    } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
+      console.log('doing it this way');
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = solved && this.treeCompare.evalAsserts(
+        current,
+        this.level.goalAsserts
+      );
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
@@ -7757,6 +7765,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
     }]
   ];
 
+  // for loop for early return
   for (var i = 0; i < regexMap.length; i++) {
     var regex = regexMap[i][0];
     var func = regexMap[i][1];
@@ -9092,6 +9101,76 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
       recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
   }, this);
   return result;
+};
+
+TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
+
+  var result = true;
+  _.each(assertsPerBranch, function(asserts, branchName) {
+    result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
+  }, this);
+  return true;
+};
+
+TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
+  tree = this.convertTreeSafe(tree);
+
+  // here is the outline:
+  // * make a data object
+  // * go to the branch given by the key
+  // * traverse upwards, storing the amount of hashes on each in the data object
+  // * then come back and perform functions on data
+  console.log('doing asserts on', branchName);
+
+  if (!tree.branches[branchName]) {
+    return false;
+  }
+
+  var queue = [branchName.target];
+  var data = {};
+  while (queue.length) {
+    var commitRef = queue.pop();
+    data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
+
+    queue = queue.concat(tree.commits[commitRef].parents);
+  }
+
+  console.log('data is', data);
+  var result = true;
+  _.each(asserts, function(assert) {
+    try {
+      result = result && assert(data);
+    } catch (err) {
+      console.err(err);
+      result = false;
+    }
+  });
+
+  return result;
+};
+
+TreeCompare.prototype.getNumHashes = function(ref) {
+  var regexMap = [
+    [/^C(\d+)([']{0,3})$/, function(bits) {
+      if (!bits[2]) {
+        return 0;
+      }
+      return bits[2].length;
+    }],
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
+      return Number(bits[2]);
+    }]
+  ];
+
+  for (var i = 0; i < regexMap.length; i++) {
+    var regex = regexMap[i][0];
+    var func = regexMap[i][1];
+    var results = regex.exec(ref);
+    if (results) {
+      return func(results);
+    }
+  }
+  throw new Error('coudlnt parse ref ' + ref);
 };
 
 TreeCompare.prototype.getBaseRef = function(ref) {
@@ -14925,9 +15004,10 @@ GitVisuals.prototype.maxWidthRecursive = function(commit) {
   return maxWidth;
 };
 
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  // I always center myself within my bounds
-  var myWidthPos = (min + max) / 2.0;
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFrac) {
+  centerFrac = (centerFrac === undefined) ? 0.5 : centerFrac;
+  // I always position myself within my bounds
+  var myWidthPos = min + (max - min) * centerFrac;
   commit.get('visNode').get('pos').x = myWidthPos;
 
   if (commit.get('children').length === 0) {
@@ -14946,23 +15026,29 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
     }
   }, this);
 
-  var checkPortion = function(portion, index) {
-    if (myLength < 0.99 || children.length < 2) {
-      return portion;
+  // TODO: refactor into another method
+  var getCenterFrac = function(index, centerFrac) {
+    if (myLength < 0.99) {
+      if (children.length < 2) {
+        return centerFrac;
+      } else {
+        return 0.5;
+      }
+    }
+    if (children.length < 2) {
+      return 0.5;
     }
     // we introduce a VERY specific rule here, to push out
     // the first "divergence" of the graph
     if (index === 0) {
-      portion *= 1/3;
+      return 1/3;
     } else if (index === children.length - 1) {
-      portion *= 5/3;
+      return 2/3;
     }
-    return portion;
+    return centerFrac;
   };
 
   var prevBound = min;
-  // now go through and do everything
-  // TODO: order so the max width children are in the middle!!
   _.each(children, function(child, index) {
     if (!child.isMainParent(commit)) {
       return;
@@ -14970,12 +15056,12 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
 
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
-    var adjustedPortion = checkPortion(portion, index);
+    var thisCenterFrac = getCenterFrac(index, centerFrac);
 
     var childMin = prevBound;
-    var childMax = childMin + adjustedPortion;
+    var childMax = childMin + portion;
 
-    this.assignBoundsRecursive(child, childMin, childMax);
+    this.assignBoundsRecursive(child, childMin, childMax, thisCenterFrac);
     prevBound = childMin + portion;
   }, this);
 };
@@ -18811,7 +18897,17 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
     "git revert": true
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnosticWithAsserts": true,
+  "asserts": {
+    "master": [
+      function(data) {
+        return data.C2 === data.C3 + 1;
+      },
+      function(data) {
+        return data.C2 > data.C1;
+      }
+    ]
+  },
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",
@@ -21716,6 +21812,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
     }]
   ];
 
+  // for loop for early return
   for (var i = 0; i < regexMap.length; i++) {
     var regex = regexMap[i][0];
     var func = regexMap[i][1];
@@ -22698,6 +22795,76 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
       recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
   }, this);
   return result;
+};
+
+TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
+
+  var result = true;
+  _.each(assertsPerBranch, function(asserts, branchName) {
+    result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
+  }, this);
+  return true;
+};
+
+TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
+  tree = this.convertTreeSafe(tree);
+
+  // here is the outline:
+  // * make a data object
+  // * go to the branch given by the key
+  // * traverse upwards, storing the amount of hashes on each in the data object
+  // * then come back and perform functions on data
+  console.log('doing asserts on', branchName);
+
+  if (!tree.branches[branchName]) {
+    return false;
+  }
+
+  var queue = [branchName.target];
+  var data = {};
+  while (queue.length) {
+    var commitRef = queue.pop();
+    data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
+
+    queue = queue.concat(tree.commits[commitRef].parents);
+  }
+
+  console.log('data is', data);
+  var result = true;
+  _.each(asserts, function(assert) {
+    try {
+      result = result && assert(data);
+    } catch (err) {
+      console.err(err);
+      result = false;
+    }
+  });
+
+  return result;
+};
+
+TreeCompare.prototype.getNumHashes = function(ref) {
+  var regexMap = [
+    [/^C(\d+)([']{0,3})$/, function(bits) {
+      if (!bits[2]) {
+        return 0;
+      }
+      return bits[2].length;
+    }],
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
+      return Number(bits[2]);
+    }]
+  ];
+
+  for (var i = 0; i < regexMap.length; i++) {
+    var regex = regexMap[i][0];
+    var func = regexMap[i][1];
+    var results = regex.exec(ref);
+    if (results) {
+      return func(results);
+    }
+  }
+  throw new Error('coudlnt parse ref ' + ref);
 };
 
 TreeCompare.prototype.getBaseRef = function(ref) {
@@ -24306,6 +24473,7 @@ var Level = Sandbox.extend({
     }
 
     // TODO refactor this ugly ass switch statement...
+    // BIG TODO REALLY REFACTOR HAX HAX
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
@@ -24317,6 +24485,13 @@ var Level = Sandbox.extend({
       solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
     } else if (this.level.compareOnlyMasterHashAgnostic) {
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+    } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
+      console.log('doing it this way');
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = solved && this.treeCompare.evalAsserts(
+        current,
+        this.level.goalAsserts
+      );
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
@@ -29238,9 +29413,10 @@ GitVisuals.prototype.maxWidthRecursive = function(commit) {
   return maxWidth;
 };
 
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
-  // I always center myself within my bounds
-  var myWidthPos = (min + max) / 2.0;
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFrac) {
+  centerFrac = (centerFrac === undefined) ? 0.5 : centerFrac;
+  // I always position myself within my bounds
+  var myWidthPos = min + (max - min) * centerFrac;
   commit.get('visNode').get('pos').x = myWidthPos;
 
   if (commit.get('children').length === 0) {
@@ -29259,23 +29435,29 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
     }
   }, this);
 
-  var checkPortion = function(portion, index) {
-    if (myLength < 0.99 || children.length < 2) {
-      return portion;
+  // TODO: refactor into another method
+  var getCenterFrac = function(index, centerFrac) {
+    if (myLength < 0.99) {
+      if (children.length < 2) {
+        return centerFrac;
+      } else {
+        return 0.5;
+      }
+    }
+    if (children.length < 2) {
+      return 0.5;
     }
     // we introduce a VERY specific rule here, to push out
     // the first "divergence" of the graph
     if (index === 0) {
-      portion *= 1/3;
+      return 1/3;
     } else if (index === children.length - 1) {
-      portion *= 5/3;
+      return 2/3;
     }
-    return portion;
+    return centerFrac;
   };
 
   var prevBound = min;
-  // now go through and do everything
-  // TODO: order so the max width children are in the middle!!
   _.each(children, function(child, index) {
     if (!child.isMainParent(commit)) {
       return;
@@ -29283,12 +29465,12 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
 
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
-    var adjustedPortion = checkPortion(portion, index);
+    var thisCenterFrac = getCenterFrac(index, centerFrac);
 
     var childMin = prevBound;
-    var childMax = childMin + adjustedPortion;
+    var childMax = childMin + portion;
 
-    this.assignBoundsRecursive(child, childMin, childMax);
+    this.assignBoundsRecursive(child, childMin, childMax, thisCenterFrac);
     prevBound = childMin + portion;
   }, this);
 };
@@ -32454,7 +32636,17 @@ require.define("/src/levels/mixed/3.js",function(require,module,exports,__dirnam
     "git revert": true
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnosticWithAsserts": true,
+  "asserts": {
+    "master": [
+      function(data) {
+        return data.C2 === data.C3 + 1;
+      },
+      function(data) {
+        return data.C2 > data.C1;
+      }
+    ]
+  },
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",

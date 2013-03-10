@@ -875,6 +875,7 @@ GitEngine.prototype.rebaseAltID = function(id) {
     }]
   ];
 
+  // for loop for early return
   for (var i = 0; i < regexMap.length; i++) {
     var regex = regexMap[i][0];
     var func = regexMap[i][1];

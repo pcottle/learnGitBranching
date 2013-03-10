@@ -102,6 +102,76 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
   return result;
 };
 
+TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
+
+  var result = true;
+  _.each(assertsPerBranch, function(asserts, branchName) {
+    result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
+  }, this);
+  return true;
+};
+
+TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
+  tree = this.convertTreeSafe(tree);
+
+  // here is the outline:
+  // * make a data object
+  // * go to the branch given by the key
+  // * traverse upwards, storing the amount of hashes on each in the data object
+  // * then come back and perform functions on data
+  console.log('doing asserts on', branchName);
+
+  if (!tree.branches[branchName]) {
+    return false;
+  }
+
+  var queue = [branchName.target];
+  var data = {};
+  while (queue.length) {
+    var commitRef = queue.pop();
+    data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
+
+    queue = queue.concat(tree.commits[commitRef].parents);
+  }
+
+  console.log('data is', data);
+  var result = true;
+  _.each(asserts, function(assert) {
+    try {
+      result = result && assert(data);
+    } catch (err) {
+      console.err(err);
+      result = false;
+    }
+  });
+
+  return result;
+};
+
+TreeCompare.prototype.getNumHashes = function(ref) {
+  var regexMap = [
+    [/^C(\d+)([']{0,3})$/, function(bits) {
+      if (!bits[2]) {
+        return 0;
+      }
+      return bits[2].length;
+    }],
+    [/^C(\d+)['][\^](\d+)$/, function(bits) {
+      return Number(bits[2]);
+    }]
+  ];
+
+  for (var i = 0; i < regexMap.length; i++) {
+    var regex = regexMap[i][0];
+    var func = regexMap[i][1];
+    var results = regex.exec(ref);
+    if (results) {
+      return func(results);
+    }
+  }
+  throw new Error('coudlnt parse ref ' + ref);
+};
+
 TreeCompare.prototype.getBaseRef = function(ref) {
   var idRegex = /^C(\d+)/;
   var bits = idRegex.exec(ref);

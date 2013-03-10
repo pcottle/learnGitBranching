@@ -5,7 +5,17 @@ exports.level = {
     "git revert": true
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnosticWithAsserts": true,
+  "asserts": {
+    "master": [
+      function(data) {
+        return data.C2 === data.C3 + 1;
+      },
+      function(data) {
+        return data.C2 > data.C1;
+      }
+    ]
+  },
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",

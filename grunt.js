@@ -177,10 +177,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-rm');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('build', 'rm browserify min hash buildIndex shell');
+  grunt.registerTask('build', 'rm browserify min hash buildIndex shell lint lintStrings test compliment');
   grunt.registerTask('fastBuild', 'rm browserify hash buildIndex');
 
-  grunt.registerTask('default', 'lint lintStrings jasmine_node build compliment');
+  grunt.registerTask('default', 'build');
 
   grunt.registerTask('watching', 'fastBuild lint lintStrings');
   grunt.registerTask('test', 'jasmine_node');

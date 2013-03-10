@@ -308,6 +308,7 @@ var Level = Sandbox.extend({
     }
 
     // TODO refactor this ugly ass switch statement...
+    // BIG TODO REALLY REFACTOR HAX HAX
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
@@ -319,6 +320,13 @@ var Level = Sandbox.extend({
       solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
     } else if (this.level.compareOnlyMasterHashAgnostic) {
       solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+    } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
+      console.log('doing it this way');
+      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = solved && this.treeCompare.evalAsserts(
+        current,
+        this.level.goalAsserts
+      );
     } else {
       solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
