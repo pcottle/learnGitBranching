@@ -32,6 +32,19 @@ var instantCommands = [
       )
     });
   }],
+  [/^show$/, function(bits) {
+
+    lines = [
+      intl.str('show-command'),
+      'show commands',
+      'show solution',
+      'show goal'
+    ];
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
+  }],
   [/^locale (\w+)$/, function(bits) {
     constants.GLOBAL.locale = bits[1];
 

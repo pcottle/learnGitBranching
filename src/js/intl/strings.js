@@ -244,6 +244,11 @@ exports.strings = {
     'zh_CN': '语言重置为默认的 {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'show-command': {
+    '__desc__': 'command output from "show"',
+    'en_US': 'Please one of the following commands for more info:'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
     '__desc__': 'dummy command output for the command in the key',
     'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
