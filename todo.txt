@@ -8,7 +8,6 @@ Intl TODO
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
-[ ] hash agnotisc comparison with asserts for ammends
 [ ] tree pruning
 
 Medium things:
@@ -34,6 +33,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] hash agnotisc comparison with asserts for ammends
 [x] level builder intl aware
 [x] rest of views/index translation
 [x] git/index.js translation -- rest of the strings

@@ -51,7 +51,7 @@ var LevelBuilder = Level.extend({
     };
     LevelBuilder.__super__.initialize.apply(this, [options]);
 
-    this.startDialog = undefined;
+    this.startDialogObj = undefined;
     this.definedGoal = false;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
@@ -94,6 +94,21 @@ var LevelBuilder = Level.extend({
       'commandSubmitted',
       'echo :D'
     );
+  },
+
+  objectiveDialog: function(command, deferred) {
+    var args = [
+      command,
+      deferred,
+      (this.startDialogObj === undefined) ?
+        null :
+        {
+          startDialog: {
+            'en_US': this.startDialogObj
+          }
+        }
+    ];
+    LevelBuilder.__super__.objectiveDialog.apply(this, args);
   },
 
   initParseWaterfall: function(options) {
@@ -207,12 +222,12 @@ var LevelBuilder = Level.extend({
   editDialog: function(command, deferred) {
     var whenDoneEditing = Q.defer();
     this.currentBuilder = new MultiViewBuilder({
-      multiViewJSON: this.startDialog,
+      multiViewJSON: this.startDialogObj,
       deferred: whenDoneEditing
     });
     whenDoneEditing.promise
     .then(_.bind(function(levelObj) {
-      this.startDialog = levelObj;
+      this.startDialogObj = levelObj;
     }, this))
     .fail(function() {
       // nothing to do, they dont want to edit it apparently
@@ -264,7 +279,7 @@ var LevelBuilder = Level.extend({
       });
     }
 
-    if (this.startDialog === undefined) {
+    if (this.startDialogObj === undefined) {
       var askForStartDeferred = Q.defer();
       chain = chain.then(function() {
         return askForStartDeferred.promise;
@@ -310,8 +325,8 @@ var LevelBuilder = Level.extend({
     );
     // the start dialog now is just our help intro thing
     delete compiledLevel.startDialog;
-    if (this.startDialog) {
-      compiledLevel.startDialog = {'en_US': this.startDialog};
+    if (this.startDialogObj) {
+      compiledLevel.startDialog = {'en_US': this.startDialogObj};
     }
     return compiledLevel;
   },
