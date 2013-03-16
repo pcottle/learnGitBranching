@@ -5940,8 +5940,11 @@ if (require('../util').isBrowser()) {
   * and simply pipes commands to the main events system
 **/
 function CommandUI() {
+  var Views = require('../views');
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
+
+  //new Views.HelperBar();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({
@@ -10073,6 +10076,34 @@ var LevelToolbar = BaseView.extend({
   }
 });
 
+var HelperBar = BaseView.extend({
+  tagName: 'div',
+  className: 'helperBar',
+  template: _.template($('#helper-bar-template').html()),
+  events: {
+    'click div': 'onClick'
+  },
+
+  onClick: function(ev) {
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+
+    var items = [{
+      text: '??',
+      id: 'main'
+    }];
+
+    this.JSON = {
+      items: items
+    };
+
+    this.render();
+  }
+});
+
 var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
@@ -10140,6 +10171,7 @@ exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
+exports.HelperBar = HelperBar;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
@@ -13413,7 +13445,6 @@ var LevelBuilder = Level.extend({
 
   die: function() {
     this.hideStart();
-
     LevelBuilder.__super__.die.apply(this, arguments);
 
     delete this.startVis;
@@ -20336,8 +20367,11 @@ if (require('../util').isBrowser()) {
   * and simply pipes commands to the main events system
 **/
 function CommandUI() {
+  var Views = require('../views');
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
+
+  //new Views.HelperBar();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({
@@ -24198,7 +24232,6 @@ var LevelBuilder = Level.extend({
 
   die: function() {
     this.hideStart();
-
     LevelBuilder.__super__.die.apply(this, arguments);
 
     delete this.startVis;
@@ -27927,6 +27960,34 @@ var LevelToolbar = BaseView.extend({
   }
 });
 
+var HelperBar = BaseView.extend({
+  tagName: 'div',
+  className: 'helperBar',
+  template: _.template($('#helper-bar-template').html()),
+  events: {
+    'click div': 'onClick'
+  },
+
+  onClick: function(ev) {
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+
+    var items = [{
+      text: '??',
+      id: 'main'
+    }];
+
+    this.JSON = {
+      items: items
+    };
+
+    this.render();
+  }
+});
+
 var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
@@ -27994,6 +28055,7 @@ exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
+exports.HelperBar = HelperBar;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;

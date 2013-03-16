@@ -13,7 +13,7 @@
   <meta property="og:image" content="http://pcottle.github.com/learnGitBranching/assets/learnGitBranching.png"/>
   <meta property="og:description" content="A interactive Git visualization tool to educate and challenge!"/>
 
-	<link rel="stylesheet" href="build/main.5fc7ddb9.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="build/main.02d13d1b.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
@@ -103,6 +103,16 @@
       <div class="commandLineWarnings">
         <%= formattedWarnings %>
       </div>
+  </script>
+
+  <script type="text/html" id="helper-bar-template">
+    <div class="helperBar">
+      <% for(var i = 0; i < items.length; i++) { %>
+        <a data-id="wtf">
+          <%= items[i].text %>
+        </a>
+      <% } %>
+    </div>
   </script>
 
   <script type="text/html" id="level-toolbar-template">
@@ -412,7 +422,7 @@
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/bundle.min.9b2f4bfd.js"></script>
+  <script src="build/bundle.min.99df78c8.js"></script>
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include

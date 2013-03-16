@@ -357,7 +357,6 @@ var LevelBuilder = Level.extend({
 
   die: function() {
     this.hideStart();
-
     LevelBuilder.__super__.die.apply(this, arguments);
 
     delete this.startVis;

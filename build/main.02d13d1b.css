@@ -515,6 +515,21 @@ li.rebaseEntry,
   padding: 0 5px;
 }
 
+.helperBar {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  background: #424242;
+  padding: 4px 10px;
+  border-radius: 5px 0 0 0;
+  border: 2px solid #EFEDEE;
+  border-bottom: 0;
+  border-right: 0;
+  box-shadow: -1px -1px 5px rgba(0,0,0,0.3);
+  cursor: pointer;
+  font-weight: bold;
+}
+
 #commandLineBar,
 .terminal-window .inside {
   border-top: 0;

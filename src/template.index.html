@@ -105,6 +105,16 @@
       </div>
   </script>
 
+  <script type="text/html" id="helper-bar-template">
+    <div class="helperBar">
+      <% for(var i = 0; i < items.length; i++) { %>
+        <a data-id="wtf">
+          <%= items[i].text %>
+        </a>
+      <% } %>
+    </div>
+  </script>
+
   <script type="text/html" id="level-toolbar-template">
     <div class="toolbar level-toolbar box vertical center transitionAll hidden">
       <div>

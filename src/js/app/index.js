@@ -164,8 +164,11 @@ if (require('../util').isBrowser()) {
   * and simply pipes commands to the main events system
 **/
 function CommandUI() {
+  var Views = require('../views');
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
+
+  //new Views.HelperBar();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({

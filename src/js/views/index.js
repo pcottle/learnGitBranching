@@ -570,6 +570,34 @@ var LevelToolbar = BaseView.extend({
   }
 });
 
+var HelperBar = BaseView.extend({
+  tagName: 'div',
+  className: 'helperBar',
+  template: _.template($('#helper-bar-template').html()),
+  events: {
+    'click div': 'onClick'
+  },
+
+  onClick: function(ev) {
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.destination = $('body');
+
+    var items = [{
+      text: '??',
+      id: 'main'
+    }];
+
+    this.JSON = {
+      items: items
+    };
+
+    this.render();
+  }
+});
+
 var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
@@ -637,6 +665,7 @@ exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
+exports.HelperBar = HelperBar;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
