@@ -48,7 +48,7 @@ exports.level = {
               "",
               "So saying `master^` is equivalent to \"the first parent of `master`\".",
               "",
-              "`master^^` is the second parent (or grandparent) of `master`",
+              "`master^^` is the grandparent (second-generation ancestor) of `master`",
               "",
               "Let's check out the commit above master here"
             ],
