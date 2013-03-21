@@ -8,7 +8,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?',
+    'en_US': 'Would you like to move on to *"{nextLevel}"*, the next level?',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -310,7 +310,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
     '__desc__': 'When you play in a level that is already solved',
-    'en_US': 'You have alreaady solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
+    'en_US': 'You have already solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
     'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中'
   },
   ///////////////////////////////////////////////////////////////////////////

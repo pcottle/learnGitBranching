@@ -79,7 +79,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, let's detach HEAD to the commit that `bugFix` is pointing to.",
+              "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
             ]
