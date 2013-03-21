@@ -35,7 +35,7 @@ exports.level = {
               "",
               "Relative commits are powerful, but we will introduce two simple ones here:",
               "",
-              "* Moving upwards once at a time with `^`",
+              "* Moving upwards one commit at a time with `^`",
               "* Moving upwards a number of times with `~<num>`"
             ]
           }

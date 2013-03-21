@@ -9,7 +9,7 @@ exports.level = {
     "zh_CN": "Git 里的撤销改变"
   },
   "hint": {
-    "en_US": "",
+    "en_US": "Notice that revert and reset take different arguments.",
     "fr_FR": "",
     "zh_CN": "",
     "ko": ""
@@ -53,7 +53,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "While reseting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "",
               "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
             ],
@@ -72,7 +72,7 @@ exports.level = {
             "markdowns": [
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
-              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
             ]
           }
         }
