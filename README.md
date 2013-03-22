@@ -69,7 +69,7 @@ And the following heroes for assisting in translating:
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
-* Aaron Schrab - 4x!!
+* Aaron Schrab - 5x!!
 * Stephen Cavaliere
 * Andrew Ardill
 * Shao-Chung Chen
@@ -80,7 +80,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Cameron Wills
 * Johan ("josso")
 * Frode Austvik
-* Don Kirkby
+* Don Kirkby x2
 * "scientific-coder"
 * "ace-coder"
 

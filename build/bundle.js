@@ -5355,7 +5355,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?',
+    'en_US': 'Would you like to move on to *"{nextLevel}"*, the next level?',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -5657,7 +5657,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
     '__desc__': 'When you play in a level that is already solved',
-    'en_US': 'You have alreaady solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
+    'en_US': 'You have already solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
     'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -18075,7 +18075,7 @@ require.define("/levels/rampup/1.js",function(require,module,exports,__dirname,_
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, let's detach HEAD to the commit that `bugFix` is pointing to.",
+              "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
             ]
@@ -18124,7 +18124,7 @@ require.define("/levels/rampup/2.js",function(require,module,exports,__dirname,_
               "",
               "Relative commits are powerful, but we will introduce two simple ones here:",
               "",
-              "* Moving upwards once at a time with `^`",
+              "* Moving upwards one commit at a time with `^`",
               "* Moving upwards a number of times with `~<num>`"
             ]
           }
@@ -18137,7 +18137,7 @@ require.define("/levels/rampup/2.js",function(require,module,exports,__dirname,_
               "",
               "So saying `master^` is equivalent to \"the first parent of `master`\".",
               "",
-              "`master^^` is the second parent (or grandparent) of `master`",
+              "`master^^` is the grandparent (second-generation ancestor) of `master`",
               "",
               "Let's check out the commit above master here"
             ],
@@ -18257,7 +18257,7 @@ require.define("/levels/rampup/4.js",function(require,module,exports,__dirname,_
     "zh_CN": "Git 里的撤销改变"
   },
   "hint": {
-    "en_US": "",
+    "en_US": "Notice that revert and reset take different arguments.",
     "fr_FR": "",
     "zh_CN": "",
     "ko": ""
@@ -18301,7 +18301,7 @@ require.define("/levels/rampup/4.js",function(require,module,exports,__dirname,_
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "While reseting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "",
               "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
             ],
@@ -18320,7 +18320,7 @@ require.define("/levels/rampup/4.js",function(require,module,exports,__dirname,_
             "markdowns": [
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
-              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
             ]
           }
         }
@@ -23285,7 +23285,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
     '__desc__': 'One of the lines in the next level dialog',
-    'en_US': 'Would you like to move onto *"{nextLevel}"*, the next level?',
+    'en_US': 'Would you like to move on to *"{nextLevel}"*, the next level?',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -23587,7 +23587,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
     '__desc__': 'When you play in a level that is already solved',
-    'en_US': 'You have alreaady solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
+    'en_US': 'You have already solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
     'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -33069,7 +33069,7 @@ require.define("/src/levels/rampup/1.js",function(require,module,exports,__dirna
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, let's detach HEAD to the commit that `bugFix` is pointing to.",
+              "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
             ]
@@ -33119,7 +33119,7 @@ require.define("/src/levels/rampup/2.js",function(require,module,exports,__dirna
               "",
               "Relative commits are powerful, but we will introduce two simple ones here:",
               "",
-              "* Moving upwards once at a time with `^`",
+              "* Moving upwards one commit at a time with `^`",
               "* Moving upwards a number of times with `~<num>`"
             ]
           }
@@ -33132,7 +33132,7 @@ require.define("/src/levels/rampup/2.js",function(require,module,exports,__dirna
               "",
               "So saying `master^` is equivalent to \"the first parent of `master`\".",
               "",
-              "`master^^` is the second parent (or grandparent) of `master`",
+              "`master^^` is the grandparent (second-generation ancestor) of `master`",
               "",
               "Let's check out the commit above master here"
             ],
@@ -33254,7 +33254,7 @@ require.define("/src/levels/rampup/4.js",function(require,module,exports,__dirna
     "zh_CN": "Git 里的撤销改变"
   },
   "hint": {
-    "en_US": "",
+    "en_US": "Notice that revert and reset take different arguments.",
     "fr_FR": "",
     "zh_CN": "",
     "ko": ""
@@ -33298,7 +33298,7 @@ require.define("/src/levels/rampup/4.js",function(require,module,exports,__dirna
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "While reseting works great for local branches on your own machine, it's method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "While reseting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "",
               "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
             ],
@@ -33317,7 +33317,7 @@ require.define("/src/levels/rampup/4.js",function(require,module,exports,__dirna
             "markdowns": [
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
-              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you chose your methods."
+              "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
             ]
           }
         }
