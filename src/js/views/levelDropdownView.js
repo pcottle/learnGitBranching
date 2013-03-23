@@ -257,7 +257,9 @@ var SeriesView = BaseView.extend({
   className: 'seriesView box flex1 vertical',
   template: _.template($('#series-view').html()),
   events: {
-    'click div.levelIcon': 'click'
+    'click div.levelIcon': 'click',
+    'mouseenter div.levelIcon': 'enterIcon',
+    'mouseleave div.levelIcon': 'leaveIcon'
   },
 
   initialize: function(options) {
@@ -291,13 +293,32 @@ var SeriesView = BaseView.extend({
     });
   },
 
-  click: function(ev) {
+  getEventID: function(ev) {
     var element = ev.srcElement || ev.currentTarget;
-    if (!element) {
-      console.warn('wut, no id'); return;
-    }
+    return $(element).attr('data-id');
+  },
 
-    var id = $(element).attr('data-id');
+  resetAbout: function() {
+    this.$('p.about').text(intl.getIntlKey(this.info, 'about'))
+      .css('font-style', 'inherit');
+  },
+
+  setAbout: function(content) {
+    this.$('p.about').text(content).css('font-style', 'italic');
+  },
+
+  enterIcon: function(ev) {
+    var id = this.getEventID(ev);
+    var level = Main.getLevelArbiter().getLevel(id);
+    this.setAbout(intl.getName(level));
+  },
+
+  leaveIcon: function() {
+    this.resetAbout();
+  },
+
+  click: function(ev) {
+    var id = this.getEventID(ev);
     this.navEvents.trigger('clickedID', id);
   }
 });

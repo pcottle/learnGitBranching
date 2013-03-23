@@ -17449,7 +17449,7 @@ require.define("/levels/intro/2.js",function(require,module,exports,__dirname,__
 });
 
 require.define("/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
@@ -18074,11 +18074,11 @@ require.define("/levels/rampup/1.js",function(require,module,exports,__dirname,_
             "markdowns": [
               "## HEAD",
               "",
-              "First we have to talk about \"HEAD.\" HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.",
+              "First we have to talk about \"HEAD\". HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.",
               "",
-              "The working directory will always match the current state of HEAD, so by moving HEAD, you actually change the contents of your directory.",
+              "HEAD always points to the most recent commit which is reflected in the working tree. Most git commands which make changes to the working tree will start by changing HEAD.",
               "",
-              "Normally HEAD points to a branch name (like `bugFix`). When you commit, both bugFix and HEAD move together"
+              "Normally HEAD points to a branch name (like bugFix). When you commit, the status of bugFix is altered and this change is visible through HEAD."
             ]
           }
         },
@@ -19555,7 +19555,9 @@ var SeriesView = BaseView.extend({
   className: 'seriesView box flex1 vertical',
   template: _.template($('#series-view').html()),
   events: {
-    'click div.levelIcon': 'click'
+    'click div.levelIcon': 'click',
+    'mouseenter div.levelIcon': 'enterIcon',
+    'mouseleave div.levelIcon': 'leaveIcon'
   },
 
   initialize: function(options) {
@@ -19589,13 +19591,32 @@ var SeriesView = BaseView.extend({
     });
   },
 
-  click: function(ev) {
+  getEventID: function(ev) {
     var element = ev.srcElement || ev.currentTarget;
-    if (!element) {
-      console.warn('wut, no id'); return;
-    }
+    return $(element).attr('data-id');
+  },
 
-    var id = $(element).attr('data-id');
+  resetAbout: function() {
+    this.$('p.about').text(intl.getIntlKey(this.info, 'about'))
+      .css('font-style', 'inherit');
+  },
+
+  setAbout: function(content) {
+    this.$('p.about').text(content).css('font-style', 'italic');
+  },
+
+  enterIcon: function(ev) {
+    var id = this.getEventID(ev);
+    var level = Main.getLevelArbiter().getLevel(id);
+    this.setAbout(intl.getName(level));
+  },
+
+  leaveIcon: function() {
+    this.resetAbout();
+  },
+
+  click: function(ev) {
+    var id = this.getEventID(ev);
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -20064,7 +20085,7 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+        '[http://pcottle.github.com/learnGitBranching/?NODEMO](?NODEMO)'
       ]
     }
   }, {
@@ -20686,7 +20707,7 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+        '[http://pcottle.github.com/learnGitBranching/?NODEMO](?NODEMO)'
       ]
     }
   }, {
@@ -28474,7 +28495,9 @@ var SeriesView = BaseView.extend({
   className: 'seriesView box flex1 vertical',
   template: _.template($('#series-view').html()),
   events: {
-    'click div.levelIcon': 'click'
+    'click div.levelIcon': 'click',
+    'mouseenter div.levelIcon': 'enterIcon',
+    'mouseleave div.levelIcon': 'leaveIcon'
   },
 
   initialize: function(options) {
@@ -28508,13 +28531,32 @@ var SeriesView = BaseView.extend({
     });
   },
 
-  click: function(ev) {
+  getEventID: function(ev) {
     var element = ev.srcElement || ev.currentTarget;
-    if (!element) {
-      console.warn('wut, no id'); return;
-    }
+    return $(element).attr('data-id');
+  },
 
-    var id = $(element).attr('data-id');
+  resetAbout: function() {
+    this.$('p.about').text(intl.getIntlKey(this.info, 'about'))
+      .css('font-style', 'inherit');
+  },
+
+  setAbout: function(content) {
+    this.$('p.about').text(content).css('font-style', 'italic');
+  },
+
+  enterIcon: function(ev) {
+    var id = this.getEventID(ev);
+    var level = Main.getLevelArbiter().getLevel(id);
+    this.setAbout(intl.getName(level));
+  },
+
+  leaveIcon: function() {
+    this.resetAbout();
+  },
+
+  click: function(ev) {
+    var id = this.getEventID(ev);
     this.navEvents.trigger('clickedID', id);
   }
 });
@@ -32226,7 +32268,7 @@ require.define("/src/levels/intro/2.js",function(require,module,exports,__dirnam
 require("/src/levels/intro/2.js");
 
 require.define("/src/levels/intro/3.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
@@ -33322,11 +33364,11 @@ require.define("/src/levels/rampup/1.js",function(require,module,exports,__dirna
             "markdowns": [
               "## HEAD",
               "",
-              "First we have to talk about \"HEAD.\" HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.",
+              "First we have to talk about \"HEAD\". HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.",
               "",
-              "The working directory will always match the current state of HEAD, so by moving HEAD, you actually change the contents of your directory.",
+              "HEAD always points to the most recent commit which is reflected in the working tree. Most git commands which make changes to the working tree will start by changing HEAD.",
               "",
-              "Normally HEAD points to a branch name (like `bugFix`). When you commit, both bugFix and HEAD move together"
+              "Normally HEAD points to a branch name (like bugFix). When you commit, the status of bugFix is altered and this change is visible through HEAD."
             ]
           }
         },
