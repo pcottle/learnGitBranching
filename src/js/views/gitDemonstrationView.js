@@ -227,7 +227,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
   initVis: function() {
     this.mainVis = new Visualization({
-      el: this.$('div.visHolder')[0],
+      el: this.$('div.visHolder div.visHolderInside')[0],
       noKeyboardInput: true,
       noClick: true,
       smallCanvas: true,
