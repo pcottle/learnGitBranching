@@ -73,6 +73,13 @@ body,
   box-flex: 3;
 }
 
+.flex10 {
+  -webkit-box-flex: 10;
+  -moz-box-flex: 10;
+  -ms-box-flex: 10;
+  box-flex: 10;
+}
+
 html,
 body,
 .vertical {

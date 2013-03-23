@@ -3566,6 +3566,7 @@ var Sandbox = Backbone.View.extend({
           deferred: whenLevelOpen,
           command: command
         });
+        this.hide();
 
         whenLevelOpen.promise.then(function() {
           command.finishWith(deferred);
@@ -13975,7 +13976,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
   initVis: function() {
     this.mainVis = new Visualization({
-      el: this.$('div.visHolder')[0],
+      el: this.$('div.visHolder div.visHolderInside')[0],
       noKeyboardInput: true,
       noClick: true,
       smallCanvas: true,
@@ -15274,7 +15275,7 @@ GitVisuals.prototype.genResizeFunc = function() {
     _.bind(function(width, height) {
 
       // refresh when we are ready if we are animating som ething
-      if (GLOBAL.isAnimating) {
+      if (false && GLOBAL.isAnimating) {
         var Main = require('../app');
         Main.getEventBaton().trigger('commandSubmitted', 'refresh');
       } else {
@@ -15989,17 +15990,32 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    var threshold = this.get('gitVisuals').getFlipPos();
-    // somewhat tricky flip management here
-    var flip;
-    if (visNode.get('pos').x > threshold) {
-      flip = (this.get('isHead')) ? 1 : -1;
-      this.set('flip', flip);
-    } else {
-      flip = (this.get('isHead')) ? -1 : 1;
-      this.set('flip', flip);
-    }
+    this.set('flip', this.getFlipBool(commit, visNode));
     return visNode.getScreenCoords();
+  },
+
+  getFlipBool: function(commit, visNode) {
+    var threshold = this.get('gitVisuals').getFlipPos();
+    var overThreshold = (visNode.get('pos').x > threshold);
+
+    if (!this.get('isHead')) {
+      // easy logic first
+      return (overThreshold) ?
+        -1 :
+        1;
+    }
+    // now for HEAD....
+    if (overThreshold) {
+      // if by ourselves, then feel free to squeeze in. but
+      // if other branches are here, then we need to show separate
+      return (this.isBranchStackEmpty()) ?
+        -1 :
+        1;
+    } else {
+      return (this.isBranchStackEmpty()) ?
+        1 :
+        -1;
+    }
   },
 
   getBranchStackIndex: function() {
@@ -16027,8 +16043,25 @@ var VisBranch = VisBase.extend({
     return this.getBranchStackArray().length;
   },
 
+  isBranchStackEmpty: function() {
+    // useful function for head when computing flip logic
+    var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
+    return (arr) ?
+      arr.length === 0 :
+      true;
+  },
+
+  getCommitID: function() {
+    var target = this.get('branch').get('target');
+    if (target.get('type') === 'branch') {
+      // for HEAD
+      target = target.get('target');
+    }
+    return target.get('id');
+  },
+
   getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
     if (arr === undefined) {
       // this only occurs when we are generating graphics inside of
       // a new Branch instantiation, so we need to force the update
@@ -16803,6 +16836,9 @@ exports.levelSequences = {
     require('../../levels/mixed/1').level,
     require('../../levels/mixed/2').level,
     require('../../levels/mixed/3').level
+  ],
+  advanced: [
+    require('../../levels/advanced/1').level
   ]
 };
 
@@ -16856,6 +16892,14 @@ exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士'
+    }
+  },
+  advanced: {
+    displayName: {
+      'en_US': 'Advanced Topics'
+    },
+    about: {
+      'en_US': 'For the truly brave!'
     }
   }
 };
@@ -18249,6 +18293,7 @@ require.define("/levels/rampup/3.js",function(require,module,exports,__dirname,_
 require.define("/levels/rampup/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
+  "compareOnlyBranches": true,
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
@@ -19145,6 +19190,110 @@ require.define("/levels/mixed/3.js",function(require,module,exports,__dirname,__
     }
   }
 };
+});
+
+require.define("/levels/advanced/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git branch bugWork master^^2^",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Multiple parents"
+  },
+  "hint": {
+    "en_US": "Use `git branch bugWork` with a target commit to create the missing reference."
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Specifying Parents",
+              "",
+              "Like the `~` modifier, the `^` modifier also accepts an optional number after it.",
+              "",
+              "Rather than specifying the number of generations to go back (what `~` takes), the modifier on `^` specifies which parent reference to follow from a merge commit. Remember that merge commits have multiple parents, so the path to choose is ambiguous.",
+              "",
+              "Git will normally follow the \"first\" parent upwards from a merge commit, but specifying a number with `^` changes this default behavior.",
+              "",
+              "Enough talking, let's see it in action",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have a merge commit. If we checkout `master^` without the modifier, we will follow the first parent after the merge commit. ",
+              "",
+              "(*In our visuals, the first parent is positioned directly above the merge commit.*)"
+            ],
+            "afterMarkdowns": [
+              "Easy -- this is what we are all used to"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Now lets try specifying the second parent instead..."
+            ],
+            "afterMarkdowns": [
+              "See! We followed the other parent upwards"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "The `^` and `~` modifiers can make moving around a commit tree very powerful:"
+            ],
+            "afterMarkdowns": [
+              "Lightning fast"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Even crazier, these modifiers can be chained together! Check this out:"
+            ],
+            "afterMarkdowns": [
+              "The same movement as before, but all in one command"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Put it to practice",
+              "",
+              "To complete this level, create a new branch at the specified destination.",
+              "",
+              "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+
 });
 
 require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
@@ -25274,6 +25423,7 @@ var Sandbox = Backbone.View.extend({
           deferred: whenLevelOpen,
           command: command
         });
+        this.hide();
 
         whenLevelOpen.promise.then(function() {
           command.finishWith(deferred);
@@ -27365,7 +27515,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
   initVis: function() {
     this.mainVis = new Visualization({
-      el: this.$('div.visHolder')[0],
+      el: this.$('div.visHolder div.visHolderInside')[0],
       noKeyboardInput: true,
       noClick: true,
       smallCanvas: true,
@@ -29784,7 +29934,7 @@ GitVisuals.prototype.genResizeFunc = function() {
     _.bind(function(width, height) {
 
       // refresh when we are ready if we are animating som ething
-      if (GLOBAL.isAnimating) {
+      if (false && GLOBAL.isAnimating) {
         var Main = require('../app');
         Main.getEventBaton().trigger('commandSubmitted', 'refresh');
       } else {
@@ -30109,17 +30259,32 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    var threshold = this.get('gitVisuals').getFlipPos();
-    // somewhat tricky flip management here
-    var flip;
-    if (visNode.get('pos').x > threshold) {
-      flip = (this.get('isHead')) ? 1 : -1;
-      this.set('flip', flip);
-    } else {
-      flip = (this.get('isHead')) ? -1 : 1;
-      this.set('flip', flip);
-    }
+    this.set('flip', this.getFlipBool(commit, visNode));
     return visNode.getScreenCoords();
+  },
+
+  getFlipBool: function(commit, visNode) {
+    var threshold = this.get('gitVisuals').getFlipPos();
+    var overThreshold = (visNode.get('pos').x > threshold);
+
+    if (!this.get('isHead')) {
+      // easy logic first
+      return (overThreshold) ?
+        -1 :
+        1;
+    }
+    // now for HEAD....
+    if (overThreshold) {
+      // if by ourselves, then feel free to squeeze in. but
+      // if other branches are here, then we need to show separate
+      return (this.isBranchStackEmpty()) ?
+        -1 :
+        1;
+    } else {
+      return (this.isBranchStackEmpty()) ?
+        1 :
+        -1;
+    }
   },
 
   getBranchStackIndex: function() {
@@ -30147,8 +30312,25 @@ var VisBranch = VisBase.extend({
     return this.getBranchStackArray().length;
   },
 
+  isBranchStackEmpty: function() {
+    // useful function for head when computing flip logic
+    var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
+    return (arr) ?
+      arr.length === 0 :
+      true;
+  },
+
+  getCommitID: function() {
+    var target = this.get('branch').get('target');
+    if (target.get('type') === 'branch') {
+      // for HEAD
+      target = target.get('target');
+    }
+    return target.get('id');
+  },
+
   getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
+    var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
     if (arr === undefined) {
       // this only occurs when we are generating graphics inside of
       // a new Branch instantiation, so we need to force the update
@@ -31300,6 +31482,111 @@ exports.Visualization = Visualization;
 });
 require("/src/js/visuals/visualization.js");
 
+require.define("/src/levels/advanced/1.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git branch bugWork master^^2^",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Multiple parents"
+  },
+  "hint": {
+    "en_US": "Use `git branch bugWork` with a target commit to create the missing reference."
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Specifying Parents",
+              "",
+              "Like the `~` modifier, the `^` modifier also accepts an optional number after it.",
+              "",
+              "Rather than specifying the number of generations to go back (what `~` takes), the modifier on `^` specifies which parent reference to follow from a merge commit. Remember that merge commits have multiple parents, so the path to choose is ambiguous.",
+              "",
+              "Git will normally follow the \"first\" parent upwards from a merge commit, but specifying a number with `^` changes this default behavior.",
+              "",
+              "Enough talking, let's see it in action",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have a merge commit. If we checkout `master^` without the modifier, we will follow the first parent after the merge commit. ",
+              "",
+              "(*In our visuals, the first parent is positioned directly above the merge commit.*)"
+            ],
+            "afterMarkdowns": [
+              "Easy -- this is what we are all used to"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Now lets try specifying the second parent instead..."
+            ],
+            "afterMarkdowns": [
+              "See! We followed the other parent upwards"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "The `^` and `~` modifiers can make moving around a commit tree very powerful:"
+            ],
+            "afterMarkdowns": [
+              "Lightning fast"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Even crazier, these modifiers can be chained together! Check this out:"
+            ],
+            "afterMarkdowns": [
+              "The same movement as before, but all in one command"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Put it to practice",
+              "",
+              "To complete this level, create a new branch at the specified destination.",
+              "",
+              "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+
+});
+require("/src/levels/advanced/1.js");
+
 require.define("/src/levels/index.js",function(require,module,exports,__dirname,__filename,process,global){// Each level is part of a "sequence;" levels within
 // a sequence proceed in the order listed here
 exports.levelSequences = {
@@ -31323,6 +31610,9 @@ exports.levelSequences = {
     require('../../levels/mixed/1').level,
     require('../../levels/mixed/2').level,
     require('../../levels/mixed/3').level
+  ],
+  advanced: [
+    require('../../levels/advanced/1').level
   ]
 };
 
@@ -31376,6 +31666,14 @@ exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士'
+    }
+  },
+  advanced: {
+    displayName: {
+      'en_US': 'Advanced Topics'
+    },
+    about: {
+      'en_US': 'For the truly brave!'
     }
   }
 };
@@ -33246,6 +33544,7 @@ require("/src/levels/rampup/3.js");
 require.define("/src/levels/rampup/4.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
+  "compareOnlyBranches": true,
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
