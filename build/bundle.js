@@ -19217,7 +19217,7 @@ require.define("/levels/advanced/1.js",function(require,module,exports,__dirname
               "",
               "Git will normally follow the \"first\" parent upwards from a merge commit, but specifying a number with `^` changes this default behavior.",
               "",
-              "Enough talking, let's see it in action",
+              "Enough talking, let's see it in action.",
               ""
             ]
           }
@@ -19231,7 +19231,7 @@ require.define("/levels/advanced/1.js",function(require,module,exports,__dirname
               "(*In our visuals, the first parent is positioned directly above the merge commit.*)"
             ],
             "afterMarkdowns": [
-              "Easy -- this is what we are all used to"
+              "Easy -- this is what we are all used to."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -19241,10 +19241,10 @@ require.define("/levels/advanced/1.js",function(require,module,exports,__dirname
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Now lets try specifying the second parent instead..."
+              "Now let's try specifying the second parent instead..."
             ],
             "afterMarkdowns": [
-              "See! We followed the other parent upwards"
+              "See? We followed the other parent upwards."
             ],
             "command": "git checkout master^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -19257,7 +19257,7 @@ require.define("/levels/advanced/1.js",function(require,module,exports,__dirname
               "The `^` and `~` modifiers can make moving around a commit tree very powerful:"
             ],
             "afterMarkdowns": [
-              "Lightning fast"
+              "Lightning fast!"
             ],
             "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -19270,7 +19270,7 @@ require.define("/levels/advanced/1.js",function(require,module,exports,__dirname
               "Even crazier, these modifiers can be chained together! Check this out:"
             ],
             "afterMarkdowns": [
-              "The same movement as before, but all in one command"
+              "The same movement as before, but all in one command."
             ],
             "command": "git checkout HEAD~^2~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -31549,7 +31549,7 @@ require.define("/src/levels/advanced/1.js",function(require,module,exports,__dir
               "",
               "Git will normally follow the \"first\" parent upwards from a merge commit, but specifying a number with `^` changes this default behavior.",
               "",
-              "Enough talking, let's see it in action",
+              "Enough talking, let's see it in action.",
               ""
             ]
           }
@@ -31563,7 +31563,7 @@ require.define("/src/levels/advanced/1.js",function(require,module,exports,__dir
               "(*In our visuals, the first parent is positioned directly above the merge commit.*)"
             ],
             "afterMarkdowns": [
-              "Easy -- this is what we are all used to"
+              "Easy -- this is what we are all used to."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -31573,10 +31573,10 @@ require.define("/src/levels/advanced/1.js",function(require,module,exports,__dir
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Now lets try specifying the second parent instead..."
+              "Now let's try specifying the second parent instead..."
             ],
             "afterMarkdowns": [
-              "See! We followed the other parent upwards"
+              "See? We followed the other parent upwards."
             ],
             "command": "git checkout master^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -31589,7 +31589,7 @@ require.define("/src/levels/advanced/1.js",function(require,module,exports,__dir
               "The `^` and `~` modifiers can make moving around a commit tree very powerful:"
             ],
             "afterMarkdowns": [
-              "Lightning fast"
+              "Lightning fast!"
             ],
             "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -31602,7 +31602,7 @@ require.define("/src/levels/advanced/1.js",function(require,module,exports,__dir
               "Even crazier, these modifiers can be chained together! Check this out:"
             ],
             "afterMarkdowns": [
-              "The same movement as before, but all in one command"
+              "The same movement as before, but all in one command."
             ],
             "command": "git checkout HEAD~^2~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
