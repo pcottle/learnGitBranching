@@ -18,7 +18,7 @@ exports.dialog = {
         '',
         'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+        '[http://pcottle.github.com/learnGitBranching/?NODEMO](?NODEMO)'
       ]
     }
   }, {

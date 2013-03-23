@@ -21,6 +21,9 @@ exports.levelSequences = {
     require('../../levels/mixed/1').level,
     require('../../levels/mixed/2').level,
     require('../../levels/mixed/3').level
+  ],
+  advanced: [
+    require('../../levels/advanced/1').level
   ]
 };
 
@@ -74,6 +77,14 @@ exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士'
+    }
+  },
+  advanced: {
+    displayName: {
+      'en_US': 'Advanced Topics'
+    },
+    about: {
+      'en_US': 'For the truly brave!'
     }
   }
 };
