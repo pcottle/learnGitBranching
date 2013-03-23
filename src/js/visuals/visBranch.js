@@ -77,32 +77,17 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    this.set('flip', this.getFlipBool(commit, visNode));
-    return visNode.getScreenCoords();
-  },
-
-  getFlipBool: function(commit, visNode) {
     var threshold = this.get('gitVisuals').getFlipPos();
-    var overThreshold = (visNode.get('pos').x > threshold);
-
-    if (!this.get('isHead')) {
-      // easy logic first
-      return (overThreshold) ?
-        -1 :
-        1;
-    }
-    // now for HEAD....
-    if (overThreshold) {
-      // if by ourselves, then feel free to squeeze in. but
-      // if other branches are here, then we need to show separate
-      return (this.isBranchStackEmpty()) ?
-        -1 :
-        1;
+    // somewhat tricky flip management here
+    var flip;
+    if (visNode.get('pos').x > threshold) {
+      flip = (this.get('isHead')) ? 1 : -1;
+      this.set('flip', flip);
     } else {
-      return (this.isBranchStackEmpty()) ?
-        1 :
-        -1;
+      flip = (this.get('isHead')) ? -1 : 1;
+      this.set('flip', flip);
     }
+    return visNode.getScreenCoords();
   },
 
   getBranchStackIndex: function() {
@@ -130,25 +115,8 @@ var VisBranch = VisBase.extend({
     return this.getBranchStackArray().length;
   },
 
-  isBranchStackEmpty: function() {
-    // useful function for head when computing flip logic
-    var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
-    return (arr) ?
-      arr.length === 0 :
-      true;
-  },
-
-  getCommitID: function() {
-    var target = this.get('branch').get('target');
-    if (target.get('type') === 'branch') {
-      // for HEAD
-      target = target.get('target');
-    }
-    return target.get('id');
-  },
-
   getBranchStackArray: function() {
-    var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
+    var arr = this.gitVisuals.branchStackMap[this.get('branch').get('target').get('id')];
     if (arr === undefined) {
       // this only occurs when we are generating graphics inside of
       // a new Branch instantiation, so we need to force the update

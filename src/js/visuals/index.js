@@ -685,7 +685,7 @@ GitVisuals.prototype.genResizeFunc = function() {
     _.bind(function(width, height) {
 
       // refresh when we are ready if we are animating som ething
-      if (false && GLOBAL.isAnimating) {
+      if (GLOBAL.isAnimating) {
         var Main = require('../app');
         Main.getEventBaton().trigger('commandSubmitted', 'refresh');
       } else {

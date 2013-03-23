@@ -319,7 +319,6 @@ var Sandbox = Backbone.View.extend({
           deferred: whenLevelOpen,
           command: command
         });
-        this.hide();
 
         whenLevelOpen.promise.then(function() {
           command.finishWith(deferred);
