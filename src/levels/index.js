@@ -2,28 +2,28 @@
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/1').level,
-    require('../../levels/intro/2').level,
-    require('../../levels/intro/3').level,
-    require('../../levels/intro/4').level
+    require('../../levels/intro/commits').level,
+    require('../../levels/intro/branching').level,
+    require('../../levels/intro/merging').level,
+    require('../../levels/intro/rebasing').level
   ],
   rampup: [
-    require('../../levels/rampup/1').level,
-    require('../../levels/rampup/2').level,
-    require('../../levels/rampup/3').level,
-    require('../../levels/rampup/4').level
+    require('../../levels/rampup/detachedHead').level,
+    require('../../levels/rampup/relativeRefs').level,
+    require('../../levels/rampup/relativeRefs2').level,
+    require('../../levels/rampup/reversingChanges').level
   ],
   rebase: [
-    require('../../levels/rebase/1').level,
-    require('../../levels/rebase/2').level
+    require('../../levels/rebase/manyRebases').level,
+    require('../../levels/rebase/selectiveRebase').level
   ],
   mixed: [
-    require('../../levels/mixed/1').level,
-    require('../../levels/mixed/2').level,
-    require('../../levels/mixed/3').level
+    require('../../levels/mixed/grabbingOneCommit').level,
+    require('../../levels/mixed/jugglingCommits').level,
+    require('../../levels/mixed/jugglingCommits2').level
   ],
   advanced: [
-    require('../../levels/advanced/1').level
+    require('../../levels/advanced/multipleParents').level
   ]
 };
 

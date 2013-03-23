@@ -6,7 +6,7 @@ exports.level = {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level"
   },
   "name": {
-    "en_US": "Flex your force with -f"
+    "en_US": "Relative Refs #2 (~)"
   },
   "startDialog": {
     "en_US": {
