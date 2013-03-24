@@ -19716,9 +19716,11 @@ var SeriesView = BaseView.extend({
     }, this);
 
     this.destination = options.destination;
+    // use a non-breaking space to prevent the level from bouncing around
+    // from missing strings
     this.JSON = {
       displayName: intl.getIntlKey(this.info, 'displayName'),
-      about: intl.getIntlKey(this.info, 'about'),
+      about: intl.getIntlKey(this.info, 'about') || "&nbsp;",
       ids: this.levelIDs
     };
 
@@ -28800,9 +28802,11 @@ var SeriesView = BaseView.extend({
     }, this);
 
     this.destination = options.destination;
+    // use a non-breaking space to prevent the level from bouncing around
+    // from missing strings
     this.JSON = {
       displayName: intl.getIntlKey(this.info, 'displayName'),
-      about: intl.getIntlKey(this.info, 'about'),
+      about: intl.getIntlKey(this.info, 'about') || "&nbsp;",
       ids: this.levelIDs
     };
 
