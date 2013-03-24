@@ -10156,6 +10156,9 @@ var IntlHelperBar = HelperBar.extend({
       text: 'Git Branching',
       id: 'english'
     }, {
+      text: '日本語版リポジトリ',
+      id: 'japanese'
+    }, {
       text: 'Git 브랜치 배우기',
       id: 'korean'
     }, {
@@ -10168,6 +10171,11 @@ var IntlHelperBar = HelperBar.extend({
       icon: 'signout',
       id: 'exit'
     }];
+  },
+
+  onJapaneseClick: function() {
+    this.fireCommand('locale ja; levels');
+    this.hide();
   },
 
   onEnglishClick: function() {
@@ -29001,6 +29009,9 @@ var IntlHelperBar = HelperBar.extend({
       text: 'Git Branching',
       id: 'english'
     }, {
+      text: '日本語版リポジトリ',
+      id: 'japanese'
+    }, {
       text: 'Git 브랜치 배우기',
       id: 'korean'
     }, {
@@ -29013,6 +29024,11 @@ var IntlHelperBar = HelperBar.extend({
       icon: 'signout',
       id: 'exit'
     }];
+  },
+
+  onJapaneseClick: function() {
+    this.fireCommand('locale ja; levels');
+    this.hide();
   },
 
   onEnglishClick: function() {
