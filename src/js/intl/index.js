@@ -98,7 +98,7 @@ var getStartDialog = exports.getStartDialog = function(level) {
     }
   };
   var startCopy = _.clone(
-    level.startDialog[util.getDefaultLocale()] || level.startDialog
+    level.startDialog[getDefaultLocale()] || level.startDialog
   );
   startCopy.childViews.unshift(errorAlert);
 
