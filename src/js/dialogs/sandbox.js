@@ -55,6 +55,60 @@ exports.dialog = {
       ]
     }
   }],
+  'ja': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## LearnGitBranchingへようこそ',
+        '',
+        'gitのパワフルなブランチ機能のコンセプトが ',
+        '学びやすくなるようにこのアプリケーションを作りました。 ',
+        'このアプリケーションを楽しんで使って頂いて、 ',
+        '何かを学習して頂けたなら嬉しいです。',
+        '',
+        '# とりあえず触ってみたい方へ：',
+        '',
+        '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
+        '',
+        '[http://remore.github.com/learnGitBranching-ja/?demo](http://remore.github.com/learnGitBranching-ja/?demo)',
+        '',
+        'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
+        '',
+        '[http://remore.github.com/learnGitBranching-ja/?NODEMO](http://remore.github.com/learnGitBranching-ja/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ここで学べるGitのオペレーション',
+        '',
+        'ここでは、下記の種類のgitコマンドを学ぶことができます。',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 学習した内容を共有できます',
+        '',
+        '画面左のコマンドプロンプトから`export tree`や`import tree`とタイプすることで、gitのツリー構造を友達に送ることができます',
+        '',
+        '何か教材になるようなケースはご存知ないでしょうか。`build level`で課題を作成したり、`import level`で他の人の課題に挑戦してみてください。',
+        '',
+        'それでは教材の選択画面に進んでみることにします。'
+      ]
+    }
+  }],
   'zh_CN': [{
     type: 'ModalAlert',
     options: {

@@ -10,6 +10,17 @@ exports.dialog = {
       ]
     }
   }],
+  'ja': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 完成!',
+        '',
+        'あなたは*{numCommands}*回のコマンドでこの課題をクリアしました; ',
+        '模範解答では{best}回です。'
+      ]
+    }
+  }],
   'zh_CN': [{
     type: 'ModalAlert',
     options: {

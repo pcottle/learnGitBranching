@@ -32,12 +32,14 @@ exports.sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
+      'ja': 'まずはここから',
       'fr_FR': 'Sequence d\'introduction',
       'zh_CN': '简介序列',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
+      'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
       'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
@@ -45,21 +47,25 @@ exports.sequenceInfo = {
   },
   rampup: {
     displayName: {
-      'en_US': 'Ramping Up'
+      'en_US': 'Ramping Up',
+      'ja': '次のレベルに進もう'
     },
     about: {
-      'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry'
+      'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
+      'ja': '更にgitの素晴らしさを堪能しよう'
     }
   },
   rebase: {
     displayName: {
       'en_US': 'Master the Rebase Luke!',
+      'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '掌握衍合，兄弟！',
       'ko': '리베이스 완전정복!'
     },
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家说的火热的衍合都是些神马？看看吧！'
@@ -68,12 +74,14 @@ exports.sequenceInfo = {
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
+      'ja': '様々なtips',
       'fr_FR': 'Un assortiment',
       'ko': '종합선물세트',
       'zh_CN': '大杂烩？'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士'
