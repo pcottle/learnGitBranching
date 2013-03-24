@@ -10226,7 +10226,7 @@ var CommandsHelperBar = HelperBar.extend({
 var MainHelperBar = HelperBar.extend({
   getItems: function() {
     return [{
-      text: '?',
+      icon: 'question-sign',
       id: 'commands'
     }, {
       icon: 'globe',
@@ -28424,7 +28424,7 @@ var CommandsHelperBar = HelperBar.extend({
 var MainHelperBar = HelperBar.extend({
   getItems: function() {
     return [{
-      text: '?',
+      icon: 'question-sign',
       id: 'commands'
     }, {
       icon: 'globe',
