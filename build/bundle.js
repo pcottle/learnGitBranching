@@ -5526,7 +5526,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
     'en_US': 'Learn Git Branching',
-    'ja': 'learnGitBranching 日本語版リポジトリ',
+    'ja': '日本語版リポジトリ',
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支'
   },
@@ -24416,7 +24416,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
     'en_US': 'Learn Git Branching',
-    'ja': 'learnGitBranching 日本語版リポジトリ',
+    'ja': '日本語版リポジトリ',
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支'
   },
