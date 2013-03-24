@@ -106,13 +106,15 @@
   </script>
 
   <script type="text/html" id="helper-bar-template">
-    <div class="helperBar">
-      <% for(var i = 0; i < items.length; i++) { %>
-        <a data-id="wtf">
-          <%= items[i].text %>
+    <% for(var i = 0; i < items.length; i++) { %>
+      <% if (items[i].text) { %>
+        <a data-id="<%= items[i].id %>"><%= items[i].text %></a>
+      <% } else { %>
+        <a data-id="<%= items[i].id %>">
+          <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
         </a>
       <% } %>
-    </div>
+    <% } %>
   </script>
 
   <script type="text/html" id="level-toolbar-template">

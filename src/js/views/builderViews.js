@@ -324,7 +324,7 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   addView: function(ev) {
-    var el = ev.srcElement;
+    var el = ev.target;
     var type = $(el).attr('data-type');
 
     var whenDone = Q.defer();
@@ -347,7 +347,7 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   testOneView: function(ev) {
-    var el = ev.srcElement;
+    var el = ev.target;
     var index = $(el).attr('data-index');
     var toTest = this.getChildViews()[index];
     var MultiView = require('../views/multiView').MultiView;
@@ -364,7 +364,7 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   editOneView: function(ev) {
-    var el = ev.srcElement;
+    var el = ev.target;
     var index = $(el).attr('data-index');
     var type = $(el).attr('data-type');
 
@@ -388,7 +388,7 @@ var MultiViewBuilder = ContainedBase.extend({
   },
 
   deleteOneView: function(ev) {
-    var el = ev.srcElement;
+    var el = ev.target;
     var index = $(el).attr('data-index');
     var toSlice = this.getChildViews();
 

@@ -74,7 +74,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
-    var el = e.srcElement || e.currentTarget;
+    var el = e.target;
     this.updatePrompt(el);
   },
 

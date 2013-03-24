@@ -228,6 +228,7 @@ div.canvasTerminalHolder > div.terminal-window-holder.slideOut {
   transform: translate3d(-150%,0,0);
 }
 
+
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
   margin: 0 20px 0px 20px;
   height: 80%;
@@ -523,7 +524,7 @@ li.rebaseEntry,
 }
 
 .helperBar {
-  position: fixed;
+  position: absolute;
   bottom: 0px;
   right: 0px;
   background: #424242;
@@ -533,8 +534,41 @@ li.rebaseEntry,
   border-bottom: 0;
   border-right: 0;
   box-shadow: -1px -1px 5px rgba(0,0,0,0.3);
-  cursor: pointer;
   font-weight: bold;
+}
+
+.helperBar i {
+  cursor: pointer;
+}
+
+.helperBar a {
+  cursor: pointer;
+  font-style: italic;
+}
+
+.helperBar a:after {
+  content: ' \b7';
+  font-style: normal;
+}
+
+.helperBar a:last-child:after {
+  content: '';
+}
+
+div.helperBar {
+  -webkit-transform: translate3d(150%,0,0);
+  -moz-transform: translate3d(150%,0,0);
+  -o-transform: translate3d(150%,0,0);
+  -ms-transform: translate3d(150%,0,0);
+  transform: translate3d(150%,0,0);
+}
+
+div.helperBar.show {
+  -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -o-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
 }
 
 #commandLineBar,

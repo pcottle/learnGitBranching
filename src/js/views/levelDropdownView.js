@@ -294,7 +294,7 @@ var SeriesView = BaseView.extend({
   },
 
   getEventID: function(ev) {
-    var element = ev.srcElement || ev.currentTarget;
+    var element = ev.target;
     return $(element).attr('data-id');
   },
 

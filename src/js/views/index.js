@@ -572,29 +572,172 @@ var LevelToolbar = BaseView.extend({
 
 var HelperBar = BaseView.extend({
   tagName: 'div',
-  className: 'helperBar',
+  className: 'helperBar transitionAll',
   template: _.template($('#helper-bar-template').html()),
   events: {
-    'click div': 'onClick'
+    'click a': 'onClick'
   },
 
   onClick: function(ev) {
+    var target = ev.target;
+    var id = $(target).attr('data-id');
+    var funcName = 'on' + id[0].toUpperCase() + id.slice(1) + 'Click';
+    this[funcName].call(this);
+  },
+
+  show: function() {
+    this.$el.toggleClass('show', true);
+  },
+
+  hide: function() {
+    this.$el.toggleClass('show', false);
+    if (this.deferred) {
+      this.deferred.resolve();
+    }
+  },
+
+  getItems: function() {
+    return [];
+  },
+
+  setupChildren: function() {
+  },
+
+  fireCommand: function(command) {
+    Main.getEventBaton().trigger('commandSubmitted', command);
+  },
+
+  showDeferMe: function(otherBar) {
+    this.hide();
+
+    var whenClosed = Q.defer();
+    otherBar.deferred = whenClosed;
+    whenClosed.promise.then(_.bind(function() {
+      this.show();
+    }, this));
+    otherBar.show();
+  },
+
+  onExitClick: function() {
+    this.hide();
   },
 
   initialize: function(options) {
     options = options || {};
     this.destination = $('body');
 
-    var items = [{
-      text: '??',
-      id: 'main'
-    }];
-
     this.JSON = {
-      items: items
+      items: this.getItems()
     };
-
     this.render();
+    this.setupChildren();
+
+    if (!options.wait) {
+      this.show();
+    }
+  }
+});
+
+var IntlHelperBar = HelperBar.extend({
+  getItems: function() {
+    return [{
+      text: 'Git Branching',
+      id: 'english'
+    }, {
+      text: 'Git 브랜치 배우기',
+      id: 'korean'
+    }, {
+      text: '学习Git分支',
+      id: 'chinese'
+    }, {
+      text: 'Français(e)',
+      id: 'french'
+    }, {
+      icon: 'signout',
+      id: 'exit'
+    }];
+  },
+
+  onEnglishClick: function() {
+    this.fireCommand('locale en_US; levels');
+    this.hide();
+  },
+
+  onKoreanClick: function() {
+    this.fireCommand('locale ko; levels');
+    this.hide();
+  },
+
+  onFrenchClick: function() {
+    this.fireCommand('locale fr_FR; levels');
+    this.hide();
+  },
+
+  onChineseClick: function() {
+    this.fireCommand('locale zh_CN; levels');
+    this.hide();
+  }
+});
+
+var CommandsHelperBar = HelperBar.extend({
+  getItems: function() {
+    return [{
+      text: 'Levels',
+      id: 'levels'
+    }, {
+      text: 'Reset',
+      id: 'reset'
+    }, {
+      text: 'Undo',
+      id: 'undo'
+    }, {
+      text: 'Help',
+      id: 'help'
+    }, {
+      icon: 'signout',
+      id: 'exit'
+    }];
+  },
+
+  onLevelsClick: function() {
+    this.fireCommand('levels');
+  },
+
+  onResetClick: function() {
+    this.fireCommand('reset');
+  },
+
+  onUndoClick: function() {
+    this.fireCommand('undo');
+  },
+
+  onHelpClick: function() {
+    this.fireCommand('help general; git help');
+  }
+});
+
+var MainHelperBar = HelperBar.extend({
+  getItems: function() {
+    return [{
+      text: '?',
+      id: 'commands'
+    }, {
+      icon: 'globe',
+      id: 'intl'
+    }];
+  },
+
+  onIntlClick: function() {
+    this.showDeferMe(this.intlHelper);
+  },
+
+  onCommandsClick: function() {
+    this.showDeferMe(this.commandsHelper);
+  },
+
+  setupChildren: function() {
+    this.commandsHelper = new CommandsHelperBar({ wait: true });
+    this.intlHelper = new IntlHelperBar({ wait: true});
   }
 });
 
@@ -665,7 +808,8 @@ exports.LeftRightView = LeftRightView;
 exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
-exports.HelperBar = HelperBar;
+
+exports.MainHelperBar = MainHelperBar;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.LevelToolbar = LevelToolbar;
