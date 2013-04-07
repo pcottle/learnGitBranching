@@ -4,15 +4,40 @@ Mega Things
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
+[ ] translation script? might be too late...
 
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
 [ ] tree pruning
 
+Origin things:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] setup remote model, for now it just has:
+-- a name
+-- a URL (default for now)
+-- points to a completely new git engine instance to interact with
+[ ] Setup branch model to include:
+-- is remote (custom getter)
+-- remote it is on (if applicable), just points to a remote model
+-- remote branch it is tracking (points to a remote branch model)
+-- set checkout -b branch __remoteBranch to track the remote branch
+
+[ ] fix checkout to:
+-- if you go to __remoteBranch, it just goes to the commit since its read-only.
+
+[ ] fix branch -f to:
+-- not allow moving remote branches?
+
+[ ] fix branch -a and branch -r to:
+-- show remote branches or all branches
+
+[ ] prototype visual layout (background change + header? maybe...)
+
+[ ] worry about how this affects serialization and tree comparisons. We should be able to still only compare the local copy
+
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] fix refreshing during solution animation
 
 Cases to handle / things to edit
 =======================
@@ -28,7 +53,6 @@ Big Bugs to fix:
 
 Ideas for cleaning
 ~~~~~~~~~~~~~
-- CSS... a ton. Switch to less ?
 
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
