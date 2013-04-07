@@ -20761,11 +20761,11 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         'If you have not seen the demo, please check it out here:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
         '',
         'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
       ]
     }
   }, {
@@ -20817,11 +20817,11 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
         '',
-        '[http://remore.github.com/learnGitBranching-ja/?demo](http://remore.github.com/learnGitBranching-ja/?demo)',
+        '[http://remore.github.io/learnGitBranching-ja/?demo](http://remore.github.io/learnGitBranching-ja/?demo)',
         '',
         'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
         '',
-        '[http://remore.github.com/learnGitBranching-ja/?NODEMO](http://remore.github.com/learnGitBranching-ja/?NODEMO)'
+        '[http://remore.github.io/learnGitBranching-ja/?NODEMO](http://remore.github.io/learnGitBranching-ja/?NODEMO)'
       ]
     }
   }, {
@@ -20869,11 +20869,11 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         '如果你还没看过演示，请到此查看：',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
         '',
         '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
   }, {
@@ -20928,10 +20928,10 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         // 'Unfortunately this was submitted before I finished all the help ',
         // 'and tutorial sections, so forgive the scarcity. See the demo here:',
         '',
-        '이 애플리케이션은 [Peter Cottle](https://github.com/pcottle)님의 [LearnGitBranching](http://pcottle.github.com/learnGitBranching/)를 번역한 것입니다.',
+        '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](http://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
         '아래 데모를 먼저 보셔도 좋습니다.',
         '',
-        '<http://pcottle.github.com/learnGitBranching/?demo&locale=ko>'
+        '<http://pcottle.github.io/learnGitBranching/?demo&locale=ko>'
       ]
     }
   }, {
@@ -21448,11 +21448,11 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         'If you have not seen the demo, please check it out here:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
         '',
         'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
       ]
     }
   }, {
@@ -21504,11 +21504,11 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
         '',
-        '[http://remore.github.com/learnGitBranching-ja/?demo](http://remore.github.com/learnGitBranching-ja/?demo)',
+        '[http://remore.github.io/learnGitBranching-ja/?demo](http://remore.github.io/learnGitBranching-ja/?demo)',
         '',
         'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
         '',
-        '[http://remore.github.com/learnGitBranching-ja/?NODEMO](http://remore.github.com/learnGitBranching-ja/?NODEMO)'
+        '[http://remore.github.io/learnGitBranching-ja/?NODEMO](http://remore.github.io/learnGitBranching-ja/?NODEMO)'
       ]
     }
   }, {
@@ -21556,11 +21556,11 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         '',
         '如果你还没看过演示，请到此查看：',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?demo](http://pcottle.github.com/learnGitBranching/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
         '',
         '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
         '',
-        '[http://pcottle.github.com/learnGitBranching/?NODEMO](http://pcottle.github.com/learnGitBranching/?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
   }, {
@@ -21615,10 +21615,10 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
         // 'Unfortunately this was submitted before I finished all the help ',
         // 'and tutorial sections, so forgive the scarcity. See the demo here:',
         '',
-        '이 애플리케이션은 [Peter Cottle](https://github.com/pcottle)님의 [LearnGitBranching](http://pcottle.github.com/learnGitBranching/)를 번역한 것입니다.',
+        '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](http://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
         '아래 데모를 먼저 보셔도 좋습니다.',
         '',
-        '<http://pcottle.github.com/learnGitBranching/?demo&locale=ko>'
+        '<http://pcottle.github.io/learnGitBranching/?demo&locale=ko>'
       ]
     }
   }, {
