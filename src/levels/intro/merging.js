@@ -6,13 +6,13 @@ exports.level = {
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
-    "zh_CN": "Git合并(Merge)"
+    "zh_CN": "分支与合并"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
-    "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
+    "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
   "disabledMap": {
@@ -234,11 +234,11 @@ exports.level = {
             "markdowns": [
               "## Branches and Merging",
               "",
-              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
+              "Great! 我们已经知道怎么提交和使用分支了。接下来要学的一招是如何合并两个不同分支的工作。这让我们可以新建一个分支，在其上开发新功能，然后合并回主线。",
               "",
-              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
+              "`git merge`是我们要学习的合并工作的第一个方法。合并产生一个特殊的提交记录，它包含两个唯一父提交。有两个父提交的提交记录本质上是：“我想把这两个父提交本身及它们的父提交集合都包含进来。”",
               "",
-              "听起来可能有点拗口，看看下一张就明白了。"
+              "有图有真相，看看下面的图示就明白了。"
             ]
           }
         },
@@ -246,17 +246,17 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
+              "当前有两个分支：各有一个唯一的提交。这意味着没有一个分支包含我们对代码库的所有修改。让我们合并这两个分支来解决这个问题。",
               "",
-              "我们将要把分支 `bugFix` 合并到 `master` 上"
+              "我们要把 `bugFix` 合并到 `master` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
+              "哇！看见木有？首先，`master` 现在指向一个拥有两个父提交的提交记录。假如从 `master` 开始沿着箭头向上游走，在到达起点的路上会经过所有的提交记录。这说明有 `master` 包含了对代码库的所有修改。",
               "",
-              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
+              "还有，看见各个提交记录的颜色变化了吗？为了帮助学习，我使用了颜色混合。每个分支都有特定的颜色。每个提交记录都变成了含有此提交的所有分支的混合色。",
               "",
-              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
+              "所以，`master` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。接下来就改一下这里吧。"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -269,9 +269,9 @@ exports.level = {
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
+              "因为 `bugFix` 分支在 `master` 分支的下游，git什么都不用做，只是简单地把`bugfix`分支移动到`master`指向的提交记录。",
               "",
-              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
+              "现在所有的提交记录的颜色都是一样的啦，这表明每一个分支都包含了代码库的所有修改！走起！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
@@ -280,16 +280,16 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
+              "想完成此关，执行收下操作：",
               "",
-              "* 创建一个叫 `bugFix` 的新分支",
-              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
-              "* 创建一个提交",
-              "* 再用 `git checkout` 切换回 `master` 上",
-              "* 创建另外一个提交",
-              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
+              "* 创建新分支 `bugFix` ",
+              "* 用 `git checkout bugFix` 切换到 `bugFix`分支",
+              "* 提交一次",
+              "* 用 `git checkout` 切换回 `master` ",
+              "* 再提交一次",
+              "* 用 `git merge` 合并 `bugFix`分支进 `master`",
               "",
-              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
+              "*记住，总是可以用 \"help level\" 命令来重新显示这个对话框！*"
             ]
           }
         }
