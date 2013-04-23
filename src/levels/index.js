@@ -14,8 +14,7 @@ exports.levelSequences = {
     require('../../levels/rampup/reversingChanges').level
   ],
   rebase: [
-    require('../../levels/rebase/manyRebases').level,
-    require('../../levels/rebase/selectiveRebase').level
+    require('../../levels/rebase/manyRebases').level
   ],
   mixed: [
     require('../../levels/mixed/grabbingOneCommit').level,
@@ -23,7 +22,8 @@ exports.levelSequences = {
     require('../../levels/mixed/jugglingCommits2').level
   ],
   advanced: [
-    require('../../levels/advanced/multipleParents').level
+    require('../../levels/advanced/multipleParents').level,
+    require('../../levels/rebase/selectiveRebase').level
   ]
 };
 
