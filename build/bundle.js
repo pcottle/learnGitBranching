@@ -17017,25 +17017,27 @@ exports.sequenceInfo = {
       'en_US': 'Introduction Sequence',
       'ja': 'まずはここから',
       'fr_FR': 'Sequence d\'introduction',
-      'zh_CN': '简介序列',
+      'zh_CN': '序列简介',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
-      'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
+      'zh_CN': '循序渐进介绍git主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },
   rampup: {
     displayName: {
       'en_US': 'Ramping Up',
-      'ja': '次のレベルに進もう'
+      'ja': '次のレベルに進もう',
+      'zh_CN': '进阶篇'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
-      'ja': '更にgitの素晴らしさを堪能しよう'
+      'ja': '更にgitの素晴らしさを堪能しよう',
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧!'
     }
   },
   rebase: {
@@ -17043,7 +17045,7 @@ exports.sequenceInfo = {
       'en_US': 'Master the Rebase Luke!',
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
-      'zh_CN': '掌握衍合，兄弟！',
+      'zh_CN': '精通Rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
@@ -17051,7 +17053,7 @@ exports.sequenceInfo = {
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
-      'zh_CN': '大家说的火热的衍合都是些神马？看看吧！'
+      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！'
     }
   },
   mixed: {
@@ -17067,15 +17069,17 @@ exports.sequenceInfo = {
       'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git技术，技巧与贴士'
+      'zh_CN': 'Git技术，技巧与贴士杂烩'
     }
   },
   advanced: {
     displayName: {
-      'en_US': 'Advanced Topics'
+      'en_US': 'Advanced Topics',
+      'zh_CN': '高级主题'
     },
     about: {
-      'en_US': 'For the truly brave!'
+      'en_US': 'For the truly brave!',
+      'zh_CN': '只为真正的勇士！'
     }
   }
 };
@@ -17089,7 +17093,7 @@ require.define("/levels/intro/commits.js",function(require,module,exports,__dirn
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': '介绍Git提交'
+    'zh_CN': 'Git Commits简介'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -17294,15 +17298,15 @@ require.define("/levels/intro/commits.js",function(require,module,exports,__dirn
           "options": {
             "markdowns": [
               "## Git Commits",
-              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "git仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 git 做的不只这么简单！",
               "",
-              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "Git 希望提交记录尽可能地轻量，所以每次进行提交时，它不会简单地复制整个目录。实际上它把每次提交记录保存为从代码库的一个版本到下一个版本的变化集，或者说一个\"增量（delta）\"。所以，大部分提交记录都有一个父提交（parent commit）-- 我们会很快演示这一点。",
               "",
-              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "克隆（clone）代码库时，需要解包（unpack）或者“解析（resolve）”所有的差异。所以在克隆代码库时，可能会看见如下命令行输出：",
               "",
               "`resolving deltas`",
               "",
-              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+              "要学的东西有很多，但现在你可以把提交记录看作是项目的快照。提交记录非常轻量且可以快速切换！"
             ]
           }
         },
@@ -17310,13 +17314,13 @@ require.define("/levels/intro/commits.js",function(require,module,exports,__dirn
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "在实践中学习commit。右边是一个（小）git代码库的图示。当前有两个提交记录—— 初始提交`C0`和其后可能包含有用修改的提交`C1`。",
               "",
-              "点下面的按钮来生成一个新的提交。"
+              "点击下面的按钮生成新的提交记录。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+              "看！碉堡吧！我们修改了代码，并保存为一次提交记录。刚刚做的提交`C2`有一个父提交（parent）`C1`，代表此次修改的基础。"
             ],
             "beforeCommand": ""
           }
@@ -17325,7 +17329,7 @@ require.define("/levels/intro/commits.js",function(require,module,exports,__dirn
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+              "接下来你可以随便测试。当前窗口关闭后，完成两次提交就可以过关！"
             ]
           }
         }
@@ -17344,13 +17348,13 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "zh_CN": "Git开分支"
+    "zh_CN": "建立Git分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
-    "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
+    "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
   "disabledMap": {
@@ -17599,15 +17603,15 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
             "markdowns": [
               "## Git Branches",
               "",
-              "在 Git 里面，分支也是非常轻量。它们实际上就是对特定的提交的一个简单参照（reference） —— 对，就是那么简单。所以许多鼓吹 Git 的玩家会反复吟诵这么一句咒语：",
+              " Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已。所以许多Git爱好者会念叨：",
               "",
               "```",
-              "早点开分支！多点开分支！（branch early, and branch often）",
+              "早点建分支！经常建分支！",
               "```",
               "",
-              "因为创建分支不会带来任何储存（硬盘和内存）上的开销，所以你大可以根据需要将你的工作划分成几个分支，而不是使用只使用一个巨大的分支（beefy）。",
+              "创建分支没有储存或内存上的开销，所以按逻辑分解工作比维护单一的代码树要简单。",
               "",
-              "当我们开始将分支和提交混合一起使用之后，将会看见两者混合所带来的特性。从现在开始，只要记住使用分支其实就是在说：“我想把这次提交和它的父提交都包含进去。（I want to include the work of this commit and all parent commits.）”"
+              "同时使用分支和提交时，我们会看到两者如何配合。现在，只要记住使用分支其实就是在说：“我想包含本次提交及所有的父提交记录。”"
             ]
           }
         },
@@ -17615,13 +17619,13 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "让我们在实践中看看分支究竟是怎样的。",
+              "举个例子看看分支究竟是什么。",
               "",
-              "现在我们会检出（check out）到一个叫 `newImage` 的新分支。"
+              "这里，我们切换到到名为`newImage`的新分支。"
             ],
             "command": "git branch newImage",
             "afterMarkdowns": [
-              "看，这就是分支啦！`newImage` 这个分支现在是指向提交 `C1`。"
+              "看，这就是建立分支所需的操作啦！`newImage`分支现在指向提交记录`C1`。"
             ],
             "beforeCommand": ""
           }
@@ -17630,11 +17634,11 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在让我们往这个新分支里添加一点修改。按一下下面的按钮。"
+              "现在让我们修改一下新分支。点击下面的按钮。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "啊摔！`master` 分支前进了，但是 `newImage` 分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
+              "啊摔！`master`分支前进了，但`newImage`分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -17643,17 +17647,17 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "要切换到一个分支，我们可以这样告诉 git",
+              "使用如下命令告诉git我们想要切换到新的分支",
               "",
               "```",
               "git checkout [name]",
               "```",
               "",
-              "这样就可以让我们在提交修改之前切换到新的分支了。"
+              "这可以让我们在提交修改之前切换到新的分支。"
             ],
             "command": "git checkout newImage; git commit",
             "afterMarkdowns": [
-              "好的嘞！我们的修改已经记录在新的分支里了。"
+              "好的嘞！新的分支已经记录了我们的修改。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -17662,8 +17666,8 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦，现在你可以准备使用分支了。这个窗口关闭以后，",
-              "创建一个叫 `bugFix` 的新分支，然后切换到那里。"
+              "好啦，你已经准备好使用分支了。当前窗口关闭后，",
+              "创建一个叫 `bugFix` 的新分支，然后切换过去。"
             ]
           }
         }
@@ -17760,13 +17764,13 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
-    "zh_CN": "Git合并(Merge)"
+    "zh_CN": "分支与合并"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
-    "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
+    "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
   "disabledMap": {
@@ -17988,11 +17992,11 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
             "markdowns": [
               "## Branches and Merging",
               "",
-              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
+              "Great! 我们已经知道怎么提交和使用分支了。接下来要学的一招是如何合并两个不同分支的工作。这让我们可以新建一个分支，在其上开发新功能，然后合并回主线。",
               "",
-              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
+              "`git merge`是我们要学习的合并工作的第一个方法。合并产生一个特殊的提交记录，它包含两个唯一父提交。有两个父提交的提交记录本质上是：“我想把这两个父提交本身及它们的父提交集合都包含进来。”",
               "",
-              "听起来可能有点拗口，看看下一张就明白了。"
+              "有图有真相，看看下面的图示就明白了。"
             ]
           }
         },
@@ -18000,17 +18004,17 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
+              "当前有两个分支：各有一个唯一的提交。这意味着没有一个分支包含我们对代码库的所有修改。让我们合并这两个分支来解决这个问题。",
               "",
-              "我们将要把分支 `bugFix` 合并到 `master` 上"
+              "我们要把 `bugFix` 合并到 `master` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
+              "哇！看见木有？首先，`master` 现在指向一个拥有两个父提交的提交记录。假如从 `master` 开始沿着箭头向上游走，在到达起点的路上会经过所有的提交记录。这说明有 `master` 包含了对代码库的所有修改。",
               "",
-              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
+              "还有，看见各个提交记录的颜色变化了吗？为了帮助学习，我使用了颜色混合。每个分支都有特定的颜色。每个提交记录都变成了含有此提交的所有分支的混合色。",
               "",
-              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
+              "所以，`master` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。接下来就改一下这里吧。"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -18023,9 +18027,9 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
+              "因为 `bugFix` 分支在 `master` 分支的下游，git什么都不用做，只是简单地把`bugfix`分支移动到`master`指向的提交记录。",
               "",
-              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
+              "现在所有的提交记录的颜色都是一样的啦，这表明每一个分支都包含了代码库的所有修改！走起！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
@@ -18034,16 +18038,16 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
+              "想完成此关，执行收下操作：",
               "",
-              "* 创建一个叫 `bugFix` 的新分支",
-              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
-              "* 创建一个提交",
-              "* 再用 `git checkout` 切换回 `master` 上",
-              "* 创建另外一个提交",
-              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
+              "* 创建新分支 `bugFix` ",
+              "* 用 `git checkout bugFix` 切换到 `bugFix`分支",
+              "* 提交一次",
+              "* 用 `git checkout` 切换回 `master` ",
+              "* 再提交一次",
+              "* 用 `git merge` 合并 `bugFix`分支进 `master`",
               "",
-              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
+              "*记住，总是可以用 \"help level\" 命令来重新显示这个对话框！*"
             ]
           }
         }
@@ -18131,7 +18135,7 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
     "ja": "Rebaseの解説",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
-    "zh_CN": "介绍衍合(rebase)"
+    "zh_CN": "Rebase简介"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -18351,9 +18355,9 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
             "markdowns": [
               "## Git Rebase",
               "",
-              "第二种合并不用分支工作的方法是 *衍合（rebasing）*。衍合就是取出一系列的提交，\"组合（compies）\"它们，然后把它们在某个地方重新放下来（重新实施一遍）。",
+              "*rebasing*是在分支之间合并工作的第二种方法。Rebasing就是取出一系列的提交记录，\"复制\"它们，然后把在别的某个地方放下来。",
               "",
-              "这可能看上去很难明白，而衍合的最大好处就是可以用来创造更线性的提交历史。假如一个项目只允许使用衍合（来合并工作），那么它的提交记录/历史会变得好看很多。",
+              "虽然听上去难以理解，rebasing 的优势是可以创造更线性的提交历史。假如只允许使用rebasing，代码库的提交日志/历史会更好看。",
               "",
               "让我们亲身体会下……"
             ]
@@ -18363,19 +18367,19 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们有两个分支，注意当前分支是 bugFix（看那颗星）",
+              "这里，还是有两个分支；注意当前分支是 bugFix（看那颗星）",
               "",
-              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法会让我们觉得这两个特性分支的工作是顺序提交的，但实际上它们是平行发展提交的。",
+              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法，两个分支的功能看起来像是按顺序开发，实际上它们是平行开发的。",
               "",
-              "要做到这个效果，我们用 `git rebase`"
+              "用 `git rebase`实现此目标"
             ],
             "command": "git rebase master",
             "afterMarkdowns": [
-              "碉堡吧，现在我们在 bugFix 分支上的工作已经移到了 master 的最前端，同时我们也得到了一个很好的直线型提交历史。",
+              "碉堡吧，现在 bugFix 分支上的工作在 master 的最前端，同时我们也得到了一个更线性的提交序列。",
               "",
-              "注意一下提交 C3 其实还存在在我们的仓库的某个角落里（阴影的那货就是你了，还看什么看），而 C3' 是它一个在 master 分支上的\"拷贝\"提交。",
+              "注意，提交记录 C3 仍然存在（阴影的那货就是你了，还看什么看），而我们已经将 C3 复制到了master。",
               "",
-              "现在还有唯一一个问题就是 master 分支还没有更新……下面就来更新它吧"
+              "现在唯一的问题是 master 分支还没有更新……下面就来更新它吧"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
           }
@@ -18384,11 +18388,11 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们可以切换到了 `master` 分支。接下来就把它衍合到 `bugFix` 吧……"
+              "现在，切换到 `master` 分支。接下来就把它 rebase 到 `bugFix` 吧……"
             ],
             "command": "git rebase bugFix",
             "afterMarkdowns": [
-              "看！因为 `master` 是 `bugFix` 的上游，所以 git 只把 `master` 分支的记录前进到 `bugFix` 上。"
+              "完成！因为 `master` 是 `bugFix` 的下游，所以 git 只把 `master` 分支的记录前移到 `bugFix` 上。"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
           }
@@ -18397,12 +18401,12 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
+              "想完成此关，执行以下操作：",
               "",
-              "* 切换到一个叫 `bugFix` 的新分支",
-              "* 创建一个提交",
-              "* 回到 master 分支并且创建另外一个提交",
-              "* 再次切换到 bugFix 分支，然后把它衍合到 master 上",
+              "* 新建`bugFix`分支",
+              "* 提交一次",
+              "* 切换回 master 分支再提交一次",
+              "* 再次切换到 bugFix 分支，rebase 到 master 上",
               "",
               "祝你好运啦！"
             ]
@@ -18487,10 +18491,12 @@ require.define("/levels/rampup/detachedHead.js",function(require,module,exports,
   "solutionCommand": "git checkout C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Detach yo' HEAD"
+    "en_US": "Detach yo' HEAD",
+    "zh_CN": "分离HEAD"
   },
   "hint": {
-    "en_US": "Use the label (hash) on the commit for help!"
+    "en_US": "Use the label (hash) on the commit for help!",
+    "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {
     "en_US": {
@@ -18570,9 +18576,88 @@ require.define("/levels/rampup/detachedHead.js",function(require,module,exports,
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 在Git中前后移动",
+              "",
+              "在接触Git的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
+              "",
+              "一旦能够熟练地在Git中前进后退，你使用其他git命令的威力也会被放大！",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "我们首先看一下\"HEAD\". HEAD是当前提交记录的符号名称 -- 其实就是你正在其基础进行工作的提交记录。",
+              "",
+              "HEAD总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的git命令都开始于改变HEAD指向。",
+              "",
+              "HEAD通常指向分支名（比如bugFix）。你提交时，改变了bugFix的状态，这一变化通过HEAD变得可见。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在实例中看一下。我们将会观察提交前后HEAD的位置。"
+            ],
+            "afterMarkdowns": [
+              "看! HEAD一直藏在`master`分支后面。"
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### 分离 HEAD",
+              "",
+              "分离HEAD就是让其指向一个提交记录而不是分支名。这是命令执行之前的样子： ",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "现在变成了",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想完成此关，从`bugFix`分离出HEAD并让其指向一个提交记录。",
+              "",
+              "通过hash值指定提交记录。每个提交记录的hash值显示在代表提交记录的圆圈中。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
+
 });
 
 require.define("/levels/rampup/relativeRefs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -18580,10 +18665,12 @@ require.define("/levels/rampup/relativeRefs.js",function(require,module,exports,
   "solutionCommand": "git checkout bugFix^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Relative Refs (^)"
+    "en_US": "Relative Refs (^)",
+    "zh_CN": "相对引用(^)"
   },
   "hint": {
-    "en_US": "Remember the Caret (^) operator!"
+    "en_US": "Remember the Caret (^) operator!",
+    "zh_CN": "记住插入(^)操作符!"
   },
   "startDialog": {
     "en_US": {
@@ -18660,9 +18747,85 @@ require.define("/levels/rampup/relativeRefs.js",function(require,module,exports,
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 相对引用",
+              "",
+              "用指定提交记录hash值的方式在Git中移动会变得比较乏味。在现实中，你不会有漂亮的可视化的提交记录树放在终端旁边，所以你不得不用`git log`来查看hasn值。",
+              "",
+              "另外，hash值在真实的Git环境中也会更长。举个例子，前一关的介绍中的提交记录的hash值是`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。不要把舌头闪了...",
+              "",
+              "好的一面是，Git对hash的处理很智能。你只需要提供能够唯一标识提交记录的前几个字符即可。所以，我可以仅输入`fed2`而不是上面的一长串字符。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我说过，通过hash指定提交记录不是很方便，所以Git引入了相对引用。这个就很牛掰了!",
+              "",
+              "使用相对引用，你可以从一个易于记忆的地方（比如分支名`bugFix`或`HEAD`）开始工作。",
+              "",
+              "相对引用非常给力，这里我介绍两个简单的用法：",
+              "",
+              "* 使用`^`向上移动1个提交记录",
+              "* 使用`~<num>`向上移动多个提交记录"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "首先看看插入(^)操作符。把插入符跟在引用名后面，表示让Git寻找指定提交记录的父提交。",
+              "",
+              "所以`master^`相当于\"`master`的父提交\"。",
+              "",
+              "`master^^`是`master`的父父提交（上上代祖先）",
+              "",
+              "切换到master的父提交"
+            ],
+            "afterMarkdowns": [
+              "唰！搞定。这种方式比输入提交记录的hash值简单多了！"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你也可以`HEAD`把用作相对引用。以下命令使用`HEAD`在提交树中向上移动几次。"
+            ],
+            "afterMarkdowns": [
+              "简单！我们可以一直使用`HEAD^`向上移动。"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成此关，切换到`bugFix`的父提交。这会分离出`HEAD`.",
+              "",
+              "如果你愿意的话，使用hash值也可以过关，但为何不试试使用相对引用呢？"
+            ]
+          }
+        }
+      ]
     }
   }
 };
+
 });
 
 require.define("/levels/rampup/relativeRefs2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -18670,10 +18833,12 @@ require.define("/levels/rampup/relativeRefs2.js",function(require,module,exports
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
-    "en_US": "You'll need to use at least one direct reference (hash) to complete this level"
+    "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
+    "zh_CN": "这一关至少要用到一次直接引用(hash)"
   },
   "name": {
-    "en_US": "Relative Refs #2 (~)"
+    "en_US": "Relative Refs #2 (~)",
+    "zh_CN": "相对引用2(~)"
   },
   "startDialog": {
     "en_US": {
@@ -18729,9 +18894,64 @@ require.define("/levels/rampup/relativeRefs2.js",function(require,module,exports
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### The \"~\" operator",
+              "",
+              "假设需要在提交树中向上移动很多步。使用多个`^`非常无聊，所以Git也引入了波浪(~)操作符。",
+              "",
+              "",
+              "波浪操作符后面可以（可选地）跟一个数字，指定向上移动多少次。看个例子"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用`~`一次后退多步."
+            ],
+            "afterMarkdowns": [
+              "唰！如此简洁--相对引用就是好啊！"
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch forcing",
+              "",
+              "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
+              "",
+              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交亡灵。举个例子:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "（强制）移动master指向HEAD的第3级父提交。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成此关，移动`HEAD`，`master`和`bugFix`到目标所示的位置。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
+
 });
 
 require.define("/levels/rampup/reversingChanges.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -18744,12 +18964,12 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "Git 里的撤销改变"
+    "zh_CN": "在Git中撤销更改"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
     "fr_FR": "",
-    "zh_CN": "",
+    "zh_CN": "注意revert和reset使用不同的参数。",
     "ko": "",
     "ja": ""
   },
@@ -18951,9 +19171,9 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
             "markdowns": [
               "## 撤销 Git 里面的变动",
               "",
-              "在 Git 里有很多方法撤销（reverse）变动。和 commit 一样，在 Git 里撤销变动同时具有底层次的部分（暂存一些独立的文件或者片段）和高层次的部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
+              "在 Git 里撤销修改的方法很多。和 commit 一样，在 Git 里撤销变动同时具有底层部分（暂存一些独立的文件或者片段）和高层部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
               "",
-              "在 Git 里主要有两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
+              "在 Git 里主要用两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
               ""
             ]
           }
@@ -18964,13 +19184,13 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` 通过把分支记录回退上一个提交来实现撤销改动。这意味着你可以把它的行为当作是\"重写历史\"。`git reset` 会令分支记录回退，做到最新的提交好像没有提交过一样。",
+              "`git reset`把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在\"重写历史\"。`git reset`往回移动分支，原来指向的提交记录好像重来没有提交过一样。",
               "",
               "让我们看看具体的操作："
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "Nice! Git 就简单地把 master 分支的记录移回 `C1`；现在我们的本地仓库就处于好像提交 `C2` 没有发生过的状态了。"
+              "Nice!Git把master分支的指向简单地移回到`C1`；现在我们的本地代码库处于没有提交过`C2`的状态了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -18981,15 +19201,15 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "虽然在你机子的本地环境中这样来撤销变更看起来很方便，但是这种“改写历史”的方法对别人用的远端分支是无效的哦！",
+              "虽然在你的本地分支中使用`git reset`很方便，但是这种“改写历史”的方法对别人的远端分支是无效的哦！",
               "",
-              "为了撤销分支并把这些变动*分享*给别人，我们需要 `git revert`。下面继续看它是怎么运作的。"
+              "为了撤销更改并*传播*给别人，我们需要使用`git revert`。举个例子"
             ],
             "command": "git revert HEAD",
             "afterMarkdowns": [
-              "怪哉！在我们要撤销的提交之后居然多了一个新提交！这是因为这个新提交 `C2'` 提供了*变动*（introduces changes） —— 刚好是用来撤销 `C2` 这个提交的。",
+              "怪哉！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录`C2'`引入了*更改*——刚好是用来撤销 `C2` 这个提交的。",
               "",
-              "借助 revert，现在你可以把你的改动分享给别人啦。"
+              "借助 revert，现在可以把你的更改传递给别人啦。"
             ],
             "beforeCommand": "git commit"
           }
@@ -18998,9 +19218,9 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要刷过这关，请分别把 `local` 分支和 `pushed` 分支上最近的一个提交撤销掉。",
+              "要完成此关，分别撤销`local`分支和`pushed`分支上的最近一次提交。",
               "",
-              "记住 `pushes` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+              "记住 `pushed` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
             ]
           }
         }
@@ -19086,13 +19306,13 @@ require.define("/levels/rebase/manyRebases.js",function(require,module,exports,_
     "en_US": "Rebasing over 9000 times",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
-    "zh_CN": "衍合一百遍啊一百遍"
+    "zh_CN": "N次Rebase"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，可能最终最高效的方法就是更新主分支（master）……"
+    "zh_CN": "记住，最后更新master分支可能是最高效的方法。"
   },
   "startDialog": {
     "en_US": {
@@ -19139,11 +19359,11 @@ require.define("/levels/rebase/manyRebases.js",function(require,module,exports,_
             "markdowns": [
               "### 多分支衍合",
               "",
-              "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
+              "呐，现在我们有很多分支啦！让我们rebase这些分支的工作到 master 分支上吧。",
               "",
-              "但是上头（upper management）找了点麻烦 —— 他们要希望提交历史是有序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "但是你的头头找了点麻烦 —— 他们希望得到有序的提交历史，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
-              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
+              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得看看我们提供的答案，看你能否使用更少的命令完成任务！"
             ]
           }
         }
@@ -19169,6 +19389,7 @@ require.define("/levels/rebase/manyRebases.js",function(require,module,exports,_
     }
   }
 };
+
 });
 
 require.define("/levels/rebase/selectiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
@@ -19875,10 +20096,12 @@ require.define("/levels/advanced/multipleParents.js",function(require,module,exp
   "solutionCommand": "git branch bugWork master^^2^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Multiple parents"
+    "en_US": "Multiple parents",
+    "zh_CN": "多个父提交记录"
   },
   "hint": {
-    "en_US": "Use `git branch bugWork` with a target commit to create the missing reference."
+    "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
+    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
   },
   "startDialog": {
     "en_US": {
@@ -19967,10 +20190,96 @@ require.define("/levels/advanced/multipleParents.js",function(require,module,exp
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 选择父提交",
+              "",
+              "和`~`修改符一样，`^`修改符之后也可以跟一个（可选的）数字。",
+              "",
+              "这不是用来指定向上返回几代（`~`的作用），`^`后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。",
+              "",
+              "Git默认选择跟随合并提交的\"第一个\"父提交，使用`^`后跟一个数字来改变这一默认行为。",
+              "",
+              "废话不多说，举个例子。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "这里有一个合并提交。如果不加数字修改符直接切换到`master^`，会回到第一个父提交。",
+              "",
+              "(*在我们的图示中，第一个父提交是指合并提交正上方的那个父提交。*)"
+            ],
+            "afterMarkdowns": [
+              "OK--这恰好是我们想要的。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在来试试选择第二个父提交……"
+            ],
+            "afterMarkdowns": [
+              "看见了吧？我们回到了第二个父提交。"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用`^`和`~`可以自由在在提交树中移动："
+            ],
+            "afterMarkdowns": [
+              "快若闪电！"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "再疯狂点，这些修改符支持链式操作！试一下这个："
+            ],
+            "afterMarkdowns": [
+              "和前面的结果一样，但只用了一条命令。"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 实践一下",
+              "",
+              "要完成此关，在指定的目标位置创建一个新的分支。",
+              "",
+              "很明显可以简单的直接使用提交记录的hash值（比如`C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
-
 
 });
 
@@ -32487,10 +32796,12 @@ require.define("/src/levels/advanced/multipleParents.js",function(require,module
   "solutionCommand": "git branch bugWork master^^2^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Multiple parents"
+    "en_US": "Multiple parents",
+    "zh_CN": "多个父提交记录"
   },
   "hint": {
-    "en_US": "Use `git branch bugWork` with a target commit to create the missing reference."
+    "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
+    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
   },
   "startDialog": {
     "en_US": {
@@ -32579,10 +32890,96 @@ require.define("/src/levels/advanced/multipleParents.js",function(require,module
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 选择父提交",
+              "",
+              "和`~`修改符一样，`^`修改符之后也可以跟一个（可选的）数字。",
+              "",
+              "这不是用来指定向上返回几代（`~`的作用），`^`后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。",
+              "",
+              "Git默认选择跟随合并提交的\"第一个\"父提交，使用`^`后跟一个数字来改变这一默认行为。",
+              "",
+              "废话不多说，举个例子。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "这里有一个合并提交。如果不加数字修改符直接切换到`master^`，会回到第一个父提交。",
+              "",
+              "(*在我们的图示中，第一个父提交是指合并提交正上方的那个父提交。*)"
+            ],
+            "afterMarkdowns": [
+              "OK--这恰好是我们想要的。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在来试试选择第二个父提交……"
+            ],
+            "afterMarkdowns": [
+              "看见了吧？我们回到了第二个父提交。"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用`^`和`~`可以自由在在提交树中移动："
+            ],
+            "afterMarkdowns": [
+              "快若闪电！"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "再疯狂点，这些修改符支持链式操作！试一下这个："
+            ],
+            "afterMarkdowns": [
+              "和前面的结果一样，但只用了一条命令。"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 实践一下",
+              "",
+              "要完成此关，在指定的目标位置创建一个新的分支。",
+              "",
+              "很明显可以简单的直接使用提交记录的hash值（比如`C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
-
 
 });
 require("/src/levels/advanced/multipleParents.js");
@@ -32623,25 +33020,27 @@ exports.sequenceInfo = {
       'en_US': 'Introduction Sequence',
       'ja': 'まずはここから',
       'fr_FR': 'Sequence d\'introduction',
-      'zh_CN': '简介序列',
+      'zh_CN': '序列简介',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
-      'zh_CN': '一个节奏感良好的主流 Git 命令介绍',
+      'zh_CN': '循序渐进介绍git主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },
   rampup: {
     displayName: {
       'en_US': 'Ramping Up',
-      'ja': '次のレベルに進もう'
+      'ja': '次のレベルに進もう',
+      'zh_CN': '进阶篇'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
-      'ja': '更にgitの素晴らしさを堪能しよう'
+      'ja': '更にgitの素晴らしさを堪能しよう',
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧!'
     }
   },
   rebase: {
@@ -32649,7 +33048,7 @@ exports.sequenceInfo = {
       'en_US': 'Master the Rebase Luke!',
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
-      'zh_CN': '掌握衍合，兄弟！',
+      'zh_CN': '精通Rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
@@ -32657,7 +33056,7 @@ exports.sequenceInfo = {
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
-      'zh_CN': '大家说的火热的衍合都是些神马？看看吧！'
+      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！'
     }
   },
   mixed: {
@@ -32673,15 +33072,17 @@ exports.sequenceInfo = {
       'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git技术，技巧与贴士'
+      'zh_CN': 'Git技术，技巧与贴士杂烩'
     }
   },
   advanced: {
     displayName: {
-      'en_US': 'Advanced Topics'
+      'en_US': 'Advanced Topics',
+      'zh_CN': '高级主题'
     },
     about: {
-      'en_US': 'For the truly brave!'
+      'en_US': 'For the truly brave!',
+      'zh_CN': '只为真正的勇士！'
     }
   }
 };
@@ -32698,13 +33099,13 @@ require.define("/src/levels/intro/branching.js",function(require,module,exports,
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "zh_CN": "Git开分支"
+    "zh_CN": "建立Git分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
-    "zh_CN": "用 'git branch [新分支名字]' 来创建新分支，并用 'git checkout [新分支]' 切换到新分支",
+    "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
   "disabledMap": {
@@ -32953,15 +33354,15 @@ require.define("/src/levels/intro/branching.js",function(require,module,exports,
             "markdowns": [
               "## Git Branches",
               "",
-              "在 Git 里面，分支也是非常轻量。它们实际上就是对特定的提交的一个简单参照（reference） —— 对，就是那么简单。所以许多鼓吹 Git 的玩家会反复吟诵这么一句咒语：",
+              " Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已。所以许多Git爱好者会念叨：",
               "",
               "```",
-              "早点开分支！多点开分支！（branch early, and branch often）",
+              "早点建分支！经常建分支！",
               "```",
               "",
-              "因为创建分支不会带来任何储存（硬盘和内存）上的开销，所以你大可以根据需要将你的工作划分成几个分支，而不是使用只使用一个巨大的分支（beefy）。",
+              "创建分支没有储存或内存上的开销，所以按逻辑分解工作比维护单一的代码树要简单。",
               "",
-              "当我们开始将分支和提交混合一起使用之后，将会看见两者混合所带来的特性。从现在开始，只要记住使用分支其实就是在说：“我想把这次提交和它的父提交都包含进去。（I want to include the work of this commit and all parent commits.）”"
+              "同时使用分支和提交时，我们会看到两者如何配合。现在，只要记住使用分支其实就是在说：“我想包含本次提交及所有的父提交记录。”"
             ]
           }
         },
@@ -32969,13 +33370,13 @@ require.define("/src/levels/intro/branching.js",function(require,module,exports,
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "让我们在实践中看看分支究竟是怎样的。",
+              "举个例子看看分支究竟是什么。",
               "",
-              "现在我们会检出（check out）到一个叫 `newImage` 的新分支。"
+              "这里，我们切换到到名为`newImage`的新分支。"
             ],
             "command": "git branch newImage",
             "afterMarkdowns": [
-              "看，这就是分支啦！`newImage` 这个分支现在是指向提交 `C1`。"
+              "看，这就是建立分支所需的操作啦！`newImage`分支现在指向提交记录`C1`。"
             ],
             "beforeCommand": ""
           }
@@ -32984,11 +33385,11 @@ require.define("/src/levels/intro/branching.js",function(require,module,exports,
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在让我们往这个新分支里添加一点修改。按一下下面的按钮。"
+              "现在让我们修改一下新分支。点击下面的按钮。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "啊摔！`master` 分支前进了，但是 `newImage` 分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
+              "啊摔！`master`分支前进了，但`newImage`分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -32997,17 +33398,17 @@ require.define("/src/levels/intro/branching.js",function(require,module,exports,
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "要切换到一个分支，我们可以这样告诉 git",
+              "使用如下命令告诉git我们想要切换到新的分支",
               "",
               "```",
               "git checkout [name]",
               "```",
               "",
-              "这样就可以让我们在提交修改之前切换到新的分支了。"
+              "这可以让我们在提交修改之前切换到新的分支。"
             ],
             "command": "git checkout newImage; git commit",
             "afterMarkdowns": [
-              "好的嘞！我们的修改已经记录在新的分支里了。"
+              "好的嘞！新的分支已经记录了我们的修改。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -33016,8 +33417,8 @@ require.define("/src/levels/intro/branching.js",function(require,module,exports,
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦，现在你可以准备使用分支了。这个窗口关闭以后，",
-              "创建一个叫 `bugFix` 的新分支，然后切换到那里。"
+              "好啦，你已经准备好使用分支了。当前窗口关闭后，",
+              "创建一个叫 `bugFix` 的新分支，然后切换过去。"
             ]
           }
         }
@@ -33113,7 +33514,7 @@ require.define("/src/levels/intro/commits.js",function(require,module,exports,__
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': '介绍Git提交'
+    'zh_CN': 'Git Commits简介'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -33318,15 +33719,15 @@ require.define("/src/levels/intro/commits.js",function(require,module,exports,__
           "options": {
             "markdowns": [
               "## Git Commits",
-              "在一个使用 git 进行版本控制的仓库里，一次提交（commit）给你目录下所有文件做了一次快照，就好像是做了一次复制粘贴，但 git 做的不只那么简单！",
+              "git仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 git 做的不只这么简单！",
               "",
-              "Git 希望尽可能地让这些提交记录保持轻量，所以每次在你进行提交的时候，它不会就这么复制整个工作目录。实际上它把每次提交都记录为一个相对于上个版本变化的集合，或者说一个\"差异 （delta）\"集。这也是为什么绝大部分提交都有一个父对象（parent commit） -- 迟点你就会在我们的演示中看见了。",
+              "Git 希望提交记录尽可能地轻量，所以每次进行提交时，它不会简单地复制整个目录。实际上它把每次提交记录保存为从代码库的一个版本到下一个版本的变化集，或者说一个\"增量（delta）\"。所以，大部分提交记录都有一个父提交（parent commit）-- 我们会很快演示这一点。",
               "",
-              "假如你要克隆（clone）一个仓库，你就要去解包（unpack）或者“解决（resolve）”这些差异。所以当你克隆一个仓库时会在命令行下看见这样的命令：",
+              "克隆（clone）代码库时，需要解包（unpack）或者“解析（resolve）”所有的差异。所以在克隆代码库时，可能会看见如下命令行输出：",
               "",
               "`resolving deltas`",
               "",
-              "要完全理解这些概念可能要花费很多时间，但现在你可以把提交看作是项目的快照，提交非常轻量而且在它们之间切换的时候非常快。"
+              "要学的东西有很多，但现在你可以把提交记录看作是项目的快照。提交记录非常轻量且可以快速切换！"
             ]
           }
         },
@@ -33334,13 +33735,13 @@ require.define("/src/levels/intro/commits.js",function(require,module,exports,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "让我们在练习里好好了解提交是什么玩意。在右边展示的是一个使用 git 管理的（小）仓库。现在有两个提交 —— 一个是初始提交 `C0`，另外一个可能包含了一些有意义修改的提交是`C1`。",
+              "在实践中学习commit。右边是一个（小）git代码库的图示。当前有两个提交记录—— 初始提交`C0`和其后可能包含有用修改的提交`C1`。",
               "",
-              "点下面的按钮来生成一个新的提交。"
+              "点击下面的按钮生成新的提交记录。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "看！碉堡吧！我们刚刚对这个仓库进行了一点修改，并且把这些修改提交了。我们刚刚做的提交有一个爸爸（parent），叫 `C1`，代表这个修改是基于`C1`的。"
+              "看！碉堡吧！我们修改了代码，并保存为一次提交记录。刚刚做的提交`C2`有一个父提交（parent）`C1`，代表此次修改的基础。"
             ],
             "beforeCommand": ""
           }
@@ -33349,7 +33750,7 @@ require.define("/src/levels/intro/commits.js",function(require,module,exports,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "接下来你可以继续尝试下。在这个窗口关闭之后，提交两遍就可以过关！"
+              "接下来你可以随便测试。当前窗口关闭后，完成两次提交就可以过关！"
             ]
           }
         }
@@ -33369,13 +33770,13 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
-    "zh_CN": "Git合并(Merge)"
+    "zh_CN": "分支与合并"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
-    "zh_CN": "记得按照给定的顺序来进行提交(commit) （bugFix 要在 master 之前）",
+    "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
   "disabledMap": {
@@ -33597,11 +33998,11 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
             "markdowns": [
               "## Branches and Merging",
               "",
-              "Great! 现在我们已经知道怎么提交和使用分支了。接下来要学的一招是怎么把两个不同分支的工作合并起来。这样做是为了让我们在创建新的分支，开发新的东西之后，把新的东西合并回来。",
+              "Great! 我们已经知道怎么提交和使用分支了。接下来要学的一招是如何合并两个不同分支的工作。这让我们可以新建一个分支，在其上开发新功能，然后合并回主线。",
               "",
-              "我们将要学的第一个组合方法是 `git merge`。在 Git 里进行合并（Merging）会产生一个拥有两个各不相同的父提交的特殊提交（commit）。这个特殊提交本质上就是：“把这两个各不相同的父提交*以及*它们的父提交集合的所有内容都包含进来。”",
+              "`git merge`是我们要学习的合并工作的第一个方法。合并产生一个特殊的提交记录，它包含两个唯一父提交。有两个父提交的提交记录本质上是：“我想把这两个父提交本身及它们的父提交集合都包含进来。”",
               "",
-              "听起来可能有点拗口，看看下一张就明白了。"
+              "有图有真相，看看下面的图示就明白了。"
             ]
           }
         },
@@ -33609,17 +34010,17 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们有两个分支：每一个都有一个特有的提交。也就是说没有一个分支包含了仓库的所有工作。现在让我们用合并来将它们组合在一起吧。",
+              "当前有两个分支：各有一个唯一的提交。这意味着没有一个分支包含我们对代码库的所有修改。让我们合并这两个分支来解决这个问题。",
               "",
-              "我们将要把分支 `bugFix` 合并到 `master` 上"
+              "我们要把 `bugFix` 合并到 `master` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看见木有？`master` 分支现在指向了一个拥有两个爸爸的提交。假如你从 `master` 开始沿着箭头走到起点，沿路你可以遍历到所有的提交。这就表明 `master` 包含了仓库里所有的内容了。",
+              "哇！看见木有？首先，`master` 现在指向一个拥有两个父提交的提交记录。假如从 `master` 开始沿着箭头向上游走，在到达起点的路上会经过所有的提交记录。这说明有 `master` 包含了对代码库的所有修改。",
               "",
-              "还有，看见各个提交的颜色的变化了吗？为了帮助学习，我添加了一些颜色混合。每个分支都有特定的颜色。每个提交的颜色都是含有这个提交的分支的颜色的混合。",
+              "还有，看见各个提交记录的颜色变化了吗？为了帮助学习，我使用了颜色混合。每个分支都有特定的颜色。每个提交记录都变成了含有此提交的所有分支的混合色。",
               "",
-              "所以我们可以看见 `master` 分支的颜色是所有提交的颜色的混合，但是 `bugFix` 不是。接下来就改一下这里吧。"
+              "所以，`master` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。接下来就改一下这里吧。"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -33632,9 +34033,9 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因为 `bugFix` 分支在 `master` 分支的上游，所以 git 不用做什么额外的工作，只要把 `master` 分支的最新提交移到 `bugFix` 分支就可以了。",
+              "因为 `bugFix` 分支在 `master` 分支的下游，git什么都不用做，只是简单地把`bugfix`分支移动到`master`指向的提交记录。",
               "",
-              "现在所有的提交的颜色都是一样的啦，这表明现在所有的分支都包含了仓库里所有的东西！走起！"
+              "现在所有的提交记录的颜色都是一样的啦，这表明每一个分支都包含了代码库的所有修改！走起！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
@@ -33643,16 +34044,16 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
+              "想完成此关，执行收下操作：",
               "",
-              "* 创建一个叫 `bugFix` 的新分支",
-              "* 用 `git checkout bugFix` 切换到分支 `bugFix`",
-              "* 创建一个提交",
-              "* 再用 `git checkout` 切换回 `master` 上",
-              "* 创建另外一个提交",
-              "* 用 `git merge` 把分支 `bugFix` 合并进 `master` 里",
+              "* 创建新分支 `bugFix` ",
+              "* 用 `git checkout bugFix` 切换到 `bugFix`分支",
+              "* 提交一次",
+              "* 用 `git checkout` 切换回 `master` ",
+              "* 再提交一次",
+              "* 用 `git merge` 合并 `bugFix`分支进 `master`",
               "",
-              "*友情提示，可以使用 \"help level\" 命令来重新显示这个窗口哦！*"
+              "*记住，总是可以用 \"help level\" 命令来重新显示这个对话框！*"
             ]
           }
         }
@@ -33741,7 +34142,7 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
     "ja": "Rebaseの解説",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
-    "zh_CN": "介绍衍合(rebase)"
+    "zh_CN": "Rebase简介"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -33961,9 +34362,9 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
             "markdowns": [
               "## Git Rebase",
               "",
-              "第二种合并不用分支工作的方法是 *衍合（rebasing）*。衍合就是取出一系列的提交，\"组合（compies）\"它们，然后把它们在某个地方重新放下来（重新实施一遍）。",
+              "*rebasing*是在分支之间合并工作的第二种方法。Rebasing就是取出一系列的提交记录，\"复制\"它们，然后把在别的某个地方放下来。",
               "",
-              "这可能看上去很难明白，而衍合的最大好处就是可以用来创造更线性的提交历史。假如一个项目只允许使用衍合（来合并工作），那么它的提交记录/历史会变得好看很多。",
+              "虽然听上去难以理解，rebasing 的优势是可以创造更线性的提交历史。假如只允许使用rebasing，代码库的提交日志/历史会更好看。",
               "",
               "让我们亲身体会下……"
             ]
@@ -33973,19 +34374,19 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们有两个分支，注意当前分支是 bugFix（看那颗星）",
+              "这里，还是有两个分支；注意当前分支是 bugFix（看那颗星）",
               "",
-              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法会让我们觉得这两个特性分支的工作是顺序提交的，但实际上它们是平行发展提交的。",
+              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法，两个分支的功能看起来像是按顺序开发，实际上它们是平行开发的。",
               "",
-              "要做到这个效果，我们用 `git rebase`"
+              "用 `git rebase`实现此目标"
             ],
             "command": "git rebase master",
             "afterMarkdowns": [
-              "碉堡吧，现在我们在 bugFix 分支上的工作已经移到了 master 的最前端，同时我们也得到了一个很好的直线型提交历史。",
+              "碉堡吧，现在 bugFix 分支上的工作在 master 的最前端，同时我们也得到了一个更线性的提交序列。",
               "",
-              "注意一下提交 C3 其实还存在在我们的仓库的某个角落里（阴影的那货就是你了，还看什么看），而 C3' 是它一个在 master 分支上的\"拷贝\"提交。",
+              "注意，提交记录 C3 仍然存在（阴影的那货就是你了，还看什么看），而我们已经将 C3 复制到了master。",
               "",
-              "现在还有唯一一个问题就是 master 分支还没有更新……下面就来更新它吧"
+              "现在唯一的问题是 master 分支还没有更新……下面就来更新它吧"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
           }
@@ -33994,11 +34395,11 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在我们可以切换到了 `master` 分支。接下来就把它衍合到 `bugFix` 吧……"
+              "现在，切换到 `master` 分支。接下来就把它 rebase 到 `bugFix` 吧……"
             ],
             "command": "git rebase bugFix",
             "afterMarkdowns": [
-              "看！因为 `master` 是 `bugFix` 的上游，所以 git 只把 `master` 分支的记录前进到 `bugFix` 上。"
+              "完成！因为 `master` 是 `bugFix` 的下游，所以 git 只把 `master` 分支的记录前移到 `bugFix` 上。"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
           }
@@ -34007,12 +34408,12 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想刷过这关，要按照下面的步骤来：",
+              "想完成此关，执行以下操作：",
               "",
-              "* 切换到一个叫 `bugFix` 的新分支",
-              "* 创建一个提交",
-              "* 回到 master 分支并且创建另外一个提交",
-              "* 再次切换到 bugFix 分支，然后把它衍合到 master 上",
+              "* 新建`bugFix`分支",
+              "* 提交一次",
+              "* 切换回 master 分支再提交一次",
+              "* 再次切换到 bugFix 分支，rebase 到 master 上",
               "",
               "祝你好运啦！"
             ]
@@ -34694,10 +35095,12 @@ require.define("/src/levels/rampup/detachedHead.js",function(require,module,expo
   "solutionCommand": "git checkout C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Detach yo' HEAD"
+    "en_US": "Detach yo' HEAD",
+    "zh_CN": "分离HEAD"
   },
   "hint": {
-    "en_US": "Use the label (hash) on the commit for help!"
+    "en_US": "Use the label (hash) on the commit for help!",
+    "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {
     "en_US": {
@@ -34777,9 +35180,88 @@ require.define("/src/levels/rampup/detachedHead.js",function(require,module,expo
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 在Git中前后移动",
+              "",
+              "在接触Git的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
+              "",
+              "一旦能够熟练地在Git中前进后退，你使用其他git命令的威力也会被放大！",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "我们首先看一下\"HEAD\". HEAD是当前提交记录的符号名称 -- 其实就是你正在其基础进行工作的提交记录。",
+              "",
+              "HEAD总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的git命令都开始于改变HEAD指向。",
+              "",
+              "HEAD通常指向分支名（比如bugFix）。你提交时，改变了bugFix的状态，这一变化通过HEAD变得可见。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在实例中看一下。我们将会观察提交前后HEAD的位置。"
+            ],
+            "afterMarkdowns": [
+              "看! HEAD一直藏在`master`分支后面。"
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### 分离 HEAD",
+              "",
+              "分离HEAD就是让其指向一个提交记录而不是分支名。这是命令执行之前的样子： ",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "现在变成了",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想完成此关，从`bugFix`分离出HEAD并让其指向一个提交记录。",
+              "",
+              "通过hash值指定提交记录。每个提交记录的hash值显示在代表提交记录的圆圈中。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
+
 });
 require("/src/levels/rampup/detachedHead.js");
 
@@ -34788,10 +35270,12 @@ require.define("/src/levels/rampup/relativeRefs.js",function(require,module,expo
   "solutionCommand": "git checkout bugFix^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Relative Refs (^)"
+    "en_US": "Relative Refs (^)",
+    "zh_CN": "相对引用(^)"
   },
   "hint": {
-    "en_US": "Remember the Caret (^) operator!"
+    "en_US": "Remember the Caret (^) operator!",
+    "zh_CN": "记住插入(^)操作符!"
   },
   "startDialog": {
     "en_US": {
@@ -34868,9 +35352,85 @@ require.define("/src/levels/rampup/relativeRefs.js",function(require,module,expo
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 相对引用",
+              "",
+              "用指定提交记录hash值的方式在Git中移动会变得比较乏味。在现实中，你不会有漂亮的可视化的提交记录树放在终端旁边，所以你不得不用`git log`来查看hasn值。",
+              "",
+              "另外，hash值在真实的Git环境中也会更长。举个例子，前一关的介绍中的提交记录的hash值是`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。不要把舌头闪了...",
+              "",
+              "好的一面是，Git对hash的处理很智能。你只需要提供能够唯一标识提交记录的前几个字符即可。所以，我可以仅输入`fed2`而不是上面的一长串字符。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我说过，通过hash指定提交记录不是很方便，所以Git引入了相对引用。这个就很牛掰了!",
+              "",
+              "使用相对引用，你可以从一个易于记忆的地方（比如分支名`bugFix`或`HEAD`）开始工作。",
+              "",
+              "相对引用非常给力，这里我介绍两个简单的用法：",
+              "",
+              "* 使用`^`向上移动1个提交记录",
+              "* 使用`~<num>`向上移动多个提交记录"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "首先看看插入(^)操作符。把插入符跟在引用名后面，表示让Git寻找指定提交记录的父提交。",
+              "",
+              "所以`master^`相当于\"`master`的父提交\"。",
+              "",
+              "`master^^`是`master`的父父提交（上上代祖先）",
+              "",
+              "切换到master的父提交"
+            ],
+            "afterMarkdowns": [
+              "唰！搞定。这种方式比输入提交记录的hash值简单多了！"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你也可以`HEAD`把用作相对引用。以下命令使用`HEAD`在提交树中向上移动几次。"
+            ],
+            "afterMarkdowns": [
+              "简单！我们可以一直使用`HEAD^`向上移动。"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成此关，切换到`bugFix`的父提交。这会分离出`HEAD`.",
+              "",
+              "如果你愿意的话，使用hash值也可以过关，但为何不试试使用相对引用呢？"
+            ]
+          }
+        }
+      ]
     }
   }
 };
+
 });
 require("/src/levels/rampup/relativeRefs.js");
 
@@ -34879,10 +35439,12 @@ require.define("/src/levels/rampup/relativeRefs2.js",function(require,module,exp
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
-    "en_US": "You'll need to use at least one direct reference (hash) to complete this level"
+    "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
+    "zh_CN": "这一关至少要用到一次直接引用(hash)"
   },
   "name": {
-    "en_US": "Relative Refs #2 (~)"
+    "en_US": "Relative Refs #2 (~)",
+    "zh_CN": "相对引用2(~)"
   },
   "startDialog": {
     "en_US": {
@@ -34938,9 +35500,64 @@ require.define("/src/levels/rampup/relativeRefs2.js",function(require,module,exp
           }
         }
       ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### The \"~\" operator",
+              "",
+              "假设需要在提交树中向上移动很多步。使用多个`^`非常无聊，所以Git也引入了波浪(~)操作符。",
+              "",
+              "",
+              "波浪操作符后面可以（可选地）跟一个数字，指定向上移动多少次。看个例子"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用`~`一次后退多步."
+            ],
+            "afterMarkdowns": [
+              "唰！如此简洁--相对引用就是好啊！"
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch forcing",
+              "",
+              "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
+              "",
+              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交亡灵。举个例子:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "（强制）移动master指向HEAD的第3级父提交。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成此关，移动`HEAD`，`master`和`bugFix`到目标所示的位置。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
+
 });
 require("/src/levels/rampup/relativeRefs2.js");
 
@@ -34954,12 +35571,12 @@ require.define("/src/levels/rampup/reversingChanges.js",function(require,module,
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "Git 里的撤销改变"
+    "zh_CN": "在Git中撤销更改"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
     "fr_FR": "",
-    "zh_CN": "",
+    "zh_CN": "注意revert和reset使用不同的参数。",
     "ko": "",
     "ja": ""
   },
@@ -35161,9 +35778,9 @@ require.define("/src/levels/rampup/reversingChanges.js",function(require,module,
             "markdowns": [
               "## 撤销 Git 里面的变动",
               "",
-              "在 Git 里有很多方法撤销（reverse）变动。和 commit 一样，在 Git 里撤销变动同时具有底层次的部分（暂存一些独立的文件或者片段）和高层次的部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
+              "在 Git 里撤销修改的方法很多。和 commit 一样，在 Git 里撤销变动同时具有底层部分（暂存一些独立的文件或者片段）和高层部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
               "",
-              "在 Git 里主要有两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
+              "在 Git 里主要用两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
               ""
             ]
           }
@@ -35174,13 +35791,13 @@ require.define("/src/levels/rampup/reversingChanges.js",function(require,module,
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` 通过把分支记录回退上一个提交来实现撤销改动。这意味着你可以把它的行为当作是\"重写历史\"。`git reset` 会令分支记录回退，做到最新的提交好像没有提交过一样。",
+              "`git reset`把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在\"重写历史\"。`git reset`往回移动分支，原来指向的提交记录好像重来没有提交过一样。",
               "",
               "让我们看看具体的操作："
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "Nice! Git 就简单地把 master 分支的记录移回 `C1`；现在我们的本地仓库就处于好像提交 `C2` 没有发生过的状态了。"
+              "Nice!Git把master分支的指向简单地移回到`C1`；现在我们的本地代码库处于没有提交过`C2`的状态了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -35191,15 +35808,15 @@ require.define("/src/levels/rampup/reversingChanges.js",function(require,module,
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "虽然在你机子的本地环境中这样来撤销变更看起来很方便，但是这种“改写历史”的方法对别人用的远端分支是无效的哦！",
+              "虽然在你的本地分支中使用`git reset`很方便，但是这种“改写历史”的方法对别人的远端分支是无效的哦！",
               "",
-              "为了撤销分支并把这些变动*分享*给别人，我们需要 `git revert`。下面继续看它是怎么运作的。"
+              "为了撤销更改并*传播*给别人，我们需要使用`git revert`。举个例子"
             ],
             "command": "git revert HEAD",
             "afterMarkdowns": [
-              "怪哉！在我们要撤销的提交之后居然多了一个新提交！这是因为这个新提交 `C2'` 提供了*变动*（introduces changes） —— 刚好是用来撤销 `C2` 这个提交的。",
+              "怪哉！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录`C2'`引入了*更改*——刚好是用来撤销 `C2` 这个提交的。",
               "",
-              "借助 revert，现在你可以把你的改动分享给别人啦。"
+              "借助 revert，现在可以把你的更改传递给别人啦。"
             ],
             "beforeCommand": "git commit"
           }
@@ -35208,9 +35825,9 @@ require.define("/src/levels/rampup/reversingChanges.js",function(require,module,
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要刷过这关，请分别把 `local` 分支和 `pushed` 分支上最近的一个提交撤销掉。",
+              "要完成此关，分别撤销`local`分支和`pushed`分支上的最近一次提交。",
               "",
-              "记住 `pushes` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+              "记住 `pushed` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
             ]
           }
         }
@@ -35297,13 +35914,13 @@ require.define("/src/levels/rebase/manyRebases.js",function(require,module,expor
     "en_US": "Rebasing over 9000 times",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
-    "zh_CN": "衍合一百遍啊一百遍"
+    "zh_CN": "N次Rebase"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，可能最终最高效的方法就是更新主分支（master）……"
+    "zh_CN": "记住，最后更新master分支可能是最高效的方法。"
   },
   "startDialog": {
     "en_US": {
@@ -35350,11 +35967,11 @@ require.define("/src/levels/rebase/manyRebases.js",function(require,module,expor
             "markdowns": [
               "### 多分支衍合",
               "",
-              "呐，现在我们有很多分支啦！让我们把这些分支的工作衍合到 master 分支上吧。",
+              "呐，现在我们有很多分支啦！让我们rebase这些分支的工作到 master 分支上吧。",
               "",
-              "但是上头（upper management）找了点麻烦 —— 他们要希望提交历史是有序的，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "但是你的头头找了点麻烦 —— 他们希望得到有序的提交历史，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
-              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得最后要看看我们的答案，并和你的对比下，看谁敲的命令更少哦！"
+              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得看看我们提供的答案，看你能否使用更少的命令完成任务！"
             ]
           }
         }
@@ -35380,6 +35997,7 @@ require.define("/src/levels/rebase/manyRebases.js",function(require,module,expor
     }
   }
 };
+
 });
 require("/src/levels/rebase/manyRebases.js");
 
