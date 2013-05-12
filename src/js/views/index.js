@@ -5,6 +5,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var Main = require('../app');
 var intl = require('../intl');
+var log = require('../log');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
@@ -661,6 +662,11 @@ var IntlHelperBar = HelperBar.extend({
     }];
   },
 
+  fireCommand: function() {
+    log.viewInteracted('intlSelect');
+    HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
   onJapaneseClick: function() {
     this.fireCommand('locale ja; levels');
     this.hide();
@@ -707,6 +713,11 @@ var CommandsHelperBar = HelperBar.extend({
     }];
   },
 
+  fireCommand: function() {
+    log.viewInteracted('helperBar');
+    HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
   onLevelsClick: function() {
     this.fireCommand('levels');
   },
@@ -737,10 +748,12 @@ var MainHelperBar = HelperBar.extend({
 
   onIntlClick: function() {
     this.showDeferMe(this.intlHelper);
+    log.viewInteracted('openIntlBar');
   },
 
   onCommandsClick: function() {
     this.showDeferMe(this.commandsHelper);
+    log.viewInteracted('openCommandsBar');
   },
 
   setupChildren: function() {

@@ -6003,6 +6003,7 @@ var Q = require('q');
 var util = require('../util');
 var Main = require('../app');
 var intl = require('../intl');
+var log = require('../log');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
@@ -6116,6 +6117,10 @@ var Level = Sandbox.extend({
     });
   },
 
+  getEnglishName: function() {
+    return this.level.name.en_US;
+  },
+
   initName: function() {
     var name = intl.getName(this.level);
 
@@ -6182,6 +6187,7 @@ var Level = Sandbox.extend({
         'commandSubmitted',
         toIssue
       );
+      log.showLevelSolution(this.getEnglishName());
     }, this);
 
     var commandStr = command.get('rawStr');
@@ -6381,6 +6387,7 @@ var Level = Sandbox.extend({
     this.solved = true;
     if (!this.isShowingSolution) {
       Main.getEvents().trigger('levelSolved', this.level.id);
+      log.levelSolved(this.getEnglishName());
     }
 
     this.hideGoal();
@@ -6532,6 +6539,36 @@ var Level = Sandbox.extend({
 
 exports.Level = Level;
 exports.regexMap = regexMap;
+
+});
+
+require.define("/src/js/log/index.js",function(require,module,exports,__dirname,__filename,process,global){
+var log = function(category, action, label) {
+  window._gaq = window._gaq || [];
+  window._gaq.push(['_trackEvent', category, action, label]);
+  //console.log('just logged ', [category, action, label].join('|'));
+};
+
+exports.viewInteracted = function(viewName) {
+  log('views', 'interacted', viewName);
+};
+
+exports.showLevelSolution = function(levelName) {
+  log('levels', 'showedLevelSolution', levelName);
+};
+
+exports.levelSelected = function(levelName) {
+  log('levels', 'levelSelected', levelName);
+};
+
+exports.levelSolved = function(levelName) {
+  log('levels', 'levelSolved', levelName);
+};
+
+exports.commandEntered = function(value) {
+  log('commands', 'commandEntered', value);
+};
+
 
 });
 
@@ -9517,6 +9554,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var Main = require('../app');
 var intl = require('../intl');
+var log = require('../log');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
@@ -10173,6 +10211,11 @@ var IntlHelperBar = HelperBar.extend({
     }];
   },
 
+  fireCommand: function() {
+    log.viewInteracted('intlSelect');
+    HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
   onJapaneseClick: function() {
     this.fireCommand('locale ja; levels');
     this.hide();
@@ -10219,6 +10262,11 @@ var CommandsHelperBar = HelperBar.extend({
     }];
   },
 
+  fireCommand: function() {
+    log.viewInteracted('helperBar');
+    HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
   onLevelsClick: function() {
     this.fireCommand('levels');
   },
@@ -10249,10 +10297,12 @@ var MainHelperBar = HelperBar.extend({
 
   onIntlClick: function() {
     this.showDeferMe(this.intlHelper);
+    log.viewInteracted('openIntlBar');
   },
 
   onCommandsClick: function() {
     this.showDeferMe(this.commandsHelper);
+    log.viewInteracted('openCommandsBar');
   },
 
   setupChildren: function() {
@@ -20290,6 +20340,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var util = require('../util');
 var intl = require('../intl');
+var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 
@@ -20515,6 +20566,9 @@ var LevelDropdownView = ContainedBase.extend({
         'commandSubmitted',
         'level ' + id
       );
+      var level = Main.getLevelArbiter().getLevel(id);
+      var name = level.name.en_US;
+      log.levelSelected(name);
     }
     this.hide();
   },
@@ -20628,6 +20682,7 @@ var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var util = require('../util');
+var log = require('../log');
 var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
@@ -20849,6 +20904,7 @@ var CommandPromptView = Backbone.View.extend({
     if (this.commands.length > 100) {
       this.clearLocalStorage();
     }
+    log.commandEntered(value);
   },
 
   submitCommand: function(value) {
@@ -25579,6 +25635,7 @@ var Q = require('q');
 var util = require('../util');
 var Main = require('../app');
 var intl = require('../intl');
+var log = require('../log');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
@@ -25692,6 +25749,10 @@ var Level = Sandbox.extend({
     });
   },
 
+  getEnglishName: function() {
+    return this.level.name.en_US;
+  },
+
   initName: function() {
     var name = intl.getName(this.level);
 
@@ -25758,6 +25819,7 @@ var Level = Sandbox.extend({
         'commandSubmitted',
         toIssue
       );
+      log.showLevelSolution(this.getEnglishName());
     }, this);
 
     var commandStr = command.get('rawStr');
@@ -25957,6 +26019,7 @@ var Level = Sandbox.extend({
     this.solved = true;
     if (!this.isShowingSolution) {
       Main.getEvents().trigger('levelSolved', this.level.id);
+      log.levelSolved(this.getEnglishName());
     }
 
     this.hideGoal();
@@ -26811,6 +26874,37 @@ exports.getOptimisticLevelBuilderParse = function() {
 
 });
 require("/src/js/level/sandboxCommands.js");
+
+require.define("/src/js/log/index.js",function(require,module,exports,__dirname,__filename,process,global){
+var log = function(category, action, label) {
+  window._gaq = window._gaq || [];
+  window._gaq.push(['_trackEvent', category, action, label]);
+  //console.log('just logged ', [category, action, label].join('|'));
+};
+
+exports.viewInteracted = function(viewName) {
+  log('views', 'interacted', viewName);
+};
+
+exports.showLevelSolution = function(levelName) {
+  log('levels', 'showedLevelSolution', levelName);
+};
+
+exports.levelSelected = function(levelName) {
+  log('levels', 'levelSelected', levelName);
+};
+
+exports.levelSolved = function(levelName) {
+  log('levels', 'levelSolved', levelName);
+};
+
+exports.commandEntered = function(value) {
+  log('commands', 'commandEntered', value);
+};
+
+
+});
+require("/src/js/log/index.js");
 
 require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
@@ -28045,6 +28139,7 @@ var Errors = require('../util/errors');
 var Warning = Errors.Warning;
 
 var util = require('../util');
+var log = require('../log');
 var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
@@ -28266,6 +28361,7 @@ var CommandPromptView = Backbone.View.extend({
     if (this.commands.length > 100) {
       this.clearLocalStorage();
     }
+    log.commandEntered(value);
   },
 
   submitCommand: function(value) {
@@ -28679,6 +28775,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var Main = require('../app');
 var intl = require('../intl');
+var log = require('../log');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var GitError = require('../util/errors').GitError;
@@ -29335,6 +29432,11 @@ var IntlHelperBar = HelperBar.extend({
     }];
   },
 
+  fireCommand: function() {
+    log.viewInteracted('intlSelect');
+    HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
   onJapaneseClick: function() {
     this.fireCommand('locale ja; levels');
     this.hide();
@@ -29381,6 +29483,11 @@ var CommandsHelperBar = HelperBar.extend({
     }];
   },
 
+  fireCommand: function() {
+    log.viewInteracted('helperBar');
+    HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
   onLevelsClick: function() {
     this.fireCommand('levels');
   },
@@ -29411,10 +29518,12 @@ var MainHelperBar = HelperBar.extend({
 
   onIntlClick: function() {
     this.showDeferMe(this.intlHelper);
+    log.viewInteracted('openIntlBar');
   },
 
   onCommandsClick: function() {
     this.showDeferMe(this.commandsHelper);
+    log.viewInteracted('openCommandsBar');
   },
 
   setupChildren: function() {
@@ -29508,6 +29617,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var util = require('../util');
 var intl = require('../intl');
+var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 
@@ -29733,6 +29843,9 @@ var LevelDropdownView = ContainedBase.extend({
         'commandSubmitted',
         'level ' + id
       );
+      var level = Main.getLevelArbiter().getLevel(id);
+      var name = level.name.en_US;
+      log.levelSelected(name);
     }
     this.hide();
   },

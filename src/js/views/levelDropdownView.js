@@ -5,6 +5,7 @@ var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.
 
 var util = require('../util');
 var intl = require('../intl');
+var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 
@@ -230,6 +231,9 @@ var LevelDropdownView = ContainedBase.extend({
         'commandSubmitted',
         'level ' + id
       );
+      var level = Main.getLevelArbiter().getLevel(id);
+      var name = level.name.en_US;
+      log.levelSelected(name);
     }
     this.hide();
   },
