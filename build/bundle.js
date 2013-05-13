@@ -7030,6 +7030,14 @@ GitEngine.prototype.init = function() {
   this.commit();
 };
 
+GitEngine.prototype.hasOrigin = function() {
+  return false;
+};
+
+GitEngine.prototype.isOrigin = function() {
+  return false;
+};
+
 GitEngine.prototype.exportTree = function() {
   // need to export all commits, their connectivity / messages, branches, and state of head.
   // this would be simple if didn't have circular structures.... :P
@@ -14846,11 +14854,6 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  // eventually have origin support here
-  this.posBoundaries = {
-    min: 0,
-    max: 1
-  };
   this.flipFraction = 0.65;
 
   var Main = require('../app');
@@ -14924,9 +14927,28 @@ GitVisuals.prototype.getScreenPadding = function() {
   };
 };
 
+GitVisuals.prototype.getPosBoundaries = function() {
+  if (this.gitEngine.hasOrigin()) {
+    return {
+      min: 0,
+      max: 0.5
+    };
+  } else if (this.gitEngine.isOrigin()) {
+    return {
+      min: 0.5,
+      max: 1
+    };
+  }
+  return {
+    min: 0,
+    max: 1
+  };
+};
+
 GitVisuals.prototype.getFlipPos = function() {
-  var min = this.posBoundaries.min;
-  var max = this.posBoundaries.max;
+  var bounds = this.getPosBoundaries();
+  var min = bounds.min;
+  var max = bounds.max;
   return this.flipFraction * (max - min) + min;
 };
 
@@ -15280,10 +15302,11 @@ GitVisuals.prototype.calcBranchStacks = function() {
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
 
+  var bounds = this.getPosBoundaries();
   this.assignBoundsRecursive(
     this.rootCommit,
-    this.posBoundaries.min,
-    this.posBoundaries.max
+    bounds.min,
+    bounds.max
   );
 };
 
@@ -22441,6 +22464,14 @@ GitEngine.prototype.init = function() {
 
   // commit once to get things going
   this.commit();
+};
+
+GitEngine.prototype.hasOrigin = function() {
+  return false;
+};
+
+GitEngine.prototype.isOrigin = function() {
+  return false;
 };
 
 GitEngine.prototype.exportTree = function() {
@@ -30709,11 +30740,6 @@ function GitVisuals(options) {
   this.branchCollection.on('remove', this.removeBranch, this);
   this.deferred = [];
 
-  // eventually have origin support here
-  this.posBoundaries = {
-    min: 0,
-    max: 1
-  };
   this.flipFraction = 0.65;
 
   var Main = require('../app');
@@ -30787,9 +30813,28 @@ GitVisuals.prototype.getScreenPadding = function() {
   };
 };
 
+GitVisuals.prototype.getPosBoundaries = function() {
+  if (this.gitEngine.hasOrigin()) {
+    return {
+      min: 0,
+      max: 0.5
+    };
+  } else if (this.gitEngine.isOrigin()) {
+    return {
+      min: 0.5,
+      max: 1
+    };
+  }
+  return {
+    min: 0,
+    max: 1
+  };
+};
+
 GitVisuals.prototype.getFlipPos = function() {
-  var min = this.posBoundaries.min;
-  var max = this.posBoundaries.max;
+  var bounds = this.getPosBoundaries();
+  var min = bounds.min;
+  var max = bounds.max;
   return this.flipFraction * (max - min) + min;
 };
 
@@ -31143,10 +31188,11 @@ GitVisuals.prototype.calcBranchStacks = function() {
 GitVisuals.prototype.calcWidth = function() {
   this.maxWidthRecursive(this.rootCommit);
 
+  var bounds = this.getPosBoundaries();
   this.assignBoundsRecursive(
     this.rootCommit,
-    this.posBoundaries.min,
-    this.posBoundaries.max
+    bounds.min,
+    bounds.max
   );
 };
 

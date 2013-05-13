@@ -68,6 +68,14 @@ GitEngine.prototype.init = function() {
   this.commit();
 };
 
+GitEngine.prototype.hasOrigin = function() {
+  return false;
+};
+
+GitEngine.prototype.isOrigin = function() {
+  return false;
+};
+
 GitEngine.prototype.exportTree = function() {
   // need to export all commits, their connectivity / messages, branches, and state of head.
   // this would be simple if didn't have circular structures.... :P
