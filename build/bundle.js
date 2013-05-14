@@ -8610,7 +8610,9 @@ var Ref = Backbone.Model.extend({
 
 var Branch = Ref.extend({
   defaults: {
-    visBranch: null
+    visBranch: null,
+    isOrigin: false,
+    origin: null
   },
 
   initialize: function() {
@@ -24046,7 +24048,9 @@ var Ref = Backbone.Model.extend({
 
 var Branch = Ref.extend({
   defaults: {
-    visBranch: null
+    visBranch: null,
+    isOrigin: false,
+    origin: null
   },
 
   initialize: function() {

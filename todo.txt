@@ -15,7 +15,7 @@ Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] setup remote model, for now it just has:
 -- a name
--- a URL (default for now)
+-- a URL (default for now)?
 -- points to a completely new git engine instance to interact with
 [ ] Setup branch model to include:
 -- is remote (custom getter)
