@@ -8595,6 +8595,14 @@ var Ref = Backbone.Model.extend({
     }
   },
 
+  getIsRemote: function() {
+    return false;
+  },
+
+  getName: function() {
+    return this.get('id');
+  },
+
   targetChanged: function(model, targetValue, ev) {
     // push our little 3 stack back. we need to do this because
     // backbone doesn't give you what the value WAS, only what it was changed
@@ -8611,8 +8619,11 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
-    isOrigin: false,
     origin: null
+  },
+
+  getIsRemote: function() {
+    return this.get('origin') !== null;
   },
 
   initialize: function() {
@@ -16241,23 +16252,22 @@ var VisBranch = VisBase.extend({
     var threshold = this.get('gitVisuals').getFlipPos();
     var overThreshold = (visNode.get('pos').x > threshold);
 
+    // easy logic first
     if (!this.get('isHead')) {
-      // easy logic first
-      return (overThreshold) ?
-        -1 :
-        1;
+      if (this.getIsRemote()) {
+        return (overThreshold) ? 1 : -1;
+      } else {
+        return (overThreshold) ? -1 : 1;
+      }
     }
+
     // now for HEAD....
     if (overThreshold) {
       // if by ourselves, then feel free to squeeze in. but
       // if other branches are here, then we need to show separate
-      return (this.isBranchStackEmpty()) ?
-        -1 :
-        1;
+      return (this.isBranchStackEmpty()) ? -1 : 1;
     } else {
-      return (this.isBranchStackEmpty()) ?
-        1 :
-        -1;
+      return (this.isBranchStackEmpty()) ? 1 : -1;
     }
   },
 
@@ -16446,12 +16456,16 @@ var VisBranch = VisBase.extend({
     };
   },
 
-  getName: function() {
-    var name = this.get('branch').get('id');
-    var selected = this.gitEngine.HEAD.get('target').get('id');
+  getIsRemote: function() {
+    return this.get('branch').getIsRemote();
+  },
 
-    var add = (selected == name) ? '*' : '';
-    return name + add;
+  getName: function() {
+    var name = this.get('branch').getName();
+    var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
+
+    var after = (selected) ? '*' : '';
+    return name + after;
   },
 
   nonTextToFront: function() {
@@ -16568,6 +16582,7 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
+    var dashArray = (this.getIsRemote()) ? '--' : '';
 
     return {
       text: {
@@ -16583,6 +16598,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
+        'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {
@@ -24033,6 +24049,14 @@ var Ref = Backbone.Model.extend({
     }
   },
 
+  getIsRemote: function() {
+    return false;
+  },
+
+  getName: function() {
+    return this.get('id');
+  },
+
   targetChanged: function(model, targetValue, ev) {
     // push our little 3 stack back. we need to do this because
     // backbone doesn't give you what the value WAS, only what it was changed
@@ -24049,8 +24073,11 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
-    isOrigin: false,
     origin: null
+  },
+
+  getIsRemote: function() {
+    return this.get('origin') !== null;
   },
 
   initialize: function() {
@@ -31739,23 +31766,22 @@ var VisBranch = VisBase.extend({
     var threshold = this.get('gitVisuals').getFlipPos();
     var overThreshold = (visNode.get('pos').x > threshold);
 
+    // easy logic first
     if (!this.get('isHead')) {
-      // easy logic first
-      return (overThreshold) ?
-        -1 :
-        1;
+      if (this.getIsRemote()) {
+        return (overThreshold) ? 1 : -1;
+      } else {
+        return (overThreshold) ? -1 : 1;
+      }
     }
+
     // now for HEAD....
     if (overThreshold) {
       // if by ourselves, then feel free to squeeze in. but
       // if other branches are here, then we need to show separate
-      return (this.isBranchStackEmpty()) ?
-        -1 :
-        1;
+      return (this.isBranchStackEmpty()) ? -1 : 1;
     } else {
-      return (this.isBranchStackEmpty()) ?
-        1 :
-        -1;
+      return (this.isBranchStackEmpty()) ? 1 : -1;
     }
   },
 
@@ -31944,12 +31970,16 @@ var VisBranch = VisBase.extend({
     };
   },
 
-  getName: function() {
-    var name = this.get('branch').get('id');
-    var selected = this.gitEngine.HEAD.get('target').get('id');
+  getIsRemote: function() {
+    return this.get('branch').getIsRemote();
+  },
 
-    var add = (selected == name) ? '*' : '';
-    return name + add;
+  getName: function() {
+    var name = this.get('branch').getName();
+    var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
+
+    var after = (selected) ? '*' : '';
+    return name + after;
   },
 
   nonTextToFront: function() {
@@ -32066,6 +32096,7 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
+    var dashArray = (this.getIsRemote()) ? '--' : '';
 
     return {
       text: {
@@ -32081,6 +32112,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
+        'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {

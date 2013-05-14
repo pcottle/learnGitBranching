@@ -1633,6 +1633,14 @@ var Ref = Backbone.Model.extend({
     }
   },
 
+  getIsRemote: function() {
+    return false;
+  },
+
+  getName: function() {
+    return this.get('id');
+  },
+
   targetChanged: function(model, targetValue, ev) {
     // push our little 3 stack back. we need to do this because
     // backbone doesn't give you what the value WAS, only what it was changed
@@ -1649,8 +1657,11 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
-    isOrigin: false,
     origin: null
+  },
+
+  getIsRemote: function() {
+    return this.get('origin') !== null;
   },
 
   initialize: function() {
