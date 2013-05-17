@@ -63,7 +63,7 @@ exports.level = {
             "afterMarkdowns": [
               "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
               "",
-              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
             "command": "git checkout bugFix; git merge master",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
