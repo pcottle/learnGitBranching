@@ -83,6 +83,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Don Kirkby x2
 * "scientific-coder"
 * "ace-coder"
+* Jeffrey Fisher
 
 Or reported an issue that was successfully closed!
 

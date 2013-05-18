@@ -94,12 +94,6 @@ module.exports = function(grunt) {
       src: ['build/bundle.min.js', 'src/style/main.css'],
       dest: 'build/'
     },
-    jasmine_node: {
-      specNameMatcher: 'spec', // load only specs containing specNameMatcher
-      projectRoot: '.',
-      forceExit: true,
-      verbose: true
-    },
     watch: {
       files: '<config:lint.files>',
       tasks: 'watching'
@@ -116,6 +110,9 @@ module.exports = function(grunt) {
     shell: {
       gitAdd: {
         command: 'git add build/'
+      },
+      test: {
+        command: 'jasmine-node spec/git.spec.js'
       }
     },
     jshint: {
@@ -172,17 +169,15 @@ module.exports = function(grunt) {
   // all my npm helpers
   grunt.loadNpmTasks('grunt-jslint');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-rm');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('build', 'rm browserify min hash buildIndex shell lint lintStrings test compliment');
+  grunt.registerTask('build', 'rm browserify min hash buildIndex shell lint lintStrings compliment');
   grunt.registerTask('fastBuild', 'rm browserify hash buildIndex');
 
   grunt.registerTask('default', 'build');
 
   grunt.registerTask('watching', 'fastBuild lint lintStrings');
-  grunt.registerTask('test', 'jasmine_node');
 };
 
