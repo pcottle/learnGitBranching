@@ -17912,7 +17912,7 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
             "afterMarkdowns": [
               "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
               "",
-              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
             "command": "git checkout bugFix; git merge master",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
@@ -18050,7 +18050,7 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
             "afterMarkdowns": [
               "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
               "",
-              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo"
+              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],
             "command": "git checkout bugFix; git merge master",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
@@ -34022,7 +34022,7 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
             "afterMarkdowns": [
               "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
               "",
-              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo"
+              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
             "command": "git checkout bugFix; git merge master",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
@@ -34160,7 +34160,7 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
             "afterMarkdowns": [
               "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
               "",
-              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo"
+              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],
             "command": "git checkout bugFix; git merge master",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
