@@ -45,7 +45,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Let's see what branches look like in practice.",
               "",
-              "Here we will check out a new branch named `newImage`"
+              "Here we will create a new branch named `newImage`"
             ],
             "afterMarkdowns": [
               "There, that's all there is to branching! The branch `newImage` now refers to commit `C1`"
