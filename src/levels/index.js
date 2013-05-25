@@ -34,7 +34,7 @@ exports.sequenceInfo = {
       'en_US': 'Introduction Sequence',
       'ja': 'まずはここから',
       'fr_FR': 'Sequence d\'introduction',
-      'zh_CN': '序列简介',
+      'zh_CN': '基础篇',
       'ko': '기본 명령어'
     },
     about: {
