@@ -350,19 +350,26 @@ var VisBranch = VisBase.extend({
       opacity: this.getTextOpacity()
     });
     this.set('text', text);
+    var attr = this.getAttributes();
 
     var rectPos = this.getRectPosition();
     var sizeOfRect = this.getRectSize();
     var rect = paper
       .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(this.getAttributes().rect);
+      .attr(attr.rect);
     this.set('rect', rect);
 
     var arrowPath = this.getArrowPath();
     var arrow = paper
       .path(arrowPath)
-      .attr(this.getAttributes().arrow);
+      .attr(attr.arrow);
     this.set('arrow', arrow);
+
+    // set CSS
+    var keys = ['text', 'rect', 'arrow'];
+    _.each(keys, function(key) {
+      $(this.get(key).node).css(attr.css);
+    }, this);
 
     this.attachClickHandlers();
     rect.toFront();
@@ -373,16 +380,29 @@ var VisBranch = VisBase.extend({
     if (this.get('gitVisuals').options.noClick) {
       return;
     }
-    var commandStr = 'git checkout ' + this.get('branch').get('id');
-    var Main = require('../app');
-    var objs = [this.get('rect'), this.get('text'), this.get('arrow')];
+    var objs = [
+      this.get('rect'),
+      this.get('text'),
+      this.get('arrow')
+    ];
 
     _.each(objs, function(rObj) {
-      rObj.click(function() {
-        Main.getEventBaton().trigger('commandSubmitted', commandStr);
-      });
-      $(rObj.node).css('cursor', 'pointer');
-    });
+      rObj.click(_.bind(this.onClick ,this));
+    }, this);
+  },
+
+  shouldDisableClick: function() {
+    return this.get('isHead') && !this.gitEngine.getDetachedHead();
+  },
+
+  onClick: function() {
+    if (this.shouldDisableClick()) {
+      return;
+    }
+
+    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var Main = require('../app');
+    Main.getEventBaton().trigger('commandSubmitted', commandStr);
   },
 
   updateName: function() {
@@ -416,8 +436,14 @@ var VisBranch = VisBase.extend({
 
     var arrowPath = this.getArrowPath();
     var dashArray = (this.getIsRemote()) ? '--' : '';
+    var cursorStyle = (this.shouldDisableClick()) ?
+      'auto' :
+      'pointer';
 
     return {
+      css: {
+        cursor: cursorStyle
+      },
       text: {
         x: textPos.x,
         y: textPos.y,
@@ -455,20 +481,28 @@ var VisBranch = VisBase.extend({
     this.animateToAttr(toAttr, speed, easing);
   },
 
+  setAttr: function(attr, instant, speed, easing) {
+    var keys = ['text', 'rect', 'arrow'];
+    _.each(keys, function(key) {
+      if (instant) {
+        this.get(key).attr(attr[key]);
+      } else {
+        this.get(key).stop().animate(attr[key], speed, easing);
+      }
+
+      $(this.get(key).node).css(attr.css);
+    }, this);
+  },
+
   animateToAttr: function(attr, speed, easing) {
     if (speed === 0) {
-      this.get('text').attr(attr.text);
-      this.get('rect').attr(attr.rect);
-      this.get('arrow').attr(attr.arrow);
+      this.setAttr(attr, /* instant */ true);
       return;
     }
 
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
-
-    this.get('text').stop().animate(attr.text, s, e);
-    this.get('rect').stop().animate(attr.rect, s, e);
-    this.get('arrow').stop().animate(attr.arrow, s, e);
+    this.setAttr(attr, /* instance */ false, s, e);
   }
 });
 
