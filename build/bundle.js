@@ -17108,7 +17108,7 @@ exports.sequenceInfo = {
       'en_US': 'Introduction Sequence',
       'ja': 'まずはここから',
       'fr_FR': 'Sequence d\'introduction',
-      'zh_CN': '序列简介',
+      'zh_CN': '基础篇',
       'ko': '기본 명령어'
     },
     about: {
@@ -17128,7 +17128,7 @@ exports.sequenceInfo = {
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'ja': '更にgitの素晴らしさを堪能しよう',
-      'zh_CN': '接下来是git的超赞特性。迫不及待了吧!'
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
     }
   },
   rebase: {
@@ -19502,7 +19502,7 @@ require.define("/levels/mixed/grabbingOneCommit.js",function(require,module,expo
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "私藏一个提交"
+    "zh_CN": "只取一个提交"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -19601,11 +19601,11 @@ require.define("/levels/mixed/grabbingOneCommit.js",function(require,module,expo
             "markdowns": [
               "## 本地栈式提交 (Locally stacked commits)",
               "",
-              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些 debug 语句和打印语句。",
+              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些调试命令和打印语句。",
               "",
-              "所有的这些调试和打印语句到只在它们的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "所有的这些调试和打印语句都只在它们自己的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
               "",
-              "但有个问题就是现在我要把 `bugFix` 分支的工作合并回 `master` 分支上，我可以简单地快进（fast-forward） `master` 分支，但这样的话 `master` 分支就会包含我这些调试语句了。"
+              "现在唯一的问题就是要把我在 `bugFix` 分支里的工作合并回 `master` 分支。我可以简单地把 `master` 分支快进（fast-forward），但这样的话 `master` 分支就会包含我这些调试语句了。"
             ]
           }
         },
@@ -19613,7 +19613,7 @@ require.define("/levels/mixed/grabbingOneCommit.js",function(require,module,expo
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "现在就是 Git 大显神通的时候啦。我们有几种方法来解决这个问题，但最直接的方法是：",
+              "现在就是 Git 大显神通的时候啦。解决这个问题的方法不止一个，但最直接的两个方法是：",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
@@ -33215,7 +33215,7 @@ exports.sequenceInfo = {
       'en_US': 'Introduction Sequence',
       'ja': 'まずはここから',
       'fr_FR': 'Sequence d\'introduction',
-      'zh_CN': '序列简介',
+      'zh_CN': '基础篇',
       'ko': '기본 명령어'
     },
     about: {
@@ -33235,7 +33235,7 @@ exports.sequenceInfo = {
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'ja': '更にgitの素晴らしさを堪能しよう',
-      'zh_CN': '接下来是git的超赞特性。迫不及待了吧!'
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
     }
   },
   rebase: {
@@ -34708,7 +34708,7 @@ require.define("/src/levels/mixed/grabbingOneCommit.js",function(require,module,
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "私藏一个提交"
+    "zh_CN": "只取一个提交"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -34807,11 +34807,11 @@ require.define("/src/levels/mixed/grabbingOneCommit.js",function(require,module,
             "markdowns": [
               "## 本地栈式提交 (Locally stacked commits)",
               "",
-              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些 debug 语句和打印语句。",
+              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些调试命令和打印语句。",
               "",
-              "所有的这些调试和打印语句到只在它们的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "所有的这些调试和打印语句都只在它们自己的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
               "",
-              "但有个问题就是现在我要把 `bugFix` 分支的工作合并回 `master` 分支上，我可以简单地快进（fast-forward） `master` 分支，但这样的话 `master` 分支就会包含我这些调试语句了。"
+              "现在唯一的问题就是要把我在 `bugFix` 分支里的工作合并回 `master` 分支。我可以简单地把 `master` 分支快进（fast-forward），但这样的话 `master` 分支就会包含我这些调试语句了。"
             ]
           }
         },
@@ -34819,7 +34819,7 @@ require.define("/src/levels/mixed/grabbingOneCommit.js",function(require,module,
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "现在就是 Git 大显神通的时候啦。我们有几种方法来解决这个问题，但最直接的方法是：",
+              "现在就是 Git 大显神通的时候啦。解决这个问题的方法不止一个，但最直接的两个方法是：",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
