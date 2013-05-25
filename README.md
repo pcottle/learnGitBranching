@@ -114,4 +114,5 @@ Or reported an issue that was successfully closed!
 * Duane Johnson
 * Neil Chue Hong
 * "Goodwine"
+* Brandon McCaig
 
