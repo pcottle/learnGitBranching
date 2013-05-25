@@ -60,7 +60,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+              "Now we are checked out on the `master` branch. Let's go ahead and rebase onto `bugFix`..."
             ],
             "afterMarkdowns": [
               "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
