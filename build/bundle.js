@@ -16555,7 +16555,6 @@ var VisBranch = VisBase.extend({
 
     _.each(objs, function(rObj) {
       rObj.click(_.bind(this.onClick ,this));
-      //$(rObj.node).css('cursor', 'pointer');
     }, this);
   },
 
@@ -32104,7 +32103,6 @@ var VisBranch = VisBase.extend({
 
     _.each(objs, function(rObj) {
       rObj.click(_.bind(this.onClick ,this));
-      //$(rObj.node).css('cursor', 'pointer');
     }, this);
   },
 
