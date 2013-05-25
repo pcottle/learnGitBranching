@@ -54,7 +54,7 @@ exports.sequenceInfo = {
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'ja': '更にgitの素晴らしさを堪能しよう',
-      'zh_CN': '接下来是git的超赞特性。迫不及待了吧!'
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
     }
   },
   rebase: {
