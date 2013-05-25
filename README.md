@@ -53,6 +53,8 @@ git push
 # go online and request a pull
 ```
 
+You may also need to install jasmine-node globally to run the testing task, but the build should finish regardless.
+
 ## Helpful Folks
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
 

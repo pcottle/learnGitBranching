@@ -18280,7 +18280,7 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+              "Now we are checked out on the `master` branch. Let's go ahead and rebase onto `bugFix`..."
             ],
             "afterMarkdowns": [
               "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
@@ -19022,7 +19022,7 @@ require.define("/levels/rampup/relativeRefs2.js",function(require,module,exports
               "",
               "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
               "",
-              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交亡灵。举个例子:",
+              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交。举个例子:",
               "",
               "`git branch -f master HEAD~3`",
               "",
@@ -34391,7 +34391,7 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Now we are checked out on the `master` branch. Let's do ahead and rebase onto `bugFix`..."
+              "Now we are checked out on the `master` branch. Let's go ahead and rebase onto `bugFix`..."
             ],
             "afterMarkdowns": [
               "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
@@ -35732,7 +35732,7 @@ require.define("/src/levels/rampup/relativeRefs2.js",function(require,module,exp
               "",
               "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
               "",
-              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交亡灵。举个例子:",
+              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交。举个例子:",
               "",
               "`git branch -f master HEAD~3`",
               "",
