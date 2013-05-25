@@ -86,6 +86,9 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * "scientific-coder"
 * "ace-coder"
 * Jeffrey Fisher
+* Brad Smith
+* Allen Guo
+* Timothy Qiu
 
 Or reported an issue that was successfully closed!
 
