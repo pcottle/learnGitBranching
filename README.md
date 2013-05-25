@@ -115,4 +115,5 @@ Or reported an issue that was successfully closed!
 * Neil Chue Hong
 * "Goodwine"
 * Brandon McCaig
+* Borislav Kosharov
 
