@@ -84,6 +84,7 @@ var LevelBuilder = Level.extend({
       containerElement: this.startCanvasHolder.getCanvasLocation(),
       treeString: this.level.startTree,
       noKeyboardInput: true,
+      smallCanvas: true,
       noClick: true
     });
     return this.startCanvasHolder;

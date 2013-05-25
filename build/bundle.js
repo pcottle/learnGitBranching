@@ -6174,6 +6174,7 @@ var Level = Sandbox.extend({
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
       treeString: this.level.goalTreeString,
       noKeyboardInput: true,
+      smallCanvas: true,
       noClick: true
     });
     return this.goalCanvasHolder;
@@ -15339,10 +15340,9 @@ GitVisuals.prototype.maxWidthRecursive = function(commit) {
   return maxWidth;
 };
 
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFrac) {
-  centerFrac = (centerFrac === undefined) ? 0.5 : centerFrac;
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // I always position myself within my bounds
-  var myWidthPos = min + (max - min) * centerFrac;
+  var myWidthPos = (max + min) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
 
   if (commit.get('children').length === 0) {
@@ -15361,28 +15361,6 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFr
     }
   }, this);
 
-  // TODO: refactor into another method
-  var getCenterFrac = function(index, centerFrac) {
-    if (myLength < 0.99) {
-      if (children.length < 2) {
-        return centerFrac;
-      } else {
-        return 0.5;
-      }
-    }
-    if (children.length < 2) {
-      return 0.5;
-    }
-    // we introduce a VERY specific rule here, to push out
-    // the first "divergence" of the graph
-    if (index === 0) {
-      return 1/3;
-    } else if (index === children.length - 1) {
-      return 2/3;
-    }
-    return centerFrac;
-  };
-
   var prevBound = min;
   _.each(children, function(child, index) {
     if (!child.isMainParent(commit)) {
@@ -15391,12 +15369,11 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFr
 
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
-    var thisCenterFrac = getCenterFrac(index, centerFrac);
 
     var childMin = prevBound;
     var childMax = childMin + portion;
 
-    this.assignBoundsRecursive(child, childMin, childMax, thisCenterFrac);
+    this.assignBoundsRecursive(child, childMin, childMax);
     prevBound = childMin + portion;
   }, this);
 };
@@ -15491,7 +15468,7 @@ GitVisuals.prototype.animateEdges = function(speed) {
 };
 
 GitVisuals.prototype.getMinLayers = function() {
-  return (this.options.smallCanvas) ? 4 : 7;
+  return (this.options.smallCanvas) ? 0 : 7;
 };
 
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
@@ -25902,6 +25879,7 @@ var Level = Sandbox.extend({
       containerElement: this.goalCanvasHolder.getCanvasLocation(),
       treeString: this.level.goalTreeString,
       noKeyboardInput: true,
+      smallCanvas: true,
       noClick: true
     });
     return this.goalCanvasHolder;
@@ -31277,10 +31255,9 @@ GitVisuals.prototype.maxWidthRecursive = function(commit) {
   return maxWidth;
 };
 
-GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFrac) {
-  centerFrac = (centerFrac === undefined) ? 0.5 : centerFrac;
+GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // I always position myself within my bounds
-  var myWidthPos = min + (max - min) * centerFrac;
+  var myWidthPos = (max + min) / 2.0;
   commit.get('visNode').get('pos').x = myWidthPos;
 
   if (commit.get('children').length === 0) {
@@ -31299,28 +31276,6 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFr
     }
   }, this);
 
-  // TODO: refactor into another method
-  var getCenterFrac = function(index, centerFrac) {
-    if (myLength < 0.99) {
-      if (children.length < 2) {
-        return centerFrac;
-      } else {
-        return 0.5;
-      }
-    }
-    if (children.length < 2) {
-      return 0.5;
-    }
-    // we introduce a VERY specific rule here, to push out
-    // the first "divergence" of the graph
-    if (index === 0) {
-      return 1/3;
-    } else if (index === children.length - 1) {
-      return 2/3;
-    }
-    return centerFrac;
-  };
-
   var prevBound = min;
   _.each(children, function(child, index) {
     if (!child.isMainParent(commit)) {
@@ -31329,12 +31284,11 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max, centerFr
 
     var flex = child.get('visNode').getMaxWidthScaled();
     var portion = (flex / totalFlex) * myLength;
-    var thisCenterFrac = getCenterFrac(index, centerFrac);
 
     var childMin = prevBound;
     var childMax = childMin + portion;
 
-    this.assignBoundsRecursive(child, childMin, childMax, thisCenterFrac);
+    this.assignBoundsRecursive(child, childMin, childMax);
     prevBound = childMin + portion;
   }, this);
 };
@@ -31429,7 +31383,7 @@ GitVisuals.prototype.animateEdges = function(speed) {
 };
 
 GitVisuals.prototype.getMinLayers = function() {
-  return (this.options.smallCanvas) ? 4 : 7;
+  return (this.options.smallCanvas) ? 0 : 7;
 };
 
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
