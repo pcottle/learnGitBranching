@@ -84,7 +84,7 @@ GitEngine.prototype.hasOrigin = function() {
 };
 
 GitEngine.prototype.isOrigin = function() {
-  return !!this.localRepro;
+  return !!this.localRepo;
 };
 
 GitEngine.prototype.exportTree = function() {
@@ -209,13 +209,24 @@ GitEngine.prototype.makeOrigin = function(tree) {
   // we grab the gitengine out of that and assign that as our origin repo
   // which connects the two
   var masterVis = this.gitVisuals.getVisualization();
-  var originRepo = masterVis.makeOrigin({
+  var originVis = masterVis.makeOrigin({
     localRepo: this,
     tree: this.getDefaultTree()
   });
 
-  this.origin = originRepo;
-  originRepo.assignLocalRepo(this);
+  // defer the starting of our animation until origin has been created
+  this.animationQueue.set('defer', true);
+  originVis.customEvents.on('gitEngineReady', function() {
+    this.origin = originVis.gitEngine;
+    originVis.gitEngine.assignLocalRepo(this);
+    // and then here is the crazy part -- we need the ORIGIN to refresh
+    // itself in a separate animation. @_____@
+    this.origin.externalRefresh();
+    this.animationQueue.start();
+  }, this);
+
+  // add a simple refresh animation
+  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -1460,6 +1471,16 @@ GitEngine.prototype.filterError = function(err) {
       err instanceof CommandResult)) {
     throw err;
   }
+};
+
+// called on a origin repo from a local -- simply refresh immediately with
+// an animation
+GitEngine.prototype.externalRefresh = function() {
+  this.animationQueue = new AnimationQueue({
+    callback: function() {}
+  });
+  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  this.animationQueue.start();
 };
 
 GitEngine.prototype.dispatch = function(command, deferred) {

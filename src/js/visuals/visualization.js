@@ -100,8 +100,8 @@ var Visualization = Backbone.View.extend({
         treeString: JSON.stringify(options.tree)
       }
     ));
-    // return the newly created gitEngine
-    return this.originVis.gitEngine;
+    // return the newly created visualization which will soon have a git engine
+    return this.originVis;
   },
 
   setTreeIndex: function(level) {
