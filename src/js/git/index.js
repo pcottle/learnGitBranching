@@ -12,11 +12,14 @@ var TreeCompare = require('./treeCompare').TreeCompare;
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
+var EventBaton = require('../util/eventBaton').EventBaton;
 
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
   this.HEAD = null;
+  this.origin = null;
+  this.localRepo = options.localRepro;
 
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
@@ -47,9 +50,13 @@ GitEngine.prototype.initUniqueID = function() {
 };
 
 GitEngine.prototype.defaultInit = function() {
-  // lol 80 char limit
-  var defaultTree = JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
+  var defaultTree = this.getDefaultTree();
   this.loadTree(defaultTree);
+};
+
+GitEngine.prototype.getDefaultTree = function() {
+  // lol 80 char limit
+  return JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
 };
 
 GitEngine.prototype.init = function() {
@@ -69,7 +76,7 @@ GitEngine.prototype.init = function() {
 };
 
 GitEngine.prototype.hasOrigin = function() {
-  return false;
+  return !!this.origin;
 };
 
 GitEngine.prototype.isOrigin = function() {
@@ -184,17 +191,12 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   }, this);
 };
 
-GitEngine.prototype.reloadGraphics = function() {
-  // get the root commit
-  this.gitVisuals.rootCommit = this.refs['C0'];
-  // this just basically makes the HEAD branch. the head branch really should have been
-  // a member of a collection and not this annoying edge case stuff... one day
-  this.gitVisuals.initHeadBranch();
-
-  // when the paper is ready
-  this.gitVisuals.drawTreeFromReload();
-
-  this.gitVisuals.refreshTreeHarsh();
+GitEngine.prototype.makeOrigin = function(tree) {
+  this.origin = new GitEngine({
+    localRepo: this,
+    // dont let it intercept commands
+    eventBaton: new EventBaton()
+  });
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -268,6 +270,19 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 GitEngine.prototype.tearDown = function() {
   this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
+};
+
+GitEngine.prototype.reloadGraphics = function() {
+  // get the root commit
+  this.gitVisuals.rootCommit = this.refs['C0'];
+  // this just basically makes the HEAD branch. the head branch really should have been
+  // a member of a collection and not this annoying edge case stuff... one day
+  this.gitVisuals.initHeadBranch();
+
+  // when the paper is ready
+  this.gitVisuals.drawTreeFromReload();
+
+  this.gitVisuals.refreshTreeHarsh();
 };
 
 GitEngine.prototype.removeAll = function() {
@@ -464,6 +479,10 @@ GitEngine.prototype.revertStarter = function() {
   if (response) {
     this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
   }
+};
+
+GitEngine.prototype.originInitStarter = function() {
+  this.makeOrigin(this.getDefaultTree());
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
