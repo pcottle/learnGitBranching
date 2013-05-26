@@ -18,6 +18,7 @@ var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 function GitVisuals(options) {
   options = options || {};
   this.options = options;
+  this.visualization = options.visualization;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
@@ -89,6 +90,10 @@ GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
   this.initHeadBranch();
   this.deferFlush();
+};
+
+GitVisuals.prototype.getVisualization = function() {
+  return this.visualization;
 };
 
 GitVisuals.prototype.initHeadBranch = function() {

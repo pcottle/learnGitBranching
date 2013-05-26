@@ -49,7 +49,8 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection,
       paper: this.paper,
       noClick: this.options.noClick,
-      smallCanvas: this.options.smallCanvas
+      smallCanvas: this.options.smallCanvas,
+      visualization: this
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -83,6 +84,24 @@ var Visualization = Backbone.View.extend({
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
+  },
+
+  makeOrigin: function(options) {
+    // oh god, here we go. We basically do a bizarre form of composition here,
+    // where this visualization actually contains another one of itself.
+    this.originVis = new Visualization(_.extend(
+      {},
+      // copy all of our options over, except...
+      this.options,
+      {
+        // never accept keyboard input or clicks
+        noKeyboardInput: true,
+        noClick: true,
+        treeString: JSON.stringify(options.tree)
+      }
+    ));
+    // return the newly created gitEngine
+    return this.originVis.gitEngine;
   },
 
   setTreeIndex: function(level) {

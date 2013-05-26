@@ -6688,7 +6688,8 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection,
       paper: this.paper,
       noClick: this.options.noClick,
-      smallCanvas: this.options.smallCanvas
+      smallCanvas: this.options.smallCanvas,
+      visualization: this
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -6722,6 +6723,24 @@ var Visualization = Backbone.View.extend({
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
+  },
+
+  makeOrigin: function(options) {
+    // oh god, here we go. We basically do a bizarre form of composition here,
+    // where this visualization actually contains another one of itself.
+    this.originVis = new Visualization(_.extend(
+      {},
+      // copy all of our options over, except...
+      this.options,
+      {
+        // never accept keyboard input or clicks
+        noKeyboardInput: true,
+        noClick: true,
+        treeString: JSON.stringify(options.tree)
+      }
+    ));
+    // return the newly created gitEngine
+    return this.originVis.gitEngine;
   },
 
   setTreeIndex: function(level) {
@@ -6982,7 +7001,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.origin = null;
-  this.localRepo = options.localRepro;
+  this.localRepo = null;
 
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
@@ -7010,6 +7029,10 @@ GitEngine.prototype.initUniqueID = function() {
       return prepend? prepend + n++ : n++;
     };
   })();
+};
+
+GitEngine.prototype.assignLocalRepo = function(repo) {
+  this.localRepo = repo;
 };
 
 GitEngine.prototype.defaultInit = function() {
@@ -7043,7 +7066,7 @@ GitEngine.prototype.hasOrigin = function() {
 };
 
 GitEngine.prototype.isOrigin = function() {
-  return false;
+  return !!this.localRepro;
 };
 
 GitEngine.prototype.exportTree = function() {
@@ -7155,11 +7178,26 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 };
 
 GitEngine.prototype.makeOrigin = function(tree) {
-  this.origin = new GitEngine({
+  if (this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-options')
+    });
+  }
+
+  // this is super super ugly but a necessary hack because of the way LGB was
+  // originally designed. We need to get to the top level visualization from
+  // the git engine -- aka we need to access our own visuals, then the
+  // visualization and ask the main vis to create a new vis/git pair. Then
+  // we grab the gitengine out of that and assign that as our origin repo
+  // which connects the two
+  var masterVis = this.gitVisuals.getVisualization();
+  var originRepo = masterVis.makeOrigin({
     localRepo: this,
-    // dont let it intercept commands
-    eventBaton: new EventBaton()
+    tree: this.getDefaultTree()
   });
+
+  this.origin = originRepo;
+  originRepo.assignLocalRepo(this);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -14870,6 +14908,7 @@ var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 function GitVisuals(options) {
   options = options || {};
   this.options = options;
+  this.visualization = options.visualization;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
@@ -14941,6 +14980,10 @@ GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
   this.initHeadBranch();
   this.deferFlush();
+};
+
+GitVisuals.prototype.getVisualization = function() {
+  return this.visualization;
 };
 
 GitVisuals.prototype.initHeadBranch = function() {
@@ -22470,7 +22513,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.origin = null;
-  this.localRepo = options.localRepro;
+  this.localRepo = null;
 
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
@@ -22498,6 +22541,10 @@ GitEngine.prototype.initUniqueID = function() {
       return prepend? prepend + n++ : n++;
     };
   })();
+};
+
+GitEngine.prototype.assignLocalRepo = function(repo) {
+  this.localRepo = repo;
 };
 
 GitEngine.prototype.defaultInit = function() {
@@ -22531,7 +22578,7 @@ GitEngine.prototype.hasOrigin = function() {
 };
 
 GitEngine.prototype.isOrigin = function() {
-  return false;
+  return !!this.localRepro;
 };
 
 GitEngine.prototype.exportTree = function() {
@@ -22643,11 +22690,26 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 };
 
 GitEngine.prototype.makeOrigin = function(tree) {
-  this.origin = new GitEngine({
+  if (this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-options')
+    });
+  }
+
+  // this is super super ugly but a necessary hack because of the way LGB was
+  // originally designed. We need to get to the top level visualization from
+  // the git engine -- aka we need to access our own visuals, then the
+  // visualization and ask the main vis to create a new vis/git pair. Then
+  // we grab the gitengine out of that and assign that as our origin repo
+  // which connects the two
+  var masterVis = this.gitVisuals.getVisualization();
+  var originRepo = masterVis.makeOrigin({
     localRepo: this,
-    // dont let it intercept commands
-    eventBaton: new EventBaton()
+    tree: this.getDefaultTree()
   });
+
+  this.origin = originRepo;
+  originRepo.assignLocalRepo(this);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -30807,6 +30869,7 @@ var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 function GitVisuals(options) {
   options = options || {};
   this.options = options;
+  this.visualization = options.visualization;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
   this.visNodeMap = {};
@@ -30878,6 +30941,10 @@ GitVisuals.prototype.assignGitEngine = function(gitEngine) {
   this.gitEngine = gitEngine;
   this.initHeadBranch();
   this.deferFlush();
+};
+
+GitVisuals.prototype.getVisualization = function() {
+  return this.visualization;
 };
 
 GitVisuals.prototype.initHeadBranch = function() {
@@ -32911,7 +32978,8 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection,
       paper: this.paper,
       noClick: this.options.noClick,
-      smallCanvas: this.options.smallCanvas
+      smallCanvas: this.options.smallCanvas,
+      visualization: this
     });
 
     var GitEngine = require('../git').GitEngine;
@@ -32945,6 +33013,24 @@ var Visualization = Backbone.View.extend({
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
+  },
+
+  makeOrigin: function(options) {
+    // oh god, here we go. We basically do a bizarre form of composition here,
+    // where this visualization actually contains another one of itself.
+    this.originVis = new Visualization(_.extend(
+      {},
+      // copy all of our options over, except...
+      this.options,
+      {
+        // never accept keyboard input or clicks
+        noKeyboardInput: true,
+        noClick: true,
+        treeString: JSON.stringify(options.tree)
+      }
+    ));
+    // return the newly created gitEngine
+    return this.originVis.gitEngine;
   },
 
   setTreeIndex: function(level) {

@@ -19,7 +19,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.origin = null;
-  this.localRepo = options.localRepro;
+  this.localRepo = null;
 
   this.branchCollection = options.branches;
   this.commitCollection = options.collection;
@@ -47,6 +47,10 @@ GitEngine.prototype.initUniqueID = function() {
       return prepend? prepend + n++ : n++;
     };
   })();
+};
+
+GitEngine.prototype.assignLocalRepo = function(repo) {
+  this.localRepo = repo;
 };
 
 GitEngine.prototype.defaultInit = function() {
@@ -80,7 +84,7 @@ GitEngine.prototype.hasOrigin = function() {
 };
 
 GitEngine.prototype.isOrigin = function() {
-  return false;
+  return !!this.localRepro;
 };
 
 GitEngine.prototype.exportTree = function() {
@@ -192,11 +196,26 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 };
 
 GitEngine.prototype.makeOrigin = function(tree) {
-  this.origin = new GitEngine({
+  if (this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-options')
+    });
+  }
+
+  // this is super super ugly but a necessary hack because of the way LGB was
+  // originally designed. We need to get to the top level visualization from
+  // the git engine -- aka we need to access our own visuals, then the
+  // visualization and ask the main vis to create a new vis/git pair. Then
+  // we grab the gitengine out of that and assign that as our origin repo
+  // which connects the two
+  var masterVis = this.gitVisuals.getVisualization();
+  var originRepo = masterVis.makeOrigin({
     localRepo: this,
-    // dont let it intercept commands
-    eventBaton: new EventBaton()
+    tree: this.getDefaultTree()
   });
+
+  this.origin = originRepo;
+  originRepo.assignLocalRepo(this);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
