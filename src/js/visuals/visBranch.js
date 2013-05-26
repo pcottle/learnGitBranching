@@ -297,7 +297,7 @@ var VisBranch = VisBase.extend({
     var name = this.get('branch').getName();
     var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
 
-    var after = (selected) ? '*' : '';
+    var after = (selected && !this.getIsInOrigin()) ? '*' : '';
     return name + after;
   },
 
@@ -435,7 +435,8 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
-    var dashArray = (this.getIsRemote()) ? '--' : '';
+    var dashArray = (this.getIsRemote() || this.getIsInOrigin()) ?
+      GRAPHICS.originDash : '';
     var cursorStyle = (this.shouldDisableClick()) ?
       'auto' :
       'pointer';
@@ -457,7 +458,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
-        'stroke-dasharray': dashArray,
+        //'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {
@@ -483,26 +484,7 @@ var VisBranch = VisBase.extend({
 
   setAttr: function(attr, instant, speed, easing) {
     var keys = ['text', 'rect', 'arrow'];
-    _.each(keys, function(key) {
-      if (instant) {
-        this.get(key).attr(attr[key]);
-      } else {
-        this.get(key).stop().animate(attr[key], speed, easing);
-      }
-
-      $(this.get(key).node).css(attr.css);
-    }, this);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.setAttr(attr, /* instant */ true);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-    this.setAttr(attr, /* instance */ false, s, e);
+    this.setAttrBase(keys, attr, instant, speed, easing);
   }
 });
 

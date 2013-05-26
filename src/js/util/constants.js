@@ -25,11 +25,12 @@ var GRAPHICS = {
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 400,
 
-  //rectFill: '#FF3A3A',
   rectFill: 'hsb(0.8816909813322127,0.7,1)',
   headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
+
+  originDash: '- ',
 
   multiBranchY: 20,
   upstreamHeadOpacity: 0.5,

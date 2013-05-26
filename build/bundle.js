@@ -3155,11 +3155,12 @@ var GRAPHICS = {
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 400,
 
-  //rectFill: '#FF3A3A',
   rectFill: 'hsb(0.8816909813322127,0.7,1)',
   headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
+
+  originDash: '- ',
 
   multiBranchY: 20,
   upstreamHeadOpacity: 0.5,
@@ -15850,6 +15851,8 @@ var VisNode = VisBase.extend({
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
     var opacity = this.getOpacity();
+    var dashArray = (this.getIsInOrigin()) ?
+      GRAPHICS.originDash : '';
 
     return {
       circle: {
@@ -15859,6 +15862,7 @@ var VisNode = VisBase.extend({
         r: this.getRadius(),
         fill: this.getFill(),
         'stroke-width': this.get('stroke-width'),
+        'stroke-dasharray': dashArray,
         stroke: this.get('stroke')
       },
       text: {
@@ -15903,18 +15907,15 @@ var VisNode = VisBase.extend({
     this.animateToAttr(snapShot[this.getID()], speed, easing);
   },
 
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('circle').attr(attr.circle);
-      this.get('text').attr(attr.text);
-      return;
-    }
+  setAttr: function(attr, instant, speed, easing) {
+    var keys = ['text', 'circle'];
+    this.setAttrBase(keys, attr, instant, speed, easing);
+  },
 
+  animateToAttr: function(attr, speed, easing) {
+    VisBase.prototype.animateToAttr.apply(this, arguments);
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
-
-    this.get('circle').stop().animate(attr.circle, s, e);
-    this.get('text').stop().animate(attr.text, s, e);
 
     if (easing == 'bounce' &&
         attr.circle && attr.circle.cx !== undefined &&
@@ -16188,6 +16189,50 @@ var VisBase = Backbone.Model.extend({
     _.each(keys, function(key) {
       if (this.get(key)) {
         this.get(key).remove();
+      }
+    }, this);
+  },
+
+  getNonAnimateKeys: function() {
+    return [
+      'stroke-dasharray'
+    ];
+  },
+
+  getIsInOrigin: function() {
+    if (!this.get('gitEngine')) {
+      return false;
+    }
+    return this.get('gitEngine').isOrigin();
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.setAttr(attr, /* instant */ true);
+      return;
+    }
+
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+    this.setAttr(attr, /* instance */ false, s, e);
+  },
+
+  setAttrBase: function(keys, attr, instant, speed, easing) {
+    _.each(keys, function(key) {
+      if (instant) {
+        this.get(key).attr(attr[key]);
+      } else {
+        this.get(key).stop().animate(attr[key], speed, easing);
+        // some keys dont support animating too, so set those instantly here
+        _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
+          if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
+            this.get(key).attr(nonAnimateKey, attr[key][nonAnimateKey]);
+          }
+        }, this);
+      }
+
+      if (attr.css) {
+        $(this.get(key).node).css(attr.css);
       }
     }, this);
   },
@@ -16527,7 +16572,7 @@ var VisBranch = VisBase.extend({
     var name = this.get('branch').getName();
     var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
 
-    var after = (selected) ? '*' : '';
+    var after = (selected && !this.getIsInOrigin()) ? '*' : '';
     return name + after;
   },
 
@@ -16665,7 +16710,8 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
-    var dashArray = (this.getIsRemote()) ? '--' : '';
+    var dashArray = (this.getIsRemote() || this.getIsInOrigin()) ?
+      GRAPHICS.originDash : '';
     var cursorStyle = (this.shouldDisableClick()) ?
       'auto' :
       'pointer';
@@ -16687,7 +16733,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
-        'stroke-dasharray': dashArray,
+        //'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {
@@ -16713,26 +16759,7 @@ var VisBranch = VisBase.extend({
 
   setAttr: function(attr, instant, speed, easing) {
     var keys = ['text', 'rect', 'arrow'];
-    _.each(keys, function(key) {
-      if (instant) {
-        this.get(key).attr(attr[key]);
-      } else {
-        this.get(key).stop().animate(attr[key], speed, easing);
-      }
-
-      $(this.get(key).node).css(attr.css);
-    }, this);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.setAttr(attr, /* instant */ true);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-    this.setAttr(attr, /* instance */ false, s, e);
+    this.setAttrBase(keys, attr, instant, speed, easing);
   }
 });
 
@@ -27463,11 +27490,12 @@ var GRAPHICS = {
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 400,
 
-  //rectFill: '#FF3A3A',
   rectFill: 'hsb(0.8816909813322127,0.7,1)',
   headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
+
+  originDash: '- ',
 
   multiBranchY: 20,
   upstreamHeadOpacity: 0.5,
@@ -31783,6 +31811,50 @@ var VisBase = Backbone.Model.extend({
     }, this);
   },
 
+  getNonAnimateKeys: function() {
+    return [
+      'stroke-dasharray'
+    ];
+  },
+
+  getIsInOrigin: function() {
+    if (!this.get('gitEngine')) {
+      return false;
+    }
+    return this.get('gitEngine').isOrigin();
+  },
+
+  animateToAttr: function(attr, speed, easing) {
+    if (speed === 0) {
+      this.setAttr(attr, /* instant */ true);
+      return;
+    }
+
+    var s = speed !== undefined ? speed : this.get('animationSpeed');
+    var e = easing || this.get('animationEasing');
+    this.setAttr(attr, /* instance */ false, s, e);
+  },
+
+  setAttrBase: function(keys, attr, instant, speed, easing) {
+    _.each(keys, function(key) {
+      if (instant) {
+        this.get(key).attr(attr[key]);
+      } else {
+        this.get(key).stop().animate(attr[key], speed, easing);
+        // some keys dont support animating too, so set those instantly here
+        _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
+          if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
+            this.get(key).attr(nonAnimateKey, attr[key][nonAnimateKey]);
+          }
+        }, this);
+      }
+
+      if (attr.css) {
+        $(this.get(key).node).css(attr.css);
+      }
+    }, this);
+  },
+
   animateAttrKeys: function(keys, attrObj, speed, easing) {
     // either we animate a specific subset of keys or all
     // possible things we could animate
@@ -32119,7 +32191,7 @@ var VisBranch = VisBase.extend({
     var name = this.get('branch').getName();
     var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
 
-    var after = (selected) ? '*' : '';
+    var after = (selected && !this.getIsInOrigin()) ? '*' : '';
     return name + after;
   },
 
@@ -32257,7 +32329,8 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
-    var dashArray = (this.getIsRemote()) ? '--' : '';
+    var dashArray = (this.getIsRemote() || this.getIsInOrigin()) ?
+      GRAPHICS.originDash : '';
     var cursorStyle = (this.shouldDisableClick()) ?
       'auto' :
       'pointer';
@@ -32279,7 +32352,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
-        'stroke-dasharray': dashArray,
+        //'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {
@@ -32305,26 +32378,7 @@ var VisBranch = VisBase.extend({
 
   setAttr: function(attr, instant, speed, easing) {
     var keys = ['text', 'rect', 'arrow'];
-    _.each(keys, function(key) {
-      if (instant) {
-        this.get(key).attr(attr[key]);
-      } else {
-        this.get(key).stop().animate(attr[key], speed, easing);
-      }
-
-      $(this.get(key).node).css(attr.css);
-    }, this);
-  },
-
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.setAttr(attr, /* instant */ true);
-      return;
-    }
-
-    var s = speed !== undefined ? speed : this.get('animationSpeed');
-    var e = easing || this.get('animationEasing');
-    this.setAttr(attr, /* instance */ false, s, e);
+    this.setAttrBase(keys, attr, instant, speed, easing);
   }
 });
 
@@ -32638,6 +32692,8 @@ var VisNode = VisBase.extend({
     var pos = this.getScreenCoords();
     var textPos = this.getTextScreenCoords();
     var opacity = this.getOpacity();
+    var dashArray = (this.getIsInOrigin()) ?
+      GRAPHICS.originDash : '';
 
     return {
       circle: {
@@ -32647,6 +32703,7 @@ var VisNode = VisBase.extend({
         r: this.getRadius(),
         fill: this.getFill(),
         'stroke-width': this.get('stroke-width'),
+        'stroke-dasharray': dashArray,
         stroke: this.get('stroke')
       },
       text: {
@@ -32691,18 +32748,15 @@ var VisNode = VisBase.extend({
     this.animateToAttr(snapShot[this.getID()], speed, easing);
   },
 
-  animateToAttr: function(attr, speed, easing) {
-    if (speed === 0) {
-      this.get('circle').attr(attr.circle);
-      this.get('text').attr(attr.text);
-      return;
-    }
+  setAttr: function(attr, instant, speed, easing) {
+    var keys = ['text', 'circle'];
+    this.setAttrBase(keys, attr, instant, speed, easing);
+  },
 
+  animateToAttr: function(attr, speed, easing) {
+    VisBase.prototype.animateToAttr.apply(this, arguments);
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
-
-    this.get('circle').stop().animate(attr.circle, s, e);
-    this.get('text').stop().animate(attr.text, s, e);
 
     if (easing == 'bounce' &&
         attr.circle && attr.circle.cx !== undefined &&
