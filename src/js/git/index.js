@@ -126,6 +126,10 @@ GitEngine.prototype.exportTree = function() {
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
+  if (this.hasOrigin()) {
+    totalExport.originTree = this.origin.exportTree();
+  }
+
   return totalExport;
 };
 

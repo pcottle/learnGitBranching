@@ -6801,21 +6801,38 @@ var Visualization = Backbone.View.extend({
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;
-    console.warn('need to figure out this method...');
+    // do the same but for origin tree string
+    var oTree = this.getOriginInTreeString(treeString);
+    if (oTree) {
+      var oTreeString = this.gitEngine.printTree(oTree);
+      this.originToo('resetFromThisThreeNow', [oTreeString]);
+    }
+  },
+
+  getOriginInTreeString: function(treeString) {
+    var tree = JSON.parse(unescape(treeString));
+    return tree.originTree;
   },
 
   reset: function(tree) {
     var treeString = tree || this.treeString;
     this.setTreeOpacity(0);
-    if (this.treeString) {
+    if (treeString) {
       this.gitEngine.loadTreeFromString(treeString);
     } else {
       this.gitEngine.defaultInit();
     }
     this.fadeTreeIn();
 
-    console.warn('also figure this one out');
-    this.originToo('reset', arguments);
+    if (this.originVis) {
+      if (treeString) {
+        var oTree = this.getOriginInTreeString(treeString);
+        this.originToo('reset', [JSON.stringify(oTree)]);
+      } else {
+        // easy
+        this.originToo('reset', arguments);
+      }
+    }
   },
 
   tearDown: function() {
@@ -7127,6 +7144,10 @@ GitEngine.prototype.exportTree = function() {
   HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
+
+  if (this.hasOrigin()) {
+    totalExport.originTree = this.origin.exportTree();
+  }
 
   return totalExport;
 };
@@ -22696,6 +22717,10 @@ GitEngine.prototype.exportTree = function() {
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
+  if (this.hasOrigin()) {
+    totalExport.originTree = this.origin.exportTree();
+  }
+
   return totalExport;
 };
 
@@ -33223,21 +33248,38 @@ var Visualization = Backbone.View.extend({
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;
-    console.warn('need to figure out this method...');
+    // do the same but for origin tree string
+    var oTree = this.getOriginInTreeString(treeString);
+    if (oTree) {
+      var oTreeString = this.gitEngine.printTree(oTree);
+      this.originToo('resetFromThisThreeNow', [oTreeString]);
+    }
+  },
+
+  getOriginInTreeString: function(treeString) {
+    var tree = JSON.parse(unescape(treeString));
+    return tree.originTree;
   },
 
   reset: function(tree) {
     var treeString = tree || this.treeString;
     this.setTreeOpacity(0);
-    if (this.treeString) {
+    if (treeString) {
       this.gitEngine.loadTreeFromString(treeString);
     } else {
       this.gitEngine.defaultInit();
     }
     this.fadeTreeIn();
 
-    console.warn('also figure this one out');
-    this.originToo('reset', arguments);
+    if (this.originVis) {
+      if (treeString) {
+        var oTree = this.getOriginInTreeString(treeString);
+        this.originToo('reset', [JSON.stringify(oTree)]);
+      } else {
+        // easy
+        this.originToo('reset', arguments);
+      }
+    }
   },
 
   tearDown: function() {
