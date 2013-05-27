@@ -13,16 +13,10 @@ Big Things
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] Setup branch model to include:
-[-] remote branch it is tracking (points to a remote branch model)
 [ ] set checkout -b branch __remoteBranch to track the remote branch
-
-[ ] fix branch -a and branch -r to:
--- show remote branches or all branches
-
+[ ] tree comparison with origin.... sigh
 [ ] prototype visual layout (background change + header? maybe...)
-
-[ ] worry about how this affects serialization and tree comparisons. We should be able to still only compare the local copy
+[ ] git pull
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,6 +39,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] remote branch it is tracking (points to a remote branch model)
+[x] fix branch -a and branch -r to: show remote branches or all branches
 [x] fix branch -f to not allow moving remote branches?
 [x] fix checkout to: if you go to __remoteBranch, it just goes to the commit since its read-only.
 [x] is remote (custom getter)

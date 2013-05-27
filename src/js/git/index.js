@@ -799,7 +799,19 @@ GitEngine.prototype.fetch = function() {
   this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
 };
 
-GitEngine.prototype.originInitStarter = function() {
+GitEngine.prototype.pullStarter = function() {
+  this.acceptNoGeneralArgs();
+  // no matter what fetch
+  this.fetch();
+  // then either rebase or merge
+  if (this.commandOptions['--rebase']) {
+    this.rebaseFinisher('o/master', 'master');
+  } else {
+    this.merge('o/master');
+  }
+};
+
+GitEngine.prototype.cloneStarter = function() {
   this.acceptNoGeneralArgs();
   this.makeOrigin(this.printTree(this.exportTreeForBranch('master')));
 };
@@ -1195,16 +1207,17 @@ GitEngine.prototype.rebaseStarter = function() {
   }
 
   this.twoArgsImpliedHead(this.generalArgs);
+  this.rebaseFinisher(this.generalArgs[0], this.generalArgs[1]);
+};
 
-  var response = this.rebase(this.generalArgs[0], this.generalArgs[1]);
-
+GitEngine.prototype.rebaseFinisher = function(targetSource, currentLocation) {
+  var response = this.rebase(targetSource, currentLocation);
   if (response === undefined) {
     // was a fastforward or already up to date. returning now
     // will trigger the refresh animation by not adding anything to
     // the animation queue
     return;
   }
-
   this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
 };
 

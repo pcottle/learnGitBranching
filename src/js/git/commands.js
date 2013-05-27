@@ -64,7 +64,8 @@ var regexMap = {
   'git cherry-pick': /^git +cherry-pick($|\s)/,
   'git fakeTeamwork': /^git +fakeTeamwork *?$/,
   'git fetch': /^git +fetch *?$/,
-  'git originInit': /^git +originInit *?$/
+  'git pull': /^git +pull($|\s)/,
+  'git clone': /^git +clone *?$/
 };
 
 var parse = function(str) {
@@ -151,8 +152,11 @@ GitOptionParser.prototype.getMasterOptionMap = function() {
     },
     revert: {},
     show: {},
-    originInit: {},
+    clone: {},
     fetch: {},
+    pull: {
+      '--rebase': false
+    },
     fakeTeamwork: {}
   };
 };
