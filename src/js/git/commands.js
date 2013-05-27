@@ -62,7 +62,7 @@ var regexMap = {
   'git show': /^git +show($|\s)/,
   'git status': /^git +status($|\s)/,
   'git cherry-pick': /^git +cherry-pick($|\s)/,
-  'git fakeTeamwork': /^git +fakeTeamwork *?$/,
+  'git fakeTeamwork': /^git +fakeTeamwork($|\s)/,
   'git fetch': /^git +fetch *?$/,
   'git pull': /^git +pull($|\s)/,
   'git clone': /^git +clone *?$/

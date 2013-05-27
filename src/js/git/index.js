@@ -800,7 +800,13 @@ GitEngine.prototype.fetch = function() {
 };
 
 GitEngine.prototype.pullStarter = function() {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
   this.acceptNoGeneralArgs();
+
   // no matter what fetch
   this.fetch();
   // then either rebase or merge
@@ -817,15 +823,18 @@ GitEngine.prototype.cloneStarter = function() {
 };
 
 GitEngine.prototype.fakeTeamworkStarter = function() {
-  this.acceptNoGeneralArgs();
   if (!this.hasOrigin()) {
     throw new GitError({
       msg: intl.str('git-error-origin-required')
     });
   }
 
-  var id = this.getUniqueID();
-  this.origin.receiveTeamwork(id, this.animationQueue);
+  var numToMake = this.generalArgs[0] || 1;
+  this.validateArgBounds(this.generalArgs, 0, 1);
+  for (var i = 0; i < numToMake; i++) {
+    var id = this.getUniqueID();
+    this.origin.receiveTeamwork(id, this.animationQueue);
+  }
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
