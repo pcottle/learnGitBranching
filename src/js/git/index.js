@@ -207,7 +207,7 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 GitEngine.prototype.makeOrigin = function(treeString) {
   if (this.hasOrigin()) {
     throw new GitError({
-      msg: intl.str('git-error-options')
+      msg: intl.str('git-error-origin-exists')
     });
   }
 
@@ -437,15 +437,20 @@ GitEngine.prototype.printBranches = function(branches) {
   });
 };
 
+GitEngine.prototype.getUniqueID = function() {
+  var id = this.uniqueId('C');
+  while (this.refs[id]) {
+    id = this.uniqueId('C');
+  }
+  return id;
+};
+
 GitEngine.prototype.makeCommit = function(parents, id, options) {
   // ok we need to actually manually create commit IDs now because
   // people like nikita (thanks for finding this!) could
   // make branches named C2 before creating the commit C2
   if (!id) {
-    id = this.uniqueId('C');
-    while (this.refs[id]) {
-      id = this.uniqueId('C');
-    }
+    id = this.getUniqueID();
   }
 
   var commit = new Commit(_.extend({
@@ -659,6 +664,27 @@ GitEngine.prototype.cherrypickStarter = function() {
   }, this);
 
   this.animationFactory.rebaseAnimation(this.animationQueue, animationResponse, this, this.gitVisuals);
+};
+
+GitEngine.prototype.fakeTeamworkStarter = function() {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
+
+  var id = this.getUniqueID();
+  // fill refs so it is not grabbed again
+  this.refs[id] = {};
+
+  this.origin.receiveTeamwork(id, this.animationQueue);
+};
+
+GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
+  var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
+  this.setTargetLocation(this.HEAD, newCommit);
+
+  this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.cherrypick = function(ref) {

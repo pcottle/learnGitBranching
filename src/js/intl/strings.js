@@ -52,6 +52,14 @@ exports.strings = {
     'en_US': 'Quick commit. Go Bears!',
     'zh_CN': '快速提交。上啊月熊！'
   },
+  'git-error-origin-required': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'An origin is required for that command'
+  },
+  'git-error-origin-exists': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'An origin already exists! You cannot make a new one'
+  },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
     '__desc__': 'One of the error messages for git',
