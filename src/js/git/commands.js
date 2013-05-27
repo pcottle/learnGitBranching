@@ -63,6 +63,7 @@ var regexMap = {
   'git status': /^git +status($|\s)/,
   'git cherry-pick': /^git +cherry-pick($|\s)/,
   'git fakeTeamwork': /^git +fakeTeamwork *?$/,
+  'git fetch': /^git +fetch *?$/,
   'git originInit': /^git +originInit *?$/
 };
 
@@ -149,6 +150,7 @@ GitOptionParser.prototype.getMasterOptionMap = function() {
     revert: {},
     show: {},
     originInit: {},
+    fetch: {},
     fakeTeamwork: {}
   };
 };

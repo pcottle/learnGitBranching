@@ -420,6 +420,7 @@ var Level = Sandbox.extend({
     finishAnimationChain
     .then(function() {
       if (!skipFinishDialog && nextLevel) {
+        log.choseNextLevel(nextLevel.id);
         Main.getEventBaton().trigger(
           'commandSubmitted',
           'level ' + nextLevel.id

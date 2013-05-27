@@ -87,11 +87,7 @@ var VisBranch = VisBase.extend({
 
     // easy logic first
     if (!this.get('isHead')) {
-      if (this.getIsRemote()) {
-        return (overThreshold) ? 1 : -1;
-      } else {
-        return (overThreshold) ? -1 : 1;
-      }
+      return (overThreshold) ? -1 : 1;
     }
 
     // now for HEAD....
@@ -296,8 +292,9 @@ var VisBranch = VisBase.extend({
   getName: function() {
     var name = this.get('branch').getName();
     var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
+    var isRemote = this.getIsRemote();
 
-    var after = (selected && !this.getIsInOrigin()) ? '*' : '';
+    var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
     return name + after;
   },
 
@@ -435,7 +432,7 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
-    var dashArray = (this.getIsRemote() || this.getIsInOrigin()) ?
+    var dashArray = (this.getIsInOrigin()) ?
       GRAPHICS.originDash : '';
     var cursorStyle = (this.shouldDisableClick()) ?
       'auto' :

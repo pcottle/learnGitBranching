@@ -13,6 +13,10 @@ exports.showLevelSolution = function(levelName) {
   log('levels', 'showedLevelSolution', levelName);
 };
 
+exports.choseNextLevel = function(levelID) {
+  log('levels', 'nextLevelChosen', levelID);
+};
+
 exports.levelSelected = function(levelName) {
   log('levels', 'levelSelected', levelName);
 };

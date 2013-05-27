@@ -87,6 +87,34 @@ GitEngine.prototype.isOrigin = function() {
   return !!this.localRepo;
 };
 
+GitEngine.prototype.exportTreeForBranch = function(branchName) {
+  // this method exports the tree and then prunes everything that
+  // is not connected to branchname
+  var tree = this.exportTree();
+  // get the upstream set
+  var set = this.getUpstreamSet(branchName);
+  // now loop through and delete commits
+  var commitsToLoop = tree.commits;
+  tree.commits = {};
+  _.each(commitsToLoop, function(commit, id) {
+    if (set[id]) {
+      // if included in target branch
+      tree.commits[id] = commit;
+    }
+  });
+
+  var branchesToLoop = tree.branches;
+  tree.branches = {};
+  _.each(branchesToLoop, function(branch, id) {
+    if (id === branchName) {
+      tree.branches[id] = branch;
+    }
+  });
+
+  tree.HEAD.target = branchName;
+  return tree;
+};
+
 GitEngine.prototype.exportTree = function() {
   // need to export all commits, their connectivity / messages, branches, and state of head.
   // this would be simple if didn't have circular structures.... :P
@@ -210,17 +238,18 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       msg: intl.str('git-error-origin-exists')
     });
   }
+  treeString = treeString || this.printTree(this.exportTreeForBranch('master'));
 
   // this is super super ugly but a necessary hack because of the way LGB was
   // originally designed. We need to get to the top level visualization from
   // the git engine -- aka we need to access our own visuals, then the
   // visualization and ask the main vis to create a new vis/git pair. Then
   // we grab the gitengine out of that and assign that as our origin repo
-  // which connects the two
+  // which connects the two. epic
   var masterVis = this.gitVisuals.getVisualization();
   var originVis = masterVis.makeOrigin({
     localRepo: this,
-    treeString: treeString || this.printTree()
+    treeString: treeString
   });
 
   // defer the starting of our animation until origin has been created
@@ -233,6 +262,17 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     this.origin.externalRefresh();
     this.animationQueue.start();
   }, this);
+
+  // TODO handle the case where the master target on origin is not present
+  // locally, so we have to go up the chain. for now we assume the master on
+  // origin is at least present
+  var originTree = JSON.parse(unescape(treeString));
+  var originMasterTarget = originTree.branches.master.target;
+  var originMaster = this.makeBranch(
+    'o/master',
+    this.getCommitFromRef(originMasterTarget)
+  );
+  originMaster.set('remote', true);
 
   // add a simple refresh animation
   this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
@@ -378,7 +418,7 @@ GitEngine.prototype.validateBranchName = function(name) {
   return name;
 };
 
-GitEngine.prototype.makeBranch = function(id, target) {
+GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   id = this.validateBranchName(id);
   if (this.refs[id]) {
     throw new GitError({
@@ -389,6 +429,10 @@ GitEngine.prototype.makeBranch = function(id, target) {
     });
   }
 
+  this.makeBranch(id, target);
+};
+
+GitEngine.prototype.makeBranch = function(id, target) {
   var branch = new Branch({
     target: target,
     id: id
@@ -439,7 +483,20 @@ GitEngine.prototype.printBranches = function(branches) {
 
 GitEngine.prototype.getUniqueID = function() {
   var id = this.uniqueId('C');
-  while (this.refs[id]) {
+
+  var hasID = _.bind(function(idToCheck) {
+    // loop through and see if we have it locally or
+    // remotely
+    if (this.refs[idToCheck]) {
+      return true;
+    }
+    if (this.origin && this.origin.refs[idToCheck]) {
+      return true;
+    }
+    return false;
+  }, this);
+
+  while (hasID(id)) {
     id = this.uniqueId('C');
   }
   return id;
@@ -530,10 +587,6 @@ GitEngine.prototype.revertStarter = function() {
   if (response) {
     this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
   }
-};
-
-GitEngine.prototype.originInitStarter = function() {
-  this.makeOrigin(this.printTree());
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
@@ -666,7 +719,78 @@ GitEngine.prototype.cherrypickStarter = function() {
   this.animationFactory.rebaseAnimation(this.animationQueue, animationResponse, this, this.gitVisuals);
 };
 
+/*************************************
+ * Origin stuff!
+ ************************************/
+
+GitEngine.prototype.fetchStarter = function() {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
+  this.acceptNoGeneralArgs();
+  this.fetch();
+};
+
+GitEngine.prototype.fetch = function() {
+  // TODO refactor to use rebase animation stuff!!
+  // ok so we essentially are always in "-force" mode, since we always assume
+  // the origin commits are downstream of where we are. Here is the outline:
+  //
+  // first we get the commits we need by exporting the origin tree and
+  // walking upwards until we hit the upstream set defined by origin/master.
+  //
+  // then we simply set the target of o/master to the target of master on
+  // the origin branch
+  var oldCommits = this.exportTree().commits;
+  // HAX HAX omg we will abuse our tree instantiation here :D
+  var originTree = this.origin.exportTree();
+  _.each(originTree.commits, function(commit, id) {
+    // if we have it, no worries
+    if (this.refs[id]) {
+      return;
+    }
+    // go make it!
+    var downloadedCommit = this.getOrMakeRecursive(originTree, this.refs, id);
+    this.commitCollection.add(downloadedCommit);
+  }, this);
+
+  // since we now might have many commits more than before, lets
+  // check all the ones that didn't use to exist and make animations
+  var newCommits = this.exportTree().commits;
+  var commitsToAnimate = [];
+  _.each(newCommits, function(commit, id) {
+    if (oldCommits[id]) {
+      return;
+    }
+    commitsToAnimate.push(this.refs[id]);
+  }, this);
+
+  // now sort by id...
+  commitsToAnimate.sort(_.bind(this.idSortFunc, this));
+
+  _.each(commitsToAnimate, function(newCommit) {
+    this.animationFactory.genCommitBirthAnimation(
+      this.animationQueue,
+      newCommit,
+      this.gitVisuals
+    );
+  }, this);
+
+  var originLocation = this.origin.exportTree().branches.master.target;
+  // yay! now we just set o/master and do a simple refresh
+  this.setTargetLocation(this.refs['o/master'], this.refs[originLocation]);
+  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+};
+
+GitEngine.prototype.originInitStarter = function() {
+  this.acceptNoGeneralArgs();
+  this.makeOrigin(this.printTree(this.exportTreeForBranch('master')));
+};
+
 GitEngine.prototype.fakeTeamworkStarter = function() {
+  this.acceptNoGeneralArgs();
   if (!this.hasOrigin()) {
     throw new GitError({
       msg: intl.str('git-error-origin-required')
@@ -674,9 +798,6 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
   }
 
   var id = this.getUniqueID();
-  // fill refs so it is not grabbed again
-  this.refs[id] = {};
-
   this.origin.receiveTeamwork(id, this.animationQueue);
 };
 
@@ -818,6 +939,7 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
 };
 
 GitEngine.prototype.resolveStringRef = function(ref) {
+  ref = this.crappyUnescape(ref);
   if (this.refs[ref]) {
     return this.refs[ref];
   }
@@ -1396,7 +1518,7 @@ GitEngine.prototype.checkoutStarter = function() {
 
   this.validateArgBounds(this.generalArgs, 1, 1);
 
-  this.checkout(this.unescapeQuotes(this.generalArgs[0]));
+  this.checkout(this.crappyUnescape(this.generalArgs[0]));
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
@@ -1408,6 +1530,11 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   }
 
   var type = target.get('type');
+  // check if this is an origin branch, and if so go to the commit referenced
+  if (type === 'branch' && target.getIsRemote()) {
+    target = this.getCommitFromRef(target.get('id'));
+  }
+
   if (type !== 'branch' && type !== 'commit') {
     throw new GitError({
       msg: intl.str('git-error-options')
@@ -1476,7 +1603,7 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
 
 GitEngine.prototype.branch = function(name, ref) {
   var target = this.getCommitFromRef(ref);
-  this.makeBranch(name, target);
+  this.validateAndMakeBranch(name, target);
 };
 
 GitEngine.prototype.deleteBranch = function(name) {
@@ -1504,8 +1631,8 @@ GitEngine.prototype.deleteBranch = function(name) {
   }
 };
 
-GitEngine.prototype.unescapeQuotes = function(str) {
-  return str.replace(/&#x27;/g, "'");
+GitEngine.prototype.crappyUnescape = function(str) {
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, '/');
 };
 
 GitEngine.prototype.filterError = function(err) {
@@ -1758,11 +1885,11 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
-    origin: null
+    remote: false
   },
 
   getIsRemote: function() {
-    return this.get('origin') !== null;
+    return this.get('remote');
   },
 
   initialize: function() {
