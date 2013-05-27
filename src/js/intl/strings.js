@@ -52,6 +52,10 @@ exports.strings = {
     'en_US': 'Quick commit. Go Bears!',
     'zh_CN': '快速提交。上啊月熊！'
   },
+  'git-error-remote-branch': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'You cannot execute that command on a remote branch'
+  },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin is required for that command'

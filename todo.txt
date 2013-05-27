@@ -1,6 +1,6 @@
 Mega Things
 ~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] origin support
+[-] origin support
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
@@ -13,21 +13,9 @@ Big Things
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] setup remote model, for now it just has:
--- a name
--- a URL (default for now)?
--- points to a completely new git engine instance to interact with
 [ ] Setup branch model to include:
--- is remote (custom getter)
--- remote it is on (if applicable), just points to a remote model
--- remote branch it is tracking (points to a remote branch model)
--- set checkout -b branch __remoteBranch to track the remote branch
-
-[ ] fix checkout to:
--- if you go to __remoteBranch, it just goes to the commit since its read-only.
-
-[ ] fix branch -f to:
--- not allow moving remote branches?
+[-] remote branch it is tracking (points to a remote branch model)
+[ ] set checkout -b branch __remoteBranch to track the remote branch
 
 [ ] fix branch -a and branch -r to:
 -- show remote branches or all branches
@@ -57,6 +45,9 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] fix branch -f to not allow moving remote branches?
+[x] fix checkout to: if you go to __remoteBranch, it just goes to the commit since its read-only.
+[x] is remote (custom getter)
 [x] hash agnotisc comparison with asserts for ammends
 [x] level builder intl aware
 [x] rest of views/index translation

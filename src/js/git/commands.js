@@ -132,6 +132,8 @@ GitOptionParser.prototype.getMasterOptionMap = function() {
       '-d': false,
       '-D': false,
       '-f': false,
+      '-a': false,
+      '-r': false,
       '--contains': false
     },
     checkout: {

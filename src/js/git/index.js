@@ -453,10 +453,25 @@ GitEngine.prototype.getBranches = function() {
       id: branch.get('id'),
       selected: this.HEAD.get('target') === branch,
       target: branch.get('target'),
+      remote: branch.getIsRemote(),
       obj: branch
     });
   }, this);
   return toReturn;
+};
+
+GitEngine.prototype.getRemoteBranches = function() {
+  var all = this.getBranches();
+  return _.filter(all, function(branchJSON) {
+    return branchJSON.remote === true;
+  });
+};
+
+GitEngine.prototype.getLocalBranches = function() {
+  var all = this.getBranches();
+  return _.filter(all, function(branchJSON) {
+    return branchJSON.remote === false;
+  });
 };
 
 GitEngine.prototype.printBranchesWithout = function(without) {
@@ -734,7 +749,7 @@ GitEngine.prototype.fetchStarter = function() {
 };
 
 GitEngine.prototype.fetch = function() {
-  // TODO refactor to use rebase animation stuff!!
+  // TODO refactor to use rebase animation stuff!!!!
   // ok so we essentially are always in "-force" mode, since we always assume
   // the origin commits are downstream of where we are. Here is the outline:
   //
@@ -1575,7 +1590,15 @@ GitEngine.prototype.branchStarter = function() {
 
 
   if (this.generalArgs.length === 0) {
-    this.printBranches(this.getBranches());
+    var branches;
+    if (this.commandOptions['-a']) {
+      branches = this.getBranches();
+    } else if (this.commandOptions['-r']) {
+      branches = this.getRemoteBranches();
+    } else {
+      branches = this.getLocalBranches();
+    }
+    this.printBranches(branches);
     return;
   }
 
@@ -1584,12 +1607,19 @@ GitEngine.prototype.branchStarter = function() {
 };
 
 GitEngine.prototype.forceBranch = function(branchName, where) {
+  branchName = this.crappyUnescape(branchName);
   // if branchname doesn't exist...
   if (!this.refs[branchName]) {
     this.branch(branchName, where);
   }
 
   var branch = this.resolveID(branchName);
+  if (branch.getIsRemote()) {
+    throw new GitError({
+      msg: intl.str('git-error-remote-branch')
+    });
+  }
+
   if (branch.get('type') !== 'branch') {
     throw new GitError({
       msg: intl.str('git-error-options')
@@ -1613,7 +1643,6 @@ GitEngine.prototype.deleteBranch = function(name) {
   if (target.get('type') !== 'branch' ||
       target.get('id') == 'master' ||
       this.HEAD.get('target') === target) {
-
     throw new GitError({
       msg: intl.str('git-error-branch')
     });
@@ -1621,6 +1650,12 @@ GitEngine.prototype.deleteBranch = function(name) {
 
   // now we know it's a branch
   var branch = target;
+  // if its remote
+  if (target.getIsRemote()) {
+    throw new GitError({
+      msg: intl.str('git-error-remote-branch')
+    });
+  }
 
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
