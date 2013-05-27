@@ -562,7 +562,7 @@ GitVisuals.prototype.calcDepth = function() {
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
   _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
+    visNode.setDepthBasedOn(depthIncrement, this.getHeaderOffset());
   }, this);
 };
 
@@ -643,15 +643,25 @@ GitVisuals.prototype.animateEdges = function(speed) {
 };
 
 GitVisuals.prototype.getMinLayers = function() {
-  return (this.options.smallCanvas) ? 0 : 7;
+  return (this.options.smallCanvas) ? 2 : 7;
 };
 
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
   // assume there are at least a number of layers until later
   // to have better visuals
   maxDepth = Math.max(maxDepth, this.getMinLayers());
-  var increment = 1.0 / maxDepth;
+  // if we have a header, reserve space for that
+  var vSpace = 1.0 - this.getHeaderOffset();
+  var increment = vSpace / maxDepth;
   return increment;
+};
+
+GitVisuals.prototype.shouldHaveHeader = function() {
+  return this.gitEngine.isOrigin() || this.gitEngine.hasOrigin();
+};
+
+GitVisuals.prototype.getHeaderOffset = function() {
+  return (this.shouldHaveHeader()) ? 0.05 : 0;
 };
 
 GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {

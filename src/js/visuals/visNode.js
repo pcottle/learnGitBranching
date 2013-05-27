@@ -60,13 +60,12 @@ var VisNode = VisBase.extend({
     this.set('depth', Math.max(this.get('depth') || 0, depth));
   },
 
-  setDepthBasedOn: function(depthIncrement) {
+  setDepthBasedOn: function(depthIncrement, offset) {
     if (this.get('depth') === undefined) {
-      debugger;
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');
-    pos.y = this.get('depth') * depthIncrement;
+    pos.y = this.get('depth') * depthIncrement + offset;
   },
 
   getMaxWidthScaled: function() {

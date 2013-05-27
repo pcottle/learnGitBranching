@@ -6744,8 +6744,15 @@ var Visualization = Backbone.View.extend({
     return this.originVis;
   },
 
+  originToo: function(methodToCall, args) {
+    if (this.originVis) {
+      this.originVis[methodToCall].apply(this.originVis, args);
+    }
+  },
+
   setTreeIndex: function(level) {
     $(this.paper.canvas).css('z-index', level);
+    this.originToo('setTreeIndex', arguments);
   },
 
   setTreeOpacity: function(level) {
@@ -6754,6 +6761,7 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', level);
+    this.originToo('setTreeOpacity', arguments);
   },
 
   getAnimationTime: function() { return 300; },
@@ -6761,11 +6769,13 @@ var Visualization = Backbone.View.extend({
   fadeTreeIn: function() {
     this.shown = true;
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+    this.originToo('fadeTreeIn', arguments);
   },
 
   fadeTreeOut: function() {
     this.shown = false;
     $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+    this.originToo('fadeTreeOut', arguments);
   },
 
   hide: function() {
@@ -6774,20 +6784,24 @@ var Visualization = Backbone.View.extend({
     setTimeout(_.bind(function() {
       $(this.paper.canvas).css('visibility', 'hidden');
     }, this), this.getAnimationTime());
+    this.originToo('hide', arguments);
   },
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     setTimeout(_.bind(this.fadeTreeIn, this), 10);
+    this.originToo('show', arguments);
   },
 
   showHarsh: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     this.setTreeOpacity(1);
+    this.originToo('showHarsh', arguments);
   },
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;
+    console.warn('need to figure out this method...');
   },
 
   reset: function(tree) {
@@ -6799,12 +6813,16 @@ var Visualization = Backbone.View.extend({
       this.gitEngine.defaultInit();
     }
     this.fadeTreeIn();
+
+    console.warn('also figure this one out');
+    this.originToo('reset', arguments);
   },
 
   tearDown: function() {
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
     delete this.paper;
+    this.originToo('tearDown', arguments);
   },
 
   die: function() {
@@ -6814,6 +6832,7 @@ var Visualization = Backbone.View.extend({
         this.tearDown();
       }
     }, this), this.getAnimationTime());
+    this.originToo('die', arguments);
   },
 
   myResize: function() {
@@ -15474,7 +15493,7 @@ GitVisuals.prototype.calcDepth = function() {
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
   _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
+    visNode.setDepthBasedOn(depthIncrement, this.getHeaderOffset());
   }, this);
 };
 
@@ -15555,15 +15574,25 @@ GitVisuals.prototype.animateEdges = function(speed) {
 };
 
 GitVisuals.prototype.getMinLayers = function() {
-  return (this.options.smallCanvas) ? 0 : 7;
+  return (this.options.smallCanvas) ? 2 : 7;
 };
 
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
   // assume there are at least a number of layers until later
   // to have better visuals
   maxDepth = Math.max(maxDepth, this.getMinLayers());
-  var increment = 1.0 / maxDepth;
+  // if we have a header, reserve space for that
+  var vSpace = 1.0 - this.getHeaderOffset();
+  var increment = vSpace / maxDepth;
   return increment;
+};
+
+GitVisuals.prototype.shouldHaveHeader = function() {
+  return this.gitEngine.isOrigin() || this.gitEngine.hasOrigin();
+};
+
+GitVisuals.prototype.getHeaderOffset = function() {
+  return (this.shouldHaveHeader()) ? 0.05 : 0;
 };
 
 GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
@@ -15802,13 +15831,12 @@ var VisNode = VisBase.extend({
     this.set('depth', Math.max(this.get('depth') || 0, depth));
   },
 
-  setDepthBasedOn: function(depthIncrement) {
+  setDepthBasedOn: function(depthIncrement, offset) {
     if (this.get('depth') === undefined) {
-      debugger;
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');
-    pos.y = this.get('depth') * depthIncrement;
+    pos.y = this.get('depth') * depthIncrement + offset;
   },
 
   getMaxWidthScaled: function() {
@@ -31483,7 +31511,7 @@ GitVisuals.prototype.calcDepth = function() {
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
   _.each(this.visNodeMap, function(visNode) {
-    visNode.setDepthBasedOn(depthIncrement);
+    visNode.setDepthBasedOn(depthIncrement, this.getHeaderOffset());
   }, this);
 };
 
@@ -31564,15 +31592,25 @@ GitVisuals.prototype.animateEdges = function(speed) {
 };
 
 GitVisuals.prototype.getMinLayers = function() {
-  return (this.options.smallCanvas) ? 0 : 7;
+  return (this.options.smallCanvas) ? 2 : 7;
 };
 
 GitVisuals.prototype.getDepthIncrement = function(maxDepth) {
   // assume there are at least a number of layers until later
   // to have better visuals
   maxDepth = Math.max(maxDepth, this.getMinLayers());
-  var increment = 1.0 / maxDepth;
+  // if we have a header, reserve space for that
+  var vSpace = 1.0 - this.getHeaderOffset();
+  var increment = vSpace / maxDepth;
   return increment;
+};
+
+GitVisuals.prototype.shouldHaveHeader = function() {
+  return this.gitEngine.isOrigin() || this.gitEngine.hasOrigin();
+};
+
+GitVisuals.prototype.getHeaderOffset = function() {
+  return (this.shouldHaveHeader()) ? 0.05 : 0;
 };
 
 GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
@@ -32643,13 +32681,12 @@ var VisNode = VisBase.extend({
     this.set('depth', Math.max(this.get('depth') || 0, depth));
   },
 
-  setDepthBasedOn: function(depthIncrement) {
+  setDepthBasedOn: function(depthIncrement, offset) {
     if (this.get('depth') === undefined) {
-      debugger;
       throw new Error('no depth yet!');
     }
     var pos = this.get('pos');
-    pos.y = this.get('depth') * depthIncrement;
+    pos.y = this.get('depth') * depthIncrement + offset;
   },
 
   getMaxWidthScaled: function() {
@@ -33129,8 +33166,15 @@ var Visualization = Backbone.View.extend({
     return this.originVis;
   },
 
+  originToo: function(methodToCall, args) {
+    if (this.originVis) {
+      this.originVis[methodToCall].apply(this.originVis, args);
+    }
+  },
+
   setTreeIndex: function(level) {
     $(this.paper.canvas).css('z-index', level);
+    this.originToo('setTreeIndex', arguments);
   },
 
   setTreeOpacity: function(level) {
@@ -33139,6 +33183,7 @@ var Visualization = Backbone.View.extend({
     }
 
     $(this.paper.canvas).css('opacity', level);
+    this.originToo('setTreeOpacity', arguments);
   },
 
   getAnimationTime: function() { return 300; },
@@ -33146,11 +33191,13 @@ var Visualization = Backbone.View.extend({
   fadeTreeIn: function() {
     this.shown = true;
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+    this.originToo('fadeTreeIn', arguments);
   },
 
   fadeTreeOut: function() {
     this.shown = false;
     $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+    this.originToo('fadeTreeOut', arguments);
   },
 
   hide: function() {
@@ -33159,20 +33206,24 @@ var Visualization = Backbone.View.extend({
     setTimeout(_.bind(function() {
       $(this.paper.canvas).css('visibility', 'hidden');
     }, this), this.getAnimationTime());
+    this.originToo('hide', arguments);
   },
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     setTimeout(_.bind(this.fadeTreeIn, this), 10);
+    this.originToo('show', arguments);
   },
 
   showHarsh: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     this.setTreeOpacity(1);
+    this.originToo('showHarsh', arguments);
   },
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;
+    console.warn('need to figure out this method...');
   },
 
   reset: function(tree) {
@@ -33184,12 +33235,16 @@ var Visualization = Backbone.View.extend({
       this.gitEngine.defaultInit();
     }
     this.fadeTreeIn();
+
+    console.warn('also figure this one out');
+    this.originToo('reset', arguments);
   },
 
   tearDown: function() {
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
     delete this.paper;
+    this.originToo('tearDown', arguments);
   },
 
   die: function() {
@@ -33199,6 +33254,7 @@ var Visualization = Backbone.View.extend({
         this.tearDown();
       }
     }, this), this.getAnimationTime());
+    this.originToo('die', arguments);
   },
 
   myResize: function() {
