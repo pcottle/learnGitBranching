@@ -197,9 +197,14 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   this.branchCollection.each(function(branch) {
     this.gitVisuals.addBranch(branch);
   }, this);
+
+  if (tree.originTree) {
+    var treeString = JSON.stringify(tree.originTree);
+    this.makeOrigin(treeString);
+  }
 };
 
-GitEngine.prototype.makeOrigin = function(tree) {
+GitEngine.prototype.makeOrigin = function(treeString) {
   if (this.hasOrigin()) {
     throw new GitError({
       msg: intl.str('git-error-options')
@@ -215,7 +220,7 @@ GitEngine.prototype.makeOrigin = function(tree) {
   var masterVis = this.gitVisuals.getVisualization();
   var originVis = masterVis.makeOrigin({
     localRepo: this,
-    tree: this.getDefaultTree()
+    treeString: treeString || this.printTree()
   });
 
   // defer the starting of our animation until origin has been created
@@ -325,6 +330,13 @@ GitEngine.prototype.removeAll = function() {
   this.refs = {};
   this.HEAD = null;
   this.rootCommit = null;
+
+  if (this.origin) {
+    // we will restart all this jazz during init from tree
+    this.origin.gitVisuals.getVisualization().tearDown();
+    delete this.origin;
+    this.gitVisuals.getVisualization().clearOrigin();
+  }
 
   this.gitVisuals.resetAll();
 };
@@ -516,7 +528,7 @@ GitEngine.prototype.revertStarter = function() {
 };
 
 GitEngine.prototype.originInitStarter = function() {
-  this.makeOrigin(this.getDefaultTree());
+  this.makeOrigin(this.printTree());
 };
 
 GitEngine.prototype.revert = function(whichCommits) {

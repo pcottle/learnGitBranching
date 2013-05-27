@@ -277,7 +277,8 @@ var VisNode = VisBase.extend({
     _.each(this.get('outgoingEdges'), function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
-      edge.get('path').stop().attr({
+      edge.get('path').stop();
+      edge.get('path').attr({
         path: path,
         opacity: 0
       });

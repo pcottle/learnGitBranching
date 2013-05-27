@@ -86,6 +86,10 @@ var Visualization = Backbone.View.extend({
     this.customEvents.trigger('paperReady');
   },
 
+  clearOrigin: function() {
+    delete this.originVis;
+  },
+
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
@@ -97,7 +101,7 @@ var Visualization = Backbone.View.extend({
         // never accept keyboard input or clicks
         noKeyboardInput: true,
         noClick: true,
-        treeString: JSON.stringify(options.tree)
+        treeString: options.treeString
       }
     ));
     // return the newly created visualization which will soon have a git engine
@@ -105,9 +109,21 @@ var Visualization = Backbone.View.extend({
   },
 
   originToo: function(methodToCall, args) {
-    if (this.originVis) {
-      this.originVis[methodToCall].apply(this.originVis, args);
+    if (!this.originVis) {
+      return;
     }
+    var callMethod = _.bind(function() {
+      this.originVis[methodToCall].apply(this.originVis, args);
+    }, this);
+
+    if (this.originVis.paper) {
+      callMethod();
+      return;
+    }
+    // this is tricky -- sometimes we already have paper initialized but
+    // our origin vis does not (since we kill that on every reset).
+    // in this case lets bind to the custom event on paper ready
+    this.originVis.customEvents.on('paperReady', callMethod);
   },
 
   setTreeIndex: function(level) {
@@ -129,6 +145,7 @@ var Visualization = Backbone.View.extend({
   fadeTreeIn: function() {
     this.shown = true;
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+
     this.originToo('fadeTreeIn', arguments);
   },
 

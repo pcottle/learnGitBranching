@@ -6726,6 +6726,10 @@ var Visualization = Backbone.View.extend({
     this.customEvents.trigger('paperReady');
   },
 
+  clearOrigin: function() {
+    delete this.originVis;
+  },
+
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
@@ -6737,7 +6741,7 @@ var Visualization = Backbone.View.extend({
         // never accept keyboard input or clicks
         noKeyboardInput: true,
         noClick: true,
-        treeString: JSON.stringify(options.tree)
+        treeString: options.treeString
       }
     ));
     // return the newly created visualization which will soon have a git engine
@@ -6745,9 +6749,21 @@ var Visualization = Backbone.View.extend({
   },
 
   originToo: function(methodToCall, args) {
-    if (this.originVis) {
-      this.originVis[methodToCall].apply(this.originVis, args);
+    if (!this.originVis) {
+      return;
     }
+    var callMethod = _.bind(function() {
+      this.originVis[methodToCall].apply(this.originVis, args);
+    }, this);
+
+    if (this.originVis.paper) {
+      callMethod();
+      return;
+    }
+    // this is tricky -- sometimes we already have paper initialized but
+    // our origin vis does not (since we kill that on every reset).
+    // in this case lets bind to the custom event on paper ready
+    this.originVis.customEvents.on('paperReady', callMethod);
   },
 
   setTreeIndex: function(level) {
@@ -6769,6 +6785,7 @@ var Visualization = Backbone.View.extend({
   fadeTreeIn: function() {
     this.shown = true;
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+
     this.originToo('fadeTreeIn', arguments);
   },
 
@@ -7216,9 +7233,14 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   this.branchCollection.each(function(branch) {
     this.gitVisuals.addBranch(branch);
   }, this);
+
+  if (tree.originTree) {
+    var treeString = JSON.stringify(tree.originTree);
+    this.makeOrigin(treeString);
+  }
 };
 
-GitEngine.prototype.makeOrigin = function(tree) {
+GitEngine.prototype.makeOrigin = function(treeString) {
   if (this.hasOrigin()) {
     throw new GitError({
       msg: intl.str('git-error-options')
@@ -7234,7 +7256,7 @@ GitEngine.prototype.makeOrigin = function(tree) {
   var masterVis = this.gitVisuals.getVisualization();
   var originVis = masterVis.makeOrigin({
     localRepo: this,
-    tree: this.getDefaultTree()
+    treeString: treeString || this.printTree()
   });
 
   // defer the starting of our animation until origin has been created
@@ -7344,6 +7366,13 @@ GitEngine.prototype.removeAll = function() {
   this.refs = {};
   this.HEAD = null;
   this.rootCommit = null;
+
+  if (this.origin) {
+    // we will restart all this jazz during init from tree
+    this.origin.gitVisuals.getVisualization().tearDown();
+    delete this.origin;
+    this.gitVisuals.getVisualization().clearOrigin();
+  }
 
   this.gitVisuals.resetAll();
 };
@@ -7535,7 +7564,7 @@ GitEngine.prototype.revertStarter = function() {
 };
 
 GitEngine.prototype.originInitStarter = function() {
-  this.makeOrigin(this.getDefaultTree());
+  this.makeOrigin(this.printTree());
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
@@ -16069,7 +16098,8 @@ var VisNode = VisBase.extend({
     _.each(this.get('outgoingEdges'), function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
-      edge.get('path').stop().attr({
+      edge.get('path').stop();
+      edge.get('path').attr({
         path: path,
         opacity: 0
       });
@@ -16271,7 +16301,8 @@ var VisBase = Backbone.Model.extend({
       if (instant) {
         this.get(key).attr(attr[key]);
       } else {
-        this.get(key).stop().animate(attr[key], speed, easing);
+        this.get(key).stop();
+        this.get(key).animate(attr[key], speed, easing);
         // some keys dont support animating too, so set those instantly here
         _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
           if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
@@ -16992,7 +17023,8 @@ var VisEdge = VisBase.extend({
     }
 
     this.get('path').toBack();
-    this.get('path').stop().animate(
+    this.get('path').stop();
+    this.get('path').animate(
       attr.path,
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
@@ -22788,9 +22820,14 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   this.branchCollection.each(function(branch) {
     this.gitVisuals.addBranch(branch);
   }, this);
+
+  if (tree.originTree) {
+    var treeString = JSON.stringify(tree.originTree);
+    this.makeOrigin(treeString);
+  }
 };
 
-GitEngine.prototype.makeOrigin = function(tree) {
+GitEngine.prototype.makeOrigin = function(treeString) {
   if (this.hasOrigin()) {
     throw new GitError({
       msg: intl.str('git-error-options')
@@ -22806,7 +22843,7 @@ GitEngine.prototype.makeOrigin = function(tree) {
   var masterVis = this.gitVisuals.getVisualization();
   var originVis = masterVis.makeOrigin({
     localRepo: this,
-    tree: this.getDefaultTree()
+    treeString: treeString || this.printTree()
   });
 
   // defer the starting of our animation until origin has been created
@@ -22916,6 +22953,13 @@ GitEngine.prototype.removeAll = function() {
   this.refs = {};
   this.HEAD = null;
   this.rootCommit = null;
+
+  if (this.origin) {
+    // we will restart all this jazz during init from tree
+    this.origin.gitVisuals.getVisualization().tearDown();
+    delete this.origin;
+    this.gitVisuals.getVisualization().clearOrigin();
+  }
 
   this.gitVisuals.resetAll();
 };
@@ -23107,7 +23151,7 @@ GitEngine.prototype.revertStarter = function() {
 };
 
 GitEngine.prototype.originInitStarter = function() {
-  this.makeOrigin(this.getDefaultTree());
+  this.makeOrigin(this.printTree());
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
@@ -31903,7 +31947,8 @@ var VisBase = Backbone.Model.extend({
       if (instant) {
         this.get(key).attr(attr[key]);
       } else {
-        this.get(key).stop().animate(attr[key], speed, easing);
+        this.get(key).stop();
+        this.get(key).animate(attr[key], speed, easing);
         // some keys dont support animating too, so set those instantly here
         _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
           if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
@@ -32626,7 +32671,8 @@ var VisEdge = VisBase.extend({
     }
 
     this.get('path').toBack();
-    this.get('path').stop().animate(
+    this.get('path').stop();
+    this.get('path').animate(
       attr.path,
       speed !== undefined ? speed : this.get('animationSpeed'),
       easing || this.get('animationEasing')
@@ -32923,7 +32969,8 @@ var VisNode = VisBase.extend({
     _.each(this.get('outgoingEdges'), function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
-      edge.get('path').stop().attr({
+      edge.get('path').stop();
+      edge.get('path').attr({
         path: path,
         opacity: 0
       });
@@ -33173,6 +33220,10 @@ var Visualization = Backbone.View.extend({
     this.customEvents.trigger('paperReady');
   },
 
+  clearOrigin: function() {
+    delete this.originVis;
+  },
+
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
@@ -33184,7 +33235,7 @@ var Visualization = Backbone.View.extend({
         // never accept keyboard input or clicks
         noKeyboardInput: true,
         noClick: true,
-        treeString: JSON.stringify(options.tree)
+        treeString: options.treeString
       }
     ));
     // return the newly created visualization which will soon have a git engine
@@ -33192,9 +33243,21 @@ var Visualization = Backbone.View.extend({
   },
 
   originToo: function(methodToCall, args) {
-    if (this.originVis) {
-      this.originVis[methodToCall].apply(this.originVis, args);
+    if (!this.originVis) {
+      return;
     }
+    var callMethod = _.bind(function() {
+      this.originVis[methodToCall].apply(this.originVis, args);
+    }, this);
+
+    if (this.originVis.paper) {
+      callMethod();
+      return;
+    }
+    // this is tricky -- sometimes we already have paper initialized but
+    // our origin vis does not (since we kill that on every reset).
+    // in this case lets bind to the custom event on paper ready
+    this.originVis.customEvents.on('paperReady', callMethod);
   },
 
   setTreeIndex: function(level) {
@@ -33216,6 +33279,7 @@ var Visualization = Backbone.View.extend({
   fadeTreeIn: function() {
     this.shown = true;
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
+
     this.originToo('fadeTreeIn', arguments);
   },
 
