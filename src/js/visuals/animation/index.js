@@ -113,8 +113,8 @@ var PromiseAnimation = Backbone.Model.extend({
     console.log('the duration', this.get('duration'));
   },
 
-  then: function() {
-    return this.get('deferred').promise.then();
+  then: function(func) {
+    return this.get('deferred').promise.then(func);
   }
 });
 

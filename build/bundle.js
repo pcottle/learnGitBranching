@@ -9485,12 +9485,14 @@ var PromiseAnimation = Backbone.Model.extend({
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
     setTimeout(_.bind(function() {
+      console.log('resolving deferred');
       this.get('deferred').resolve();
     }, this), this.get('duration'));
+    console.log('the duration', this.get('duration'));
   },
 
-  then: function() {
-    return this.get('deferred').promise.then();
+  then: function(func) {
+    return this.get('deferred').promise.then(func);
   }
 });
 
@@ -31536,12 +31538,14 @@ var PromiseAnimation = Backbone.Model.extend({
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
     setTimeout(_.bind(function() {
+      console.log('resolving deferred');
       this.get('deferred').resolve();
     }, this), this.get('duration'));
+    console.log('the duration', this.get('duration'));
   },
 
-  then: function() {
-    return this.get('deferred').promise.then();
+  then: function(func) {
+    return this.get('deferred').promise.then(func);
   }
 });
 
