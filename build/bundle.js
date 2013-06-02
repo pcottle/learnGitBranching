@@ -7882,19 +7882,44 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
     });
   }
 
-  var numToMake = this.generalArgs[0] || 1;
   this.validateArgBounds(this.generalArgs, 0, 1);
-  for (var i = 0; i < numToMake; i++) {
+  var numToMake = this.generalArgs[0] || 1;
+  this.fakeTeamwork(numToMake);
+};
+
+GitEngine.prototype.fakeTeamwork = function(numToMake) {
+  var makeOriginCommit = _.bind(function() {
     var id = this.getUniqueID();
     this.origin.receiveTeamwork(id, this.animationQueue);
+  }, this);
+
+  var chainStep = function() {
+    makeOriginCommit();
+    var d = Q.defer();
+    setTimeout(function() { d.resolve(); }, 1000);
+    return d.promise;
+  };
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  for (var i = 0; i < numToMake; i++) {
+    // here is the deal -- we dont want to make the origin receive
+    // teamwork all at once because then the animation of each child
+    // is difficult. Instead, we will generate a promise chain which will
+    // produce the commit right before every animation
+    chain = chain.then(chainStep());
   }
+
+  deferred.resolve();
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
   var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
   this.setTargetLocation(this.HEAD, newCommit);
 
-  this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
+  //this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
+  return newCommit;
 };
 
 GitEngine.prototype.cherrypick = function(ref) {
@@ -9377,6 +9402,7 @@ exports.AnimationFactory = AnimationFactory;
 });
 
 require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
 var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
 
@@ -9472,12 +9498,11 @@ var PromiseAnimation = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.closure || !options.deferred) {
-      throw new Error('need closure and deferred');
+    if (!options.closure) {
+      throw new Error('need closure');
     }
     // TODO needed?
-    this.set('animation', options.animation);
-    this.set('deferred', options.deferred);
+    this.set('deferred', options.deferred || Q.defer());
   },
 
   play: function() {
@@ -9485,10 +9510,8 @@ var PromiseAnimation = Backbone.Model.extend({
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
     setTimeout(_.bind(function() {
-      console.log('resolving deferred');
       this.get('deferred').resolve();
     }, this), this.get('duration'));
-    console.log('the duration', this.get('duration'));
   },
 
   then: function(func) {
@@ -9496,6 +9519,12 @@ var PromiseAnimation = Backbone.Model.extend({
   }
 });
 
+PromiseAnimation.fromAnimation = function(animation) {
+  return new PromiseAnimation({
+    closure: animation.get('closure'),
+    duration: animation.get('duration')
+  });
+};
 
 exports.Animation = Animation;
 exports.PromiseAnimation = PromiseAnimation;
@@ -23731,19 +23760,44 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
     });
   }
 
-  var numToMake = this.generalArgs[0] || 1;
   this.validateArgBounds(this.generalArgs, 0, 1);
-  for (var i = 0; i < numToMake; i++) {
+  var numToMake = this.generalArgs[0] || 1;
+  this.fakeTeamwork(numToMake);
+};
+
+GitEngine.prototype.fakeTeamwork = function(numToMake) {
+  var makeOriginCommit = _.bind(function() {
     var id = this.getUniqueID();
     this.origin.receiveTeamwork(id, this.animationQueue);
+  }, this);
+
+  var chainStep = function() {
+    makeOriginCommit();
+    var d = Q.defer();
+    setTimeout(function() { d.resolve(); }, 1000);
+    return d.promise;
+  };
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  for (var i = 0; i < numToMake; i++) {
+    // here is the deal -- we dont want to make the origin receive
+    // teamwork all at once because then the animation of each child
+    // is difficult. Instead, we will generate a promise chain which will
+    // produce the commit right before every animation
+    chain = chain.then(chainStep());
   }
+
+  deferred.resolve();
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
   var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
   this.setTargetLocation(this.HEAD, newCommit);
 
-  this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
+  //this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
+  return newCommit;
 };
 
 GitEngine.prototype.cherrypick = function(ref) {
@@ -31430,6 +31484,7 @@ exports.AnimationFactory = AnimationFactory;
 require("/src/js/visuals/animation/animationFactory.js");
 
 require.define("/src/js/visuals/animation/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
 var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
 
@@ -31525,12 +31580,11 @@ var PromiseAnimation = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.closure || !options.deferred) {
-      throw new Error('need closure and deferred');
+    if (!options.closure) {
+      throw new Error('need closure');
     }
     // TODO needed?
-    this.set('animation', options.animation);
-    this.set('deferred', options.deferred);
+    this.set('deferred', options.deferred || Q.defer());
   },
 
   play: function() {
@@ -31538,10 +31592,8 @@ var PromiseAnimation = Backbone.Model.extend({
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
     setTimeout(_.bind(function() {
-      console.log('resolving deferred');
       this.get('deferred').resolve();
     }, this), this.get('duration'));
-    console.log('the duration', this.get('duration'));
   },
 
   then: function(func) {
@@ -31549,6 +31601,12 @@ var PromiseAnimation = Backbone.Model.extend({
   }
 });
 
+PromiseAnimation.fromAnimation = function(animation) {
+  return new PromiseAnimation({
+    closure: animation.get('closure'),
+    duration: animation.get('duration')
+  });
+};
 
 exports.Animation = Animation;
 exports.PromiseAnimation = PromiseAnimation;

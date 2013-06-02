@@ -829,19 +829,44 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
     });
   }
 
-  var numToMake = this.generalArgs[0] || 1;
   this.validateArgBounds(this.generalArgs, 0, 1);
-  for (var i = 0; i < numToMake; i++) {
+  var numToMake = this.generalArgs[0] || 1;
+  this.fakeTeamwork(numToMake);
+};
+
+GitEngine.prototype.fakeTeamwork = function(numToMake) {
+  var makeOriginCommit = _.bind(function() {
     var id = this.getUniqueID();
     this.origin.receiveTeamwork(id, this.animationQueue);
+  }, this);
+
+  var chainStep = function() {
+    makeOriginCommit();
+    var d = Q.defer();
+    setTimeout(function() { d.resolve(); }, 1000);
+    return d.promise;
+  };
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  for (var i = 0; i < numToMake; i++) {
+    // here is the deal -- we dont want to make the origin receive
+    // teamwork all at once because then the animation of each child
+    // is difficult. Instead, we will generate a promise chain which will
+    // produce the commit right before every animation
+    chain = chain.then(chainStep());
   }
+
+  deferred.resolve();
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
   var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
   this.setTargetLocation(this.HEAD, newCommit);
 
-  this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
+  //this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
+  return newCommit;
 };
 
 GitEngine.prototype.cherrypick = function(ref) {

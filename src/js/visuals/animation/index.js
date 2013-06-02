@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var Q = require('q');
 var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
 
@@ -94,12 +95,11 @@ var PromiseAnimation = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.closure || !options.deferred) {
-      throw new Error('need closure and deferred');
+    if (!options.closure) {
+      throw new Error('need closure');
     }
     // TODO needed?
-    this.set('animation', options.animation);
-    this.set('deferred', options.deferred);
+    this.set('deferred', options.deferred || Q.defer());
   },
 
   play: function() {
@@ -107,10 +107,8 @@ var PromiseAnimation = Backbone.Model.extend({
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
     setTimeout(_.bind(function() {
-      console.log('resolving deferred');
       this.get('deferred').resolve();
     }, this), this.get('duration'));
-    console.log('the duration', this.get('duration'));
   },
 
   then: function(func) {
@@ -118,6 +116,12 @@ var PromiseAnimation = Backbone.Model.extend({
   }
 });
 
+PromiseAnimation.fromAnimation = function(animation) {
+  return new PromiseAnimation({
+    closure: animation.get('closure'),
+    duration: animation.get('duration')
+  });
+};
 
 exports.Animation = Animation;
 exports.PromiseAnimation = PromiseAnimation;
