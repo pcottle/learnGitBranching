@@ -858,7 +858,9 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
     // teamwork all at once because then the animation of each child
     // is difficult. Instead, we will generate a promise chain which will
     // produce the commit right before every animation
-    chain = chain.then(chainStep());
+    chain = chain.then(function() {
+      return chainStep();
+    });
   }
 
   deferred.resolve();

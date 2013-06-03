@@ -7097,7 +7097,7 @@ GitEngine.prototype.initUniqueID = function() {
   this.uniqueId = (function() {
     var n = 0;
     return function(prepend) {
-      return prepend? prepend + n++ : n++;
+      return prepend ? prepend + n++ : n++;
     };
   })();
 };
@@ -7900,7 +7900,6 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       this.origin.gitVisuals
     );
     animation.play();
-    console.log('playing animation');
     return animation.getPromise();
   }, this);
 
@@ -7912,7 +7911,9 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
     // teamwork all at once because then the animation of each child
     // is difficult. Instead, we will generate a promise chain which will
     // produce the commit right before every animation
-    chain = chain.then(chainStep());
+    chain = chain.then(function() {
+      return chainStep();
+    });
   }
 
   deferred.resolve();
@@ -22999,7 +23000,7 @@ GitEngine.prototype.initUniqueID = function() {
   this.uniqueId = (function() {
     var n = 0;
     return function(prepend) {
-      return prepend? prepend + n++ : n++;
+      return prepend ? prepend + n++ : n++;
     };
   })();
 };
@@ -23802,7 +23803,6 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       this.origin.gitVisuals
     );
     animation.play();
-    console.log('playing animation');
     return animation.getPromise();
   }, this);
 
@@ -23814,7 +23814,9 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
     // teamwork all at once because then the animation of each child
     // is difficult. Instead, we will generate a promise chain which will
     // produce the commit right before every animation
-    chain = chain.then(chainStep());
+    chain = chain.then(function() {
+      return chainStep();
+    });
   }
 
   deferred.resolve();
