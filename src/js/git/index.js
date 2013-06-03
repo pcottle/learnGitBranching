@@ -44,7 +44,7 @@ GitEngine.prototype.initUniqueID = function() {
   this.uniqueId = (function() {
     var n = 0;
     return function(prepend) {
-      return prepend? prepend + n++ : n++;
+      return prepend ? prepend + n++ : n++;
     };
   })();
 };
@@ -837,15 +837,18 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
 GitEngine.prototype.fakeTeamwork = function(numToMake) {
   var makeOriginCommit = _.bind(function() {
     var id = this.getUniqueID();
-    this.origin.receiveTeamwork(id, this.animationQueue);
+    return this.origin.receiveTeamwork(id, this.animationQueue);
   }, this);
 
-  var chainStep = function() {
-    makeOriginCommit();
-    var d = Q.defer();
-    setTimeout(function() { d.resolve(); }, 1000);
-    return d.promise;
-  };
+  var chainStep = _.bind(function() {
+    var newCommit = makeOriginCommit();
+    var animation = this.animationFactory.genCommitBirthPromiseAnimation(
+      newCommit,
+      this.origin.gitVisuals
+    );
+    animation.play();
+    return animation.getPromise();
+  }, this);
 
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -865,7 +868,6 @@ GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
   var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
   this.setTargetLocation(this.HEAD, newCommit);
 
-  //this.animationFactory.genCommitBirthAnimation(animationQueue, newCommit, this.gitVisuals);
   return newCommit;
 };
 

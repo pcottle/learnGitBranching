@@ -102,6 +102,10 @@ var PromiseAnimation = Backbone.Model.extend({
     this.set('deferred', options.deferred || Q.defer());
   },
 
+  getPromise: function() {
+    return this.get('deferred').promise;
+  },
+
   play: function() {
     // a single animation is just something with a timeout, but now
     // we want to resolve a deferred when the animation finishes
