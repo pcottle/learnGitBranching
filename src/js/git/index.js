@@ -274,8 +274,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   );
   originMaster.set('remote', true);
 
-  // add a simple refresh animation
-  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {

@@ -7327,8 +7327,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   );
   originMaster.set('remote', true);
 
-  // add a simple refresh animation
-  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -9220,6 +9219,16 @@ AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gi
   var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
   animation.play();
   return animation.getPromise();
+};
+
+AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, animationQueue) {
+  var animation = new PromiseAnimation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  });
+  animation.play();
+  animationQueue.thenFinish(animation.getPromise());
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
@@ -23250,8 +23259,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   );
   originMaster.set('remote', true);
 
-  // add a simple refresh animation
-  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -31346,6 +31354,16 @@ AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gi
   var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
   animation.play();
   return animation.getPromise();
+};
+
+AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, animationQueue) {
+  var animation = new PromiseAnimation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  });
+  animation.play();
+  animationQueue.thenFinish(animation.getPromise());
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
