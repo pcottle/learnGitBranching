@@ -7974,7 +7974,12 @@ GitEngine.prototype.commitStarter = function() {
 
     newCommit.set('commitMessage', msg);
   }
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+
+  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
+    newCommit,
+    this.gitVisuals
+  );
+  this.animationQueue.thenFinish(promise);
 };
 
 GitEngine.prototype.commit = function() {
@@ -23892,7 +23897,12 @@ GitEngine.prototype.commitStarter = function() {
 
     newCommit.set('commitMessage', msg);
   }
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+
+  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
+    newCommit,
+    this.gitVisuals
+  );
+  this.animationQueue.thenFinish(promise);
 };
 
 GitEngine.prototype.commit = function() {
