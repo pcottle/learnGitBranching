@@ -253,14 +253,14 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   });
 
   // defer the starting of our animation until origin has been created
-  this.animationQueue.set('defer', true);
+  this.animationQueue.set('promiseBased', true);
   originVis.customEvents.on('gitEngineReady', function() {
     this.origin = originVis.gitEngine;
     originVis.gitEngine.assignLocalRepo(this);
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
-    this.animationQueue.start();
+    this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
   // TODO handle the case where the master target on origin is not present
@@ -273,8 +273,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     this.getCommitFromRef(originMasterTarget)
   );
   originMaster.set('remote', true);
-
-  this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
