@@ -7895,12 +7895,10 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
 
   var chainStep = _.bind(function() {
     var newCommit = makeOriginCommit();
-    var animation = this.animationFactory.genCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
-    animation.play();
-    return animation.getPromise();
   }, this);
 
   var deferred = Q.defer();
@@ -7915,6 +7913,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       return chainStep();
     });
   }
+  this.animationQueue.thenFinish(chain);
 
   deferred.resolve();
 };
@@ -8817,13 +8816,16 @@ GitEngine.prototype.dispatch = function(command, deferred) {
     return;
   }
 
+  var willStartAuto = this.animationQueue.get('defer') ||
+    this.animationQueue.get('promiseBased');
+
   // only add the refresh if we didn't do manual animations
-  if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
+  if (!this.animationQueue.get('animations').length && !willStartAuto) {
     this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done
-  if (!this.animationQueue.get('defer')) {
+  if (!willStartAuto) {
     this.animationQueue.start();
   }
 };
@@ -9203,11 +9205,16 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   var anPack = makeCommitBirthAnimation(gitVisuals, visNode);
-  console.log('my duration', anPack.duration);
   return new PromiseAnimation({
     closure: anPack.animation,
     duration: anPack.duration
   });
+};
+
+AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+  var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
@@ -9453,7 +9460,8 @@ var AnimationQueue = Backbone.Model.extend({
     animations: null,
     index: 0,
     callback: null,
-    defer: false
+    defer: false,
+    promiseBased: false,
   },
 
   initialize: function(options) {
@@ -9461,6 +9469,13 @@ var AnimationQueue = Backbone.Model.extend({
     if (!options.callback) {
       console.warn('no callback');
     }
+  },
+
+  thenFinish: function(promise) {
+    promise.then(_.bind(function() {
+      this.finish();
+    }, this));
+    this.set('promiseBased', true);
   },
 
   add: function(animation) {
@@ -23798,12 +23813,10 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
 
   var chainStep = _.bind(function() {
     var newCommit = makeOriginCommit();
-    var animation = this.animationFactory.genCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
-    animation.play();
-    return animation.getPromise();
   }, this);
 
   var deferred = Q.defer();
@@ -23818,6 +23831,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       return chainStep();
     });
   }
+  this.animationQueue.thenFinish(chain);
 
   deferred.resolve();
 };
@@ -24720,13 +24734,16 @@ GitEngine.prototype.dispatch = function(command, deferred) {
     return;
   }
 
+  var willStartAuto = this.animationQueue.get('defer') ||
+    this.animationQueue.get('promiseBased');
+
   // only add the refresh if we didn't do manual animations
-  if (!this.animationQueue.get('animations').length && !this.animationQueue.get('defer')) {
+  if (!this.animationQueue.get('animations').length && !willStartAuto) {
     this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done
-  if (!this.animationQueue.get('defer')) {
+  if (!willStartAuto) {
     this.animationQueue.start();
   }
 };
@@ -31309,11 +31326,16 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   var anPack = makeCommitBirthAnimation(gitVisuals, visNode);
-  console.log('my duration', anPack.duration);
   return new PromiseAnimation({
     closure: anPack.animation,
     duration: anPack.duration
   });
+};
+
+AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+  var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
@@ -31560,7 +31582,8 @@ var AnimationQueue = Backbone.Model.extend({
     animations: null,
     index: 0,
     callback: null,
-    defer: false
+    defer: false,
+    promiseBased: false,
   },
 
   initialize: function(options) {
@@ -31568,6 +31591,13 @@ var AnimationQueue = Backbone.Model.extend({
     if (!options.callback) {
       console.warn('no callback');
     }
+  },
+
+  thenFinish: function(promise) {
+    promise.then(_.bind(function() {
+      this.finish();
+    }, this));
+    this.set('promiseBased', true);
   },
 
   add: function(animation) {

@@ -29,7 +29,8 @@ var AnimationQueue = Backbone.Model.extend({
     animations: null,
     index: 0,
     callback: null,
-    defer: false
+    defer: false,
+    promiseBased: false,
   },
 
   initialize: function(options) {
@@ -37,6 +38,13 @@ var AnimationQueue = Backbone.Model.extend({
     if (!options.callback) {
       console.warn('no callback');
     }
+  },
+
+  thenFinish: function(promise) {
+    promise.then(_.bind(function() {
+      this.finish();
+    }, this));
+    this.set('promiseBased', true);
   },
 
   add: function(animation) {

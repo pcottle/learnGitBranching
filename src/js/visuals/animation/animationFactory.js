@@ -58,11 +58,16 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   var anPack = makeCommitBirthAnimation(gitVisuals, visNode);
-  console.log('my duration', anPack.duration);
   return new PromiseAnimation({
     closure: anPack.animation,
     duration: anPack.duration
   });
+};
+
+AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+  var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
