@@ -7318,7 +7318,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
   // TODO handle the case where the master target on origin is not present
   // locally, so we have to go up the chain. for now we assume the master on
-  // origin is at least present
+  // origin is at least present.
   var originTree = JSON.parse(unescape(treeString));
   var originMasterTarget = originTree.branches.master.target;
   var originMaster = this.makeBranch(
@@ -7676,20 +7676,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   _.each(toRebase, function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
 
-    var commitMessage = intl.str(
-      'git-revert-msg',
-      {
-        oldCommit: this.resolveName(oldCommit),
-        oldMsg: oldCommit.get('commitMessage')
-      }
-    );
+    var commitMessage = intl.str('git-revert-msg', {
+      oldCommit: this.resolveName(oldCommit),
+      oldMsg: oldCommit.get('commitMessage')
+    });
 
     var newCommit = this.makeCommit([base], newId, {
       commitMessage: commitMessage
     });
 
     base = newCommit;
-
     // animation stuff
     afterSnapshot = this.gitVisuals.genSnapshot();
     animationResponse.rebaseSteps.push({
@@ -9190,6 +9186,18 @@ var makeCommitBirthAnimation = function(gitVisuals, visNode) {
   };
 };
 
+var makeHighlightAnimation = function(visNode, visBranch) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  return {
+    animation: function() {
+      visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+    },
+    duration: fullTime * 1.5
+  };
+};
+
 AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
@@ -9306,13 +9314,11 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
 
   _.each(oldCommits, function(oldCommit) {
     var visNode = oldCommit.get('visNode');
+    var anPack = makeHighlightAnimation(visNode, visBranch);
     animationQueue.add(new Animation({
-      closure: function() {
-        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
-      },
-      duration: fullTime * 1.5
+      closure: anPack.animation,
+      duration: anPack.duration
     }));
-
   }, this);
 
   this.delay(animationQueue, fullTime * 2);
@@ -23248,7 +23254,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
   // TODO handle the case where the master target on origin is not present
   // locally, so we have to go up the chain. for now we assume the master on
-  // origin is at least present
+  // origin is at least present.
   var originTree = JSON.parse(unescape(treeString));
   var originMasterTarget = originTree.branches.master.target;
   var originMaster = this.makeBranch(
@@ -23606,20 +23612,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   _.each(toRebase, function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
 
-    var commitMessage = intl.str(
-      'git-revert-msg',
-      {
-        oldCommit: this.resolveName(oldCommit),
-        oldMsg: oldCommit.get('commitMessage')
-      }
-    );
+    var commitMessage = intl.str('git-revert-msg', {
+      oldCommit: this.resolveName(oldCommit),
+      oldMsg: oldCommit.get('commitMessage')
+    });
 
     var newCommit = this.makeCommit([base], newId, {
       commitMessage: commitMessage
     });
 
     base = newCommit;
-
     // animation stuff
     afterSnapshot = this.gitVisuals.genSnapshot();
     animationResponse.rebaseSteps.push({
@@ -31323,6 +31325,18 @@ var makeCommitBirthAnimation = function(gitVisuals, visNode) {
   };
 };
 
+var makeHighlightAnimation = function(visNode, visBranch) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  return {
+    animation: function() {
+      visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+    },
+    duration: fullTime * 1.5
+  };
+};
+
 AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
@@ -31439,13 +31453,11 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
 
   _.each(oldCommits, function(oldCommit) {
     var visNode = oldCommit.get('visNode');
+    var anPack = makeHighlightAnimation(visNode, visBranch);
     animationQueue.add(new Animation({
-      closure: function() {
-        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
-      },
-      duration: fullTime * 1.5
+      closure: anPack.animation,
+      duration: anPack.duration
     }));
-
   }, this);
 
   this.delay(animationQueue, fullTime * 2);

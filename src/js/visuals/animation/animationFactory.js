@@ -41,6 +41,18 @@ var makeCommitBirthAnimation = function(gitVisuals, visNode) {
   };
 };
 
+var makeHighlightAnimation = function(visNode, visBranch) {
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
+  var slowTime = fullTime * 2.0;
+
+  return {
+    animation: function() {
+      visNode.highlightTo(visBranch, slowTime, 'easeInOut');
+    },
+    duration: fullTime * 1.5
+  };
+};
+
 AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
@@ -143,9 +155,6 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
 };
 
 AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  var slowTime = fullTime * 2.0;
-
   // we want to highlight all the old commits
   var oldCommits = rebaseResponse.toRebaseArray;
   // we are either highlighting to a visBranch or a visNode
@@ -157,16 +166,25 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
 
   _.each(oldCommits, function(oldCommit) {
     var visNode = oldCommit.get('visNode');
+    var anPack = makeHighlightAnimation(visNode, visBranch);
     animationQueue.add(new Animation({
-      closure: function() {
-        visNode.highlightTo(visBranch, slowTime, 'easeInOut');
-      },
-      duration: fullTime * 1.5
+      closure: anPack.animation,
+      duration: anPack.duration
     }));
-
   }, this);
 
   this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
+  var visBranch = destBranch.get('visBranch');
+  var visNode = commit.get('visNode');
+
+  var anPack = makeHighlightAnimation(visNode, visBranch);
+  return new PromiseAnimation({
+    closure: anPack.animation,
+    duration: anPack.duration
+  });
 };
 
 AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,

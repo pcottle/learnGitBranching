@@ -623,20 +623,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   _.each(toRebase, function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
 
-    var commitMessage = intl.str(
-      'git-revert-msg',
-      {
-        oldCommit: this.resolveName(oldCommit),
-        oldMsg: oldCommit.get('commitMessage')
-      }
-    );
+    var commitMessage = intl.str('git-revert-msg', {
+      oldCommit: this.resolveName(oldCommit),
+      oldMsg: oldCommit.get('commitMessage')
+    });
 
     var newCommit = this.makeCommit([base], newId, {
       commitMessage: commitMessage
     });
 
     base = newCommit;
-
     // animation stuff
     afterSnapshot = this.gitVisuals.genSnapshot();
     animationResponse.rebaseSteps.push({

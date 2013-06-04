@@ -18,6 +18,15 @@ describe('Promise animation', function() {
     expect(value).toBe(1);
   });
 
+  it('also takes animation packs', function() {
+    var value = 0;
+    var animation = new PromiseAnimation({
+      animation: function() { value++; }
+    });
+    animation.play();
+    expect(value).toBe(1);
+  });
+
   it('Will resolve a deferred', function() {
     var value = 0;
     var closure = function() {

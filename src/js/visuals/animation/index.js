@@ -103,10 +103,10 @@ var PromiseAnimation = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.closure) {
-      throw new Error('need closure');
+    if (!options.closure && !options.animation) {
+      throw new Error('need closure or animation');
     }
-    // TODO needed?
+    this.set('closure', options.closure || options.animation);
     this.set('deferred', options.deferred || Q.defer());
   },
 
