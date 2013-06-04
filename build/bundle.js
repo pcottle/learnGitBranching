@@ -7655,10 +7655,23 @@ GitEngine.prototype.revertStarter = function() {
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
-  // for each commit, we want to revert it
-  var toRebase = [];
-  _.each(whichCommits, function(stringRef) {
-    toRebase.push(this.getCommitFromRef(stringRef));
+  // resolve the commits we will rebase
+  var toRebase = _.map(whichCommits, function(stringRef) {
+    return this.getCommitFromRef(stringRef);
+  }, this);
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  // go highlight all the ones we will rebase first, in order
+  var destBranch = this.resolveID(toRebase[0]);
+  _.each(whichCommits, function(commit) {
+    chain = chain.then(_.bind(function() {
+      return this.animationFactory.playHighlightPromiseAnimation(
+        commit,
+        destBranch
+      );
+    }, this));
   }, this);
 
   // we animate reverts now!! we use the rebase animation though so that's
@@ -9214,11 +9227,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
-  var anPack = makeCommitBirthAnimation(gitVisuals, visNode);
-  return new PromiseAnimation({
-    closure: anPack.animation,
-    duration: anPack.duration
-  });
+  return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
 };
 
 AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
@@ -9300,9 +9309,6 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
 };
 
 AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  var slowTime = fullTime * 2.0;
-
   // we want to highlight all the old commits
   var oldCommits = rebaseResponse.toRebaseArray;
   // we are either highlighting to a visBranch or a visNode
@@ -9321,7 +9327,20 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
     }));
   }, this);
 
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
   this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
+  var visBranch = destBranch.get('visBranch');
+  var visNode = commit.get('visNode');
+  return new PromiseAnimation(makeHighlightAnimation(visNode, visBranch));
+};
+
+AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destBranch) {
+  var animation = this.genHighlightPromiseAnimation(commit, destBranch);
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
@@ -9552,10 +9571,10 @@ var PromiseAnimation = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.closure) {
-      throw new Error('need closure');
+    if (!options.closure && !options.animation) {
+      throw new Error('need closure or animation');
     }
-    // TODO needed?
+    this.set('closure', options.closure || options.animation);
     this.set('deferred', options.deferred || Q.defer());
   },
 
@@ -23591,10 +23610,23 @@ GitEngine.prototype.revertStarter = function() {
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
-  // for each commit, we want to revert it
-  var toRebase = [];
-  _.each(whichCommits, function(stringRef) {
-    toRebase.push(this.getCommitFromRef(stringRef));
+  // resolve the commits we will rebase
+  var toRebase = _.map(whichCommits, function(stringRef) {
+    return this.getCommitFromRef(stringRef);
+  }, this);
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  // go highlight all the ones we will rebase first, in order
+  var destBranch = this.resolveID(toRebase[0]);
+  _.each(whichCommits, function(commit) {
+    chain = chain.then(_.bind(function() {
+      return this.animationFactory.playHighlightPromiseAnimation(
+        commit,
+        destBranch
+      );
+    }, this));
   }, this);
 
   // we animate reverts now!! we use the rebase animation though so that's
@@ -31353,11 +31385,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
-  var anPack = makeCommitBirthAnimation(gitVisuals, visNode);
-  return new PromiseAnimation({
-    closure: anPack.animation,
-    duration: anPack.duration
-  });
+  return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
 };
 
 AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
@@ -31439,9 +31467,6 @@ AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResp
 };
 
 AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  var slowTime = fullTime * 2.0;
-
   // we want to highlight all the old commits
   var oldCommits = rebaseResponse.toRebaseArray;
   // we are either highlighting to a visBranch or a visNode
@@ -31460,7 +31485,20 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
     }));
   }, this);
 
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
   this.delay(animationQueue, fullTime * 2);
+};
+
+AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
+  var visBranch = destBranch.get('visBranch');
+  var visNode = commit.get('visNode');
+  return new PromiseAnimation(makeHighlightAnimation(visNode, visBranch));
+};
+
+AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destBranch) {
+  var animation = this.genHighlightPromiseAnimation(commit, destBranch);
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
@@ -31692,10 +31730,10 @@ var PromiseAnimation = Backbone.Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.closure) {
-      throw new Error('need closure');
+    if (!options.closure && !options.animation) {
+      throw new Error('need closure or animation');
     }
-    // TODO needed?
+    this.set('closure', options.closure || options.animation);
     this.set('deferred', options.deferred || Q.defer());
   },
 

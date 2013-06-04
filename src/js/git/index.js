@@ -602,10 +602,23 @@ GitEngine.prototype.revertStarter = function() {
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
-  // for each commit, we want to revert it
-  var toRebase = [];
-  _.each(whichCommits, function(stringRef) {
-    toRebase.push(this.getCommitFromRef(stringRef));
+  // resolve the commits we will rebase
+  var toRebase = _.map(whichCommits, function(stringRef) {
+    return this.getCommitFromRef(stringRef);
+  }, this);
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  // go highlight all the ones we will rebase first, in order
+  var destBranch = this.resolveID(toRebase[0]);
+  _.each(whichCommits, function(commit) {
+    chain = chain.then(_.bind(function() {
+      return this.animationFactory.playHighlightPromiseAnimation(
+        commit,
+        destBranch
+      );
+    }, this));
   }, this);
 
   // we animate reverts now!! we use the rebase animation though so that's

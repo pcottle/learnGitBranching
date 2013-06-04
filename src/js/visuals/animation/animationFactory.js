@@ -69,11 +69,7 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
-  var anPack = makeCommitBirthAnimation(gitVisuals, visNode);
-  return new PromiseAnimation({
-    closure: anPack.animation,
-    duration: anPack.duration
-  });
+  return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
 };
 
 AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
@@ -173,18 +169,20 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
     }));
   }, this);
 
+  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
   this.delay(animationQueue, fullTime * 2);
 };
 
 AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
   var visBranch = destBranch.get('visBranch');
   var visNode = commit.get('visNode');
+  return new PromiseAnimation(makeHighlightAnimation(visNode, visBranch));
+};
 
-  var anPack = makeHighlightAnimation(visNode, visBranch);
-  return new PromiseAnimation({
-    closure: anPack.animation,
-    duration: anPack.duration
-  });
+AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destBranch) {
+  var animation = this.genHighlightPromiseAnimation(commit, destBranch);
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
