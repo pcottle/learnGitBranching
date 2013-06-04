@@ -265,7 +265,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
   // TODO handle the case where the master target on origin is not present
   // locally, so we have to go up the chain. for now we assume the master on
-  // origin is at least present
+  // origin is at least present.
   var originTree = JSON.parse(unescape(treeString));
   var originMasterTarget = originTree.branches.master.target;
   var originMaster = this.makeBranch(
