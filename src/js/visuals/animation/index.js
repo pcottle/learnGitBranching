@@ -40,11 +40,14 @@ var AnimationQueue = Backbone.Model.extend({
     }
   },
 
-  thenFinish: function(promise) {
+  thenFinish: function(promise, deferred) {
     promise.then(_.bind(function() {
       this.finish();
     }, this));
     this.set('promiseBased', true);
+    if (deferred) {
+      deferred.resolve();
+    }
   },
 
   add: function(animation) {

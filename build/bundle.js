@@ -7647,11 +7647,7 @@ GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
 GitEngine.prototype.revertStarter = function() {
   this.validateArgBounds(this.generalArgs, 1, NaN);
 
-  var response = this.revert(this.generalArgs);
-
-  if (response) {
-    this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
-  }
+  this.revert(this.generalArgs);
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
@@ -7674,46 +7670,35 @@ GitEngine.prototype.revert = function(whichCommits) {
     }, this));
   }, this);
 
-  // we animate reverts now!! we use the rebase animation though so that's
-  // why the terminology is like it is
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(toRebase[0]);
-  animationResponse.toRebaseArray = toRebase.slice(0);
-  animationResponse.rebaseSteps = [];
-
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-
-  // now make a bunch of commits on top of where we are
   var base = this.getCommitFromRef('HEAD');
-  _.each(toRebase, function(oldCommit) {
+  // each step makes a new commit
+  var chainStep = _.bind(function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
-
     var commitMessage = intl.str('git-revert-msg', {
       oldCommit: this.resolveName(oldCommit),
       oldMsg: oldCommit.get('commitMessage')
     });
-
     var newCommit = this.makeCommit([base], newId, {
       commitMessage: commitMessage
     });
-
     base = newCommit;
-    // animation stuff
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: oldCommit,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: afterSnapshot
-    });
-    beforeSnapshot = afterSnapshot;
-  }, this);
-  // done! update our location
-  this.setTargetLocation('HEAD', base);
 
-  // animation
-  return animationResponse;
+    return this.animationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
+  }, this);
+
+  // set up the promise chain
+  _.each(whichCommits, function(commit) {
+    chain = chain.then(function() {
+      chainStep(commit);
+    });
+  }, this);
+
+  // done! update our location
+  // this.setTargetLocation('HEAD', base);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.resetStarter = function() {
@@ -23602,11 +23587,7 @@ GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
 GitEngine.prototype.revertStarter = function() {
   this.validateArgBounds(this.generalArgs, 1, NaN);
 
-  var response = this.revert(this.generalArgs);
-
-  if (response) {
-    this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
-  }
+  this.revert(this.generalArgs);
 };
 
 GitEngine.prototype.revert = function(whichCommits) {
@@ -23629,46 +23610,35 @@ GitEngine.prototype.revert = function(whichCommits) {
     }, this));
   }, this);
 
-  // we animate reverts now!! we use the rebase animation though so that's
-  // why the terminology is like it is
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(toRebase[0]);
-  animationResponse.toRebaseArray = toRebase.slice(0);
-  animationResponse.rebaseSteps = [];
-
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-
-  // now make a bunch of commits on top of where we are
   var base = this.getCommitFromRef('HEAD');
-  _.each(toRebase, function(oldCommit) {
+  // each step makes a new commit
+  var chainStep = _.bind(function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
-
     var commitMessage = intl.str('git-revert-msg', {
       oldCommit: this.resolveName(oldCommit),
       oldMsg: oldCommit.get('commitMessage')
     });
-
     var newCommit = this.makeCommit([base], newId, {
       commitMessage: commitMessage
     });
-
     base = newCommit;
-    // animation stuff
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: oldCommit,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: afterSnapshot
-    });
-    beforeSnapshot = afterSnapshot;
-  }, this);
-  // done! update our location
-  this.setTargetLocation('HEAD', base);
 
-  // animation
-  return animationResponse;
+    return this.animationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
+  }, this);
+
+  // set up the promise chain
+  _.each(whichCommits, function(commit) {
+    chain = chain.then(function() {
+      chainStep(commit);
+    });
+  }, this);
+
+  // done! update our location
+  // this.setTargetLocation('HEAD', base);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.resetStarter = function() {
