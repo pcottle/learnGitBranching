@@ -7895,6 +7895,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       this.origin.gitVisuals
     );
   }, this);
+  var chainStepWrap = function() { return chainStep(); };
 
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -7904,9 +7905,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
     // teamwork all at once because then the animation of each child
     // is difficult. Instead, we will generate a promise chain which will
     // produce the commit right before every animation
-    chain = chain.then(function() {
-      return chainStep();
-    });
+    chain = chain.then(chainStepWrap);
   }
   this.animationQueue.thenFinish(chain, deferred);
 };
@@ -8441,96 +8440,85 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   });
 };
 
-GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
-  // now we have the all the commits between currentLocation and the set of target to rebase.
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(targetSource);
-
-  // we need to throw out merge commits
-  var toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    if (commit.get('parents').length == 1) {
-      toRebase.push(commit);
-    }
-  });
-
-  // we ALSO need to throw out commits that will do the same changes. like
-  // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
-  // get this by doing ID scraping
+GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
   var changesAlreadyMade = {};
   _.each(stopSet, function(val, key) {
-    changesAlreadyMade[this.scrapeBaseID(key)] = val; // val == true
+    changesAlreadyMade[this.scrapeBaseID(key)] = true;
   }, this);
-
-  // now get rid of the commits that will redo same changes
-  toRebaseRough = toRebase;
-  toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    var baseID = this.scrapeBaseID(commit.get('id'));
-    if (!changesAlreadyMade[baseID]) {
-      toRebase.push(commit);
-    }
-  }, this);
-
-  toRebaseRough = toRebase;
-  toRebase = [];
-  // finally, make the set unique
   var uniqueIDs = {};
-  _.each(toRebaseRough, function(commit) {
-    if (uniqueIDs[commit.get('id')]) { return; }
+
+  // resolve the commits we will rebase
+  return _.filter(toRebaseRough, function(commit) {
+    // no merge commits
+    if (commit.get('parents').length !== 1) {
+      return false;
+    }
+
+    // we ALSO need to throw out commits that will do the same changes. like
+    // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
+    var baseID = this.scrapeBaseID(commit.get('id'));
+    if (changesAlreadyMade[baseID]) {
+      return false;
+    }
+
+    // make unique
+    if (uniqueIDs[commit.get('id')]) {
+      return false;
+    }
 
     uniqueIDs[commit.get('id')] = true;
-    toRebase.push(commit);
-  }, this);
+    return true;
+  });
+};
 
+GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+  // now we have the all the commits between currentLocation and the set of target to rebase.
+  var destinationBranch = this.resolveID(targetSource);
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet);
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
     });
   }
 
-  animationResponse.toRebaseArray = toRebase.slice(0);
-
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
-
-  // do the rebase, and also maintain all our animation info during this
-  animationResponse.rebaseSteps = [];
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-  _.each(toRebase, function(old) {
-    var newId = this.rebaseAltID(old.get('id'));
-
+  // each step makes a new commit
+  var chainStep = _.bind(function(oldCommit) {
+    var newId = this.rebaseAltID(oldCommit.get('id'));
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
 
-    // animation info
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: old,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: afterSnapshot
-    });
-    beforeSnapshot = afterSnapshot;
+    return this.animationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
   }, this);
 
-  if (this.resolveID(currentLocation).get('type') == 'commit') {
-    // we referenced a commit like git rebase C2 C1, so we have
-    // to manually check out C1'
+  // set up the promise chain
+  _.each(toRebase, function(commit) {
+    chain = chain.then(function() {
+      return chainStep(commit);
+    });
+  }, this);
 
-    var steps = animationResponse.rebaseSteps;
-    var newestCommit = steps[steps.length - 1].newCommit;
+  chain = chain.then(_.bind(function() {
+    if (this.resolveID(currentLocation).get('type') == 'commit') {
+      // we referenced a commit like git rebase C2 C1, so we have
+      // to manually check out C1'
+      this.checkout(base);
+    } else {
+      // now we just need to update the rebased branch is
+      this.setTargetLocation(currentLocation, base);
+      this.checkout(currentLocation);
+    }
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
 
-    this.checkout(newestCommit);
-  } else {
-    // now we just need to update the rebased branch is
-    this.setTargetLocation(currentLocation, base);
-    this.checkout(currentLocation);
-  }
-
-  // for animation
-  return animationResponse;
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.mergeStarter = function() {
@@ -9336,17 +9324,8 @@ AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destO
 };
 
 AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
-  console.log('playing highlight animation');
-  try {
   var animation = this.genHighlightPromiseAnimation(commit, destObj);
-  console.log('aniamtion duration', animation.get('duration'));
   animation.play();
-  console.log('aniamtion duration', animation.get('duration'));
-  animation.getPromise();
-  } catch (e) {
-    debugger;
-    console.log(e);
-  }
   return animation.getPromise();
 };
 
@@ -9505,7 +9484,7 @@ var AnimationQueue = Backbone.Model.extend({
     index: 0,
     callback: null,
     defer: false,
-    promiseBased: false,
+    promiseBased: false
   },
 
   initialize: function(options) {
@@ -23860,6 +23839,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       this.origin.gitVisuals
     );
   }, this);
+  var chainStepWrap = function() { return chainStep(); };
 
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -23869,9 +23849,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
     // teamwork all at once because then the animation of each child
     // is difficult. Instead, we will generate a promise chain which will
     // produce the commit right before every animation
-    chain = chain.then(function() {
-      return chainStep();
-    });
+    chain = chain.then(chainStepWrap);
   }
   this.animationQueue.thenFinish(chain, deferred);
 };
@@ -24406,96 +24384,85 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   });
 };
 
-GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
-  // now we have the all the commits between currentLocation and the set of target to rebase.
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID(targetSource);
-
-  // we need to throw out merge commits
-  var toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    if (commit.get('parents').length == 1) {
-      toRebase.push(commit);
-    }
-  });
-
-  // we ALSO need to throw out commits that will do the same changes. like
-  // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
-  // get this by doing ID scraping
+GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
   var changesAlreadyMade = {};
   _.each(stopSet, function(val, key) {
-    changesAlreadyMade[this.scrapeBaseID(key)] = val; // val == true
+    changesAlreadyMade[this.scrapeBaseID(key)] = true;
   }, this);
-
-  // now get rid of the commits that will redo same changes
-  toRebaseRough = toRebase;
-  toRebase = [];
-  _.each(toRebaseRough, function(commit) {
-    var baseID = this.scrapeBaseID(commit.get('id'));
-    if (!changesAlreadyMade[baseID]) {
-      toRebase.push(commit);
-    }
-  }, this);
-
-  toRebaseRough = toRebase;
-  toRebase = [];
-  // finally, make the set unique
   var uniqueIDs = {};
-  _.each(toRebaseRough, function(commit) {
-    if (uniqueIDs[commit.get('id')]) { return; }
+
+  // resolve the commits we will rebase
+  return _.filter(toRebaseRough, function(commit) {
+    // no merge commits
+    if (commit.get('parents').length !== 1) {
+      return false;
+    }
+
+    // we ALSO need to throw out commits that will do the same changes. like
+    // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
+    var baseID = this.scrapeBaseID(commit.get('id'));
+    if (changesAlreadyMade[baseID]) {
+      return false;
+    }
+
+    // make unique
+    if (uniqueIDs[commit.get('id')]) {
+      return false;
+    }
 
     uniqueIDs[commit.get('id')] = true;
-    toRebase.push(commit);
-  }, this);
+    return true;
+  });
+};
 
+GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+  // now we have the all the commits between currentLocation and the set of target to rebase.
+  var destinationBranch = this.resolveID(targetSource);
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet);
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
     });
   }
 
-  animationResponse.toRebaseArray = toRebase.slice(0);
-
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
-
-  // do the rebase, and also maintain all our animation info during this
-  animationResponse.rebaseSteps = [];
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-  _.each(toRebase, function(old) {
-    var newId = this.rebaseAltID(old.get('id'));
-
+  // each step makes a new commit
+  var chainStep = _.bind(function(oldCommit) {
+    var newId = this.rebaseAltID(oldCommit.get('id'));
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
 
-    // animation info
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: old,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: afterSnapshot
-    });
-    beforeSnapshot = afterSnapshot;
+    return this.animationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
   }, this);
 
-  if (this.resolveID(currentLocation).get('type') == 'commit') {
-    // we referenced a commit like git rebase C2 C1, so we have
-    // to manually check out C1'
+  // set up the promise chain
+  _.each(toRebase, function(commit) {
+    chain = chain.then(function() {
+      return chainStep(commit);
+    });
+  }, this);
 
-    var steps = animationResponse.rebaseSteps;
-    var newestCommit = steps[steps.length - 1].newCommit;
+  chain = chain.then(_.bind(function() {
+    if (this.resolveID(currentLocation).get('type') == 'commit') {
+      // we referenced a commit like git rebase C2 C1, so we have
+      // to manually check out C1'
+      this.checkout(base);
+    } else {
+      // now we just need to update the rebased branch is
+      this.setTargetLocation(currentLocation, base);
+      this.checkout(currentLocation);
+    }
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
 
-    this.checkout(newestCommit);
-  } else {
-    // now we just need to update the rebased branch is
-    this.setTargetLocation(currentLocation, base);
-    this.checkout(currentLocation);
-  }
-
-  // for animation
-  return animationResponse;
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.mergeStarter = function() {
@@ -31504,17 +31471,8 @@ AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destO
 };
 
 AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
-  console.log('playing highlight animation');
-  try {
   var animation = this.genHighlightPromiseAnimation(commit, destObj);
-  console.log('aniamtion duration', animation.get('duration'));
   animation.play();
-  console.log('aniamtion duration', animation.get('duration'));
-  animation.getPromise();
-  } catch (e) {
-    debugger;
-    console.log(e);
-  }
   return animation.getPromise();
 };
 
@@ -31674,7 +31632,7 @@ var AnimationQueue = Backbone.Model.extend({
     index: 0,
     callback: null,
     defer: false,
-    promiseBased: false,
+    promiseBased: false
   },
 
   initialize: function(options) {

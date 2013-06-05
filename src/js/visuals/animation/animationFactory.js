@@ -191,17 +191,8 @@ AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destO
 };
 
 AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
-  console.log('playing highlight animation');
-  try {
   var animation = this.genHighlightPromiseAnimation(commit, destObj);
-  console.log('aniamtion duration', animation.get('duration'));
   animation.play();
-  console.log('aniamtion duration', animation.get('duration'));
-  animation.getPromise();
-  } catch (e) {
-    debugger;
-    console.log(e);
-  }
   return animation.getPromise();
 };
 

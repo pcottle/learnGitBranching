@@ -30,7 +30,7 @@ var AnimationQueue = Backbone.Model.extend({
     index: 0,
     callback: null,
     defer: false,
-    promiseBased: false,
+    promiseBased: false
   },
 
   initialize: function(options) {
