@@ -1415,7 +1415,7 @@ GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
 
     uniqueIDs[commit.get('id')] = true;
     return true;
-  });
+  }, this);
 };
 
 GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
