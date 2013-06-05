@@ -7753,33 +7753,26 @@ GitEngine.prototype.cherrypickStarter = function() {
   }, this);
   // error checks are all good, lets go!
 
-  // hack up the rebase response to animate this better
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID('HEAD');
-  animationResponse.toRebaseArray = [];
-  animationResponse.rebaseSteps = [];
+  var destinationBranch = this.resolveID('HEAD');
+  var deferred = Q.defer();
+  var chain = deferred.promise;
 
-  // now lets start going through
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-  var newCommit;
-  _.each(this.generalArgs, function(arg) {
+  var chainStep = _.bind(function(arg) {
     var oldCommit = this.getCommitFromRef(arg);
-    animationResponse.toRebaseArray.push(oldCommit);
-
-    newCommit = this.cherrypick(arg);
-
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: oldCommit,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: this.gitVisuals.genSnapshot()
-    });
-    beforeSnapshot = afterSnapshot;
+    var newCommit = this.cherrypick(arg);
+    return this.animationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
   }, this);
 
-  this.animationFactory.rebaseAnimation(this.animationQueue, animationResponse, this, this.gitVisuals);
+  _.each(this.generalArgs, function(arg) {
+    chain = chain.then(function() {
+      return chainStep(arg);
+    });
+  }, this);
+
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 /*************************************
@@ -23697,33 +23690,26 @@ GitEngine.prototype.cherrypickStarter = function() {
   }, this);
   // error checks are all good, lets go!
 
-  // hack up the rebase response to animate this better
-  var animationResponse = {};
-  animationResponse.destinationBranch = this.resolveID('HEAD');
-  animationResponse.toRebaseArray = [];
-  animationResponse.rebaseSteps = [];
+  var destinationBranch = this.resolveID('HEAD');
+  var deferred = Q.defer();
+  var chain = deferred.promise;
 
-  // now lets start going through
-  var beforeSnapshot = this.gitVisuals.genSnapshot();
-  var afterSnapshot;
-  var newCommit;
-  _.each(this.generalArgs, function(arg) {
+  var chainStep = _.bind(function(arg) {
     var oldCommit = this.getCommitFromRef(arg);
-    animationResponse.toRebaseArray.push(oldCommit);
-
-    newCommit = this.cherrypick(arg);
-
-    afterSnapshot = this.gitVisuals.genSnapshot();
-    animationResponse.rebaseSteps.push({
-      oldCommit: oldCommit,
-      newCommit: newCommit,
-      beforeSnapshot: beforeSnapshot,
-      afterSnapshot: this.gitVisuals.genSnapshot()
-    });
-    beforeSnapshot = afterSnapshot;
+    var newCommit = this.cherrypick(arg);
+    return this.animationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
   }, this);
 
-  this.animationFactory.rebaseAnimation(this.animationQueue, animationResponse, this, this.gitVisuals);
+  _.each(this.generalArgs, function(arg) {
+    chain = chain.then(function() {
+      return chainStep(arg);
+    });
+  }, this);
+
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 /*************************************
