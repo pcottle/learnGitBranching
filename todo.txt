@@ -16,7 +16,8 @@ Origin things:
 [ ] set checkout -b branch __remoteBranch to track the remote branch
 [ ] tree comparison with origin.... sigh
 [ ] prototype visual layout (background change + header? maybe...)
-[ ] git pull
+[ ] git pull animation
+[ ] why is rebase -i broken?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

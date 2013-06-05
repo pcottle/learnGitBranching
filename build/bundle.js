@@ -7658,6 +7658,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  var destBranch = this.resolveID('HEAD');
 
   chain = this.animationFactory.highlightEachWithPromise(
     chain,
@@ -7791,7 +7792,6 @@ GitEngine.prototype.fetchStarter = function() {
 };
 
 GitEngine.prototype.fetch = function() {
-  // TODO refactor to use rebase animation stuff!!!!
   // ok so we essentially are always in "-force" mode, since we always assume
   // the origin commits are downstream of where we are. Here is the outline:
   //
@@ -7800,6 +7800,7 @@ GitEngine.prototype.fetch = function() {
   //
   // then we simply set the target of o/master to the target of master on
   // the origin branch
+  // TODO -- we cant abuse this anymore if we want to animate it :(
   var oldCommits = this.exportTree().commits;
   // HAX HAX omg we will abuse our tree instantiation here :D
   var originTree = this.origin.exportTree();
@@ -7895,7 +7896,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
   var chain = deferred.promise;
 
   _.each(_.range(numToMake), function(i) {
-    chain = chian.then(function() {
+    chain = chain.then(function() {
       return chainStep();
     });
   });
@@ -8288,14 +8289,7 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebaseFinisher = function(targetSource, currentLocation) {
-  var response = this.rebase(targetSource, currentLocation);
-  if (response === undefined) {
-    // was a fastforward or already up to date. returning now
-    // will trigger the refresh animation by not adding anything to
-    // the animation queue
-    return;
-  }
-  this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+  this.rebase(targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -8322,7 +8316,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     return;
   }
 
-   // now the part of actually rebasing.
+  // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
@@ -8349,7 +8343,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     pQueue = pQueue.concat(popped.get('parents'));
   }
 
-  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+  this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
@@ -8411,9 +8405,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     }
 
     // finish the rebase crap and animate!
-    var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-    this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
-    this.animationQueue.start();
+    this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
   }, this))
   .fail(_.bind(function(err) {
     this.filterError(err);
@@ -9243,89 +9235,12 @@ AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
-  opacity = (opacity === undefined) ? 1 : opacity;
-
-  var newAttr = {};
-
-  _.each(attr, function(partObj, partName) {
-    newAttr[partName] = {};
-    _.each(partObj, function(val, key) {
-      if (key == 'opacity') {
-        newAttr[partName][key] = opacity;
-      } else {
-        newAttr[partName][key] = val;
-      }
-    });
-  });
-  return newAttr;
-};
-
-AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
-  var newSnap = {};
-
-  _.each(snapShot, function(visObj, visID) {
-    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
-  }, this);
-  return newSnap;
-};
-
-AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 1.5;
-
-  var visNode = step.newCommit.get('visNode');
-  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
-  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
-
-  var animation = function() {
-    visNode.setBirthFromSnapshot(step.beforeSnapshot);
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
-    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
-  };
-
-  return animation;
-};
-
 AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
   animationQueue.add(new Animation({
     closure: function() {
       gitVisuals.refreshTree();
     }
   }));
-};
-
-AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-
-  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
-  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
-};
-
-AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  // we want to highlight all the old commits
-  var oldCommits = rebaseResponse.toRebaseArray;
-  // we are either highlighting to a visBranch or a visNode
-  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
-  if (!visBranch) {
-    // in the case where we rebase onto a commit
-    visBranch = rebaseResponse.destinationBranch.get('visNode');
-  }
-
-  _.each(oldCommits, function(oldCommit) {
-    var visNode = oldCommit.get('visNode');
-    var anPack = makeHighlightAnimation(visNode, visBranch);
-    animationQueue.add(new Animation({
-      closure: anPack.animation,
-      duration: anPack.duration
-    }));
-  }, this);
-
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  this.delay(animationQueue, fullTime * 2);
 };
 
 AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
@@ -9341,122 +9256,12 @@ AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, dest
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-  var rebaseSteps = rebaseResponse.rebaseSteps;
-
-  var newVisNodes = [];
-  _.each(rebaseSteps, function(step) {
-    var visNode = step.newCommit.get('visNode');
-
-    newVisNodes.push(visNode);
-    visNode.setOpacity(0);
-    visNode.setOutgoingEdgesOpacity(0);
-  }, this);
-
-  var previousVisNodes = [];
-  _.each(rebaseSteps, function(rebaseStep, index) {
-    var toOmit = newVisNodes.slice(index + 1);
-
-    var snapshotPart = this.genFromToSnapshotAnimation(
-      rebaseStep.beforeSnapshot,
-      rebaseStep.afterSnapshot,
-      toOmit,
-      previousVisNodes,
-      gitVisuals
-    );
-    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
-
-    var animation = function() {
-      snapshotPart();
-      birthPart();
-    };
-
-    animationQueue.add(new Animation({
-      closure: animation,
-      duration: GRAPHICS.defaultAnimationTime * 1.5
-    }));
-
-    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
-  }, this);
-
-  // need to delay to let bouncing finish
-  this.delay(animationQueue);
-
-  this.refreshTree(animationQueue, gitVisuals);
-};
-
 AnimationFactory.prototype.delay = function(animationQueue, time) {
   time = time || GRAPHICS.defaultAnimationTime;
   animationQueue.add(new Animation({
     closure: function() { },
     duration: time
   }));
-};
-
-AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
-  // need to slice for closure
-  var nodesToAnimate = visNodes.slice(0);
-
-  return function() {
-    _.each(nodesToAnimate, function(visNode) {
-      visNode.setOpacity(opacity);
-      visNode.setOutgoingEdgesOpacity(opacity);
-    });
-  };
-};
-
-AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
-  var ids = [];
-  _.each(toOmit, function(obj) {
-    ids.push(obj.getID());
-  });
-
-  var newSnapshot = {};
-  _.each(snapShot, function(val, key) {
-    if (_.include(ids, key)) {
-      // omit
-      return;
-    }
-    newSnapshot[key] = val;
-  }, this);
-  return newSnapshot;
-};
-
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(
-  beforeSnapshot,
-  afterSnapshot,
-  commitsToOmit,
-  commitsToFixOpacity,
-  gitVisuals) {
-
-  // we want to omit the commit outgoing edges
-  var toOmit = [];
-  _.each(commitsToOmit, function(visNode) {
-    toOmit.push(visNode);
-    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
-  });
-
-  var fixOpacity = function(obj) {
-    if (!obj) { return; }
-    _.each(obj, function(attr, partName) {
-      obj[partName].opacity = 1;
-    });
-  };
-
-  // HORRIBLE loop to fix opacities all throughout the snapshot
-  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
-    _.each(commitsToFixOpacity, function(visNode) {
-      fixOpacity(snapShot[visNode.getID()]);
-      _.each(visNode.get('outgoingEdges'), function(visEdge) {
-        fixOpacity(snapShot[visEdge.getID()]);
-      });
-    });
-  });
-
-  return function() {
-    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
-  };
 };
 
 exports.AnimationFactory = AnimationFactory;
@@ -23614,6 +23419,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  var destBranch = this.resolveID('HEAD');
 
   chain = this.animationFactory.highlightEachWithPromise(
     chain,
@@ -23747,7 +23553,6 @@ GitEngine.prototype.fetchStarter = function() {
 };
 
 GitEngine.prototype.fetch = function() {
-  // TODO refactor to use rebase animation stuff!!!!
   // ok so we essentially are always in "-force" mode, since we always assume
   // the origin commits are downstream of where we are. Here is the outline:
   //
@@ -23756,6 +23561,7 @@ GitEngine.prototype.fetch = function() {
   //
   // then we simply set the target of o/master to the target of master on
   // the origin branch
+  // TODO -- we cant abuse this anymore if we want to animate it :(
   var oldCommits = this.exportTree().commits;
   // HAX HAX omg we will abuse our tree instantiation here :D
   var originTree = this.origin.exportTree();
@@ -23851,7 +23657,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
   var chain = deferred.promise;
 
   _.each(_.range(numToMake), function(i) {
-    chain = chian.then(function() {
+    chain = chain.then(function() {
       return chainStep();
     });
   });
@@ -24244,14 +24050,7 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebaseFinisher = function(targetSource, currentLocation) {
-  var response = this.rebase(targetSource, currentLocation);
-  if (response === undefined) {
-    // was a fastforward or already up to date. returning now
-    // will trigger the refresh animation by not adding anything to
-    // the animation queue
-    return;
-  }
-  this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+  this.rebase(targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -24278,7 +24077,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     return;
   }
 
-   // now the part of actually rebasing.
+  // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
@@ -24305,7 +24104,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     pQueue = pQueue.concat(popped.get('parents'));
   }
 
-  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+  this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
@@ -24367,9 +24166,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     }
 
     // finish the rebase crap and animate!
-    var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-    this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
-    this.animationQueue.start();
+    this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
   }, this))
   .fail(_.bind(function(err) {
     this.filterError(err);
@@ -31402,89 +31199,12 @@ AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
-  opacity = (opacity === undefined) ? 1 : opacity;
-
-  var newAttr = {};
-
-  _.each(attr, function(partObj, partName) {
-    newAttr[partName] = {};
-    _.each(partObj, function(val, key) {
-      if (key == 'opacity') {
-        newAttr[partName][key] = opacity;
-      } else {
-        newAttr[partName][key] = val;
-      }
-    });
-  });
-  return newAttr;
-};
-
-AnimationFactory.prototype.overrideOpacityDepth3 = function(snapShot, opacity) {
-  var newSnap = {};
-
-  _.each(snapShot, function(visObj, visID) {
-    newSnap[visID] = this.overrideOpacityDepth2(visObj, opacity);
-  }, this);
-  return newSnap;
-};
-
-AnimationFactory.prototype.genCommitBirthClosureFromSnapshot = function(step, gitVisuals) {
-  var time = GRAPHICS.defaultAnimationTime * 1.0;
-  var bounceTime = time * 1.5;
-
-  var visNode = step.newCommit.get('visNode');
-  var afterAttrWithOpacity = this.overrideOpacityDepth2(step.afterSnapshot[visNode.getID()]);
-  var afterSnapWithOpacity = this.overrideOpacityDepth3(step.afterSnapshot);
-
-  var animation = function() {
-    visNode.setBirthFromSnapshot(step.beforeSnapshot);
-    visNode.parentInFront();
-    gitVisuals.visBranchesFront();
-
-    visNode.animateToAttr(afterAttrWithOpacity, bounceTime, 'bounce');
-    visNode.animateOutgoingEdgesToAttr(afterSnapWithOpacity, bounceTime);
-  };
-
-  return animation;
-};
-
 AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
   animationQueue.add(new Animation({
     closure: function() {
       gitVisuals.refreshTree();
     }
   }));
-};
-
-AnimationFactory.prototype.rebaseAnimation = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-
-  this.rebaseHighlightPart(animationQueue, rebaseResponse, gitEngine);
-  this.rebaseBirthPart(animationQueue, rebaseResponse, gitEngine, gitVisuals);
-};
-
-AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebaseResponse, gitEngine) {
-  // we want to highlight all the old commits
-  var oldCommits = rebaseResponse.toRebaseArray;
-  // we are either highlighting to a visBranch or a visNode
-  var visBranch = rebaseResponse.destinationBranch.get('visBranch');
-  if (!visBranch) {
-    // in the case where we rebase onto a commit
-    visBranch = rebaseResponse.destinationBranch.get('visNode');
-  }
-
-  _.each(oldCommits, function(oldCommit) {
-    var visNode = oldCommit.get('visNode');
-    var anPack = makeHighlightAnimation(visNode, visBranch);
-    animationQueue.add(new Animation({
-      closure: anPack.animation,
-      duration: anPack.duration
-    }));
-  }, this);
-
-  var fullTime = GRAPHICS.defaultAnimationTime * 0.66;
-  this.delay(animationQueue, fullTime * 2);
 };
 
 AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
@@ -31500,122 +31220,12 @@ AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, dest
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.rebaseBirthPart = function(animationQueue, rebaseResponse,
-                                                      gitEngine, gitVisuals) {
-  var rebaseSteps = rebaseResponse.rebaseSteps;
-
-  var newVisNodes = [];
-  _.each(rebaseSteps, function(step) {
-    var visNode = step.newCommit.get('visNode');
-
-    newVisNodes.push(visNode);
-    visNode.setOpacity(0);
-    visNode.setOutgoingEdgesOpacity(0);
-  }, this);
-
-  var previousVisNodes = [];
-  _.each(rebaseSteps, function(rebaseStep, index) {
-    var toOmit = newVisNodes.slice(index + 1);
-
-    var snapshotPart = this.genFromToSnapshotAnimation(
-      rebaseStep.beforeSnapshot,
-      rebaseStep.afterSnapshot,
-      toOmit,
-      previousVisNodes,
-      gitVisuals
-    );
-    var birthPart = this.genCommitBirthClosureFromSnapshot(rebaseStep, gitVisuals);
-
-    var animation = function() {
-      snapshotPart();
-      birthPart();
-    };
-
-    animationQueue.add(new Animation({
-      closure: animation,
-      duration: GRAPHICS.defaultAnimationTime * 1.5
-    }));
-
-    previousVisNodes.push(rebaseStep.newCommit.get('visNode'));
-  }, this);
-
-  // need to delay to let bouncing finish
-  this.delay(animationQueue);
-
-  this.refreshTree(animationQueue, gitVisuals);
-};
-
 AnimationFactory.prototype.delay = function(animationQueue, time) {
   time = time || GRAPHICS.defaultAnimationTime;
   animationQueue.add(new Animation({
     closure: function() { },
     duration: time
   }));
-};
-
-AnimationFactory.prototype.genSetAllCommitOpacities = function(visNodes, opacity) {
-  // need to slice for closure
-  var nodesToAnimate = visNodes.slice(0);
-
-  return function() {
-    _.each(nodesToAnimate, function(visNode) {
-      visNode.setOpacity(opacity);
-      visNode.setOutgoingEdgesOpacity(opacity);
-    });
-  };
-};
-
-AnimationFactory.prototype.stripObjectsFromSnapshot = function(snapShot, toOmit) {
-  var ids = [];
-  _.each(toOmit, function(obj) {
-    ids.push(obj.getID());
-  });
-
-  var newSnapshot = {};
-  _.each(snapShot, function(val, key) {
-    if (_.include(ids, key)) {
-      // omit
-      return;
-    }
-    newSnapshot[key] = val;
-  }, this);
-  return newSnapshot;
-};
-
-AnimationFactory.prototype.genFromToSnapshotAnimation = function(
-  beforeSnapshot,
-  afterSnapshot,
-  commitsToOmit,
-  commitsToFixOpacity,
-  gitVisuals) {
-
-  // we want to omit the commit outgoing edges
-  var toOmit = [];
-  _.each(commitsToOmit, function(visNode) {
-    toOmit.push(visNode);
-    toOmit = toOmit.concat(visNode.get('outgoingEdges'));
-  });
-
-  var fixOpacity = function(obj) {
-    if (!obj) { return; }
-    _.each(obj, function(attr, partName) {
-      obj[partName].opacity = 1;
-    });
-  };
-
-  // HORRIBLE loop to fix opacities all throughout the snapshot
-  _.each([beforeSnapshot, afterSnapshot], function(snapShot) {
-    _.each(commitsToFixOpacity, function(visNode) {
-      fixOpacity(snapShot[visNode.getID()]);
-      _.each(visNode.get('outgoingEdges'), function(visEdge) {
-        fixOpacity(snapShot[visEdge.getID()]);
-      });
-    });
-  });
-
-  return function() {
-    gitVisuals.animateAllFromAttrToAttr(beforeSnapshot, afterSnapshot, toOmit);
-  };
 };
 
 exports.AnimationFactory = AnimationFactory;

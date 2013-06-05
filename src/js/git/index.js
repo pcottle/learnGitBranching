@@ -605,6 +605,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  var destBranch = this.resolveID('HEAD');
 
   chain = this.animationFactory.highlightEachWithPromise(
     chain,
@@ -738,7 +739,6 @@ GitEngine.prototype.fetchStarter = function() {
 };
 
 GitEngine.prototype.fetch = function() {
-  // TODO refactor to use rebase animation stuff!!!!
   // ok so we essentially are always in "-force" mode, since we always assume
   // the origin commits are downstream of where we are. Here is the outline:
   //
@@ -747,6 +747,7 @@ GitEngine.prototype.fetch = function() {
   //
   // then we simply set the target of o/master to the target of master on
   // the origin branch
+  // TODO -- we cant abuse this anymore if we want to animate it :(
   var oldCommits = this.exportTree().commits;
   // HAX HAX omg we will abuse our tree instantiation here :D
   var originTree = this.origin.exportTree();
@@ -842,7 +843,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
   var chain = deferred.promise;
 
   _.each(_.range(numToMake), function(i) {
-    chain = chian.then(function() {
+    chain = chain.then(function() {
       return chainStep();
     });
   });
@@ -1235,14 +1236,7 @@ GitEngine.prototype.rebaseStarter = function() {
 };
 
 GitEngine.prototype.rebaseFinisher = function(targetSource, currentLocation) {
-  var response = this.rebase(targetSource, currentLocation);
-  if (response === undefined) {
-    // was a fastforward or already up to date. returning now
-    // will trigger the refresh animation by not adding anything to
-    // the animation queue
-    return;
-  }
-  this.animationFactory.rebaseAnimation(this.animationQueue, response, this, this.gitVisuals);
+  this.rebase(targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -1269,7 +1263,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     return;
   }
 
-   // now the part of actually rebasing.
+  // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
@@ -1296,7 +1290,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     pQueue = pQueue.concat(popped.get('parents'));
   }
 
-  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+  this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
@@ -1358,9 +1352,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
     }
 
     // finish the rebase crap and animate!
-    var animationData = this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-    this.animationFactory.rebaseAnimation(this.animationQueue, animationData, this, this.gitVisuals);
-    this.animationQueue.start();
+    this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
   }, this))
   .fail(_.bind(function(err) {
     this.filterError(err);
