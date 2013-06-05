@@ -608,7 +608,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   // go highlight all the ones we will rebase first, in order
   var destBranch = this.resolveID(toRebase[0]);
-  _.each(whichCommits, function(commit) {
+  _.each(toRebase, function(commit) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         commit,
@@ -637,7 +637,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   }, this);
 
   // set up the promise chain
-  _.each(whichCommits, function(commit) {
+  _.each(toRebase, function(commit) {
     chain = chain.then(function() {
       chainStep(commit);
     });
@@ -915,7 +915,7 @@ GitEngine.prototype.commitStarter = function() {
     newCommit,
     this.gitVisuals
   );
-  this.animationQueue.thenFinish(promise, deferred);
+  this.animationQueue.thenFinish(promise);
 };
 
 GitEngine.prototype.commit = function() {

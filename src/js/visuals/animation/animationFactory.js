@@ -173,15 +173,25 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
   this.delay(animationQueue, fullTime * 2);
 };
 
-AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
-  var visBranch = destBranch.get('visBranch');
+AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
+  // could be branch or node
+  var visObj = destObj.get('visBranch') || destObj.get('visNode');
   var visNode = commit.get('visNode');
-  return new PromiseAnimation(makeHighlightAnimation(visNode, visBranch));
+  return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
 
-AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destBranch) {
-  var animation = this.genHighlightPromiseAnimation(commit, destBranch);
+AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
+  console.log('playing highlight animation');
+  try {
+  var animation = this.genHighlightPromiseAnimation(commit, destObj);
+  console.log('aniamtion duration', animation.get('duration'));
   animation.play();
+  console.log('aniamtion duration', animation.get('duration'));
+  animation.getPromise();
+  } catch (e) {
+    debugger;
+    console.log(e);
+  }
   return animation.getPromise();
 };
 

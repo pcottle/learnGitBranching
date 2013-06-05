@@ -7661,7 +7661,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   // go highlight all the ones we will rebase first, in order
   var destBranch = this.resolveID(toRebase[0]);
-  _.each(whichCommits, function(commit) {
+  _.each(toRebase, function(commit) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         commit,
@@ -7690,7 +7690,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   }, this);
 
   // set up the promise chain
-  _.each(whichCommits, function(commit) {
+  _.each(toRebase, function(commit) {
     chain = chain.then(function() {
       chainStep(commit);
     });
@@ -7698,7 +7698,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   // done! update our location
   // this.setTargetLocation('HEAD', base);
-  this.animationQueue.thenFinish(chain);
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.resetStarter = function() {
@@ -7904,9 +7904,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       return chainStep();
     });
   }
-  this.animationQueue.thenFinish(chain);
-
-  deferred.resolve();
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
@@ -9316,15 +9314,25 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
   this.delay(animationQueue, fullTime * 2);
 };
 
-AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
-  var visBranch = destBranch.get('visBranch');
+AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
+  // could be branch or node
+  var visObj = destObj.get('visBranch') || destObj.get('visNode');
   var visNode = commit.get('visNode');
-  return new PromiseAnimation(makeHighlightAnimation(visNode, visBranch));
+  return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
 
-AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destBranch) {
-  var animation = this.genHighlightPromiseAnimation(commit, destBranch);
+AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
+  console.log('playing highlight animation');
+  try {
+  var animation = this.genHighlightPromiseAnimation(commit, destObj);
+  console.log('aniamtion duration', animation.get('duration'));
   animation.play();
+  console.log('aniamtion duration', animation.get('duration'));
+  animation.getPromise();
+  } catch (e) {
+    debugger;
+    console.log(e);
+  }
   return animation.getPromise();
 };
 
@@ -9493,11 +9501,14 @@ var AnimationQueue = Backbone.Model.extend({
     }
   },
 
-  thenFinish: function(promise) {
+  thenFinish: function(promise, deferred) {
     promise.then(_.bind(function() {
       this.finish();
     }, this));
     this.set('promiseBased', true);
+    if (deferred) {
+      deferred.resolve();
+    }
   },
 
   add: function(animation) {
@@ -23601,7 +23612,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   // go highlight all the ones we will rebase first, in order
   var destBranch = this.resolveID(toRebase[0]);
-  _.each(whichCommits, function(commit) {
+  _.each(toRebase, function(commit) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         commit,
@@ -23630,7 +23641,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   }, this);
 
   // set up the promise chain
-  _.each(whichCommits, function(commit) {
+  _.each(toRebase, function(commit) {
     chain = chain.then(function() {
       chainStep(commit);
     });
@@ -23638,7 +23649,7 @@ GitEngine.prototype.revert = function(whichCommits) {
 
   // done! update our location
   // this.setTargetLocation('HEAD', base);
-  this.animationQueue.thenFinish(chain);
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.resetStarter = function() {
@@ -23844,9 +23855,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
       return chainStep();
     });
   }
-  this.animationQueue.thenFinish(chain);
-
-  deferred.resolve();
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
@@ -31459,15 +31468,25 @@ AnimationFactory.prototype.rebaseHighlightPart = function(animationQueue, rebase
   this.delay(animationQueue, fullTime * 2);
 };
 
-AnimationFactory.prototype.genHighlightPromiseAnmation = function(commit, destBranch) {
-  var visBranch = destBranch.get('visBranch');
+AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
+  // could be branch or node
+  var visObj = destObj.get('visBranch') || destObj.get('visNode');
   var visNode = commit.get('visNode');
-  return new PromiseAnimation(makeHighlightAnimation(visNode, visBranch));
+  return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
 
-AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destBranch) {
-  var animation = this.genHighlightPromiseAnimation(commit, destBranch);
+AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
+  console.log('playing highlight animation');
+  try {
+  var animation = this.genHighlightPromiseAnimation(commit, destObj);
+  console.log('aniamtion duration', animation.get('duration'));
   animation.play();
+  console.log('aniamtion duration', animation.get('duration'));
+  animation.getPromise();
+  } catch (e) {
+    debugger;
+    console.log(e);
+  }
   return animation.getPromise();
 };
 
@@ -31637,11 +31656,14 @@ var AnimationQueue = Backbone.Model.extend({
     }
   },
 
-  thenFinish: function(promise) {
+  thenFinish: function(promise, deferred) {
     promise.then(_.bind(function() {
       this.finish();
     }, this));
     this.set('promiseBased', true);
+    if (deferred) {
+      deferred.resolve();
+    }
   },
 
   add: function(animation) {
