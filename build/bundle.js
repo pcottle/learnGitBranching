@@ -7692,12 +7692,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   // set up the promise chain
   _.each(toRebase, function(commit) {
     chain = chain.then(function() {
-      chainStep(commit);
+      return chainStep(commit);
     });
   }, this);
 
   // done! update our location
-  // this.setTargetLocation('HEAD', base);
+  chain = chain.then(_.bind(function() {
+    this.setTargetLocation('HEAD', base);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -9227,6 +9231,16 @@ AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, 
   });
   animation.play();
   animationQueue.thenFinish(animation.getPromise());
+};
+
+AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
+  var animation = new PromiseAnimation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  });
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
@@ -23643,12 +23657,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   // set up the promise chain
   _.each(toRebase, function(commit) {
     chain = chain.then(function() {
-      chainStep(commit);
+      return chainStep(commit);
     });
   }, this);
 
   // done! update our location
-  // this.setTargetLocation('HEAD', base);
+  chain = chain.then(_.bind(function() {
+    this.setTargetLocation('HEAD', base);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -31381,6 +31399,16 @@ AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, 
   });
   animation.play();
   animationQueue.thenFinish(animation.getPromise());
+};
+
+AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
+  var animation = new PromiseAnimation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  });
+  animation.play();
+  return animation.getPromise();
 };
 
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {

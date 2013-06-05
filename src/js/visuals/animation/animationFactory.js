@@ -88,6 +88,16 @@ AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, 
   animationQueue.thenFinish(animation.getPromise());
 };
 
+AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
+  var animation = new PromiseAnimation({
+    closure: function() {
+      gitVisuals.refreshTree();
+    }
+  });
+  animation.play();
+  return animation.getPromise();
+};
+
 AnimationFactory.prototype.overrideOpacityDepth2 = function(attr, opacity) {
   opacity = (opacity === undefined) ? 1 : opacity;
 

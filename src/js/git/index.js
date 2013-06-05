@@ -639,12 +639,16 @@ GitEngine.prototype.revert = function(whichCommits) {
   // set up the promise chain
   _.each(toRebase, function(commit) {
     chain = chain.then(function() {
-      chainStep(commit);
+      return chainStep(commit);
     });
   }, this);
 
   // done! update our location
-  // this.setTargetLocation('HEAD', base);
+  chain = chain.then(_.bind(function() {
+    this.setTargetLocation('HEAD', base);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
   this.animationQueue.thenFinish(chain, deferred);
 };
 
