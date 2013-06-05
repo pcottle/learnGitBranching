@@ -49,7 +49,7 @@ var makeHighlightAnimation = function(visNode, visBranch) {
     animation: function() {
       visNode.highlightTo(visBranch, slowTime, 'easeInOut');
     },
-    duration: fullTime * 1.5
+    duration: slowTime * 1.5
   };
 };
 
@@ -70,6 +70,22 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
+};
+
+AnimationFactory.prototype.highlightEachWithPromise = function(
+  chain,
+  toHighlight,
+  destObj
+) {
+  _.each(toHighlight, function(commit) {
+    chain = chain.then(_.bind(function() {
+      return this.playHighlightPromiseAnimation(
+        commit,
+        destObj
+      );
+    }, this));
+  }, this);
+  return chain;
 };
 
 AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {

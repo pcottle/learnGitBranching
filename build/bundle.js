@@ -7652,23 +7652,18 @@ GitEngine.prototype.revertStarter = function() {
 
 GitEngine.prototype.revert = function(whichCommits) {
   // resolve the commits we will rebase
-  var toRebase = _.map(whichCommits, function(stringRef) {
+  var toRevert = _.map(whichCommits, function(stringRef) {
     return this.getCommitFromRef(stringRef);
   }, this);
 
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  // go highlight all the ones we will rebase first, in order
-  var destBranch = this.resolveID(toRebase[0]);
-  _.each(toRebase, function(commit) {
-    chain = chain.then(_.bind(function() {
-      return this.animationFactory.playHighlightPromiseAnimation(
-        commit,
-        destBranch
-      );
-    }, this));
-  }, this);
+  chain = this.animationFactory.highlightEachWithPromise(
+    chain,
+    toRevert,
+    destBranch
+  );
 
   var base = this.getCommitFromRef('HEAD');
   // each step makes a new commit
@@ -7690,7 +7685,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   }, this);
 
   // set up the promise chain
-  _.each(toRebase, function(commit) {
+  _.each(toRevert, function(commit) {
     chain = chain.then(function() {
       return chainStep(commit);
     });
@@ -7739,7 +7734,7 @@ GitEngine.prototype.cherrypickStarter = function() {
 
   var set = this.getUpstreamSet('HEAD');
   // first resolve all the refs (as an error check)
-  _.each(this.generalArgs, function(arg) {
+  var toCherrypick = _.map(this.generalArgs, function(arg) {
     var commit = this.getCommitFromRef(arg);
     // and check that its not upstream
     if (set[commit.get('id')]) {
@@ -7750,23 +7745,29 @@ GitEngine.prototype.cherrypickStarter = function() {
         )
       });
     }
+    return commit;
   }, this);
-  // error checks are all good, lets go!
 
-  var destinationBranch = this.resolveID('HEAD');
+  // error checks are all good, lets go!
   var deferred = Q.defer();
   var chain = deferred.promise;
+  var destinationBranch = this.resolveID('HEAD');
 
-  var chainStep = _.bind(function(arg) {
-    var oldCommit = this.getCommitFromRef(arg);
-    var newCommit = this.cherrypick(arg);
+  chain = this.animationFactory.highlightEachWithPromise(
+    chain,
+    toCherrypick,
+    destinationBranch
+  );
+
+  var chainStep = _.bind(function(commit) {
+    var newCommit = this.cherrypick(commit);
     return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
   }, this);
 
-  _.each(this.generalArgs, function(arg) {
+  _.each(toCherrypick, function(arg) {
     chain = chain.then(function() {
       return chainStep(arg);
     });
@@ -7893,13 +7894,11 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  for (var i = 0; i < numToMake; i++) {
-    // here is the deal -- we dont want to make the origin receive
-    // teamwork all at once because then the animation of each child
-    // is difficult. Instead, we will generate a promise chain which will
-    // produce the commit right before every animation
-    chain = chain.then(chainStepWrap);
-  }
+  _.each(_.range(numToMake), function(i) {
+    chain = chian.then(function() {
+      return chainStep();
+    });
+  });
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -7910,9 +7909,7 @@ GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
   return newCommit;
 };
 
-GitEngine.prototype.cherrypick = function(ref) {
-  var commit = this.getCommitFromRef(ref);
-
+GitEngine.prototype.cherrypick = function(commit) {
   // alter the ID slightly
   var id = this.rebaseAltID(commit.get('id'));
 
@@ -8476,6 +8473,12 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
       msg: intl.str('git-error-rebase-none')
     });
   }
+
+  chain = this.animationFactory.highlightEachWithPromise(
+    chain,
+    toRebase,
+    destinationBranch
+  );
 
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
@@ -9175,7 +9178,7 @@ var makeHighlightAnimation = function(visNode, visBranch) {
     animation: function() {
       visNode.highlightTo(visBranch, slowTime, 'easeInOut');
     },
-    duration: fullTime * 1.5
+    duration: slowTime * 1.5
   };
 };
 
@@ -9196,6 +9199,22 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
+};
+
+AnimationFactory.prototype.highlightEachWithPromise = function(
+  chain,
+  toHighlight,
+  destObj
+) {
+  _.each(toHighlight, function(commit) {
+    chain = chain.then(_.bind(function() {
+      return this.playHighlightPromiseAnimation(
+        commit,
+        destObj
+      );
+    }, this));
+  }, this);
+  return chain;
 };
 
 AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
@@ -23589,23 +23608,18 @@ GitEngine.prototype.revertStarter = function() {
 
 GitEngine.prototype.revert = function(whichCommits) {
   // resolve the commits we will rebase
-  var toRebase = _.map(whichCommits, function(stringRef) {
+  var toRevert = _.map(whichCommits, function(stringRef) {
     return this.getCommitFromRef(stringRef);
   }, this);
 
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  // go highlight all the ones we will rebase first, in order
-  var destBranch = this.resolveID(toRebase[0]);
-  _.each(toRebase, function(commit) {
-    chain = chain.then(_.bind(function() {
-      return this.animationFactory.playHighlightPromiseAnimation(
-        commit,
-        destBranch
-      );
-    }, this));
-  }, this);
+  chain = this.animationFactory.highlightEachWithPromise(
+    chain,
+    toRevert,
+    destBranch
+  );
 
   var base = this.getCommitFromRef('HEAD');
   // each step makes a new commit
@@ -23627,7 +23641,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   }, this);
 
   // set up the promise chain
-  _.each(toRebase, function(commit) {
+  _.each(toRevert, function(commit) {
     chain = chain.then(function() {
       return chainStep(commit);
     });
@@ -23676,7 +23690,7 @@ GitEngine.prototype.cherrypickStarter = function() {
 
   var set = this.getUpstreamSet('HEAD');
   // first resolve all the refs (as an error check)
-  _.each(this.generalArgs, function(arg) {
+  var toCherrypick = _.map(this.generalArgs, function(arg) {
     var commit = this.getCommitFromRef(arg);
     // and check that its not upstream
     if (set[commit.get('id')]) {
@@ -23687,23 +23701,29 @@ GitEngine.prototype.cherrypickStarter = function() {
         )
       });
     }
+    return commit;
   }, this);
-  // error checks are all good, lets go!
 
-  var destinationBranch = this.resolveID('HEAD');
+  // error checks are all good, lets go!
   var deferred = Q.defer();
   var chain = deferred.promise;
+  var destinationBranch = this.resolveID('HEAD');
 
-  var chainStep = _.bind(function(arg) {
-    var oldCommit = this.getCommitFromRef(arg);
-    var newCommit = this.cherrypick(arg);
+  chain = this.animationFactory.highlightEachWithPromise(
+    chain,
+    toCherrypick,
+    destinationBranch
+  );
+
+  var chainStep = _.bind(function(commit) {
+    var newCommit = this.cherrypick(commit);
     return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
   }, this);
 
-  _.each(this.generalArgs, function(arg) {
+  _.each(toCherrypick, function(arg) {
     chain = chain.then(function() {
       return chainStep(arg);
     });
@@ -23830,13 +23850,11 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  for (var i = 0; i < numToMake; i++) {
-    // here is the deal -- we dont want to make the origin receive
-    // teamwork all at once because then the animation of each child
-    // is difficult. Instead, we will generate a promise chain which will
-    // produce the commit right before every animation
-    chain = chain.then(chainStepWrap);
-  }
+  _.each(_.range(numToMake), function(i) {
+    chain = chian.then(function() {
+      return chainStep();
+    });
+  });
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -23847,9 +23865,7 @@ GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
   return newCommit;
 };
 
-GitEngine.prototype.cherrypick = function(ref) {
-  var commit = this.getCommitFromRef(ref);
-
+GitEngine.prototype.cherrypick = function(commit) {
   // alter the ID slightly
   var id = this.rebaseAltID(commit.get('id'));
 
@@ -24413,6 +24429,12 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
       msg: intl.str('git-error-rebase-none')
     });
   }
+
+  chain = this.animationFactory.highlightEachWithPromise(
+    chain,
+    toRebase,
+    destinationBranch
+  );
 
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
@@ -31315,7 +31337,7 @@ var makeHighlightAnimation = function(visNode, visBranch) {
     animation: function() {
       visNode.highlightTo(visBranch, slowTime, 'easeInOut');
     },
-    duration: fullTime * 1.5
+    duration: slowTime * 1.5
   };
 };
 
@@ -31336,6 +31358,22 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
 AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
+};
+
+AnimationFactory.prototype.highlightEachWithPromise = function(
+  chain,
+  toHighlight,
+  destObj
+) {
+  _.each(toHighlight, function(commit) {
+    chain = chain.then(_.bind(function() {
+      return this.playHighlightPromiseAnimation(
+        commit,
+        destObj
+      );
+    }, this));
+  }, this);
+  return chain;
 };
 
 AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
