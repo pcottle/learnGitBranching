@@ -131,7 +131,7 @@ var VisBranch = VisBase.extend({
     } else if (this.get('flip') === 1) {
       return 't-2,-20R-35';
     } else {
-      return 't-2,20R-35';
+      return 't2,20R-35';
     }
   },
 
