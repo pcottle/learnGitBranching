@@ -65,6 +65,7 @@ var VisBranch = VisBase.extend({
       // switch to a head ref
       this.set('isHead', true);
       this.set('flip', -1);
+      this.refreshOffset();
 
       this.set('fill', GRAPHICS.headRectFill);
     } else if (id !== 'master') {
@@ -77,11 +78,12 @@ var VisBranch = VisBase.extend({
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
-    this.set('flip', this.getFlipBool(commit, visNode));
+    this.set('flip', this.getFlipValue(commit, visNode));
+    this.refreshOffset();
     return visNode.getScreenCoords();
   },
 
-  getFlipBool: function(commit, visNode) {
+  getFlipValue: function(commit, visNode) {
     var threshold = this.get('gitVisuals').getFlipPos();
     var overThreshold = (visNode.get('pos').x > threshold);
 
@@ -97,6 +99,39 @@ var VisBranch = VisBase.extend({
       return (this.isBranchStackEmpty()) ? -1 : 1;
     } else {
       return (this.isBranchStackEmpty()) ? 1 : -1;
+    }
+  },
+
+  shouldOffsetY: function() {
+    return this.gitEngine.getBranches().length > 1;
+  },
+
+  refreshOffset: function() {
+    var baseOffsetX = GRAPHICS.nodeRadius * 4.75;
+    if (!this.shouldOffsetY()) {
+      this.set('offsetY', 0);
+      this.set('offsetX', baseOffsetX);
+      return;
+    }
+
+    var offsetY = 33;
+    var deltaX = 10;
+    if (this.get('flip') === 1) {
+      this.set('offsetY', -offsetY);
+      this.set('offsetX', baseOffsetX - deltaX);
+    } else {
+      this.set('offsetY', offsetY);
+      this.set('offsetX', baseOffsetX - deltaX);
+    }
+  },
+
+  getArrowTransform: function() {
+    if (!this.shouldOffsetY()) {
+      return '';
+    } else if (this.get('flip') === 1) {
+      return 't-2,-20R-35';
+    } else {
+      return 't-2,20R-35';
     }
   },
 
@@ -463,6 +498,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
+        transform: this.getArrowTransform(),
         'stroke-width': this.get('stroke-width')
       }
     };
