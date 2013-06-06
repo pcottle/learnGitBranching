@@ -29,8 +29,9 @@ function GitEngine(options) {
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
   // poor man's dependency injection
-  this.animationFactory = options.animationFactory ||
-    AnimationFactory;
+  if (options.animationFactory) {
+    AnimationFactory = options.animationFactory;
+  }
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -261,7 +262,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
-    this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
+    AnimationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
   // TODO handle the case where the master target on origin is not present
@@ -608,7 +609,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   var chain = deferred.promise;
   var destBranch = this.resolveID('HEAD');
 
-  chain = this.animationFactory.highlightEachWithPromise(
+  chain = AnimationFactory.highlightEachWithPromise(
     chain,
     toRevert,
     destBranch
@@ -627,7 +628,7 @@ GitEngine.prototype.revert = function(whichCommits) {
     });
     base = newCommit;
 
-    return this.animationFactory.playCommitBirthPromiseAnimation(
+    return AnimationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -643,7 +644,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   // done! update our location
   chain = chain.then(_.bind(function() {
     this.setTargetLocation('HEAD', base);
-    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
@@ -702,7 +703,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var chain = deferred.promise;
   var destinationBranch = this.resolveID('HEAD');
 
-  chain = this.animationFactory.highlightEachWithPromise(
+  chain = AnimationFactory.highlightEachWithPromise(
     chain,
     toCherrypick,
     destinationBranch
@@ -710,7 +711,7 @@ GitEngine.prototype.cherrypickStarter = function() {
 
   var chainStep = _.bind(function(commit) {
     var newCommit = this.cherrypick(commit);
-    return this.animationFactory.playCommitBirthPromiseAnimation(
+    return AnimationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -777,7 +778,7 @@ GitEngine.prototype.fetch = function() {
   commitsToAnimate.sort(_.bind(this.idSortFunc, this));
 
   _.each(commitsToAnimate, function(newCommit) {
-    this.animationFactory.genCommitBirthAnimation(
+    AnimationFactory.genCommitBirthAnimation(
       this.animationQueue,
       newCommit,
       this.gitVisuals
@@ -787,7 +788,7 @@ GitEngine.prototype.fetch = function() {
   var originLocation = this.origin.exportTree().branches.master.target;
   // yay! now we just set o/master and do a simple refresh
   this.setTargetLocation(this.refs['o/master'], this.refs[originLocation]);
-  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
 };
 
 GitEngine.prototype.pullStarter = function() {
@@ -833,7 +834,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
 
   var chainStep = _.bind(function() {
     var newCommit = makeOriginCommit();
-    return this.animationFactory.playCommitBirthPromiseAnimation(
+    return AnimationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
@@ -906,7 +907,7 @@ GitEngine.prototype.commitStarter = function() {
     newCommit.set('commitMessage', msg);
   }
 
-  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
+  var promise = AnimationFactory.playCommitBirthPromiseAnimation(
     newCommit,
     this.gitVisuals
   );
@@ -1414,7 +1415,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     });
   }
 
-  chain = this.animationFactory.highlightEachWithPromise(
+  chain = AnimationFactory.highlightEachWithPromise(
     chain,
     toRebase,
     destinationBranch
@@ -1428,7 +1429,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
 
-    return this.animationFactory.playCommitBirthPromiseAnimation(
+    return AnimationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -1451,7 +1452,7 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
       this.setTargetLocation(currentLocation, base);
       this.checkout(currentLocation);
     }
-    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
@@ -1464,11 +1465,11 @@ GitEngine.prototype.mergeStarter = function() {
 
   if (newCommit === undefined) {
     // its just a fast forwrard
-    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
     return;
   }
 
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  AnimationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.merge = function(targetSource) {
@@ -1708,7 +1709,7 @@ GitEngine.prototype.externalRefresh = function() {
   this.animationQueue = new AnimationQueue({
     callback: function() {}
   });
-  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   this.animationQueue.start();
 };
 
@@ -1743,7 +1744,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   // only add the refresh if we didn't do manual animations
   if (!this.animationQueue.get('animations').length && !willStartAuto) {
-    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done

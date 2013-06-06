@@ -11,6 +11,11 @@ var compareAnswer = function(headless, expectedJSON) {
   var actualTree = headless.gitEngine.exportTree();
 
   var equal = treeCompare.compareTrees(expectedTree, actualTree);
+  if (!equal) {
+    console.log('tree1', expectedTree);
+    console.log('tree2', actualTree);
+    console.log('~~~~~~~~~~~~~~~~~~~~~');
+  }
   expect(equal).toBe(true);
 };
 

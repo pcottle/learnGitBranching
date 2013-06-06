@@ -23,6 +23,12 @@ function getMockFactory() {
       return Q.defer().promise;
     };
   }
+  // special method that does stuff
+  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
+    console.log('trying to finish');
+    aQueue.thenFinish(Q.defer().promise);
+  };
+
   return mockFactory;
 }
 
