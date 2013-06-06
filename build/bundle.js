@@ -7058,7 +7058,7 @@ var Q = require('q');
 
 var intl = require('../intl');
 
-var AnimationFactoryModule = require('../visuals/animation/animationFactory');
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
@@ -7081,8 +7081,9 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
+  // poor man's dependency injection
   this.animationFactory = options.animationFactory ||
-    new AnimationFactoryModule.AnimationFactory();
+    AnimationFactory;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -9136,10 +9137,8 @@ var GRAPHICS = require('../../util/constants').GRAPHICS;
  * and then essentially animate the entire tree too.
  */
 
-// essentially a static class
-var AnimationFactory = function() {
-
-};
+// static class
+var AnimationFactory = {};
 
 var makeCommitBirthAnimation = function(gitVisuals, visNode) {
   var time = GRAPHICS.defaultAnimationTime * 1.0;
@@ -9174,7 +9173,7 @@ var makeHighlightAnimation = function(visNode, visBranch) {
   };
 };
 
-AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
+AnimationFactory.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
   }
@@ -9188,12 +9187,12 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   }));
 };
 
-AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+AnimationFactory.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
 };
 
-AnimationFactory.prototype.highlightEachWithPromise = function(
+AnimationFactory.highlightEachWithPromise = function(
   chain,
   toHighlight,
   destObj
@@ -9209,13 +9208,13 @@ AnimationFactory.prototype.highlightEachWithPromise = function(
   return chain;
 };
 
-AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+AnimationFactory.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
   animation.play();
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, animationQueue) {
+AnimationFactory.playRefreshAnimationAndFinish = function(gitVisuals, animationQueue) {
   var animation = new PromiseAnimation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -9225,7 +9224,7 @@ AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, 
   animationQueue.thenFinish(animation.getPromise());
 };
 
-AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
+AnimationFactory.playRefreshAnimation = function(gitVisuals) {
   var animation = new PromiseAnimation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -9235,7 +9234,7 @@ AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
+AnimationFactory.refreshTree = function(animationQueue, gitVisuals) {
   animationQueue.add(new Animation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -9243,20 +9242,20 @@ AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
   }));
 };
 
-AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
+AnimationFactory.genHighlightPromiseAnimation = function(commit, destObj) {
   // could be branch or node
   var visObj = destObj.get('visBranch') || destObj.get('visNode');
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
 
-AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
+AnimationFactory.playHighlightPromiseAnimation = function(commit, destObj) {
   var animation = this.genHighlightPromiseAnimation(commit, destObj);
   animation.play();
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.delay = function(animationQueue, time) {
+AnimationFactory.delay = function(animationQueue, time) {
   time = time || GRAPHICS.defaultAnimationTime;
   animationQueue.add(new Animation({
     closure: function() { },
@@ -22855,7 +22854,7 @@ var Q = require('q');
 
 var intl = require('../intl');
 
-var AnimationFactoryModule = require('../visuals/animation/animationFactory');
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
@@ -22878,8 +22877,9 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
+  // poor man's dependency injection
   this.animationFactory = options.animationFactory ||
-    new AnimationFactoryModule.AnimationFactory();
+    AnimationFactory;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -31136,10 +31136,8 @@ var GRAPHICS = require('../../util/constants').GRAPHICS;
  * and then essentially animate the entire tree too.
  */
 
-// essentially a static class
-var AnimationFactory = function() {
-
-};
+// static class
+var AnimationFactory = {};
 
 var makeCommitBirthAnimation = function(gitVisuals, visNode) {
   var time = GRAPHICS.defaultAnimationTime * 1.0;
@@ -31174,7 +31172,7 @@ var makeHighlightAnimation = function(visNode, visBranch) {
   };
 };
 
-AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
+AnimationFactory.genCommitBirthAnimation = function(animationQueue, commit, gitVisuals) {
   if (!animationQueue) {
     throw new Error("Need animation queue to add closure to!");
   }
@@ -31188,12 +31186,12 @@ AnimationFactory.prototype.genCommitBirthAnimation = function(animationQueue, co
   }));
 };
 
-AnimationFactory.prototype.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+AnimationFactory.genCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeCommitBirthAnimation(gitVisuals, visNode));
 };
 
-AnimationFactory.prototype.highlightEachWithPromise = function(
+AnimationFactory.highlightEachWithPromise = function(
   chain,
   toHighlight,
   destObj
@@ -31209,13 +31207,13 @@ AnimationFactory.prototype.highlightEachWithPromise = function(
   return chain;
 };
 
-AnimationFactory.prototype.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
+AnimationFactory.playCommitBirthPromiseAnimation = function(commit, gitVisuals) {
   var animation = this.genCommitBirthPromiseAnimation(commit, gitVisuals);
   animation.play();
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, animationQueue) {
+AnimationFactory.playRefreshAnimationAndFinish = function(gitVisuals, animationQueue) {
   var animation = new PromiseAnimation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -31225,7 +31223,7 @@ AnimationFactory.prototype.playRefreshAnimationAndFinish = function(gitVisuals, 
   animationQueue.thenFinish(animation.getPromise());
 };
 
-AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
+AnimationFactory.playRefreshAnimation = function(gitVisuals) {
   var animation = new PromiseAnimation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -31235,7 +31233,7 @@ AnimationFactory.prototype.playRefreshAnimation = function(gitVisuals) {
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
+AnimationFactory.refreshTree = function(animationQueue, gitVisuals) {
   animationQueue.add(new Animation({
     closure: function() {
       gitVisuals.refreshTree();
@@ -31243,20 +31241,20 @@ AnimationFactory.prototype.refreshTree = function(animationQueue, gitVisuals) {
   }));
 };
 
-AnimationFactory.prototype.genHighlightPromiseAnimation = function(commit, destObj) {
+AnimationFactory.genHighlightPromiseAnimation = function(commit, destObj) {
   // could be branch or node
   var visObj = destObj.get('visBranch') || destObj.get('visNode');
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
 
-AnimationFactory.prototype.playHighlightPromiseAnimation = function(commit, destObj) {
+AnimationFactory.playHighlightPromiseAnimation = function(commit, destObj) {
   var animation = this.genHighlightPromiseAnimation(commit, destObj);
   animation.play();
   return animation.getPromise();
 };
 
-AnimationFactory.prototype.delay = function(animationQueue, time) {
+AnimationFactory.delay = function(animationQueue, time) {
   time = time || GRAPHICS.defaultAnimationTime;
   animationQueue.add(new Animation({
     closure: function() { },

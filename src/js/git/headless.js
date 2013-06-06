@@ -16,6 +16,16 @@ var Command = require('../models/commandModel').Command;
 var mock = require('../util/mock').mock;
 var util = require('../util');
 
+function getMockFactory() {
+  var mockFactory = {};
+  for (var key in AnimationFactory) {
+    mockFactory[key] = function() {
+      return Q.defer().promise;
+    };
+  }
+  return mockFactory;
+}
+
 var HeadlessGit = function() {
   this.init();
 };
@@ -27,7 +37,7 @@ HeadlessGit.prototype.init = function() {
 
   // here we mock visuals and animation factory so the git engine
   // is headless
-  var animationFactory = mock(AnimationFactory);
+  var animationFactory = getMockFactory();
   var gitVisuals = mock(GitVisuals);
 
   this.gitEngine = new GitEngine({

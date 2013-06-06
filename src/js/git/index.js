@@ -5,7 +5,7 @@ var Q = require('q');
 
 var intl = require('../intl');
 
-var AnimationFactoryModule = require('../visuals/animation/animationFactory');
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
@@ -28,8 +28,9 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
+  // poor man's dependency injection
   this.animationFactory = options.animationFactory ||
-    new AnimationFactoryModule.AnimationFactory();
+    AnimationFactory;
 
   // global variable to keep track of the options given
   // along with the command call.
