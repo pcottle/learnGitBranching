@@ -47,8 +47,6 @@ var Level = Sandbox.extend({
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
-    this.treeCompare = new TreeCompare();
-
     this.initGoalData(options);
     this.initName(options);
 
@@ -346,21 +344,21 @@ var Level = Sandbox.extend({
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
     if (this.level.compareOnlyMaster) {
-      solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+      solved = TreeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
     } else if (this.level.compareOnlyBranches) {
-      solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
     } else if (this.level.compareAllBranchesHashAgnostic) {
-      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
     } else if (this.level.compareOnlyMasterHashAgnostic) {
-      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-      solved = solved && this.treeCompare.evalAsserts(
+      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = solved && TreeCompare.evalAsserts(
         current,
         this.level.goalAsserts
       );
     } else {
-      solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
 
     if (!solved) {

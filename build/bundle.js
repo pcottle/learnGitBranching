@@ -6058,8 +6058,6 @@ var Level = Sandbox.extend({
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
-    this.treeCompare = new TreeCompare();
-
     this.initGoalData(options);
     this.initName(options);
 
@@ -6357,21 +6355,21 @@ var Level = Sandbox.extend({
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
     if (this.level.compareOnlyMaster) {
-      solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+      solved = TreeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
     } else if (this.level.compareOnlyBranches) {
-      solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
     } else if (this.level.compareAllBranchesHashAgnostic) {
-      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
     } else if (this.level.compareOnlyMasterHashAgnostic) {
-      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-      solved = solved && this.treeCompare.evalAsserts(
+      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = solved && TreeCompare.evalAsserts(
         current,
         this.level.goalAsserts
       );
     } else {
-      solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
 
     if (!solved) {
@@ -7218,7 +7216,7 @@ GitEngine.prototype.exportTree = function() {
 
 GitEngine.prototype.printTree = function(tree) {
   tree = tree || this.exportTree();
-  TreeCompare.prototype.reduceTreeFields([tree]);
+  TreeCompare.reduceTreeFields([tree]);
 
   var str = JSON.stringify(tree);
   if (/'/.test(str)) {
@@ -9418,18 +9416,17 @@ exports.AnimationQueue = AnimationQueue;
 require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 // static class...
-function TreeCompare() {
+var TreeCompare = {};
 
-}
-
-TreeCompare.prototype.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
+// would love to have copy properties here.. :(
+TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
   return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
 };
 
-TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
+TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
@@ -9446,7 +9443,7 @@ TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
   return result;
 };
 
-TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
   _.each(branches, function(branchName) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
@@ -9455,7 +9452,7 @@ TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branch
   return result;
 };
 
-TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+TreeCompare.compareBranchWithinTrees = function(treeA, treeB, branchName) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
@@ -9468,7 +9465,7 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
     recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
 };
 
-TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
+TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
@@ -9484,7 +9481,7 @@ TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA
   return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
 };
 
-TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
+TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
   // we can't DRY unfortunately here because we need a special _.isEqual function
   // for both the recursive compare and the branch compare
   treeA = this.convertTreeSafe(treeA);
@@ -9519,7 +9516,7 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
   return result;
 };
 
-TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
+TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   var result = true;
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
@@ -9529,7 +9526,7 @@ TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
   return result;
 };
 
-TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
+TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   tree = this.convertTreeSafe(tree);
 
   // here is the outline:
@@ -9568,7 +9565,7 @@ TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) 
   return result;
 };
 
-TreeCompare.prototype.getNumHashes = function(ref) {
+TreeCompare.getNumHashes = function(ref) {
   var regexMap = [
     [/^C(\d+)([']{0,3})$/, function(bits) {
       if (!bits[2]) {
@@ -9592,7 +9589,7 @@ TreeCompare.prototype.getNumHashes = function(ref) {
   throw new Error('coudlnt parse ref ' + ref);
 };
 
-TreeCompare.prototype.getBaseRef = function(ref) {
+TreeCompare.getBaseRef = function(ref) {
   var idRegex = /^C(\d+)/;
   var bits = idRegex.exec(ref);
   if (!bits) { throw new Error('no regex matchy for ' + ref); }
@@ -9601,7 +9598,7 @@ TreeCompare.prototype.getBaseRef = function(ref) {
   return 'C' + bits[1];
 };
 
-TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
+TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   // here we pass in a special comparison function to pass into the base
   // recursive compare.
 
@@ -9627,7 +9624,7 @@ TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   return this.getRecurseCompare(treeA, treeB, {isEqual: isEqual});
 };
 
-TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
+TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
   options = options || {};
 
   // we need a recursive comparison function to bubble up the branch
@@ -9660,14 +9657,14 @@ TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
   return recurseCompare;
 };
 
-TreeCompare.prototype.convertTreeSafe = function(tree) {
+TreeCompare.convertTreeSafe = function(tree) {
   if (typeof tree == 'string') {
     return JSON.parse(unescape(tree));
   }
   return tree;
 };
 
-TreeCompare.prototype.reduceTreeFields = function(trees) {
+TreeCompare.reduceTreeFields = function(trees) {
   var commitSaveFields = [
     'parents',
     'id',
@@ -9713,7 +9710,7 @@ TreeCompare.prototype.reduceTreeFields = function(trees) {
   });
 };
 
-TreeCompare.prototype.compareTrees = function(treeA, treeB) {
+TreeCompare.compareTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
@@ -21897,10 +21894,11 @@ var util = require('../util');
 
 function getMockFactory() {
   var mockFactory = {};
+  var mockReturn = function() {
+    return Q.defer().promise;
+  };
   for (var key in AnimationFactory) {
-    mockFactory[key] = function() {
-      return Q.defer().promise;
-    };
+    mockFactory[key] = mockReturn;
   }
   // special method that does stuff
   mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
@@ -21918,7 +21916,6 @@ var HeadlessGit = function() {
 HeadlessGit.prototype.init = function() {
   this.commitCollection = new CommitCollection();
   this.branchCollection = new BranchCollection();
-  this.treeCompare = new TreeCompare();
 
   // here we mock visuals and animation factory so the git engine
   // is headless
@@ -22827,10 +22824,11 @@ var util = require('../util');
 
 function getMockFactory() {
   var mockFactory = {};
+  var mockReturn = function() {
+    return Q.defer().promise;
+  };
   for (var key in AnimationFactory) {
-    mockFactory[key] = function() {
-      return Q.defer().promise;
-    };
+    mockFactory[key] = mockReturn;
   }
   // special method that does stuff
   mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
@@ -22848,7 +22846,6 @@ var HeadlessGit = function() {
 HeadlessGit.prototype.init = function() {
   this.commitCollection = new CommitCollection();
   this.branchCollection = new BranchCollection();
-  this.treeCompare = new TreeCompare();
 
   // here we mock visuals and animation factory so the git engine
   // is headless
@@ -23047,7 +23044,7 @@ GitEngine.prototype.exportTree = function() {
 
 GitEngine.prototype.printTree = function(tree) {
   tree = tree || this.exportTree();
-  TreeCompare.prototype.reduceTreeFields([tree]);
+  TreeCompare.reduceTreeFields([tree]);
 
   var str = JSON.stringify(tree);
   if (/'/.test(str)) {
@@ -24954,18 +24951,17 @@ require("/src/js/git/index.js");
 require.define("/src/js/git/treeCompare.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 // static class...
-function TreeCompare() {
+var TreeCompare = {};
 
-}
-
-TreeCompare.prototype.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
+// would love to have copy properties here.. :(
+TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
   return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
 };
 
-TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
+TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
@@ -24982,7 +24978,7 @@ TreeCompare.prototype.compareAllBranchesWithinTrees = function(treeA, treeB) {
   return result;
 };
 
-TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
   _.each(branches, function(branchName) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
@@ -24991,7 +24987,7 @@ TreeCompare.prototype.compareBranchesWithinTrees = function(treeA, treeB, branch
   return result;
 };
 
-TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchName) {
+TreeCompare.compareBranchWithinTrees = function(treeA, treeB, branchName) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
@@ -25004,7 +25000,7 @@ TreeCompare.prototype.compareBranchWithinTrees = function(treeA, treeB, branchNa
     recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
 };
 
-TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
+TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
@@ -25020,7 +25016,7 @@ TreeCompare.prototype.compareAllBranchesWithinTreesHashAgnostic = function(treeA
   return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
 };
 
-TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
+TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
   // we can't DRY unfortunately here because we need a special _.isEqual function
   // for both the recursive compare and the branch compare
   treeA = this.convertTreeSafe(treeA);
@@ -25055,7 +25051,7 @@ TreeCompare.prototype.compareBranchesWithinTreesHashAgnostic = function(treeA, t
   return result;
 };
 
-TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
+TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   var result = true;
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
@@ -25065,7 +25061,7 @@ TreeCompare.prototype.evalAsserts = function(tree, assertsPerBranch) {
   return result;
 };
 
-TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) {
+TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   tree = this.convertTreeSafe(tree);
 
   // here is the outline:
@@ -25104,7 +25100,7 @@ TreeCompare.prototype.evalAssertsOnBranch = function(tree, branchName, asserts) 
   return result;
 };
 
-TreeCompare.prototype.getNumHashes = function(ref) {
+TreeCompare.getNumHashes = function(ref) {
   var regexMap = [
     [/^C(\d+)([']{0,3})$/, function(bits) {
       if (!bits[2]) {
@@ -25128,7 +25124,7 @@ TreeCompare.prototype.getNumHashes = function(ref) {
   throw new Error('coudlnt parse ref ' + ref);
 };
 
-TreeCompare.prototype.getBaseRef = function(ref) {
+TreeCompare.getBaseRef = function(ref) {
   var idRegex = /^C(\d+)/;
   var bits = idRegex.exec(ref);
   if (!bits) { throw new Error('no regex matchy for ' + ref); }
@@ -25137,7 +25133,7 @@ TreeCompare.prototype.getBaseRef = function(ref) {
   return 'C' + bits[1];
 };
 
-TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
+TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   // here we pass in a special comparison function to pass into the base
   // recursive compare.
 
@@ -25163,7 +25159,7 @@ TreeCompare.prototype.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   return this.getRecurseCompare(treeA, treeB, {isEqual: isEqual});
 };
 
-TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
+TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
   options = options || {};
 
   // we need a recursive comparison function to bubble up the branch
@@ -25196,14 +25192,14 @@ TreeCompare.prototype.getRecurseCompare = function(treeA, treeB, options) {
   return recurseCompare;
 };
 
-TreeCompare.prototype.convertTreeSafe = function(tree) {
+TreeCompare.convertTreeSafe = function(tree) {
   if (typeof tree == 'string') {
     return JSON.parse(unescape(tree));
   }
   return tree;
 };
 
-TreeCompare.prototype.reduceTreeFields = function(trees) {
+TreeCompare.reduceTreeFields = function(trees) {
   var commitSaveFields = [
     'parents',
     'id',
@@ -25249,7 +25245,7 @@ TreeCompare.prototype.reduceTreeFields = function(trees) {
   });
 };
 
-TreeCompare.prototype.compareTrees = function(treeA, treeB) {
+TreeCompare.compareTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
@@ -26510,8 +26506,6 @@ var Level = Sandbox.extend({
     this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
-    this.treeCompare = new TreeCompare();
-
     this.initGoalData(options);
     this.initName(options);
 
@@ -26809,21 +26803,21 @@ var Level = Sandbox.extend({
     var current = this.mainVis.gitEngine.exportTree();
     var solved;
     if (this.level.compareOnlyMaster) {
-      solved = this.treeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
+      solved = TreeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
     } else if (this.level.compareOnlyBranches) {
-      solved = this.treeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
     } else if (this.level.compareAllBranchesHashAgnostic) {
-      solved = this.treeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
     } else if (this.level.compareOnlyMasterHashAgnostic) {
-      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
     } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      solved = this.treeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-      solved = solved && this.treeCompare.evalAsserts(
+      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
+      solved = solved && TreeCompare.evalAsserts(
         current,
         this.level.goalAsserts
       );
     } else {
-      solved = this.treeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
+      solved = TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
     }
 
     if (!solved) {

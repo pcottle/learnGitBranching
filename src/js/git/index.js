@@ -165,7 +165,7 @@ GitEngine.prototype.exportTree = function() {
 
 GitEngine.prototype.printTree = function(tree) {
   tree = tree || this.exportTree();
-  TreeCompare.prototype.reduceTreeFields([tree]);
+  TreeCompare.reduceTreeFields([tree]);
 
   var str = JSON.stringify(tree);
   if (/'/.test(str)) {

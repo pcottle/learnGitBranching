@@ -18,10 +18,11 @@ var util = require('../util');
 
 function getMockFactory() {
   var mockFactory = {};
+  var mockReturn = function() {
+    return Q.defer().promise;
+  };
   for (var key in AnimationFactory) {
-    mockFactory[key] = function() {
-      return Q.defer().promise;
-    };
+    mockFactory[key] = mockReturn;
   }
   // special method that does stuff
   mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
@@ -39,7 +40,6 @@ var HeadlessGit = function() {
 HeadlessGit.prototype.init = function() {
   this.commitCollection = new CommitCollection();
   this.branchCollection = new BranchCollection();
-  this.treeCompare = new TreeCompare();
 
   // here we mock visuals and animation factory so the git engine
   // is headless
