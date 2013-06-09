@@ -52,6 +52,10 @@ exports.strings = {
     'en_US': 'Quick commit. Go Bears!',
     'zh_CN': '快速提交。上啊月熊！'
   },
+  'git-error-origin-fetch-no-ff': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force'
+  },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch'

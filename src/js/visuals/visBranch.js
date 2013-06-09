@@ -102,18 +102,8 @@ var VisBranch = VisBase.extend({
     }
   },
 
-  shouldOffsetY: function() {
-    return this.gitEngine.getBranches().length > 1;
-  },
-
   refreshOffset: function() {
     var baseOffsetX = GRAPHICS.nodeRadius * 4.75;
-    if (!this.shouldOffsetY()) {
-      this.set('offsetY', 0);
-      this.set('offsetX', baseOffsetX);
-      return;
-    }
-
     var offsetY = 33;
     var deltaX = 10;
     if (this.get('flip') === 1) {
@@ -126,9 +116,7 @@ var VisBranch = VisBase.extend({
   },
 
   getArrowTransform: function() {
-    if (!this.shouldOffsetY()) {
-      return '';
-    } else if (this.get('flip') === 1) {
+    if (this.get('flip') === 1) {
       return 't-2,-20R-35';
     } else {
       return 't2,20R-35';

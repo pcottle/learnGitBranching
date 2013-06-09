@@ -7774,16 +7774,35 @@ GitEngine.prototype.fetchStarter = function() {
   this.fetch();
 };
 
+GitEngine.prototype.checkUpstreamOfSource = function(
+  target,
+  source,
+  targetBranch,
+  sourceBranch
+) {
+  // here we are downloading some X number of commits from source onto
+  // target. Hence target should be strictly upstream of source
+
+  // lets first get the upstream set from source's dest branch
+  var upstream = source.getUpstreamSet(sourceBranch);
+
+  var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
+  if (!upstream[targetLocationID]) {
+    throw new GitError({
+      msg: 'no no'
+    });
+  }
+};
+
 GitEngine.prototype.fetch = function() {
-  // ok so we essentially are always in "-force" mode, since we always assume
-  // the origin commits are downstream of where we are. Here is the outline:
-  //
-  // first we get the commits we need by exporting the origin tree and
-  // walking upwards until we hit the upstream set defined by origin/master.
-  //
-  // then we simply set the target of o/master to the target of master on
-  // the origin branch
-  // TODO -- we cant abuse this anymore if we want to animate it :(
+  // first check if this is even allowed by checking the sync between
+  this.checkUpstreamOfSource(
+    this,
+    this.origin,
+    this.refs['o/master'],
+    this.origin.refs['master']
+  );
+
   var oldCommits = this.exportTree().commits;
   // HAX HAX omg we will abuse our tree instantiation here :D
   var originTree = this.origin.exportTree();
@@ -8607,7 +8626,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   var type = target.get('type');
   // check if this is an origin branch, and if so go to the commit referenced
   if (type === 'branch' && target.getIsRemote()) {
-    target = this.getCommitFromRef(target.get('id'));
+    //target = this.getCommitFromRef(target.get('id'));
   }
 
   if (type !== 'branch' && type !== 'commit') {
@@ -9407,7 +9426,9 @@ TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
 };
 
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
-  switch(true) {
+  var getAroundLintTrue = true;
+  // i actually prefer this to else if
+  switch (getAroundLintTrue) {
     case !!levelBlob.compareOnlyMaster:
       return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
     case !!levelBlob.compareOnlyBranches:
@@ -16639,18 +16660,8 @@ var VisBranch = VisBase.extend({
     }
   },
 
-  shouldOffsetY: function() {
-    return this.gitEngine.getBranches().length > 1;
-  },
-
   refreshOffset: function() {
     var baseOffsetX = GRAPHICS.nodeRadius * 4.75;
-    if (!this.shouldOffsetY()) {
-      this.set('offsetY', 0);
-      this.set('offsetX', baseOffsetX);
-      return;
-    }
-
     var offsetY = 33;
     var deltaX = 10;
     if (this.get('flip') === 1) {
@@ -16663,9 +16674,7 @@ var VisBranch = VisBase.extend({
   },
 
   getArrowTransform: function() {
-    if (!this.shouldOffsetY()) {
-      return '';
-    } else if (this.get('flip') === 1) {
+    if (this.get('flip') === 1) {
       return 't-2,-20R-35';
     } else {
       return 't2,20R-35';
@@ -23620,16 +23629,35 @@ GitEngine.prototype.fetchStarter = function() {
   this.fetch();
 };
 
+GitEngine.prototype.checkUpstreamOfSource = function(
+  target,
+  source,
+  targetBranch,
+  sourceBranch
+) {
+  // here we are downloading some X number of commits from source onto
+  // target. Hence target should be strictly upstream of source
+
+  // lets first get the upstream set from source's dest branch
+  var upstream = source.getUpstreamSet(sourceBranch);
+
+  var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
+  if (!upstream[targetLocationID]) {
+    throw new GitError({
+      msg: 'no no'
+    });
+  }
+};
+
 GitEngine.prototype.fetch = function() {
-  // ok so we essentially are always in "-force" mode, since we always assume
-  // the origin commits are downstream of where we are. Here is the outline:
-  //
-  // first we get the commits we need by exporting the origin tree and
-  // walking upwards until we hit the upstream set defined by origin/master.
-  //
-  // then we simply set the target of o/master to the target of master on
-  // the origin branch
-  // TODO -- we cant abuse this anymore if we want to animate it :(
+  // first check if this is even allowed by checking the sync between
+  this.checkUpstreamOfSource(
+    this,
+    this.origin,
+    this.refs['o/master'],
+    this.origin.refs['master']
+  );
+
   var oldCommits = this.exportTree().commits;
   // HAX HAX omg we will abuse our tree instantiation here :D
   var originTree = this.origin.exportTree();
@@ -24453,7 +24481,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   var type = target.get('type');
   // check if this is an origin branch, and if so go to the commit referenced
   if (type === 'branch' && target.getIsRemote()) {
-    target = this.getCommitFromRef(target.get('id'));
+    //target = this.getCommitFromRef(target.get('id'));
   }
 
   if (type !== 'branch' && type !== 'commit') {
@@ -24960,7 +24988,9 @@ TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
 };
 
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
-  switch(true) {
+  var getAroundLintTrue = true;
+  // i actually prefer this to else if
+  switch (getAroundLintTrue) {
     case !!levelBlob.compareOnlyMaster:
       return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
     case !!levelBlob.compareOnlyBranches:
@@ -32539,18 +32569,8 @@ var VisBranch = VisBase.extend({
     }
   },
 
-  shouldOffsetY: function() {
-    return this.gitEngine.getBranches().length > 1;
-  },
-
   refreshOffset: function() {
     var baseOffsetX = GRAPHICS.nodeRadius * 4.75;
-    if (!this.shouldOffsetY()) {
-      this.set('offsetY', 0);
-      this.set('offsetX', baseOffsetX);
-      return;
-    }
-
     var offsetY = 33;
     var deltaX = 10;
     if (this.get('flip') === 1) {
@@ -32563,9 +32583,7 @@ var VisBranch = VisBase.extend({
   },
 
   getArrowTransform: function() {
-    if (!this.shouldOffsetY()) {
-      return '';
-    } else if (this.get('flip') === 1) {
+    if (this.get('flip') === 1) {
       return 't-2,-20R-35';
     } else {
       return 't2,20R-35';

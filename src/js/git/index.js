@@ -740,51 +740,52 @@ GitEngine.prototype.fetchStarter = function() {
   this.fetch();
 };
 
+GitEngine.prototype.checkUpstreamOfSource = function(
+  target,
+  source,
+  targetBranch,
+  sourceBranch
+) {
+  // here we are downloading some X number of commits from source onto
+  // target. Hence target should be strictly upstream of source
+
+  // lets first get the upstream set from source's dest branch
+  var upstream = source.getUpstreamSet(sourceBranch);
+
+  var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
+  if (!upstream[targetLocationID]) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-fetch-no-ff')
+    });
+  }
+};
+
+GitEngine.prototype.getTargetGraphDifference = function(
+  target,
+  targetBranch,
+  source,
+  sourceBranch
+) = {
+  sourceBranch = source.resolveID(sourceBranch);
+
+  var targetSet = target.getUpstreamSet(targetBranch);
+  var sourceTree = source.exportTree();
+  var startCommit = sourceTree.commits[
+};
+
 GitEngine.prototype.fetch = function() {
-  // ok so we essentially are always in "-force" mode, since we always assume
-  // the origin commits are downstream of where we are. Here is the outline:
-  //
-  // first we get the commits we need by exporting the origin tree and
-  // walking upwards until we hit the upstream set defined by origin/master.
-  //
-  // then we simply set the target of o/master to the target of master on
-  // the origin branch
-  // TODO -- we cant abuse this anymore if we want to animate it :(
-  var oldCommits = this.exportTree().commits;
-  // HAX HAX omg we will abuse our tree instantiation here :D
-  var originTree = this.origin.exportTree();
-  _.each(originTree.commits, function(commit, id) {
-    // if we have it, no worries
-    if (this.refs[id]) {
-      return;
-    }
-    // go make it!
-    var downloadedCommit = this.getOrMakeRecursive(originTree, this.refs, id);
-    this.commitCollection.add(downloadedCommit);
-  }, this);
+  // first check if this is even allowed by checking the sync between
+  this.checkUpstreamOfSource(
+    this,
+    this.origin,
+    this.refs['o/master'],
+    this.origin.refs['master']
+  );
 
-  // since we now might have many commits more than before, lets
-  // check all the ones that didn't use to exist and make animations
-  var newCommits = this.exportTree().commits;
-  var commitsToAnimate = [];
-  _.each(newCommits, function(commit, id) {
-    if (oldCommits[id]) {
-      return;
-    }
-    commitsToAnimate.push(this.refs[id]);
-  }, this);
+  // then we get the difference in commits between these two graphs, ordered by
+  // depth
 
-  // now sort by id...
-  commitsToAnimate.sort(_.bind(this.idSortFunc, this));
-
-  _.each(commitsToAnimate, function(newCommit) {
-    AnimationFactory.genCommitBirthAnimation(
-      this.animationQueue,
-      newCommit,
-      this.gitVisuals
-    );
-  }, this);
-
+  // this.commitCollection.add(downloadedCommit);
   var originLocation = this.origin.exportTree().branches.master.target;
   // yay! now we just set o/master and do a simple refresh
   this.setTargetLocation(this.refs['o/master'], this.refs[originLocation]);
