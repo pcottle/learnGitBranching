@@ -28136,7 +28136,9 @@ var toGlobalize = {
 };
 
 _.each(toGlobalize, function(module) {
-  _.extend(window, module);
+  for (var key in module) {
+    window['debug_' + key] = module[key];
+  }
 });
 
 $(document).ready(function() {
@@ -28145,6 +28147,7 @@ $(document).ready(function() {
   window.sandbox = toGlobalize.Main.getSandbox();
   window.modules = toGlobalize;
   window.levelDropdown = toGlobalize.Main.getLevelDropdown();
+  window.under = _;
 });
 
 

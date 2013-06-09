@@ -1,6 +1,5 @@
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
-var treeCompare = new TreeCompare();
 
 var loadTree = function(json) {
   return JSON.parse(unescape(json));
@@ -10,7 +9,7 @@ var compareAnswer = function(headless, expectedJSON) {
   var expectedTree = loadTree(expectedJSON);
   var actualTree = headless.gitEngine.exportTree();
 
-  var equal = treeCompare.compareTrees(expectedTree, actualTree);
+  var equal = TreeCompare.compareTrees(expectedTree, actualTree);
   if (!equal) {
     console.log('tree1', expectedTree);
     console.log('tree2', actualTree);

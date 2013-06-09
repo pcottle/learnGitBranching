@@ -3,6 +3,29 @@ var _ = require('underscore');
 // static class...
 var TreeCompare = {};
 
+TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
+  var goalTreeString = levelBlob.goalTreeString;
+  return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
+};
+
+TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
+  switch(true) {
+    case !!levelBlob.compareOnlyMaster:
+      return TreeCompare.compareBranchWithinTrees(current, goalTreeString, 'master');
+    case !!levelBlob.compareOnlyBranches:
+      return TreeCompare.compareAllBranchesWithinTrees(current, goalTreeString);
+    case !!levelBlob.compareAllBranchesHashAgnostic:
+      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, goalTreeString);
+    case !!levelBlob.compareOnlyMasterHashAgnostic:
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(current, goalTreeString, ['master']);
+    case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(current, goalTreeString, ['master']) &&
+        TreeCompare.evalAsserts(current, levelBlob.goalAsserts);
+    default:
+      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, goalTreeString);
+  }
+};
+
 // would love to have copy properties here.. :(
 TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
