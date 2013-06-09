@@ -17,7 +17,6 @@ Origin things:
 [ ] tree comparison with origin.... sigh
 [ ] prototype visual layout (background change + header? maybe...)
 [ ] git pull animation
-[ ] why is rebase -i broken?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -40,6 +39,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] why is rebase -i broken? dont emulate touch events
+[x] tree compare test coverage
 [x] remote branch it is tracking (points to a remote branch model)
 [x] fix branch -a and branch -r to: show remote branches or all branches
 [x] fix branch -f to not allow moving remote branches?

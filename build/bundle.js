@@ -6353,24 +6353,7 @@ var Level = Sandbox.extend({
     // BIG TODO REALLY REFACTOR HAX HAX
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved;
-    if (this.level.compareOnlyMaster) {
-      solved = TreeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
-    } else if (this.level.compareOnlyBranches) {
-      solved = TreeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
-    } else if (this.level.compareAllBranchesHashAgnostic) {
-      solved = TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
-    } else if (this.level.compareOnlyMasterHashAgnostic) {
-      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-    } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-      solved = solved && TreeCompare.evalAsserts(
-        current,
-        this.level.goalAsserts
-      );
-    } else {
-      solved = TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
-    }
+    var solved = TreeCompare.dispatch(this.level, current);
 
     if (!solved) {
       defer.resolve();
@@ -9544,8 +9527,6 @@ TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
-
-  console.log('EVAL ASSETS was', result);
   return result;
 };
 
@@ -9557,7 +9538,6 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   // * go to the branch given by the key
   // * traverse upwards, storing the amount of hashes on each in the data object
   // * then come back and perform functions on data
-  console.log('doing asserts on', branchName);
 
   if (!tree.branches[branchName]) {
     return false;
@@ -9568,19 +9548,17 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   var data = {};
   while (queue.length) {
     var commitRef = queue.pop();
-    console.log(commitRef);
     data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
-
     queue = queue.concat(tree.commits[commitRef].parents);
   }
 
-  console.log('data is', data);
   var result = true;
   _.each(asserts, function(assert) {
     try {
       result = result && assert(data);
     } catch (err) {
-      console.err(err);
+      console.warn('error during assert', err);
+      console.log(err);
       result = false;
     }
   });
@@ -25102,8 +25080,6 @@ TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
-
-  console.log('EVAL ASSETS was', result);
   return result;
 };
 
@@ -25115,7 +25091,6 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   // * go to the branch given by the key
   // * traverse upwards, storing the amount of hashes on each in the data object
   // * then come back and perform functions on data
-  console.log('doing asserts on', branchName);
 
   if (!tree.branches[branchName]) {
     return false;
@@ -25126,19 +25101,17 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   var data = {};
   while (queue.length) {
     var commitRef = queue.pop();
-    console.log(commitRef);
     data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
-
     queue = queue.concat(tree.commits[commitRef].parents);
   }
 
-  console.log('data is', data);
   var result = true;
   _.each(asserts, function(assert) {
     try {
       result = result && assert(data);
     } catch (err) {
-      console.err(err);
+      console.warn('error during assert', err);
+      console.log(err);
       result = false;
     }
   });
@@ -26847,24 +26820,7 @@ var Level = Sandbox.extend({
     // BIG TODO REALLY REFACTOR HAX HAX
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved;
-    if (this.level.compareOnlyMaster) {
-      solved = TreeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
-    } else if (this.level.compareOnlyBranches) {
-      solved = TreeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
-    } else if (this.level.compareAllBranchesHashAgnostic) {
-      solved = TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
-    } else if (this.level.compareOnlyMasterHashAgnostic) {
-      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-    } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-      solved = solved && TreeCompare.evalAsserts(
-        current,
-        this.level.goalAsserts
-      );
-    } else {
-      solved = TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
-    }
+    var solved = TreeCompare.dispatch(this.level, current);
 
     if (!solved) {
       defer.resolve();

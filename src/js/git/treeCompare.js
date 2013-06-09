@@ -9,7 +9,9 @@ TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
 };
 
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
-  switch(true) {
+  var getAroundLintTrue = true;
+  // i actually prefer this to else if
+  switch (getAroundLintTrue) {
     case !!levelBlob.compareOnlyMaster:
       return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
     case !!levelBlob.compareOnlyBranches:
@@ -151,7 +153,6 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   while (queue.length) {
     var commitRef = queue.pop();
     data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
-
     queue = queue.concat(tree.commits[commitRef].parents);
   }
 
