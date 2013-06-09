@@ -40,5 +40,8 @@ $(document).ready(function() {
   window.modules = toGlobalize;
   window.levelDropdown = toGlobalize.Main.getLevelDropdown();
   window.under = _;
+  window.copyTree = function() {
+    return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
+  };
 });
 

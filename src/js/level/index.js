@@ -342,24 +342,7 @@ var Level = Sandbox.extend({
     // BIG TODO REALLY REFACTOR HAX HAX
     // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved;
-    if (this.level.compareOnlyMaster) {
-      solved = TreeCompare.compareBranchWithinTrees(current, this.level.goalTreeString, 'master');
-    } else if (this.level.compareOnlyBranches) {
-      solved = TreeCompare.compareAllBranchesWithinTrees(current, this.level.goalTreeString);
-    } else if (this.level.compareAllBranchesHashAgnostic) {
-      solved = TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString);
-    } else if (this.level.compareOnlyMasterHashAgnostic) {
-      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-    } else if (this.level.compareOnlyMasterHashAgnosticWithAsserts) {
-      solved = TreeCompare.compareBranchesWithinTreesHashAgnostic(current, this.level.goalTreeString, ['master']);
-      solved = solved && TreeCompare.evalAsserts(
-        current,
-        this.level.goalAsserts
-      );
-    } else {
-      solved = TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, this.level.goalTreeString);
-    }
+    var solved = TreeCompare.dispatch(this.level, current);
 
     if (!solved) {
       defer.resolve();

@@ -9418,6 +9418,29 @@ require.define("/src/js/git/treeCompare.js",function(require,module,exports,__di
 // static class...
 var TreeCompare = {};
 
+TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
+  var goalTreeString = levelBlob.goalTreeString;
+  return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
+};
+
+TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
+  switch(true) {
+    case !!levelBlob.compareOnlyMaster:
+      return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
+    case !!levelBlob.compareOnlyBranches:
+      return TreeCompare.compareAllBranchesWithinTrees(treeToCompare, goalTreeString);
+    case !!levelBlob.compareAllBranchesHashAgnostic:
+      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString);
+    case !!levelBlob.compareOnlyMasterHashAgnostic:
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']);
+    case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']) &&
+        TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
+    default:
+      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(treeToCompare, goalTreeString);
+  }
+};
+
 // would love to have copy properties here.. :(
 TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
@@ -24953,6 +24976,29 @@ require.define("/src/js/git/treeCompare.js",function(require,module,exports,__di
 // static class...
 var TreeCompare = {};
 
+TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
+  var goalTreeString = levelBlob.goalTreeString;
+  return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
+};
+
+TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
+  switch(true) {
+    case !!levelBlob.compareOnlyMaster:
+      return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
+    case !!levelBlob.compareOnlyBranches:
+      return TreeCompare.compareAllBranchesWithinTrees(treeToCompare, goalTreeString);
+    case !!levelBlob.compareAllBranchesHashAgnostic:
+      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString);
+    case !!levelBlob.compareOnlyMasterHashAgnostic:
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']);
+    case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']) &&
+        TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
+    default:
+      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(treeToCompare, goalTreeString);
+  }
+};
+
 // would love to have copy properties here.. :(
 TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
@@ -28148,6 +28194,9 @@ $(document).ready(function() {
   window.modules = toGlobalize;
   window.levelDropdown = toGlobalize.Main.getLevelDropdown();
   window.under = _;
+  window.copyTree = function() {
+    return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
+  };
 });
 
 

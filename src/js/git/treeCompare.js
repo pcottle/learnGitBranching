@@ -11,18 +11,18 @@ TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
   switch(true) {
     case !!levelBlob.compareOnlyMaster:
-      return TreeCompare.compareBranchWithinTrees(current, goalTreeString, 'master');
+      return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
     case !!levelBlob.compareOnlyBranches:
-      return TreeCompare.compareAllBranchesWithinTrees(current, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTrees(treeToCompare, goalTreeString);
     case !!levelBlob.compareAllBranchesHashAgnostic:
-      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(current, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString);
     case !!levelBlob.compareOnlyMasterHashAgnostic:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(current, goalTreeString, ['master']);
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']);
     case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(current, goalTreeString, ['master']) &&
-        TreeCompare.evalAsserts(current, levelBlob.goalAsserts);
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']) &&
+        TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
     default:
-      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(current, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(treeToCompare, goalTreeString);
   }
 };
 
