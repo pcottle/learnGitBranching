@@ -87,6 +87,32 @@ describe('Tree Compare', function() {
       }
     );
   });
+
+  it('compares only master with hash agnostic and asserts', function() {
+    var jugglingGoal = require('../src/levels/mixed/jugglingCommits').level.goalTreeString;
+    testMethod(
+      {
+        compareOnlyMasterHashAgnosticWithAsserts: true,
+        'goalAsserts': {
+          'master': [
+            function(data) {
+              return data.C2 > data.C3;
+            },
+            function(data) {
+              return data.C2 > data.C1;
+            }
+          ]
+        }
+      },
+      jugglingGoal,
+      {
+        // level solved with a bunch of extra dangling commits
+        '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C2%27%5E4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%5E4%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%5E4%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D': true,
+        // level with the number of hashes being equal when we want more
+        '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%5E7%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C2%27%5E4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%5E4%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%5E4%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C3%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%27%27%22%7D%2C%22C2%27%5E5%22%3A%7B%22parents%22%3A%5B%22C3%27%27%27%22%5D%2C%22id%22%3A%22C2%27%5E5%22%7D%2C%22C2%27%5E6%22%3A%7B%22parents%22%3A%5B%22C3%27%27%27%22%5D%2C%22id%22%3A%22C2%27%5E6%22%7D%2C%22C2%27%5E7%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%5E7%22%7D%2C%22C3%27%5E4%22%3A%7B%22parents%22%3A%5B%22C2%27%5E7%22%5D%2C%22id%22%3A%22C3%27%5E4%22%7D%2C%22C3%27%5E5%22%3A%7B%22parents%22%3A%5B%22C2%27%5E7%22%5D%2C%22id%22%3A%22C3%27%5E5%22%7D%2C%22C3%27%5E6%22%3A%7B%22parents%22%3A%5B%22C2%27%5E7%22%5D%2C%22id%22%3A%22C3%27%5E6%22%7D%2C%22C3%27%5E7%22%3A%7B%22parents%22%3A%5B%22C2%27%5E7%22%5D%2C%22id%22%3A%22C3%27%5E7%22%7D%2C%22C3%27%5E8%22%3A%7B%22parents%22%3A%5B%22C2%27%5E7%22%5D%2C%22id%22%3A%22C3%27%5E8%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D': false
+      }
+    );
+  });
 });
 
 

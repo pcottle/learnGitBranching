@@ -129,8 +129,6 @@ TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   _.each(assertsPerBranch, function(asserts, branchName) {
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
-
-  console.log('EVAL ASSETS was', result);
   return result;
 };
 
@@ -142,7 +140,6 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   // * go to the branch given by the key
   // * traverse upwards, storing the amount of hashes on each in the data object
   // * then come back and perform functions on data
-  console.log('doing asserts on', branchName);
 
   if (!tree.branches[branchName]) {
     return false;
@@ -153,19 +150,18 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   var data = {};
   while (queue.length) {
     var commitRef = queue.pop();
-    console.log(commitRef);
     data[this.getBaseRef(commitRef)] = this.getNumHashes(commitRef);
 
     queue = queue.concat(tree.commits[commitRef].parents);
   }
 
-  console.log('data is', data);
   var result = true;
   _.each(asserts, function(assert) {
     try {
       result = result && assert(data);
     } catch (err) {
-      console.err(err);
+      console.warn('error during assert', err);
+      console.log(err);
       result = false;
     }
   });
