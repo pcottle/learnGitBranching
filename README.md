@@ -117,4 +117,6 @@ Or reported an issue that was successfully closed!
 * Brandon McCaig
 * Borislav Kosharov
 * Ben Heavner
+* Michael (mick-d)
+* Adam Brewer
 
