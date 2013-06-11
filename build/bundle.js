@@ -5409,6 +5409,10 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force'
   },
+  'git-error-origin-push-no-ff': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase'
+  },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch'
@@ -7772,21 +7776,12 @@ GitEngine.prototype.cherrypickStarter = function() {
  * Origin stuff!
  ************************************/
 
-GitEngine.prototype.fetchStarter = function() {
-  if (!this.hasOrigin()) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-required')
-    });
-  }
-  this.acceptNoGeneralArgs();
-  this.fetch();
-};
-
 GitEngine.prototype.checkUpstreamOfSource = function(
   target,
   source,
   targetBranch,
-  sourceBranch
+  sourceBranch,
+  errorMsg
 ) {
   // here we are downloading some X number of commits from source onto
   // target. Hence target should be strictly upstream of source
@@ -7797,7 +7792,7 @@ GitEngine.prototype.checkUpstreamOfSource = function(
   var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
   if (!upstream[targetLocationID]) {
     throw new GitError({
-      msg: intl.str('git-error-origin-fetch-no-ff')
+      msg: errorMsg || intl.str('git-error-origin-fetch-no-ff')
     });
   }
 };
@@ -7816,7 +7811,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
-  if (this.refs[sourceStartCommitJSON.id]) {
+  if (target.refs[sourceStartCommitJSON.id]) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
     });
@@ -7849,6 +7844,107 @@ GitEngine.prototype.getTargetGraphDifference = function(
     // reverse sort by depth
     return cB.depth - cA.depth;
   });
+};
+
+GitEngine.prototype.pushStarter = function(options) {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
+  this.acceptNoGeneralArgs();
+  this.push();
+};
+
+GitEngine.prototype.push = function(options) {
+  options = options || {};
+  var localBranch = this.refs['master'];
+  var remoteBranch = this.origin.refs['master'];
+
+  // first check if this is even allowed by checking the sync between
+  this.checkUpstreamOfSource(
+    this,
+    this.origin,
+    remoteBranch,
+    localBranch,
+    intl.str('git-error-origin-push-no-ff')
+  );
+
+  var commitsToMake = this.getTargetGraphDifference(
+    this.origin,
+    this,
+    remoteBranch,
+    localBranch
+  );
+
+  var makeCommit = _.bind(function(id, parentIDs) {
+    // need to get the parents first. since we order by depth, we know
+    // the dependencies are there already
+    var parents = _.map(parentIDs, function(parentID) {
+      return this.origin.refs[parentID];
+    }, this);
+    return this.origin.makeCommit(parents, id);
+  }, this);
+
+  // now make the promise chain to make each commit
+  var chainStep = _.bind(function(id, parents) {
+    var newCommit = makeCommit(id, parents);
+    return AnimationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.origin.gitVisuals
+    );
+  }, this);
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  _.each(commitsToMake, function(commitJSON) {
+    chain = chain.then(_.bind(function() {
+      return AnimationFactory.playHighlightPromiseAnimation(
+        this.refs[commitJSON.id],
+        remoteBranch
+      );
+    }, this));
+
+    chain = chain.then(function() {
+      return chainStep(
+        commitJSON.id,
+        commitJSON.parents
+      );
+    });
+  }, this);
+
+  chain = chain.then(_.bind(function() {
+    var localLocationID = localBranch.get('target').get('id');
+    var remoteCommit = this.origin.refs[localLocationID];
+    this.origin.setTargetLocation(remoteBranch, remoteCommit);
+    // unhighlight local
+    AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
+  }, this));
+
+  // HAX HAX update o/master
+  chain = chain.then(_.bind(function() {
+    var localLocationID = localBranch.get('target').get('id');
+    var localCommit = this.refs[localLocationID];
+    // HAX HAX
+    this.setTargetLocation(this.refs['o/master'], localCommit);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
+  if (!options.dontResolvePromise) {
+    this.animationQueue.thenFinish(chain, deferred);
+  }
+};
+
+GitEngine.prototype.fetchStarter = function() {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
+  this.acceptNoGeneralArgs();
+  this.fetch();
 };
 
 GitEngine.prototype.fetch = function(options) {
@@ -13523,6 +13619,7 @@ var regexMap = {
   'git fakeTeamwork': /^git +fakeTeamwork($|\s)/,
   'git fetch': /^git +fetch *?$/,
   'git pull': /^git +pull($|\s)/,
+  'git push': /^git +push($|\s)/,
   'git clone': /^git +clone *?$/
 };
 
@@ -13615,6 +13712,7 @@ GitOptionParser.prototype.getMasterOptionMap = function() {
     pull: {
       '--rebase': false
     },
+    push: {},
     fakeTeamwork: {}
   };
 };
@@ -22733,6 +22831,7 @@ var regexMap = {
   'git fakeTeamwork': /^git +fakeTeamwork($|\s)/,
   'git fetch': /^git +fetch *?$/,
   'git pull': /^git +pull($|\s)/,
+  'git push': /^git +push($|\s)/,
   'git clone': /^git +clone *?$/
 };
 
@@ -22825,6 +22924,7 @@ GitOptionParser.prototype.getMasterOptionMap = function() {
     pull: {
       '--rebase': false
     },
+    push: {},
     fakeTeamwork: {}
   };
 };
@@ -23767,21 +23867,12 @@ GitEngine.prototype.cherrypickStarter = function() {
  * Origin stuff!
  ************************************/
 
-GitEngine.prototype.fetchStarter = function() {
-  if (!this.hasOrigin()) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-required')
-    });
-  }
-  this.acceptNoGeneralArgs();
-  this.fetch();
-};
-
 GitEngine.prototype.checkUpstreamOfSource = function(
   target,
   source,
   targetBranch,
-  sourceBranch
+  sourceBranch,
+  errorMsg
 ) {
   // here we are downloading some X number of commits from source onto
   // target. Hence target should be strictly upstream of source
@@ -23792,7 +23883,7 @@ GitEngine.prototype.checkUpstreamOfSource = function(
   var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
   if (!upstream[targetLocationID]) {
     throw new GitError({
-      msg: intl.str('git-error-origin-fetch-no-ff')
+      msg: errorMsg || intl.str('git-error-origin-fetch-no-ff')
     });
   }
 };
@@ -23811,7 +23902,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
-  if (this.refs[sourceStartCommitJSON.id]) {
+  if (target.refs[sourceStartCommitJSON.id]) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
     });
@@ -23844,6 +23935,107 @@ GitEngine.prototype.getTargetGraphDifference = function(
     // reverse sort by depth
     return cB.depth - cA.depth;
   });
+};
+
+GitEngine.prototype.pushStarter = function(options) {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
+  this.acceptNoGeneralArgs();
+  this.push();
+};
+
+GitEngine.prototype.push = function(options) {
+  options = options || {};
+  var localBranch = this.refs['master'];
+  var remoteBranch = this.origin.refs['master'];
+
+  // first check if this is even allowed by checking the sync between
+  this.checkUpstreamOfSource(
+    this,
+    this.origin,
+    remoteBranch,
+    localBranch,
+    intl.str('git-error-origin-push-no-ff')
+  );
+
+  var commitsToMake = this.getTargetGraphDifference(
+    this.origin,
+    this,
+    remoteBranch,
+    localBranch
+  );
+
+  var makeCommit = _.bind(function(id, parentIDs) {
+    // need to get the parents first. since we order by depth, we know
+    // the dependencies are there already
+    var parents = _.map(parentIDs, function(parentID) {
+      return this.origin.refs[parentID];
+    }, this);
+    return this.origin.makeCommit(parents, id);
+  }, this);
+
+  // now make the promise chain to make each commit
+  var chainStep = _.bind(function(id, parents) {
+    var newCommit = makeCommit(id, parents);
+    return AnimationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.origin.gitVisuals
+    );
+  }, this);
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  _.each(commitsToMake, function(commitJSON) {
+    chain = chain.then(_.bind(function() {
+      return AnimationFactory.playHighlightPromiseAnimation(
+        this.refs[commitJSON.id],
+        remoteBranch
+      );
+    }, this));
+
+    chain = chain.then(function() {
+      return chainStep(
+        commitJSON.id,
+        commitJSON.parents
+      );
+    });
+  }, this);
+
+  chain = chain.then(_.bind(function() {
+    var localLocationID = localBranch.get('target').get('id');
+    var remoteCommit = this.origin.refs[localLocationID];
+    this.origin.setTargetLocation(remoteBranch, remoteCommit);
+    // unhighlight local
+    AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
+  }, this));
+
+  // HAX HAX update o/master
+  chain = chain.then(_.bind(function() {
+    var localLocationID = localBranch.get('target').get('id');
+    var localCommit = this.refs[localLocationID];
+    // HAX HAX
+    this.setTargetLocation(this.refs['o/master'], localCommit);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
+  if (!options.dontResolvePromise) {
+    this.animationQueue.thenFinish(chain, deferred);
+  }
+};
+
+GitEngine.prototype.fetchStarter = function() {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-required')
+    });
+  }
+  this.acceptNoGeneralArgs();
+  this.fetch();
 };
 
 GitEngine.prototype.fetch = function(options) {
@@ -25815,6 +26007,10 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force'
+  },
+  'git-error-origin-push-no-ff': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',

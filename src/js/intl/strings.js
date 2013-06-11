@@ -60,6 +60,10 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force'
   },
+  'git-error-origin-push-no-ff': {
+    '__desc__': 'One of the error messages for git',
+    'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase'
+  },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch'

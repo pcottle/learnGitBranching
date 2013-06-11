@@ -65,6 +65,7 @@ var regexMap = {
   'git fakeTeamwork': /^git +fakeTeamwork($|\s)/,
   'git fetch': /^git +fetch *?$/,
   'git pull': /^git +pull($|\s)/,
+  'git push': /^git +push($|\s)/,
   'git clone': /^git +clone *?$/
 };
 
@@ -157,6 +158,7 @@ GitOptionParser.prototype.getMasterOptionMap = function() {
     pull: {
       '--rebase': false
     },
+    push: {},
     fakeTeamwork: {}
   };
 };
