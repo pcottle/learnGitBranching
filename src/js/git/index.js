@@ -762,34 +762,104 @@ GitEngine.prototype.checkUpstreamOfSource = function(
 
 GitEngine.prototype.getTargetGraphDifference = function(
   target,
-  targetBranch,
   source,
+  targetBranch,
   sourceBranch
-) = {
+) {
   sourceBranch = source.resolveID(sourceBranch);
 
   var targetSet = target.getUpstreamSet(targetBranch);
+  var sourceStartCommit = source.getCommitFromRef(sourceBranch);
+
   var sourceTree = source.exportTree();
-  var startCommit = sourceTree.commits[
+  var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
+
+  // ok great, we have our starting point and our stopping set. lets go ahead
+  // and traverse upwards and keep track of depth manually
+  sourceStartCommitJSON.depth = 0;
+  var difference = [];
+  var toExplore = [sourceStartCommitJSON];
+
+  while (toExplore.length) {
+    var here = toExplore.pop();
+    difference.push(here);
+
+    _.each(here.parents, function(parentID) {
+      if (targetSet[parentID]) {
+        // we already have this commit, lets bounce
+        return;
+      }
+
+      var parentJSON = sourceTree.commits[parentID];
+      parentJSON.depth = here.depth + 1;
+      toExplore.push(parentJSON);
+    }, this);
+  }
+  return difference.sort(function(cA, cB) {
+    // reverse sort by depth
+    return cB.depth - cA.depth;
+  });
 };
 
 GitEngine.prototype.fetch = function() {
+  var localBranch = this.refs['o/master'];
+  var remoteBranch = this.origin.refs['master'];
+
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
     this,
     this.origin,
-    this.refs['o/master'],
-    this.origin.refs['master']
+    localBranch,
+    remoteBranch
   );
 
   // then we get the difference in commits between these two graphs, ordered by
   // depth
+  var commitsToMake = this.getTargetGraphDifference(
+    this,
+    this.origin,
+    localBranch,
+    remoteBranch
+  );
 
-  // this.commitCollection.add(downloadedCommit);
-  var originLocation = this.origin.exportTree().branches.master.target;
-  // yay! now we just set o/master and do a simple refresh
-  this.setTargetLocation(this.refs['o/master'], this.refs[originLocation]);
-  AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  var makeCommit = _.bind(function(id, parentIDs) {
+    // need to get the parents first. since we order by depth, we know
+    // the dependencies are there already
+    var parents = _.map(parentIDs, function(parentID) {
+      return this.refs[parentID];
+    }, this);
+    return this.makeCommit(parents, id);
+  }, this);
+
+  // now make the promise chain to make each commit
+  var chainStep = _.bind(function(id, parents) {
+    var newCommit = makeCommit(id, parents);
+    return AnimationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
+  }, this);
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  _.each(commitsToMake, function(commitJSON) {
+    chain = chain.then(function() {
+      return chainStep(
+        commitJSON.id,
+        commitJSON.parents
+      );
+    });
+  });
+
+  chain = chain.then(_.bind(function() {
+    var originLocationID = remoteBranch.get('target').get('id');
+    var localCommit = this.refs[originLocationID];
+    this.setTargetLocation(localBranch, localCommit);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.pullStarter = function() {

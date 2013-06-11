@@ -116,4 +116,5 @@ Or reported an issue that was successfully closed!
 * "Goodwine"
 * Brandon McCaig
 * Borislav Kosharov
+* Ben Heavner
 
