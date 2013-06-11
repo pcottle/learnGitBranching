@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
+var Q = require('q');
 
 var Animation = require('./index').Animation;
 var PromiseAnimation = require('./index').PromiseAnimation;
@@ -131,6 +132,12 @@ AnimationFactory.playHighlightPromiseAnimation = function(commit, destObj) {
   var animation = this.genHighlightPromiseAnimation(commit, destObj);
   animation.play();
   return animation.getPromise();
+};
+
+AnimationFactory.getDelayedPromise = function(amount) {
+  var deferred = Q.defer();
+  setTimeout(deferred.resolve, amount || 1000);
+  return deferred.promise;
 };
 
 AnimationFactory.delay = function(animationQueue, time) {

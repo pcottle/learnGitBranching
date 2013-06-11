@@ -809,7 +809,8 @@ GitEngine.prototype.getTargetGraphDifference = function(
   });
 };
 
-GitEngine.prototype.fetch = function() {
+GitEngine.prototype.fetch = function(options) {
+  options = options || {};
   var localBranch = this.refs['o/master'];
   var remoteBranch = this.origin.refs['master'];
 
@@ -876,7 +877,14 @@ GitEngine.prototype.fetch = function() {
     return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
-  this.animationQueue.thenFinish(chain, deferred);
+  if (!options.dontResolvePromise) {
+    this.animationQueue.thenFinish(chain, deferred);
+  }
+  return {
+    chain: chain,
+    deferred: deferred,
+    lastCommitID: commitsToMake.pop().id
+  };
 };
 
 GitEngine.prototype.pullStarter = function() {
@@ -886,15 +894,58 @@ GitEngine.prototype.pullStarter = function() {
     });
   }
   this.acceptNoGeneralArgs();
+  // eventually args go here
+  this.pull();
+};
+
+GitEngine.prototype.pull = function() {
+  var localBranch = this.refs['master'];
+  var remoteBranch = this.refs['o/master'];
 
   // no matter what fetch
-  this.fetch();
+  var pendingFetch = this.fetch({
+    dontResolvePromise: true
+  });
+  var chain = pendingFetch.chain;
+  var deferred = pendingFetch.deferred;
+
   // then either rebase or merge
   if (this.commandOptions['--rebase']) {
     this.rebaseFinisher('o/master', 'master');
   } else {
-    this.merge('o/master');
+    chain = chain.then(function() {
+      return AnimationFactory.getDelayedPromise(700);
+    });
+    
+    chain = chain.then(_.bind(function() {
+      // highlight last commit on o/master
+      var commit = this.refs[pendingFetch.lastCommitID];
+      return AnimationFactory.playHighlightPromiseAnimation(
+        commit,
+        localBranch
+      );
+    }, this));
+
+    chain = chain.then(_.bind(function() {
+      return AnimationFactory.playHighlightPromiseAnimation(
+        this.getCommitFromRef('master'),
+        remoteBranch
+      );
+    }, this));
+
+    chain = chain.then(function() {
+      return AnimationFactory.getDelayedPromise(700);
+    });
+    chain = chain.then(_.bind(function() {
+      var newCommit = this.merge('o/master');
+      return AnimationFactory.playCommitBirthPromiseAnimation(
+        newCommit,
+        this.gitVisuals
+      );
+    }, this));
   }
+
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.cloneStarter = function() {
