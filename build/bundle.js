@@ -7924,8 +7924,7 @@ GitEngine.prototype.fetch = function(options) {
   }
   return {
     chain: chain,
-    deferred: deferred,
-    lastCommitID: commitsToMake.pop().id
+    deferred: deferred
   };
 };
 
@@ -7948,44 +7947,61 @@ GitEngine.prototype.pull = function() {
   var pendingFetch = this.fetch({
     dontResolvePromise: true
   });
+  // then either rebase or merge
+  if (this.commandOptions['--rebase']) {
+    this.rebase('o/master', 'master');
+  } else {
+    this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
+  }
+};
+
+GitEngine.prototype.pullFinishWithMerge = function(
+  pendingFetch,
+  localBranch,
+  remoteBranch
+) {
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
-  // then either rebase or merge
-  if (this.commandOptions['--rebase']) {
-    this.rebaseFinisher('o/master', 'master');
-  } else {
-    chain = chain.then(function() {
-      return AnimationFactory.getDelayedPromise(700);
-    });
-    
-    chain = chain.then(_.bind(function() {
-      // highlight last commit on o/master
-      var commit = this.refs[pendingFetch.lastCommitID];
-      return AnimationFactory.playHighlightPromiseAnimation(
-        commit,
-        localBranch
-      );
-    }, this));
+  // delay a bit after the intense refresh animation from
+  // fetch
+  chain = chain.then(function() {
+    return AnimationFactory.getDelayedPromise(300);
+  });
+  
+  chain = chain.then(_.bind(function() {
+    // highlight last commit on o/master to color of
+    // local branch
+    return AnimationFactory.playHighlightPromiseAnimation(
+      this.getCommitFromRef(remoteBranch),
+      localBranch
+    );
+  }, this));
 
-    chain = chain.then(_.bind(function() {
-      return AnimationFactory.playHighlightPromiseAnimation(
-        this.getCommitFromRef('master'),
-        remoteBranch
-      );
-    }, this));
+  chain = chain.then(_.bind(function() {
+    // highlight commit on master to color of remote
+    return AnimationFactory.playHighlightPromiseAnimation(
+      this.getCommitFromRef(localBranch),
+      remoteBranch
+    );
+  }, this));
 
-    chain = chain.then(function() {
-      return AnimationFactory.getDelayedPromise(700);
-    });
-    chain = chain.then(_.bind(function() {
-      var newCommit = this.merge('o/master');
-      return AnimationFactory.playCommitBirthPromiseAnimation(
-        newCommit,
-        this.gitVisuals
-      );
-    }, this));
-  }
+  // delay and merge
+  chain = chain.then(function() {
+    return AnimationFactory.getDelayedPromise(700);
+  });
+  chain = chain.then(_.bind(function() {
+    var newCommit = this.merge('o/master');
+    if (!newCommit) {
+      // it is a fast forward
+      return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    }
+
+    return AnimationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
+  }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
 };
@@ -8415,11 +8431,7 @@ GitEngine.prototype.rebaseStarter = function() {
   }
 
   this.twoArgsImpliedHead(this.generalArgs);
-  this.rebaseFinisher(this.generalArgs[0], this.generalArgs[1]);
-};
-
-GitEngine.prototype.rebaseFinisher = function(targetSource, currentLocation) {
-  this.rebase(targetSource, currentLocation);
+  this.rebase(this.generalArgs[0], this.generalArgs[1]);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
@@ -23907,8 +23919,7 @@ GitEngine.prototype.fetch = function(options) {
   }
   return {
     chain: chain,
-    deferred: deferred,
-    lastCommitID: commitsToMake.pop().id
+    deferred: deferred
   };
 };
 
@@ -23931,44 +23942,61 @@ GitEngine.prototype.pull = function() {
   var pendingFetch = this.fetch({
     dontResolvePromise: true
   });
+  // then either rebase or merge
+  if (this.commandOptions['--rebase']) {
+    this.rebase('o/master', 'master');
+  } else {
+    this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
+  }
+};
+
+GitEngine.prototype.pullFinishWithMerge = function(
+  pendingFetch,
+  localBranch,
+  remoteBranch
+) {
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
-  // then either rebase or merge
-  if (this.commandOptions['--rebase']) {
-    this.rebaseFinisher('o/master', 'master');
-  } else {
-    chain = chain.then(function() {
-      return AnimationFactory.getDelayedPromise(700);
-    });
-    
-    chain = chain.then(_.bind(function() {
-      // highlight last commit on o/master
-      var commit = this.refs[pendingFetch.lastCommitID];
-      return AnimationFactory.playHighlightPromiseAnimation(
-        commit,
-        localBranch
-      );
-    }, this));
+  // delay a bit after the intense refresh animation from
+  // fetch
+  chain = chain.then(function() {
+    return AnimationFactory.getDelayedPromise(300);
+  });
+  
+  chain = chain.then(_.bind(function() {
+    // highlight last commit on o/master to color of
+    // local branch
+    return AnimationFactory.playHighlightPromiseAnimation(
+      this.getCommitFromRef(remoteBranch),
+      localBranch
+    );
+  }, this));
 
-    chain = chain.then(_.bind(function() {
-      return AnimationFactory.playHighlightPromiseAnimation(
-        this.getCommitFromRef('master'),
-        remoteBranch
-      );
-    }, this));
+  chain = chain.then(_.bind(function() {
+    // highlight commit on master to color of remote
+    return AnimationFactory.playHighlightPromiseAnimation(
+      this.getCommitFromRef(localBranch),
+      remoteBranch
+    );
+  }, this));
 
-    chain = chain.then(function() {
-      return AnimationFactory.getDelayedPromise(700);
-    });
-    chain = chain.then(_.bind(function() {
-      var newCommit = this.merge('o/master');
-      return AnimationFactory.playCommitBirthPromiseAnimation(
-        newCommit,
-        this.gitVisuals
-      );
-    }, this));
-  }
+  // delay and merge
+  chain = chain.then(function() {
+    return AnimationFactory.getDelayedPromise(700);
+  });
+  chain = chain.then(_.bind(function() {
+    var newCommit = this.merge('o/master');
+    if (!newCommit) {
+      // it is a fast forward
+      return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    }
+
+    return AnimationFactory.playCommitBirthPromiseAnimation(
+      newCommit,
+      this.gitVisuals
+    );
+  }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
 };
@@ -24398,11 +24426,7 @@ GitEngine.prototype.rebaseStarter = function() {
   }
 
   this.twoArgsImpliedHead(this.generalArgs);
-  this.rebaseFinisher(this.generalArgs[0], this.generalArgs[1]);
-};
-
-GitEngine.prototype.rebaseFinisher = function(targetSource, currentLocation) {
-  this.rebase(targetSource, currentLocation);
+  this.rebase(this.generalArgs[0], this.generalArgs[1]);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation) {
