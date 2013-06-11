@@ -338,11 +338,8 @@ var Level = Sandbox.extend({
       return;
     }
 
-    // TODO refactor this ugly ass switch statement...
-    // BIG TODO REALLY REFACTOR HAX HAX
-    // ok so lets see if they solved it...
     var current = this.mainVis.gitEngine.exportTree();
-    var solved = TreeCompare.dispatch(this.level, current);
+    var solved = TreeCompare.dispatchFromLevel(this.level, current);
 
     if (!solved) {
       defer.resolve();
