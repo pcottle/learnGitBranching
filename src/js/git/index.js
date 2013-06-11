@@ -774,27 +774,35 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
+  if (this.refs[sourceStartCommitJSON.id]) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-fetch-uptodate')
+    });
+  }
+
   // ok great, we have our starting point and our stopping set. lets go ahead
   // and traverse upwards and keep track of depth manually
   sourceStartCommitJSON.depth = 0;
   var difference = [];
   var toExplore = [sourceStartCommitJSON];
 
+  var pushParent = function(parentID) {
+    if (targetSet[parentID]) {
+      // we already have this commit, lets bounce
+      return;
+    }
+
+    var parentJSON = sourceTree.commits[parentID];
+    parentJSON.depth = here.depth + 1;
+    toExplore.push(parentJSON);
+  };
+
   while (toExplore.length) {
     var here = toExplore.pop();
     difference.push(here);
-
-    _.each(here.parents, function(parentID) {
-      if (targetSet[parentID]) {
-        // we already have this commit, lets bounce
-        return;
-      }
-
-      var parentJSON = sourceTree.commits[parentID];
-      parentJSON.depth = here.depth + 1;
-      toExplore.push(parentJSON);
-    }, this);
+    _.each(here.parents, pushParent);
   }
+
   return difference.sort(function(cA, cB) {
     // reverse sort by depth
     return cB.depth - cA.depth;
@@ -844,18 +852,27 @@ GitEngine.prototype.fetch = function() {
   var chain = deferred.promise;
 
   _.each(commitsToMake, function(commitJSON) {
+    chain = chain.then(_.bind(function() {
+      return AnimationFactory.playHighlightPromiseAnimation(
+        this.origin.refs[commitJSON.id],
+        localBranch
+      );
+    }, this));
+
     chain = chain.then(function() {
       return chainStep(
         commitJSON.id,
         commitJSON.parents
       );
     });
-  });
+  }, this);
 
   chain = chain.then(_.bind(function() {
     var originLocationID = remoteBranch.get('target').get('id');
     var localCommit = this.refs[originLocationID];
     this.setTargetLocation(localBranch, localCommit);
+    // unhighlight origin
+    AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
     return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 

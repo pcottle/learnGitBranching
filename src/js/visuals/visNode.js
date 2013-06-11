@@ -138,6 +138,7 @@ var VisNode = VisBase.extend({
       circle: {
         fill: color,
         stroke: color,
+        'stroke-dasharray': '',
         'stroke-width': this.get('stroke-width') * 5
       },
       text: {}
