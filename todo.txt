@@ -11,6 +11,14 @@ Big Things
 [ ] compare settings for a level!!! integrated into builder...
 [ ] tree pruning
 
+Easier origin things:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] make it so git pull doesnt highlight nodes on animation when its a FF
+[ ] work on git pull --rebase animation, send down the deferred and it should work?
+[ ] then maybe work on remote branches tracking correctly? wut?
+[ ] use the graph difference algorithm to then implement git push
+[ ] finally work on an upload / download animation
+
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] set checkout -b branch __remoteBranch to track the remote branch
