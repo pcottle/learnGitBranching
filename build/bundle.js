@@ -8042,10 +8042,48 @@ GitEngine.prototype.pull = function() {
   });
   // then either rebase or merge
   if (this.commandOptions['--rebase']) {
-    this.rebase('o/master', 'master');
+    this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
   } else {
     this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
   }
+};
+
+GitEngine.prototype.pullFinishWithRebase = function(
+  pendingFetch,
+  localBranch,
+  remoteBranch
+) {
+  var chain = pendingFetch.chain;
+  var deferred = pendingFetch.deferred;
+
+  // delay a bit after the intense refresh animation from
+  // fetch
+  chain = chain.then(function() {
+    return AnimationFactory.getDelayedPromise(300);
+  });
+
+  chain = chain.then(_.bind(function() {
+    // highlight last commit on o/master to color of
+    // local branch
+    return AnimationFactory.playHighlightPromiseAnimation(
+      this.getCommitFromRef(remoteBranch),
+      localBranch
+    );
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    pendingFetch.dontResolvePromise = true;
+    return this.rebase(remoteBranch, localBranch, pendingFetch);
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    // HAX
+    var localCommit = localBranch.get('target');
+    this.setTargetLocation(this.refs['o/master'], localCommit);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.pullFinishWithMerge = function(
@@ -8527,7 +8565,7 @@ GitEngine.prototype.rebaseStarter = function() {
   this.rebase(this.generalArgs[0], this.generalArgs[1]);
 };
 
-GitEngine.prototype.rebase = function(targetSource, currentLocation) {
+GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
     this.command.setResult(intl.str('git-result-uptodate'));
@@ -8578,7 +8616,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     pQueue = pQueue.concat(popped.get('parents'));
   }
 
-  this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
@@ -8688,11 +8726,18 @@ GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
   }, this);
 };
 
-GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+GitEngine.prototype.rebaseFinish = function(
+  toRebaseRough,
+  stopSet,
+  targetSource,
+  currentLocation,
+  options
+) {
+  options = options || {};
   // now we have the all the commits between currentLocation and the set of target to rebase.
   var destinationBranch = this.resolveID(targetSource);
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var deferred = options.deferred || Q.defer();
+  var chain = options.chain || deferred.promise;
 
   var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet);
   if (!toRebase.length) {
@@ -8741,7 +8786,10 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
-  this.animationQueue.thenFinish(chain, deferred);
+  if (!options.dontResolvePromise) {
+    this.animationQueue.thenFinish(chain, deferred);
+  }
+  return chain;
 };
 
 GitEngine.prototype.mergeStarter = function() {
@@ -24134,10 +24182,48 @@ GitEngine.prototype.pull = function() {
   });
   // then either rebase or merge
   if (this.commandOptions['--rebase']) {
-    this.rebase('o/master', 'master');
+    this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
   } else {
     this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
   }
+};
+
+GitEngine.prototype.pullFinishWithRebase = function(
+  pendingFetch,
+  localBranch,
+  remoteBranch
+) {
+  var chain = pendingFetch.chain;
+  var deferred = pendingFetch.deferred;
+
+  // delay a bit after the intense refresh animation from
+  // fetch
+  chain = chain.then(function() {
+    return AnimationFactory.getDelayedPromise(300);
+  });
+
+  chain = chain.then(_.bind(function() {
+    // highlight last commit on o/master to color of
+    // local branch
+    return AnimationFactory.playHighlightPromiseAnimation(
+      this.getCommitFromRef(remoteBranch),
+      localBranch
+    );
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    pendingFetch.dontResolvePromise = true;
+    return this.rebase(remoteBranch, localBranch, pendingFetch);
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    // HAX
+    var localCommit = localBranch.get('target');
+    this.setTargetLocation(this.refs['o/master'], localCommit);
+    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+  }, this));
+
+  this.animationQueue.thenFinish(chain, deferred);
 };
 
 GitEngine.prototype.pullFinishWithMerge = function(
@@ -24619,7 +24705,7 @@ GitEngine.prototype.rebaseStarter = function() {
   this.rebase(this.generalArgs[0], this.generalArgs[1]);
 };
 
-GitEngine.prototype.rebase = function(targetSource, currentLocation) {
+GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
     this.command.setResult(intl.str('git-result-uptodate'));
@@ -24670,7 +24756,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation) {
     pQueue = pQueue.concat(popped.get('parents'));
   }
 
-  this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation);
+  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
@@ -24780,11 +24866,18 @@ GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
   }, this);
 };
 
-GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource, currentLocation) {
+GitEngine.prototype.rebaseFinish = function(
+  toRebaseRough,
+  stopSet,
+  targetSource,
+  currentLocation,
+  options
+) {
+  options = options || {};
   // now we have the all the commits between currentLocation and the set of target to rebase.
   var destinationBranch = this.resolveID(targetSource);
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var deferred = options.deferred || Q.defer();
+  var chain = options.chain || deferred.promise;
 
   var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet);
   if (!toRebase.length) {
@@ -24833,7 +24926,10 @@ GitEngine.prototype.rebaseFinish = function(toRebaseRough, stopSet, targetSource
     return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
-  this.animationQueue.thenFinish(chain, deferred);
+  if (!options.dontResolvePromise) {
+    this.animationQueue.thenFinish(chain, deferred);
+  }
+  return chain;
 };
 
 GitEngine.prototype.mergeStarter = function() {
