@@ -22,7 +22,6 @@ Origin things:
 [ ] set checkout -b branch __remoteBranch to track the remote branch
 [ ] tree comparison with origin.... sigh
 [ ] prototype visual layout (background change + header? maybe...)
-[ ] git pull animation
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,6 +44,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] git pull animation
 [x] use the graph difference algorithm to then implement git push
 [x] work on git pull --rebase animation, send down the deferred and it should work?
 [x] why is rebase -i broken? dont emulate touch events
