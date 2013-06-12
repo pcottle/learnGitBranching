@@ -8076,13 +8076,6 @@ GitEngine.prototype.pullFinishWithRebase = function(
     return this.rebase(remoteBranch, localBranch, pendingFetch);
   }, this));
 
-  chain = chain.then(_.bind(function() {
-    // HAX
-    var localCommit = localBranch.get('target');
-    this.setTargetLocation(this.refs['o/master'], localCommit);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
-  }, this));
-
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -24214,13 +24207,6 @@ GitEngine.prototype.pullFinishWithRebase = function(
   chain = chain.then(_.bind(function() {
     pendingFetch.dontResolvePromise = true;
     return this.rebase(remoteBranch, localBranch, pendingFetch);
-  }, this));
-
-  chain = chain.then(_.bind(function() {
-    // HAX
-    var localCommit = localBranch.get('target');
-    this.setTargetLocation(this.refs['o/master'], localCommit);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
