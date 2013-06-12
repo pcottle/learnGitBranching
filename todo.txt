@@ -14,9 +14,7 @@ Big Things
 Easier origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] make it so git pull doesnt highlight nodes on animation when its a FF
-[ ] work on git pull --rebase animation, send down the deferred and it should work?
 [ ] then maybe work on remote branches tracking correctly? wut?
-[ ] use the graph difference algorithm to then implement git push
 [ ] finally work on an upload / download animation
 
 Origin things:
@@ -47,6 +45,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] use the graph difference algorithm to then implement git push
+[x] work on git pull --rebase animation, send down the deferred and it should work?
 [x] why is rebase -i broken? dont emulate touch events
 [x] tree compare test coverage
 [x] remote branch it is tracking (points to a remote branch model)
