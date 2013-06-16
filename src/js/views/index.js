@@ -50,6 +50,10 @@ var PositiveNegativeBase = BaseView.extend({
     this.navEvents.trigger('positive');
   },
 
+  exit: function() {
+    this.navEvents.trigger('exit');
+  },
+
   negative: function() {
     this.navEvents.trigger('negative');
   }
@@ -148,7 +152,13 @@ var LeftRightView = PositiveNegativeBase.extend({
   template: _.template($('#left-right-template').html()),
   events: {
     'click .left': 'negative',
+    'click .exit': 'exit',
     'click .right': 'positive'
+  },
+
+  exit: function() {
+    this.pipeEvents.trigger('exit');
+    LeftRightView.__super__.exit.apply(this);
   },
 
   positive: function() {

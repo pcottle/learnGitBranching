@@ -10364,6 +10364,10 @@ var PositiveNegativeBase = BaseView.extend({
     this.navEvents.trigger('positive');
   },
 
+  exit: function() {
+    this.navEvents.trigger('exit');
+  },
+
   negative: function() {
     this.navEvents.trigger('negative');
   }
@@ -10462,7 +10466,13 @@ var LeftRightView = PositiveNegativeBase.extend({
   template: _.template($('#left-right-template').html()),
   events: {
     'click .left': 'negative',
+    'click .exit': 'exit',
     'click .right': 'positive'
+  },
+
+  exit: function() {
+    this.pipeEvents.trigger('exit');
+    LeftRightView.__super__.exit.apply(this);
   },
 
   positive: function() {
@@ -14609,6 +14619,7 @@ var MultiView = Backbone.View.extend({
     this.navEvents.on('negative', this.getNegFunc(), this);
     this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('quit', this.finish, this);
+    this.navEvents.on('exit', this.finish, this);
 
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
@@ -30265,6 +30276,10 @@ var PositiveNegativeBase = BaseView.extend({
     this.navEvents.trigger('positive');
   },
 
+  exit: function() {
+    this.navEvents.trigger('exit');
+  },
+
   negative: function() {
     this.navEvents.trigger('negative');
   }
@@ -30363,7 +30378,13 @@ var LeftRightView = PositiveNegativeBase.extend({
   template: _.template($('#left-right-template').html()),
   events: {
     'click .left': 'negative',
+    'click .exit': 'exit',
     'click .right': 'positive'
+  },
+
+  exit: function() {
+    this.pipeEvents.trigger('exit');
+    LeftRightView.__super__.exit.apply(this);
   },
 
   positive: function() {
@@ -31458,6 +31479,7 @@ var MultiView = Backbone.View.extend({
     this.navEvents.on('negative', this.getNegFunc(), this);
     this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('quit', this.finish, this);
+    this.navEvents.on('exit', this.finish, this);
 
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,

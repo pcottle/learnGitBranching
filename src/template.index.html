@@ -385,10 +385,11 @@
   <script type="text/html" id="left-right-template">
     <% if (showLeft) { %>
       <div class="box left">
+        <i class="icon-circle-arrow-left"></i>
     <% } else { %>
-      <div class="box left hideLeft">
+      <div class="box exit">
+        <i class="icon-signout"></i>
     <% } %>
-      <i class="icon-circle-arrow-left"></i>
     </div>
     <div class="box right">
       <% if (!lastNav) { %>

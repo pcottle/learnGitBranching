@@ -942,15 +942,16 @@ div.gitDemonstrationView {
   cursor: pointer;
 }
 
-.leftRightView div.hideLeft i {
-  cursor: default;
-  opacity: 0;
-}
-
 .leftRightView div {
-  margin: 0 20px;
+  margin: 0 60px;
 }
 
+.leftRightView div.exit {
+  -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+  -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.leftRightView div.exit,
 .leftRightView div.left {
   color: rgb(253, 50, 50);
   text-shadow: -1px 1px 3px rgba(0,0,0,0.7);
@@ -965,6 +966,7 @@ div.gitDemonstrationView {
   color: #74FC74;
 }
 
+.leftRightView div.exit:hover,
 .leftRightView div.left:hover {
   color: #FF6969;
 }
