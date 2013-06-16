@@ -5742,7 +5742,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
-    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"',
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -6111,9 +6111,11 @@ var Level = Sandbox.extend({
       return;
     }
 
-    var dialog = _.clone(intl.getStartDialog(levelObj));
+    debugger;
+    console.log(intl.getStartDialog(levelObj));
+    var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
-    dialog.childViews = dialog.childViews.splice(-1);
+    dialog.childViews = dialog.childViews.slice(-1);
     new MultiView(_.extend(
       dialog,
       { deferred: deferred }
@@ -11017,6 +11019,9 @@ var CommandsHelperBar = HelperBar.extend({
       text: 'Undo',
       id: 'undo'
     }, {
+      text: 'Objective',
+      id: 'objectve'
+    }, {
       text: 'Help',
       id: 'help'
     }, {
@@ -11028,6 +11033,10 @@ var CommandsHelperBar = HelperBar.extend({
   fireCommand: function() {
     log.viewInteracted('helperBar');
     HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
+  onObjectiveClick: function() {
+    this.fireCommand('objective');
   },
 
   onLevelsClick: function() {
@@ -26422,7 +26431,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
-    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"',
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -27161,9 +27170,11 @@ var Level = Sandbox.extend({
       return;
     }
 
-    var dialog = _.clone(intl.getStartDialog(levelObj));
+    debugger;
+    console.log(intl.getStartDialog(levelObj));
+    var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
-    dialog.childViews = dialog.childViews.splice(-1);
+    dialog.childViews = dialog.childViews.slice(-1);
     new MultiView(_.extend(
       dialog,
       { deferred: deferred }
@@ -30909,6 +30920,9 @@ var CommandsHelperBar = HelperBar.extend({
       text: 'Undo',
       id: 'undo'
     }, {
+      text: 'Objective',
+      id: 'objectve'
+    }, {
       text: 'Help',
       id: 'help'
     }, {
@@ -30920,6 +30934,10 @@ var CommandsHelperBar = HelperBar.extend({
   fireCommand: function() {
     log.viewInteracted('helperBar');
     HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
+  onObjectiveClick: function() {
+    this.fireCommand('objective');
   },
 
   onLevelsClick: function() {

@@ -393,7 +393,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
-    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" or "help general"',
+    'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)'
   },
   ///////////////////////////////////////////////////////////////////////////

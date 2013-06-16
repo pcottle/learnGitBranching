@@ -119,4 +119,6 @@ Or reported an issue that was successfully closed!
 * Ben Heavner
 * Michael (mick-d)
 * Adam Brewer
+* Tobias Pfeiffer
+* Nicholas "LB" Braden
 

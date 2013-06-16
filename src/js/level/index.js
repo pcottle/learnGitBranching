@@ -88,9 +88,11 @@ var Level = Sandbox.extend({
       return;
     }
 
-    var dialog = _.clone(intl.getStartDialog(levelObj));
+    debugger;
+    console.log(intl.getStartDialog(levelObj));
+    var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
-    dialog.childViews = dialog.childViews.splice(-1);
+    dialog.childViews = dialog.childViews.slice(-1);
     new MultiView(_.extend(
       dialog,
       { deferred: deferred }
