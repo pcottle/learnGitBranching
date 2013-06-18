@@ -14,8 +14,12 @@ Big Things
 Easier origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] make it so git pull doesnt highlight nodes on animation when its a FF
-[ ] then maybe work on remote branches tracking correctly? wut?
+[ ] then maybe work on remote branches tracking correctly? wut? that means:
+    - getRemoteBranch has a default (the same name of the branch) but could be different
+    - git push takes in an argument, and has to check if the remote branch exists, and makes
+      it otherwise (after pushing)
 [ ] finally work on an upload / download animation
+[ ] do a cute uploading thing
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
