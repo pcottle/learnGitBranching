@@ -879,10 +879,10 @@ GitEngine.prototype.push = function(options) {
 
   // HAX HAX update o/master
   chain = chain.then(_.bind(function() {
-    var localLocationID = localBranch.get('target').get('id');
-    var localCommit = this.refs[localLocationID];
-    // HAX HAX
-    this.setTargetLocation(this.refs['o/master'], localCommit);
+    var localCommit = this.getCommitFromRef(localBranch);
+    var remoteBranchID = localBranch.getRemoteBranchIDFromTracking();
+    // less hacks hax
+    this.setTargetLocation(this.refs[remoteBranchID], localCommit);
     return AnimationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
@@ -2233,7 +2233,21 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
+    remoteTrackingBranch: null,
     remote: false
+  },
+
+  getRemoteBranchIDFromTracking: function() {
+    if (this.getIsRemote()) {
+      throw new Error('I am a remote branch! dont try to get remote from me');
+    }
+    // TODO check if remote tracking also
+    return 'o/' + this.getRemoteTrackingBranchName();
+  },
+
+  getRemoteTrackingBranchName: function() {
+    var originBranchName = this.get('remoteTrackingBranch');
+    return (originBranchName) ? originBranchName : this.get('id');
   },
 
   getIsRemote: function() {
