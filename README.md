@@ -121,4 +121,5 @@ Or reported an issue that was successfully closed!
 * Adam Brewer
 * Tobias Pfeiffer
 * Nicholas "LB" Braden
+* Jeffrey Jones
 
