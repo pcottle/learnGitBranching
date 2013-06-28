@@ -7839,7 +7839,18 @@ GitEngine.prototype.getTargetGraphDifference = function(
     _.each(here.parents, pushParent);
   }
 
-  return difference.sort(function(cA, cB) {
+  // filter because we werent doing graph search
+  var unique = {};
+  var differenceUnique = [];
+  _.forEach(difference, function(commit) {
+    if (unique[commit.id]) {
+      return;
+    }
+    unique[commit.id] = true;
+    differenceUnique.push(commit);
+  });
+
+  return differenceUnique.sort(function(cA, cB) {
     // reverse sort by depth
     return cB.depth - cA.depth;
   });
@@ -24004,7 +24015,18 @@ GitEngine.prototype.getTargetGraphDifference = function(
     _.each(here.parents, pushParent);
   }
 
-  return difference.sort(function(cA, cB) {
+  // filter because we werent doing graph search
+  var unique = {};
+  var differenceUnique = [];
+  _.forEach(difference, function(commit) {
+    if (unique[commit.id]) {
+      return;
+    }
+    unique[commit.id] = true;
+    differenceUnique.push(commit);
+  });
+
+  return differenceUnique.sort(function(cA, cB) {
     // reverse sort by depth
     return cB.depth - cA.depth;
   });
