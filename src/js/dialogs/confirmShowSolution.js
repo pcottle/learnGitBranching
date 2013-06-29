@@ -18,6 +18,16 @@ exports.dialog = {
         '哥相信你！你可以的'
       ]
     }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Êtes-vous sûr de vouloir voir la solution ?',
+        '',
+        'Je crois en vous ! Vous pouvez le faire'
+      ]
+    }
   }]
 };
 

@@ -664,7 +664,7 @@ var IntlHelperBar = HelperBar.extend({
       text: '学习Git分支',
       id: 'chinese'
     }, {
-      text: 'Français(e)',
+      text: 'français',
       id: 'french'
     }, {
       icon: 'signout',

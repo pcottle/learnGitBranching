@@ -30,6 +30,17 @@ exports.dialog = {
         '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
       ]
     }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Beau Travail!!',
+        '',
+        'Vous avez résolu le niveau en *{numCommands}* commande(s); ',
+        'notre solution le fait en {best}.'
+      ]
+    }
   }]
 };
 

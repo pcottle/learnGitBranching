@@ -36,5 +36,24 @@ exports.dialog = {
         '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
       ]
     }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Bienvenue dans l\'éditeur niveaux !',
+        '',
+        'Voici les étapes principales :',
+        '',
+        '  * Mettez en place l\'environnement initial avec des commandes git',
+        '  * Définissez l\'arbre de départ avec ```define start```',
+        '  * Saisissez la série de commandes git qui composent la solution (optimale)',
+        '  * Définissez l\'arbre cible avec ```define goal```. Cela définit aussi la solution',
+        '  * Optionnellement, définissez un indice avec ```define hint```',
+        '  * Changez le nom avec ```define name```',
+        '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
+        '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
+      ]
+    }
   }]
 };
