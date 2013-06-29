@@ -16976,6 +16976,9 @@ var VisBranch = VisBase.extend({
     var overThreshold = (visNode.get('pos').x > threshold);
 
     // easy logic first
+    if (commit.get('id') === 'C0') {
+      return -1;
+    }
     if (!this.get('isHead')) {
       return (overThreshold) ? -1 : 1;
     }
@@ -33214,6 +33217,9 @@ var VisBranch = VisBase.extend({
     var overThreshold = (visNode.get('pos').x > threshold);
 
     // easy logic first
+    if (commit.get('id') === 'C0') {
+      return -1;
+    }
     if (!this.get('isHead')) {
       return (overThreshold) ? -1 : 1;
     }
