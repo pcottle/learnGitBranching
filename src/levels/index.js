@@ -33,14 +33,14 @@ exports.sequenceInfo = {
     displayName: {
       'en_US': 'Introduction Sequence',
       'ja': 'まずはここから',
-      'fr_FR': 'Sequence d\'introduction',
+      'fr_FR': 'Séquence d\'introduction',
       'zh_CN': '基础篇',
       'ko': '기본 명령어'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
-      'fr_FR': 'Une introduction en douceur à la majoité des commandes git',
+      'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
       'zh_CN': '循序渐进介绍git主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
@@ -49,11 +49,13 @@ exports.sequenceInfo = {
     displayName: {
       'en_US': 'Ramping Up',
       'ja': '次のレベルに進もう',
+      'fr_FR': 'Montée en puissance',
       'zh_CN': '进阶篇'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'ja': '更にgitの素晴らしさを堪能しよう',
+      'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
     }
   },
@@ -68,7 +70,7 @@ exports.sequenceInfo = {
     about: {
       'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
-      'fr_FR': 'Que\'est-ce que c\'est que ce rebase dont tout le monde parle ? Découvrez-le !',
+      'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的rebase究竟是神马？看看吧！'
     }
@@ -92,10 +94,12 @@ exports.sequenceInfo = {
   advanced: {
     displayName: {
       'en_US': 'Advanced Topics',
+      'fr_FR': 'Sujets Avancés',
       'zh_CN': '高级主题'
     },
     about: {
       'en_US': 'For the truly brave!',
+      'fr_FR': 'Pour les plus courageux !',
       'zh_CN': '只为真正的勇士！'
     }
   }
