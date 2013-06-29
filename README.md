@@ -68,6 +68,7 @@ And the following heroes for assisting in translating:
 * "bcho"
 * "scientific-coder"
 * "ace-coder"
+* Joël Thieffry
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
