@@ -227,5 +227,61 @@ exports.dialog = {
         '이제 레슨을 시작해봅시다...'
       ]
     }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Bienvenue sur LearnGitBranching!',
+        '',
+        'Cette application a été conçue pour aider les débutants à saisir ',
+        'les puissants concepts derrière les branches en travaillant ',
+        'avec git. Nous espérons que vous apprécierez cette application et ',
+        'que vous apprendrez peut-être quelque chose d\'intéressant !',
+        '',
+        '# Démo !',
+        '',
+        'Si vous n\'avez pas vu la démo, vous pouvez le faire là :',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        'Agacé par ce dialogue ? Ajoutez `?NODEMO` à l\'URL pour le supprimer, en lien ci-dessous pour votre commodité :',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Commandes Git',
+        '',
+        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Partager, c\'est se soucier!',
+        '',
+        'Partagez des arbres avec vous amis via `export tree` et `import tree`',
+        '',
+        'Vous avez une grande leçon à partager ? Essayez de construire un niveau avec `build level` ou essayez le niveau d\'un ami avec `import level`',
+        '',
+        'Pour voir la gamme complète des commandes, tapez `show commands`. Il y a quelques perles telles que `undo` et `reset`',
+        '',
+        'Mais tout de suite commencez sur les `levels`…'
+      ]
+    }
   }]
 };
