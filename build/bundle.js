@@ -7874,8 +7874,10 @@ GitEngine.prototype.getTargetGraphDifference = function(
   target,
   source,
   targetBranch,
-  sourceBranch
+  sourceBranch,
+  options
 ) {
+  options = options || {};
   sourceBranch = source.resolveID(sourceBranch);
 
   var targetSet = target.getUpstreamSet(targetBranch);
@@ -7885,9 +7887,14 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
   if (target.refs[sourceStartCommitJSON.id]) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-fetch-uptodate')
-    });
+    // either we throw since theres no work to be done, or we return an empty array
+    if (options.dontThrowOnNoFetch) {
+      return [];
+    } else {
+      throw new GitError({
+        msg: intl.str('git-error-origin-fetch-uptodate')
+      });
+    }
   }
 
   // ok great, we have our starting point and our stopping set. lets go ahead
@@ -8050,8 +8057,21 @@ GitEngine.prototype.fetch = function(options) {
     this,
     this.origin,
     localBranch,
-    remoteBranch
+    remoteBranch,
+    options
   );
+
+  if (commitsToMake.length === 0) {
+    this.command.addWarning(intl.str(
+      'git-error-origin-fetch-uptodate'
+    ));
+    // no fetch needed...
+    var d = Q.defer();
+    return {
+      deferred: d,
+      chain: d.promise
+    };
+  }
 
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
@@ -8125,7 +8145,8 @@ GitEngine.prototype.pull = function() {
 
   // no matter what fetch
   var pendingFetch = this.fetch({
-    dontResolvePromise: true
+    dontResolvePromise: true,
+    dontThrowOnNoFetch: true
   });
   // then either rebase or merge
   if (this.commandOptions['--rebase']) {
@@ -24249,8 +24270,10 @@ GitEngine.prototype.getTargetGraphDifference = function(
   target,
   source,
   targetBranch,
-  sourceBranch
+  sourceBranch,
+  options
 ) {
+  options = options || {};
   sourceBranch = source.resolveID(sourceBranch);
 
   var targetSet = target.getUpstreamSet(targetBranch);
@@ -24260,9 +24283,14 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
   if (target.refs[sourceStartCommitJSON.id]) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-fetch-uptodate')
-    });
+    // either we throw since theres no work to be done, or we return an empty array
+    if (options.dontThrowOnNoFetch) {
+      return [];
+    } else {
+      throw new GitError({
+        msg: intl.str('git-error-origin-fetch-uptodate')
+      });
+    }
   }
 
   // ok great, we have our starting point and our stopping set. lets go ahead
@@ -24425,8 +24453,21 @@ GitEngine.prototype.fetch = function(options) {
     this,
     this.origin,
     localBranch,
-    remoteBranch
+    remoteBranch,
+    options
   );
+
+  if (commitsToMake.length === 0) {
+    this.command.addWarning(intl.str(
+      'git-error-origin-fetch-uptodate'
+    ));
+    // no fetch needed...
+    var d = Q.defer();
+    return {
+      deferred: d,
+      chain: d.promise
+    };
+  }
 
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
@@ -24500,7 +24541,8 @@ GitEngine.prototype.pull = function() {
 
   // no matter what fetch
   var pendingFetch = this.fetch({
-    dontResolvePromise: true
+    dontResolvePromise: true,
+    dontThrowOnNoFetch: true
   });
   // then either rebase or merge
   if (this.commandOptions['--rebase']) {
