@@ -265,9 +265,8 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     AnimationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
-  // TODO handle the case where the master target on origin is not present
-  // locally, so we have to go up the chain. for now we assume the master on
-  // origin is at least present.
+  // we only clone from our current state, so we can safely assume all of our
+  // local commits are on origin
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree
   _.each(originTree.branches, function(branchJSON, branchName) {
@@ -1162,7 +1161,6 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
       this.origin.gitVisuals
     );
   }, this);
-  var chainStepWrap = function() { return chainStep(); };
 
   var deferred = Q.defer();
   var chain = deferred.promise;
