@@ -269,12 +269,15 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   // locally, so we have to go up the chain. for now we assume the master on
   // origin is at least present.
   var originTree = JSON.parse(unescape(treeString));
-  var originMasterTarget = originTree.branches.master.target;
-  var originMaster = this.makeBranch(
-    'o/master',
-    this.getCommitFromRef(originMasterTarget)
-  );
-  originMaster.set('remote', true);
+  // make an origin branch for each branch mentioned in the tree
+  _.each(originTree.branches, function(branchJSON, branchName) {
+    var originTarget = branchJSON.target;
+    var originBranch = this.makeBranch(
+      'o/' + branchName,
+      this.getCommitFromRef(originTarget)
+    );
+    originBranch.set('remote', true);
+  }, this);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -1121,7 +1124,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
 
 GitEngine.prototype.cloneStarter = function() {
   this.acceptNoGeneralArgs();
-  this.makeOrigin(this.printTree(this.exportTreeForBranch('master')));
+  this.makeOrigin(this.printTree());
 };
 
 GitEngine.prototype.fakeTeamworkStarter = function() {
@@ -1131,15 +1134,25 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
     });
   }
 
-  this.validateArgBounds(this.generalArgs, 0, 1);
-  var numToMake = this.generalArgs[0] || 1;
-  this.fakeTeamwork(numToMake);
+  this.validateArgBounds(this.generalArgs, 0, 2);
+  var branch = this.generalArgs[0] || 'master';
+  var numToMake = this.generalArgs[1] || 1;
+
+  // make sure its a branch and exists
+  var destBranch = this.origin.resolveID(branch);
+  if (destBranch.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.str('git-error-options')
+    });
+  }
+    
+  this.fakeTeamwork(numToMake, branch);
 };
 
-GitEngine.prototype.fakeTeamwork = function(numToMake) {
+GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
   var makeOriginCommit = _.bind(function() {
     var id = this.getUniqueID();
-    return this.origin.receiveTeamwork(id, this.animationQueue);
+    return this.origin.receiveTeamwork(id, branch, this.animationQueue);
   }, this);
 
   var chainStep = _.bind(function() {
@@ -1162,7 +1175,8 @@ GitEngine.prototype.fakeTeamwork = function(numToMake) {
   this.animationQueue.thenFinish(chain, deferred);
 };
 
-GitEngine.prototype.receiveTeamwork = function(id, animationQueue) {
+GitEngine.prototype.receiveTeamwork = function(id, branch, animationQueue) {
+  this.checkout(this.resolveID(branch));
   var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
   this.setTargetLocation(this.HEAD, newCommit);
 
