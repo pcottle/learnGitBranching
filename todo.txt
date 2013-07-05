@@ -13,7 +13,6 @@ Big Things
 
 Easier origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] make it so git pull doesnt highlight nodes on animation when its a FF
 [ ] then maybe work on remote branches tracking correctly? wut? that means:
     - getRemoteBranch has a default (the same name of the branch) but could be different
     - git push takes in an argument, and has to check if the remote branch exists, and makes
@@ -48,6 +47,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] better git clone and fake teamwork anywhere
 [x] git pull animation
 [x] use the graph difference algorithm to then implement git push
 [x] work on git pull --rebase animation, send down the deferred and it should work?
