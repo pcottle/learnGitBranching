@@ -943,6 +943,9 @@ GitEngine.prototype.fetch = function(options) {
     remoteBranch,
     options
   );
+  // remove the ones that already exist (and were missed by our
+  // upwards search)
+  commitsToMake = _.filter(commitsToMake
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(

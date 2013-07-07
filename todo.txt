@@ -2,6 +2,13 @@ Mega Things
 ~~~~~~~~~~~~~~~~~~~~~~~~
 [-] origin support
 
+Before everything else:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] fix tests by stubbing out animation factory to resolve promises
+[ ] increase test coverage over everything
+    - unit and integration, but mostly for git operations
+[ ] green refactor level compare
+
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
 [ ] translation script? might be too late...
