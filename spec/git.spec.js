@@ -9,10 +9,16 @@ var compareAnswer = function(headless, expectedJSON) {
   var expectedTree = loadTree(expectedJSON);
   var actualTree = headless.gitEngine.exportTree();
 
-  var equal = TreeCompare.compareTrees(expectedTree, actualTree);
+  return TreeCompare.compareTrees(expectedTree, actualTree);
+};
+
+var compareAnswerExpect = function(headless, expectedJSON) {
+  var equal = compareAnswer(headless, expectedJSON);
   if (!equal) {
-    console.log('tree1', expectedTree);
-    console.log('tree2', actualTree);
+    var expectedTree = loadTree(expectedJSON);
+    var actualTree = headless.gitEngine.exportTree();
+    console.log('expected Tree', expectedTree);
+    console.log('actual Tree', actualTree);
     console.log('~~~~~~~~~~~~~~~~~~~~~');
   }
   expect(equal).toBe(true);
@@ -21,7 +27,17 @@ var compareAnswer = function(headless, expectedJSON) {
 var expectTree = function(command, expectedJSON) {
   var headless = new HeadlessGit();
   headless.sendCommand(command);
-  compareAnswer(headless, expectedJSON);
+  compareAnswerExpect(headless, expectedJSON);
+};
+
+var expectTreeAsync = function(command, expectedJSON) {
+  var headless = new HeadlessGit();
+  runs(function() {
+    headless.sendCommand(command);
+  });
+  waitsFor(function() {
+    return compareAnswer(headless, expectedJSON);
+  }, 'trees should be equal', 750);
 };
 
 describe('GitEngine', function() {
@@ -40,14 +56,14 @@ describe('GitEngine', function() {
   });
 
   it('Rebases', function() {
-    expectTree(
+    expectTreeAsync(
       'gc; git checkout -b side C1; gc; git rebase master',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22master%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%7D'
     );
   });
 
   it('Reverts', function() {
-    expectTree(
+    expectTreeAsync(
       'git revert HEAD',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%27%22%2C%22id%22%3A%22master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C1%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C1%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D'
     );
@@ -89,7 +105,7 @@ describe('GitEngine', function() {
   });
 
   it('Cherry picks', function() {
-    expectTree(
+    expectTreeAsync(
       'git checkout -b side C0; gc; git cherry-pick C1',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C1%27%22%2C%22id%22%3A%22side%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C1%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C1%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%7D'
     );
@@ -103,7 +119,7 @@ describe('GitEngine', function() {
   });
 
   it('Rebases only new commits to destination', function() {
-    expectTree(
+    expectTreeAsync(
       'git checkout -b side C0; gc; gc;git cherry-pick C1;git rebase master',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C1%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C1%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%7D'
     );
