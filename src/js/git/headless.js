@@ -26,8 +26,17 @@ function getMockFactory() {
   }
   // special method that does stuff
   mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
-    console.log('trying to finish');
     aQueue.thenFinish(Q.defer().promise);
+  };
+
+  mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
+    var d = Q.defer();
+    d.resolve();
+    return d.promise;
+  };
+
+  mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    return chain;
   };
 
   return mockFactory;

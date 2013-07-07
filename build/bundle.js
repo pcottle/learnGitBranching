@@ -7384,9 +7384,8 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     AnimationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
-  // TODO handle the case where the master target on origin is not present
-  // locally, so we have to go up the chain. for now we assume the master on
-  // origin is at least present.
+  // we only clone from our current state, so we can safely assume all of our
+  // local commits are on origin
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree
   _.each(originTree.branches, function(branchJSON, branchName) {
@@ -7971,6 +7970,14 @@ GitEngine.prototype.push = function(options) {
     localBranch
   );
 
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but the remote
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.origin.refs[commitJSON.id];
+  }, this);
+
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
@@ -8281,7 +8288,6 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
       this.origin.gitVisuals
     );
   }, this);
-  var chainStepWrap = function() { return chainStep(); };
 
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -8652,8 +8658,8 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
     // hmmmmm this still needs fixing. we need to know basically just WHEN a commit was created, but since
     // we strip off the date creation field, when loading a tree from string this fails :-/
     // there's actually no way to determine it...
-    //console.warn('WUT it is equal');
-    //console.log(cA, cB);
+    //c.warn('WUT it is equal');
+    //c.log(cA, cB);
     return GitEngine.prototype.idSortFunc(cA, cB);
   }
   return dateA - dateB;
@@ -22450,8 +22456,17 @@ function getMockFactory() {
   }
   // special method that does stuff
   mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
-    console.log('trying to finish');
     aQueue.thenFinish(Q.defer().promise);
+  };
+
+  mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
+    var d = Q.defer();
+    d.resolve();
+    return d.promise;
+  };
+
+  mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    return chain;
   };
 
   return mockFactory;
@@ -23478,8 +23493,17 @@ function getMockFactory() {
   }
   // special method that does stuff
   mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
-    console.log('trying to finish');
     aQueue.thenFinish(Q.defer().promise);
+  };
+
+  mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
+    var d = Q.defer();
+    d.resolve();
+    return d.promise;
+  };
+
+  mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    return chain;
   };
 
   return mockFactory;
@@ -23790,9 +23814,8 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     AnimationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
-  // TODO handle the case where the master target on origin is not present
-  // locally, so we have to go up the chain. for now we assume the master on
-  // origin is at least present.
+  // we only clone from our current state, so we can safely assume all of our
+  // local commits are on origin
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree
   _.each(originTree.branches, function(branchJSON, branchName) {
@@ -24377,6 +24400,14 @@ GitEngine.prototype.push = function(options) {
     localBranch
   );
 
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but the remote
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.origin.refs[commitJSON.id];
+  }, this);
+
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
@@ -24687,7 +24718,6 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
       this.origin.gitVisuals
     );
   }, this);
-  var chainStepWrap = function() { return chainStep(); };
 
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -25058,8 +25088,8 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
     // hmmmmm this still needs fixing. we need to know basically just WHEN a commit was created, but since
     // we strip off the date creation field, when loading a tree from string this fails :-/
     // there's actually no way to determine it...
-    //console.warn('WUT it is equal');
-    //console.log(cA, cB);
+    //c.warn('WUT it is equal');
+    //c.log(cA, cB);
     return GitEngine.prototype.idSortFunc(cA, cB);
   }
   return dateA - dateB;

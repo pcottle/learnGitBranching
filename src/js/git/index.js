@@ -851,6 +851,14 @@ GitEngine.prototype.push = function(options) {
     localBranch
   );
 
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but the remote
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.origin.refs[commitJSON.id];
+  }, this);
+
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
@@ -943,9 +951,6 @@ GitEngine.prototype.fetch = function(options) {
     remoteBranch,
     options
   );
-  // remove the ones that already exist (and were missed by our
-  // upwards search)
-  commitsToMake = _.filter(commitsToMake
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
@@ -1534,8 +1539,8 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
     // hmmmmm this still needs fixing. we need to know basically just WHEN a commit was created, but since
     // we strip off the date creation field, when loading a tree from string this fails :-/
     // there's actually no way to determine it...
-    //console.warn('WUT it is equal');
-    //console.log(cA, cB);
+    //c.warn('WUT it is equal');
+    //c.log(cA, cB);
     return GitEngine.prototype.idSortFunc(cA, cB);
   }
   return dateA - dateB;
