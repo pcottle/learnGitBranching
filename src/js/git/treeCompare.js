@@ -8,6 +8,18 @@ TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
   return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
 };
 
+TreeCompare.onlyMasterCompared = function(levelBlob) {
+  var getAroundLintTrue = true;
+  switch (getAroundLintTrue) {
+    case !!levelBlob.compareOnlyMaster:
+    case !!levelBlob.compareOnlyMasterHashAgnostic:
+    case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
+      return true;
+    default:
+      return false;
+  }
+};
+
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
   var getAroundLintTrue = true;
   // i actually prefer this to else if

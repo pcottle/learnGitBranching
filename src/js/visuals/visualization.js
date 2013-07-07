@@ -49,6 +49,7 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection,
       paper: this.paper,
       noClick: this.options.noClick,
+      isGoalVis: this.options.isGoalVis,
       smallCanvas: this.options.smallCanvas,
       visualization: this
     });

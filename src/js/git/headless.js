@@ -32,10 +32,12 @@ function getMockFactory() {
   mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
     var d = Q.defer();
     d.resolve();
+    // return a resolved promise here
     return d.promise;
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    // dont add any steps
     return chain;
   };
 

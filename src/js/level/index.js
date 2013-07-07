@@ -177,6 +177,8 @@ var Level = Sandbox.extend({
       treeString: this.level.goalTreeString,
       noKeyboardInput: true,
       smallCanvas: true,
+      isGoalVis: true,
+      levelBlob: this.level,
       noClick: true
     });
     return this.goalCanvasHolder;

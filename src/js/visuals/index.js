@@ -141,6 +141,14 @@ GitVisuals.prototype.getFlipPos = function() {
   return this.flipFraction * (max - min) + min;
 };
 
+GitVisuals.prototype.getIsGoalVis = function() {
+  return !!this.options.isGoalVis;
+};
+
+GitVisuals.prototype.getLevelBlob = function() {
+  return this.visualization.options.levelBlob || {};
+};
+
 GitVisuals.prototype.toScreenCoords = function(pos) {
   if (!this.paper.width) {
     throw new Error('being called too early for screen coords');

@@ -6274,6 +6274,8 @@ var Level = Sandbox.extend({
       treeString: this.level.goalTreeString,
       noKeyboardInput: true,
       smallCanvas: true,
+      isGoalVis: true,
+      levelBlob: this.level,
       noClick: true
     });
     return this.goalCanvasHolder;
@@ -6772,6 +6774,7 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection,
       paper: this.paper,
       noClick: this.options.noClick,
+      isGoalVis: this.options.isGoalVis,
       smallCanvas: this.options.smallCanvas,
       visualization: this
     });
@@ -9842,6 +9845,18 @@ var TreeCompare = {};
 TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
   var goalTreeString = levelBlob.goalTreeString;
   return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
+};
+
+TreeCompare.onlyMasterCompared = function(levelBlob) {
+  var getAroundLintTrue = true;
+  switch (getAroundLintTrue) {
+    case !!levelBlob.compareOnlyMaster:
+    case !!levelBlob.compareOnlyMasterHashAgnostic:
+    case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
+      return true;
+    default:
+      return false;
+  }
 };
 
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
@@ -15795,6 +15810,14 @@ GitVisuals.prototype.getFlipPos = function() {
   return this.flipFraction * (max - min) + min;
 };
 
+GitVisuals.prototype.getIsGoalVis = function() {
+  return !!this.options.isGoalVis;
+};
+
+GitVisuals.prototype.getLevelBlob = function() {
+  return this.visualization.options.levelBlob || {};
+};
+
 GitVisuals.prototype.toScreenCoords = function(pos) {
   if (!this.paper.width) {
     throw new Error('being called too early for screen coords');
@@ -17032,6 +17055,7 @@ var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
+var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var randomHueString = function() {
   var hue = Math.random();
@@ -17110,6 +17134,39 @@ var VisBranch = VisBase.extend({
     this.set('flip', this.getFlipValue(commit, visNode));
     this.refreshOffset();
     return visNode.getScreenCoords();
+  },
+
+  getDashArray: function() {
+    if (!this.get('gitVisuals').getIsGoalVis()) {
+      return '';
+    }
+
+    return (this.getIsLevelBranchCompared()) ? '' : '- ';
+  },
+
+  getIsGoalAndNotCompared: function() {
+    if (!this.get('gitVisuals').getIsGoalVis()) {
+      return false;
+    }
+
+    return !this.getIsLevelBranchCompared();
+  },
+
+  /**
+   * returns true if we are a branch that is not being
+   * compared in the goal (used in a goal visualization context
+   */
+  getIsLevelBranchCompared: function() {
+    if (this.getIsMaster()) {
+      return true; // master always compared
+    }
+    // we are not master, so return true if its not just master being compared
+    var levelBlob = this.get('gitVisuals').getLevelBlob();
+    return !TreeCompare.onlyMasterCompared(levelBlob);
+  },
+
+  getIsMaster: function() {
+    return this.get('branch').get('id') == 'master';
   },
 
   getFlipValue: function(commit, visNode) {
@@ -17467,13 +17524,22 @@ var VisBranch = VisBase.extend({
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
-    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
+    if (this.getBranchStackIndex() !== 0) {
+      return 0.0;
+    }
+
+    return 1;
   },
 
   getTextOpacity: function() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
+
+    if (this.getIsGoalAndNotCompared()) {
+      return 0.3;
+    }
+
     return 1;
   },
 
@@ -17487,8 +17553,7 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
-    var dashArray = (this.getIsInOrigin()) ?
-      GRAPHICS.originDash : '';
+    var dashArray = this.getDashArray();
     var cursorStyle = (this.shouldDisableClick()) ?
       'auto' :
       'pointer';
@@ -17510,7 +17575,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
-        //'stroke-dasharray': dashArray,
+        'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {
@@ -22462,10 +22527,12 @@ function getMockFactory() {
   mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
     var d = Q.defer();
     d.resolve();
+    // return a resolved promise here
     return d.promise;
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    // dont add any steps
     return chain;
   };
 
@@ -23499,10 +23566,12 @@ function getMockFactory() {
   mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
     var d = Q.defer();
     d.resolve();
+    // return a resolved promise here
     return d.promise;
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    // dont add any steps
     return chain;
   };
 
@@ -25974,6 +26043,18 @@ TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
   return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
 };
 
+TreeCompare.onlyMasterCompared = function(levelBlob) {
+  var getAroundLintTrue = true;
+  switch (getAroundLintTrue) {
+    case !!levelBlob.compareOnlyMaster:
+    case !!levelBlob.compareOnlyMasterHashAgnostic:
+    case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
+      return true;
+    default:
+      return false;
+  }
+};
+
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
   var getAroundLintTrue = true;
   // i actually prefer this to else if
@@ -27759,6 +27840,8 @@ var Level = Sandbox.extend({
       treeString: this.level.goalTreeString,
       noKeyboardInput: true,
       smallCanvas: true,
+      isGoalVis: true,
+      levelBlob: this.level,
       noClick: true
     });
     return this.goalCanvasHolder;
@@ -32722,6 +32805,14 @@ GitVisuals.prototype.getFlipPos = function() {
   return this.flipFraction * (max - min) + min;
 };
 
+GitVisuals.prototype.getIsGoalVis = function() {
+  return !!this.options.isGoalVis;
+};
+
+GitVisuals.prototype.getLevelBlob = function() {
+  return this.visualization.options.levelBlob || {};
+};
+
 GitVisuals.prototype.toScreenCoords = function(pos) {
   if (!this.paper.width) {
     throw new Error('being called too early for screen coords');
@@ -33568,6 +33659,7 @@ var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
+var TreeCompare = require('../git/treeCompare').TreeCompare;
 
 var randomHueString = function() {
   var hue = Math.random();
@@ -33646,6 +33738,39 @@ var VisBranch = VisBase.extend({
     this.set('flip', this.getFlipValue(commit, visNode));
     this.refreshOffset();
     return visNode.getScreenCoords();
+  },
+
+  getDashArray: function() {
+    if (!this.get('gitVisuals').getIsGoalVis()) {
+      return '';
+    }
+
+    return (this.getIsLevelBranchCompared()) ? '' : '- ';
+  },
+
+  getIsGoalAndNotCompared: function() {
+    if (!this.get('gitVisuals').getIsGoalVis()) {
+      return false;
+    }
+
+    return !this.getIsLevelBranchCompared();
+  },
+
+  /**
+   * returns true if we are a branch that is not being
+   * compared in the goal (used in a goal visualization context
+   */
+  getIsLevelBranchCompared: function() {
+    if (this.getIsMaster()) {
+      return true; // master always compared
+    }
+    // we are not master, so return true if its not just master being compared
+    var levelBlob = this.get('gitVisuals').getLevelBlob();
+    return !TreeCompare.onlyMasterCompared(levelBlob);
+  },
+
+  getIsMaster: function() {
+    return this.get('branch').get('id') == 'master';
   },
 
   getFlipValue: function(commit, visNode) {
@@ -34003,13 +34128,22 @@ var VisBranch = VisBase.extend({
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
-    return this.getBranchStackIndex() === 0 ? 1 : 0.0;
+    if (this.getBranchStackIndex() !== 0) {
+      return 0.0;
+    }
+
+    return 1;
   },
 
   getTextOpacity: function() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
+
+    if (this.getIsGoalAndNotCompared()) {
+      return 0.3;
+    }
+
     return 1;
   },
 
@@ -34023,8 +34157,7 @@ var VisBranch = VisBase.extend({
     var rectSize = this.getRectSize();
 
     var arrowPath = this.getArrowPath();
-    var dashArray = (this.getIsInOrigin()) ?
-      GRAPHICS.originDash : '';
+    var dashArray = this.getDashArray();
     var cursorStyle = (this.shouldDisableClick()) ?
       'auto' :
       'pointer';
@@ -34046,7 +34179,7 @@ var VisBranch = VisBase.extend({
         opacity: nonTextOpacity,
         fill: this.getFill(),
         stroke: this.get('stroke'),
-        //'stroke-dasharray': dashArray,
+        'stroke-dasharray': dashArray,
         'stroke-width': this.get('stroke-width')
       },
       arrow: {
@@ -34771,6 +34904,7 @@ var Visualization = Backbone.View.extend({
       branchCollection: this.branchCollection,
       paper: this.paper,
       noClick: this.options.noClick,
+      isGoalVis: this.options.isGoalVis,
       smallCanvas: this.options.smallCanvas,
       visualization: this
     });
