@@ -14946,6 +14946,7 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 
 var Visualization = require('../visuals/visualization').Visualization;
+var HeadlessGit = require('../git/headless');
 
 var GitDemonstrationView = ContainedBase.extend({
   tagName: 'div',
@@ -15030,14 +15031,12 @@ var GitDemonstrationView = ContainedBase.extend({
       return;
     }
 
-    // here we just split the command and push them through to the git engine
-    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
-      this.mainVis.gitEngine.dispatch(new Command({
-        rawStr: commandStr
-      }), Q.defer());
-    }, this);
-    // then harsh refresh
-    this.mainVis.gitVisuals.refreshTreeHarsh();
+    var whenHaveTree = Q.defer();
+    HeadlessGit.getTreeQuick(this.options.beforeCommand, whenHaveTree);
+    whenHaveTree.promise.then(_.bind(function(tree) {
+      this.mainVis.gitEngine.loadTree(tree);
+      this.mainVis.gitVisuals.refreshTreeHarsh();
+    }, this));
   },
 
   takeControl: function() {
@@ -15107,6 +15106,7 @@ var GitDemonstrationView = ContainedBase.extend({
     _.each(commands, function(command, index) {
       chainPromise = chainPromise.then(_.bind(function() {
         var myDefer = Q.defer();
+        console.log('dispatching', command);
         this.mainVis.gitEngine.dispatch(command, myDefer);
         return myDefer.promise;
       }, this));
@@ -15184,494 +15184,112 @@ exports.GitDemonstrationView = GitDemonstrationView;
 
 });
 
-require.define("/src/js/views/builderViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Backbone = require('backbone');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
 
+var GitEngine = require('../git').GitEngine;
+var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
+var GitVisuals = require('../visuals').GitVisuals;
+var TreeCompare = require('../git/treeCompare').TreeCompare;
+var EventBaton = require('../util/eventBaton').EventBaton;
+
+var Collections = require('../models/collections');
+var CommitCollection = Collections.CommitCollection;
+var BranchCollection = Collections.BranchCollection;
+var Command = require('../models/commandModel').Command;
+
+var mock = require('../util/mock').mock;
 var util = require('../util');
-var intl = require('../intl');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
-var Views = require('../views');
-var ModalTerminal = Views.ModalTerminal;
-var ContainedBase = Views.ContainedBase;
-
-
-var TextGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'textGrabber box vertical',
-  template: _.template($('#text-grabber').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.JSON = {
-      helperText: options.helperText || 'Enter some text'
-    };
-
-    this.container = options.container || new ModalTerminal({
-      title: 'Enter some text'
-    });
-    this.render();
-    if (options.initialText) {
-      this.setText(options.initialText);
-    }
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  getText: function() {
-    return this.$('textarea').val();
-  },
-
-  setText: function(str) {
-    this.$('textarea').val(str);
+function getMockFactory() {
+  var mockFactory = {};
+  var mockReturn = function() {
+    var d = Q.defer();
+    // fall through!
+    d.resolve();
+    return d.promise;
+  };
+  for (var key in AnimationFactory) {
+    mockFactory[key] = mockReturn;
   }
-});
 
-var MarkdownGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownGrabber box horizontal',
-  template: _.template($('#markdown-grabber-view').html()),
-  events: {
-    'keyup textarea': 'keyup'
-  },
+  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
+    aQueue.finish();
+  };
+  mockFactory.refreshTree = function(aQueue, gitVisuals) {
+    aQueue.finish();
+  };
 
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
+  mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
+    // dont add any steps
+    return chain;
+  };
 
-    if (options.fromObj) {
-      options.fillerText = options.fromObj.options.markdowns.join('\n');
-    }
+  return mockFactory;
+}
 
-    this.JSON = {
-      previewText: options.previewText || 'Preview',
-      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
-    };
-
-    this.container = options.container || new ModalTerminal({
-      title: options.title || 'Enter some markdown'
-    });
-    this.render();
-
-    if (!options.withoutButton) {
-      // do button stuff
-      var buttonDefer = Q.defer();
-      buttonDefer.promise
-      .then(_.bind(this.confirmed, this))
-      .fail(_.bind(this.cancelled, this))
-      .done();
-
-      var confirmCancel = new Views.ConfirmCancelView({
-        deferred: buttonDefer,
-        destination: this.getDestination()
-      });
-    }
-
-    this.updatePreview();
-
-    if (!options.wait) {
-      this.show();
-    }
-  },
-
-  confirmed: function() {
-    this.die();
-    this.deferred.resolve(this.getRawText());
-  },
-
-  cancelled: function() {
-    this.die();
-    this.deferred.resolve();
-  },
-
-  keyup: function() {
-    if (!this.throttledPreview) {
-      this.throttledPreview = _.throttle(
-        _.bind(this.updatePreview, this),
-        500
-      );
-    }
-    this.throttledPreview();
-  },
-
-  getRawText: function() {
-    return this.$('textarea').val();
-  },
-
-  exportToArray: function() {
-    return this.getRawText().split('\n');
-  },
-
-  getExportObj: function() {
-    return {
-      markdowns: this.exportToArray()
-    };
-  },
-
-  updatePreview: function() {
-    var raw = this.getRawText();
-    var HTML = require('markdown').markdown.toHTML(raw);
-    this.$('div.insidePreview').html(HTML);
-  }
-});
-
-var MarkdownPresenter = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownPresenter box vertical',
-  template: _.template($('#markdown-presenter').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    this.JSON = {
-      previewText: options.previewText || 'Here is something for you',
-      fillerText: options.fillerText || '# Yay'
-    };
-
-    this.container = new ModalTerminal({
-      title: 'Check this out...'
-    });
-    this.render();
-
-    if (!options.noConfirmCancel) {
-      var confirmCancel = new Views.ConfirmCancelView({
-        destination: this.getDestination()
-      });
-      confirmCancel.deferred.promise
-      .then(_.bind(function() {
-        this.deferred.resolve(this.grabText());
-      }, this))
-      .fail(_.bind(function() {
-        this.deferred.reject();
-      }, this))
-      .done(_.bind(this.die, this));
-    }
-
-    this.show();
-  },
-
-  grabText: function() {
-    return this.$('textarea').val();
-  }
-});
-
-var DemonstrationBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'demonstrationBuilder box vertical',
-  template: _.template($('#demonstration-builder').html()),
-  events: {
-    'click div.testButton': 'testView'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    if (options.fromObj) {
-      var toEdit = options.fromObj.options;
-      options = _.extend(
-        {},
-        options,
-        toEdit,
-        {
-          beforeMarkdown: toEdit.beforeMarkdowns.join('\n'),
-          afterMarkdown: toEdit.afterMarkdowns.join('\n')
-        }
-      );
-    }
-
-    this.JSON = {};
-    this.container = new ModalTerminal({
-      title: 'Demonstration Builder'
-    });
-    this.render();
-
-    // build the two markdown grabbers
-    this.beforeMarkdownView = new MarkdownGrabber({
-      container: this,
-      withoutButton: true,
-      fillerText: options.beforeMarkdown,
-      previewText: 'Before demonstration Markdown'
-    });
-    this.beforeCommandView = new TextGrabber({
-      container: this,
-      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
-      initialText: options.beforeCommand || 'git checkout -b bugFix'
-    });
-
-    this.commandView = new TextGrabber({
-      container: this,
-      helperText: 'The git command(s) to demonstrate to the reader',
-      initialText: options.command || 'git commit'
-    });
-
-    this.afterMarkdownView = new MarkdownGrabber({
-      container: this,
-      withoutButton: true,
-      fillerText: options.afterMarkdown,
-      previewText: 'After demonstration Markdown'
-    });
-
-    // build confirm button
-    var buttonDeferred = Q.defer();
-    var confirmCancel = new Views.ConfirmCancelView({
-      deferred: buttonDeferred,
-      destination: this.getDestination()
-    });
-
-    buttonDeferred.promise
-    .then(_.bind(this.confirmed, this))
-    .fail(_.bind(this.cancelled, this))
-    .done();
-  },
-
-  testView: function() {
-    var MultiView = require('../views/multiView').MultiView;
-    new MultiView({
-      childViews: [{
-        type: 'GitDemonstrationView',
-        options: this.getExportObj()
-      }]
-    });
-  },
-
-  getExportObj: function() {
-    return {
-      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
-      afterMarkdowns: this.afterMarkdownView.exportToArray(),
-      command: this.commandView.getText(),
-      beforeCommand: this.beforeCommandView.getText()
-    };
-  },
-
-  confirmed: function() {
-    this.die();
-    this.deferred.resolve(this.getExportObj());
-  },
-
-  cancelled: function() {
-    this.die();
-    this.deferred.resolve();
-  },
-
-  getInsideElement: function() {
-    return this.$('.insideBuilder')[0];
-  }
-});
-
-var MultiViewBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'multiViewBuilder box vertical',
-  template: _.template($('#multi-view-builder').html()),
-  typeToConstructor: {
-    ModalAlert: MarkdownGrabber,
-    GitDemonstrationView: DemonstrationBuilder
-  },
-
-  events: {
-    'click div.deleteButton': 'deleteOneView',
-    'click div.testButton': 'testOneView',
-    'click div.editButton': 'editOneView',
-    'click div.testEntireView': 'testEntireView',
-    'click div.addView': 'addView',
-    'click div.saveView': 'saveView',
-    'click div.cancelView': 'cancel'
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.deferred = options.deferred || Q.defer();
-    this.multiViewJSON = options.multiViewJSON || {};
-
-    this.JSON = {
-      views: this.getChildViews(),
-      supportedViews: _.keys(this.typeToConstructor)
-    };
-
-    this.container = new ModalTerminal({
-      title: 'Build a MultiView!'
-    });
-    this.render();
-
-    this.show();
-  },
-
-  saveView: function() {
-    this.hide();
-    this.deferred.resolve(this.multiViewJSON);
-  },
-
-  cancel: function() {
-    this.hide();
-    this.deferred.resolve();
-  },
-
-  addView: function(ev) {
-    var el = ev.target;
-    var type = $(el).attr('data-type');
-
-    var whenDone = Q.defer();
-    var Constructor = this.typeToConstructor[type];
-    var builder = new Constructor({
-      deferred: whenDone
-    });
-    whenDone.promise
-    .then(_.bind(function() {
-      var newView = {
-        type: type,
-        options: builder.getExportObj()
-      };
-      this.addChildViewObj(newView);
-    }, this))
-    .fail(function() {
-      // they dont want to add the view apparently, so just return
-    })
-    .done();
-  },
-
-  testOneView: function(ev) {
-    var el = ev.target;
-    var index = $(el).attr('data-index');
-    var toTest = this.getChildViews()[index];
-    var MultiView = require('../views/multiView').MultiView;
-    new MultiView({
-      childViews: [toTest]
-    });
-  },
-
-  testEntireView: function() {
-    var MultiView = require('../views/multiView').MultiView;
-    new MultiView({
-      childViews: this.getChildViews()
-    });
-  },
-
-  editOneView: function(ev) {
-    var el = ev.target;
-    var index = $(el).attr('data-index');
-    var type = $(el).attr('data-type');
-
-    var whenDone = Q.defer();
-    var builder = new this.typeToConstructor[type]({
-      deferred: whenDone,
-      fromObj: this.getChildViews()[index]
-    });
-    whenDone.promise
-    .then(_.bind(function() {
-      var newView = {
-        type: type,
-        options: builder.getExportObj()
-      };
-      var views = this.getChildViews();
-      views[index] = newView;
-      this.setChildViews(views);
-    }, this))
-    .fail(function() { })
-    .done();
-  },
-
-  deleteOneView: function(ev) {
-    var el = ev.target;
-    var index = $(el).attr('data-index');
-    var toSlice = this.getChildViews();
-
-    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
-    this.setChildViews(updated);
-    this.update();
-  },
-
-  addChildViewObj: function(newObj, index) {
-    var childViews = this.getChildViews();
-    childViews.push(newObj);
-    this.setChildViews(childViews);
-    this.update();
-  },
-
-  setChildViews: function(newArray) {
-    this.multiViewJSON.childViews = newArray;
-  },
-
-  getChildViews: function() {
-    return this.multiViewJSON.childViews || [];
-  },
-
-  update: function() {
-    this.JSON.views = this.getChildViews();
-    this.renderAgain();
-  }
-});
-
-exports.MarkdownGrabber = MarkdownGrabber;
-exports.DemonstrationBuilder = DemonstrationBuilder;
-exports.TextGrabber = TextGrabber;
-exports.MultiViewBuilder = MultiViewBuilder;
-exports.MarkdownPresenter = MarkdownPresenter;
-
-
-});
-
-require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
-  'en_US': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Welcome to the level builder!',
-        '',
-        'Here are the main steps:',
-        '',
-        '  * Set up the initial environment with git commands',
-        '  * Define the starting tree with ```define start```',
-        '  * Enter the series of git commands that compose the (optimal) solution',
-        '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-        '  * Optionally define a hint with ```define hint```',
-        '  * Edit the name with ```define name```',
-        '  * Optionally define a nice start dialog with ```edit dialog```',
-        '  * Enter the command ```finish``` to output your level JSON!'
-      ]
-    }
-  }],
-  'zh_CN': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 欢迎使用关卡生成器！',
-        '',
-        '主要步骤如下：',
-        '',
-        '  * 使用 git 命令布置好初始环境',
-        '  * 使用 ```define start``` 命令定义起始树',
-        '  * 输入一系列 git 命令，编好答案',
-        '  * 使用 ```define goal``` 命令定义目标树。定义目标的同时定义答案',
-        '  * 还可以用 ```define hint``` 命令定义一个提示',
-        '  * 用 ```define name``` 修改名称',
-        '  * 还可以用 ```edit dialog``` 定义一个漂亮的开始对话框',
-        '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
-      ]
-    }
-  }],
-  'fr_FR': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Bienvenue dans l\'éditeur niveaux !',
-        '',
-        'Voici les étapes principales :',
-        '',
-        '  * Mettez en place l\'environnement initial avec des commandes git',
-        '  * Définissez l\'arbre de départ avec ```define start```',
-        '  * Saisissez la série de commandes git qui composent la solution (optimale)',
-        '  * Définissez l\'arbre cible avec ```define goal```. Cela définit aussi la solution',
-        '  * Optionnellement, définissez un indice avec ```define hint```',
-        '  * Changez le nom avec ```define name```',
-        '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
-        '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
-      ]
-    }
-  }]
+var HeadlessGit = function() {
+  this.init();
 };
+
+HeadlessGit.prototype.init = function() {
+  this.commitCollection = new CommitCollection();
+  this.branchCollection = new BranchCollection();
+
+  // here we mock visuals and animation factory so the git engine
+  // is headless
+  var animationFactory = getMockFactory();
+  var gitVisuals = mock(GitVisuals);
+
+  this.gitEngine = new GitEngine({
+    collection: this.commitCollection,
+    branches: this.branchCollection,
+    gitVisuals: gitVisuals,
+    animationFactory: animationFactory,
+    eventBaton: new EventBaton()
+  });
+  this.gitEngine.init();
+};
+
+// horrible hack so we can just quickly get a tree string for async git
+// operations, aka for git demonstration views
+var getTreeQuick = function(commandStr, getTreePromise) {
+  var deferred = Q.defer();
+  var headless = new HeadlessGit();
+  headless.sendCommand(commandStr, deferred);
+  deferred.promise.then(function() {
+    getTreePromise.resolve(headless.gitEngine.exportTree());
+  });
+};
+
+HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+  var startTime = new Date().getTime();
+
+  util.splitTextCommand(value, function(commandStr) {
+    var commandObj = new Command({
+      rawStr: commandStr
+    });
+    var thisDeferred = Q.defer();
+    this.gitEngine.dispatch(commandObj, thisDeferred);
+    chain = chain.then(thisDeferred.promise);
+  }, this);
+
+  chain.then(function() {
+    var nowTime = new Date().getTime();
+    // .log('done with command "' + value + '", took ', nowTime - startTime);
+    if (entireCommandPromise) {
+      entireCommandPromise.resolve();
+    }
+  });
+  deferred.resolve();
+};
+
+exports.HeadlessGit = HeadlessGit;
+exports.getTreeQuick = getTreeQuick;
+
 
 });
 
@@ -17816,6 +17434,510 @@ var VisEdgeCollection = Backbone.Collection.extend({
 
 exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisEdge = VisEdge;
+
+});
+
+require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
+  var dummy = {};
+  var stub = function() {};
+
+  for (var key in Constructor.prototype) {
+    dummy[key] = stub;
+  }
+  return dummy;
+};
+
+
+});
+
+require.define("/src/js/views/builderViews.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+
+var util = require('../util');
+var intl = require('../intl');
+var KeyboardListener = require('../util/keyboard').KeyboardListener;
+
+var Views = require('../views');
+var ModalTerminal = Views.ModalTerminal;
+var ContainedBase = Views.ContainedBase;
+
+
+var TextGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'textGrabber box vertical',
+  template: _.template($('#text-grabber').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.JSON = {
+      helperText: options.helperText || 'Enter some text'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: 'Enter some text'
+    });
+    this.render();
+    if (options.initialText) {
+      this.setText(options.initialText);
+    }
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  getText: function() {
+    return this.$('textarea').val();
+  },
+
+  setText: function(str) {
+    this.$('textarea').val(str);
+  }
+});
+
+var MarkdownGrabber = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownGrabber box horizontal',
+  template: _.template($('#markdown-grabber-view').html()),
+  events: {
+    'keyup textarea': 'keyup'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+
+    if (options.fromObj) {
+      options.fillerText = options.fromObj.options.markdowns.join('\n');
+    }
+
+    this.JSON = {
+      previewText: options.previewText || 'Preview',
+      fillerText: options.fillerText || '## Enter some markdown!\n\n\n'
+    };
+
+    this.container = options.container || new ModalTerminal({
+      title: options.title || 'Enter some markdown'
+    });
+    this.render();
+
+    if (!options.withoutButton) {
+      // do button stuff
+      var buttonDefer = Q.defer();
+      buttonDefer.promise
+      .then(_.bind(this.confirmed, this))
+      .fail(_.bind(this.cancelled, this))
+      .done();
+
+      var confirmCancel = new Views.ConfirmCancelView({
+        deferred: buttonDefer,
+        destination: this.getDestination()
+      });
+    }
+
+    this.updatePreview();
+
+    if (!options.wait) {
+      this.show();
+    }
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getRawText());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  keyup: function() {
+    if (!this.throttledPreview) {
+      this.throttledPreview = _.throttle(
+        _.bind(this.updatePreview, this),
+        500
+      );
+    }
+    this.throttledPreview();
+  },
+
+  getRawText: function() {
+    return this.$('textarea').val();
+  },
+
+  exportToArray: function() {
+    return this.getRawText().split('\n');
+  },
+
+  getExportObj: function() {
+    return {
+      markdowns: this.exportToArray()
+    };
+  },
+
+  updatePreview: function() {
+    var raw = this.getRawText();
+    var HTML = require('markdown').markdown.toHTML(raw);
+    this.$('div.insidePreview').html(HTML);
+  }
+});
+
+var MarkdownPresenter = ContainedBase.extend({
+  tagName: 'div',
+  className: 'markdownPresenter box vertical',
+  template: _.template($('#markdown-presenter').html()),
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.JSON = {
+      previewText: options.previewText || 'Here is something for you',
+      fillerText: options.fillerText || '# Yay'
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Check this out...'
+    });
+    this.render();
+
+    if (!options.noConfirmCancel) {
+      var confirmCancel = new Views.ConfirmCancelView({
+        destination: this.getDestination()
+      });
+      confirmCancel.deferred.promise
+      .then(_.bind(function() {
+        this.deferred.resolve(this.grabText());
+      }, this))
+      .fail(_.bind(function() {
+        this.deferred.reject();
+      }, this))
+      .done(_.bind(this.die, this));
+    }
+
+    this.show();
+  },
+
+  grabText: function() {
+    return this.$('textarea').val();
+  }
+});
+
+var DemonstrationBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'demonstrationBuilder box vertical',
+  template: _.template($('#demonstration-builder').html()),
+  events: {
+    'click div.testButton': 'testView'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    if (options.fromObj) {
+      var toEdit = options.fromObj.options;
+      options = _.extend(
+        {},
+        options,
+        toEdit,
+        {
+          beforeMarkdown: toEdit.beforeMarkdowns.join('\n'),
+          afterMarkdown: toEdit.afterMarkdowns.join('\n')
+        }
+      );
+    }
+
+    this.JSON = {};
+    this.container = new ModalTerminal({
+      title: 'Demonstration Builder'
+    });
+    this.render();
+
+    // build the two markdown grabbers
+    this.beforeMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      fillerText: options.beforeMarkdown,
+      previewText: 'Before demonstration Markdown'
+    });
+    this.beforeCommandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
+      initialText: options.beforeCommand || 'git checkout -b bugFix'
+    });
+
+    this.commandView = new TextGrabber({
+      container: this,
+      helperText: 'The git command(s) to demonstrate to the reader',
+      initialText: options.command || 'git commit'
+    });
+
+    this.afterMarkdownView = new MarkdownGrabber({
+      container: this,
+      withoutButton: true,
+      fillerText: options.afterMarkdown,
+      previewText: 'After demonstration Markdown'
+    });
+
+    // build confirm button
+    var buttonDeferred = Q.defer();
+    var confirmCancel = new Views.ConfirmCancelView({
+      deferred: buttonDeferred,
+      destination: this.getDestination()
+    });
+
+    buttonDeferred.promise
+    .then(_.bind(this.confirmed, this))
+    .fail(_.bind(this.cancelled, this))
+    .done();
+  },
+
+  testView: function() {
+    var MultiView = require('../views/multiView').MultiView;
+    new MultiView({
+      childViews: [{
+        type: 'GitDemonstrationView',
+        options: this.getExportObj()
+      }]
+    });
+  },
+
+  getExportObj: function() {
+    return {
+      beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
+      afterMarkdowns: this.afterMarkdownView.exportToArray(),
+      command: this.commandView.getText(),
+      beforeCommand: this.beforeCommandView.getText()
+    };
+  },
+
+  confirmed: function() {
+    this.die();
+    this.deferred.resolve(this.getExportObj());
+  },
+
+  cancelled: function() {
+    this.die();
+    this.deferred.resolve();
+  },
+
+  getInsideElement: function() {
+    return this.$('.insideBuilder')[0];
+  }
+});
+
+var MultiViewBuilder = ContainedBase.extend({
+  tagName: 'div',
+  className: 'multiViewBuilder box vertical',
+  template: _.template($('#multi-view-builder').html()),
+  typeToConstructor: {
+    ModalAlert: MarkdownGrabber,
+    GitDemonstrationView: DemonstrationBuilder
+  },
+
+  events: {
+    'click div.deleteButton': 'deleteOneView',
+    'click div.testButton': 'testOneView',
+    'click div.editButton': 'editOneView',
+    'click div.testEntireView': 'testEntireView',
+    'click div.addView': 'addView',
+    'click div.saveView': 'saveView',
+    'click div.cancelView': 'cancel'
+  },
+
+  initialize: function(options) {
+    options = options || {};
+    this.deferred = options.deferred || Q.defer();
+    this.multiViewJSON = options.multiViewJSON || {};
+
+    this.JSON = {
+      views: this.getChildViews(),
+      supportedViews: _.keys(this.typeToConstructor)
+    };
+
+    this.container = new ModalTerminal({
+      title: 'Build a MultiView!'
+    });
+    this.render();
+
+    this.show();
+  },
+
+  saveView: function() {
+    this.hide();
+    this.deferred.resolve(this.multiViewJSON);
+  },
+
+  cancel: function() {
+    this.hide();
+    this.deferred.resolve();
+  },
+
+  addView: function(ev) {
+    var el = ev.target;
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var Constructor = this.typeToConstructor[type];
+    var builder = new Constructor({
+      deferred: whenDone
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      this.addChildViewObj(newView);
+    }, this))
+    .fail(function() {
+      // they dont want to add the view apparently, so just return
+    })
+    .done();
+  },
+
+  testOneView: function(ev) {
+    var el = ev.target;
+    var index = $(el).attr('data-index');
+    var toTest = this.getChildViews()[index];
+    var MultiView = require('../views/multiView').MultiView;
+    new MultiView({
+      childViews: [toTest]
+    });
+  },
+
+  testEntireView: function() {
+    var MultiView = require('../views/multiView').MultiView;
+    new MultiView({
+      childViews: this.getChildViews()
+    });
+  },
+
+  editOneView: function(ev) {
+    var el = ev.target;
+    var index = $(el).attr('data-index');
+    var type = $(el).attr('data-type');
+
+    var whenDone = Q.defer();
+    var builder = new this.typeToConstructor[type]({
+      deferred: whenDone,
+      fromObj: this.getChildViews()[index]
+    });
+    whenDone.promise
+    .then(_.bind(function() {
+      var newView = {
+        type: type,
+        options: builder.getExportObj()
+      };
+      var views = this.getChildViews();
+      views[index] = newView;
+      this.setChildViews(views);
+    }, this))
+    .fail(function() { })
+    .done();
+  },
+
+  deleteOneView: function(ev) {
+    var el = ev.target;
+    var index = $(el).attr('data-index');
+    var toSlice = this.getChildViews();
+
+    var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
+    this.setChildViews(updated);
+    this.update();
+  },
+
+  addChildViewObj: function(newObj, index) {
+    var childViews = this.getChildViews();
+    childViews.push(newObj);
+    this.setChildViews(childViews);
+    this.update();
+  },
+
+  setChildViews: function(newArray) {
+    this.multiViewJSON.childViews = newArray;
+  },
+
+  getChildViews: function() {
+    return this.multiViewJSON.childViews || [];
+  },
+
+  update: function() {
+    this.JSON.views = this.getChildViews();
+    this.renderAgain();
+  }
+});
+
+exports.MarkdownGrabber = MarkdownGrabber;
+exports.DemonstrationBuilder = DemonstrationBuilder;
+exports.TextGrabber = TextGrabber;
+exports.MultiViewBuilder = MultiViewBuilder;
+exports.MarkdownPresenter = MarkdownPresenter;
+
+
+});
+
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Welcome to the level builder!',
+        '',
+        'Here are the main steps:',
+        '',
+        '  * Set up the initial environment with git commands',
+        '  * Define the starting tree with ```define start```',
+        '  * Enter the series of git commands that compose the (optimal) solution',
+        '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+        '  * Optionally define a hint with ```define hint```',
+        '  * Edit the name with ```define name```',
+        '  * Optionally define a nice start dialog with ```edit dialog```',
+        '  * Enter the command ```finish``` to output your level JSON!'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎使用关卡生成器！',
+        '',
+        '主要步骤如下：',
+        '',
+        '  * 使用 git 命令布置好初始环境',
+        '  * 使用 ```define start``` 命令定义起始树',
+        '  * 输入一系列 git 命令，编好答案',
+        '  * 使用 ```define goal``` 命令定义目标树。定义目标的同时定义答案',
+        '  * 还可以用 ```define hint``` 命令定义一个提示',
+        '  * 用 ```define name``` 修改名称',
+        '  * 还可以用 ```edit dialog``` 定义一个漂亮的开始对话框',
+        '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
+      ]
+    }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Bienvenue dans l\'éditeur niveaux !',
+        '',
+        'Voici les étapes principales :',
+        '',
+        '  * Mettez en place l\'environnement initial avec des commandes git',
+        '  * Définissez l\'arbre de départ avec ```define start```',
+        '  * Saisissez la série de commandes git qui composent la solution (optimale)',
+        '  * Définissez l\'arbre cible avec ```define goal```. Cela définit aussi la solution',
+        '  * Optionnellement, définissez un indice avec ```define hint```',
+        '  * Changez le nom avec ```define name```',
+        '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
+        '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
+      ]
+    }
+  }]
+};
 
 });
 
@@ -22438,19 +22560,6 @@ require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__di
 
 });
 
-require.define("/src/js/util/mock.js",function(require,module,exports,__dirname,__filename,process,global){exports.mock = function(Constructor) {
-  var dummy = {};
-  var stub = function() {};
-
-  for (var key in Constructor.prototype) {
-    dummy[key] = stub;
-  }
-  return dummy;
-};
-
-
-});
-
 require.define("sys",function(require,module,exports,__dirname,__filename,process,global){module.exports = require('util');
 
 });
@@ -22504,115 +22613,6 @@ var VisBase = Backbone.Model.extend({
 });
 
 exports.VisBase = VisBase;
-
-
-});
-
-require.define("/src/js/git/headless.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var Q = require('q');
-
-var GitEngine = require('../git').GitEngine;
-var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
-var GitVisuals = require('../visuals').GitVisuals;
-var TreeCompare = require('../git/treeCompare').TreeCompare;
-var EventBaton = require('../util/eventBaton').EventBaton;
-
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-var Command = require('../models/commandModel').Command;
-
-var mock = require('../util/mock').mock;
-var util = require('../util');
-
-function getMockFactory() {
-  var mockFactory = {};
-  var mockReturn = function() {
-    var d = Q.defer();
-    // fall through!
-    d.resolve();
-    return d.promise;
-  };
-  for (var key in AnimationFactory) {
-    mockFactory[key] = mockReturn;
-  }
-
-  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
-    aQueue.finish();
-  };
-  mockFactory.refreshTree = function(aQueue, gitVisuals) {
-    aQueue.finish();
-  };
-
-  mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
-    // dont add any steps
-    return chain;
-  };
-
-  return mockFactory;
-}
-
-var HeadlessGit = function() {
-  this.init();
-};
-
-HeadlessGit.prototype.init = function() {
-  this.commitCollection = new CommitCollection();
-  this.branchCollection = new BranchCollection();
-
-  // here we mock visuals and animation factory so the git engine
-  // is headless
-  var animationFactory = getMockFactory();
-  var gitVisuals = mock(GitVisuals);
-
-  this.gitEngine = new GitEngine({
-    collection: this.commitCollection,
-    branches: this.branchCollection,
-    gitVisuals: gitVisuals,
-    animationFactory: animationFactory,
-    eventBaton: new EventBaton()
-  });
-  this.gitEngine.init();
-};
-
-// horrible hack so we can just quickly get a tree string for async git
-// operations, aka for git demonstration views
-var getTreeQuick = function(commandStr, getTreePromise) {
-  var deferred = Q.defer();
-  var headless = new HeadlessGit();
-  headless.sendCommand(commandStr, deferred);
-  deferred.promise.then(function() {
-    getTreePromise.resolve(headless.gitEngine.exportTree());
-  });
-};
-
-HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
-  var deferred = Q.defer();
-  var chain = deferred.promise;
-  var startTime = new Date().getTime();
-
-  util.splitTextCommand(value, function(commandStr) {
-    var commandObj = new Command({
-      rawStr: commandStr
-    });
-    var thisDeferred = Q.defer();
-    this.gitEngine.dispatch(commandObj, thisDeferred);
-    chain = chain.then(thisDeferred.promise);
-  }, this);
-
-  chain.then(function() {
-    var nowTime = new Date().getTime();
-    // .log('done with command "' + value + '", took ', nowTime - startTime);
-    if (entireCommandPromise) {
-      entireCommandPromise.resolve();
-    }
-  });
-  deferred.resolve();
-};
-
-exports.HeadlessGit = HeadlessGit;
-exports.getTreeQuick = getTreeQuick;
 
 
 });
@@ -30632,6 +30632,7 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 
 var Visualization = require('../visuals/visualization').Visualization;
+var HeadlessGit = require('../git/headless');
 
 var GitDemonstrationView = ContainedBase.extend({
   tagName: 'div',
@@ -30716,14 +30717,12 @@ var GitDemonstrationView = ContainedBase.extend({
       return;
     }
 
-    // here we just split the command and push them through to the git engine
-    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
-      this.mainVis.gitEngine.dispatch(new Command({
-        rawStr: commandStr
-      }), Q.defer());
-    }, this);
-    // then harsh refresh
-    this.mainVis.gitVisuals.refreshTreeHarsh();
+    var whenHaveTree = Q.defer();
+    HeadlessGit.getTreeQuick(this.options.beforeCommand, whenHaveTree);
+    whenHaveTree.promise.then(_.bind(function(tree) {
+      this.mainVis.gitEngine.loadTree(tree);
+      this.mainVis.gitVisuals.refreshTreeHarsh();
+    }, this));
   },
 
   takeControl: function() {
@@ -30793,6 +30792,7 @@ var GitDemonstrationView = ContainedBase.extend({
     _.each(commands, function(command, index) {
       chainPromise = chainPromise.then(_.bind(function() {
         var myDefer = Q.defer();
+        console.log('dispatching', command);
         this.mainVis.gitEngine.dispatch(command, myDefer);
         return myDefer.promise;
       }, this));

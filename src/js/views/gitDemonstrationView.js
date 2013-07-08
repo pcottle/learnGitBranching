@@ -11,6 +11,7 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 
 var Visualization = require('../visuals/visualization').Visualization;
+var HeadlessGit = require('../git/headless');
 
 var GitDemonstrationView = ContainedBase.extend({
   tagName: 'div',
@@ -95,14 +96,12 @@ var GitDemonstrationView = ContainedBase.extend({
       return;
     }
 
-    // here we just split the command and push them through to the git engine
-    util.splitTextCommand(this.options.beforeCommand, function(commandStr) {
-      this.mainVis.gitEngine.dispatch(new Command({
-        rawStr: commandStr
-      }), Q.defer());
-    }, this);
-    // then harsh refresh
-    this.mainVis.gitVisuals.refreshTreeHarsh();
+    var whenHaveTree = Q.defer();
+    HeadlessGit.getTreeQuick(this.options.beforeCommand, whenHaveTree);
+    whenHaveTree.promise.then(_.bind(function(tree) {
+      this.mainVis.gitEngine.loadTree(tree);
+      this.mainVis.gitVisuals.refreshTreeHarsh();
+    }, this));
   },
 
   takeControl: function() {
@@ -172,6 +171,7 @@ var GitDemonstrationView = ContainedBase.extend({
     _.each(commands, function(command, index) {
       chainPromise = chainPromise.then(_.bind(function() {
         var myDefer = Q.defer();
+        console.log('dispatching', command);
         this.mainVis.gitEngine.dispatch(command, myDefer);
         return myDefer.promise;
       }, this));
