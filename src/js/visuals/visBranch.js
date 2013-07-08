@@ -467,24 +467,6 @@ var VisBranch = VisBase.extend({
     });
   },
 
-  getArrowOpacity: function() {
-    if (this.getIsGoalAndNotCompared() &&
-        !this.get('isHead') &&
-        this.getBranchStackIndex() === 0) {
-      return 0.5;
-    }
-    return this.getNonTextOpacity();
-  },
-
-  getRectOpacity: function() {
-    if (this.getIsGoalAndNotCompared() &&
-        !this.get('isHead') &&
-        this.getBranchStackIndex() === 0) {
-      return 0.8;
-    }
-    return this.getNonTextOpacity();
-  },
-
   getNonTextOpacity: function() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
@@ -544,7 +526,7 @@ var VisBranch = VisBase.extend({
         y: rectPos.y,
         width: rectSize.w,
         height: rectSize.h,
-        opacity: this.getRectOpacity(),
+        opacity: this.getNonTextOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         'stroke-dasharray': dashArray,
@@ -552,7 +534,7 @@ var VisBranch = VisBase.extend({
       },
       arrow: {
         path: arrowPath,
-        opacity: this.getArrowOpacity(),
+        opacity: this.getNonTextOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         transform: this.getArrowTransform(),

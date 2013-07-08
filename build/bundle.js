@@ -5826,6 +5826,11 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'fr_FR': 'Cible à atteindre'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'goal-only-master': {
+    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
+    'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
     '__desc__': 'the helper message for the window that shows the goal tree',
     'en_US': 'You can hide this window with "hide goal"',
@@ -6263,8 +6268,11 @@ var Level = Sandbox.extend({
   },
 
   initGoalVisualization: function() {
+    var onlyMaster = TreeCompare.onlyMasterCompared(this.level);
     // first we make the goal visualization holder
-    this.goalCanvasHolder = new CanvasTerminalHolder();
+    this.goalCanvasHolder = new CanvasTerminalHolder({
+      text: (onlyMaster) ? intl.str('goal-only-master') : undefined
+    });
 
     // then we make a visualization. the "el" here is the element to
     // track for size information. the container is where the canvas will be placed
@@ -11257,7 +11265,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('hide-goal')
+      text: options.text || intl.str('goal-vis-info')
     };
 
     this.render();
@@ -17519,24 +17527,6 @@ var VisBranch = VisBase.extend({
     });
   },
 
-  getArrowOpacity: function() {
-    if (this.getIsGoalAndNotCompared() &&
-        !this.get('isHead') &&
-        this.getBranchStackIndex() === 0) {
-      return 0.5;
-    }
-    return this.getNonTextOpacity();
-  },
-
-  getRectOpacity: function() {
-    if (this.getIsGoalAndNotCompared() &&
-        !this.get('isHead') &&
-        this.getBranchStackIndex() === 0) {
-      return 0.8;
-    }
-    return this.getNonTextOpacity();
-  },
-
   getNonTextOpacity: function() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
@@ -17596,7 +17586,7 @@ var VisBranch = VisBase.extend({
         y: rectPos.y,
         width: rectSize.w,
         height: rectSize.h,
-        opacity: this.getRectOpacity(),
+        opacity: this.getNonTextOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         'stroke-dasharray': dashArray,
@@ -17604,7 +17594,7 @@ var VisBranch = VisBase.extend({
       },
       arrow: {
         path: arrowPath,
-        opacity: this.getArrowOpacity(),
+        opacity: this.getNonTextOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         transform: this.getArrowTransform(),
@@ -27047,6 +27037,11 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'fr_FR': 'Cible à atteindre'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'goal-only-master': {
+    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
+    'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
     '__desc__': 'the helper message for the window that shows the goal tree',
     'en_US': 'You can hide this window with "hide goal"',
@@ -27854,8 +27849,11 @@ var Level = Sandbox.extend({
   },
 
   initGoalVisualization: function() {
+    var onlyMaster = TreeCompare.onlyMasterCompared(this.level);
     // first we make the goal visualization holder
-    this.goalCanvasHolder = new CanvasTerminalHolder();
+    this.goalCanvasHolder = new CanvasTerminalHolder({
+      text: (onlyMaster) ? intl.str('goal-only-master') : undefined
+    });
 
     // then we make a visualization. the "el" here is the element to
     // track for size information. the container is where the canvas will be placed
@@ -31615,7 +31613,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('hide-goal')
+      text: options.text || intl.str('goal-vis-info')
     };
 
     this.render();
@@ -34148,24 +34146,6 @@ var VisBranch = VisBase.extend({
     });
   },
 
-  getArrowOpacity: function() {
-    if (this.getIsGoalAndNotCompared() &&
-        !this.get('isHead') &&
-        this.getBranchStackIndex() === 0) {
-      return 0.5;
-    }
-    return this.getNonTextOpacity();
-  },
-
-  getRectOpacity: function() {
-    if (this.getIsGoalAndNotCompared() &&
-        !this.get('isHead') &&
-        this.getBranchStackIndex() === 0) {
-      return 0.8;
-    }
-    return this.getNonTextOpacity();
-  },
-
   getNonTextOpacity: function() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
@@ -34225,7 +34205,7 @@ var VisBranch = VisBase.extend({
         y: rectPos.y,
         width: rectSize.w,
         height: rectSize.h,
-        opacity: this.getRectOpacity(),
+        opacity: this.getNonTextOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         'stroke-dasharray': dashArray,
@@ -34233,7 +34213,7 @@ var VisBranch = VisBase.extend({
       },
       arrow: {
         path: arrowPath,
-        opacity: this.getArrowOpacity(),
+        opacity: this.getNonTextOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         transform: this.getArrowTransform(),

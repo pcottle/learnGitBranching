@@ -28,6 +28,11 @@ p {
   word-wrap: break-word;
 }
 
+.fwber {
+  font-weight: bolder;
+  font-size: 18px;
+}
+
 div.modalTerminal a {
   color: rgb(253, 152, 209);
   font-weight: bold;
@@ -234,6 +239,7 @@ div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
   height: 80%;
   box-shadow: 0 0 30px rgb(0,0,0);
   cursor: pointer;
+  border-radius: 0 0 5px 5px;
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder div.terminal-text {

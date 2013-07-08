@@ -477,6 +477,11 @@ exports.strings = {
     'fr_FR': 'Cible à atteindre'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'goal-only-master': {
+    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
+    'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
     '__desc__': 'the helper message for the window that shows the goal tree',
     'en_US': 'You can hide this window with "hide goal"',

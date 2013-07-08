@@ -166,8 +166,11 @@ var Level = Sandbox.extend({
   },
 
   initGoalVisualization: function() {
+    var onlyMaster = TreeCompare.onlyMasterCompared(this.level);
     // first we make the goal visualization holder
-    this.goalCanvasHolder = new CanvasTerminalHolder();
+    this.goalCanvasHolder = new CanvasTerminalHolder({
+      text: (onlyMaster) ? intl.str('goal-only-master') : undefined
+    });
 
     // then we make a visualization. the "el" here is the element to
     // track for size information. the container is where the canvas will be placed
