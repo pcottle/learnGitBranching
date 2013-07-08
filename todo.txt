@@ -6,7 +6,6 @@ Before everything else:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] increase test coverage over everything
     - unit and integration, but mostly for git operations
-[ ] green refactor tree compare to have map
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
@@ -34,7 +33,6 @@ Origin things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] add visuals and text to show compare method
 
 Cases to handle / things to edit
 =======================
@@ -54,6 +52,8 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] add visuals and text to show compare method
+[x] green refactor tree compare to have map
 [x] fix tests by stubbing out animation factory to resolve promises
 [x] better git clone and fake teamwork anywhere
 [x] git pull animation

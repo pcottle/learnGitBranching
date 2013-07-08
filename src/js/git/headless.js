@@ -67,12 +67,16 @@ HeadlessGit.prototype.init = function() {
   this.gitEngine.init();
 };
 
-HeadlessGit.prototype.sendCommand = function(value) {
+HeadlessGit.prototype.sendCommand = function(value, cb) {
+  var deferred = Q.defer();
+  var chain = deferred.promise;
   util.splitTextCommand(value, function(commandStr) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    this.gitEngine.dispatch(commandObj, Q.defer());
+    var thisDeferred = Q.defer();
+    this.gitEngine.dispatch(commandObj, thisDeferred);
+    chain = chain.then(thisPromise);
   }, this);
 };
 
