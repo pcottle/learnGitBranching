@@ -88,8 +88,7 @@ var VisBranch = VisBase.extend({
     if (!this.get('gitVisuals').getIsGoalVis()) {
       return '';
     }
-
-    return (this.getIsLevelBranchCompared()) ? '' : '- ';
+    return (this.getIsLevelBranchCompared()) ? '' : '--';
   },
 
   getIsGoalAndNotCompared: function() {
@@ -468,6 +467,24 @@ var VisBranch = VisBase.extend({
     });
   },
 
+  getArrowOpacity: function() {
+    if (this.getIsGoalAndNotCompared() &&
+        !this.get('isHead') &&
+        this.getBranchStackIndex() === 0) {
+      return 0.5;
+    }
+    return this.getNonTextOpacity();
+  },
+
+  getRectOpacity: function() {
+    if (this.getIsGoalAndNotCompared() &&
+        !this.get('isHead') &&
+        this.getBranchStackIndex() === 0) {
+      return 0.8;
+    }
+    return this.getNonTextOpacity();
+  },
+
   getNonTextOpacity: function() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
@@ -485,14 +502,21 @@ var VisBranch = VisBase.extend({
     }
 
     if (this.getIsGoalAndNotCompared()) {
-      return 0.3;
+      return (this.getBranchStackIndex() === 0) ? 0.7 : 0.3;
     }
 
     return 1;
   },
 
+  getStrokeWidth: function() {
+    if (this.getIsGoalAndNotCompared()) {
+      return this.get('stroke-width') / 5.0;
+    }
+    
+    return this.get('stroke-width');
+  },
+
   getAttributes: function() {
-    var nonTextOpacity = this.getNonTextOpacity();
     var textOpacity = this.getTextOpacity();
     this.updateName();
 
@@ -520,19 +544,20 @@ var VisBranch = VisBase.extend({
         y: rectPos.y,
         width: rectSize.w,
         height: rectSize.h,
-        opacity: nonTextOpacity,
+        opacity: this.getRectOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         'stroke-dasharray': dashArray,
-        'stroke-width': this.get('stroke-width')
+        'stroke-width': this.getStrokeWidth()
       },
       arrow: {
         path: arrowPath,
-        opacity: nonTextOpacity,
+        opacity: this.getArrowOpacity(),
         fill: this.getFill(),
         stroke: this.get('stroke'),
         transform: this.getArrowTransform(),
-        'stroke-width': this.get('stroke-width')
+        'stroke-dasharray': dashArray,
+        'stroke-width': this.getStrokeWidth()
       }
     };
   },
