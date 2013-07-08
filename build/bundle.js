@@ -22529,21 +22529,20 @@ var util = require('../util');
 function getMockFactory() {
   var mockFactory = {};
   var mockReturn = function() {
-    return Q.defer().promise;
+    var d = Q.defer();
+    // fall through!
+    d.resolve();
+    return d.promise;
   };
   for (var key in AnimationFactory) {
     mockFactory[key] = mockReturn;
   }
-  // special method that does stuff
-  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
-    aQueue.thenFinish(Q.defer().promise);
-  };
 
-  mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
-    var d = Q.defer();
-    d.resolve();
-    // return a resolved promise here
-    return d.promise;
+  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
+    aQueue.finish();
+  };
+  mockFactory.refreshTree = function(aQueue, gitVisuals) {
+    aQueue.finish();
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
@@ -22577,16 +22576,43 @@ HeadlessGit.prototype.init = function() {
   this.gitEngine.init();
 };
 
-HeadlessGit.prototype.sendCommand = function(value) {
+// horrible hack so we can just quickly get a tree string for async git
+// operations, aka for git demonstration views
+var getTreeQuick = function(commandStr, getTreePromise) {
+  var deferred = Q.defer();
+  var headless = new HeadlessGit();
+  headless.sendCommand(commandStr, deferred);
+  deferred.promise.then(function() {
+    getTreePromise.resolve(headless.gitEngine.exportTree());
+  });
+};
+
+HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+  var startTime = new Date().getTime();
+
   util.splitTextCommand(value, function(commandStr) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    this.gitEngine.dispatch(commandObj, Q.defer());
+    var thisDeferred = Q.defer();
+    this.gitEngine.dispatch(commandObj, thisDeferred);
+    chain = chain.then(thisDeferred.promise);
   }, this);
+
+  chain.then(function() {
+    var nowTime = new Date().getTime();
+    // .log('done with command "' + value + '", took ', nowTime - startTime);
+    if (entireCommandPromise) {
+      entireCommandPromise.resolve();
+    }
+  });
+  deferred.resolve();
 };
 
 exports.HeadlessGit = HeadlessGit;
+exports.getTreeQuick = getTreeQuick;
 
 
 });
@@ -23568,21 +23594,20 @@ var util = require('../util');
 function getMockFactory() {
   var mockFactory = {};
   var mockReturn = function() {
-    return Q.defer().promise;
+    var d = Q.defer();
+    // fall through!
+    d.resolve();
+    return d.promise;
   };
   for (var key in AnimationFactory) {
     mockFactory[key] = mockReturn;
   }
-  // special method that does stuff
-  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
-    aQueue.thenFinish(Q.defer().promise);
-  };
 
-  mockFactory.playCommitBirthPromiseAnimation = function(commit, visuals) {
-    var d = Q.defer();
-    d.resolve();
-    // return a resolved promise here
-    return d.promise;
+  mockFactory.playRefreshAnimationAndFinish = function(gitVisuals, aQueue) {
+    aQueue.finish();
+  };
+  mockFactory.refreshTree = function(aQueue, gitVisuals) {
+    aQueue.finish();
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
@@ -23616,16 +23641,43 @@ HeadlessGit.prototype.init = function() {
   this.gitEngine.init();
 };
 
-HeadlessGit.prototype.sendCommand = function(value) {
+// horrible hack so we can just quickly get a tree string for async git
+// operations, aka for git demonstration views
+var getTreeQuick = function(commandStr, getTreePromise) {
+  var deferred = Q.defer();
+  var headless = new HeadlessGit();
+  headless.sendCommand(commandStr, deferred);
+  deferred.promise.then(function() {
+    getTreePromise.resolve(headless.gitEngine.exportTree());
+  });
+};
+
+HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+  var startTime = new Date().getTime();
+
   util.splitTextCommand(value, function(commandStr) {
     var commandObj = new Command({
       rawStr: commandStr
     });
-    this.gitEngine.dispatch(commandObj, Q.defer());
+    var thisDeferred = Q.defer();
+    this.gitEngine.dispatch(commandObj, thisDeferred);
+    chain = chain.then(thisDeferred.promise);
   }, this);
+
+  chain.then(function() {
+    var nowTime = new Date().getTime();
+    // .log('done with command "' + value + '", took ', nowTime - startTime);
+    if (entireCommandPromise) {
+      entireCommandPromise.resolve();
+    }
+  });
+  deferred.resolve();
 };
 
 exports.HeadlessGit = HeadlessGit;
+exports.getTreeQuick = getTreeQuick;
 
 
 });
