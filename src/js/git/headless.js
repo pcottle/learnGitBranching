@@ -32,6 +32,7 @@ function getMockFactory() {
     aQueue.finish();
   };
   mockFactory.refreshTree = function(aQueue, gitVisuals) {
+    console.log('being used');
     aQueue.finish();
   };
 

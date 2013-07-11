@@ -44,7 +44,6 @@ TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
 TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
-  debugger;
 
   return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
 };

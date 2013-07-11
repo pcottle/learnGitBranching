@@ -792,7 +792,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('goal-vis-info')
+      text: options.text || intl.str('hide-goal')
     };
 
     this.render();
