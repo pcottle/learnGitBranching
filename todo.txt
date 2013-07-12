@@ -7,6 +7,7 @@ Before everything else:
 [ ] increase test coverage over everything
     - unit and integration, but mostly for git operations
 [ ] green refactor tree compare to have map
+[ ] figure out gh-pages force
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
