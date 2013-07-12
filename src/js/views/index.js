@@ -716,7 +716,7 @@ var CommandsHelperBar = HelperBar.extend({
       id: 'undo'
     }, {
       text: 'Objective',
-      id: 'objectve'
+      id: 'objective'
     }, {
       text: 'Help',
       id: 'help'
