@@ -7158,10 +7158,10 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
-  // poor man's dependency injection
-  if (options.animationFactory) {
-    AnimationFactory = options.animationFactory;
-  }
+  // poor man's dependency injection. we cant reassign
+  // the module variable because its get clobbered :P
+  this.animationFactory = (options.animationFactory) ?
+    options.animationFactory : AnimationFactory;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -7392,7 +7392,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
-    AnimationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
+    this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
   // we only clone from our current state, so we can safely assume all of our
@@ -7741,7 +7741,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   var chain = deferred.promise;
   var destBranch = this.resolveID('HEAD');
 
-  chain = AnimationFactory.highlightEachWithPromise(
+  chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toRevert,
     destBranch
@@ -7760,7 +7760,7 @@ GitEngine.prototype.revert = function(whichCommits) {
     });
     base = newCommit;
 
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -7776,7 +7776,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   // done! update our location
   chain = chain.then(_.bind(function() {
     this.setTargetLocation('HEAD', base);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
@@ -7835,7 +7835,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var chain = deferred.promise;
   var destinationBranch = this.resolveID('HEAD');
 
-  chain = AnimationFactory.highlightEachWithPromise(
+  chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toCherrypick,
     destinationBranch
@@ -7843,7 +7843,7 @@ GitEngine.prototype.cherrypickStarter = function() {
 
   var chainStep = _.bind(function(commit) {
     var newCommit = this.cherrypick(commit);
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -8001,7 +8001,7 @@ GitEngine.prototype.push = function(options) {
   // now make the promise chain to make each commit
   var chainStep = _.bind(function(id, parents) {
     var newCommit = makeCommit(id, parents);
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
@@ -8012,7 +8012,7 @@ GitEngine.prototype.push = function(options) {
 
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
-      return AnimationFactory.playHighlightPromiseAnimation(
+      return this.animationFactory.playHighlightPromiseAnimation(
         this.refs[commitJSON.id],
         remoteBranch
       );
@@ -8031,8 +8031,8 @@ GitEngine.prototype.push = function(options) {
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(remoteBranch, remoteCommit);
     // unhighlight local
-    AnimationFactory.playRefreshAnimation(this.gitVisuals);
-    return AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
   }, this));
 
   // HAX HAX update o/master
@@ -8041,7 +8041,7 @@ GitEngine.prototype.push = function(options) {
     var remoteBranchID = localBranch.getRemoteBranchIDFromTracking();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   if (!options.dontResolvePromise) {
@@ -8106,7 +8106,7 @@ GitEngine.prototype.fetch = function(options) {
   // now make the promise chain to make each commit
   var chainStep = _.bind(function(id, parents) {
     var newCommit = makeCommit(id, parents);
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -8117,7 +8117,7 @@ GitEngine.prototype.fetch = function(options) {
 
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
-      return AnimationFactory.playHighlightPromiseAnimation(
+      return this.animationFactory.playHighlightPromiseAnimation(
         this.origin.refs[commitJSON.id],
         localBranch
       );
@@ -8136,8 +8136,8 @@ GitEngine.prototype.fetch = function(options) {
     var localCommit = this.refs[originLocationID];
     this.setTargetLocation(localBranch, localCommit);
     // unhighlight origin
-    AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   if (!options.dontResolvePromise) {
@@ -8188,13 +8188,13 @@ GitEngine.prototype.pullFinishWithRebase = function(
   // delay a bit after the intense refresh animation from
   // fetch
   chain = chain.then(function() {
-    return AnimationFactory.getDelayedPromise(300);
+    return this.animationFactory.getDelayedPromise(300);
   });
 
   chain = chain.then(_.bind(function() {
     // highlight last commit on o/master to color of
     // local branch
-    return AnimationFactory.playHighlightPromiseAnimation(
+    return this.animationFactory.playHighlightPromiseAnimation(
       this.getCommitFromRef(remoteBranch),
       localBranch
     );
@@ -8219,13 +8219,13 @@ GitEngine.prototype.pullFinishWithMerge = function(
   // delay a bit after the intense refresh animation from
   // fetch
   chain = chain.then(function() {
-    return AnimationFactory.getDelayedPromise(300);
+    return this.animationFactory.getDelayedPromise(300);
   });
   
   chain = chain.then(_.bind(function() {
     // highlight last commit on o/master to color of
     // local branch
-    return AnimationFactory.playHighlightPromiseAnimation(
+    return this.animationFactory.playHighlightPromiseAnimation(
       this.getCommitFromRef(remoteBranch),
       localBranch
     );
@@ -8233,7 +8233,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
 
   chain = chain.then(_.bind(function() {
     // highlight commit on master to color of remote
-    return AnimationFactory.playHighlightPromiseAnimation(
+    return this.animationFactory.playHighlightPromiseAnimation(
       this.getCommitFromRef(localBranch),
       remoteBranch
     );
@@ -8241,16 +8241,16 @@ GitEngine.prototype.pullFinishWithMerge = function(
 
   // delay and merge
   chain = chain.then(function() {
-    return AnimationFactory.getDelayedPromise(700);
+    return this.animationFactory.getDelayedPromise(700);
   });
   chain = chain.then(_.bind(function() {
     var newCommit = this.merge('o/master');
     if (!newCommit) {
       // it is a fast forward
-      return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
     }
 
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -8294,7 +8294,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
 
   var chainStep = _.bind(function() {
     var newCommit = makeOriginCommit();
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
@@ -8367,7 +8367,7 @@ GitEngine.prototype.commitStarter = function() {
     newCommit.set('commitMessage', msg);
   }
 
-  var promise = AnimationFactory.playCommitBirthPromiseAnimation(
+  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
     newCommit,
     this.gitVisuals
   );
@@ -8874,7 +8874,7 @@ GitEngine.prototype.rebaseFinish = function(
     });
   }
 
-  chain = AnimationFactory.highlightEachWithPromise(
+  chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toRebase,
     destinationBranch
@@ -8888,7 +8888,7 @@ GitEngine.prototype.rebaseFinish = function(
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
 
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -8911,7 +8911,7 @@ GitEngine.prototype.rebaseFinish = function(
       this.setTargetLocation(currentLocation, base);
       this.checkout(currentLocation);
     }
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   if (!options.dontResolvePromise) {
@@ -8927,11 +8927,11 @@ GitEngine.prototype.mergeStarter = function() {
 
   if (newCommit === undefined) {
     // its just a fast forwrard
-    AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
     return;
   }
 
-  AnimationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.merge = function(targetSource) {
@@ -9171,7 +9171,7 @@ GitEngine.prototype.externalRefresh = function() {
   this.animationQueue = new AnimationQueue({
     callback: function() {}
   });
-  AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   this.animationQueue.start();
 };
 
@@ -9206,7 +9206,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   // only add the refresh if we didn't do manual animations
   if (!this.animationQueue.get('animations').length && !willStartAuto) {
-    AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done
@@ -9891,7 +9891,6 @@ TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
 TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
-  debugger;
 
   return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
 };
@@ -11189,7 +11188,7 @@ var CommandsHelperBar = HelperBar.extend({
       id: 'undo'
     }, {
       text: 'Objective',
-      id: 'objectve'
+      id: 'objective'
     }, {
       text: 'Help',
       id: 'help'
@@ -11265,7 +11264,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('goal-vis-info')
+      text: options.text || intl.str('hide-goal')
     };
 
     this.render();
@@ -15218,6 +15217,7 @@ function getMockFactory() {
     aQueue.finish();
   };
   mockFactory.refreshTree = function(aQueue, gitVisuals) {
+    console.log('being used');
     aQueue.finish();
   };
 
@@ -23607,6 +23607,7 @@ function getMockFactory() {
     aQueue.finish();
   };
   mockFactory.refreshTree = function(aQueue, gitVisuals) {
+    console.log('being used');
     aQueue.finish();
   };
 
@@ -23713,10 +23714,10 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
-  // poor man's dependency injection
-  if (options.animationFactory) {
-    AnimationFactory = options.animationFactory;
-  }
+  // poor man's dependency injection. we cant reassign
+  // the module variable because its get clobbered :P
+  this.animationFactory = (options.animationFactory) ?
+    options.animationFactory : AnimationFactory;
 
   // global variable to keep track of the options given
   // along with the command call.
@@ -23947,7 +23948,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
-    AnimationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
+    this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
   // we only clone from our current state, so we can safely assume all of our
@@ -24296,7 +24297,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   var chain = deferred.promise;
   var destBranch = this.resolveID('HEAD');
 
-  chain = AnimationFactory.highlightEachWithPromise(
+  chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toRevert,
     destBranch
@@ -24315,7 +24316,7 @@ GitEngine.prototype.revert = function(whichCommits) {
     });
     base = newCommit;
 
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -24331,7 +24332,7 @@ GitEngine.prototype.revert = function(whichCommits) {
   // done! update our location
   chain = chain.then(_.bind(function() {
     this.setTargetLocation('HEAD', base);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   this.animationQueue.thenFinish(chain, deferred);
@@ -24390,7 +24391,7 @@ GitEngine.prototype.cherrypickStarter = function() {
   var chain = deferred.promise;
   var destinationBranch = this.resolveID('HEAD');
 
-  chain = AnimationFactory.highlightEachWithPromise(
+  chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toCherrypick,
     destinationBranch
@@ -24398,7 +24399,7 @@ GitEngine.prototype.cherrypickStarter = function() {
 
   var chainStep = _.bind(function(commit) {
     var newCommit = this.cherrypick(commit);
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -24556,7 +24557,7 @@ GitEngine.prototype.push = function(options) {
   // now make the promise chain to make each commit
   var chainStep = _.bind(function(id, parents) {
     var newCommit = makeCommit(id, parents);
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
@@ -24567,7 +24568,7 @@ GitEngine.prototype.push = function(options) {
 
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
-      return AnimationFactory.playHighlightPromiseAnimation(
+      return this.animationFactory.playHighlightPromiseAnimation(
         this.refs[commitJSON.id],
         remoteBranch
       );
@@ -24586,8 +24587,8 @@ GitEngine.prototype.push = function(options) {
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(remoteBranch, remoteCommit);
     // unhighlight local
-    AnimationFactory.playRefreshAnimation(this.gitVisuals);
-    return AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
   }, this));
 
   // HAX HAX update o/master
@@ -24596,7 +24597,7 @@ GitEngine.prototype.push = function(options) {
     var remoteBranchID = localBranch.getRemoteBranchIDFromTracking();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   if (!options.dontResolvePromise) {
@@ -24661,7 +24662,7 @@ GitEngine.prototype.fetch = function(options) {
   // now make the promise chain to make each commit
   var chainStep = _.bind(function(id, parents) {
     var newCommit = makeCommit(id, parents);
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -24672,7 +24673,7 @@ GitEngine.prototype.fetch = function(options) {
 
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
-      return AnimationFactory.playHighlightPromiseAnimation(
+      return this.animationFactory.playHighlightPromiseAnimation(
         this.origin.refs[commitJSON.id],
         localBranch
       );
@@ -24691,8 +24692,8 @@ GitEngine.prototype.fetch = function(options) {
     var localCommit = this.refs[originLocationID];
     this.setTargetLocation(localBranch, localCommit);
     // unhighlight origin
-    AnimationFactory.playRefreshAnimation(this.origin.gitVisuals);
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   if (!options.dontResolvePromise) {
@@ -24743,13 +24744,13 @@ GitEngine.prototype.pullFinishWithRebase = function(
   // delay a bit after the intense refresh animation from
   // fetch
   chain = chain.then(function() {
-    return AnimationFactory.getDelayedPromise(300);
+    return this.animationFactory.getDelayedPromise(300);
   });
 
   chain = chain.then(_.bind(function() {
     // highlight last commit on o/master to color of
     // local branch
-    return AnimationFactory.playHighlightPromiseAnimation(
+    return this.animationFactory.playHighlightPromiseAnimation(
       this.getCommitFromRef(remoteBranch),
       localBranch
     );
@@ -24774,13 +24775,13 @@ GitEngine.prototype.pullFinishWithMerge = function(
   // delay a bit after the intense refresh animation from
   // fetch
   chain = chain.then(function() {
-    return AnimationFactory.getDelayedPromise(300);
+    return this.animationFactory.getDelayedPromise(300);
   });
   
   chain = chain.then(_.bind(function() {
     // highlight last commit on o/master to color of
     // local branch
-    return AnimationFactory.playHighlightPromiseAnimation(
+    return this.animationFactory.playHighlightPromiseAnimation(
       this.getCommitFromRef(remoteBranch),
       localBranch
     );
@@ -24788,7 +24789,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
 
   chain = chain.then(_.bind(function() {
     // highlight commit on master to color of remote
-    return AnimationFactory.playHighlightPromiseAnimation(
+    return this.animationFactory.playHighlightPromiseAnimation(
       this.getCommitFromRef(localBranch),
       remoteBranch
     );
@@ -24796,16 +24797,16 @@ GitEngine.prototype.pullFinishWithMerge = function(
 
   // delay and merge
   chain = chain.then(function() {
-    return AnimationFactory.getDelayedPromise(700);
+    return this.animationFactory.getDelayedPromise(700);
   });
   chain = chain.then(_.bind(function() {
     var newCommit = this.merge('o/master');
     if (!newCommit) {
       // it is a fast forward
-      return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
     }
 
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -24849,7 +24850,7 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
 
   var chainStep = _.bind(function() {
     var newCommit = makeOriginCommit();
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.origin.gitVisuals
     );
@@ -24922,7 +24923,7 @@ GitEngine.prototype.commitStarter = function() {
     newCommit.set('commitMessage', msg);
   }
 
-  var promise = AnimationFactory.playCommitBirthPromiseAnimation(
+  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
     newCommit,
     this.gitVisuals
   );
@@ -25429,7 +25430,7 @@ GitEngine.prototype.rebaseFinish = function(
     });
   }
 
-  chain = AnimationFactory.highlightEachWithPromise(
+  chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toRebase,
     destinationBranch
@@ -25443,7 +25444,7 @@ GitEngine.prototype.rebaseFinish = function(
     var newCommit = this.makeCommit([base], newId);
     base = newCommit;
 
-    return AnimationFactory.playCommitBirthPromiseAnimation(
+    return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
     );
@@ -25466,7 +25467,7 @@ GitEngine.prototype.rebaseFinish = function(
       this.setTargetLocation(currentLocation, base);
       this.checkout(currentLocation);
     }
-    return AnimationFactory.playRefreshAnimation(this.gitVisuals);
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
   if (!options.dontResolvePromise) {
@@ -25482,11 +25483,11 @@ GitEngine.prototype.mergeStarter = function() {
 
   if (newCommit === undefined) {
     // its just a fast forwrard
-    AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
     return;
   }
 
-  AnimationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
+  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
 };
 
 GitEngine.prototype.merge = function(targetSource) {
@@ -25726,7 +25727,7 @@ GitEngine.prototype.externalRefresh = function() {
   this.animationQueue = new AnimationQueue({
     callback: function() {}
   });
-  AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+  this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   this.animationQueue.start();
 };
 
@@ -25761,7 +25762,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   // only add the refresh if we didn't do manual animations
   if (!this.animationQueue.get('animations').length && !willStartAuto) {
-    AnimationFactory.refreshTree(this.animationQueue, this.gitVisuals);
+    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
   }
 
   // animation queue will call the callback when its done
@@ -26146,7 +26147,6 @@ TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
 TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
-  debugger;
 
   return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
 };
@@ -31589,7 +31589,7 @@ var CommandsHelperBar = HelperBar.extend({
       id: 'undo'
     }, {
       text: 'Objective',
-      id: 'objectve'
+      id: 'objective'
     }, {
       text: 'Help',
       id: 'help'
@@ -31665,7 +31665,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('goal-vis-info')
+      text: options.text || intl.str('hide-goal')
     };
 
     this.render();
