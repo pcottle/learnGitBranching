@@ -1057,9 +1057,9 @@ GitEngine.prototype.pullFinishWithRebase = function(
 
   // delay a bit after the intense refresh animation from
   // fetch
-  chain = chain.then(function() {
+  chain = chain.then(_.bind(function() {
     return this.animationFactory.getDelayedPromise(300);
-  });
+  }, this));
 
   chain = chain.then(_.bind(function() {
     // highlight last commit on o/master to color of
@@ -1088,9 +1088,9 @@ GitEngine.prototype.pullFinishWithMerge = function(
 
   // delay a bit after the intense refresh animation from
   // fetch
-  chain = chain.then(function() {
+  chain = chain.then(_.bind(function() {
     return this.animationFactory.getDelayedPromise(300);
-  });
+  }, this));
   
   chain = chain.then(_.bind(function() {
     // highlight last commit on o/master to color of
@@ -1110,9 +1110,9 @@ GitEngine.prototype.pullFinishWithMerge = function(
   }, this));
 
   // delay and merge
-  chain = chain.then(function() {
+  chain = chain.then(_.bind(function() {
     return this.animationFactory.getDelayedPromise(700);
-  });
+  }, this));
   chain = chain.then(_.bind(function() {
     var newCommit = this.merge('o/master');
     if (!newCommit) {
@@ -1142,8 +1142,12 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
   }
 
   this.validateArgBounds(this.generalArgs, 0, 2);
+  // ugly command line arg parsing
   var branch = this.generalArgs[0] || 'master';
-  var numToMake = this.generalArgs[1] || 1;
+  if (!this.origin.refs[branch]) {
+    branch = 'master';
+  }
+  var numToMake = parseInt(this.generalArgs[0], 10) || this.generalArgs[1] || 1;
 
   // make sure its a branch and exists
   var destBranch = this.origin.resolveID(branch);

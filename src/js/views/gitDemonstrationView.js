@@ -99,6 +99,8 @@ var GitDemonstrationView = ContainedBase.extend({
     var whenHaveTree = Q.defer();
     HeadlessGit.getTreeQuick(this.options.beforeCommand, whenHaveTree);
     whenHaveTree.promise.then(_.bind(function(tree) {
+      console.log('the before command i got', this.options.beforeCommand);
+      console.log(tree, 'is what i got');
       this.mainVis.gitEngine.loadTree(tree);
       this.mainVis.gitVisuals.refreshTreeHarsh();
     }, this));
