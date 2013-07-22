@@ -83,12 +83,15 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
   var startTime = new Date().getTime();
 
   util.splitTextCommand(value, function(commandStr) {
-    var commandObj = new Command({
-      rawStr: commandStr
-    });
-    var thisDeferred = Q.defer();
-    this.gitEngine.dispatch(commandObj, thisDeferred);
-    chain = chain.then(thisDeferred.promise);
+    chain = chain.then(_.bind(function() {
+      var commandObj = new Command({
+        rawStr: commandStr
+      });
+
+      var thisDeferred = Q.defer();
+      this.gitEngine.dispatch(commandObj, thisDeferred);
+      return thisDeferred.promise;
+    }, this));
   }, this);
 
   chain.then(function() {

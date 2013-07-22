@@ -1144,7 +1144,7 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
   this.validateArgBounds(this.generalArgs, 0, 2);
   // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
   var branch = (this.origin.refs[this.generalArgs[0]]) ?
-    this.generalArgs[0] || 'master';
+    this.generalArgs[0] : 'master';
   var numToMake = parseInt(this.generalArgs[0], 10) || this.generalArgs[1] || 1;
 
   // make sure its a branch and exists
