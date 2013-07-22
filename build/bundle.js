@@ -8272,11 +8272,9 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
   }
 
   this.validateArgBounds(this.generalArgs, 0, 2);
-  // ugly command line arg parsing
-  var branch = this.generalArgs[0] || 'master';
-  if (!this.origin.refs[branch]) {
-    branch = 'master';
-  }
+  // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
+  var branch = (this.origin.refs[this.generalArgs[0]]) ?
+    this.generalArgs[0] : 'master';
   var numToMake = parseInt(this.generalArgs[0], 10) || this.generalArgs[1] || 1;
 
   // make sure its a branch and exists
@@ -15274,12 +15272,15 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
   var startTime = new Date().getTime();
 
   util.splitTextCommand(value, function(commandStr) {
-    var commandObj = new Command({
-      rawStr: commandStr
-    });
-    var thisDeferred = Q.defer();
-    this.gitEngine.dispatch(commandObj, thisDeferred);
-    chain = chain.then(thisDeferred.promise);
+    chain = chain.then(_.bind(function() {
+      var commandObj = new Command({
+        rawStr: commandStr
+      });
+
+      var thisDeferred = Q.defer();
+      this.gitEngine.dispatch(commandObj, thisDeferred);
+      return thisDeferred.promise;
+    }, this));
   }, this);
 
   chain.then(function() {
@@ -23663,12 +23664,15 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
   var startTime = new Date().getTime();
 
   util.splitTextCommand(value, function(commandStr) {
-    var commandObj = new Command({
-      rawStr: commandStr
-    });
-    var thisDeferred = Q.defer();
-    this.gitEngine.dispatch(commandObj, thisDeferred);
-    chain = chain.then(thisDeferred.promise);
+    chain = chain.then(_.bind(function() {
+      var commandObj = new Command({
+        rawStr: commandStr
+      });
+
+      var thisDeferred = Q.defer();
+      this.gitEngine.dispatch(commandObj, thisDeferred);
+      return thisDeferred.promise;
+    }, this));
   }, this);
 
   chain.then(function() {
@@ -24832,11 +24836,9 @@ GitEngine.prototype.fakeTeamworkStarter = function() {
   }
 
   this.validateArgBounds(this.generalArgs, 0, 2);
-  // ugly command line arg parsing
-  var branch = this.generalArgs[0] || 'master';
-  if (!this.origin.refs[branch]) {
-    branch = 'master';
-  }
+  // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
+  var branch = (this.origin.refs[this.generalArgs[0]]) ?
+    this.generalArgs[0] : 'master';
   var numToMake = parseInt(this.generalArgs[0], 10) || this.generalArgs[1] || 1;
 
   // make sure its a branch and exists
