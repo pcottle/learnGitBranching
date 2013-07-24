@@ -183,8 +183,8 @@ GitEngine.prototype.printAndCopyTree = function() {
 };
 
 GitEngine.prototype.loadTree = function(tree) {
-  // deep copy in case we use it a bunch
-  tree = $.extend(true, {}, tree);
+  // deep copy in case we use it a bunch. lol awesome copy method
+  tree = JSON.parse(JSON.stringify(tree));
 
   // first clear everything
   this.removeAll();

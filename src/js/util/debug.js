@@ -24,6 +24,7 @@ var toGlobalize = {
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
   BuilderViews: require('../views/builderViews'),
+  LevelArbiter: require('../level/arbiter'),
   Intl: require('../intl')
 };
 

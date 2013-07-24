@@ -12,18 +12,6 @@ var compareAnswer = function(headless, expectedJSON) {
   return TreeCompare.compareTrees(expectedTree, actualTree);
 };
 
-var compareAnswerExpect = function(headless, expectedJSON) {
-  var equal = compareAnswer(headless, expectedJSON);
-  if (!equal) {
-    var expectedTree = loadTree(expectedJSON);
-    var actualTree = headless.gitEngine.exportTree();
-    console.log('expected Tree', expectedTree);
-    console.log('actual Tree', actualTree);
-    console.log('~~~~~~~~~~~~~~~~~~~~~');
-  }
-  expect(equal).toBe(true);
-};
-
 var expectTreeAsync = function(command, expectedJSON) {
   var headless = new HeadlessGit();
   runs(function() {
@@ -124,6 +112,25 @@ describe('GitEngine', function() {
       'git commit; git checkout -b bugFix C1; git commit; git rebase master;git checkout master',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D'
     );
+  });
+
+  it('solves merging level', function() {
+    expectTreeAsync(
+      'git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix',
+      '{"branches":{"master":{"target":"C1","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}'
+    );
+  });
+
+  it('solves rebase level', function() {
+    expectTreeAsync(
+      'git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master',
+      '{"branches":{"master":{"target":"C1","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}'
+    );
+  });
+
+  it('does a whole bunch of crazy merging', function() {
+    "gc;go -b side C1;gc;git merge master;go -b bug master;gc;go -b wut C3;git rebase bug;go side;git rebase wut;gc;git rebase wut;git merge C4;go master;git rebase side;go C6;git merge C3';gb -f wut C8;go bug;git rebase wut",
+    '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22master%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22side%22%7D%2C%22bug%22%3A%7B%22target%22%3A%22C8%22%2C%22id%22%3A%22bug%22%7D%2C%22wut%22%3A%7B%22target%22%3A%22C8%22%2C%22id%22%3A%22wut%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C2%22%2C%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C4%22%2C%22C6%27%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C3%27%22%2C%22C6%22%5D%2C%22id%22%3A%22C8%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bug%22%2C%22id%22%3A%22HEAD%22%7D%7D'
   });
 });
 

@@ -4,10 +4,6 @@ Mega Things
 
 Before everything else:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] increase test coverage over everything
-    - unit and integration, but mostly for git operations
-[ ] green refactor tree compare to have map
-[ ] figure out gh-pages force
 
 Intl TODO
 ~~~~~~~~~~~~~~~~~~~
@@ -54,6 +50,10 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] green refactor tree compare to have map
+[x] increase test coverage over everything
+    - unit and integration, but mostly for git operations
+[x] figure out gh-pages force
 [x] add visuals and text to show compare method
 [x] green refactor tree compare to have map
 [x] fix tests by stubbing out animation factory to resolve promises
