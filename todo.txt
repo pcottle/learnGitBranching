@@ -21,12 +21,10 @@ Easier origin things:
     - git push takes in an argument, and has to check if the remote branch exists, and makes
       it otherwise (after pushing)
 [ ] finally work on an upload / download animation
-[ ] do a cute uploading thing
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] set checkout -b branch __remoteBranch to track the remote branch
-[ ] tree comparison with origin.... sigh
 [ ] prototype visual layout (background change + header? maybe...)
 
 Medium things:
@@ -50,6 +48,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] tree comparison with origin.... done! not too bad
 [x] green refactor tree compare to have map
 [x] increase test coverage over everything
     - unit and integration, but mostly for git operations
