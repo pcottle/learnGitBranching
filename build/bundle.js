@@ -9870,22 +9870,56 @@ TreeCompare.onlyMasterCompared = function(levelBlob) {
 };
 
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
+  var goalTree = this.convertTreeSafe(goalTreeString);
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  if (typeof goalTree.originTree !== typeof treeToCompare.originTree) {
+    // origin status does not match
+    return false;
+  }
+  var shallowResult = this.dispatchShallow(
+    levelBlob, goalTree, treeToCompare
+  );
+  if (!shallowResult || !goalTree.originTree) {
+    // we only have one level (or failed on shallow), punt
+    return shallowResult;
+  }
+
+  var originBlob = (levelBlob.originCompare) ?
+    levelBlob.originCompare : levelBlob;
+  // compare origin trees
+  return shallowResult && this.dispatchShallow(
+    originBlob, goalTree.originTree, treeToCompare.originTree
+  );
+};
+
+TreeCompare.dispatchShallow = function(levelBlob, goalTreeString, treeToCompare) {
   var getAroundLintTrue = true;
   // i actually prefer this to else if
   switch (getAroundLintTrue) {
     case !!levelBlob.compareOnlyMaster:
-      return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
+      return TreeCompare.compareBranchWithinTrees(
+        treeToCompare, goalTreeString, 'master'
+      );
     case !!levelBlob.compareOnlyBranches:
-      return TreeCompare.compareAllBranchesWithinTrees(treeToCompare, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTrees(
+        treeToCompare, goalTreeString
+      );
     case !!levelBlob.compareAllBranchesHashAgnostic:
-      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString
+      );
     case !!levelBlob.compareOnlyMasterHashAgnostic:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']);
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString, ['master']
+      );
     case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']) &&
-        TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString, ['master']
+      ) && TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
     default:
-      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(treeToCompare, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(
+        treeToCompare, goalTreeString
+      );
   }
 };
 
@@ -26134,22 +26168,56 @@ TreeCompare.onlyMasterCompared = function(levelBlob) {
 };
 
 TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
+  var goalTree = this.convertTreeSafe(goalTreeString);
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  if (typeof goalTree.originTree !== typeof treeToCompare.originTree) {
+    // origin status does not match
+    return false;
+  }
+  var shallowResult = this.dispatchShallow(
+    levelBlob, goalTree, treeToCompare
+  );
+  if (!shallowResult || !goalTree.originTree) {
+    // we only have one level (or failed on shallow), punt
+    return shallowResult;
+  }
+
+  var originBlob = (levelBlob.originCompare) ?
+    levelBlob.originCompare : levelBlob;
+  // compare origin trees
+  return shallowResult && this.dispatchShallow(
+    originBlob, goalTree.originTree, treeToCompare.originTree
+  );
+};
+
+TreeCompare.dispatchShallow = function(levelBlob, goalTreeString, treeToCompare) {
   var getAroundLintTrue = true;
   // i actually prefer this to else if
   switch (getAroundLintTrue) {
     case !!levelBlob.compareOnlyMaster:
-      return TreeCompare.compareBranchWithinTrees(treeToCompare, goalTreeString, 'master');
+      return TreeCompare.compareBranchWithinTrees(
+        treeToCompare, goalTreeString, 'master'
+      );
     case !!levelBlob.compareOnlyBranches:
-      return TreeCompare.compareAllBranchesWithinTrees(treeToCompare, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTrees(
+        treeToCompare, goalTreeString
+      );
     case !!levelBlob.compareAllBranchesHashAgnostic:
-      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString
+      );
     case !!levelBlob.compareOnlyMasterHashAgnostic:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']);
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString, ['master']
+      );
     case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTreeString, ['master']) &&
-        TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
+      return TreeCompare.compareBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString, ['master']
+      ) && TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
     default:
-      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(treeToCompare, goalTreeString);
+      return TreeCompare.compareAllBranchesWithinTreesAndHEAD(
+        treeToCompare, goalTreeString
+      );
   }
 };
 
