@@ -13,6 +13,9 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
+  remote: [
+    require('../../levels/remote/clone').level
+  ],
   rebase: [
     require('../../levels/rebase/manyRebases').level
   ],
@@ -57,6 +60,14 @@ exports.sequenceInfo = {
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
+    }
+  },
+  remote: {
+    displayName: {
+      'en_US': 'Push & Pull -- Git Remotes!'
+    },
+    about: {
+      'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
     }
   },
   rebase: {

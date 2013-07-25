@@ -299,23 +299,7 @@ var Level = Sandbox.extend({
 
   getCommandsThatCount: function() {
     var GitCommands = require('../git/commands');
-    var toCount = [
-      'git commit',
-      'git checkout',
-      'git rebase',
-      'git reset',
-      'git branch',
-      'git revert',
-      'git merge',
-      'git cherry-pick'
-    ];
-    var myRegexMap = {};
-    _.each(toCount, function(method) {
-      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
-
-      myRegexMap[method] = GitCommands.regexMap[method];
-    });
-    return myRegexMap;
+    return GitCommands.commandsThatCount;
   },
 
   undo: function() {
@@ -387,9 +371,13 @@ var Level = Sandbox.extend({
     Constants.GLOBAL.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (this.mainVis.originVis) {
+      finishAnimationChain = finishAnimationChain.then(
+        this.mainVis.originVis.gitVisuals.finishAnimation()
+      );
+    }
     if (!skipFinishDialog) {
-      finishAnimationChain = finishAnimationChain
-      .then(function() {
+      finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
         // while giving them their results...
         var nextDialog = new NextLevelConfirm({

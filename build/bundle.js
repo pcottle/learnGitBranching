@@ -6401,23 +6401,7 @@ var Level = Sandbox.extend({
 
   getCommandsThatCount: function() {
     var GitCommands = require('../git/commands');
-    var toCount = [
-      'git commit',
-      'git checkout',
-      'git rebase',
-      'git reset',
-      'git branch',
-      'git revert',
-      'git merge',
-      'git cherry-pick'
-    ];
-    var myRegexMap = {};
-    _.each(toCount, function(method) {
-      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
-
-      myRegexMap[method] = GitCommands.regexMap[method];
-    });
-    return myRegexMap;
+    return GitCommands.commandsThatCount;
   },
 
   undo: function() {
@@ -6489,9 +6473,13 @@ var Level = Sandbox.extend({
     Constants.GLOBAL.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (this.mainVis.originVis) {
+      finishAnimationChain = finishAnimationChain.then(
+        this.mainVis.originVis.gitVisuals.finishAnimation()
+      );
+    }
     if (!skipFinishDialog) {
-      finishAnimationChain = finishAnimationChain
-      .then(function() {
+      finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
         // while giving them their results...
         var nextDialog = new NextLevelConfirm({
@@ -6983,6 +6971,11 @@ var Visualization = Backbone.View.extend({
         left: left + 'px',
         top: top + 'px'
       });
+    } else {
+      // set position to absolute so we all stack nicely
+      $(this.paper.canvas).css({
+        position: 'absolute'
+      });
     }
 
     this.paper.setSize(width, height);
@@ -7360,6 +7353,11 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
+    // if we dont have an animation queue (like when loading
+    // right away), just go ahead and make an empty one
+    this.animationQueue = this.animationQueue || new AnimationQueue({
+      callback: function() {}
+    });
     this.makeOrigin(treeString);
   }
 };
@@ -13886,6 +13884,31 @@ var regexMap = {
   'git clone': /^git +clone *?$/
 };
 
+/**
+ * Maintain this list to keep track of which commands we track
+ * for the "git golf" minigame
+ */
+var commandsThatCount = (function() {
+  var toCount = [
+    'git commit',
+    'git checkout',
+    'git rebase',
+    'git reset',
+    'git branch',
+    'git revert',
+    'git merge',
+    'git clone',
+    'git cherry-pick'
+  ];
+  var whichCountMap = {};
+  _.each(toCount, function(method) {
+    if (!regexMap[method]) { throw new Error('wut no regex'); }
+
+    whichCountMap[method] = regexMap[method];
+  });
+  return whichCountMap;
+})();
+
 var parse = function(str) {
   var method;
   var options;
@@ -14017,6 +14040,7 @@ GitOptionParser.prototype.explodeAndSet = function() {
 };
 
 exports.shortcutMap = shortcutMap;
+exports.commandsThatCount = commandsThatCount;
 exports.instantCommands = instantCommands;
 exports.parse = parse;
 exports.regexMap = regexMap;
@@ -18242,6 +18266,9 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
+  remote: [
+    require('../../levels/remote/clone').level
+  ],
   rebase: [
     require('../../levels/rebase/manyRebases').level
   ],
@@ -18286,6 +18313,14 @@ exports.sequenceInfo = {
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
+    }
+  },
+  remote: {
+    displayName: {
+      'en_US': 'Push & Pull -- Git Remotes!'
+    },
+    about: {
+      'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
     }
   },
   rebase: {
@@ -20539,6 +20574,19 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
         }
       ]
     }
+  }
+};
+
+});
+
+require.define("/levels/remote/clone.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"remoteTrackingBranch\":null,\"remote\":false,\"target\":\"C1\",\"id\":\"master\",\"type\":\"branch\"}},\"commits\":{\"C0\":{\"type\":\"commit\",\"parents\":[],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"type\":\"commit\",\"parents\":[\"C0\"],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\",\"type\":\"general ref\"}}}",
+  "solutionCommand": "git clone",
+  "name": {
+    "en_US": "The Clone Wars"
+  },
+  "hint": {
+    "en_US": "Just use \"git clone\" to finish the level, but make sure you understand the tutorial!"
   }
 };
 
@@ -23386,6 +23434,31 @@ var regexMap = {
   'git clone': /^git +clone *?$/
 };
 
+/**
+ * Maintain this list to keep track of which commands we track
+ * for the "git golf" minigame
+ */
+var commandsThatCount = (function() {
+  var toCount = [
+    'git commit',
+    'git checkout',
+    'git rebase',
+    'git reset',
+    'git branch',
+    'git revert',
+    'git merge',
+    'git clone',
+    'git cherry-pick'
+  ];
+  var whichCountMap = {};
+  _.each(toCount, function(method) {
+    if (!regexMap[method]) { throw new Error('wut no regex'); }
+
+    whichCountMap[method] = regexMap[method];
+  });
+  return whichCountMap;
+})();
+
 var parse = function(str) {
   var method;
   var options;
@@ -23517,6 +23590,7 @@ GitOptionParser.prototype.explodeAndSet = function() {
 };
 
 exports.shortcutMap = shortcutMap;
+exports.commandsThatCount = commandsThatCount;
 exports.instantCommands = instantCommands;
 exports.parse = parse;
 exports.regexMap = regexMap;
@@ -23958,6 +24032,11 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
+    // if we dont have an animation queue (like when loading
+    // right away), just go ahead and make an empty one
+    this.animationQueue = this.animationQueue || new AnimationQueue({
+      callback: function() {}
+    });
     this.makeOrigin(treeString);
   }
 };
@@ -28112,23 +28191,7 @@ var Level = Sandbox.extend({
 
   getCommandsThatCount: function() {
     var GitCommands = require('../git/commands');
-    var toCount = [
-      'git commit',
-      'git checkout',
-      'git rebase',
-      'git reset',
-      'git branch',
-      'git revert',
-      'git merge',
-      'git cherry-pick'
-    ];
-    var myRegexMap = {};
-    _.each(toCount, function(method) {
-      if (!GitCommands.regexMap[method]) { throw new Error('wut no regex'); }
-
-      myRegexMap[method] = GitCommands.regexMap[method];
-    });
-    return myRegexMap;
+    return GitCommands.commandsThatCount;
   },
 
   undo: function() {
@@ -28200,9 +28263,13 @@ var Level = Sandbox.extend({
     Constants.GLOBAL.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+    if (this.mainVis.originVis) {
+      finishAnimationChain = finishAnimationChain.then(
+        this.mainVis.originVis.gitVisuals.finishAnimation()
+      );
+    }
     if (!skipFinishDialog) {
-      finishAnimationChain = finishAnimationChain
-      .then(function() {
+      finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
         // while giving them their results...
         var nextDialog = new NextLevelConfirm({
@@ -35268,6 +35335,11 @@ var Visualization = Backbone.View.extend({
         left: left + 'px',
         top: top + 'px'
       });
+    } else {
+      // set position to absolute so we all stack nicely
+      $(this.paper.canvas).css({
+        position: 'absolute'
+      });
     }
 
     this.paper.setSize(width, height);
@@ -35489,6 +35561,9 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
+  remote: [
+    require('../../levels/remote/clone').level
+  ],
   rebase: [
     require('../../levels/rebase/manyRebases').level
   ],
@@ -35533,6 +35608,14 @@ exports.sequenceInfo = {
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
+    }
+  },
+  remote: {
+    displayName: {
+      'en_US': 'Push & Pull -- Git Remotes!'
+    },
+    about: {
+      'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
     }
   },
   rebase: {
@@ -38601,5 +38684,19 @@ require.define("/src/levels/rebase/selectiveRebase.js",function(require,module,e
 
 });
 require("/src/levels/rebase/selectiveRebase.js");
+
+require.define("/src/levels/remote/clone.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"remoteTrackingBranch\":null,\"remote\":false,\"target\":\"C1\",\"id\":\"master\",\"type\":\"branch\"}},\"commits\":{\"C0\":{\"type\":\"commit\",\"parents\":[],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"type\":\"commit\",\"parents\":[\"C0\"],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\",\"type\":\"general ref\"}}}",
+  "solutionCommand": "git clone",
+  "name": {
+    "en_US": "The Clone Wars"
+  },
+  "hint": {
+    "en_US": "Just use \"git clone\" to finish the level, but make sure you understand the tutorial!"
+  }
+};
+
+});
+require("/src/levels/remote/clone.js");
 
 })();

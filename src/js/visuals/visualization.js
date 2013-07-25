@@ -250,6 +250,11 @@ var Visualization = Backbone.View.extend({
         left: left + 'px',
         top: top + 'px'
       });
+    } else {
+      // set position to absolute so we all stack nicely
+      $(this.paper.canvas).css({
+        position: 'absolute'
+      });
     }
 
     this.paper.setSize(width, height);

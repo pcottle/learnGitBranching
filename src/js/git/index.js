@@ -230,6 +230,11 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
+    // if we dont have an animation queue (like when loading
+    // right away), just go ahead and make an empty one
+    this.animationQueue = this.animationQueue || new AnimationQueue({
+      callback: function() {}
+    });
     this.makeOrigin(treeString);
   }
 };

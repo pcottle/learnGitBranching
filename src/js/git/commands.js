@@ -69,6 +69,31 @@ var regexMap = {
   'git clone': /^git +clone *?$/
 };
 
+/**
+ * Maintain this list to keep track of which commands we track
+ * for the "git golf" minigame
+ */
+var commandsThatCount = (function() {
+  var toCount = [
+    'git commit',
+    'git checkout',
+    'git rebase',
+    'git reset',
+    'git branch',
+    'git revert',
+    'git merge',
+    'git clone',
+    'git cherry-pick'
+  ];
+  var whichCountMap = {};
+  _.each(toCount, function(method) {
+    if (!regexMap[method]) { throw new Error('wut no regex'); }
+
+    whichCountMap[method] = regexMap[method];
+  });
+  return whichCountMap;
+})();
+
 var parse = function(str) {
   var method;
   var options;
@@ -200,6 +225,7 @@ GitOptionParser.prototype.explodeAndSet = function() {
 };
 
 exports.shortcutMap = shortcutMap;
+exports.commandsThatCount = commandsThatCount;
 exports.instantCommands = instantCommands;
 exports.parse = parse;
 exports.regexMap = regexMap;

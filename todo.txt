@@ -12,6 +12,7 @@ Intl TODO
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
+[ ] get goal visualization to show origin / remote.... hrm :O
 [ ] tree pruning
 
 Easier origin things:
