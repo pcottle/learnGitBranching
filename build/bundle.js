@@ -18266,9 +18266,6 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
-  remote: [
-    require('../../levels/remote/clone').level
-  ],
   rebase: [
     require('../../levels/rebase/manyRebases').level
   ],
@@ -18282,6 +18279,12 @@ exports.levelSequences = {
     require('../../levels/rebase/selectiveRebase').level
   ]
 };
+
+if (window.location && window.location.href.indexOf('showRemote') !== -1) {
+  exports.levelSequences.remote = [
+    require('../../levels/remote/clone').level
+  ];
+}
 
 // there are also cute names and such for sequences
 exports.sequenceInfo = {
@@ -20579,19 +20582,6 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
 
 });
 
-require.define("/levels/remote/clone.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"remoteTrackingBranch\":null,\"remote\":false,\"target\":\"C1\",\"id\":\"master\",\"type\":\"branch\"}},\"commits\":{\"C0\":{\"type\":\"commit\",\"parents\":[],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"type\":\"commit\",\"parents\":[\"C0\"],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\",\"type\":\"general ref\"}}}",
-  "solutionCommand": "git clone",
-  "name": {
-    "en_US": "The Clone Wars"
-  },
-  "hint": {
-    "en_US": "Just use \"git clone\" to finish the level, but make sure you understand the tutorial!"
-  }
-};
-
-});
-
 require.define("/levels/rebase/manyRebases.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
@@ -21576,6 +21566,19 @@ require.define("/levels/rebase/selectiveRebase.js",function(require,module,expor
         }
       ]
     }
+  }
+};
+
+});
+
+require.define("/levels/remote/clone.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"remoteTrackingBranch\":null,\"remote\":false,\"target\":\"C1\",\"id\":\"master\",\"type\":\"branch\"}},\"commits\":{\"C0\":{\"type\":\"commit\",\"parents\":[],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"type\":\"commit\",\"parents\":[\"C0\"],\"author\":\"Peter Cottle\",\"createTime\":\"Wed Jul 24 2013 21:27:52 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\",\"type\":\"general ref\"}}}",
+  "solutionCommand": "git clone",
+  "name": {
+    "en_US": "The Clone Wars"
+  },
+  "hint": {
+    "en_US": "Just use \"git clone\" to finish the level, but make sure you understand the tutorial!"
   }
 };
 
@@ -35561,9 +35564,6 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
-  remote: [
-    require('../../levels/remote/clone').level
-  ],
   rebase: [
     require('../../levels/rebase/manyRebases').level
   ],
@@ -35577,6 +35577,12 @@ exports.levelSequences = {
     require('../../levels/rebase/selectiveRebase').level
   ]
 };
+
+if (window.location && window.location.href.indexOf('showRemote') !== -1) {
+  exports.levelSequences.remote = [
+    require('../../levels/remote/clone').level
+  ];
+}
 
 // there are also cute names and such for sequences
 exports.sequenceInfo = {

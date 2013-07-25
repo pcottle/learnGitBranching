@@ -13,9 +13,6 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
-  remote: [
-    require('../../levels/remote/clone').level
-  ],
   rebase: [
     require('../../levels/rebase/manyRebases').level
   ],
@@ -29,6 +26,12 @@ exports.levelSequences = {
     require('../../levels/rebase/selectiveRebase').level
   ]
 };
+
+if (window.location && window.location.href.indexOf('showRemote') !== -1) {
+  exports.levelSequences.remote = [
+    require('../../levels/remote/clone').level
+  ];
+}
 
 // there are also cute names and such for sequences
 exports.sequenceInfo = {
