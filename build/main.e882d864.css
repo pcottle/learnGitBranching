@@ -549,12 +549,18 @@ li.rebaseEntry,
 
 .helperBar a {
   cursor: pointer;
+  color: white;
+  text-decoration: none;
   font-style: italic;
 }
 
 .helperBar a:after {
   content: ' \b7';
   font-style: normal;
+}
+
+.helperBar a:last-child {
+  padding-right: 10px;
 }
 
 .helperBar a:last-child:after {

@@ -760,7 +760,16 @@ var MainHelperBar = HelperBar.extend({
     }, {
       icon: 'globe',
       id: 'intl'
+    }, {
+      newPageLink: true,
+      icon: 'facebook',
+      id: 'fb',
+      href: 'https://www.facebook.com/LearnGitBranching'
     }];
+  },
+
+  onFbClick: function() {
+    log.viewInteracted('fbPageLink');
   },
 
   onIntlClick: function() {

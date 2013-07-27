@@ -116,6 +116,11 @@
     <% for(var i = 0; i < items.length; i++) { %>
       <% if (items[i].text) { %>
         <a data-id="<%= items[i].id %>"><%= items[i].text %></a>
+      <% } else if (items[i].newPageLink) { %>
+        <a data-id="<%= items[i].id %>" 
+          target="_blank" href="<%= items[i].href %>">
+          <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
+        </a>
       <% } else { %>
         <a data-id="<%= items[i].id %>">
           <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>

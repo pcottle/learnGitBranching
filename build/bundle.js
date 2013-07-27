@@ -11272,7 +11272,16 @@ var MainHelperBar = HelperBar.extend({
     }, {
       icon: 'globe',
       id: 'intl'
+    }, {
+      newPageLink: true,
+      icon: 'facebook',
+      id: 'fb',
+      href: 'https://www.facebook.com/LearnGitBranching'
     }];
+  },
+
+  onFbClick: function() {
+    log.viewInteracted('fbPageLink');
   },
 
   onIntlClick: function() {
@@ -18286,7 +18295,8 @@ exports.levelSequences = {
   ]
 };
 
-if (window.location && window.location.href.indexOf('showRemote') !== -1) {
+if (typeof window !== 'undefined' && window.location &&
+    window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
     require('../../levels/remote/clone').level
   ];
@@ -31840,7 +31850,16 @@ var MainHelperBar = HelperBar.extend({
     }, {
       icon: 'globe',
       id: 'intl'
+    }, {
+      newPageLink: true,
+      icon: 'facebook',
+      id: 'fb',
+      href: 'https://www.facebook.com/LearnGitBranching'
     }];
+  },
+
+  onFbClick: function() {
+    log.viewInteracted('fbPageLink');
   },
 
   onIntlClick: function() {
@@ -35640,7 +35659,8 @@ exports.levelSequences = {
   ]
 };
 
-if (window.location && window.location.href.indexOf('showRemote') !== -1) {
+if (typeof window !== 'undefined' && window.location &&
+    window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
     require('../../levels/remote/clone').level
   ];

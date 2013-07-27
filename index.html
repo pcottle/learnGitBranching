@@ -13,7 +13,7 @@
   <meta property="og:image" content="http://pcottle.github.io/learnGitBranching/assets/learnGitBranching.png"/>
   <meta property="og:description" content="A interactive Git visualization tool to educate and challenge!"/>
 
-	<link rel="stylesheet" href="build/main.e751aa61.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="build/main.e882d864.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
@@ -116,6 +116,11 @@
     <% for(var i = 0; i < items.length; i++) { %>
       <% if (items[i].text) { %>
         <a data-id="<%= items[i].id %>"><%= items[i].text %></a>
+      <% } else if (items[i].newPageLink) { %>
+        <a data-id="<%= items[i].id %>" 
+          target="_blank" href="<%= items[i].href %>">
+          <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
+        </a>
       <% } else { %>
         <a data-id="<%= items[i].id %>">
           <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
@@ -434,7 +439,7 @@
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/bundle.min.9253686e.js"></script>
+  <script src="build/bundle.min.681df2a8.js"></script>
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include
