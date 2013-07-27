@@ -6826,6 +6826,12 @@ var Visualization = Backbone.View.extend({
         treeString: options.treeString
       }
     ));
+    // if the z index is set on ours, carry that over
+    this.originVis.customEvents.on('paperReady', _.bind(function() {
+      var value = $(this.paper.canvas).css('z-index');
+      this.originVis.setTreeIndex(value);
+    }, this));
+
     // return the newly created visualization which will soon have a git engine
     return this.originVis;
   },
@@ -21593,9 +21599,9 @@ require.define("/levels/remote/clone.js",function(require,module,exports,__dirna
               "",
               "- First and foremost, they serve as a great backup! Git repositories obviously have the ability to restore files, but they rely on the filesystem working being in a valid state. Even if your entire laptop blows, your remote repositories will still work great.",
               "",
-              "- They make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
+              "- They also make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
               "",
-              "It's become very popular to use UI wrappers around remote repos (like [Github](https://github.com/) or [Phabricator](http://phabricator.org/)) but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
+              "It's become very popular to use websites that visualize activity around remote repos (like [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
             ]
           }
         },
@@ -21605,14 +21611,14 @@ require.define("/levels/remote/clone.js",function(require,module,exports,__dirna
             "beforeMarkdowns": [
               "Lets start slow and just look at what a remote repository looks like (in our visualization).",
               "",
-              "`git clone` is the command you'll use to create _local_ copies of remote repositories (from github say), but we use it here to simply launch the visualization into a state where there's a remote and local copy.",
+              "`git clone` (in the real world) is the command you'll use to create _local_ copies of remote repositories (from github say), but we use it here to simply launch the visualization into a state where there's a remote and local copy.",
               "",
               "",
               "",
               ""
             ],
             "afterMarkdowns": [
-              "There it is! Now we have a remote repository of our project"
+              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent"
             ],
             "command": "git clone",
             "beforeCommand": ""
@@ -35243,6 +35249,12 @@ var Visualization = Backbone.View.extend({
         treeString: options.treeString
       }
     ));
+    // if the z index is set on ours, carry that over
+    this.originVis.customEvents.on('paperReady', _.bind(function() {
+      var value = $(this.paper.canvas).css('z-index');
+      this.originVis.setTreeIndex(value);
+    }, this));
+
     // return the newly created visualization which will soon have a git engine
     return this.originVis;
   },
@@ -38763,9 +38775,9 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
               "",
               "- First and foremost, they serve as a great backup! Git repositories obviously have the ability to restore files, but they rely on the filesystem working being in a valid state. Even if your entire laptop blows, your remote repositories will still work great.",
               "",
-              "- They make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
+              "- They also make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
               "",
-              "It's become very popular to use UI wrappers around remote repos (like [Github](https://github.com/) or [Phabricator](http://phabricator.org/)) but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
+              "It's become very popular to use websites that visualize activity around remote repos (like [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
             ]
           }
         },
@@ -38775,14 +38787,14 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
             "beforeMarkdowns": [
               "Lets start slow and just look at what a remote repository looks like (in our visualization).",
               "",
-              "`git clone` is the command you'll use to create _local_ copies of remote repositories (from github say), but we use it here to simply launch the visualization into a state where there's a remote and local copy.",
+              "`git clone` (in the real world) is the command you'll use to create _local_ copies of remote repositories (from github say), but we use it here to simply launch the visualization into a state where there's a remote and local copy.",
               "",
               "",
               "",
               ""
             ],
             "afterMarkdowns": [
-              "There it is! Now we have a remote repository of our project"
+              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent"
             ],
             "command": "git clone",
             "beforeCommand": ""

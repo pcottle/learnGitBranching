@@ -105,6 +105,12 @@ var Visualization = Backbone.View.extend({
         treeString: options.treeString
       }
     ));
+    // if the z index is set on ours, carry that over
+    this.originVis.customEvents.on('paperReady', _.bind(function() {
+      var value = $(this.paper.canvas).css('z-index');
+      this.originVis.setTreeIndex(value);
+    }, this));
+
     // return the newly created visualization which will soon have a git engine
     return this.originVis;
   },
