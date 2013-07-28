@@ -29,7 +29,8 @@ var expectTreeAsync = function(command, expectedJSON) {
     if (diff > TIME - 50 && !haveReported) {
       haveReported = true;
       console.log('not going to match', command);
-      console.log('expected', loadTree(expectedJSON), 'actual', headless.gitEngine.exportTree());
+      console.log('expected\n>>>>>>>>\n', loadTree(expectedJSON));
+      console.log('\n<<<<<<<<<<<\nactual', headless.gitEngine.exportTree());
     }
     return compareAnswer(headless, expectedJSON);
   }, 'trees should be equal', 100);
@@ -54,6 +55,27 @@ describe('GitEngine', function() {
     expectTreeAsync(
       'git commit foo; git commit -am -m; git commit -am -a; git commit -am "hi" "ho"; git commit',
       oneCommit
+    );
+  });
+
+  it('handles branch options', function() {
+    expectTreeAsync(
+      'git branch banana C0; git commit; git checkout -b side banana; git branch -d banana;git branch -f another C1; git commit',
+      '{"branches":{"master":{"target":"C2","id":"master"},"side":{"target":"C3","id":"side"},"another":{"target":"C1","id":"another"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C0"],"id":"C3"}},"HEAD":{"target":"side","id":"HEAD"}}'
+    );
+  });
+
+  it('does add', function() {
+    expectTreeAsync(
+      'git add; git commit',
+      oneCommit
+    );
+  });
+
+  it('resets with all options', function() {
+    expectTreeAsync(
+      'git commit;git reset --soft HEAD~1;git reset --hard HEAD~1;gc;go C1;git reset --hard C3;',
+      '{"branches":{"master":{"target":"C3","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"C1","id":"HEAD"}}'
     );
   });
 
@@ -115,7 +137,7 @@ describe('GitEngine', function() {
 
   it('Cherry picks', function() {
     expectTreeAsync(
-      'git checkout -b side C0; gc; git cherry-pick C1',
+      'git checkout -b side C0; gc; git cherry-pick C11; git cherry-pick C1',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C1%27%22%2C%22id%22%3A%22side%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C1%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C1%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%7D'
     );
   });

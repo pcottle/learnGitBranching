@@ -19,14 +19,15 @@ var expectTreeAsync = function(headless, levelBlob) {
     // dont do interactive rebase levels
     return;
   }
-  var start = Date.now();
 
+  var start;
   runs(function() {
+    start = Date.now();
     headless.sendCommand(command);
   });
   waitsFor(function() {
     var diff = (Date.now() - start);
-    if (diff > TIME - 50) {
+    if (diff > TIME - 10) {
       console.log('not going to match', command);
     }
     var result = compareLevelTree(headless, levelBlob);

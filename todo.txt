@@ -2,17 +2,9 @@ Mega Things
 ~~~~~~~~~~~~~~~~~~~~~~~~
 [-] origin support
 
-Before everything else:
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Intl TODO
-~~~~~~~~~~~~~~~~~~~
-[ ] translation script? might be too late...
-
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
-[ ] get goal visualization to show origin / remote.... hrm :O
 [ ] tree pruning
 
 Easier origin things:
@@ -30,6 +22,7 @@ Origin things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ ] factor regexes and instant commands into one module
 
 Cases to handle / things to edit
 =======================
@@ -49,6 +42,10 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] get demonstration view to show origin / remote -- z index ugliness
+[x] get goal visualization to show origin / remote.... hrm :O
+[x] MASSIVE EFFIN REFACTOR of all command options outside of git engine and into separate module
+[x] facebook page link :D
 [x] tree comparison with origin.... done! not too bad
 [x] green refactor tree compare to have map
 [x] increase test coverage over everything

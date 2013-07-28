@@ -35,11 +35,6 @@ function GitEngine(options) {
   this.animationFactory = (options.animationFactory) ?
     options.animationFactory : AnimationFactory;
 
-  // global variable to keep track of the options given
-  // along with the command call.
-  this.commandOptions = {};
-  this.generalArgs = [];
-
   this.initUniqueID();
 }
 
@@ -546,68 +541,6 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
   return commit;
 };
 
-GitEngine.prototype.acceptNoGeneralArgs = function() {
-  if (this.generalArgs.length) {
-    throw new GitError({
-      msg: intl.str('git-error-no-general-args')
-    });
-  }
-};
-
-GitEngine.prototype.validateArgBounds = function(args, lower, upper, option) {
-  // this is a little utility class to help arg validation that happens over and over again
-  var what = (option === undefined) ?
-    'git ' + this.command.get('method') :
-    this.command.get('method') + ' ' + option + ' ';
-  what = 'with ' + what;
-
-  if (args.length < lower) {
-    throw new GitError({
-      msg: intl.str(
-        'git-error-args-few',
-        {
-          lower: String(lower),
-          what: what
-        }
-      )
-    });
-  }
-  if (args.length > upper) {
-    throw new GitError({
-      msg: intl.str(
-        'git-error-args-many',
-        {
-          upper: String(upper),
-          what: what
-        }
-      )
-    });
-  }
-};
-
-GitEngine.prototype.oneArgImpliedHead = function(args, option) {
-  // for log, show, etc
-  this.validateArgBounds(args, 0, 1, option);
-  if (args.length === 0) {
-    args.push('HEAD');
-  }
-};
-
-GitEngine.prototype.twoArgsImpliedHead = function(args, option) {
-  // our args we expect to be between 1 and 2
-  this.validateArgBounds(args, 1, 2, option);
-  // and if it's one, add a HEAD to the back
-  if (args.length == 1) {
-    args.push('HEAD');
-  }
-};
-
-GitEngine.prototype.revertStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, NaN);
-
-  this.revert(this.generalArgs);
-};
-
 GitEngine.prototype.revert = function(whichCommits) {
   // resolve the commits we will rebase
   var toRevert = _.map(whichCommits, function(stringRef) {
@@ -659,54 +592,11 @@ GitEngine.prototype.revert = function(whichCommits) {
   this.animationQueue.thenFinish(chain, deferred);
 };
 
-GitEngine.prototype.resetStarter = function() {
-  if (this.commandOptions['--soft']) {
-    throw new GitError({
-      msg: intl.str('git-error-staging')
-    });
-  }
-  if (this.commandOptions['--hard']) {
-    this.command.addWarning(
-      intl.str('git-warning-hard')
-    );
-    // dont absorb the arg off of --hard
-    this.generalArgs = this.generalArgs.concat(this.commandOptions['--hard']);
-  }
-
-  this.validateArgBounds(this.generalArgs, 1, 1);
-
-  if (this.getDetachedHead()) {
-    throw new GitError({
-      msg: intl.str('git-error-reset-detached')
-    });
-  }
-
-  this.reset(this.generalArgs[0]);
-};
-
 GitEngine.prototype.reset = function(target) {
   this.setTargetLocation('HEAD', this.getCommitFromRef(target));
 };
 
-GitEngine.prototype.cherrypickStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, Number.MAX_VALUE);
-
-  var set = this.getUpstreamSet('HEAD');
-  // first resolve all the refs (as an error check)
-  var toCherrypick = _.map(this.generalArgs, function(arg) {
-    var commit = this.getCommitFromRef(arg);
-    // and check that its not upstream
-    if (set[commit.get('id')]) {
-      throw new GitError({
-        msg: intl.str(
-          'git-error-already-exists',
-          { commit: commit.get('id') }
-        )
-      });
-    }
-    return commit;
-  }, this);
-
+GitEngine.prototype.setupCherrypickChain = function(toCherrypick) {
   // error checks are all good, lets go!
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -827,16 +717,6 @@ GitEngine.prototype.getTargetGraphDifference = function(
   });
 };
 
-GitEngine.prototype.pushStarter = function(options) {
-  if (!this.hasOrigin()) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-required')
-    });
-  }
-  this.acceptNoGeneralArgs();
-  this.push();
-};
-
 GitEngine.prototype.push = function(options) {
   options = options || {};
   var localBranch = this.refs['master'];
@@ -924,16 +804,6 @@ GitEngine.prototype.push = function(options) {
   if (!options.dontResolvePromise) {
     this.animationQueue.thenFinish(chain, deferred);
   }
-};
-
-GitEngine.prototype.fetchStarter = function() {
-  if (!this.hasOrigin()) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-required')
-    });
-  }
-  this.acceptNoGeneralArgs();
-  this.fetch();
 };
 
 GitEngine.prototype.fetch = function(options) {
@@ -1026,18 +896,8 @@ GitEngine.prototype.fetch = function(options) {
   };
 };
 
-GitEngine.prototype.pullStarter = function() {
-  if (!this.hasOrigin()) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-required')
-    });
-  }
-  this.acceptNoGeneralArgs();
-  // eventually args go here
-  this.pull();
-};
-
-GitEngine.prototype.pull = function() {
+GitEngine.prototype.pull = function(options) {
+  options = options || {};
   var localBranch = this.refs['master'];
   var remoteBranch = this.refs['o/master'];
 
@@ -1047,7 +907,7 @@ GitEngine.prototype.pull = function() {
     dontThrowOnNoFetch: true
   });
   // then either rebase or merge
-  if (this.commandOptions['--rebase']) {
+  if (options.isRebase) {
     this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
   } else {
     this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
@@ -1136,35 +996,6 @@ GitEngine.prototype.pullFinishWithMerge = function(
   this.animationQueue.thenFinish(chain, deferred);
 };
 
-GitEngine.prototype.cloneStarter = function() {
-  this.acceptNoGeneralArgs();
-  this.makeOrigin(this.printTree());
-};
-
-GitEngine.prototype.fakeTeamworkStarter = function() {
-  if (!this.hasOrigin()) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-required')
-    });
-  }
-
-  this.validateArgBounds(this.generalArgs, 0, 2);
-  // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
-  var branch = (this.origin.refs[this.generalArgs[0]]) ?
-    this.generalArgs[0] : 'master';
-  var numToMake = parseInt(this.generalArgs[0], 10) || this.generalArgs[1] || 1;
-
-  // make sure its a branch and exists
-  var destBranch = this.origin.resolveID(branch);
-  if (destBranch.get('type') !== 'branch') {
-    throw new GitError({
-      msg: intl.str('git-error-options')
-    });
-  }
-    
-  this.fakeTeamwork(numToMake, branch);
-};
-
 GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
   var makeOriginCommit = _.bind(function() {
     var id = this.getUniqueID();
@@ -1209,12 +1040,13 @@ GitEngine.prototype.cherrypick = function(commit) {
   return newCommit;
 };
 
-GitEngine.prototype.commit = function() {
+GitEngine.prototype.commit = function(options) {
+  options = options || {};
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = null;
 
   // if we want to ammend, go one above
-  if (this.commandOptions['--amend']) {
+  if (options.isAmend) {
     targetCommit = this.resolveID('HEAD~1');
     id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
   }
@@ -1511,23 +1343,6 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
   return dateA - dateB;
 };
 
-GitEngine.prototype.rebaseInteractiveStarter = function() {
-  var args = this.commandOptions['-i'];
-  this.twoArgsImpliedHead(args, ' -i');
-
-  this.rebaseInteractive(args[0], args[1]);
-};
-
-GitEngine.prototype.rebaseStarter = function() {
-  if (this.commandOptions['-i']) {
-    this.rebaseInteractiveStarter();
-    return;
-  }
-
-  this.twoArgsImpliedHead(this.generalArgs);
-  this.rebase(this.generalArgs[0], this.generalArgs[1]);
-};
-
 GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // first some conditions
   if (this.isUpstreamOf(targetSource, currentLocation)) {
@@ -1755,20 +1570,6 @@ GitEngine.prototype.rebaseFinish = function(
   return chain;
 };
 
-GitEngine.prototype.mergeStarter = function() {
-  this.validateArgBounds(this.generalArgs, 1, 1);
-
-  var newCommit = this.merge(this.generalArgs[0]);
-
-  if (newCommit === undefined) {
-    // its just a fast forwrard
-    this.animationFactory.refreshTree(this.animationQueue, this.gitVisuals);
-    return;
-  }
-
-  this.animationFactory.genCommitBirthAnimation(this.animationQueue, newCommit, this.gitVisuals);
-};
-
 GitEngine.prototype.merge = function(targetSource) {
   var currentLocation = 'HEAD';
 
@@ -1835,53 +1636,6 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   }
 
   this.HEAD.set('target', target);
-};
-
-GitEngine.prototype.branchStarter = function() {
-  var args = null;
-  // handle deletion first
-  if (this.commandOptions['-d'] || this.commandOptions['-D']) {
-    var names = this.commandOptions['-d'] || this.commandOptions['-D'];
-    this.validateArgBounds(names, 1, NaN, '-d');
-
-    _.each(names, function(name) {
-      this.deleteBranch(name);
-    }, this);
-    return;
-  }
-
-  if (this.commandOptions['--contains']) {
-    args = this.commandOptions['--contains'];
-    this.validateArgBounds(args, 1, 1, '--contains');
-    this.printBranchesWithout(args[0]);
-    return;
-  }
-
-  if (this.commandOptions['-f']) {
-    args = this.commandOptions['-f'];
-    this.twoArgsImpliedHead(args, '-f');
-
-    // we want to force a branch somewhere
-    this.forceBranch(args[0], args[1]);
-    return;
-  }
-
-
-  if (this.generalArgs.length === 0) {
-    var branches;
-    if (this.commandOptions['-a']) {
-      branches = this.getBranches();
-    } else if (this.commandOptions['-r']) {
-      branches = this.getRemoteBranches();
-    } else {
-      branches = this.getLocalBranches();
-    }
-    this.printBranches(branches);
-    return;
-  }
-
-  this.twoArgsImpliedHead(this.generalArgs);
-  this.branch(this.generalArgs[0], this.generalArgs[1]);
 };
 
 GitEngine.prototype.forceBranch = function(branchName, where) {
@@ -1966,11 +1720,7 @@ GitEngine.prototype.externalRefresh = function() {
 };
 
 GitEngine.prototype.dispatch = function(command, deferred) {
-  // current command, options, and args are stored in the gitEngine
-  // for easy reference during processing.
   this.command = command;
-  this.commandOptions = command.get('supportedMap');
-  this.generalArgs = command.get('generalArgs');
 
   // set up the animation queue
   var whenDone = _.bind(function() {
@@ -1982,13 +1732,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   try {
     var methodName = command.get('method').replace(/-/g, '');
-    // first check out module
-    if (Commands[methodName]) {
-      Commands[methodName](this, this.command);
-    } else {
-      var startName = methodName + 'Starter';
-      this[startName]();
-    }
+    Commands[methodName](this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
@@ -2011,12 +1755,6 @@ GitEngine.prototype.dispatch = function(command, deferred) {
   }
 };
 
-GitEngine.prototype.showStarter = function() {
-  this.oneArgImpliedHead(this.generalArgs);
-
-  this.show(this.generalArgs[0]);
-};
-
 GitEngine.prototype.show = function(ref) {
   var commit = this.getCommitFromRef(ref);
 
@@ -2025,7 +1763,8 @@ GitEngine.prototype.show = function(ref) {
   });
 };
 
-GitEngine.prototype.statusStarter = function() {
+GitEngine.prototype.status = function() {
+  // UGLY todo
   var lines = [];
   if (this.getDetachedHead()) {
     lines.push(intl.str('git-status-detached'));
@@ -2047,22 +1786,6 @@ GitEngine.prototype.statusStarter = function() {
   throw new CommandResult({
     msg: msg
   });
-};
-
-GitEngine.prototype.logStarter = function() {
-  if (this.generalArgs.length == 2) {
-    // do fancy git log branchA ^branchB
-    if (this.generalArgs[1][0] == '^') {
-      this.logWithout(this.generalArgs[0], this.generalArgs[1]);
-    } else {
-      throw new GitError({
-        msg: intl.str('git-error-options')
-      });
-    }
-  }
-
-  this.oneArgImpliedHead(this.generalArgs);
-  this.log(this.generalArgs[0]);
 };
 
 GitEngine.prototype.logWithout = function(ref, omitBranch) {
@@ -2105,12 +1828,6 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
   throw new CommandResult({
     msg: bigLogStr
-  });
-};
-
-GitEngine.prototype.addStarter = function() {
-  throw new CommandResult({
-    msg: intl.str('git-error-staging')
   });
 };
 
