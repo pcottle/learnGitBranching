@@ -14,6 +14,8 @@ var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
+var Commands = require('../commands');
+
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -1207,50 +1209,6 @@ GitEngine.prototype.cherrypick = function(commit) {
   return newCommit;
 };
 
-GitEngine.prototype.commitStarter = function() {
-  this.acceptNoGeneralArgs();
-  if (this.commandOptions['-am'] && (
-      this.commandOptions['-a'] || this.commandOptions['-m'])) {
-    throw new GitError({
-      msg: intl.str('git-error-options')
-    });
-  }
-
-  var msg = null;
-  var args = null;
-  if (this.commandOptions['-a']) {
-    this.command.addWarning(intl.str('git-warning-add'));
-  }
-
-  if (this.commandOptions['-am']) {
-    args = this.commandOptions['-am'];
-    this.validateArgBounds(args, 1, 1, '-am');
-    msg = args[0];
-  }
-
-  if (this.commandOptions['-m']) {
-    args = this.commandOptions['-m'];
-    this.validateArgBounds(args, 1, 1, '-m');
-    msg = args[0];
-  }
-
-  var newCommit = this.commit();
-  if (msg) {
-    msg = msg
-      .replace(/&quot;/g, '"')
-      .replace(/^"/g, '')
-      .replace(/"$/g, '');
-
-    newCommit.set('commitMessage', msg);
-  }
-
-  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
-    newCommit,
-    this.gitVisuals
-  );
-  this.animationQueue.thenFinish(promise);
-};
-
 GitEngine.prototype.commit = function() {
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = null;
@@ -1856,51 +1814,6 @@ GitEngine.prototype.merge = function(targetSource) {
   return mergeCommit;
 };
 
-GitEngine.prototype.checkoutStarter = function() {
-  var args = null;
-  if (this.commandOptions['-b']) {
-    if (this.generalArgs.length) {
-      throw new GitError({
-        msg: intl.str('git-error-options')
-      });
-    }
-
-    // the user is really trying to just make a branch and then switch to it. so first:
-    args = this.commandOptions['-b'];
-    this.twoArgsImpliedHead(args, '-b');
-
-    var validId = this.validateBranchName(args[0]);
-    this.branch(validId, args[1]);
-    this.checkout(validId);
-    return;
-  }
-
-  if (this.commandOptions['-']) {
-    // get the heads last location
-    var lastPlace = this.HEAD.get('lastLastTarget');
-    if (!lastPlace) {
-      throw new GitError({
-        msg: intl.str('git-result-nothing')
-      });
-    }
-    this.HEAD.set('target', lastPlace);
-    return;
-  }
-
-  if (this.commandOptions['-B']) {
-    args = this.commandOptions['-B'];
-    this.twoArgsImpliedHead(args, '-B');
-
-    this.forceBranch(args[0], args[1]);
-    this.checkout(args[0]);
-    return;
-  }
-
-  this.validateArgBounds(this.generalArgs, 1, 1);
-
-  this.checkout(this.crappyUnescape(this.generalArgs[0]));
-};
-
 GitEngine.prototype.checkout = function(idOrTarget) {
   var target = this.resolveID(idOrTarget);
   if (target.get('id') === 'HEAD') {
@@ -2068,8 +1981,14 @@ GitEngine.prototype.dispatch = function(command, deferred) {
   });
 
   try {
-    var methodName = command.get('method').replace(/-/g, '') + 'Starter';
-    this[methodName]();
+    var methodName = command.get('method').replace(/-/g, '');
+    // first check out module
+    if (Commands[methodName]) {
+      Commands[methodName](this, this.command);
+    } else {
+      var startName = methodName + 'Starter';
+      this[startName]();
+    }
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning

@@ -7143,6 +7143,9 @@ var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
+// REFACTOR in progress
+var Commands = {};
+
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -8337,9 +8340,15 @@ GitEngine.prototype.cherrypick = function(commit) {
 };
 
 GitEngine.prototype.commitStarter = function() {
-  this.acceptNoGeneralArgs();
-  if (this.commandOptions['-am'] && (
-      this.commandOptions['-a'] || this.commandOptions['-m'])) {
+  Commands.commit(this, this.command, this.commandOptions);
+};
+
+Commands.commit = function(engine, command) {
+  var commandOptions = command.getSupportedMap();
+  command.acceptNoGeneralArgs();
+
+  if (commandOptions['-am'] && (
+      commandOptions['-a'] || commandOptions['-m'])) {
     throw new GitError({
       msg: intl.str('git-error-options')
     });
@@ -8347,23 +8356,23 @@ GitEngine.prototype.commitStarter = function() {
 
   var msg = null;
   var args = null;
-  if (this.commandOptions['-a']) {
-    this.command.addWarning(intl.str('git-warning-add'));
+  if (commandOptions['-a']) {
+    command.addWarning(intl.str('git-warning-add'));
   }
 
-  if (this.commandOptions['-am']) {
-    args = this.commandOptions['-am'];
-    this.validateArgBounds(args, 1, 1, '-am');
+  if (commandOptions['-am']) {
+    args = commandOptions['-am'];
+    engine.validateArgBounds(args, 1, 1, '-am');
     msg = args[0];
   }
 
-  if (this.commandOptions['-m']) {
-    args = this.commandOptions['-m'];
-    this.validateArgBounds(args, 1, 1, '-m');
+  if (commandOptions['-m']) {
+    args = commandOptions['-m'];
+    engine.validateArgBounds(args, 1, 1, '-m');
     msg = args[0];
   }
 
-  var newCommit = this.commit();
+  var newCommit = engine.commit();
   if (msg) {
     msg = msg
       .replace(/&quot;/g, '"')
@@ -8373,11 +8382,11 @@ GitEngine.prototype.commitStarter = function() {
     newCommit.set('commitMessage', msg);
   }
 
-  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
+  var promise = engine.animationFactory.playCommitBirthPromiseAnimation(
     newCommit,
-    this.gitVisuals
+    engine.gitVisuals
   );
-  this.animationQueue.thenFinish(promise);
+  engine.animationQueue.thenFinish(promise);
 };
 
 GitEngine.prototype.commit = function() {
@@ -13664,6 +13673,7 @@ var GitCommands = require('../git/commands');
 var GitOptionParser = GitCommands.GitOptionParser;
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var intl = require('../intl');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -13707,6 +13717,53 @@ var Command = Backbone.Model.extend({
     this.set('generalArgs', []);
     this.set('supportedMap', {});
     this.set('warnings', []);
+  },
+
+  getGeneralArgs: function() {
+    return this.get('generalArgs');
+  },
+
+  getSupportedMap: function() {
+    return this.get('supportedMap');
+  },
+
+  acceptNoGeneralArgs: function() {
+    if (this.getGeneralArgs().length) {
+      throw new GitError({
+        msg: intl.str('git-error-no-general-args')
+      });
+    }
+  },
+
+  // this is a little utility class to help arg validation that happens over and over again
+  validateArgBounds: function(args, lower, upper, option) {
+    var what = (option === undefined) ?
+      'git ' + this.get('method') :
+      this.get('method') + ' ' + option + ' ';
+    what = 'with ' + what;
+
+    if (args.length < lower) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-few',
+          {
+            lower: String(lower),
+            what: what
+          }
+        )
+      });
+    }
+    if (args.length > upper) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-many',
+          {
+            upper: String(upper),
+            what: what
+          }
+        )
+      });
+    }
   },
 
   validateAtInit: function() {
@@ -23885,6 +23942,9 @@ var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
+// REFACTOR in progress
+var Commands = {};
+
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -25079,9 +25139,15 @@ GitEngine.prototype.cherrypick = function(commit) {
 };
 
 GitEngine.prototype.commitStarter = function() {
-  this.acceptNoGeneralArgs();
-  if (this.commandOptions['-am'] && (
-      this.commandOptions['-a'] || this.commandOptions['-m'])) {
+  Commands.commit(this, this.command, this.commandOptions);
+};
+
+Commands.commit = function(engine, command) {
+  var commandOptions = command.getSupportedMap();
+  command.acceptNoGeneralArgs();
+
+  if (commandOptions['-am'] && (
+      commandOptions['-a'] || commandOptions['-m'])) {
     throw new GitError({
       msg: intl.str('git-error-options')
     });
@@ -25089,23 +25155,23 @@ GitEngine.prototype.commitStarter = function() {
 
   var msg = null;
   var args = null;
-  if (this.commandOptions['-a']) {
-    this.command.addWarning(intl.str('git-warning-add'));
+  if (commandOptions['-a']) {
+    command.addWarning(intl.str('git-warning-add'));
   }
 
-  if (this.commandOptions['-am']) {
-    args = this.commandOptions['-am'];
-    this.validateArgBounds(args, 1, 1, '-am');
+  if (commandOptions['-am']) {
+    args = commandOptions['-am'];
+    engine.validateArgBounds(args, 1, 1, '-am');
     msg = args[0];
   }
 
-  if (this.commandOptions['-m']) {
-    args = this.commandOptions['-m'];
-    this.validateArgBounds(args, 1, 1, '-m');
+  if (commandOptions['-m']) {
+    args = commandOptions['-m'];
+    engine.validateArgBounds(args, 1, 1, '-m');
     msg = args[0];
   }
 
-  var newCommit = this.commit();
+  var newCommit = engine.commit();
   if (msg) {
     msg = msg
       .replace(/&quot;/g, '"')
@@ -25115,11 +25181,11 @@ GitEngine.prototype.commitStarter = function() {
     newCommit.set('commitMessage', msg);
   }
 
-  var promise = this.animationFactory.playCommitBirthPromiseAnimation(
+  var promise = engine.animationFactory.playCommitBirthPromiseAnimation(
     newCommit,
-    this.gitVisuals
+    engine.gitVisuals
   );
-  this.animationQueue.thenFinish(promise);
+  engine.animationQueue.thenFinish(promise);
 };
 
 GitEngine.prototype.commit = function() {
@@ -29359,6 +29425,7 @@ var GitCommands = require('../git/commands');
 var GitOptionParser = GitCommands.GitOptionParser;
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var intl = require('../intl');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -29402,6 +29469,53 @@ var Command = Backbone.Model.extend({
     this.set('generalArgs', []);
     this.set('supportedMap', {});
     this.set('warnings', []);
+  },
+
+  getGeneralArgs: function() {
+    return this.get('generalArgs');
+  },
+
+  getSupportedMap: function() {
+    return this.get('supportedMap');
+  },
+
+  acceptNoGeneralArgs: function() {
+    if (this.getGeneralArgs().length) {
+      throw new GitError({
+        msg: intl.str('git-error-no-general-args')
+      });
+    }
+  },
+
+  // this is a little utility class to help arg validation that happens over and over again
+  validateArgBounds: function(args, lower, upper, option) {
+    var what = (option === undefined) ?
+      'git ' + this.get('method') :
+      this.get('method') + ' ' + option + ' ';
+    what = 'with ' + what;
+
+    if (args.length < lower) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-few',
+          {
+            lower: String(lower),
+            what: what
+          }
+        )
+      });
+    }
+    if (args.length > upper) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-many',
+          {
+            upper: String(upper),
+            what: what
+          }
+        )
+      });
+    }
   },
 
   validateAtInit: function() {

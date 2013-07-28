@@ -7,6 +7,7 @@ var GitCommands = require('../git/commands');
 var GitOptionParser = GitCommands.GitOptionParser;
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var intl = require('../intl');
 
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -50,6 +51,62 @@ var Command = Backbone.Model.extend({
     this.set('generalArgs', []);
     this.set('supportedMap', {});
     this.set('warnings', []);
+  },
+
+  getGeneralArgs: function() {
+    return this.get('generalArgs');
+  },
+
+  getSupportedMap: function() {
+    return this.get('supportedMap');
+  },
+
+  acceptNoGeneralArgs: function() {
+    if (this.getGeneralArgs().length) {
+      throw new GitError({
+        msg: intl.str('git-error-no-general-args')
+      });
+    }
+  },
+
+  twoArgsImpliedHead: function(args, option) {
+    // our args we expect to be between 1 and 2
+    this.validateArgBounds(args, 1, 2, option);
+    // and if it's one, add a HEAD to the back
+    if (args.length == 1) {
+      args.push('HEAD');
+    }
+  },
+
+  // this is a little utility class to help arg validation that happens over and over again
+  validateArgBounds: function(args, lower, upper, option) {
+    var what = (option === undefined) ?
+      'git ' + this.get('method') :
+      this.get('method') + ' ' + option + ' ';
+    what = 'with ' + what;
+
+    if (args.length < lower) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-few',
+          {
+            lower: String(lower),
+            what: what
+          }
+        )
+      });
+    }
+    if (args.length > upper) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-many',
+          {
+            upper: String(upper),
+            what: what
+          }
+        )
+      });
+    }
   },
 
   validateAtInit: function() {

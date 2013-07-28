@@ -1,6 +1,10 @@
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
 
+var TIME = 150;
+// useful for throwing garbage and then expecting one commit
+var oneCommit = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
+
 var loadTree = function(json) {
   return JSON.parse(unescape(json));
 };
@@ -14,12 +18,21 @@ var compareAnswer = function(headless, expectedJSON) {
 
 var expectTreeAsync = function(command, expectedJSON) {
   var headless = new HeadlessGit();
+  var start = Date.now();
+  var haveReported = false;
+
   runs(function() {
     headless.sendCommand(command);
   });
   waitsFor(function() {
+    var diff = (Date.now() - start);
+    if (diff > TIME - 50 && !haveReported) {
+      haveReported = true;
+      console.log('not going to match', command);
+      console.log('expected', loadTree(expectedJSON), 'actual', headless.gitEngine.exportTree());
+    }
     return compareAnswer(headless, expectedJSON);
-  }, 'trees should be equal', 750);
+  }, 'trees should be equal', 100);
 };
 
 describe('GitEngine', function() {
@@ -27,6 +40,20 @@ describe('GitEngine', function() {
     expectTreeAsync(
       'git commit',
       '{"branches":{"master":{"target":"C2","id":"master","type":"branch"}},"commits":{"C0":{"type":"commit","parents":[],"id":"C0","rootCommit":true},"C1":{"type":"commit","parents":["C0"],"id":"C1"},"C2":{"type":"commit","parents":["C1"],"id":"C2"}},"HEAD":{"id":"HEAD","target":"master","type":"general ref"}}'
+    );
+  });
+
+  it('handles commit options', function() {
+    expectTreeAsync(
+      'git commit; git commit --amend;',
+      '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D'
+    );
+  });
+
+  it('throws with bad arg options', function() {
+    expectTreeAsync(
+      'git commit foo; git commit -am -m; git commit -am -a; git commit -am "hi" "ho"; git commit',
+      oneCommit
     );
   });
 

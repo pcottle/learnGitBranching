@@ -2,6 +2,7 @@ var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
 
 var _ = require('underscore');
+var TIME = 150;
 
 var loadTree = function(json) {
   return JSON.parse(unescape(json));
@@ -25,7 +26,7 @@ var expectTreeAsync = function(headless, levelBlob) {
   });
   waitsFor(function() {
     var diff = (Date.now() - start);
-    if (diff > 700) {
+    if (diff > TIME - 50) {
       console.log('not going to match', command);
     }
     var result = compareLevelTree(headless, levelBlob);
@@ -33,7 +34,7 @@ var expectTreeAsync = function(headless, levelBlob) {
       console.log('solved level ' + levelBlob.name.en_US);
     }
     return result;
-  }, 'trees should be equal', 750);
+  }, 'trees should be equal', TIME);
 };
 
 var expectLevelSolved = function(levelBlob) {
