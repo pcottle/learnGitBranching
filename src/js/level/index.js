@@ -10,12 +10,14 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 var Constants = require('../util/constants');
+var Commands = require('../commands');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
+var GitCommands = require('../git/commands');
 
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
@@ -44,7 +46,6 @@ var Level = Sandbox.extend({
     this.level = options.level;
 
     this.gitCommandsIssued = [];
-    this.commandsThatCount = this.getCommandsThatCount();
     this.solved = false;
 
     this.initGoalData(options);
@@ -297,11 +298,6 @@ var Level = Sandbox.extend({
     });
   },
 
-  getCommandsThatCount: function() {
-    var GitCommands = require('../git/commands');
-    return GitCommands.commandsThatCount;
-  },
-
   undo: function() {
     this.gitCommandsIssued.pop();
     Level.__super__.undo.apply(this, arguments);
@@ -314,7 +310,8 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(this.commandsThatCount, function(regex) {
+    _.each(Commands.getCommandsThatCount(), function(name) {
+      var regex = Commands.getRegex(name);
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {

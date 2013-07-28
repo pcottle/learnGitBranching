@@ -1,24 +1,15 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
+var Commands = require('../commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var shortcutMap = {
-  'git commit': /^(gc|git ci)($|\s)/,
-  'git add': /^ga($|\s)/,
-  'git checkout': /^(go|git co)($|\s)/,
-  'git rebase': /^gr($|\s)/,
-  'git branch': /^(gb|git br)($|\s)/,
-  'git status': /^(gst|gs|git st)($|\s)/,
-  'git help': /^git$/
-};
-
 var instantCommands = [
-  [/^git help($|\s)/, function() {
+  [/^(git help($|\s)|git$)/, function() {
     var lines = [
       intl.str('git-version'),
       '<br/>',
@@ -28,8 +19,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = GitOptionParser.prototype.getMasterOptionMap();
-
+    var commands = Commands.getOptionMap();
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -47,59 +37,12 @@ var instantCommands = [
   }]
 ];
 
-var regexMap = {
-  // ($|\s) means that we either have to end the string
-  // after the command or there needs to be a space for options
-  'git commit': /^git +commit($|\s)/,
-  'git add': /^git +add($|\s)/,
-  'git checkout': /^git +checkout($|\s)/,
-  'git rebase': /^git +rebase($|\s)/,
-  'git reset': /^git +reset($|\s)/,
-  'git branch': /^git +branch($|\s)/,
-  'git revert': /^git +revert($|\s)/,
-  'git log': /^git +log($|\s)/,
-  'git merge': /^git +merge($|\s)/,
-  'git show': /^git +show($|\s)/,
-  'git status': /^git +status($|\s)/,
-  'git cherry-pick': /^git +cherry-pick($|\s)/,
-  'git fakeTeamwork': /^git +fakeTeamwork($|\s)/,
-  'git fetch': /^git +fetch *?$/,
-  'git pull': /^git +pull($|\s)/,
-  'git push': /^git +push($|\s)/,
-  'git clone': /^git +clone *?$/
-};
-
-/**
- * Maintain this list to keep track of which commands we track
- * for the "git golf" minigame
- */
-var commandsThatCount = (function() {
-  var toCount = [
-    'git commit',
-    'git checkout',
-    'git rebase',
-    'git reset',
-    'git branch',
-    'git revert',
-    'git merge',
-    'git clone',
-    'git cherry-pick'
-  ];
-  var whichCountMap = {};
-  _.each(toCount, function(method) {
-    if (!regexMap[method]) { throw new Error('wut no regex'); }
-
-    whichCountMap[method] = regexMap[method];
-  });
-  return whichCountMap;
-})();
-
 var parse = function(str) {
   var method;
   var options;
 
   // see if we support this particular command
-  _.each(regexMap, function(regex, thisMethod) {
+  _.each(Commands.getRegexMap(), function(regex, thisMethod) {
     if (regex.exec(str)) {
       options = str.slice(thisMethod.length + 1);
       method = thisMethod.slice('git '.length);
@@ -112,7 +55,7 @@ var parse = function(str) {
 
   // we support this command!
   // parse off the options and assemble the map / general args
-  var parsedOptions = new GitOptionParser(method, options);
+  var parsedOptions = new CommandOptionParser(method, options);
   return {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
@@ -125,13 +68,13 @@ var parse = function(str) {
 };
 
 /**
- * GitOptionParser
+ * CommandOptionParser
  */
-function GitOptionParser(method, options) {
+function CommandOptionParser(method, options) {
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = this.getMasterOptionMap()[method];
+  this.supportedMap = Commands.getOptionMap()[method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
@@ -140,61 +83,27 @@ function GitOptionParser(method, options) {
   this.explodeAndSet();
 }
 
-GitOptionParser.prototype.getMasterOptionMap = function() {
-  // here a value of false means that we support it, even if its just a
-  // pass-through option. If the value is not here (aka will be undefined
-  // when accessed), we do not support it.
-  return {
-    commit: {
-      '--amend': false,
-      '-a': false, // warning
-      '-am': false, // warning
-      '-m': false
-    },
-    status: {},
-    log: {},
-    add: {},
-    'cherry-pick': {},
-    branch: {
-      '-d': false,
-      '-D': false,
-      '-f': false,
-      '-a': false,
-      '-r': false,
-      '--contains': false
-    },
-    checkout: {
-      '-b': false,
-      '-B': false,
-      '-': false
-    },
-    reset: {
-      '--hard': false,
-      '--soft': false // this will raise an error but we catch it in gitEngine
-    },
-    merge: {},
-    rebase: {
-      '-i': false // the mother of all options
-    },
-    revert: {},
-    show: {},
-    clone: {},
-    fetch: {},
-    pull: {
-      '--rebase': false
-    },
-    push: {},
-    fakeTeamwork: {}
-  };
-};
+var optionMap = {};
+Commands.loop(function(config, name) {
+  var displayName = config.displayName || name;
+  if (optionMap[displayName] !== undefined) {
+    return;
+  }
 
-GitOptionParser.prototype.explodeAndSet = function() {
+  var thisMap = {};
+  _.each(config.options, function(option) {
+    thisMap[option] = false;
+  });
+  optionMap[displayName] = thisMap;
+});
+
+CommandOptionParser.prototype.explodeAndSet = function() {
+  // TODO -- this is ugly
   // split on spaces, except when inside quotes
-
   var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-
   for (var i = 0; i < exploded.length; i++) {
     var part = exploded[i];
+
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
@@ -224,9 +133,6 @@ GitOptionParser.prototype.explodeAndSet = function() {
   }
 };
 
-exports.shortcutMap = shortcutMap;
-exports.commandsThatCount = commandsThatCount;
 exports.instantCommands = instantCommands;
 exports.parse = parse;
-exports.regexMap = regexMap;
 

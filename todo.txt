@@ -22,7 +22,7 @@ Origin things:
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] factor regexes and instant commands into one module
+[ ] figure out what to do with instant commands (and parse waterfall and the like)
 
 Cases to handle / things to edit
 =======================
@@ -42,6 +42,9 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] factor out golf thing too
+[x] factor regexes and instant commands into one module
+[x] big command refactor to get everything in one place
 [x] get demonstration view to show origin / remote -- z index ugliness
 [x] get goal visualization to show origin / remote.... hrm :O
 [x] MASSIVE EFFIN REFACTOR of all command options outside of git engine and into separate module

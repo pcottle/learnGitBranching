@@ -1732,7 +1732,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   try {
     var methodName = command.get('method').replace(/-/g, '');
-    Commands[methodName](this, this.command);
+    Commands.execute(methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
