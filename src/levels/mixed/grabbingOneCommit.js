@@ -38,7 +38,7 @@ exports.level = {
               "",
               "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
               "",
-              "Only problem is that I now need to get my `bugFix` back into the `master` branch! I could simply fast-forward `master`, but then `master` would get all my debug statements."
+              "Only problem is that I now need to get my `bugFix` back into the `master` branch. If I simply fast-forwarded `master`, then `master` would get all my debug statements which is undesirable. There has to be another way..."
             ]
           }
         },
@@ -46,14 +46,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "This is where the magic of Git comes in. There are a few ways to do this, but the two most straightforward ways are:",
+              "We need to tell git to copy only one of the commits over. This is just like the levels earlier on moving work around -- we can use the same commands:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "Interactive (the `-i`) rebasing allows you to choose which commits you want to keep or discard. It also allows you to reorder commits. This can be helpful if you want to toss out some work.",
-              "",
-              "Cherry-picking allows you to pick individual commits and plop them down on top of `HEAD`"
+              "To achieve this goal."
             ]
           }
         },
@@ -61,12 +59,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "This is a later level so we will leave it up to you to decide, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+              "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
             ]
           }
         }
       ]
     },
+    // INTL out of sync :(
     "ja": {
       "childViews": [
         {
