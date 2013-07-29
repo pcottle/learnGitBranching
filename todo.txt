@@ -13,7 +13,6 @@ Easier origin things:
     - getRemoteBranch has a default (the same name of the branch) but could be different
     - git push takes in an argument, and has to check if the remote branch exists, and makes
       it otherwise (after pushing)
-[ ] finally work on an upload / download animation
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,6 +41,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] finally work on an upload / download animation
 [x] factor out golf thing too
 [x] factor regexes and instant commands into one module
 [x] big command refactor to get everything in one place

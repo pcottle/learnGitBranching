@@ -1397,7 +1397,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
 
-GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
+  options = options || {};
   // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
   // but it will look similar.
 
@@ -1469,7 +1470,8 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
-    toRebase: toRebase
+    toRebase: toRebase,
+    aboveAll: options.aboveAll
   });
 };
 

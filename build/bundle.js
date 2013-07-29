@@ -7131,7 +7131,8 @@ commandConfig = {
   rebase: {
     sc: /^gr($|\s)/,
     options: [
-      '-i'
+      '-i',
+      '--aboveAll'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -7141,7 +7142,12 @@ commandConfig = {
       if (commandOptions['-i']) {
         var args = commandOptions['-i'];
         command.twoArgsImpliedHead(args, ' -i');
-        engine.rebaseInteractive(args[0], args[1]);
+        engine.rebaseInteractive(
+          args[0],
+          args[1], {
+            aboveAll: !!commandOptions['--aboveAll']
+          }
+        );
         return;
       }
 
@@ -9042,7 +9048,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
 
-GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
+  options = options || {};
   // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
   // but it will look similar.
 
@@ -9114,7 +9121,8 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
-    toRebase: toRebase
+    toRebase: toRebase,
+    aboveAll: options.aboveAll
   });
 };
 
@@ -10520,6 +10528,7 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.deferred = options.deferred;
     this.rebaseMap = {};
     this.entryObjMap = {};
+    this.options = options;
 
     this.rebaseEntries = new RebaseEntryCollection();
     options.toRebase.reverse();
@@ -10541,10 +10550,23 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // show the dialog holder
     this.show();
+
+    if (options.aboveAll) {
+      // TODO fix this :(
+      $('#canvasHolder').css('display', 'none');
+    }
+  },
+
+  restoreVis: function() {
+    // restore the absolute position canvases
+    $('#canvasHolder').css('display', 'inherit');
   },
 
   confirm: function() {
     this.die();
+    if (this.options.aboveAll) {
+      this.restoreVis();
+    }
 
     // get our ordering
     var uiOrder = [];
@@ -10595,6 +10617,15 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.makeButtons();
   },
 
+  cancel: function() {
+    // empty array does nothing, just like in git
+    this.hide();
+    if (this.options.aboveAll) {
+      this.restoreVis();
+    }
+    this.deferred.resolve([]);
+  },
+
   makeButtons: function() {
     // control for button
     var deferred = Q.defer();
@@ -10603,9 +10634,7 @@ var InteractiveRebaseView = ContainedBase.extend({
       this.confirm();
     }, this))
     .fail(_.bind(function() {
-      // empty array does nothing, just like in git
-      this.hide();
-      this.deferred.resolve([]);
+      this.cancel();
     }, this))
     .done();
 
@@ -18425,6 +18454,8 @@ exports.levelSequences = {
     require('../../levels/rampup/reversingChanges').level
   ],
   rebase: [
+    require('../../levels/rampup/cherryPick').level,
+    require('../../levels/rampup/interactiveRebase').level,
     require('../../levels/rebase/manyRebases').level
   ],
   mixed: [
@@ -18487,14 +18518,16 @@ exports.sequenceInfo = {
   },
   rebase: {
     displayName: {
-      'en_US': 'Master the Rebase Luke!',
+      'en_US': 'Moving Work Around',
+      // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
-      'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'en_US': 'Get comfortable with modifying the source tree',
+      // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
@@ -20731,6 +20764,168 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
               "이 레벨을 통과하려면, `local` 브랜치와 `pushed` 브랜치에 있는 최근 두 번의 커밋을 되돌려 보세요.",
               "",
               "`pushed`는 리모트 브랜치이고, `local`은 로컬 브랜치임을 신경쓰셔서 작업하세요 -- 어떤 방법을 선택하실지 떠오르시죠?"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/rampup/cherryPick.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git cherry-pick C3 C4 C7",
+  "compareOnlyMasterHashAgnostic": true,
+  "disabledMap": {
+    "git rebase": true
+  },
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C5\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C1\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Cherry-pick Intro"
+  },
+  "hint": {
+    "en_US": "git cherry-pick followed by commit names!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moving Work Around",
+              "",
+              "So far we've covered the basics of git -- committing, branching, and moving around in the source tree. Just these concepts are enough to leverage 90% of the power of git repositories and cover the main needs of developers.",
+              "",
+              "That remaining 10%, however, can be quite useful during complex workflows (or when you've gotten yourself into a bind). The next concept we're going to cover is \"moving work around\" -- in other words, its a way for developers to say \"I want this work here and that work here\" in precise, eloquent, flexible ways.",
+              "",
+              "This may seem like a lot, but it's a simple concept."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "The first command in this series is called `git cherry-pick`. It takes on the following form:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "It's a very straightforward way of saying that you would like to copy a series of commits below your current location (`HEAD`). I personally love `cherry-pick` because there is very little magic involved and it's easy to understand.",
+              "",
+              "Let's see a demo!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here's a repository where we have some work in branch `side` that we want to copy to `master`. This could be accomplished through a rebase (which we have already learned), but let's see how cherry-pick performs."
+            ],
+            "afterMarkdowns": [
+              "That's it! We wanted commits `C2` and `C4` and git plopped them down right below us. Simple as that!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/levels/rampup/interactiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git rebase -i overHere",
+  "compareOnlyMasterHashAgnostic": true,
+  "disabledMap": {
+    "git cherry-pick": true
+  },
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "hint": {
+    "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target"
+  },
+  "name": {
+    "en_US": "Interactive Rebase Intro"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "Git cherry-pick is great when you know which commits you want (_and_ you know their corresponding hashes) -- it's hard to beat the simplicity it provides.",
+              "",
+              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's is the best way to review a series of commits you're about to rebase.",
+              "",
+              "Let's dive into the details..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "All interactive rebase means is using the `rebase` command with the `-i` option.",
+              "",
+              "If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what's what.",
+              "",
+              "For \"real\" git, the UI window means opening up a file in a text editor like `vim`. For our purposes, I've built a small dialog window that behaves the same way."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "When the interactive rebase dialog opens, you have the ability to do 3 things:",
+              "",
+              "* You can reorder commits simply by changing their order in the UI (in our window this means dragging and dropping with the mouse).",
+              "* You can choose to completely omit some commits. This is designated by `pick` -- toggling `pick` off means you want to drop the commit.",
+              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I\"ll skip over the details of this. Long story short though -- it allows you to combine commits.",
+              "",
+              "Great! Lets see an example"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!"
+            ],
+            "afterMarkdowns": [
+              "Boom! Git copied down commits in the exact same way you specified through the UI"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
             ]
           }
         }
@@ -23549,7 +23744,8 @@ commandConfig = {
   rebase: {
     sc: /^gr($|\s)/,
     options: [
-      '-i'
+      '-i',
+      '--aboveAll'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -23559,7 +23755,12 @@ commandConfig = {
       if (commandOptions['-i']) {
         var args = commandOptions['-i'];
         command.twoArgsImpliedHead(args, ' -i');
-        engine.rebaseInteractive(args[0], args[1]);
+        engine.rebaseInteractive(
+          args[0],
+          args[1], {
+            aboveAll: !!commandOptions['--aboveAll']
+          }
+        );
         return;
       }
 
@@ -25837,7 +26038,8 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
 
-GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) {
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
+  options = options || {};
   // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
   // but it will look similar.
 
@@ -25909,7 +26111,8 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation) 
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
-    toRebase: toRebase
+    toRebase: toRebase,
+    aboveAll: options.aboveAll
   });
 };
 
@@ -32786,6 +32989,7 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.deferred = options.deferred;
     this.rebaseMap = {};
     this.entryObjMap = {};
+    this.options = options;
 
     this.rebaseEntries = new RebaseEntryCollection();
     options.toRebase.reverse();
@@ -32807,10 +33011,23 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // show the dialog holder
     this.show();
+
+    if (options.aboveAll) {
+      // TODO fix this :(
+      $('#canvasHolder').css('display', 'none');
+    }
+  },
+
+  restoreVis: function() {
+    // restore the absolute position canvases
+    $('#canvasHolder').css('display', 'inherit');
   },
 
   confirm: function() {
     this.die();
+    if (this.options.aboveAll) {
+      this.restoreVis();
+    }
 
     // get our ordering
     var uiOrder = [];
@@ -32861,6 +33078,15 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.makeButtons();
   },
 
+  cancel: function() {
+    // empty array does nothing, just like in git
+    this.hide();
+    if (this.options.aboveAll) {
+      this.restoreVis();
+    }
+    this.deferred.resolve([]);
+  },
+
   makeButtons: function() {
     // control for button
     var deferred = Q.defer();
@@ -32869,9 +33095,7 @@ var InteractiveRebaseView = ContainedBase.extend({
       this.confirm();
     }, this))
     .fail(_.bind(function() {
-      // empty array does nothing, just like in git
-      this.hide();
-      this.deferred.resolve([]);
+      this.cancel();
     }, this))
     .done();
 
@@ -35933,6 +36157,8 @@ exports.levelSequences = {
     require('../../levels/rampup/reversingChanges').level
   ],
   rebase: [
+    require('../../levels/rampup/cherryPick').level,
+    require('../../levels/rampup/interactiveRebase').level,
     require('../../levels/rebase/manyRebases').level
   ],
   mixed: [
@@ -35995,14 +36221,16 @@ exports.sequenceInfo = {
   },
   rebase: {
     displayName: {
-      'en_US': 'Master the Rebase Luke!',
+      'en_US': 'Moving Work Around',
+      // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
-      'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'en_US': 'Get comfortable with modifying the source tree',
+      // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
@@ -38042,6 +38270,84 @@ require.define("/src/levels/mixed/jugglingCommits2.js",function(require,module,e
 });
 require("/src/levels/mixed/jugglingCommits2.js");
 
+require.define("/src/levels/rampup/cherryPick.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git cherry-pick C3 C4 C7",
+  "compareOnlyMasterHashAgnostic": true,
+  "disabledMap": {
+    "git rebase": true
+  },
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C5\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C1\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Cherry-pick Intro"
+  },
+  "hint": {
+    "en_US": "git cherry-pick followed by commit names!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moving Work Around",
+              "",
+              "So far we've covered the basics of git -- committing, branching, and moving around in the source tree. Just these concepts are enough to leverage 90% of the power of git repositories and cover the main needs of developers.",
+              "",
+              "That remaining 10%, however, can be quite useful during complex workflows (or when you've gotten yourself into a bind). The next concept we're going to cover is \"moving work around\" -- in other words, its a way for developers to say \"I want this work here and that work here\" in precise, eloquent, flexible ways.",
+              "",
+              "This may seem like a lot, but it's a simple concept."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "The first command in this series is called `git cherry-pick`. It takes on the following form:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "It's a very straightforward way of saying that you would like to copy a series of commits below your current location (`HEAD`). I personally love `cherry-pick` because there is very little magic involved and it's easy to understand.",
+              "",
+              "Let's see a demo!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here's a repository where we have some work in branch `side` that we want to copy to `master`. This could be accomplished through a rebase (which we have already learned), but let's see how cherry-pick performs."
+            ],
+            "afterMarkdowns": [
+              "That's it! We wanted commits `C2` and `C4` and git plopped them down right below us. Simple as that!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/rampup/cherryPick.js");
+
 require.define("/src/levels/rampup/detachedHead.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout C4",
@@ -38216,6 +38522,92 @@ require.define("/src/levels/rampup/detachedHead.js",function(require,module,expo
 
 });
 require("/src/levels/rampup/detachedHead.js");
+
+require.define("/src/levels/rampup/interactiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git rebase -i overHere",
+  "compareOnlyMasterHashAgnostic": true,
+  "disabledMap": {
+    "git cherry-pick": true
+  },
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "hint": {
+    "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target"
+  },
+  "name": {
+    "en_US": "Interactive Rebase Intro"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "Git cherry-pick is great when you know which commits you want (_and_ you know their corresponding hashes) -- it's hard to beat the simplicity it provides.",
+              "",
+              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's is the best way to review a series of commits you're about to rebase.",
+              "",
+              "Let's dive into the details..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "All interactive rebase means is using the `rebase` command with the `-i` option.",
+              "",
+              "If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what's what.",
+              "",
+              "For \"real\" git, the UI window means opening up a file in a text editor like `vim`. For our purposes, I've built a small dialog window that behaves the same way."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "When the interactive rebase dialog opens, you have the ability to do 3 things:",
+              "",
+              "* You can reorder commits simply by changing their order in the UI (in our window this means dragging and dropping with the mouse).",
+              "* You can choose to completely omit some commits. This is designated by `pick` -- toggling `pick` off means you want to drop the commit.",
+              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I\"ll skip over the details of this. Long story short though -- it allows you to combine commits.",
+              "",
+              "Great! Lets see an example"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!"
+            ],
+            "afterMarkdowns": [
+              "Boom! Git copied down commits in the exact same way you specified through the UI"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/rampup/interactiveRebase.js");
 
 require.define("/src/levels/rampup/relativeRefs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",

@@ -14,6 +14,8 @@ exports.levelSequences = {
     require('../../levels/rampup/reversingChanges').level
   ],
   rebase: [
+    require('../../levels/rampup/cherryPick').level,
+    require('../../levels/rampup/interactiveRebase').level,
     require('../../levels/rebase/manyRebases').level
   ],
   mixed: [
@@ -76,14 +78,16 @@ exports.sequenceInfo = {
   },
   rebase: {
     displayName: {
-      'en_US': 'Master the Rebase Luke!',
+      'en_US': 'Moving Work Around',
+      // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
-      'en_US': 'What is this whole rebase hotness everyone is talking about? Find out!',
+      'en_US': 'Get comfortable with modifying the source tree',
+      // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',

@@ -413,7 +413,8 @@ commandConfig = {
   rebase: {
     sc: /^gr($|\s)/,
     options: [
-      '-i'
+      '-i',
+      '--aboveAll'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -423,7 +424,12 @@ commandConfig = {
       if (commandOptions['-i']) {
         var args = commandOptions['-i'];
         command.twoArgsImpliedHead(args, ' -i');
-        engine.rebaseInteractive(args[0], args[1]);
+        engine.rebaseInteractive(
+          args[0],
+          args[1], {
+            aboveAll: !!commandOptions['--aboveAll']
+          }
+        );
         return;
       }
 

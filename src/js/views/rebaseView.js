@@ -17,6 +17,7 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.deferred = options.deferred;
     this.rebaseMap = {};
     this.entryObjMap = {};
+    this.options = options;
 
     this.rebaseEntries = new RebaseEntryCollection();
     options.toRebase.reverse();
@@ -38,10 +39,23 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // show the dialog holder
     this.show();
+
+    if (options.aboveAll) {
+      // TODO fix this :(
+      $('#canvasHolder').css('display', 'none');
+    }
+  },
+
+  restoreVis: function() {
+    // restore the absolute position canvases
+    $('#canvasHolder').css('display', 'inherit');
   },
 
   confirm: function() {
     this.die();
+    if (this.options.aboveAll) {
+      this.restoreVis();
+    }
 
     // get our ordering
     var uiOrder = [];
@@ -92,6 +106,15 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.makeButtons();
   },
 
+  cancel: function() {
+    // empty array does nothing, just like in git
+    this.hide();
+    if (this.options.aboveAll) {
+      this.restoreVis();
+    }
+    this.deferred.resolve([]);
+  },
+
   makeButtons: function() {
     // control for button
     var deferred = Q.defer();
@@ -100,9 +123,7 @@ var InteractiveRebaseView = ContainedBase.extend({
       this.confirm();
     }, this))
     .fail(_.bind(function() {
-      // empty array does nothing, just like in git
-      this.hide();
-      this.deferred.resolve([]);
+      this.cancel();
     }, this))
     .done();
 
