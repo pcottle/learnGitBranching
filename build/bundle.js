@@ -18453,7 +18453,7 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
-  rebase: [
+  move: [
     require('../../levels/rampup/cherryPick').level,
     require('../../levels/rampup/interactiveRebase').level
   ],
@@ -18516,7 +18516,7 @@ exports.sequenceInfo = {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
     }
   },
-  rebase: {
+  move: {
     displayName: {
       'en_US': 'Moving Work Around',
       // INTL out of sync :(
@@ -36155,7 +36155,7 @@ exports.levelSequences = {
     require('../../levels/rampup/relativeRefs2').level,
     require('../../levels/rampup/reversingChanges').level
   ],
-  rebase: [
+  move: [
     require('../../levels/rampup/cherryPick').level,
     require('../../levels/rampup/interactiveRebase').level
   ],
@@ -36218,7 +36218,7 @@ exports.sequenceInfo = {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
     }
   },
-  rebase: {
+  move: {
     displayName: {
       'en_US': 'Moving Work Around',
       // INTL out of sync :(
