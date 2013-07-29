@@ -6742,6 +6742,10 @@ var Commands = {
     return commandConfig[name].regex;
   },
 
+  isCommandSupported: function(name) {
+    return !!commandConfig[name];
+  },
+
   getShortcutMap: function() {
     var map = {};
     this.loop(function(config, name) {
@@ -6751,6 +6755,20 @@ var Commands = {
       map['git ' + name] = config.sc;
     }, this);
     return map;
+  },
+
+  getOptionMap: function() {
+    var optionMap = {};
+    this.loop(function(config, name) {
+      var displayName = config.displayName || name;
+      var thisMap = {};
+      // start all options off as disabled
+      _.each(config.options, function(option) {
+        thisMap[option] = false;
+      });
+      optionMap[displayName] = thisMap;
+    });
+    return optionMap;
   },
 
   getRegexMap: function() {
@@ -9951,6 +9969,7 @@ var PromiseAnimation = Backbone.Model.extend({
       throw new Error('need closure or animation');
     }
     this.set('closure', options.closure || options.animation);
+    this.set('duration', options.duration || this.get('duration'));
     this.set('deferred', options.deferred || Q.defer());
   },
 
@@ -14048,8 +14067,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = CommandOptionParser.prototype.getMasterOptionMap();
-
+    var commands = Commands.getOptionMap();
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -14104,7 +14122,7 @@ function CommandOptionParser(method, options) {
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = this.getMasterOptionMap()[method];
+  this.supportedMap = Commands.getOptionMap()[method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
@@ -14112,11 +14130,6 @@ function CommandOptionParser(method, options) {
   this.generalArgs = [];
   this.explodeAndSet();
 }
-
-CommandOptionParser.prototype.getMasterOptionMap = function() {
-  // need to copy -- also ugly
-  return JSON.parse(JSON.stringify(optionMap));
-};
 
 var optionMap = {};
 Commands.loop(function(config, name) {
@@ -16465,6 +16478,16 @@ var VisNode = VisBase.extend({
     };
   },
 
+  animatePositionTo: function(visNode, speed, easing) {
+    var attributes = this.getAttributes();
+    var destAttributes = visNode.getAttributes();
+
+    // TODO make not hardcoded
+    attributes.circle = destAttributes.circle;
+    attributes.text = destAttributes.text;
+    this.animateToAttr(attributes, speed, easing);
+  },
+
   highlightTo: function(visObj, speed, easing) {
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
@@ -16744,19 +16767,25 @@ var VisNode = VisBase.extend({
     return stepFunc;
   },
 
-  genGraphics: function() {
-    var paper = this.gitVisuals.paper;
-
+  makeCircle: function(paper) {
     var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-
-    var circle = paper.circle(
+    return paper.circle(
       pos.x,
       pos.y,
       this.getRadius()
     ).attr(this.getAttributes().circle);
+  },
 
-    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+  makeText: function(paper) {
+    var textPos = this.getTextScreenCoords();
+    return paper.text(textPos.x, textPos.y, String(this.get('id')));
+  },
+
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+    var circle = this.makeCircle(paper);
+    var text = this.makeText(paper);
+
     text.attr({
       'font-size': this.getFontSize(this.get('id')),
       'font-weight': 'bold',
@@ -23131,6 +23160,10 @@ var Commands = {
     return commandConfig[name].regex;
   },
 
+  isCommandSupported: function(name) {
+    return !!commandConfig[name];
+  },
+
   getShortcutMap: function() {
     var map = {};
     this.loop(function(config, name) {
@@ -23140,6 +23173,20 @@ var Commands = {
       map['git ' + name] = config.sc;
     }, this);
     return map;
+  },
+
+  getOptionMap: function() {
+    var optionMap = {};
+    this.loop(function(config, name) {
+      var displayName = config.displayName || name;
+      var thisMap = {};
+      // start all options off as disabled
+      _.each(config.options, function(option) {
+        thisMap[option] = false;
+      });
+      optionMap[displayName] = thisMap;
+    });
+    return optionMap;
   },
 
   getRegexMap: function() {
@@ -24069,8 +24116,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = CommandOptionParser.prototype.getMasterOptionMap();
-
+    var commands = Commands.getOptionMap();
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -24125,7 +24171,7 @@ function CommandOptionParser(method, options) {
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = this.getMasterOptionMap()[method];
+  this.supportedMap = Commands.getOptionMap()[method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
@@ -24133,11 +24179,6 @@ function CommandOptionParser(method, options) {
   this.generalArgs = [];
   this.explodeAndSet();
 }
-
-CommandOptionParser.prototype.getMasterOptionMap = function() {
-  // need to copy -- also ugly
-  return JSON.parse(JSON.stringify(optionMap));
-};
 
 var optionMap = {};
 Commands.loop(function(config, name) {
@@ -33157,6 +33198,7 @@ var PromiseAnimation = Backbone.Model.extend({
       throw new Error('need closure or animation');
     }
     this.set('closure', options.closure || options.animation);
+    this.set('duration', options.duration || this.get('duration'));
     this.set('deferred', options.deferred || Q.defer());
   },
 
@@ -35079,6 +35121,16 @@ var VisNode = VisBase.extend({
     };
   },
 
+  animatePositionTo: function(visNode, speed, easing) {
+    var attributes = this.getAttributes();
+    var destAttributes = visNode.getAttributes();
+
+    // TODO make not hardcoded
+    attributes.circle = destAttributes.circle;
+    attributes.text = destAttributes.text;
+    this.animateToAttr(attributes, speed, easing);
+  },
+
   highlightTo: function(visObj, speed, easing) {
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
@@ -35358,19 +35410,25 @@ var VisNode = VisBase.extend({
     return stepFunc;
   },
 
-  genGraphics: function() {
-    var paper = this.gitVisuals.paper;
-
+  makeCircle: function(paper) {
     var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-
-    var circle = paper.circle(
+    return paper.circle(
       pos.x,
       pos.y,
       this.getRadius()
     ).attr(this.getAttributes().circle);
+  },
 
-    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+  makeText: function(paper) {
+    var textPos = this.getTextScreenCoords();
+    return paper.text(textPos.x, textPos.y, String(this.get('id')));
+  },
+
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+    var circle = this.makeCircle(paper);
+    var text = this.makeText(paper);
+
     text.attr({
       'font-size': this.getFontSize(this.get('id')),
       'font-weight': 'bold',

@@ -110,6 +110,7 @@ var PromiseAnimation = Backbone.Model.extend({
       throw new Error('need closure or animation');
     }
     this.set('closure', options.closure || options.animation);
+    this.set('duration', options.duration || this.get('duration'));
     this.set('deferred', options.deferred || Q.defer());
   },
 

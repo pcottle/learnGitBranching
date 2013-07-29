@@ -130,6 +130,16 @@ var VisNode = VisBase.extend({
     };
   },
 
+  animatePositionTo: function(visNode, speed, easing) {
+    var attributes = this.getAttributes();
+    var destAttributes = visNode.getAttributes();
+
+    // TODO make not hardcoded
+    attributes.circle = destAttributes.circle;
+    attributes.text = destAttributes.text;
+    this.animateToAttr(attributes, speed, easing);
+  },
+
   highlightTo: function(visObj, speed, easing) {
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
@@ -409,19 +419,25 @@ var VisNode = VisBase.extend({
     return stepFunc;
   },
 
-  genGraphics: function() {
-    var paper = this.gitVisuals.paper;
-
+  makeCircle: function(paper) {
     var pos = this.getScreenCoords();
-    var textPos = this.getTextScreenCoords();
-
-    var circle = paper.circle(
+    return paper.circle(
       pos.x,
       pos.y,
       this.getRadius()
     ).attr(this.getAttributes().circle);
+  },
 
-    var text = paper.text(textPos.x, textPos.y, String(this.get('id')));
+  makeText: function(paper) {
+    var textPos = this.getTextScreenCoords();
+    return paper.text(textPos.x, textPos.y, String(this.get('id')));
+  },
+
+  genGraphics: function() {
+    var paper = this.gitVisuals.paper;
+    var circle = this.makeCircle(paper);
+    var text = this.makeText(paper);
+
     text.attr({
       'font-size': this.getFontSize(this.get('id')),
       'font-weight': 'bold',
