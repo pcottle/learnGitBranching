@@ -26,7 +26,10 @@ DisabledMap.prototype.getInstantCommands = function() {
   };
 
   _.each(this.disabledMap, function(val, disabledCommand) {
-    var gitRegex = GitCommands.commands.getRegexMap()[disabledCommand];
+    // XXX get hold of vcs from disabledMap
+    var vcs = 'git';
+    disabledCommand = disabledCommand.slice(vcs.length + 1);
+    var gitRegex = GitCommands.commands.getRegexMap()[vcs][disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');

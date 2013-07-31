@@ -9917,10 +9917,10 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
-      var displayName = 'git ' + (config.displayName || name);
-      map[displayName] = config.regex;
+    var map = {'git': {}};
+    this.loop(function(config, name, vcs) {
+      var displayName = config.displayName || name;
+      map[vcs][displayName] = config.regex;
     });
     return map;
   },
@@ -10427,12 +10427,14 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(commands.getRegexMap(), function(regex, thisMethod) {
-    if (regex.exec(str)) {
-      vcs = 'git'; // XXX get from regex map
-      options = str.slice(thisMethod.length + 1);
-      method = thisMethod.slice(vcs.length + 1);
-    }
+  _.each(commands.getRegexMap(), function (map, thisVCS) {
+    _.each(map, function(regex, thisMethod) {
+      if (regex.exec(str)) {
+        vcs = thisVCS; // XXX get from regex map
+        method = thisMethod;
+        options = str.slice(vcs.length + 1 + method.length + 1);
+      }
+    });
   });
 
   if (!method) {
@@ -14446,10 +14448,14 @@ var getAllCommands = function() {
 
   var allCommands = _.extend(
     {},
-    GitCommands.commands.getRegexMap(),
     require('../level').regexMap,
     regexMap
   );
+  _.each(GitCommands.commands.getRegexMap(), function(map, vcs) {
+    _.each(map, function(regex, method) {
+      allCommands[vcs + ' ' + method] = regex;
+    });
+  });
   _.each(toDelete, function(key) {
     delete allCommands[key];
   });
@@ -18202,7 +18208,10 @@ DisabledMap.prototype.getInstantCommands = function() {
   };
 
   _.each(this.disabledMap, function(val, disabledCommand) {
-    var gitRegex = GitCommands.commands.getRegexMap()[disabledCommand];
+    // XXX get hold of vcs from disabledMap
+    var vcs = 'git';
+    disabledCommand = disabledCommand.slice(vcs.length + 1);
+    var gitRegex = GitCommands.commands.getRegexMap()[vcs][disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');
@@ -23803,10 +23812,10 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
-      var displayName = 'git ' + (config.displayName || name);
-      map[displayName] = config.regex;
+    var map = {'git': {}};
+    this.loop(function(config, name, vcs) {
+      var displayName = config.displayName || name;
+      map[vcs][displayName] = config.regex;
     });
     return map;
   },
@@ -24313,12 +24322,14 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(commands.getRegexMap(), function(regex, thisMethod) {
-    if (regex.exec(str)) {
-      vcs = 'git'; // XXX get from regex map
-      options = str.slice(thisMethod.length + 1);
-      method = thisMethod.slice(vcs.length + 1);
-    }
+  _.each(commands.getRegexMap(), function (map, thisVCS) {
+    _.each(map, function(regex, thisMethod) {
+      if (regex.exec(str)) {
+        vcs = thisVCS; // XXX get from regex map
+        method = thisMethod;
+        options = str.slice(vcs.length + 1 + method.length + 1);
+      }
+    });
   });
 
   if (!method) {
@@ -28314,7 +28325,10 @@ DisabledMap.prototype.getInstantCommands = function() {
   };
 
   _.each(this.disabledMap, function(val, disabledCommand) {
-    var gitRegex = GitCommands.commands.getRegexMap()[disabledCommand];
+    // XXX get hold of vcs from disabledMap
+    var vcs = 'git';
+    disabledCommand = disabledCommand.slice(vcs.length + 1);
+    var gitRegex = GitCommands.commands.getRegexMap()[vcs][disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');
@@ -29513,10 +29527,14 @@ var getAllCommands = function() {
 
   var allCommands = _.extend(
     {},
-    GitCommands.commands.getRegexMap(),
     require('../level').regexMap,
     regexMap
   );
+  _.each(GitCommands.commands.getRegexMap(), function(map, vcs) {
+    _.each(map, function(regex, method) {
+      allCommands[vcs + ' ' + method] = regex;
+    });
+  });
   _.each(toDelete, function(key) {
     delete allCommands[key];
   });

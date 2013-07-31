@@ -121,10 +121,14 @@ var getAllCommands = function() {
 
   var allCommands = _.extend(
     {},
-    GitCommands.commands.getRegexMap(),
     require('../level').regexMap,
     regexMap
   );
+  _.each(GitCommands.commands.getRegexMap(), function(map, vcs) {
+    _.each(map, function(regex, method) {
+      allCommands[vcs + ' ' + method] = regex;
+    });
+  });
   _.each(toDelete, function(key) {
     delete allCommands[key];
   });

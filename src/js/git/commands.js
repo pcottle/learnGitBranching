@@ -50,10 +50,10 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
-      var displayName = 'git ' + (config.displayName || name);
-      map[displayName] = config.regex;
+    var map = {'git': {}};
+    this.loop(function(config, name, vcs) {
+      var displayName = config.displayName || name;
+      map[vcs][displayName] = config.regex;
     });
     return map;
   },
@@ -560,12 +560,14 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(commands.getRegexMap(), function(regex, thisMethod) {
-    if (regex.exec(str)) {
-      vcs = 'git'; // XXX get from regex map
-      options = str.slice(thisMethod.length + 1);
-      method = thisMethod.slice(vcs.length + 1);
-    }
+  _.each(commands.getRegexMap(), function (map, thisVCS) {
+    _.each(map, function(regex, thisMethod) {
+      if (regex.exec(str)) {
+        vcs = thisVCS; // XXX get from regex map
+        method = thisMethod;
+        options = str.slice(vcs.length + 1 + method.length + 1);
+      }
+    });
   });
 
   if (!method) {
