@@ -7,22 +7,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var gitCommandConfig, hgCommandConfig;
-
-hgCommandConfig = {
-  commit: {
-    regex: /^hg +commit($|\s)/,
-    options: [
-      '--amend',
-      '-m'
-    ],
-    execute: function(engine, command) {
-      return gitCommandConfig.commit.execute(engine, command);
-    }
-  }
-};
-
-gitCommandConfig = {
+var gitCommandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -490,6 +475,5 @@ var instantCommands = [
 ];
 
 exports.gitCommandConfig = gitCommandConfig;
-exports.hgCommandConfig = hgCommandConfig;
 exports.instantCommands = instantCommands;
 

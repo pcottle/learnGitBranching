@@ -9872,12 +9872,13 @@ var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
+var MercurialCommands = require('../mercurial/commands');
 var CommandProcessError = Errors.CommandProcessError;
 var CommandResult = Errors.CommandResult;
 
 var commandConfigs = {
   'git': GitCommands.gitCommandConfig,
-  'hg': GitCommands.hgCommandConfig
+  'hg': MercurialCommands.hgCommandConfig
 };
 
 var commands = {
@@ -10047,22 +10048,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var gitCommandConfig, hgCommandConfig;
-
-hgCommandConfig = {
-  commit: {
-    regex: /^hg +commit($|\s)/,
-    options: [
-      '--amend',
-      '-m'
-    ],
-    execute: function(engine, command) {
-      return gitCommandConfig.commit.execute(engine, command);
-    }
-  }
-};
-
-gitCommandConfig = {
+var gitCommandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -10530,9 +10516,30 @@ var instantCommands = [
 ];
 
 exports.gitCommandConfig = gitCommandConfig;
-exports.hgCommandConfig = hgCommandConfig;
 exports.instantCommands = instantCommands;
 
+
+});
+
+require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
+
+var GitCommands = require('../git/commands');
+
+var hgCommandConfig = {
+  commit: {
+    regex: /^hg +commit($|\s)/,
+    options: [
+      '--amend',
+      '-m'
+    ],
+    execute: function(engine, command) {
+      return GitCommands.gitCommandConfig.commit.execute(engine, command);
+    }
+  }
+};
+
+exports.hgCommandConfig = hgCommandConfig;
 
 });
 
@@ -23343,12 +23350,13 @@ var intl = require('../intl');
 
 var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
+var MercurialCommands = require('../mercurial/commands');
 var CommandProcessError = Errors.CommandProcessError;
 var CommandResult = Errors.CommandResult;
 
 var commandConfigs = {
   'git': GitCommands.gitCommandConfig,
-  'hg': GitCommands.hgCommandConfig
+  'hg': MercurialCommands.hgCommandConfig
 };
 
 var commands = {
@@ -23960,22 +23968,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var gitCommandConfig, hgCommandConfig;
-
-hgCommandConfig = {
-  commit: {
-    regex: /^hg +commit($|\s)/,
-    options: [
-      '--amend',
-      '-m'
-    ],
-    execute: function(engine, command) {
-      return gitCommandConfig.commit.execute(engine, command);
-    }
-  }
-};
-
-gitCommandConfig = {
+var gitCommandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -24443,7 +24436,6 @@ var instantCommands = [
 ];
 
 exports.gitCommandConfig = gitCommandConfig;
-exports.hgCommandConfig = hgCommandConfig;
 exports.instantCommands = instantCommands;
 
 
@@ -29644,6 +29636,29 @@ exports.commandEntered = function(value) {
 
 });
 require("/src/js/log/index.js");
+
+require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
+
+var GitCommands = require('../git/commands');
+
+var hgCommandConfig = {
+  commit: {
+    regex: /^hg +commit($|\s)/,
+    options: [
+      '--amend',
+      '-m'
+    ],
+    execute: function(engine, command) {
+      return GitCommands.gitCommandConfig.commit.execute(engine, command);
+    }
+  }
+};
+
+exports.hgCommandConfig = hgCommandConfig;
+
+});
+require("/src/js/mercurial/commands.js");
 
 require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
