@@ -24,10 +24,6 @@ var commands = {
     return commandConfig[name].regex;
   },
 
-  isCommandSupported: function(name) {
-    return !!commandConfig[name];
-  },
-
   getShortcutMap: function() {
     var map = {};
     this.loop(function(config, name) {
