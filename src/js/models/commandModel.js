@@ -3,8 +3,6 @@ var _ = require('underscore');
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var intl = require('../intl');

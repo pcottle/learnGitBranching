@@ -6118,7 +6118,7 @@ var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
@@ -6411,7 +6411,7 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(GitCommands.commands.getCommandsThatCount(), function(map) {
+    _.each(Commands.commands.getCommandsThatCount(), function(map) {
       _.each(map, function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });
@@ -7136,7 +7136,7 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
@@ -8861,7 +8861,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
   try {
     var vcs = command.get('vcs');
     var methodName = command.get('method').replace(/-/g, '');
-    GitCommands.commands.execute(vcs, methodName, this, this.command);
+    Commands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
@@ -9867,16 +9867,18 @@ exports.TreeCompare = TreeCompare;
 
 });
 
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/commands/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
 var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
 var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var gitCommandConfig, hgCommandConfig;
+var commandConfigs = {
+  'git': GitCommands.gitCommandConfig,
+  'hg': GitCommands.hgCommandConfig
+};
 
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
@@ -9942,6 +9944,110 @@ var commands = {
     });
   }
 };
+
+var parse = function(str) {
+  var vcs;
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(commands.getRegexMap(), function (map, thisVCS) {
+    _.each(map, function(regex, thisMethod) {
+      if (regex.exec(str)) {
+        vcs = thisVCS; // XXX get from regex map
+        method = thisMethod;
+        options = str.slice(vcs.length + 1 + method.length + 1);
+      }
+    });
+  });
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new CommandOptionParser(vcs, method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      vcs: vcs,
+      method: method,
+      options: options,
+      eventName: 'processGitCommand'
+    }
+  };
+};
+
+/**
+ * CommandOptionParser
+ */
+function CommandOptionParser(vcs, method, options) {
+  this.vcs = vcs;
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = commands.getOptionMap()[vcs][method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+CommandOptionParser.prototype.explodeAndSet = function() {
+  // TODO -- this is ugly
+  // split on spaces, except when inside quotes
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: intl.str(
+            'option-not-supported',
+            { option: part }
+          )
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
+exports.commands = commands;
+exports.parse = parse;
+
+});
+
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var gitCommandConfig, hgCommandConfig;
 
 hgCommandConfig = {
   commit: {
@@ -10394,8 +10500,6 @@ gitCommandConfig = {
   }
 };
 
-var commandConfigs = { 'git': gitCommandConfig, 'hg': hgCommandConfig };
-
 var instantCommands = [
   [/^(git help($|\s)|git$)/, function() {
     var lines = [
@@ -10425,97 +10529,9 @@ var instantCommands = [
   }]
 ];
 
-var parse = function(str) {
-  var vcs;
-  var method;
-  var options;
-
-  // see if we support this particular command
-  _.each(commands.getRegexMap(), function (map, thisVCS) {
-    _.each(map, function(regex, thisMethod) {
-      if (regex.exec(str)) {
-        vcs = thisVCS; // XXX get from regex map
-        method = thisMethod;
-        options = str.slice(vcs.length + 1 + method.length + 1);
-      }
-    });
-  });
-
-  if (!method) {
-    return false;
-  }
-
-  // we support this command!
-  // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(vcs, method, options);
-  return {
-    toSet: {
-      generalArgs: parsedOptions.generalArgs,
-      supportedMap: parsedOptions.supportedMap,
-      vcs: vcs,
-      method: method,
-      options: options,
-      eventName: 'processGitCommand'
-    }
-  };
-};
-
-/**
- * CommandOptionParser
- */
-function CommandOptionParser(vcs, method, options) {
-  this.vcs = vcs;
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = commands.getOptionMap()[vcs][method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-CommandOptionParser.prototype.explodeAndSet = function() {
-  // TODO -- this is ugly
-  // split on spaces, except when inside quotes
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: intl.str(
-            'option-not-supported',
-            { option: part }
-          )
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-};
-
-exports.commands = commands;
+exports.gitCommandConfig = gitCommandConfig;
+exports.hgCommandConfig = hgCommandConfig;
 exports.instantCommands = instantCommands;
-exports.parse = parse;
 
 
 });
@@ -13971,8 +13987,6 @@ require.define("/src/js/models/commandModel.js",function(require,module,exports,
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var intl = require('../intl');
@@ -14207,6 +14221,7 @@ exports.Command = Command;
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
@@ -14214,7 +14229,7 @@ var ParseWaterfall = function(options) {
   options = options || {};
   this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
-    GitCommands.commands.getShortcutMap()
+    Commands.commands.getShortcutMap()
   ];
 
   this.instantWaterfall = options.instantWaterfall || [
@@ -14228,14 +14243,14 @@ var ParseWaterfall = function(options) {
 ParseWaterfall.prototype.initParseWaterfall = function() {
   // check for node when testing
   if (!require('../util').isBrowser()) {
-    this.parseWaterfall = [GitCommands.parse];
+    this.parseWaterfall = [Commands.parse];
     return;
   }
 
   // by deferring the initialization here, we dont require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
-    GitCommands.parse,
+    Commands.parse,
     SandboxCommands.parse,
     SandboxCommands.getOptimisticLevelParse(),
     SandboxCommands.getOptimisticLevelBuilderParse()
@@ -14335,7 +14350,7 @@ var util = require('../util');
 var constants = require('../util/constants');
 var intl = require('../intl');
 
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -14455,7 +14470,7 @@ var getAllCommands = function() {
     require('../level').regexMap,
     regexMap
   );
-  _.each(GitCommands.commands.getRegexMap(), function(map, vcs) {
+  _.each(Commands.commands.getRegexMap(), function(map, vcs) {
     _.each(map, function(regex, method) {
       allCommands[vcs + ' ' + method] = regex;
     });
@@ -18187,7 +18202,7 @@ require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports
 require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -18215,7 +18230,7 @@ DisabledMap.prototype.getInstantCommands = function() {
     // XXX get hold of vcs from disabledMap
     var vcs = 'git';
     disabledCommand = disabledCommand.slice(vcs.length + 1);
-    var gitRegex = GitCommands.commands.getRegexMap()[vcs][disabledCommand];
+    var gitRegex = Commands.commands.getRegexMap()[vcs][disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');
@@ -23323,6 +23338,178 @@ exports.init = init;
 });
 require("/src/js/app/index.js");
 
+require.define("/src/js/commands/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
+
+var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
+var CommandProcessError = Errors.CommandProcessError;
+var CommandResult = Errors.CommandResult;
+
+var commandConfigs = {
+  'git': GitCommands.gitCommandConfig,
+  'hg': GitCommands.hgCommandConfig
+};
+
+var commands = {
+  execute: function(vcs, name, engine, commandObj) {
+    if (!commandConfigs[vcs][name]) {
+      throw new Error('i dont have a command for ' + name);
+    }
+    commandConfigs[vcs][name].execute.call(this, engine, commandObj);
+  },
+
+  getShortcutMap: function() {
+    var map = {'git': {}, 'hg': {}};
+    this.loop(function(config, name, vcs) {
+      if (!config.sc) {
+        return;
+      }
+      map[vcs][name] = config.sc;
+    }, this);
+    return map;
+  },
+
+  getOptionMap: function() {
+    var optionMap = {'git': {}, 'hg': {}};
+    this.loop(function(config, name, vcs) {
+      var displayName = config.displayName || name;
+      var thisMap = {};
+      // start all options off as disabled
+      _.each(config.options, function(option) {
+        thisMap[option] = false;
+      });
+      optionMap[vcs][displayName] = thisMap;
+    });
+    return optionMap;
+  },
+
+  getRegexMap: function() {
+    var map = {'git': {}, 'hg': {}};
+    this.loop(function(config, name, vcs) {
+      var displayName = config.displayName || name;
+      map[vcs][displayName] = config.regex;
+    });
+    return map;
+  },
+
+  /**
+   * which commands count for the git golf game
+   */
+  getCommandsThatCount: function() {
+    var counted = {'git': {}, 'hg': {}};
+    this.loop(function(config, name, vcs) {
+      if (config.dontCountForGolf) {
+        return;
+      }
+      counted[vcs][name] = config.regex;
+    });
+    return counted;
+  },
+
+  loop: function(callback, context) {
+    _.each(commandConfigs, function(commandConfig, vcs) {
+      _.each(commandConfig, function(config, name) {
+        callback(config, name, vcs);
+      });
+    });
+  }
+};
+
+var parse = function(str) {
+  var vcs;
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(commands.getRegexMap(), function (map, thisVCS) {
+    _.each(map, function(regex, thisMethod) {
+      if (regex.exec(str)) {
+        vcs = thisVCS; // XXX get from regex map
+        method = thisMethod;
+        options = str.slice(vcs.length + 1 + method.length + 1);
+      }
+    });
+  });
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new CommandOptionParser(vcs, method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      vcs: vcs,
+      method: method,
+      options: options,
+      eventName: 'processGitCommand'
+    }
+  };
+};
+
+/**
+ * CommandOptionParser
+ */
+function CommandOptionParser(vcs, method, options) {
+  this.vcs = vcs;
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = commands.getOptionMap()[vcs][method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+CommandOptionParser.prototype.explodeAndSet = function() {
+  // TODO -- this is ugly
+  // split on spaces, except when inside quotes
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: intl.str(
+            'option-not-supported',
+            { option: part }
+          )
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
+exports.commands = commands;
+exports.parse = parse;
+
+});
+require("/src/js/commands/index.js");
+
 require.define("/src/js/dialogs/confirmShowSolution.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -23775,71 +23962,6 @@ var CommandResult = Errors.CommandResult;
 
 var gitCommandConfig, hgCommandConfig;
 
-var commands = {
-  execute: function(vcs, name, engine, commandObj) {
-    if (!commandConfigs[vcs][name]) {
-      throw new Error('i dont have a command for ' + name);
-    }
-    commandConfigs[vcs][name].execute.call(this, engine, commandObj);
-  },
-
-  getShortcutMap: function() {
-    var map = {'git': {}, 'hg': {}};
-    this.loop(function(config, name, vcs) {
-      if (!config.sc) {
-        return;
-      }
-      map[vcs][name] = config.sc;
-    }, this);
-    return map;
-  },
-
-  getOptionMap: function() {
-    var optionMap = {'git': {}, 'hg': {}};
-    this.loop(function(config, name, vcs) {
-      var displayName = config.displayName || name;
-      var thisMap = {};
-      // start all options off as disabled
-      _.each(config.options, function(option) {
-        thisMap[option] = false;
-      });
-      optionMap[vcs][displayName] = thisMap;
-    });
-    return optionMap;
-  },
-
-  getRegexMap: function() {
-    var map = {'git': {}, 'hg': {}};
-    this.loop(function(config, name, vcs) {
-      var displayName = config.displayName || name;
-      map[vcs][displayName] = config.regex;
-    });
-    return map;
-  },
-
-  /**
-   * which commands count for the git golf game
-   */
-  getCommandsThatCount: function() {
-    var counted = {'git': {}, 'hg': {}};
-    this.loop(function(config, name, vcs) {
-      if (config.dontCountForGolf) {
-        return;
-      }
-      counted[vcs][name] = config.regex;
-    });
-    return counted;
-  },
-
-  loop: function(callback, context) {
-    _.each(commandConfigs, function(commandConfig, vcs) {
-      _.each(commandConfig, function(config, name) {
-        callback(config, name, vcs);
-      });
-    });
-  }
-};
-
 hgCommandConfig = {
   commit: {
     regex: /^hg +commit($|\s)/,
@@ -24291,8 +24413,6 @@ gitCommandConfig = {
   }
 };
 
-var commandConfigs = { 'git': gitCommandConfig, 'hg': hgCommandConfig };
-
 var instantCommands = [
   [/^(git help($|\s)|git$)/, function() {
     var lines = [
@@ -24322,97 +24442,9 @@ var instantCommands = [
   }]
 ];
 
-var parse = function(str) {
-  var vcs;
-  var method;
-  var options;
-
-  // see if we support this particular command
-  _.each(commands.getRegexMap(), function (map, thisVCS) {
-    _.each(map, function(regex, thisMethod) {
-      if (regex.exec(str)) {
-        vcs = thisVCS; // XXX get from regex map
-        method = thisMethod;
-        options = str.slice(vcs.length + 1 + method.length + 1);
-      }
-    });
-  });
-
-  if (!method) {
-    return false;
-  }
-
-  // we support this command!
-  // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(vcs, method, options);
-  return {
-    toSet: {
-      generalArgs: parsedOptions.generalArgs,
-      supportedMap: parsedOptions.supportedMap,
-      vcs: vcs,
-      method: method,
-      options: options,
-      eventName: 'processGitCommand'
-    }
-  };
-};
-
-/**
- * CommandOptionParser
- */
-function CommandOptionParser(vcs, method, options) {
-  this.vcs = vcs;
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = commands.getOptionMap()[vcs][method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-CommandOptionParser.prototype.explodeAndSet = function() {
-  // TODO -- this is ugly
-  // split on spaces, except when inside quotes
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: intl.str(
-            'option-not-supported',
-            { option: part }
-          )
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-};
-
-exports.commands = commands;
+exports.gitCommandConfig = gitCommandConfig;
+exports.hgCommandConfig = hgCommandConfig;
 exports.instantCommands = instantCommands;
-exports.parse = parse;
 
 
 });
@@ -24631,7 +24663,7 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
@@ -26356,7 +26388,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
   try {
     var vcs = command.get('vcs');
     var methodName = command.get('method').replace(/-/g, '');
-    GitCommands.commands.execute(vcs, methodName, this, this.command);
+    Commands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
@@ -28307,7 +28339,7 @@ require("/src/js/level/builder.js");
 require.define("/src/js/level/disabledMap.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -28335,7 +28367,7 @@ DisabledMap.prototype.getInstantCommands = function() {
     // XXX get hold of vcs from disabledMap
     var vcs = 'git';
     disabledCommand = disabledCommand.slice(vcs.length + 1);
-    var gitRegex = GitCommands.commands.getRegexMap()[vcs][disabledCommand];
+    var gitRegex = Commands.commands.getRegexMap()[vcs][disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');
@@ -28369,7 +28401,7 @@ var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
@@ -28662,7 +28694,7 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(GitCommands.commands.getCommandsThatCount(), function(map) {
+    _.each(Commands.commands.getCommandsThatCount(), function(map) {
       _.each(map, function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });
@@ -28873,6 +28905,7 @@ require("/src/js/level/index.js");
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
@@ -28880,7 +28913,7 @@ var ParseWaterfall = function(options) {
   options = options || {};
   this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
-    GitCommands.commands.getShortcutMap()
+    Commands.commands.getShortcutMap()
   ];
 
   this.instantWaterfall = options.instantWaterfall || [
@@ -28894,14 +28927,14 @@ var ParseWaterfall = function(options) {
 ParseWaterfall.prototype.initParseWaterfall = function() {
   // check for node when testing
   if (!require('../util').isBrowser()) {
-    this.parseWaterfall = [GitCommands.parse];
+    this.parseWaterfall = [Commands.parse];
     return;
   }
 
   // by deferring the initialization here, we dont require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
-    GitCommands.parse,
+    Commands.parse,
     SandboxCommands.parse,
     SandboxCommands.getOptimisticLevelParse(),
     SandboxCommands.getOptimisticLevelBuilderParse()
@@ -29418,7 +29451,7 @@ var util = require('../util');
 var constants = require('../util/constants');
 var intl = require('../intl');
 
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -29538,7 +29571,7 @@ var getAllCommands = function() {
     require('../level').regexMap,
     regexMap
   );
-  _.each(GitCommands.commands.getRegexMap(), function(map, vcs) {
+  _.each(Commands.commands.getRegexMap(), function(map, vcs) {
     _.each(map, function(regex, method) {
       allCommands[vcs + ' ' + method] = regex;
     });
@@ -29751,8 +29784,6 @@ require.define("/src/js/models/commandModel.js",function(require,module,exports,
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
 var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
-var GitOptionParser = GitCommands.GitOptionParser;
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var intl = require('../intl');

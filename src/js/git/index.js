@@ -10,7 +10,7 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
@@ -1735,7 +1735,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
   try {
     var vcs = command.get('vcs');
     var methodName = command.get('method').replace(/-/g, '');
-    GitCommands.commands.execute(vcs, methodName, this, this.command);
+    Commands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning

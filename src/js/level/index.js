@@ -16,7 +16,7 @@ var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
@@ -309,7 +309,7 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(GitCommands.commands.getCommandsThatCount(), function(map) {
+    _.each(Commands.commands.getCommandsThatCount(), function(map) {
       _.each(map, function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });

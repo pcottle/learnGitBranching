@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
-var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -29,7 +29,7 @@ DisabledMap.prototype.getInstantCommands = function() {
     // XXX get hold of vcs from disabledMap
     var vcs = 'git';
     disabledCommand = disabledCommand.slice(vcs.length + 1);
-    var gitRegex = GitCommands.commands.getRegexMap()[vcs][disabledCommand];
+    var gitRegex = Commands.commands.getRegexMap()[vcs][disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');

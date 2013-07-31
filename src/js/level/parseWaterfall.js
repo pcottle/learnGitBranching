@@ -1,6 +1,7 @@
 var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
+var Commands = require('../commands');
 var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
@@ -8,7 +9,7 @@ var ParseWaterfall = function(options) {
   options = options || {};
   this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
-    GitCommands.commands.getShortcutMap()
+    Commands.commands.getShortcutMap()
   ];
 
   this.instantWaterfall = options.instantWaterfall || [
@@ -22,14 +23,14 @@ var ParseWaterfall = function(options) {
 ParseWaterfall.prototype.initParseWaterfall = function() {
   // check for node when testing
   if (!require('../util').isBrowser()) {
-    this.parseWaterfall = [GitCommands.parse];
+    this.parseWaterfall = [Commands.parse];
     return;
   }
 
   // by deferring the initialization here, we dont require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
-    GitCommands.parse,
+    Commands.parse,
     SandboxCommands.parse,
     SandboxCommands.getOptimisticLevelParse(),
     SandboxCommands.getOptimisticLevelBuilderParse()
