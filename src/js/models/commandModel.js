@@ -51,8 +51,45 @@ var Command = Backbone.Model.extend({
     this.set('warnings', []);
   },
 
+  replaceDotWithHead: function(string) {
+    return string.replace(/\./g, 'HEAD');
+  },
+
+  mapDotToHead: function() {
+    var generalArgs = this.getGeneralArgs();
+    var options = this.getSupportedMap();
+    
+    generalArgs = _.map(generalArgs, function(arg) {
+      return this.replaceDotWithHead(arg);
+    }, this);
+    var newMap = {};
+    _.each(options, function(args, key) {
+      newMap[key] = _.map(args, function(arg) {
+        return this.replaceDotWithHead(arg);
+      }, this);
+    }, this);
+    this.setGeneralArgs(generalArgs);
+    this.setSupportedMap(newMap);
+  },
+
+  deleteOptions: function(options) {
+    var map = this.getSupportedMap();
+    _.each(options, function(option) {
+      delete map[option];
+    }, this);
+    this.setSupportedMap(map);
+  },
+
   getGeneralArgs: function() {
     return this.get('generalArgs');
+  },
+
+  setGeneralArgs: function(args) {
+    this.set('generalArgs', args);
+  },
+
+  setSupportedMap: function(map) {
+    this.set('supportedMap', map);
   },
 
   getSupportedMap: function() {

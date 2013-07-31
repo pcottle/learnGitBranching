@@ -5381,6 +5381,21 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'hg-a-option': {
+    '__desc__': 'warning for when using -A option',
+    'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-no-status': {
+    '__desc__': 'One of the errors for hg',
+    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-need-option': {
+    '__desc__': 'One of the errors for hg',
+    'en_US': 'I need the option {option} for that command!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!',
@@ -9873,6 +9888,7 @@ var intl = require('../intl');
 var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
 var MercurialCommands = require('../mercurial/commands');
+
 var CommandProcessError = Errors.CommandProcessError;
 var CommandResult = Errors.CommandResult;
 
@@ -9886,11 +9902,45 @@ var commands = {
     if (!commandConfigs[vcs][name]) {
       throw new Error('i dont have a command for ' + name);
     }
-    commandConfigs[vcs][name].execute.call(this, engine, commandObj);
+    console.log(commandObj.getSupportedMap());
+    console.log(commandObj.getGeneralArgs());
+    var config = commandConfigs[vcs][name];
+    if (config.delegate) {
+      return this.delegateExecute(config, engine, commandObj);
+    }
+
+    config.execute.call(this, engine, commandObj);
+  },
+
+  delegateExecute: function(config, engine, commandObj) {
+    // we have delegated to another vcs command, so lets
+    // execute that and get the result
+    var result = config.delegate.call(this, engine, commandObj);
+
+    if (result.multiDelegate) {
+      // we need to do multiple delegations with
+      // a different command at each step
+      _.each(result.multiDelegate, function(delConfig) {
+        // copy command, and then set opts
+        commandObj.setSupportedMap(delConfig.options || {});
+        commandObj.setGeneralArgs(delConfig.args || []);
+        
+        commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);
+      }, this);
+    } else {
+      config = commandConfigs[result.vcs][result.name];
+      // commandObj is PASSED BY REFERENCE
+      // and modified in the function
+      commandConfigs[result.vcs][result.name].execute.call(this, engine, commandObj);
+    }
+  },
+
+  blankMap: function() {
+    return {git: {}, hg: {}};
   },
 
   getShortcutMap: function() {
-    var map = {'git': {}, 'hg': {}};
+    var map = this.blankMap();
     this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
@@ -9901,7 +9951,7 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {'git': {}, 'hg': {}};
+    var optionMap = this.blankMap();
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
@@ -9915,7 +9965,7 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {'git': {}, 'hg': {}};
+    var map = this.blankMap();
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       map[vcs][displayName] = config.regex;
@@ -9927,7 +9977,7 @@ var commands = {
    * which commands count for the git golf game
    */
   getCommandsThatCount: function() {
-    var counted = {'git': {}, 'hg': {}};
+    var counted = this.blankMap();
     this.loop(function(config, name, vcs) {
       if (config.dontCountForGolf) {
         return;
@@ -9957,7 +10007,13 @@ var parse = function(str) {
       if (regex.exec(str)) {
         vcs = thisVCS;
         method = thisMethod;
-        options = str.slice(vcs.length + 1 + method.length + 1);
+        // every valid regex has to have the parts of
+        // <vcs> <command> <stuff>
+        // because there are always two spaces
+        // before our "stuff" we can simply
+        // split on spaces and grab everything after
+        // the second:
+        options = str.split(' ').slice(2).join(' ');
       }
     });
   });
@@ -10525,16 +10581,168 @@ require.define("/src/js/mercurial/commands.js",function(require,module,exports,_
 var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
+var Errors = require('../util/errors');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
 
 var commandConfig = {
   commit: {
-    regex: /^hg +commit($|\s)/,
+    regex: /^hg +(commit|ci)($|\s)/,
     options: [
       '--amend',
+      '-A',
       '-m'
     ],
+    delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      console.log(options);
+      if (options['-A']) {
+        command.addWarning(intl.str('hg-a-option'));
+      }
+
+      return {
+        vcs: 'git',
+        name: 'commit'
+      };
+    }
+  },
+
+  status: {
+    regex: /^hg +status *$/,
     execute: function(engine, command) {
-      return GitCommands.commandConfig.commit.execute(engine, command);
+      throw new GitError({
+        msg: intl.str('hg-error-no-status')
+      });
+    }
+  },
+
+  'export': {
+    regex: /^hg +export($|\s)/,
+    delegate: function(engine, command) {
+      command.mapDotToHead();
+      return {
+        vcs: 'git',
+        name: 'show'
+      };
+    }
+  },
+
+  log: {
+    regex: /^hg +log *$/,
+    delegate: function(engine, command) {
+      command.mapDotToHead();
+      return {
+        vcs: 'git',
+        name: 'log'
+      };
+    }
+  },
+
+  bookmarks: {
+    // NO OPTIONS for this command, -r goes
+    // to the bookmark command instead
+    regex: /^hg (bookmarks|book) *$/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
+    }
+  },
+
+  bookmark: {
+    regex: /^hg (bookmark|book)($|\s)/,
+    options: [
+      '-r',
+      '-m',
+      '-f',
+      '-d'
+    ],
+    delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+      var branchName;
+      var rev;
+
+      if (options['-r']) {
+        // we specified a revision with -r but
+        // need to flip the order
+        branchName = options['-r'][1] || '';
+        rev = options['-r'][0] || '';
+        command.setSupportedMap({
+          '-b': [branchName, rev]
+        });
+        return {
+          vcs: 'git',
+          name: 'checkout'
+        };
+      } else if (options['-f']) {
+        // TODO sid0 -- also assuming that
+        // bookmark -f <REV> <name> is
+        // the order here
+        branchName = options['-f'][1] || '';
+        rev = options['-f'][0] || '';
+        command.setSupportedMap({
+          '-f': [branchName, rev]
+        });
+        return {
+          vcs: 'git',
+          name: 'branch'
+        };
+      } else if (options['-d']) {
+        return {
+          vcs: 'git',
+          name: 'branch'
+        };
+      } else if (options['-m']) {
+        // TODO sid0 -- order is -r <oldname> <newname>
+        var oldName = options['-m'][0] || '';
+        var newName = options['-m'][1] || '';
+        return {multiDelegate: [{
+          vcs: 'git',
+          name: 'checkout',
+          options: {
+            '-b': [newName, oldName]
+          }
+        }, {
+          vcs: 'git',
+          name: 'branch',
+          options: {
+            '-d': [oldName]
+          }
+        }]};
+      }
+
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
+    }
+  },
+
+  ammend: {
+    regex: /^hg +ammend *$/,
+    delegate: function(engine, command) {
+      command.setOptionMap({
+        '--amend': true
+      });
+      return {
+        vcs: 'hg',
+        name: 'commit'
+      };
+    }
+  },
+
+  summary: {
+    regex: /^hg +(summary|sum) *$/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
     }
   }
 };
@@ -14042,8 +14250,45 @@ var Command = Backbone.Model.extend({
     this.set('warnings', []);
   },
 
+  replaceDotWithHead: function(string) {
+    return string.replace(/\./g, 'HEAD');
+  },
+
+  mapDotToHead: function() {
+    var generalArgs = this.getGeneralArgs();
+    var options = this.getSupportedMap();
+    
+    generalArgs = _.map(generalArgs, function(arg) {
+      return this.replaceDotWithHead(arg);
+    }, this);
+    var newMap = {};
+    _.each(options, function(args, key) {
+      newMap[key] = _.map(args, function(arg) {
+        return this.replaceDotWithHead(arg);
+      }, this);
+    }, this);
+    this.setGeneralArgs(generalArgs);
+    this.setSupportedMap(newMap);
+  },
+
+  deleteOptions: function(options) {
+    var map = this.getSupportedMap();
+    _.each(options, function(option) {
+      delete map[option];
+    }, this);
+    this.setSupportedMap(map);
+  },
+
   getGeneralArgs: function() {
     return this.get('generalArgs');
+  },
+
+  setGeneralArgs: function(args) {
+    this.set('generalArgs', args);
+  },
+
+  setSupportedMap: function(map) {
+    this.set('supportedMap', map);
   },
 
   getSupportedMap: function() {
@@ -23351,6 +23596,7 @@ var intl = require('../intl');
 var Errors = require('../util/errors');
 var GitCommands = require('../git/commands');
 var MercurialCommands = require('../mercurial/commands');
+
 var CommandProcessError = Errors.CommandProcessError;
 var CommandResult = Errors.CommandResult;
 
@@ -23364,11 +23610,45 @@ var commands = {
     if (!commandConfigs[vcs][name]) {
       throw new Error('i dont have a command for ' + name);
     }
-    commandConfigs[vcs][name].execute.call(this, engine, commandObj);
+    console.log(commandObj.getSupportedMap());
+    console.log(commandObj.getGeneralArgs());
+    var config = commandConfigs[vcs][name];
+    if (config.delegate) {
+      return this.delegateExecute(config, engine, commandObj);
+    }
+
+    config.execute.call(this, engine, commandObj);
+  },
+
+  delegateExecute: function(config, engine, commandObj) {
+    // we have delegated to another vcs command, so lets
+    // execute that and get the result
+    var result = config.delegate.call(this, engine, commandObj);
+
+    if (result.multiDelegate) {
+      // we need to do multiple delegations with
+      // a different command at each step
+      _.each(result.multiDelegate, function(delConfig) {
+        // copy command, and then set opts
+        commandObj.setSupportedMap(delConfig.options || {});
+        commandObj.setGeneralArgs(delConfig.args || []);
+        
+        commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);
+      }, this);
+    } else {
+      config = commandConfigs[result.vcs][result.name];
+      // commandObj is PASSED BY REFERENCE
+      // and modified in the function
+      commandConfigs[result.vcs][result.name].execute.call(this, engine, commandObj);
+    }
+  },
+
+  blankMap: function() {
+    return {git: {}, hg: {}};
   },
 
   getShortcutMap: function() {
-    var map = {'git': {}, 'hg': {}};
+    var map = this.blankMap();
     this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
@@ -23379,7 +23659,7 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {'git': {}, 'hg': {}};
+    var optionMap = this.blankMap();
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
@@ -23393,7 +23673,7 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {'git': {}, 'hg': {}};
+    var map = this.blankMap();
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       map[vcs][displayName] = config.regex;
@@ -23405,7 +23685,7 @@ var commands = {
    * which commands count for the git golf game
    */
   getCommandsThatCount: function() {
-    var counted = {'git': {}, 'hg': {}};
+    var counted = this.blankMap();
     this.loop(function(config, name, vcs) {
       if (config.dontCountForGolf) {
         return;
@@ -23435,7 +23715,13 @@ var parse = function(str) {
       if (regex.exec(str)) {
         vcs = thisVCS;
         method = thisMethod;
-        options = str.slice(vcs.length + 1 + method.length + 1);
+        // every valid regex has to have the parts of
+        // <vcs> <command> <stuff>
+        // because there are always two spaces
+        // before our "stuff" we can simply
+        // split on spaces and grab everything after
+        // the second:
+        options = str.split(' ').slice(2).join(' ');
       }
     });
   });
@@ -27283,6 +27569,21 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'hg-a-option': {
+    '__desc__': 'warning for when using -A option',
+    'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-no-status': {
+    '__desc__': 'One of the errors for hg',
+    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-need-option': {
+    '__desc__': 'One of the errors for hg',
+    'en_US': 'I need the option {option} for that command!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!',
@@ -29641,16 +29942,168 @@ require.define("/src/js/mercurial/commands.js",function(require,module,exports,_
 var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
+var Errors = require('../util/errors');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
 
 var commandConfig = {
   commit: {
-    regex: /^hg +commit($|\s)/,
+    regex: /^hg +(commit|ci)($|\s)/,
     options: [
       '--amend',
+      '-A',
       '-m'
     ],
+    delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      console.log(options);
+      if (options['-A']) {
+        command.addWarning(intl.str('hg-a-option'));
+      }
+
+      return {
+        vcs: 'git',
+        name: 'commit'
+      };
+    }
+  },
+
+  status: {
+    regex: /^hg +status *$/,
     execute: function(engine, command) {
-      return GitCommands.commandConfig.commit.execute(engine, command);
+      throw new GitError({
+        msg: intl.str('hg-error-no-status')
+      });
+    }
+  },
+
+  'export': {
+    regex: /^hg +export($|\s)/,
+    delegate: function(engine, command) {
+      command.mapDotToHead();
+      return {
+        vcs: 'git',
+        name: 'show'
+      };
+    }
+  },
+
+  log: {
+    regex: /^hg +log *$/,
+    delegate: function(engine, command) {
+      command.mapDotToHead();
+      return {
+        vcs: 'git',
+        name: 'log'
+      };
+    }
+  },
+
+  bookmarks: {
+    // NO OPTIONS for this command, -r goes
+    // to the bookmark command instead
+    regex: /^hg (bookmarks|book) *$/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
+    }
+  },
+
+  bookmark: {
+    regex: /^hg (bookmark|book)($|\s)/,
+    options: [
+      '-r',
+      '-m',
+      '-f',
+      '-d'
+    ],
+    delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+      var branchName;
+      var rev;
+
+      if (options['-r']) {
+        // we specified a revision with -r but
+        // need to flip the order
+        branchName = options['-r'][1] || '';
+        rev = options['-r'][0] || '';
+        command.setSupportedMap({
+          '-b': [branchName, rev]
+        });
+        return {
+          vcs: 'git',
+          name: 'checkout'
+        };
+      } else if (options['-f']) {
+        // TODO sid0 -- also assuming that
+        // bookmark -f <REV> <name> is
+        // the order here
+        branchName = options['-f'][1] || '';
+        rev = options['-f'][0] || '';
+        command.setSupportedMap({
+          '-f': [branchName, rev]
+        });
+        return {
+          vcs: 'git',
+          name: 'branch'
+        };
+      } else if (options['-d']) {
+        return {
+          vcs: 'git',
+          name: 'branch'
+        };
+      } else if (options['-m']) {
+        // TODO sid0 -- order is -r <oldname> <newname>
+        var oldName = options['-m'][0] || '';
+        var newName = options['-m'][1] || '';
+        return {multiDelegate: [{
+          vcs: 'git',
+          name: 'checkout',
+          options: {
+            '-b': [newName, oldName]
+          }
+        }, {
+          vcs: 'git',
+          name: 'branch',
+          options: {
+            '-d': [oldName]
+          }
+        }]};
+      }
+
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
+    }
+  },
+
+  ammend: {
+    regex: /^hg +ammend *$/,
+    delegate: function(engine, command) {
+      command.setOptionMap({
+        '--amend': true
+      });
+      return {
+        vcs: 'hg',
+        name: 'commit'
+      };
+    }
+  },
+
+  summary: {
+    regex: /^hg +(summary|sum) *$/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
     }
   }
 };
@@ -29847,8 +30300,45 @@ var Command = Backbone.Model.extend({
     this.set('warnings', []);
   },
 
+  replaceDotWithHead: function(string) {
+    return string.replace(/\./g, 'HEAD');
+  },
+
+  mapDotToHead: function() {
+    var generalArgs = this.getGeneralArgs();
+    var options = this.getSupportedMap();
+    
+    generalArgs = _.map(generalArgs, function(arg) {
+      return this.replaceDotWithHead(arg);
+    }, this);
+    var newMap = {};
+    _.each(options, function(args, key) {
+      newMap[key] = _.map(args, function(arg) {
+        return this.replaceDotWithHead(arg);
+      }, this);
+    }, this);
+    this.setGeneralArgs(generalArgs);
+    this.setSupportedMap(newMap);
+  },
+
+  deleteOptions: function(options) {
+    var map = this.getSupportedMap();
+    _.each(options, function(option) {
+      delete map[option];
+    }, this);
+    this.setSupportedMap(map);
+  },
+
   getGeneralArgs: function() {
     return this.get('generalArgs');
+  },
+
+  setGeneralArgs: function(args) {
+    this.set('generalArgs', args);
+  },
+
+  setSupportedMap: function(map) {
+    this.set('supportedMap', map);
   },
 
   getSupportedMap: function() {

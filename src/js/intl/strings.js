@@ -32,6 +32,21 @@ exports.strings = {
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'hg-a-option': {
+    '__desc__': 'warning for when using -A option',
+    'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-no-status': {
+    '__desc__': 'One of the errors for hg',
+    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-need-option': {
+    '__desc__': 'One of the errors for hg',
+    'en_US': 'I need the option {option} for that command!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!',
