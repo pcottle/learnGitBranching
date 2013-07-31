@@ -7,7 +7,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var commandConfig, hgCommandConfig;
+var gitCommandConfig, hgCommandConfig;
 
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
@@ -82,12 +82,12 @@ hgCommandConfig = {
       '-m'
     ],
     execute: function(engine, command) {
-      return commandConfig.commit.execute(engine, command);
+      return gitCommandConfig.commit.execute(engine, command);
     }
   }
 };
 
-commandConfig = {
+gitCommandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -525,7 +525,7 @@ commandConfig = {
   }
 };
 
-var commandConfigs = {'git': commandConfig, 'hg': hgCommandConfig};
+var commandConfigs = { 'git': gitCommandConfig, 'hg': hgCommandConfig };
 
 var instantCommands = [
   [/^(git help($|\s)|git$)/, function() {
