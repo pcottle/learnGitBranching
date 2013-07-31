@@ -82,6 +82,16 @@ var commands = {
 };
 
 commandConfig = {
+  hgcommit: {
+    regex: /^(hg +commit|hg +ci)($|\s)/,
+    options: [
+      '--amend',
+      '-m'
+    ],
+    execute: function(engine, command) {
+      return commandConfig.commit.execute(engine, command);
+    }
+  },
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
