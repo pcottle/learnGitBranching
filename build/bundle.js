@@ -9954,7 +9954,7 @@ var parse = function(str) {
   _.each(commands.getRegexMap(), function (map, thisVCS) {
     _.each(map, function(regex, thisMethod) {
       if (regex.exec(str)) {
-        vcs = thisVCS; // XXX get from regex map
+        vcs = thisVCS;
         method = thisMethod;
         options = str.slice(vcs.length + 1 + method.length + 1);
       }
@@ -23425,7 +23425,7 @@ var parse = function(str) {
   _.each(commands.getRegexMap(), function (map, thisVCS) {
     _.each(map, function(regex, thisMethod) {
       if (regex.exec(str)) {
-        vcs = thisVCS; // XXX get from regex map
+        vcs = thisVCS;
         method = thisMethod;
         options = str.slice(vcs.length + 1 + method.length + 1);
       }
