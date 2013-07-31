@@ -9876,17 +9876,18 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var commandConfig;
+var commandConfig, hgCommandConfig;
+
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
-    if (!commandConfig[name]) {
+    if (!commandConfigs[vcs][name]) {
       throw new Error('i dont have a command for ' + name);
     }
-    commandConfig[name].execute.call(this, engine, commandObj);
+    commandConfigs[vcs][name].execute.call(this, engine, commandObj);
   },
 
   getShortcutMap: function() {
-    var map = {'git': {}};
+    var map = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
@@ -9897,7 +9898,7 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {'git': {}};
+    var optionMap = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
@@ -9911,7 +9912,7 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {'git': {}};
+    var map = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       map[vcs][displayName] = config.regex;
@@ -9923,7 +9924,7 @@ var commands = {
    * which commands count for the git golf game
    */
   getCommandsThatCount: function() {
-    var counted = {'git': {}};
+    var counted = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       if (config.dontCountForGolf) {
         return;
@@ -9934,13 +9935,17 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfig, function (config, name) { callback(config, name, 'git'); });
+    _.each(commandConfigs, function(commandConfig, vcs) {
+      _.each(commandConfig, function(config, name) {
+        callback(config, name, vcs);
+      });
+    });
   }
 };
 
-commandConfig = {
-  hgcommit: {
-    regex: /^(hg +commit|hg +ci)($|\s)/,
+hgCommandConfig = {
+  commit: {
+    regex: /^hg +commit($|\s)/,
     options: [
       '--amend',
       '-m'
@@ -9949,6 +9954,9 @@ commandConfig = {
       return commandConfig.commit.execute(engine, command);
     }
   },
+};
+
+commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -10385,6 +10393,8 @@ commandConfig = {
     }
   }
 };
+
+var commandConfigs = {'git': commandConfig, 'hg': hgCommandConfig};
 
 var instantCommands = [
   [/^(git help($|\s)|git$)/, function() {
@@ -23763,17 +23773,18 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var commandConfig;
+var commandConfig, hgCommandConfig;
+
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
-    if (!commandConfig[name]) {
+    if (!commandConfigs[vcs][name]) {
       throw new Error('i dont have a command for ' + name);
     }
-    commandConfig[name].execute.call(this, engine, commandObj);
+    commandConfigs[vcs][name].execute.call(this, engine, commandObj);
   },
 
   getShortcutMap: function() {
-    var map = {'git': {}};
+    var map = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
@@ -23784,7 +23795,7 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {'git': {}};
+    var optionMap = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
@@ -23798,7 +23809,7 @@ var commands = {
   },
 
   getRegexMap: function() {
-    var map = {'git': {}};
+    var map = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       map[vcs][displayName] = config.regex;
@@ -23810,7 +23821,7 @@ var commands = {
    * which commands count for the git golf game
    */
   getCommandsThatCount: function() {
-    var counted = {'git': {}};
+    var counted = {'git': {}, 'hg': {}};
     this.loop(function(config, name, vcs) {
       if (config.dontCountForGolf) {
         return;
@@ -23821,13 +23832,17 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfig, function (config, name) { callback(config, name, 'git'); });
+    _.each(commandConfigs, function(commandConfig, vcs) {
+      _.each(commandConfig, function(config, name) {
+        callback(config, name, vcs);
+      });
+    });
   }
 };
 
-commandConfig = {
-  hgcommit: {
-    regex: /^(hg +commit|hg +ci)($|\s)/,
+hgCommandConfig = {
+  commit: {
+    regex: /^hg +commit($|\s)/,
     options: [
       '--amend',
       '-m'
@@ -23836,6 +23851,9 @@ commandConfig = {
       return commandConfig.commit.execute(engine, command);
     }
   },
+};
+
+commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -24272,6 +24290,8 @@ commandConfig = {
     }
   }
 };
+
+var commandConfigs = {'git': commandConfig, 'hg': hgCommandConfig};
 
 var instantCommands = [
   [/^(git help($|\s)|git$)/, function() {
