@@ -9903,15 +9903,15 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {};
-    this.loop(function(config, name) {
+    var optionMap = {'git': {}};
+    this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
       // start all options off as disabled
       _.each(config.options, function(option) {
         thisMap[option] = false;
       });
-      optionMap[displayName] = thisMap;
+      optionMap[vcs][displayName] = thisMap;
     });
     return optionMap;
   },
@@ -10403,7 +10403,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = commands.getOptionMap();
+    var commands = commands.getOptionMap()['git'];
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -10430,7 +10430,7 @@ var parse = function(str) {
   _.each(commands.getRegexMap(), function(regex, thisMethod) {
     if (regex.exec(str)) {
       vcs = 'git'; // XXX get from regex map
-      options = str.slice(vcs.length + 1 + thisMethod.length + 1);
+      options = str.slice(thisMethod.length + 1);
       method = thisMethod.slice(vcs.length + 1);
     }
   });
@@ -10441,7 +10441,7 @@ var parse = function(str) {
 
   // we support this command!
   // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(method, options);
+  var parsedOptions = new CommandOptionParser(vcs, method, options);
   return {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
@@ -10457,11 +10457,12 @@ var parse = function(str) {
 /**
  * CommandOptionParser
  */
-function CommandOptionParser(method, options) {
+function CommandOptionParser(vcs, method, options) {
+  this.vcs = vcs;
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = commands.getOptionMap()[method];
+  this.supportedMap = commands.getOptionMap()[vcs][method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
@@ -10469,20 +10470,6 @@ function CommandOptionParser(method, options) {
   this.generalArgs = [];
   this.explodeAndSet();
 }
-
-var optionMap = {};
-commands.loop(function(config, name) {
-  var displayName = config.displayName || name;
-  if (optionMap[displayName] !== undefined) {
-    return;
-  }
-
-  var thisMap = {};
-  _.each(config.options, function(option) {
-    thisMap[option] = false;
-  });
-  optionMap[displayName] = thisMap;
-});
 
 CommandOptionParser.prototype.explodeAndSet = function() {
   // TODO -- this is ugly
@@ -23802,15 +23789,15 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {};
-    this.loop(function(config, name) {
+    var optionMap = {'git': {}};
+    this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
       // start all options off as disabled
       _.each(config.options, function(option) {
         thisMap[option] = false;
       });
-      optionMap[displayName] = thisMap;
+      optionMap[vcs][displayName] = thisMap;
     });
     return optionMap;
   },
@@ -24302,7 +24289,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = commands.getOptionMap();
+    var commands = commands.getOptionMap()['git'];
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -24329,7 +24316,7 @@ var parse = function(str) {
   _.each(commands.getRegexMap(), function(regex, thisMethod) {
     if (regex.exec(str)) {
       vcs = 'git'; // XXX get from regex map
-      options = str.slice(vcs.length + 1 + thisMethod.length + 1);
+      options = str.slice(thisMethod.length + 1);
       method = thisMethod.slice(vcs.length + 1);
     }
   });
@@ -24340,7 +24327,7 @@ var parse = function(str) {
 
   // we support this command!
   // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(method, options);
+  var parsedOptions = new CommandOptionParser(vcs, method, options);
   return {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
@@ -24356,11 +24343,12 @@ var parse = function(str) {
 /**
  * CommandOptionParser
  */
-function CommandOptionParser(method, options) {
+function CommandOptionParser(vcs, method, options) {
+  this.vcs = vcs;
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = commands.getOptionMap()[method];
+  this.supportedMap = commands.getOptionMap()[vcs][method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
@@ -24368,20 +24356,6 @@ function CommandOptionParser(method, options) {
   this.generalArgs = [];
   this.explodeAndSet();
 }
-
-var optionMap = {};
-commands.loop(function(config, name) {
-  var displayName = config.displayName || name;
-  if (optionMap[displayName] !== undefined) {
-    return;
-  }
-
-  var thisMap = {};
-  _.each(config.options, function(option) {
-    thisMap[option] = false;
-  });
-  optionMap[displayName] = thisMap;
-});
 
 CommandOptionParser.prototype.explodeAndSet = function() {
   // TODO -- this is ugly

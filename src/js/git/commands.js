@@ -604,20 +604,6 @@ function CommandOptionParser(vcs, method, options) {
   this.explodeAndSet();
 }
 
-var optionMap = {};
-commands.loop(function(config, name) {
-  var displayName = config.displayName || name;
-  if (optionMap[displayName] !== undefined) {
-    return;
-  }
-
-  var thisMap = {};
-  _.each(config.options, function(option) {
-    thisMap[option] = false;
-  });
-  optionMap[displayName] = thisMap;
-});
-
 CommandOptionParser.prototype.explodeAndSet = function() {
   // TODO -- this is ugly
   // split on spaces, except when inside quotes
