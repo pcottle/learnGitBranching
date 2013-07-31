@@ -8,8 +8,8 @@ var CommandProcessError = Errors.CommandProcessError;
 var CommandResult = Errors.CommandResult;
 
 var commandConfigs = {
-  'git': GitCommands.gitCommandConfig,
-  'hg': MercurialCommands.hgCommandConfig
+  'git': GitCommands.commandConfig,
+  'hg': MercurialCommands.commandConfig
 };
 
 var commands = {

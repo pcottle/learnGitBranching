@@ -7,7 +7,7 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var gitCommandConfig = {
+var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
@@ -474,6 +474,6 @@ var instantCommands = [
   }]
 ];
 
-exports.gitCommandConfig = gitCommandConfig;
+exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
 

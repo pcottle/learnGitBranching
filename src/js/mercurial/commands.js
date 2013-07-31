@@ -3,7 +3,7 @@ var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
 
-var hgCommandConfig = {
+var commandConfig = {
   commit: {
     regex: /^hg +commit($|\s)/,
     options: [
@@ -11,9 +11,9 @@ var hgCommandConfig = {
       '-m'
     ],
     execute: function(engine, command) {
-      return GitCommands.gitCommandConfig.commit.execute(engine, command);
+      return GitCommands.commandConfig.commit.execute(engine, command);
     }
   }
 };
 
-exports.hgCommandConfig = hgCommandConfig;
+exports.commandConfig = commandConfig;
