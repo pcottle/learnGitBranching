@@ -18,8 +18,6 @@ var commands = {
     if (!commandConfigs[vcs][name]) {
       throw new Error('i dont have a command for ' + name);
     }
-    console.log(commandObj.getSupportedMap());
-    console.log(commandObj.getGeneralArgs());
     var config = commandConfigs[vcs][name];
     if (config.delegate) {
       return this.delegateExecute(config, engine, commandObj);

@@ -32,7 +32,8 @@ var commandConfig = {
   },
 
   status: {
-    regex: /^hg +status *$/,
+    regex: /^hg +(status|st) *$/,
+    dontCountForGolf: true,
     execute: function(engine, command) {
       throw new GitError({
         msg: intl.str('hg-error-no-status')
@@ -42,6 +43,7 @@ var commandConfig = {
 
   'export': {
     regex: /^hg +export($|\s)/,
+    dontCountForGolf: true,
     delegate: function(engine, command) {
       command.mapDotToHead();
       return {
@@ -53,6 +55,7 @@ var commandConfig = {
 
   log: {
     regex: /^hg +log *$/,
+    dontCountForGolf: true,
     delegate: function(engine, command) {
       command.mapDotToHead();
       return {
@@ -62,20 +65,8 @@ var commandConfig = {
     }
   },
 
-  bookmarks: {
-    // NO OPTIONS for this command, -r goes
-    // to the bookmark command instead
-    regex: /^hg (bookmarks|book) *$/,
-    delegate: function(engine, command) {
-      return {
-        vcs: 'git',
-        name: 'branch'
-      };
-    }
-  },
-
   bookmark: {
-    regex: /^hg (bookmark|book)($|\s)/,
+    regex: /^hg (bookmarks|bookmark|book)($|\s)/,
     options: [
       '-r',
       '-m',
@@ -140,6 +131,55 @@ var commandConfig = {
       return {
         vcs: 'git',
         name: 'branch'
+      };
+    }
+  },
+
+  update: {
+    regex: /^hg +(update|up)($|\s+)/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'checkout'
+      };
+    }
+  },
+  
+  backout: {
+    regex: /^hg +backout($|\s+)/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'revert'
+      };
+    }
+  },
+
+  histedit: {
+    regex: /^hg +histedit($|\s+)/,
+    delegate: function(engine, command) {
+      var args = command.getGeneralArgs();
+      command.validateArgBounds(args, 1, 1);
+      command.setSupportedMap({
+        '-i': args
+      });
+      command.setGeneralArgs([]);
+      return {
+        vcs: 'git',
+        name: 'rebase'
+      };
+    }
+  },
+
+  // TODO rebase :OOOO need to graft? engine work
+  // rebase: {
+
+  pull: {
+    regex: /^hg +pull($|\s+)/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'pull'
       };
     }
   },
