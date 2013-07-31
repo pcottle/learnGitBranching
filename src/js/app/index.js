@@ -3,6 +3,7 @@ var Backbone = require('backbone');
 
 var constants = require('../util/constants');
 var util = require('../util');
+var intl = require('../intl');
 
 /**
  * Globals
@@ -41,9 +42,25 @@ var init = function() {
   });
 
   events.on('localeChanged', intlRefresh);
+  events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
   initDemo(sandbox);
+};
+
+var vcsModeRefresh = function(eventData) {
+  if (!window.$) { return; }
+
+  var mode = eventData.mode;
+  var displayMode = mode.slice(0, 1).toUpperCase() + mode.slice(1);
+  var otherMode = (displayMode === 'Git') ? 'Hg' : 'Git';
+  var regex = new RegExp(otherMode, 'g');
+
+  document.title = intl.str('learn-git-branching').replace(regex, displayMode);
+  $('span.vcs-mode-aware').each(function(i, el) {
+    var text = $(el).text().replace(regex, displayMode);
+    $(el).text(text);
+  });
 };
 
 var intlRefresh = function() {

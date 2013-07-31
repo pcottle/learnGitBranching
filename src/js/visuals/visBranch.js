@@ -352,6 +352,11 @@ var VisBranch = VisBase.extend({
     var name = this.get('branch').getName();
     var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
     var isRemote = this.getIsRemote();
+    var isHg = this.gitEngine.getIsHg();
+
+    if (name === 'HEAD' && isHg) {
+      name = '.';
+    }
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
     return name + after;
@@ -393,10 +398,13 @@ var VisBranch = VisBase.extend({
     this.gitVisuals.removeVisBranch(this);
   },
 
+  handleModeChange: function() {
+
+  },
+
   genGraphics: function(paper) {
     var textPos = this.getTextPosition();
     var name = this.getName();
-    var text;
 
     // when from a reload, we dont need to generate the text
     text = paper.text(textPos.x, textPos.y, String(name));

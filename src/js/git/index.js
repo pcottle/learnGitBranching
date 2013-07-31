@@ -70,6 +70,10 @@ GitEngine.prototype.handleModeChange = function(vcs, callback) {
   chain.then(callback);
 };
 
+GitEngine.prototype.getIsHg = function() {
+  return this.mode === 'hg';
+};
+
 GitEngine.prototype.setMode = function(vcs) {
   var switchedToHg = (this.mode === 'git' && vcs === 'hg');
   this.mode = vcs;
@@ -1214,10 +1218,12 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
 
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
-  // dont prune dangling commits if we are on head
-  var underHeadID = this.getCommitFromRef('HEAD').get('id');
-  set[underHeadID] = set[underHeadID] || [];
-  set[underHeadID].push('HEAD');
+  // dont prune commits that HEAD depends on
+  var headSet = this.getUpstreamSet('HEAD');
+  console.log(headSet);
+  _.each(headSet, function(val, commitID) {
+    set[commitID] = true;
+  });
 
   var toDelete = [];
   this.commitCollection.each(function(commit) {
@@ -1227,9 +1233,12 @@ GitEngine.prototype.pruneTree = function() {
     }
   }, this);
 
-  if (toDelete.length) {
-    this.command.addWarning(intl.str('hg-prune-tree'));
+  if (!toDelete.length) {
+    // returning nothing will perform
+    // the switch sync
+    return;
   }
+  this.command.addWarning(intl.str('hg-prune-tree'));
 
   _.each(toDelete, function(commit) {
     commit.removeFromParents();

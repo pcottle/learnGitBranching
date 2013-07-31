@@ -19,7 +19,6 @@ var commandConfig = {
     ],
     delegate: function(engine, command) {
       var options = command.getSupportedMap();
-      console.log(options);
       if (options['-A']) {
         command.addWarning(intl.str('hg-a-option'));
       }
