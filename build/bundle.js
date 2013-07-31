@@ -10610,6 +10610,7 @@ var commandConfig = {
 
   status: {
     regex: /^hg +(status|st) *$/,
+    dontCountForGolf: true,
     execute: function(engine, command) {
       throw new GitError({
         msg: intl.str('hg-error-no-status')
@@ -10619,6 +10620,7 @@ var commandConfig = {
 
   'export': {
     regex: /^hg +export($|\s)/,
+    dontCountForGolf: true,
     delegate: function(engine, command) {
       command.mapDotToHead();
       return {
@@ -10630,6 +10632,7 @@ var commandConfig = {
 
   log: {
     regex: /^hg +log *$/,
+    dontCountForGolf: true,
     delegate: function(engine, command) {
       command.mapDotToHead();
       return {
@@ -30006,6 +30009,7 @@ var commandConfig = {
 
   status: {
     regex: /^hg +(status|st) *$/,
+    dontCountForGolf: true,
     execute: function(engine, command) {
       throw new GitError({
         msg: intl.str('hg-error-no-status')
@@ -30015,6 +30019,7 @@ var commandConfig = {
 
   'export': {
     regex: /^hg +export($|\s)/,
+    dontCountForGolf: true,
     delegate: function(engine, command) {
       command.mapDotToHead();
       return {
@@ -30026,6 +30031,7 @@ var commandConfig = {
 
   log: {
     regex: /^hg +log *$/,
+    dontCountForGolf: true,
     delegate: function(engine, command) {
       command.mapDotToHead();
       return {
