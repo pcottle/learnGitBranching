@@ -10,7 +10,6 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 var Constants = require('../util/constants');
-var Commands = require('../commands');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -310,8 +309,8 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(Commands.getCommandsThatCount(), function(name) {
-      var regex = Commands.getRegex(name);
+    _.each(GitCommands.commands.getCommandsThatCount(), function(name) {
+      var regex = GitCommands.commands.getRegex(name);
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {

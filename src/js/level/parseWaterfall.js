@@ -1,7 +1,6 @@
 var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
-var Commands = require('../commands');
 var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
@@ -9,7 +8,7 @@ var ParseWaterfall = function(options) {
   options = options || {};
   this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
-    Commands.getShortcutMap()
+    GitCommands.commands.getShortcutMap()
   ];
 
   this.instantWaterfall = options.instantWaterfall || [

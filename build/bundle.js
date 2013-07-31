@@ -6112,7 +6112,6 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 var Constants = require('../util/constants');
-var Commands = require('../commands');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -6412,8 +6411,8 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(Commands.getCommandsThatCount(), function(name) {
-      var regex = Commands.getRegex(name);
+    _.each(GitCommands.commands.getCommandsThatCount(), function(name) {
+      var regex = GitCommands.commands.getRegex(name);
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {
@@ -6713,531 +6712,6 @@ var filterError = function(err) {
 };
 
 exports.filterError = filterError;
-
-});
-
-require.define("/src/js/commands/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-
-var intl = require('../intl');
-
-var Errors = require('../util/errors');
-var GitError = Errors.GitError;
-var CommandResult = Errors.CommandResult;
-
-var commandConfig;
-var Commands = {
-  execute: function(name, engine, commandObj) {
-    if (!commandConfig[name]) {
-      throw new Error('i dont have a command for ' + name);
-    }
-    commandConfig[name].execute.call(this, engine, commandObj);
-  },
-
-  getRegex: function(name) {
-    name = name.replace(/-/g, ''); // ugh cherry-pick @____@
-    if (!commandConfig[name]) {
-      throw new Error('i dont have a regex for ' + name);
-    }
-    return commandConfig[name].regex;
-  },
-
-  isCommandSupported: function(name) {
-    return !!commandConfig[name];
-  },
-
-  getShortcutMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
-      if (!config.sc) {
-        return;
-      }
-      map['git ' + name] = config.sc;
-    }, this);
-    return map;
-  },
-
-  getOptionMap: function() {
-    var optionMap = {};
-    this.loop(function(config, name) {
-      var displayName = config.displayName || name;
-      var thisMap = {};
-      // start all options off as disabled
-      _.each(config.options, function(option) {
-        thisMap[option] = false;
-      });
-      optionMap[displayName] = thisMap;
-    });
-    return optionMap;
-  },
-
-  getRegexMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
-      var displayName = 'git ' + (config.displayName || name);
-      map[displayName] = config.regex;
-    });
-    return map;
-  },
-
-  /**
-   * which commands count for the git golf game
-   */
-  getCommandsThatCount: function() {
-    var counted = [];
-    this.loop(function(config, name) {
-      if (config.dontCountForGolf) {
-        return;
-      }
-      counted.push(name);
-    });
-    return counted;
-  },
-
-  loop: function(callback, context) {
-    _.each(commandConfig, callback);
-  }
-};
-
-commandConfig = {
-  commit: {
-    sc: /^(gc|git ci)($|\s)/,
-    regex: /^git +commit($|\s)/,
-    options: [
-      '--amend',
-      '-a',
-      '-am',
-      '-m'
-    ],
-    execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
-      command.acceptNoGeneralArgs();
-
-      if (commandOptions['-am'] && (
-          commandOptions['-a'] || commandOptions['-m'])) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-
-      var msg = null;
-      var args = null;
-      if (commandOptions['-a']) {
-        command.addWarning(intl.str('git-warning-add'));
-      }
-
-      if (commandOptions['-am']) {
-        args = commandOptions['-am'];
-        command.validateArgBounds(args, 1, 1, '-am');
-        msg = args[0];
-      }
-
-      if (commandOptions['-m']) {
-        args = commandOptions['-m'];
-        command.validateArgBounds(args, 1, 1, '-m');
-        msg = args[0];
-      }
-
-      var newCommit = engine.commit({
-        isAmend: commandOptions['--amend']
-      });
-      if (msg) {
-        msg = msg
-          .replace(/&quot;/g, '"')
-          .replace(/^"/g, '')
-          .replace(/"$/g, '');
-
-        newCommit.set('commitMessage', msg);
-      }
-
-      var promise = engine.animationFactory.playCommitBirthPromiseAnimation(
-        newCommit,
-        engine.gitVisuals
-      );
-      engine.animationQueue.thenFinish(promise);
-    }
-  },
-
-  cherrypick: {
-    displayName: 'cherry-pick',
-    regex: /^git +cherry-pick($|\s)/,
-    execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
-      var generalArgs = command.getGeneralArgs();
-
-      command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
-
-      var set = engine.getUpstreamSet('HEAD');
-      // first resolve all the refs (as an error check)
-      var toCherrypick = _.map(generalArgs, function(arg) {
-        var commit = engine.getCommitFromRef(arg);
-        // and check that its not upstream
-        if (set[commit.get('id')]) {
-          throw new GitError({
-            msg: intl.str(
-              'git-error-already-exists',
-              { commit: commit.get('id') }
-            )
-          });
-        }
-        return commit;
-      }, this);
-
-      engine.setupCherrypickChain(toCherrypick);
-    }
-  },
-
-  pull: {
-    regex: /^git +pull($|\s)/,
-    options: [
-      '--rebase'
-    ],
-    execute: function(engine, command) {
-      if (!engine.hasOrigin()) {
-        throw new GitError({
-          msg: intl.str('git-error-origin-required')
-        });
-      }
-
-      var commandOptions = command.getSupportedMap();
-      command.acceptNoGeneralArgs();
-      engine.pull({
-        isRebase: commandOptions['--rebase']
-      });
-    }
-  },
-
-  fakeTeamwork: {
-    regex: /^git +fakeTeamwork($|\s)/,
-    execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-      if (!engine.hasOrigin()) {
-        throw new GitError({
-          msg: intl.str('git-error-origin-required')
-        });
-      }
-
-      command.validateArgBounds(generalArgs, 0, 2);
-      // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
-      var branch = (engine.origin.refs[generalArgs[0]]) ?
-        generalArgs[0] : 'master';
-      var numToMake = parseInt(generalArgs[0], 10) || generalArgs[1] || 1;
-
-      // make sure its a branch and exists
-      var destBranch = engine.origin.resolveID(branch);
-      if (destBranch.get('type') !== 'branch') {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-        
-      engine.fakeTeamwork(numToMake, branch);
-    }
-  },
-
-  clone: {
-    regex: /^git +clone *?$/,
-    execute: function(engine, command) {
-      command.acceptNoGeneralArgs();
-      engine.makeOrigin(engine.printTree());
-    }
-  },
-
-  fetch: {
-    regex: /^git +fetch *?$/,
-    execute: function(engine, command) {
-      if (!engine.hasOrigin()) {
-        throw new GitError({
-          msg: intl.str('git-error-origin-required')
-        });
-      }
-      command.acceptNoGeneralArgs();
-      engine.fetch();
-    }
-  },
-
-  branch: {
-    sc: /^(gb|git br)($|\s)/,
-    regex: /^git +branch($|\s)/,
-    options: [
-      '-d',
-      '-D',
-      '-f',
-      '-a',
-      '-r',
-      '--contains'
-    ],
-    execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
-      var generalArgs = command.getGeneralArgs();
-
-      var args = null;
-      // handle deletion first
-      if (commandOptions['-d'] || commandOptions['-D']) {
-        var names = commandOptions['-d'] || commandOptions['-D'];
-        command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
-
-        _.each(names, function(name) {
-          engine.deleteBranch(name);
-        });
-        return;
-      }
-
-      if (commandOptions['--contains']) {
-        args = commandOptions['--contains'];
-        command.validateArgBounds(args, 1, 1, '--contains');
-        engine.printBranchesWithout(args[0]);
-        return;
-      }
-
-      if (commandOptions['-f']) {
-        args = commandOptions['-f'];
-        command.twoArgsImpliedHead(args, '-f');
-
-        // we want to force a branch somewhere
-        engine.forceBranch(args[0], args[1]);
-        return;
-      }
-
-
-      if (generalArgs.length === 0) {
-        var branches;
-        if (commandOptions['-a']) {
-          branches = engine.getBranches();
-        } else if (commandOptions['-r']) {
-          branches = engine.getRemoteBranches();
-        } else {
-          branches = engine.getLocalBranches();
-        }
-        engine.printBranches(branches);
-        return;
-      }
-
-      command.twoArgsImpliedHead(generalArgs);
-      engine.branch(generalArgs[0], generalArgs[1]);
-    }
-  },
-
-  add: {
-    dontCountForGolf: true,
-    sc: /^ga($|\s)/,
-    regex: /^git +add($|\s)/,
-    execute: function() {
-      throw new CommandResult({
-        msg: intl.str('git-error-staging')
-      });
-    }
-  },
-
-  reset: {
-    regex: /^git +reset($|\s)/,
-    options: [
-      '--hard',
-      '--soft'
-    ],
-    execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
-      var generalArgs = command.getGeneralArgs();
-
-      if (commandOptions['--soft']) {
-        throw new GitError({
-          msg: intl.str('git-error-staging')
-        });
-      }
-      if (commandOptions['--hard']) {
-        command.addWarning(
-          intl.str('git-warning-hard')
-        );
-        // dont absorb the arg off of --hard
-        generalArgs = generalArgs.concat(commandOptions['--hard']);
-      }
-
-      command.validateArgBounds(generalArgs, 1, 1);
-
-      if (engine.getDetachedHead()) {
-        throw new GitError({
-          msg: intl.str('git-error-reset-detached')
-        });
-      }
-
-      engine.reset(generalArgs[0]);
-    }
-  },
-
-  revert: {
-    regex: /^git +revert($|\s)/,
-    execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-
-      command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
-      engine.revert(generalArgs);
-    }
-  },
-
-  merge: {
-    regex: /^git +merge($|\s)/,
-    execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-      command.validateArgBounds(generalArgs, 1, 1);
-
-      var newCommit = engine.merge(generalArgs[0]);
-
-      if (newCommit === undefined) {
-        // its just a fast forwrard
-        engine.animationFactory.refreshTree(
-          engine.animationQueue, engine.gitVisuals
-        );
-        return;
-      }
-
-      engine.animationFactory.genCommitBirthAnimation(
-        engine.animationQueue, newCommit, engine.gitVisuals
-      );
-    }
-  },
-
-  log: {
-    dontCountForGolf: true,
-    regex: /^git +log($|\s)/,
-    execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-
-      if (generalArgs.length == 2) {
-        // do fancy git log branchA ^branchB
-        if (generalArgs[1][0] == '^') {
-          engine.logWithout(generalArgs[0], generalArgs[1]);
-        } else {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-      }
-
-      command.oneArgImpliedHead(generalArgs);
-      engine.log(generalArgs[0]);
-    }
-  },
-
-  show: {
-    dontCountForGolf: true,
-    regex: /^git +show($|\s)/,
-    execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-      command.oneArgImpliedHead(generalArgs);
-      engine.show(generalArgs[0]);
-    }
-  },
-
-  rebase: {
-    sc: /^gr($|\s)/,
-    options: [
-      '-i',
-      '--aboveAll'
-    ],
-    regex: /^git +rebase($|\s)/,
-    execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
-      var generalArgs = command.getGeneralArgs();
-
-      if (commandOptions['-i']) {
-        var args = commandOptions['-i'];
-        command.twoArgsImpliedHead(args, ' -i');
-        engine.rebaseInteractive(
-          args[0],
-          args[1], {
-            aboveAll: !!commandOptions['--aboveAll']
-          }
-        );
-        return;
-      }
-
-      command.twoArgsImpliedHead(generalArgs);
-      engine.rebase(generalArgs[0], generalArgs[1]);
-    }
-  },
-
-  status: {
-    dontCountForGolf: true,
-    sc: /^(gst|gs|git st)($|\s)/,
-    regex: /^git +status($|\s)/,
-    execute: function(engine) {
-      // no parsing at all
-      engine.status();
-    }
-  },
-
-  checkout: {
-    sc: /^(go|git co)($|\s)/,
-    regex: /^git +checkout($|\s)/,
-    options: [
-      '-b',
-      '-B',
-      '-'
-    ],
-    execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
-      var generalArgs = command.getGeneralArgs();
-
-      var args = null;
-      if (commandOptions['-b']) {
-        if (generalArgs.length) {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-
-        // the user is really trying to just make a branch and then switch to it. so first:
-        args = commandOptions['-b'];
-        command.twoArgsImpliedHead(args, '-b');
-
-        var validId = engine.validateBranchName(args[0]);
-        engine.branch(validId, args[1]);
-        engine.checkout(validId);
-        return;
-      }
-
-      if (commandOptions['-']) {
-        // get the heads last location
-        var lastPlace = engine.HEAD.get('lastLastTarget');
-        if (!lastPlace) {
-          throw new GitError({
-            msg: intl.str('git-result-nothing')
-          });
-        }
-        engine.HEAD.set('target', lastPlace);
-        return;
-      }
-
-      if (commandOptions['-B']) {
-        args = commandOptions['-B'];
-        command.twoArgsImpliedHead(args, '-B');
-
-        engine.forceBranch(args[0], args[1]);
-        engine.checkout(args[0]);
-        return;
-      }
-
-      command.validateArgBounds(generalArgs, 1, 1);
-
-      engine.checkout(engine.crappyUnescape(generalArgs[0]));
-    }
-  },
-
-  push: {
-    regex: /^git +push($|\s)/,
-    execute: function(engine, command) {
-      if (!engine.hasOrigin()) {
-        throw new GitError({
-          msg: intl.str('git-error-origin-required')
-        });
-      }
-      command.acceptNoGeneralArgs();
-      engine.push();
-    }
-  }
-};
-
-module.exports = Commands;
 
 });
 
@@ -7661,11 +7135,11 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
-var Commands = require('../commands');
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -9385,7 +8859,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   try {
     var methodName = command.get('method').replace(/-/g, '');
-    Commands.execute(methodName, this, this.command);
+    GitCommands.commands.execute(methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
@@ -10387,6 +9861,659 @@ TreeCompare.compareTrees = function(treeA, treeB) {
 };
 
 exports.TreeCompare = TreeCompare;
+
+
+});
+
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
+
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var commandConfig;
+var commands = {
+  execute: function(name, engine, commandObj) {
+    if (!commandConfig[name]) {
+      throw new Error('i dont have a command for ' + name);
+    }
+    commandConfig[name].execute.call(this, engine, commandObj);
+  },
+
+  getRegex: function(name) {
+    name = name.replace(/-/g, ''); // ugh cherry-pick @____@
+    if (!commandConfig[name]) {
+      throw new Error('i dont have a regex for ' + name);
+    }
+    return commandConfig[name].regex;
+  },
+
+  isCommandSupported: function(name) {
+    return !!commandConfig[name];
+  },
+
+  getShortcutMap: function() {
+    var map = {};
+    this.loop(function(config, name) {
+      if (!config.sc) {
+        return;
+      }
+      map['git ' + name] = config.sc;
+    }, this);
+    return map;
+  },
+
+  getOptionMap: function() {
+    var optionMap = {};
+    this.loop(function(config, name) {
+      var displayName = config.displayName || name;
+      var thisMap = {};
+      // start all options off as disabled
+      _.each(config.options, function(option) {
+        thisMap[option] = false;
+      });
+      optionMap[displayName] = thisMap;
+    });
+    return optionMap;
+  },
+
+  getRegexMap: function() {
+    var map = {};
+    this.loop(function(config, name) {
+      var displayName = 'git ' + (config.displayName || name);
+      map[displayName] = config.regex;
+    });
+    return map;
+  },
+
+  /**
+   * which commands count for the git golf game
+   */
+  getCommandsThatCount: function() {
+    var counted = [];
+    this.loop(function(config, name) {
+      if (config.dontCountForGolf) {
+        return;
+      }
+      counted.push(name);
+    });
+    return counted;
+  },
+
+  loop: function(callback, context) {
+    _.each(commandConfig, callback);
+  }
+};
+
+commandConfig = {
+  commit: {
+    sc: /^(gc|git ci)($|\s)/,
+    regex: /^git +commit($|\s)/,
+    options: [
+      '--amend',
+      '-a',
+      '-am',
+      '-m'
+    ],
+    execute: function(engine, command) {
+      var commandOptions = command.getSupportedMap();
+      command.acceptNoGeneralArgs();
+
+      if (commandOptions['-am'] && (
+          commandOptions['-a'] || commandOptions['-m'])) {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
+
+      var msg = null;
+      var args = null;
+      if (commandOptions['-a']) {
+        command.addWarning(intl.str('git-warning-add'));
+      }
+
+      if (commandOptions['-am']) {
+        args = commandOptions['-am'];
+        command.validateArgBounds(args, 1, 1, '-am');
+        msg = args[0];
+      }
+
+      if (commandOptions['-m']) {
+        args = commandOptions['-m'];
+        command.validateArgBounds(args, 1, 1, '-m');
+        msg = args[0];
+      }
+
+      var newCommit = engine.commit({
+        isAmend: commandOptions['--amend']
+      });
+      if (msg) {
+        msg = msg
+          .replace(/&quot;/g, '"')
+          .replace(/^"/g, '')
+          .replace(/"$/g, '');
+
+        newCommit.set('commitMessage', msg);
+      }
+
+      var promise = engine.animationFactory.playCommitBirthPromiseAnimation(
+        newCommit,
+        engine.gitVisuals
+      );
+      engine.animationQueue.thenFinish(promise);
+    }
+  },
+
+  cherrypick: {
+    displayName: 'cherry-pick',
+    regex: /^git +cherry-pick($|\s)/,
+    execute: function(engine, command) {
+      var commandOptions = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+
+      command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
+
+      var set = engine.getUpstreamSet('HEAD');
+      // first resolve all the refs (as an error check)
+      var toCherrypick = _.map(generalArgs, function(arg) {
+        var commit = engine.getCommitFromRef(arg);
+        // and check that its not upstream
+        if (set[commit.get('id')]) {
+          throw new GitError({
+            msg: intl.str(
+              'git-error-already-exists',
+              { commit: commit.get('id') }
+            )
+          });
+        }
+        return commit;
+      }, this);
+
+      engine.setupCherrypickChain(toCherrypick);
+    }
+  },
+
+  pull: {
+    regex: /^git +pull($|\s)/,
+    options: [
+      '--rebase'
+    ],
+    execute: function(engine, command) {
+      if (!engine.hasOrigin()) {
+        throw new GitError({
+          msg: intl.str('git-error-origin-required')
+        });
+      }
+
+      var commandOptions = command.getSupportedMap();
+      command.acceptNoGeneralArgs();
+      engine.pull({
+        isRebase: commandOptions['--rebase']
+      });
+    }
+  },
+
+  fakeTeamwork: {
+    regex: /^git +fakeTeamwork($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      if (!engine.hasOrigin()) {
+        throw new GitError({
+          msg: intl.str('git-error-origin-required')
+        });
+      }
+
+      command.validateArgBounds(generalArgs, 0, 2);
+      // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
+      var branch = (engine.origin.refs[generalArgs[0]]) ?
+        generalArgs[0] : 'master';
+      var numToMake = parseInt(generalArgs[0], 10) || generalArgs[1] || 1;
+
+      // make sure its a branch and exists
+      var destBranch = engine.origin.resolveID(branch);
+      if (destBranch.get('type') !== 'branch') {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
+        
+      engine.fakeTeamwork(numToMake, branch);
+    }
+  },
+
+  clone: {
+    regex: /^git +clone *?$/,
+    execute: function(engine, command) {
+      command.acceptNoGeneralArgs();
+      engine.makeOrigin(engine.printTree());
+    }
+  },
+
+  fetch: {
+    regex: /^git +fetch *?$/,
+    execute: function(engine, command) {
+      if (!engine.hasOrigin()) {
+        throw new GitError({
+          msg: intl.str('git-error-origin-required')
+        });
+      }
+      command.acceptNoGeneralArgs();
+      engine.fetch();
+    }
+  },
+
+  branch: {
+    sc: /^(gb|git br)($|\s)/,
+    regex: /^git +branch($|\s)/,
+    options: [
+      '-d',
+      '-D',
+      '-f',
+      '-a',
+      '-r',
+      '--contains'
+    ],
+    execute: function(engine, command) {
+      var commandOptions = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+
+      var args = null;
+      // handle deletion first
+      if (commandOptions['-d'] || commandOptions['-D']) {
+        var names = commandOptions['-d'] || commandOptions['-D'];
+        command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
+
+        _.each(names, function(name) {
+          engine.deleteBranch(name);
+        });
+        return;
+      }
+
+      if (commandOptions['--contains']) {
+        args = commandOptions['--contains'];
+        command.validateArgBounds(args, 1, 1, '--contains');
+        engine.printBranchesWithout(args[0]);
+        return;
+      }
+
+      if (commandOptions['-f']) {
+        args = commandOptions['-f'];
+        command.twoArgsImpliedHead(args, '-f');
+
+        // we want to force a branch somewhere
+        engine.forceBranch(args[0], args[1]);
+        return;
+      }
+
+
+      if (generalArgs.length === 0) {
+        var branches;
+        if (commandOptions['-a']) {
+          branches = engine.getBranches();
+        } else if (commandOptions['-r']) {
+          branches = engine.getRemoteBranches();
+        } else {
+          branches = engine.getLocalBranches();
+        }
+        engine.printBranches(branches);
+        return;
+      }
+
+      command.twoArgsImpliedHead(generalArgs);
+      engine.branch(generalArgs[0], generalArgs[1]);
+    }
+  },
+
+  add: {
+    dontCountForGolf: true,
+    sc: /^ga($|\s)/,
+    regex: /^git +add($|\s)/,
+    execute: function() {
+      throw new CommandResult({
+        msg: intl.str('git-error-staging')
+      });
+    }
+  },
+
+  reset: {
+    regex: /^git +reset($|\s)/,
+    options: [
+      '--hard',
+      '--soft'
+    ],
+    execute: function(engine, command) {
+      var commandOptions = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+
+      if (commandOptions['--soft']) {
+        throw new GitError({
+          msg: intl.str('git-error-staging')
+        });
+      }
+      if (commandOptions['--hard']) {
+        command.addWarning(
+          intl.str('git-warning-hard')
+        );
+        // dont absorb the arg off of --hard
+        generalArgs = generalArgs.concat(commandOptions['--hard']);
+      }
+
+      command.validateArgBounds(generalArgs, 1, 1);
+
+      if (engine.getDetachedHead()) {
+        throw new GitError({
+          msg: intl.str('git-error-reset-detached')
+        });
+      }
+
+      engine.reset(generalArgs[0]);
+    }
+  },
+
+  revert: {
+    regex: /^git +revert($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+
+      command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
+      engine.revert(generalArgs);
+    }
+  },
+
+  merge: {
+    regex: /^git +merge($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      command.validateArgBounds(generalArgs, 1, 1);
+
+      var newCommit = engine.merge(generalArgs[0]);
+
+      if (newCommit === undefined) {
+        // its just a fast forwrard
+        engine.animationFactory.refreshTree(
+          engine.animationQueue, engine.gitVisuals
+        );
+        return;
+      }
+
+      engine.animationFactory.genCommitBirthAnimation(
+        engine.animationQueue, newCommit, engine.gitVisuals
+      );
+    }
+  },
+
+  log: {
+    dontCountForGolf: true,
+    regex: /^git +log($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+
+      if (generalArgs.length == 2) {
+        // do fancy git log branchA ^branchB
+        if (generalArgs[1][0] == '^') {
+          engine.logWithout(generalArgs[0], generalArgs[1]);
+        } else {
+          throw new GitError({
+            msg: intl.str('git-error-options')
+          });
+        }
+      }
+
+      command.oneArgImpliedHead(generalArgs);
+      engine.log(generalArgs[0]);
+    }
+  },
+
+  show: {
+    dontCountForGolf: true,
+    regex: /^git +show($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedHead(generalArgs);
+      engine.show(generalArgs[0]);
+    }
+  },
+
+  rebase: {
+    sc: /^gr($|\s)/,
+    options: [
+      '-i',
+      '--aboveAll'
+    ],
+    regex: /^git +rebase($|\s)/,
+    execute: function(engine, command) {
+      var commandOptions = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+
+      if (commandOptions['-i']) {
+        var args = commandOptions['-i'];
+        command.twoArgsImpliedHead(args, ' -i');
+        engine.rebaseInteractive(
+          args[0],
+          args[1], {
+            aboveAll: !!commandOptions['--aboveAll']
+          }
+        );
+        return;
+      }
+
+      command.twoArgsImpliedHead(generalArgs);
+      engine.rebase(generalArgs[0], generalArgs[1]);
+    }
+  },
+
+  status: {
+    dontCountForGolf: true,
+    sc: /^(gst|gs|git st)($|\s)/,
+    regex: /^git +status($|\s)/,
+    execute: function(engine) {
+      // no parsing at all
+      engine.status();
+    }
+  },
+
+  checkout: {
+    sc: /^(go|git co)($|\s)/,
+    regex: /^git +checkout($|\s)/,
+    options: [
+      '-b',
+      '-B',
+      '-'
+    ],
+    execute: function(engine, command) {
+      var commandOptions = command.getSupportedMap();
+      var generalArgs = command.getGeneralArgs();
+
+      var args = null;
+      if (commandOptions['-b']) {
+        if (generalArgs.length) {
+          throw new GitError({
+            msg: intl.str('git-error-options')
+          });
+        }
+
+        // the user is really trying to just make a branch and then switch to it. so first:
+        args = commandOptions['-b'];
+        command.twoArgsImpliedHead(args, '-b');
+
+        var validId = engine.validateBranchName(args[0]);
+        engine.branch(validId, args[1]);
+        engine.checkout(validId);
+        return;
+      }
+
+      if (commandOptions['-']) {
+        // get the heads last location
+        var lastPlace = engine.HEAD.get('lastLastTarget');
+        if (!lastPlace) {
+          throw new GitError({
+            msg: intl.str('git-result-nothing')
+          });
+        }
+        engine.HEAD.set('target', lastPlace);
+        return;
+      }
+
+      if (commandOptions['-B']) {
+        args = commandOptions['-B'];
+        command.twoArgsImpliedHead(args, '-B');
+
+        engine.forceBranch(args[0], args[1]);
+        engine.checkout(args[0]);
+        return;
+      }
+
+      command.validateArgBounds(generalArgs, 1, 1);
+
+      engine.checkout(engine.crappyUnescape(generalArgs[0]));
+    }
+  },
+
+  push: {
+    regex: /^git +push($|\s)/,
+    execute: function(engine, command) {
+      if (!engine.hasOrigin()) {
+        throw new GitError({
+          msg: intl.str('git-error-origin-required')
+        });
+      }
+      command.acceptNoGeneralArgs();
+      engine.push();
+    }
+  }
+};
+
+var instantCommands = [
+  [/^(git help($|\s)|git$)/, function() {
+    var lines = [
+      intl.str('git-version'),
+      '<br/>',
+      intl.str('git-usage'),
+      _.escape(intl.str('git-usage-command')),
+      '<br/>',
+      intl.str('git-supported-commands'),
+      '<br/>'
+    ];
+    var commands = commands.getOptionMap();
+    // build up a nice display of what we support
+    _.each(commands, function(commandOptions, command) {
+      lines.push('git ' + command);
+      _.each(commandOptions, function(vals, optionName) {
+        lines.push('\t ' + optionName);
+      }, this);
+    }, this);
+
+    // format and throw
+    var msg = lines.join('\n');
+    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
+    throw new CommandResult({
+      msg: msg
+    });
+  }]
+];
+
+var parse = function(str) {
+  var method;
+  var options;
+
+  // see if we support this particular command
+  _.each(commands.getRegexMap(), function(regex, thisMethod) {
+    if (regex.exec(str)) {
+      options = str.slice(thisMethod.length + 1);
+      method = thisMethod.slice('git '.length);
+    }
+  });
+
+  if (!method) {
+    return false;
+  }
+
+  // we support this command!
+  // parse off the options and assemble the map / general args
+  var parsedOptions = new CommandOptionParser(method, options);
+  return {
+    toSet: {
+      generalArgs: parsedOptions.generalArgs,
+      supportedMap: parsedOptions.supportedMap,
+      method: method,
+      options: options,
+      eventName: 'processGitCommand'
+    }
+  };
+};
+
+/**
+ * CommandOptionParser
+ */
+function CommandOptionParser(method, options) {
+  this.method = method;
+  this.rawOptions = options;
+
+  this.supportedMap = commands.getOptionMap()[method];
+  if (this.supportedMap === undefined) {
+    throw new Error('No option map for ' + method);
+  }
+
+  this.generalArgs = [];
+  this.explodeAndSet();
+}
+
+var optionMap = {};
+commands.loop(function(config, name) {
+  var displayName = config.displayName || name;
+  if (optionMap[displayName] !== undefined) {
+    return;
+  }
+
+  var thisMap = {};
+  _.each(config.options, function(option) {
+    thisMap[option] = false;
+  });
+  optionMap[displayName] = thisMap;
+});
+
+CommandOptionParser.prototype.explodeAndSet = function() {
+  // TODO -- this is ugly
+  // split on spaces, except when inside quotes
+  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
+  for (var i = 0; i < exploded.length; i++) {
+    var part = exploded[i];
+
+    if (part.slice(0,1) == '-') {
+      // it's an option, check supportedMap
+      if (this.supportedMap[part] === undefined) {
+        throw new CommandProcessError({
+          msg: intl.str(
+            'option-not-supported',
+            { option: part }
+          )
+        });
+      }
+
+      // go through and include all the next args until we hit another option or the end
+      var optionArgs = [];
+      var next = i + 1;
+      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
+        optionArgs.push(exploded[next]);
+        next += 1;
+      }
+      i = next - 1;
+
+      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
+      this.supportedMap[part] = optionArgs;
+    } else {
+      // must be a general arg
+      this.generalArgs.push(part);
+    }
+  }
+};
+
+exports.commands = commands;
+exports.instantCommands = instantCommands;
+exports.parse = parse;
 
 
 });
@@ -14075,151 +14202,9 @@ exports.Command = Command;
 
 });
 
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var intl = require('../intl');
-
-var Commands = require('../commands');
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var instantCommands = [
-  [/^(git help($|\s)|git$)/, function() {
-    var lines = [
-      intl.str('git-version'),
-      '<br/>',
-      intl.str('git-usage'),
-      _.escape(intl.str('git-usage-command')),
-      '<br/>',
-      intl.str('git-supported-commands'),
-      '<br/>'
-    ];
-    var commands = Commands.getOptionMap();
-    // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
-      lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
-        lines.push('\t ' + optionName);
-      }, this);
-    }, this);
-
-    // format and throw
-    var msg = lines.join('\n');
-    msg = msg.replace(/\t/g, '&nbsp;&nbsp;&nbsp;');
-    throw new CommandResult({
-      msg: msg
-    });
-  }]
-];
-
-var parse = function(str) {
-  var method;
-  var options;
-
-  // see if we support this particular command
-  _.each(Commands.getRegexMap(), function(regex, thisMethod) {
-    if (regex.exec(str)) {
-      options = str.slice(thisMethod.length + 1);
-      method = thisMethod.slice('git '.length);
-    }
-  });
-
-  if (!method) {
-    return false;
-  }
-
-  // we support this command!
-  // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(method, options);
-  return {
-    toSet: {
-      generalArgs: parsedOptions.generalArgs,
-      supportedMap: parsedOptions.supportedMap,
-      method: method,
-      options: options,
-      eventName: 'processGitCommand'
-    }
-  };
-};
-
-/**
- * CommandOptionParser
- */
-function CommandOptionParser(method, options) {
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = Commands.getOptionMap()[method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-  this.explodeAndSet();
-}
-
-var optionMap = {};
-Commands.loop(function(config, name) {
-  var displayName = config.displayName || name;
-  if (optionMap[displayName] !== undefined) {
-    return;
-  }
-
-  var thisMap = {};
-  _.each(config.options, function(option) {
-    thisMap[option] = false;
-  });
-  optionMap[displayName] = thisMap;
-});
-
-CommandOptionParser.prototype.explodeAndSet = function() {
-  // TODO -- this is ugly
-  // split on spaces, except when inside quotes
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
-
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
-          msg: intl.str(
-            'option-not-supported',
-            { option: part }
-          )
-        });
-      }
-
-      // go through and include all the next args until we hit another option or the end
-      var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
-      }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
-};
-
-exports.instantCommands = instantCommands;
-exports.parse = parse;
-
-
-});
-
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
-var Commands = require('../commands');
 var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
@@ -14227,7 +14212,7 @@ var ParseWaterfall = function(options) {
   options = options || {};
   this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
-    Commands.getShortcutMap()
+    GitCommands.commands.getShortcutMap()
   ];
 
   this.instantWaterfall = options.instantWaterfall || [
@@ -14346,7 +14331,7 @@ var util = require('../util');
 var constants = require('../util/constants');
 var intl = require('../intl');
 
-var Commands = require('../commands');
+var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -14463,7 +14448,7 @@ var getAllCommands = function() {
 
   var allCommands = _.extend(
     {},
-    require('../commands').getRegexMap(),
+    GitCommands.commands.getRegexMap(),
     require('../level').regexMap,
     regexMap
   );
@@ -18195,7 +18180,6 @@ require.define("/src/js/level/disabledMap.js",function(require,module,exports,__
 var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
-var Commands = require('../commands');
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -18220,7 +18204,7 @@ DisabledMap.prototype.getInstantCommands = function() {
   };
 
   _.each(this.disabledMap, function(val, disabledCommand) {
-    var gitRegex = Commands.getRegexMap()[disabledCommand];
+    var gitRegex = GitCommands.commands.getRegexMap()[disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');
@@ -23328,17 +23312,458 @@ exports.init = init;
 });
 require("/src/js/app/index.js");
 
-require.define("/src/js/commands/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
+require.define("/src/js/dialogs/confirmShowSolution.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Are you sure you want to see the solution?',
+        '',
+        'I believe in you! You can do it'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 确定要看答案吗？',
+        '',
+        '哥相信你！你可以的'
+      ]
+    }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Êtes-vous sûr de vouloir voir la solution ?',
+        '',
+        'Je crois en vous ! Vous pouvez le faire'
+      ]
+    }
+  }]
+};
 
+
+});
+require("/src/js/dialogs/confirmShowSolution.js");
+
+require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Welcome to the level builder!',
+        '',
+        'Here are the main steps:',
+        '',
+        '  * Set up the initial environment with git commands',
+        '  * Define the starting tree with ```define start```',
+        '  * Enter the series of git commands that compose the (optimal) solution',
+        '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
+        '  * Optionally define a hint with ```define hint```',
+        '  * Edit the name with ```define name```',
+        '  * Optionally define a nice start dialog with ```edit dialog```',
+        '  * Enter the command ```finish``` to output your level JSON!'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎使用关卡生成器！',
+        '',
+        '主要步骤如下：',
+        '',
+        '  * 使用 git 命令布置好初始环境',
+        '  * 使用 ```define start``` 命令定义起始树',
+        '  * 输入一系列 git 命令，编好答案',
+        '  * 使用 ```define goal``` 命令定义目标树。定义目标的同时定义答案',
+        '  * 还可以用 ```define hint``` 命令定义一个提示',
+        '  * 用 ```define name``` 修改名称',
+        '  * 还可以用 ```edit dialog``` 定义一个漂亮的开始对话框',
+        '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
+      ]
+    }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Bienvenue dans l\'éditeur niveaux !',
+        '',
+        'Voici les étapes principales :',
+        '',
+        '  * Mettez en place l\'environnement initial avec des commandes git',
+        '  * Définissez l\'arbre de départ avec ```define start```',
+        '  * Saisissez la série de commandes git qui composent la solution (optimale)',
+        '  * Définissez l\'arbre cible avec ```define goal```. Cela définit aussi la solution',
+        '  * Optionnellement, définissez un indice avec ```define hint```',
+        '  * Changez le nom avec ```define name```',
+        '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
+        '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
+      ]
+    }
+  }]
+};
+
+});
+require("/src/js/dialogs/levelBuilder.js");
+
+require.define("/src/js/dialogs/nextLevel.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Great Job!!',
+        '',
+        'You solved the level in *{numCommands}* command(s); ',
+        'our solution uses {best}.'
+      ]
+    }
+  }],
+  'ja': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 完成!',
+        '',
+        'あなたは*{numCommands}*回のコマンドでこの課題をクリアしました; ',
+        '模範解答では{best}回です。'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 碉堡了！',
+        '',
+        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
+      ]
+    }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Beau Travail!!',
+        '',
+        'Vous avez résolu le niveau en *{numCommands}* commande(s); ',
+        'notre solution le fait en {best}.'
+      ]
+    }
+  }]
+};
+
+
+});
+require("/src/js/dialogs/nextLevel.js");
+
+require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Welcome to LearnGitBranching!',
+        '',
+        'This application is designed to help beginners grasp ',
+        'the powerful concepts behind branching when working ',
+        'with git. We hope you enjoy this application and maybe ',
+        'even learn something!',
+        '',
+        '# Demo!',
+        '',
+        'If you have not seen the demo, please check it out here:',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Git commands',
+        '',
+        'You have a large variety of git commands available in sandbox mode. These include',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Sharing is caring!',
+        '',
+        'Share trees with your friends via `export tree` and `import tree`',
+        '',
+        'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
+        '',
+        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
+        '',
+        'For now let\'s get you started on the `levels`...'
+      ]
+    }
+  }],
+  'ja': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## LearnGitBranchingへようこそ',
+        '',
+        'gitのパワフルなブランチ機能のコンセプトが ',
+        '学びやすくなるようにこのアプリケーションを作りました。 ',
+        'このアプリケーションを楽しんで使って頂いて、 ',
+        '何かを学習して頂けたなら嬉しいです。',
+        '',
+        '# とりあえず触ってみたい方へ：',
+        '',
+        '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
+        '',
+        '[http://remore.github.io/learnGitBranching-ja/?demo](http://remore.github.io/learnGitBranching-ja/?demo)',
+        '',
+        'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
+        '',
+        '[http://remore.github.io/learnGitBranching-ja/?NODEMO](http://remore.github.io/learnGitBranching-ja/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ここで学べるGitのオペレーション',
+        '',
+        'ここでは、下記の種類のgitコマンドを学ぶことができます。',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 学習した内容を共有できます',
+        '',
+        '画面左のコマンドプロンプトから`export tree`や`import tree`とタイプすることで、gitのツリー構造を友達に送ることができます',
+        '',
+        '何か教材になるようなケースはご存知ないでしょうか。`build level`で課題を作成したり、`import level`で他の人の課題に挑戦してみてください。',
+        '',
+        'それでは教材の選択画面に進んでみることにします。'
+      ]
+    }
+  }],
+  'zh_CN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎光临 LearnGitBranching!',
+        '',
+        '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
+        '希望你能喜欢这个应用，并学到知识！',
+        '',
+        '# 演示!',
+        '',
+        '如果你还没看过演示，请到此查看：',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Git 命令',
+        '',
+        '在沙盒模式里，你有好多命令可用。 包括：',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 分享即关怀',
+        '',
+        '使用 `export tree` 和 `import tree` 与朋友分享 Git 树',
+        '',
+        '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
+        '',
+        '言归正传，让我们先从 `levels` 开始……'
+      ]
+    }
+  }],
+  'ko': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        //'## Welcome to LearnGitBranching!',
+        '## Git 브랜치 배우기를 시작합니다!',
+        '',
+        // 'This application is designed to help beginners grasp ',
+        // 'the powerful concepts behind branching when working ',
+        // 'with git. We hope you enjoy this application and maybe ',
+        // 'even learn something!',
+        '이 애플리케이션은 git을 쓸 때 필요한 브랜치에 대한 개념을',
+        '탄탄히 잡게끔 도와드리기 위해 만들었습니다. 재밌게 사용해주시기를',
+        '바라며, 무언가를 배워가신다면 더 기쁘겠습니다!',
+        // '',
+        // '# Attention HN!!',
+        // '',
+        // 'Unfortunately this was submitted before I finished all the help ',
+        // 'and tutorial sections, so forgive the scarcity. See the demo here:',
+        '',
+        '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](http://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
+        '아래 데모를 먼저 보셔도 좋습니다.',
+        '',
+        '<http://pcottle.github.io/learnGitBranching/?demo&locale=ko>'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        // '## Git commands',
+        '## Git 명령어',
+        '',
+        // 'You have a large variety of git commands available in sandbox mode. These include',
+        '연습 모드에서 쓸 수 있는 다양한 git명령어는 다음과 같습니다',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        // '## Sharing is caring!',
+        // '',
+        // 'Share trees with your friends via `export tree` and `import tree`',
+        // '',
+        // 'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
+        // '',
+        // 'For now let\'s get you started on the `levels`...'
+        '## 공유해주세요!',
+        '',
+        '`export tree` 와 `import tree`로 여러분의 친구들에게 트리를 공유해주세요',
+        '',
+        '훌륭한 학습 자료가 있으신가요? `build level`로 레벨을 만들어 보시거나, 친구의 레벨을 `import level`로 가져와서 실험해보세요',
+        '',
+        '이제 레슨을 시작해봅시다...'
+      ]
+    }
+  }],
+  'fr_FR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Bienvenue sur LearnGitBranching!',
+        '',
+        'Cette application a été conçue pour aider les débutants à saisir ',
+        'les puissants concepts derrière les branches en travaillant ',
+        'avec git. Nous espérons que vous apprécierez cette application et ',
+        'que vous apprendrez peut-être quelque chose d\'intéressant !',
+        '',
+        '# Démo !',
+        '',
+        'Si vous n\'avez pas vu la démo, vous pouvez le faire là :',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        'Agacé par ce dialogue ? Ajoutez `?NODEMO` à l\'URL pour le supprimer, en lien ci-dessous pour votre commodité :',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Commandes Git',
+        '',
+        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Partager, c\'est se soucier!',
+        '',
+        'Partagez des arbres avec vous amis via `export tree` et `import tree`',
+        '',
+        'Vous avez une grande leçon à partager ? Essayez de construire un niveau avec `build level` ou essayez le niveau d\'un ami avec `import level`',
+        '',
+        'Pour voir la gamme complète des commandes, tapez `show commands`. Il y a quelques perles telles que `undo` et `reset`',
+        '',
+        'Mais tout de suite commencez sur les `levels`…'
+      ]
+    }
+  }]
+};
+
+});
+require("/src/js/dialogs/sandbox.js");
+
+require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
 var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
+var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
 var commandConfig;
-var Commands = {
+var commands = {
   execute: function(name, engine, commandObj) {
     if (!commandConfig[name]) {
       throw new Error('i dont have a command for ' + name);
@@ -23849,462 +24274,6 @@ commandConfig = {
   }
 };
 
-module.exports = Commands;
-
-});
-require("/src/js/commands/index.js");
-
-require.define("/src/js/dialogs/confirmShowSolution.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
-  'en_US': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Are you sure you want to see the solution?',
-        '',
-        'I believe in you! You can do it'
-      ]
-    }
-  }],
-  'zh_CN': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 确定要看答案吗？',
-        '',
-        '哥相信你！你可以的'
-      ]
-    }
-  }],
-  'fr_FR': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Êtes-vous sûr de vouloir voir la solution ?',
-        '',
-        'Je crois en vous ! Vous pouvez le faire'
-      ]
-    }
-  }]
-};
-
-
-});
-require("/src/js/dialogs/confirmShowSolution.js");
-
-require.define("/src/js/dialogs/levelBuilder.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
-  'en_US': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Welcome to the level builder!',
-        '',
-        'Here are the main steps:',
-        '',
-        '  * Set up the initial environment with git commands',
-        '  * Define the starting tree with ```define start```',
-        '  * Enter the series of git commands that compose the (optimal) solution',
-        '  * Define the goal tree with ```define goal```. Defining the goal also defines the solution',
-        '  * Optionally define a hint with ```define hint```',
-        '  * Edit the name with ```define name```',
-        '  * Optionally define a nice start dialog with ```edit dialog```',
-        '  * Enter the command ```finish``` to output your level JSON!'
-      ]
-    }
-  }],
-  'zh_CN': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 欢迎使用关卡生成器！',
-        '',
-        '主要步骤如下：',
-        '',
-        '  * 使用 git 命令布置好初始环境',
-        '  * 使用 ```define start``` 命令定义起始树',
-        '  * 输入一系列 git 命令，编好答案',
-        '  * 使用 ```define goal``` 命令定义目标树。定义目标的同时定义答案',
-        '  * 还可以用 ```define hint``` 命令定义一个提示',
-        '  * 用 ```define name``` 修改名称',
-        '  * 还可以用 ```edit dialog``` 定义一个漂亮的开始对话框',
-        '  * 输入 ```finish``` 就可以输出你的关卡数据（JSON）了！'
-      ]
-    }
-  }],
-  'fr_FR': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Bienvenue dans l\'éditeur niveaux !',
-        '',
-        'Voici les étapes principales :',
-        '',
-        '  * Mettez en place l\'environnement initial avec des commandes git',
-        '  * Définissez l\'arbre de départ avec ```define start```',
-        '  * Saisissez la série de commandes git qui composent la solution (optimale)',
-        '  * Définissez l\'arbre cible avec ```define goal```. Cela définit aussi la solution',
-        '  * Optionnellement, définissez un indice avec ```define hint```',
-        '  * Changez le nom avec ```define name```',
-        '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
-        '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
-      ]
-    }
-  }]
-};
-
-});
-require("/src/js/dialogs/levelBuilder.js");
-
-require.define("/src/js/dialogs/nextLevel.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
-  'en_US': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Great Job!!',
-        '',
-        'You solved the level in *{numCommands}* command(s); ',
-        'our solution uses {best}.'
-      ]
-    }
-  }],
-  'ja': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 完成!',
-        '',
-        'あなたは*{numCommands}*回のコマンドでこの課題をクリアしました; ',
-        '模範解答では{best}回です。'
-      ]
-    }
-  }],
-  'zh_CN': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 碉堡了！',
-        '',
-        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
-      ]
-    }
-  }],
-  'fr_FR': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Beau Travail!!',
-        '',
-        'Vous avez résolu le niveau en *{numCommands}* commande(s); ',
-        'notre solution le fait en {best}.'
-      ]
-    }
-  }]
-};
-
-
-});
-require("/src/js/dialogs/nextLevel.js");
-
-require.define("/src/js/dialogs/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){exports.dialog = {
-  'en_US': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Welcome to LearnGitBranching!',
-        '',
-        'This application is designed to help beginners grasp ',
-        'the powerful concepts behind branching when working ',
-        'with git. We hope you enjoy this application and maybe ',
-        'even learn something!',
-        '',
-        '# Demo!',
-        '',
-        'If you have not seen the demo, please check it out here:',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
-        '',
-        'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Git commands',
-        '',
-        'You have a large variety of git commands available in sandbox mode. These include',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Sharing is caring!',
-        '',
-        'Share trees with your friends via `export tree` and `import tree`',
-        '',
-        'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
-        '',
-        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
-        '',
-        'For now let\'s get you started on the `levels`...'
-      ]
-    }
-  }],
-  'ja': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## LearnGitBranchingへようこそ',
-        '',
-        'gitのパワフルなブランチ機能のコンセプトが ',
-        '学びやすくなるようにこのアプリケーションを作りました。 ',
-        'このアプリケーションを楽しんで使って頂いて、 ',
-        '何かを学習して頂けたなら嬉しいです。',
-        '',
-        '# とりあえず触ってみたい方へ：',
-        '',
-        '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
-        '',
-        '[http://remore.github.io/learnGitBranching-ja/?demo](http://remore.github.io/learnGitBranching-ja/?demo)',
-        '',
-        'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
-        '',
-        '[http://remore.github.io/learnGitBranching-ja/?NODEMO](http://remore.github.io/learnGitBranching-ja/?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## ここで学べるGitのオペレーション',
-        '',
-        'ここでは、下記の種類のgitコマンドを学ぶことができます。',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 学習した内容を共有できます',
-        '',
-        '画面左のコマンドプロンプトから`export tree`や`import tree`とタイプすることで、gitのツリー構造を友達に送ることができます',
-        '',
-        '何か教材になるようなケースはご存知ないでしょうか。`build level`で課題を作成したり、`import level`で他の人の課題に挑戦してみてください。',
-        '',
-        'それでは教材の選択画面に進んでみることにします。'
-      ]
-    }
-  }],
-  'zh_CN': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 欢迎光临 LearnGitBranching!',
-        '',
-        '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
-        '希望你能喜欢这个应用，并学到知识！',
-        '',
-        '# 演示!',
-        '',
-        '如果你还没看过演示，请到此查看：',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
-        '',
-        '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Git 命令',
-        '',
-        '在沙盒模式里，你有好多命令可用。 包括：',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 分享即关怀',
-        '',
-        '使用 `export tree` 和 `import tree` 与朋友分享 Git 树',
-        '',
-        '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
-        '',
-        '言归正传，让我们先从 `levels` 开始……'
-      ]
-    }
-  }],
-  'ko': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        //'## Welcome to LearnGitBranching!',
-        '## Git 브랜치 배우기를 시작합니다!',
-        '',
-        // 'This application is designed to help beginners grasp ',
-        // 'the powerful concepts behind branching when working ',
-        // 'with git. We hope you enjoy this application and maybe ',
-        // 'even learn something!',
-        '이 애플리케이션은 git을 쓸 때 필요한 브랜치에 대한 개념을',
-        '탄탄히 잡게끔 도와드리기 위해 만들었습니다. 재밌게 사용해주시기를',
-        '바라며, 무언가를 배워가신다면 더 기쁘겠습니다!',
-        // '',
-        // '# Attention HN!!',
-        // '',
-        // 'Unfortunately this was submitted before I finished all the help ',
-        // 'and tutorial sections, so forgive the scarcity. See the demo here:',
-        '',
-        '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](http://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
-        '아래 데모를 먼저 보셔도 좋습니다.',
-        '',
-        '<http://pcottle.github.io/learnGitBranching/?demo&locale=ko>'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        // '## Git commands',
-        '## Git 명령어',
-        '',
-        // 'You have a large variety of git commands available in sandbox mode. These include',
-        '연습 모드에서 쓸 수 있는 다양한 git명령어는 다음과 같습니다',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        // '## Sharing is caring!',
-        // '',
-        // 'Share trees with your friends via `export tree` and `import tree`',
-        // '',
-        // 'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
-        // '',
-        // 'For now let\'s get you started on the `levels`...'
-        '## 공유해주세요!',
-        '',
-        '`export tree` 와 `import tree`로 여러분의 친구들에게 트리를 공유해주세요',
-        '',
-        '훌륭한 학습 자료가 있으신가요? `build level`로 레벨을 만들어 보시거나, 친구의 레벨을 `import level`로 가져와서 실험해보세요',
-        '',
-        '이제 레슨을 시작해봅시다...'
-      ]
-    }
-  }],
-  'fr_FR': [{
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Bienvenue sur LearnGitBranching!',
-        '',
-        'Cette application a été conçue pour aider les débutants à saisir ',
-        'les puissants concepts derrière les branches en travaillant ',
-        'avec git. Nous espérons que vous apprécierez cette application et ',
-        'que vous apprendrez peut-être quelque chose d\'intéressant !',
-        '',
-        '# Démo !',
-        '',
-        'Si vous n\'avez pas vu la démo, vous pouvez le faire là :',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
-        '',
-        'Agacé par ce dialogue ? Ajoutez `?NODEMO` à l\'URL pour le supprimer, en lien ci-dessous pour votre commodité :',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Commandes Git',
-        '',
-        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Partager, c\'est se soucier!',
-        '',
-        'Partagez des arbres avec vous amis via `export tree` et `import tree`',
-        '',
-        'Vous avez une grande leçon à partager ? Essayez de construire un niveau avec `build level` ou essayez le niveau d\'un ami avec `import level`',
-        '',
-        'Pour voir la gamme complète des commandes, tapez `show commands`. Il y a quelques perles telles que `undo` et `reset`',
-        '',
-        'Mais tout de suite commencez sur les `levels`…'
-      ]
-    }
-  }]
-};
-
-});
-require("/src/js/dialogs/sandbox.js");
-
-require.define("/src/js/git/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var intl = require('../intl');
-
-var Commands = require('../commands');
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
 var instantCommands = [
   [/^(git help($|\s)|git$)/, function() {
     var lines = [
@@ -24316,7 +24285,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = Commands.getOptionMap();
+    var commands = commands.getOptionMap();
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -24339,7 +24308,7 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(Commands.getRegexMap(), function(regex, thisMethod) {
+  _.each(commands.getRegexMap(), function(regex, thisMethod) {
     if (regex.exec(str)) {
       options = str.slice(thisMethod.length + 1);
       method = thisMethod.slice('git '.length);
@@ -24371,7 +24340,7 @@ function CommandOptionParser(method, options) {
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = Commands.getOptionMap()[method];
+  this.supportedMap = commands.getOptionMap()[method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
@@ -24381,7 +24350,7 @@ function CommandOptionParser(method, options) {
 }
 
 var optionMap = {};
-Commands.loop(function(config, name) {
+commands.loop(function(config, name) {
   var displayName = config.displayName || name;
   if (optionMap[displayName] !== undefined) {
     return;
@@ -24430,6 +24399,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
   }
 };
 
+exports.commands = commands;
 exports.instantCommands = instantCommands;
 exports.parse = parse;
 
@@ -24650,11 +24620,11 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
+var GitCommands = require('../git/commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
-var Commands = require('../commands');
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -26374,7 +26344,7 @@ GitEngine.prototype.dispatch = function(command, deferred) {
 
   try {
     var methodName = command.get('method').replace(/-/g, '');
-    Commands.execute(methodName, this, this.command);
+    GitCommands.commands.execute(methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
@@ -28326,7 +28296,6 @@ require.define("/src/js/level/disabledMap.js",function(require,module,exports,__
 var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
-var Commands = require('../commands');
 
 var Errors = require('../util/errors');
 var GitError = Errors.GitError;
@@ -28351,7 +28320,7 @@ DisabledMap.prototype.getInstantCommands = function() {
   };
 
   _.each(this.disabledMap, function(val, disabledCommand) {
-    var gitRegex = Commands.getRegexMap()[disabledCommand];
+    var gitRegex = GitCommands.commands.getRegexMap()[disabledCommand];
     if (!gitRegex) {
       throw new Error('wuttttt this disbaled command' + disabledCommand +
         ' has no regex matching');
@@ -28379,7 +28348,6 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../level/sandbox').Sandbox;
 var Constants = require('../util/constants');
-var Commands = require('../commands');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -28679,8 +28647,8 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(Commands.getCommandsThatCount(), function(name) {
-      var regex = Commands.getRegex(name);
+    _.each(GitCommands.commands.getCommandsThatCount(), function(name) {
+      var regex = GitCommands.commands.getRegex(name);
       matched = matched || regex.test(command.get('rawStr'));
     });
     if (matched) {
@@ -28889,7 +28857,6 @@ require("/src/js/level/index.js");
 require.define("/src/js/level/parseWaterfall.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
-var Commands = require('../commands');
 var SandboxCommands = require('../level/sandboxCommands');
 
 // more or less a static class
@@ -28897,7 +28864,7 @@ var ParseWaterfall = function(options) {
   options = options || {};
   this.options = options;
   this.shortcutWaterfall = options.shortcutWaterfall || [
-    Commands.getShortcutMap()
+    GitCommands.commands.getShortcutMap()
   ];
 
   this.instantWaterfall = options.instantWaterfall || [
@@ -29433,7 +29400,7 @@ var util = require('../util');
 var constants = require('../util/constants');
 var intl = require('../intl');
 
-var Commands = require('../commands');
+var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -29550,7 +29517,7 @@ var getAllCommands = function() {
 
   var allCommands = _.extend(
     {},
-    require('../commands').getRegexMap(),
+    GitCommands.commands.getRegexMap(),
     require('../level').regexMap,
     regexMap
   );

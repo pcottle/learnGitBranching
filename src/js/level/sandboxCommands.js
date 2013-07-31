@@ -4,7 +4,7 @@ var util = require('../util');
 var constants = require('../util/constants');
 var intl = require('../intl');
 
-var Commands = require('../commands');
+var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -121,7 +121,7 @@ var getAllCommands = function() {
 
   var allCommands = _.extend(
     {},
-    require('../commands').getRegexMap(),
+    GitCommands.commands.getRegexMap(),
     require('../level').regexMap,
     regexMap
   );
