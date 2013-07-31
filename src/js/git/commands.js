@@ -36,15 +36,15 @@ var commands = {
   },
 
   getOptionMap: function() {
-    var optionMap = {};
-    this.loop(function(config, name) {
+    var optionMap = {'git': {}};
+    this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       var thisMap = {};
       // start all options off as disabled
       _.each(config.options, function(option) {
         thisMap[option] = false;
       });
-      optionMap[displayName] = thisMap;
+      optionMap[vcs][displayName] = thisMap;
     });
     return optionMap;
   },
@@ -536,7 +536,7 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = commands.getOptionMap();
+    var commands = commands.getOptionMap()['git'];
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -574,7 +574,7 @@ var parse = function(str) {
 
   // we support this command!
   // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(method, options);
+  var parsedOptions = new CommandOptionParser(vcs, method, options);
   return {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
@@ -590,11 +590,12 @@ var parse = function(str) {
 /**
  * CommandOptionParser
  */
-function CommandOptionParser(method, options) {
+function CommandOptionParser(vcs, method, options) {
+  this.vcs = vcs;
   this.method = method;
   this.rawOptions = options;
 
-  this.supportedMap = commands.getOptionMap()[method];
+  this.supportedMap = commands.getOptionMap()[vcs][method];
   if (this.supportedMap === undefined) {
     throw new Error('No option map for ' + method);
   }
