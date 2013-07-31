@@ -25,12 +25,12 @@ var commands = {
   },
 
   getShortcutMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
+    var map = {'git': {}};
+    this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
       }
-      map['git ' + name] = config.sc;
+      map[vcs][name] = config.sc;
     }, this);
     return map;
   },
@@ -73,7 +73,7 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfig, callback);
+    _.each(commandConfig, function (config, name) { callback(config, name, 'git') });
   }
 };
 

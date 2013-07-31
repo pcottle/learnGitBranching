@@ -74,11 +74,13 @@ ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
 };
 
 ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
-    }
+  _.each(shortcutMap, function(map, vcs) {
+    _.each(map, function(regex, method) {
+      var results = regex.exec(commandStr);
+      if (results) {
+        commandStr = vcs + ' ' + method + ' ' + commandStr.slice(results[0].length);
+      }
+    });
   });
   return commandStr;
 };

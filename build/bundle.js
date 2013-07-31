@@ -9891,17 +9891,13 @@ var commands = {
     return commandConfig[name].regex;
   },
 
-  isCommandSupported: function(name) {
-    return !!commandConfig[name];
-  },
-
   getShortcutMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
+    var map = {'git': {}};
+    this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
       }
-      map['git ' + name] = config.sc;
+      map[vcs][name] = config.sc;
     }, this);
     return map;
   },
@@ -9944,7 +9940,7 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfig, callback);
+    _.each(commandConfig, function (config, name) { callback(config, name, 'git') });
   }
 };
 
@@ -14288,11 +14284,13 @@ ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
 };
 
 ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
-    }
+  _.each(shortcutMap, function(map, vcs) {
+    _.each(map, function(regex, method) {
+      var results = regex.exec(commandStr);
+      if (results) {
+        commandStr = vcs + ' ' + method + ' ' + commandStr.slice(results[0].length);
+      }
+    });
   });
   return commandStr;
 };
@@ -23789,17 +23787,13 @@ var commands = {
     return commandConfig[name].regex;
   },
 
-  isCommandSupported: function(name) {
-    return !!commandConfig[name];
-  },
-
   getShortcutMap: function() {
-    var map = {};
-    this.loop(function(config, name) {
+    var map = {'git': {}};
+    this.loop(function(config, name, vcs) {
       if (!config.sc) {
         return;
       }
-      map['git ' + name] = config.sc;
+      map[vcs][name] = config.sc;
     }, this);
     return map;
   },
@@ -23842,7 +23836,7 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfig, callback);
+    _.each(commandConfig, function (config, name) { callback(config, name, 'git') });
   }
 };
 
@@ -28950,11 +28944,13 @@ ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
 };
 
 ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(regex, method) {
-    var results = regex.exec(commandStr);
-    if (results) {
-      commandStr = method + ' ' + commandStr.slice(results[0].length);
-    }
+  _.each(shortcutMap, function(map, vcs) {
+    _.each(map, function(regex, method) {
+      var results = regex.exec(commandStr);
+      if (results) {
+        commandStr = vcs + ' ' + method + ' ' + commandStr.slice(results[0].length);
+      }
+    });
   });
   return commandStr;
 };
