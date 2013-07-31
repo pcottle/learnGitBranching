@@ -65,7 +65,7 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfig, function (config, name) { callback(config, name, 'git') });
+    _.each(commandConfig, function (config, name) { callback(config, name, 'git'); });
   }
 };
 
