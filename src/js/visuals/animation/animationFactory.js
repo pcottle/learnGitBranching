@@ -112,7 +112,7 @@ AnimationFactory.playRefreshAnimation = function(gitVisuals, speed) {
   var animation = new PromiseAnimation({
     duration: speed,
     closure: function() {
-      gitVisuals.refreshTree(speed)
+      gitVisuals.refreshTree(speed);
     }
   });
   animation.play();
