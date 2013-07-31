@@ -62,12 +62,12 @@ var commands = {
    * which commands count for the git golf game
    */
   getCommandsThatCount: function() {
-    var counted = [];
-    this.loop(function(config, name) {
+    var counted = {'git': {}};
+    this.loop(function(config, name, vcs) {
       if (config.dontCountForGolf) {
         return;
       }
-      counted.push(name);
+      counted[vcs][name] = config.regex;
     });
     return counted;
   },

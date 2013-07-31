@@ -309,9 +309,10 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(GitCommands.commands.getCommandsThatCount(), function(name) {
-      var regex = GitCommands.commands.getRegex(name);
-      matched = matched || regex.test(command.get('rawStr'));
+    _.each(GitCommands.commands.getCommandsThatCount(), function(map) {
+      _.each(map, function(regex) {
+        matched = matched || regex.test(command.get('rawStr'));
+      });
     });
     if (matched) {
       this.gitCommandsIssued.push(command.get('rawStr'));
