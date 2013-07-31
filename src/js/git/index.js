@@ -1733,8 +1733,9 @@ GitEngine.prototype.dispatch = function(command, deferred) {
   });
 
   try {
+    var vcs = command.get('vcs');
     var methodName = command.get('method').replace(/-/g, '');
-    GitCommands.commands.execute(methodName, this, this.command);
+    GitCommands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
     // short circuit animation by just setting error and returning

@@ -9,7 +9,7 @@ var CommandResult = Errors.CommandResult;
 
 var commandConfig;
 var commands = {
-  execute: function(name, engine, commandObj) {
+  execute: function(vcs, name, engine, commandObj) {
     if (!commandConfig[name]) {
       throw new Error('i dont have a command for ' + name);
     }
