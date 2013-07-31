@@ -16,14 +16,6 @@ var commands = {
     commandConfig[name].execute.call(this, engine, commandObj);
   },
 
-  getRegex: function(name) {
-    name = name.replace(/-/g, ''); // ugh cherry-pick @____@
-    if (!commandConfig[name]) {
-      throw new Error('i dont have a regex for ' + name);
-    }
-    return commandConfig[name].regex;
-  },
-
   getShortcutMap: function() {
     var map = {'git': {}};
     this.loop(function(config, name, vcs) {
