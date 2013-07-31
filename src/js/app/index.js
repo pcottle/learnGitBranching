@@ -114,7 +114,7 @@ var initDemo = function(sandbox) {
         [
           "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
           "delay 1000; reset;",
-          "level rebase1 --noFinishDialog --noStartCommand --noIntroDialog;",
+          "level advanced1 --noFinishDialog --noStartCommand --noIntroDialog;",
           "delay 2000; show goal; delay 1000; hide goal;",
           "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
           "git checkout another; git rebase side; git rebase another master;",
