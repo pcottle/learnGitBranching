@@ -6,11 +6,11 @@
     "jasmine-node": "~1.0.28",
     "grunt-browserify": "0.1.1",
     "grunt-jslint": "~0.2.2-1",
-    "grunt-jasmine-node": "latest",
-    "grunt-hash": "latest",
+    "grunt-jasmine-node": "0.0.6",
+    "grunt-hash": "0.2.2",
     "grunt-rm": "~0.0.3",
     "grunt-shell": "0.1.4",
-    "prompt": "latest"
+    "prompt": "0.2.9"
   },
   "dependencies": {
     "backbone": "~0.9.9",
