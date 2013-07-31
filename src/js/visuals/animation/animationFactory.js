@@ -103,10 +103,16 @@ AnimationFactory.playRefreshAnimationAndFinish = function(gitVisuals, animationQ
   animationQueue.thenFinish(animation.getPromise());
 };
 
-AnimationFactory.playRefreshAnimation = function(gitVisuals) {
+AnimationFactory.playRefreshAnimationSlow = function(gitVisuals) {
+  var time = GRAPHICS.defaultAnimationTime;
+  return this.playRefreshAnimation(gitVisuals, time * 2);
+};
+
+AnimationFactory.playRefreshAnimation = function(gitVisuals, speed) {
   var animation = new PromiseAnimation({
+    duration: speed,
     closure: function() {
-      gitVisuals.refreshTree();
+      gitVisuals.refreshTree(speed)
     }
   });
   animation.play();

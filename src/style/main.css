@@ -171,6 +171,7 @@ body,
   transition: opacity 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
 }
 
+.visBackgroundColor,
 .transitionAll {
   -webkit-transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -moz-transition: all 700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
@@ -185,6 +186,24 @@ body,
   -ms-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   -o-transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
   transition: all 1700ms cubic-bezier(0.260, 0.860, 0.440, 0.985);
+}
+
+/* mode stuff */
+#mainVisSpace {
+  position: relative;
+}
+
+#mainVisSpace .modeText {
+  position: absolute;
+  bottom: 0;
+  opacity: 0.0;
+  font-size: 60pt;
+  color: black;
+}
+
+body.gitMode #mainVisSpace .modeText.gitMode,
+body.hgMode #mainVisSpace .modeText.hgMode {
+  opacity: 0.5;
 }
 
 /* Some interface things */
@@ -208,6 +227,12 @@ div.gitDemonstrationView > div.visHolder,
 .visBackgroundColor {
   background: #5cbcfc;
   background-color: #5cbcfc;
+}
+
+body.hgMode div.gitDemonstrationView > div.visHolder,
+body.hgMode .visBackgroundColor {
+  background: #5CFCD6;
+  background-color: #5CFCD6;
 }
 
 #interfaceWrapper {

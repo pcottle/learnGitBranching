@@ -631,7 +631,7 @@ GitVisuals.prototype.removeVisBranch = function(visBranch) {
 };
 
 GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
+  delete this.visNodeMap[visNode.getID()];
 };
 
 GitVisuals.prototype.removeVisEdge = function(visEdge) {

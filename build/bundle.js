@@ -5381,6 +5381,11 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'hg-prune-tree': {
+    '__desc__': 'warning when pruning tree',
+    'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
@@ -6069,7 +6074,8 @@ function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
-  var mainHelprBar = new Views.MainHelperBar();
+  var mainHelperBar = new Views.MainHelperBar();
+  var backgroundView = new Views.BackgroundView();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({
@@ -7151,6 +7157,7 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
+var Main = require('../app');
 var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
@@ -7162,6 +7169,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.origin = null;
+  this.mode = 'git';
   this.localRepo = null;
 
   this.branchCollection = options.branches;
@@ -7187,6 +7195,36 @@ GitEngine.prototype.initUniqueID = function() {
       return prepend ? prepend + n++ : n++;
     };
   })();
+};
+
+GitEngine.prototype.handleModeChange = function(vcs, callback) {
+  if (this.mode === vcs) {
+    // dont fire event aggressively
+    callback();
+    return;
+  }
+  Main.getEvents().trigger('vcsModeChange', {mode: vcs});
+  var chain = this.setMode(vcs);
+  if (this.origin) {
+    this.origin.setMode(vcs, function() {});
+  }
+
+  if (!chain) {
+    callback();
+    return;
+  }
+  // we have to do it async
+  chain.then(callback);
+};
+
+GitEngine.prototype.setMode = function(vcs) {
+  var switchedToHg = (this.mode === 'git' && vcs === 'hg');
+  this.mode = vcs;
+  if (switchedToHg) {
+    // if we are switching to mercurial then we have some
+    // garbage collection and other tidying up to do
+    return this.pruneTree();
+  }
 };
 
 GitEngine.prototype.assignLocalRepo = function(repo) {
@@ -8321,6 +8359,40 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   ref.set('target', target);
 };
 
+GitEngine.prototype.pruneTree = function() {
+  var set = this.getUpstreamBranchSet();
+  // dont prune dangling commits if we are on head
+  var underHeadID = this.getCommitFromRef('HEAD').get('id');
+  set[underHeadID] = set[underHeadID] || [];
+  set[underHeadID].push('HEAD');
+
+  var toDelete = [];
+  this.commitCollection.each(function(commit) {
+    // nothing cares about this commit :(
+    if (!set[commit.get('id')]) {
+      toDelete.push(commit);
+    }
+  }, this);
+
+  if (toDelete.length) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
+
+  _.each(toDelete, function(commit) {
+    commit.removeFromParents();
+    this.commitCollection.remove(commit);
+    var ID = commit.get('id');
+    this.refs[ID] = undefined;
+    delete this.refs[ID];
+    var visNode = commit.get('visNode');
+    if (visNode) {
+      visNode.removeAll();
+    }
+  }, this);
+
+  return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+};
+
 GitEngine.prototype.getUpstreamBranchSet = function() {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
@@ -8864,7 +8936,16 @@ GitEngine.prototype.externalRefresh = function() {
 
 GitEngine.prototype.dispatch = function(command, deferred) {
   this.command = command;
+  var vcs = command.get('vcs');
+  var executeCommand = _.bind(function() {
+    this.dispatchProcess(command, deferred);
+  }, this);
+  // handle mode change will either execute sync or
+  // animate during tree pruning / etc
+  this.handleModeChange(vcs, executeCommand);
+};
 
+GitEngine.prototype.dispatchProcess = function(command, deferred) {
   // set up the animation queue
   var whenDone = _.bind(function() {
     command.finishWith(deferred);
@@ -8873,9 +8954,10 @@ GitEngine.prototype.dispatch = function(command, deferred) {
     callback: whenDone
   });
 
+  var vcs = command.get('vcs');
+  var methodName = command.get('method').replace(/-/g, '');
+
   try {
-    var vcs = command.get('vcs');
-    var methodName = command.get('method').replace(/-/g, '');
     Commands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
@@ -9177,6 +9259,22 @@ var Commit = Backbone.Model.extend({
     }
   },
 
+  removeFromParents: function() {
+    _.each(this.get('parents'), function(parent) {
+      parent.removeChild(this);
+    }, this);
+  },
+
+  removeChild: function(childToRemove) {
+    var newChildren = [];
+    _.each(this.get('children'), function(child) {
+      if (child !== childToRemove) {
+        newChildren.push(child);
+      }
+    }, this);
+    this.set('children', newChildren);
+  },
+
   isMainParent: function(parent) {
     var index = this.get('parents').indexOf(parent);
     return index === 0;
@@ -9306,10 +9404,16 @@ AnimationFactory.playRefreshAnimationAndFinish = function(gitVisuals, animationQ
   animationQueue.thenFinish(animation.getPromise());
 };
 
-AnimationFactory.playRefreshAnimation = function(gitVisuals) {
+AnimationFactory.playRefreshAnimationSlow = function(gitVisuals) {
+  var time = GRAPHICS.defaultAnimationTime;
+  return this.playRefreshAnimation(gitVisuals, time * 2);
+};
+
+AnimationFactory.playRefreshAnimation = function(gitVisuals, speed) {
   var animation = new PromiseAnimation({
+    duration: speed,
     closure: function() {
-      gitVisuals.refreshTree();
+      gitVisuals.refreshTree(speed)
     }
   });
   animation.play();
@@ -11564,6 +11668,20 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   }
 });
 
+var BackgroundView = Backbone.View.extend({
+  initialize: function() {
+    this.$body = $('body');
+    Main.getEvents().on('vcsModeChange', this.updateMode, this);
+  },
+
+  updateMode: function(eventData) {
+    eventData = eventData || {};
+    var isGit = eventData.mode === 'git';
+    this.$body.toggleClass('gitMode', isGit);
+    this.$body.toggleClass('hgMode', !isGit);
+  }
+});
+
 var ViewportAlert = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -11937,6 +12055,7 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
+exports.BackgroundView = BackgroundView;
 exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
@@ -16458,7 +16577,7 @@ GitVisuals.prototype.removeVisBranch = function(visBranch) {
 };
 
 GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
+  delete this.visNodeMap[visNode.getID()];
 };
 
 GitVisuals.prototype.removeVisEdge = function(visEdge) {
@@ -23581,7 +23700,8 @@ function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
-  var mainHelprBar = new Views.MainHelperBar();
+  var mainHelperBar = new Views.MainHelperBar();
+  var backgroundView = new Views.BackgroundView();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({
@@ -24977,6 +25097,7 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
+var Main = require('../app');
 var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
@@ -24988,6 +25109,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.origin = null;
+  this.mode = 'git';
   this.localRepo = null;
 
   this.branchCollection = options.branches;
@@ -25013,6 +25135,36 @@ GitEngine.prototype.initUniqueID = function() {
       return prepend ? prepend + n++ : n++;
     };
   })();
+};
+
+GitEngine.prototype.handleModeChange = function(vcs, callback) {
+  if (this.mode === vcs) {
+    // dont fire event aggressively
+    callback();
+    return;
+  }
+  Main.getEvents().trigger('vcsModeChange', {mode: vcs});
+  var chain = this.setMode(vcs);
+  if (this.origin) {
+    this.origin.setMode(vcs, function() {});
+  }
+
+  if (!chain) {
+    callback();
+    return;
+  }
+  // we have to do it async
+  chain.then(callback);
+};
+
+GitEngine.prototype.setMode = function(vcs) {
+  var switchedToHg = (this.mode === 'git' && vcs === 'hg');
+  this.mode = vcs;
+  if (switchedToHg) {
+    // if we are switching to mercurial then we have some
+    // garbage collection and other tidying up to do
+    return this.pruneTree();
+  }
 };
 
 GitEngine.prototype.assignLocalRepo = function(repo) {
@@ -26147,6 +26299,40 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   ref.set('target', target);
 };
 
+GitEngine.prototype.pruneTree = function() {
+  var set = this.getUpstreamBranchSet();
+  // dont prune dangling commits if we are on head
+  var underHeadID = this.getCommitFromRef('HEAD').get('id');
+  set[underHeadID] = set[underHeadID] || [];
+  set[underHeadID].push('HEAD');
+
+  var toDelete = [];
+  this.commitCollection.each(function(commit) {
+    // nothing cares about this commit :(
+    if (!set[commit.get('id')]) {
+      toDelete.push(commit);
+    }
+  }, this);
+
+  if (toDelete.length) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
+
+  _.each(toDelete, function(commit) {
+    commit.removeFromParents();
+    this.commitCollection.remove(commit);
+    var ID = commit.get('id');
+    this.refs[ID] = undefined;
+    delete this.refs[ID];
+    var visNode = commit.get('visNode');
+    if (visNode) {
+      visNode.removeAll();
+    }
+  }, this);
+
+  return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+};
+
 GitEngine.prototype.getUpstreamBranchSet = function() {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
@@ -26690,7 +26876,16 @@ GitEngine.prototype.externalRefresh = function() {
 
 GitEngine.prototype.dispatch = function(command, deferred) {
   this.command = command;
+  var vcs = command.get('vcs');
+  var executeCommand = _.bind(function() {
+    this.dispatchProcess(command, deferred);
+  }, this);
+  // handle mode change will either execute sync or
+  // animate during tree pruning / etc
+  this.handleModeChange(vcs, executeCommand);
+};
 
+GitEngine.prototype.dispatchProcess = function(command, deferred) {
   // set up the animation queue
   var whenDone = _.bind(function() {
     command.finishWith(deferred);
@@ -26699,9 +26894,10 @@ GitEngine.prototype.dispatch = function(command, deferred) {
     callback: whenDone
   });
 
+  var vcs = command.get('vcs');
+  var methodName = command.get('method').replace(/-/g, '');
+
   try {
-    var vcs = command.get('vcs');
-    var methodName = command.get('method').replace(/-/g, '');
     Commands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
@@ -27001,6 +27197,22 @@ var Commit = Backbone.Model.extend({
     } else {
       return null;
     }
+  },
+
+  removeFromParents: function() {
+    _.each(this.get('parents'), function(parent) {
+      parent.removeChild(this);
+    }, this);
+  },
+
+  removeChild: function(childToRemove) {
+    var newChildren = [];
+    _.each(this.get('children'), function(child) {
+      if (child !== childToRemove) {
+        newChildren.push(child);
+      }
+    }, this);
+    this.set('children', newChildren);
   },
 
   isMainParent: function(parent) {
@@ -27603,6 +27815,11 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
     'zh_CN': '试试看你能否在 {best} 之内搞定 :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-prune-tree': {
+    '__desc__': 'warning when pruning tree',
+    'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
@@ -30689,7 +30906,6 @@ var toGlobalize = {
 
 _.each(toGlobalize, function(module) {
   for (var key in module) {
-    console.log('assigning', key);
     window['debug_' + key] = module[key];
   }
 });
@@ -32637,6 +32853,20 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   }
 });
 
+var BackgroundView = Backbone.View.extend({
+  initialize: function() {
+    this.$body = $('body');
+    Main.getEvents().on('vcsModeChange', this.updateMode, this);
+  },
+
+  updateMode: function(eventData) {
+    eventData = eventData || {};
+    var isGit = eventData.mode === 'git';
+    this.$body.toggleClass('gitMode', isGit);
+    this.$body.toggleClass('hgMode', !isGit);
+  }
+});
+
 var ViewportAlert = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -33010,6 +33240,7 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
+exports.BackgroundView = BackgroundView;
 exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
@@ -33861,10 +34092,16 @@ AnimationFactory.playRefreshAnimationAndFinish = function(gitVisuals, animationQ
   animationQueue.thenFinish(animation.getPromise());
 };
 
-AnimationFactory.playRefreshAnimation = function(gitVisuals) {
+AnimationFactory.playRefreshAnimationSlow = function(gitVisuals) {
+  var time = GRAPHICS.defaultAnimationTime;
+  return this.playRefreshAnimation(gitVisuals, time * 2);
+};
+
+AnimationFactory.playRefreshAnimation = function(gitVisuals, speed) {
   var animation = new PromiseAnimation({
+    duration: speed,
     closure: function() {
-      gitVisuals.refreshTree();
+      gitVisuals.refreshTree(speed)
     }
   });
   animation.play();
@@ -34693,7 +34930,7 @@ GitVisuals.prototype.removeVisBranch = function(visBranch) {
 };
 
 GitVisuals.prototype.removeVisNode = function(visNode) {
-  this.visNodeMap[visNode.getID()] = undefined;
+  delete this.visNodeMap[visNode.getID()];
 };
 
 GitVisuals.prototype.removeVisEdge = function(visEdge) {

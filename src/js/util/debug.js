@@ -31,7 +31,6 @@ var toGlobalize = {
 
 _.each(toGlobalize, function(module) {
   for (var key in module) {
-    console.log('assigning', key);
     window['debug_' + key] = module[key];
   }
 });

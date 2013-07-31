@@ -168,7 +168,8 @@ function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
 
-  var mainHelprBar = new Views.MainHelperBar();
+  var mainHelperBar = new Views.MainHelperBar();
+  var backgroundView = new Views.BackgroundView();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({

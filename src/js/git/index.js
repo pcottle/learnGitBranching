@@ -10,6 +10,7 @@ var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
 var Errors = require('../util/errors');
+var Main = require('../app');
 var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
@@ -21,6 +22,7 @@ function GitEngine(options) {
   this.refs = {};
   this.HEAD = null;
   this.origin = null;
+  this.mode = 'git';
   this.localRepo = null;
 
   this.branchCollection = options.branches;
@@ -46,6 +48,36 @@ GitEngine.prototype.initUniqueID = function() {
       return prepend ? prepend + n++ : n++;
     };
   })();
+};
+
+GitEngine.prototype.handleModeChange = function(vcs, callback) {
+  if (this.mode === vcs) {
+    // dont fire event aggressively
+    callback();
+    return;
+  }
+  Main.getEvents().trigger('vcsModeChange', {mode: vcs});
+  var chain = this.setMode(vcs);
+  if (this.origin) {
+    this.origin.setMode(vcs, function() {});
+  }
+
+  if (!chain) {
+    callback();
+    return;
+  }
+  // we have to do it async
+  chain.then(callback);
+};
+
+GitEngine.prototype.setMode = function(vcs) {
+  var switchedToHg = (this.mode === 'git' && vcs === 'hg');
+  this.mode = vcs;
+  if (switchedToHg) {
+    // if we are switching to mercurial then we have some
+    // garbage collection and other tidying up to do
+    return this.pruneTree();
+  }
 };
 
 GitEngine.prototype.assignLocalRepo = function(repo) {
@@ -1180,6 +1212,40 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   ref.set('target', target);
 };
 
+GitEngine.prototype.pruneTree = function() {
+  var set = this.getUpstreamBranchSet();
+  // dont prune dangling commits if we are on head
+  var underHeadID = this.getCommitFromRef('HEAD').get('id');
+  set[underHeadID] = set[underHeadID] || [];
+  set[underHeadID].push('HEAD');
+
+  var toDelete = [];
+  this.commitCollection.each(function(commit) {
+    // nothing cares about this commit :(
+    if (!set[commit.get('id')]) {
+      toDelete.push(commit);
+    }
+  }, this);
+
+  if (toDelete.length) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
+
+  _.each(toDelete, function(commit) {
+    commit.removeFromParents();
+    this.commitCollection.remove(commit);
+    var ID = commit.get('id');
+    this.refs[ID] = undefined;
+    delete this.refs[ID];
+    var visNode = commit.get('visNode');
+    if (visNode) {
+      visNode.removeAll();
+    }
+  }, this);
+
+  return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+};
+
 GitEngine.prototype.getUpstreamBranchSet = function() {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
@@ -1723,7 +1789,16 @@ GitEngine.prototype.externalRefresh = function() {
 
 GitEngine.prototype.dispatch = function(command, deferred) {
   this.command = command;
+  var vcs = command.get('vcs');
+  var executeCommand = _.bind(function() {
+    this.dispatchProcess(command, deferred);
+  }, this);
+  // handle mode change will either execute sync or
+  // animate during tree pruning / etc
+  this.handleModeChange(vcs, executeCommand);
+};
 
+GitEngine.prototype.dispatchProcess = function(command, deferred) {
   // set up the animation queue
   var whenDone = _.bind(function() {
     command.finishWith(deferred);
@@ -1732,9 +1807,10 @@ GitEngine.prototype.dispatch = function(command, deferred) {
     callback: whenDone
   });
 
+  var vcs = command.get('vcs');
+  var methodName = command.get('method').replace(/-/g, '');
+
   try {
-    var vcs = command.get('vcs');
-    var methodName = command.get('method').replace(/-/g, '');
     Commands.commands.execute(vcs, methodName, this, this.command);
   } catch (err) {
     this.filterError(err);
@@ -2034,6 +2110,22 @@ var Commit = Backbone.Model.extend({
     } else {
       return null;
     }
+  },
+
+  removeFromParents: function() {
+    _.each(this.get('parents'), function(parent) {
+      parent.removeChild(this);
+    }, this);
+  },
+
+  removeChild: function(childToRemove) {
+    var newChildren = [];
+    _.each(this.get('children'), function(child) {
+      if (child !== childToRemove) {
+        newChildren.push(child);
+      }
+    }, this);
+    this.set('children', newChildren);
   },
 
   isMainParent: function(parent) {

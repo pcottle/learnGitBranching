@@ -32,6 +32,11 @@ exports.strings = {
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'hg-prune-tree': {
+    '__desc__': 'warning when pruning tree',
+    'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
