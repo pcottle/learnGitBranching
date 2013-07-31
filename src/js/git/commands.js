@@ -555,14 +555,16 @@ var instantCommands = [
 ];
 
 var parse = function(str) {
+  var vcs;
   var method;
   var options;
 
   // see if we support this particular command
   _.each(commands.getRegexMap(), function(regex, thisMethod) {
     if (regex.exec(str)) {
+      vcs = 'git'; // XXX get from regex map
       options = str.slice(thisMethod.length + 1);
-      method = thisMethod.slice('git '.length);
+      method = thisMethod.slice(vcs.length + 1);
     }
   });
 
@@ -577,6 +579,7 @@ var parse = function(str) {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
       supportedMap: parsedOptions.supportedMap,
+      vcs: vcs,
       method: method,
       options: options,
       eventName: 'processGitCommand'
