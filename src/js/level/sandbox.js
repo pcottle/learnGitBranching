@@ -248,6 +248,7 @@ var Sandbox = Backbone.View.extend({
       'build level': this.buildLevel,
       'export tree': this.exportTree,
       'import tree': this.importTree,
+      'importTreeNow': this.importTreeNow,
       'import level': this.importLevel
     };
 
@@ -267,6 +268,26 @@ var Sandbox = Backbone.View.extend({
 
   show: function() {
     this.mainVis.show();
+  },
+
+  importTreeNow: function(command, deferred) {
+    var options = command.get('regexResults') || [];
+    if (options.length < 2) {
+      command.set('error', new Errors.GitError({
+        msg: intl.str('git-error-options')
+      }));
+    } else {
+      var string = options.input.replace(/importTreeNow\s+/g, '');
+      try {
+        this.mainVis.gitEngine.loadTreeFromString(string);
+      } catch (e) {
+        command.set('error', new Errors.GitError({
+          msg: String(e)
+        }));
+      }
+    }
+
+    command.finishWith(deferred);
   },
 
   importTree: function(command, deferred) {
