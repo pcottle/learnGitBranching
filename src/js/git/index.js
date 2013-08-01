@@ -1137,13 +1137,10 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
     }
 
     if (!next) {
-      var msg = intl.str(
-        'git-error-relative-ref',
-        {
-          commit: commit.id,
-          match: matches[0]
-        }
-      );
+      var msg = intl.str('git-error-relative-ref', {
+        commit: commit.id,
+        match: matches[0]
+      });
       throw new GitError({
         msg: msg
       });
@@ -1214,6 +1211,32 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   // the branch to that commit, not the HEAD
   ref = this.getOneBeforeCommit(ref);
   ref.set('target', target);
+};
+
+GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
+  // commitSet is the set of commits that are stale or moved or whatever.
+  // any branches POINTING to these commits need to be moved!
+
+  // first get a list of what branches influence what commits
+  var upstreamSet = this.getUpstreamBranchSet();
+
+  var branchesToUpdate = {};
+  // now loop over the set we got passed in and find which branches
+  // that means (aka intersection)
+  _.each(commitSet, function(val, id) {
+    _.each(upstreamSet[id], function(branchJSON) {
+        branchesToUpdate[branchJSON.id] = true;
+    });
+  }, this);
+
+  _.each(branchesToUpdate, function(val, id) {
+    // ok now just check if this branch has a more recent commit available.
+    // that mapping is easy because we always do rebase alt id --
+    // theres no way to have C3' and C3''' but no C3''. so just
+    // bump the ID once -- if thats not filled in we are updated,
+    // otherwise loop until you find undefined
+    var commit = this.getCommitFromRef(id);
+  });
 };
 
 GitEngine.prototype.pruneTree = function() {

@@ -3398,7 +3398,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
-    'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
+    'en_US': 'The -A option is not needed for this app, just commit away!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -3409,6 +3409,11 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'I need the option {option} for that command!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-log-no-follow': {
+    '__desc__': 'hg log without -f (--follow)',
+    'en_US': 'hg log without -f is currently not supported, use -f'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -8380,6 +8385,25 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   ref.set('target', target);
 };
 
+GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
+  // commitSet is the set of commits that are stale or moved or whatever.
+  // any branches POINTING to these commits need to be moved!
+
+  // first get a list of what branches influence what commits
+  var upstreamSet = this.getUpstreamBranchSet();
+
+  var branchesToUpdate = {};
+  // now loop over the set we got passed in and find which branches
+  // that means (aka intersection)
+  _.each(commitSet, function(val, id) {
+    _.each(upstreamSet[id], function(branchJSON) {
+        branchesToUpdate[branchJSON.id] = true;
+    });
+  }, this);
+
+  console.log(branchesToUpdate);
+};
+
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // dont prune commits that HEAD depends on
@@ -10760,9 +10784,20 @@ var commandConfig = {
   },
 
   log: {
-    regex: /^hg +log *$/,
+    regex: /^hg +log($|\s)/,
+    options: [
+      '-f'
+    ],
     dontCountForGolf: true,
     delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      command.acceptNoGeneralArgs();
+
+      if (!options['-f']) {
+        throw new GitError({
+          msg: intl.str('hg-error-log-no-follow')
+        });
+      }
       command.mapDotToHead();
       return {
         vcs: 'git',
@@ -10886,19 +10921,6 @@ var commandConfig = {
       return {
         vcs: 'git',
         name: 'pull'
-      };
-    }
-  },
-
-  ammend: {
-    regex: /^hg +ammend *$/,
-    delegate: function(engine, command) {
-      command.setOptionMap({
-        '--amend': true
-      });
-      return {
-        vcs: 'hg',
-        name: 'commit'
       };
     }
   },
@@ -17725,7 +17747,7 @@ var VisBranch = VisBase.extend({
     var isHg = this.gitEngine.getIsHg();
 
     if (name === 'HEAD' && isHg) {
-      name = '  .  ';
+      name = '.';
     }
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
@@ -26353,6 +26375,25 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
   ref.set('target', target);
 };
 
+GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
+  // commitSet is the set of commits that are stale or moved or whatever.
+  // any branches POINTING to these commits need to be moved!
+
+  // first get a list of what branches influence what commits
+  var upstreamSet = this.getUpstreamBranchSet();
+
+  var branchesToUpdate = {};
+  // now loop over the set we got passed in and find which branches
+  // that means (aka intersection)
+  _.each(commitSet, function(val, id) {
+    _.each(upstreamSet[id], function(branchJSON) {
+        branchesToUpdate[branchJSON.id] = true;
+    });
+  }, this);
+
+  console.log(branchesToUpdate);
+};
+
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // dont prune commits that HEAD depends on
@@ -27883,7 +27924,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
-    'en_US': 'The -A option is not needed for this app, since there is no staging of files. just commit away!'
+    'en_US': 'The -A option is not needed for this app, just commit away!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -27894,6 +27935,11 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'I need the option {option} for that command!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hg-error-log-no-follow': {
+    '__desc__': 'hg log without -f (--follow)',
+    'en_US': 'hg log without -f is currently not supported, use -f'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -30305,9 +30351,20 @@ var commandConfig = {
   },
 
   log: {
-    regex: /^hg +log *$/,
+    regex: /^hg +log($|\s)/,
+    options: [
+      '-f'
+    ],
     dontCountForGolf: true,
     delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      command.acceptNoGeneralArgs();
+
+      if (!options['-f']) {
+        throw new GitError({
+          msg: intl.str('hg-error-log-no-follow')
+        });
+      }
       command.mapDotToHead();
       return {
         vcs: 'git',
@@ -30431,19 +30488,6 @@ var commandConfig = {
       return {
         vcs: 'git',
         name: 'pull'
-      };
-    }
-  },
-
-  ammend: {
-    regex: /^hg +ammend *$/,
-    delegate: function(engine, command) {
-      command.setOptionMap({
-        '--amend': true
-      });
-      return {
-        vcs: 'hg',
-        name: 'commit'
       };
     }
   },
@@ -35704,7 +35748,7 @@ var VisBranch = VisBase.extend({
     var isHg = this.gitEngine.getIsHg();
 
     if (name === 'HEAD' && isHg) {
-      name = '  .  ';
+      name = '.';
     }
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
