@@ -2,10 +2,11 @@ var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 var GLOBAL = require('../../util/constants').GLOBAL;
+var GRAPHICS = require('../../util/constants').GRAPHICS;
 
 var Animation = Backbone.Model.extend({
   defaults: {
-    duration: 300,
+    duration: GRAPHICS.defaultAnimationTime,
     closure: null
   },
 
@@ -102,7 +103,7 @@ var PromiseAnimation = Backbone.Model.extend({
   defaults: {
     deferred: null,
     closure: null,
-    duration: 300
+    duration: GRAPHICS.defaultAnimationTime
   },
 
   initialize: function(options) {

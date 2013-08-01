@@ -363,6 +363,10 @@ var VisNode = VisBase.extend({
 
   removeAll: function() {
     this.remove();
+    this.removeAllEdges();
+  },
+
+  removeAllEdges: function() {
     _.each(this.get('outgoingEdges'), function(edge) {
       edge.remove();
     }, this);

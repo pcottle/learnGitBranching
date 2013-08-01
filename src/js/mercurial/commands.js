@@ -165,6 +165,45 @@ var commandConfig = {
     }
   },
 
+  rebase: {
+    regex: /^hg +rebase($|\s+)/,
+    options: [
+      '-d',
+      '-s',
+      '-b'
+    ],
+    execute: function(engine, command) {
+      var throwE = function() {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      };
+
+      var options = command.getSupportedMap();
+      // if we have both OR if we have neither
+      if ((options['-d'] && options['-s']) ||
+          (!options['-d'] && !options['-s'])) {
+      }
+
+      if (!options['-b']) {
+        options['-b'] = ['.'];
+      }
+
+      command.setSupportedMap(options);
+      command.mapDotToHead();
+      options = command.getSupportedMap();
+
+      if (options['-d']) {
+        var dest = options['-d'][0] || throwE();
+        var base = options['-b'][0];
+
+        engine.hgRebase(dest, base);
+      } else {
+        // TODO
+      }
+    }
+  },
+
   update: {
     regex: /^hg +(update|up)($|\s+)/,
     delegate: function(engine, command) {
