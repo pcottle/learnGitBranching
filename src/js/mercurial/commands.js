@@ -52,6 +52,26 @@ var commandConfig = {
     }
   },
 
+  graft: {
+    regex: /^hg +graft($|\s)/,
+    options: [
+      '-r'
+    ],
+    delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      if (!options['-r']) {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
+      command.setGeneralArgs(options['-r']);
+      return {
+        vcs: 'git',
+        name: 'cherrypick'
+      };
+    }
+  },
+
   log: {
     regex: /^hg +log($|\s)/,
     options: [

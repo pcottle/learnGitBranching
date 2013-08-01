@@ -407,7 +407,7 @@ var VisBranch = VisBase.extend({
     var name = this.getName();
 
     // when from a reload, we dont need to generate the text
-    text = paper.text(textPos.x, textPos.y, String(name));
+    var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
       'font-family': 'Monaco, Courier, font-monospace',

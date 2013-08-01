@@ -77,11 +77,46 @@ GitEngine.prototype.getIsHg = function() {
 GitEngine.prototype.setMode = function(vcs) {
   var switchedToHg = (this.mode === 'git' && vcs === 'hg');
   this.mode = vcs;
-  if (switchedToHg) {
-    // if we are switching to mercurial then we have some
-    // garbage collection and other tidying up to do
-    return this.pruneTree();
+  if (!switchedToHg) {
+    return;
   }
+  // if we are switching to mercurial then we have some
+  // garbage collection and other tidying up to do. this
+  // may or may not require a refresh so lets check.
+  var deferred = Q.defer();
+  deferred.resolve();
+  var chain = deferred.promise;
+
+  // this stuff is tricky because we dont animate when
+  // we didnt do anything, but we DO animate when
+  // either of the operations happen. so a lot of
+  // branching ahead...
+  var neededUpdate = this.updateAllBranchesForHg();
+  if (neededUpdate) {
+    chain = chain.then(_.bind(function() {
+      return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+    }, this));
+
+    // ok we need to refresh anyways, so do the prune after
+    chain = chain.then(_.bind(function() {
+      var neededPrune = this.pruneTree();
+      if (!neededPrune) {
+        return;
+      }
+      return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+    }, this));
+
+    return chain;
+  }
+
+  // ok might need prune though
+  var pruned = this.pruneTree();
+  if (!pruned) {
+    // do sync
+    return;
+  }
+
+  return this.animationFactory.playRefreshAnimation(this.gitVisuals);
 };
 
 GitEngine.prototype.assignLocalRepo = function(repo) {
@@ -1214,6 +1249,9 @@ GitEngine.prototype.setTargetLocation = function(ref, target) {
 };
 
 GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
+  if (!commitSet) {
+    throw new Error('need commit set here');
+  }
   // commitSet is the set of commits that are stale or moved or whatever.
   // any branches POINTING to these commits need to be moved!
 
@@ -1229,21 +1267,54 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
     });
   }, this);
 
-  _.each(branchesToUpdate, function(val, id) {
+  var branchList = _.map(branchesToUpdate, function(val, id) {
+    return id;
+  });
+  return this.updateBranchesForHg(branchList);
+};
+
+GitEngine.prototype.updateAllBranchesForHg = function() {
+  var branchList = this.branchCollection.map(function(branch) {
+    return branch.get('id');
+  });
+  return this.updateBranchesForHg(branchList);
+};
+
+GitEngine.prototype.updateBranchesForHg = function(branchList) {
+  var hasUpdated = false;
+  _.each(branchList, function(branchID) {
     // ok now just check if this branch has a more recent commit available.
     // that mapping is easy because we always do rebase alt id --
     // theres no way to have C3' and C3''' but no C3''. so just
     // bump the ID once -- if thats not filled in we are updated,
     // otherwise loop until you find undefined
-    var commit = this.getCommitFromRef(id);
-  });
+    var commitID = this.getCommitFromRef(branchID).get('id');
+    var altID = this.getBumpedID(commitID);
+    if (!this.refs[altID]) {
+      return;
+    }
+    hasUpdated = true;
+
+    var lastID;
+    while (this.refs[altID]) {
+      lastID = altID;
+      altID = this.rebaseAltID(altID);
+    }
+
+    // last ID is the one we want to update to
+    this.setTargetLocation(this.refs[branchID], this.refs[lastID]);
+  }, this);
+
+  if (!hasUpdated) {
+    return false;
+  }
+  return true;
 };
 
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // dont prune commits that HEAD depends on
   var headSet = this.getUpstreamSet('HEAD');
-  console.log(headSet);
   _.each(headSet, function(val, commitID) {
     set[commitID] = true;
   });
@@ -1275,7 +1346,7 @@ GitEngine.prototype.pruneTree = function() {
     }
   }, this);
 
-  return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+  return true;
 };
 
 GitEngine.prototype.getUpstreamBranchSet = function() {
@@ -1354,9 +1425,20 @@ GitEngine.prototype.scrapeBaseID = function(id) {
   return 'C' + results[1];
 };
 
+/*
+ * grabs a bumped ID that is NOT currently reserved
+ */
 GitEngine.prototype.rebaseAltID = function(id) {
+  var newID = this.getBumpedID(id);
+  while (this.refs[newID]) {
+    newID = this.getBumpedID(newID);
+  }
+  return newID;
+};
+
+GitEngine.prototype.getBumpedID = function(id) {
   // this function alters an ID to add a quote to the end,
-  // indicating that it was rebased. it also checks existence
+  // indicating that it was rebased.
   var regexMap = [
     [/^C(\d+)[']{0,2}$/, function(bits) {
       // this id can use another quote, so just add it
@@ -1371,19 +1453,13 @@ GitEngine.prototype.rebaseAltID = function(id) {
     }]
   ];
 
-  // for loop for early return
+  // for loop for early return (instead of _.each)
   for (var i = 0; i < regexMap.length; i++) {
     var regex = regexMap[i][0];
     var func = regexMap[i][1];
     var results = regex.exec(id);
     if (results) {
-      var newId = func(results);
-      // if this id exists, continue down the rabbit hole
-      if (this.refs[newId]) {
-        return this.rebaseAltID(newId);
-      } else {
-        return newId;
-      }
+      return func(results);
     }
   }
   throw new Error('could not modify the id ' + id);
