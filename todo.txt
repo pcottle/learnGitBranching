@@ -41,6 +41,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] TONS of hg stuff
 [x] finally work on an upload / download animation
 [x] factor out golf thing too
 [x] factor regexes and instant commands into one module

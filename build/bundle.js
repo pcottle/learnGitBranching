@@ -8490,7 +8490,7 @@ GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
 };
 
 GitEngine.prototype.pruneTreeAndPlay = function() {
-  return this.pruneTree() && 
+  return this.pruneTree() &&
     this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
 };
 
@@ -8520,9 +8520,11 @@ GitEngine.prototype.pruneTree = function() {
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
     this.commitCollection.remove(commit);
+
     var ID = commit.get('id');
     this.refs[ID] = undefined;
     delete this.refs[ID];
+
     var visNode = commit.get('visNode');
     if (visNode) {
       visNode.removeAll();
@@ -26767,7 +26769,7 @@ GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
 };
 
 GitEngine.prototype.pruneTreeAndPlay = function() {
-  return this.pruneTree() && 
+  return this.pruneTree() &&
     this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
 };
 
@@ -26797,9 +26799,11 @@ GitEngine.prototype.pruneTree = function() {
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
     this.commitCollection.remove(commit);
+
     var ID = commit.get('id');
     this.refs[ID] = undefined;
     delete this.refs[ID];
+
     var visNode = commit.get('visNode');
     if (visNode) {
       visNode.removeAll();

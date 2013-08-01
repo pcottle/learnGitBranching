@@ -1351,9 +1351,11 @@ GitEngine.prototype.pruneTree = function() {
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
     this.commitCollection.remove(commit);
+
     var ID = commit.get('id');
     this.refs[ID] = undefined;
     delete this.refs[ID];
+
     var visNode = commit.get('visNode');
     if (visNode) {
       visNode.removeAll();
