@@ -6056,30 +6056,38 @@ var initDemo = function(sandbox) {
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
+  var commands;
   if (params.hasOwnProperty('demo')) {
-    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger(
-        'commandSubmitted',
-        [
-          "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
-          "delay 1000; reset;",
-          "level advanced1 --noFinishDialog --noStartCommand --noIntroDialog;",
-          "delay 2000; show goal; delay 1000; hide goal;",
-          "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
-          "git checkout another; git rebase side; git rebase another master;",
-          "help; levels"
-        ].join(''));
-    });
+    commands = [
+      "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
+      "delay 1000; reset;",
+      "level advanced1 --noFinishDialog --noStartCommand --noIntroDialog;",
+      "delay 2000; show goal; delay 1000; hide goal;",
+      "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
+      "git checkout another; git rebase side; git rebase another master;",
+      "help; levels"
+    ];
+  } else if (params.hasOwnProperty('hgdemo')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"side","id":"HEAD"}}',
+      'delay 5000',
+      'git rebase master',
+      'delay 5000',
+      'undo',
+      'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#');
   } else if (!params.hasOwnProperty('NODEMO')) {
+    commands = [
+      "git help;",
+      "delay 1000;",
+      "help;",
+      "levels"
+    ];
+  }
+  if (commands) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger(
-        'commandSubmitted',
-        [
-          "git help;",
-          "delay 1000;",
-          "help;",
-          "levels"
-        ].join(''));
+      eventBaton.trigger('commandSubmitted', commands.join(''));
     });
   }
 
@@ -24021,30 +24029,38 @@ var initDemo = function(sandbox) {
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
+  var commands;
   if (params.hasOwnProperty('demo')) {
-    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger(
-        'commandSubmitted',
-        [
-          "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
-          "delay 1000; reset;",
-          "level advanced1 --noFinishDialog --noStartCommand --noIntroDialog;",
-          "delay 2000; show goal; delay 1000; hide goal;",
-          "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
-          "git checkout another; git rebase side; git rebase another master;",
-          "help; levels"
-        ].join(''));
-    });
+    commands = [
+      "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
+      "delay 1000; reset;",
+      "level advanced1 --noFinishDialog --noStartCommand --noIntroDialog;",
+      "delay 2000; show goal; delay 1000; hide goal;",
+      "git checkout bugFix; git rebase master; git checkout side; git rebase bugFix;",
+      "git checkout another; git rebase side; git rebase another master;",
+      "help; levels"
+    ];
+  } else if (params.hasOwnProperty('hgdemo')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"side","id":"HEAD"}}',
+      'delay 5000',
+      'git rebase master',
+      'delay 5000',
+      'undo',
+      'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#');
   } else if (!params.hasOwnProperty('NODEMO')) {
+    commands = [
+      "git help;",
+      "delay 1000;",
+      "help;",
+      "levels"
+    ];
+  }
+  if (commands) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger(
-        'commandSubmitted',
-        [
-          "git help;",
-          "delay 1000;",
-          "help;",
-          "levels"
-        ].join(''));
+      eventBaton.trigger('commandSubmitted', commands.join(''));
     });
   }
 
