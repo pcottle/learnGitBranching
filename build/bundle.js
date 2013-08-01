@@ -6070,34 +6070,34 @@ var initDemo = function(sandbox) {
     ];
   } else if (params.hasOwnProperty('hgdemo')) {
     commands = [
-      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"side","id":"HEAD"}}',
-      'delay 5000',
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"feature":{"target":"C2","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"feature","id":"HEAD"}}',
+      'delay 7000',
       'git rebase master',
-      'delay 5000',
+      'delay 2000',
       'undo',
       'hg book',
-      'delay 5000',
+      'delay 2000',
       'hg rebase -d master'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (params.hasOwnProperty('hgdemo2')) {
     commands = [
-      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"feature":{"target":"C2","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
       'delay 5000',
       'git rebase master',
-      'delay 5000',
+      'delay 2000',
       'undo',
       'hg sum',
-      'delay 5000',
+      'delay 2000',
       'hg rebase -d master'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (params.hasOwnProperty('hgdemo3')) {
     commands = [
-      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"foo":{"target":"C2","id":"foo"},"bar":{"target":"C5","id":"bar"},"baz":{"target":"C4","id":"baz"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"bar","id":"HEAD"}}',
+      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"trunk":{"target":"C2","id":"trunk"},"feature":{"target":"C5","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"feature","id":"HEAD"}}',
       'hg book',
       'delay 2000',
-      'hg rebase -d foo'
+      'hg rebase -d trunk'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
@@ -9591,12 +9591,8 @@ var Commit = Backbone.Model.extend({
     }
     var parent = parents[0];
     var parentID = parent.get('id');
-    console.log('i am ', this.get('id'));
-    if (this.get('id') === 'C4') {
-      debugger;
-    }
-
     var newestID = engine.getMostRecentBumpedID(parentID);
+
     if (parentID === newestID) {
       // BOOM done, its already updated
       return;
@@ -11042,7 +11038,6 @@ exports.instantCommands = instantCommands;
 require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
-var Commands = require('../commands').commands;
 var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 
@@ -24092,34 +24087,34 @@ var initDemo = function(sandbox) {
     ];
   } else if (params.hasOwnProperty('hgdemo')) {
     commands = [
-      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"side","id":"HEAD"}}',
-      'delay 5000',
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"feature":{"target":"C2","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"feature","id":"HEAD"}}',
+      'delay 7000',
       'git rebase master',
-      'delay 5000',
+      'delay 2000',
       'undo',
       'hg book',
-      'delay 5000',
+      'delay 2000',
       'hg rebase -d master'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (params.hasOwnProperty('hgdemo2')) {
     commands = [
-      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"feature":{"target":"C2","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
       'delay 5000',
       'git rebase master',
-      'delay 5000',
+      'delay 2000',
       'undo',
       'hg sum',
-      'delay 5000',
+      'delay 2000',
       'hg rebase -d master'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (params.hasOwnProperty('hgdemo3')) {
     commands = [
-      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"foo":{"target":"C2","id":"foo"},"bar":{"target":"C5","id":"bar"},"baz":{"target":"C4","id":"baz"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"bar","id":"HEAD"}}',
+      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"trunk":{"target":"C2","id":"trunk"},"feature":{"target":"C5","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"feature","id":"HEAD"}}',
       'hg book',
       'delay 2000',
-      'hg rebase -d foo'
+      'hg rebase -d trunk'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
@@ -27930,12 +27925,8 @@ var Commit = Backbone.Model.extend({
     }
     var parent = parents[0];
     var parentID = parent.get('id');
-    console.log('i am ', this.get('id'));
-    if (this.get('id') === 'C4') {
-      debugger;
-    }
-
     var newestID = engine.getMostRecentBumpedID(parentID);
+
     if (parentID === newestID) {
       // BOOM done, its already updated
       return;
@@ -30968,7 +30959,6 @@ require("/src/js/log/index.js");
 require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
-var Commands = require('../commands').commands;
 var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 

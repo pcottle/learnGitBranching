@@ -1,7 +1,6 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
-var Commands = require('../commands').commands;
 var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 

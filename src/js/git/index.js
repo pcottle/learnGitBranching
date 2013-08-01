@@ -2370,12 +2370,8 @@ var Commit = Backbone.Model.extend({
     }
     var parent = parents[0];
     var parentID = parent.get('id');
-    console.log('i am ', this.get('id'));
-    if (this.get('id') === 'C4') {
-      debugger;
-    }
-
     var newestID = engine.getMostRecentBumpedID(parentID);
+
     if (parentID === newestID) {
       // BOOM done, its already updated
       return;
