@@ -53,9 +53,20 @@ var commandConfig = {
   },
 
   log: {
-    regex: /^hg +log *$/,
+    regex: /^hg +log($|\s)/,
+    options: [
+      '-f'
+    ],
     dontCountForGolf: true,
     delegate: function(engine, command) {
+      var options = command.getSupportedMap();
+      command.acceptNoGeneralArgs();
+
+      if (!options['-f']) {
+        throw new GitError({
+          msg: intl.str('hg-error-log-no-follow')
+        });
+      }
       command.mapDotToHead();
       return {
         vcs: 'git',
@@ -179,19 +190,6 @@ var commandConfig = {
       return {
         vcs: 'git',
         name: 'pull'
-      };
-    }
-  },
-
-  ammend: {
-    regex: /^hg +ammend *$/,
-    delegate: function(engine, command) {
-      command.setOptionMap({
-        '--amend': true
-      });
-      return {
-        vcs: 'hg',
-        name: 'commit'
       };
     }
   },
