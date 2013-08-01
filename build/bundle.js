@@ -10265,10 +10265,12 @@ var parse = function(str) {
   // we support this command!
   // parse off the options and assemble the map / general args
   var parsedOptions = new CommandOptionParser(vcs, method, options);
+  var error = parsedOptions.explodeAndSet();
   return {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
       supportedMap: parsedOptions.supportedMap,
+      error: error,
       vcs: vcs,
       method: method,
       options: options,
@@ -10291,7 +10293,6 @@ function CommandOptionParser(vcs, method, options) {
   }
 
   this.generalArgs = [];
-  this.explodeAndSet();
 }
 
 CommandOptionParser.prototype.explodeAndSet = function() {
@@ -10304,7 +10305,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
+        return new CommandProcessError({
           msg: intl.str(
             'option-not-supported',
             { option: part }
@@ -14721,6 +14722,7 @@ var Command = Backbone.Model.extend({
 
   errorChanged: function() {
     var err = this.get('error');
+    if (!err) { return; }
     if (err instanceof CommandProcessError ||
         err instanceof GitError) {
       this.set('status', 'error');
@@ -24069,10 +24071,12 @@ var parse = function(str) {
   // we support this command!
   // parse off the options and assemble the map / general args
   var parsedOptions = new CommandOptionParser(vcs, method, options);
+  var error = parsedOptions.explodeAndSet();
   return {
     toSet: {
       generalArgs: parsedOptions.generalArgs,
       supportedMap: parsedOptions.supportedMap,
+      error: error,
       vcs: vcs,
       method: method,
       options: options,
@@ -24095,7 +24099,6 @@ function CommandOptionParser(vcs, method, options) {
   }
 
   this.generalArgs = [];
-  this.explodeAndSet();
 }
 
 CommandOptionParser.prototype.explodeAndSet = function() {
@@ -24108,7 +24111,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
       if (this.supportedMap[part] === undefined) {
-        throw new CommandProcessError({
+        return new CommandProcessError({
           msg: intl.str(
             'option-not-supported',
             { option: part }
@@ -31062,6 +31065,7 @@ var Command = Backbone.Model.extend({
 
   errorChanged: function() {
     var err = this.get('error');
+    if (!err) { return; }
     if (err instanceof CommandProcessError ||
         err instanceof GitError) {
       this.set('status', 'error');

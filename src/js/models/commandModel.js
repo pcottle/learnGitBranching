@@ -210,6 +210,7 @@ var Command = Backbone.Model.extend({
 
   errorChanged: function() {
     var err = this.get('error');
+    if (!err) { return; }
     if (err instanceof CommandProcessError ||
         err instanceof GitError) {
       this.set('status', 'error');
