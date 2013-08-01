@@ -425,6 +425,7 @@ var commandConfig = {
         return;
       }
 
+      console.log(generalArgs);
       command.validateArgBounds(generalArgs, 1, 1);
 
       engine.checkout(engine.crappyUnescape(generalArgs[0]));
