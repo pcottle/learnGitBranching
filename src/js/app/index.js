@@ -121,6 +121,7 @@ var initRootEvents = function(eventBaton) {
 
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
+  console.log(params);
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
@@ -142,9 +143,23 @@ var initDemo = function(sandbox) {
       'git rebase master',
       'delay 5000',
       'undo',
+      'hg sum',
+      'delay 5000',
       'hg rebase -d master'
     ];
-    commands = commands.join(';#').split('#');
+    commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('hgdemo2')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
+      'delay 5000',
+      'git rebase master',
+      'delay 5000',
+      'undo',
+      'hg sum',
+      'delay 5000',
+      'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
     commands = [
       "git help;",

@@ -6053,6 +6053,7 @@ var initRootEvents = function(eventBaton) {
 
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
+  console.log(params);
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
@@ -6074,9 +6075,23 @@ var initDemo = function(sandbox) {
       'git rebase master',
       'delay 5000',
       'undo',
+      'hg sum',
+      'delay 5000',
       'hg rebase -d master'
     ];
-    commands = commands.join(';#').split('#');
+    commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('hgdemo2')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
+      'delay 5000',
+      'git rebase master',
+      'delay 5000',
+      'undo',
+      'hg sum',
+      'delay 5000',
+      'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
     commands = [
       "git help;",
@@ -8471,6 +8486,11 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
   return this.updateBranchesForHg(branchList);
 };
 
+GitEngine.prototype.updateAllBranchesForHgAndPlay = function(branchList) {
+  return this.updateBranchesForHg(branchList) &&
+    this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+};
+
 GitEngine.prototype.updateAllBranchesForHg = function() {
   var branchList = this.branchCollection.map(function(branch) {
     return branch.get('id');
@@ -8769,7 +8789,20 @@ GitEngine.prototype.hgRebase = function(destination, base) {
       masterSet[id] = true;
     });
   });
-  console.log(masterSet);
+
+  // we also need the branches POINTING to master set
+  var branchMap = {};
+  var upstreamSet = this.getUpstreamBranchSet();
+  _.each(masterSet, function(val, commitID) {
+    // now loop over that commits branches
+    _.each(upstreamSet[commitID], function(branchJSON) {
+      branchMap[branchJSON.id] = true;
+    });
+  });
+
+  var branchList = _.map(branchMap, function(val, id) {
+    return id;
+  });
 
   chain = chain.then(_.bind(function() {
     // now we just moved a bunch of commits, but we havent updated the
@@ -8779,6 +8812,10 @@ GitEngine.prototype.hgRebase = function(destination, base) {
       return;
     }
     return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    return this.updateAllBranchesForHgAndPlay(branchList);
   }, this));
 
   chain = chain.then(_.bind(function() {
@@ -24026,6 +24063,7 @@ var initRootEvents = function(eventBaton) {
 
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
+  console.log(params);
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
@@ -24047,9 +24085,23 @@ var initDemo = function(sandbox) {
       'git rebase master',
       'delay 5000',
       'undo',
+      'hg sum',
+      'delay 5000',
       'hg rebase -d master'
     ];
-    commands = commands.join(';#').split('#');
+    commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('hgdemo2')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"side":{"target":"C2","id":"side"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
+      'delay 5000',
+      'git rebase master',
+      'delay 5000',
+      'undo',
+      'hg sum',
+      'delay 5000',
+      'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
     commands = [
       "git help;",
@@ -26759,6 +26811,11 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
   return this.updateBranchesForHg(branchList);
 };
 
+GitEngine.prototype.updateAllBranchesForHgAndPlay = function(branchList) {
+  return this.updateBranchesForHg(branchList) &&
+    this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+};
+
 GitEngine.prototype.updateAllBranchesForHg = function() {
   var branchList = this.branchCollection.map(function(branch) {
     return branch.get('id');
@@ -27057,7 +27114,20 @@ GitEngine.prototype.hgRebase = function(destination, base) {
       masterSet[id] = true;
     });
   });
-  console.log(masterSet);
+
+  // we also need the branches POINTING to master set
+  var branchMap = {};
+  var upstreamSet = this.getUpstreamBranchSet();
+  _.each(masterSet, function(val, commitID) {
+    // now loop over that commits branches
+    _.each(upstreamSet[commitID], function(branchJSON) {
+      branchMap[branchJSON.id] = true;
+    });
+  });
+
+  var branchList = _.map(branchMap, function(val, id) {
+    return id;
+  });
 
   chain = chain.then(_.bind(function() {
     // now we just moved a bunch of commits, but we havent updated the
@@ -27067,6 +27137,10 @@ GitEngine.prototype.hgRebase = function(destination, base) {
       return;
     }
     return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    return this.updateAllBranchesForHgAndPlay(branchList);
   }, this));
 
   chain = chain.then(_.bind(function() {

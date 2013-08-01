@@ -1273,6 +1273,11 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
   return this.updateBranchesForHg(branchList);
 };
 
+GitEngine.prototype.updateAllBranchesForHgAndPlay = function(branchList) {
+  return this.updateBranchesForHg(branchList) &&
+    this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+};
+
 GitEngine.prototype.updateAllBranchesForHg = function() {
   var branchList = this.branchCollection.map(function(branch) {
     return branch.get('id');
@@ -1571,7 +1576,20 @@ GitEngine.prototype.hgRebase = function(destination, base) {
       masterSet[id] = true;
     });
   });
-  console.log(masterSet);
+
+  // we also need the branches POINTING to master set
+  var branchMap = {};
+  var upstreamSet = this.getUpstreamBranchSet();
+  _.each(masterSet, function(val, commitID) {
+    // now loop over that commits branches
+    _.each(upstreamSet[commitID], function(branchJSON) {
+      branchMap[branchJSON.id] = true;
+    });
+  });
+
+  var branchList = _.map(branchMap, function(val, id) {
+    return id;
+  });
 
   chain = chain.then(_.bind(function() {
     // now we just moved a bunch of commits, but we havent updated the
@@ -1581,6 +1599,10 @@ GitEngine.prototype.hgRebase = function(destination, base) {
       return;
     }
     return this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
+  }, this));
+
+  chain = chain.then(_.bind(function() {
+    return this.updateAllBranchesForHgAndPlay(branchList);
   }, this));
 
   chain = chain.then(_.bind(function() {
