@@ -6075,7 +6075,7 @@ var initDemo = function(sandbox) {
       'git rebase master',
       'delay 5000',
       'undo',
-      'hg sum',
+      'hg book',
       'delay 5000',
       'hg rebase -d master'
     ];
@@ -6090,6 +6090,14 @@ var initDemo = function(sandbox) {
       'hg sum',
       'delay 5000',
       'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('hgdemo3')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"foo":{"target":"C2","id":"foo"},"bar":{"target":"C5","id":"bar"},"baz":{"target":"C4","id":"baz"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"bar","id":"HEAD"}}',
+      'hg book',
+      'delay 2000',
+      'hg rebase -d foo'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
@@ -8336,7 +8344,7 @@ GitEngine.prototype.commit = function(options) {
   }
 
   var newCommit = this.makeCommit([targetCommit], id);
-  if (this.getDetachedHead()) {
+  if (this.getDetachedHead() && this.mode === 'git') {
     this.command.addWarning(intl.str('git-warning-detached'));
   }
 
@@ -8533,7 +8541,8 @@ GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
   var anyChange = false;
   _.each(commitSet, function(val, commitID) {
     var commit = this.refs[commitID];
-    anyChange = anyChange || commit.checkForUpdatedParent(this);
+    var thisUpdated = commit.checkForUpdatedParent(this);
+    anyChange = anyChange || thisUpdated;
   }, this);
   return anyChange;
 };
@@ -8782,9 +8791,15 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   var stopSet = this.getUpstreamSet(destination);
   var upstream = this.getUpstreamDiffSetFromSet(stopSet, base);
 
+  // and NOWWWwwww get all the descendants of this set
+  var moreSets = [];
+  _.each(upstream, function(val, id) {
+    moreSets.push(this.getDownstreamSet(id));
+  }, this);
+
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
-  _.each([upstream, downstream], function(set) {
+  _.each([upstream, downstream].concat(moreSets), function(set) {
     _.each(set, function(val, id) {
       masterSet[id] = true;
     });
@@ -9572,11 +9587,14 @@ var Commit = Backbone.Model.extend({
   checkForUpdatedParent: function(engine) {
     var parents = this.get('parents');
     if (parents.length > 1) {
-      console.warn('TODO fix merge commits'); // TODO
       return;
     }
     var parent = parents[0];
     var parentID = parent.get('id');
+    console.log('i am ', this.get('id'));
+    if (this.get('id') === 'C4') {
+      debugger;
+    }
 
     var newestID = engine.getMostRecentBumpedID(parentID);
     if (parentID === newestID) {
@@ -10964,6 +10982,7 @@ var commandConfig = {
         return;
       }
 
+      console.log(generalArgs);
       command.validateArgBounds(generalArgs, 1, 1);
 
       engine.checkout(engine.crappyUnescape(generalArgs[0]));
@@ -10995,7 +11014,8 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = commands.getOptionMap()['git'];
+
+    var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -11022,6 +11042,7 @@ exports.instantCommands = instantCommands;
 require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
+var Commands = require('../commands').commands;
 var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 
@@ -11120,7 +11141,6 @@ var commandConfig = {
     regex: /^hg (bookmarks|bookmark|book)($|\s)/,
     options: [
       '-r',
-      '-m',
       '-f',
       '-d'
     ],
@@ -11130,59 +11150,51 @@ var commandConfig = {
       var branchName;
       var rev;
 
-      if (options['-r']) {
-        // we specified a revision with -r but
-        // need to flip the order
-        branchName = options['-r'][1] || '';
-        rev = options['-r'][0] || '';
-        command.setSupportedMap({
-          '-b': [branchName, rev]
+      var delegate = { vcs: 'git' };
+
+      if (options['-m'] && options['-d']) {
+        throw new GitError({
+          msg: '-m and -d are incompatible'
         });
-        return {
-          vcs: 'git',
-          name: 'checkout'
-        };
-      } else if (options['-f']) {
-        // TODO sid0 -- also assuming that
-        // bookmark -f <REV> <name> is
-        // the order here
-        branchName = options['-f'][1] || '';
-        rev = options['-f'][0] || '';
-        command.setSupportedMap({
-          '-f': [branchName, rev]
+      }
+      if (options['-d'] && options['-r']) {
+        throw new GitError({
+          msg: '-r is incompatible with -d'
         });
-        return {
-          vcs: 'git',
-          name: 'branch'
-        };
-      } else if (options['-d']) {
-        return {
-          vcs: 'git',
-          name: 'branch'
-        };
-      } else if (options['-m']) {
-        // TODO sid0 -- order is -r <oldname> <newname>
-        var oldName = options['-m'][0] || '';
-        var newName = options['-m'][1] || '';
-        return {multiDelegate: [{
-          vcs: 'git',
-          name: 'checkout',
-          options: {
-            '-b': [newName, oldName]
-          }
-        }, {
-          vcs: 'git',
-          name: 'branch',
-          options: {
-            '-d': [oldName]
-          }
-        }]};
+      }
+      if (options['-m'] && options['-r']) {
+        throw new GitError({
+          msg: '-r is incompatible with -m'
+        });
+      }
+      if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
+          (options['-d'] ? options['-d'].length : 0) === 0) {
+        delegate.name = 'branch';
+        return delegate;
       }
 
-      return {
-        vcs: 'git',
-        name: 'branch'
-      };
+      if (options['-d']) {
+        options['-D'] = options['-d'];
+        delete options['-d'];
+        delegate.name = 'branch';
+      } else {
+        if (options['-r']) {
+          // we specified a revision with -r but
+          // need to flip the order
+          branchName = options['-r'][1] || '';
+          rev = options['-r'][0] || '';
+          delegate.name = 'branch';
+          command.setGeneralArgs([branchName, rev]);
+        } else if (generalArgs.length > 0) {
+          command.setSupportedMap({'-b': [generalArgs[0]]});
+          delegate.name = 'checkout';
+          command.setGeneralArgs([]);
+        } else {
+          delegate.name = 'branch';
+        }
+      }
+
+      return delegate;
     }
   },
 
@@ -24085,7 +24097,7 @@ var initDemo = function(sandbox) {
       'git rebase master',
       'delay 5000',
       'undo',
-      'hg sum',
+      'hg book',
       'delay 5000',
       'hg rebase -d master'
     ];
@@ -24100,6 +24112,14 @@ var initDemo = function(sandbox) {
       'hg sum',
       'delay 5000',
       'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('hgdemo3')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"foo":{"target":"C2","id":"foo"},"bar":{"target":"C5","id":"bar"},"baz":{"target":"C4","id":"baz"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"bar","id":"HEAD"}}',
+      'hg book',
+      'delay 2000',
+      'hg rebase -d foo'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
@@ -25279,6 +25299,7 @@ var commandConfig = {
         return;
       }
 
+      console.log(generalArgs);
       command.validateArgBounds(generalArgs, 1, 1);
 
       engine.checkout(engine.crappyUnescape(generalArgs[0]));
@@ -25310,7 +25331,8 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = commands.getOptionMap()['git'];
+
+    var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);
@@ -26661,7 +26683,7 @@ GitEngine.prototype.commit = function(options) {
   }
 
   var newCommit = this.makeCommit([targetCommit], id);
-  if (this.getDetachedHead()) {
+  if (this.getDetachedHead() && this.mode === 'git') {
     this.command.addWarning(intl.str('git-warning-detached'));
   }
 
@@ -26858,7 +26880,8 @@ GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
   var anyChange = false;
   _.each(commitSet, function(val, commitID) {
     var commit = this.refs[commitID];
-    anyChange = anyChange || commit.checkForUpdatedParent(this);
+    var thisUpdated = commit.checkForUpdatedParent(this);
+    anyChange = anyChange || thisUpdated;
   }, this);
   return anyChange;
 };
@@ -27107,9 +27130,15 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   var stopSet = this.getUpstreamSet(destination);
   var upstream = this.getUpstreamDiffSetFromSet(stopSet, base);
 
+  // and NOWWWwwww get all the descendants of this set
+  var moreSets = [];
+  _.each(upstream, function(val, id) {
+    moreSets.push(this.getDownstreamSet(id));
+  }, this);
+
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
-  _.each([upstream, downstream], function(set) {
+  _.each([upstream, downstream].concat(moreSets), function(set) {
     _.each(set, function(val, id) {
       masterSet[id] = true;
     });
@@ -27897,11 +27926,14 @@ var Commit = Backbone.Model.extend({
   checkForUpdatedParent: function(engine) {
     var parents = this.get('parents');
     if (parents.length > 1) {
-      console.warn('TODO fix merge commits'); // TODO
       return;
     }
     var parent = parents[0];
     var parentID = parent.get('id');
+    console.log('i am ', this.get('id'));
+    if (this.get('id') === 'C4') {
+      debugger;
+    }
 
     var newestID = engine.getMostRecentBumpedID(parentID);
     if (parentID === newestID) {
@@ -30936,6 +30968,7 @@ require("/src/js/log/index.js");
 require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var intl = require('../intl');
 
+var Commands = require('../commands').commands;
 var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 
@@ -31034,7 +31067,6 @@ var commandConfig = {
     regex: /^hg (bookmarks|bookmark|book)($|\s)/,
     options: [
       '-r',
-      '-m',
       '-f',
       '-d'
     ],
@@ -31044,59 +31076,51 @@ var commandConfig = {
       var branchName;
       var rev;
 
-      if (options['-r']) {
-        // we specified a revision with -r but
-        // need to flip the order
-        branchName = options['-r'][1] || '';
-        rev = options['-r'][0] || '';
-        command.setSupportedMap({
-          '-b': [branchName, rev]
+      var delegate = { vcs: 'git' };
+
+      if (options['-m'] && options['-d']) {
+        throw new GitError({
+          msg: '-m and -d are incompatible'
         });
-        return {
-          vcs: 'git',
-          name: 'checkout'
-        };
-      } else if (options['-f']) {
-        // TODO sid0 -- also assuming that
-        // bookmark -f <REV> <name> is
-        // the order here
-        branchName = options['-f'][1] || '';
-        rev = options['-f'][0] || '';
-        command.setSupportedMap({
-          '-f': [branchName, rev]
+      }
+      if (options['-d'] && options['-r']) {
+        throw new GitError({
+          msg: '-r is incompatible with -d'
         });
-        return {
-          vcs: 'git',
-          name: 'branch'
-        };
-      } else if (options['-d']) {
-        return {
-          vcs: 'git',
-          name: 'branch'
-        };
-      } else if (options['-m']) {
-        // TODO sid0 -- order is -r <oldname> <newname>
-        var oldName = options['-m'][0] || '';
-        var newName = options['-m'][1] || '';
-        return {multiDelegate: [{
-          vcs: 'git',
-          name: 'checkout',
-          options: {
-            '-b': [newName, oldName]
-          }
-        }, {
-          vcs: 'git',
-          name: 'branch',
-          options: {
-            '-d': [oldName]
-          }
-        }]};
+      }
+      if (options['-m'] && options['-r']) {
+        throw new GitError({
+          msg: '-r is incompatible with -m'
+        });
+      }
+      if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
+          (options['-d'] ? options['-d'].length : 0) === 0) {
+        delegate.name = 'branch';
+        return delegate;
       }
 
-      return {
-        vcs: 'git',
-        name: 'branch'
-      };
+      if (options['-d']) {
+        options['-D'] = options['-d'];
+        delete options['-d'];
+        delegate.name = 'branch';
+      } else {
+        if (options['-r']) {
+          // we specified a revision with -r but
+          // need to flip the order
+          branchName = options['-r'][1] || '';
+          rev = options['-r'][0] || '';
+          delegate.name = 'branch';
+          command.setGeneralArgs([branchName, rev]);
+        } else if (generalArgs.length > 0) {
+          command.setSupportedMap({'-b': [generalArgs[0]]});
+          delegate.name = 'checkout';
+          command.setGeneralArgs([]);
+        } else {
+          delegate.name = 'branch';
+        }
+      }
+
+      return delegate;
     }
   },
 

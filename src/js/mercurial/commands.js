@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
+var Commands = require('../commands').commands;
 var GitCommands = require('../git/commands');
 var Errors = require('../util/errors');
 
@@ -127,9 +128,8 @@ var commandConfig = {
       }
       if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
           (options['-d'] ? options['-d'].length : 0) === 0) {
-        throw new GitError({
-          msg: 'bookmark name required'
-        });
+        delegate.name = 'branch';
+        return delegate;
       }
 
       if (options['-d']) {

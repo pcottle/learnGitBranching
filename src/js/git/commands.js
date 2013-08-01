@@ -457,7 +457,8 @@ var instantCommands = [
       intl.str('git-supported-commands'),
       '<br/>'
     ];
-    var commands = commands.getOptionMap()['git'];
+
+    var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
     _.each(commands, function(commandOptions, command) {
       lines.push('git ' + command);

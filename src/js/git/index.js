@@ -1123,7 +1123,7 @@ GitEngine.prototype.commit = function(options) {
   }
 
   var newCommit = this.makeCommit([targetCommit], id);
-  if (this.getDetachedHead()) {
+  if (this.getDetachedHead() && this.mode === 'git') {
     this.command.addWarning(intl.str('git-warning-detached'));
   }
 
@@ -1320,7 +1320,8 @@ GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
   var anyChange = false;
   _.each(commitSet, function(val, commitID) {
     var commit = this.refs[commitID];
-    anyChange = anyChange || commit.checkForUpdatedParent(this);
+    var thisUpdated = commit.checkForUpdatedParent(this);
+    anyChange = anyChange || thisUpdated;
   }, this);
   return anyChange;
 };
@@ -1569,9 +1570,15 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   var stopSet = this.getUpstreamSet(destination);
   var upstream = this.getUpstreamDiffSetFromSet(stopSet, base);
 
+  // and NOWWWwwww get all the descendants of this set
+  var moreSets = [];
+  _.each(upstream, function(val, id) {
+    moreSets.push(this.getDownstreamSet(id));
+  }, this);
+
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
-  _.each([upstream, downstream], function(set) {
+  _.each([upstream, downstream].concat(moreSets), function(set) {
     _.each(set, function(val, id) {
       masterSet[id] = true;
     });
@@ -2359,11 +2366,14 @@ var Commit = Backbone.Model.extend({
   checkForUpdatedParent: function(engine) {
     var parents = this.get('parents');
     if (parents.length > 1) {
-      console.warn('TODO fix merge commits'); // TODO
       return;
     }
     var parent = parents[0];
     var parentID = parent.get('id');
+    console.log('i am ', this.get('id'));
+    if (this.get('id') === 'C4') {
+      debugger;
+    }
 
     var newestID = engine.getMostRecentBumpedID(parentID);
     if (parentID === newestID) {

@@ -143,7 +143,7 @@ var initDemo = function(sandbox) {
       'git rebase master',
       'delay 5000',
       'undo',
-      'hg sum',
+      'hg book',
       'delay 5000',
       'hg rebase -d master'
     ];
@@ -158,6 +158,14 @@ var initDemo = function(sandbox) {
       'hg sum',
       'delay 5000',
       'hg rebase -d master'
+    ];
+    commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('hgdemo3')) {
+    commands = [
+      'importTreeNow {"branches":{"master":{"target":"C1","id":"master"},"foo":{"target":"C2","id":"foo"},"bar":{"target":"C5","id":"bar"},"baz":{"target":"C4","id":"baz"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"HEAD":{"target":"bar","id":"HEAD"}}',
+      'hg book',
+      'delay 2000',
+      'hg rebase -d foo'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (!params.hasOwnProperty('NODEMO')) {
