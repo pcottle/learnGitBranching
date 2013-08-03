@@ -139,24 +139,24 @@ var initDemo = function(sandbox) {
   } else if (params.hasOwnProperty('hgdemo')) {
     commands = [
       'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"feature":{"target":"C2","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"feature","id":"HEAD"}}',
-      'delay 7000',
+      'delay 1000',
       'git rebase master',
-      'delay 2000',
+      'delay 1000',
       'undo',
       'hg book',
-      'delay 2000',
+      'delay 1000',
       'hg rebase -d master'
     ];
     commands = commands.join(';#').split('#'); // hax
   } else if (params.hasOwnProperty('hgdemo2')) {
     commands = [
       'importTreeNow {"branches":{"master":{"target":"C3","id":"master"},"feature":{"target":"C2","id":"feature"},"debug":{"target":"C4","id":"debug"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"debug","id":"HEAD"}}',
-      'delay 5000',
+      'delay 1000',
       'git rebase master',
-      'delay 2000',
+      'delay 1000',
       'undo',
       'hg sum',
-      'delay 2000',
+      'delay 1000',
       'hg rebase -d master'
     ];
     commands = commands.join(';#').split('#'); // hax
