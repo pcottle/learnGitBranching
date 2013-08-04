@@ -58,6 +58,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       var options = command.getSupportedMap();
       if (!options['-r']) {
         throw new GitError({
@@ -197,7 +198,11 @@ var commandConfig = {
 
   update: {
     regex: /^hg +(update|up)($|\s+)/,
+    options: [
+      '-r'
+    ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       return {
         vcs: 'git',
         name: 'checkout'
@@ -207,7 +212,11 @@ var commandConfig = {
   
   backout: {
     regex: /^hg +backout($|\s+)/,
+    options: [
+      '-r'
+    ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       return {
         vcs: 'git',
         name: 'revert'
@@ -230,9 +239,6 @@ var commandConfig = {
       };
     }
   },
-
-  // TODO rebase :OOOO need to graft? engine work
-  // rebase: {
 
   pull: {
     regex: /^hg +pull($|\s+)/,

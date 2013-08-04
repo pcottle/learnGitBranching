@@ -6053,7 +6053,6 @@ var initRootEvents = function(eventBaton) {
 
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
-  console.log(params);
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
@@ -10978,7 +10977,6 @@ var commandConfig = {
         return;
       }
 
-      console.log(generalArgs);
       command.validateArgBounds(generalArgs, 1, 1);
 
       engine.checkout(engine.crappyUnescape(generalArgs[0]));
@@ -11095,6 +11093,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       var options = command.getSupportedMap();
       if (!options['-r']) {
         throw new GitError({
@@ -11234,7 +11233,11 @@ var commandConfig = {
 
   update: {
     regex: /^hg +(update|up)($|\s+)/,
+    options: [
+      '-r'
+    ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       return {
         vcs: 'git',
         name: 'checkout'
@@ -11244,7 +11247,11 @@ var commandConfig = {
   
   backout: {
     regex: /^hg +backout($|\s+)/,
+    options: [
+      '-r'
+    ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       return {
         vcs: 'git',
         name: 'revert'
@@ -11267,9 +11274,6 @@ var commandConfig = {
       };
     }
   },
-
-  // TODO rebase :OOOO need to graft? engine work
-  // rebase: {
 
   pull: {
     regex: /^hg +pull($|\s+)/,
@@ -14812,6 +14816,18 @@ var Command = Backbone.Model.extend({
 
   replaceDotWithHead: function(string) {
     return string.replace(/\./g, 'HEAD');
+  },
+
+  /**
+   * Since mercurial always wants revisions with
+   * -r, we want to just make these general
+   * args for git
+   */
+  appendOptionR: function() {
+    var rOptions = this.getSupportedMap()['-r'] || [];
+    this.setGeneralArgs(
+      this.getGeneralArgs().concat(rOptions)
+    );
   },
 
   mapDotToHead: function() {
@@ -24070,7 +24086,6 @@ var initRootEvents = function(eventBaton) {
 
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
-  console.log(params);
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
@@ -25294,7 +25309,6 @@ var commandConfig = {
         return;
       }
 
-      console.log(generalArgs);
       command.validateArgBounds(generalArgs, 1, 1);
 
       engine.checkout(engine.crappyUnescape(generalArgs[0]));
@@ -31016,6 +31030,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       var options = command.getSupportedMap();
       if (!options['-r']) {
         throw new GitError({
@@ -31155,7 +31170,11 @@ var commandConfig = {
 
   update: {
     regex: /^hg +(update|up)($|\s+)/,
+    options: [
+      '-r'
+    ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       return {
         vcs: 'git',
         name: 'checkout'
@@ -31165,7 +31184,11 @@ var commandConfig = {
   
   backout: {
     regex: /^hg +backout($|\s+)/,
+    options: [
+      '-r'
+    ],
     delegate: function(engine, command) {
+      command.appendOptionR();
       return {
         vcs: 'git',
         name: 'revert'
@@ -31188,9 +31211,6 @@ var commandConfig = {
       };
     }
   },
-
-  // TODO rebase :OOOO need to graft? engine work
-  // rebase: {
 
   pull: {
     regex: /^hg +pull($|\s+)/,
@@ -31407,6 +31427,18 @@ var Command = Backbone.Model.extend({
 
   replaceDotWithHead: function(string) {
     return string.replace(/\./g, 'HEAD');
+  },
+
+  /**
+   * Since mercurial always wants revisions with
+   * -r, we want to just make these general
+   * args for git
+   */
+  appendOptionR: function() {
+    var rOptions = this.getSupportedMap()['-r'] || [];
+    this.setGeneralArgs(
+      this.getGeneralArgs().concat(rOptions)
+    );
   },
 
   mapDotToHead: function() {

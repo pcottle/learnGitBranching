@@ -55,6 +55,18 @@ var Command = Backbone.Model.extend({
     return string.replace(/\./g, 'HEAD');
   },
 
+  /**
+   * Since mercurial always wants revisions with
+   * -r, we want to just make these general
+   * args for git
+   */
+  appendOptionR: function() {
+    var rOptions = this.getSupportedMap()['-r'] || [];
+    this.setGeneralArgs(
+      this.getGeneralArgs().concat(rOptions)
+    );
+  },
+
   mapDotToHead: function() {
     var generalArgs = this.getGeneralArgs();
     var options = this.getSupportedMap();

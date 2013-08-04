@@ -1,11 +1,11 @@
 var base = require('./base');
 var expectTreeAsync = base.expectTreeAsync;
 
-describe('GitEngine', function() {
+describe('Git', function() {
   it('Commits', function() {
     expectTreeAsync(
       'git commit',
-      '{"branches":{"master":{"target":"C2","id":"master","type":"branch"}},"commits":{"C0":{"type":"commit","parents":[],"id":"C0","rootCommit":true},"C1":{"type":"commit","parents":["C0"],"id":"C1"},"C2":{"type":"commit","parents":["C1"],"id":"C2"}},"HEAD":{"id":"HEAD","target":"master","type":"general ref"}}'
+      base.ONE_COMMIT_TREE
     );
   });
 
