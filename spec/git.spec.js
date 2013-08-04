@@ -1,40 +1,5 @@
-var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
-var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
-
-var TIME = 150;
-// useful for throwing garbage and then expecting one commit
-var oneCommit = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
-
-var loadTree = function(json) {
-  return JSON.parse(unescape(json));
-};
-
-var compareAnswer = function(headless, expectedJSON) {
-  var expectedTree = loadTree(expectedJSON);
-  var actualTree = headless.gitEngine.exportTree();
-
-  return TreeCompare.compareTrees(expectedTree, actualTree);
-};
-
-var expectTreeAsync = function(command, expectedJSON) {
-  var headless = new HeadlessGit();
-  var start = Date.now();
-  var haveReported = false;
-
-  runs(function() {
-    headless.sendCommand(command);
-  });
-  waitsFor(function() {
-    var diff = (Date.now() - start);
-    if (diff > TIME - 50 && !haveReported) {
-      haveReported = true;
-      console.log('not going to match', command);
-      console.log('expected\n>>>>>>>>\n', loadTree(expectedJSON));
-      console.log('\n<<<<<<<<<<<\nactual', headless.gitEngine.exportTree());
-    }
-    return compareAnswer(headless, expectedJSON);
-  }, 'trees should be equal', 100);
-};
+var base = require('./base');
+var expectTreeAsync = base.expectTreeAsync;
 
 describe('GitEngine', function() {
   it('Commits', function() {
@@ -54,7 +19,7 @@ describe('GitEngine', function() {
   it('throws with bad arg options', function() {
     expectTreeAsync(
       'git commit foo; git commit -am -m; git commit -am -a; git commit -am "hi" "ho"; git commit',
-      oneCommit
+      base.ONE_COMMIT_TREE
     );
   });
 
@@ -68,7 +33,7 @@ describe('GitEngine', function() {
   it('does add', function() {
     expectTreeAsync(
       'git add; git commit',
-      oneCommit
+      base.ONE_COMMIT_TREE
     );
   });
 

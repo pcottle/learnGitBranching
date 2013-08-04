@@ -121,7 +121,6 @@ var initRootEvents = function(eventBaton) {
 
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
-  console.log(params);
 
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here

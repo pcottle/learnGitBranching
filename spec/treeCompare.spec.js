@@ -1,10 +1,6 @@
 var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
 var _ = require('underscore');
 
-var loadTree = function(json) {
-  return JSON.parse(unescape(json));
-};
-
 var loadTree = function(treeString) {
   return TreeCompare.convertTreeSafe(treeString);
 };
