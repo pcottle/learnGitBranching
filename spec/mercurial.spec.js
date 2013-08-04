@@ -50,5 +50,11 @@ describe('Mercurial', function() {
     '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22master%22%7D%2C%22feature%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22feature%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22debug%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22debug%22%2C%22id%22%3A%22HEAD%22%7D%7D'
   );
 
+  assert(
+    'rebases with -d below stuff',
+    'hg ci; hg book -r C1 feature; hg update feature; hg ci;hg book -r C3 debug;hg ci;hg up debug;hg rebase -d master -b .;',
+    '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22master%22%7D%2C%22feature%22%3A%7B%22target%22%3A%22C4%22%2C%22id%22%3A%22feature%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22debug%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22debug%22%2C%22id%22%3A%22HEAD%22%7D%7D'
+  );
+
 });
 

@@ -191,7 +191,8 @@ var commandConfig = {
 
         engine.hgRebase(dest, base);
       } else {
-        // TODO
+        // TODO!!!
+        throwE();
       }
     }
   },
