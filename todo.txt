@@ -17,7 +17,6 @@ Origin things:
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] figure out what to do with instant commands (and parse waterfall and the like)
-[-] test coverage for hg!!! (in progress)
 
 Cases to handle / things to edit
 =======================
@@ -37,6 +36,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] test coverage for hg!!! (in progress)
 [x] tree pruning
 [x] TONS of hg stuff
 [x] finally work on an upload / download animation
