@@ -18,7 +18,7 @@ var commandConfig = {
       '-m'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
 
       if (commandOptions['-am'] && (
@@ -70,7 +70,7 @@ var commandConfig = {
     displayName: 'cherry-pick',
     regex: /^git +cherry-pick($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
@@ -107,7 +107,7 @@ var commandConfig = {
         });
       }
 
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
       engine.pull({
         isRebase: commandOptions['--rebase']
@@ -176,7 +176,7 @@ var commandConfig = {
       '--contains'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       var args = null;
@@ -244,7 +244,7 @@ var commandConfig = {
       '--soft'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['--soft']) {
@@ -344,7 +344,7 @@ var commandConfig = {
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
@@ -383,7 +383,7 @@ var commandConfig = {
       '-'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       var args = null;

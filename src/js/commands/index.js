@@ -36,7 +36,7 @@ var commands = {
       // a different command at each step
       _.each(result.multiDelegate, function(delConfig) {
         // copy command, and then set opts
-        commandObj.setSupportedMap(delConfig.options || {});
+        commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
         
         commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);

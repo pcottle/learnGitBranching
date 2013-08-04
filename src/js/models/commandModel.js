@@ -61,7 +61,7 @@ var Command = Backbone.Model.extend({
    * args for git
    */
   appendOptionR: function() {
-    var rOptions = this.getSupportedMap()['-r'] || [];
+    var rOptions = this.getOptionsMap()['-r'] || [];
     this.setGeneralArgs(
       this.getGeneralArgs().concat(rOptions)
     );
@@ -69,7 +69,7 @@ var Command = Backbone.Model.extend({
 
   mapDotToHead: function() {
     var generalArgs = this.getGeneralArgs();
-    var options = this.getSupportedMap();
+    var options = this.getOptionsMap();
     
     generalArgs = _.map(generalArgs, function(arg) {
       return this.replaceDotWithHead(arg);
@@ -81,15 +81,15 @@ var Command = Backbone.Model.extend({
       }, this);
     }, this);
     this.setGeneralArgs(generalArgs);
-    this.setSupportedMap(newMap);
+    this.setOptionsMap(newMap);
   },
 
   deleteOptions: function(options) {
-    var map = this.getSupportedMap();
+    var map = this.getOptionsMap();
     _.each(options, function(option) {
       delete map[option];
     }, this);
-    this.setSupportedMap(map);
+    this.setOptionsMap(map);
   },
 
   getGeneralArgs: function() {
@@ -100,11 +100,11 @@ var Command = Backbone.Model.extend({
     this.set('generalArgs', args);
   },
 
-  setSupportedMap: function(map) {
+  setOptionsMap: function(map) {
     this.set('supportedMap', map);
   },
 
-  getSupportedMap: function() {
+  getOptionsMap: function() {
     return this.get('supportedMap');
   },
 

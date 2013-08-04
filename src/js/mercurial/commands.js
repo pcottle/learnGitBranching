@@ -18,7 +18,7 @@ var commandConfig = {
       '-m'
     ],
     delegate: function(engine, command) {
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       if (options['-A']) {
         command.addWarning(intl.str('hg-a-option'));
       }
@@ -59,7 +59,7 @@ var commandConfig = {
     ],
     delegate: function(engine, command) {
       command.appendOptionR();
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       if (!options['-r']) {
         throw new GitError({
           msg: intl.str('git-error-options')
@@ -80,7 +80,7 @@ var commandConfig = {
     ],
     dontCountForGolf: true,
     delegate: function(engine, command) {
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       command.acceptNoGeneralArgs();
 
       if (!options['-f']) {
@@ -104,7 +104,7 @@ var commandConfig = {
       '-d'
     ],
     delegate: function(engine, command) {
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
       var branchName;
       var rev;
@@ -145,7 +145,7 @@ var commandConfig = {
           delegate.name = 'branch';
           command.setGeneralArgs([branchName, rev]);
         } else if (generalArgs.length > 0) {
-          command.setSupportedMap({'-b': [generalArgs[0]]});
+          command.setOptionsMap({'-b': [generalArgs[0]]});
           delegate.name = 'checkout';
           command.setGeneralArgs([]);
         } else {
@@ -171,7 +171,7 @@ var commandConfig = {
         });
       };
 
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       // if we have both OR if we have neither
       if ((options['-d'] && options['-s']) ||
           (!options['-d'] && !options['-s'])) {
@@ -181,9 +181,9 @@ var commandConfig = {
         options['-b'] = ['.'];
       }
 
-      command.setSupportedMap(options);
+      command.setOptionsMap(options);
       command.mapDotToHead();
-      options = command.getSupportedMap();
+      options = command.getOptionsMap();
 
       if (options['-d']) {
         var dest = options['-d'][0] || throwE();
@@ -229,7 +229,7 @@ var commandConfig = {
     delegate: function(engine, command) {
       var args = command.getGeneralArgs();
       command.validateArgBounds(args, 1, 1);
-      command.setSupportedMap({
+      command.setOptionsMap({
         '-i': args
       });
       command.setGeneralArgs([]);
