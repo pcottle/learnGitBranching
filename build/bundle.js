@@ -3919,7 +3919,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
 
 });
 
-require.define("/src/js/level/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/sandbox/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
@@ -5959,7 +5959,7 @@ var init = function() {
     *   - initializing the command input bar
     *   - handling window.focus and zoom events
   **/
-  var Sandbox = require('../level/sandbox').Sandbox;
+  var Sandbox = require('../sandbox/').Sandbox;
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;
@@ -6204,7 +6204,7 @@ var intl = require('../intl');
 var log = require('../log');
 
 var Errors = require('../util/errors');
-var Sandbox = require('../level/sandbox').Sandbox;
+var Sandbox = require('../sandbox/').Sandbox;
 var Constants = require('../util/constants');
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -9603,8 +9603,19 @@ var Commit = Backbone.Model.extend({
     this.removeFromParents();
     this.set('parents', [newParent]);
     newParent.get('children').push(this);
-    this.get('visNode').removeAllEdges();
-    this.get('gitVisuals').addEdge(this.get('id'), newestID);
+
+    // when we run in test mode, our visnode and
+    // visuals will be undefined so we need to check for their existence
+    var visNode = this.get('visNode');
+    if (visNode) {
+      visNode.removeAllEdges();
+    }
+
+    var gitVisuals = this.get('gitVisuals');
+    if (gitVisuals) {
+      gitVisuals.addEdge(this.get('id'), newestID);
+    }
+
     return true;
   },
 
@@ -9858,6 +9869,10 @@ var AnimationQueue = Backbone.Model.extend({
     promise.then(_.bind(function() {
       this.finish();
     }, this));
+    promise.fail(function(e) {
+      console.log('uncaught error', e);
+      throw e;
+    });
     this.set('promiseBased', true);
     if (deferred) {
       deferred.resolve();
@@ -10376,7 +10391,7 @@ var commands = {
       // a different command at each step
       _.each(result.multiDelegate, function(delConfig) {
         // copy command, and then set opts
-        commandObj.setSupportedMap(delConfig.options || {});
+        commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
         
         commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);
@@ -10570,7 +10585,7 @@ var commandConfig = {
       '-m'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
 
       if (commandOptions['-am'] && (
@@ -10622,7 +10637,7 @@ var commandConfig = {
     displayName: 'cherry-pick',
     regex: /^git +cherry-pick($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
@@ -10659,7 +10674,7 @@ var commandConfig = {
         });
       }
 
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
       engine.pull({
         isRebase: commandOptions['--rebase']
@@ -10728,7 +10743,7 @@ var commandConfig = {
       '--contains'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       var args = null;
@@ -10796,7 +10811,7 @@ var commandConfig = {
       '--soft'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['--soft']) {
@@ -10896,7 +10911,7 @@ var commandConfig = {
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
@@ -10935,7 +10950,7 @@ var commandConfig = {
       '-'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       var args = null;
@@ -11053,7 +11068,7 @@ var commandConfig = {
       '-m'
     ],
     delegate: function(engine, command) {
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       if (options['-A']) {
         command.addWarning(intl.str('hg-a-option'));
       }
@@ -11094,7 +11109,7 @@ var commandConfig = {
     ],
     delegate: function(engine, command) {
       command.appendOptionR();
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       if (!options['-r']) {
         throw new GitError({
           msg: intl.str('git-error-options')
@@ -11115,7 +11130,7 @@ var commandConfig = {
     ],
     dontCountForGolf: true,
     delegate: function(engine, command) {
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       command.acceptNoGeneralArgs();
 
       if (!options['-f']) {
@@ -11139,7 +11154,7 @@ var commandConfig = {
       '-d'
     ],
     delegate: function(engine, command) {
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
       var branchName;
       var rev;
@@ -11180,7 +11195,7 @@ var commandConfig = {
           delegate.name = 'branch';
           command.setGeneralArgs([branchName, rev]);
         } else if (generalArgs.length > 0) {
-          command.setSupportedMap({'-b': [generalArgs[0]]});
+          command.setOptionsMap({'-b': [generalArgs[0]]});
           delegate.name = 'checkout';
           command.setGeneralArgs([]);
         } else {
@@ -11206,7 +11221,7 @@ var commandConfig = {
         });
       };
 
-      var options = command.getSupportedMap();
+      var options = command.getOptionsMap();
       // if we have both OR if we have neither
       if ((options['-d'] && options['-s']) ||
           (!options['-d'] && !options['-s'])) {
@@ -11216,9 +11231,9 @@ var commandConfig = {
         options['-b'] = ['.'];
       }
 
-      command.setSupportedMap(options);
+      command.setOptionsMap(options);
       command.mapDotToHead();
-      options = command.getSupportedMap();
+      options = command.getOptionsMap();
 
       if (options['-d']) {
         var dest = options['-d'][0] || throwE();
@@ -11226,7 +11241,8 @@ var commandConfig = {
 
         engine.hgRebase(dest, base);
       } else {
-        // TODO
+        // TODO!!!
+        throwE();
       }
     }
   },
@@ -11264,7 +11280,7 @@ var commandConfig = {
     delegate: function(engine, command) {
       var args = command.getGeneralArgs();
       command.validateArgBounds(args, 1, 1);
-      command.setSupportedMap({
+      command.setOptionsMap({
         '-i': args
       });
       command.setGeneralArgs([]);
@@ -14824,7 +14840,7 @@ var Command = Backbone.Model.extend({
    * args for git
    */
   appendOptionR: function() {
-    var rOptions = this.getSupportedMap()['-r'] || [];
+    var rOptions = this.getOptionsMap()['-r'] || [];
     this.setGeneralArgs(
       this.getGeneralArgs().concat(rOptions)
     );
@@ -14832,7 +14848,7 @@ var Command = Backbone.Model.extend({
 
   mapDotToHead: function() {
     var generalArgs = this.getGeneralArgs();
-    var options = this.getSupportedMap();
+    var options = this.getOptionsMap();
     
     generalArgs = _.map(generalArgs, function(arg) {
       return this.replaceDotWithHead(arg);
@@ -14844,15 +14860,15 @@ var Command = Backbone.Model.extend({
       }, this);
     }, this);
     this.setGeneralArgs(generalArgs);
-    this.setSupportedMap(newMap);
+    this.setOptionsMap(newMap);
   },
 
   deleteOptions: function(options) {
-    var map = this.getSupportedMap();
+    var map = this.getOptionsMap();
     _.each(options, function(option) {
       delete map[option];
     }, this);
-    this.setSupportedMap(map);
+    this.setOptionsMap(map);
   },
 
   getGeneralArgs: function() {
@@ -14863,11 +14879,11 @@ var Command = Backbone.Model.extend({
     this.set('generalArgs', args);
   },
 
-  setSupportedMap: function(map) {
+  setOptionsMap: function(map) {
     this.set('supportedMap', map);
   },
 
-  getSupportedMap: function() {
+  getOptionsMap: function() {
     return this.get('supportedMap');
   },
 
@@ -15051,7 +15067,7 @@ require.define("/src/js/level/parseWaterfall.js",function(require,module,exports
 
 var GitCommands = require('../git/commands');
 var Commands = require('../commands');
-var SandboxCommands = require('../level/sandboxCommands');
+var SandboxCommands = require('../sandbox/commands');
 
 // more or less a static class
 var ParseWaterfall = function(options) {
@@ -15173,7 +15189,7 @@ exports.ParseWaterfall = ParseWaterfall;
 
 });
 
-require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/sandbox/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');
@@ -23992,7 +24008,7 @@ var init = function() {
     *   - initializing the command input bar
     *   - handling window.focus and zoom events
   **/
-  var Sandbox = require('../level/sandbox').Sandbox;
+  var Sandbox = require('../sandbox/').Sandbox;
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;
@@ -24266,7 +24282,7 @@ var commands = {
       // a different command at each step
       _.each(result.multiDelegate, function(delConfig) {
         // copy command, and then set opts
-        commandObj.setSupportedMap(delConfig.options || {});
+        commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
         
         commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);
@@ -24902,7 +24918,7 @@ var commandConfig = {
       '-m'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
 
       if (commandOptions['-am'] && (
@@ -24954,7 +24970,7 @@ var commandConfig = {
     displayName: 'cherry-pick',
     regex: /^git +cherry-pick($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
@@ -24991,7 +25007,7 @@ var commandConfig = {
         });
       }
 
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
       engine.pull({
         isRebase: commandOptions['--rebase']
@@ -25060,7 +25076,7 @@ var commandConfig = {
       '--contains'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       var args = null;
@@ -25128,7 +25144,7 @@ var commandConfig = {
       '--soft'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['--soft']) {
@@ -25228,7 +25244,7 @@ var commandConfig = {
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
@@ -25267,7 +25283,7 @@ var commandConfig = {
       '-'
     ],
     execute: function(engine, command) {
-      var commandOptions = command.getSupportedMap();
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
 
       var args = null;
@@ -27952,8 +27968,19 @@ var Commit = Backbone.Model.extend({
     this.removeFromParents();
     this.set('parents', [newParent]);
     newParent.get('children').push(this);
-    this.get('visNode').removeAllEdges();
-    this.get('gitVisuals').addEdge(this.get('id'), newestID);
+
+    // when we run in test mode, our visnode and
+    // visuals will be undefined so we need to check for their existence
+    var visNode = this.get('visNode');
+    if (visNode) {
+      visNode.removeAllEdges();
+    }
+
+    var gitVisuals = this.get('gitVisuals');
+    if (gitVisuals) {
+      gitVisuals.addEdge(this.get('id'), newestID);
+    }
+
     return true;
   },
 
@@ -29696,7 +29723,7 @@ var intl = require('../intl');
 var log = require('../log');
 
 var Errors = require('../util/errors');
-var Sandbox = require('../level/sandbox').Sandbox;
+var Sandbox = require('../sandbox/').Sandbox;
 var Constants = require('../util/constants');
 
 var Visualization = require('../visuals/visualization').Visualization;
@@ -30209,7 +30236,7 @@ require.define("/src/js/level/parseWaterfall.js",function(require,module,exports
 
 var GitCommands = require('../git/commands');
 var Commands = require('../commands');
-var SandboxCommands = require('../level/sandboxCommands');
+var SandboxCommands = require('../sandbox/commands');
 
 // more or less a static class
 var ParseWaterfall = function(options) {
@@ -30332,7 +30359,898 @@ exports.ParseWaterfall = ParseWaterfall;
 });
 require("/src/js/level/parseWaterfall.js");
 
-require.define("/src/js/level/sandbox.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+require.define("/src/js/log/index.js",function(require,module,exports,__dirname,__filename,process,global){
+var log = function(category, action, label) {
+  window._gaq = window._gaq || [];
+  window._gaq.push(['_trackEvent', category, action, label]);
+  //console.log('just logged ', [category, action, label].join('|'));
+};
+
+exports.viewInteracted = function(viewName) {
+  log('views', 'interacted', viewName);
+};
+
+exports.showLevelSolution = function(levelName) {
+  log('levels', 'showedLevelSolution', levelName);
+};
+
+exports.choseNextLevel = function(levelID) {
+  log('levels', 'nextLevelChosen', levelID);
+};
+
+exports.levelSelected = function(levelName) {
+  log('levels', 'levelSelected', levelName);
+};
+
+exports.levelSolved = function(levelName) {
+  log('levels', 'levelSolved', levelName);
+};
+
+exports.commandEntered = function(value) {
+  log('commands', 'commandEntered', value);
+};
+
+
+});
+require("/src/js/log/index.js");
+
+require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var intl = require('../intl');
+
+var GitCommands = require('../git/commands');
+var Errors = require('../util/errors');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var commandConfig = {
+  commit: {
+    regex: /^hg +(commit|ci)($|\s)/,
+    options: [
+      '--amend',
+      '-A',
+      '-m'
+    ],
+    delegate: function(engine, command) {
+      var options = command.getOptionsMap();
+      if (options['-A']) {
+        command.addWarning(intl.str('hg-a-option'));
+      }
+
+      return {
+        vcs: 'git',
+        name: 'commit'
+      };
+    }
+  },
+
+  status: {
+    regex: /^hg +(status|st) *$/,
+    dontCountForGolf: true,
+    execute: function(engine, command) {
+      throw new GitError({
+        msg: intl.str('hg-error-no-status')
+      });
+    }
+  },
+
+  'export': {
+    regex: /^hg +export($|\s)/,
+    dontCountForGolf: true,
+    delegate: function(engine, command) {
+      command.mapDotToHead();
+      return {
+        vcs: 'git',
+        name: 'show'
+      };
+    }
+  },
+
+  graft: {
+    regex: /^hg +graft($|\s)/,
+    options: [
+      '-r'
+    ],
+    delegate: function(engine, command) {
+      command.appendOptionR();
+      var options = command.getOptionsMap();
+      if (!options['-r']) {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
+      command.setGeneralArgs(options['-r']);
+      return {
+        vcs: 'git',
+        name: 'cherrypick'
+      };
+    }
+  },
+
+  log: {
+    regex: /^hg +log($|\s)/,
+    options: [
+      '-f'
+    ],
+    dontCountForGolf: true,
+    delegate: function(engine, command) {
+      var options = command.getOptionsMap();
+      command.acceptNoGeneralArgs();
+
+      if (!options['-f']) {
+        throw new GitError({
+          msg: intl.str('hg-error-log-no-follow')
+        });
+      }
+      command.mapDotToHead();
+      return {
+        vcs: 'git',
+        name: 'log'
+      };
+    }
+  },
+
+  bookmark: {
+    regex: /^hg (bookmarks|bookmark|book)($|\s)/,
+    options: [
+      '-r',
+      '-f',
+      '-d'
+    ],
+    delegate: function(engine, command) {
+      var options = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      var branchName;
+      var rev;
+
+      var delegate = { vcs: 'git' };
+
+      if (options['-m'] && options['-d']) {
+        throw new GitError({
+          msg: '-m and -d are incompatible'
+        });
+      }
+      if (options['-d'] && options['-r']) {
+        throw new GitError({
+          msg: '-r is incompatible with -d'
+        });
+      }
+      if (options['-m'] && options['-r']) {
+        throw new GitError({
+          msg: '-r is incompatible with -m'
+        });
+      }
+      if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
+          (options['-d'] ? options['-d'].length : 0) === 0) {
+        delegate.name = 'branch';
+        return delegate;
+      }
+
+      if (options['-d']) {
+        options['-D'] = options['-d'];
+        delete options['-d'];
+        delegate.name = 'branch';
+      } else {
+        if (options['-r']) {
+          // we specified a revision with -r but
+          // need to flip the order
+          branchName = options['-r'][1] || '';
+          rev = options['-r'][0] || '';
+          delegate.name = 'branch';
+          command.setGeneralArgs([branchName, rev]);
+        } else if (generalArgs.length > 0) {
+          command.setOptionsMap({'-b': [generalArgs[0]]});
+          delegate.name = 'checkout';
+          command.setGeneralArgs([]);
+        } else {
+          delegate.name = 'branch';
+        }
+      }
+
+      return delegate;
+    }
+  },
+
+  rebase: {
+    regex: /^hg +rebase($|\s+)/,
+    options: [
+      '-d',
+      '-s',
+      '-b'
+    ],
+    execute: function(engine, command) {
+      var throwE = function() {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      };
+
+      var options = command.getOptionsMap();
+      // if we have both OR if we have neither
+      if ((options['-d'] && options['-s']) ||
+          (!options['-d'] && !options['-s'])) {
+      }
+
+      if (!options['-b']) {
+        options['-b'] = ['.'];
+      }
+
+      command.setOptionsMap(options);
+      command.mapDotToHead();
+      options = command.getOptionsMap();
+
+      if (options['-d']) {
+        var dest = options['-d'][0] || throwE();
+        var base = options['-b'][0];
+
+        engine.hgRebase(dest, base);
+      } else {
+        // TODO!!!
+        throwE();
+      }
+    }
+  },
+
+  update: {
+    regex: /^hg +(update|up)($|\s+)/,
+    options: [
+      '-r'
+    ],
+    delegate: function(engine, command) {
+      command.appendOptionR();
+      return {
+        vcs: 'git',
+        name: 'checkout'
+      };
+    }
+  },
+  
+  backout: {
+    regex: /^hg +backout($|\s+)/,
+    options: [
+      '-r'
+    ],
+    delegate: function(engine, command) {
+      command.appendOptionR();
+      return {
+        vcs: 'git',
+        name: 'revert'
+      };
+    }
+  },
+
+  histedit: {
+    regex: /^hg +histedit($|\s+)/,
+    delegate: function(engine, command) {
+      var args = command.getGeneralArgs();
+      command.validateArgBounds(args, 1, 1);
+      command.setOptionsMap({
+        '-i': args
+      });
+      command.setGeneralArgs([]);
+      return {
+        vcs: 'git',
+        name: 'rebase'
+      };
+    }
+  },
+
+  pull: {
+    regex: /^hg +pull($|\s+)/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'pull'
+      };
+    }
+  },
+
+  summary: {
+    regex: /^hg +(summary|sum) *$/,
+    delegate: function(engine, command) {
+      return {
+        vcs: 'git',
+        name: 'branch'
+      };
+    }
+  }
+};
+
+exports.commandConfig = commandConfig;
+
+});
+require("/src/js/mercurial/commands.js");
+
+require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var Q = require('q');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Commit = require('../git').Commit;
+var Branch = require('../git').Branch;
+
+var Command = require('../models/commandModel').Command;
+var CommandEntry = require('../models/commandModel').CommandEntry;
+var TIME = require('../util/constants').TIME;
+
+var CommitCollection = Backbone.Collection.extend({
+  model: Commit
+});
+
+var CommandCollection = Backbone.Collection.extend({
+  model: Command
+});
+
+var BranchCollection = Backbone.Collection.extend({
+  model: Branch
+});
+
+var CommandEntryCollection = Backbone.Collection.extend({
+  model: CommandEntry,
+  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
+});
+
+var CommandBuffer = Backbone.Model.extend({
+  defaults: {
+    collection: null
+  },
+
+  initialize: function(options) {
+    options.collection.bind('add', this.addCommand, this);
+
+    this.buffer = [];
+    this.timeout = null;
+  },
+
+  addCommand: function(command) {
+    this.buffer.push(command);
+    this.touchBuffer();
+  },
+
+  touchBuffer: function() {
+    // touch buffer just essentially means we just check if our buffer is being
+    // processed. if it's not, we immediately process the first item
+    // and then set the timeout.
+    if (this.timeout) {
+      // timeout existence implies its being processed
+      return;
+    }
+    this.setTimeout();
+  },
+
+
+  setTimeout: function() {
+    this.timeout = setTimeout(_.bind(function() {
+        this.sipFromBuffer();
+    }, this), TIME.betweenCommandsDelay);
+  },
+
+  popAndProcess: function() {
+    var popped = this.buffer.shift(0);
+
+    // find a command with no error (aka unprocessed)
+    while (popped.get('error') && this.buffer.length) {
+      popped = this.buffer.shift(0);
+    }
+    if (!popped.get('error')) {
+      this.processCommand(popped);
+    } else {
+      // no more commands to process
+      this.clear();
+    }
+  },
+
+  processCommand: function(command) {
+    command.set('status', 'processing');
+
+    var deferred = Q.defer();
+    deferred.promise.then(_.bind(function() {
+      this.setTimeout();
+    }, this));
+
+    var eventName = command.get('eventName');
+    if (!eventName) {
+      throw new Error('I need an event to trigger when this guy is parsed and ready');
+    }
+
+    var Main = require('../app');
+    var eventBaton = Main.getEventBaton();
+
+    var numListeners = eventBaton.getNumListeners(eventName);
+    if (!numListeners) {
+      var Errors = require('../util/errors');
+      command.set('error', new Errors.GitError({
+        msg: 'That command is valid, but not supported in this current environment!' +
+             ' Try entering a level or level builder to use that command'
+      }));
+      deferred.resolve();
+      return;
+    }
+
+    Main.getEventBaton().trigger(eventName, command, deferred);
+  },
+
+  clear: function() {
+    clearTimeout(this.timeout);
+    this.timeout = null;
+  },
+
+  sipFromBuffer: function() {
+    if (!this.buffer.length) {
+      this.clear();
+      return;
+    }
+
+    this.popAndProcess();
+  }
+});
+
+exports.CommitCollection = CommitCollection;
+exports.CommandCollection = CommandCollection;
+exports.BranchCollection = BranchCollection;
+exports.CommandEntryCollection = CommandEntryCollection;
+exports.CommandBuffer = CommandBuffer;
+
+
+});
+require("/src/js/models/collections.js");
+
+require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+// horrible hack to get localStorage Backbone plugin
+var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+
+var Errors = require('../util/errors');
+
+var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var intl = require('../intl');
+
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var Command = Backbone.Model.extend({
+  defaults: {
+    status: 'inqueue',
+    rawStr: null,
+    result: '',
+    createTime: null,
+
+    error: null,
+    warnings: null,
+    parseWaterfall: new ParseWaterfall(),
+
+    generalArgs: null,
+    supportedMap: null,
+    options: null,
+    method: null
+
+  },
+
+  initialize: function(options) {
+    this.initDefaults();
+    this.validateAtInit();
+
+    this.on('change:error', this.errorChanged, this);
+    // catch errors on init
+    if (this.get('error')) {
+      this.errorChanged();
+    }
+
+    this.parseOrCatch();
+  },
+
+  initDefaults: function() {
+    // weird things happen with defaults if you dont
+    // make new objects
+    this.set('generalArgs', []);
+    this.set('supportedMap', {});
+    this.set('warnings', []);
+  },
+
+  replaceDotWithHead: function(string) {
+    return string.replace(/\./g, 'HEAD');
+  },
+
+  /**
+   * Since mercurial always wants revisions with
+   * -r, we want to just make these general
+   * args for git
+   */
+  appendOptionR: function() {
+    var rOptions = this.getOptionsMap()['-r'] || [];
+    this.setGeneralArgs(
+      this.getGeneralArgs().concat(rOptions)
+    );
+  },
+
+  mapDotToHead: function() {
+    var generalArgs = this.getGeneralArgs();
+    var options = this.getOptionsMap();
+    
+    generalArgs = _.map(generalArgs, function(arg) {
+      return this.replaceDotWithHead(arg);
+    }, this);
+    var newMap = {};
+    _.each(options, function(args, key) {
+      newMap[key] = _.map(args, function(arg) {
+        return this.replaceDotWithHead(arg);
+      }, this);
+    }, this);
+    this.setGeneralArgs(generalArgs);
+    this.setOptionsMap(newMap);
+  },
+
+  deleteOptions: function(options) {
+    var map = this.getOptionsMap();
+    _.each(options, function(option) {
+      delete map[option];
+    }, this);
+    this.setOptionsMap(map);
+  },
+
+  getGeneralArgs: function() {
+    return this.get('generalArgs');
+  },
+
+  setGeneralArgs: function(args) {
+    this.set('generalArgs', args);
+  },
+
+  setOptionsMap: function(map) {
+    this.set('supportedMap', map);
+  },
+
+  getOptionsMap: function() {
+    return this.get('supportedMap');
+  },
+
+  acceptNoGeneralArgs: function() {
+    if (this.getGeneralArgs().length) {
+      throw new GitError({
+        msg: intl.str('git-error-no-general-args')
+      });
+    }
+  },
+
+  oneArgImpliedHead: function(args, option) {
+    this.validateArgBounds(args, 0, 1, option);
+    // and if it's one, add a HEAD to the back
+    if (args.length === 0) {
+      args.push('HEAD');
+    }
+  },
+
+  twoArgsImpliedHead: function(args, option) {
+    // our args we expect to be between 1 and 2
+    this.validateArgBounds(args, 1, 2, option);
+    // and if it's one, add a HEAD to the back
+    if (args.length == 1) {
+      args.push('HEAD');
+    }
+  },
+
+  // this is a little utility class to help arg validation that happens over and over again
+  validateArgBounds: function(args, lower, upper, option) {
+    var what = (option === undefined) ?
+      'git ' + this.get('method') :
+      this.get('method') + ' ' + option + ' ';
+    what = 'with ' + what;
+
+    if (args.length < lower) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-few',
+          {
+            lower: String(lower),
+            what: what
+          }
+        )
+      });
+    }
+    if (args.length > upper) {
+      throw new GitError({
+        msg: intl.str(
+          'git-error-args-many',
+          {
+            upper: String(upper),
+            what: what
+          }
+        )
+      });
+    }
+  },
+
+  validateAtInit: function() {
+    if (this.get('rawStr') === null) {
+      throw new Error('Give me a string!');
+    }
+    if (!this.get('createTime')) {
+      this.set('createTime', new Date().toString());
+    }
+  },
+
+  setResult: function(msg) {
+    this.set('result', msg);
+  },
+
+  finishWith: function(deferred) {
+    this.set('status', 'finished');
+    deferred.resolve();
+  },
+
+  addWarning: function(msg) {
+    this.get('warnings').push(msg);
+    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
+    // detect if an array changes, so adding an element does nothing
+    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
+  },
+
+  getFormattedWarnings: function() {
+    if (!this.get('warnings').length) {
+      return '';
+    }
+    var i = '<i class="icon-exclamation-sign"></i>';
+    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
+  },
+
+  parseOrCatch: function() {
+    this.expandShortcuts(this.get('rawStr'));
+    try {
+      this.processInstants();
+    } catch (err) {
+      Errors.filterError(err);
+      // errorChanged() will handle status and all of that
+      this.set('error', err);
+      return;
+    }
+
+    if (this.parseAll()) {
+      // something in our parse waterfall succeeded
+      return;
+    }
+
+    // if we reach here, this command is not supported :-/
+    this.set('error', new CommandProcessError({
+        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
+      })
+    );
+  },
+
+  errorChanged: function() {
+    var err = this.get('error');
+    if (!err) { return; }
+    if (err instanceof CommandProcessError ||
+        err instanceof GitError) {
+      this.set('status', 'error');
+    } else if (err instanceof CommandResult) {
+      this.set('status', 'finished');
+    } else if (err instanceof Warning) {
+      this.set('status', 'warning');
+    }
+    this.formatError();
+  },
+
+  formatError: function() {
+    this.set('result', this.get('error').toResult());
+  },
+
+  expandShortcuts: function(str) {
+    str = this.get('parseWaterfall').expandAllShortcuts(str);
+    this.set('rawStr', str);
+  },
+
+  processInstants: function() {
+    var str = this.get('rawStr');
+    // first if the string is empty, they just want a blank line
+    if (!str.length) {
+      throw new CommandResult({msg: ""});
+    }
+
+    // then instant commands that will throw
+    this.get('parseWaterfall').processAllInstants(str);
+  },
+
+  parseAll: function() {
+    var str = this.get('rawStr');
+    var results = this.get('parseWaterfall').parseAll(str);
+
+    if (!results) {
+      // nothing parsed successfully
+      return false;
+    }
+
+    _.each(results.toSet, function(obj, key) {
+      // data comes back from the parsing functions like
+      // options (etc) that need to be set
+      this.set(key, obj);
+    }, this);
+    return true;
+  }
+});
+
+// command entry is for the commandview
+var CommandEntry = Backbone.Model.extend({
+  defaults: {
+    text: ''
+  }
+});
+
+exports.CommandEntry = CommandEntry;
+exports.Command = Command;
+
+});
+require("/src/js/models/commandModel.js");
+
+require.define("/src/js/sandbox/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
+var util = require('../util');
+
+var constants = require('../util/constants');
+var intl = require('../intl');
+
+var Commands = require('../commands');
+var Errors = require('../util/errors');
+var CommandProcessError = Errors.CommandProcessError;
+var GitError = Errors.GitError;
+var Warning = Errors.Warning;
+var CommandResult = Errors.CommandResult;
+
+var instantCommands = [
+  [/^ls/, function() {
+    throw new CommandResult({
+      msg: intl.str('ls-command')
+    });
+  }],
+  [/^cd/, function() {
+    throw new CommandResult({
+      msg: intl.str('cd-command')
+    });
+  }],
+  [/^(locale|locale reset)$/, function(bits) {
+    constants.GLOBAL.locale = intl.getDefaultLocale();
+    var Main = require('../app').getEvents().trigger('localeChanged');
+
+    throw new CommandResult({
+      msg: intl.str(
+        'locale-reset-command',
+        { locale: intl.getDefaultLocale() }
+      )
+    });
+  }],
+  [/^show$/, function(bits) {
+    var lines = [
+      intl.str('show-command'),
+      '<br/>',
+      'show commands',
+      'show solution',
+      'show goal'
+    ];
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
+  }],
+  [/^locale (\w+)$/, function(bits) {
+    constants.GLOBAL.locale = bits[1];
+
+    var Main = require('../app').getEvents().trigger('localeChanged');
+    throw new CommandResult({
+      msg: intl.str(
+        'locale-command',
+        { locale: bits[1] }
+      )
+    });
+  }],
+  [/^refresh$/, function() {
+    var events = require('../app').getEvents();
+
+    events.trigger('refreshTree');
+    throw new CommandResult({
+      msg: intl.str('refresh-tree-command')
+    });
+  }],
+  [/^rollup (\d+)$/, function(bits) {
+    var events = require('../app').getEvents();
+
+    // go roll up these commands by joining them with semicolons
+    events.trigger('rollupCommands', bits[1]);
+    throw new CommandResult({
+      msg: 'Commands combined!'
+    });
+  }],
+  [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
+    var msg = bits[1] || bits[2];
+    throw new CommandResult({
+      msg: msg
+    });
+  }],
+  [/^show +commands$/, function(bits) {
+    var allCommands = getAllCommands();
+    var lines = [
+      intl.str('show-all-commands'),
+      '<br/>'
+    ];
+    _.each(allCommands, function(regex, command) {
+      lines.push(command);
+    });
+
+    throw new CommandResult({
+      msg: lines.join('\n')
+    });
+  }]
+];
+
+var regexMap = {
+  'reset solved': /^reset solved($|\s)/,
+  'help': /^help( +general)?$|^\?$/,
+  'reset': /^reset( +--forSolution)?$/,
+  'delay': /^delay (\d+)$/,
+  'clear': /^clear($|\s)/,
+  'exit level': /^exit level($|\s)/,
+  'sandbox': /^sandbox($|\s)/,
+  'level': /^level\s?([a-zA-Z0-9]*)/,
+  'levels': /^levels($|\s)/,
+  'mobileAlert': /^mobile alert($|\s)/,
+  'build level': /^build +level($|\s)/,
+  'export tree': /^export +tree$/,
+  'importTreeNow': /^importTreeNow($|\s)/,
+  'import tree': /^import +tree$/,
+  'import level': /^import +level$/,
+  'undo': /^undo($|\s)/
+};
+
+var getAllCommands = function() {
+  var toDelete = [
+    'mobileAlert'
+  ];
+
+  var allCommands = _.extend(
+    {},
+    require('../level').regexMap,
+    regexMap
+  );
+  _.each(Commands.commands.getRegexMap(), function(map, vcs) {
+    _.each(map, function(regex, method) {
+      allCommands[vcs + ' ' + method] = regex;
+    });
+  });
+  _.each(toDelete, function(key) {
+    delete allCommands[key];
+  });
+
+  return allCommands;
+};
+
+exports.instantCommands = instantCommands;
+exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
+
+// optimistically parse some level and level builder commands; we do this
+// so you can enter things like "level intro1; show goal" and not
+// have it barf. when the
+// command fires the event, it will check if there is a listener and if not throw
+// an error
+
+// note: these are getters / setters because the require kills us
+exports.getOptimisticLevelParse = function() {
+  return util.genParseCommand(
+    require('../level').regexMap,
+    'processLevelCommand'
+  );
+};
+
+exports.getOptimisticLevelBuilderParse = function() {
+  return util.genParseCommand(
+    require('../level/builder').regexMap,
+    'processLevelBuilderCommand'
+  );
+};
+
+});
+require("/src/js/sandbox/commands.js");
+
+require.define("/src/js/sandbox/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
@@ -30767,897 +31685,7 @@ exports.Sandbox = Sandbox;
 
 
 });
-require("/src/js/level/sandbox.js");
-
-require.define("/src/js/level/sandboxCommands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var util = require('../util');
-
-var constants = require('../util/constants');
-var intl = require('../intl');
-
-var Commands = require('../commands');
-var Errors = require('../util/errors');
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var instantCommands = [
-  [/^ls/, function() {
-    throw new CommandResult({
-      msg: intl.str('ls-command')
-    });
-  }],
-  [/^cd/, function() {
-    throw new CommandResult({
-      msg: intl.str('cd-command')
-    });
-  }],
-  [/^(locale|locale reset)$/, function(bits) {
-    constants.GLOBAL.locale = intl.getDefaultLocale();
-    var Main = require('../app').getEvents().trigger('localeChanged');
-
-    throw new CommandResult({
-      msg: intl.str(
-        'locale-reset-command',
-        { locale: intl.getDefaultLocale() }
-      )
-    });
-  }],
-  [/^show$/, function(bits) {
-    var lines = [
-      intl.str('show-command'),
-      '<br/>',
-      'show commands',
-      'show solution',
-      'show goal'
-    ];
-
-    throw new CommandResult({
-      msg: lines.join('\n')
-    });
-  }],
-  [/^locale (\w+)$/, function(bits) {
-    constants.GLOBAL.locale = bits[1];
-
-    var Main = require('../app').getEvents().trigger('localeChanged');
-    throw new CommandResult({
-      msg: intl.str(
-        'locale-command',
-        { locale: bits[1] }
-      )
-    });
-  }],
-  [/^refresh$/, function() {
-    var events = require('../app').getEvents();
-
-    events.trigger('refreshTree');
-    throw new CommandResult({
-      msg: intl.str('refresh-tree-command')
-    });
-  }],
-  [/^rollup (\d+)$/, function(bits) {
-    var events = require('../app').getEvents();
-
-    // go roll up these commands by joining them with semicolons
-    events.trigger('rollupCommands', bits[1]);
-    throw new CommandResult({
-      msg: 'Commands combined!'
-    });
-  }],
-  [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
-    var msg = bits[1] || bits[2];
-    throw new CommandResult({
-      msg: msg
-    });
-  }],
-  [/^show +commands$/, function(bits) {
-    var allCommands = getAllCommands();
-    var lines = [
-      intl.str('show-all-commands'),
-      '<br/>'
-    ];
-    _.each(allCommands, function(regex, command) {
-      lines.push(command);
-    });
-
-    throw new CommandResult({
-      msg: lines.join('\n')
-    });
-  }]
-];
-
-var regexMap = {
-  'reset solved': /^reset solved($|\s)/,
-  'help': /^help( +general)?$|^\?$/,
-  'reset': /^reset( +--forSolution)?$/,
-  'delay': /^delay (\d+)$/,
-  'clear': /^clear($|\s)/,
-  'exit level': /^exit level($|\s)/,
-  'sandbox': /^sandbox($|\s)/,
-  'level': /^level\s?([a-zA-Z0-9]*)/,
-  'levels': /^levels($|\s)/,
-  'mobileAlert': /^mobile alert($|\s)/,
-  'build level': /^build +level($|\s)/,
-  'export tree': /^export +tree$/,
-  'importTreeNow': /^importTreeNow($|\s)/,
-  'import tree': /^import +tree$/,
-  'import level': /^import +level$/,
-  'undo': /^undo($|\s)/
-};
-
-var getAllCommands = function() {
-  var toDelete = [
-    'mobileAlert'
-  ];
-
-  var allCommands = _.extend(
-    {},
-    require('../level').regexMap,
-    regexMap
-  );
-  _.each(Commands.commands.getRegexMap(), function(map, vcs) {
-    _.each(map, function(regex, method) {
-      allCommands[vcs + ' ' + method] = regex;
-    });
-  });
-  _.each(toDelete, function(key) {
-    delete allCommands[key];
-  });
-
-  return allCommands;
-};
-
-exports.instantCommands = instantCommands;
-exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
-
-// optimistically parse some level and level builder commands; we do this
-// so you can enter things like "level intro1; show goal" and not
-// have it barf. when the
-// command fires the event, it will check if there is a listener and if not throw
-// an error
-
-// note: these are getters / setters because the require kills us
-exports.getOptimisticLevelParse = function() {
-  return util.genParseCommand(
-    require('../level').regexMap,
-    'processLevelCommand'
-  );
-};
-
-exports.getOptimisticLevelBuilderParse = function() {
-  return util.genParseCommand(
-    require('../level/builder').regexMap,
-    'processLevelBuilderCommand'
-  );
-};
-
-});
-require("/src/js/level/sandboxCommands.js");
-
-require.define("/src/js/log/index.js",function(require,module,exports,__dirname,__filename,process,global){
-var log = function(category, action, label) {
-  window._gaq = window._gaq || [];
-  window._gaq.push(['_trackEvent', category, action, label]);
-  //console.log('just logged ', [category, action, label].join('|'));
-};
-
-exports.viewInteracted = function(viewName) {
-  log('views', 'interacted', viewName);
-};
-
-exports.showLevelSolution = function(levelName) {
-  log('levels', 'showedLevelSolution', levelName);
-};
-
-exports.choseNextLevel = function(levelID) {
-  log('levels', 'nextLevelChosen', levelID);
-};
-
-exports.levelSelected = function(levelName) {
-  log('levels', 'levelSelected', levelName);
-};
-
-exports.levelSolved = function(levelName) {
-  log('levels', 'levelSolved', levelName);
-};
-
-exports.commandEntered = function(value) {
-  log('commands', 'commandEntered', value);
-};
-
-
-});
-require("/src/js/log/index.js");
-
-require.define("/src/js/mercurial/commands.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var intl = require('../intl');
-
-var GitCommands = require('../git/commands');
-var Errors = require('../util/errors');
-
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var commandConfig = {
-  commit: {
-    regex: /^hg +(commit|ci)($|\s)/,
-    options: [
-      '--amend',
-      '-A',
-      '-m'
-    ],
-    delegate: function(engine, command) {
-      var options = command.getSupportedMap();
-      if (options['-A']) {
-        command.addWarning(intl.str('hg-a-option'));
-      }
-
-      return {
-        vcs: 'git',
-        name: 'commit'
-      };
-    }
-  },
-
-  status: {
-    regex: /^hg +(status|st) *$/,
-    dontCountForGolf: true,
-    execute: function(engine, command) {
-      throw new GitError({
-        msg: intl.str('hg-error-no-status')
-      });
-    }
-  },
-
-  'export': {
-    regex: /^hg +export($|\s)/,
-    dontCountForGolf: true,
-    delegate: function(engine, command) {
-      command.mapDotToHead();
-      return {
-        vcs: 'git',
-        name: 'show'
-      };
-    }
-  },
-
-  graft: {
-    regex: /^hg +graft($|\s)/,
-    options: [
-      '-r'
-    ],
-    delegate: function(engine, command) {
-      command.appendOptionR();
-      var options = command.getSupportedMap();
-      if (!options['-r']) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-      command.setGeneralArgs(options['-r']);
-      return {
-        vcs: 'git',
-        name: 'cherrypick'
-      };
-    }
-  },
-
-  log: {
-    regex: /^hg +log($|\s)/,
-    options: [
-      '-f'
-    ],
-    dontCountForGolf: true,
-    delegate: function(engine, command) {
-      var options = command.getSupportedMap();
-      command.acceptNoGeneralArgs();
-
-      if (!options['-f']) {
-        throw new GitError({
-          msg: intl.str('hg-error-log-no-follow')
-        });
-      }
-      command.mapDotToHead();
-      return {
-        vcs: 'git',
-        name: 'log'
-      };
-    }
-  },
-
-  bookmark: {
-    regex: /^hg (bookmarks|bookmark|book)($|\s)/,
-    options: [
-      '-r',
-      '-f',
-      '-d'
-    ],
-    delegate: function(engine, command) {
-      var options = command.getSupportedMap();
-      var generalArgs = command.getGeneralArgs();
-      var branchName;
-      var rev;
-
-      var delegate = { vcs: 'git' };
-
-      if (options['-m'] && options['-d']) {
-        throw new GitError({
-          msg: '-m and -d are incompatible'
-        });
-      }
-      if (options['-d'] && options['-r']) {
-        throw new GitError({
-          msg: '-r is incompatible with -d'
-        });
-      }
-      if (options['-m'] && options['-r']) {
-        throw new GitError({
-          msg: '-r is incompatible with -m'
-        });
-      }
-      if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
-          (options['-d'] ? options['-d'].length : 0) === 0) {
-        delegate.name = 'branch';
-        return delegate;
-      }
-
-      if (options['-d']) {
-        options['-D'] = options['-d'];
-        delete options['-d'];
-        delegate.name = 'branch';
-      } else {
-        if (options['-r']) {
-          // we specified a revision with -r but
-          // need to flip the order
-          branchName = options['-r'][1] || '';
-          rev = options['-r'][0] || '';
-          delegate.name = 'branch';
-          command.setGeneralArgs([branchName, rev]);
-        } else if (generalArgs.length > 0) {
-          command.setSupportedMap({'-b': [generalArgs[0]]});
-          delegate.name = 'checkout';
-          command.setGeneralArgs([]);
-        } else {
-          delegate.name = 'branch';
-        }
-      }
-
-      return delegate;
-    }
-  },
-
-  rebase: {
-    regex: /^hg +rebase($|\s+)/,
-    options: [
-      '-d',
-      '-s',
-      '-b'
-    ],
-    execute: function(engine, command) {
-      var throwE = function() {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      };
-
-      var options = command.getSupportedMap();
-      // if we have both OR if we have neither
-      if ((options['-d'] && options['-s']) ||
-          (!options['-d'] && !options['-s'])) {
-      }
-
-      if (!options['-b']) {
-        options['-b'] = ['.'];
-      }
-
-      command.setSupportedMap(options);
-      command.mapDotToHead();
-      options = command.getSupportedMap();
-
-      if (options['-d']) {
-        var dest = options['-d'][0] || throwE();
-        var base = options['-b'][0];
-
-        engine.hgRebase(dest, base);
-      } else {
-        // TODO
-      }
-    }
-  },
-
-  update: {
-    regex: /^hg +(update|up)($|\s+)/,
-    options: [
-      '-r'
-    ],
-    delegate: function(engine, command) {
-      command.appendOptionR();
-      return {
-        vcs: 'git',
-        name: 'checkout'
-      };
-    }
-  },
-  
-  backout: {
-    regex: /^hg +backout($|\s+)/,
-    options: [
-      '-r'
-    ],
-    delegate: function(engine, command) {
-      command.appendOptionR();
-      return {
-        vcs: 'git',
-        name: 'revert'
-      };
-    }
-  },
-
-  histedit: {
-    regex: /^hg +histedit($|\s+)/,
-    delegate: function(engine, command) {
-      var args = command.getGeneralArgs();
-      command.validateArgBounds(args, 1, 1);
-      command.setSupportedMap({
-        '-i': args
-      });
-      command.setGeneralArgs([]);
-      return {
-        vcs: 'git',
-        name: 'rebase'
-      };
-    }
-  },
-
-  pull: {
-    regex: /^hg +pull($|\s+)/,
-    delegate: function(engine, command) {
-      return {
-        vcs: 'git',
-        name: 'pull'
-      };
-    }
-  },
-
-  summary: {
-    regex: /^hg +(summary|sum) *$/,
-    delegate: function(engine, command) {
-      return {
-        vcs: 'git',
-        name: 'branch'
-      };
-    }
-  }
-};
-
-exports.commandConfig = commandConfig;
-
-});
-require("/src/js/mercurial/commands.js");
-
-require.define("/src/js/models/collections.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var Commit = require('../git').Commit;
-var Branch = require('../git').Branch;
-
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
-var TIME = require('../util/constants').TIME;
-
-var CommitCollection = Backbone.Collection.extend({
-  model: Commit
-});
-
-var CommandCollection = Backbone.Collection.extend({
-  model: Command
-});
-
-var BranchCollection = Backbone.Collection.extend({
-  model: Branch
-});
-
-var CommandEntryCollection = Backbone.Collection.extend({
-  model: CommandEntry,
-  localStorage: (Backbone.LocalStorage) ? new Backbone.LocalStorage('CommandEntries') : null
-});
-
-var CommandBuffer = Backbone.Model.extend({
-  defaults: {
-    collection: null
-  },
-
-  initialize: function(options) {
-    options.collection.bind('add', this.addCommand, this);
-
-    this.buffer = [];
-    this.timeout = null;
-  },
-
-  addCommand: function(command) {
-    this.buffer.push(command);
-    this.touchBuffer();
-  },
-
-  touchBuffer: function() {
-    // touch buffer just essentially means we just check if our buffer is being
-    // processed. if it's not, we immediately process the first item
-    // and then set the timeout.
-    if (this.timeout) {
-      // timeout existence implies its being processed
-      return;
-    }
-    this.setTimeout();
-  },
-
-
-  setTimeout: function() {
-    this.timeout = setTimeout(_.bind(function() {
-        this.sipFromBuffer();
-    }, this), TIME.betweenCommandsDelay);
-  },
-
-  popAndProcess: function() {
-    var popped = this.buffer.shift(0);
-
-    // find a command with no error (aka unprocessed)
-    while (popped.get('error') && this.buffer.length) {
-      popped = this.buffer.shift(0);
-    }
-    if (!popped.get('error')) {
-      this.processCommand(popped);
-    } else {
-      // no more commands to process
-      this.clear();
-    }
-  },
-
-  processCommand: function(command) {
-    command.set('status', 'processing');
-
-    var deferred = Q.defer();
-    deferred.promise.then(_.bind(function() {
-      this.setTimeout();
-    }, this));
-
-    var eventName = command.get('eventName');
-    if (!eventName) {
-      throw new Error('I need an event to trigger when this guy is parsed and ready');
-    }
-
-    var Main = require('../app');
-    var eventBaton = Main.getEventBaton();
-
-    var numListeners = eventBaton.getNumListeners(eventName);
-    if (!numListeners) {
-      var Errors = require('../util/errors');
-      command.set('error', new Errors.GitError({
-        msg: 'That command is valid, but not supported in this current environment!' +
-             ' Try entering a level or level builder to use that command'
-      }));
-      deferred.resolve();
-      return;
-    }
-
-    Main.getEventBaton().trigger(eventName, command, deferred);
-  },
-
-  clear: function() {
-    clearTimeout(this.timeout);
-    this.timeout = null;
-  },
-
-  sipFromBuffer: function() {
-    if (!this.buffer.length) {
-      this.clear();
-      return;
-    }
-
-    this.popAndProcess();
-  }
-});
-
-exports.CommitCollection = CommitCollection;
-exports.CommandCollection = CommandCollection;
-exports.BranchCollection = BranchCollection;
-exports.CommandEntryCollection = CommandEntryCollection;
-exports.CommandBuffer = CommandBuffer;
-
-
-});
-require("/src/js/models/collections.js");
-
-require.define("/src/js/models/commandModel.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
-
-var Errors = require('../util/errors');
-
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
-var intl = require('../intl');
-
-var CommandProcessError = Errors.CommandProcessError;
-var GitError = Errors.GitError;
-var Warning = Errors.Warning;
-var CommandResult = Errors.CommandResult;
-
-var Command = Backbone.Model.extend({
-  defaults: {
-    status: 'inqueue',
-    rawStr: null,
-    result: '',
-    createTime: null,
-
-    error: null,
-    warnings: null,
-    parseWaterfall: new ParseWaterfall(),
-
-    generalArgs: null,
-    supportedMap: null,
-    options: null,
-    method: null
-
-  },
-
-  initialize: function(options) {
-    this.initDefaults();
-    this.validateAtInit();
-
-    this.on('change:error', this.errorChanged, this);
-    // catch errors on init
-    if (this.get('error')) {
-      this.errorChanged();
-    }
-
-    this.parseOrCatch();
-  },
-
-  initDefaults: function() {
-    // weird things happen with defaults if you dont
-    // make new objects
-    this.set('generalArgs', []);
-    this.set('supportedMap', {});
-    this.set('warnings', []);
-  },
-
-  replaceDotWithHead: function(string) {
-    return string.replace(/\./g, 'HEAD');
-  },
-
-  /**
-   * Since mercurial always wants revisions with
-   * -r, we want to just make these general
-   * args for git
-   */
-  appendOptionR: function() {
-    var rOptions = this.getSupportedMap()['-r'] || [];
-    this.setGeneralArgs(
-      this.getGeneralArgs().concat(rOptions)
-    );
-  },
-
-  mapDotToHead: function() {
-    var generalArgs = this.getGeneralArgs();
-    var options = this.getSupportedMap();
-    
-    generalArgs = _.map(generalArgs, function(arg) {
-      return this.replaceDotWithHead(arg);
-    }, this);
-    var newMap = {};
-    _.each(options, function(args, key) {
-      newMap[key] = _.map(args, function(arg) {
-        return this.replaceDotWithHead(arg);
-      }, this);
-    }, this);
-    this.setGeneralArgs(generalArgs);
-    this.setSupportedMap(newMap);
-  },
-
-  deleteOptions: function(options) {
-    var map = this.getSupportedMap();
-    _.each(options, function(option) {
-      delete map[option];
-    }, this);
-    this.setSupportedMap(map);
-  },
-
-  getGeneralArgs: function() {
-    return this.get('generalArgs');
-  },
-
-  setGeneralArgs: function(args) {
-    this.set('generalArgs', args);
-  },
-
-  setSupportedMap: function(map) {
-    this.set('supportedMap', map);
-  },
-
-  getSupportedMap: function() {
-    return this.get('supportedMap');
-  },
-
-  acceptNoGeneralArgs: function() {
-    if (this.getGeneralArgs().length) {
-      throw new GitError({
-        msg: intl.str('git-error-no-general-args')
-      });
-    }
-  },
-
-  oneArgImpliedHead: function(args, option) {
-    this.validateArgBounds(args, 0, 1, option);
-    // and if it's one, add a HEAD to the back
-    if (args.length === 0) {
-      args.push('HEAD');
-    }
-  },
-
-  twoArgsImpliedHead: function(args, option) {
-    // our args we expect to be between 1 and 2
-    this.validateArgBounds(args, 1, 2, option);
-    // and if it's one, add a HEAD to the back
-    if (args.length == 1) {
-      args.push('HEAD');
-    }
-  },
-
-  // this is a little utility class to help arg validation that happens over and over again
-  validateArgBounds: function(args, lower, upper, option) {
-    var what = (option === undefined) ?
-      'git ' + this.get('method') :
-      this.get('method') + ' ' + option + ' ';
-    what = 'with ' + what;
-
-    if (args.length < lower) {
-      throw new GitError({
-        msg: intl.str(
-          'git-error-args-few',
-          {
-            lower: String(lower),
-            what: what
-          }
-        )
-      });
-    }
-    if (args.length > upper) {
-      throw new GitError({
-        msg: intl.str(
-          'git-error-args-many',
-          {
-            upper: String(upper),
-            what: what
-          }
-        )
-      });
-    }
-  },
-
-  validateAtInit: function() {
-    if (this.get('rawStr') === null) {
-      throw new Error('Give me a string!');
-    }
-    if (!this.get('createTime')) {
-      this.set('createTime', new Date().toString());
-    }
-  },
-
-  setResult: function(msg) {
-    this.set('result', msg);
-  },
-
-  finishWith: function(deferred) {
-    this.set('status', 'finished');
-    deferred.resolve();
-  },
-
-  addWarning: function(msg) {
-    this.get('warnings').push(msg);
-    // change numWarnings so the change event fires. This is bizarre -- Backbone can't
-    // detect if an array changes, so adding an element does nothing
-    this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
-  },
-
-  getFormattedWarnings: function() {
-    if (!this.get('warnings').length) {
-      return '';
-    }
-    var i = '<i class="icon-exclamation-sign"></i>';
-    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
-  },
-
-  parseOrCatch: function() {
-    this.expandShortcuts(this.get('rawStr'));
-    try {
-      this.processInstants();
-    } catch (err) {
-      Errors.filterError(err);
-      // errorChanged() will handle status and all of that
-      this.set('error', err);
-      return;
-    }
-
-    if (this.parseAll()) {
-      // something in our parse waterfall succeeded
-      return;
-    }
-
-    // if we reach here, this command is not supported :-/
-    this.set('error', new CommandProcessError({
-        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
-      })
-    );
-  },
-
-  errorChanged: function() {
-    var err = this.get('error');
-    if (!err) { return; }
-    if (err instanceof CommandProcessError ||
-        err instanceof GitError) {
-      this.set('status', 'error');
-    } else if (err instanceof CommandResult) {
-      this.set('status', 'finished');
-    } else if (err instanceof Warning) {
-      this.set('status', 'warning');
-    }
-    this.formatError();
-  },
-
-  formatError: function() {
-    this.set('result', this.get('error').toResult());
-  },
-
-  expandShortcuts: function(str) {
-    str = this.get('parseWaterfall').expandAllShortcuts(str);
-    this.set('rawStr', str);
-  },
-
-  processInstants: function() {
-    var str = this.get('rawStr');
-    // first if the string is empty, they just want a blank line
-    if (!str.length) {
-      throw new CommandResult({msg: ""});
-    }
-
-    // then instant commands that will throw
-    this.get('parseWaterfall').processAllInstants(str);
-  },
-
-  parseAll: function() {
-    var str = this.get('rawStr');
-    var results = this.get('parseWaterfall').parseAll(str);
-
-    if (!results) {
-      // nothing parsed successfully
-      return false;
-    }
-
-    _.each(results.toSet, function(obj, key) {
-      // data comes back from the parsing functions like
-      // options (etc) that need to be set
-      this.set(key, obj);
-    }, this);
-    return true;
-  }
-});
-
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
-  defaults: {
-    text: ''
-  }
-});
-
-exports.CommandEntry = CommandEntry;
-exports.Command = Command;
-
-});
-require("/src/js/models/commandModel.js");
+require("/src/js/sandbox/index.js");
 
 require.define("/src/js/util/constants.js",function(require,module,exports,__dirname,__filename,process,global){/**
  * Constants....!!!
@@ -31740,7 +31768,7 @@ var toGlobalize = {
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
   Level: require('../level'),
-  Sandbox: require('../level/sandbox'),
+  Sandbox: require('../sandbox/'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
@@ -35049,6 +35077,10 @@ var AnimationQueue = Backbone.Model.extend({
     promise.then(_.bind(function() {
       this.finish();
     }, this));
+    promise.fail(function(e) {
+      console.log('uncaught error', e);
+      throw e;
+    });
     this.set('promiseBased', true);
     if (deferred) {
       deferred.resolve();

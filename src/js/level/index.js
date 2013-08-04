@@ -8,7 +8,7 @@ var intl = require('../intl');
 var log = require('../log');
 
 var Errors = require('../util/errors');
-var Sandbox = require('../level/sandbox').Sandbox;
+var Sandbox = require('../sandbox/').Sandbox;
 var Constants = require('../util/constants');
 
 var Visualization = require('../visuals/visualization').Visualization;

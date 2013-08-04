@@ -27,7 +27,7 @@ var init = function() {
     *   - initializing the command input bar
     *   - handling window.focus and zoom events
   **/
-  var Sandbox = require('../level/sandbox').Sandbox;
+  var Sandbox = require('../sandbox/').Sandbox;
   var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;

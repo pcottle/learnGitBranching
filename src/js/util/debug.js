@@ -20,7 +20,7 @@ var toGlobalize = {
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
   Level: require('../level'),
-  Sandbox: require('../level/sandbox'),
+  Sandbox: require('../sandbox/'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
