@@ -45,6 +45,10 @@ var AnimationQueue = Backbone.Model.extend({
     promise.then(_.bind(function() {
       this.finish();
     }, this));
+    promise.fail(function(e) {
+      console.log('uncaught error', e);
+      throw e;
+    });
     this.set('promiseBased', true);
     if (deferred) {
       deferred.resolve();

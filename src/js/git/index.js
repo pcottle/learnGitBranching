@@ -2383,8 +2383,19 @@ var Commit = Backbone.Model.extend({
     this.removeFromParents();
     this.set('parents', [newParent]);
     newParent.get('children').push(this);
-    this.get('visNode').removeAllEdges();
-    this.get('gitVisuals').addEdge(this.get('id'), newestID);
+
+    // when we run in test mode, our visnode and
+    // visuals will be undefined so we need to check for their existence
+    var visNode = this.get('visNode');
+    if (visNode) {
+      visNode.removeAllEdges();
+    }
+
+    var gitVisuals = this.get('gitVisuals');
+    if (gitVisuals) {
+      gitVisuals.addEdge(this.get('id'), newestID);
+    }
+
     return true;
   },
 
