@@ -7569,7 +7569,15 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       this.getCommitFromRef(originTarget)
     );
     originBranch.set('remote', true);
+    // TODO
+    this.setLocalToTrackRemote();
   }, this);
+};
+
+GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
+  this.command.addWarning(
+    'local branch set to track remote branch'
+  );
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -8086,7 +8094,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update o/master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
-    var remoteBranchID = localBranch.getRemoteBranchIDFromTracking();
+    var remoteBranchID = localBranch.getRemoteBranchID();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
@@ -9468,30 +9476,39 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
-    remoteTrackingBranch: null,
+    remoteTrackingBranchID: null,
+    localBranchesThatTrackThis: null,
     remote: false
-  },
-
-  getRemoteBranchIDFromTracking: function() {
-    if (this.getIsRemote()) {
-      throw new Error('I am a remote branch! dont try to get remote from me');
-    }
-    // TODO check if remote tracking also
-    return 'o/' + this.getRemoteTrackingBranchName();
-  },
-
-  getRemoteTrackingBranchName: function() {
-    var originBranchName = this.get('remoteTrackingBranch');
-    return (originBranchName) ? originBranchName : this.get('id');
-  },
-
-  getIsRemote: function() {
-    return this.get('remote');
   },
 
   initialize: function() {
     Ref.prototype.initialize.call(this);
     this.set('type', 'branch');
+  },
+
+  setLocalBranchesThatTrackThis: function(branches) {
+    this.set('localBranchesThatTrackThis', branches);
+  },
+
+  getLocalBranchesThatTrackThis: function() {
+    return this.get('localBranchesThatTrackThis') || [];
+  },
+
+  addLocalBranchThatTracksThis: function(localBranch) {
+    this.setLocalBranchesThatTrackThis(
+      this.getLocalBranchesThatTrackThis().concat([localBranch])
+    );
+  },
+
+  getRemoteBranchID: function() {
+    if (this.getIsRemote()) {
+      throw new Error('I am a remote branch! dont try to get remote from me');
+    }
+    return 'o/' + this.get('id');
+  },
+
+  getIsRemote: function() {
+    return !!this.get('remote');
   }
 });
 
@@ -25934,7 +25951,15 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       this.getCommitFromRef(originTarget)
     );
     originBranch.set('remote', true);
+    // TODO
+    this.setLocalToTrackRemote();
   }, this);
+};
+
+GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
+  this.command.addWarning(
+    'local branch set to track remote branch'
+  );
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -26451,7 +26476,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update o/master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
-    var remoteBranchID = localBranch.getRemoteBranchIDFromTracking();
+    var remoteBranchID = localBranch.getRemoteBranchID();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
@@ -27833,30 +27858,39 @@ var Ref = Backbone.Model.extend({
 var Branch = Ref.extend({
   defaults: {
     visBranch: null,
-    remoteTrackingBranch: null,
+    remoteTrackingBranchID: null,
+    localBranchesThatTrackThis: null,
     remote: false
-  },
-
-  getRemoteBranchIDFromTracking: function() {
-    if (this.getIsRemote()) {
-      throw new Error('I am a remote branch! dont try to get remote from me');
-    }
-    // TODO check if remote tracking also
-    return 'o/' + this.getRemoteTrackingBranchName();
-  },
-
-  getRemoteTrackingBranchName: function() {
-    var originBranchName = this.get('remoteTrackingBranch');
-    return (originBranchName) ? originBranchName : this.get('id');
-  },
-
-  getIsRemote: function() {
-    return this.get('remote');
   },
 
   initialize: function() {
     Ref.prototype.initialize.call(this);
     this.set('type', 'branch');
+  },
+
+  setLocalBranchesThatTrackThis: function(branches) {
+    this.set('localBranchesThatTrackThis', branches);
+  },
+
+  getLocalBranchesThatTrackThis: function() {
+    return this.get('localBranchesThatTrackThis') || [];
+  },
+
+  addLocalBranchThatTracksThis: function(localBranch) {
+    this.setLocalBranchesThatTrackThis(
+      this.getLocalBranchesThatTrackThis().concat([localBranch])
+    );
+  },
+
+  getRemoteBranchID: function() {
+    if (this.getIsRemote()) {
+      throw new Error('I am a remote branch! dont try to get remote from me');
+    }
+    return 'o/' + this.get('id');
+  },
+
+  getIsRemote: function() {
+    return !!this.get('remote');
   }
 });
 

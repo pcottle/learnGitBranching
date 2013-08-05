@@ -11,7 +11,7 @@ Easier origin things:
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] set checkout -b branch __remoteBranch to track the remote branch
+[-] set checkout -b branch __remoteBranch to track the remote branch
 [ ] prototype visual layout (background change + header? maybe...)
 
 Medium things:
