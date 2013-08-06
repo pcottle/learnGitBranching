@@ -21761,7 +21761,7 @@ require.define("/levels/rampup/interactiveRebase.js",function(require,module,exp
               "",
               "Git cherry-pick is great when you know which commits you want (_and_ you know their corresponding hashes) -- it's hard to beat the simplicity it provides.",
               "",
-              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's is the best way to review a series of commits you're about to rebase.",
+              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.",
               "",
               "Let's dive into the details..."
             ]
@@ -40318,7 +40318,7 @@ require.define("/src/levels/rampup/interactiveRebase.js",function(require,module
               "",
               "Git cherry-pick is great when you know which commits you want (_and_ you know their corresponding hashes) -- it's hard to beat the simplicity it provides.",
               "",
-              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's is the best way to review a series of commits you're about to rebase.",
+              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.",
               "",
               "Let's dive into the details..."
             ]

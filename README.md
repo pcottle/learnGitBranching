@@ -90,6 +90,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Brad Smith
 * Allen Guo
 * Timothy Qiu
+* Hyunjin CHA
 
 Or reported an issue that was successfully closed!
 

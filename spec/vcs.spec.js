@@ -33,7 +33,7 @@ describe('commands', function() {
 
     var c = new Command({rawStr: 'foo'});
     _.each(testCases, function(tCase) {
-      c.setSupportedMap(tCase.options);
+      c.setOptionsMap(tCase.options);
       c.setGeneralArgs(tCase.args);
       c.mapDotToHead();
 
@@ -45,7 +45,7 @@ describe('commands', function() {
       );
 
       expect(
-        j(c.getSupportedMap())
+        j(c.getOptionsMap())
       ).toBe(
         j(tCase.gitOptions)
       );
