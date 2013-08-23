@@ -16,6 +16,7 @@ var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
+var ORIGIN_PREFIX = 'o/';
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -345,19 +346,25 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   _.each(originTree.branches, function(branchJSON, branchName) {
     var originTarget = branchJSON.target;
     var originBranch = this.makeBranch(
-      'o/' + branchName,
+      ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
-    originBranch.set('remote', true);
-    // TODO
-    this.setLocalToTrackRemote();
+
+    this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  this.command.addWarning(
-    'local branch set to track remote branch'
-  );
+  remoteBranch.addLocalBranchThatTracksThis(localBranch);
+  localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
+
+  // same for local
+  var msg = 'local branch "' +
+    localBranch.get('id') +
+    '" set to track remote branch "' +
+    remoteBranch.get('id') +
+    '"';
+  this.command.addWarning(msg);
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
@@ -871,7 +878,7 @@ GitEngine.prototype.push = function(options) {
     return this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
   }, this));
 
-  // HAX HAX update o/master
+  // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
     var remoteBranchID = localBranch.getRemoteBranchID();
@@ -890,16 +897,26 @@ GitEngine.prototype.fetch = function(options) {
   var localBranch = this.refs['o/master'];
   var remoteBranch = this.origin.refs['master'];
 
-  // first check if this is even allowed by checking the sync between
-  this.checkUpstreamOfSource(
-    this,
-    this.origin,
-    localBranch,
-    remoteBranch
-  );
+  // fetch all local branches
+  var allRemotes = this.branchCollection.filter(function(branch) {
+    return branch.getIsRemote();
+  });
+  console.log(allRemotes);
+
+  // first check if our local remote branch is upstream of the origin branch set.
+  // this check essentially pretends the local remote branch is in origin and
+  // could be fast forwarded (basic sanity check)
+  _.each(allRemotes, function(localRemoteBranch) {
+    this.checkUpstreamOfSource(
+      this,
+      this.origin,
+      localRemoteBranch,
+      localRemoteBranch.getRemoteBranchFromEngine(this.origin)
+    );
+  }, this);
 
   // then we get the difference in commits between these two graphs, ordered by
-  // depth
+  // depth. TODO -- make work for all branches
   var commitsToMake = this.getTargetGraphDifference(
     this,
     this.origin,
@@ -2266,12 +2283,22 @@ var Branch = Ref.extend({
     this.set('type', 'branch');
   },
 
-  setLocalBranchesThatTrackThis: function(branches) {
-    this.set('localBranchesThatTrackThis', branches);
+  /**
+   * Here is the deal -- there are essentially three types of branches
+   * we deal with:
+   * 1) Normal local branches (that may track a remote branch)
+   * 2) Local remote branches (o/master) that track an origin branch
+   * 3) Origin branches (master) that exist in origin
+   *
+   * With that in mind, we change our branch model to support the following
+   */
+
+  setRemoteTrackingBranchID: function(id) {
+    this.set('remoteTrackingBranchID', id);
   },
 
-  getLocalBranchesThatTrackThis: function() {
-    return this.get('localBranchesThatTrackThis') || [];
+  getRemoteTrackingBranchID: function() {
+    return this.get('remoteTrackingBranchID');
   },
 
   addLocalBranchThatTracksThis: function(localBranch) {
@@ -2280,15 +2307,27 @@ var Branch = Ref.extend({
     );
   },
 
+  setLocalBranchesThatTrackThis: function(branches) {
+    this.set('localBranchesThatTrackThis', branches);
+  },
+
+  getLocalBranchesThatTrackThis: function() {
+    return this.get('localBranchesThatTrackThis') || [];
+  },
+
   getRemoteBranchID: function() {
     if (this.getIsRemote()) {
       throw new Error('I am a remote branch! dont try to get remote from me');
     }
-    return 'o/' + this.get('id');
+    return ORIGIN_PREFIX + this.get('id');
+  },
+
+  getRemoteBranchFromEngine: function(engine) {
+    return engine.refs[this.getRemoteBranchID()];
   },
 
   getIsRemote: function() {
-    return !!this.get('remote');
+    return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
 });
 
