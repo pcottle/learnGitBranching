@@ -901,7 +901,6 @@ GitEngine.prototype.push = function(options) {
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
-  var localBranch = this.refs['o/master'];
 
   // fetch all local branches
   var allRemotes = this.branchCollection.filter(function(branch) {
@@ -937,7 +936,6 @@ GitEngine.prototype.fetch = function(options) {
   // command simply commits), but we are doing it anyways for correctness
   commitsToMake = this.getUniqueObjects(commitsToMake);
   commitsToMake = this.descendSortDepth(commitsToMake);
-  console.log('ocmmits', commitsToMake);
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
@@ -972,7 +970,13 @@ GitEngine.prototype.fetch = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
+  var originBranchSet = this.origin.getUpstreamBranchSet();
   _.each(commitsToMake, function(commitJSON) {
+    // technically we could grab the wrong one here
+    // but this works for now
+    var originBranch = originBranchSet[commitJSON.id][0].obj;
+    var localBranch = this.refs[originBranch.getPrefixedID()];
+
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         this.origin.refs[commitJSON.id],
