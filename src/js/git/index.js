@@ -937,6 +937,7 @@ GitEngine.prototype.fetch = function(options) {
   // command simply commits), but we are doing it anyways for correctness
   commitsToMake = this.getUniqueObjects(commitsToMake);
   commitsToMake = this.descendSortDepth(commitsToMake);
+  console.log('ocmmits', commitsToMake);
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
