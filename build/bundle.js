@@ -8101,7 +8101,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
-    var remoteBranchID = localBranch.getRemoteBranchID();
+    var remoteBranchID = ORIGIN_PREFIX + localBranch.getID();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
@@ -8115,13 +8115,11 @@ GitEngine.prototype.push = function(options) {
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
   var localBranch = this.refs['o/master'];
-  var remoteBranch = this.origin.refs['master'];
 
   // fetch all local branches
   var allRemotes = this.branchCollection.filter(function(branch) {
     return branch.getIsRemote();
   });
-  console.log(allRemotes);
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
@@ -8131,19 +8129,22 @@ GitEngine.prototype.fetch = function(options) {
       this,
       this.origin,
       localRemoteBranch,
-      localRemoteBranch.getRemoteBranchFromEngine(this.origin)
+      this.origin.refs[localRemoteBranch.getBaseID()]
     );
   }, this);
 
   // then we get the difference in commits between these two graphs, ordered by
   // depth. TODO -- make work for all branches
-  var commitsToMake = this.getTargetGraphDifference(
-    this,
-    this.origin,
-    localBranch,
-    remoteBranch,
-    options
-  );
+  var commitsToMake = [];
+  _.each(allRemotes, function(localRemoteBranch) {
+    commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
+      this,
+      this.origin,
+      localRemoteBranch,
+      this.origin.refs[localRemoteBranch.getBaseID()],
+      options
+    ));
+  }, this);
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
@@ -8195,10 +8196,17 @@ GitEngine.prototype.fetch = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var originLocationID = remoteBranch.get('target').get('id');
-    var localCommit = this.refs[originLocationID];
-    this.setTargetLocation(localBranch, localCommit);
-    // unhighlight origin
+    // update all the remote branches
+    _.each(allRemotes, function(localRemoteBranch) {
+      var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
+      var remoteLocationID = remoteBranch.get('target').get('id');
+      // by definition we just made the commit with this id,
+      // so we can grab it now
+      var localCommit = this.refs[remoteLocationID];
+      this.setTargetLocation(localRemoteBranch, localCommit);
+    }, this);
+
+    // unhighlight origin by refreshing
     this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
@@ -9535,15 +9543,18 @@ var Branch = Ref.extend({
     return this.get('localBranchesThatTrackThis') || [];
   },
 
-  getRemoteBranchID: function() {
+  getPrefixedID: function() {
     if (this.getIsRemote()) {
-      throw new Error('I am a remote branch! dont try to get remote from me');
+      throw new Error('im already remote');
     }
     return ORIGIN_PREFIX + this.get('id');
   },
 
-  getRemoteBranchFromEngine: function(engine) {
-    return engine.refs[this.getRemoteBranchID()];
+  getBaseID: function() {
+    if (!this.getIsRemote()) {
+      throw new Error('im not remote so cant get base');
+    }
+    return this.get('id').replace(ORIGIN_PREFIX, '');
   },
 
   getIsRemote: function() {
@@ -26523,7 +26534,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
-    var remoteBranchID = localBranch.getRemoteBranchID();
+    var remoteBranchID = ORIGIN_PREFIX + localBranch.getID();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
@@ -26537,13 +26548,11 @@ GitEngine.prototype.push = function(options) {
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
   var localBranch = this.refs['o/master'];
-  var remoteBranch = this.origin.refs['master'];
 
   // fetch all local branches
   var allRemotes = this.branchCollection.filter(function(branch) {
     return branch.getIsRemote();
   });
-  console.log(allRemotes);
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
@@ -26553,19 +26562,22 @@ GitEngine.prototype.fetch = function(options) {
       this,
       this.origin,
       localRemoteBranch,
-      localRemoteBranch.getRemoteBranchFromEngine(this.origin)
+      this.origin.refs[localRemoteBranch.getBaseID()]
     );
   }, this);
 
   // then we get the difference in commits between these two graphs, ordered by
   // depth. TODO -- make work for all branches
-  var commitsToMake = this.getTargetGraphDifference(
-    this,
-    this.origin,
-    localBranch,
-    remoteBranch,
-    options
-  );
+  var commitsToMake = [];
+  _.each(allRemotes, function(localRemoteBranch) {
+    commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
+      this,
+      this.origin,
+      localRemoteBranch,
+      this.origin.refs[localRemoteBranch.getBaseID()],
+      options
+    ));
+  }, this);
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
@@ -26617,10 +26629,17 @@ GitEngine.prototype.fetch = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var originLocationID = remoteBranch.get('target').get('id');
-    var localCommit = this.refs[originLocationID];
-    this.setTargetLocation(localBranch, localCommit);
-    // unhighlight origin
+    // update all the remote branches
+    _.each(allRemotes, function(localRemoteBranch) {
+      var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
+      var remoteLocationID = remoteBranch.get('target').get('id');
+      // by definition we just made the commit with this id,
+      // so we can grab it now
+      var localCommit = this.refs[remoteLocationID];
+      this.setTargetLocation(localRemoteBranch, localCommit);
+    }, this);
+
+    // unhighlight origin by refreshing
     this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
@@ -27957,15 +27976,18 @@ var Branch = Ref.extend({
     return this.get('localBranchesThatTrackThis') || [];
   },
 
-  getRemoteBranchID: function() {
+  getPrefixedID: function() {
     if (this.getIsRemote()) {
-      throw new Error('I am a remote branch! dont try to get remote from me');
+      throw new Error('im already remote');
     }
     return ORIGIN_PREFIX + this.get('id');
   },
 
-  getRemoteBranchFromEngine: function(engine) {
-    return engine.refs[this.getRemoteBranchID()];
+  getBaseID: function() {
+    if (!this.getIsRemote()) {
+      throw new Error('im not remote so cant get base');
+    }
+    return this.get('id').replace(ORIGIN_PREFIX, '');
   },
 
   getIsRemote: function() {
