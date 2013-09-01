@@ -8007,19 +8007,26 @@ GitEngine.prototype.getTargetGraphDifference = function(
   }
 
   // filter because we werent doing graph search
+  var differenceUnique = this.getUniqueObjects(difference);
+  return this.descendSortDepth(differenceUnique);
+};
+
+GitEngine.prototype.getUniqueObjects = function(objects) {
   var unique = {};
-  var differenceUnique = [];
-  _.forEach(difference, function(commit) {
-    if (unique[commit.id]) {
+  var result = [];
+  _.forEach(objects, function(object) {
+    if (unique[object.id]) {
       return;
     }
-    unique[commit.id] = true;
-    differenceUnique.push(commit);
+    unique[object.id] = true;
+    result.push(object);
   });
+  return result;
+};
 
-  return differenceUnique.sort(function(cA, cB) {
-    // reverse sort by depth
-    return cB.depth - cA.depth;
+GitEngine.prototype.descendSortDepth = function(objects) {
+  return objects.sort(function(oA, oB) {
+    return oB.depth - oA.depth;
   });
 };
 
@@ -8133,8 +8140,7 @@ GitEngine.prototype.fetch = function(options) {
     );
   }, this);
 
-  // then we get the difference in commits between these two graphs, ordered by
-  // depth. TODO -- make work for all branches
+  // then we get the difference in commits between these two graphs
   var commitsToMake = [];
   _.each(allRemotes, function(localRemoteBranch) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
@@ -8145,6 +8151,12 @@ GitEngine.prototype.fetch = function(options) {
       options
     ));
   }, this);
+  // we did this for each remote branch, but we still need to reduce to unique
+  // and sort. in this particular app we can never have unfected remote
+  // commits that are upstream of multiple branches (since the fakeTeamwork
+  // command simply commits), but we are doing it anyways for correctness
+  commitsToMake = this.getUniqueObjects(commitsToMake);
+  commitsToMake = this.descendSortDepth(commitsToMake);
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
@@ -26440,19 +26452,26 @@ GitEngine.prototype.getTargetGraphDifference = function(
   }
 
   // filter because we werent doing graph search
+  var differenceUnique = this.getUniqueObjects(difference);
+  return this.descendSortDepth(differenceUnique);
+};
+
+GitEngine.prototype.getUniqueObjects = function(objects) {
   var unique = {};
-  var differenceUnique = [];
-  _.forEach(difference, function(commit) {
-    if (unique[commit.id]) {
+  var result = [];
+  _.forEach(objects, function(object) {
+    if (unique[object.id]) {
       return;
     }
-    unique[commit.id] = true;
-    differenceUnique.push(commit);
+    unique[object.id] = true;
+    result.push(object);
   });
+  return result;
+};
 
-  return differenceUnique.sort(function(cA, cB) {
-    // reverse sort by depth
-    return cB.depth - cA.depth;
+GitEngine.prototype.descendSortDepth = function(objects) {
+  return objects.sort(function(oA, oB) {
+    return oB.depth - oA.depth;
   });
 };
 
@@ -26566,8 +26585,7 @@ GitEngine.prototype.fetch = function(options) {
     );
   }, this);
 
-  // then we get the difference in commits between these two graphs, ordered by
-  // depth. TODO -- make work for all branches
+  // then we get the difference in commits between these two graphs
   var commitsToMake = [];
   _.each(allRemotes, function(localRemoteBranch) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
@@ -26578,6 +26596,12 @@ GitEngine.prototype.fetch = function(options) {
       options
     ));
   }, this);
+  // we did this for each remote branch, but we still need to reduce to unique
+  // and sort. in this particular app we can never have unfected remote
+  // commits that are upstream of multiple branches (since the fakeTeamwork
+  // command simply commits), but we are doing it anyways for correctness
+  commitsToMake = this.getUniqueObjects(commitsToMake);
+  commitsToMake = this.descendSortDepth(commitsToMake);
 
   if (commitsToMake.length === 0) {
     this.command.addWarning(intl.str(
@@ -31919,13 +31943,13 @@ _.each(toGlobalize, function(module) {
 });
 
 $(document).ready(function() {
-  window.events = toGlobalize.Main.getEvents();
-  window.eventBaton = toGlobalize.Main.getEventBaton();
-  window.sandbox = toGlobalize.Main.getSandbox();
-  window.modules = toGlobalize;
-  window.levelDropdown = toGlobalize.Main.getLevelDropdown();
-  window.under = _;
-  window.copyTree = function() {
+  window.debug_events = toGlobalize.Main.getEvents();
+  window.debug_eventBaton = toGlobalize.Main.getEventBaton();
+  window.debug_sandbox = toGlobalize.Main.getSandbox();
+  window.debug_modules = toGlobalize;
+  window.debug_levelDropdown = toGlobalize.Main.getLevelDropdown();
+  window.debug_under = _;
+  window.debug_copyTree = function() {
     return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
   };
 });

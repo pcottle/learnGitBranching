@@ -36,13 +36,13 @@ _.each(toGlobalize, function(module) {
 });
 
 $(document).ready(function() {
-  window.events = toGlobalize.Main.getEvents();
-  window.eventBaton = toGlobalize.Main.getEventBaton();
-  window.sandbox = toGlobalize.Main.getSandbox();
-  window.modules = toGlobalize;
-  window.levelDropdown = toGlobalize.Main.getLevelDropdown();
-  window.under = _;
-  window.copyTree = function() {
+  window.debug_events = toGlobalize.Main.getEvents();
+  window.debug_eventBaton = toGlobalize.Main.getEventBaton();
+  window.debug_sandbox = toGlobalize.Main.getSandbox();
+  window.debug_modules = toGlobalize;
+  window.debug_levelDropdown = toGlobalize.Main.getLevelDropdown();
+  window.debug_under = _;
+  window.debug_copyTree = function() {
     return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
   };
 });

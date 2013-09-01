@@ -2,17 +2,10 @@ Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
 
-Easier origin things:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] then maybe work on remote branches tracking correctly? wut? that means:
-    - getRemoteBranch has a default (the same name of the branch) but could be different
-    - git push takes in an argument, and has to check if the remote branch exists, and makes
-      it otherwise (after pushing)
-
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[-] set checkout -b branch __remoteBranch to track the remote branch
-[ ] prototype visual layout (background change + header? maybe...)
+[ ] polish visual layout
+[ ] importTreeNow fails if origin isnt updated
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,6 +30,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] set checkout -b branch __remoteBranch to track the remote branch
 [x] test coverage for hg!!! (in progress)
 [x] tree pruning
 [x] TONS of hg stuff
