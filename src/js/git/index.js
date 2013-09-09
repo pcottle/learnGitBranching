@@ -888,7 +888,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
-    var remoteBranchID = ORIGIN_PREFIX + localBranch.getID();
+    var remoteBranchID = localBranch.getRemoteTrackingBranchID();
     // less hacks hax
     this.setTargetLocation(this.refs[remoteBranchID], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
