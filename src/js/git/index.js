@@ -349,7 +349,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
-    debugger;
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);

@@ -7578,7 +7578,7 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
   remoteBranch.addLocalBranchThatTracksThis(localBranch);
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
-  // same for local
+  // same for local TODO intl
   var msg = 'local branch "' +
     localBranch.get('id') +
     '" set to track remote branch "' +
@@ -14993,6 +14993,13 @@ var Command = Backbone.Model.extend({
     // and if it's one, add a HEAD to the back
     if (args.length == 1) {
       args.push('HEAD');
+    }
+  },
+
+  twoArgsImpliedOrigin: function(args) {
+    this.validateArgBounds(args, 0, 2);
+    if (args.length < 2) {
+      args.unshift('origin');
     }
   },
 
@@ -26028,7 +26035,7 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
   remoteBranch.addLocalBranchThatTracksThis(localBranch);
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
-  // same for local
+  // same for local TODO intl
   var msg = 'local branch "' +
     localBranch.get('id') +
     '" set to track remote branch "' +
@@ -31098,6 +31105,13 @@ var Command = Backbone.Model.extend({
     // and if it's one, add a HEAD to the back
     if (args.length == 1) {
       args.push('HEAD');
+    }
+  },
+
+  twoArgsImpliedOrigin: function(args) {
+    this.validateArgBounds(args, 0, 2);
+    if (args.length < 2) {
+      args.unshift('origin');
     }
   },
 

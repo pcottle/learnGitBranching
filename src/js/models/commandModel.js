@@ -133,6 +133,13 @@ var Command = Backbone.Model.extend({
     }
   },
 
+  twoArgsImpliedOrigin: function(args) {
+    this.validateArgBounds(args, 0, 2);
+    if (args.length < 2) {
+      args.unshift('origin');
+    }
+  },
+
   // this is a little utility class to help arg validation that happens over and over again
   validateArgBounds: function(args, lower, upper, option) {
     var what = (option === undefined) ?
