@@ -44,7 +44,7 @@ exports.level = {
               "We will `merge` the branch `bugFix` into `master`"
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows up the commit tree from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
               "",
               "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
               "",
@@ -61,7 +61,7 @@ exports.level = {
               "Let's merge `master` into `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "Since `bugFix` was an ancestor of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
               "",
               "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],

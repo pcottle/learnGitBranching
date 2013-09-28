@@ -2,37 +2,37 @@
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/commits').level,
-    require('../../levels/intro/branching').level,
-    require('../../levels/intro/merging').level,
-    require('../../levels/intro/rebasing').level
+    require('./intro/commits').level,
+    require('./intro/branching').level,
+    require('./intro/merging').level,
+    require('./intro/rebasing').level
   ],
   rampup: [
-    require('../../levels/rampup/detachedHead').level,
-    require('../../levels/rampup/relativeRefs').level,
-    require('../../levels/rampup/relativeRefs2').level,
-    require('../../levels/rampup/reversingChanges').level
+    require('./rampup/detachedHead').level,
+    require('./rampup/relativeRefs').level,
+    require('./rampup/relativeRefs2').level,
+    require('./rampup/reversingChanges').level
   ],
   move: [
-    require('../../levels/rampup/cherryPick').level,
-    require('../../levels/rampup/interactiveRebase').level
+    require('./rampup/cherryPick').level,
+    require('./rampup/interactiveRebase').level
   ],
   mixed: [
-    require('../../levels/mixed/grabbingOneCommit').level,
-    require('../../levels/mixed/jugglingCommits').level,
-    require('../../levels/mixed/jugglingCommits2').level
+    require('./mixed/grabbingOneCommit').level,
+    require('./mixed/jugglingCommits').level,
+    require('./mixed/jugglingCommits2').level
   ],
   advanced: [
-    require('../../levels/rebase/manyRebases').level,
-    require('../../levels/advanced/multipleParents').level,
-    require('../../levels/rebase/selectiveRebase').level
+    require('./rebase/manyRebases').level,
+    require('./advanced/multipleParents').level,
+    require('./rebase/selectiveRebase').level
   ]
 };
 
 if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
-    require('../../levels/remote/clone').level
+    require('./remote/clone').level
   ];
 }
 

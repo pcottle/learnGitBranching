@@ -19401,37 +19401,37 @@ require.define("/src/levels/index.js",function(require,module,exports,__dirname,
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/commits').level,
-    require('../../levels/intro/branching').level,
-    require('../../levels/intro/merging').level,
-    require('../../levels/intro/rebasing').level
+    require('./intro/commits').level,
+    require('./intro/branching').level,
+    require('./intro/merging').level,
+    require('./intro/rebasing').level
   ],
   rampup: [
-    require('../../levels/rampup/detachedHead').level,
-    require('../../levels/rampup/relativeRefs').level,
-    require('../../levels/rampup/relativeRefs2').level,
-    require('../../levels/rampup/reversingChanges').level
+    require('./rampup/detachedHead').level,
+    require('./rampup/relativeRefs').level,
+    require('./rampup/relativeRefs2').level,
+    require('./rampup/reversingChanges').level
   ],
   move: [
-    require('../../levels/rampup/cherryPick').level,
-    require('../../levels/rampup/interactiveRebase').level
+    require('./rampup/cherryPick').level,
+    require('./rampup/interactiveRebase').level
   ],
   mixed: [
-    require('../../levels/mixed/grabbingOneCommit').level,
-    require('../../levels/mixed/jugglingCommits').level,
-    require('../../levels/mixed/jugglingCommits2').level
+    require('./mixed/grabbingOneCommit').level,
+    require('./mixed/jugglingCommits').level,
+    require('./mixed/jugglingCommits2').level
   ],
   advanced: [
-    require('../../levels/rebase/manyRebases').level,
-    require('../../levels/advanced/multipleParents').level,
-    require('../../levels/rebase/selectiveRebase').level
+    require('./rebase/manyRebases').level,
+    require('./advanced/multipleParents').level,
+    require('./rebase/selectiveRebase').level
   ]
 };
 
 if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
-    require('../../levels/remote/clone').level
+    require('./remote/clone').level
   ];
 }
 
@@ -19526,7 +19526,7 @@ exports.sequenceInfo = {
 
 });
 
-require.define("/levels/intro/commits.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/intro/commits.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
     "fr_FR": "Introduction aux commits avec Git",
@@ -19779,7 +19779,7 @@ require.define("/levels/intro/commits.js",function(require,module,exports,__dirn
 
 });
 
-require.define("/levels/intro/branching.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/intro/branching.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
@@ -20195,7 +20195,7 @@ require.define("/levels/intro/branching.js",function(require,module,exports,__di
 
 });
 
-require.define("/levels/intro/merging.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/intro/merging.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
@@ -20241,7 +20241,7 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
               "We will `merge` the branch `bugFix` into `master`"
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows up the commit tree from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
               "",
               "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
               "",
@@ -20258,7 +20258,7 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
               "Let's merge `master` into `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "Since `bugFix` was an ancestor of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
               "",
               "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
@@ -20566,7 +20566,7 @@ require.define("/levels/intro/merging.js",function(require,module,exports,__dirn
 
 });
 
-require.define("/levels/intro/rebasing.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/intro/rebasing.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
@@ -20631,7 +20631,7 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
               "Now we are checked out on the `master` branch. Let's go ahead and rebase onto `bugFix`..."
             ],
             "afterMarkdowns": [
-              "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+              "There! Since `master` was an ancestor of `bugFix`, git simply moved the `master` branch reference forward in history."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
@@ -20925,7 +20925,7 @@ require.define("/levels/intro/rebasing.js",function(require,module,exports,__dir
 
 });
 
-require.define("/levels/rampup/detachedHead.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rampup/detachedHead.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout C4",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -21099,7 +21099,7 @@ require.define("/levels/rampup/detachedHead.js",function(require,module,exports,
 
 });
 
-require.define("/levels/rampup/relativeRefs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rampup/relativeRefs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout bugFix^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -21267,7 +21267,7 @@ require.define("/levels/rampup/relativeRefs.js",function(require,module,exports,
 
 });
 
-require.define("/levels/rampup/relativeRefs2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rampup/relativeRefs2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C0\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
@@ -21393,7 +21393,7 @@ require.define("/levels/rampup/relativeRefs2.js",function(require,module,exports
 
 });
 
-require.define("/levels/rampup/reversingChanges.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rampup/reversingChanges.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
   "compareOnlyBranches": true,
@@ -21733,7 +21733,7 @@ require.define("/levels/rampup/reversingChanges.js",function(require,module,expo
 
 });
 
-require.define("/levels/rampup/cherryPick.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rampup/cherryPick.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git cherry-pick C3 C4 C7",
   "compareOnlyMasterHashAgnostic": true,
@@ -21810,7 +21810,7 @@ require.define("/levels/rampup/cherryPick.js",function(require,module,exports,__
 
 });
 
-require.define("/levels/rampup/interactiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rampup/interactiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i overHere",
   "compareOnlyMasterHashAgnostic": true,
@@ -21895,7 +21895,7 @@ require.define("/levels/rampup/interactiveRebase.js",function(require,module,exp
 
 });
 
-require.define("/levels/mixed/grabbingOneCommit.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/mixed/grabbingOneCommit.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnosticWithAsserts": true,
   "goalAsserts": {
     "master": [
@@ -22091,7 +22091,7 @@ require.define("/levels/mixed/grabbingOneCommit.js",function(require,module,expo
 
 });
 
-require.define("/levels/mixed/jugglingCommits.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/mixed/jugglingCommits.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "disabledMap": {
     "git cherry-pick": true,
     "git revert": true
@@ -22286,7 +22286,7 @@ require.define("/levels/mixed/jugglingCommits.js",function(require,module,export
 
 });
 
-require.define("/levels/mixed/jugglingCommits2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/mixed/jugglingCommits2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
   "disabledMap": {
@@ -22337,7 +22337,7 @@ require.define("/levels/mixed/jugglingCommits2.js",function(require,module,expor
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't an ancestor of HEAD).",
               "",
               "Here's a small refresher demo:"
             ],
@@ -22485,9 +22485,10 @@ require.define("/levels/mixed/jugglingCommits2.js",function(require,module,expor
     }
   }
 };
+
 });
 
-require.define("/levels/rebase/manyRebases.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rebase/manyRebases.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
     "git revert": true,
@@ -22586,7 +22587,7 @@ require.define("/levels/rebase/manyRebases.js",function(require,module,exports,_
 
 });
 
-require.define("/levels/advanced/multipleParents.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/advanced/multipleParents.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugWork master^^2^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -22778,7 +22779,7 @@ require.define("/levels/advanced/multipleParents.js",function(require,module,exp
 
 });
 
-require.define("/levels/rebase/selectiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/rebase/selectiveRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "compareAllBranchesHashAgnostic": true,
   "disabledMap": {
     "git revert": true
@@ -22884,7 +22885,7 @@ require.define("/levels/rebase/selectiveRebase.js",function(require,module,expor
 
 });
 
-require.define("/levels/remote/clone.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+require.define("/src/levels/remote/clone.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"remoteTrackingBranch\":null,\"remote\":false,\"target\":\"C1\",\"id\":\"master\",\"type\":\"branch\"}},\"commits\":{\"C0\":{\"type\":\"commit\",\"parents\":[],\"author\":\"Peter Cottle\",\"createTime\":\"Fri Jul 26 2013 15:56:22 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"type\":\"commit\",\"parents\":[\"C0\"],\"author\":\"Peter Cottle\",\"createTime\":\"Fri Jul 26 2013 15:56:22 GMT-0700 (PDT)\",\"commitMessage\":\"Quick commit. Go Bears!\",\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\",\"type\":\"general ref\"}}}",
   "solutionCommand": "git clone",
   "name": {
@@ -38065,37 +38066,37 @@ require.define("/src/levels/index.js",function(require,module,exports,__dirname,
 // a sequence proceed in the order listed here
 exports.levelSequences = {
   intro: [
-    require('../../levels/intro/commits').level,
-    require('../../levels/intro/branching').level,
-    require('../../levels/intro/merging').level,
-    require('../../levels/intro/rebasing').level
+    require('./intro/commits').level,
+    require('./intro/branching').level,
+    require('./intro/merging').level,
+    require('./intro/rebasing').level
   ],
   rampup: [
-    require('../../levels/rampup/detachedHead').level,
-    require('../../levels/rampup/relativeRefs').level,
-    require('../../levels/rampup/relativeRefs2').level,
-    require('../../levels/rampup/reversingChanges').level
+    require('./rampup/detachedHead').level,
+    require('./rampup/relativeRefs').level,
+    require('./rampup/relativeRefs2').level,
+    require('./rampup/reversingChanges').level
   ],
   move: [
-    require('../../levels/rampup/cherryPick').level,
-    require('../../levels/rampup/interactiveRebase').level
+    require('./rampup/cherryPick').level,
+    require('./rampup/interactiveRebase').level
   ],
   mixed: [
-    require('../../levels/mixed/grabbingOneCommit').level,
-    require('../../levels/mixed/jugglingCommits').level,
-    require('../../levels/mixed/jugglingCommits2').level
+    require('./mixed/grabbingOneCommit').level,
+    require('./mixed/jugglingCommits').level,
+    require('./mixed/jugglingCommits2').level
   ],
   advanced: [
-    require('../../levels/rebase/manyRebases').level,
-    require('../../levels/advanced/multipleParents').level,
-    require('../../levels/rebase/selectiveRebase').level
+    require('./rebase/manyRebases').level,
+    require('./advanced/multipleParents').level,
+    require('./rebase/selectiveRebase').level
   ]
 };
 
 if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
-    require('../../levels/remote/clone').level
+    require('./remote/clone').level
   ];
 }
 
@@ -38908,7 +38909,7 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
               "We will `merge` the branch `bugFix` into `master`"
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows up the commit tree from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
               "",
               "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
               "",
@@ -38925,7 +38926,7 @@ require.define("/src/levels/intro/merging.js",function(require,module,exports,__
               "Let's merge `master` into `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Since `bugFix` was downstream of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "Since `bugFix` was an ancestor of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
               "",
               "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
@@ -39299,7 +39300,7 @@ require.define("/src/levels/intro/rebasing.js",function(require,module,exports,_
               "Now we are checked out on the `master` branch. Let's go ahead and rebase onto `bugFix`..."
             ],
             "afterMarkdowns": [
-              "There! Since `master` was downstream of `bugFix`, git simply moved the `master` branch reference forward in history."
+              "There! Since `master` was an ancestor of `bugFix`, git simply moved the `master` branch reference forward in history."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
@@ -40038,7 +40039,7 @@ require.define("/src/levels/mixed/jugglingCommits2.js",function(require,module,e
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't upstream).",
+              "Remember that git cherry-pick will plop down a commit from anywhere in the tree onto HEAD (as long as that commit isn't an ancestor of HEAD).",
               "",
               "Here's a small refresher demo:"
             ],
@@ -40186,6 +40187,7 @@ require.define("/src/levels/mixed/jugglingCommits2.js",function(require,module,e
     }
   }
 };
+
 });
 require("/src/levels/mixed/jugglingCommits2.js");
 
