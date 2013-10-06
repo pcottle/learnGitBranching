@@ -16487,6 +16487,25 @@ function getMockFactory() {
   return mockFactory;
 }
 
+function getMockVisualization() {
+  return {
+    makeOrigin: function(options) {
+      var localRepo = options.localRepo;
+      var treeString = options.treeString;
+
+      var headless = new HeadlessGit();
+      return {
+        customEvents: {
+          on: function(key, cb, context) {
+            cb.apply(context, []);
+          }
+        },
+        gitEngine: headless.gitEngine
+      };
+    }
+  };
+}
+
 var HeadlessGit = function() {
   this.init();
 };
@@ -16499,6 +16518,11 @@ HeadlessGit.prototype.init = function() {
   // is headless
   var animationFactory = getMockFactory();
   var gitVisuals = mock(GitVisuals);
+  // add some stuff for origin making
+  var mockVis = getMockVisualization();
+  gitVisuals.getVisualization = function() {
+    return mockVis;
+  };
 
   this.gitEngine = new GitEngine({
     collection: this.commitCollection,
@@ -23061,7 +23085,7 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
   "solutionCommand": "git fetch",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "fetch"
+    "en_US": "Git Fetchin'"
   },
   "hint": {
     "en_US": "just run git fetch!"
@@ -25839,6 +25863,25 @@ function getMockFactory() {
   return mockFactory;
 }
 
+function getMockVisualization() {
+  return {
+    makeOrigin: function(options) {
+      var localRepo = options.localRepo;
+      var treeString = options.treeString;
+
+      var headless = new HeadlessGit();
+      return {
+        customEvents: {
+          on: function(key, cb, context) {
+            cb.apply(context, []);
+          }
+        },
+        gitEngine: headless.gitEngine
+      };
+    }
+  };
+}
+
 var HeadlessGit = function() {
   this.init();
 };
@@ -25851,6 +25894,11 @@ HeadlessGit.prototype.init = function() {
   // is headless
   var animationFactory = getMockFactory();
   var gitVisuals = mock(GitVisuals);
+  // add some stuff for origin making
+  var mockVis = getMockVisualization();
+  gitVisuals.getVisualization = function() {
+    return mockVis;
+  };
 
   this.gitEngine = new GitEngine({
     collection: this.commitCollection,
@@ -41770,7 +41818,7 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
   "solutionCommand": "git fetch",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "fetch"
+    "en_US": "Git Fetchin'"
   },
   "hint": {
     "en_US": "just run git fetch!"

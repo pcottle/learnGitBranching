@@ -43,6 +43,25 @@ function getMockFactory() {
   return mockFactory;
 }
 
+function getMockVisualization() {
+  return {
+    makeOrigin: function(options) {
+      var localRepo = options.localRepo;
+      var treeString = options.treeString;
+
+      var headless = new HeadlessGit();
+      return {
+        customEvents: {
+          on: function(key, cb, context) {
+            cb.apply(context, []);
+          }
+        },
+        gitEngine: headless.gitEngine
+      };
+    }
+  };
+}
+
 var HeadlessGit = function() {
   this.init();
 };
@@ -55,6 +74,11 @@ HeadlessGit.prototype.init = function() {
   // is headless
   var animationFactory = getMockFactory();
   var gitVisuals = mock(GitVisuals);
+  // add some stuff for origin making
+  var mockVis = getMockVisualization();
+  gitVisuals.getVisualization = function() {
+    return mockVis;
+  };
 
   this.gitEngine = new GitEngine({
     collection: this.commitCollection,
