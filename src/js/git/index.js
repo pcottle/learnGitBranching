@@ -363,7 +363,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  remoteBranch.addLocalBranchThatTracksThis(localBranch);
+  remoteBranch.addLocalBranchThatTracksThis(localBranch.get('id'));
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {

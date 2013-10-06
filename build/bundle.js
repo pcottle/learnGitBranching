@@ -7585,7 +7585,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  remoteBranch.addLocalBranchThatTracksThis(localBranch);
+  remoteBranch.addLocalBranchThatTracksThis(localBranch.get('id'));
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {
@@ -9911,6 +9911,9 @@ AnimationFactory.refreshTree = function(animationQueue, gitVisuals) {
 AnimationFactory.genHighlightPromiseAnimation = function(commit, destObj) {
   // could be branch or node
   var visObj = destObj.get('visBranch') || destObj.get('visNode');
+  if (!visObj) {
+    debugger;
+  }
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
@@ -15042,8 +15045,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  oneArgImpliedHead: function(args, option) {
-    this.validateArgBounds(args, 0, 1, option);
+  oneArgImpliedHead: function(args) {
+    this.validateArgBounds(args, 0, 1);
     // and if it's one, add a HEAD to the back
     if (args.length === 0) {
       args.push('HEAD');
@@ -17533,9 +17536,6 @@ var VisNode = VisBase.extend({
   },
 
   highlightTo: function(visObj, speed, easing) {
-    if (!visObj) {
-      debugger;
-    }
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
 
@@ -18010,6 +18010,12 @@ var VisBranch = VisBase.extend({
     }
 
     this.get('branch').set('visBranch', this);
+    if (this.get('branch').get('id') === 'o/master') {
+      console.log('set visbranch on this', this.get('branch'), this);
+      window.debugVisBranch = this;
+      window.debugBranch = this.get('branch');
+      debugger;
+    }
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {
@@ -26263,7 +26269,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  remoteBranch.addLocalBranchThatTracksThis(localBranch);
+  remoteBranch.addLocalBranchThatTracksThis(localBranch.get('id'));
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {
@@ -31349,8 +31355,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  oneArgImpliedHead: function(args, option) {
-    this.validateArgBounds(args, 0, 1, option);
+  oneArgImpliedHead: function(args) {
+    this.validateArgBounds(args, 0, 1);
     // and if it's one, add a HEAD to the back
     if (args.length === 0) {
       args.push('HEAD');
@@ -35462,6 +35468,9 @@ AnimationFactory.refreshTree = function(animationQueue, gitVisuals) {
 AnimationFactory.genHighlightPromiseAnimation = function(commit, destObj) {
   // could be branch or node
   var visObj = destObj.get('visBranch') || destObj.get('visNode');
+  if (!visObj) {
+    debugger;
+  }
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };
@@ -36699,6 +36708,12 @@ var VisBranch = VisBase.extend({
     }
 
     this.get('branch').set('visBranch', this);
+    if (this.get('branch').get('id') === 'o/master') {
+      console.log('set visbranch on this', this.get('branch'), this);
+      window.debugVisBranch = this;
+      window.debugBranch = this.get('branch');
+      debugger;
+    }
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {
@@ -37551,9 +37566,6 @@ var VisNode = VisBase.extend({
   },
 
   highlightTo: function(visObj, speed, easing) {
-    if (!visObj) {
-      debugger;
-    }
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
 

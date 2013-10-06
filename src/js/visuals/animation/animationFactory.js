@@ -138,6 +138,9 @@ AnimationFactory.refreshTree = function(animationQueue, gitVisuals) {
 AnimationFactory.genHighlightPromiseAnimation = function(commit, destObj) {
   // could be branch or node
   var visObj = destObj.get('visBranch') || destObj.get('visNode');
+  if (!visObj) {
+    debugger;
+  }
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
 };

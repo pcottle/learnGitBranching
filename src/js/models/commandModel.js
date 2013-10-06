@@ -116,8 +116,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  oneArgImpliedHead: function(args, option) {
-    this.validateArgBounds(args, 0, 1, option);
+  oneArgImpliedHead: function(args) {
+    this.validateArgBounds(args, 0, 1);
     // and if it's one, add a HEAD to the back
     if (args.length === 0) {
       args.push('HEAD');

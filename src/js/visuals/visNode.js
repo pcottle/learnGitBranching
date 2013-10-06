@@ -141,9 +141,6 @@ var VisNode = VisBase.extend({
   },
 
   highlightTo: function(visObj, speed, easing) {
-    if (!visObj) {
-      debugger;
-    }
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
 
