@@ -4,7 +4,8 @@ Big Things
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] polish visual layout
+[ ] polish visual layout?? needed?
+[ ] work on TABBED levels layout
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
