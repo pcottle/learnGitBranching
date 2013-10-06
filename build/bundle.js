@@ -7239,6 +7239,7 @@ var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var ORIGIN_PREFIX = 'o/';
+var TAB = '&nbsp;&nbsp;&nbsp;';
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -7818,6 +7819,21 @@ GitEngine.prototype.printBranches = function(branches) {
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
   });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.printRemotes = function(options) {
+  var result = '';
+  if (options.verbose) {
+    result += 'origin (fetch)\n';
+    result += TAB + 'git@github.com:pcottle/foo.git' + '\n\n';
+    result += 'origin (push)\n';
+    result += TAB + 'git@github.com:pcottle/foo.git';
+  } else {
+    result += 'origin';
+  }
   throw new CommandResult({
     msg: result
   });
@@ -9363,7 +9379,7 @@ GitEngine.prototype.status = function() {
   }
   lines.push('Changes to be committed:');
   lines.push('');
-  lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
+  lines.push(TAB + 'modified: cal/OskiCostume.stl');
   lines.push('');
   lines.push(intl.str('git-status-readytocommit'));
 
@@ -10436,7 +10452,10 @@ TreeCompare.reduceTreeFields = function(trees) {
       target: tree.HEAD.target,
       id: tree.HEAD.id
     };
-  });
+    if (tree.originTree) {
+      this.reduceTreeFields([tree.originTree]);
+    }
+  }, this);
 };
 
 TreeCompare.compareTrees = function(treeA, treeB) {
@@ -10820,6 +10839,25 @@ var commandConfig = {
     }
   },
 
+  remote: {
+    regex: /^git +remote($|\s)/,
+    options: [
+      '-v'
+    ],
+    execute: function(engine, command) {
+      command.acceptNoGeneralArgs();
+      if (!engine.hasOrigin()) {
+        throw new CommandResult({
+          msg: ''
+        });
+      }
+
+      engine.printRemotes({
+        verbose: !!command.getOptionsMap()['-v']
+      });
+    }
+  },
+
   fetch: {
     regex: /^git +fetch *?$/,
     execute: function(engine, command) {
@@ -10828,7 +10866,13 @@ var commandConfig = {
           msg: intl.str('git-error-origin-required')
         });
       }
-      command.acceptNoGeneralArgs();
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedOrigin(generalArgs);
+      if (generalArgs[0] !== 'origin') {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
       engine.fetch();
     }
   },
@@ -15015,6 +15059,13 @@ var Command = Backbone.Model.extend({
     }
   },
 
+  oneArgImpliedOrigin: function(args) {
+    this.validateArgBounds(args, 0, 1);
+    if (!args.length) {
+      args.unshift('origin');
+    }
+  },
+
   twoArgsImpliedOrigin: function(args) {
     this.validateArgBounds(args, 0, 2);
     if (args.length < 2) {
@@ -17482,6 +17533,9 @@ var VisNode = VisBase.extend({
   },
 
   highlightTo: function(visObj, speed, easing) {
+    if (!visObj) {
+      debugger;
+    }
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
 
@@ -19450,7 +19504,8 @@ exports.levelSequences = {
 if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
-    require('./remote/clone').level
+    require('./remote/clone').level,
+    require('./remote/fetch').level
   ];
 }
 
@@ -22992,6 +23047,91 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
 
 });
 
+require.define("/src/levels/remote/fetch.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C5\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C7\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git fetch",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "fetch"
+  },
+  "hint": {
+    "en_US": "just run git fetch!"
+  },
+  "startDialog": {
+  	"en_US": {
+  	  "childViews": [
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "## Git Fetch",
+	          "",
+	          "Working with git remotes really just boils down to transferring data _to_ and _from_ other repositories. As long as we can send commits back and forth, we can share any type of update that is tracked by git (and thus share work, new files, new ideas, love letters, etc etc).",
+	          "",
+	          "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`."
+	        ]
+	      }
+	    },
+	    {
+	      "type": "GitDemonstrationView",
+	      "options": {
+	        "beforeMarkdowns": [
+	          "Before getting into the details of `git fetch`, let's see it in action! Here we have a remote repository that contains two commits that our local repository does not have."
+	        ],
+	        "afterMarkdowns": [
+	          "There we go! Commits `C2` and `C3` were downloaded to our local repository, and our remote branch was updated to reflect the status of the remote repository."
+	        ],
+	        "command": "git fetch",
+	        "beforeCommand": "git clone; git fakeTeamwork 2"
+	      }
+	    },
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "### What fetch does",
+	          "",
+	          "`git fetch` performs two main steps, and two main steps only. It:",
+	          "",
+	          "* downloads the commits that the remote has but are missing from our local repository, and...",
+	          "* updates where our remote branches point (for instance, `o/master`)",
+	          "",
+	          "`git fetch` essentially it brings our _local_ representation of the remote repository into synchronization with what the _actual_ remote repository looks like (right now).",
+	          "",
+	          "It does this by talking to the remote repository, usually through the internet (via a protocol like `http://` or `git://`).",
+	          ""
+	        ]
+	      }
+	    },
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "### What fetch doesn't do",
+	          "",
+	          "`git fetch`, however, does not change anything about _your_ local repository. It will not update your `master` branch or change anything about how your filesystem looks right now.",
+	          "",
+	          "This is important to understand because a lot of developers think that running `git fetch` will make their local repository reflect the state of `origin`. It may download all the necessary data to do that, but it does _not_ actually change any of your local files.",
+	          "",
+	          "So in this sense, you can think of running `git fetch` as a download step. The steps to reflect the changes of the newly-downloaded commits will explained in following lessons :D"
+	        ]
+	      }
+	    },
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "To finish the level, simply `git fetch` and download all the commits!"
+	        ]
+	      }
+	    }
+	  ]
+	}
+  }
+};
+
+});
+
 require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -25201,6 +25341,25 @@ var commandConfig = {
     }
   },
 
+  remote: {
+    regex: /^git +remote($|\s)/,
+    options: [
+      '-v'
+    ],
+    execute: function(engine, command) {
+      command.acceptNoGeneralArgs();
+      if (!engine.hasOrigin()) {
+        throw new CommandResult({
+          msg: ''
+        });
+      }
+
+      engine.printRemotes({
+        verbose: !!command.getOptionsMap()['-v']
+      });
+    }
+  },
+
   fetch: {
     regex: /^git +fetch *?$/,
     execute: function(engine, command) {
@@ -25209,7 +25368,13 @@ var commandConfig = {
           msg: intl.str('git-error-origin-required')
         });
       }
-      command.acceptNoGeneralArgs();
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedOrigin(generalArgs);
+      if (generalArgs[0] !== 'origin') {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
       engine.fetch();
     }
   },
@@ -25752,6 +25917,7 @@ var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var ORIGIN_PREFIX = 'o/';
+var TAB = '&nbsp;&nbsp;&nbsp;';
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -26331,6 +26497,21 @@ GitEngine.prototype.printBranches = function(branches) {
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
   });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.printRemotes = function(options) {
+  var result = '';
+  if (options.verbose) {
+    result += 'origin (fetch)\n';
+    result += TAB + 'git@github.com:pcottle/foo.git' + '\n\n';
+    result += 'origin (push)\n';
+    result += TAB + 'git@github.com:pcottle/foo.git';
+  } else {
+    result += 'origin';
+  }
   throw new CommandResult({
     msg: result
   });
@@ -27876,7 +28057,7 @@ GitEngine.prototype.status = function() {
   }
   lines.push('Changes to be committed:');
   lines.push('');
-  lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
+  lines.push(TAB + 'modified: cal/OskiCostume.stl');
   lines.push('');
   lines.push(intl.str('git-status-readytocommit'));
 
@@ -28629,7 +28810,10 @@ TreeCompare.reduceTreeFields = function(trees) {
       target: tree.HEAD.target,
       id: tree.HEAD.id
     };
-  });
+    if (tree.originTree) {
+      this.reduceTreeFields([tree.originTree]);
+    }
+  }, this);
 };
 
 TreeCompare.compareTrees = function(treeA, treeB) {
@@ -31179,6 +31363,13 @@ var Command = Backbone.Model.extend({
     // and if it's one, add a HEAD to the back
     if (args.length == 1) {
       args.push('HEAD');
+    }
+  },
+
+  oneArgImpliedOrigin: function(args) {
+    this.validateArgBounds(args, 0, 1);
+    if (!args.length) {
+      args.unshift('origin');
     }
   },
 
@@ -37360,6 +37551,9 @@ var VisNode = VisBase.extend({
   },
 
   highlightTo: function(visObj, speed, easing) {
+    if (!visObj) {
+      debugger;
+    }
     // a small function to highlight the color of a node for demonstration purposes
     var color = visObj.get('fill');
 
@@ -38185,7 +38379,8 @@ exports.levelSequences = {
 if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
-    require('./remote/clone').level
+    require('./remote/clone').level,
+    require('./remote/fetch').level
   ];
 }
 
@@ -41551,5 +41746,91 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
 
 });
 require("/src/levels/remote/clone.js");
+
+require.define("/src/levels/remote/fetch.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C5\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C7\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git fetch",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "fetch"
+  },
+  "hint": {
+    "en_US": "just run git fetch!"
+  },
+  "startDialog": {
+  	"en_US": {
+  	  "childViews": [
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "## Git Fetch",
+	          "",
+	          "Working with git remotes really just boils down to transferring data _to_ and _from_ other repositories. As long as we can send commits back and forth, we can share any type of update that is tracked by git (and thus share work, new files, new ideas, love letters, etc etc).",
+	          "",
+	          "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`."
+	        ]
+	      }
+	    },
+	    {
+	      "type": "GitDemonstrationView",
+	      "options": {
+	        "beforeMarkdowns": [
+	          "Before getting into the details of `git fetch`, let's see it in action! Here we have a remote repository that contains two commits that our local repository does not have."
+	        ],
+	        "afterMarkdowns": [
+	          "There we go! Commits `C2` and `C3` were downloaded to our local repository, and our remote branch was updated to reflect the status of the remote repository."
+	        ],
+	        "command": "git fetch",
+	        "beforeCommand": "git clone; git fakeTeamwork 2"
+	      }
+	    },
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "### What fetch does",
+	          "",
+	          "`git fetch` performs two main steps, and two main steps only. It:",
+	          "",
+	          "* downloads the commits that the remote has but are missing from our local repository, and...",
+	          "* updates where our remote branches point (for instance, `o/master`)",
+	          "",
+	          "`git fetch` essentially it brings our _local_ representation of the remote repository into synchronization with what the _actual_ remote repository looks like (right now).",
+	          "",
+	          "It does this by talking to the remote repository, usually through the internet (via a protocol like `http://` or `git://`).",
+	          ""
+	        ]
+	      }
+	    },
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "### What fetch doesn't do",
+	          "",
+	          "`git fetch`, however, does not change anything about _your_ local repository. It will not update your `master` branch or change anything about how your filesystem looks right now.",
+	          "",
+	          "This is important to understand because a lot of developers think that running `git fetch` will make their local repository reflect the state of `origin`. It may download all the necessary data to do that, but it does _not_ actually change any of your local files.",
+	          "",
+	          "So in this sense, you can think of running `git fetch` as a download step. The steps to reflect the changes of the newly-downloaded commits will explained in following lessons :D"
+	        ]
+	      }
+	    },
+	    {
+	      "type": "ModalAlert",
+	      "options": {
+	        "markdowns": [
+	          "To finish the level, simply `git fetch` and download all the commits!"
+	        ]
+	      }
+	    }
+	  ]
+	}
+  }
+};
+
+});
+require("/src/levels/remote/fetch.js");
 
 })();

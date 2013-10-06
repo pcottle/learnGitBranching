@@ -133,6 +133,13 @@ var Command = Backbone.Model.extend({
     }
   },
 
+  oneArgImpliedOrigin: function(args) {
+    this.validateArgBounds(args, 0, 1);
+    if (!args.length) {
+      args.unshift('origin');
+    }
+  },
+
   twoArgsImpliedOrigin: function(args) {
     this.validateArgBounds(args, 0, 2);
     if (args.length < 2) {

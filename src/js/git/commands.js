@@ -151,6 +151,25 @@ var commandConfig = {
     }
   },
 
+  remote: {
+    regex: /^git +remote($|\s)/,
+    options: [
+      '-v'
+    ],
+    execute: function(engine, command) {
+      command.acceptNoGeneralArgs();
+      if (!engine.hasOrigin()) {
+        throw new CommandResult({
+          msg: ''
+        });
+      }
+
+      engine.printRemotes({
+        verbose: !!command.getOptionsMap()['-v']
+      });
+    }
+  },
+
   fetch: {
     regex: /^git +fetch *?$/,
     execute: function(engine, command) {
@@ -159,7 +178,13 @@ var commandConfig = {
           msg: intl.str('git-error-origin-required')
         });
       }
-      command.acceptNoGeneralArgs();
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedOrigin(generalArgs);
+      if (generalArgs[0] !== 'origin') {
+        throw new GitError({
+          msg: intl.str('git-error-options')
+        });
+      }
       engine.fetch();
     }
   },

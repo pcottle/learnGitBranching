@@ -17,6 +17,7 @@ var CommandResult = Errors.CommandResult;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var ORIGIN_PREFIX = 'o/';
+var TAB = '&nbsp;&nbsp;&nbsp;';
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -596,6 +597,21 @@ GitEngine.prototype.printBranches = function(branches) {
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
   });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.printRemotes = function(options) {
+  var result = '';
+  if (options.verbose) {
+    result += 'origin (fetch)\n';
+    result += TAB + 'git@github.com:pcottle/foo.git' + '\n\n';
+    result += 'origin (push)\n';
+    result += TAB + 'git@github.com:pcottle/foo.git';
+  } else {
+    result += 'origin';
+  }
   throw new CommandResult({
     msg: result
   });
@@ -2141,7 +2157,7 @@ GitEngine.prototype.status = function() {
   }
   lines.push('Changes to be committed:');
   lines.push('');
-  lines.push('&nbsp;&nbsp;&nbsp; modified: cal/OskiCostume.stl');
+  lines.push(TAB + 'modified: cal/OskiCostume.stl');
   lines.push('');
   lines.push(intl.str('git-status-readytocommit'));
 

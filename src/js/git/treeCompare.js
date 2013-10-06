@@ -358,7 +358,10 @@ TreeCompare.reduceTreeFields = function(trees) {
       target: tree.HEAD.target,
       id: tree.HEAD.id
     };
-  });
+    if (tree.originTree) {
+      this.reduceTreeFields([tree.originTree]);
+    }
+  }, this);
 };
 
 TreeCompare.compareTrees = function(treeA, treeB) {
