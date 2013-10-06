@@ -341,10 +341,15 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   }, this);
 
   var originTree = JSON.parse(unescape(treeString));
-  // make an origin branch for each branch mentioned in the tree
+  // make an origin branch for each branch mentioned in the tree if its
+  // not made already...
   _.each(originTree.branches, function(branchJSON, branchName) {
-    var originTarget = branchJSON.target;
+    if (this.refs[ORIGIN_PREFIX + branchName]) {
+      // we already have this branch
+      return;
+    }
 
+    var originTarget = branchJSON.target;
     // now this is tricky -- our remote could have commits that we do
     // not have. so lets go upwards until we find one that we have
     while (!this.refs[originTarget]) {
@@ -357,7 +362,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
-    console.log('made tracking branch', originBranch);
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
@@ -540,6 +544,10 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
+  if (this.refs[id]) {
+    throw new Error('woah already have that');
+  }
+
   var branch = new Branch({
     target: target,
     id: id

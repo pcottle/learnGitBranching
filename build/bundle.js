@@ -7563,10 +7563,15 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   }, this);
 
   var originTree = JSON.parse(unescape(treeString));
-  // make an origin branch for each branch mentioned in the tree
+  // make an origin branch for each branch mentioned in the tree if its
+  // not made already...
   _.each(originTree.branches, function(branchJSON, branchName) {
-    var originTarget = branchJSON.target;
+    if (this.refs[ORIGIN_PREFIX + branchName]) {
+      // we already have this branch
+      return;
+    }
 
+    var originTarget = branchJSON.target;
     // now this is tricky -- our remote could have commits that we do
     // not have. so lets go upwards until we find one that we have
     while (!this.refs[originTarget]) {
@@ -7579,7 +7584,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
-    console.log('made tracking branch', originBranch);
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
@@ -7762,6 +7766,10 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
+  if (this.refs[id]) {
+    throw new Error('woah already have that');
+  }
+
   var branch = new Branch({
     target: target,
     id: id
@@ -17163,7 +17171,6 @@ GitVisuals.prototype.addBranch = function(branch) {
     gitVisuals: this,
     gitEngine: this.gitEngine
   });
-  console.log('adding new branch', branch.get('id'));
 
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
@@ -18012,11 +18019,6 @@ var VisBranch = VisBase.extend({
     }
 
     this.get('branch').set('visBranch', this);
-    if (this.get('branch').get('id') === 'o/master') {
-      console.log('set visbranch on this', this.get('branch'), this);
-      window.debugVisBranch = this;
-      window.debugBranch = this.get('branch');
-    }
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {
@@ -26248,10 +26250,15 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   }, this);
 
   var originTree = JSON.parse(unescape(treeString));
-  // make an origin branch for each branch mentioned in the tree
+  // make an origin branch for each branch mentioned in the tree if its
+  // not made already...
   _.each(originTree.branches, function(branchJSON, branchName) {
-    var originTarget = branchJSON.target;
+    if (this.refs[ORIGIN_PREFIX + branchName]) {
+      // we already have this branch
+      return;
+    }
 
+    var originTarget = branchJSON.target;
     // now this is tricky -- our remote could have commits that we do
     // not have. so lets go upwards until we find one that we have
     while (!this.refs[originTarget]) {
@@ -26264,7 +26271,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
-    console.log('made tracking branch', originBranch);
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
@@ -26447,6 +26453,10 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
+  if (this.refs[id]) {
+    throw new Error('woah already have that');
+  }
+
   var branch = new Branch({
     target: target,
     id: id
@@ -36273,7 +36283,6 @@ GitVisuals.prototype.addBranch = function(branch) {
     gitVisuals: this,
     gitEngine: this.gitEngine
   });
-  console.log('adding new branch', branch.get('id'));
 
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
@@ -36711,11 +36720,6 @@ var VisBranch = VisBase.extend({
     }
 
     this.get('branch').set('visBranch', this);
-    if (this.get('branch').get('id') === 'o/master') {
-      console.log('set visbranch on this', this.get('branch'), this);
-      window.debugVisBranch = this;
-      window.debugBranch = this.get('branch');
-    }
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {

@@ -60,11 +60,6 @@ var VisBranch = VisBase.extend({
     }
 
     this.get('branch').set('visBranch', this);
-    if (this.get('branch').get('id') === 'o/master') {
-      console.log('set visbranch on this', this.get('branch'), this);
-      window.debugVisBranch = this;
-      window.debugBranch = this.get('branch');
-    }
     var id = this.get('branch').get('id');
 
     if (id == 'HEAD') {
