@@ -6850,7 +6850,7 @@ var Visualization = Backbone.View.extend({
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?
-      new EventBaton():
+      new EventBaton({noInput: true}) :
       Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
@@ -7031,7 +7031,9 @@ var Visualization = Backbone.View.extend({
     }
   },
 
-  tearDown: function() {
+  tearDown: function(options) {
+    options = options || {};
+
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
     delete this.paper;
@@ -7042,7 +7044,7 @@ var Visualization = Backbone.View.extend({
     this.fadeTreeOut();
     setTimeout(_.bind(function() {
       if (!this.shown) {
-        this.tearDown();
+        this.tearDown({fromDie: true});
       }
     }, this), this.getAnimationTime());
     this.originToo('die', arguments);
@@ -7559,12 +7561,19 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
-  // we only clone from our current state, so we can safely assume all of our
-  // local commits are on origin
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree
   _.each(originTree.branches, function(branchJSON, branchName) {
     var originTarget = branchJSON.target;
+
+    // now this is tricky -- our remote could have commits that we do
+    // not have. so lets go upwards until we find one that we have
+    while (!this.refs[originTarget]) {
+      var parents = originTree.commits[originTarget].parents;
+      originTarget = parents[0];
+    }
+
+    // now we have something in common, lets make the tracking branch
     var originBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
@@ -7577,6 +7586,11 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
   remoteBranch.addLocalBranchThatTracksThis(localBranch);
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
+
+  if (!this.command) {
+    // during init we have no command
+    return;
+  }
 
   // same for local TODO intl
   var msg = 'local branch "' +
@@ -7656,8 +7670,12 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.tearDown = function() {
+  if (this.tornDown) {
+    return;
+  }
   this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
+  this.tornDown = true;
 };
 
 GitEngine.prototype.reloadGraphics = function() {
@@ -11402,8 +11420,9 @@ exports.commandConfig = commandConfig;
 
 require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
-function EventBaton() {
+function EventBaton(options) {
   this.eventMap = {};
+  this.options = options || {};
 }
 
 // this method steals the "baton" -- aka, only this method will now
@@ -22918,13 +22937,28 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
             "markdowns": [
               "## Git Remotes",
               "",
-              "Remote repositories are copies of your project that are hosted elsewhere (typically on the internet). They do a bunch of great things for you:",
+              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repositoy on another computer. You can typically talk to this other computer through the internet, which allows you to transfer commits back and forth.",
               "",
-              "- First and foremost, they serve as a great backup! Git repositories obviously have the ability to restore files, but they rely on the filesystem working being in a valid state. Even if your entire laptop blows, your remote repositories will still work great.",
+              "That being said, remote repositories have a bunch of great properties:",
               "",
-              "- They also make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
+              "- First and foremost, remotes serve as a great backup! Local git repositories have the ability to restore files to a previous state (as you know), but all that information is stored locally. By having copies of your git repository on other computers, you can lose all your local data and still pick up where you left off.",
+              "",
+              "- More importantly, remotes make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
               "",
               "It's become very popular to use websites that visualize activity around remote repos (like [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Our Command to create remotes",
+              "",
+              "Up until this point, Learn Git Branching has focused on teaching the basics of _local_ repository work (branching, merging, rebasing, etc). However now that we want to learn about remote repository work, we need a command to set up the environment for those lessons. `git clone` will be that command",
+              "",
+              "Technically, `git clone` in the real world is the command you'll use to create _local_ copies of remote repositories (from github for example). We use this command a bit differently in Learn Git Branching though -- `git clone` actually makes a remote repository out of your local one. Sure it's technically the opposite meaning of the real command, but it helps build the connection between cloning and remote repository work, so let's just run with it for now.",
+              "",
             ]
           }
         },
@@ -22933,15 +22967,10 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
           "options": {
             "beforeMarkdowns": [
               "Lets start slow and just look at what a remote repository looks like (in our visualization).",
-              "",
-              "`git clone` (in the real world) is the command you'll use to create _local_ copies of remote repositories (from github say), but we use it here to simply launch the visualization into a state where there's a remote and local copy.",
-              "",
-              "",
-              "",
               ""
             ],
             "afterMarkdowns": [
-              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent"
+              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent -- in later levels you'll get to see how we share work across these repositories."
             ],
             "command": "git clone",
             "beforeCommand": ""
@@ -22951,7 +22980,7 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons"
+              "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
             ]
           }
         }
@@ -26045,12 +26074,19 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
-  // we only clone from our current state, so we can safely assume all of our
-  // local commits are on origin
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree
   _.each(originTree.branches, function(branchJSON, branchName) {
     var originTarget = branchJSON.target;
+
+    // now this is tricky -- our remote could have commits that we do
+    // not have. so lets go upwards until we find one that we have
+    while (!this.refs[originTarget]) {
+      var parents = originTree.commits[originTarget].parents;
+      originTarget = parents[0];
+    }
+
+    // now we have something in common, lets make the tracking branch
     var originBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
@@ -26063,6 +26099,11 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
   remoteBranch.addLocalBranchThatTracksThis(localBranch);
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
+
+  if (!this.command) {
+    // during init we have no command
+    return;
+  }
 
   // same for local TODO intl
   var msg = 'local branch "' +
@@ -26142,8 +26183,12 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.tearDown = function() {
+  if (this.tornDown) {
+    return;
+  }
   this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
+  this.tornDown = true;
 };
 
 GitEngine.prototype.reloadGraphics = function() {
@@ -32078,8 +32123,9 @@ require("/src/js/util/errors.js");
 
 require.define("/src/js/util/eventBaton.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
-function EventBaton() {
+function EventBaton(options) {
   this.eventMap = {};
+  this.options = options || {};
 }
 
 // this method steals the "baton" -- aka, only this method will now
@@ -37674,7 +37720,7 @@ var Visualization = Backbone.View.extend({
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?
-      new EventBaton():
+      new EventBaton({noInput: true}) :
       Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
@@ -37855,7 +37901,9 @@ var Visualization = Backbone.View.extend({
     }
   },
 
-  tearDown: function() {
+  tearDown: function(options) {
+    options = options || {};
+
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
     delete this.paper;
@@ -37866,7 +37914,7 @@ var Visualization = Backbone.View.extend({
     this.fadeTreeOut();
     setTimeout(_.bind(function() {
       if (!this.shown) {
-        this.tearDown();
+        this.tearDown({fromDie: true});
       }
     }, this), this.getAnimationTime());
     this.originToo('die', arguments);
@@ -41448,13 +41496,28 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
             "markdowns": [
               "## Git Remotes",
               "",
-              "Remote repositories are copies of your project that are hosted elsewhere (typically on the internet). They do a bunch of great things for you:",
+              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repositoy on another computer. You can typically talk to this other computer through the internet, which allows you to transfer commits back and forth.",
               "",
-              "- First and foremost, they serve as a great backup! Git repositories obviously have the ability to restore files, but they rely on the filesystem working being in a valid state. Even if your entire laptop blows, your remote repositories will still work great.",
+              "That being said, remote repositories have a bunch of great properties:",
               "",
-              "- They also make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
+              "- First and foremost, remotes serve as a great backup! Local git repositories have the ability to restore files to a previous state (as you know), but all that information is stored locally. By having copies of your git repository on other computers, you can lose all your local data and still pick up where you left off.",
+              "",
+              "- More importantly, remotes make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
               "",
               "It's become very popular to use websites that visualize activity around remote repos (like [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Our Command to create remotes",
+              "",
+              "Up until this point, Learn Git Branching has focused on teaching the basics of _local_ repository work (branching, merging, rebasing, etc). However now that we want to learn about remote repository work, we need a command to set up the environment for those lessons. `git clone` will be that command",
+              "",
+              "Technically, `git clone` in the real world is the command you'll use to create _local_ copies of remote repositories (from github for example). We use this command a bit differently in Learn Git Branching though -- `git clone` actually makes a remote repository out of your local one. Sure it's technically the opposite meaning of the real command, but it helps build the connection between cloning and remote repository work, so let's just run with it for now.",
+              "",
             ]
           }
         },
@@ -41463,15 +41526,10 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
           "options": {
             "beforeMarkdowns": [
               "Lets start slow and just look at what a remote repository looks like (in our visualization).",
-              "",
-              "`git clone` (in the real world) is the command you'll use to create _local_ copies of remote repositories (from github say), but we use it here to simply launch the visualization into a state where there's a remote and local copy.",
-              "",
-              "",
-              "",
               ""
             ],
             "afterMarkdowns": [
-              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent"
+              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent -- in later levels you'll get to see how we share work across these repositories."
             ],
             "command": "git clone",
             "beforeCommand": ""
@@ -41481,7 +41539,7 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons"
+              "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
             ]
           }
         }

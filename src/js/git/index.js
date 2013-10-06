@@ -339,12 +339,19 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
 
-  // we only clone from our current state, so we can safely assume all of our
-  // local commits are on origin
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree
   _.each(originTree.branches, function(branchJSON, branchName) {
     var originTarget = branchJSON.target;
+
+    // now this is tricky -- our remote could have commits that we do
+    // not have. so lets go upwards until we find one that we have
+    while (!this.refs[originTarget]) {
+      var parents = originTree.commits[originTarget].parents;
+      originTarget = parents[0];
+    }
+
+    // now we have something in common, lets make the tracking branch
     var originBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
@@ -357,6 +364,11 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
   remoteBranch.addLocalBranchThatTracksThis(localBranch);
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
+
+  if (!this.command) {
+    // during init we have no command
+    return;
+  }
 
   // same for local TODO intl
   var msg = 'local branch "' +
@@ -436,8 +448,12 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
 };
 
 GitEngine.prototype.tearDown = function() {
+  if (this.tornDown) {
+    return;
+  }
   this.eventBaton.releaseBaton('processGitCommand', this.dispatch, this);
   this.removeAll();
+  this.tornDown = true;
 };
 
 GitEngine.prototype.reloadGraphics = function() {

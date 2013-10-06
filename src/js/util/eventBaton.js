@@ -1,7 +1,8 @@
 var _ = require('underscore');
 
-function EventBaton() {
+function EventBaton(options) {
   this.eventMap = {};
+  this.options = options || {};
 }
 
 // this method steals the "baton" -- aka, only this method will now

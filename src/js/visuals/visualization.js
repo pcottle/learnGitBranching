@@ -38,7 +38,7 @@ var Visualization = Backbone.View.extend({
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?
-      new EventBaton():
+      new EventBaton({noInput: true}) :
       Main.getEventBaton();
 
     this.commitCollection = new CommitCollection();
@@ -219,7 +219,9 @@ var Visualization = Backbone.View.extend({
     }
   },
 
-  tearDown: function() {
+  tearDown: function(options) {
+    options = options || {};
+
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
     delete this.paper;
@@ -230,7 +232,7 @@ var Visualization = Backbone.View.extend({
     this.fadeTreeOut();
     setTimeout(_.bind(function() {
       if (!this.shown) {
-        this.tearDown();
+        this.tearDown({fromDie: true});
       }
     }, this), this.getAnimationTime());
     this.originToo('die', arguments);
