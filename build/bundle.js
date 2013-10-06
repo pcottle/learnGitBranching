@@ -23159,6 +23159,15 @@ var LevelDropdownView = ContainedBase.extend({
     this.selectedID = id;
     var selector = '#levelIcon-' + id;
     $(selector).toggleClass('selected', value);
+
+    // also go find the series and update the about
+    _.each(this.seriesViews, function(view) {
+      if (view.levelIDs.indexOf(id) === -1) {
+        view.resetAbout();
+        return;
+      }
+      view.updateAboutForLevelID(id);
+    }, this);
   },
 
   negative: function() {
@@ -23280,6 +23289,10 @@ var SeriesView = BaseView.extend({
 
   enterIcon: function(ev) {
     var id = this.getEventID(ev);
+    this.updateAboutForLevelID(id);
+  },
+
+  updateAboutForLevelID: function(id) {
     var level = Main.getLevelArbiter().getLevel(id);
     this.setAbout(intl.getName(level));
   },
@@ -34530,6 +34543,15 @@ var LevelDropdownView = ContainedBase.extend({
     this.selectedID = id;
     var selector = '#levelIcon-' + id;
     $(selector).toggleClass('selected', value);
+
+    // also go find the series and update the about
+    _.each(this.seriesViews, function(view) {
+      if (view.levelIDs.indexOf(id) === -1) {
+        view.resetAbout();
+        return;
+      }
+      view.updateAboutForLevelID(id);
+    }, this);
   },
 
   negative: function() {
@@ -34651,6 +34673,10 @@ var SeriesView = BaseView.extend({
 
   enterIcon: function(ev) {
     var id = this.getEventID(ev);
+    this.updateAboutForLevelID(id);
+  },
+
+  updateAboutForLevelID: function(id) {
     var level = Main.getLevelArbiter().getLevel(id);
     this.setAbout(intl.getName(level));
   },
