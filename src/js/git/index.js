@@ -266,7 +266,7 @@ GitEngine.prototype.loadTree = function(tree) {
 };
 
 GitEngine.prototype.loadTreeFromString = function(treeString) {
-  this.loadTree(JSON.parse(unescape(treeString)));
+  this.loadTree(JSON.parse(unescape(this.crappyUnescape(treeString))));
 };
 
 GitEngine.prototype.instantiateFromTree = function(tree) {
@@ -357,6 +357,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
+    console.log('made tracking branch', originBranch);
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
@@ -2071,7 +2072,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 };
 
 GitEngine.prototype.crappyUnescape = function(str) {
-  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, '/');
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
 GitEngine.prototype.filterError = function(err) {

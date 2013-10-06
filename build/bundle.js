@@ -7488,7 +7488,7 @@ GitEngine.prototype.loadTree = function(tree) {
 };
 
 GitEngine.prototype.loadTreeFromString = function(treeString) {
-  this.loadTree(JSON.parse(unescape(treeString)));
+  this.loadTree(JSON.parse(unescape(this.crappyUnescape(treeString))));
 };
 
 GitEngine.prototype.instantiateFromTree = function(tree) {
@@ -7579,6 +7579,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
+    console.log('made tracking branch', originBranch);
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
@@ -9293,7 +9294,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 };
 
 GitEngine.prototype.crappyUnescape = function(str) {
-  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, '/');
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
 GitEngine.prototype.filterError = function(err) {
@@ -15045,8 +15046,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  oneArgImpliedHead: function(args) {
-    this.validateArgBounds(args, 0, 1);
+  oneArgImpliedHead: function(args, option) {
+    this.validateArgBounds(args, 0, 1, option);
     // and if it's one, add a HEAD to the back
     if (args.length === 0) {
       args.push('HEAD');
@@ -17162,6 +17163,7 @@ GitVisuals.prototype.addBranch = function(branch) {
     gitVisuals: this,
     gitEngine: this.gitEngine
   });
+  console.log('adding new branch', branch.get('id'));
 
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
@@ -18014,7 +18016,6 @@ var VisBranch = VisBase.extend({
       console.log('set visbranch on this', this.get('branch'), this);
       window.debugVisBranch = this;
       window.debugBranch = this.get('branch');
-      debugger;
     }
     var id = this.get('branch').get('id');
 
@@ -26172,7 +26173,7 @@ GitEngine.prototype.loadTree = function(tree) {
 };
 
 GitEngine.prototype.loadTreeFromString = function(treeString) {
-  this.loadTree(JSON.parse(unescape(treeString)));
+  this.loadTree(JSON.parse(unescape(this.crappyUnescape(treeString))));
 };
 
 GitEngine.prototype.instantiateFromTree = function(tree) {
@@ -26263,6 +26264,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
+    console.log('made tracking branch', originBranch);
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
   }, this);
@@ -27977,7 +27979,7 @@ GitEngine.prototype.deleteBranch = function(name) {
 };
 
 GitEngine.prototype.crappyUnescape = function(str) {
-  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, '/');
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
 GitEngine.prototype.filterError = function(err) {
@@ -31355,8 +31357,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  oneArgImpliedHead: function(args) {
-    this.validateArgBounds(args, 0, 1);
+  oneArgImpliedHead: function(args, option) {
+    this.validateArgBounds(args, 0, 1, option);
     // and if it's one, add a HEAD to the back
     if (args.length === 0) {
       args.push('HEAD');
@@ -36271,6 +36273,7 @@ GitVisuals.prototype.addBranch = function(branch) {
     gitVisuals: this,
     gitEngine: this.gitEngine
   });
+  console.log('adding new branch', branch.get('id'));
 
   this.visBranchCollection.add(visBranch);
   if (this.gitReady) {
@@ -36712,7 +36715,6 @@ var VisBranch = VisBase.extend({
       console.log('set visbranch on this', this.get('branch'), this);
       window.debugVisBranch = this;
       window.debugBranch = this.get('branch');
-      debugger;
     }
     var id = this.get('branch').get('id');
 

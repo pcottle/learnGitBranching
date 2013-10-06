@@ -64,7 +64,6 @@ var VisBranch = VisBase.extend({
       console.log('set visbranch on this', this.get('branch'), this);
       window.debugVisBranch = this;
       window.debugBranch = this.get('branch');
-      debugger;
     }
     var id = this.get('branch').get('id');
 
