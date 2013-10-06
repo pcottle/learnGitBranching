@@ -189,7 +189,7 @@ var Visualization = Backbone.View.extend({
     var oTree = this.getOriginInTreeString(treeString);
     if (oTree) {
       var oTreeString = this.gitEngine.printTree(oTree);
-      this.originToo('resetFromThisThreeNow', [oTreeString]);
+      this.originToo('resetFromThisTreeNow', [oTreeString]);
     }
   },
 
