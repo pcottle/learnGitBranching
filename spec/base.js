@@ -57,6 +57,8 @@ var expectTreeAsync = function(command, expectedJSON) {
       console.log('not going to match', command);
       console.log('expected\n>>>>>>>>\n', loadTree(expectedJSON));
       console.log('\n<<<<<<<<<<<\nactual', headless.gitEngine.exportTree());
+      console.log('\n<<<<ORIGIN>>>>>\n');
+      console.log(loadTree(expectedJSON).originTree, '\n==========\n', headless.gitEngine.exportTree().originTree);
     }
     return compareAnswer(headless, expectedJSON);
   }, 'trees should be equal', 100);

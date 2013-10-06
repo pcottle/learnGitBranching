@@ -50,6 +50,7 @@ function getMockVisualization() {
       var treeString = options.treeString;
 
       var headless = new HeadlessGit();
+      headless.gitEngine.loadTreeFromString(treeString);
       return {
         customEvents: {
           on: function(key, cb, context) {
