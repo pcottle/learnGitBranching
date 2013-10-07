@@ -78,5 +78,12 @@ describe('Git Remotes', function() {
       '{"branches":{"master":{"target":"C1","id":"master"},"bugFix":{"target":"C1","id":"bugFix"},"o/master":{"target":"C2","id":"o/master"},"o/bugFix":{"target":"C1","id":"o/bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master"},"bugFix":{"target":"C1","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
+
+  it('pulls with nothing and then commits', function() {
+    expectTreeAsync(
+      'git clone; git pull; git commit',
+      '{"branches":{"master":{"target":"C2","id":"master"},"o/master":{"target":"C1","id":"o/master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
 });
 

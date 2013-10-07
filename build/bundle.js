@@ -7244,6 +7244,13 @@ var EventBaton = require('../util/eventBaton').EventBaton;
 
 var ORIGIN_PREFIX = 'o/';
 var TAB = '&nbsp;&nbsp;&nbsp;';
+var SHORT_CIRCUIT_CHAIN = 'STAPH';
+
+function catchShortCircuit(err) {
+  if (err !== SHORT_CIRCUIT_CHAIN) {
+    throw err;
+  }
+}
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -8191,16 +8198,19 @@ GitEngine.prototype.fetch = function(options) {
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
   _.each(branchesToFetch, function(localRemoteBranch) {
-    options.dontThrowOnNoFetch = true;
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
       localRemoteBranch,
       this.origin.refs[localRemoteBranch.getBaseID()],
-      options
+      _.extend(
+        {},
+        options,
+        {dontThrowOnNoFetch: true}
+      )
     ));
   }, this);
-  if (!commitsToMake.length) {
+  if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
     });
@@ -8350,6 +8360,20 @@ GitEngine.prototype.pullFinishWithMerge = function(
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
+  // TODO -- hax hax. need to loop all branches
+  // first lets check if we even need to merge (TODO -- expand this)
+  var currentLocation = 'master';
+  var targetSource = 'o/master';
+
+  chain = chain.then(_.bind(function() {
+    if (this.mergeCheck(targetSource, currentLocation)) {
+      this.command.set('error', new CommandResult({
+        msg: intl.str('git-result-uptodate')
+      }));
+      throw SHORT_CIRCUIT_CHAIN;
+    }
+  }, this));
+
   // delay a bit after the intense refresh animation from
   // fetch
   chain = chain.then(_.bind(function() {
@@ -8389,6 +8413,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
       this.gitVisuals
     );
   }, this));
+  chain = chain.fail(catchShortCircuit);
 
   this.animationQueue.thenFinish(chain, deferred);
 };
@@ -9197,12 +9222,17 @@ GitEngine.prototype.rebaseFinish = function(
   return chain;
 };
 
+GitEngine.prototype.mergeCheck = function(targetSource, currentLocation) {
+  var sameCommit = this.getCommitFromRef(targetSource) ===
+    this.getCommitFromRef(currentLocation);
+  return this.isUpstreamOf(targetSource, currentLocation) || sameCommit;
+};
+
 GitEngine.prototype.merge = function(targetSource) {
   var currentLocation = 'HEAD';
 
   // first some conditions
-  if (this.isUpstreamOf(targetSource, currentLocation) ||
-      this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
+  if (this.mergeCheck(targetSource, currentLocation)) {
     throw new CommandResult({
       msg: intl.str('git-result-uptodate')
     });
@@ -26061,6 +26091,13 @@ var EventBaton = require('../util/eventBaton').EventBaton;
 
 var ORIGIN_PREFIX = 'o/';
 var TAB = '&nbsp;&nbsp;&nbsp;';
+var SHORT_CIRCUIT_CHAIN = 'STAPH';
+
+function catchShortCircuit(err) {
+  if (err !== SHORT_CIRCUIT_CHAIN) {
+    throw err;
+  }
+}
 
 function GitEngine(options) {
   this.rootCommit = null;
@@ -27008,16 +27045,19 @@ GitEngine.prototype.fetch = function(options) {
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
   _.each(branchesToFetch, function(localRemoteBranch) {
-    options.dontThrowOnNoFetch = true;
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
       localRemoteBranch,
       this.origin.refs[localRemoteBranch.getBaseID()],
-      options
+      _.extend(
+        {},
+        options,
+        {dontThrowOnNoFetch: true}
+      )
     ));
   }, this);
-  if (!commitsToMake.length) {
+  if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
     });
@@ -27167,6 +27207,20 @@ GitEngine.prototype.pullFinishWithMerge = function(
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
+  // TODO -- hax hax. need to loop all branches
+  // first lets check if we even need to merge (TODO -- expand this)
+  var currentLocation = 'master';
+  var targetSource = 'o/master';
+
+  chain = chain.then(_.bind(function() {
+    if (this.mergeCheck(targetSource, currentLocation)) {
+      this.command.set('error', new CommandResult({
+        msg: intl.str('git-result-uptodate')
+      }));
+      throw SHORT_CIRCUIT_CHAIN;
+    }
+  }, this));
+
   // delay a bit after the intense refresh animation from
   // fetch
   chain = chain.then(_.bind(function() {
@@ -27206,6 +27260,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
       this.gitVisuals
     );
   }, this));
+  chain = chain.fail(catchShortCircuit);
 
   this.animationQueue.thenFinish(chain, deferred);
 };
@@ -28014,12 +28069,17 @@ GitEngine.prototype.rebaseFinish = function(
   return chain;
 };
 
+GitEngine.prototype.mergeCheck = function(targetSource, currentLocation) {
+  var sameCommit = this.getCommitFromRef(targetSource) ===
+    this.getCommitFromRef(currentLocation);
+  return this.isUpstreamOf(targetSource, currentLocation) || sameCommit;
+};
+
 GitEngine.prototype.merge = function(targetSource) {
   var currentLocation = 'HEAD';
 
   // first some conditions
-  if (this.isUpstreamOf(targetSource, currentLocation) ||
-      this.getCommitFromRef(targetSource) === this.getCommitFromRef(currentLocation)) {
+  if (this.mergeCheck(targetSource, currentLocation)) {
     throw new CommandResult({
       msg: intl.str('git-result-uptodate')
     });
