@@ -861,14 +861,15 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var localBranch = this.refs['master'];
-  var remoteBranch = this.origin.refs['master'];
+  var localBranch = this.getOneBeforeCommit('HEAD');
+  var remoteBranch = this.refs[options.destination];
+  var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
     this,
     this.origin,
-    remoteBranch,
+    branchOnRemote,
     localBranch,
     intl.str('git-error-origin-push-no-ff')
   );
@@ -876,7 +877,7 @@ GitEngine.prototype.push = function(options) {
   var commitsToMake = this.getTargetGraphDifference(
     this.origin,
     this,
-    remoteBranch,
+    branchOnRemote,
     localBranch
   );
 
@@ -913,7 +914,7 @@ GitEngine.prototype.push = function(options) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         this.refs[commitJSON.id],
-        remoteBranch
+        branchOnRemote
       );
     }, this));
 
@@ -928,7 +929,7 @@ GitEngine.prototype.push = function(options) {
   chain = chain.then(_.bind(function() {
     var localLocationID = localBranch.get('target').get('id');
     var remoteCommit = this.origin.refs[localLocationID];
-    this.origin.setTargetLocation(remoteBranch, remoteCommit);
+    this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
     this.animationFactory.playRefreshAnimation(this.gitVisuals);
     return this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
@@ -937,9 +938,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(localBranch);
-    var remoteBranchID = localBranch.getRemoteTrackingBranchID();
-    // less hacks hax
-    this.setTargetLocation(this.refs[remoteBranchID], localCommit);
+    this.setTargetLocation(remoteBranch, localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 

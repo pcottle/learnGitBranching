@@ -11,7 +11,17 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
-var ensureBranchIsRemoteTracking = function(engine, branchName) {
+var assertOriginSpecified = function(generalArgs) {
+  if (generalArgs[0] !== 'origin') {
+    throw new GitError({
+      msg: intl.todo(
+        generalArgs[0] + ' is not a remote in your repository! try origin'
+      )
+    });
+  }
+};
+
+var assertBranchIsRemoteTracking = function(engine, branchName) {
   branchName = crappyUnescape(branchName);
   if (!engine.refs[branchName]) {
     throw new GitError({
@@ -147,37 +157,28 @@ var commandConfig = {
       // so lets switch on A/B here
 
       var commandOptions = command.getOptionsMap();
-      var options = {
-        isRebase: commandOptions['--rebase']
-      };
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
-
-      if (generalArgs[0] !== 'origin') {
-        throw new GitError({
-          msg: intl.todo(
-            generalArgs[0] + ' is not a remote in your repository! try origin'
-          )
-        });
-      }
+      assertOriginSpecified(generalArgs);
 
       var tracking;
       if (generalArgs[1]) {
-        tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
-        options.source = tracking;
+        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
       } else {
         // cant be detached
         if (engine.getDetachedHead()) {
           throw new GitError({
-            msg: intl.todo('Git pull can not be executed in detached HEAD mode!')
+            msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
           });
         }
         var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = ensureBranchIsRemoteTracking(engine, oneBefore.get('id'));
-        options.source = tracking;
+        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
       }
 
-      engine.pull(options);
+      engine.pull({
+        source: tracking,
+        isRebase: commandOptions['--rebase']
+      });
     }
   },
 
@@ -249,16 +250,10 @@ var commandConfig = {
 
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
-      if (generalArgs[0] !== 'origin') {
-        throw new GitError({
-          msg: intl.todo(
-            generalArgs[0] + ' is not a remote in your repository! try origin'
-          )
-        });
-      }
+      assertOriginSpecified(generalArgs);
 
       if (generalArgs[1]) {
-        var tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
+        var tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
         options.branches = [engine.refs[tracking]];
       }
 
@@ -541,8 +536,26 @@ var commandConfig = {
           msg: intl.str('git-error-origin-required')
         });
       }
-      command.acceptNoGeneralArgs();
-      engine.push();
+
+      var options = {};
+      // git push is pretty complex in terms of
+      // the arguments it wants as well -- see
+      // git pull for a more detailed description.
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsImpliedOrigin(generalArgs);
+      assertOriginSpecified(generalArgs);
+
+      var tracking;
+      if (generalArgs[1]) {
+        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      } else {
+        var oneBefore = engine.getOneBeforeCommit('HEAD');
+        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+      }
+
+      engine.push({
+        destination: tracking
+      });
     }
   }
 };
