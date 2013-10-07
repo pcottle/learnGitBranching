@@ -7,6 +7,10 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
+var crappyUnescape = function(str) {
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
+};
+
 var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
@@ -171,21 +175,50 @@ var commandConfig = {
   },
 
   fetch: {
-    regex: /^git +fetch *?$/,
+    regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
+      var options = {};
+
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
+
       var generalArgs = command.getGeneralArgs();
-      command.oneArgImpliedOrigin(generalArgs);
+      command.twoArgsImpliedOrigin(generalArgs);
       if (generalArgs[0] !== 'origin') {
         throw new GitError({
-          msg: intl.str('git-error-options')
+          msg: intl.todo(
+            generalArgs[0] + ' is not a remote in your repository! try origin'
+          )
         });
       }
-      engine.fetch();
+
+      if (generalArgs[1]) {
+        var branchName = crappyUnescape(generalArgs[1]);
+        if (!engine.refs[branchName]) {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a branch!')
+          });
+        }
+        var branch = engine.resolveID(branchName);
+        if (branch.get('type') !== 'branch') {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a branch!')
+          });
+        }
+
+        var tracking = branch.getRemoteTrackingBranchID();
+        if (!tracking) {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a remote tracking branch!')
+          });
+        }
+        options.branches = [engine.refs[tracking]];
+      }
+
+      engine.fetch(options);
     }
   },
 

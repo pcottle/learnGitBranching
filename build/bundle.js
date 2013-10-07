@@ -3320,6 +3320,10 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
   return obj[key][getLocale()];
 };
 
+exports.todo = function(str) {
+  return str;
+};
+
 var getDialog = exports.getDialog = function(obj) {
   var defaultLocale = getDefaultLocale();
   return getIntlKey(obj, 'dialog') || obj.dialog[defaultLocale];
@@ -7556,6 +7560,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   originVis.customEvents.on('gitEngineReady', function() {
     this.origin = originVis.gitEngine;
     originVis.gitEngine.assignLocalRepo(this);
+    this.syncRemoteBranchFills();
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
@@ -8165,15 +8170,16 @@ GitEngine.prototype.push = function(options) {
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // fetch all local branches
+  // get all remotes
   var allRemotes = this.branchCollection.filter(function(branch) {
     return branch.getIsRemote();
   });
+  var branchesToFetch = options.branches || allRemotes;
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(allRemotes, function(localRemoteBranch) {
+  _.each(branchesToFetch, function(localRemoteBranch) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
@@ -8184,7 +8190,8 @@ GitEngine.prototype.fetch = function(options) {
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(allRemotes, function(localRemoteBranch) {
+  _.each(branchesToFetch, function(localRemoteBranch) {
+    options.dontThrowOnNoFetch = true;
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
@@ -8193,6 +8200,12 @@ GitEngine.prototype.fetch = function(options) {
       options
     ));
   }, this);
+  if (!commitsToMake.length) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-fetch-uptodate')
+    });
+  }
+
   // we did this for each remote branch, but we still need to reduce to unique
   // and sort. in this particular app we can never have unfected remote
   // commits that are upstream of multiple branches (since the fakeTeamwork
@@ -8257,7 +8270,7 @@ GitEngine.prototype.fetch = function(options) {
 
   chain = chain.then(_.bind(function() {
     // update all the remote branches
-    _.each(allRemotes, function(localRemoteBranch) {
+    _.each(branchesToFetch, function(localRemoteBranch) {
       var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
       var remoteLocationID = remoteBranch.get('target').get('id');
       // by definition we just made the commit with this id,
@@ -8596,6 +8609,17 @@ GitEngine.prototype.updateAllBranchesForHg = function() {
     return branch.get('id');
   });
   return this.updateBranchesForHg(branchList);
+};
+
+GitEngine.prototype.syncRemoteBranchFills = function() {
+  this.branchCollection.each(function(branch) {
+    if (!branch.getIsRemote()) {
+      return;
+    }
+    var originBranch = this.origin.refs[branch.getBaseID()];
+    var originFill = originBranch.get('visBranch').get('fill');
+    branch.get('visBranch').set('fill', originFill);
+  }, this);
 };
 
 GitEngine.prototype.updateBranchesForHg = function(branchList) {
@@ -10707,6 +10731,10 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
+var crappyUnescape = function(str) {
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
+};
+
 var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
@@ -10871,21 +10899,50 @@ var commandConfig = {
   },
 
   fetch: {
-    regex: /^git +fetch *?$/,
+    regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
+      var options = {};
+
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
+
       var generalArgs = command.getGeneralArgs();
-      command.oneArgImpliedOrigin(generalArgs);
+      command.twoArgsImpliedOrigin(generalArgs);
       if (generalArgs[0] !== 'origin') {
         throw new GitError({
-          msg: intl.str('git-error-options')
+          msg: intl.todo(
+            generalArgs[0] + ' is not a remote in your repository! try origin'
+          )
         });
       }
-      engine.fetch();
+
+      if (generalArgs[1]) {
+        var branchName = crappyUnescape(generalArgs[1]);
+        if (!engine.refs[branchName]) {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a branch!')
+          });
+        }
+        var branch = engine.resolveID(branchName);
+        if (branch.get('type') !== 'branch') {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a branch!')
+          });
+        }
+
+        var tracking = branch.getRemoteTrackingBranchID();
+        if (!tracking) {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a remote tracking branch!')
+          });
+        }
+        options.branches = [engine.refs[tracking]];
+      }
+
+      engine.fetch(options);
     }
   },
 
@@ -25225,6 +25282,10 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
+var crappyUnescape = function(str) {
+  return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
+};
+
 var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
@@ -25389,21 +25450,50 @@ var commandConfig = {
   },
 
   fetch: {
-    regex: /^git +fetch *?$/,
+    regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
+      var options = {};
+
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
+
       var generalArgs = command.getGeneralArgs();
-      command.oneArgImpliedOrigin(generalArgs);
+      command.twoArgsImpliedOrigin(generalArgs);
       if (generalArgs[0] !== 'origin') {
         throw new GitError({
-          msg: intl.str('git-error-options')
+          msg: intl.todo(
+            generalArgs[0] + ' is not a remote in your repository! try origin'
+          )
         });
       }
-      engine.fetch();
+
+      if (generalArgs[1]) {
+        var branchName = crappyUnescape(generalArgs[1]);
+        if (!engine.refs[branchName]) {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a branch!')
+          });
+        }
+        var branch = engine.resolveID(branchName);
+        if (branch.get('type') !== 'branch') {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a branch!')
+          });
+        }
+
+        var tracking = branch.getRemoteTrackingBranchID();
+        if (!tracking) {
+          throw new GitError({
+            msg: intl.todo(branchName + ' is not a remote tracking branch!')
+          });
+        }
+        options.branches = [engine.refs[tracking]];
+      }
+
+      engine.fetch(options);
     }
   },
 
@@ -26287,6 +26377,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   originVis.customEvents.on('gitEngineReady', function() {
     this.origin = originVis.gitEngine;
     originVis.gitEngine.assignLocalRepo(this);
+    this.syncRemoteBranchFills();
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
@@ -26896,15 +26987,16 @@ GitEngine.prototype.push = function(options) {
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // fetch all local branches
+  // get all remotes
   var allRemotes = this.branchCollection.filter(function(branch) {
     return branch.getIsRemote();
   });
+  var branchesToFetch = options.branches || allRemotes;
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(allRemotes, function(localRemoteBranch) {
+  _.each(branchesToFetch, function(localRemoteBranch) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
@@ -26915,7 +27007,8 @@ GitEngine.prototype.fetch = function(options) {
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(allRemotes, function(localRemoteBranch) {
+  _.each(branchesToFetch, function(localRemoteBranch) {
+    options.dontThrowOnNoFetch = true;
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
@@ -26924,6 +27017,12 @@ GitEngine.prototype.fetch = function(options) {
       options
     ));
   }, this);
+  if (!commitsToMake.length) {
+    throw new GitError({
+      msg: intl.str('git-error-origin-fetch-uptodate')
+    });
+  }
+
   // we did this for each remote branch, but we still need to reduce to unique
   // and sort. in this particular app we can never have unfected remote
   // commits that are upstream of multiple branches (since the fakeTeamwork
@@ -26988,7 +27087,7 @@ GitEngine.prototype.fetch = function(options) {
 
   chain = chain.then(_.bind(function() {
     // update all the remote branches
-    _.each(allRemotes, function(localRemoteBranch) {
+    _.each(branchesToFetch, function(localRemoteBranch) {
       var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
       var remoteLocationID = remoteBranch.get('target').get('id');
       // by definition we just made the commit with this id,
@@ -27327,6 +27426,17 @@ GitEngine.prototype.updateAllBranchesForHg = function() {
     return branch.get('id');
   });
   return this.updateBranchesForHg(branchList);
+};
+
+GitEngine.prototype.syncRemoteBranchFills = function() {
+  this.branchCollection.each(function(branch) {
+    if (!branch.getIsRemote()) {
+      return;
+    }
+    var originBranch = this.origin.refs[branch.getBaseID()];
+    var originFill = originBranch.get('visBranch').get('fill');
+    branch.get('visBranch').set('fill', originFill);
+  }, this);
 };
 
 GitEngine.prototype.updateBranchesForHg = function(branchList) {
@@ -29018,6 +29128,10 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
   }
 
   return obj[key][getLocale()];
+};
+
+exports.todo = function(str) {
+  return str;
 };
 
 var getDialog = exports.getDialog = function(obj) {

@@ -72,6 +72,10 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
   return obj[key][getLocale()];
 };
 
+exports.todo = function(str) {
+  return str;
+};
+
 var getDialog = exports.getDialog = function(obj) {
   var defaultLocale = getDefaultLocale();
   return getIntlKey(obj, 'dialog') || obj.dialog[defaultLocale];
