@@ -23,9 +23,27 @@ exports.level = {
               "",
               "Remote branches reflect the _state_ of remote repositories (since you last talked to those remote repositories). They help you understand the difference between your local work and what work is public -- a critical step to take before sharing your work with others.",
               "",
-              "Remote branches have the special property that when you check them out, you are put into detached `HEAD` mode. Git does this on purpose because you can't work on these branches directly; you have to work elsewhere and then share your work with the remote (after which your remote branches will be updated).",
+              "Remote branches have the special property that when you check them out, you are put into detached `HEAD` mode. Git does this on purpose because you can't work on these branches directly; you have to work elsewhere and then share your work with the remote (after which your remote branches will be updated)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### What is `o/`?",
               "",
-              "That's a lot to take in, so let's see it in action."
+              "You maybe wondering what the leading `o/` is for on these remote branches. Well, remote branches also have a (required) naming convention -- they are displayed in the format of:",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "Hence, if you look at a branch named `o/master`, the branch name is `master` and the name of the remote is `o`.",
+              "",
+              "Most developers actually name their main remote `origin`, not `o`. This is so common that git actually sets up your remote to be named `origin` when you `git clone` a repository.",
+              "",
+              "Unfortunately the full name of `origin` does not fit in our UI, so we use `o` as shorthand :( Just remember when you're using real git, your remote is probably going to be named `origin`!",
+              "",
+              "That's a lot to take in, so let's see this all in action."
             ]
           }
         },
@@ -46,7 +64,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently"
+              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote"
             ]
           }
         }

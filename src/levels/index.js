@@ -34,7 +34,9 @@ if (typeof window !== 'undefined' && window.location &&
   exports.levelSequences.remote = [
     require('./remote/clone').level,
     require('./remote/remoteBranches').level,
-    require('./remote/fetch').level
+    require('./remote/fetch').level,
+    require('./remote/pull').level,
+    require('./remote/fakeTeamwork').level
   ];
 }
 
