@@ -8305,8 +8305,8 @@ GitEngine.prototype.fetch = function(options) {
 
 GitEngine.prototype.pull = function(options) {
   options = options || {};
-  var localBranch = this.refs['master'];
-  var remoteBranch = this.refs['o/master'];
+  var localBranch = this.getOneBeforeCommit('HEAD');
+  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
@@ -8369,13 +8369,8 @@ GitEngine.prototype.pullFinishWithMerge = function(
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
-  // TODO -- hax hax. need to loop all branches
-  // first lets check if we even need to merge (TODO -- expand this)
-  var currentLocation = 'master';
-  var targetSource = 'o/master';
-
   chain = chain.then(_.bind(function() {
-    if (this.mergeCheck(targetSource, currentLocation)) {
+    if (this.mergeCheck(remoteBranch, localBranch)) {
       this.command.set('error', new CommandResult({
         msg: intl.str('git-result-uptodate')
       }));
@@ -8411,7 +8406,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
     return this.animationFactory.getDelayedPromise(700);
   }, this));
   chain = chain.then(_.bind(function() {
-    var newCommit = this.merge('o/master');
+    var newCommit = this.merge(remoteBranch);
     if (!newCommit) {
       // it is a fast forward
       return this.animationFactory.playRefreshAnimation(this.gitVisuals);
@@ -10774,6 +10769,29 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
+var ensureBranchIsRemoteTracking = function(engine, branchName) {
+  branchName = crappyUnescape(branchName);
+  if (!engine.refs[branchName]) {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a branch!')
+    });
+  }
+  var branch = engine.resolveID(branchName);
+  if (branch.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a branch!')
+    });
+  }
+
+  var tracking = branch.getRemoteTrackingBranchID();
+  if (!tracking) {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+    });
+  }
+  return tracking;
+};
+
 var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
@@ -10874,11 +10892,50 @@ var commandConfig = {
         });
       }
 
+      // here is the deal -- git pull is pretty complex with
+      // the arguments it wants. Either you can:
+      //   A) specify the remote branch you want to
+      //      merge & fetch, in which case it completely
+      //      ignores the properties of branch you are on, or
+      //
+      //  B) specify no args, in which case it figures out
+      //     the branch to fetch from the remote tracking
+      //     and merges those in.
+
+      // so lets switch on A/B here
+
       var commandOptions = command.getOptionsMap();
-      command.acceptNoGeneralArgs();
-      engine.pull({
+      var options = {
         isRebase: commandOptions['--rebase']
-      });
+      };
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsImpliedOrigin(generalArgs);
+
+      if (generalArgs[0] !== 'origin') {
+        throw new GitError({
+          msg: intl.todo(
+            generalArgs[0] + ' is not a remote in your repository! try origin'
+          )
+        });
+      }
+
+      var tracking;
+      if (generalArgs[1]) {
+        tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
+        options.source = tracking;
+      } else {
+        // cant be detached
+        if (engine.getDetachedHead()) {
+          throw new GitError({
+            msg: intl.todo('Git pull can not be executed in detached HEAD mode!')
+          });
+        }
+        var oneBefore = engine.getOneBeforeCommit('HEAD');
+        tracking = ensureBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        options.source = tracking;
+      }
+
+      engine.pull(options);
     }
   },
 
@@ -10959,25 +11016,7 @@ var commandConfig = {
       }
 
       if (generalArgs[1]) {
-        var branchName = crappyUnescape(generalArgs[1]);
-        if (!engine.refs[branchName]) {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a branch!')
-          });
-        }
-        var branch = engine.resolveID(branchName);
-        if (branch.get('type') !== 'branch') {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a branch!')
-          });
-        }
-
-        var tracking = branch.getRemoteTrackingBranchID();
-        if (!tracking) {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a remote tracking branch!')
-          });
-        }
+        var tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
         options.branches = [engine.refs[tracking]];
       }
 
@@ -25325,6 +25364,29 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
+var ensureBranchIsRemoteTracking = function(engine, branchName) {
+  branchName = crappyUnescape(branchName);
+  if (!engine.refs[branchName]) {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a branch!')
+    });
+  }
+  var branch = engine.resolveID(branchName);
+  if (branch.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a branch!')
+    });
+  }
+
+  var tracking = branch.getRemoteTrackingBranchID();
+  if (!tracking) {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+    });
+  }
+  return tracking;
+};
+
 var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
@@ -25425,11 +25487,50 @@ var commandConfig = {
         });
       }
 
+      // here is the deal -- git pull is pretty complex with
+      // the arguments it wants. Either you can:
+      //   A) specify the remote branch you want to
+      //      merge & fetch, in which case it completely
+      //      ignores the properties of branch you are on, or
+      //
+      //  B) specify no args, in which case it figures out
+      //     the branch to fetch from the remote tracking
+      //     and merges those in.
+
+      // so lets switch on A/B here
+
       var commandOptions = command.getOptionsMap();
-      command.acceptNoGeneralArgs();
-      engine.pull({
+      var options = {
         isRebase: commandOptions['--rebase']
-      });
+      };
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsImpliedOrigin(generalArgs);
+
+      if (generalArgs[0] !== 'origin') {
+        throw new GitError({
+          msg: intl.todo(
+            generalArgs[0] + ' is not a remote in your repository! try origin'
+          )
+        });
+      }
+
+      var tracking;
+      if (generalArgs[1]) {
+        tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
+        options.source = tracking;
+      } else {
+        // cant be detached
+        if (engine.getDetachedHead()) {
+          throw new GitError({
+            msg: intl.todo('Git pull can not be executed in detached HEAD mode!')
+          });
+        }
+        var oneBefore = engine.getOneBeforeCommit('HEAD');
+        tracking = ensureBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        options.source = tracking;
+      }
+
+      engine.pull(options);
     }
   },
 
@@ -25510,25 +25611,7 @@ var commandConfig = {
       }
 
       if (generalArgs[1]) {
-        var branchName = crappyUnescape(generalArgs[1]);
-        if (!engine.refs[branchName]) {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a branch!')
-          });
-        }
-        var branch = engine.resolveID(branchName);
-        if (branch.get('type') !== 'branch') {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a branch!')
-          });
-        }
-
-        var tracking = branch.getRemoteTrackingBranchID();
-        if (!tracking) {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a remote tracking branch!')
-          });
-        }
+        var tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
         options.branches = [engine.refs[tracking]];
       }
 
@@ -27161,8 +27244,8 @@ GitEngine.prototype.fetch = function(options) {
 
 GitEngine.prototype.pull = function(options) {
   options = options || {};
-  var localBranch = this.refs['master'];
-  var remoteBranch = this.refs['o/master'];
+  var localBranch = this.getOneBeforeCommit('HEAD');
+  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
@@ -27225,13 +27308,8 @@ GitEngine.prototype.pullFinishWithMerge = function(
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
-  // TODO -- hax hax. need to loop all branches
-  // first lets check if we even need to merge (TODO -- expand this)
-  var currentLocation = 'master';
-  var targetSource = 'o/master';
-
   chain = chain.then(_.bind(function() {
-    if (this.mergeCheck(targetSource, currentLocation)) {
+    if (this.mergeCheck(remoteBranch, localBranch)) {
       this.command.set('error', new CommandResult({
         msg: intl.str('git-result-uptodate')
       }));
@@ -27267,7 +27345,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
     return this.animationFactory.getDelayedPromise(700);
   }, this));
   chain = chain.then(_.bind(function() {
-    var newCommit = this.merge('o/master');
+    var newCommit = this.merge(remoteBranch);
     if (!newCommit) {
       // it is a fast forward
       return this.animationFactory.playRefreshAnimation(this.gitVisuals);

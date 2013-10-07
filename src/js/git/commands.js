@@ -11,6 +11,29 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
+var ensureBranchIsRemoteTracking = function(engine, branchName) {
+  branchName = crappyUnescape(branchName);
+  if (!engine.refs[branchName]) {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a branch!')
+    });
+  }
+  var branch = engine.resolveID(branchName);
+  if (branch.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a branch!')
+    });
+  }
+
+  var tracking = branch.getRemoteTrackingBranchID();
+  if (!tracking) {
+    throw new GitError({
+      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+    });
+  }
+  return tracking;
+};
+
 var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
@@ -111,11 +134,50 @@ var commandConfig = {
         });
       }
 
+      // here is the deal -- git pull is pretty complex with
+      // the arguments it wants. Either you can:
+      //   A) specify the remote branch you want to
+      //      merge & fetch, in which case it completely
+      //      ignores the properties of branch you are on, or
+      //
+      //  B) specify no args, in which case it figures out
+      //     the branch to fetch from the remote tracking
+      //     and merges those in.
+
+      // so lets switch on A/B here
+
       var commandOptions = command.getOptionsMap();
-      command.acceptNoGeneralArgs();
-      engine.pull({
+      var options = {
         isRebase: commandOptions['--rebase']
-      });
+      };
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsImpliedOrigin(generalArgs);
+
+      if (generalArgs[0] !== 'origin') {
+        throw new GitError({
+          msg: intl.todo(
+            generalArgs[0] + ' is not a remote in your repository! try origin'
+          )
+        });
+      }
+
+      var tracking;
+      if (generalArgs[1]) {
+        tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
+        options.source = tracking;
+      } else {
+        // cant be detached
+        if (engine.getDetachedHead()) {
+          throw new GitError({
+            msg: intl.todo('Git pull can not be executed in detached HEAD mode!')
+          });
+        }
+        var oneBefore = engine.getOneBeforeCommit('HEAD');
+        tracking = ensureBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        options.source = tracking;
+      }
+
+      engine.pull(options);
     }
   },
 
@@ -196,25 +258,7 @@ var commandConfig = {
       }
 
       if (generalArgs[1]) {
-        var branchName = crappyUnescape(generalArgs[1]);
-        if (!engine.refs[branchName]) {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a branch!')
-          });
-        }
-        var branch = engine.resolveID(branchName);
-        if (branch.get('type') !== 'branch') {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a branch!')
-          });
-        }
-
-        var tracking = branch.getRemoteTrackingBranchID();
-        if (!tracking) {
-          throw new GitError({
-            msg: intl.todo(branchName + ' is not a remote tracking branch!')
-          });
-        }
+        var tracking = ensureBranchIsRemoteTracking(engine, generalArgs[1]);
         options.branches = [engine.refs[tracking]];
       }
 

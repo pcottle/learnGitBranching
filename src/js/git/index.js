@@ -1079,8 +1079,8 @@ GitEngine.prototype.fetch = function(options) {
 
 GitEngine.prototype.pull = function(options) {
   options = options || {};
-  var localBranch = this.refs['master'];
-  var remoteBranch = this.refs['o/master'];
+  var localBranch = this.getOneBeforeCommit('HEAD');
+  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
@@ -1143,13 +1143,8 @@ GitEngine.prototype.pullFinishWithMerge = function(
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
 
-  // TODO -- hax hax. need to loop all branches
-  // first lets check if we even need to merge (TODO -- expand this)
-  var currentLocation = 'master';
-  var targetSource = 'o/master';
-
   chain = chain.then(_.bind(function() {
-    if (this.mergeCheck(targetSource, currentLocation)) {
+    if (this.mergeCheck(remoteBranch, localBranch)) {
       this.command.set('error', new CommandResult({
         msg: intl.str('git-result-uptodate')
       }));
@@ -1185,7 +1180,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
     return this.animationFactory.getDelayedPromise(700);
   }, this));
   chain = chain.then(_.bind(function() {
-    var newCommit = this.merge('o/master');
+    var newCommit = this.merge(remoteBranch);
     if (!newCommit) {
       // it is a fast forward
       return this.animationFactory.playRefreshAnimation(this.gitVisuals);
