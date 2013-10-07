@@ -31,6 +31,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] fix undo not syncing the remote tracking
 [x] get clone as a before command working in demonstration views (related to test infra as well)
 [x] importTreeNow fails if origin isnt updated
 [x] set checkout -b branch __remoteBranch to track the remote branch

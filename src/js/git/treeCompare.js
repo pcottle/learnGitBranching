@@ -324,7 +324,9 @@ TreeCompare.reduceTreeFields = function(trees) {
   var commitSortFields = ['children', 'parents'];
   var branchSaveFields = [
     'target',
-    'id'
+    'id',
+    'remoteTrackingBranchID',
+    'localBranchesThatTrackThis'
   ];
 
   // this function saves only the specified fields of a tree
