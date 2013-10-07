@@ -10491,6 +10491,11 @@ TreeCompare.reduceTreeFields = function(trees) {
     'remoteTrackingBranchID',
     'localBranchesThatTrackThis'
   ];
+  // for backwards compatibility, fill in some fields if missing
+  var defaults = {
+    remoteTrackingBranchID: null,
+    localBranchesThatTrackThis: null
+  };
 
   // this function saves only the specified fields of a tree
   var saveOnly = function(tree, treeKey, saveFields, sortFields) {
@@ -10501,6 +10506,8 @@ TreeCompare.reduceTreeFields = function(trees) {
       _.each(saveFields, function(field) {
         if (obj[field] !== undefined) {
           blank[field] = obj[field];
+        } else if (defaults[field] !== undefined) {
+          blank[field] = defaults[field];
         }
       });
 
@@ -19689,7 +19696,8 @@ if (typeof window !== 'undefined' && window.location &&
     require('./remote/remoteBranches').level,
     require('./remote/fetch').level,
     require('./remote/pull').level,
-    require('./remote/fakeTeamwork').level
+    require('./remote/fakeTeamwork').level,
+    require('./remote/push').level
   ];
 }
 
@@ -23527,6 +23535,63 @@ require.define("/src/levels/remote/fakeTeamwork.js",function(require,module,expo
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/levels/remote/push.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git clone;git commit;git commit;git push",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Git Pushin'"
+  },
+  "hint": {
+    "en_US": "Remember you have to clone before you can push!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, so I've fetched changes from remote and incorporated them into my work locally. That's great and all... but how do I share _my_ awesome work with everyone else?",
+              "",
+              "Well, the way to upload shared work is the opposite of downloading shared work. And what's the opposite of `git push`? `git pull`!",
+              "",
+              "`git push` is responsible for uploading your changes to a specified remote and updating the _remote_ to incorporate those new commits. Once `git push` completes, all your friends can then download  your work from the remote.",
+              "",
+              "You can think of `git push` as a command to \"publish\" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have some changes that the remote does not have. Let's upload them!"
+            ],
+            "afterMarkdowns": [
+              "There we go -- the remote received commit `C2`, the remote branch `master` was updated to point at `C2`, and our *own* reflection of the remote (`o/master`) was updated as well. Everything is in sync!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
             ]
           }
         }
@@ -29362,6 +29427,11 @@ TreeCompare.reduceTreeFields = function(trees) {
     'remoteTrackingBranchID',
     'localBranchesThatTrackThis'
   ];
+  // for backwards compatibility, fill in some fields if missing
+  var defaults = {
+    remoteTrackingBranchID: null,
+    localBranchesThatTrackThis: null
+  };
 
   // this function saves only the specified fields of a tree
   var saveOnly = function(tree, treeKey, saveFields, sortFields) {
@@ -29372,6 +29442,8 @@ TreeCompare.reduceTreeFields = function(trees) {
       _.each(saveFields, function(field) {
         if (obj[field] !== undefined) {
           blank[field] = obj[field];
+        } else if (defaults[field] !== undefined) {
+          blank[field] = defaults[field];
         }
       });
 
@@ -38969,7 +39041,8 @@ if (typeof window !== 'undefined' && window.location &&
     require('./remote/remoteBranches').level,
     require('./remote/fetch').level,
     require('./remote/pull').level,
-    require('./remote/fakeTeamwork').level
+    require('./remote/fakeTeamwork').level,
+    require('./remote/push').level
   ];
 }
 
@@ -42566,6 +42639,64 @@ require.define("/src/levels/remote/pull.js",function(require,module,exports,__di
 
 });
 require("/src/levels/remote/pull.js");
+
+require.define("/src/levels/remote/push.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git clone;git commit;git commit;git push",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Git Pushin'"
+  },
+  "hint": {
+    "en_US": "Remember you have to clone before you can push!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, so I've fetched changes from remote and incorporated them into my work locally. That's great and all... but how do I share _my_ awesome work with everyone else?",
+              "",
+              "Well, the way to upload shared work is the opposite of downloading shared work. And what's the opposite of `git push`? `git pull`!",
+              "",
+              "`git push` is responsible for uploading your changes to a specified remote and updating the _remote_ to incorporate those new commits. Once `git push` completes, all your friends can then download  your work from the remote.",
+              "",
+              "You can think of `git push` as a command to \"publish\" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have some changes that the remote does not have. Let's upload them!"
+            ],
+            "afterMarkdowns": [
+              "There we go -- the remote received commit `C2`, the remote branch `master` was updated to point at `C2`, and our *own* reflection of the remote (`o/master`) was updated as well. Everything is in sync!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/remote/push.js");
 
 require.define("/src/levels/remote/remoteBranches.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",

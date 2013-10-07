@@ -36,7 +36,8 @@ if (typeof window !== 'undefined' && window.location &&
     require('./remote/remoteBranches').level,
     require('./remote/fetch').level,
     require('./remote/pull').level,
-    require('./remote/fakeTeamwork').level
+    require('./remote/fakeTeamwork').level,
+    require('./remote/push').level
   ];
 }
 

@@ -328,6 +328,11 @@ TreeCompare.reduceTreeFields = function(trees) {
     'remoteTrackingBranchID',
     'localBranchesThatTrackThis'
   ];
+  // for backwards compatibility, fill in some fields if missing
+  var defaults = {
+    remoteTrackingBranchID: null,
+    localBranchesThatTrackThis: null
+  };
 
   // this function saves only the specified fields of a tree
   var saveOnly = function(tree, treeKey, saveFields, sortFields) {
@@ -338,6 +343,8 @@ TreeCompare.reduceTreeFields = function(trees) {
       _.each(saveFields, function(field) {
         if (obj[field] !== undefined) {
           blank[field] = obj[field];
+        } else if (defaults[field] !== undefined) {
+          blank[field] = defaults[field];
         }
       });
 
