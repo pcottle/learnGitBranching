@@ -33,6 +33,7 @@ if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
   exports.levelSequences.remote = [
     require('./remote/clone').level,
+    require('./remote/remoteBranches').level,
     require('./remote/fetch').level
   ];
 }
