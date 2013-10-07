@@ -1102,6 +1102,14 @@ GitEngine.prototype.pullFinishWithRebase = function(
 ) {
   var chain = pendingFetch.chain;
   var deferred = pendingFetch.deferred;
+  chain = chain.then(_.bind(function() {
+    if (this.isUpstreamOf(remoteBranch, localBranch)) {
+      this.command.set('error', new CommandResult({
+        msg: intl.str('git-result-uptodate')
+      }));
+      throw SHORT_CIRCUIT_CHAIN;
+    }
+  }, this));
 
   // delay a bit after the intense refresh animation from
   // fetch
@@ -1122,6 +1130,7 @@ GitEngine.prototype.pullFinishWithRebase = function(
     pendingFetch.dontResolvePromise = true;
     return this.rebase(remoteBranch, localBranch, pendingFetch);
   }, this));
+  chain = chain.fail(catchShortCircuit);
 
   this.animationQueue.thenFinish(chain, deferred);
 };
