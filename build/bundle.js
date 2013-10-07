@@ -19665,15 +19665,9 @@ require.define("/src/levels/intro/commits.js",function(require,module,exports,__
               "## Git Commits",
               "A commit in a git repository records a snapshot of all the files in your directory. It's like a giant copy and paste, but even better!",
               "",
-              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That's why most commits have a parent commit above them -- you'll see this later in our visualizations.",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just blindly copy the entire directory every time you commit. It can (when possible) compress a commit as a set of changes, or a \"delta\", from one version of the repository to the next. That's why most commits have a parent commit above them -- you'll see this later in our visualizations.",
               "",
-              "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
-              "",
-              "`resolving deltas`",
-              "",
-              "when cloning a repo.",
-              "",
-              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
+              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very lightweight and switching between them is wicked fast!"
             ]
           }
         },
@@ -38992,15 +38986,9 @@ require.define("/src/levels/intro/commits.js",function(require,module,exports,__
               "## Git Commits",
               "A commit in a git repository records a snapshot of all the files in your directory. It's like a giant copy and paste, but even better!",
               "",
-              "Git wants to keep commits as lightweight as possible though, so it doesn't just copy the entire directory every time you commit. It actually stores each commit as a set of changes, or a \"delta\", from one version of the repository to the next. That's why most commits have a parent commit above them -- you'll see this later in our visualizations.",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't just blindly copy the entire directory every time you commit. It can (when possible) compress a commit as a set of changes, or a \"delta\", from one version of the repository to the next. That's why most commits have a parent commit above them -- you'll see this later in our visualizations.",
               "",
-              "In order to clone a repository, you have to unpack or \"resolve\" all these deltas. That's why you might see the command line output:",
-              "",
-              "`resolving deltas`",
-              "",
-              "when cloning a repo.",
-              "",
-              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very light and switching between them is wicked fast!"
+              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very lightweight and switching between them is wicked fast!"
             ]
           }
         },
