@@ -40,6 +40,10 @@ if (typeof window !== 'undefined' && window.location &&
     require('./remote/push').level,
     require('./remote/fetchRebase').level
   ];
+  exports.levelSequences.remoteAdvanced = [
+    require('./remote/specify').level,
+    require('./remote/pushManyFeatures').level
+  ];
 }
 
 // there are also cute names and such for sequences
@@ -80,6 +84,14 @@ exports.sequenceInfo = {
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
+    }
+  },
+  remoteAdvanced: {
+    displayName: {
+      'en_US': 'To Origin And Beyond -- Advanced Git Remotes!'
+    },
+    about: {
+      'en_US': 'And you thought being a benevolent dictator would be fun...'
     }
   },
   move: {
