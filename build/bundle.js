@@ -3163,7 +3163,6 @@ var GRAPHICS = {
   originDash: '- ',
 
   multiBranchY: 20,
-  multiTagY: 15,
   upstreamHeadOpacity: 0.5,
   upstreamNoneOpacity: 0.2,
   edgeUpstreamHeadOpacity: 0.4,
@@ -3176,10 +3175,6 @@ var GRAPHICS = {
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
-  tagFill: 'hsb(0,0,0.9)',
-  tagStroke: '#FFF',
-  tagStrokeWidth: '2',
-  
   orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 
@@ -6826,7 +6821,6 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
-var TagCollection = Collections.TagCollection;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
@@ -6865,12 +6859,10 @@ var Visualization = Backbone.View.extend({
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
-    this.tagCollection = new TagCollection();
 
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
-      tagCollection: this.tagCollection,
       paper: this.paper,
       noClick: this.options.noClick,
       isGoalVis: this.options.isGoalVis,
@@ -6882,7 +6874,6 @@ var Visualization = Backbone.View.extend({
     this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,
-      tags: this.tagCollection,
       gitVisuals: this.gitVisuals,
       eventBaton: this.eventBaton
     });
@@ -7107,7 +7098,6 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 
 var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
-var Tag = require('../git').Tag;
 
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
@@ -7123,10 +7113,6 @@ var CommandCollection = Backbone.Collection.extend({
 
 var BranchCollection = Backbone.Collection.extend({
   model: Branch
-});
-
-var TagCollection = Backbone.Collection.extend({
-  model: Tag
 });
 
 var CommandEntryCollection = Backbone.Collection.extend({
@@ -7232,7 +7218,6 @@ var CommandBuffer = Backbone.Model.extend({
 exports.CommitCollection = CommitCollection;
 exports.CommandCollection = CommandCollection;
 exports.BranchCollection = BranchCollection;
-exports.TagCollection = TagCollection;
 exports.CommandEntryCollection = CommandEntryCollection;
 exports.CommandBuffer = CommandBuffer;
 
@@ -7276,7 +7261,6 @@ function GitEngine(options) {
   this.localRepo = null;
 
   this.branchCollection = options.branches;
-  this.tagCollection = options.tags;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
 
@@ -7449,7 +7433,6 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
     branch.visBranch = undefined;
-    branch.visTag = undefined;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -7471,7 +7454,8 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.visBranch = undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -7533,12 +7517,6 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
-  _.each(tree.tags, function(tagJSON) {
-    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
-
-    this.tagCollection.add(tag, {silent: true});
-  }, this);
-
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
 
@@ -7550,11 +7528,8 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
-        this.gitVisuals.addBranch(branch);
-      }, this);
-  this.tagCollection.each(function(tag) {
-        this.gitVisuals.addTag(tag);
-      }, this);
+    this.gitVisuals.addBranch(branch);
+  }, this);
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
@@ -7689,19 +7664,6 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     return branch;
   }
 
-  if (type == 'tag') {
-    var tagJSON = tree.tags[objID];
-
-    var tag = new Tag(_.extend(
-      tree.tags[objID],
-      {
-        target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
-      }
-    ));
-    createdSoFar[objID] = tag;
-    return tag;
-  }
-
   if (type == 'commit') {
     // for commits, we need to grab all the parents
     var commitJSON = tree.commits[objID];
@@ -7749,7 +7711,6 @@ GitEngine.prototype.reloadGraphics = function() {
 
 GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
-  this.tagCollection.reset();
   this.commitCollection.reset();
   this.refs = {};
   this.HEAD = null;
@@ -7816,20 +7777,6 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   this.makeBranch(id, target);
 };
 
-GitEngine.prototype.validateAndMakeTag = function(id, target) {
-  id = this.validateBranchName(id);
-  if (this.refs[id]) {
-    throw new GitError({
-      msg: intl.str(
-        'bad-tag-name',
-        { tag: name }
-      )
-    });
-  }
-
-  this.makeTag(id, target);
-};
-
 GitEngine.prototype.makeBranch = function(id, target) {
   if (this.refs[id]) {
     throw new Error('woah already have that');
@@ -7844,35 +7791,8 @@ GitEngine.prototype.makeBranch = function(id, target) {
   return branch;
 };
 
-GitEngine.prototype.makeTag = function(id, target) {
-  if (this.refs[id]) {
-    throw new Error('woah already have that');
-  }
-
-  var tag = new Tag({
-    target: target,
-    id: id
-  });
-  this.tagCollection.add(tag);
-  this.refs[tag.get('id')] = tag;
-  return tag;
-};
-
 GitEngine.prototype.getHead = function() {
   return _.clone(this.HEAD);
-};
-
-GitEngine.prototype.getTags = function() {
-  var toReturn = [];
-  this.tagCollection.each(function(tag) {
-    toReturn.push({
-      id: tag.get('id'),
-      target: tag.get('target'),
-      remote: tag.getIsRemote(),
-      obj: tag
-    });
-  }, this);
-  return toReturn;
 };
 
 GitEngine.prototype.getBranches = function() {
@@ -7919,17 +7839,6 @@ GitEngine.prototype.printBranches = function(branches) {
   var result = '';
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
-  });
-  throw new CommandResult({
-    msg: result
-  });
-};
-
-GitEngine.prototype.printTags = function(tags) {
-  var result = '';
-  _.each(tags, function(tag) {
-    console.log(tag);
-    result += tag.id + '\n';
   });
   throw new CommandResult({
     msg: result
@@ -9380,15 +9289,12 @@ GitEngine.prototype.checkout = function(idOrTarget) {
     target = this.getCommitFromRef(target.get('id'));
   }
 
-  if (type !== 'branch' && type !== 'tag' && type !== 'commit') {
+  if (type !== 'branch' && type !== 'commit') {
     throw new GitError({
       msg: intl.str('git-error-options')
     });
   }
-  if (type === 'tag') {
-    target = target.get('target');
-  }
-  
+
   this.HEAD.set('target', target);
 };
 
@@ -9420,11 +9326,6 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
 GitEngine.prototype.branch = function(name, ref) {
   var target = this.getCommitFromRef(ref);
   this.validateAndMakeBranch(name, target);
-};
-
-GitEngine.prototype.tag = function(name, ref) {
-  var target = this.getCommitFromRef(ref);
-  this.validateAndMakeTag(name, target);
 };
 
 GitEngine.prototype.deleteBranch = function(name) {
@@ -9928,21 +9829,9 @@ var Commit = Backbone.Model.extend({
   }
 });
 
-var Tag = Ref.extend({
-  defaults: {
-    visTag: null
-  },
-
-  initialize: function() {
-    Ref.prototype.initialize.call(this);
-    this.set('type', 'tag');
-  }
-});
-
 exports.GitEngine = GitEngine;
 exports.Commit = Commit;
 exports.Branch = Branch;
-exports.Tag = Tag;
 exports.Ref = Ref;
 
 
@@ -11434,24 +11323,6 @@ var commandConfig = {
         destination: tracking
       });
     }
-  },
-  
-  tag: {
-	regex: /^git +tag($|\s)/,
-	execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-      
-
-      if (generalArgs.length === 0) {
-        var tags = engine.getTags();
-        engine.printTags(tags);
-        return;
-      }
-      
-      command.twoArgsImpliedHead(generalArgs);
-      engine.tag(generalArgs[0], generalArgs[1]);
-
-	}
   }
 };
 
@@ -16872,13 +16743,10 @@ var GLOBAL = require('../util/constants').GLOBAL;
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
-var TagCollection = Collections.TagCollection;
 
 var VisNode = require('../visuals/visNode').VisNode;
 var VisBranch = require('../visuals/visBranch').VisBranch;
 var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
-var VisTag = require('../visuals/visTag').VisTag;
-var VisTagCollection = require('../visuals/visTag').VisTagCollection;
 var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
@@ -16888,17 +16756,14 @@ function GitVisuals(options) {
   this.visualization = options.visualization;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
-  this.tagCollection = options.tagCollection;
   this.visNodeMap = {};
 
   this.visEdgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
-  this.visTagCollection = new VisTagCollection();
   this.commitMap = {};
 
   this.rootCommit = null;
   this.branchStackMap = null;
-  this.tagStackMap = null;
   this.upstreamBranchSet = null;
   this.upstreamHeadSet = null;
 
@@ -16907,10 +16772,6 @@ function GitVisuals(options) {
 
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
-  
-  this.tagCollection.on('add', this.addTagFromEvent, this);
-  this.tagCollection.on('remove', this.removeTag, this);
-  
   this.deferred = [];
 
   this.flipFraction = 0.65;
@@ -16943,18 +16804,12 @@ GitVisuals.prototype.resetAll = function() {
     visBranch.remove();
   }, this);
 
-  var tags = this.visTagCollection.toArray();
-  _.each(tags, function(visTag) {
-    visTag.remove();
-  }, this);
-
   _.each(this.visNodeMap, function(visNode) {
     visNode.remove();
   }, this);
 
   this.visEdgeCollection.reset();
   this.visBranchCollection.reset();
-  this.visTagCollection.reset();
 
   this.visNodeMap = {};
   this.rootCommit = null;
@@ -17058,7 +16913,6 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
-  this.visTagCollection.each(animate);
   _.each(this.visNodeMap, animate);
 
   var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
@@ -17215,7 +17069,6 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
 
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
-  this.visTagCollection.each(animate);
   _.each(this.visNodeMap, animate);
 };
 
@@ -17250,10 +17103,6 @@ GitVisuals.prototype.genSnapshot = function() {
 
   this.visEdgeCollection.each(function(visEdge) {
     snapshot[visEdge.getID()] = visEdge.getAttributes();
-  }, this);
-
-  this.visTagCollection.each(function(visTag) {
-    snapshot[visTag.getID()] = visTag.getAttributes();
   }, this);
 
   return snapshot;
@@ -17297,7 +17146,6 @@ GitVisuals.prototype.calcTreeCoords = function() {
 
   this.calcUpstreamSets();
   this.calcBranchStacks();
-  this.calcTagStacks();
 
   this.calcDepth();
   this.calcWidth();
@@ -17306,9 +17154,6 @@ GitVisuals.prototype.calcTreeCoords = function() {
 GitVisuals.prototype.calcGraphicsCoords = function() {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.updateName();
-  });
-  this.visTagCollection.each(function(visTag) {
-    visTag.updateName();
   });
 };
 
@@ -17384,23 +17229,6 @@ GitVisuals.prototype.calcBranchStacks = function() {
     });
   });
   this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcTagStacks = function() {
-  var tags = this.gitEngine.getTags();
-  var map = {};
-  _.each(tags, function(tag) {
-    var thisId = tag.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(tag);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      return aId.localeCompare(bId);
-    });
-  });
-  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {
@@ -17533,43 +17361,9 @@ GitVisuals.prototype.addBranch = function(branch) {
   }
 };
 
-GitVisuals.prototype.addTagFromEvent = function(tag, collection, index) {
-  var action = _.bind(function() {
-    this.addTag(tag);
-  }, this);
-
-  if (!this.gitEngine || !this.gitReady) {
-    this.defer(action);
-  } else {
-    action();
-  }
-};
-
-GitVisuals.prototype.addTag = function(tag) {
-  var visTag = new VisTag({
-    tag: tag,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visTagCollection.add(visTag);
-  if (this.gitReady) {
-    visTag.genGraphics(this.paper);
-  } else {
-    this.defer(_.bind(function() {
-      visTag.genGraphics(this.paper);
-    }, this));
-  }
-};
-
 GitVisuals.prototype.removeVisBranch = function(visBranch) {
   this.visBranchCollection.remove(visBranch);
 };
-
-GitVisuals.prototype.removeVisTag = function(visTag) {
-  this.visTagCollection.remove(visTag);
-};
-
 
 GitVisuals.prototype.removeVisNode = function(visNode) {
   delete this.visNodeMap[visNode.getID()];
@@ -17582,9 +17376,6 @@ GitVisuals.prototype.removeVisEdge = function(visEdge) {
 GitVisuals.prototype.animateRefs = function(speed) {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.animateUpdatedPos(speed);
-  }, this);
-  this.visTagCollection.each(function(visTag) {
-    visTag.animateUpdatedPos(speed);
   }, this);
 };
 
@@ -17700,7 +17491,6 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
 GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
-  this.visTagsFront();
 };
 
 GitVisuals.prototype.visNodesFront = function() {
@@ -17717,17 +17507,6 @@ GitVisuals.prototype.visBranchesFront = function() {
 
   this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFrontIfInStack();
-  });
-};
-
-GitVisuals.prototype.visTagsFront = function() {
-  this.visTagCollection.each(function(vTag) {
-    vTag.nonTextToFront();
-    vTag.textToFront();
-  });
-
-  this.visTagCollection.each(function(vTag) {
-    vTag.textToFrontIfInStack();
   });
 };
 
@@ -17753,10 +17532,6 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
 
   this.visBranchCollection.each(function(visBranch) {
     visBranch.genGraphics(this.paper);
-  }, this);
-
-  this.visTagCollection.each(function(visTag) {
-    visTag.genGraphics(this.paper);
   }, this);
 
   this.zIndexReflow();
@@ -17882,7 +17657,6 @@ var VisNode = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     var map = {
       branch: 1,
-      tag: 1,
       head: 0.3,
       none: 0.1
     };
@@ -17898,7 +17672,6 @@ var VisNode = VisBase.extend({
   getOpacity: function() {
     var map = {
       'branch': 1,
-      'tag' : 1,
       'head': GRAPHICS.upstreamHeadOpacity,
       'none': GRAPHICS.upstreamNoneOpacity
     };
@@ -18945,417 +18718,6 @@ exports.randomHueString = randomHueString;
 
 });
 
-require.define("/src/js/visuals/visTag.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var VisBase = require('../visuals/visBase').VisBase;
-var TreeCompare = require('../git/treeCompare').TreeCompare;
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-};
-
-var VisTag = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    isHead: false,
-
-    fill: GRAPHICS.tagFill,
-    stroke: GRAPHICS.tagStroke,
-    'stroke-width': GRAPHICS.tagStrokeWidth,
-
-    offsetX: GRAPHICS.nodeRadius,
-    offsetY: GRAPHICS.nodeRadius,
-
-    vPad: 2,
-    hPad: 2,
-
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    if (!this.get('tag')) {
-      throw new Error('need a Tag!');
-    }
-  },
-
-  getID: function() {
-    return this.get('tag').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand notation for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) {
-      throw new Error('asd wtf');
-    }
-
-    this.get('tag').set('visTag', this);
-  },
-
-  getCommitPosition: function() {
-    var commit = this.gitEngine.getCommitFromRef(this.get('tag'));
-    var visNode = commit.get('visNode');
-
-    return visNode.getScreenCoords();
-  },
-
-  getDashArray: function() {
-    if (!this.get('gitVisuals').getIsGoalVis()) {
-      return '';
-    }
-    return (this.getIsLevelTagCompared()) ? '' : '--';
-  },
-
-  getIsGoalAndNotCompared: function() {
-    if (!this.get('gitVisuals').getIsGoalVis()) {
-      return false;
-    }
-
-    return !this.getIsLevelTagCompared();
-  },
-
-  /**
-   * returns true if we are a Tag that is not being
-   * compared in the goal (used in a goal visualization context
-   */
-  getIsLevelTagCompared: function() {
-    // we are not master, so return true if its not just master being compared
-    var levelBlob = this.get('gitVisuals').getLevelBlob();
-    return !TreeCompare.onlyMasterCompared(levelBlob);
-  },
-
-  getTagStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other Tages
-      return 0;
-    }
-
-    var myArray = this.getTagStackArray();
-    var index = -1;
-    _.each(myArray, function(Tag, i) {
-      if (Tag.obj == this.get('tag')) {
-        index = i;
-      }
-    }, this);
-    return index;
-  },
-
-  getTagStackLength: function() {
-    if (this.get('isHead')) {
-      // head is always by itself
-      return 1;
-    }
-
-    return this.getTagStackArray().length;
-  },
-
-  isTagStackEmpty: function() {
-    // useful function for head when computing flip logic
-    var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
-    return (arr) ?
-      arr.length === 0 :
-      true;
-  },
-
-  getCommitID: function() {
-    var target = this.get('tag').get('target');
-    return target.get('id');
-  },
-
-  getTagStackArray: function() {
-    var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
-    if (arr === undefined) {
-      // this only occurs when we are generating graphics inside of
-      // a new Tag instantiation, so we need to force the update
-      this.gitVisuals.calcTagStacks();
-      return this.getTagStackArray();
-    }
-    return arr;
-  },
-
-  getTextPosition: function() {
-    var pos = this.getCommitPosition();
-
-    // then order yourself accordingly. we use alphabetical sorting
-    // so everything is independent
-    var myPos = this.getTagStackIndex();
-
-    return {
-      x: pos.x + this.get('offsetX'),
-      y: pos.y + myPos * GRAPHICS.multiTagY + this.get('offsetY')
-    };
-  },
-
-  getRectPosition: function() {
-    var pos = this.getTextPosition();
-
-    // first get text width and height
-    var textSize = this.getTextSize();
-    return {
-      x: pos.x - this.get('hPad'),
-      y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    };
-  },
-
-  getTextSize: function() {
-    var getTextWidth = function(visTag) {
-      var textNode = (visTag.get('text')) ? visTag.get('text').node : null;
-      return (textNode === null) ? 0 : textNode.clientWidth;
-    };
-
-    var firefoxFix = function(obj) {
-      if (!obj.w) { obj.w = 75; }
-      if (!obj.h) { obj.h = 20; }
-      return obj;
-    };
-
-    var textNode = this.get('text').node;
-
-    var maxWidth = 0;
-    _.each(this.getTagStackArray(), function(Tag) {
-      maxWidth = Math.max(maxWidth, getTextWidth(
-        Tag.obj.get('visTag')
-      ));
-    });
-
-    return firefoxFix({
-      w: maxWidth,
-      h: textNode.clientHeight
-    });
-  },
-
-  getSingleRectSize: function() {
-    var textSize = this.getTextSize();
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h + hPad * 2
-    };
-  },
-
-  getRectSize: function() {
-    var textSize = this.getTextSize();
-    // enforce padding
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-
-    // number of other Tag names we are housing
-    var totalNum = this.getTagStackLength();
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum + hPad * 2
-    };
-  },
-
-  getIsRemote: function() {
-    return this.get('tag').getIsRemote();
-  },
-
-  getName: function() {
-    var name = this.get('tag').getName();
-    var isRemote = this.getIsRemote();
-    var isHg = this.gitEngine.getIsHg();
-    
-    return name;
-  },
-
-  nonTextToFront: function() {
-    this.get('rect').toFront();
-  },
-
-  textToFront: function() {
-    this.get('text').toFront();
-  },
-
-  textToFrontIfInStack: function() {
-    if (this.getTagStackIndex() !== 0) {
-      this.get('text').toFront();
-    }
-  },
-
-  remove: function() {
-    this.removeKeys(['text', 'rect']);
-    // also need to remove from this.gitVisuals
-    this.gitVisuals.removeVisTag(this);
-  },
-
-  handleModeChange: function() {
-
-  },
-
-  genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
-    var name = this.getName();
-
-    // when from a reload, we dont need to generate the text
-    var text = paper.text(textPos.x, textPos.y, String(name));
-    text.attr({
-      'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getTextOpacity(),
-      'text-anchor': 'start'
-    });
-    this.set('text', text);
-    var attr = this.getAttributes();
-
-    var rectPos = this.getRectPosition();
-    var sizeOfRect = this.getRectSize();
-    var rect = paper
-      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(attr.rect);
-    this.set('rect', rect);
-
-    // set CSS
-    var keys = ['text', 'rect'];
-    _.each(keys, function(key) {
-      $(this.get(key).node).css(attr.css);
-    }, this);
-
-    this.attachClickHandlers();
-    rect.toFront();
-    text.toFront();
-  },
-
-  attachClickHandlers: function() {
-    if (this.get('gitVisuals').options.noClick) {
-      return;
-    }
-    var objs = [
-      this.get('rect'),
-      this.get('text')
-    ];
-
-    _.each(objs, function(rObj) {
-      rObj.click(_.bind(this.onClick ,this));
-    }, this);
-  },
-
-  shouldDisableClick: function() {
-    return this.get('isHead') && !this.gitEngine.getDetachedHead();
-  },
-
-  onClick: function() {
-    if (this.shouldDisableClick()) {
-      return;
-    }
-
-    var commandStr = 'git checkout ' + this.get('tag').get('id');
-    var Main = require('../app');
-    Main.getEventBaton().trigger('commandSubmitted', commandStr);
-  },
-
-  updateName: function() {
-    this.get('text').attr({
-      text: this.getName()
-    });
-  },
-
-  getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    if (this.getTagStackIndex() !== 0) {
-      return 0.0;
-    }
-
-    return 1;
-  },
-
-  getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-
-    if (this.getIsGoalAndNotCompared()) {
-      return (this.getTagStackIndex() === 0) ? 0.7 : 0.3;
-    }
-
-    return 1;
-  },
-
-  getStrokeWidth: function() {
-    if (this.getIsGoalAndNotCompared()) {
-      return this.get('stroke-width') / 5.0;
-    }
-    
-    return this.get('stroke-width');
-  },
-
-  getAttributes: function() {
-    var textOpacity = this.getTextOpacity();
-    this.updateName();
-
-    var textPos = this.getTextPosition();
-    var rectPos = this.getRectPosition();
-    var rectSize = this.getRectSize();
-
-    var dashArray = this.getDashArray();
-    var cursorStyle = (this.shouldDisableClick()) ?
-      'auto' :
-      'pointer';
-
-    return {
-      css: {
-        cursor: cursorStyle
-      },
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: textOpacity
-      },
-      rect: {
-        x: rectPos.x,
-        y: rectPos.y,
-        width: rectSize.w,
-        height: rectSize.h,
-        opacity: this.getNonTextOpacity(),
-        fill: this.get('fill'),
-        stroke: this.get('stroke'),
-        'stroke-dasharray': dashArray,
-        'stroke-width': this.getStrokeWidth()
-      }
-    };
-  },
-
-  animateUpdatedPos: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  setAttr: function(attr, instant, speed, easing) {
-    var keys = ['text', 'rect'];
-    this.setAttrBase(keys, attr, instant, speed, easing);
-  }
-});
-
-var VisTagCollection = Backbone.Collection.extend({
-  model: VisTag
-});
-
-exports.VisTagCollection = VisTagCollection;
-exports.VisTag = VisTag;
-exports.randomHueString = randomHueString;
-
-
-});
-
 require.define("/src/js/visuals/visEdge.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -19488,7 +18850,6 @@ var VisEdge = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
     var map = {
       'branch': 1,
-      'tag': 1,
       'head': GRAPHICS.edgeUpstreamHeadOpacity,
       'none': GRAPHICS.edgeUpstreamNoneOpacity
     };
@@ -24244,7 +23605,7 @@ require.define("/src/levels/remote/push.js",function(require,module,exports,__di
 
 require.define("/src/levels/remote/fetchRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
-  "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
+  "solutionCommand": "git clone;git fakeTeamwork;git commit;git fetch;git rebase o/master;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Diverged History"
@@ -24287,7 +23648,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
               "So much talking! Let's see this situation in action"
             ],
             "afterMarkdowns": [
-              "See? Nothing happened because the command fails. `git push` fails because your most recent commit `C3` is based off of the remote at `C1`. The remote has since been updated to `C2` though, so git rejects your push"
+              "See? Nothing happened because the command fails. `git push` fails because your most recent commit `C3` is based off of the remote at `C1`. The remote has since been updated though to `C2`, so git rejects your push"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -24297,7 +23658,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "How do you resolve this situation? It's easy, all you need to do is base your work off of the most recent version of the remote branch.",
+              "How do you resolve this situation? It's easy, all you need to do is base your work off of the most recent version of the remote.",
               "",
               "There are a few ways to do this, but the most straightforward is to move your work via rebasing. Let's go ahead and see what that looks like"
             ]
@@ -24324,7 +23685,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
               "",
               "Although `git merge` doesn't move your work (and instead just creates a merge commit), it's a way to tell git that you have incorporated all the changes from the remote. This is because the remote branch is now an *ancestor* of your own branch, meaning your commit reflects all commits in the remote branch.",
               "",
-              "Lets see this demonstrated..."
+              "Lets see this in action"
             ]
           }
         },
@@ -24347,7 +23708,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
             "markdowns": [
               "Awesome! Is there any way I can do this without typing so many commands?",
               "",
-              "Of course -- you already know `git pull` is just shorthand for a fetch and a merge. Conveniently enough, `git pull --rebase` is shorthand for a fetch and a rebase!",
+              "Of course -- you already know `git pull` is just shorthand for a fetch and a pull. Conveniently enough, `git pull --rebase` is shorthand for a fetch and a rebase!",
               "",
               "Let's see these shorthand commands at work"
             ]
@@ -27016,24 +26377,6 @@ var commandConfig = {
         destination: tracking
       });
     }
-  },
-  
-  tag: {
-	regex: /^git +tag($|\s)/,
-	execute: function(engine, command) {
-      var generalArgs = command.getGeneralArgs();
-      
-
-      if (generalArgs.length === 0) {
-        var tags = engine.getTags();
-        engine.printTags(tags);
-        return;
-      }
-      
-      command.twoArgsImpliedHead(generalArgs);
-      engine.tag(generalArgs[0], generalArgs[1]);
-
-	}
   }
 };
 
@@ -27337,7 +26680,6 @@ function GitEngine(options) {
   this.localRepo = null;
 
   this.branchCollection = options.branches;
-  this.tagCollection = options.tags;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
 
@@ -27510,7 +26852,6 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
     branch.visBranch = undefined;
-    branch.visTag = undefined;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -27532,7 +26873,8 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.visBranch = undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -27594,12 +26936,6 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
-  _.each(tree.tags, function(tagJSON) {
-    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
-
-    this.tagCollection.add(tag, {silent: true});
-  }, this);
-
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
 
@@ -27611,11 +26947,8 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
-        this.gitVisuals.addBranch(branch);
-      }, this);
-  this.tagCollection.each(function(tag) {
-        this.gitVisuals.addTag(tag);
-      }, this);
+    this.gitVisuals.addBranch(branch);
+  }, this);
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
@@ -27750,19 +27083,6 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     return branch;
   }
 
-  if (type == 'tag') {
-    var tagJSON = tree.tags[objID];
-
-    var tag = new Tag(_.extend(
-      tree.tags[objID],
-      {
-        target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
-      }
-    ));
-    createdSoFar[objID] = tag;
-    return tag;
-  }
-
   if (type == 'commit') {
     // for commits, we need to grab all the parents
     var commitJSON = tree.commits[objID];
@@ -27810,7 +27130,6 @@ GitEngine.prototype.reloadGraphics = function() {
 
 GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
-  this.tagCollection.reset();
   this.commitCollection.reset();
   this.refs = {};
   this.HEAD = null;
@@ -27877,20 +27196,6 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   this.makeBranch(id, target);
 };
 
-GitEngine.prototype.validateAndMakeTag = function(id, target) {
-  id = this.validateBranchName(id);
-  if (this.refs[id]) {
-    throw new GitError({
-      msg: intl.str(
-        'bad-tag-name',
-        { tag: name }
-      )
-    });
-  }
-
-  this.makeTag(id, target);
-};
-
 GitEngine.prototype.makeBranch = function(id, target) {
   if (this.refs[id]) {
     throw new Error('woah already have that');
@@ -27905,35 +27210,8 @@ GitEngine.prototype.makeBranch = function(id, target) {
   return branch;
 };
 
-GitEngine.prototype.makeTag = function(id, target) {
-  if (this.refs[id]) {
-    throw new Error('woah already have that');
-  }
-
-  var tag = new Tag({
-    target: target,
-    id: id
-  });
-  this.tagCollection.add(tag);
-  this.refs[tag.get('id')] = tag;
-  return tag;
-};
-
 GitEngine.prototype.getHead = function() {
   return _.clone(this.HEAD);
-};
-
-GitEngine.prototype.getTags = function() {
-  var toReturn = [];
-  this.tagCollection.each(function(tag) {
-    toReturn.push({
-      id: tag.get('id'),
-      target: tag.get('target'),
-      remote: tag.getIsRemote(),
-      obj: tag
-    });
-  }, this);
-  return toReturn;
 };
 
 GitEngine.prototype.getBranches = function() {
@@ -27980,17 +27258,6 @@ GitEngine.prototype.printBranches = function(branches) {
   var result = '';
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
-  });
-  throw new CommandResult({
-    msg: result
-  });
-};
-
-GitEngine.prototype.printTags = function(tags) {
-  var result = '';
-  _.each(tags, function(tag) {
-    console.log(tag);
-    result += tag.id + '\n';
   });
   throw new CommandResult({
     msg: result
@@ -29441,15 +28708,12 @@ GitEngine.prototype.checkout = function(idOrTarget) {
     target = this.getCommitFromRef(target.get('id'));
   }
 
-  if (type !== 'branch' && type !== 'tag' && type !== 'commit') {
+  if (type !== 'branch' && type !== 'commit') {
     throw new GitError({
       msg: intl.str('git-error-options')
     });
   }
-  if (type === 'tag') {
-    target = target.get('target');
-  }
-  
+
   this.HEAD.set('target', target);
 };
 
@@ -29481,11 +28745,6 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
 GitEngine.prototype.branch = function(name, ref) {
   var target = this.getCommitFromRef(ref);
   this.validateAndMakeBranch(name, target);
-};
-
-GitEngine.prototype.tag = function(name, ref) {
-  var target = this.getCommitFromRef(ref);
-  this.validateAndMakeTag(name, target);
 };
 
 GitEngine.prototype.deleteBranch = function(name) {
@@ -29989,21 +29248,9 @@ var Commit = Backbone.Model.extend({
   }
 });
 
-var Tag = Ref.extend({
-  defaults: {
-    visTag: null
-  },
-
-  initialize: function() {
-    Ref.prototype.initialize.call(this);
-    this.set('type', 'tag');
-  }
-});
-
 exports.GitEngine = GitEngine;
 exports.Commit = Commit;
 exports.Branch = Branch;
-exports.Tag = Tag;
 exports.Ref = Ref;
 
 
@@ -32677,7 +31924,6 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 
 var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
-var Tag = require('../git').Tag;
 
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
@@ -32693,10 +31939,6 @@ var CommandCollection = Backbone.Collection.extend({
 
 var BranchCollection = Backbone.Collection.extend({
   model: Branch
-});
-
-var TagCollection = Backbone.Collection.extend({
-  model: Tag
 });
 
 var CommandEntryCollection = Backbone.Collection.extend({
@@ -32802,7 +32044,6 @@ var CommandBuffer = Backbone.Model.extend({
 exports.CommitCollection = CommitCollection;
 exports.CommandCollection = CommandCollection;
 exports.BranchCollection = BranchCollection;
-exports.TagCollection = TagCollection;
 exports.CommandEntryCollection = CommandEntryCollection;
 exports.CommandBuffer = CommandBuffer;
 
@@ -33749,7 +32990,6 @@ var GRAPHICS = {
   originDash: '- ',
 
   multiBranchY: 20,
-  multiTagY: 15,
   upstreamHeadOpacity: 0.5,
   upstreamNoneOpacity: 0.2,
   edgeUpstreamHeadOpacity: 0.4,
@@ -33762,10 +33002,6 @@ var GRAPHICS = {
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
-  tagFill: 'hsb(0,0,0.9)',
-  tagStroke: '#FFF',
-  tagStrokeWidth: '2',
-  
   orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 
@@ -37240,13 +36476,10 @@ var GLOBAL = require('../util/constants').GLOBAL;
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
-var TagCollection = Collections.TagCollection;
 
 var VisNode = require('../visuals/visNode').VisNode;
 var VisBranch = require('../visuals/visBranch').VisBranch;
 var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
-var VisTag = require('../visuals/visTag').VisTag;
-var VisTagCollection = require('../visuals/visTag').VisTagCollection;
 var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
@@ -37256,17 +36489,14 @@ function GitVisuals(options) {
   this.visualization = options.visualization;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
-  this.tagCollection = options.tagCollection;
   this.visNodeMap = {};
 
   this.visEdgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
-  this.visTagCollection = new VisTagCollection();
   this.commitMap = {};
 
   this.rootCommit = null;
   this.branchStackMap = null;
-  this.tagStackMap = null;
   this.upstreamBranchSet = null;
   this.upstreamHeadSet = null;
 
@@ -37275,10 +36505,6 @@ function GitVisuals(options) {
 
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
-  
-  this.tagCollection.on('add', this.addTagFromEvent, this);
-  this.tagCollection.on('remove', this.removeTag, this);
-  
   this.deferred = [];
 
   this.flipFraction = 0.65;
@@ -37311,18 +36537,12 @@ GitVisuals.prototype.resetAll = function() {
     visBranch.remove();
   }, this);
 
-  var tags = this.visTagCollection.toArray();
-  _.each(tags, function(visTag) {
-    visTag.remove();
-  }, this);
-
   _.each(this.visNodeMap, function(visNode) {
     visNode.remove();
   }, this);
 
   this.visEdgeCollection.reset();
   this.visBranchCollection.reset();
-  this.visTagCollection.reset();
 
   this.visNodeMap = {};
   this.rootCommit = null;
@@ -37426,7 +36646,6 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
-  this.visTagCollection.each(animate);
   _.each(this.visNodeMap, animate);
 
   var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
@@ -37583,7 +36802,6 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
 
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
-  this.visTagCollection.each(animate);
   _.each(this.visNodeMap, animate);
 };
 
@@ -37618,10 +36836,6 @@ GitVisuals.prototype.genSnapshot = function() {
 
   this.visEdgeCollection.each(function(visEdge) {
     snapshot[visEdge.getID()] = visEdge.getAttributes();
-  }, this);
-
-  this.visTagCollection.each(function(visTag) {
-    snapshot[visTag.getID()] = visTag.getAttributes();
   }, this);
 
   return snapshot;
@@ -37665,7 +36879,6 @@ GitVisuals.prototype.calcTreeCoords = function() {
 
   this.calcUpstreamSets();
   this.calcBranchStacks();
-  this.calcTagStacks();
 
   this.calcDepth();
   this.calcWidth();
@@ -37674,9 +36887,6 @@ GitVisuals.prototype.calcTreeCoords = function() {
 GitVisuals.prototype.calcGraphicsCoords = function() {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.updateName();
-  });
-  this.visTagCollection.each(function(visTag) {
-    visTag.updateName();
   });
 };
 
@@ -37752,23 +36962,6 @@ GitVisuals.prototype.calcBranchStacks = function() {
     });
   });
   this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcTagStacks = function() {
-  var tags = this.gitEngine.getTags();
-  var map = {};
-  _.each(tags, function(tag) {
-    var thisId = tag.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(tag);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      return aId.localeCompare(bId);
-    });
-  });
-  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {
@@ -37901,43 +37094,9 @@ GitVisuals.prototype.addBranch = function(branch) {
   }
 };
 
-GitVisuals.prototype.addTagFromEvent = function(tag, collection, index) {
-  var action = _.bind(function() {
-    this.addTag(tag);
-  }, this);
-
-  if (!this.gitEngine || !this.gitReady) {
-    this.defer(action);
-  } else {
-    action();
-  }
-};
-
-GitVisuals.prototype.addTag = function(tag) {
-  var visTag = new VisTag({
-    tag: tag,
-    gitVisuals: this,
-    gitEngine: this.gitEngine
-  });
-
-  this.visTagCollection.add(visTag);
-  if (this.gitReady) {
-    visTag.genGraphics(this.paper);
-  } else {
-    this.defer(_.bind(function() {
-      visTag.genGraphics(this.paper);
-    }, this));
-  }
-};
-
 GitVisuals.prototype.removeVisBranch = function(visBranch) {
   this.visBranchCollection.remove(visBranch);
 };
-
-GitVisuals.prototype.removeVisTag = function(visTag) {
-  this.visTagCollection.remove(visTag);
-};
-
 
 GitVisuals.prototype.removeVisNode = function(visNode) {
   delete this.visNodeMap[visNode.getID()];
@@ -37950,9 +37109,6 @@ GitVisuals.prototype.removeVisEdge = function(visEdge) {
 GitVisuals.prototype.animateRefs = function(speed) {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.animateUpdatedPos(speed);
-  }, this);
-  this.visTagCollection.each(function(visTag) {
-    visTag.animateUpdatedPos(speed);
   }, this);
 };
 
@@ -38068,7 +37224,6 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
 GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
-  this.visTagsFront();
 };
 
 GitVisuals.prototype.visNodesFront = function() {
@@ -38085,17 +37240,6 @@ GitVisuals.prototype.visBranchesFront = function() {
 
   this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFrontIfInStack();
-  });
-};
-
-GitVisuals.prototype.visTagsFront = function() {
-  this.visTagCollection.each(function(vTag) {
-    vTag.nonTextToFront();
-    vTag.textToFront();
-  });
-
-  this.visTagCollection.each(function(vTag) {
-    vTag.textToFrontIfInStack();
   });
 };
 
@@ -38121,10 +37265,6 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
 
   this.visBranchCollection.each(function(visBranch) {
     visBranch.genGraphics(this.paper);
-  }, this);
-
-  this.visTagCollection.each(function(visTag) {
-    visTag.genGraphics(this.paper);
   }, this);
 
   this.zIndexReflow();
@@ -39033,7 +38173,6 @@ var VisEdge = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
     var map = {
       'branch': 1,
-      'tag': 1,
       'head': GRAPHICS.edgeUpstreamHeadOpacity,
       'none': GRAPHICS.edgeUpstreamNoneOpacity
     };
@@ -39166,7 +38305,6 @@ var VisNode = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     var map = {
       branch: 1,
-      tag: 1,
       head: 0.3,
       none: 0.1
     };
@@ -39182,7 +38320,6 @@ var VisNode = VisBase.extend({
   getOpacity: function() {
     var map = {
       'branch': 1,
-      'tag' : 1,
       'head': GRAPHICS.upstreamHeadOpacity,
       'none': GRAPHICS.upstreamNoneOpacity
     };
@@ -39555,418 +38692,6 @@ exports.VisNode = VisNode;
 });
 require("/src/js/visuals/visNode.js");
 
-require.define("/src/js/visuals/visTag.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
-var Backbone = require('backbone');
-var GRAPHICS = require('../util/constants').GRAPHICS;
-
-var VisBase = require('../visuals/visBase').VisBase;
-var TreeCompare = require('../git/treeCompare').TreeCompare;
-
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
-  return str;
-};
-
-var VisTag = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    isHead: false,
-
-    fill: GRAPHICS.tagFill,
-    stroke: GRAPHICS.tagStroke,
-    'stroke-width': GRAPHICS.tagStrokeWidth,
-
-    offsetX: GRAPHICS.nodeRadius,
-    offsetY: GRAPHICS.nodeRadius,
-
-    vPad: 2,
-    hPad: 2,
-
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
-
-  validateAtInit: function() {
-    if (!this.get('tag')) {
-      throw new Error('need a Tag!');
-    }
-  },
-
-  getID: function() {
-    return this.get('tag').get('id');
-  },
-
-  initialize: function() {
-    this.validateAtInit();
-
-    // shorthand notation for the main objects
-    this.gitVisuals = this.get('gitVisuals');
-    this.gitEngine = this.get('gitEngine');
-    if (!this.gitEngine) {
-      throw new Error('asd wtf');
-    }
-
-    this.get('tag').set('visTag', this);
-  },
-
-  getCommitPosition: function() {
-    var commit = this.gitEngine.getCommitFromRef(this.get('tag'));
-    var visNode = commit.get('visNode');
-
-    return visNode.getScreenCoords();
-  },
-
-  getDashArray: function() {
-    if (!this.get('gitVisuals').getIsGoalVis()) {
-      return '';
-    }
-    return (this.getIsLevelTagCompared()) ? '' : '--';
-  },
-
-  getIsGoalAndNotCompared: function() {
-    if (!this.get('gitVisuals').getIsGoalVis()) {
-      return false;
-    }
-
-    return !this.getIsLevelTagCompared();
-  },
-
-  /**
-   * returns true if we are a Tag that is not being
-   * compared in the goal (used in a goal visualization context
-   */
-  getIsLevelTagCompared: function() {
-    // we are not master, so return true if its not just master being compared
-    var levelBlob = this.get('gitVisuals').getLevelBlob();
-    return !TreeCompare.onlyMasterCompared(levelBlob);
-  },
-
-  getTagStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other Tages
-      return 0;
-    }
-
-    var myArray = this.getTagStackArray();
-    var index = -1;
-    _.each(myArray, function(Tag, i) {
-      if (Tag.obj == this.get('tag')) {
-        index = i;
-      }
-    }, this);
-    return index;
-  },
-
-  getTagStackLength: function() {
-    if (this.get('isHead')) {
-      // head is always by itself
-      return 1;
-    }
-
-    return this.getTagStackArray().length;
-  },
-
-  isTagStackEmpty: function() {
-    // useful function for head when computing flip logic
-    var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
-    return (arr) ?
-      arr.length === 0 :
-      true;
-  },
-
-  getCommitID: function() {
-    var target = this.get('tag').get('target');
-    return target.get('id');
-  },
-
-  getTagStackArray: function() {
-    var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
-    if (arr === undefined) {
-      // this only occurs when we are generating graphics inside of
-      // a new Tag instantiation, so we need to force the update
-      this.gitVisuals.calcTagStacks();
-      return this.getTagStackArray();
-    }
-    return arr;
-  },
-
-  getTextPosition: function() {
-    var pos = this.getCommitPosition();
-
-    // then order yourself accordingly. we use alphabetical sorting
-    // so everything is independent
-    var myPos = this.getTagStackIndex();
-
-    return {
-      x: pos.x + this.get('offsetX'),
-      y: pos.y + myPos * GRAPHICS.multiTagY + this.get('offsetY')
-    };
-  },
-
-  getRectPosition: function() {
-    var pos = this.getTextPosition();
-
-    // first get text width and height
-    var textSize = this.getTextSize();
-    return {
-      x: pos.x - this.get('hPad'),
-      y: pos.y - 0.5 * textSize.h - this.get('vPad')
-    };
-  },
-
-  getTextSize: function() {
-    var getTextWidth = function(visTag) {
-      var textNode = (visTag.get('text')) ? visTag.get('text').node : null;
-      return (textNode === null) ? 0 : textNode.clientWidth;
-    };
-
-    var firefoxFix = function(obj) {
-      if (!obj.w) { obj.w = 75; }
-      if (!obj.h) { obj.h = 20; }
-      return obj;
-    };
-
-    var textNode = this.get('text').node;
-
-    var maxWidth = 0;
-    _.each(this.getTagStackArray(), function(Tag) {
-      maxWidth = Math.max(maxWidth, getTextWidth(
-        Tag.obj.get('visTag')
-      ));
-    });
-
-    return firefoxFix({
-      w: maxWidth,
-      h: textNode.clientHeight
-    });
-  },
-
-  getSingleRectSize: function() {
-    var textSize = this.getTextSize();
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h + hPad * 2
-    };
-  },
-
-  getRectSize: function() {
-    var textSize = this.getTextSize();
-    // enforce padding
-    var vPad = this.get('vPad');
-    var hPad = this.get('hPad');
-
-    // number of other Tag names we are housing
-    var totalNum = this.getTagStackLength();
-    return {
-      w: textSize.w + vPad * 2,
-      h: textSize.h * totalNum + hPad * 2
-    };
-  },
-
-  getIsRemote: function() {
-    return this.get('tag').getIsRemote();
-  },
-
-  getName: function() {
-    var name = this.get('tag').getName();
-    var isRemote = this.getIsRemote();
-    var isHg = this.gitEngine.getIsHg();
-    
-    return name;
-  },
-
-  nonTextToFront: function() {
-    this.get('rect').toFront();
-  },
-
-  textToFront: function() {
-    this.get('text').toFront();
-  },
-
-  textToFrontIfInStack: function() {
-    if (this.getTagStackIndex() !== 0) {
-      this.get('text').toFront();
-    }
-  },
-
-  remove: function() {
-    this.removeKeys(['text', 'rect']);
-    // also need to remove from this.gitVisuals
-    this.gitVisuals.removeVisTag(this);
-  },
-
-  handleModeChange: function() {
-
-  },
-
-  genGraphics: function(paper) {
-    var textPos = this.getTextPosition();
-    var name = this.getName();
-
-    // when from a reload, we dont need to generate the text
-    var text = paper.text(textPos.x, textPos.y, String(name));
-    text.attr({
-      'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
-      opacity: this.getTextOpacity(),
-      'text-anchor': 'start'
-    });
-    this.set('text', text);
-    var attr = this.getAttributes();
-
-    var rectPos = this.getRectPosition();
-    var sizeOfRect = this.getRectSize();
-    var rect = paper
-      .rect(rectPos.x, rectPos.y, sizeOfRect.w, sizeOfRect.h, 8)
-      .attr(attr.rect);
-    this.set('rect', rect);
-
-    // set CSS
-    var keys = ['text', 'rect'];
-    _.each(keys, function(key) {
-      $(this.get(key).node).css(attr.css);
-    }, this);
-
-    this.attachClickHandlers();
-    rect.toFront();
-    text.toFront();
-  },
-
-  attachClickHandlers: function() {
-    if (this.get('gitVisuals').options.noClick) {
-      return;
-    }
-    var objs = [
-      this.get('rect'),
-      this.get('text')
-    ];
-
-    _.each(objs, function(rObj) {
-      rObj.click(_.bind(this.onClick ,this));
-    }, this);
-  },
-
-  shouldDisableClick: function() {
-    return this.get('isHead') && !this.gitEngine.getDetachedHead();
-  },
-
-  onClick: function() {
-    if (this.shouldDisableClick()) {
-      return;
-    }
-
-    var commandStr = 'git checkout ' + this.get('tag').get('id');
-    var Main = require('../app');
-    Main.getEventBaton().trigger('commandSubmitted', commandStr);
-  },
-
-  updateName: function() {
-    this.get('text').attr({
-      text: this.getName()
-    });
-  },
-
-  getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-    if (this.getTagStackIndex() !== 0) {
-      return 0.0;
-    }
-
-    return 1;
-  },
-
-  getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-
-    if (this.getIsGoalAndNotCompared()) {
-      return (this.getTagStackIndex() === 0) ? 0.7 : 0.3;
-    }
-
-    return 1;
-  },
-
-  getStrokeWidth: function() {
-    if (this.getIsGoalAndNotCompared()) {
-      return this.get('stroke-width') / 5.0;
-    }
-    
-    return this.get('stroke-width');
-  },
-
-  getAttributes: function() {
-    var textOpacity = this.getTextOpacity();
-    this.updateName();
-
-    var textPos = this.getTextPosition();
-    var rectPos = this.getRectPosition();
-    var rectSize = this.getRectSize();
-
-    var dashArray = this.getDashArray();
-    var cursorStyle = (this.shouldDisableClick()) ?
-      'auto' :
-      'pointer';
-
-    return {
-      css: {
-        cursor: cursorStyle
-      },
-      text: {
-        x: textPos.x,
-        y: textPos.y,
-        opacity: textOpacity
-      },
-      rect: {
-        x: rectPos.x,
-        y: rectPos.y,
-        width: rectSize.w,
-        height: rectSize.h,
-        opacity: this.getNonTextOpacity(),
-        fill: this.get('fill'),
-        stroke: this.get('stroke'),
-        'stroke-dasharray': dashArray,
-        'stroke-width': this.getStrokeWidth()
-      }
-    };
-  },
-
-  animateUpdatedPos: function(speed, easing) {
-    var attr = this.getAttributes();
-    this.animateToAttr(attr, speed, easing);
-  },
-
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
-    // an animation of 0 is essentially setting the attribute directly
-    this.animateToAttr(fromAttr, 0);
-    this.animateToAttr(toAttr, speed, easing);
-  },
-
-  setAttr: function(attr, instant, speed, easing) {
-    var keys = ['text', 'rect'];
-    this.setAttrBase(keys, attr, instant, speed, easing);
-  }
-});
-
-var VisTagCollection = Backbone.Collection.extend({
-  model: VisTag
-});
-
-exports.VisTagCollection = VisTagCollection;
-exports.VisTag = VisTag;
-exports.randomHueString = randomHueString;
-
-
-});
-require("/src/js/visuals/visTag.js");
-
 require.define("/src/js/visuals/visualization.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -39974,7 +38699,6 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
-var TagCollection = Collections.TagCollection;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
@@ -40013,12 +38737,10 @@ var Visualization = Backbone.View.extend({
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
-    this.tagCollection = new TagCollection();
 
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
-      tagCollection: this.tagCollection,
       paper: this.paper,
       noClick: this.options.noClick,
       isGoalVis: this.options.isGoalVis,
@@ -40030,7 +38752,6 @@ var Visualization = Backbone.View.extend({
     this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,
-      tags: this.tagCollection,
       gitVisuals: this.gitVisuals,
       eventBaton: this.eventBaton
     });
@@ -44006,7 +42727,7 @@ require("/src/levels/remote/fetch.js");
 
 require.define("/src/levels/remote/fetchRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
-  "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
+  "solutionCommand": "git clone;git fakeTeamwork;git commit;git fetch;git rebase o/master;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Diverged History"
@@ -44049,7 +42770,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
               "So much talking! Let's see this situation in action"
             ],
             "afterMarkdowns": [
-              "See? Nothing happened because the command fails. `git push` fails because your most recent commit `C3` is based off of the remote at `C1`. The remote has since been updated to `C2` though, so git rejects your push"
+              "See? Nothing happened because the command fails. `git push` fails because your most recent commit `C3` is based off of the remote at `C1`. The remote has since been updated though to `C2`, so git rejects your push"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -44059,7 +42780,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "How do you resolve this situation? It's easy, all you need to do is base your work off of the most recent version of the remote branch.",
+              "How do you resolve this situation? It's easy, all you need to do is base your work off of the most recent version of the remote.",
               "",
               "There are a few ways to do this, but the most straightforward is to move your work via rebasing. Let's go ahead and see what that looks like"
             ]
@@ -44086,7 +42807,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
               "",
               "Although `git merge` doesn't move your work (and instead just creates a merge commit), it's a way to tell git that you have incorporated all the changes from the remote. This is because the remote branch is now an *ancestor* of your own branch, meaning your commit reflects all commits in the remote branch.",
               "",
-              "Lets see this demonstrated..."
+              "Lets see this in action"
             ]
           }
         },
@@ -44109,7 +42830,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
             "markdowns": [
               "Awesome! Is there any way I can do this without typing so many commands?",
               "",
-              "Of course -- you already know `git pull` is just shorthand for a fetch and a merge. Conveniently enough, `git pull --rebase` is shorthand for a fetch and a rebase!",
+              "Of course -- you already know `git pull` is just shorthand for a fetch and a pull. Conveniently enough, `git pull --rebase` is shorthand for a fetch and a rebase!",
               "",
               "Let's see these shorthand commands at work"
             ]
