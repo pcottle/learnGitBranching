@@ -5,6 +5,7 @@ var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone'
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var TagCollection = Collections.TagCollection;
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
@@ -43,10 +44,12 @@ var Visualization = Backbone.View.extend({
 
     this.commitCollection = new CommitCollection();
     this.branchCollection = new BranchCollection();
+    this.tagCollection = new TagCollection();
 
     this.gitVisuals = new GitVisuals({
       commitCollection: this.commitCollection,
       branchCollection: this.branchCollection,
+      tagCollection: this.tagCollection,
       paper: this.paper,
       noClick: this.options.noClick,
       isGoalVis: this.options.isGoalVis,
@@ -58,6 +61,7 @@ var Visualization = Backbone.View.extend({
     this.gitEngine = new GitEngine({
       collection: this.commitCollection,
       branches: this.branchCollection,
+      tags: this.tagCollection,
       gitVisuals: this.gitVisuals,
       eventBaton: this.eventBaton
     });
