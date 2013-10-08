@@ -42,7 +42,8 @@ if (typeof window !== 'undefined' && window.location &&
   ];
   exports.levelSequences.remoteAdvanced = [
     require('./remote/specify').level,
-    require('./remote/pushManyFeatures').level
+    require('./remote/pushManyFeatures').level,
+    require('./remote/mergeManyFeatures').level
   ];
 }
 
