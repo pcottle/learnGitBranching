@@ -37,7 +37,7 @@ exports.level = {
               "Let's first see a `fetch` and a `merge` executed sequentially"
             ],
             "afterMarkdowns": [
-              "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge origin/master`. Now our `master` branch reflects the new work from the remote (in this case, named `origin`)"
+              "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/master`. Now our `master` branch reflects the new work from the remote (in this case, named `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
