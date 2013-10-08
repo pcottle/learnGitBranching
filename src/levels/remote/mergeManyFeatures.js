@@ -8,6 +8,7 @@ exports.level = {
   "hint": {
     "en_US": "Pay attention to the goal tree!"
   },
+  "compareOnlyMaster": true,
   "startDialog": {
     "en_US": {
       "childViews": [

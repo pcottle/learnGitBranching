@@ -31,20 +31,22 @@ exports.levelSequences = {
 
 if (typeof window !== 'undefined' && window.location &&
     window.location.href.indexOf('showRemote') !== -1) {
-  exports.levelSequences.remote = [
-    require('./remote/clone').level,
-    require('./remote/remoteBranches').level,
-    require('./remote/fetch').level,
-    require('./remote/pull').level,
-    require('./remote/fakeTeamwork').level,
-    require('./remote/push').level,
-    require('./remote/fetchRebase').level
-  ];
-  exports.levelSequences.remoteAdvanced = [
-    require('./remote/specify').level,
-    require('./remote/pushManyFeatures').level,
-    require('./remote/mergeManyFeatures').level
-  ];
+  exports.levelSequences = {
+    remote: [
+      require('./remote/clone').level,
+      require('./remote/remoteBranches').level,
+      require('./remote/fetch').level,
+      require('./remote/pull').level,
+      require('./remote/fakeTeamwork').level,
+      require('./remote/push').level,
+      require('./remote/fetchRebase').level
+    ],
+    remoteAdvanced: [
+      require('./remote/specify').level,
+      require('./remote/pushManyFeatures').level,
+      require('./remote/mergeManyFeatures').level
+    ]
+  };
 }
 
 // there are also cute names and such for sequences
