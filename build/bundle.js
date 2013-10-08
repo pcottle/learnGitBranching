@@ -16954,7 +16954,7 @@ GitVisuals.prototype.resetAll = function() {
 
   this.visEdgeCollection.reset();
   this.visBranchCollection.reset();
-  this.visTagsCollection.reset();
+  this.visTagCollection.reset();
 
   this.visNodeMap = {};
   this.rootCommit = null;
@@ -19029,20 +19029,9 @@ var VisTag = VisBase.extend({
    * compared in the goal (used in a goal visualization context
    */
   getIsLevelTagCompared: function() {
-    if (this.getIsMaster()) {
-      return true; // master always compared
-    }
     // we are not master, so return true if its not just master being compared
     var levelBlob = this.get('gitVisuals').getLevelBlob();
     return !TreeCompare.onlyMasterCompared(levelBlob);
-  },
-
-  getIsMaster: function() {
-    return this.get('tag').get('id') == 'master';
-  },
-
-  getArrowTransform: function() {
-    return 't2,20R-35';
   },
 
   getTagStackIndex: function() {
@@ -19080,10 +19069,6 @@ var VisTag = VisBase.extend({
 
   getCommitID: function() {
     var target = this.get('tag').get('target');
-    if (target.get('type') === 'tag') {
-      // for HEAD
-      target = target.get('target');
-    }
     return target.get('id');
   },
 
@@ -19179,16 +19164,10 @@ var VisTag = VisBase.extend({
 
   getName: function() {
     var name = this.get('tag').getName();
-    var selected = this.get('tag') === this.gitEngine.HEAD.get('target');
     var isRemote = this.getIsRemote();
     var isHg = this.gitEngine.getIsHg();
-
-    if (name === 'HEAD' && isHg) {
-      name = '.';
-    }
-
-    var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
-    return name + after;
+    
+    return name;
   },
 
   nonTextToFront: function() {
@@ -37343,7 +37322,7 @@ GitVisuals.prototype.resetAll = function() {
 
   this.visEdgeCollection.reset();
   this.visBranchCollection.reset();
-  this.visTagsCollection.reset();
+  this.visTagCollection.reset();
 
   this.visNodeMap = {};
   this.rootCommit = null;
@@ -39660,20 +39639,9 @@ var VisTag = VisBase.extend({
    * compared in the goal (used in a goal visualization context
    */
   getIsLevelTagCompared: function() {
-    if (this.getIsMaster()) {
-      return true; // master always compared
-    }
     // we are not master, so return true if its not just master being compared
     var levelBlob = this.get('gitVisuals').getLevelBlob();
     return !TreeCompare.onlyMasterCompared(levelBlob);
-  },
-
-  getIsMaster: function() {
-    return this.get('tag').get('id') == 'master';
-  },
-
-  getArrowTransform: function() {
-    return 't2,20R-35';
   },
 
   getTagStackIndex: function() {
@@ -39711,10 +39679,6 @@ var VisTag = VisBase.extend({
 
   getCommitID: function() {
     var target = this.get('tag').get('target');
-    if (target.get('type') === 'tag') {
-      // for HEAD
-      target = target.get('target');
-    }
     return target.get('id');
   },
 
@@ -39810,16 +39774,10 @@ var VisTag = VisBase.extend({
 
   getName: function() {
     var name = this.get('tag').getName();
-    var selected = this.get('tag') === this.gitEngine.HEAD.get('target');
     var isRemote = this.getIsRemote();
     var isHg = this.gitEngine.getIsHg();
-
-    if (name === 'HEAD' && isHg) {
-      name = '.';
-    }
-
-    var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
-    return name + after;
+    
+    return name;
   },
 
   nonTextToFront: function() {

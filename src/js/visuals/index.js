@@ -90,7 +90,7 @@ GitVisuals.prototype.resetAll = function() {
 
   this.visEdgeCollection.reset();
   this.visBranchCollection.reset();
-  this.visTagsCollection.reset();
+  this.visTagCollection.reset();
 
   this.visNodeMap = {};
   this.rootCommit = null;
