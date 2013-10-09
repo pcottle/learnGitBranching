@@ -9231,7 +9231,8 @@ GitEngine.prototype.mergeCheck = function(targetSource, currentLocation) {
   return this.isUpstreamOf(targetSource, currentLocation) || sameCommit;
 };
 
-GitEngine.prototype.merge = function(targetSource) {
+GitEngine.prototype.merge = function(targetSource, options) {
+  options = options || {};
   var currentLocation = 'HEAD';
 
   // first some conditions
@@ -9242,6 +9243,11 @@ GitEngine.prototype.merge = function(targetSource) {
   }
 
   if (this.isUpstreamOf(currentLocation, targetSource)) {
+    if (options.noFF) {
+      throw new GitError({
+        msg: intl.todo('Merge aborted because no-fast-forward was specified!')
+      });
+    }
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
@@ -11147,11 +11153,18 @@ var commandConfig = {
 
   merge: {
     regex: /^git +merge($|\s)/,
+    options: [
+      '--no-ff'
+    ],
     execute: function(engine, command) {
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
       command.validateArgBounds(generalArgs, 1, 1);
 
-      var newCommit = engine.merge(generalArgs[0]);
+      var newCommit = engine.merge(
+        generalArgs[0],
+        { noFF: !!commandOptions['--no-ff'] }
+      );
 
       if (newCommit === undefined) {
         // its just a fast forwrard
@@ -26433,11 +26446,18 @@ var commandConfig = {
 
   merge: {
     regex: /^git +merge($|\s)/,
+    options: [
+      '--no-ff'
+    ],
     execute: function(engine, command) {
+      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
       command.validateArgBounds(generalArgs, 1, 1);
 
-      var newCommit = engine.merge(generalArgs[0]);
+      var newCommit = engine.merge(
+        generalArgs[0],
+        { noFF: !!commandOptions['--no-ff'] }
+      );
 
       if (newCommit === undefined) {
         // its just a fast forwrard
@@ -28882,7 +28902,8 @@ GitEngine.prototype.mergeCheck = function(targetSource, currentLocation) {
   return this.isUpstreamOf(targetSource, currentLocation) || sameCommit;
 };
 
-GitEngine.prototype.merge = function(targetSource) {
+GitEngine.prototype.merge = function(targetSource, options) {
+  options = options || {};
   var currentLocation = 'HEAD';
 
   // first some conditions
@@ -28893,6 +28914,11 @@ GitEngine.prototype.merge = function(targetSource) {
   }
 
   if (this.isUpstreamOf(currentLocation, targetSource)) {
+    if (options.noFF) {
+      throw new GitError({
+        msg: intl.todo('Merge aborted because no-fast-forward was specified!')
+      });
+    }
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
