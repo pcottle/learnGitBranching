@@ -2005,7 +2005,8 @@ GitEngine.prototype.mergeCheck = function(targetSource, currentLocation) {
   return this.isUpstreamOf(targetSource, currentLocation) || sameCommit;
 };
 
-GitEngine.prototype.merge = function(targetSource) {
+GitEngine.prototype.merge = function(targetSource, options) {
+  options = options || {};
   var currentLocation = 'HEAD';
 
   // first some conditions
@@ -2015,7 +2016,7 @@ GitEngine.prototype.merge = function(targetSource) {
     });
   }
 
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
+  if (this.isUpstreamOf(currentLocation, targetSource) && !options.isNoFf) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
