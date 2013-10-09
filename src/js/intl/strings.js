@@ -288,6 +288,11 @@ exports.strings = {
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'bad-tag-name': {
+    '__desc__': 'When the user enters a tag name thats not ok',
+    'en_US': 'That tag name "{tag}" is not allowed!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
     '__desc__': 'When the user specifies an option that is not supported by our demo',
     'en_US': 'The option "{option}" is not supported!',
