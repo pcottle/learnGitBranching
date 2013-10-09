@@ -201,6 +201,7 @@ GitEngine.prototype.exportTree = function() {
   // thus, we need to loop through and "flatten" our graph of objects referencing one another
   var totalExport = {
     branches: {},
+    tags: {},
     commits: {},
     HEAD: null
   };
@@ -208,9 +209,15 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
     branch.visBranch = undefined;
-    branch.visTag = undefined;
 
     totalExport.branches[branch.id] = branch;
+  });
+
+  _.each(this.tagCollection.toJSON(), function(tag) {
+    tag.target = tag.target.get('id');
+    tag.visTag = undefined;
+
+    totalExport.tags[tag.id] = tag;
   });
 
   _.each(this.commitCollection.toJSON(), function(commit) {
@@ -230,7 +237,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -413,7 +420,9 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     if (tree.commits[id]) {
       return 'commit';
     } else if (tree.branches[id]) {
-      return 'branch';
+        return 'branch';
+    } else if (tree.tags[id]) {
+        return 'tag';
     } else if (id == 'HEAD') {
       return 'HEAD';
     }
@@ -2081,7 +2090,7 @@ GitEngine.prototype.mergeCheck = function(targetSource, currentLocation) {
   return this.isUpstreamOf(targetSource, currentLocation) || sameCommit;
 };
 
-GitEngine.prototype.merge = function(targetSource) {
+GitEngine.prototype.merge = function(targetSource, no_ff) {
   var currentLocation = 'HEAD';
 
   // first some conditions
@@ -2091,7 +2100,7 @@ GitEngine.prototype.merge = function(targetSource) {
     });
   }
 
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
+  if (this.isUpstreamOf(currentLocation, targetSource) && !no_ff) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
