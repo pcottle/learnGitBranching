@@ -381,17 +381,11 @@ var commandConfig = {
 
   merge: {
     regex: /^git +merge($|\s)/,
-    options: [
-      '--no-ff'
-    ],
     execute: function(engine, command) {
-      var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
-      
-      console.log(generalArgs);
-      console.log(commandOptions);
       command.validateArgBounds(generalArgs, 1, 1);
-      var newCommit = engine.merge(generalArgs[0], commandOptions['--no-ff']);
+
+      var newCommit = engine.merge(generalArgs[0]);
 
       if (newCommit === undefined) {
         // its just a fast forwrard
