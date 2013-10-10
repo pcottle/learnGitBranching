@@ -7602,7 +7602,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  remoteBranch.addLocalBranchThatTracksThis(localBranch.get('id'));
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {
@@ -8087,16 +8086,22 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var localBranch = this.getOneBeforeCommit('HEAD');
   var remoteBranch = this.refs[options.destination];
   var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
+
+  if (options.source === "") {
+    // delete case
+    this.pushDeleteRemoteBranch(remoteBranch, branchOnRemote);
+    return;
+  }
+  var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
     this,
     this.origin,
     branchOnRemote,
-    localBranch,
+    sourceLocation,
     intl.str('git-error-origin-push-no-ff')
   );
 
@@ -8104,7 +8109,7 @@ GitEngine.prototype.push = function(options) {
     this.origin,
     this,
     branchOnRemote,
-    localBranch
+    sourceLocation
   );
 
   // now here is the tricky part -- the difference between local master
@@ -8153,7 +8158,7 @@ GitEngine.prototype.push = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var localLocationID = localBranch.get('target').get('id');
+    var localLocationID = sourceLocation.get('target').get('id');
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
@@ -8163,7 +8168,7 @@ GitEngine.prototype.push = function(options) {
 
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
-    var localCommit = this.getCommitFromRef(localBranch);
+    var localCommit = this.getCommitFromRef(sourceLocation);
     this.setTargetLocation(remoteBranch, localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
@@ -8171,6 +8176,32 @@ GitEngine.prototype.push = function(options) {
   if (!options.dontResolvePromise) {
     this.animationQueue.thenFinish(chain, deferred);
   }
+};
+
+GitEngine.prototype.pushDeleteRemoteBranch = function(
+  remoteBranch,
+  branchOnRemote
+) {
+  if (branchOnRemote.get('id') === 'master') {
+    throw new GitError({
+      msg: intl.todo('You cannot delete master branch on remote!')
+    });
+  }
+  // ok so this isn't too bad -- we basically just:
+  // 1) instruct the remote to delete the branch
+  // 2) kill off the remote branch locally
+  // 3) find any branches tracking this remote branch and set them to not track
+  var id = remoteBranch.get('id');
+  this.origin.deleteBranch(branchOnRemote);
+  this.deleteBranch(remoteBranch);
+  this.branchCollection.each(function(branch) {
+    if (branch.getRemoteTrackingBranchID() === id) {
+      branch.setRemoteTrackingBranchID(null);
+    }
+  }, this);
+
+  // animation needs to be triggered on origin directly
+  this.origin.externalRefresh();
 };
 
 GitEngine.prototype.fetch = function(options) {
@@ -9374,7 +9405,7 @@ GitEngine.prototype.isRemoteBranchRef = function(ref) {
   return resolved.getIsRemote();
 };
 
-GitEngine.prototype.deleteBranch = function(name) {
+GitEngine.prototype.validateAndDeleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveID(name);
 
@@ -9394,7 +9425,10 @@ GitEngine.prototype.deleteBranch = function(name) {
       msg: intl.str('git-error-remote-branch')
     });
   }
+  this.deleteBranch(branch);
+};
 
+GitEngine.prototype.deleteBranch = function(branch) {
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
   delete this.refs[branch.get('id')];
@@ -9665,7 +9699,6 @@ var Branch = Ref.extend({
   defaults: {
     visBranch: null,
     remoteTrackingBranchID: null,
-    localBranchesThatTrackThis: null,
     remote: false
   },
 
@@ -9690,20 +9723,6 @@ var Branch = Ref.extend({
 
   getRemoteTrackingBranchID: function() {
     return this.get('remoteTrackingBranchID');
-  },
-
-  addLocalBranchThatTracksThis: function(localBranch) {
-    this.setLocalBranchesThatTrackThis(
-      this.getLocalBranchesThatTrackThis().concat([localBranch])
-    );
-  },
-
-  setLocalBranchesThatTrackThis: function(branches) {
-    this.set('localBranchesThatTrackThis', branches);
-  },
-
-  getLocalBranchesThatTrackThis: function() {
-    return this.get('localBranchesThatTrackThis') || [];
   },
 
   getPrefixedID: function() {
@@ -10534,13 +10553,11 @@ TreeCompare.reduceTreeFields = function(trees) {
   var branchSaveFields = [
     'target',
     'id',
-    'remoteTrackingBranchID',
-    'localBranchesThatTrackThis'
+    'remoteTrackingBranchID'
   ];
   // for backwards compatibility, fill in some fields if missing
   var defaults = {
-    remoteTrackingBranchID: null,
-    localBranchesThatTrackThis: null
+    remoteTrackingBranchID: null
   };
 
   // this function saves only the specified fields of a tree
@@ -10823,6 +10840,10 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
+function isColonRefspec(str) {
+  return str.indexOf(':') !== -1 && str.split(':').length === 2;
+}
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -11095,7 +11116,7 @@ var commandConfig = {
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
         _.each(names, function(name) {
-          engine.deleteBranch(name);
+          engine.validateAndDeleteBranch(name);
         });
         return;
       }
@@ -11369,15 +11390,24 @@ var commandConfig = {
       assertOriginSpecified(generalArgs);
 
       var tracking;
-      if (generalArgs[1]) {
-        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      var source;
+      var firstArg = generalArgs[1];
+      if (firstArg) {
+        if (isColonRefspec(firstArg)) {
+          var refspecParts = firstArg.split(':');
+          source = refspecParts[0];
+          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
+        } else {
+          tracking = assertBranchIsRemoteTracking(engine, firstArg);
+        }
       } else {
         var oneBefore = engine.getOneBeforeCommit('HEAD');
         tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
       }
 
       engine.push({
-        destination: tracking
+        destination: tracking,
+        source: source
       });
     }
   }
@@ -26122,6 +26152,10 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
+function isColonRefspec(str) {
+  return str.indexOf(':') !== -1 && str.split(':').length === 2;
+}
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -26394,7 +26428,7 @@ var commandConfig = {
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
         _.each(names, function(name) {
-          engine.deleteBranch(name);
+          engine.validateAndDeleteBranch(name);
         });
         return;
       }
@@ -26668,15 +26702,24 @@ var commandConfig = {
       assertOriginSpecified(generalArgs);
 
       var tracking;
-      if (generalArgs[1]) {
-        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      var source;
+      var firstArg = generalArgs[1];
+      if (firstArg) {
+        if (isColonRefspec(firstArg)) {
+          var refspecParts = firstArg.split(':');
+          source = refspecParts[0];
+          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
+        } else {
+          tracking = assertBranchIsRemoteTracking(engine, firstArg);
+        }
       } else {
         var oneBefore = engine.getOneBeforeCommit('HEAD');
         tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
       }
 
       engine.push({
-        destination: tracking
+        destination: tracking,
+        source: source
       });
     }
   }
@@ -27323,7 +27366,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  remoteBranch.addLocalBranchThatTracksThis(localBranch.get('id'));
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {
@@ -27808,16 +27850,22 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var localBranch = this.getOneBeforeCommit('HEAD');
   var remoteBranch = this.refs[options.destination];
   var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
+
+  if (options.source === "") {
+    // delete case
+    this.pushDeleteRemoteBranch(remoteBranch, branchOnRemote);
+    return;
+  }
+  var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
     this,
     this.origin,
     branchOnRemote,
-    localBranch,
+    sourceLocation,
     intl.str('git-error-origin-push-no-ff')
   );
 
@@ -27825,7 +27873,7 @@ GitEngine.prototype.push = function(options) {
     this.origin,
     this,
     branchOnRemote,
-    localBranch
+    sourceLocation
   );
 
   // now here is the tricky part -- the difference between local master
@@ -27874,7 +27922,7 @@ GitEngine.prototype.push = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var localLocationID = localBranch.get('target').get('id');
+    var localLocationID = sourceLocation.get('target').get('id');
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
@@ -27884,7 +27932,7 @@ GitEngine.prototype.push = function(options) {
 
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
-    var localCommit = this.getCommitFromRef(localBranch);
+    var localCommit = this.getCommitFromRef(sourceLocation);
     this.setTargetLocation(remoteBranch, localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
@@ -27892,6 +27940,32 @@ GitEngine.prototype.push = function(options) {
   if (!options.dontResolvePromise) {
     this.animationQueue.thenFinish(chain, deferred);
   }
+};
+
+GitEngine.prototype.pushDeleteRemoteBranch = function(
+  remoteBranch,
+  branchOnRemote
+) {
+  if (branchOnRemote.get('id') === 'master') {
+    throw new GitError({
+      msg: intl.todo('You cannot delete master branch on remote!')
+    });
+  }
+  // ok so this isn't too bad -- we basically just:
+  // 1) instruct the remote to delete the branch
+  // 2) kill off the remote branch locally
+  // 3) find any branches tracking this remote branch and set them to not track
+  var id = remoteBranch.get('id');
+  this.origin.deleteBranch(branchOnRemote);
+  this.deleteBranch(remoteBranch);
+  this.branchCollection.each(function(branch) {
+    if (branch.getRemoteTrackingBranchID() === id) {
+      branch.setRemoteTrackingBranchID(null);
+    }
+  }, this);
+
+  // animation needs to be triggered on origin directly
+  this.origin.externalRefresh();
 };
 
 GitEngine.prototype.fetch = function(options) {
@@ -29095,7 +29169,7 @@ GitEngine.prototype.isRemoteBranchRef = function(ref) {
   return resolved.getIsRemote();
 };
 
-GitEngine.prototype.deleteBranch = function(name) {
+GitEngine.prototype.validateAndDeleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveID(name);
 
@@ -29115,7 +29189,10 @@ GitEngine.prototype.deleteBranch = function(name) {
       msg: intl.str('git-error-remote-branch')
     });
   }
+  this.deleteBranch(branch);
+};
 
+GitEngine.prototype.deleteBranch = function(branch) {
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
   delete this.refs[branch.get('id')];
@@ -29386,7 +29463,6 @@ var Branch = Ref.extend({
   defaults: {
     visBranch: null,
     remoteTrackingBranchID: null,
-    localBranchesThatTrackThis: null,
     remote: false
   },
 
@@ -29411,20 +29487,6 @@ var Branch = Ref.extend({
 
   getRemoteTrackingBranchID: function() {
     return this.get('remoteTrackingBranchID');
-  },
-
-  addLocalBranchThatTracksThis: function(localBranch) {
-    this.setLocalBranchesThatTrackThis(
-      this.getLocalBranchesThatTrackThis().concat([localBranch])
-    );
-  },
-
-  setLocalBranchesThatTrackThis: function(branches) {
-    this.set('localBranchesThatTrackThis', branches);
-  },
-
-  getLocalBranchesThatTrackThis: function() {
-    return this.get('localBranchesThatTrackThis') || [];
   },
 
   getPrefixedID: function() {
@@ -29932,13 +29994,11 @@ TreeCompare.reduceTreeFields = function(trees) {
   var branchSaveFields = [
     'target',
     'id',
-    'remoteTrackingBranchID',
-    'localBranchesThatTrackThis'
+    'remoteTrackingBranchID'
   ];
   // for backwards compatibility, fill in some fields if missing
   var defaults = {
-    remoteTrackingBranchID: null,
-    localBranchesThatTrackThis: null
+    remoteTrackingBranchID: null
   };
 
   // this function saves only the specified fields of a tree

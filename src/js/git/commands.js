@@ -11,6 +11,10 @@ var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
 
+function isColonRefspec(str) {
+  return str.indexOf(':') !== -1 && str.split(':').length === 2;
+}
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -283,7 +287,7 @@ var commandConfig = {
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
         _.each(names, function(name) {
-          engine.deleteBranch(name);
+          engine.validateAndDeleteBranch(name);
         });
         return;
       }
@@ -557,15 +561,24 @@ var commandConfig = {
       assertOriginSpecified(generalArgs);
 
       var tracking;
-      if (generalArgs[1]) {
-        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      var source;
+      var firstArg = generalArgs[1];
+      if (firstArg) {
+        if (isColonRefspec(firstArg)) {
+          var refspecParts = firstArg.split(':');
+          source = refspecParts[0];
+          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
+        } else {
+          tracking = assertBranchIsRemoteTracking(engine, firstArg);
+        }
       } else {
         var oneBefore = engine.getOneBeforeCommit('HEAD');
         tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
       }
 
       engine.push({
-        destination: tracking
+        destination: tracking,
+        source: source
       });
     }
   }
