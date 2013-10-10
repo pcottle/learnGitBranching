@@ -16,7 +16,6 @@ var VisTag = VisBase.extend({
     pos: null,
     text: null,
     rect: null,
-    isHead: false,
 
     fill: GRAPHICS.tagFill,
     stroke: GRAPHICS.tagStroke,
@@ -88,11 +87,6 @@ var VisTag = VisBase.extend({
   },
 
   getTagStackIndex: function() {
-    if (this.get('isHead')) {
-      // head is never stacked with other Tages
-      return 0;
-    }
-
     var myArray = this.getTagStackArray();
     var index = -1;
     _.each(myArray, function(Tag, i) {
@@ -104,20 +98,7 @@ var VisTag = VisBase.extend({
   },
 
   getTagStackLength: function() {
-    if (this.get('isHead')) {
-      // head is always by itself
-      return 1;
-    }
-
     return this.getTagStackArray().length;
-  },
-
-  isTagStackEmpty: function() {
-    // useful function for head when computing flip logic
-    var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
-    return (arr) ?
-      arr.length === 0 :
-      true;
   },
 
   getCommitID: function() {
@@ -295,7 +276,7 @@ var VisTag = VisBase.extend({
   },
 
   shouldDisableClick: function() {
-    return this.get('isHead') && !this.gitEngine.getDetachedHead();
+    return false;
   },
 
   onClick: function() {
@@ -315,9 +296,6 @@ var VisTag = VisBase.extend({
   },
 
   getNonTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
     if (this.getTagStackIndex() !== 0) {
       return 0.0;
     }
@@ -326,10 +304,6 @@ var VisTag = VisBase.extend({
   },
 
   getTextOpacity: function() {
-    if (this.get('isHead')) {
-      return this.gitEngine.getDetachedHead() ? 1 : 0;
-    }
-
     if (this.getIsGoalAndNotCompared()) {
       return (this.getTagStackIndex() === 0) ? 0.7 : 0.3;
     }
