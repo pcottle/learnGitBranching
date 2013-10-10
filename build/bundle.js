@@ -9300,12 +9300,7 @@ GitEngine.prototype.merge = function(targetSource, options) {
     });
   }
 
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
-    if (options.noFF) {
-      throw new GitError({
-        msg: intl.todo('Merge aborted because no-fast-forward was specified!')
-      });
-    }
+  if (this.isUpstreamOf(currentLocation, targetSource) && !options.noFF) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
@@ -29064,12 +29059,7 @@ GitEngine.prototype.merge = function(targetSource, options) {
     });
   }
 
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
-    if (options.noFF) {
-      throw new GitError({
-        msg: intl.todo('Merge aborted because no-fast-forward was specified!')
-      });
-    }
+  if (this.isUpstreamOf(currentLocation, targetSource) && !options.noFF) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen

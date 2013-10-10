@@ -152,7 +152,7 @@ describe('Git', function() {
   it('does not fast forward on merge if specified', function() {
     expectTreeAsync(
       'git commit; go -b side HEAD~1; git commit; git merge master; go master; git merge side --no-ff',
-      '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null},"side":{"target":"C4","id":"side","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"}}'
+      '{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null},"feature":{"target":"C3","id":"feature","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C1","C3"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"}}'
     );
   });
 });
