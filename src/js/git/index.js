@@ -420,7 +420,7 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
       return 'commit';
     } else if (tree.branches[id]) {
         return 'branch';
-    } else if (tree.tags[id]) {
+    } else if (tree.tags && tree.tags[id]) {
         return 'tag';
     } else if (id == 'HEAD') {
       return 'HEAD';
