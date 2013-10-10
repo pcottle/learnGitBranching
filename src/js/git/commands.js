@@ -444,7 +444,9 @@ var commandConfig = {
     sc: /^gr($|\s)/,
     options: [
       '-i',
-      '--aboveAll'
+      '--aboveAll',
+      '-p',
+      '--preserve-merges'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -464,7 +466,9 @@ var commandConfig = {
       }
 
       command.twoArgsImpliedHead(generalArgs);
-      engine.rebase(generalArgs[0], generalArgs[1]);
+      engine.rebase(generalArgs[0], generalArgs[1], {
+        preserveMerges: commandOptions['-p'] || commandOptions['--preserve-merges']
+      });
     }
   },
 

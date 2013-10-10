@@ -1902,7 +1902,11 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   });
 };
 
-GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
+GitEngine.prototype.filterRebaseCommits = function(
+  toRebaseRough,
+  stopSet,
+  options
+) {
   var changesAlreadyMade = {};
   _.each(stopSet, function(val, key) {
     changesAlreadyMade[this.scrapeBaseID(key)] = true;
@@ -1911,8 +1915,8 @@ GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
 
   // resolve the commits we will rebase
   return _.filter(toRebaseRough, function(commit) {
-    // no merge commits
-    if (commit.get('parents').length !== 1) {
+    // no merge commits, unless we preserve
+    if (commit.get('parents').length !== 1 && !options.preserveMerges) {
       return false;
     }
 
@@ -1933,6 +1937,15 @@ GitEngine.prototype.filterRebaseCommits = function(toRebaseRough, stopSet) {
   }, this);
 };
 
+GitEngine.prototype.getRebasePreserveMergesParents = function(oldCommit) {
+  var oldParents = oldCommit.get('parents');
+  return _.map(oldParents, function(parent) {
+    var oldID = parent.get('id');
+    var newID = this.getMostRecentBumpedID(oldID);
+    return this.refs[newID];
+  }, this);
+};
+
 GitEngine.prototype.rebaseFinish = function(
   toRebaseRough,
   stopSet,
@@ -1946,7 +1959,7 @@ GitEngine.prototype.rebaseFinish = function(
   var deferred = options.deferred || Q.defer();
   var chain = options.chain || deferred.promise;
 
-  var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet);
+  var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet, options);
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
@@ -1961,11 +1974,25 @@ GitEngine.prototype.rebaseFinish = function(
 
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
+  var hasStartedChain = false;
   // each step makes a new commit
   var chainStep = _.bind(function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
-    var newCommit = this.makeCommit([base], newId);
+    var parents;
+    if (!options.preserveMerges || !hasStartedChain) {
+      // easy logic since we just have a straight line
+      parents = [base];
+    } else { // preserving merges
+      // we always define the parent for the first commit to plop,
+      // otherwise search for most recent parents
+      parents = (hasStartedChain) ?
+        this.getRebasePreserveMergesParents(oldCommit) :
+        [base];
+    }
+
+    var newCommit = this.makeCommit(parents, newId);
     base = newCommit;
+    hasStartedChain = true;
 
     return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
