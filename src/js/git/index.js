@@ -1642,6 +1642,53 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
   return commitToSet;
 };
 
+GitEngine.prototype.getUpstreamTagSet = function() {
+  // this is expensive!! so only call once in a while
+  var commitToSet = {};
+
+  var inArray = function(arr, id) {
+    var found = false;
+    _.each(arr, function(wrapper) {
+      if (wrapper.id == id) {
+        found = true;
+      }
+    });
+
+    return found;
+  };
+
+  var bfsSearch = function(commit) {
+    var set = [];
+    var pQueue = [commit];
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      set.push(popped.get('id'));
+
+      if (popped.get('parents') && popped.get('parents').length) {
+        pQueue = pQueue.concat(popped.get('parents'));
+      }
+    }
+    return set;
+  };
+
+  this.tagCollection.each(function(tag) {
+    var set = bfsSearch(tag.get('target'));
+    _.each(set, function(id) {
+      commitToSet[id] = commitToSet[id] || [];
+
+      // only add it if it's not there, so hue blending is ok
+      if (!inArray(commitToSet[id], tag.get('id'))) {
+        commitToSet[id].push({
+          obj: tag,
+          id: tag.get('id')
+        });
+      }
+    });
+  });
+
+  return commitToSet;
+};
+
 GitEngine.prototype.getUpstreamHeadSet = function() {
   var set = this.getUpstreamSet('HEAD');
   var including = this.getCommitFromRef('HEAD').get('id');

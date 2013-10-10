@@ -320,6 +320,8 @@ var VisNode = VisBase.extend({
       return GRAPHICS.headRectFill;
     } else if (stat == 'none') {
       return GRAPHICS.orphanNodeFill;
+    } else if (stat == 'tag') {
+      return GRAPHICS.defaultNodeFill;
     }
 
     // now we need to get branch hues

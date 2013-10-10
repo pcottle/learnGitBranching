@@ -36,6 +36,7 @@ function GitVisuals(options) {
   this.branchStackMap = null;
   this.tagStackMap = null;
   this.upstreamBranchSet = null;
+  this.upstreamTagSet = null;
   this.upstreamHeadSet = null;
 
   this.paper = options.paper;
@@ -450,6 +451,7 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamTagSet = this.gitEngine.getUpstreamTagSet();
   this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
 };
 
@@ -491,12 +493,15 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
 
   var id = commit.get('id');
   var branch = this.upstreamBranchSet;
+  var tag = this.upstreamTagSet;
   var head = this.upstreamHeadSet;
 
   if (branch[id]) {
     return 'branch';
   } else if (head[id]) {
     return 'head';
+  } else if (tag[id]) {
+    return 'tag';
   } else {
     return 'none';
   }
@@ -527,7 +532,7 @@ GitVisuals.prototype.calcTagStacks = function() {
   var map = {};
   _.each(tags, function(tag) {
     var thisId = tag.target.get('id');
-
+    
     map[thisId] = map[thisId] || [];
     map[thisId].push(tag);
     map[thisId].sort(function(a, b) {
@@ -536,6 +541,7 @@ GitVisuals.prototype.calcTagStacks = function() {
       return aId.localeCompare(bId);
     });
   });
+  
   this.tagStackMap = map;
 };
 
