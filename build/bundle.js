@@ -7774,7 +7774,7 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
     });
   }
 
-  this.makeBranch(id, target);
+  return this.makeBranch(id, target);
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
@@ -9358,7 +9358,20 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
 
 GitEngine.prototype.branch = function(name, ref) {
   var target = this.getCommitFromRef(ref);
-  this.validateAndMakeBranch(name, target);
+  var newBranch = this.validateAndMakeBranch(name, target);
+
+  ref = this.resolveID(ref);
+  if (this.isRemoteBranchRef(ref)) {
+    this.setLocalToTrackRemote(newBranch, ref);
+  }
+};
+
+GitEngine.prototype.isRemoteBranchRef = function(ref) {
+  var resolved = this.resolveID(ref);
+  if (resolved.get('type') !== 'branch') {
+    return false;
+  }
+  return resolved.getIsRemote();
 };
 
 GitEngine.prototype.deleteBranch = function(name) {
@@ -27482,7 +27495,7 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
     });
   }
 
-  this.makeBranch(id, target);
+  return this.makeBranch(id, target);
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
@@ -29066,7 +29079,20 @@ GitEngine.prototype.forceBranch = function(branchName, where) {
 
 GitEngine.prototype.branch = function(name, ref) {
   var target = this.getCommitFromRef(ref);
-  this.validateAndMakeBranch(name, target);
+  var newBranch = this.validateAndMakeBranch(name, target);
+
+  ref = this.resolveID(ref);
+  if (this.isRemoteBranchRef(ref)) {
+    this.setLocalToTrackRemote(newBranch, ref);
+  }
+};
+
+GitEngine.prototype.isRemoteBranchRef = function(ref) {
+  var resolved = this.resolveID(ref);
+  if (resolved.get('type') !== 'branch') {
+    return false;
+  }
+  return resolved.getIsRemote();
 };
 
 GitEngine.prototype.deleteBranch = function(name) {

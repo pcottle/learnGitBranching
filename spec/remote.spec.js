@@ -113,6 +113,20 @@ describe('Git Remotes', function() {
       '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master","localBranchesThatTrackThis":null},"side":{"target":"C3","id":"side","remoteTrackingBranchID":"o/side","localBranchesThatTrackThis":null},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["master"]},"o/side":{"target":"C3","id":"o/side","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["side"]}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"side","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null},"side":{"target":"C3","id":"side","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
+  
+  it('sets tracking when checking out remote branch', function() {
+    expectTreeAsync(
+      'git clone; git checkout -b side o/master;git fakeTeamwork;git pull',
+      '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master","localBranchesThatTrackThis":null},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["master","side"]},"side":{"target":"C2","id":"side","remoteTrackingBranchID":"o/master","localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"side","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
+  it('also sets tracking when just branching', function() {
+    expectTreeAsync(
+      'git clone; git branch side o/master',
+      '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master","localBranchesThatTrackThis":null},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["master","side"]},"side":{"target":"C1","id":"side","remoteTrackingBranchID":"o/master","localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
 
 });
 
