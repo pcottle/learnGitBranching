@@ -325,13 +325,11 @@ TreeCompare.reduceTreeFields = function(trees) {
   var branchSaveFields = [
     'target',
     'id',
-    'remoteTrackingBranchID',
-    'localBranchesThatTrackThis'
+    'remoteTrackingBranchID'
   ];
   // for backwards compatibility, fill in some fields if missing
   var defaults = {
-    remoteTrackingBranchID: null,
-    localBranchesThatTrackThis: null
+    remoteTrackingBranchID: null
   };
 
   // this function saves only the specified fields of a tree

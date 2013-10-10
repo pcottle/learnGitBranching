@@ -376,7 +376,6 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  remoteBranch.addLocalBranchThatTracksThis(localBranch.get('id'));
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {
@@ -2439,7 +2438,6 @@ var Branch = Ref.extend({
   defaults: {
     visBranch: null,
     remoteTrackingBranchID: null,
-    localBranchesThatTrackThis: null,
     remote: false
   },
 
@@ -2464,20 +2462,6 @@ var Branch = Ref.extend({
 
   getRemoteTrackingBranchID: function() {
     return this.get('remoteTrackingBranchID');
-  },
-
-  addLocalBranchThatTracksThis: function(localBranch) {
-    this.setLocalBranchesThatTrackThis(
-      this.getLocalBranchesThatTrackThis().concat([localBranch])
-    );
-  },
-
-  setLocalBranchesThatTrackThis: function(branches) {
-    this.set('localBranchesThatTrackThis', branches);
-  },
-
-  getLocalBranchesThatTrackThis: function() {
-    return this.get('localBranchesThatTrackThis') || [];
   },
 
   getPrefixedID: function() {
