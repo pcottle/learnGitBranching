@@ -13,7 +13,7 @@
   <meta property="og:image" content="http://pcottle.github.io/learnGitBranching/assets/learnGitBranching.png"/>
   <meta property="og:description" content="A interactive Git visualization tool to educate and challenge!"/>
 
-	<link rel="stylesheet" href="build/main.d4092b65.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="build/main.5f9b0b08.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
@@ -225,6 +225,19 @@
   </script>
 
   <script type="text/html" id="level-dropdown-view">
+    <div class="box horizontal center levelDropdownTabWrapper">
+      <% for (var i = 0; i < tabs.length; i++) { %>
+        <% if (tabs[i].id === selectedTab) { %>
+          <div class="levelDropdownTab" data-id="<%=tabs[i].id%>">
+        <% } else { %>
+          <div class="levelDropdownTab deselected" data-id="<%=tabs[i].id%>">
+        <% } %>
+          <span data-id="<%=tabs[i].id%>">
+            <%= tabs[i].name %>
+          </span>
+        </div>
+      <% } %>
+    </div>
   </script>
 
   <script type="text/html" id="series-view">
@@ -445,7 +458,7 @@
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/bundle.min.3fa21ecf.js"></script>
+  <script src="build/bundle.min.5f173106.js"></script>
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include

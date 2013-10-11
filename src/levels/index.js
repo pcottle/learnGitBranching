@@ -26,31 +26,25 @@ exports.levelSequences = {
     require('./rebase/manyRebases').level,
     require('./advanced/multipleParents').level,
     require('./rebase/selectiveRebase').level
+  ],
+  remote: [
+    require('./remote/clone').level,
+    require('./remote/remoteBranches').level,
+    require('./remote/fetch').level,
+    require('./remote/pull').level,
+    require('./remote/fakeTeamwork').level,
+    require('./remote/push').level,
+    require('./remote/fetchRebase').level
+  ],
+  remoteAdvanced: [
+    require('./remote/specify').level,
+    require('./remote/pushManyFeatures').level,
+    require('./remote/mergeManyFeatures').level
   ]
 };
 
-if (typeof window !== 'undefined' && window.location &&
-    window.location.href.indexOf('showRemote') !== -1) {
-  exports.levelSequences = {
-    remote: [
-      require('./remote/clone').level,
-      require('./remote/remoteBranches').level,
-      require('./remote/fetch').level,
-      require('./remote/pull').level,
-      require('./remote/fakeTeamwork').level,
-      require('./remote/push').level,
-      require('./remote/fetchRebase').level
-    ],
-    remoteAdvanced: [
-      require('./remote/specify').level,
-      require('./remote/pushManyFeatures').level,
-      require('./remote/mergeManyFeatures').level
-    ]
-  };
-}
-
 // there are also cute names and such for sequences
-exports.sequenceInfo = {
+var sequenceInfo = exports.sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
@@ -82,6 +76,7 @@ exports.sequenceInfo = {
     }
   },
   remote: {
+    tab: 'remote',
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!'
     },
@@ -90,6 +85,7 @@ exports.sequenceInfo = {
     }
   },
   remoteAdvanced: {
+    tab: 'remote',
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!'
     },
@@ -143,5 +139,12 @@ exports.sequenceInfo = {
       'zh_CN': '只为真正的勇士！'
     }
   }
+};
+
+exports.getTabForSequence = function(sequenceName) {
+  var info = sequenceInfo[sequenceName];
+  return (info.tab) ?
+    info.tab :
+    'main';
 };
 

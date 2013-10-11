@@ -748,6 +748,30 @@ div.modalView.box.inFront.show {
 .levelDropdownView {
 }
 
+div.levelDropdownTabWrapper {
+  margin-left: -10px;
+  margin-right: -10px;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+div.levelDropdownTab {
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  cursor: pointer;
+  box-shadow: 0px -4px 12px rgba(0,0,0,0.7);
+  border-radius: 4px 4px 0 0;
+  text-align: center;
+  padding: 4px 10px;
+  color: black;
+  background: #ccc;
+  margin: 0 10px;
+}
+
+div.levelDropdownTab.deselected {
+  opacity: 0.3;
+}
+
 div.displayName {
   border-bottom: 1px dashed grey;
   text-align: center;

@@ -225,6 +225,19 @@
   </script>
 
   <script type="text/html" id="level-dropdown-view">
+    <div class="box horizontal center levelDropdownTabWrapper">
+      <% for (var i = 0; i < tabs.length; i++) { %>
+        <% if (tabs[i].id === selectedTab) { %>
+          <div class="levelDropdownTab" data-id="<%=tabs[i].id%>">
+        <% } else { %>
+          <div class="levelDropdownTab deselected" data-id="<%=tabs[i].id%>">
+        <% } %>
+          <span data-id="<%=tabs[i].id%>">
+            <%= tabs[i].name %>
+          </span>
+        </div>
+      <% } %>
+    </div>
   </script>
 
   <script type="text/html" id="series-view">
