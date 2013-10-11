@@ -6,5 +6,6 @@ build/main.*.css
 screens
 search_replace.sh
 FontAwesome-Vectors.pdf
+index.html
 *.sw*
 
