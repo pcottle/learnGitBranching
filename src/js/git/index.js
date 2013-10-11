@@ -383,13 +383,12 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
     return;
   }
 
-  // same for local TODO intl
   var msg = 'local branch "' +
     localBranch.get('id') +
     '" set to track remote branch "' +
     remoteBranch.get('id') +
     '"';
-  this.command.addWarning(msg);
+  this.command.addWarning(intl.todo(msg));
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
