@@ -127,4 +127,5 @@ Or reported an issue that was successfully closed!
 * Jeffrey Jones
 * Kyle (kyleIDMI)
 * "iplus"
+* Christian Sauer
 
