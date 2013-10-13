@@ -1449,6 +1449,10 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
       return;
     }
     var originBranch = this.origin.refs[branch.getBaseID()];
+    if (!originBranch.get('visBranch')) {
+      // testing mode doesnt get this
+      return;
+    }
     var originFill = originBranch.get('visBranch').get('fill');
     branch.get('visBranch').set('fill', originFill);
   }, this);
