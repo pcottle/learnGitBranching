@@ -366,13 +366,30 @@ GitEngine.prototype.makeOrigin = function(treeString) {
     }
 
     // now we have something in common, lets make the tracking branch
-    var originBranch = this.makeBranch(
+    var remoteBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
 
-    this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
+    this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
+  var remoteBranch = this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(target)
+  );
+
+  if (this.refs[branchName]) { // not all remote branches have tracking ones
+    this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
+  }
+
+  var originTarget = this.origin.refs['master'].get('target');
+  this.origin.makeBranch(
+    branchName,
+    originTarget
+  );
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
@@ -859,16 +876,28 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var remoteBranch = this.refs[options.destination];
-  var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
-
   if (options.source === "") {
     // delete case
-    this.pushDeleteRemoteBranch(remoteBranch, branchOnRemote);
+    this.pushDeleteRemoteBranch(
+      this.refs[ORIGIN_PREFIX + options.destination],
+      this.origin.refs[options.destination]
+    );
     return;
   }
+
+  var remoteBranch = this.refs[options.source];
+
+  if (!this.origin.refs[options.destination]) {
+    this.makeBranchOnOriginAndTrack(
+      options.destination,
+      'HEAD'
+    );
+  }
+  var branchOnRemote = this.origin.refs[options.source];
+
   var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
+  debugger;
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
     this,

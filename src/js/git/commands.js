@@ -15,6 +15,14 @@ function isColonRefspec(str) {
   return str.indexOf(':') !== -1 && str.split(':').length === 2;
 }
 
+var assertIsRef = function(engine, ref) {
+  engine.resolveID(ref); // will throw giterror if cant resolve
+};
+
+var validateAndAssertBranchName = function(engine, name) {
+  return engine.validateBranchName(name);
+};
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -42,7 +50,9 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   var tracking = branch.getRemoteTrackingBranchID();
   if (!tracking) {
     throw new GitError({
-      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+      msg: intl.todo(
+        branchName + ' is not a remote tracking branch! I dont know where to push'
+      )
     });
   }
   return tracking;
@@ -560,24 +570,32 @@ var commandConfig = {
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      var tracking;
+      var destination;
       var source;
       var firstArg = generalArgs[1];
       if (firstArg) {
         if (isColonRefspec(firstArg)) {
           var refspecParts = firstArg.split(':');
           source = refspecParts[0];
-          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
+          destination = refspecParts[1];
+          // TODO -- assert good branch name
         } else {
-          tracking = assertBranchIsRemoteTracking(engine, firstArg);
+          // we are using this org as both destination and source
+          destination = firstArg;
+          source = firstArg;
         }
+        destination = validateAndAssertBranchName(engine, destination);
       } else {
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        source = engine.getOneBeforeCommit('HEAD');
+        destination = source;
+        assertBranchIsRemoteTracking(source);
+      }
+      if (source) {
+        assertIsRef(engine, source);
       }
 
       engine.push({
-        destination: tracking,
+        destination: destination,
         source: source
       });
     }
