@@ -21,7 +21,7 @@ exports.level = {
               "",
               "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`.",
               "",
-              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new repsentation. This ties into the previous lesson on remote branches"
+              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new representation. This ties into the previous lesson on remote branches"
             ]
           }
         },
@@ -53,7 +53,7 @@ exports.level = {
               "",
               "If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories _since_ you last talked to those remotes. `git fetch` is the way you talk to these remotes! Hopefully the connection between remote branches and `git fetch` is apparent now",
               "",
-              "`git fetch` usually talks to the remote repository through the internet (via a protocol like `http://` or `git://`).",
+              "`git fetch` usually talks to the remote repository through the Internet (via a protocol like `http://` or `git://`).",
               ""
             ]
           }
