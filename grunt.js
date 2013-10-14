@@ -110,9 +110,6 @@ module.exports = function(grunt) {
     shell: {
       gitAdd: {
         command: 'git add build/'
-      },
-      test: {
-        command: 'jasmine-node spec/git.spec.js'
       }
     },
     jshint: {
@@ -161,6 +158,13 @@ module.exports = function(grunt) {
         process: true
       }
     },
+    jasmine_node: {
+      specNameMatcher: 'spec',
+      projectRoot: '.',
+      forceExit: true,
+      verbose: true,
+      requirejs: false
+    },
     browserify: {
       'build/bundle.js': {
         entries: ['src/**/*.js', 'src/js/**/*.js']
@@ -175,12 +179,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-rm');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-jasmine-node');
 
-  grunt.registerTask('build', 'rm browserify min hash buildIndex shell lint lintStrings compliment');
+  grunt.registerTask('build', 'rm browserify min hash buildIndex shell jasmine_node lint lintStrings compliment');
   grunt.registerTask('fastBuild', 'rm browserify hash buildIndex');
 
   grunt.registerTask('default', 'build');
 
-  grunt.registerTask('watching', 'fastBuild lint lintStrings');
+  grunt.registerTask('watching', 'fastBuild jasmine_node lint lintStrings');
 };
 
