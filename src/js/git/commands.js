@@ -577,24 +577,27 @@ var commandConfig = {
         if (isColonRefspec(firstArg)) {
           var refspecParts = firstArg.split(':');
           source = refspecParts[0];
-          destination = refspecParts[1];
-          // TODO -- assert good branch name
+          destination = validateAndAssertBranchName(engine, refspecParts[1]);
         } else {
-          // we are using this org as both destination and source
+          // we are using this arg as destination -- source is one before head
           destination = firstArg;
-          source = firstArg;
+          source = engine.getOneBeforeCommit('HEAD').get('id');
         }
-        destination = validateAndAssertBranchName(engine, destination);
       } else {
-        source = engine.getOneBeforeCommit('HEAD');
+        // since they have not specified a source or destination, then
+        // we source from the branch we are on (or HEAD) and push to
+        // the branch we are on
+        source = engine.getOneBeforeCommit('HEAD').get('id');
         destination = source;
-        assertBranchIsRemoteTracking(source);
+        assertBranchIsRemoteTracking(engine, source);
       }
       if (source) {
         assertIsRef(engine, source);
       }
 
       engine.push({
+        // NOTE -- very important! destination and source here
+        // are always, always strings. very important :D
         destination: destination,
         source: source
       });

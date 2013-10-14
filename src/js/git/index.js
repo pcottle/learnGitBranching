@@ -885,19 +885,16 @@ GitEngine.prototype.push = function(options) {
     return;
   }
 
-  var remoteBranch = this.refs[options.source];
-
+  var sourceBranch = this.refs[options.source];
   if (!this.origin.refs[options.destination]) {
     this.makeBranchOnOriginAndTrack(
       options.destination,
       'HEAD'
     );
   }
-  var branchOnRemote = this.origin.refs[options.source];
-
+  var branchOnRemote = this.origin.refs[options.destination];
   var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
-  debugger;
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
     this,
@@ -971,7 +968,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(sourceLocation);
-    this.setTargetLocation(remoteBranch, localCommit);
+    this.setTargetLocation(this.refs[ORIGIN_PREFIX + options.destination], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
@@ -2541,6 +2538,9 @@ var Branch = Ref.extend({
   },
 
   getIsRemote: function() {
+    if (typeof this.get('id') !== 'string') {
+      debugger;
+    }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
 });
