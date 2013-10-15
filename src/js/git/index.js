@@ -1011,6 +1011,7 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
   }, this);
 
   // animation needs to be triggered on origin directly
+  this.origin.pruneTree();
   this.origin.externalRefresh();
 };
 
@@ -1562,7 +1563,9 @@ GitEngine.prototype.pruneTree = function() {
     // the switch sync
     return;
   }
-  this.command.addWarning(intl.str('hg-prune-tree'));
+  if (this.command) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
 
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
@@ -2241,6 +2244,11 @@ GitEngine.prototype.deleteBranch = function(branch) {
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
   delete this.refs[branch.get('id')];
+  // also in some cases external engines call our delete, so
+  // verify integrity of HEAD here
+  if (this.HEAD.get('target') === branch) {
+    this.HEAD.set('target', this.refs['master']);
+  }
 
   if (branch.get('visBranch')) {
     branch.get('visBranch').remove();
