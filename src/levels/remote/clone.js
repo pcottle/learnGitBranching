@@ -16,7 +16,7 @@ exports.level = {
             "markdowns": [
               "## Git Remotes",
               "",
-              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repositoy on another computer. You can typically talk to this other computer through the internet, which allows you to transfer commits back and forth.",
+              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repository on another computer. You can typically talk to this other computer through the Internet, which allows you to transfer commits back and forth.",
               "",
               "That being said, remote repositories have a bunch of great properties:",
               "",
