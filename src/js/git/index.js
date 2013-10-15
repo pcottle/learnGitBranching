@@ -876,6 +876,8 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
+  var didMakeBranch;
+
   if (options.source === "") {
     // delete case
     this.pushDeleteRemoteBranch(
@@ -887,6 +889,7 @@ GitEngine.prototype.push = function(options) {
 
   var sourceBranch = this.refs[options.source];
   if (!this.origin.refs[options.destination]) {
+    didMakeBranch = true;
     this.makeBranchOnOriginAndTrack(
       options.destination,
       'HEAD'
@@ -939,6 +942,14 @@ GitEngine.prototype.push = function(options) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+
+  if (didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      // play something for both
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
 
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {

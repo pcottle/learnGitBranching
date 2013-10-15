@@ -167,7 +167,6 @@ var commandConfig = {
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
       //     and merges those in.
-
       // so lets switch on A/B here
 
       var commandOptions = command.getOptionsMap();
