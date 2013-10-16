@@ -52,7 +52,7 @@ var expectTreeAsync = function(command, expectedJSON) {
   });
   waitsFor(function() {
     var diff = (Date.now() - start);
-    if (diff > TIME - 50 && !haveReported) {
+    if (diff > TIME - 20 && !haveReported) {
       haveReported = true;
       console.log('not going to match', command);
       console.log('expected\n>>>>>>>>\n', loadTree(expectedJSON));

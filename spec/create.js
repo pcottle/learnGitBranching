@@ -9,7 +9,10 @@ prompt.get(['command'], function(err, result) {
   var headless = new HeadlessGit();
   headless.sendCommand(result.command);
   setTimeout(function() {
-    console.log(headless.gitEngine.printTree());
+    console.log('expectTreeAsync(');
+    console.log("  \t'" + result.command + "',");
+    console.log("  \t'" + headless.gitEngine.printTree() + "'");
+    console.log(');');
   }, 100);
 });
 

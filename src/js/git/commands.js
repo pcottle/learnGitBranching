@@ -19,7 +19,7 @@ var assertIsRef = function(engine, ref) {
   engine.resolveID(ref); // will throw giterror if cant resolve
 };
 
-var validateAndAssertBranchName = function(engine, name) {
+var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
 
@@ -576,19 +576,29 @@ var commandConfig = {
         if (isColonRefspec(firstArg)) {
           var refspecParts = firstArg.split(':');
           source = refspecParts[0];
-          destination = validateAndAssertBranchName(engine, refspecParts[1]);
+          destination = validateBranchName(engine, refspecParts[1]);
         } else {
-          // we are using this arg as destination -- source is one before head
-          destination = firstArg;
-          source = engine.getOneBeforeCommit('HEAD').get('id');
+          // we are using this arg as destination AND source. the dest branch
+          // can be created on demand but we at least need this to be a source
+          // locally otherwise we will fail
+          source = destination = firstArg;
         }
       } else {
         // since they have not specified a source or destination, then
-        // we source from the branch we are on (or HEAD) and push to
-        // the branch we are on
-        source = engine.getOneBeforeCommit('HEAD').get('id');
-        destination = source;
-        assertBranchIsRemoteTracking(engine, source);
+        // we source from the branch we are on (or HEAD)
+        var sourceObj = engine.getOneBeforeCommit('HEAD');
+        source = sourceObj.get('id');
+
+        // HOWEVER we push to either the remote tracking branch we have
+        // OR a new named branch if we aren't tracking anything
+        if (sourceObj.getRemoteTrackingBranchID &&
+            sourceObj.getRemoteTrackingBranchID()) {
+          assertBranchIsRemoteTracking(engine, source);
+          var remoteBranch = sourceObj.getRemoteTrackingBranchID();
+          destination = engine.refs[remoteBranch].getBaseID();
+        } else {
+          destination = validateBranchName(engine, source);
+        }
       }
       if (source) {
         assertIsRef(engine, source);
