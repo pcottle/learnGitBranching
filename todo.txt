@@ -19,8 +19,6 @@ Argument things:
 
 aka fetch + merge, just like expected. ill probably still update o/master just for sanity. master is the source on the remote and HEAD is the source on local (place to merge). o/master gets updated regardless
 
-2) ok so say I'm on a new branch banana thats not on remote. if I do "git push" then it will MAKE a new branch on remote and push my commits there. same thing with "git push origin banana". Basically banana has to be a local ref, and if so, it will just make the ref on remote.
-
 so "git push origin branchNotOnLocal" fails but "git push origin someBranch" will make the someBranch on remote.
 
 3) HOWEVER if I'm git push-ing on banana and I say "git push origin master" then it pretends Im checked out on master. aka master is both source and destination, as expected. this is really 3

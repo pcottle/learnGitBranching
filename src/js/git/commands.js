@@ -562,31 +562,33 @@ var commandConfig = {
       }
 
       var options = {};
+      var destination;
+      var source;
+      var sourceObj;
+
       // git push is pretty complex in terms of
-      // the arguments it wants as well -- see
-      // git pull for a more detailed description.
+      // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      var destination;
-      var source;
       var firstArg = generalArgs[1];
-      if (firstArg) {
-        if (isColonRefspec(firstArg)) {
-          var refspecParts = firstArg.split(':');
-          source = refspecParts[0];
-          destination = validateBranchName(engine, refspecParts[1]);
-        } else {
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
+      } else {
+        if (firstArg) {
           // we are using this arg as destination AND source. the dest branch
           // can be created on demand but we at least need this to be a source
           // locally otherwise we will fail
-          source = destination = firstArg;
+          assertIsRef(engine, firstArg);
+          sourceObj = engine.refs[firstArg];
+        } else {
+          // since they have not specified a source or destination, then
+          // we source from the branch we are on (or HEAD)
+          sourceObj = engine.getOneBeforeCommit('HEAD');
         }
-      } else {
-        // since they have not specified a source or destination, then
-        // we source from the branch we are on (or HEAD)
-        var sourceObj = engine.getOneBeforeCommit('HEAD');
         source = sourceObj.get('id');
 
         // HOWEVER we push to either the remote tracking branch we have
