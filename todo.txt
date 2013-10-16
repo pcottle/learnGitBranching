@@ -25,8 +25,6 @@ so "git push origin branchNotOnLocal" fails but "git push origin someBranch" wil
 
 3) HOWEVER if I'm git push-ing on banana and I say "git push origin master" then it pretends Im checked out on master. aka master is both source and destination, as expected. this is really 3
 
-4)
-
 Cases to handle / things to edit
 =======================
 
