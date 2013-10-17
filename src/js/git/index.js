@@ -357,13 +357,9 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       return;
     }
 
-    var originTarget = branchJSON.target;
-    // now this is tricky -- our remote could have commits that we do
-    // not have. so lets go upwards until we find one that we have
-    while (!this.refs[originTarget]) {
-      var parents = originTree.commits[originTarget].parents;
-      originTarget = parents[0];
-    }
+    var originTarget = this.findCommonAncestorWithRemote(
+      branchJSON.target
+    );
 
     // now we have something in common, lets make the tracking branch
     var remoteBranch = this.makeBranch(
@@ -373,6 +369,27 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
+  var target = this.origin.refs[branchName].get('target');
+  var originTarget = this.findCommonAncestorWithRemote(
+    target.get('id');
+  );
+  return this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(originTarget)
+  );
+};
+
+GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
+  // now this is tricky -- our remote could have commits that we do
+  // not have. so lets go upwards until we find one that we have
+  while (!this.refs[originTarget]) {
+    var parents = this.origin.refs[originTarget].get('parents');
+    originTarget = parents[0].get('id');
+  }
+  return originTarget;
 };
 
 GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
@@ -1018,11 +1035,30 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // get all remotes
-  var allRemotes = this.branchCollection.filter(function(branch) {
-    return branch.getIsRemote();
-  });
-  var branchesToFetch = options.branches || allRemotes;
+  // ok this is just like git push -- if the destination does not exist,
+  // we need to make it
+  if (options.destination) {
+    // its just like creating a branch, we will merge (if pulling) later
+    this.validateAndMakeBranch(
+      options.destination,
+      this.getCommitFromRef('HEAD')
+    );
+  }
+
+  // now we need to know which remotes to fetch. lets do this by either checking our source
+  // option or just getting all of them
+  var branchesToFetch;
+  if (options.source) {
+    // gah -- first we have to check that we even have a remote branch
+    // for this source (we know its on the remote based on validation)
+    if (!this.refs[ORIGIN_PREFX + options.source]) {
+      this.makeRemoteBranchForRemote(options.source);
+    }
+  } else {
+    branchesToFetch = this.branchCollection.filter(function(branch) {
+      return branch.getIsRemote();
+    });
+  }
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and

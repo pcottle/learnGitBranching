@@ -253,14 +253,14 @@ var commandConfig = {
   fetch: {
     regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
-      var options = {};
-
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
 
+      var source;
+      var destination;
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
@@ -268,21 +268,28 @@ var commandConfig = {
       var firstArg = generalArgs[1];
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
-        options.source = refspecParts[0];
-        options.destination = refspecParts[1];
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
 
         // destination will be created by fetch, but check source
-        assertIsRef(engine.origin, options.source);
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need
         // to make sure it exists as the source on REMOTE and then
         // the destination will be created locally
-        var tracking = assertBranchIsRemoteTracking(engine, firstArg);
-        options.branches = [engine.refs[tracking]];
+        source = firstArg;
+        destination = firstArg;
+        //var tracking = assertBranchIsRemoteTracking(engine, firstArg);
+        //options.branches = [engine.refs[tracking]];
+      }
+      if (source) { // empty string fails this check
+        assertIsRef(engine.origin, source);
       }
 
-      engine.fetch(options);
+      engine.fetch({
+        source: source,
+        destination: destination
+      });
     }
   },
 
