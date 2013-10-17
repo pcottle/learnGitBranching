@@ -1051,6 +1051,7 @@ GitEngine.prototype.fetch = function(options) {
       )
     ));
   }, this);
+
   if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')

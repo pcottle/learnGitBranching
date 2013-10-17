@@ -265,8 +265,20 @@ var commandConfig = {
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      if (generalArgs[1]) {
-        var tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      var firstArg = generalArgs[1];
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        options.source = refspecParts[0];
+        options.destination = refspecParts[1];
+
+        // destination will be created by fetch, but check source
+        assertIsRef(engine.origin, options.source);
+      } else if (firstArg) {
+        // here is the deal -- its JUST like git push. the first arg
+        // is used as both the destination and the source, so we need
+        // to make sure it exists as the source on REMOTE and then
+        // the destination will be created locally
+        var tracking = assertBranchIsRemoteTracking(engine, firstArg);
         options.branches = [engine.refs[tracking]];
       }
 
