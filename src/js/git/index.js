@@ -374,7 +374,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
   var target = this.origin.refs[branchName].get('target');
   var originTarget = this.findCommonAncestorWithRemote(
-    target.get('id');
+    target.get('id')
   );
   return this.makeBranch(
     ORIGIN_PREFIX + branchName,
@@ -1037,7 +1037,7 @@ GitEngine.prototype.fetch = function(options) {
 
   // ok this is just like git push -- if the destination does not exist,
   // we need to make it
-  if (options.destination) {
+  if (options.destination && !this.refs[options.destination]) {
     // its just like creating a branch, we will merge (if pulling) later
     this.validateAndMakeBranch(
       options.destination,
@@ -1051,9 +1051,11 @@ GitEngine.prototype.fetch = function(options) {
   if (options.source) {
     // gah -- first we have to check that we even have a remote branch
     // for this source (we know its on the remote based on validation)
-    if (!this.refs[ORIGIN_PREFX + options.source]) {
+    if (!this.refs[ORIGIN_PREFIX + options.source]) {
       this.makeRemoteBranchForRemote(options.source);
     }
+    // now just specify branches to fetch based on this source
+    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
   } else {
     branchesToFetch = this.branchCollection.filter(function(branch) {
       return branch.getIsRemote();

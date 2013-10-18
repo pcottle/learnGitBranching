@@ -1,7 +1,7 @@
 var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 
-var prompt = require('prompt');
+prompt = require('prompt');
 
 prompt.start();
 

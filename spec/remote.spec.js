@@ -226,5 +226,19 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('validates branch names when fetching', function() {
+    expectTreeAsync(
+      'git clone; git fakeTeamwork; git fetch master:HEAD; git fetch master:f<>',
+      '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
+  it('fetches only one remote if specified', function() {
+    expectTreeAsync(
+      'git clone;gc;git push origin master:banana;git fakeTeamwork banana;git fakeTeamwork master;git fetch origin banana',
+      '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/banana":{"target":"C3","id":"o/banana","remoteTrackingBranchID":null},"banana":{"target":"C2","id":"banana","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null},"banana":{"target":"C3","id":"banana","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C1"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
 });
 

@@ -270,8 +270,6 @@ var commandConfig = {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchName(engine, refspecParts[1]);
-
-        // destination will be created by fetch, but check source
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need
@@ -279,8 +277,6 @@ var commandConfig = {
         // the destination will be created locally
         source = firstArg;
         destination = firstArg;
-        //var tracking = assertBranchIsRemoteTracking(engine, firstArg);
-        //options.branches = [engine.refs[tracking]];
       }
       if (source) { // empty string fails this check
         assertIsRef(engine.origin, source);
