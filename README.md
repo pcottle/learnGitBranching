@@ -92,6 +92,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Timothy Qiu
 * Hyunjin CHA
 * "nem75"
+* Fabio Crisci (piuccio)
 
 Or reported an issue that was successfully closed!
 
@@ -127,4 +128,5 @@ Or reported an issue that was successfully closed!
 * Jeffrey Jones
 * Kyle (kyleIDMI)
 * "iplus"
+* Christian Sauer
 

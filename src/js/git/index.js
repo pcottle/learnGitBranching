@@ -357,22 +357,56 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       return;
     }
 
-    var originTarget = branchJSON.target;
-    // now this is tricky -- our remote could have commits that we do
-    // not have. so lets go upwards until we find one that we have
-    while (!this.refs[originTarget]) {
-      var parents = originTree.commits[originTarget].parents;
-      originTarget = parents[0];
-    }
+    var originTarget = this.findCommonAncestorWithRemote(
+      branchJSON.target
+    );
 
     // now we have something in common, lets make the tracking branch
-    var originBranch = this.makeBranch(
+    var remoteBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
 
-    this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
+    this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
+  var target = this.origin.refs[branchName].get('target');
+  var originTarget = this.findCommonAncestorWithRemote(
+    target.get('id')
+  );
+  return this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(originTarget)
+  );
+};
+
+GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
+  // now this is tricky -- our remote could have commits that we do
+  // not have. so lets go upwards until we find one that we have
+  while (!this.refs[originTarget]) {
+    var parents = this.origin.refs[originTarget].get('parents');
+    originTarget = parents[0].get('id');
+  }
+  return originTarget;
+};
+
+GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
+  var remoteBranch = this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(target)
+  );
+
+  if (this.refs[branchName]) { // not all remote branches have tracking ones
+    this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
+  }
+
+  var originTarget = this.origin.refs['master'].get('target');
+  this.origin.makeBranch(
+    branchName,
+    originTarget
+  );
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
@@ -859,14 +893,26 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var remoteBranch = this.refs[options.destination];
-  var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
+  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
-    this.pushDeleteRemoteBranch(remoteBranch, branchOnRemote);
+    this.pushDeleteRemoteBranch(
+      this.refs[ORIGIN_PREFIX + options.destination],
+      this.origin.refs[options.destination]
+    );
     return;
   }
+
+  var sourceBranch = this.refs[options.source];
+  if (!this.origin.refs[options.destination]) {
+    didMakeBranch = true;
+    this.makeBranchOnOriginAndTrack(
+      options.destination,
+      'HEAD'
+    );
+  }
+  var branchOnRemote = this.origin.refs[options.destination];
   var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
@@ -914,6 +960,14 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
+  if (didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      // play something for both
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
+
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
@@ -942,7 +996,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(sourceLocation);
-    this.setTargetLocation(remoteBranch, localCommit);
+    this.setTargetLocation(this.refs[ORIGIN_PREFIX + options.destination], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
@@ -974,17 +1028,39 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
   }, this);
 
   // animation needs to be triggered on origin directly
+  this.origin.pruneTree();
   this.origin.externalRefresh();
 };
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // get all remotes
-  var allRemotes = this.branchCollection.filter(function(branch) {
-    return branch.getIsRemote();
-  });
-  var branchesToFetch = options.branches || allRemotes;
+  // ok this is just like git push -- if the destination does not exist,
+  // we need to make it
+  if (options.destination && !this.refs[options.destination]) {
+    // its just like creating a branch, we will merge (if pulling) later
+    this.validateAndMakeBranch(
+      options.destination,
+      this.getCommitFromRef('HEAD')
+    );
+  }
+
+  // now we need to know which remotes to fetch. lets do this by either checking our source
+  // option or just getting all of them
+  var branchesToFetch;
+  if (options.source) {
+    // gah -- first we have to check that we even have a remote branch
+    // for this source (we know its on the remote based on validation)
+    if (!this.refs[ORIGIN_PREFIX + options.source]) {
+      this.makeRemoteBranchForRemote(options.source);
+    }
+    // now just specify branches to fetch based on this source
+    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
+  } else {
+    branchesToFetch = this.branchCollection.filter(function(branch) {
+      return branch.getIsRemote();
+    });
+  }
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
@@ -1013,6 +1089,7 @@ GitEngine.prototype.fetch = function(options) {
       )
     ));
   }, this);
+
   if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
@@ -1525,7 +1602,9 @@ GitEngine.prototype.pruneTree = function() {
     // the switch sync
     return;
   }
-  this.command.addWarning(intl.str('hg-prune-tree'));
+  if (this.command) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
 
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
@@ -2204,6 +2283,11 @@ GitEngine.prototype.deleteBranch = function(branch) {
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
   delete this.refs[branch.get('id')];
+  // also in some cases external engines call our delete, so
+  // verify integrity of HEAD here
+  if (this.HEAD.get('target') === branch) {
+    this.HEAD.set('target', this.refs['master']);
+  }
 
   if (branch.get('visBranch')) {
     branch.get('visBranch').remove();
@@ -2512,6 +2596,9 @@ var Branch = Ref.extend({
   },
 
   getIsRemote: function() {
+    if (typeof this.get('id') !== 'string') {
+      debugger;
+    }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
 });

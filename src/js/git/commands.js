@@ -15,6 +15,14 @@ function isColonRefspec(str) {
   return str.indexOf(':') !== -1 && str.split(':').length === 2;
 }
 
+var assertIsRef = function(engine, ref) {
+  engine.resolveID(ref); // will throw giterror if cant resolve
+};
+
+var validateBranchName = function(engine, name) {
+  return engine.validateBranchName(name);
+};
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -42,7 +50,9 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   var tracking = branch.getRemoteTrackingBranchID();
   if (!tracking) {
     throw new GitError({
-      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+      msg: intl.todo(
+        branchName + ' is not a remote tracking branch! I dont know where to push'
+      )
     });
   }
   return tracking;
@@ -157,7 +167,6 @@ var commandConfig = {
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
       //     and merges those in.
-
       // so lets switch on A/B here
 
       var commandOptions = command.getOptionsMap();
@@ -244,24 +253,39 @@ var commandConfig = {
   fetch: {
     regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
-      var options = {};
-
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
 
+      var source;
+      var destination;
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      if (generalArgs[1]) {
-        var tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
-        options.branches = [engine.refs[tracking]];
+      var firstArg = generalArgs[1];
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
+      } else if (firstArg) {
+        // here is the deal -- its JUST like git push. the first arg
+        // is used as both the destination and the source, so we need
+        // to make sure it exists as the source on REMOTE and then
+        // the destination will be created locally
+        source = firstArg;
+        destination = firstArg;
+      }
+      if (source) { // empty string fails this check
+        assertIsRef(engine.origin, source);
       }
 
-      engine.fetch(options);
+      engine.fetch({
+        source: source,
+        destination: destination
+      });
     }
   },
 
@@ -553,31 +577,54 @@ var commandConfig = {
       }
 
       var options = {};
+      var destination;
+      var source;
+      var sourceObj;
+
       // git push is pretty complex in terms of
-      // the arguments it wants as well -- see
-      // git pull for a more detailed description.
+      // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      var tracking;
-      var source;
       var firstArg = generalArgs[1];
-      if (firstArg) {
-        if (isColonRefspec(firstArg)) {
-          var refspecParts = firstArg.split(':');
-          source = refspecParts[0];
-          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
-        } else {
-          tracking = assertBranchIsRemoteTracking(engine, firstArg);
-        }
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
       } else {
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        if (firstArg) {
+          // we are using this arg as destination AND source. the dest branch
+          // can be created on demand but we at least need this to be a source
+          // locally otherwise we will fail
+          assertIsRef(engine, firstArg);
+          sourceObj = engine.refs[firstArg];
+        } else {
+          // since they have not specified a source or destination, then
+          // we source from the branch we are on (or HEAD)
+          sourceObj = engine.getOneBeforeCommit('HEAD');
+        }
+        source = sourceObj.get('id');
+
+        // HOWEVER we push to either the remote tracking branch we have
+        // OR a new named branch if we aren't tracking anything
+        if (sourceObj.getRemoteTrackingBranchID &&
+            sourceObj.getRemoteTrackingBranchID()) {
+          assertBranchIsRemoteTracking(engine, source);
+          var remoteBranch = sourceObj.getRemoteTrackingBranchID();
+          destination = engine.refs[remoteBranch].getBaseID();
+        } else {
+          destination = validateBranchName(engine, source);
+        }
+      }
+      if (source) {
+        assertIsRef(engine, source);
       }
 
       engine.push({
-        destination: tracking,
+        // NOTE -- very important! destination and source here
+        // are always, always strings. very important :D
+        destination: destination,
         source: source
       });
     }

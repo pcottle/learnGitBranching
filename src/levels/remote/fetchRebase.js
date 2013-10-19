@@ -143,7 +143,7 @@ exports.level = {
               "",
               "In order to solve this level, take the following steps:",
               "",
-              "* Clone your repro",
+              "* Clone your repo",
               "* Fake some teamwork (1 commit)",
               "* Commit some work yourself (1 commit)",
               "* Publish your work via *rebasing*"
