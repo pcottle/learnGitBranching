@@ -19,6 +19,8 @@ Argument things:
 
 aka fetch + merge, just like expected. ill probably still update o/master just for sanity. master is the source on the remote and HEAD is the source on local (place to merge). o/master gets updated regardless
 
+just pass options into fetch, then merge the source (or all). BOOM
+
 Cases to handle / things to edit
 =======================
 
