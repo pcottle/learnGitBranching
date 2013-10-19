@@ -37,7 +37,6 @@ exports.levelSequences = {
     require('./remote/fetchRebase').level
   ],
   remoteAdvanced: [
-    require('./remote/specify').level,
     require('./remote/pushManyFeatures').level,
     require('./remote/mergeManyFeatures').level
   ]
