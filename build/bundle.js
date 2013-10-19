@@ -7583,22 +7583,56 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       return;
     }
 
-    var originTarget = branchJSON.target;
-    // now this is tricky -- our remote could have commits that we do
-    // not have. so lets go upwards until we find one that we have
-    while (!this.refs[originTarget]) {
-      var parents = originTree.commits[originTarget].parents;
-      originTarget = parents[0];
-    }
+    var originTarget = this.findCommonAncestorWithRemote(
+      branchJSON.target
+    );
 
     // now we have something in common, lets make the tracking branch
-    var originBranch = this.makeBranch(
+    var remoteBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
 
-    this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
+    this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
+  var target = this.origin.refs[branchName].get('target');
+  var originTarget = this.findCommonAncestorWithRemote(
+    target.get('id')
+  );
+  return this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(originTarget)
+  );
+};
+
+GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
+  // now this is tricky -- our remote could have commits that we do
+  // not have. so lets go upwards until we find one that we have
+  while (!this.refs[originTarget]) {
+    var parents = this.origin.refs[originTarget].get('parents');
+    originTarget = parents[0].get('id');
+  }
+  return originTarget;
+};
+
+GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
+  var remoteBranch = this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(target)
+  );
+
+  if (this.refs[branchName]) { // not all remote branches have tracking ones
+    this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
+  }
+
+  var originTarget = this.origin.refs['master'].get('target');
+  this.origin.makeBranch(
+    branchName,
+    originTarget
+  );
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
@@ -8085,14 +8119,26 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var remoteBranch = this.refs[options.destination];
-  var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
+  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
-    this.pushDeleteRemoteBranch(remoteBranch, branchOnRemote);
+    this.pushDeleteRemoteBranch(
+      this.refs[ORIGIN_PREFIX + options.destination],
+      this.origin.refs[options.destination]
+    );
     return;
   }
+
+  var sourceBranch = this.refs[options.source];
+  if (!this.origin.refs[options.destination]) {
+    didMakeBranch = true;
+    this.makeBranchOnOriginAndTrack(
+      options.destination,
+      'HEAD'
+    );
+  }
+  var branchOnRemote = this.origin.refs[options.destination];
   var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
@@ -8140,6 +8186,14 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
+  if (didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      // play something for both
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
+
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
@@ -8168,7 +8222,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(sourceLocation);
-    this.setTargetLocation(remoteBranch, localCommit);
+    this.setTargetLocation(this.refs[ORIGIN_PREFIX + options.destination], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
@@ -8200,17 +8254,39 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
   }, this);
 
   // animation needs to be triggered on origin directly
+  this.origin.pruneTree();
   this.origin.externalRefresh();
 };
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // get all remotes
-  var allRemotes = this.branchCollection.filter(function(branch) {
-    return branch.getIsRemote();
-  });
-  var branchesToFetch = options.branches || allRemotes;
+  // ok this is just like git push -- if the destination does not exist,
+  // we need to make it
+  if (options.destination && !this.refs[options.destination]) {
+    // its just like creating a branch, we will merge (if pulling) later
+    this.validateAndMakeBranch(
+      options.destination,
+      this.getCommitFromRef('HEAD')
+    );
+  }
+
+  // now we need to know which remotes to fetch. lets do this by either checking our source
+  // option or just getting all of them
+  var branchesToFetch;
+  if (options.source) {
+    // gah -- first we have to check that we even have a remote branch
+    // for this source (we know its on the remote based on validation)
+    if (!this.refs[ORIGIN_PREFIX + options.source]) {
+      this.makeRemoteBranchForRemote(options.source);
+    }
+    // now just specify branches to fetch based on this source
+    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
+  } else {
+    branchesToFetch = this.branchCollection.filter(function(branch) {
+      return branch.getIsRemote();
+    });
+  }
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
@@ -8239,6 +8315,7 @@ GitEngine.prototype.fetch = function(options) {
       )
     ));
   }, this);
+
   if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
@@ -8675,6 +8752,10 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
       return;
     }
     var originBranch = this.origin.refs[branch.getBaseID()];
+    if (!originBranch.get('visBranch')) {
+      // testing mode doesnt get this
+      return;
+    }
     var originFill = originBranch.get('visBranch').get('fill');
     branch.get('visBranch').set('fill', originFill);
   }, this);
@@ -8747,7 +8828,9 @@ GitEngine.prototype.pruneTree = function() {
     // the switch sync
     return;
   }
-  this.command.addWarning(intl.str('hg-prune-tree'));
+  if (this.command) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
 
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
@@ -9426,6 +9509,11 @@ GitEngine.prototype.deleteBranch = function(branch) {
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
   delete this.refs[branch.get('id')];
+  // also in some cases external engines call our delete, so
+  // verify integrity of HEAD here
+  if (this.HEAD.get('target') === branch) {
+    this.HEAD.set('target', this.refs['master']);
+  }
 
   if (branch.get('visBranch')) {
     branch.get('visBranch').remove();
@@ -9734,6 +9822,9 @@ var Branch = Ref.extend({
   },
 
   getIsRemote: function() {
+    if (typeof this.get('id') !== 'string') {
+      debugger;
+    }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
 });
@@ -10838,6 +10929,14 @@ function isColonRefspec(str) {
   return str.indexOf(':') !== -1 && str.split(':').length === 2;
 }
 
+var assertIsRef = function(engine, ref) {
+  engine.resolveID(ref); // will throw giterror if cant resolve
+};
+
+var validateBranchName = function(engine, name) {
+  return engine.validateBranchName(name);
+};
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -10865,7 +10964,9 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   var tracking = branch.getRemoteTrackingBranchID();
   if (!tracking) {
     throw new GitError({
-      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+      msg: intl.todo(
+        branchName + ' is not a remote tracking branch! I dont know where to push'
+      )
     });
   }
   return tracking;
@@ -10980,7 +11081,6 @@ var commandConfig = {
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
       //     and merges those in.
-
       // so lets switch on A/B here
 
       var commandOptions = command.getOptionsMap();
@@ -11067,24 +11167,39 @@ var commandConfig = {
   fetch: {
     regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
-      var options = {};
-
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
 
+      var source;
+      var destination;
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      if (generalArgs[1]) {
-        var tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
-        options.branches = [engine.refs[tracking]];
+      var firstArg = generalArgs[1];
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
+      } else if (firstArg) {
+        // here is the deal -- its JUST like git push. the first arg
+        // is used as both the destination and the source, so we need
+        // to make sure it exists as the source on REMOTE and then
+        // the destination will be created locally
+        source = firstArg;
+        destination = firstArg;
+      }
+      if (source) { // empty string fails this check
+        assertIsRef(engine.origin, source);
       }
 
-      engine.fetch(options);
+      engine.fetch({
+        source: source,
+        destination: destination
+      });
     }
   },
 
@@ -11376,31 +11491,54 @@ var commandConfig = {
       }
 
       var options = {};
+      var destination;
+      var source;
+      var sourceObj;
+
       // git push is pretty complex in terms of
-      // the arguments it wants as well -- see
-      // git pull for a more detailed description.
+      // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      var tracking;
-      var source;
       var firstArg = generalArgs[1];
-      if (firstArg) {
-        if (isColonRefspec(firstArg)) {
-          var refspecParts = firstArg.split(':');
-          source = refspecParts[0];
-          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
-        } else {
-          tracking = assertBranchIsRemoteTracking(engine, firstArg);
-        }
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
       } else {
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        if (firstArg) {
+          // we are using this arg as destination AND source. the dest branch
+          // can be created on demand but we at least need this to be a source
+          // locally otherwise we will fail
+          assertIsRef(engine, firstArg);
+          sourceObj = engine.refs[firstArg];
+        } else {
+          // since they have not specified a source or destination, then
+          // we source from the branch we are on (or HEAD)
+          sourceObj = engine.getOneBeforeCommit('HEAD');
+        }
+        source = sourceObj.get('id');
+
+        // HOWEVER we push to either the remote tracking branch we have
+        // OR a new named branch if we aren't tracking anything
+        if (sourceObj.getRemoteTrackingBranchID &&
+            sourceObj.getRemoteTrackingBranchID()) {
+          assertBranchIsRemoteTracking(engine, source);
+          var remoteBranch = sourceObj.getRemoteTrackingBranchID();
+          destination = engine.refs[remoteBranch].getBaseID();
+        } else {
+          destination = validateBranchName(engine, source);
+        }
+      }
+      if (source) {
+        assertIsRef(engine, source);
       }
 
       engine.push({
-        destination: tracking,
+        // NOTE -- very important! destination and source here
+        // are always, always strings. very important :D
+        destination: destination,
         source: source
       });
     }
@@ -19778,7 +19916,6 @@ exports.levelSequences = {
     require('./remote/fetchRebase').level
   ],
   remoteAdvanced: [
-    require('./remote/specify').level,
     require('./remote/pushManyFeatures').level,
     require('./remote/mergeManyFeatures').level
   ]
@@ -23280,7 +23417,7 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
             "markdowns": [
               "## Git Remotes",
               "",
-              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repositoy on another computer. You can typically talk to this other computer through the internet, which allows you to transfer commits back and forth.",
+              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repository on another computer. You can typically talk to this other computer through the Internet, which allows you to transfer commits back and forth.",
               "",
               "That being said, remote repositories have a bunch of great properties:",
               "",
@@ -23436,7 +23573,7 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
               "",
               "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`.",
               "",
-              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new repsentation. This ties into the previous lesson on remote branches"
+              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new representation. This ties into the previous lesson on remote branches"
             ]
           }
         },
@@ -23468,7 +23605,7 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
               "",
               "If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories _since_ you last talked to those remotes. `git fetch` is the way you talk to these remotes! Hopefully the connection between remote branches and `git fetch` is apparent now",
               "",
-              "`git fetch` usually talks to the remote repository through the internet (via a protocol like `http://` or `git://`).",
+              "`git fetch` usually talks to the remote repository through the Internet (via a protocol like `http://` or `git://`).",
               ""
             ]
           }
@@ -23849,95 +23986,10 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
               "",
               "In order to solve this level, take the following steps:",
               "",
-              "* Clone your repro",
+              "* Clone your repo",
               "* Fake some teamwork (1 commit)",
               "* Commit some work yourself (1 commit)",
               "* Publish your work via *rebasing*"
-            ]
-          }
-        }
-      ]
-    }
-  }
-};
-
-});
-
-require.define("/src/levels/remote/specify.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22foo%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22foo%22%2C%22remoteTrackingBranchID%22%3A%22o/foo%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22o/foo%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/foo%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22foo%22%5D%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22foo%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22foo%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22foo%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
-  "solutionCommand": "git pull origin foo --rebase;git push origin foo",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"foo\"]},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"side\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"foo\":{\"target\":\"C2\",\"id\":\"foo\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
-  "name": {
-    "en_US": "Specifying Remote/Branch"
-  },
-  "hint": {
-    "en_US": "Review the intro dialogs if you get stuck!"
-  },
-  "startDialog": {
-    "en_US": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "### Specifying `<remote>/<branch>`",
-              "",
-              "One thing that might have seemed \"magical\" is that git knew to rebase our `master` branch onto `o/master`. How did it what branch we wanted? What if we wanted to rebase onto another branch or upload our work to a different branch name?",
-              "",
-              "Git knows to rebase onto `o/master` because the `master` branch is set up to *track* `o/master`. So yes, this is another branch property you have to understand -- when you clone a repository, git sets up a the remote branches (like `o/master`) and branches that *track* those remote branches (for instance, `master`).",
-              "",
-              "This way when you push and pull, you can simply leave off any arguments and git knows where to put your work."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "However, you can actually specify the remote and the branch name on the remote if you wish to. The command takes the format:",
-              "",
-              "* `git push <remote> <branch>`",
-              "* `git pull <remote> <branch>`",
-              "",
-              "Let's see a demonstration"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "I can `pull` down changes onto a totally separate branch..."
-            ],
-            "afterMarkdowns": [
-              "See! The `side` branch was updated with work from `o/master` while the `master` branch was not updated at all."
-            ],
-            "command": "git checkout side; git pull origin master",
-            "beforeCommand": "git clone; git fakeTeamwork; git branch side"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "I can also push to a different branch as well..."
-            ],
-            "afterMarkdowns": [
-              "Here we pushed commits *from* the `side` branch onto the `master` branch on the remote. We did this by specifying the destination of our push.",
-              "",
-              "Notice how `o/master` is updated but *not* the `master` branch!"
-            ],
-            "command": "git push origin master",
-            "beforeCommand": "git clone; git checkout -b side; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Ok, this level is a bit tricky. Let's pull down work from the `foo` branch on remote, rebase our work on top of that, and publish that work back.",
-              "",
-              "Let's do all of this while *not* on the `foo` branch though, just because we can!"
             ]
           }
         }
@@ -26195,6 +26247,14 @@ function isColonRefspec(str) {
   return str.indexOf(':') !== -1 && str.split(':').length === 2;
 }
 
+var assertIsRef = function(engine, ref) {
+  engine.resolveID(ref); // will throw giterror if cant resolve
+};
+
+var validateBranchName = function(engine, name) {
+  return engine.validateBranchName(name);
+};
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -26222,7 +26282,9 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   var tracking = branch.getRemoteTrackingBranchID();
   if (!tracking) {
     throw new GitError({
-      msg: intl.todo(branchName + ' is not a remote tracking branch!')
+      msg: intl.todo(
+        branchName + ' is not a remote tracking branch! I dont know where to push'
+      )
     });
   }
   return tracking;
@@ -26337,7 +26399,6 @@ var commandConfig = {
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
       //     and merges those in.
-
       // so lets switch on A/B here
 
       var commandOptions = command.getOptionsMap();
@@ -26424,24 +26485,39 @@ var commandConfig = {
   fetch: {
     regex: /^git +fetch($|\s)/,
     execute: function(engine, command) {
-      var options = {};
-
       if (!engine.hasOrigin()) {
         throw new GitError({
           msg: intl.str('git-error-origin-required')
         });
       }
 
+      var source;
+      var destination;
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      if (generalArgs[1]) {
-        var tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
-        options.branches = [engine.refs[tracking]];
+      var firstArg = generalArgs[1];
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
+      } else if (firstArg) {
+        // here is the deal -- its JUST like git push. the first arg
+        // is used as both the destination and the source, so we need
+        // to make sure it exists as the source on REMOTE and then
+        // the destination will be created locally
+        source = firstArg;
+        destination = firstArg;
+      }
+      if (source) { // empty string fails this check
+        assertIsRef(engine.origin, source);
       }
 
-      engine.fetch(options);
+      engine.fetch({
+        source: source,
+        destination: destination
+      });
     }
   },
 
@@ -26733,31 +26809,54 @@ var commandConfig = {
       }
 
       var options = {};
+      var destination;
+      var source;
+      var sourceObj;
+
       // git push is pretty complex in terms of
-      // the arguments it wants as well -- see
-      // git pull for a more detailed description.
+      // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
       command.twoArgsImpliedOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
-      var tracking;
-      var source;
       var firstArg = generalArgs[1];
-      if (firstArg) {
-        if (isColonRefspec(firstArg)) {
-          var refspecParts = firstArg.split(':');
-          source = refspecParts[0];
-          tracking = assertBranchIsRemoteTracking(engine, refspecParts[1]);
-        } else {
-          tracking = assertBranchIsRemoteTracking(engine, firstArg);
-        }
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchName(engine, refspecParts[1]);
       } else {
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        if (firstArg) {
+          // we are using this arg as destination AND source. the dest branch
+          // can be created on demand but we at least need this to be a source
+          // locally otherwise we will fail
+          assertIsRef(engine, firstArg);
+          sourceObj = engine.refs[firstArg];
+        } else {
+          // since they have not specified a source or destination, then
+          // we source from the branch we are on (or HEAD)
+          sourceObj = engine.getOneBeforeCommit('HEAD');
+        }
+        source = sourceObj.get('id');
+
+        // HOWEVER we push to either the remote tracking branch we have
+        // OR a new named branch if we aren't tracking anything
+        if (sourceObj.getRemoteTrackingBranchID &&
+            sourceObj.getRemoteTrackingBranchID()) {
+          assertBranchIsRemoteTracking(engine, source);
+          var remoteBranch = sourceObj.getRemoteTrackingBranchID();
+          destination = engine.refs[remoteBranch].getBaseID();
+        } else {
+          destination = validateBranchName(engine, source);
+        }
+      }
+      if (source) {
+        assertIsRef(engine, source);
       }
 
       engine.push({
-        destination: tracking,
+        // NOTE -- very important! destination and source here
+        // are always, always strings. very important :D
+        destination: destination,
         source: source
       });
     }
@@ -27386,22 +27485,56 @@ GitEngine.prototype.makeOrigin = function(treeString) {
       return;
     }
 
-    var originTarget = branchJSON.target;
-    // now this is tricky -- our remote could have commits that we do
-    // not have. so lets go upwards until we find one that we have
-    while (!this.refs[originTarget]) {
-      var parents = originTree.commits[originTarget].parents;
-      originTarget = parents[0];
-    }
+    var originTarget = this.findCommonAncestorWithRemote(
+      branchJSON.target
+    );
 
     // now we have something in common, lets make the tracking branch
-    var originBranch = this.makeBranch(
+    var remoteBranch = this.makeBranch(
       ORIGIN_PREFIX + branchName,
       this.getCommitFromRef(originTarget)
     );
 
-    this.setLocalToTrackRemote(this.refs[branchJSON.id], originBranch);
+    this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
+  var target = this.origin.refs[branchName].get('target');
+  var originTarget = this.findCommonAncestorWithRemote(
+    target.get('id')
+  );
+  return this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(originTarget)
+  );
+};
+
+GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
+  // now this is tricky -- our remote could have commits that we do
+  // not have. so lets go upwards until we find one that we have
+  while (!this.refs[originTarget]) {
+    var parents = this.origin.refs[originTarget].get('parents');
+    originTarget = parents[0].get('id');
+  }
+  return originTarget;
+};
+
+GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
+  var remoteBranch = this.makeBranch(
+    ORIGIN_PREFIX + branchName,
+    this.getCommitFromRef(target)
+  );
+
+  if (this.refs[branchName]) { // not all remote branches have tracking ones
+    this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
+  }
+
+  var originTarget = this.origin.refs['master'].get('target');
+  this.origin.makeBranch(
+    branchName,
+    originTarget
+  );
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
@@ -27888,14 +28021,26 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var remoteBranch = this.refs[options.destination];
-  var branchOnRemote = this.origin.refs[remoteBranch.getBaseID()];
+  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
-    this.pushDeleteRemoteBranch(remoteBranch, branchOnRemote);
+    this.pushDeleteRemoteBranch(
+      this.refs[ORIGIN_PREFIX + options.destination],
+      this.origin.refs[options.destination]
+    );
     return;
   }
+
+  var sourceBranch = this.refs[options.source];
+  if (!this.origin.refs[options.destination]) {
+    didMakeBranch = true;
+    this.makeBranchOnOriginAndTrack(
+      options.destination,
+      'HEAD'
+    );
+  }
+  var branchOnRemote = this.origin.refs[options.destination];
   var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
@@ -27943,6 +28088,14 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
+  if (didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      // play something for both
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
+
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
@@ -27971,7 +28124,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(_.bind(function() {
     var localCommit = this.getCommitFromRef(sourceLocation);
-    this.setTargetLocation(remoteBranch, localCommit);
+    this.setTargetLocation(this.refs[ORIGIN_PREFIX + options.destination], localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }, this));
 
@@ -28003,17 +28156,39 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
   }, this);
 
   // animation needs to be triggered on origin directly
+  this.origin.pruneTree();
   this.origin.externalRefresh();
 };
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // get all remotes
-  var allRemotes = this.branchCollection.filter(function(branch) {
-    return branch.getIsRemote();
-  });
-  var branchesToFetch = options.branches || allRemotes;
+  // ok this is just like git push -- if the destination does not exist,
+  // we need to make it
+  if (options.destination && !this.refs[options.destination]) {
+    // its just like creating a branch, we will merge (if pulling) later
+    this.validateAndMakeBranch(
+      options.destination,
+      this.getCommitFromRef('HEAD')
+    );
+  }
+
+  // now we need to know which remotes to fetch. lets do this by either checking our source
+  // option or just getting all of them
+  var branchesToFetch;
+  if (options.source) {
+    // gah -- first we have to check that we even have a remote branch
+    // for this source (we know its on the remote based on validation)
+    if (!this.refs[ORIGIN_PREFIX + options.source]) {
+      this.makeRemoteBranchForRemote(options.source);
+    }
+    // now just specify branches to fetch based on this source
+    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
+  } else {
+    branchesToFetch = this.branchCollection.filter(function(branch) {
+      return branch.getIsRemote();
+    });
+  }
 
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
@@ -28042,6 +28217,7 @@ GitEngine.prototype.fetch = function(options) {
       )
     ));
   }, this);
+
   if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
     throw new GitError({
       msg: intl.str('git-error-origin-fetch-uptodate')
@@ -28478,6 +28654,10 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
       return;
     }
     var originBranch = this.origin.refs[branch.getBaseID()];
+    if (!originBranch.get('visBranch')) {
+      // testing mode doesnt get this
+      return;
+    }
     var originFill = originBranch.get('visBranch').get('fill');
     branch.get('visBranch').set('fill', originFill);
   }, this);
@@ -28550,7 +28730,9 @@ GitEngine.prototype.pruneTree = function() {
     // the switch sync
     return;
   }
-  this.command.addWarning(intl.str('hg-prune-tree'));
+  if (this.command) {
+    this.command.addWarning(intl.str('hg-prune-tree'));
+  }
 
   _.each(toDelete, function(commit) {
     commit.removeFromParents();
@@ -29229,6 +29411,11 @@ GitEngine.prototype.deleteBranch = function(branch) {
   this.branchCollection.remove(branch);
   this.refs[branch.get('id')] = undefined;
   delete this.refs[branch.get('id')];
+  // also in some cases external engines call our delete, so
+  // verify integrity of HEAD here
+  if (this.HEAD.get('target') === branch) {
+    this.HEAD.set('target', this.refs['master']);
+  }
 
   if (branch.get('visBranch')) {
     branch.get('visBranch').remove();
@@ -29537,6 +29724,9 @@ var Branch = Ref.extend({
   },
 
   getIsRemote: function() {
+    if (typeof this.get('id') !== 'string') {
+      debugger;
+    }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
 });
@@ -39685,7 +39875,6 @@ exports.levelSequences = {
     require('./remote/fetchRebase').level
   ],
   remoteAdvanced: [
-    require('./remote/specify').level,
     require('./remote/pushManyFeatures').level,
     require('./remote/mergeManyFeatures').level
   ]
@@ -43011,7 +43200,7 @@ require.define("/src/levels/remote/clone.js",function(require,module,exports,__d
             "markdowns": [
               "## Git Remotes",
               "",
-              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repositoy on another computer. You can typically talk to this other computer through the internet, which allows you to transfer commits back and forth.",
+              "Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repository on another computer. You can typically talk to this other computer through the Internet, which allows you to transfer commits back and forth.",
               "",
               "That being said, remote repositories have a bunch of great properties:",
               "",
@@ -43161,7 +43350,7 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
               "",
               "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`.",
               "",
-              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new repsentation. This ties into the previous lesson on remote branches"
+              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new representation. This ties into the previous lesson on remote branches"
             ]
           }
         },
@@ -43193,7 +43382,7 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
               "",
               "If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories _since_ you last talked to those remotes. `git fetch` is the way you talk to these remotes! Hopefully the connection between remote branches and `git fetch` is apparent now",
               "",
-              "`git fetch` usually talks to the remote repository through the internet (via a protocol like `http://` or `git://`).",
+              "`git fetch` usually talks to the remote repository through the Internet (via a protocol like `http://` or `git://`).",
               ""
             ]
           }
@@ -43373,7 +43562,7 @@ require.define("/src/levels/remote/fetchRebase.js",function(require,module,expor
               "",
               "In order to solve this level, take the following steps:",
               "",
-              "* Clone your repro",
+              "* Clone your repo",
               "* Fake some teamwork (1 commit)",
               "* Commit some work yourself (1 commit)",
               "* Publish your work via *rebasing*"
