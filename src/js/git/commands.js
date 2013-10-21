@@ -23,6 +23,32 @@ var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
 
+var assertIsBranch = function(engine, ref) {
+  assertIsRef(engine, ref);
+  var obj = engine.refs[ref];
+  if (obj.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo(
+        ref + ' is not a branch'
+      )
+    });
+  }
+};
+
+var assertIsRemoteBranch = function(engine, ref) {
+  assertIsRef(engine, ref);
+  var obj = engine.refs[ref];
+
+  if (obj.get('type') !== 'branch' ||
+      !obj.getIsRemote()) {
+    throw new GitError({
+      msg: intl.todo(
+        ref + ' is not a remote branch'
+      )
+    });
+  }
+};
+
 var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
@@ -298,6 +324,7 @@ var commandConfig = {
       '-f',
       '-a',
       '-r',
+      '-u',
       '--contains'
     ],
     execute: function(engine, command) {
@@ -313,6 +340,23 @@ var commandConfig = {
         _.each(names, function(name) {
           engine.validateAndDeleteBranch(name);
         });
+        return;
+      }
+
+      if (commandOptions['-u']) {
+        command.acceptNoGeneralArgs();
+        args = commandOptions['-u'];
+        command.validateArgBounds(args, 1, 2, '-u');
+        var remoteBranch = crappyUnescape(args[0]);
+        var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
+
+        // some assertions, both of these have to exist first
+        assertIsRemoteBranch(engine, remoteBranch);
+        assertIsBranch(engine, branch);
+        engine.setLocalToTrackRemote(
+          engine.refs[branch],
+          engine.refs[remoteBranch]
+        );
         return;
       }
 

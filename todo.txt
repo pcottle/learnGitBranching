@@ -5,12 +5,13 @@ Big Things
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] polish visual layout?? needed?
-[ ] work on TABBED levels layout
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] figure out what to do with instant commands (and parse waterfall and the like)
 [ ] disable git commands on hg levels (and vice versa)
+[ ] make helper bar clickable with goal vis floating
+[ ] make show solution easier
 
 
 Argument things:
@@ -39,6 +40,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] work on TABBED levels layout
 [x] EASY -- make colors the same between remote branches and their remote counterparts
 [x] fix undo not syncing the remote tracking
 [x] get clone as a before command working in demonstration views (related to test infra as well)

@@ -240,5 +240,19 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('sets remote tracking', function() {
+    expectTreeAsync(
+      'git clone; git branch foo; git branch -u o/master foo',
+      '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
+  it('sets remote tracking on current branch if not specified', function() {
+    expectTreeAsync(
+      'git clone; git checkout -b foo; git branch -u o/master',
+      '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"foo","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
 });
 
