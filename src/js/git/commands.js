@@ -7,6 +7,8 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
+var ORIGIN_PREFIX = 'o/';
+
 var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
@@ -28,6 +30,19 @@ var validateBranchNameIfNeeded = function(engine, name) {
     return name;
   }
   return validateBranchName(engine, name);
+};
+
+var assertNotCheckedOut = function(engine, ref) {
+  if (!engine.refs[ref]) {
+    return;
+  }
+  if (engine.HEAD.get('target') === engine.refs[ref]) {
+    throw new GitError({
+      msg: intl.todo(
+        'cannot fetch to ' + ref + ' when checked out on ' + ref
+      )
+    });
+  }
 };
 
 var assertIsBranch = function(engine, ref) {
@@ -191,6 +206,10 @@ var commandConfig = {
         });
       }
 
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsImpliedOrigin(generalArgs);
+      assertOriginSpecified(generalArgs);
       // here is the deal -- git pull is pretty complex with
       // the arguments it wants. You can
       //   A) specify the remote branch you want to
@@ -201,17 +220,27 @@ var commandConfig = {
       //     the branch to fetch from the remote tracking
       //     and merges those in, or
       //
-      //  C) specify the colon refspec like fetch (where it 
-      // so lets switch on A/B here
+      //  C) specify the colon refspec like fetch, where it does
+      //     the fetch and then just merges the dest
 
-      var commandOptions = command.getOptionsMap();
-      var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
-      assertOriginSpecified(generalArgs);
-
-      var tracking;
-      if (generalArgs[1]) {
+      var source;
+      var destination;
+      var firstArg = generalArgs[1];
+      // COPY PASTA validation code from fetch. maybe fix this?
+      if (firstArg && isColonRefspec(firstArg)) {
         tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchNameIfNeeded(
+          engine,
+          crappyUnescape(refspecParts[1])
+        );
+        assertNotCheckedOut(engine, destination);
+      } else if (firstArg) {
+        source = firstArg;
+        assertIsBranch(engine.origin, source);
+        // get o/master locally if master is specified
+        destination = engine.origin.refs[source].getPrefixedID();
       } else {
         // cant be detached
         if (engine.getDetachedHead()) {
@@ -219,12 +248,18 @@ var commandConfig = {
             msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
           });
         }
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        // ok we need to get our currently checked out branch
+        // and then specify source and dest
+        var branch = engine.getOneBeforeCommit('HEAD');
+        var branchName = branch.get('id');
+        assertBranchIsRemoteTracking(engine, branchName);
+        destination = branch.getRemoteTrackingBranchID();
+        source = destination.replace(ORIGIN_PREFIX, '');
       }
 
       engine.pull({
-        source: tracking,
+        source: source,
+        destination: destination,
         isRebase: commandOptions['--rebase']
       });
     }
@@ -308,6 +343,7 @@ var commandConfig = {
           engine,
           crappyUnescape(refspecParts[1])
         );
+        assertNotCheckedOut(engine, destination);
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need

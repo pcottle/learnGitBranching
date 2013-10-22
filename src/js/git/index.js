@@ -1214,18 +1214,21 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 GitEngine.prototype.pull = function(options) {
   options = options || {};
   var localBranch = this.getOneBeforeCommit('HEAD');
-  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
     dontResolvePromise: true,
-    dontThrowOnNoFetch: true
+    dontThrowOnNoFetch: true,
+    source: options.source,
+    destination: options.destination
   });
+
+  var destBranch = this.refs[options.destination];
   // then either rebase or merge
   if (options.isRebase) {
-    this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
   } else {
-    this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithMerge(pendingFetch, localBranch, destBranch);
   }
 };
 
