@@ -228,7 +228,6 @@ var commandConfig = {
       var firstArg = generalArgs[1];
       // COPY PASTA validation code from fetch. maybe fix this?
       if (firstArg && isColonRefspec(firstArg)) {
-        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchNameIfNeeded(
