@@ -50,6 +50,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] test is failing because we create banana when we should only really be creating o/banana
 [x] work on TABBED levels layout
 [x] EASY -- make colors the same between remote branches and their remote counterparts
 [x] fix undo not syncing the remote tracking

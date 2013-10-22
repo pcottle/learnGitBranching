@@ -185,14 +185,16 @@ var commandConfig = {
       }
 
       // here is the deal -- git pull is pretty complex with
-      // the arguments it wants. Either you can:
+      // the arguments it wants. You can
       //   A) specify the remote branch you want to
       //      merge & fetch, in which case it completely
       //      ignores the properties of branch you are on, or
       //
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
-      //     and merges those in.
+      //     and merges those in, or
+      //
+      //  C) specify the colon refspec like fetch (where it 
       // so lets switch on A/B here
 
       var commandOptions = command.getOptionsMap();
@@ -299,10 +301,12 @@ var commandConfig = {
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need
-        // to make sure it exists as the source on REMOTE and then
-        // the destination will be created locally
+        // to make sure it exists as the source on REMOTE. however
+        // technically we have a destination here as the remote branch
         source = firstArg;
-        destination = firstArg;
+        assertIsBranch(engine.origin, source);
+        // get o/master locally if master is specified
+        destination = engine.origin.refs[source].getPrefixedID();
       }
       if (source) { // empty string fails this check
         assertIsRef(engine.origin, source);
