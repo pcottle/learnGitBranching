@@ -23,6 +23,13 @@ var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
 
+var validateBranchNameIfNeeded = function(engine, name) {
+  if (engine.refs[name]) {
+    return name;
+  }
+  return validateBranchName(engine, name);
+};
+
 var assertIsBranch = function(engine, ref) {
   assertIsRef(engine, ref);
   var obj = engine.refs[ref];
@@ -297,7 +304,10 @@ var commandConfig = {
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
-        destination = validateBranchName(engine, refspecParts[1]);
+        destination = validateBranchNameIfNeeded(
+          engine,
+          crappyUnescape(refspecParts[1])
+        );
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need

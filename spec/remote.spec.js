@@ -254,5 +254,19 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('fetches with no args, explicit dest args, and with just one arg', function() {
+    expectTreeAsync(
+      'git clone; git fakeTeamwork; git fetch origin master:o/master;git fakeTeamwork;git fetch;git fakeTeamwork;git fetch origin master',
+      '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C4","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
+  it('doesnt fetch if out of sync, but will update explicit dest if specified', function() {
+    expectTreeAsync(
+      'git clone; git fakeTeamwork; git fetch origin master:master;gc;git fakeTeamwork;git fetch origin master:master',
+      '{"branches":{"master":{"target":"C3","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"}}}'
+    );
+  });
+
 });
 

@@ -26,6 +26,12 @@ function catchShortCircuit(err) {
   }
 }
 
+function invariant(truthy, reason) {
+  if (!truthy) {
+    throw new Error(reason);
+  }
+}
+
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -369,6 +375,20 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
+  if (this.refs[ORIGIN_PREFIX + branchName]) {
+    return;
+  }
+  return this.makeRemoteBranchForRemote(branchName);
+};
+
+GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
+  if (this.refs[branchName]) {
+    return;
+  }
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -1035,53 +1055,60 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
 
-  // ok this is just like git push -- if the destination does not exist,
-  // we need to make it
-  if (options.destination && !this.refs[options.destination]) {
-    // its just like creating a branch, we will merge (if pulling) later
+  // first check for super stupid case where we are just making
+  // a branch with fetch...
+  if (options.destination && options.source === '') {
     this.validateAndMakeBranch(
       options.destination,
       this.getCommitFromRef('HEAD')
     );
-  }
+    return;
+  } else if (options.destination && options.source) {
+    this.makeRemoteBranchIfNeeded(options.source);
+    this.makeBranchIfNeeded(options.destination);
 
-  // now we need to know which remotes to fetch. lets do this by either checking our source
-  // option or just getting all of them
-  var branchesToFetch;
-  if (options.source) {
-    // gah -- first we have to check that we even have a remote branch
-    // for this source (we know its on the remote based on validation)
-    if (!this.refs[ORIGIN_PREFIX + options.source]) {
-      this.makeRemoteBranchForRemote(options.source);
-    }
-    // now just specify branches to fetch based on this source
-    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
-  } else {
-    branchesToFetch = this.branchCollection.filter(function(branch) {
-      return branch.getIsRemote();
-    });
+    return this.fetchCore([{
+        destination: options.destination,
+        source: options.source
+      }],
+      options
+    );
   }
+  // get all remote branches and specify the dest / source pairs
+  var allBranchesOnRemote = this.origin.branchCollection.toArray();
+  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+    var branchName = branch.get('id');
+    this.makeRemoteBranchIfNeeded(branchName);
 
+    return {
+      destination: branch.getPrefixedID(),
+      source: branchName
+    };
+  }, this);
+  return this.fetchCore(sourceDestPairs, options);
+};
+
+GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()]
+      pair.destination,
+      pair.source
     );
   }, this);
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()],
+      pair.destination,
+      pair.source,
       _.extend(
         {},
         options,
@@ -1159,14 +1186,15 @@ GitEngine.prototype.fetch = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    // update all the remote branches
-    _.each(branchesToFetch, function(localRemoteBranch) {
-      var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
-      var remoteLocationID = remoteBranch.get('target').get('id');
+    // update all the destinations
+    _.each(sourceDestPairs, function(pair) {
+      var ours = this.refs[pair.destination];
+      var theirs = this.origin.refs[pair.source];
+      var theirCommitID = theirs.get('target').get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
-      var localCommit = this.refs[remoteLocationID];
-      this.setTargetLocation(localRemoteBranch, localCommit);
+      var localCommit = this.refs[theirCommitID];
+      this.setTargetLocation(ours, localCommit);
     }, this);
 
     // unhighlight origin by refreshing
