@@ -68,7 +68,7 @@ exports.level = {
               "",
               "means fetching the commits from `foo` on the remote and merging them into the local branch `foo`.",
               "",
-              "There's one more level of complexity we will cover (which you might be able to guess from this slide(, but let's first get comfortable with these arguments.",
+              "There's one more level of complexity we will cover (which you might be able to guess from this slide), but let's first get comfortable with these arguments.",
               ""
             ]
           }
