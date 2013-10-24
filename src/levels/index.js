@@ -40,7 +40,7 @@ exports.levelSequences = {
     require('./remote/pushManyFeatures').level,
     require('./remote/mergeManyFeatures').level,
     require('./remote/tracking').level,
-    require('./remote/place').level
+    require('./remote/pushArgs').level
   ]
 };
 
