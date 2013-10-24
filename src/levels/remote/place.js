@@ -1,15 +1,12 @@
 exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git pull origin master --rebase",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C0\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin master;git push origin foo",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "The place argument"
-  },
-  "disableMap": {
-    "git checkout": true
+    "en_US": "Git push arguments"
   },
   "hint": {
-    "en_US": "Look at the goal vis and decide between a rebase pull or a merge pull!"
+    "en_US": "You can always look at the last slide of the dialog with \"objective\""
   },
   "startDialog": {
     "en_US": {
@@ -18,24 +15,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Push & Pull arguments",
+              "## Push arguments",
               "",
-              "So far we haven't shown this but the git fetch, push, and pull commands actually take arguments! We needed to cover a lot of other material before diving into these arguments (since they are somewhat complicated) but hopefully it'll be clear going forwards.",
+              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
               "",
-              "The most common expanded format of these commands is:",
+              "First we'll look at `git push`. You learned in the remote tracking lesson that git figured out the remote *and* the branch to push to by looking at the properties of the currently checked out branch (the remote that it \"tracks\"). This is the behavior with no arguments specified, but git push can optionally take arguments in the form of:",
               "",
               "`git push <remote> <place>`",
               "",
-              "Where `<remote>` is the remote specified (`origin` in our case) and `<place>` is where you want the commits to come from (or where they should go).",
-              "",
-              "For example, the command:",
-              "",
-              "`git push origin master`",
-              "",
-              "really says:",
-              "",
-              "*Go to the branch named \"master\", grab all the commits, and then go put those on the branch named \"master\" on the remote named \"origin\"*",
-              "",
               ""
             ]
           }
@@ -44,32 +31,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "By specifying both `<remote>` and `<place>`, we have actually told git *all* that it needs to know in order to execute the entire command. This means that it completely ignores what branch  you are currently checked out on.",
-              "",
-              "Git also doesn't need any of the implied information through remote-tracking since it knows `<place>` will be where commits come from, where they go, and what gets merged where."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "### Details on <place>",
-              "",
-              "I should clarify what I mean by `<place>` since you won't see that type of terminology in any of the git man-pages (which, by the way, are quite overwhelming). I'm using `<place>` to refer to a location that exists both on the remote *and* in the local repository.",
-              "",
-              "`<place>` is where commits come from and where they go for *either* pushing or pulling. So when you say:",
+              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
               "",
               "`git push origin master`",
               "",
-              "You are really specifying `master` as the source locally and `master` as the destination on the remote for the push. Similarly,",
+              "translates to this in English:",
               "",
-              "`git pull origin foo`",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done*",
               "",
-              "means fetching the commits from `foo` on the remote and merging them into the local branch `foo`.",
+              "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
-              "There's one more level of complexity we will cover (which you might be able to guess from this slide), but let's first get comfortable with these arguments.",
-              ""
+              "Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!"
             ]
           }
         },
@@ -77,22 +49,33 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Just as a quick demo -- checking out a different branch but specifying the full arguments"
+              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example"
             ],
             "afterMarkdowns": [
-              "Notice how `master` got updated and `foo` didn't change at all!"
+              "There we go! `master` got updated on the remote since we specified those arguments"
             ],
-            "command": "git checkout -b foo; git pull origin master",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if we hadn't specified the arguments? What would happen?"
+            ],
+            "afterMarkdowns": [
+              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch"
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To solve this level, pull the new teamwork commits down, rebase on those, and then push!",
-              "",
-              "We've disabled checking out branches for this level so you'll have to fully specify everything :D"
+              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
             ]
           }
         }
