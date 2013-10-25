@@ -933,7 +933,7 @@ GitEngine.prototype.push = function(options) {
     );
   }
   var branchOnRemote = this.origin.refs[options.destination];
-  var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
+  var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
