@@ -92,7 +92,7 @@ exports.strings = {
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force',
+    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force'
   },
   'git-error-origin-push-no-ff': {

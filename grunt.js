@@ -155,6 +155,7 @@ module.exports = function(grunt) {
         waitsFor: true,
         exports: true,
         module: true,
+        prompt: true,
         process: true
       }
     },

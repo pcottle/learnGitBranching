@@ -5,21 +5,26 @@ Big Things
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] polish visual layout?? needed?
-[ ] work on TABBED levels layout
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] figure out what to do with instant commands (and parse waterfall and the like)
 [ ] disable git commands on hg levels (and vice versa)
+[ ] make helper bar clickable with goal vis floating
+[ ] make show solution easier
 
 
 Argument things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1) ok say I have branch banana and its one commit ahead of master. if I git pull origin master while checked out on banana, it fetches those commits (doesnt update origin/master) and then merges them into banana.
+just pass options into fetch, then merge the source.
+[ ] huge update to level you wrote. that you said is true for
+    git fetch and git push (basically) but pull is not the same. basically
+    its going to ignore where you are during the fetch
 
-aka fetch + merge, just like expected. ill probably still update o/master just for sanity. master is the source on the remote and HEAD is the source on local (place to merge). o/master gets updated regardless
+[ ] IDEA!!! just talk about arguments for each command one at a time. build
+    concept of place first and then expand on it!
 
-just pass options into fetch, then merge the source (or all). BOOM
+[ ] FIX the level you came up with
 
 Cases to handle / things to edit
 =======================
@@ -39,6 +44,21 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] aka fetch + merge,
+    just like expected. ill probably still update o/master just for sanity
+    master is the source on the remote and HEAD is the source on local
+    (place to merge). o/master gets updated regardless
+[x] ok say I have branch banana and its one commit ahead of master. if I git
+    pull origin master while checked out on banana, it fetches those commits
+    (doesnt update origin/master) and then merges them into banana.
+[x] and then "git pull origin banana:origin/banana"  works because it goes into
+    the remote branch and then merges the fetch HEAD with current location
+[x] oh boy heres anothere data point. git fetch banana:banana will actually
+    fast-forward banana to what remote has, but not update o/banana. weirdly it
+    doesnt let you do this if you are checked out on banana
+[x] furthermore, if banana has commits and its not a FF, it will reject the command. wth??
+[x] test is failing because we create banana when we should only really be creating o/banana
+[x] work on TABBED levels layout
 [x] EASY -- make colors the same between remote branches and their remote counterparts
 [x] fix undo not syncing the remote tracking
 [x] get clone as a before command working in demonstration views (related to test infra as well)

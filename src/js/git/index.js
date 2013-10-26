@@ -26,6 +26,12 @@ function catchShortCircuit(err) {
   }
 }
 
+function invariant(truthy, reason) {
+  if (!truthy) {
+    throw new Error(reason);
+  }
+}
+
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -369,6 +375,27 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
+  if (this.refs[ORIGIN_PREFIX + branchName]) {
+    return;
+  }
+  // if its not a branch on origin then bounce
+  var source = this.origin.resolveID(branchName);
+  if (source.get('type') !== 'branch') {
+    return;
+  }
+
+  return this.makeRemoteBranchForRemote(branchName);
+};
+
+GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
+  if (this.refs[branchName]) {
+    return;
+  }
+
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -833,7 +860,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
-  if (target.refs[sourceStartCommitJSON.id]) {
+  if (targetSet[sourceStartCommitJSON.id]) {
     // either we throw since theres no work to be done, or we return an empty array
     if (options.dontThrowOnNoFetch) {
       return [];
@@ -893,7 +920,6 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
@@ -906,14 +932,18 @@ GitEngine.prototype.push = function(options) {
 
   var sourceBranch = this.refs[options.source];
   if (!this.origin.refs[options.destination]) {
-    didMakeBranch = true;
     this.makeBranchOnOriginAndTrack(
       options.destination,
       'HEAD'
     );
+    // play an animation now since we might not have to fast forward
+    // anything... this is weird because we are punting an animation
+    // and not resolving the promise but whatever
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }
   var branchOnRemote = this.origin.refs[options.destination];
-  var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
+  var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
@@ -960,14 +990,6 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  if (didMakeBranch) {
-    chain = chain.then(_.bind(function() {
-      // play something for both
-      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
-      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
-    }, this));
-  }
-
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
@@ -985,7 +1007,7 @@ GitEngine.prototype.push = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var localLocationID = sourceLocation.get('target').get('id');
+    var localLocationID = this.getCommitFromRef(sourceLocation).get('id');
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
@@ -1034,54 +1056,64 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
+  var didMakeBranch;
 
-  // ok this is just like git push -- if the destination does not exist,
-  // we need to make it
-  if (options.destination && !this.refs[options.destination]) {
-    // its just like creating a branch, we will merge (if pulling) later
+  // first check for super stupid case where we are just making
+  // a branch with fetch...
+  if (options.destination && options.source === '') {
     this.validateAndMakeBranch(
       options.destination,
       this.getCommitFromRef('HEAD')
     );
-  }
+    return;
+  } else if (options.destination && options.source) {
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(options.source);
+    didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
+    options.didMakeBranch = didMakeBranch;
 
-  // now we need to know which remotes to fetch. lets do this by either checking our source
-  // option or just getting all of them
-  var branchesToFetch;
-  if (options.source) {
-    // gah -- first we have to check that we even have a remote branch
-    // for this source (we know its on the remote based on validation)
-    if (!this.refs[ORIGIN_PREFIX + options.source]) {
-      this.makeRemoteBranchForRemote(options.source);
-    }
-    // now just specify branches to fetch based on this source
-    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
-  } else {
-    branchesToFetch = this.branchCollection.filter(function(branch) {
-      return branch.getIsRemote();
-    });
+    return this.fetchCore([{
+        destination: options.destination,
+        source: options.source
+      }],
+      options
+    );
   }
+  // get all remote branches and specify the dest / source pairs
+  var allBranchesOnRemote = this.origin.branchCollection.toArray();
+  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+    var branchName = branch.get('id');
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
+    return {
+      destination: branch.getPrefixedID(),
+      source: branchName
+    };
+  }, this);
+  options.didMakeBranch = didMakeBranch;
+  return this.fetchCore(sourceDestPairs, options);
+};
+
+GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()]
+      pair.destination,
+      pair.source
     );
   }, this);
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()],
+      pair.destination,
+      pair.source,
       _.extend(
         {},
         options,
@@ -1103,17 +1135,13 @@ GitEngine.prototype.fetch = function(options) {
   commitsToMake = this.getUniqueObjects(commitsToMake);
   commitsToMake = this.descendSortDepth(commitsToMake);
 
-  if (commitsToMake.length === 0) {
-    this.command.addWarning(intl.str(
-      'git-error-origin-fetch-uptodate'
-    ));
-    // no fetch needed...
-    var d = Q.defer();
-    return {
-      deferred: d,
-      chain: d.promise
-    };
-  }
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but we
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.refs[commitJSON.id];
+  }, this);
 
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
@@ -1135,6 +1163,12 @@ GitEngine.prototype.fetch = function(options) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  if (options.didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
 
   var originBranchSet = this.origin.getUpstreamBranchSet();
   _.each(commitsToMake, function(commitJSON) {
@@ -1159,14 +1193,14 @@ GitEngine.prototype.fetch = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    // update all the remote branches
-    _.each(branchesToFetch, function(localRemoteBranch) {
-      var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
-      var remoteLocationID = remoteBranch.get('target').get('id');
+    // update all the destinations
+    _.each(sourceDestPairs, function(pair) {
+      var ours = this.refs[pair.destination];
+      var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
-      var localCommit = this.refs[remoteLocationID];
-      this.setTargetLocation(localRemoteBranch, localCommit);
+      var localCommit = this.refs[theirCommitID];
+      this.setTargetLocation(ours, localCommit);
     }, this);
 
     // unhighlight origin by refreshing
@@ -1186,18 +1220,21 @@ GitEngine.prototype.fetch = function(options) {
 GitEngine.prototype.pull = function(options) {
   options = options || {};
   var localBranch = this.getOneBeforeCommit('HEAD');
-  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
     dontResolvePromise: true,
-    dontThrowOnNoFetch: true
+    dontThrowOnNoFetch: true,
+    source: options.source,
+    destination: options.destination
   });
+
+  var destBranch = this.refs[options.destination];
   // then either rebase or merge
   if (options.isRebase) {
-    this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
   } else {
-    this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithMerge(pendingFetch, localBranch, destBranch);
   }
 };
 

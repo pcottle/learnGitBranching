@@ -89,6 +89,10 @@ var LevelDropdownView = ContainedBase.extend({
     if (id === this.JSON.selectedTab) {
       return;
     }
+    this.updateTabTo(id);
+  },
+
+  updateTabTo: function(id) {
     this.JSON.selectedTab = id;
     this.render();
     if (this.selectedID) {
@@ -119,7 +123,24 @@ var LevelDropdownView = ContainedBase.extend({
 
   leftOrRight: function(delta) {
     this.deselectIconByID(this.selectedID);
-    this.selectedIndex = this.wrapIndex(this.selectedIndex + delta, this.getCurrentSequence());
+    var index = this.selectedIndex + delta;
+
+    var sequence = this.getCurrentSequence();
+    var tabs = this.JSON.tabs;
+    // switch tabs now if needed / possible
+    if (index >= sequence.length &&
+        this.getTabIndex() + 1 < tabs.length) {
+      this.switchToTabIndex(this.getTabIndex() + 1);
+      this.selectedIndex = 0;
+    } else if (index < 0 &&
+               this.getTabIndex() - 1 >= 0) {
+      this.switchToTabIndex(this.getTabIndex() - 1);
+      this.selectedIndex = 0;
+    } else {
+      this.selectedIndex = this.wrapIndex(
+        this.selectedIndex + delta, this.getCurrentSequence()
+      );
+    }
     this.updateSelectedIcon();
   },
 
@@ -166,6 +187,18 @@ var LevelDropdownView = ContainedBase.extend({
     this.selectedID = undefined;
     this.selectedIndex = undefined;
     this.selectedSequence = undefined;
+  },
+
+  getTabIndex: function() {
+    var ids = _.map(this.JSON.tabs, function(tab) {
+      return tab.id;
+    });
+    return ids.indexOf(this.JSON.selectedTab);
+  },
+
+  switchToTabIndex: function(index) {
+    var tabID = this.JSON.tabs[index].id;
+    this.updateTabTo(tabID);
   },
 
   wrapIndex: function(index, arr) {

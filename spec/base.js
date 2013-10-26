@@ -17,6 +17,12 @@ var compareAnswer = function(headless, expectedJSON) {
   return TreeCompare.compareTrees(expectedTree, actualTree);
 };
 
+var getHeadlessSummary = function(headless) {
+  var tree = headless.gitEngine.exportTree();
+  TreeCompare.reduceTreeFields([tree]);
+  return tree;
+};
+
 var expectLevelAsync = function(headless, levelBlob) {
   var command = levelBlob.solutionCommand;
   if (command.indexOf('git rebase -i') !== -1) {
@@ -42,23 +48,34 @@ var expectLevelAsync = function(headless, levelBlob) {
   }, 'trees should be equal', TIME);
 };
 
-var expectTreeAsync = function(command, expectedJSON) {
+var expectTreeAsync = function(command, expectedJSON, startJSON) {
   var headless = new HeadlessGit();
   var start = Date.now();
   var haveReported = false;
+
+  if (startJSON) {
+    headless.gitEngine.loadTreeFromString(startJSON);
+  }
 
   runs(function() {
     headless.sendCommand(command);
   });
   waitsFor(function() {
     var diff = (Date.now() - start);
-    if (diff > TIME - 20 && !haveReported) {
+    if (diff > TIME - 40 && !haveReported) {
       haveReported = true;
+      var expected = loadTree(expectedJSON);
       console.log('not going to match', command);
-      console.log('expected\n>>>>>>>>\n', loadTree(expectedJSON));
-      console.log('\n<<<<<<<<<<<\nactual', headless.gitEngine.exportTree());
+      console.log('expected\n>>>>>>>>\n', expected);
+      console.log('\n<<<<<<<<<<<\nactual', getHeadlessSummary(headless));
       console.log('\n<<<<ORIGIN>>>>>\n');
-      console.log(loadTree(expectedJSON).originTree, '\n==========\n', headless.gitEngine.exportTree().originTree);
+      if (expected.originTree) {
+        console.log(expected.originTree);
+        console.log('\n=========\n');
+        console.log(getHeadlessSummary(headless).originTree);
+      }
+      console.log(expectedJSON);
+      console.log(JSON.stringify(getHeadlessSummary(headless)));
     }
     return compareAnswer(headless, expectedJSON);
   }, 'trees should be equal', 100);
