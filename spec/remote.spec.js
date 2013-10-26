@@ -137,14 +137,14 @@ describe('Git Remotes', function() {
 
   it('can push with colon refspec', function() {
     expectTreeAsync(
-      'git clone; gc; git checkout -b foo HEAD~1; git push master:master',
+      'git clone; gc; git checkout -b foo HEAD~1; git push origin master:master',
       '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"foo","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
 
   it('can delete branches with colon refspec', function() {
     expectTreeAsync(
-      'git branch foo; git clone; git push :foo',
+      'git branch foo; git clone; git push origin :foo',
       '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":null},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
@@ -165,21 +165,21 @@ describe('Git Remotes', function() {
 
   it('does push for HEAD as a source though to a new branch', function() {
     expectTreeAsync(
-      'git clone; git commit; git checkout C2; git push HEAD:foo',
+      'git clone; git commit; git checkout C2; git push origin HEAD:foo',
       '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C2","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"C2","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
 
   it('but it cant delete master on remote', function() {
     expectTreeAsync(
-      'git branch foo; git clone; git push :master',
+      'git branch foo; git clone; git push origin :master',
       '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/foo"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
 
   it('will prune the origin tree when deleting branches', function() {
     expectTreeAsync(
-      'git checkout -b foo; git commit; git clone; git push :foo',
+      'git checkout -b foo; git commit; git clone; git push origin :foo',
       '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"foo","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
@@ -270,7 +270,7 @@ describe('Git Remotes', function() {
 
   it('pulls to the right branch and destination', function() {
     expectTreeAsync(
-        'git clone; git checkout -b side o/master;git fakeTeamwork;git pull master:o/master',
+        'git clone; git checkout -b side o/master;git fakeTeamwork;git pull origin master:o/master',
         '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null},"side":{"target":"C2","id":"side","remoteTrackingBranchID":"o/master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"side","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
@@ -285,35 +285,35 @@ describe('Git Remotes', function() {
 
   it('correctly resolves source during git fetch with params', function() {
     expectTreeAsync(
-      'git clone; git push master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah',
+      'git clone; git push origin master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah',
       '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null},"blah":{"target":"C2","id":"blah","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"foo","id":"HEAD"}}}'
     );
   });
 
   it('correctly makes a new branch during fetch despite nothing to download', function() {
     expectTreeAsync(
-      'git clone; git push master:foo',
+      'git clone; git push origin master:foo',
       '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
 
 	it('correctly resolves existing commits and upates', function() {
     expectTreeAsync(
-      'git clone; git push master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah;go C0; git fetch origin foo^:master',
+      'git clone; git push origin master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah;go C0; git fetch origin foo^:master',
       '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null},"blah":{"target":"C2","id":"blah","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"C0","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"foo","id":"HEAD"}}}'
     );
 	});
 
 	it('doesnt let you fetch to master if you are checked out there', function() {
 		expectTreeAsync(
-			'git clone; git push master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah; git fetch foo:master',
+			'git clone; git push origin master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah; git fetch foo:master',
 			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null},"blah":{"target":"C2","id":"blah","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"foo","id":"HEAD"}}}'
 		);
 	});
 
 	it('doesnt let you delete branches that dont exist', function() {
 		expectTreeAsync(
-			'git clone; git push :foo',
+			'git clone; git push origin :foo',
 			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
 		);
 	});

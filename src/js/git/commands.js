@@ -72,6 +72,9 @@ var assertIsRemoteBranch = function(engine, ref) {
 };
 
 var assertOriginSpecified = function(generalArgs) {
+  if (!generalArgs.length) {
+    return;
+  }
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
@@ -208,7 +211,7 @@ var commandConfig = {
 
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
       // here is the deal -- git pull is pretty complex with
       // the arguments it wants. You can
@@ -331,7 +334,7 @@ var commandConfig = {
       var source;
       var destination;
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
@@ -677,7 +680,7 @@ var commandConfig = {
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
