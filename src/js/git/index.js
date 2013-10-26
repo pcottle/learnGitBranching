@@ -381,6 +381,12 @@ GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
   if (this.refs[ORIGIN_PREFIX + branchName]) {
     return;
   }
+  // if its not a branch on origin then bounce
+  var source = this.origin.resolveID(branchName);
+  if (source.get('type') !== 'branch') {
+    return;
+  }
+
   return this.makeRemoteBranchForRemote(branchName);
 };
 
@@ -388,6 +394,7 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
   if (this.refs[branchName]) {
     return;
   }
+
   return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
 };
 
@@ -913,7 +920,6 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
@@ -926,11 +932,15 @@ GitEngine.prototype.push = function(options) {
 
   var sourceBranch = this.refs[options.source];
   if (!this.origin.refs[options.destination]) {
-    didMakeBranch = true;
     this.makeBranchOnOriginAndTrack(
       options.destination,
       'HEAD'
     );
+    // play an animation now since we might not have to fast forward
+    // anything... this is weird because we are punting an animation
+    // and not resolving the promise but whatever
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }
   var branchOnRemote = this.origin.refs[options.destination];
   var sourceLocation = this.resolveID(options.source || 'HEAD');
@@ -979,14 +989,6 @@ GitEngine.prototype.push = function(options) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
-
-  if (didMakeBranch) {
-    chain = chain.then(_.bind(function() {
-      // play something for both
-      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
-      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
-    }, this));
-  }
 
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
@@ -1054,6 +1056,7 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
+  var didMakeBranch;
 
   // first check for super stupid case where we are just making
   // a branch with fetch...
@@ -1064,8 +1067,9 @@ GitEngine.prototype.fetch = function(options) {
     );
     return;
   } else if (options.destination && options.source) {
-    this.makeRemoteBranchIfNeeded(options.source);
-    this.makeBranchIfNeeded(options.destination);
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(options.source);
+    didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
+    options.didMakeBranch = didMakeBranch;
 
     return this.fetchCore([{
         destination: options.destination,
@@ -1078,13 +1082,14 @@ GitEngine.prototype.fetch = function(options) {
   var allBranchesOnRemote = this.origin.branchCollection.toArray();
   var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
     var branchName = branch.get('id');
-    this.makeRemoteBranchIfNeeded(branchName);
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
     return {
       destination: branch.getPrefixedID(),
       source: branchName
     };
   }, this);
+  options.didMakeBranch = didMakeBranch;
   return this.fetchCore(sourceDestPairs, options);
 };
 
@@ -1162,6 +1167,12 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  if (options.didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
 
   var originBranchSet = this.origin.getUpstreamBranchSet();
   _.each(commitsToMake, function(commitJSON) {
@@ -1186,11 +1197,10 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    // update all the destinations
+    // update all the destinations 
     _.each(sourceDestPairs, function(pair) {
       var ours = this.refs[pair.destination];
-      var theirs = this.origin.refs[pair.source];
-      var theirCommitID = theirs.get('target').get('id');
+      var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
       var localCommit = this.refs[theirCommitID];
