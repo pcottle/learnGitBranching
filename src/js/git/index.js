@@ -1005,7 +1005,7 @@ GitEngine.prototype.push = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var localLocationID = sourceLocation.get('target').get('id');
+    var localLocationID = this.getCommitFromRef(sourceLocation).get('id');
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
