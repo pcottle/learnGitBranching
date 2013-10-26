@@ -8,7 +8,7 @@ exports.level = {
   "name": {
     "en_US": "Push Master!"
   },
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
     "en_US": {
       "childViews": [
