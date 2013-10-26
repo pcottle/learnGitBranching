@@ -6,7 +6,7 @@ exports.level = {
     "en_US": "Git push arguments -- Expanded!"
   },
   "hint": {
-    "en_US": "Remember you can admit defeat and type in \"see solution\" :P"
+    "en_US": "Remember you can admit defeat and type in \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -48,7 +48,7 @@ exports.level = {
               "Remember, `source` is any location that git will understand:"
             ],
             "afterMarkdowns": [
-              "Woah! That's a pretty trippy command but it makes sense -- git resolved `foo^` into a location, uploaded whatever commits weren't present yet, and then updated destination."
+              "Woah! That's a pretty trippy command but it makes sense -- git resolved `foo^` into a location, uploaded whatever commits that weren't present yet on the remote, and then updated destination."
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"

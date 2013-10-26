@@ -151,6 +151,9 @@ var Visualization = Backbone.View.extend({
 
   fadeTreeIn: function() {
     this.shown = true;
+    if (!this.paper.canvas) {
+      return;
+    }
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
 
     this.originToo('fadeTreeIn', arguments);
