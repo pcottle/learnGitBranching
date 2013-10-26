@@ -6967,7 +6967,7 @@ var Visualization = Backbone.View.extend({
 
   fadeTreeIn: function() {
     this.shown = true;
-    if (!this.paper.canvas) {
+    if (!this.paper) {
       return;
     }
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
@@ -7623,8 +7623,11 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
   if (this.refs[branchName]) {
     return;
   }
+  var where = this.findCommonAncestorForRemote(
+    this.getCommitFromRef('HEAD').get('id')
+  );
 
-  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef(where));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -7636,6 +7639,15 @@ GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
     ORIGIN_PREFIX + branchName,
     this.getCommitFromRef(originTarget)
   );
+};
+
+GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
+  // like the method below but opposite
+  while (!this.origin.refs[myTarget]) {
+    var parents = this.refs[myTarget].get('parents');
+    myTarget = parents[0].get('id');
+  }
+  return myTarget;
 };
 
 GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
@@ -7658,10 +7670,12 @@ GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
     this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
   }
 
-  var originTarget = this.origin.refs['master'].get('target');
+  var originTarget = this.findCommonAncestorForRemote(
+    this.getCommitFromRef(target).get('id')
+  );
   this.origin.makeBranch(
     branchName,
-    originTarget
+    this.origin.getCommitFromRef(originTarget)
   );
 };
 
@@ -8163,7 +8177,7 @@ GitEngine.prototype.push = function(options) {
   if (!this.origin.refs[options.destination]) {
     this.makeBranchOnOriginAndTrack(
       options.destination,
-      'HEAD'
+      this.getCommitFromRef(sourceBranch)
     );
     // play an animation now since we might not have to fast forward
     // anything... this is weird because we are punting an animation
@@ -8457,6 +8471,11 @@ GitEngine.prototype.pull = function(options) {
     source: options.source,
     destination: options.destination
   });
+
+  if (!pendingFetch) {
+    // short circuited for some reason
+    return;
+  }
 
   var destBranch = this.refs[options.destination];
   // then either rebase or merge
@@ -11032,7 +11051,7 @@ var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
-        generalArgs[0] + ' is not a remote in your repository! try origin'
+        generalArgs[0] + ' is not a remote in your repository! try adding origin that argument'
       )
     });
   }
@@ -20061,7 +20080,8 @@ exports.levelSequences = {
     require('./remote/pushArgs').level,
     require('./remote/pushArgs2').level,
     require('./remote/fetchArgs').level,
-    require('./remote/sourceNothing').level
+    require('./remote/sourceNothing').level,
+    require('./remote/pullArgs').level
   ]
 };
 
@@ -24793,6 +24813,96 @@ require.define("/src/levels/remote/sourceNothing.js",function(require,module,exp
 
 });
 
+require.define("/src/levels/remote/pullArgs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C2\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C2\",\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Push arguments"
+  },
+  "hint": {
+    "en_US": "Remember that you can create new local branches with fetch/pull arguments"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull arguments",
+              "",
+              "Now that you know pretty much *everything* there is to know about arguments for `git fetch` and `git push`, there's almost really nothing left to cover for git pull :)",
+              "",
+              "That's because git pull at the end of the day is *really* just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with SAME arguments specified and then merging in *where* those commits ended up.",
+              "",
+              "This applies even when you use crazy-complicated arguments as well. Let's see some examples:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Here are some equivalent commands in git:",
+              "",
+              "`git pull  origin foo` is equal to:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "And...",
+              "",
+              "`git pull  origin bar~1:bugFix` is equal to:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "See? git pull is really just shorthand for fetch + merge, and all git pull cares about is where the commits ended up (the `destination` argument that it figures out during fetch)",
+              "",
+              "Lets see a demo:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "If we specify the place to fetch, everything happens as before with fetch but we merge in whatever was just fetched"
+            ],
+            "afterMarkdowns": [
+              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to where we are, *regardless* of what was currently checked out."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Does it work with source and destination too? You bet! Let's see that:"
+            ],
+            "afterMarkdowns": [
+              "Wow, that's a TON in one command. We created a new branch locally named `foo`, downloaded commits from remote's master onto that branch `foo`, and then merged that branch into our currently checked out branch `bar`. It's over 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
 require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -27004,7 +27114,7 @@ var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
-        generalArgs[0] + ' is not a remote in your repository! try origin'
+        generalArgs[0] + ' is not a remote in your repository! try adding origin that argument'
       )
     });
   }
@@ -28319,8 +28429,11 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
   if (this.refs[branchName]) {
     return;
   }
+  var where = this.findCommonAncestorForRemote(
+    this.getCommitFromRef('HEAD').get('id')
+  );
 
-  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef(where));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -28332,6 +28445,15 @@ GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
     ORIGIN_PREFIX + branchName,
     this.getCommitFromRef(originTarget)
   );
+};
+
+GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
+  // like the method below but opposite
+  while (!this.origin.refs[myTarget]) {
+    var parents = this.refs[myTarget].get('parents');
+    myTarget = parents[0].get('id');
+  }
+  return myTarget;
 };
 
 GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
@@ -28354,10 +28476,12 @@ GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
     this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
   }
 
-  var originTarget = this.origin.refs['master'].get('target');
+  var originTarget = this.findCommonAncestorForRemote(
+    this.getCommitFromRef(target).get('id')
+  );
   this.origin.makeBranch(
     branchName,
-    originTarget
+    this.origin.getCommitFromRef(originTarget)
   );
 };
 
@@ -28859,7 +28983,7 @@ GitEngine.prototype.push = function(options) {
   if (!this.origin.refs[options.destination]) {
     this.makeBranchOnOriginAndTrack(
       options.destination,
-      'HEAD'
+      this.getCommitFromRef(sourceBranch)
     );
     // play an animation now since we might not have to fast forward
     // anything... this is weird because we are punting an animation
@@ -29153,6 +29277,11 @@ GitEngine.prototype.pull = function(options) {
     source: options.source,
     destination: options.destination
   });
+
+  if (!pendingFetch) {
+    // short circuited for some reason
+    return;
+  }
 
   var destBranch = this.refs[options.destination];
   // then either rebase or merge
@@ -40381,7 +40510,7 @@ var Visualization = Backbone.View.extend({
 
   fadeTreeIn: function() {
     this.shown = true;
-    if (!this.paper.canvas) {
+    if (!this.paper) {
       return;
     }
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
@@ -40747,7 +40876,8 @@ exports.levelSequences = {
     require('./remote/pushArgs').level,
     require('./remote/pushArgs2').level,
     require('./remote/fetchArgs').level,
-    require('./remote/sourceNothing').level
+    require('./remote/sourceNothing').level,
+    require('./remote/pullArgs').level
   ]
 };
 
@@ -44726,6 +44856,97 @@ require.define("/src/levels/remote/pull.js",function(require,module,exports,__di
 
 });
 require("/src/levels/remote/pull.js");
+
+require.define("/src/levels/remote/pullArgs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C2\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C2\",\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Push arguments"
+  },
+  "hint": {
+    "en_US": "Remember that you can create new local branches with fetch/pull arguments"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull arguments",
+              "",
+              "Now that you know pretty much *everything* there is to know about arguments for `git fetch` and `git push`, there's almost really nothing left to cover for git pull :)",
+              "",
+              "That's because git pull at the end of the day is *really* just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with SAME arguments specified and then merging in *where* those commits ended up.",
+              "",
+              "This applies even when you use crazy-complicated arguments as well. Let's see some examples:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Here are some equivalent commands in git:",
+              "",
+              "`git pull  origin foo` is equal to:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "And...",
+              "",
+              "`git pull  origin bar~1:bugFix` is equal to:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "See? git pull is really just shorthand for fetch + merge, and all git pull cares about is where the commits ended up (the `destination` argument that it figures out during fetch)",
+              "",
+              "Lets see a demo:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "If we specify the place to fetch, everything happens as before with fetch but we merge in whatever was just fetched"
+            ],
+            "afterMarkdowns": [
+              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to where we are, *regardless* of what was currently checked out."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Does it work with source and destination too? You bet! Let's see that:"
+            ],
+            "afterMarkdowns": [
+              "Wow, that's a TON in one command. We created a new branch locally named `foo`, downloaded commits from remote's master onto that branch `foo`, and then merged that branch into our currently checked out branch `bar`. It's over 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/remote/pullArgs.js");
 
 require.define("/src/levels/remote/push.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
