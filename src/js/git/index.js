@@ -1193,7 +1193,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    // update all the destinations 
+    // update all the destinations
     _.each(sourceDestPairs, function(pair) {
       var ours = this.refs[pair.destination];
       var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
