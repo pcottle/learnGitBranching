@@ -78,7 +78,7 @@ var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
-        generalArgs[0] + ' is not a remote in your repository! try origin'
+        generalArgs[0] + ' is not a remote in your repository! try adding origin that argument'
       )
     });
   }
