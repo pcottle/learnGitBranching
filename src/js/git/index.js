@@ -394,8 +394,11 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
   if (this.refs[branchName]) {
     return;
   }
+  var where = this.findCommonAncestorForRemote(
+    this.getCommitFromRef('HEAD').get('id')
+  );
 
-  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef(where));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -407,6 +410,15 @@ GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
     ORIGIN_PREFIX + branchName,
     this.getCommitFromRef(originTarget)
   );
+};
+
+GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
+  // like the method below but opposite
+  while (!this.origin.refs[myTarget]) {
+    var parents = this.refs[myTarget].get('parents');
+    myTarget = parents[0].get('id');
+  }
+  return myTarget;
 };
 
 GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
@@ -429,10 +441,12 @@ GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
     this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
   }
 
-  var originTarget = this.origin.refs['master'].get('target');
+  var originTarget = this.findCommonAncestorForRemote(
+    this.getCommitFromRef(target).get('id')
+  );
   this.origin.makeBranch(
     branchName,
-    originTarget
+    this.origin.getCommitFromRef(originTarget)
   );
 };
 
@@ -934,7 +948,7 @@ GitEngine.prototype.push = function(options) {
   if (!this.origin.refs[options.destination]) {
     this.makeBranchOnOriginAndTrack(
       options.destination,
-      'HEAD'
+      this.getCommitFromRef(sourceBranch)
     );
     // play an animation now since we might not have to fast forward
     // anything... this is weird because we are punting an animation
@@ -1228,6 +1242,11 @@ GitEngine.prototype.pull = function(options) {
     source: options.source,
     destination: options.destination
   });
+
+  if (!pendingFetch) {
+    // short circuited for some reason
+    return;
+  }
 
   var destBranch = this.refs[options.destination];
   // then either rebase or merge
