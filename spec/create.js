@@ -10,10 +10,10 @@ prompt.get(['command', 'whatItDoes'], function(err, result) {
   var headless = new HeadlessGit();
   headless.sendCommand(result.command);
   setTimeout(function() {
-    var testCase = '\texpectTreeAsync(' +
-      "\t\t'" + result.command + "'," +
-      "\t\t'" + headless.gitEngine.printTree() + "'" +
-      "\t);";
+    var testCase = '\t\texpectTreeAsync(\n' +
+      "\t\t\t'" + result.command + "',\n" +
+      "\t\t\t'" + headless.gitEngine.printTree() + "'\n" +
+      "\t\t);\n";
 
     console.log(testCase);
     // now add it
@@ -23,8 +23,8 @@ prompt.get(['command', 'whatItDoes'], function(err, result) {
     var partOne = testFile.slice(0, toSlice);
     var partTwo = testFile.slice(toSlice);
 
-    var funcCall = "it('" + result.whatItDoes + "', function() {\n" +
-      testCase + "\n});";
+    var funcCall = "\tit('" + result.whatItDoes + "', function() {\n" +
+      testCase + "\t});\n\n";
     fs.writeFileSync('./remote.spec.js', partOne + funcCall + partTwo);
   }, 100);
 });
