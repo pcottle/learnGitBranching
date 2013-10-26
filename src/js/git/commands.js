@@ -685,7 +685,7 @@ var commandConfig = {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchName(engine, refspecParts[1]);
-        if (source === "" && !engine.origin.refs[options.destination]) {
+        if (source === "" && !engine.origin.refs[destination]) {
           throw new GitError({
             msg: intl.todo(
               'cannot delete branch ' + options.destination + ' which doesnt exist'
