@@ -1135,17 +1135,13 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   commitsToMake = this.getUniqueObjects(commitsToMake);
   commitsToMake = this.descendSortDepth(commitsToMake);
 
-  if (commitsToMake.length === 0) {
-    this.command.addWarning(intl.str(
-      'git-error-origin-fetch-uptodate'
-    ));
-    // no fetch needed...
-    var d = Q.defer();
-    return {
-      deferred: d,
-      chain: d.promise
-    };
-  }
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but we
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.refs[commitJSON.id];
+  }, this);
 
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
