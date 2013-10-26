@@ -6,14 +6,26 @@ prompt = require('prompt');
 
 prompt.start();
 
-prompt.get(['command'], function(err, result) {
+prompt.get(['command', 'whatItDoes'], function(err, result) {
   var headless = new HeadlessGit();
   headless.sendCommand(result.command);
   setTimeout(function() {
-    console.log('expectTreeAsync(');
-    console.log("  \t'" + result.command + "',");
-    console.log("  \t'" + headless.gitEngine.printTree() + "'");
-    console.log(');');
+    var testCase = '\texpectTreeAsync(' +
+      "\t\t'" + result.command + "'," +
+      "\t\t'" + headless.gitEngine.printTree() + "'" +
+      "\t);";
+
+    console.log(testCase);
+    // now add it
+    var testFile = fs.readFileSync('./remote.spec.js', 'utf8');
+    // insert after the last })
+    var toSlice = testFile.lastIndexOf('})');
+    var partOne = testFile.slice(0, toSlice);
+    var partTwo = testFile.slice(toSlice);
+
+    var funcCall = "it('" + result.whatItDoes + "', function() {\n" +
+      testCase + "\n});";
+    fs.writeFileSync('./remote.spec.js', partOne + funcCall + partTwo);
   }, 100);
 });
 
