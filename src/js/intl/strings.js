@@ -371,7 +371,7 @@ exports.strings = {
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
-    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D',
+    'en_US': 'LGB cant receive input on mobile, its worth it to visit on desktop! :D",
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
   },

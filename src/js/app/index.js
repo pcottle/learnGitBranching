@@ -125,6 +125,12 @@ var initDemo = function(sandbox) {
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
   var commands;
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', 'mobile alert');
+    });
+  }
+
   if (params.hasOwnProperty('demo')) {
     commands = [
       "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
@@ -193,11 +199,6 @@ var initDemo = function(sandbox) {
     });
   }
 
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
-    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger('commandSubmitted', 'mobile alert');
-    });
-  }
 };
 
 if (require('../util').isBrowser()) {
