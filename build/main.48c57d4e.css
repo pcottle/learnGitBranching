@@ -38,6 +38,8 @@ div.modalTerminal a {
   font-weight: bold;
 }
 
+
+div.modalTerminal li,
 div.modalTerminal p {
   line-height: 24px;
   margin: 1.5em 0;

@@ -3455,7 +3455,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force',
+    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force'
   },
   'git-error-origin-push-no-ff': {
@@ -6967,6 +6967,9 @@ var Visualization = Backbone.View.extend({
 
   fadeTreeIn: function() {
     this.shown = true;
+    if (!this.paper.canvas) {
+      return;
+    }
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
 
     this.originToo('fadeTreeIn', arguments);
@@ -7249,6 +7252,12 @@ var SHORT_CIRCUIT_CHAIN = 'STAPH';
 function catchShortCircuit(err) {
   if (err !== SHORT_CIRCUIT_CHAIN) {
     throw err;
+  }
+}
+
+function invariant(truthy, reason) {
+  if (!truthy) {
+    throw new Error(reason);
   }
 }
 
@@ -7595,6 +7604,27 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
+  if (this.refs[ORIGIN_PREFIX + branchName]) {
+    return;
+  }
+  // if its not a branch on origin then bounce
+  var source = this.origin.resolveID(branchName);
+  if (source.get('type') !== 'branch') {
+    return;
+  }
+
+  return this.makeRemoteBranchForRemote(branchName);
+};
+
+GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
+  if (this.refs[branchName]) {
+    return;
+  }
+
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -8059,7 +8089,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
-  if (target.refs[sourceStartCommitJSON.id]) {
+  if (targetSet[sourceStartCommitJSON.id]) {
     // either we throw since theres no work to be done, or we return an empty array
     if (options.dontThrowOnNoFetch) {
       return [];
@@ -8119,7 +8149,6 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
@@ -8132,14 +8161,18 @@ GitEngine.prototype.push = function(options) {
 
   var sourceBranch = this.refs[options.source];
   if (!this.origin.refs[options.destination]) {
-    didMakeBranch = true;
     this.makeBranchOnOriginAndTrack(
       options.destination,
       'HEAD'
     );
+    // play an animation now since we might not have to fast forward
+    // anything... this is weird because we are punting an animation
+    // and not resolving the promise but whatever
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }
   var branchOnRemote = this.origin.refs[options.destination];
-  var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
+  var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
@@ -8186,14 +8219,6 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  if (didMakeBranch) {
-    chain = chain.then(_.bind(function() {
-      // play something for both
-      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
-      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
-    }, this));
-  }
-
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
@@ -8211,7 +8236,7 @@ GitEngine.prototype.push = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var localLocationID = sourceLocation.get('target').get('id');
+    var localLocationID = this.getCommitFromRef(sourceLocation).get('id');
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
@@ -8260,54 +8285,64 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
+  var didMakeBranch;
 
-  // ok this is just like git push -- if the destination does not exist,
-  // we need to make it
-  if (options.destination && !this.refs[options.destination]) {
-    // its just like creating a branch, we will merge (if pulling) later
+  // first check for super stupid case where we are just making
+  // a branch with fetch...
+  if (options.destination && options.source === '') {
     this.validateAndMakeBranch(
       options.destination,
       this.getCommitFromRef('HEAD')
     );
-  }
+    return;
+  } else if (options.destination && options.source) {
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(options.source);
+    didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
+    options.didMakeBranch = didMakeBranch;
 
-  // now we need to know which remotes to fetch. lets do this by either checking our source
-  // option or just getting all of them
-  var branchesToFetch;
-  if (options.source) {
-    // gah -- first we have to check that we even have a remote branch
-    // for this source (we know its on the remote based on validation)
-    if (!this.refs[ORIGIN_PREFIX + options.source]) {
-      this.makeRemoteBranchForRemote(options.source);
-    }
-    // now just specify branches to fetch based on this source
-    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
-  } else {
-    branchesToFetch = this.branchCollection.filter(function(branch) {
-      return branch.getIsRemote();
-    });
+    return this.fetchCore([{
+        destination: options.destination,
+        source: options.source
+      }],
+      options
+    );
   }
+  // get all remote branches and specify the dest / source pairs
+  var allBranchesOnRemote = this.origin.branchCollection.toArray();
+  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+    var branchName = branch.get('id');
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
+    return {
+      destination: branch.getPrefixedID(),
+      source: branchName
+    };
+  }, this);
+  options.didMakeBranch = didMakeBranch;
+  return this.fetchCore(sourceDestPairs, options);
+};
+
+GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()]
+      pair.destination,
+      pair.source
     );
   }, this);
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()],
+      pair.destination,
+      pair.source,
       _.extend(
         {},
         options,
@@ -8329,17 +8364,13 @@ GitEngine.prototype.fetch = function(options) {
   commitsToMake = this.getUniqueObjects(commitsToMake);
   commitsToMake = this.descendSortDepth(commitsToMake);
 
-  if (commitsToMake.length === 0) {
-    this.command.addWarning(intl.str(
-      'git-error-origin-fetch-uptodate'
-    ));
-    // no fetch needed...
-    var d = Q.defer();
-    return {
-      deferred: d,
-      chain: d.promise
-    };
-  }
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but we
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.refs[commitJSON.id];
+  }, this);
 
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
@@ -8361,6 +8392,12 @@ GitEngine.prototype.fetch = function(options) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  if (options.didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
 
   var originBranchSet = this.origin.getUpstreamBranchSet();
   _.each(commitsToMake, function(commitJSON) {
@@ -8385,14 +8422,14 @@ GitEngine.prototype.fetch = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    // update all the remote branches
-    _.each(branchesToFetch, function(localRemoteBranch) {
-      var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
-      var remoteLocationID = remoteBranch.get('target').get('id');
+    // update all the destinations
+    _.each(sourceDestPairs, function(pair) {
+      var ours = this.refs[pair.destination];
+      var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
-      var localCommit = this.refs[remoteLocationID];
-      this.setTargetLocation(localRemoteBranch, localCommit);
+      var localCommit = this.refs[theirCommitID];
+      this.setTargetLocation(ours, localCommit);
     }, this);
 
     // unhighlight origin by refreshing
@@ -8412,18 +8449,21 @@ GitEngine.prototype.fetch = function(options) {
 GitEngine.prototype.pull = function(options) {
   options = options || {};
   var localBranch = this.getOneBeforeCommit('HEAD');
-  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
     dontResolvePromise: true,
-    dontThrowOnNoFetch: true
+    dontThrowOnNoFetch: true,
+    source: options.source,
+    destination: options.destination
   });
+
+  var destBranch = this.refs[options.destination];
   // then either rebase or merge
   if (options.isRebase) {
-    this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
   } else {
-    this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithMerge(pendingFetch, localBranch, destBranch);
   }
 };
 
@@ -10921,6 +10961,8 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
+var ORIGIN_PREFIX = 'o/';
+
 var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
@@ -10937,7 +10979,56 @@ var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
 
+var validateBranchNameIfNeeded = function(engine, name) {
+  if (engine.refs[name]) {
+    return name;
+  }
+  return validateBranchName(engine, name);
+};
+
+var assertNotCheckedOut = function(engine, ref) {
+  if (!engine.refs[ref]) {
+    return;
+  }
+  if (engine.HEAD.get('target') === engine.refs[ref]) {
+    throw new GitError({
+      msg: intl.todo(
+        'cannot fetch to ' + ref + ' when checked out on ' + ref
+      )
+    });
+  }
+};
+
+var assertIsBranch = function(engine, ref) {
+  assertIsRef(engine, ref);
+  var obj = engine.refs[ref];
+  if (obj.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo(
+        ref + ' is not a branch'
+      )
+    });
+  }
+};
+
+var assertIsRemoteBranch = function(engine, ref) {
+  assertIsRef(engine, ref);
+  var obj = engine.refs[ref];
+
+  if (obj.get('type') !== 'branch' ||
+      !obj.getIsRemote()) {
+    throw new GitError({
+      msg: intl.todo(
+        ref + ' is not a remote branch'
+      )
+    });
+  }
+};
+
 var assertOriginSpecified = function(generalArgs) {
+  if (!generalArgs.length) {
+    return;
+  }
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
@@ -11072,25 +11163,40 @@ var commandConfig = {
         });
       }
 
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsForOrigin(generalArgs);
+      assertOriginSpecified(generalArgs);
       // here is the deal -- git pull is pretty complex with
-      // the arguments it wants. Either you can:
+      // the arguments it wants. You can
       //   A) specify the remote branch you want to
       //      merge & fetch, in which case it completely
       //      ignores the properties of branch you are on, or
       //
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
-      //     and merges those in.
-      // so lets switch on A/B here
+      //     and merges those in, or
+      //
+      //  C) specify the colon refspec like fetch, where it does
+      //     the fetch and then just merges the dest
 
-      var commandOptions = command.getOptionsMap();
-      var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
-      assertOriginSpecified(generalArgs);
-
-      var tracking;
-      if (generalArgs[1]) {
-        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      var source;
+      var destination;
+      var firstArg = generalArgs[1];
+      // COPY PASTA validation code from fetch. maybe fix this?
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchNameIfNeeded(
+          engine,
+          crappyUnescape(refspecParts[1])
+        );
+        assertNotCheckedOut(engine, destination);
+      } else if (firstArg) {
+        source = firstArg;
+        assertIsBranch(engine.origin, source);
+        // get o/master locally if master is specified
+        destination = engine.origin.refs[source].getPrefixedID();
       } else {
         // cant be detached
         if (engine.getDetachedHead()) {
@@ -11098,12 +11204,18 @@ var commandConfig = {
             msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
           });
         }
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        // ok we need to get our currently checked out branch
+        // and then specify source and dest
+        var branch = engine.getOneBeforeCommit('HEAD');
+        var branchName = branch.get('id');
+        assertBranchIsRemoteTracking(engine, branchName);
+        destination = branch.getRemoteTrackingBranchID();
+        source = destination.replace(ORIGIN_PREFIX, '');
       }
 
       engine.pull({
-        source: tracking,
+        source: source,
+        destination: destination,
         isRebase: commandOptions['--rebase']
       });
     }
@@ -11176,21 +11288,27 @@ var commandConfig = {
       var source;
       var destination;
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
-        destination = validateBranchName(engine, refspecParts[1]);
+        destination = validateBranchNameIfNeeded(
+          engine,
+          crappyUnescape(refspecParts[1])
+        );
+        assertNotCheckedOut(engine, destination);
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need
-        // to make sure it exists as the source on REMOTE and then
-        // the destination will be created locally
+        // to make sure it exists as the source on REMOTE. however
+        // technically we have a destination here as the remote branch
         source = firstArg;
-        destination = firstArg;
+        assertIsBranch(engine.origin, source);
+        // get o/master locally if master is specified
+        destination = engine.origin.refs[source].getPrefixedID();
       }
       if (source) { // empty string fails this check
         assertIsRef(engine.origin, source);
@@ -11212,6 +11330,7 @@ var commandConfig = {
       '-f',
       '-a',
       '-r',
+      '-u',
       '--contains'
     ],
     execute: function(engine, command) {
@@ -11227,6 +11346,23 @@ var commandConfig = {
         _.each(names, function(name) {
           engine.validateAndDeleteBranch(name);
         });
+        return;
+      }
+
+      if (commandOptions['-u']) {
+        command.acceptNoGeneralArgs();
+        args = commandOptions['-u'];
+        command.validateArgBounds(args, 1, 2, '-u');
+        var remoteBranch = crappyUnescape(args[0]);
+        var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
+
+        // some assertions, both of these have to exist first
+        assertIsRemoteBranch(engine, remoteBranch);
+        assertIsBranch(engine, branch);
+        engine.setLocalToTrackRemote(
+          engine.refs[branch],
+          engine.refs[remoteBranch]
+        );
         return;
       }
 
@@ -11498,7 +11634,7 @@ var commandConfig = {
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
@@ -11506,6 +11642,13 @@ var commandConfig = {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchName(engine, refspecParts[1]);
+        if (source === "" && !engine.origin.refs[destination]) {
+          throw new GitError({
+            msg: intl.todo(
+              'cannot delete branch ' + options.destination + ' which doesnt exist'
+            )
+          });
+        }
       } else {
         if (firstArg) {
           // we are using this arg as destination AND source. the dest branch
@@ -15453,11 +15596,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  twoArgsImpliedOrigin: function(args) {
+  twoArgsForOrigin: function(args) {
     this.validateArgBounds(args, 0, 2);
-    if (args.length < 2) {
-      args.unshift('origin');
-    }
   },
 
   // this is a little utility class to help arg validation that happens over and over again
@@ -16737,7 +16877,6 @@ var GitDemonstrationView = ContainedBase.extend({
     _.each(commands, function(command, index) {
       chainPromise = chainPromise.then(_.bind(function() {
         var myDefer = Q.defer();
-        console.log('dispatching', command);
         this.mainVis.gitEngine.dispatch(command, myDefer);
         return myDefer.promise;
       }, this));
@@ -19917,7 +20056,12 @@ exports.levelSequences = {
   ],
   remoteAdvanced: [
     require('./remote/pushManyFeatures').level,
-    require('./remote/mergeManyFeatures').level
+    require('./remote/mergeManyFeatures').level,
+    require('./remote/tracking').level,
+    require('./remote/pushArgs').level,
+    require('./remote/pushArgs2').level,
+    require('./remote/fetchArgs').level,
+    require('./remote/sourceNothing').level
   ]
 };
 
@@ -24010,7 +24154,7 @@ require.define("/src/levels/remote/pushManyFeatures.js",function(require,module,
   "name": {
     "en_US": "Push Master!"
   },
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
     "en_US": {
       "childViews": [
@@ -24132,6 +24276,523 @@ require.define("/src/levels/remote/mergeManyFeatures.js",function(require,module
 
 });
 
+require.define("/src/levels/remote/tracking.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
+  "solutionCommand": "git checkout -b side o/master;git commit;git pull --rebase;git push",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Remote Tracking"
+  },
+  "hint": {
+    "en_US": "Remember there are two ways to set remote tracking!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Remote-Tracking branches",
+              "",
+              "One thing that might have seemed \"magical\" about the last few lessons is that git knew the `master` branch was related to `o/master`. Sure these branches have similar names and it might make logical sense to connect the `master` branch on the remote to the local `master` branch, but this connection is demonstrated clearly in two scenarios:",
+              "",
+              "* During a pull operation, commits are downloaded onto `o/master` and then *merged* into the `master` branch. The implied target of the merge is determined from this connection.",
+              "* During a push operation, work from the `master` branch was pushed onto the remote's `master` branch (which was then represented by `o/master` locally). The *destination* of the push is determined from the connection between `master` and `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Long story short, this connection between `master` and `o/master` is explained simply by the \"remote tracking\" property of branches. The `master` branch is set to track `o/master` -- this means there is an implied merge target and implied push destination for the `master` branch.",
+              "",
+              "You may be wondering how this property got set on the `master` branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically. ",
+              "",
+              "During a clone, git creates a remote branch for every branch on the remote (aka branches like `o/master`) and then, for each remote branch, creates a local branch to *track* that remote branch (aka `master`). Thats why you may have seen the following command output:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\"",
+              "",
+              "When running `git clone`."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Can I specify this myself?",
+              "",
+              "Yes you can! You can make any arbitrary branch track `o/master`, and if you do so, that branch will have the same implied push destination and merge target as `master`. This means you can run `git push` on a branch named `totallyNotMaster` and have your work pushed to the `master` branch on the remote!",
+              "",
+              "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "Creates a new branch named `totallyNotMaster` and sets it to track `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Enough talking, let's see a demonstration! We will checkout a new branch named `foo` and set it to track `master` on the remote."
+            ],
+            "afterMarkdowns": [
+              "As you can see, we used the implied merge target of `o/master` to update the `foo` branch. Note how master doesn't get updated!!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "This also applies for git push"
+            ],
+            "afterMarkdowns": [
+              "Boom. We pushed our work to the `master` on the remote even though our branch was named something totally different"
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Way #2",
+              "",
+              "Another way to set remote tracking on a branch is to simply use the `git branch -u` option. Running",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "will set the `foo` branch to track `o/master`. If `foo` is currently checked out you can even leave it off:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this other way of specifying remote tracking real quick..."
+            ],
+            "afterMarkdowns": [
+              "Same as before, just a more explicit command. Sweet!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/levels/remote/pushArgs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin master;git push origin foo",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "disabledMap": {
+    "git checkout": true
+  },
+  "name": {
+    "en_US": "Git push arguments"
+  },
+  "hint": {
+    "en_US": "You can always look at the last slide of the dialog with \"objective\""
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push arguments",
+              "",
+              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
+              "",
+              "First we'll look at `git push`. You learned in the remote tracking lesson that git figured out the remote *and* the branch to push to by looking at the properties of the currently checked out branch (the remote that it \"tracks\"). This is the behavior with no arguments specified, but git push can optionally take arguments in the form of:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
+              "",
+              "`git push origin master`",
+              "",
+              "translates to this in English:",
+              "",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done*",
+              "",
+              "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
+              "",
+              "Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example"
+            ],
+            "afterMarkdowns": [
+              "There we go! `master` got updated on the remote since we specified those arguments"
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if we hadn't specified the arguments? What would happen?"
+            ],
+            "afterMarkdowns": [
+              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch"
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/levels/remote/pushArgs2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+    "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin master^:foo;git push origin foo:master",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Git push arguments -- Expanded!"
+  },
+  "hint": {
+    "en_US": "Remember you can admit defeat and type in \"show solution\" :P"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` argument details",
+              "",
+              "Remember from the previous lesson that when we specified `master` as the place argument for git push, we specified both the *source* of where the commits would come from and the *destination* of where the commits would go.",
+              "",
+              "You might then be wondering -- what if we wanted the source and destination to be different? What if you wanted to push commits from the `foo` branch locally onto the `bar` branch on remote?",
+              "",
+              "Well unfortunately that's impossible in git... just kidding! Of course it's possible :)... git has tons and tons of flexibility (almost too much).",
+              "",
+              "Let's see how in the next slide..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "In order to specify both the source and the destination of `<place>`, simply join the two together with a colon:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`)",
+              "",
+              "Once you are specifying both the source and destination independently, you can get quite fancy and precise with remote commands. Let's see a demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remember, `source` is any location that git will understand:"
+            ],
+            "afterMarkdowns": [
+              "Woah! That's a pretty trippy command but it makes sense -- git resolved `foo^` into a location, uploaded whatever commits that weren't present yet on the remote, and then updated destination."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if the destination you want to push doesn't exist? No problem! Just give a branch name and git will create the branch on the remote for you"
+            ],
+            "afterMarkdowns": [
+              "Sweet, that's pretty slick :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/levels/remote/fetchArgs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Fetch arguments"
+  },
+  "hint": {
+    "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\""
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch arguments",
+              "",
+              "So we've just learned all about git push arguments, this cool `<place>` parameter, and even colon refspecs (`<source>:<destination>`). Can we use all this knowledge for `git fetch` as well?",
+              "",
+              "You betcha! The arguments for `git fetch` are actually *very, very* similar to those for `git push`. It's the same type of concepts but just applied in the opposite direction (since now you are downloading commits rather than uploading).",
+              "",
+              "Let's go over the concepts one at a time..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### The `<place>` parameter",
+              "",
+              "If you specify a place with git fetch like in the following command:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git will go to the `foo` branch on the remote, grab all the commits that aren't present locally, and then plop them down onto the `o/foo` branch locally.",
+              "",
+              "Let's see this in action (just as a refresher)"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "By specifying a place..."
+            ],
+            "afterMarkdowns": [
+              "We download only the commits from `foo` and place them on `o/foo`"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "You might be wondering -- why did git plop those commits onto the `o/foo` remote branch rather than just plopping them onto my local `foo` branch? I thought the `<place>` parameter is a place that exists both locally and on the remote?",
+              "",
+              "Well git makes a special exception in this case because you might have work on the `foo` branch that you don't want to mess up!! This ties into the earlier lesson on `git fetch` -- it doesn't update your local non-remote branches, it only downloads the commits (so you can inspect / merge them later).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Well in that case, what happens if I explicitly define both the source and destination with `<source>:<destination>`?\"",
+              "",
+              "If you feel passionate enough to fetch commits *directly* onto a local branch, then yes you can specify that with a colon refspec. You can't fetch commits onto a branch that is checked out, but otherwise git will allow this.",
+              "",
+              "Here is the only catch though -- `<source>` is now a place on the *remote* and `<destination>` is a *local* place to put those commits. It's the exact opposite of git push, and that makes sense since we are transferring data in the opposite direction!",
+              "",
+              "That being said, developers rarely do this in practice. I'm introducing it mainly as a way to conceptualize how `fetch` and `push` are quite similar, just in opposite directions"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this craziness in action:"
+            ],
+            "afterMarkdowns": [
+              "Wow! See, git resolved `foo~1` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if the destination doesnt exist before I run the command? Lets see the last slide but without `bar` existing beforehand"
+            ],
+            "afterMarkdowns": [
+              "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "No args?",
+              "",
+              "If `git fetch` receives no arguments, it just downloads all the commits from the remote onto all the remote branches..."
+            ],
+            "afterMarkdowns": [
+              "Pretty simple, but worth going over just once"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
+              "",
+              "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/levels/remote/sourceNothing.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C1\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin :foo;git fetch origin :bar",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Source of nothing"
+  },
+  "hint": {
+    "en_US": "The branch command is disabled for this level so you'll have to use fetch!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Oddities of `<source>`",
+              "",
+              "Git abuses the `<source>` parameter in two weird ways. These two abuses come from the fact that you can technically specify \"nothing\" as a valid `source` for both git push and git fetch. The way you specify nothing is via an empty argument:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Let's see what these do..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What does pushing \"nothing\" to a remote branch do? It deletes it!"
+            ],
+            "afterMarkdowns": [
+              "There, we successfully deleted the `foo` branch on remote by pushing the concept of \"nothing\" to it. That kinda makes sense..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Finally, fetching \"nothing\" to a place locally actually makes a new branch"
+            ],
+            "afterMarkdowns": [
+              "Very odd / bizarre, but whatever. That's git for you!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
 require.define("/src/js/views/levelDropdownView.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -24223,6 +24884,10 @@ var LevelDropdownView = ContainedBase.extend({
     if (id === this.JSON.selectedTab) {
       return;
     }
+    this.updateTabTo(id);
+  },
+
+  updateTabTo: function(id) {
     this.JSON.selectedTab = id;
     this.render();
     if (this.selectedID) {
@@ -24253,7 +24918,24 @@ var LevelDropdownView = ContainedBase.extend({
 
   leftOrRight: function(delta) {
     this.deselectIconByID(this.selectedID);
-    this.selectedIndex = this.wrapIndex(this.selectedIndex + delta, this.getCurrentSequence());
+    var index = this.selectedIndex + delta;
+
+    var sequence = this.getCurrentSequence();
+    var tabs = this.JSON.tabs;
+    // switch tabs now if needed / possible
+    if (index >= sequence.length &&
+        this.getTabIndex() + 1 < tabs.length) {
+      this.switchToTabIndex(this.getTabIndex() + 1);
+      this.selectedIndex = 0;
+    } else if (index < 0 &&
+               this.getTabIndex() - 1 >= 0) {
+      this.switchToTabIndex(this.getTabIndex() - 1);
+      this.selectedIndex = 0;
+    } else {
+      this.selectedIndex = this.wrapIndex(
+        this.selectedIndex + delta, this.getCurrentSequence()
+      );
+    }
     this.updateSelectedIcon();
   },
 
@@ -24300,6 +24982,18 @@ var LevelDropdownView = ContainedBase.extend({
     this.selectedID = undefined;
     this.selectedIndex = undefined;
     this.selectedSequence = undefined;
+  },
+
+  getTabIndex: function() {
+    var ids = _.map(this.JSON.tabs, function(tab) {
+      return tab.id;
+    });
+    return ids.indexOf(this.JSON.selectedTab);
+  },
+
+  switchToTabIndex: function(index) {
+    var tabID = this.JSON.tabs[index].id;
+    this.updateTabTo(tabID);
   },
 
   wrapIndex: function(index, arr) {
@@ -26239,6 +26933,8 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
+var ORIGIN_PREFIX = 'o/';
+
 var crappyUnescape = function(str) {
   return str.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
 };
@@ -26255,7 +26951,56 @@ var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
 
+var validateBranchNameIfNeeded = function(engine, name) {
+  if (engine.refs[name]) {
+    return name;
+  }
+  return validateBranchName(engine, name);
+};
+
+var assertNotCheckedOut = function(engine, ref) {
+  if (!engine.refs[ref]) {
+    return;
+  }
+  if (engine.HEAD.get('target') === engine.refs[ref]) {
+    throw new GitError({
+      msg: intl.todo(
+        'cannot fetch to ' + ref + ' when checked out on ' + ref
+      )
+    });
+  }
+};
+
+var assertIsBranch = function(engine, ref) {
+  assertIsRef(engine, ref);
+  var obj = engine.refs[ref];
+  if (obj.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo(
+        ref + ' is not a branch'
+      )
+    });
+  }
+};
+
+var assertIsRemoteBranch = function(engine, ref) {
+  assertIsRef(engine, ref);
+  var obj = engine.refs[ref];
+
+  if (obj.get('type') !== 'branch' ||
+      !obj.getIsRemote()) {
+    throw new GitError({
+      msg: intl.todo(
+        ref + ' is not a remote branch'
+      )
+    });
+  }
+};
+
 var assertOriginSpecified = function(generalArgs) {
+  if (!generalArgs.length) {
+    return;
+  }
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
@@ -26390,25 +27135,40 @@ var commandConfig = {
         });
       }
 
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      command.twoArgsForOrigin(generalArgs);
+      assertOriginSpecified(generalArgs);
       // here is the deal -- git pull is pretty complex with
-      // the arguments it wants. Either you can:
+      // the arguments it wants. You can
       //   A) specify the remote branch you want to
       //      merge & fetch, in which case it completely
       //      ignores the properties of branch you are on, or
       //
       //  B) specify no args, in which case it figures out
       //     the branch to fetch from the remote tracking
-      //     and merges those in.
-      // so lets switch on A/B here
+      //     and merges those in, or
+      //
+      //  C) specify the colon refspec like fetch, where it does
+      //     the fetch and then just merges the dest
 
-      var commandOptions = command.getOptionsMap();
-      var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
-      assertOriginSpecified(generalArgs);
-
-      var tracking;
-      if (generalArgs[1]) {
-        tracking = assertBranchIsRemoteTracking(engine, generalArgs[1]);
+      var source;
+      var destination;
+      var firstArg = generalArgs[1];
+      // COPY PASTA validation code from fetch. maybe fix this?
+      if (firstArg && isColonRefspec(firstArg)) {
+        var refspecParts = firstArg.split(':');
+        source = refspecParts[0];
+        destination = validateBranchNameIfNeeded(
+          engine,
+          crappyUnescape(refspecParts[1])
+        );
+        assertNotCheckedOut(engine, destination);
+      } else if (firstArg) {
+        source = firstArg;
+        assertIsBranch(engine.origin, source);
+        // get o/master locally if master is specified
+        destination = engine.origin.refs[source].getPrefixedID();
       } else {
         // cant be detached
         if (engine.getDetachedHead()) {
@@ -26416,12 +27176,18 @@ var commandConfig = {
             msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
           });
         }
-        var oneBefore = engine.getOneBeforeCommit('HEAD');
-        tracking = assertBranchIsRemoteTracking(engine, oneBefore.get('id'));
+        // ok we need to get our currently checked out branch
+        // and then specify source and dest
+        var branch = engine.getOneBeforeCommit('HEAD');
+        var branchName = branch.get('id');
+        assertBranchIsRemoteTracking(engine, branchName);
+        destination = branch.getRemoteTrackingBranchID();
+        source = destination.replace(ORIGIN_PREFIX, '');
       }
 
       engine.pull({
-        source: tracking,
+        source: source,
+        destination: destination,
         isRebase: commandOptions['--rebase']
       });
     }
@@ -26494,21 +27260,27 @@ var commandConfig = {
       var source;
       var destination;
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
-        destination = validateBranchName(engine, refspecParts[1]);
+        destination = validateBranchNameIfNeeded(
+          engine,
+          crappyUnescape(refspecParts[1])
+        );
+        assertNotCheckedOut(engine, destination);
       } else if (firstArg) {
         // here is the deal -- its JUST like git push. the first arg
         // is used as both the destination and the source, so we need
-        // to make sure it exists as the source on REMOTE and then
-        // the destination will be created locally
+        // to make sure it exists as the source on REMOTE. however
+        // technically we have a destination here as the remote branch
         source = firstArg;
-        destination = firstArg;
+        assertIsBranch(engine.origin, source);
+        // get o/master locally if master is specified
+        destination = engine.origin.refs[source].getPrefixedID();
       }
       if (source) { // empty string fails this check
         assertIsRef(engine.origin, source);
@@ -26530,6 +27302,7 @@ var commandConfig = {
       '-f',
       '-a',
       '-r',
+      '-u',
       '--contains'
     ],
     execute: function(engine, command) {
@@ -26545,6 +27318,23 @@ var commandConfig = {
         _.each(names, function(name) {
           engine.validateAndDeleteBranch(name);
         });
+        return;
+      }
+
+      if (commandOptions['-u']) {
+        command.acceptNoGeneralArgs();
+        args = commandOptions['-u'];
+        command.validateArgBounds(args, 1, 2, '-u');
+        var remoteBranch = crappyUnescape(args[0]);
+        var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
+
+        // some assertions, both of these have to exist first
+        assertIsRemoteBranch(engine, remoteBranch);
+        assertIsBranch(engine, branch);
+        engine.setLocalToTrackRemote(
+          engine.refs[branch],
+          engine.refs[remoteBranch]
+        );
         return;
       }
 
@@ -26816,7 +27606,7 @@ var commandConfig = {
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
-      command.twoArgsImpliedOrigin(generalArgs);
+      command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
@@ -26824,6 +27614,13 @@ var commandConfig = {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchName(engine, refspecParts[1]);
+        if (source === "" && !engine.origin.refs[destination]) {
+          throw new GitError({
+            msg: intl.todo(
+              'cannot delete branch ' + options.destination + ' which doesnt exist'
+            )
+          });
+        }
       } else {
         if (firstArg) {
           // we are using this arg as destination AND source. the dest branch
@@ -27151,6 +27948,12 @@ var SHORT_CIRCUIT_CHAIN = 'STAPH';
 function catchShortCircuit(err) {
   if (err !== SHORT_CIRCUIT_CHAIN) {
     throw err;
+  }
+}
+
+function invariant(truthy, reason) {
+  if (!truthy) {
+    throw new Error(reason);
   }
 }
 
@@ -27497,6 +28300,27 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 
     this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
   }, this);
+};
+
+GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
+  if (this.refs[ORIGIN_PREFIX + branchName]) {
+    return;
+  }
+  // if its not a branch on origin then bounce
+  var source = this.origin.resolveID(branchName);
+  if (source.get('type') !== 'branch') {
+    return;
+  }
+
+  return this.makeRemoteBranchForRemote(branchName);
+};
+
+GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
+  if (this.refs[branchName]) {
+    return;
+  }
+
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef('HEAD'));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -27961,7 +28785,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
-  if (target.refs[sourceStartCommitJSON.id]) {
+  if (targetSet[sourceStartCommitJSON.id]) {
     // either we throw since theres no work to be done, or we return an empty array
     if (options.dontThrowOnNoFetch) {
       return [];
@@ -28021,7 +28845,6 @@ GitEngine.prototype.descendSortDepth = function(objects) {
 
 GitEngine.prototype.push = function(options) {
   options = options || {};
-  var didMakeBranch;
 
   if (options.source === "") {
     // delete case
@@ -28034,14 +28857,18 @@ GitEngine.prototype.push = function(options) {
 
   var sourceBranch = this.refs[options.source];
   if (!this.origin.refs[options.destination]) {
-    didMakeBranch = true;
     this.makeBranchOnOriginAndTrack(
       options.destination,
       'HEAD'
     );
+    // play an animation now since we might not have to fast forward
+    // anything... this is weird because we are punting an animation
+    // and not resolving the promise but whatever
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+    this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }
   var branchOnRemote = this.origin.refs[options.destination];
-  var sourceLocation = this.getOneBeforeCommit(options.source || 'HEAD');
+  var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
   this.checkUpstreamOfSource(
@@ -28088,14 +28915,6 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  if (didMakeBranch) {
-    chain = chain.then(_.bind(function() {
-      // play something for both
-      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
-      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
-    }, this));
-  }
-
   _.each(commitsToMake, function(commitJSON) {
     chain = chain.then(_.bind(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
@@ -28113,7 +28932,7 @@ GitEngine.prototype.push = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    var localLocationID = sourceLocation.get('target').get('id');
+    var localLocationID = this.getCommitFromRef(sourceLocation).get('id');
     var remoteCommit = this.origin.refs[localLocationID];
     this.origin.setTargetLocation(branchOnRemote, remoteCommit);
     // unhighlight local
@@ -28162,54 +28981,64 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 
 GitEngine.prototype.fetch = function(options) {
   options = options || {};
+  var didMakeBranch;
 
-  // ok this is just like git push -- if the destination does not exist,
-  // we need to make it
-  if (options.destination && !this.refs[options.destination]) {
-    // its just like creating a branch, we will merge (if pulling) later
+  // first check for super stupid case where we are just making
+  // a branch with fetch...
+  if (options.destination && options.source === '') {
     this.validateAndMakeBranch(
       options.destination,
       this.getCommitFromRef('HEAD')
     );
-  }
+    return;
+  } else if (options.destination && options.source) {
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(options.source);
+    didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
+    options.didMakeBranch = didMakeBranch;
 
-  // now we need to know which remotes to fetch. lets do this by either checking our source
-  // option or just getting all of them
-  var branchesToFetch;
-  if (options.source) {
-    // gah -- first we have to check that we even have a remote branch
-    // for this source (we know its on the remote based on validation)
-    if (!this.refs[ORIGIN_PREFIX + options.source]) {
-      this.makeRemoteBranchForRemote(options.source);
-    }
-    // now just specify branches to fetch based on this source
-    branchesToFetch = [this.refs[ORIGIN_PREFIX + options.source]];
-  } else {
-    branchesToFetch = this.branchCollection.filter(function(branch) {
-      return branch.getIsRemote();
-    });
+    return this.fetchCore([{
+        destination: options.destination,
+        source: options.source
+      }],
+      options
+    );
   }
+  // get all remote branches and specify the dest / source pairs
+  var allBranchesOnRemote = this.origin.branchCollection.toArray();
+  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+    var branchName = branch.get('id');
+    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
+    return {
+      destination: branch.getPrefixedID(),
+      source: branchName
+    };
+  }, this);
+  options.didMakeBranch = didMakeBranch;
+  return this.fetchCore(sourceDestPairs, options);
+};
+
+GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()]
+      pair.destination,
+      pair.source
     );
   }, this);
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(branchesToFetch, function(localRemoteBranch) {
+  _.each(sourceDestPairs, function(pair) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
-      localRemoteBranch,
-      this.origin.refs[localRemoteBranch.getBaseID()],
+      pair.destination,
+      pair.source,
       _.extend(
         {},
         options,
@@ -28231,17 +29060,13 @@ GitEngine.prototype.fetch = function(options) {
   commitsToMake = this.getUniqueObjects(commitsToMake);
   commitsToMake = this.descendSortDepth(commitsToMake);
 
-  if (commitsToMake.length === 0) {
-    this.command.addWarning(intl.str(
-      'git-error-origin-fetch-uptodate'
-    ));
-    // no fetch needed...
-    var d = Q.defer();
-    return {
-      deferred: d,
-      chain: d.promise
-    };
-  }
+  // now here is the tricky part -- the difference between local master
+  // and remote master might be commits C2, C3, and C4, but we
+  // might already have those commits. In this case, we dont need to
+  // make them, so filter these out
+  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+    return !this.refs[commitJSON.id];
+  }, this);
 
   var makeCommit = _.bind(function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
@@ -28263,6 +29088,12 @@ GitEngine.prototype.fetch = function(options) {
 
   var deferred = Q.defer();
   var chain = deferred.promise;
+  if (options.didMakeBranch) {
+    chain = chain.then(_.bind(function() {
+      this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }, this));
+  }
 
   var originBranchSet = this.origin.getUpstreamBranchSet();
   _.each(commitsToMake, function(commitJSON) {
@@ -28287,14 +29118,14 @@ GitEngine.prototype.fetch = function(options) {
   }, this);
 
   chain = chain.then(_.bind(function() {
-    // update all the remote branches
-    _.each(branchesToFetch, function(localRemoteBranch) {
-      var remoteBranch = this.origin.refs[localRemoteBranch.getBaseID()];
-      var remoteLocationID = remoteBranch.get('target').get('id');
+    // update all the destinations
+    _.each(sourceDestPairs, function(pair) {
+      var ours = this.refs[pair.destination];
+      var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
-      var localCommit = this.refs[remoteLocationID];
-      this.setTargetLocation(localRemoteBranch, localCommit);
+      var localCommit = this.refs[theirCommitID];
+      this.setTargetLocation(ours, localCommit);
     }, this);
 
     // unhighlight origin by refreshing
@@ -28314,18 +29145,21 @@ GitEngine.prototype.fetch = function(options) {
 GitEngine.prototype.pull = function(options) {
   options = options || {};
   var localBranch = this.getOneBeforeCommit('HEAD');
-  var remoteBranch = this.refs[options.source];
 
   // no matter what fetch
   var pendingFetch = this.fetch({
     dontResolvePromise: true,
-    dontThrowOnNoFetch: true
+    dontThrowOnNoFetch: true,
+    source: options.source,
+    destination: options.destination
   });
+
+  var destBranch = this.refs[options.destination];
   // then either rebase or merge
   if (options.isRebase) {
-    this.pullFinishWithRebase(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
   } else {
-    this.pullFinishWithMerge(pendingFetch, localBranch, remoteBranch);
+    this.pullFinishWithMerge(pendingFetch, localBranch, destBranch);
   }
 };
 
@@ -30541,7 +31375,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
-    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed. try using --force',
+    'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force'
   },
   'git-error-origin-push-no-ff': {
@@ -32824,11 +33658,8 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  twoArgsImpliedOrigin: function(args) {
+  twoArgsForOrigin: function(args) {
     this.validateArgBounds(args, 0, 2);
-    if (args.length < 2) {
-      args.unshift('origin');
-    }
   },
 
   // this is a little utility class to help arg validation that happens over and over again
@@ -35071,7 +35902,6 @@ var GitDemonstrationView = ContainedBase.extend({
     _.each(commands, function(command, index) {
       chainPromise = chainPromise.then(_.bind(function() {
         var myDefer = Q.defer();
-        console.log('dispatching', command);
         this.mainVis.gitEngine.dispatch(command, myDefer);
         return myDefer.promise;
       }, this));
@@ -36124,6 +36954,10 @@ var LevelDropdownView = ContainedBase.extend({
     if (id === this.JSON.selectedTab) {
       return;
     }
+    this.updateTabTo(id);
+  },
+
+  updateTabTo: function(id) {
     this.JSON.selectedTab = id;
     this.render();
     if (this.selectedID) {
@@ -36154,7 +36988,24 @@ var LevelDropdownView = ContainedBase.extend({
 
   leftOrRight: function(delta) {
     this.deselectIconByID(this.selectedID);
-    this.selectedIndex = this.wrapIndex(this.selectedIndex + delta, this.getCurrentSequence());
+    var index = this.selectedIndex + delta;
+
+    var sequence = this.getCurrentSequence();
+    var tabs = this.JSON.tabs;
+    // switch tabs now if needed / possible
+    if (index >= sequence.length &&
+        this.getTabIndex() + 1 < tabs.length) {
+      this.switchToTabIndex(this.getTabIndex() + 1);
+      this.selectedIndex = 0;
+    } else if (index < 0 &&
+               this.getTabIndex() - 1 >= 0) {
+      this.switchToTabIndex(this.getTabIndex() - 1);
+      this.selectedIndex = 0;
+    } else {
+      this.selectedIndex = this.wrapIndex(
+        this.selectedIndex + delta, this.getCurrentSequence()
+      );
+    }
     this.updateSelectedIcon();
   },
 
@@ -36201,6 +37052,18 @@ var LevelDropdownView = ContainedBase.extend({
     this.selectedID = undefined;
     this.selectedIndex = undefined;
     this.selectedSequence = undefined;
+  },
+
+  getTabIndex: function() {
+    var ids = _.map(this.JSON.tabs, function(tab) {
+      return tab.id;
+    });
+    return ids.indexOf(this.JSON.selectedTab);
+  },
+
+  switchToTabIndex: function(index) {
+    var tabID = this.JSON.tabs[index].id;
+    this.updateTabTo(tabID);
   },
 
   wrapIndex: function(index, arr) {
@@ -39518,6 +40381,9 @@ var Visualization = Backbone.View.extend({
 
   fadeTreeIn: function() {
     this.shown = true;
+    if (!this.paper.canvas) {
+      return;
+    }
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
 
     this.originToo('fadeTreeIn', arguments);
@@ -39876,7 +40742,12 @@ exports.levelSequences = {
   ],
   remoteAdvanced: [
     require('./remote/pushManyFeatures').level,
-    require('./remote/mergeManyFeatures').level
+    require('./remote/mergeManyFeatures').level,
+    require('./remote/tracking').level,
+    require('./remote/pushArgs').level,
+    require('./remote/pushArgs2').level,
+    require('./remote/fetchArgs').level,
+    require('./remote/sourceNothing').level
   ]
 };
 
@@ -43417,6 +44288,146 @@ require.define("/src/levels/remote/fetch.js",function(require,module,exports,__d
 });
 require("/src/levels/remote/fetch.js");
 
+require.define("/src/levels/remote/fetchArgs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Fetch arguments"
+  },
+  "hint": {
+    "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\""
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch arguments",
+              "",
+              "So we've just learned all about git push arguments, this cool `<place>` parameter, and even colon refspecs (`<source>:<destination>`). Can we use all this knowledge for `git fetch` as well?",
+              "",
+              "You betcha! The arguments for `git fetch` are actually *very, very* similar to those for `git push`. It's the same type of concepts but just applied in the opposite direction (since now you are downloading commits rather than uploading).",
+              "",
+              "Let's go over the concepts one at a time..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### The `<place>` parameter",
+              "",
+              "If you specify a place with git fetch like in the following command:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git will go to the `foo` branch on the remote, grab all the commits that aren't present locally, and then plop them down onto the `o/foo` branch locally.",
+              "",
+              "Let's see this in action (just as a refresher)"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "By specifying a place..."
+            ],
+            "afterMarkdowns": [
+              "We download only the commits from `foo` and place them on `o/foo`"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "You might be wondering -- why did git plop those commits onto the `o/foo` remote branch rather than just plopping them onto my local `foo` branch? I thought the `<place>` parameter is a place that exists both locally and on the remote?",
+              "",
+              "Well git makes a special exception in this case because you might have work on the `foo` branch that you don't want to mess up!! This ties into the earlier lesson on `git fetch` -- it doesn't update your local non-remote branches, it only downloads the commits (so you can inspect / merge them later).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Well in that case, what happens if I explicitly define both the source and destination with `<source>:<destination>`?\"",
+              "",
+              "If you feel passionate enough to fetch commits *directly* onto a local branch, then yes you can specify that with a colon refspec. You can't fetch commits onto a branch that is checked out, but otherwise git will allow this.",
+              "",
+              "Here is the only catch though -- `<source>` is now a place on the *remote* and `<destination>` is a *local* place to put those commits. It's the exact opposite of git push, and that makes sense since we are transferring data in the opposite direction!",
+              "",
+              "That being said, developers rarely do this in practice. I'm introducing it mainly as a way to conceptualize how `fetch` and `push` are quite similar, just in opposite directions"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this craziness in action:"
+            ],
+            "afterMarkdowns": [
+              "Wow! See, git resolved `foo~1` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if the destination doesnt exist before I run the command? Lets see the last slide but without `bar` existing beforehand"
+            ],
+            "afterMarkdowns": [
+              "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "No args?",
+              "",
+              "If `git fetch` receives no arguments, it just downloads all the commits from the remote onto all the remote branches..."
+            ],
+            "afterMarkdowns": [
+              "Pretty simple, but worth going over just once"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
+              "",
+              "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/remote/fetchArgs.js");
+
 require.define("/src/levels/remote/fetchRebase.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
@@ -43774,6 +44785,185 @@ require.define("/src/levels/remote/push.js",function(require,module,exports,__di
 });
 require("/src/levels/remote/push.js");
 
+require.define("/src/levels/remote/pushArgs.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin master;git push origin foo",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "disabledMap": {
+    "git checkout": true
+  },
+  "name": {
+    "en_US": "Git push arguments"
+  },
+  "hint": {
+    "en_US": "You can always look at the last slide of the dialog with \"objective\""
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push arguments",
+              "",
+              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
+              "",
+              "First we'll look at `git push`. You learned in the remote tracking lesson that git figured out the remote *and* the branch to push to by looking at the properties of the currently checked out branch (the remote that it \"tracks\"). This is the behavior with no arguments specified, but git push can optionally take arguments in the form of:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
+              "",
+              "`git push origin master`",
+              "",
+              "translates to this in English:",
+              "",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done*",
+              "",
+              "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
+              "",
+              "Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example"
+            ],
+            "afterMarkdowns": [
+              "There we go! `master` got updated on the remote since we specified those arguments"
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if we hadn't specified the arguments? What would happen?"
+            ],
+            "afterMarkdowns": [
+              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch"
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/remote/pushArgs.js");
+
+require.define("/src/levels/remote/pushArgs2.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+    "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin master^:foo;git push origin foo:master",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Git push arguments -- Expanded!"
+  },
+  "hint": {
+    "en_US": "Remember you can admit defeat and type in \"show solution\" :P"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` argument details",
+              "",
+              "Remember from the previous lesson that when we specified `master` as the place argument for git push, we specified both the *source* of where the commits would come from and the *destination* of where the commits would go.",
+              "",
+              "You might then be wondering -- what if we wanted the source and destination to be different? What if you wanted to push commits from the `foo` branch locally onto the `bar` branch on remote?",
+              "",
+              "Well unfortunately that's impossible in git... just kidding! Of course it's possible :)... git has tons and tons of flexibility (almost too much).",
+              "",
+              "Let's see how in the next slide..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "In order to specify both the source and the destination of `<place>`, simply join the two together with a colon:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`)",
+              "",
+              "Once you are specifying both the source and destination independently, you can get quite fancy and precise with remote commands. Let's see a demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remember, `source` is any location that git will understand:"
+            ],
+            "afterMarkdowns": [
+              "Woah! That's a pretty trippy command but it makes sense -- git resolved `foo^` into a location, uploaded whatever commits that weren't present yet on the remote, and then updated destination."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if the destination you want to push doesn't exist? No problem! Just give a branch name and git will create the branch on the remote for you"
+            ],
+            "afterMarkdowns": [
+              "Sweet, that's pretty slick :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/remote/pushArgs2.js");
+
 require.define("/src/levels/remote/pushManyFeatures.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22side1%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22side1%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side2%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22side2%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side3%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22side3%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
@@ -43784,7 +44974,7 @@ require.define("/src/levels/remote/pushManyFeatures.js",function(require,module,
   "name": {
     "en_US": "Push Master!"
   },
-  "compareOnlyMaster": true,
+  "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
     "en_US": {
       "childViews": [
@@ -43924,15 +45114,15 @@ require.define("/src/levels/remote/remoteBranches.js",function(require,module,ex
 });
 require("/src/levels/remote/remoteBranches.js");
 
-require.define("/src/levels/remote/specify.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22foo%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22foo%22%2C%22remoteTrackingBranchID%22%3A%22o/foo%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22o/foo%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/foo%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22foo%22%5D%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22foo%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22foo%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22foo%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
-  "solutionCommand": "git pull origin foo --rebase;git push origin foo",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"foo\"]},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"side\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"foo\":{\"target\":\"C2\",\"id\":\"foo\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
+require.define("/src/levels/remote/sourceNothing.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C1\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "solutionCommand": "git push origin :foo;git fetch origin :bar",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Specifying Remote/Branch"
+    "en_US": "Source of nothing"
   },
   "hint": {
-    "en_US": "Review the intro dialogs if you get stuck!"
+    "en_US": "The branch command is disabled for this level so you'll have to use fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -43941,26 +45131,14 @@ require.define("/src/levels/remote/specify.js",function(require,module,exports,_
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Specifying `<remote>/<branch>`",
+              "### Oddities of `<source>`",
               "",
-              "One thing that might have seemed \"magical\" is that git knew to rebase our `master` branch onto `o/master`. How did it what branch we wanted? What if we wanted to rebase onto another branch or upload our work to a different branch name?",
+              "Git abuses the `<source>` parameter in two weird ways. These two abuses come from the fact that you can technically specify \"nothing\" as a valid `source` for both git push and git fetch. The way you specify nothing is via an empty argument:",
               "",
-              "Git knows to rebase onto `o/master` because the `master` branch is set up to *track* `o/master`. So yes, this is another branch property you have to understand -- when you clone a repository, git sets up a the remote branches (like `o/master`) and branches that *track* those remote branches (for instance, `master`).",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
               "",
-              "This way when you push and pull, you can simply leave off any arguments and git knows where to put your work."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "However, you can actually specify the remote and the branch name on the remote if you wish to. The command takes the format:",
-              "",
-              "* `git push <remote> <branch>`",
-              "* `git pull <remote> <branch>`",
-              "",
-              "Let's see a demonstration"
+              "Let's see what these do..."
             ]
           }
         },
@@ -43968,37 +45146,33 @@ require.define("/src/levels/remote/specify.js",function(require,module,exports,_
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "I can `pull` down changes onto a totally separate branch..."
+              "What does pushing \"nothing\" to a remote branch do? It deletes it!"
             ],
             "afterMarkdowns": [
-              "See! The `side` branch was updated with work from `o/master` while the `master` branch was not updated at all."
+              "There, we successfully deleted the `foo` branch on remote by pushing the concept of \"nothing\" to it. That kinda makes sense..."
             ],
-            "command": "git checkout side; git pull origin master",
-            "beforeCommand": "git clone; git fakeTeamwork; git branch side"
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "I can also push to a different branch as well..."
+              "Finally, fetching \"nothing\" to a place locally actually makes a new branch"
             ],
             "afterMarkdowns": [
-              "Here we pushed commits *from* the `side` branch onto the `master` branch on the remote. We did this by specifying the destination of our push.",
-              "",
-              "Notice how `o/master` is updated but *not* the `master` branch!"
+              "Very odd / bizarre, but whatever. That's git for you!"
             ],
-            "command": "git push origin master",
-            "beforeCommand": "git clone; git checkout -b side; git commit"
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, this level is a bit tricky. Let's pull down work from the `foo` branch on remote, rebase our work on top of that, and publish that work back.",
-              "",
-              "Let's do all of this while *not* on the `foo` branch though, just because we can!"
+              "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
             ]
           }
         }
@@ -44008,6 +45182,139 @@ require.define("/src/levels/remote/specify.js",function(require,module,exports,_
 };
 
 });
-require("/src/levels/remote/specify.js");
+require("/src/levels/remote/sourceNothing.js");
+
+require.define("/src/levels/remote/tracking.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
+  "solutionCommand": "git checkout -b side o/master;git commit;git pull --rebase;git push",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "name": {
+    "en_US": "Remote Tracking"
+  },
+  "hint": {
+    "en_US": "Remember there are two ways to set remote tracking!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Remote-Tracking branches",
+              "",
+              "One thing that might have seemed \"magical\" about the last few lessons is that git knew the `master` branch was related to `o/master`. Sure these branches have similar names and it might make logical sense to connect the `master` branch on the remote to the local `master` branch, but this connection is demonstrated clearly in two scenarios:",
+              "",
+              "* During a pull operation, commits are downloaded onto `o/master` and then *merged* into the `master` branch. The implied target of the merge is determined from this connection.",
+              "* During a push operation, work from the `master` branch was pushed onto the remote's `master` branch (which was then represented by `o/master` locally). The *destination* of the push is determined from the connection between `master` and `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Long story short, this connection between `master` and `o/master` is explained simply by the \"remote tracking\" property of branches. The `master` branch is set to track `o/master` -- this means there is an implied merge target and implied push destination for the `master` branch.",
+              "",
+              "You may be wondering how this property got set on the `master` branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically. ",
+              "",
+              "During a clone, git creates a remote branch for every branch on the remote (aka branches like `o/master`) and then, for each remote branch, creates a local branch to *track* that remote branch (aka `master`). Thats why you may have seen the following command output:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\"",
+              "",
+              "When running `git clone`."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Can I specify this myself?",
+              "",
+              "Yes you can! You can make any arbitrary branch track `o/master`, and if you do so, that branch will have the same implied push destination and merge target as `master`. This means you can run `git push` on a branch named `totallyNotMaster` and have your work pushed to the `master` branch on the remote!",
+              "",
+              "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "Creates a new branch named `totallyNotMaster` and sets it to track `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Enough talking, let's see a demonstration! We will checkout a new branch named `foo` and set it to track `master` on the remote."
+            ],
+            "afterMarkdowns": [
+              "As you can see, we used the implied merge target of `o/master` to update the `foo` branch. Note how master doesn't get updated!!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "This also applies for git push"
+            ],
+            "afterMarkdowns": [
+              "Boom. We pushed our work to the `master` on the remote even though our branch was named something totally different"
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Way #2",
+              "",
+              "Another way to set remote tracking on a branch is to simply use the `git branch -u` option. Running",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "will set the `foo` branch to track `o/master`. If `foo` is currently checked out you can even leave it off:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this other way of specifying remote tracking real quick..."
+            ],
+            "afterMarkdowns": [
+              "Same as before, just a more explicit command. Sweet!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/remote/tracking.js");
 
 })();
