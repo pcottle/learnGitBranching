@@ -853,7 +853,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   var sourceTree = source.exportTree();
   var sourceStartCommitJSON = sourceTree.commits[sourceStartCommit.get('id')];
 
-  if (target.refs[sourceStartCommitJSON.id]) {
+  if (targetSet[sourceStartCommitJSON.id]) {
     // either we throw since theres no work to be done, or we return an empty array
     if (options.dontThrowOnNoFetch) {
       return [];

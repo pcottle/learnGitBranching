@@ -48,10 +48,14 @@ var expectLevelAsync = function(headless, levelBlob) {
   }, 'trees should be equal', TIME);
 };
 
-var expectTreeAsync = function(command, expectedJSON) {
+var expectTreeAsync = function(command, expectedJSON, startJSON) {
   var headless = new HeadlessGit();
   var start = Date.now();
   var haveReported = false;
+
+  if (startJSON) {
+    headless.gitEngine.loadTreeFromString(startJSON);
+  }
 
   runs(function() {
     headless.sendCommand(command);
