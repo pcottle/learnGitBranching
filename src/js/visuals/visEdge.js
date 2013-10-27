@@ -130,6 +130,7 @@ var VisEdge = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
     var map = {
       'branch': 1,
+      'tag': 1,
       'head': GRAPHICS.edgeUpstreamHeadOpacity,
       'none': GRAPHICS.edgeUpstreamNoneOpacity
     };
