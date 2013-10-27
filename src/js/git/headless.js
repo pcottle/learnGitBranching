@@ -11,6 +11,7 @@ var EventBaton = require('../util/eventBaton').EventBaton;
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var TagCollection = Collections.TagCollection;
 var Command = require('../models/commandModel').Command;
 
 var mock = require('../util/mock').mock;
@@ -70,6 +71,7 @@ var HeadlessGit = function() {
 HeadlessGit.prototype.init = function() {
   this.commitCollection = new CommitCollection();
   this.branchCollection = new BranchCollection();
+  this.tagCollection = new TagCollection();
 
   // here we mock visuals and animation factory so the git engine
   // is headless
@@ -84,6 +86,7 @@ HeadlessGit.prototype.init = function() {
   this.gitEngine = new GitEngine({
     collection: this.commitCollection,
     branches: this.branchCollection,
+    tags: this.tagCollection,
     gitVisuals: gitVisuals,
     animationFactory: animationFactory,
     eventBaton: new EventBaton()

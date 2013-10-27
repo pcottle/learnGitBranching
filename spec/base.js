@@ -70,8 +70,10 @@ var expectTreeAsync = function(command, expectedJSON, startJSON) {
       console.log('\n<<<<<<<<<<<\nactual', getHeadlessSummary(headless));
       console.log('\n<<<<ORIGIN>>>>>\n');
       if (expected.originTree) {
+        console.log('expected origin tree:');
         console.log(expected.originTree);
         console.log('\n=========\n');
+        console.log('actual origin tree');
         console.log(getHeadlessSummary(headless).originTree);
       }
       console.log(expectedJSON);
