@@ -3734,7 +3734,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
-    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D',
+    'en_US': 'LGB can\'t receive input on mobile, visit on desktop! it\'s worth it :D',
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
   },
@@ -6061,6 +6061,12 @@ var initDemo = function(sandbox) {
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
   var commands;
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', 'mobile alert');
+    });
+  }
+
   if (params.hasOwnProperty('demo')) {
     commands = [
       "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
@@ -6129,11 +6135,6 @@ var initDemo = function(sandbox) {
     });
   }
 
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
-    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger('commandSubmitted', 'mobile alert');
-    });
-  }
 };
 
 if (require('../util').isBrowser()) {
@@ -26242,6 +26243,12 @@ var initDemo = function(sandbox) {
   // being the smart programmer I am (not), I dont include a true value on demo, so
   // I have to check if the key exists here
   var commands;
+  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', 'mobile alert');
+    });
+  }
+
   if (params.hasOwnProperty('demo')) {
     commands = [
       "git commit; git checkout -b bugFix C1; git commit; git merge master; git checkout master; git commit; git rebase bugFix;",
@@ -26310,11 +26317,6 @@ var initDemo = function(sandbox) {
     });
   }
 
-  if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
-    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger('commandSubmitted', 'mobile alert');
-    });
-  }
 };
 
 if (require('../util').isBrowser()) {
@@ -31783,7 +31785,7 @@ require.define("/src/js/intl/strings.js",function(require,module,exports,__dirna
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
-    'en_US': 'Can\'t bring up the keyboard on mobile / tablet :( try visiting on desktop! :D',
+    'en_US': 'LGB can\'t receive input on mobile, visit on desktop! it\'s worth it :D',
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
   },
