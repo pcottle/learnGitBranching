@@ -207,6 +207,7 @@ GitEngine.prototype.exportTree = function() {
   var totalExport = {
     branches: {},
     commits: {},
+    tags: {},
     HEAD: null
   };
 
