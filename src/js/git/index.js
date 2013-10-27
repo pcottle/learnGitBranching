@@ -41,6 +41,7 @@ function GitEngine(options) {
   this.localRepo = null;
 
   this.branchCollection = options.branches;
+  this.tagCollection = options.tags;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
 
@@ -206,6 +207,7 @@ GitEngine.prototype.exportTree = function() {
   // thus, we need to loop through and "flatten" our graph of objects referencing one another
   var totalExport = {
     branches: {},
+    tags: {},
     commits: {},
     tags: {},
     HEAD: null
@@ -216,6 +218,13 @@ GitEngine.prototype.exportTree = function() {
     branch.visBranch = undefined;
 
     totalExport.branches[branch.id] = branch;
+  });
+
+  _.each(this.tagCollection.toJSON(), function(tag) {
+    tag.target = tag.target.get('id');
+    tag.visTag = undefined;
+
+    totalExport.tags[tag.id] = tag;
   });
 
   _.each(this.commitCollection.toJSON(), function(commit) {
@@ -235,8 +244,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.visBranch = undefined;
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -298,6 +306,12 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
+  _.each(tree.tags, function(tagJSON) {
+    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
+
+    this.tagCollection.add(tag, {silent: true});
+  }, this);
+
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
 
@@ -309,8 +323,11 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
-    this.gitVisuals.addBranch(branch);
-  }, this);
+        this.gitVisuals.addBranch(branch);
+      }, this);
+  this.tagCollection.each(function(tag) {
+        this.gitVisuals.addTag(tag);
+      }, this);
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
@@ -477,7 +494,9 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     if (tree.commits[id]) {
       return 'commit';
     } else if (tree.branches[id]) {
-      return 'branch';
+        return 'branch';
+    } else if (tree.tags && tree.tags[id]) {
+        return 'tag';
     } else if (id == 'HEAD') {
       return 'HEAD';
     }
@@ -510,6 +529,19 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     ));
     createdSoFar[objID] = branch;
     return branch;
+  }
+
+  if (type == 'tag') {
+    var tagJSON = tree.tags[objID];
+
+    var tag = new Tag(_.extend(
+      tree.tags[objID],
+      {
+        target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
+      }
+    ));
+    createdSoFar[objID] = tag;
+    return tag;
   }
 
   if (type == 'commit') {
@@ -559,6 +591,7 @@ GitEngine.prototype.reloadGraphics = function() {
 
 GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
+  this.tagCollection.reset();
   this.commitCollection.reset();
   this.refs = {};
   this.HEAD = null;
@@ -625,6 +658,20 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   return this.makeBranch(id, target);
 };
 
+GitEngine.prototype.validateAndMakeTag = function(id, target) {
+  id = this.validateBranchName(id);
+  if (this.refs[id]) {
+    throw new GitError({
+      msg: intl.str(
+        'bad-tag-name',
+        { tag: name }
+      )
+    });
+  }
+
+  this.makeTag(id, target);
+};
+
 GitEngine.prototype.makeBranch = function(id, target) {
   if (this.refs[id]) {
     throw new Error('woah already have that');
@@ -639,8 +686,35 @@ GitEngine.prototype.makeBranch = function(id, target) {
   return branch;
 };
 
+GitEngine.prototype.makeTag = function(id, target) {
+  if (this.refs[id]) {
+    throw new Error('woah already have that');
+  }
+
+  var tag = new Tag({
+    target: target,
+    id: id
+  });
+  this.tagCollection.add(tag);
+  this.refs[tag.get('id')] = tag;
+  return tag;
+};
+
 GitEngine.prototype.getHead = function() {
   return _.clone(this.HEAD);
+};
+
+GitEngine.prototype.getTags = function() {
+  var toReturn = [];
+  this.tagCollection.each(function(tag) {
+    toReturn.push({
+      id: tag.get('id'),
+      target: tag.get('target'),
+      remote: tag.getIsRemote(),
+      obj: tag
+    });
+  }, this);
+  return toReturn;
 };
 
 GitEngine.prototype.getBranches = function() {
@@ -687,6 +761,17 @@ GitEngine.prototype.printBranches = function(branches) {
   var result = '';
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
+  });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.printTags = function(tags) {
+  var result = '';
+  _.each(tags, function(tag) {
+    console.log(tag);
+    result += tag.id + '\n';
   });
   throw new CommandResult({
     msg: result
@@ -1727,6 +1812,53 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
   return commitToSet;
 };
 
+GitEngine.prototype.getUpstreamTagSet = function() {
+  // this is expensive!! so only call once in a while
+  var commitToSet = {};
+
+  var inArray = function(arr, id) {
+    var found = false;
+    _.each(arr, function(wrapper) {
+      if (wrapper.id == id) {
+        found = true;
+      }
+    });
+
+    return found;
+  };
+
+  var bfsSearch = function(commit) {
+    var set = [];
+    var pQueue = [commit];
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      set.push(popped.get('id'));
+
+      if (popped.get('parents') && popped.get('parents').length) {
+        pQueue = pQueue.concat(popped.get('parents'));
+      }
+    }
+    return set;
+  };
+
+  this.tagCollection.each(function(tag) {
+    var set = bfsSearch(tag.get('target'));
+    _.each(set, function(id) {
+      commitToSet[id] = commitToSet[id] || [];
+
+      // only add it if it's not there, so hue blending is ok
+      if (!inArray(commitToSet[id], tag.get('id'))) {
+        commitToSet[id].push({
+          obj: tag,
+          id: tag.get('id')
+        });
+      }
+    });
+  });
+
+  return commitToSet;
+};
+
 GitEngine.prototype.getUpstreamHeadSet = function() {
   var set = this.getUpstreamSet('HEAD');
   var including = this.getCommitFromRef('HEAD').get('id');
@@ -2261,12 +2393,15 @@ GitEngine.prototype.checkout = function(idOrTarget) {
     target = this.getCommitFromRef(target.get('id'));
   }
 
-  if (type !== 'branch' && type !== 'commit') {
+  if (type !== 'branch' && type !== 'tag' && type !== 'commit') {
     throw new GitError({
       msg: intl.str('git-error-options')
     });
   }
-
+  if (type === 'tag') {
+    target = target.get('target');
+  }
+  
   this.HEAD.set('target', target);
 };
 
@@ -2311,6 +2446,11 @@ GitEngine.prototype.isRemoteBranchRef = function(ref) {
     return false;
   }
   return resolved.getIsRemote();
+};
+
+GitEngine.prototype.tag = function(name, ref) {
+  var target = this.getCommitFromRef(ref);
+  this.validateAndMakeTag(name, target);
 };
 
 GitEngine.prototype.validateAndDeleteBranch = function(name) {
@@ -2810,8 +2950,20 @@ var Commit = Backbone.Model.extend({
   }
 });
 
+var Tag = Ref.extend({
+  defaults: {
+    visTag: null
+  },
+
+  initialize: function() {
+    Ref.prototype.initialize.call(this);
+    this.set('type', 'tag');
+  }
+});
+
 exports.GitEngine = GitEngine;
 exports.Commit = Commit;
 exports.Branch = Branch;
+exports.Tag = Tag;
 exports.Ref = Ref;
 

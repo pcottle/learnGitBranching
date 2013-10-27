@@ -8,10 +8,13 @@ var GLOBAL = require('../util/constants').GLOBAL;
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
+var TagCollection = Collections.TagCollection;
 
 var VisNode = require('../visuals/visNode').VisNode;
 var VisBranch = require('../visuals/visBranch').VisBranch;
 var VisBranchCollection = require('../visuals/visBranch').VisBranchCollection;
+var VisTag = require('../visuals/visTag').VisTag;
+var VisTagCollection = require('../visuals/visTag').VisTagCollection;
 var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
 
@@ -21,15 +24,19 @@ function GitVisuals(options) {
   this.visualization = options.visualization;
   this.commitCollection = options.commitCollection;
   this.branchCollection = options.branchCollection;
+  this.tagCollection = options.tagCollection;
   this.visNodeMap = {};
 
   this.visEdgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
+  this.visTagCollection = new VisTagCollection();
   this.commitMap = {};
 
   this.rootCommit = null;
   this.branchStackMap = null;
+  this.tagStackMap = null;
   this.upstreamBranchSet = null;
+  this.upstreamTagSet = null;
   this.upstreamHeadSet = null;
 
   this.paper = options.paper;
@@ -37,6 +44,10 @@ function GitVisuals(options) {
 
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
+  
+  this.tagCollection.on('add', this.addTagFromEvent, this);
+  this.tagCollection.on('remove', this.removeTag, this);
+  
   this.deferred = [];
 
   this.flipFraction = 0.65;
@@ -69,12 +80,18 @@ GitVisuals.prototype.resetAll = function() {
     visBranch.remove();
   }, this);
 
+  var tags = this.visTagCollection.toArray();
+  _.each(tags, function(visTag) {
+    visTag.remove();
+  }, this);
+
   _.each(this.visNodeMap, function(visNode) {
     visNode.remove();
   }, this);
 
   this.visEdgeCollection.reset();
   this.visBranchCollection.reset();
+  this.visTagCollection.reset();
 
   this.visNodeMap = {};
   this.rootCommit = null;
@@ -178,6 +195,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
+  this.visTagCollection.each(animate);
   _.each(this.visNodeMap, animate);
 
   var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
@@ -334,6 +352,7 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
 
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
+  this.visTagCollection.each(animate);
   _.each(this.visNodeMap, animate);
 };
 
@@ -368,6 +387,10 @@ GitVisuals.prototype.genSnapshot = function() {
 
   this.visEdgeCollection.each(function(visEdge) {
     snapshot[visEdge.getID()] = visEdge.getAttributes();
+  }, this);
+
+  this.visTagCollection.each(function(visTag) {
+    snapshot[visTag.getID()] = visTag.getAttributes();
   }, this);
 
   return snapshot;
@@ -411,6 +434,7 @@ GitVisuals.prototype.calcTreeCoords = function() {
 
   this.calcUpstreamSets();
   this.calcBranchStacks();
+  this.calcTagStacks();
 
   this.calcDepth();
   this.calcWidth();
@@ -420,10 +444,14 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.updateName();
   });
+  this.visTagCollection.each(function(visTag) {
+    visTag.updateName();
+  });
 };
 
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
+  this.upstreamTagSet = this.gitEngine.getUpstreamTagSet();
   this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
 };
 
@@ -465,12 +493,15 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
 
   var id = commit.get('id');
   var branch = this.upstreamBranchSet;
+  var tag = this.upstreamTagSet;
   var head = this.upstreamHeadSet;
 
   if (branch[id]) {
     return 'branch';
   } else if (head[id]) {
     return 'head';
+  } else if (tag[id]) {
+    return 'tag';
   } else {
     return 'none';
   }
@@ -494,6 +525,24 @@ GitVisuals.prototype.calcBranchStacks = function() {
     });
   });
   this.branchStackMap = map;
+};
+
+GitVisuals.prototype.calcTagStacks = function() {
+  var tags = this.gitEngine.getTags();
+  var map = {};
+  _.each(tags, function(tag) {
+    var thisId = tag.target.get('id');
+    
+    map[thisId] = map[thisId] || [];
+    map[thisId].push(tag);
+    map[thisId].sort(function(a, b) {
+      var aId = a.obj.get('id');
+      var bId = b.obj.get('id');
+      return aId.localeCompare(bId);
+    });
+  });
+  
+  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {
@@ -626,9 +675,43 @@ GitVisuals.prototype.addBranch = function(branch) {
   }
 };
 
+GitVisuals.prototype.addTagFromEvent = function(tag, collection, index) {
+  var action = _.bind(function() {
+    this.addTag(tag);
+  }, this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.addTag = function(tag) {
+  var visTag = new VisTag({
+    tag: tag,
+    gitVisuals: this,
+    gitEngine: this.gitEngine
+  });
+
+  this.visTagCollection.add(visTag);
+  if (this.gitReady) {
+    visTag.genGraphics(this.paper);
+  } else {
+    this.defer(_.bind(function() {
+      visTag.genGraphics(this.paper);
+    }, this));
+  }
+};
+
 GitVisuals.prototype.removeVisBranch = function(visBranch) {
   this.visBranchCollection.remove(visBranch);
 };
+
+GitVisuals.prototype.removeVisTag = function(visTag) {
+  this.visTagCollection.remove(visTag);
+};
+
 
 GitVisuals.prototype.removeVisNode = function(visNode) {
   delete this.visNodeMap[visNode.getID()];
@@ -641,6 +724,9 @@ GitVisuals.prototype.removeVisEdge = function(visEdge) {
 GitVisuals.prototype.animateRefs = function(speed) {
   this.visBranchCollection.each(function(visBranch) {
     visBranch.animateUpdatedPos(speed);
+  }, this);
+  this.visTagCollection.each(function(visTag) {
+    visTag.animateUpdatedPos(speed);
   }, this);
 };
 
@@ -756,6 +842,7 @@ GitVisuals.prototype.addEdge = function(idTail, idHead) {
 GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
+  this.visTagsFront();
 };
 
 GitVisuals.prototype.visNodesFront = function() {
@@ -772,6 +859,17 @@ GitVisuals.prototype.visBranchesFront = function() {
 
   this.visBranchCollection.each(function(vBranch) {
     vBranch.textToFrontIfInStack();
+  });
+};
+
+GitVisuals.prototype.visTagsFront = function() {
+  this.visTagCollection.each(function(vTag) {
+    vTag.nonTextToFront();
+    vTag.textToFront();
+  });
+
+  this.visTagCollection.each(function(vTag) {
+    vTag.textToFrontIfInStack();
   });
 };
 
@@ -797,6 +895,10 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
 
   this.visBranchCollection.each(function(visBranch) {
     visBranch.genGraphics(this.paper);
+  }, this);
+
+  this.visTagCollection.each(function(visTag) {
+    visTag.genGraphics(this.paper);
   }, this);
 
   this.zIndexReflow();
