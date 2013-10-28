@@ -9,6 +9,7 @@ var AnimationFactory = require('../visuals/animation/animationFactory').Animatio
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
 var TreeCompare = require('./treeCompare').TreeCompare;
 
+var Graph = require('../graph');
 var Errors = require('../util/errors');
 var Main = require('../app');
 var Commands = require('../commands');
@@ -970,7 +971,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
 
   var pushParent = function(parentID) {
     if (targetSet[parentID]) {
-      // we already have this commit, lets bounce
+      // we already have that commit, lets bounce
       return;
     }
 
