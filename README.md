@@ -94,6 +94,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * "nem75"
 * Fabio Crisci (piuccio)
 * Max Sikström (pengi) [tag support!!]
+* "rogererens"
 
 Or reported an issue that was successfully closed!
 
