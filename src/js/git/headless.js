@@ -5,7 +5,7 @@ var Q = require('q');
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var GitVisuals = require('../visuals').GitVisuals;
-var TreeCompare = require('../git/treeCompare');
+var TreeCompare = require('../graph/treeCompare');
 var EventBaton = require('../util/eventBaton').EventBaton;
 
 var Collections = require('../models/collections');

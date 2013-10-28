@@ -3,7 +3,7 @@ var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
-var TreeCompare = require('../git/treeCompare');
+var TreeCompare = require('../graph/treeCompare');
 
 var randomHueString = function() {
   var hue = Math.random();
