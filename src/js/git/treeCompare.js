@@ -394,5 +394,5 @@ TreeCompare.compareTrees = function(treeA, treeB) {
   return _.isEqual(treeA, treeB);
 };
 
-exports.TreeCompare = TreeCompare;
+module.exports = TreeCompare;
 
