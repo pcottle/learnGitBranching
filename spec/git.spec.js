@@ -156,5 +156,12 @@ describe('Git', function() {
     );
   });
 
+	it('makes a tag', function() {
+		expectTreeAsync(
+			'git tag v1',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{"v1":{"target":"C1","id":"v1","type":"tag"}},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
 });
 
