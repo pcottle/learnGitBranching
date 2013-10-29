@@ -155,5 +155,6 @@ describe('Git', function() {
       '{"branches":{"master":{"target":"C5","id":"master","remoteTrackingBranchID":null},"side":{"target":"C4","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"},"C5":{"parents":["C2","C4"],"id":"C5"}},"HEAD":{"target":"master","id":"HEAD"}}'
     );
   });
+
 });
 
