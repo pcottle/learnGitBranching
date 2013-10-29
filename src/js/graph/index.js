@@ -1,6 +1,12 @@
 var _ = require('underscore');
 
 var Graph = {
+  descendSortDepth: function(objects) {
+    return objects.sort(function(oA, oB) {
+      return oB.depth - oA.depth;
+    });
+  },
+
   getUniqueObjects: function(objects) {
     var unique = {};
     var result = [];

@@ -211,7 +211,6 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
     branch.visBranch = undefined;
-    branch.visTag = undefined;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -230,6 +229,13 @@ GitEngine.prototype.exportTree = function() {
     commit.parents = parents;
 
     totalExport.commits[commit.id] = commit;
+  }, this);
+
+  _.each(this.tagCollection.toJSON(), function(tag) {
+    tag.visTag = undefined;
+    tag.target = tag.target.get('id');
+
+    totalExport.tags[tag.id] = tag;
   }, this);
 
   var HEAD = this.HEAD.toJSON();
@@ -473,7 +479,11 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
   this.command.addWarning(intl.todo(msg));
 };
 
-GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
+GitEngine.prototype.getOrMakeRecursive = function(
+  tree,
+  createdSoFar,
+  objID
+) {
   if (createdSoFar[objID]) {
     // base case
     return createdSoFar[objID];
@@ -486,6 +496,8 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
       return 'branch';
     } else if (id == 'HEAD') {
       return 'HEAD';
+    } else if (tree.tags[id]) {
+      return 'tag';
     }
     throw new Error("bad type for " + id);
   };
@@ -983,13 +995,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
 
   // filter because we werent doing graph search
   var differenceUnique = Graph.getUniqueObjects(difference);
-  return this.descendSortDepth(differenceUnique);
-};
-
-GitEngine.prototype.descendSortDepth = function(objects) {
-  return objects.sort(function(oA, oB) {
-    return oB.depth - oA.depth;
-  });
+  return Graph.descendSortDepth(differenceUnique);
 };
 
 GitEngine.prototype.push = function(options) {
@@ -1207,7 +1213,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // commits that are upstream of multiple branches (since the fakeTeamwork
   // command simply commits), but we are doing it anyways for correctness
   commitsToMake = Graph.getUniqueObjects(commitsToMake);
-  commitsToMake = this.descendSortDepth(commitsToMake);
+  commitsToMake = Graph.descendSortDepth(commitsToMake);
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but we
