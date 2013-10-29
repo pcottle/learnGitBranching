@@ -6,9 +6,17 @@ prompt = require('prompt');
 
 function getFile(truthy) {
   var filename = (truthy) ?
-    './remote.spec.js' :
-    './git.spec.js';
+    './git.spec.js' :
+    './remote.spec.js';
   return fs.readFileSync(filename, 'utf8');
+}
+
+function writeFile(truthy, content) {
+  var filename = (truthy) ?
+    './git.spec.js' :
+    './remote.spec.js';
+
+  fs.writeFileSync(filename, content);
 }
 
 prompt.start();
@@ -34,7 +42,7 @@ prompt.get(
 
       var funcCall = "\tit('" + result.whatItDoes + "', function() {\n" +
         testCase + "\t});\n\n";
-      fs.writeFileSync('./remote.spec.js', partOne + funcCall + partTwo);
+      writeFile(result.intoGitSpec, partOne + funcCall + partTwo);
     }, 100);
   }
 );
