@@ -395,4 +395,3 @@ TreeCompare.compareTrees = function(treeA, treeB) {
 };
 
 module.exports = TreeCompare;
-
