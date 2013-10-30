@@ -163,5 +163,26 @@ describe('Git', function() {
 		);
 	});
 
+	it('makes a tag on another ref', function() {
+		expectTreeAsync(
+			'git tag v1 C0',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{"v1":{"target":"C0","id":"v1","type":"tag"}},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
+	it('doesnt make a tag if ref doesnt resolve', function() {
+		expectTreeAsync(
+			'git tag v1 foo',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
+	it('makes tag with relative ref and etc', function() {
+		expectTreeAsync(
+			'git tag v1 HEAD~1',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{"v1":{"target":"C0","id":"v1","type":"tag"}},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
 });
 
