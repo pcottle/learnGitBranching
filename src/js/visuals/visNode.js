@@ -74,6 +74,7 @@ var VisNode = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     var map = {
       branch: 1,
+      tag: 1,
       head: 0.3,
       none: 0.1
     };
@@ -89,6 +90,7 @@ var VisNode = VisBase.extend({
   getOpacity: function() {
     var map = {
       'branch': 1,
+      'tag' : 1,
       'head': GRAPHICS.upstreamHeadOpacity,
       'none': GRAPHICS.upstreamNoneOpacity
     };

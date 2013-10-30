@@ -1,5 +1,5 @@
-var TreeCompare = require('../src/js/git/treeCompare').TreeCompare;
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
+var TreeCompare = require('../src/js/graph/treeCompare.js');
 
 var loadTree = function(json) {
   return JSON.parse(unescape(json));
@@ -70,8 +70,10 @@ var expectTreeAsync = function(command, expectedJSON, startJSON) {
       console.log('\n<<<<<<<<<<<\nactual', getHeadlessSummary(headless));
       console.log('\n<<<<ORIGIN>>>>>\n');
       if (expected.originTree) {
+        console.log('expected origin tree:');
         console.log(expected.originTree);
         console.log('\n=========\n');
+        console.log('actual origin tree');
         console.log(getHeadlessSummary(headless).originTree);
       }
       console.log(expectedJSON);

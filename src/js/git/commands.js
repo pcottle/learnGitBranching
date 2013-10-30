@@ -731,6 +731,24 @@ var commandConfig = {
         source: source
       });
     }
+  },
+  
+  tag: {
+	regex: /^git +tag($|\s)/,
+	execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      
+
+      if (generalArgs.length === 0) {
+        var tags = engine.getTags();
+        engine.printTags(tags);
+        return;
+      }
+      
+      command.twoArgsImpliedHead(generalArgs);
+      engine.tag(generalArgs[0], generalArgs[1]);
+
+	}
   }
 };
 

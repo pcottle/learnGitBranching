@@ -24,7 +24,7 @@ var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var LevelToolbar = require('../views').LevelToolbar;
 
-var TreeCompare = require('../git/treeCompare').TreeCompare;
+var TreeCompare = require('../graph/treeCompare');
 
 var regexMap = {
   'help level': /^help level$/,

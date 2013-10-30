@@ -7,8 +7,9 @@ var intl = require('../intl');
 
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
 var AnimationQueue = require('../visuals/animation').AnimationQueue;
-var TreeCompare = require('./treeCompare').TreeCompare;
+var TreeCompare = require('../graph/treeCompare');
 
+var Graph = require('../graph');
 var Errors = require('../util/errors');
 var Main = require('../app');
 var Commands = require('../commands');
@@ -41,6 +42,7 @@ function GitEngine(options) {
   this.localRepo = null;
 
   this.branchCollection = options.branches;
+  this.tagCollection = options.tags;
   this.commitCollection = options.collection;
   this.gitVisuals = options.gitVisuals;
 
@@ -139,13 +141,8 @@ GitEngine.prototype.assignLocalRepo = function(repo) {
 };
 
 GitEngine.prototype.defaultInit = function() {
-  var defaultTree = this.getDefaultTree();
+  var defaultTree = Graph.getDefaultTree();
   this.loadTree(defaultTree);
-};
-
-GitEngine.prototype.getDefaultTree = function() {
-  // lol 80 char limit
-  return JSON.parse(unescape("%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22type%22%3A%22branch%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22type%22%3A%22commit%22%2C%22parents%22%3A%5B%22C0%22%5D%2C%22author%22%3A%22Peter%20Cottle%22%2C%22createTime%22%3A%22Mon%20Nov%2005%202012%2000%3A56%3A47%20GMT-0800%20%28PST%29%22%2C%22commitMessage%22%3A%22Quick%20Commit.%20Go%20Bears%21%22%2C%22id%22%3A%22C1%22%7D%7D%2C%22HEAD%22%3A%7B%22id%22%3A%22HEAD%22%2C%22target%22%3A%22master%22%2C%22type%22%3A%22general%20ref%22%7D%7D"));
 };
 
 GitEngine.prototype.init = function() {
@@ -207,6 +204,7 @@ GitEngine.prototype.exportTree = function() {
   var totalExport = {
     branches: {},
     commits: {},
+    tags: {},
     HEAD: null
   };
 
@@ -233,9 +231,15 @@ GitEngine.prototype.exportTree = function() {
     totalExport.commits[commit.id] = commit;
   }, this);
 
+  _.each(this.tagCollection.toJSON(), function(tag) {
+    delete tag.visTag;
+    tag.target = tag.target.get('id');
+
+    totalExport.tags[tag.id] = tag;
+  }, this);
+
   var HEAD = this.HEAD.toJSON();
-  HEAD.visBranch = undefined;
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -297,6 +301,12 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
+  _.each(tree.tags, function(tagJSON) {
+    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
+
+    this.tagCollection.add(tag, {silent: true});
+  }, this);
+
   var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
   this.HEAD = HEAD;
 
@@ -308,8 +318,11 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
-    this.gitVisuals.addBranch(branch);
-  }, this);
+        this.gitVisuals.addBranch(branch);
+      }, this);
+  this.tagCollection.each(function(tag) {
+        this.gitVisuals.addTag(tag);
+      }, this);
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
@@ -466,7 +479,11 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
   this.command.addWarning(intl.todo(msg));
 };
 
-GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
+GitEngine.prototype.getOrMakeRecursive = function(
+  tree,
+  createdSoFar,
+  objID
+) {
   if (createdSoFar[objID]) {
     // base case
     return createdSoFar[objID];
@@ -479,6 +496,8 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
       return 'branch';
     } else if (id == 'HEAD') {
       return 'HEAD';
+    } else if (tree.tags[id]) {
+      return 'tag';
     }
     throw new Error("bad type for " + id);
   };
@@ -509,6 +528,19 @@ GitEngine.prototype.getOrMakeRecursive = function(tree, createdSoFar, objID) {
     ));
     createdSoFar[objID] = branch;
     return branch;
+  }
+
+  if (type == 'tag') {
+    var tagJSON = tree.tags[objID];
+
+    var tag = new Tag(_.extend(
+      tree.tags[objID],
+      {
+        target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
+      }
+    ));
+    createdSoFar[objID] = tag;
+    return tag;
   }
 
   if (type == 'commit') {
@@ -558,6 +590,7 @@ GitEngine.prototype.reloadGraphics = function() {
 
 GitEngine.prototype.removeAll = function() {
   this.branchCollection.reset();
+  this.tagCollection.reset();
   this.commitCollection.reset();
   this.refs = {};
   this.HEAD = null;
@@ -624,6 +657,20 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   return this.makeBranch(id, target);
 };
 
+GitEngine.prototype.validateAndMakeTag = function(id, target) {
+  id = this.validateBranchName(id);
+  if (this.refs[id]) {
+    throw new GitError({
+      msg: intl.str(
+        'bad-tag-name',
+        { tag: name }
+      )
+    });
+  }
+
+  this.makeTag(id, target);
+};
+
 GitEngine.prototype.makeBranch = function(id, target) {
   if (this.refs[id]) {
     throw new Error('woah already have that');
@@ -638,8 +685,35 @@ GitEngine.prototype.makeBranch = function(id, target) {
   return branch;
 };
 
+GitEngine.prototype.makeTag = function(id, target) {
+  if (this.refs[id]) {
+    throw new Error('woah already have that');
+  }
+
+  var tag = new Tag({
+    target: target,
+    id: id
+  });
+  this.tagCollection.add(tag);
+  this.refs[tag.get('id')] = tag;
+  return tag;
+};
+
 GitEngine.prototype.getHead = function() {
   return _.clone(this.HEAD);
+};
+
+GitEngine.prototype.getTags = function() {
+  var toReturn = [];
+  this.tagCollection.each(function(tag) {
+    toReturn.push({
+      id: tag.get('id'),
+      target: tag.get('target'),
+      remote: tag.getIsRemote(),
+      obj: tag
+    });
+  }, this);
+  return toReturn;
 };
 
 GitEngine.prototype.getBranches = function() {
@@ -686,6 +760,17 @@ GitEngine.prototype.printBranches = function(branches) {
   var result = '';
   _.each(branches, function(branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
+  });
+  throw new CommandResult({
+    msg: result
+  });
+};
+
+GitEngine.prototype.printTags = function(tags) {
+  var result = '';
+  _.each(tags, function(tag) {
+    console.log(tag);
+    result += tag.id + '\n';
   });
   throw new CommandResult({
     msg: result
@@ -893,7 +978,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
 
   var pushParent = function(parentID) {
     if (targetSet[parentID]) {
-      // we already have this commit, lets bounce
+      // we already have that commit, lets bounce
       return;
     }
 
@@ -909,27 +994,8 @@ GitEngine.prototype.getTargetGraphDifference = function(
   }
 
   // filter because we werent doing graph search
-  var differenceUnique = this.getUniqueObjects(difference);
-  return this.descendSortDepth(differenceUnique);
-};
-
-GitEngine.prototype.getUniqueObjects = function(objects) {
-  var unique = {};
-  var result = [];
-  _.forEach(objects, function(object) {
-    if (unique[object.id]) {
-      return;
-    }
-    unique[object.id] = true;
-    result.push(object);
-  });
-  return result;
-};
-
-GitEngine.prototype.descendSortDepth = function(objects) {
-  return objects.sort(function(oA, oB) {
-    return oB.depth - oA.depth;
-  });
+  var differenceUnique = Graph.getUniqueObjects(difference);
+  return Graph.descendSortDepth(differenceUnique);
 };
 
 GitEngine.prototype.push = function(options) {
@@ -1146,8 +1212,8 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // and sort. in this particular app we can never have unfected remote
   // commits that are upstream of multiple branches (since the fakeTeamwork
   // command simply commits), but we are doing it anyways for correctness
-  commitsToMake = this.getUniqueObjects(commitsToMake);
-  commitsToMake = this.descendSortDepth(commitsToMake);
+  commitsToMake = Graph.getUniqueObjects(commitsToMake);
+  commitsToMake = Graph.descendSortDepth(commitsToMake);
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but we
@@ -2260,12 +2326,15 @@ GitEngine.prototype.checkout = function(idOrTarget) {
     target = this.getCommitFromRef(target.get('id'));
   }
 
-  if (type !== 'branch' && type !== 'commit') {
+  if (type !== 'branch' && type !== 'tag' && type !== 'commit') {
     throw new GitError({
       msg: intl.str('git-error-options')
     });
   }
-
+  if (type === 'tag') {
+    target = target.get('target');
+  }
+  
   this.HEAD.set('target', target);
 };
 
@@ -2310,6 +2379,11 @@ GitEngine.prototype.isRemoteBranchRef = function(ref) {
     return false;
   }
   return resolved.getIsRemote();
+};
+
+GitEngine.prototype.tag = function(name, ref) {
+  var target = this.getCommitFromRef(ref);
+  this.validateAndMakeTag(name, target);
 };
 
 GitEngine.prototype.validateAndDeleteBranch = function(name) {
@@ -2809,8 +2883,20 @@ var Commit = Backbone.Model.extend({
   }
 });
 
+var Tag = Ref.extend({
+  defaults: {
+    visTag: null
+  },
+
+  initialize: function() {
+    Ref.prototype.initialize.call(this);
+    this.set('type', 'tag');
+  }
+});
+
 exports.GitEngine = GitEngine;
 exports.Commit = Commit;
 exports.Branch = Branch;
+exports.Tag = Tag;
 exports.Ref = Ref;
 

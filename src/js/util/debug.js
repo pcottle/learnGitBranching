@@ -5,7 +5,7 @@ var toGlobalize = {
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
-  Levels: require('../git/treeCompare'),
+  Levels: require('../graph/treeCompare'),
   Constants: require('../util/constants'),
   Commands: require('../commands'),
   Collections: require('../models/collections'),
