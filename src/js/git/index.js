@@ -210,7 +210,7 @@ GitEngine.prototype.exportTree = function() {
 
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
-    branch.visBranch = undefined;
+    delete branch.visBranch;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -218,7 +218,7 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.commitCollection.toJSON(), function(commit) {
     // clear out the fields that reference objects and create circular structure
     _.each(Commit.prototype.constants.circularFields, function(field) {
-      commit[field] = undefined;
+      delete commit[field];
     }, this);
 
     // convert parents
@@ -239,7 +239,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -291,23 +291,23 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   var createdSoFar = {};
 
   _.each(tree.commits, function(commitJSON) {
-    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
   _.each(tree.branches, function(branchJSON) {
-    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
+    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
   _.each(tree.tags, function(tagJSON) {
-    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
+    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
   }, this);
 
-  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
+  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id, this.gitVisuals);
   this.HEAD = HEAD;
 
   this.rootCommit = createdSoFar['C0'];
@@ -482,7 +482,8 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
 GitEngine.prototype.getOrMakeRecursive = function(
   tree,
   createdSoFar,
-  objID
+  objID,
+  gitVisuals
 ) {
   if (createdSoFar[objID]) {
     // base case
