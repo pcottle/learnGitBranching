@@ -232,7 +232,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   _.each(this.tagCollection.toJSON(), function(tag) {
-    tag.visTag = undefined;
+    delete tag.visTag;
     tag.target = tag.target.get('id');
 
     totalExport.tags[tag.id] = tag;
