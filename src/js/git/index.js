@@ -1747,6 +1747,14 @@ GitEngine.prototype.pruneTree = function() {
 };
 
 GitEngine.prototype.getUpstreamBranchSet = function() {
+  return this.getUpstreamCollectionSet(this.branchCollection);
+};
+
+GitEngine.prototype.getUpstreamTagSet = function() {
+  return this.getUpstreamCollectionSet(this.tagCollection);
+};
+
+GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
 
@@ -1775,16 +1783,16 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
     return set;
   };
 
-  this.branchCollection.each(function(branch) {
-    var set = bfsSearch(branch.get('target'));
+  collection.each(function(ref) {
+    var set = bfsSearch(ref.get('target'));
     _.each(set, function(id) {
       commitToSet[id] = commitToSet[id] || [];
 
       // only add it if it's not there, so hue blending is ok
-      if (!inArray(commitToSet[id], branch.get('id'))) {
+      if (!inArray(commitToSet[id], ref.get('id'))) {
         commitToSet[id].push({
-          obj: branch,
-          id: branch.get('id')
+          obj: ref,
+          id: ref.get('id')
         });
       }
     });

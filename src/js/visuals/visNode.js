@@ -318,6 +318,8 @@ var VisNode = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     if (stat == 'head') {
       return GRAPHICS.headRectFill;
+    } else if (stat == 'tag') {
+      return GRAPHICS.orphanNodeFill;
     } else if (stat == 'none') {
       return GRAPHICS.orphanNodeFill;
     }
