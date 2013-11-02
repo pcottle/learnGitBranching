@@ -184,5 +184,19 @@ describe('Git', function() {
 		);
 	});
 
+	it('makes tag with 3 letters', function() {
+		expectTreeAsync(
+			'git tag foo',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{"foo":{"target":"C1","id":"foo","type":"tag"}},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
+	it('does not make tag if ref does not resolve', function() {
+		expectTreeAsync(
+			'git tag foo banana',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
 });
 
