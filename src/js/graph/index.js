@@ -95,6 +95,23 @@ var Graph = {
     });
   },
 
+  bfsFromLocationWithSet: function(engine, location, set) {
+    var result = [];
+    var pQueue = [engine.getCommitFromRef(location)];
+
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      if (set[popped.get('id')]) {
+        continue;
+      }
+
+      result.push(popped);
+      // keep searching
+      pQueue = pQueue.concat(popped.get('parents'));
+    }
+    return result;
+  },
+
   getUniqueObjects: function(objects) {
     var unique = {};
     var result = [];

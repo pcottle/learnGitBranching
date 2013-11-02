@@ -2046,25 +2046,8 @@ GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
 };
 
 GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
-  // now BFS from here on out
-  var result = [];
-  var pQueue = [this.getCommitFromRef(location)];
-
-  while (pQueue.length) {
-    var popped = pQueue.pop();
-
-    // if its in the set, dont add it
-    if (stopSet[popped.get('id')]) {
-      continue;
-    }
-
-    // it's not in the set, so we need to rebase this commit
-    result.push(popped);
-    result.sort(this.dateSortFunc);
-
-    // keep searching
-    pQueue = pQueue.concat(popped.get('parents'));
-  }
+  var result = Graph.bfsFromLocationWithSet(this, location, stopSet);
+  result.sort(this.dateSortFunc);
   return result;
 };
 
