@@ -20,7 +20,8 @@ exports.levelSequences = {
   mixed: [
     require('./mixed/grabbingOneCommit').level,
     require('./mixed/jugglingCommits').level,
-    require('./mixed/jugglingCommits2').level
+    require('./mixed/jugglingCommits2').level,
+    require('./mixed/tags').level
   ],
   advanced: [
     require('./rebase/manyRebases').level,
