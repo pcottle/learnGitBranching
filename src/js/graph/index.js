@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var Git = require('./git');
+var Git = require('../git');
 var Commit = Git.Commit;
 var Branch = Git.Branch;
 var Tag = Git.Tag;
