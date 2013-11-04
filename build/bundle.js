@@ -7467,7 +7467,7 @@ GitEngine.prototype.exportTree = function() {
 
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
-    branch.visBranch = undefined;
+    delete branch.visBranch;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -7475,7 +7475,7 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.commitCollection.toJSON(), function(commit) {
     // clear out the fields that reference objects and create circular structure
     _.each(Commit.prototype.constants.circularFields, function(field) {
-      commit[field] = undefined;
+      delete commit[field];
     }, this);
 
     // convert parents
@@ -7496,7 +7496,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -7548,23 +7548,23 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   var createdSoFar = {};
 
   _.each(tree.commits, function(commitJSON) {
-    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
   _.each(tree.branches, function(branchJSON) {
-    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
+    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
   _.each(tree.tags, function(tagJSON) {
-    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
+    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
   }, this);
 
-  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
+  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id, this.gitVisuals);
   this.HEAD = HEAD;
 
   this.rootCommit = createdSoFar['C0'];
@@ -7739,7 +7739,8 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
 GitEngine.prototype.getOrMakeRecursive = function(
   tree,
   createdSoFar,
-  objID
+  objID,
+  gitVisuals
 ) {
   if (createdSoFar[objID]) {
     // base case
@@ -9003,6 +9004,14 @@ GitEngine.prototype.pruneTree = function() {
 };
 
 GitEngine.prototype.getUpstreamBranchSet = function() {
+  return this.getUpstreamCollectionSet(this.branchCollection);
+};
+
+GitEngine.prototype.getUpstreamTagSet = function() {
+  return this.getUpstreamCollectionSet(this.tagCollection);
+};
+
+GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
 
@@ -9031,16 +9040,16 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
     return set;
   };
 
-  this.branchCollection.each(function(branch) {
-    var set = bfsSearch(branch.get('target'));
+  collection.each(function(ref) {
+    var set = bfsSearch(ref.get('target'));
     _.each(set, function(id) {
       commitToSet[id] = commitToSet[id] || [];
 
       // only add it if it's not there, so hue blending is ok
-      if (!inArray(commitToSet[id], branch.get('id'))) {
+      if (!inArray(commitToSet[id], ref.get('id'))) {
         commitToSet[id].push({
-          obj: branch,
-          id: branch.get('id')
+          obj: ref,
+          id: ref.get('id')
         });
       }
     });
@@ -9294,25 +9303,8 @@ GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
 };
 
 GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
-  // now BFS from here on out
-  var result = [];
-  var pQueue = [this.getCommitFromRef(location)];
-
-  while (pQueue.length) {
-    var popped = pQueue.pop();
-
-    // if its in the set, dont add it
-    if (stopSet[popped.get('id')]) {
-      continue;
-    }
-
-    // it's not in the set, so we need to rebase this commit
-    result.push(popped);
-    result.sort(this.dateSortFunc);
-
-    // keep searching
-    pQueue = pQueue.concat(popped.get('parents'));
-  }
+  var result = Graph.bfsFromLocationWithSet(this, location, stopSet);
+  result.sort(this.dateSortFunc);
   return result;
 };
 
@@ -10886,11 +10878,122 @@ module.exports = TreeCompare;
 
 require.define("/src/js/graph/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
+var Git = require('../git');
+var Commit = Git.Commit;
+var Branch = Git.Branch;
+var Tag = Git.Tag;
+var Ref = Git.Ref;
+
 var Graph = {
+  getOrMakeRecursive: function(
+    tree,
+    createdSoFar,
+    objID,
+    gitVisuals
+  ) {
+    if (createdSoFar[objID]) {
+      // base case
+      return createdSoFar[objID];
+    }
+
+    var getType = function(tree, id) {
+      if (tree.commits[id]) {
+        return 'commit';
+      } else if (tree.branches[id]) {
+        return 'branch';
+      } else if (id == 'HEAD') {
+        return 'HEAD';
+      } else if (tree.tags[id]) {
+        return 'tag';
+      }
+      throw new Error("bad type for " + id);
+    };
+
+    // figure out what type
+    var type = getType(tree, objID);
+
+    if (type == 'HEAD') {
+      var headJSON = tree.HEAD;
+      var HEAD = new Ref(_.extend(
+        tree.HEAD,
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
+        }
+      ));
+      createdSoFar[objID] = HEAD;
+      return HEAD;
+    }
+
+    if (type == 'branch') {
+      var branchJSON = tree.branches[objID];
+
+      var branch = new Branch(_.extend(
+        tree.branches[objID],
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
+        }
+      ));
+      createdSoFar[objID] = branch;
+      return branch;
+    }
+
+    if (type == 'tag') {
+      var tagJSON = tree.tags[objID];
+
+      var tag = new Tag(_.extend(
+        tree.tags[objID],
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
+        }
+      ));
+      createdSoFar[objID] = tag;
+      return tag;
+    }
+
+    if (type == 'commit') {
+      // for commits, we need to grab all the parents
+      var commitJSON = tree.commits[objID];
+
+      var parentObjs = [];
+      _.each(commitJSON.parents, function(parentID) {
+        parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+      }, this);
+
+      var commit = new Commit(_.extend(
+        commitJSON,
+        {
+          parents: parentObjs,
+          gitVisuals: this.gitVisuals
+        }
+      ));
+      createdSoFar[objID] = commit;
+      return commit;
+    }
+
+    throw new Error('ruh rho!! unsupported type for ' + objID);
+  },
+
   descendSortDepth: function(objects) {
     return objects.sort(function(oA, oB) {
       return oB.depth - oA.depth;
     });
+  },
+
+  bfsFromLocationWithSet: function(engine, location, set) {
+    var result = [];
+    var pQueue = [engine.getCommitFromRef(location)];
+
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      if (set[popped.get('id')]) {
+        continue;
+      }
+
+      result.push(popped);
+      // keep searching
+      pQueue = pQueue.concat(popped.get('parents'));
+    }
+    return result;
   },
 
   getUniqueObjects: function(objects) {
@@ -17273,10 +17376,16 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
 
   chain.then(function() {
     var nowTime = new Date().getTime();
-    // .log('done with command "' + value + '", took ', nowTime - startTime);
     if (entireCommandPromise) {
       entireCommandPromise.resolve();
     }
+  });
+
+  chain.fail(function(err) {
+    console.log('!!!!!!!! error !!!!!!!');
+    console.log(err);
+    console.log(err.stack);
+    console.log('!!!!!!!!!!!!!!!!!!!!!!');
   });
   deferred.resolve();
 };
@@ -17325,6 +17434,7 @@ function GitVisuals(options) {
   this.branchStackMap = null;
   this.tagStackMap = null;
   this.upstreamBranchSet = null;
+  this.upstreamTagSet = null;
   this.upstreamHeadSet = null;
 
   this.paper = options.paper;
@@ -17740,6 +17850,7 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
   this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+  this.upstreamTagSet = this.gitEngine.getUpstreamTagSet();
 };
 
 GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
@@ -17781,14 +17892,34 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
   var id = commit.get('id');
   var branch = this.upstreamBranchSet;
   var head = this.upstreamHeadSet;
+  var tag = this.upstreamTagSet;
 
   if (branch[id]) {
     return 'branch';
+  } else if (tag[id]) {
+    return 'tag';
   } else if (head[id]) {
     return 'head';
   } else {
     return 'none';
   }
+};
+
+GitVisuals.prototype.calcTagStacks = function() {
+  var tags = this.gitEngine.getTags();
+  var map = {};
+  _.each(tags, function(tag) {
+      var thisId = tag.target.get('id');
+  
+      map[thisId] = map[thisId] || [];
+      map[thisId].push(tag);
+      map[thisId].sort(function(a, b) {
+          var aId = a.obj.get('id');
+          var bId = b.obj.get('id');
+          return aId.localeCompare(bId);
+        });
+    });
+  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
@@ -17809,23 +17940,6 @@ GitVisuals.prototype.calcBranchStacks = function() {
     });
   });
   this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcTagStacks = function() {
-  var tags = this.gitEngine.getTags();
-  var map = {};
-  _.each(tags, function(tag) {
-    var thisId = tag.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(tag);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      return aId.localeCompare(bId);
-    });
-  });
-  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {
@@ -18551,6 +18665,8 @@ var VisNode = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     if (stat == 'head') {
       return GRAPHICS.headRectFill;
+    } else if (stat == 'tag') {
+      return GRAPHICS.orphanNodeFill;
     } else if (stat == 'none') {
       return GRAPHICS.orphanNodeFill;
     }
@@ -20744,7 +20860,8 @@ exports.levelSequences = {
   mixed: [
     require('./mixed/grabbingOneCommit').level,
     require('./mixed/jugglingCommits').level,
-    require('./mixed/jugglingCommits2').level
+    require('./mixed/jugglingCommits2').level,
+    require('./mixed/tags').level
   ],
   advanced: [
     require('./rebase/manyRebases').level,
@@ -23843,6 +23960,74 @@ require.define("/src/levels/mixed/jugglingCommits2.js",function(require,module,e
           "options": {
             "markdowns": [
               "그럼 이번 레벨에서는 아까와 마찬가지로 `C2` 커밋의 내용을 정정하되, `rebase -i`를 쓰지 말고 해보세요. ^.~"
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+
+require.define("/src/levels/mixed/tags.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{\"v1\":{\"target\":\"C2\",\"id\":\"v1\",\"type\":\"tag\"},\"v0\":{\"target\":\"C1\",\"id\":\"v0\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git tag v1 side~1;git tag v0 master~2;git checkout v1",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Git Tags"
+  },
+  "hint": {
+    "en_US": "you can either check out the commit directly or simply checkout the tag!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tags",
+              "",
+              "As you have learned from previous lessons, branches are easy to move around and often refer to different commits as work is completed on them. Branches are easily mutated, often temporary, and always changing.",
+              "",
+              "If that's the case, you may be wondering if there's a way to *permanently* mark historical points in your project's history. For things like major releases and big merges, is there any way to mark these commits with something more permanent than a branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "You bet there is! Git tags support this exact use case -- they (somewhat) permanently mark certain commits as \"milestones\" that you can then reference like a branch.",
+              "",
+              "More importantly though, they never move as more commits are created. You can't \"check out\" a tag and then complete work on that tag -- tags exist as anchors in the commit tree that designate certain spots.",
+              "",
+              "Let's see what tags look like in practice."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's try making a tag at `C1` which is our version 1 prototype"
+            ],
+            "afterMarkdowns": [
+              "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
+              "",
+              "In the next level we'll examine a more interesting use case for tags."
             ]
           }
         }
@@ -28734,10 +28919,16 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
 
   chain.then(function() {
     var nowTime = new Date().getTime();
-    // .log('done with command "' + value + '", took ', nowTime - startTime);
     if (entireCommandPromise) {
       entireCommandPromise.resolve();
     }
+  });
+
+  chain.fail(function(err) {
+    console.log('!!!!!!!! error !!!!!!!');
+    console.log(err);
+    console.log(err.stack);
+    console.log('!!!!!!!!!!!!!!!!!!!!!!');
   });
   deferred.resolve();
 };
@@ -28961,7 +29152,7 @@ GitEngine.prototype.exportTree = function() {
 
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
-    branch.visBranch = undefined;
+    delete branch.visBranch;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -28969,7 +29160,7 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.commitCollection.toJSON(), function(commit) {
     // clear out the fields that reference objects and create circular structure
     _.each(Commit.prototype.constants.circularFields, function(field) {
-      commit[field] = undefined;
+      delete commit[field];
     }, this);
 
     // convert parents
@@ -28990,7 +29181,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -29042,23 +29233,23 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   var createdSoFar = {};
 
   _.each(tree.commits, function(commitJSON) {
-    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
   _.each(tree.branches, function(branchJSON) {
-    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
+    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
   _.each(tree.tags, function(tagJSON) {
-    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
+    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
   }, this);
 
-  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
+  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id, this.gitVisuals);
   this.HEAD = HEAD;
 
   this.rootCommit = createdSoFar['C0'];
@@ -29233,7 +29424,8 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
 GitEngine.prototype.getOrMakeRecursive = function(
   tree,
   createdSoFar,
-  objID
+  objID,
+  gitVisuals
 ) {
   if (createdSoFar[objID]) {
     // base case
@@ -30497,6 +30689,14 @@ GitEngine.prototype.pruneTree = function() {
 };
 
 GitEngine.prototype.getUpstreamBranchSet = function() {
+  return this.getUpstreamCollectionSet(this.branchCollection);
+};
+
+GitEngine.prototype.getUpstreamTagSet = function() {
+  return this.getUpstreamCollectionSet(this.tagCollection);
+};
+
+GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
 
@@ -30525,16 +30725,16 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
     return set;
   };
 
-  this.branchCollection.each(function(branch) {
-    var set = bfsSearch(branch.get('target'));
+  collection.each(function(ref) {
+    var set = bfsSearch(ref.get('target'));
     _.each(set, function(id) {
       commitToSet[id] = commitToSet[id] || [];
 
       // only add it if it's not there, so hue blending is ok
-      if (!inArray(commitToSet[id], branch.get('id'))) {
+      if (!inArray(commitToSet[id], ref.get('id'))) {
         commitToSet[id].push({
-          obj: branch,
-          id: branch.get('id')
+          obj: ref,
+          id: ref.get('id')
         });
       }
     });
@@ -30788,25 +30988,8 @@ GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
 };
 
 GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
-  // now BFS from here on out
-  var result = [];
-  var pQueue = [this.getCommitFromRef(location)];
-
-  while (pQueue.length) {
-    var popped = pQueue.pop();
-
-    // if its in the set, dont add it
-    if (stopSet[popped.get('id')]) {
-      continue;
-    }
-
-    // it's not in the set, so we need to rebase this commit
-    result.push(popped);
-    result.sort(this.dateSortFunc);
-
-    // keep searching
-    pQueue = pQueue.concat(popped.get('parents'));
-  }
+  var result = Graph.bfsFromLocationWithSet(this, location, stopSet);
+  result.sort(this.dateSortFunc);
   return result;
 };
 
@@ -31657,11 +31840,122 @@ require("/src/js/git/index.js");
 
 require.define("/src/js/graph/index.js",function(require,module,exports,__dirname,__filename,process,global){var _ = require('underscore');
 
+var Git = require('../git');
+var Commit = Git.Commit;
+var Branch = Git.Branch;
+var Tag = Git.Tag;
+var Ref = Git.Ref;
+
 var Graph = {
+  getOrMakeRecursive: function(
+    tree,
+    createdSoFar,
+    objID,
+    gitVisuals
+  ) {
+    if (createdSoFar[objID]) {
+      // base case
+      return createdSoFar[objID];
+    }
+
+    var getType = function(tree, id) {
+      if (tree.commits[id]) {
+        return 'commit';
+      } else if (tree.branches[id]) {
+        return 'branch';
+      } else if (id == 'HEAD') {
+        return 'HEAD';
+      } else if (tree.tags[id]) {
+        return 'tag';
+      }
+      throw new Error("bad type for " + id);
+    };
+
+    // figure out what type
+    var type = getType(tree, objID);
+
+    if (type == 'HEAD') {
+      var headJSON = tree.HEAD;
+      var HEAD = new Ref(_.extend(
+        tree.HEAD,
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
+        }
+      ));
+      createdSoFar[objID] = HEAD;
+      return HEAD;
+    }
+
+    if (type == 'branch') {
+      var branchJSON = tree.branches[objID];
+
+      var branch = new Branch(_.extend(
+        tree.branches[objID],
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
+        }
+      ));
+      createdSoFar[objID] = branch;
+      return branch;
+    }
+
+    if (type == 'tag') {
+      var tagJSON = tree.tags[objID];
+
+      var tag = new Tag(_.extend(
+        tree.tags[objID],
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
+        }
+      ));
+      createdSoFar[objID] = tag;
+      return tag;
+    }
+
+    if (type == 'commit') {
+      // for commits, we need to grab all the parents
+      var commitJSON = tree.commits[objID];
+
+      var parentObjs = [];
+      _.each(commitJSON.parents, function(parentID) {
+        parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+      }, this);
+
+      var commit = new Commit(_.extend(
+        commitJSON,
+        {
+          parents: parentObjs,
+          gitVisuals: this.gitVisuals
+        }
+      ));
+      createdSoFar[objID] = commit;
+      return commit;
+    }
+
+    throw new Error('ruh rho!! unsupported type for ' + objID);
+  },
+
   descendSortDepth: function(objects) {
     return objects.sort(function(oA, oB) {
       return oB.depth - oA.depth;
     });
+  },
+
+  bfsFromLocationWithSet: function(engine, location, set) {
+    var result = [];
+    var pQueue = [engine.getCommitFromRef(location)];
+
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      if (set[popped.get('id')]) {
+        continue;
+      }
+
+      result.push(popped);
+      // keep searching
+      pQueue = pQueue.concat(popped.get('parents'));
+    }
+    return result;
   },
 
   getUniqueObjects: function(objects) {
@@ -39030,6 +39324,7 @@ function GitVisuals(options) {
   this.branchStackMap = null;
   this.tagStackMap = null;
   this.upstreamBranchSet = null;
+  this.upstreamTagSet = null;
   this.upstreamHeadSet = null;
 
   this.paper = options.paper;
@@ -39445,6 +39740,7 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
   this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+  this.upstreamTagSet = this.gitEngine.getUpstreamTagSet();
 };
 
 GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
@@ -39486,14 +39782,34 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
   var id = commit.get('id');
   var branch = this.upstreamBranchSet;
   var head = this.upstreamHeadSet;
+  var tag = this.upstreamTagSet;
 
   if (branch[id]) {
     return 'branch';
+  } else if (tag[id]) {
+    return 'tag';
   } else if (head[id]) {
     return 'head';
   } else {
     return 'none';
   }
+};
+
+GitVisuals.prototype.calcTagStacks = function() {
+  var tags = this.gitEngine.getTags();
+  var map = {};
+  _.each(tags, function(tag) {
+      var thisId = tag.target.get('id');
+  
+      map[thisId] = map[thisId] || [];
+      map[thisId].push(tag);
+      map[thisId].sort(function(a, b) {
+          var aId = a.obj.get('id');
+          var bId = b.obj.get('id');
+          return aId.localeCompare(bId);
+        });
+    });
+  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
@@ -39514,23 +39830,6 @@ GitVisuals.prototype.calcBranchStacks = function() {
     });
   });
   this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcTagStacks = function() {
-  var tags = this.gitEngine.getTags();
-  var map = {};
-  _.each(tags, function(tag) {
-    var thisId = tag.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(tag);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      return aId.localeCompare(bId);
-    });
-  });
-  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {
@@ -41172,6 +41471,8 @@ var VisNode = VisBase.extend({
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('commit'));
     if (stat == 'head') {
       return GRAPHICS.headRectFill;
+    } else if (stat == 'tag') {
+      return GRAPHICS.orphanNodeFill;
     } else if (stat == 'none') {
       return GRAPHICS.orphanNodeFill;
     }
@@ -42229,7 +42530,8 @@ exports.levelSequences = {
   mixed: [
     require('./mixed/grabbingOneCommit').level,
     require('./mixed/jugglingCommits').level,
-    require('./mixed/jugglingCommits2').level
+    require('./mixed/jugglingCommits2').level,
+    require('./mixed/tags').level
   ],
   advanced: [
     require('./rebase/manyRebases').level,
@@ -44360,6 +44662,75 @@ require.define("/src/levels/mixed/jugglingCommits2.js",function(require,module,e
 
 });
 require("/src/levels/mixed/jugglingCommits2.js");
+
+require.define("/src/levels/mixed/tags.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{\"v1\":{\"target\":\"C2\",\"id\":\"v1\",\"type\":\"tag\"},\"v0\":{\"target\":\"C1\",\"id\":\"v0\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git tag v1 side~1;git tag v0 master~2;git checkout v1",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "name": {
+    "en_US": "Git Tags"
+  },
+  "hint": {
+    "en_US": "you can either check out the commit directly or simply checkout the tag!"
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tags",
+              "",
+              "As you have learned from previous lessons, branches are easy to move around and often refer to different commits as work is completed on them. Branches are easily mutated, often temporary, and always changing.",
+              "",
+              "If that's the case, you may be wondering if there's a way to *permanently* mark historical points in your project's history. For things like major releases and big merges, is there any way to mark these commits with something more permanent than a branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "You bet there is! Git tags support this exact use case -- they (somewhat) permanently mark certain commits as \"milestones\" that you can then reference like a branch.",
+              "",
+              "More importantly though, they never move as more commits are created. You can't \"check out\" a tag and then complete work on that tag -- tags exist as anchors in the commit tree that designate certain spots.",
+              "",
+              "Let's see what tags look like in practice."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's try making a tag at `C1` which is our version 1 prototype"
+            ],
+            "afterMarkdowns": [
+              "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
+              "",
+              "In the next level we'll examine a more interesting use case for tags."
+            ]
+          }
+        }
+      ]
+    }
+  }
+};
+
+});
+require("/src/levels/mixed/tags.js");
 
 require.define("/src/levels/rampup/cherryPick.js",function(require,module,exports,__dirname,__filename,process,global){exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
