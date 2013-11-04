@@ -1,5 +1,11 @@
 var _ = require('underscore');
 
+var Git = require('./git');
+var Commit = Git.Commit;
+var Branch = Git.Branch;
+var Tag = Git.Tag;
+var Ref = Git.Ref;
+
 var Graph = {
   getOrMakeRecursive: function(
     tree,
