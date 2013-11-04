@@ -13,7 +13,6 @@ Medium things:
 [ ] make helper bar clickable with goal vis floating
 [ ] make show solution easier
 
-
 Argument things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 just pass options into fetch, then merge the source.

@@ -1,10 +1,121 @@
 var _ = require('underscore');
 
+var Git = require('./git');
+var Commit = Git.Commit;
+var Branch = Git.Branch;
+var Tag = Git.Tag;
+var Ref = Git.Ref;
+
 var Graph = {
+  getOrMakeRecursive: function(
+    tree,
+    createdSoFar,
+    objID,
+    gitVisuals
+  ) {
+    if (createdSoFar[objID]) {
+      // base case
+      return createdSoFar[objID];
+    }
+
+    var getType = function(tree, id) {
+      if (tree.commits[id]) {
+        return 'commit';
+      } else if (tree.branches[id]) {
+        return 'branch';
+      } else if (id == 'HEAD') {
+        return 'HEAD';
+      } else if (tree.tags[id]) {
+        return 'tag';
+      }
+      throw new Error("bad type for " + id);
+    };
+
+    // figure out what type
+    var type = getType(tree, objID);
+
+    if (type == 'HEAD') {
+      var headJSON = tree.HEAD;
+      var HEAD = new Ref(_.extend(
+        tree.HEAD,
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
+        }
+      ));
+      createdSoFar[objID] = HEAD;
+      return HEAD;
+    }
+
+    if (type == 'branch') {
+      var branchJSON = tree.branches[objID];
+
+      var branch = new Branch(_.extend(
+        tree.branches[objID],
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
+        }
+      ));
+      createdSoFar[objID] = branch;
+      return branch;
+    }
+
+    if (type == 'tag') {
+      var tagJSON = tree.tags[objID];
+
+      var tag = new Tag(_.extend(
+        tree.tags[objID],
+        {
+          target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
+        }
+      ));
+      createdSoFar[objID] = tag;
+      return tag;
+    }
+
+    if (type == 'commit') {
+      // for commits, we need to grab all the parents
+      var commitJSON = tree.commits[objID];
+
+      var parentObjs = [];
+      _.each(commitJSON.parents, function(parentID) {
+        parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+      }, this);
+
+      var commit = new Commit(_.extend(
+        commitJSON,
+        {
+          parents: parentObjs,
+          gitVisuals: this.gitVisuals
+        }
+      ));
+      createdSoFar[objID] = commit;
+      return commit;
+    }
+
+    throw new Error('ruh rho!! unsupported type for ' + objID);
+  },
+
   descendSortDepth: function(objects) {
     return objects.sort(function(oA, oB) {
       return oB.depth - oA.depth;
     });
+  },
+
+  bfsFromLocationWithSet: function(engine, location, set) {
+    var result = [];
+    var pQueue = [engine.getCommitFromRef(location)];
+
+    while (pQueue.length) {
+      var popped = pQueue.pop();
+      if (set[popped.get('id')]) {
+        continue;
+      }
+
+      result.push(popped);
+      // keep searching
+      pQueue = pQueue.concat(popped.get('parents'));
+    }
+    return result;
   },
 
   getUniqueObjects: function(objects) {

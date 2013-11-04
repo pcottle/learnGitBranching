@@ -36,6 +36,7 @@ function GitVisuals(options) {
   this.branchStackMap = null;
   this.tagStackMap = null;
   this.upstreamBranchSet = null;
+  this.upstreamTagSet = null;
   this.upstreamHeadSet = null;
 
   this.paper = options.paper;
@@ -451,6 +452,7 @@ GitVisuals.prototype.calcGraphicsCoords = function() {
 GitVisuals.prototype.calcUpstreamSets = function() {
   this.upstreamBranchSet = this.gitEngine.getUpstreamBranchSet();
   this.upstreamHeadSet = this.gitEngine.getUpstreamHeadSet();
+  this.upstreamTagSet = this.gitEngine.getUpstreamTagSet();
 };
 
 GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
@@ -492,14 +494,34 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
   var id = commit.get('id');
   var branch = this.upstreamBranchSet;
   var head = this.upstreamHeadSet;
+  var tag = this.upstreamTagSet;
 
   if (branch[id]) {
     return 'branch';
+  } else if (tag[id]) {
+    return 'tag';
   } else if (head[id]) {
     return 'head';
   } else {
     return 'none';
   }
+};
+
+GitVisuals.prototype.calcTagStacks = function() {
+  var tags = this.gitEngine.getTags();
+  var map = {};
+  _.each(tags, function(tag) {
+      var thisId = tag.target.get('id');
+  
+      map[thisId] = map[thisId] || [];
+      map[thisId].push(tag);
+      map[thisId].sort(function(a, b) {
+          var aId = a.obj.get('id');
+          var bId = b.obj.get('id');
+          return aId.localeCompare(bId);
+        });
+    });
+  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcBranchStacks = function() {
@@ -520,23 +542,6 @@ GitVisuals.prototype.calcBranchStacks = function() {
     });
   });
   this.branchStackMap = map;
-};
-
-GitVisuals.prototype.calcTagStacks = function() {
-  var tags = this.gitEngine.getTags();
-  var map = {};
-  _.each(tags, function(tag) {
-    var thisId = tag.target.get('id');
-
-    map[thisId] = map[thisId] || [];
-    map[thisId].push(tag);
-    map[thisId].sort(function(a, b) {
-      var aId = a.obj.get('id');
-      var bId = b.obj.get('id');
-      return aId.localeCompare(bId);
-    });
-  });
-  this.tagStackMap = map;
 };
 
 GitVisuals.prototype.calcWidth = function() {

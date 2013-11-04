@@ -210,7 +210,7 @@ GitEngine.prototype.exportTree = function() {
 
   _.each(this.branchCollection.toJSON(), function(branch) {
     branch.target = branch.target.get('id');
-    branch.visBranch = undefined;
+    delete branch.visBranch;
 
     totalExport.branches[branch.id] = branch;
   });
@@ -218,7 +218,7 @@ GitEngine.prototype.exportTree = function() {
   _.each(this.commitCollection.toJSON(), function(commit) {
     // clear out the fields that reference objects and create circular structure
     _.each(Commit.prototype.constants.circularFields, function(field) {
-      commit[field] = undefined;
+      delete commit[field];
     }, this);
 
     // convert parents
@@ -239,7 +239,7 @@ GitEngine.prototype.exportTree = function() {
   }, this);
 
   var HEAD = this.HEAD.toJSON();
-  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag =undefined;
+  HEAD.lastTarget = HEAD.lastLastTarget = HEAD.visBranch = HEAD.visTag = undefined;
   HEAD.target = HEAD.target.get('id');
   totalExport.HEAD = HEAD;
 
@@ -291,23 +291,23 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   var createdSoFar = {};
 
   _.each(tree.commits, function(commitJSON) {
-    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id);
+    var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
   _.each(tree.branches, function(branchJSON) {
-    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id);
+    var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
   _.each(tree.tags, function(tagJSON) {
-    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id);
+    var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
   }, this);
 
-  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id);
+  var HEAD = this.getOrMakeRecursive(tree, createdSoFar, tree.HEAD.id, this.gitVisuals);
   this.HEAD = HEAD;
 
   this.rootCommit = createdSoFar['C0'];
@@ -482,7 +482,8 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
 GitEngine.prototype.getOrMakeRecursive = function(
   tree,
   createdSoFar,
-  objID
+  objID,
+  gitVisuals
 ) {
   if (createdSoFar[objID]) {
     // base case
@@ -1746,6 +1747,14 @@ GitEngine.prototype.pruneTree = function() {
 };
 
 GitEngine.prototype.getUpstreamBranchSet = function() {
+  return this.getUpstreamCollectionSet(this.branchCollection);
+};
+
+GitEngine.prototype.getUpstreamTagSet = function() {
+  return this.getUpstreamCollectionSet(this.tagCollection);
+};
+
+GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
   // this is expensive!! so only call once in a while
   var commitToSet = {};
 
@@ -1774,16 +1783,16 @@ GitEngine.prototype.getUpstreamBranchSet = function() {
     return set;
   };
 
-  this.branchCollection.each(function(branch) {
-    var set = bfsSearch(branch.get('target'));
+  collection.each(function(ref) {
+    var set = bfsSearch(ref.get('target'));
     _.each(set, function(id) {
       commitToSet[id] = commitToSet[id] || [];
 
       // only add it if it's not there, so hue blending is ok
-      if (!inArray(commitToSet[id], branch.get('id'))) {
+      if (!inArray(commitToSet[id], ref.get('id'))) {
         commitToSet[id].push({
-          obj: branch,
-          id: branch.get('id')
+          obj: ref,
+          id: ref.get('id')
         });
       }
     });
@@ -2037,25 +2046,8 @@ GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
 };
 
 GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
-  // now BFS from here on out
-  var result = [];
-  var pQueue = [this.getCommitFromRef(location)];
-
-  while (pQueue.length) {
-    var popped = pQueue.pop();
-
-    // if its in the set, dont add it
-    if (stopSet[popped.get('id')]) {
-      continue;
-    }
-
-    // it's not in the set, so we need to rebase this commit
-    result.push(popped);
-    result.sort(this.dateSortFunc);
-
-    // keep searching
-    pQueue = pQueue.concat(popped.get('parents'));
-  }
+  var result = Graph.bfsFromLocationWithSet(this, location, stopSet);
+  result.sort(this.dateSortFunc);
   return result;
 };
 

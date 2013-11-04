@@ -124,10 +124,16 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
 
   chain.then(function() {
     var nowTime = new Date().getTime();
-    // .log('done with command "' + value + '", took ', nowTime - startTime);
     if (entireCommandPromise) {
       entireCommandPromise.resolve();
     }
+  });
+
+  chain.fail(function(err) {
+    console.log('!!!!!!!! error !!!!!!!');
+    console.log(err);
+    console.log(err.stack);
+    console.log('!!!!!!!!!!!!!!!!!!!!!!');
   });
   deferred.resolve();
 };
