@@ -732,13 +732,31 @@ var commandConfig = {
       });
     }
   },
+
+  describe: {
+    regex: /^git +describe($|\s)/,
+    execute: function(engine, command) {
+      // first if there are no tags, we cant do anything so just throw
+      if (engine.tagCollection.toArray().length === 0) {
+        throw new GitError({
+          msg: intl.todo(
+            'fatal: No tags found, cannot describe anything.'
+          )
+        });
+      }
+
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedHead(generalArgs);
+      assertIsRef(engine, generalArgs[0]);
+
+      engine.describe(generalArgs[0]);
+    }
+  },
   
   tag: {
-	regex: /^git +tag($|\s)/,
-	execute: function(engine, command) {
+    regex: /^git +tag($|\s)/,
+    execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
-      
-
       if (generalArgs.length === 0) {
         var tags = engine.getTags();
         engine.printTags(tags);
@@ -747,8 +765,7 @@ var commandConfig = {
       
       command.twoArgsImpliedHead(generalArgs);
       engine.tag(generalArgs[0], generalArgs[1]);
-
-	}
+    }
   }
 };
 
