@@ -9635,6 +9635,53 @@ GitEngine.prototype.tag = function(name, ref) {
   this.validateAndMakeTag(name, target);
 };
 
+GitEngine.prototype.describe = function(ref) {
+  var startCommit = this.getCommitFromRef(ref);
+  // ok we need to BFS from start upwards until we hit a tag. but
+  // first we need to get a reverse mapping from tag to commit
+  var tagMap = {};
+  _.each(this.tagCollection.toJSON(), function(tag) {
+    tagMap[tag.target.get('id')] = tag.id;
+  });
+
+  var pQueue = [startCommit];
+  var foundTag;
+  var numAway = [];
+  while (pQueue.length) {
+    var popped = pQueue.pop();
+    var thisID = popped.get('id');
+    if (tagMap[thisID]) {
+      foundTag = tagMap[thisID];
+      break;
+    }
+    // ok keep going
+    numAway.push(popped.get('id'));
+
+    var parents = popped.get('parents');
+    if (parents && parents.length) {
+      pQueue = pQueue.concat(parents);
+      pQueue.sort(this.dateSortFunc);
+    }
+  }
+
+  if (!foundTag) {
+    throw new GitError({
+      msg: intl.todo('Fatal: no tags found upstream')
+    });
+  }
+
+  if (numAway.length === 0) {
+    throw new CommandResult({
+      msg: foundTag
+    });
+  }
+
+  // then join
+  throw new CommandResult({
+    msg: foundTag + '_' + numAway.length + '_g' + numAway.pop()
+  });
+};
+
 GitEngine.prototype.validateAndDeleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveID(name);
@@ -11964,13 +12011,31 @@ var commandConfig = {
       });
     }
   },
+
+  describe: {
+    regex: /^git +describe($|\s)/,
+    execute: function(engine, command) {
+      // first if there are no tags, we cant do anything so just throw
+      if (engine.tagCollection.toArray().length === 0) {
+        throw new GitError({
+          msg: intl.todo(
+            'fatal: No tags found, cannot describe anything.'
+          )
+        });
+      }
+
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedHead(generalArgs);
+      assertIsRef(engine, generalArgs[0]);
+
+      engine.describe(generalArgs[0]);
+    }
+  },
   
   tag: {
-	regex: /^git +tag($|\s)/,
-	execute: function(engine, command) {
+    regex: /^git +tag($|\s)/,
+    execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
-      
-
       if (generalArgs.length === 0) {
         var tags = engine.getTags();
         engine.printTags(tags);
@@ -11979,8 +12044,7 @@ var commandConfig = {
       
       command.twoArgsImpliedHead(generalArgs);
       engine.tag(generalArgs[0], generalArgs[1]);
-
-	}
+    }
   }
 };
 
@@ -28648,13 +28712,31 @@ var commandConfig = {
       });
     }
   },
+
+  describe: {
+    regex: /^git +describe($|\s)/,
+    execute: function(engine, command) {
+      // first if there are no tags, we cant do anything so just throw
+      if (engine.tagCollection.toArray().length === 0) {
+        throw new GitError({
+          msg: intl.todo(
+            'fatal: No tags found, cannot describe anything.'
+          )
+        });
+      }
+
+      var generalArgs = command.getGeneralArgs();
+      command.oneArgImpliedHead(generalArgs);
+      assertIsRef(engine, generalArgs[0]);
+
+      engine.describe(generalArgs[0]);
+    }
+  },
   
   tag: {
-	regex: /^git +tag($|\s)/,
-	execute: function(engine, command) {
+    regex: /^git +tag($|\s)/,
+    execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
-      
-
       if (generalArgs.length === 0) {
         var tags = engine.getTags();
         engine.printTags(tags);
@@ -28663,8 +28745,7 @@ var commandConfig = {
       
       command.twoArgsImpliedHead(generalArgs);
       engine.tag(generalArgs[0], generalArgs[1]);
-
-	}
+    }
   }
 };
 
@@ -31318,6 +31399,53 @@ GitEngine.prototype.isRemoteBranchRef = function(ref) {
 GitEngine.prototype.tag = function(name, ref) {
   var target = this.getCommitFromRef(ref);
   this.validateAndMakeTag(name, target);
+};
+
+GitEngine.prototype.describe = function(ref) {
+  var startCommit = this.getCommitFromRef(ref);
+  // ok we need to BFS from start upwards until we hit a tag. but
+  // first we need to get a reverse mapping from tag to commit
+  var tagMap = {};
+  _.each(this.tagCollection.toJSON(), function(tag) {
+    tagMap[tag.target.get('id')] = tag.id;
+  });
+
+  var pQueue = [startCommit];
+  var foundTag;
+  var numAway = [];
+  while (pQueue.length) {
+    var popped = pQueue.pop();
+    var thisID = popped.get('id');
+    if (tagMap[thisID]) {
+      foundTag = tagMap[thisID];
+      break;
+    }
+    // ok keep going
+    numAway.push(popped.get('id'));
+
+    var parents = popped.get('parents');
+    if (parents && parents.length) {
+      pQueue = pQueue.concat(parents);
+      pQueue.sort(this.dateSortFunc);
+    }
+  }
+
+  if (!foundTag) {
+    throw new GitError({
+      msg: intl.todo('Fatal: no tags found upstream')
+    });
+  }
+
+  if (numAway.length === 0) {
+    throw new CommandResult({
+      msg: foundTag
+    });
+  }
+
+  // then join
+  throw new CommandResult({
+    msg: foundTag + '_' + numAway.length + '_g' + numAway.pop()
+  });
 };
 
 GitEngine.prototype.validateAndDeleteBranch = function(name) {
