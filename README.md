@@ -1,59 +1,81 @@
 # LearnGitBranching
 
-LearnGitBranching is a pseudo-git sandbox and interactive series of tutorials / challenges to accelerate the understanding of how git commit trees work. The ideal audience is a complete newcomer to git, but a wide range of experience levels should be able to benefit from these tutorials.
+LearnGitBranching is a git repository visualizer, sandbox, and series of educational tutorials and challenges. Its primary purpose is to help developers understand git through the power of visualization (something that's absent when working on the command line).
 
-It supports a fairly wide range of commands and dynamically visualizes the effects each change has on a commit tree visualization next to the command box:
-
+You can input a variety of commands into LearnGitBranching (LGB) -- as commands are processed, the nearby commit tree will dynamically update to reflect the effects of each command:
 <img src="https://raw.github.com/pcottle/learnGitBranching/master/assets/learnGitBranching.png"/>
 
-You can see the demo here:
+This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
 http://pcottle.github.com/learnGitBranching/?demo
 
-or use the vanilla app here:
+Or you can launch the application normally here:
 http://pcottle.github.com/learnGitBranching/
 
 ### Sandbox Mode
 
-Sandbox mode is where you can mess around and just see what certain git commands do. It is moderately helpful, but the real magic lies in levels...
+By default the application launches in "sandbox mode" with a basic repository already created. Here you can enter commands and mess around with a repository as much as you like. Keep in mind you can
+
+* `undo` to undo the effects of the last command
+* `reset` to start over from a clean slate (works in levels too)
+* `git clone` to play with remote repositories!
+
+Sandbox mode can be great for demonstrating something to a friend, but the real learning is with levels...
 
 ## Levels
 
-Type `levels` to see the available levels. These are a mix of tutorials and challenges to introduce git concepts and get newcomers familiar with certain workflows. There is also a "git golf" concept that tracks how many commands you used to solve the level :P
+Type `levels` to see the available lessons / challenges (and which ones you have solved so far). Each level series aims to teach some high-level git concept, and each tab of levels separates major worlds of info (like remote repositories versus local).
+
+For some added fun, there is a "git golf" concept where we keep track of how many commands you use to solve each level. See if you can match all of our records!
 
 ### Level Builder
 
-You can build levels with `build level`. The dialog should walk you through the majority of the commands -- at the end you will get a JSON blob that you can share with friends or paste into a Github issue.
+You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level"
 
-### Contributing Levels
+## How the app works / contributing functionality
 
-I would love for more levels to be added! I think there is a ton to learn and cover. Hopefully the community together can build a great tool for all git newcomers. You can make your own levels with
+LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in Javascript. The production version (on github.io) literally just serves up an html page with some JS and CSS. The rest of the magic lies in the 9k+ lines of Javascript :P
 
-```
-build level
-```
+Because the app contains a lot of code, I have written everything into Nodejs-style modules. The modules are packaged together with the `Browserify` and then sent down in a format the browser can understand.
 
-In the application. You will be walked through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes!
+Here is the high level process of the build:
 
-## Contributing Functionality
+* Code is written into the node.js modules which require other modules
+* CSS is written into just one stylesheet (theres not a whole ton of styling)
+* New HTML is written into a template html file (`template.index.html`). Only needed
+  for new views
+* The app is "built", which outputs:
+  * `index.html` in the root directory
+  * CSS and JS files in `./build` directory
+* If the app is being built for production, then these CSS and JS files
+  are hashed (to bust caches) and tests are run
+* That's it!
 
-For contributing core functionality in the app, you will need to install the `grunt` build tool. The general steps:
+Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
+
+## Building yourself / Contributing Functionality 
+
+For contributing core functionality in the app, you'll probably want to test your changes
+at least once before submitting a pull request. That means you'll need the `grunt` build tool. It's a fairly
+common tool, however I use a slightly older version.
+
+You'll also need `npm` to download all the dependencies of the project.
+
+The general workflow / steps are below:
 
 ```
 git clone <your fork of the repo>
 cd learnGitBranching
-npm install
+npm install # to install all the node modules I depend on
 git checkout -b newAwesomeFeature
 # some changes
 grunt build # now you can open up your browser to the index.html and see your changes
-grunt watch # will keep watch over files and fastBuild whenever they change
+grunt watch # will keep watch over files and fastBuild whenever they change. lot of CPU though
 # more changes
 grunt build
 git commit -am "My new sweet feature!"
 git push
 # go online and request a pull
 ```
-
-You may also need to install jasmine-node globally to run the testing task, but the build should finish regardless.
 
 ## Helpful Folks
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
