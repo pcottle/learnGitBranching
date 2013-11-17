@@ -19,6 +19,7 @@ var toGlobalize = {
   MultiView: require('../views/multiView'),
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
+  TreeCompare: require('../graph/treeCompare'),
   Level: require('../level'),
   Sandbox: require('../sandbox/'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
