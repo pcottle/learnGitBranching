@@ -154,4 +154,5 @@ Or reported an issue that was successfully closed!
 * Kyle (kyleIDMI)
 * "iplus"
 * Christian Sauer
+* "alvarogarcia7"
 
