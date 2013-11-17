@@ -4,7 +4,6 @@ Big Things
 
 Origin things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] polish visual layout?? needed?
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
