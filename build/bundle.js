@@ -10604,7 +10604,10 @@ TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
+  // also compare tags!! for just one level
+  return treeA.HEAD.target == treeB.HEAD.target &&
+    this.compareAllBranchesWithinTrees(treeA, treeB) &&
+    this.compareAllTagsWithinTrees(treeA, treeB);
 };
 
 TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
@@ -10622,6 +10625,14 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branch);
   }, this);
   return result;
+};
+
+TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  return _.isEqual(treeA.tags, treeB.tags);
 };
 
 TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
@@ -10846,12 +10857,17 @@ TreeCompare.reduceTreeFields = function(trees) {
     'id',
     'rootCommit'
   ];
-  var commitSortFields = ['children', 'parents'];
   var branchSaveFields = [
     'target',
     'id',
     'remoteTrackingBranchID'
   ];
+  var tagSaveFields = [
+    'target',
+    'id'
+  ];
+
+  var commitSortFields = ['children', 'parents'];
   // for backwards compatibility, fill in some fields if missing
   var defaults = {
     remoteTrackingBranchID: null
@@ -10897,6 +10913,7 @@ TreeCompare.reduceTreeFields = function(trees) {
   _.each(trees, function(tree) {
     saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
     saveOnly(tree, 'branches', branchSaveFields);
+    saveOnly(tree, 'tags', tagSaveFields);
 
     tree.HEAD = {
       target: tree.HEAD.target,
@@ -16457,6 +16474,7 @@ var LevelBuilder = Level.extend({
 
     this.startDialogObj = undefined;
     this.definedGoal = false;
+    this.compareLevelSettings = undefined;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -16684,6 +16702,34 @@ var LevelBuilder = Level.extend({
       });
     }
 
+    if (this.compareLevelSettings === undefined) {
+      var askForCompare = Q.defer();
+      chain = chain.then(function() {
+        return askForCompare.promise;
+      });
+
+      var askForCompareView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You havent specified compare settings, would you like to?'
+        ]
+      });
+      askForCompareView.getPromise()
+      .then(_.bind(function() {
+        // oh boy this is complex
+        var whenEditedDialog = Q.defer();
+        // the undefined here is the command that doesnt need resolving just yet...
+        this.editDialog(undefined, whenEditedDialog);
+        return whenEditedDialog.promise;
+      }, this))
+      .fail(function() {
+        // default compare settings
+      })
+      .done(function() {
+        askForCompare.resolve();
+      });
+
+    }
+
     if (this.startDialogObj === undefined) {
       var askForStartDeferred = Q.defer();
       chain = chain.then(function() {
@@ -16732,6 +16778,13 @@ var LevelBuilder = Level.extend({
     delete compiledLevel.startDialog;
     if (this.startDialogObj) {
       compiledLevel.startDialog = {'en_US': this.startDialogObj};
+    }
+
+    if (this.compareLevelSettings) {
+      // merge in the object
+      _.each(Object.keys(this.compareLevelSettings), function(key) {
+        compiledLevel[key] = this.compareLevelSettings[key];
+      });
     }
     return compiledLevel;
   },
@@ -32270,7 +32323,10 @@ TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  return treeA.HEAD.target == treeB.HEAD.target && this.compareAllBranchesWithinTrees(treeA, treeB);
+  // also compare tags!! for just one level
+  return treeA.HEAD.target == treeB.HEAD.target &&
+    this.compareAllBranchesWithinTrees(treeA, treeB) &&
+    this.compareAllTagsWithinTrees(treeA, treeB);
 };
 
 TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
@@ -32288,6 +32344,14 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branch);
   }, this);
   return result;
+};
+
+TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
+  treeA = this.convertTreeSafe(treeA);
+  treeB = this.convertTreeSafe(treeB);
+  this.reduceTreeFields([treeA, treeB]);
+
+  return _.isEqual(treeA.tags, treeB.tags);
 };
 
 TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
@@ -32512,12 +32576,17 @@ TreeCompare.reduceTreeFields = function(trees) {
     'id',
     'rootCommit'
   ];
-  var commitSortFields = ['children', 'parents'];
   var branchSaveFields = [
     'target',
     'id',
     'remoteTrackingBranchID'
   ];
+  var tagSaveFields = [
+    'target',
+    'id'
+  ];
+
+  var commitSortFields = ['children', 'parents'];
   // for backwards compatibility, fill in some fields if missing
   var defaults = {
     remoteTrackingBranchID: null
@@ -32563,6 +32632,7 @@ TreeCompare.reduceTreeFields = function(trees) {
   _.each(trees, function(tree) {
     saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
     saveOnly(tree, 'branches', branchSaveFields);
+    saveOnly(tree, 'tags', tagSaveFields);
 
     tree.HEAD = {
       target: tree.HEAD.target,
@@ -33548,6 +33618,7 @@ var LevelBuilder = Level.extend({
 
     this.startDialogObj = undefined;
     this.definedGoal = false;
+    this.compareLevelSettings = undefined;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -33775,6 +33846,34 @@ var LevelBuilder = Level.extend({
       });
     }
 
+    if (this.compareLevelSettings === undefined) {
+      var askForCompare = Q.defer();
+      chain = chain.then(function() {
+        return askForCompare.promise;
+      });
+
+      var askForCompareView = new ConfirmCancelTerminal({
+        markdowns: [
+          'You havent specified compare settings, would you like to?'
+        ]
+      });
+      askForCompareView.getPromise()
+      .then(_.bind(function() {
+        // oh boy this is complex
+        var whenEditedDialog = Q.defer();
+        // the undefined here is the command that doesnt need resolving just yet...
+        this.editDialog(undefined, whenEditedDialog);
+        return whenEditedDialog.promise;
+      }, this))
+      .fail(function() {
+        // default compare settings
+      })
+      .done(function() {
+        askForCompare.resolve();
+      });
+
+    }
+
     if (this.startDialogObj === undefined) {
       var askForStartDeferred = Q.defer();
       chain = chain.then(function() {
@@ -33823,6 +33922,13 @@ var LevelBuilder = Level.extend({
     delete compiledLevel.startDialog;
     if (this.startDialogObj) {
       compiledLevel.startDialog = {'en_US': this.startDialogObj};
+    }
+
+    if (this.compareLevelSettings) {
+      // merge in the object
+      _.each(Object.keys(this.compareLevelSettings), function(key) {
+        compiledLevel[key] = this.compareLevelSettings[key];
+      });
     }
     return compiledLevel;
   },
@@ -35989,6 +36095,7 @@ var toGlobalize = {
   MultiView: require('../views/multiView'),
   ZoomLevel: require('../util/zoomLevel'),
   VisBranch: require('../visuals/visBranch'),
+  TreeCompare: require('../graph/treeCompare'),
   Level: require('../level'),
   Sandbox: require('../sandbox/'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
