@@ -387,6 +387,7 @@ var commandConfig = {
       // handle deletion first
       if (commandOptions['-d'] || commandOptions['-D']) {
         var names = commandOptions['-d'] || commandOptions['-D'];
+        names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
         _.each(names, function(name) {
@@ -396,8 +397,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-u']) {
-        command.acceptNoGeneralArgs();
-        args = commandOptions['-u'];
+        args = commandOptions['-u'].concat(generalArgs);
         command.validateArgBounds(args, 1, 2, '-u');
         var remoteBranch = crappyUnescape(args[0]);
         var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
@@ -420,7 +420,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-f']) {
-        args = commandOptions['-f'];
+        args = commandOptions['-f'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-f');
 
         // we want to force a branch somewhere
@@ -620,14 +620,9 @@ var commandConfig = {
 
       var args = null;
       if (commandOptions['-b']) {
-        if (generalArgs.length) {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-
-        // the user is really trying to just make a branch and then switch to it. so first:
-        args = commandOptions['-b'];
+        // the user is really trying to just make a 
+        // branch and then switch to it. so first:
+        args = commandOptions['-b'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-b');
 
         var validId = engine.validateBranchName(args[0]);
