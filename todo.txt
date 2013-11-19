@@ -13,21 +13,6 @@ Medium things:
 [ ] make helper bar clickable with goal vis floating
 [ ] make show solution easier
 
-Argument things:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-just pass options into fetch, then merge the source.
-[ ] huge update to level you wrote. that you said is true for
-    git fetch and git push (basically) but pull is not the same. basically
-    its going to ignore where you are during the fetch
-
-[ ] IDEA!!! just talk about arguments for each command one at a time. build
-    concept of place first and then expand on it!
-
-[ ] FIX the level you came up with
-
-Cases to handle / things to edit
-=======================
-
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -43,6 +28,12 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] huge update to level you wrote. that you said is true for
+    git fetch and git push (basically) but pull is not the same. basically
+    its going to ignore where you are during the fetch
+[x] IDEA!!! just talk about arguments for each command one at a time. build
+    concept of place first and then expand on it!
+[x] FIX the level you came up with
 [x] aka fetch + merge,
     just like expected. ill probably still update o/master just for sanity
     master is the source on the remote and HEAD is the source on local
