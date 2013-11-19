@@ -58,7 +58,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
-      command.appendOptionR();
+      command.prependOptionR();
       var options = command.getOptionsMap();
       if (!options['-r']) {
         throw new GitError({
@@ -109,21 +109,21 @@ var commandConfig = {
       var branchName;
       var rev;
 
-      var delegate = { vcs: 'git' };
+      var delegate = {vcs: 'git'};
 
       if (options['-m'] && options['-d']) {
         throw new GitError({
-          msg: '-m and -d are incompatible'
+          msg: intl.todo('-m and -d are incompatible')
         });
       }
       if (options['-d'] && options['-r']) {
         throw new GitError({
-          msg: '-r is incompatible with -d'
+          msg: intl.todo('-r is incompatible with -d')
         });
       }
       if (options['-m'] && options['-r']) {
         throw new GitError({
-          msg: '-r is incompatible with -m'
+          msg: intl.todo('-r is incompatible with -m')
         });
       }
       if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
@@ -140,9 +140,12 @@ var commandConfig = {
         if (options['-r']) {
           // we specified a revision with -r but
           // need to flip the order
-          branchName = options['-r'][1] || '';
-          rev = options['-r'][0] || '';
+          var generalArgs = command.getGeneralArgs();
+          branchName = generalArgs[0];
+          rev = options['-r'][0];
           delegate.name = 'branch';
+
+          // transform to what git wants
           command.setGeneralArgs([branchName, rev]);
         } else if (generalArgs.length > 0) {
           command.setOptionsMap({'-b': [generalArgs[0]]});
@@ -217,7 +220,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
-      command.appendOptionR();
+      command.prependOptionR();
       return {
         vcs: 'git',
         name: 'revert'
