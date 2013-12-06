@@ -19,6 +19,16 @@ exports.dialog = {
       ]
     }
   }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 确定要看答案吗？',
+        '',
+        '哥相信你！你可以的'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

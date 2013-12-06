@@ -21,13 +21,15 @@ exports.level = {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
     "ja": "Juggling Commits",
-    "zh_CN": "提交变换戏法"
+    "zh_CN": "提交变换戏法",
+    "zh_TW": "提交变换戏法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'"
+    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'",
+    "zh_TW": "第一个命令是 'git rebase -i HEAD~2'"
   },
   "startDialog": {
     "en_US": {
@@ -111,6 +113,45 @@ exports.level = {
       ]
     },
     "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 提交变换戏法",
+              "",
+              "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
+              "",
+              "有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 `newImage` 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "为了实现他的愿望，我们可以按照下面的方法来做：",
+              "",
+              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交挪到最前",
+              "* 然后用 `commit --amend` 来进行一些小修改",
+              "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
+              "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
+              "",
+              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
       "childViews": [
         {
           "type": "ModalAlert",

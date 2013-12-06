@@ -6,13 +6,15 @@ exports.level = {
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
-    "zh_CN": "分支与合并"
+    "zh_CN": "分支与合并",
+    "zh_TW": "分支与合并"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
+    "zh_TW": "记住按指定的顺序提交（bugFix先于master）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
   "disabledMap": {
@@ -227,6 +229,75 @@ exports.level = {
       ]
     },
     "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "Great! 我们已经知道怎么提交和使用分支了。接下来要学的一招是如何合并两个不同分支的工作。这让我们可以新建一个分支，在其上开发新功能，然后合并回主线。",
+              "",
+              "`git merge`是我们要学习的合并工作的第一个方法。合并产生一个特殊的提交记录，它包含两个唯一父提交。有两个父提交的提交记录本质上是：“我想把这两个父提交本身及它们的父提交集合都包含进来。”",
+              "",
+              "有图有真相，看看下面的图示就明白了。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "当前有两个分支：各有一个唯一的提交。这意味着没有一个分支包含我们对代码库的所有修改。让我们合并这两个分支来解决这个问题。",
+              "",
+              "我们要把 `bugFix` 合并到 `master` "
+            ],
+            "command": "git merge bugFix",
+            "afterMarkdowns": [
+              "哇！看见木有？首先，`master` 现在指向一个拥有两个父提交的提交记录。假如从 `master` 开始沿着箭头向上游走，在到达起点的路上会经过所有的提交记录。这说明有 `master` 包含了对代码库的所有修改。",
+              "",
+              "还有，看见各个提交记录的颜色变化了吗？为了帮助学习，我使用了颜色混合。每个分支都有特定的颜色。每个提交记录都变成了含有此提交的所有分支的混合色。",
+              "",
+              "所以，`master` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。接下来就改一下这里吧。"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们把 `master` 分支合并到 `bugFix` 吧。"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "afterMarkdowns": [
+              "因为 `bugFix` 分支在 `master` 分支的下游，git什么都不用做，只是简单地把`bugfix`分支移动到`master`指向的提交记录。",
+              "",
+              "现在所有的提交记录的颜色都是一样的啦，这表明每一个分支都包含了代码库的所有修改！走起！"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想完成此关，执行收下操作：",
+              "",
+              "* 创建新分支 `bugFix` ",
+              "* 用 `git checkout bugFix` 切换到 `bugFix`分支",
+              "* 提交一次",
+              "* 用 `git checkout` 切换回 `master` ",
+              "* 再提交一次",
+              "* 用 `git merge` 合并 `bugFix`分支进 `master`",
+              "",
+              "*记住，总是可以用 \"help level\" 命令来重新显示这个对话框！*"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
       "childViews": [
         {
           "type": "ModalAlert",

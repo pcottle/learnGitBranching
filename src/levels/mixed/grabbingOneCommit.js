@@ -23,7 +23,8 @@ exports.level = {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
-    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
+    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
+    "zh_TW": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
   },
   "startDialog": {
     "en_US": {
@@ -108,6 +109,47 @@ exports.level = {
       ]
     },
     "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 本地栈式提交 (Locally stacked commits)",
+              "",
+              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些调试命令和打印语句。",
+              "",
+              "所有的这些调试和打印语句都只在它们自己的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "",
+              "现在唯一的问题就是要把我在 `bugFix` 分支里的工作合并回 `master` 分支。我可以简单地把 `master` 分支快进（fast-forward），但这样的话 `master` 分支就会包含我这些调试语句了。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "现在就是 Git 大显神通的时候啦。解决这个问题的方法不止一个，但最直接的两个方法是：",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "交互（`-i`）衍合允许你选择哪些提交是要被保留，哪些要被舍弃。它允许你将提交重新排序。假如你要舍弃一些工作，这个会帮上很大的忙。",
+              "",
+              "Cherry-picking 能让你选择单独一个提交并且把它放到 `HEAD` 的最前端。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
       "childViews": [
         {
           "type": "ModalAlert",

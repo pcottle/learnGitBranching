@@ -161,6 +161,58 @@ exports.dialog = {
       ]
     }
   }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 欢迎光临 LearnGitBranching!',
+        '',
+        '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
+        '希望你能喜欢这个应用，并学到知识！',
+        '',
+        '# 演示!',
+        '',
+        '如果你还没看过演示，请到此查看：',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Git 命令',
+        '',
+        '在沙盒模式里，你有好多命令可用。 包括：',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 分享即关怀',
+        '',
+        '使用 `export tree` 和 `import tree` 与朋友分享 Git 树',
+        '',
+        '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
+        '',
+        '言归正传，让我们先从 `levels` 开始……'
+      ]
+    }
+  }],
   'ko': [{
     type: 'ModalAlert',
     options: {

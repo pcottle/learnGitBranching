@@ -11,13 +11,15 @@ exports.level = {
     "en_US": "Rebasing over 9000 times",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
-    "zh_CN": "N次Rebase"
+    "zh_CN": "N次Rebase",
+    "zh_TW": "N次Rebase"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，最后更新master分支可能是最高效的方法。"
+    "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
+    "zh_TW": "记住，最后更新master分支可能是最高效的方法。"
   },
   "startDialog": {
     "en_US": {
@@ -57,6 +59,24 @@ exports.level = {
       ]
     },
     "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 多分支衍合",
+              "",
+              "呐，现在我们有很多分支啦！让我们rebase这些分支的工作到 master 分支上吧。",
+              "",
+              "但是你的头头找了点麻烦 —— 他们希望得到有序的提交历史，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
+              "",
+              "假如你搞砸了，没所谓的（虽然我不会告诉你用 `reset` 可以重新开始）。记得看看我们提供的答案，看你能否使用更少的命令完成任务！"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
       "childViews": [
         {
           "type": "ModalAlert",

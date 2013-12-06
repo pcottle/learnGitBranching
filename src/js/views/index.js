@@ -675,8 +675,11 @@ var IntlHelperBar = HelperBar.extend({
       text: 'Git 브랜치 배우기',
       id: 'korean'
     }, {
-      text: '学习Git分支',
-      id: 'chinese'
+      text: '学习 Git 分支',
+      id: 'chinese_s'
+    }, {
+      text: 'Git 分支',
+      id: 'chinese_t'
     }, {
       text: 'français',
       id: 'french'
@@ -711,8 +714,13 @@ var IntlHelperBar = HelperBar.extend({
     this.hide();
   },
 
-  onChineseClick: function() {
+  onSimpChineseClick: function() {
     this.fireCommand('locale zh_CN; levels');
+    this.hide();
+  },
+
+  onTradChineseClick: function() {
+    this.fireCommand('locale zh_TW; levels');
     this.hide();
   }
 });
