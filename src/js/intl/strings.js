@@ -5,7 +5,7 @@ exports.strings = {
     'ja': '最後のレベルをクリアしました！すごい！！',
     'en_US': 'Wow! You finished the last level, great!',
     'zh_CN': '我的个天！你完成了最后一关，碉堡了！',
-    'zh_TW': '我的個天！你完成了最後一關，碉堡了！',
+    'zh_TW': '我的天啊！您解開了最後一關，太強了！',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@ exports.strings = {
     'en_US': 'Would you like to move on to *"{nextLevel}"*, the next level?',
     'ja': '次の章 *"{nextLevel}"* へ進みますか？',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？',
-    'zh_TW': '要不前進到下一關 *“{nextLevel}”*？',
+    'zh_TW': '下一關是*「{nextLevel}」*，您要繼續闖關嗎？',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ exports.strings = {
     'en_US': 'Awesome! You matched or exceeded our solution.',
     'ja': '素晴らしい！このレベルをクリアしましたね。',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
-    'zh_TW': '牛鼻啊！你達到或者完爆了我我的答案。',
+    'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.'
   },
   ///////////////////////////////////////////////////////////////////////////
