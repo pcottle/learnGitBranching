@@ -17,14 +17,15 @@ exports.level = {
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "只取一个提交"
+    "zh_CN": "只取一个提交",
+    "zh_TW": "只取一個提交"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
-    "zh_TW": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
+    "zh_TW": "記住，交互式 rebase 或者 cherry-pick 會很有幫助"
   },
   "startDialog": {
     "en_US": {
@@ -155,13 +156,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 本地栈式提交 (Locally stacked commits)",
+              "## 本地棧式提交 (Locally stacked commits)",
               "",
-              "设想一下一个经常发生的场景：我在追踪一个有点棘手的 bug，为了更好地排查，我添加了一些调试命令和打印语句。",
+              "設想一下一個經常發生的場景：我在追蹤一個有點棘手的 bug，為了更好地排查，我添加了一些調試命令和打印語句。",
               "",
-              "所有的这些调试和打印语句都只在它们自己的分支里。最终我终于找到这个 bug，揪出来 fix 掉，然后撒花庆祝！",
+              "所有的這些調試和打印語句都只在它們自己的分支裡。最終我終於找到這個 bug，揪出來 fix 掉，然後撒花慶祝！",
               "",
-              "现在唯一的问题就是要把我在 `bugFix` 分支里的工作合并回 `master` 分支。我可以简单地把 `master` 分支快进（fast-forward），但这样的话 `master` 分支就会包含我这些调试语句了。"
+              "現在唯一的問題就是要把我在 `bugFix` 分支裡的工作合併回 `master` 分支。我可以簡單地把 `master` 分支快進（fast-forward），但這樣的話 `master` 分支就會包含我這些調試語句了。"
             ]
           }
         },
@@ -169,14 +170,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "现在就是 Git 大显神通的时候啦。解决这个问题的方法不止一个，但最直接的两个方法是：",
+              "現在就是 Git 大顯神通的時候啦。解決這個問題的方法不止一個，但最直接的兩個方法是：",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "交互（`-i`）衍合允许你选择哪些提交是要被保留，哪些要被舍弃。它允许你将提交重新排序。假如你要舍弃一些工作，这个会帮上很大的忙。",
+              "交互（`-i`）衍合允許你選擇哪些提交是要被保留，哪些要被捨棄。它允許你將提交重新排序。假如你要捨棄一些工作，這個會幫上很大的忙。",
               "",
-              "Cherry-picking 能让你选择单独一个提交并且把它放到 `HEAD` 的最前端。"
+              "Cherry-picking 能讓你選擇單獨一個提交並且把它放到 `HEAD` 的最前端。"
             ]
           }
         },
@@ -184,7 +185,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+              "本關是可選關卡，玩不玩隨便你。但是如果你堅持要刷，確保 `master` 分支能拿到 `bugFix` 分支的相關提交（references）。"
             ]
           }
         }

@@ -21,14 +21,14 @@ exports.level = {
     "en_US": "Juggling Commits #2",
     "ja": "コミットをやりくりする その2",
     "zh_CN": "提交交换戏法 #2",
-    "zh_TW": "提交交换戏法 #2"
+    "zh_TW": "提交交換戲法 #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 master 快进到最新的更新上！",
-    "zh_TW": "别忘记了将 master 快进到最新的更新上！"
+    "zh_TW": "別忘記了將 master 快進到最新的更新上！"
   },
   "startDialog": {
     "en_US": {
@@ -162,13 +162,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 提交变换戏法 #2",
+              "## 提交變換戲法 #2",
               "",
-              "*假如你还没有完成提交变换戏法 #1（前一关），这关不让玩哦！*",
+              "*假如你還沒有完成提交變換戲法 #1（前一關），這關不讓玩哦！*",
               "",
-              "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
+              "如你在上一關所見，我們使用 `rebase -i` 來重排那些提交。只要把我們想要的提交挪到最頂端，我們就可以很容易地改變它，然後把它們重新排成我們想要的順序。",
               "",
-              "但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 `git cherry-pick` 是怎么做的吧。"
+              "但唯一的問題就是這樣做就要排很多次，有可能造成衍合衝突（rebase conflicts）。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧。"
             ]
           }
         },
@@ -176,13 +176,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "要在心理牢记 cherry-pick 可以从提交树的任何地方拿一个提交来放在 HEAD 上（尽管那个提交不在上游）。",
+              "要在心理牢記 cherry-pick 可以從提交樹的任何地方拿一個提交來放在 HEAD 上（儘管那個提交不在上游）。",
               "",
-              "下面是一个小小的演示："
+              "下面是一個小小的演示："
             ],
             "command": "git cherry-pick C2",
             "afterMarkdowns": [
-              "好滴咧，我们继续"
+              "好滴咧，我們繼續"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -191,7 +191,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
+              "那麼這關呢，和上一關一樣要改變提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎麼解決吧，騷年！ :D"
             ]
           }
         }
