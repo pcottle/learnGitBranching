@@ -137,7 +137,7 @@ exports.strings = {
     '__desc__': 'The commit message for a merge commit',
     'en_US': 'Merge {target} into {current}',
     'zh_CN': '合并 {target} 到 {current}',
-    'zh_TW': '合并 {target} 到 {current}',
+    'zh_TW': '合併 {target} 到 {current}',
     'fr_FR': 'Merge de {target} dans {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
     'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
-    'zh_TW': '沒有需要 rebase 的提交！都是個合併提交，或者已經 rebase 過了。',
+    'zh_TW': '沒有需要 rebase 的提交！每份提交皆已合併或套用變更了',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -209,7 +209,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Those options you specified are incompatible or incorrect',
     'zh_CN': '你所指定的参数不兼容或者不准确',
-    'zh_TW': '你所指定的參數不兼容或者不準確',
+    'zh_TW': '您指定了不相容或錯誤的選項',
     'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -274,7 +274,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'That command accepts no general arguments',
     'zh_CN': '该命令不接收参数',
-    'zh_TW': '該命令不接收參數',
+    'zh_TW': '該指令不接受一般參數',
     'fr_FR': 'Cette commande n\'accepte aucun argument général'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -282,7 +282,7 @@ exports.strings = {
     '__desc__': 'The prompt to copy the tree when sharing',
     'en_US': 'Copy the tree string below',
     'zh_CN': '拷贝下面的树字符串',
-    'zh_TW': '拷貝下面的樹字符串',
+    'zh_TW': '複製下方的樹狀字串',
     'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -292,7 +292,7 @@ exports.strings = {
     'ja': '日本語版リポジトリ',
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支',
-    'zh_TW': '學習Git分支',
+    'zh_TW': '學習 Git 分支',
     'fr_FR': 'Apprenez Git Branching'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -300,7 +300,7 @@ exports.strings = {
     '__desc__': 'The prompt to select a level on the drop down view',
     'en_US': 'Select a level',
     'zh_CN': '选择一关',
-    'zh_TW': '選擇一關',
+    'zh_TW': '選擇其中一關',
     'fr_FR': 'Choisissez un niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -329,7 +329,7 @@ exports.strings = {
     '__desc__': 'When the user specifies an option that is not supported by our demo',
     'en_US': 'The option "{option}" is not supported!',
     'zh_CN': '不支持选项 "{option}"',
-    'zh_TW': '不支持選項 "{option}"',
+    'zh_TW': '不支援的選項 "{option}"',
     'fr_FR': 'L\'option "{option}" n\'est pas supportée'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -337,7 +337,7 @@ exports.strings = {
     '__desc__': 'The line that shows how to format a git command',
     'en_US': 'git <command> [<args>]',
     'zh_CN': 'git <命令> [<参数>]',
-    'zh_TW': 'git <命令> [<參數>]',
+    'zh_TW': 'git <指令> [<參數>]',
     'fr_FR': 'git <commande> [<arguments>]'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -345,7 +345,7 @@ exports.strings = {
     '__desc__': 'In the git help command, the header above the supported commands',
     'en_US': 'Supported commands:',
     'zh_CN': '支持的命令有:',
-    'zh_TW': '支持的命令有:',
+    'zh_TW': '支援的指令有：',
     'fr_FR': 'Commandes supportées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -353,7 +353,7 @@ exports.strings = {
     '__desc__': 'In the dummy git output, the header before showing all the commands',
     'en_US': 'Usage:',
     'zh_CN': '使用:',
-    'zh_TW': '使用:',
+    'zh_TW': '用法:',
     'fr_FR': 'Utilisation :'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -369,7 +369,7 @@ exports.strings = {
     '__desc__': 'when the tree is visually refreshed',
     'en_US': 'Refreshing tree...',
     'zh_CN': '正在刷新树结构...',
-    'zh_TW': '正在刷新樹結構……',
+    'zh_TW': '正在更新樹狀結構……',
     'fr_FR': 'Actualisation de l\'arbre…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -377,7 +377,7 @@ exports.strings = {
     '__desc__': 'when the locale is set to something',
     'en_US': 'Locale set to {locale}',
     'zh_CN': '语言更改为 {locale}',
-    'zh_TW': '語言更改為 {locale}',
+    'zh_TW': '語系設為 {locale}',
     'fr_FR': 'Langue changée à {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -385,19 +385,21 @@ exports.strings = {
     '__desc__': 'when the locale is reset',
     'en_US': 'Locale reset to default, which is {locale}',
     'zh_CN': '语言重置为默认的 {locale}',
-    'zh_TW': '語言重置為默認的 {locale}',
+    'zh_TW': '還原為預設語系 {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
     '__desc__': 'command output title from "show"',
     'en_US': 'Please use one of the following commands for more info:',
+    'zh_TW': '請使用下列其中一個指令取得更多資訊：',
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
     '__desc__': 'command output title from "show commands"',
     'en_US': 'Here is a list of all the commmands available:',
+    'zh_TW': '這份清單列出所有可用指令：',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -413,14 +415,14 @@ exports.strings = {
     '__desc__': 'Dummy command output for the command in the key',
     'en_US': 'DontWorryAboutFilesInThisDemo.txt',
     'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)',
-    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt (譯: 在試驗裡不用擔心文件.txt)',
+    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt（譯註：在試驗裡不用擔心檔案.txt）',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
     'en_US': 'LGB can\'t receive input on mobile, visit on desktop! it\'s worth it :D',
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
-    'zh_TW': '無法在移動設備/平板上調出鍵盤 :( 請試試桌面版 :D',
+    'zh_TW': '無法在行動裝置上叫出鍵盤，請改用桌面版！',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -436,7 +438,7 @@ exports.strings = {
     '__desc__': 'When you are importing a level or tree',
     'en_US': 'Paste a JSON blob below!',
     'zh_CN': '在下边粘贴一个JSON串',
-    'zh_TW': '在下邊貼上一個JSON串',
+    'zh_TW': '在下方貼上一串 JSON',
     'fr_FR': 'Collez un blob JSON ci-dessous !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -452,7 +454,7 @@ exports.strings = {
     '__desc__': 'When the user tries to exit a level when they are not in one',
     'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"',
     'zh_CN': '您没在关卡中！您在沙盒中，要开始关卡请输入 "levels"',
-    'zh_TW': '您沒在关卡中！您在沙盒中，要開始關卡請輸入 "levels"',
+    'zh_TW': '您沒在關卡中！您在沙盒中，要開始關卡請輸入 "levels"',
     'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -460,7 +462,7 @@ exports.strings = {
     '__desc__': 'When you say an id but that level doesnt exist',
     'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
     'zh_CN': '没找到id为 "{id}" 的关卡！打开关卡选择框',
-    'zh_TW': '沒找到id為 "{id}" 的關卡！打開關卡選擇框',
+    'zh_TW': '找不到 id 為 "{id}" 的關卡！開啟關卡選擇視窗',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -492,7 +494,7 @@ exports.strings = {
     '__desc__': 'when you have made the level, prompt to share this',
     'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
     'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上',
-    'zh_TW': '這是一個關卡定義JSON！您可以分享它或者發到我的GitHub上',
+    'zh_TW': '這是一個關卡定義 JSON！您可以分享它或者發到我的 GitHub 上',
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -524,7 +526,7 @@ exports.strings = {
     '__desc__': 'prompt for level name',
     'en_US': 'Enter the name for the level',
     'zh_CN': '输入关卡名',
-    'zh_TW': '輸入關卡名',
+    'zh_TW': '輸入關卡名稱',
     'fr_FR': 'Entrez le nom pour ce niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -532,7 +534,7 @@ exports.strings = {
     '__desc__': 'If you define a solution without any commands, aka a level that is solved without doing anything',
     'en_US': 'Your solution is empty!! Something is amiss',
     'zh_CN': '你的解法是空的!! 这应该是出错了',
-    'zh_TW': '你的解法是空的!! 這應該是出錯了',
+    'zh_TW': '你的解法是空的！這一定是哪裡出錯了',
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -593,7 +595,7 @@ exports.strings = {
     '__desc__': 'The name for the environment where you build levels',
     'en_US': 'Level Builder',
     'zh_CN': '关卡生成器',
-    'zh_TW': '關卡生成器',
+    'zh_TW': '關卡產生器',
     'fr_FR': 'Éditeur de niveaux'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -625,7 +627,7 @@ exports.strings = {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
     'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!',
-    'zh_TW': '這段對話還沒有被翻譯成你的語言 :( 歡迎在gitHub上貢獻你的翻譯!',
+    'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 github 貢獻翻譯！',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
   }
 };
