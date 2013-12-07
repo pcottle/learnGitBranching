@@ -5,7 +5,7 @@ exports.level = {
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commits简介'
-    'zh_TW': 'Git Commits简介'
+    'zh_TW': 'Git Commits簡介'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -14,7 +14,7 @@ exports.level = {
     "en_US": "Just type in 'git commit' twice to finish!",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
-    "zh_TW": "敲两次 'git commit' 就好啦！",
+    "zh_TW": "敲兩次 'git commit' 就好啦！",
     "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -251,15 +251,15 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Git Commits",
-              "git仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 git 做的不只这么简单！",
+              "git倉庫中的一次提交（commit）記錄目錄下所有文件的快照。感覺像是大量的複製和粘貼，但 git 做的不只這麼簡單！",
               "",
-              "Git 希望提交记录尽可能地轻量，所以每次进行提交时，它不会简单地复制整个目录。实际上它把每次提交记录保存为从代码库的一个版本到下一个版本的变化集，或者说一个\"增量（delta）\"。所以，大部分提交记录都有一个父提交（parent commit）-- 我们会很快演示这一点。",
+              "Git 希望提交記錄儘可能地輕量，所以每次進行提交時，它不會簡單地複製整個目錄。實際上它把每次提交記錄保存為從代碼庫的一個版本到下一個版本的變化集，或者說一個\"增量（delta）\"。所以，大部分提交記錄都有一個父提交（parent commit）-- 我們會很快演示這一點。",
               "",
-              "克隆（clone）代码库时，需要解包（unpack）或者“解析（resolve）”所有的差异。所以在克隆代码库时，可能会看见如下命令行输出：",
+              "克隆（clone）代碼庫時，需要解包（unpack）或者「解析（resolve）」所有的差異。所以在克隆代碼庫時，可能會看見如下命令行輸出：",
               "",
               "`resolving deltas`",
               "",
-              "要学的东西有很多，但现在你可以把提交记录看作是项目的快照。提交记录非常轻量且可以快速切换！"
+              "要學的東西有很多，但現在你可以把提交記錄看作是項目的快照。提交記錄非常輕量且可以快速切換！"
             ]
           }
         },
@@ -267,13 +267,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在实践中学习commit。右边是一个（小）git代码库的图示。当前有两个提交记录—— 初始提交`C0`和其后可能包含有用修改的提交`C1`。",
+              "在實踐中學習commit。右邊是一個（小）git代碼庫的圖示。當前有兩個提交記錄—— 初始提交`C0`和其後可能包含有用修改的提交`C1`。",
               "",
-              "点击下面的按钮生成新的提交记录。"
+              "點擊下面的按鈕生成新的提交記錄。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "看！碉堡吧！我们修改了代码，并保存为一次提交记录。刚刚做的提交`C2`有一个父提交（parent）`C1`，代表此次修改的基础。"
+              "看！碉堡吧！我們修改了代碼，並保存為一次提交記錄。剛剛做的提交`C2`有一個父提交（parent）`C1`，代表此次修改的基礎。"
             ],
             "beforeCommand": ""
           }
@@ -282,7 +282,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "接下来你可以随便测试。当前窗口关闭后，完成两次提交就可以过关！"
+              "接下來你可以隨便測試。當前窗口關閉後，完成兩次提交就可以過關！"
             ]
           }
         }

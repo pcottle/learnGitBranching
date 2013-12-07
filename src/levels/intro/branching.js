@@ -14,7 +14,7 @@ exports.level = {
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
-    "zh_TW": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
+    "zh_TW": "用 'git branch [分支名]' 來創建分支，用 'git checkout [分支名]' 切換到分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
   "disabledMap": {
@@ -341,15 +341,15 @@ exports.level = {
             "markdowns": [
               "## Git Branches",
               "",
-              " Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已。所以许多Git爱好者会念叨：",
+              " Git 的分支非常輕量。它們只是簡單地指向某個提交紀錄——僅此而已。所以許多Git愛好者會念叨：",
               "",
               "```",
-              "早点建分支！经常建分支！",
+              "早點建分支！經常建分支！",
               "```",
               "",
-              "创建分支没有储存或内存上的开销，所以按逻辑分解工作比维护单一的代码树要简单。",
+              "創建分支沒有儲存或內存上的開銷，所以按邏輯分解工作比維護單一的代碼樹要簡單。",
               "",
-              "同时使用分支和提交时，我们会看到两者如何配合。现在，只要记住使用分支其实就是在说：“我想包含本次提交及所有的父提交记录。”"
+              "同時使用分支和提交時，我們會看到兩者如何配合。現在，只要記住使用分支其實就是在說：「我想包含本次提交及所有的父提交記錄。」"
             ]
           }
         },
@@ -357,13 +357,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "举个例子看看分支究竟是什么。",
+              "舉個例子看看分支究竟是什麼。",
               "",
-              "这里，我们切换到到名为`newImage`的新分支。"
+              "這裡，我們切換到到名為`newImage`的新分支。"
             ],
             "command": "git branch newImage",
             "afterMarkdowns": [
-              "看，这就是建立分支所需的操作啦！`newImage`分支现在指向提交记录`C1`。"
+              "看，這就是建立分支所需的操作啦！`newImage`分支現在指向提交記錄`C1`。"
             ],
             "beforeCommand": ""
           }
@@ -372,11 +372,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在让我们修改一下新分支。点击下面的按钮。"
+              "現在讓我們修改一下新分支。點擊下面的按鈕。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "啊摔！`master`分支前进了，但`newImage`分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
+              "啊摔！`master`分支前進了，但`newImage`分支沒有哇！這是因為我們沒有「在」這個新分支上，這也是為什麼星號（*）只在 `master` 上。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -385,17 +385,17 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用如下命令告诉git我们想要切换到新的分支",
+              "使用如下命令告訴git我們想要切換到新的分支",
               "",
               "```",
               "git checkout [name]",
               "```",
               "",
-              "这可以让我们在提交修改之前切换到新的分支。"
+              "這可以讓我們在提交修改之前切換到新的分支。"
             ],
             "command": "git checkout newImage; git commit",
             "afterMarkdowns": [
-              "好的嘞！新的分支已经记录了我们的修改。"
+              "好的嘞！新的分支已經記錄了我們的修改。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -404,8 +404,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦，你已经准备好使用分支了。当前窗口关闭后，",
-              "创建一个叫 `bugFix` 的新分支，然后切换过去。"
+              "好啦，你已經準備好使用分支了。當前窗口關閉後，",
+              "創建一個叫 `bugFix` 的新分支，然後切換過去。"
             ]
           }
         }
