@@ -58,7 +58,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
       'zh_CN': '基础篇',
-      'zh_TW': '基础篇',
+      'zh_TW': '基礎篇',
       'ko': '기본 명령어'
     },
     about: {
@@ -66,7 +66,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
       'zh_CN': '循序渐进介绍git主要命令',
-      'zh_TW': '循序渐进介绍git主要命令',
+      'zh_TW': '循序漸進介绍git主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },
@@ -76,14 +76,14 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
       'zh_CN': '进阶篇'
-      'zh_TW': '进阶篇'
+      'zh_TW': '進階篇'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
-      'zh_TW': '接下来是git的超赞特性。迫不及待了吧！'
+      'zh_TW': '接下来是git的超讚特性。迫不及待了吧！'
     }
   },
   remote: {
@@ -121,7 +121,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的rebase究竟是神马？看看吧！'
-      'zh_TW': '大家都在说的rebase究竟是神马？看看吧！'
+      'zh_TW': '大家都在說的rebase究竟是神馬？看看吧！'
     }
   },
   mixed: {
@@ -131,7 +131,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment',
       'ko': '종합선물세트',
       'zh_CN': '大杂烩？'
-      'zh_TW': '大杂烩？'
+      'zh_TW': '大雜燴？'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -139,7 +139,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士杂烩'
-      'zh_TW': 'Git技术，技巧与贴士杂烩'
+      'zh_TW': 'Git技術，技巧與貼士雜燴'
     }
   },
   advanced: {
@@ -147,13 +147,13 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Advanced Topics',
       'fr_FR': 'Sujets Avancés',
       'zh_CN': '高级主题'
-      'zh_TW': '高级主题'
+      'zh_TW': '高級主題'
     },
     about: {
       'en_US': 'For the truly brave!',
       'fr_FR': 'Pour les plus courageux !',
       'zh_CN': '只为真正的勇士！'
-      'zh_TW': '只为真正的勇士！'
+      'zh_TW': '只為真正的勇士！'
     }
   }
 };
