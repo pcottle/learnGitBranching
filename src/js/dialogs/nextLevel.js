@@ -35,9 +35,10 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 碉堡了！',
+        '## 幹得好！',
         '',
-        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
+        '您下了 *{numCommands}* 次指令解開這個關卡，',
+        '我們的解答下了 {best} 次。'
       ]
     }
   }],

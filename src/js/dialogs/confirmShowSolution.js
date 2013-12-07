@@ -23,9 +23,9 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 确定要看答案吗？',
+        '## 確定偷看解答嗎？',
         '',
-        '哥相信你！你可以的'
+        '我相信你！你可以的'
       ]
     }
   }],
