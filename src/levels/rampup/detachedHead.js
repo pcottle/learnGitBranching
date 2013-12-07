@@ -5,12 +5,12 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "zh_CN": "分离HEAD",
-    "zh_TW": "分离HEAD"
+    "zh_TW": "分離HEAD"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "zh_CN": "使用提交记录上的标签(hash)来求助！",
-    "zh_TW": "使用提交记录上的标签(hash)来求助！"
+    "zh_TW": "使用提交記錄上的標籤(hash)來求助！"
   },
   "startDialog": {
     "en_US": {
@@ -175,11 +175,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 在Git中前后移动",
+              "## 在Git中前後移動",
               "",
-              "在接触Git的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
+              "在接觸Git的更多高級主題之前，我們先學習用不同的方法在代表你的項目的提交記錄樹上前後移動。",
               "",
-              "一旦能够熟练地在Git中前进后退，你使用其他git命令的威力也会被放大！",
+              "一旦能夠熟練地在Git中前進後退，你使用其他git命令的威力也會被放大！",
               "",
               "",
               "",
@@ -194,11 +194,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我们首先看一下\"HEAD\". HEAD是当前提交记录的符号名称 -- 其实就是你正在其基础进行工作的提交记录。",
+              "我們首先看一下\"HEAD\". HEAD是當前提交記錄的符號名稱 -- 其實就是你正在其基礎進行工作的提交記錄。",
               "",
-              "HEAD总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的git命令都开始于改变HEAD指向。",
+              "HEAD總是指向最近一次提交記錄，表現為當前工作樹。大多數修改工作樹的git命令都開始於改變HEAD指向。",
               "",
-              "HEAD通常指向分支名（比如bugFix）。你提交时，改变了bugFix的状态，这一变化通过HEAD变得可见。"
+              "HEAD通常指向分支名（比如bugFix）。你提交時，改變了bugFix的狀態，這一變化通過HEAD變得可見。"
             ]
           }
         },
@@ -206,10 +206,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在实例中看一下。我们将会观察提交前后HEAD的位置。"
+              "在實例中看一下。我們將會觀察提交前後HEAD的位置。"
             ],
             "afterMarkdowns": [
-              "看! HEAD一直藏在`master`分支后面。"
+              "看! HEAD一直藏在`master`分支後面。"
             ],
             "command": "git checkout C1; git checkout master; git commit; git checkout C2",
             "beforeCommand": ""
@@ -219,15 +219,15 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "### 分离 HEAD",
+              "### 分離 HEAD",
               "",
-              "分离HEAD就是让其指向一个提交记录而不是分支名。这是命令执行之前的样子： ",
+              "分離HEAD就是讓其指向一個提交記錄而不是分支名。這是命令執行之前的樣子： ",
               "",
               "HEAD -> master -> C1",
               ""
             ],
             "afterMarkdowns": [
-              "现在变成了",
+              "現在變成了",
               "",
               "HEAD -> C1"
             ],
@@ -239,9 +239,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此关，从`bugFix`分离出HEAD并让其指向一个提交记录。",
+              "想完成此關，從`bugFix`分離出HEAD並讓其指向一個提交記錄。",
               "",
-              "通过hash值指定提交记录。每个提交记录的hash值显示在代表提交记录的圆圈中。"
+              "通過hash值指定提交記錄。每個提交記錄的hash值顯示在代表提交記錄的圓圈中。"
             ]
           }
         }

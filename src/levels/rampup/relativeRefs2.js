@@ -5,12 +5,12 @@ exports.level = {
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
-    "zh_TW": "这一关至少要用到一次直接引用(hash)"
+    "zh_TW": "這一關至少要用到一次直接引用(hash)"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "zh_CN": "相对引用2(~)",
-    "zh_TW": "相对引用2(~)"
+    "zh_TW": "相對引用2(~)"
   },
   "startDialog": {
     "en_US": {
@@ -144,10 +144,10 @@ exports.level = {
             "markdowns": [
               "### The \"~\" operator",
               "",
-              "假设需要在提交树中向上移动很多步。使用多个`^`非常无聊，所以Git也引入了波浪(~)操作符。",
+              "假設需要在提交樹中向上移動很多步。使用多個`^`非常無聊，所以Git也引入了波浪(~)操作符。",
               "",
               "",
-              "波浪操作符后面可以（可选地）跟一个数字，指定向上移动多少次。看个例子"
+              "波浪操作符後面可以（可選地）跟一個數字，指定向上移動多少次。看個例子"
             ]
           }
         },
@@ -155,10 +155,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用`~`一次后退多步."
+              "使用`~`一次後退多步."
             ],
             "afterMarkdowns": [
-              "唰！如此简洁--相对引用就是好啊！"
+              "唰！如此簡潔--相對引用就是好啊！"
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -170,13 +170,13 @@ exports.level = {
             "markdowns": [
               "### Branch forcing",
               "",
-              "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
+              "你現在是相對引用的高手了，現在*用*他來實際做點事情。",
               "",
-              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交。举个例子:",
+              "我使用相對引用最多的就是移動分支。你可以使用`-f`選項把直接讓分支指向另一個提交。舉個例子:",
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "（强制）移动master指向HEAD的第3级父提交。"
+              "（強制）移動master指向HEAD的第3級父提交。"
             ]
           }
         },
@@ -184,7 +184,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此关，移动`HEAD`，`master`和`bugFix`到目标所示的位置。"
+              "要完成此關，移動`HEAD`，`master`和`bugFix`到目標所示的位置。"
             ]
           }
         }
