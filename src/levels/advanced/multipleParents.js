@@ -5,12 +5,12 @@ exports.level = {
   "name": {
     "en_US": "Multiple parents",
     "zh_CN": "多个父提交记录",
-    "zh_TW": "多个父提交记录"
+    "zh_TW": "多個父提交記錄"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
-    "zh_TW": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
+    "zh_TW": "使用`git branch bugWork`加上一個目標提交記錄來創建消失的引用。"
   },
   "startDialog": {
     "en_US": {
@@ -193,15 +193,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 选择父提交",
+              "### 選擇父提交",
               "",
-              "和`~`修改符一样，`^`修改符之后也可以跟一个（可选的）数字。",
+              "和`~`修改符一樣，`^`修改符之後也可以跟一個（可選的）數字。",
               "",
-              "这不是用来指定向上返回几代（`~`的作用），`^`后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。",
+              "這不是用來指定向上返回幾代（`~`的作用），`^`後的數字指定跟隨合併提交記錄的哪一個父提交。還記得一個合併提交有多個父提交吧，所有選擇哪條路徑不是那麼清晰。",
               "",
-              "Git默认选择跟随合并提交的\"第一个\"父提交，使用`^`后跟一个数字来改变这一默认行为。",
+              "Git默認選擇跟隨合併提交的\"第一個\"父提交，使用`^`後跟一個數字來改變這一默認行為。",
               "",
-              "废话不多说，举个例子。",
+              "廢話不多說，舉個例子。",
               ""
             ]
           }
@@ -210,12 +210,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这里有一个合并提交。如果不加数字修改符直接切换到`master^`，会回到第一个父提交。",
+              "這裡有一個合併提交。如果不加數字修改符直接切換到`master^`，會回到第一個父提交。",
               "",
-              "(*在我们的图示中，第一个父提交是指合并提交正上方的那个父提交。*)"
+              "(*在我們的圖示中，第一個父提交是指合併提交正上方的那個父提交。*)"
             ],
             "afterMarkdowns": [
-              "OK--这恰好是我们想要的。"
+              "OK--這恰好是我們想要的。"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -225,10 +225,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在来试试选择第二个父提交……"
+              "現在來試試選擇第二個父提交……"
             ],
             "afterMarkdowns": [
-              "看见了吧？我们回到了第二个父提交。"
+              "看見了吧？我們回到了第二個父提交。"
             ],
             "command": "git checkout master^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -238,10 +238,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用`^`和`~`可以自由在在提交树中移动："
+              "使用`^`和`~`可以自由在在提交樹中移動："
             ],
             "afterMarkdowns": [
-              "快若闪电！"
+              "快若閃電！"
             ],
             "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -251,10 +251,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "再疯狂点，这些修改符支持链式操作！试一下这个："
+              "再瘋狂點，這些修改符支持鏈式操作！試一下這個："
             ],
             "afterMarkdowns": [
-              "和前面的结果一样，但只用了一条命令。"
+              "和前面的結果一樣，但只用了一條命令。"
             ],
             "command": "git checkout HEAD~^2~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -264,11 +264,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 实践一下",
+              "### 實踐一下",
               "",
-              "要完成此关，在指定的目标位置创建一个新的分支。",
+              "要完成此關，在指定的目標位置創建一個新的分支。",
               "",
-              "很明显可以简单的直接使用提交记录的hash值（比如`C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
+              "很明顯可以簡單的直接使用提交記錄的hash值（比如`C6`），但我要求你使用剛剛講到的相對引用修飾符！"
             ]
           }
         }
