@@ -140,7 +140,7 @@ var commandConfig = {
         if (options['-r']) {
           // we specified a revision with -r but
           // need to flip the order
-          var generalArgs = command.getGeneralArgs();
+          generalArgs = command.getGeneralArgs();
           branchName = generalArgs[0];
           rev = options['-r'][0];
           delegate.name = 'branch';
