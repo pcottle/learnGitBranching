@@ -68,10 +68,11 @@ cd learnGitBranching
 npm install # to install all the node modules I depend on
 git checkout -b newAwesomeFeature
 # some changes
-grunt build # now you can open up your browser to the index.html and see your changes
+./node_modules/grunt/bin/grunt fastBuild # to use the npm version of grunt
+# after building you can open up your browser to the index.html that is generated and see your changes
 grunt watch # will keep watch over files and fastBuild whenever they change. lot of CPU though
 # more changes
-grunt build
+grunt build # build runs the tests and lint as well
 git commit -am "My new sweet feature!"
 git push
 # go online and request a pull
