@@ -58,14 +58,8 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
+      command.acceptNoGeneralArgs();
       command.prependOptionR();
-      var options = command.getOptionsMap();
-      if (!options['-r']) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-      command.setGeneralArgs(options['-r']);
       return {
         vcs: 'git',
         name: 'cherrypick'
