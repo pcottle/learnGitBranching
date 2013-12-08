@@ -3155,7 +3155,7 @@ var GRAPHICS = {
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 400,
 
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  rectFill: 'hsb(0.8816909813322127,0.6,1)',
   headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
@@ -3172,7 +3172,7 @@ var GRAPHICS = {
   visBranchStrokeWidth: 2,
   visBranchStrokeColorNone: '#333',
 
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeFill: 'hsba(0.5,0.6,0.7,1)',
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
@@ -11271,16 +11271,14 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      // go through and include all the next args until we hit another option or the end
+      var next = exploded[i + 1];
       var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
+      if (next && next.slice(0,1) !== '-') {
+        // only store the next argument as this
+        // option value if its not another option
+        i++;
+        optionArgs = [next];
       }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
       this.supportedMap[part] = optionArgs;
     } else {
       // must be a general arg
@@ -11683,6 +11681,7 @@ var commandConfig = {
       // handle deletion first
       if (commandOptions['-d'] || commandOptions['-D']) {
         var names = commandOptions['-d'] || commandOptions['-D'];
+        names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
         _.each(names, function(name) {
@@ -11692,8 +11691,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-u']) {
-        command.acceptNoGeneralArgs();
-        args = commandOptions['-u'];
+        args = commandOptions['-u'].concat(generalArgs);
         command.validateArgBounds(args, 1, 2, '-u');
         var remoteBranch = crappyUnescape(args[0]);
         var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
@@ -11716,7 +11714,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-f']) {
-        args = commandOptions['-f'];
+        args = commandOptions['-f'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-f');
 
         // we want to force a branch somewhere
@@ -11916,14 +11914,9 @@ var commandConfig = {
 
       var args = null;
       if (commandOptions['-b']) {
-        if (generalArgs.length) {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-
-        // the user is really trying to just make a branch and then switch to it. so first:
-        args = commandOptions['-b'];
+        // the user is really trying to just make a
+        // branch and then switch to it. so first:
+        args = commandOptions['-b'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-b');
 
         var validId = engine.validateBranchName(args[0]);
@@ -12161,14 +12154,8 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
-      command.appendOptionR();
-      var options = command.getOptionsMap();
-      if (!options['-r']) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-      command.setGeneralArgs(options['-r']);
+      command.acceptNoGeneralArgs();
+      command.prependOptionR();
       return {
         vcs: 'git',
         name: 'cherrypick'
@@ -12212,21 +12199,21 @@ var commandConfig = {
       var branchName;
       var rev;
 
-      var delegate = { vcs: 'git' };
+      var delegate = {vcs: 'git'};
 
       if (options['-m'] && options['-d']) {
         throw new GitError({
-          msg: '-m and -d are incompatible'
+          msg: intl.todo('-m and -d are incompatible')
         });
       }
       if (options['-d'] && options['-r']) {
         throw new GitError({
-          msg: '-r is incompatible with -d'
+          msg: intl.todo('-r is incompatible with -d')
         });
       }
       if (options['-m'] && options['-r']) {
         throw new GitError({
-          msg: '-r is incompatible with -m'
+          msg: intl.todo('-r is incompatible with -m')
         });
       }
       if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
@@ -12243,9 +12230,12 @@ var commandConfig = {
         if (options['-r']) {
           // we specified a revision with -r but
           // need to flip the order
-          branchName = options['-r'][1] || '';
-          rev = options['-r'][0] || '';
+          generalArgs = command.getGeneralArgs();
+          branchName = generalArgs[0];
+          rev = options['-r'][0];
           delegate.name = 'branch';
+
+          // transform to what git wants
           command.setGeneralArgs([branchName, rev]);
         } else if (generalArgs.length > 0) {
           command.setOptionsMap({'-b': [generalArgs[0]]});
@@ -12320,7 +12310,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
-      command.appendOptionR();
+      command.prependOptionR();
       return {
         vcs: 'git',
         name: 'revert'
@@ -15900,6 +15890,14 @@ var Command = Backbone.Model.extend({
     );
   },
 
+  // if order is important
+  prependOptionR: function() {
+    var rOptions = this.getOptionsMap()['-r'] || [];
+    this.setGeneralArgs(
+      rOptions.concat(this.getGeneralArgs())
+    );
+  },
+
   mapDotToHead: function() {
     var generalArgs = this.getGeneralArgs();
     var options = this.getOptionsMap();
@@ -16474,7 +16472,6 @@ var LevelBuilder = Level.extend({
 
     this.startDialogObj = undefined;
     this.definedGoal = false;
-    this.compareLevelSettings = undefined;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -16702,34 +16699,6 @@ var LevelBuilder = Level.extend({
       });
     }
 
-    if (this.compareLevelSettings === undefined) {
-      var askForCompare = Q.defer();
-      chain = chain.then(function() {
-        return askForCompare.promise;
-      });
-
-      var askForCompareView = new ConfirmCancelTerminal({
-        markdowns: [
-          'You havent specified compare settings, would you like to?'
-        ]
-      });
-      askForCompareView.getPromise()
-      .then(_.bind(function() {
-        // oh boy this is complex
-        var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesnt need resolving just yet...
-        this.editDialog(undefined, whenEditedDialog);
-        return whenEditedDialog.promise;
-      }, this))
-      .fail(function() {
-        // default compare settings
-      })
-      .done(function() {
-        askForCompare.resolve();
-      });
-
-    }
-
     if (this.startDialogObj === undefined) {
       var askForStartDeferred = Q.defer();
       chain = chain.then(function() {
@@ -16778,13 +16747,6 @@ var LevelBuilder = Level.extend({
     delete compiledLevel.startDialog;
     if (this.startDialogObj) {
       compiledLevel.startDialog = {'en_US': this.startDialogObj};
-    }
-
-    if (this.compareLevelSettings) {
-      // merge in the object
-      _.each(Object.keys(this.compareLevelSettings), function(key) {
-        compiledLevel[key] = this.compareLevelSettings[key];
-      });
     }
     return compiledLevel;
   },
@@ -19030,7 +18992,7 @@ var TreeCompare = require('../graph/treeCompare');
 
 var randomHueString = function() {
   var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  var str = 'hsb(' + String(hue) + ',0.6,1)';
   return str;
 };
 
@@ -27646,16 +27608,14 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      // go through and include all the next args until we hit another option or the end
+      var next = exploded[i + 1];
       var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
+      if (next && next.slice(0,1) !== '-') {
+        // only store the next argument as this
+        // option value if its not another option
+        i++;
+        optionArgs = [next];
       }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
       this.supportedMap[part] = optionArgs;
     } else {
       // must be a general arg
@@ -28500,6 +28460,7 @@ var commandConfig = {
       // handle deletion first
       if (commandOptions['-d'] || commandOptions['-D']) {
         var names = commandOptions['-d'] || commandOptions['-D'];
+        names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
         _.each(names, function(name) {
@@ -28509,8 +28470,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-u']) {
-        command.acceptNoGeneralArgs();
-        args = commandOptions['-u'];
+        args = commandOptions['-u'].concat(generalArgs);
         command.validateArgBounds(args, 1, 2, '-u');
         var remoteBranch = crappyUnescape(args[0]);
         var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
@@ -28533,7 +28493,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-f']) {
-        args = commandOptions['-f'];
+        args = commandOptions['-f'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-f');
 
         // we want to force a branch somewhere
@@ -28733,14 +28693,9 @@ var commandConfig = {
 
       var args = null;
       if (commandOptions['-b']) {
-        if (generalArgs.length) {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-
-        // the user is really trying to just make a branch and then switch to it. so first:
-        args = commandOptions['-b'];
+        // the user is really trying to just make a
+        // branch and then switch to it. so first:
+        args = commandOptions['-b'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-b');
 
         var validId = engine.validateBranchName(args[0]);
@@ -33618,7 +33573,6 @@ var LevelBuilder = Level.extend({
 
     this.startDialogObj = undefined;
     this.definedGoal = false;
-    this.compareLevelSettings = undefined;
 
     // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
     // include that functionality
@@ -33846,34 +33800,6 @@ var LevelBuilder = Level.extend({
       });
     }
 
-    if (this.compareLevelSettings === undefined) {
-      var askForCompare = Q.defer();
-      chain = chain.then(function() {
-        return askForCompare.promise;
-      });
-
-      var askForCompareView = new ConfirmCancelTerminal({
-        markdowns: [
-          'You havent specified compare settings, would you like to?'
-        ]
-      });
-      askForCompareView.getPromise()
-      .then(_.bind(function() {
-        // oh boy this is complex
-        var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesnt need resolving just yet...
-        this.editDialog(undefined, whenEditedDialog);
-        return whenEditedDialog.promise;
-      }, this))
-      .fail(function() {
-        // default compare settings
-      })
-      .done(function() {
-        askForCompare.resolve();
-      });
-
-    }
-
     if (this.startDialogObj === undefined) {
       var askForStartDeferred = Q.defer();
       chain = chain.then(function() {
@@ -33922,13 +33848,6 @@ var LevelBuilder = Level.extend({
     delete compiledLevel.startDialog;
     if (this.startDialogObj) {
       compiledLevel.startDialog = {'en_US': this.startDialogObj};
-    }
-
-    if (this.compareLevelSettings) {
-      // merge in the object
-      _.each(Object.keys(this.compareLevelSettings), function(key) {
-        compiledLevel[key] = this.compareLevelSettings[key];
-      });
     }
     return compiledLevel;
   },
@@ -34760,14 +34679,8 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
-      command.appendOptionR();
-      var options = command.getOptionsMap();
-      if (!options['-r']) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-      command.setGeneralArgs(options['-r']);
+      command.acceptNoGeneralArgs();
+      command.prependOptionR();
       return {
         vcs: 'git',
         name: 'cherrypick'
@@ -34811,21 +34724,21 @@ var commandConfig = {
       var branchName;
       var rev;
 
-      var delegate = { vcs: 'git' };
+      var delegate = {vcs: 'git'};
 
       if (options['-m'] && options['-d']) {
         throw new GitError({
-          msg: '-m and -d are incompatible'
+          msg: intl.todo('-m and -d are incompatible')
         });
       }
       if (options['-d'] && options['-r']) {
         throw new GitError({
-          msg: '-r is incompatible with -d'
+          msg: intl.todo('-r is incompatible with -d')
         });
       }
       if (options['-m'] && options['-r']) {
         throw new GitError({
-          msg: '-r is incompatible with -m'
+          msg: intl.todo('-r is incompatible with -m')
         });
       }
       if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +
@@ -34842,9 +34755,12 @@ var commandConfig = {
         if (options['-r']) {
           // we specified a revision with -r but
           // need to flip the order
-          branchName = options['-r'][1] || '';
-          rev = options['-r'][0] || '';
+          generalArgs = command.getGeneralArgs();
+          branchName = generalArgs[0];
+          rev = options['-r'][0];
           delegate.name = 'branch';
+
+          // transform to what git wants
           command.setGeneralArgs([branchName, rev]);
         } else if (generalArgs.length > 0) {
           command.setOptionsMap({'-b': [generalArgs[0]]});
@@ -34919,7 +34835,7 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
-      command.appendOptionR();
+      command.prependOptionR();
       return {
         vcs: 'git',
         name: 'revert'
@@ -35175,6 +35091,14 @@ var Command = Backbone.Model.extend({
     var rOptions = this.getOptionsMap()['-r'] || [];
     this.setGeneralArgs(
       this.getGeneralArgs().concat(rOptions)
+    );
+  },
+
+  // if order is important
+  prependOptionR: function() {
+    var rOptions = this.getOptionsMap()['-r'] || [];
+    this.setGeneralArgs(
+      rOptions.concat(this.getGeneralArgs())
     );
   },
 
@@ -36037,7 +35961,7 @@ var GRAPHICS = {
   defaultEasing: 'easeInOut',
   defaultAnimationTime: 400,
 
-  rectFill: 'hsb(0.8816909813322127,0.7,1)',
+  rectFill: 'hsb(0.8816909813322127,0.6,1)',
   headRectFill: '#2831FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
@@ -36054,7 +35978,7 @@ var GRAPHICS = {
   visBranchStrokeWidth: 2,
   visBranchStrokeColorNone: '#333',
 
-  defaultNodeFill: 'hsba(0.5,0.8,0.7,1)',
+  defaultNodeFill: 'hsba(0.5,0.6,0.7,1)',
   defaultNodeStrokeWidth: 2,
   defaultNodeStroke: '#FFF',
 
@@ -40703,7 +40627,7 @@ var TreeCompare = require('../graph/treeCompare');
 
 var randomHueString = function() {
   var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  var str = 'hsb(' + String(hue) + ',0.6,1)';
   return str;
 };
 
