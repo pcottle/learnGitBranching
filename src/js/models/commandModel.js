@@ -67,6 +67,14 @@ var Command = Backbone.Model.extend({
     );
   },
 
+  // if order is important
+  prependOptionR: function() {
+    var rOptions = this.getOptionsMap()['-r'] || [];
+    this.setGeneralArgs(
+      rOptions.concat(this.getGeneralArgs())
+    );
+  },
+
   mapDotToHead: function() {
     var generalArgs = this.getGeneralArgs();
     var options = this.getOptionsMap();

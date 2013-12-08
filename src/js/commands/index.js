@@ -187,16 +187,14 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      // go through and include all the next args until we hit another option or the end
+      var next = exploded[i + 1];
       var optionArgs = [];
-      var next = i + 1;
-      while (next < exploded.length && exploded[next].slice(0,1) != '-') {
-        optionArgs.push(exploded[next]);
-        next += 1;
+      if (next && next.slice(0,1) !== '-') {
+        // only store the next argument as this
+        // option value if its not another option
+        i++;
+        optionArgs = [next];
       }
-      i = next - 1;
-
-      // **phew** we are done grabbing those. theseArgs is truthy even with an empty array
       this.supportedMap[part] = optionArgs;
     } else {
       // must be a general arg
