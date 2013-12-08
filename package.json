@@ -15,7 +15,7 @@
   "dependencies": {
     "backbone": "~0.9.9",
     "underscore": "~1.4.3",
-    "jquery": "~1.8.3",
+    "jquery": "~1.7.3",
     "q": "~0.8.11",
     "markdown": "~0.4.0",
     "grunt-shell": "~0.1.4"
