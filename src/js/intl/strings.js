@@ -32,7 +32,7 @@ exports.strings = {
     'en_US': 'See if you can whittle it down to {best} :D',
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
     'zh_CN': '试试看你能否在 {best} 之内搞定 :D',
-    'zh_TW': '試試看你能否在 {best} 之内搞定 :D',
+    'zh_TW': '試試看您是否能在 {best} 步内搞定 :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ exports.strings = {
     '__desc__': 'The commit message for a merge commit',
     'en_US': 'Merge {target} into {current}',
     'zh_CN': '合并 {target} 到 {current}',
-    'zh_TW': '合併 {target} 到 {current}',
+    'zh_TW': '將 {target} 併入 {current}',
     'fr_FR': 'Merge de {target} dans {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -250,7 +250,7 @@ exports.strings = {
     '__desc__': 'Message for reverting git command',
     'en_US': 'Reverting {oldCommit}: {oldMsg}',
     'zh_CN': '撤销 {oldCommit}：{oldMsg}',
-    'zh_TW': '撤銷 {oldCommit}：{oldMsg}',
+    'zh_TW': '還原 {oldCommit}：{oldMsg}',
     'fr_FR': 'Revert {oldCommit}: {oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -486,7 +486,7 @@ exports.strings = {
     '__desc__': 'When you try a command that is disabled',
     'en_US': 'That git command is disabled for this level!',
     'zh_CN': '该命令在本关不允许使用！',
-    'zh_TW': '該命令在本關不允許使用！',
+    'zh_TW': '本關禁止使用該 git 指令！',
     'fr_FR': 'Cette commande git est désactivée pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -494,7 +494,7 @@ exports.strings = {
     '__desc__': 'when you have made the level, prompt to share this',
     'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
     'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上',
-    'zh_TW': '這是一個關卡定義 JSON！您可以分享它或者發到我的 GitHub 上',
+    'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 Github 上給我',
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -502,7 +502,7 @@ exports.strings = {
     '__desc__': 'prompt to add a start dialog',
     'en_US': 'You have not specified a start dialog, would you like to add one?',
     'zh_CN': '您还没有定义一开始的介绍，是否添加一个？',
-    'zh_TW': '您還沒有定義一開始的介绍，是否添加一個？',
+    'zh_TW': '尚未指定開始對話視窗，是否立即新增？',
     'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -510,7 +510,7 @@ exports.strings = {
     '__desc__': 'prompt to add a hint',
     'en_US': 'You have not specified a hint, would you like to add one?',
     'zh_CN': '您还没有定义提示，是否添加一个？',
-    'zh_TW': '您還沒有定義提示，是否添加一個？',
+    'zh_TW': '尚未指定提示，是否立即新增？',
     'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -526,7 +526,7 @@ exports.strings = {
     '__desc__': 'prompt for level name',
     'en_US': 'Enter the name for the level',
     'zh_CN': '输入关卡名',
-    'zh_TW': '輸入關卡名稱',
+    'zh_TW': '請輸入關卡名稱',
     'fr_FR': 'Entrez le nom pour ce niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -534,7 +534,7 @@ exports.strings = {
     '__desc__': 'If you define a solution without any commands, aka a level that is solved without doing anything',
     'en_US': 'Your solution is empty!! Something is amiss',
     'zh_CN': '你的解法是空的!! 这应该是出错了',
-    'zh_TW': '你的解法是空的！這一定是哪裡出錯了',
+    'zh_TW': '您的解法是空的！這一定是哪裡出錯了',
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -542,7 +542,7 @@ exports.strings = {
     '__desc__': 'When you define the start point again, it overwrites the solution and goal so we add a warning',
     'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
-    'zh_TW': '定義開始點... 解決方法和目標會被新的替代',
+    'zh_TW': '正在定義起始點……先前定義的解法和目標會被覆蓋掉',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
   },
   ///////////////////////////////////////////////////////////////////////////
