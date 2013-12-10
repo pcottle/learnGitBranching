@@ -9,7 +9,7 @@ exports.level = {
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "在Git中撤销更改",
-    "zh_TW": "在Git中撤銷更改"
+    "zh_TW": "在Git中取消修改"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -278,11 +278,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 撤銷 Git 裡面的變動",
+              "## 取消 Git 的修改",
               "",
-              "在 Git 裡撤銷修改的方法很多。和 commit 一樣，在 Git 裡撤銷變動同時具有底層部分（暫存一些獨立的文件或者片段）和高層部分（具體到變動是究竟怎麼被撤銷的）。我們這個應用主要關注後者。",
+              "在 Git 裡面取消修改的方法很多。和 commit 一樣，在 Git 裡面取消修改同時具有底層的部份（暫存一些獨立的文件或者片段）和高層的部份（修改是如何被取消）。我們主要講的重點是後者。",
               "",
-              "在 Git 裡主要用兩種方法來撤銷變動 —— 一種是 `git reset`，另外一種是 `git revert`。讓我們在下一個窗口逐一瞭解它們。",
+              "在 Git 裡主要用兩種方法來取消修改 —— 一種是 `git reset`，另外一種是 `git revert`。讓我們在下一個對話視窗中逐一瞭解它們。",
               ""
             ]
           }
@@ -293,13 +293,13 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset`把分支記錄回退到上一個提交記錄來實現撤銷改動。你可以認為這是在\"重寫歷史\"。`git reset`往回移動分支，原來指向的提交記錄好像重來沒有提交過一樣。",
+              "`git reset`把分支的參考點退回到上一個commit來取消修改。你可以認為這是在\"重寫歷史\"。`git reset`往回移動分支，原來的分支所指向的commit好像從來沒有存在過一樣。",
               "",
-              "讓我們看看具體的操作："
+              "讓我們來看看要怎麼操作："
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "Nice!Git把master分支的指向簡單地移回到`C1`；現在我們的本地代碼庫處於沒有提交過`C2`的狀態了。"
+              "太好了!Git把master分支簡單地移回到`C1`；現在在我們的local端已經退回到沒有commit過`C2`的狀態了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -310,15 +310,15 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "雖然在你的本地分支中使用`git reset`很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
+              "雖然在你的local分支中使用`git reset`很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
               "",
-              "為了撤銷更改並*傳播*給別人，我們需要使用`git revert`。舉個例子"
+              "為了取消修改並且把這個狀態*分享*給別人，我們需要使用`git revert`。舉個例子"
             ],
             "command": "git revert HEAD",
             "afterMarkdowns": [
-              "怪哉！在我們要撤銷的提交記錄後面居然多了一個新提交！這是因為新提交記錄`C2'`引入了*更改*——剛好是用來撤銷 `C2` 這個提交的。",
+              "很奇怪吧！在我們要取消的commit後面居然多了一個新的commit！這是因為新的commit`C2'`引入了*修改*——用來表示我們取消 `C2` 這個commit的修改。",
               "",
-              "借助 revert，現在可以把你的更改傳遞給別人啦。"
+              "借助 revert，現在可以把你的修改分享給別人啦。"
             ],
             "beforeCommand": "git commit"
           }
@@ -327,9 +327,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此關，分別撤銷`local`分支和`pushed`分支上的最近一次提交。",
+              "要完成這一關，分別取消`local`分支和`pushed`分支上的最近一次提交。",
               "",
-              "記住 `pushed` 是一個遠程分支，`local` 是一個本地分支 —— 有了這麼明顯的提示應該知道用哪種方法了吧？"
+              "記住 `pushed` 是一個遠端分支，`local` 是一個本地分支 —— 有了這麼明顯的提示應該知道要用哪種方法了吧？"
             ]
           }
         }
