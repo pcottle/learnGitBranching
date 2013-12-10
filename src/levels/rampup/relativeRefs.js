@@ -10,7 +10,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "zh_CN": "记住插入(^)操作符!",
-    "zh_TW": "記住插入(^)操作符!"
+    "zh_TW": "記住插入(^)運算符號!"
   },
   "startDialog": {
     "en_US": {
@@ -171,11 +171,11 @@ exports.level = {
             "markdowns": [
               "## 相對引用",
               "",
-              "用指定提交記錄hash值的方式在Git中移動會變得比較乏味。在現實中，你不會有漂亮的可視化的提交記錄樹放在終端旁邊，所以你不得不用`git log`來查看hasn值。",
+              "如果要在Git中移動，透過指定commit的hash值的方式會變得比較麻煩。在現實中，你的終端機上面不會出現漂亮且具備視覺效果的commit tree，所以你不得不用`git log`來查詢hash值。",
               "",
-              "另外，hash值在真實的Git環境中也會更長。舉個例子，前一關的介紹中的提交記錄的hash值是`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。不要把舌頭閃了...",
+              "另外，hash值在真實的Git環境中也會很長。舉個例子，前一個關卡的介紹中的commit的hash值是`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
               "",
-              "好的一面是，Git對hash的處理很智能。你只需要提供能夠唯一標識提交記錄的前幾個字符即可。所以，我可以僅輸入`fed2`而不是上面的一長串字符。"
+              "好的一面是，Git對於處理hash很有一套。你只需要提供能夠唯一辨識出該commit的前幾個字元就可以了。所以，我可以只輸入`fed2`而不是上面的一長串字元。"
             ]
           }
         },
@@ -183,14 +183,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "我說過，通過hash指定提交記錄不是很方便，所以Git引入了相對引用。這個就很牛掰了!",
+              "我說過，透過hash來指定commit不是很方便，所以Git加入了相對引用。這個就很厲害了!",
               "",
-              "使用相對引用，你可以從一個易於記憶的地方（比如分支名`bugFix`或`HEAD`）開始工作。",
+              "使用相對引用，你可以從一個易於記憶的地方（比如說分支名稱`bugFix`或`HEAD`）開始工作。",
               "",
-              "相對引用非常給力，這裡我介紹兩個簡單的用法：",
+              "相對引用非常好用，這裡我介紹兩個簡單的用法：",
               "",
-              "* 使用`^`向上移動1個提交記錄",
-              "* 使用`~<num>`向上移動多個提交記錄"
+              "* 使用`^`向上移動1個commit",
+              "* 使用`~<num>`向上移動多個commit"
             ]
           }
         },
@@ -198,16 +198,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "首先看看插入(^)操作符。把插入符跟在引用名後面，表示讓Git尋找指定提交記錄的父提交。",
+              "首先看看插入(^)這一個運算符號。把這個運算符號寫在某一個參考後面，就表示你叫Git去找到該參考所指向的commit的parent commit。",
               "",
-              "所以`master^`相當於\"`master`的父提交\"。",
+              "所以`master^`相當於\"`master`的parent commit\"。",
               "",
-              "`master^^`是`master`的父父提交（上上代祖先）",
+              "`master^^`是`master`的grandparent commit（往前推兩代）",
               "",
-              "切換到master的父提交"
+              "切換到master的parent commit"
             ],
             "afterMarkdowns": [
-              "唰！搞定。這種方式比輸入提交記錄的hash值簡單多了！"
+              "看吧！完成了。這種方式比輸入代表commit的hash值簡單多了！"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -217,10 +217,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "你也可以`HEAD`把用作相對引用。以下命令使用`HEAD`在提交樹中向上移動幾次。"
+              "你也可以把`HEAD`當作相對引用。以下指令使用`HEAD`在commit tree中向上移動數次。"
             ],
             "afterMarkdowns": [
-              "簡單！我們可以一直使用`HEAD^`向上移動。"
+              "簡單吧！我們可以一直使用`HEAD^`向上移動。"
             ],
             "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -230,9 +230,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此關，切換到`bugFix`的父提交。這會分離出`HEAD`.",
+              "要完成這一關，切換到`bugFix`的parent commit。這會分離出`HEAD`.",
               "",
-              "如果你願意的話，使用hash值也可以過關，但為何不試試使用相對引用呢？"
+              "如果你願意的話，透過指定hash值也可以過關，但是還是試試看相對引用吧！"
             ]
           }
         }
