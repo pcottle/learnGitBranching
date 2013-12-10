@@ -190,7 +190,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
       var next = exploded[i + 1];
       var optionArgs = [];
       if (next && next.slice(0,1) !== '-') {
-        // only store the next argument as this 
+        // only store the next argument as this
         // option value if its not another option
         i++;
         optionArgs = [next];

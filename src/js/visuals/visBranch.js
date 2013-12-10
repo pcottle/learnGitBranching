@@ -7,7 +7,7 @@ var TreeCompare = require('../graph/treeCompare');
 
 var randomHueString = function() {
   var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.7,1)';
+  var str = 'hsb(' + String(hue) + ',0.6,1)';
   return str;
 };
 

@@ -3,10 +3,10 @@
   "version": "0.5.0",
   "devDependencies": {
     "grunt": "~0.3.17",
-    "jasmine-node": "~1.0.28",
+    "jasmine-node": "~1.11.0",
     "grunt-browserify": "0.1.1",
     "grunt-jslint": "~0.2.2-1",
-    "grunt-jasmine-node": "0.0.6",
+    "grunt-jasmine-node": "0.1.0",
     "grunt-hash": "0.2.2",
     "grunt-rm": "~0.0.3",
     "grunt-shell": "0.1.4",
@@ -15,7 +15,7 @@
   "dependencies": {
     "backbone": "~0.9.9",
     "underscore": "~1.4.3",
-    "jquery": "~1.8.3",
+    "jquery": "~1.7.3",
     "q": "~0.8.11",
     "markdown": "~0.4.0",
     "grunt-shell": "~0.1.4"

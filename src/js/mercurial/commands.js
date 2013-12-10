@@ -58,14 +58,8 @@ var commandConfig = {
       '-r'
     ],
     delegate: function(engine, command) {
+      command.acceptNoGeneralArgs();
       command.prependOptionR();
-      var options = command.getOptionsMap();
-      if (!options['-r']) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-      command.setGeneralArgs(options['-r']);
       return {
         vcs: 'git',
         name: 'cherrypick'
@@ -140,7 +134,7 @@ var commandConfig = {
         if (options['-r']) {
           // we specified a revision with -r but
           // need to flip the order
-          var generalArgs = command.getGeneralArgs();
+          generalArgs = command.getGeneralArgs();
           branchName = generalArgs[0];
           rev = options['-r'][0];
           delegate.name = 'branch';

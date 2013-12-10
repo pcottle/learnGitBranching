@@ -620,7 +620,7 @@ var commandConfig = {
 
       var args = null;
       if (commandOptions['-b']) {
-        // the user is really trying to just make a 
+        // the user is really trying to just make a
         // branch and then switch to it. so first:
         args = commandOptions['-b'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-b');
