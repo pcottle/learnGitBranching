@@ -119,6 +119,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Max Sikström (pengi) [tag support!!]
 * "rogererens"
 * Emanuel Schorsch
+* Carl X. Su
 
 Or reported an issue that was successfully closed!
 
