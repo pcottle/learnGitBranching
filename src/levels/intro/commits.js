@@ -14,7 +14,7 @@ exports.level = {
     "en_US": "Just type in 'git commit' twice to finish!",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
-    "zh_TW": "敲兩次 'git commit' 就好啦！",
+    "zh_TW": "輸入兩次 'git commit' 就可以完成！",
     "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -251,15 +251,13 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Git Commits",
-              "git倉庫中的一次提交（commit）記錄目錄下所有文件的快照。感覺像是大量的複製和粘貼，但 git 做的不只這麼簡單！",
+              "一個commit在git repository中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
               "",
-              "Git 希望提交記錄儘可能地輕量，所以每次進行提交時，它不會簡單地複製整個目錄。實際上它把每次提交記錄保存為從代碼庫的一個版本到下一個版本的變化集，或者說一個\"增量（delta）\"。所以，大部分提交記錄都有一個父提交（parent commit）-- 我們會很快演示這一點。",
+              "Git希望commit儘可能地不占空間，所以每次進行commit的時候，它不會單純地複製整個目錄。實際上它把每次commit視為從目前的版本到下一個版本的變化量，或者說一個\"（delta）\"。",
               "",
-              "克隆（clone）代碼庫時，需要解包（unpack）或者「解析（resolve）」所有的差異。所以在克隆代碼庫時，可能會看見如下命令行輸出：",
+              "Git會保存commit的歷史紀錄，所以，絕大部分的commit的上面都會有ancestor commit，在我們的圖形表示中，箭頭表示從parent commit到所對應的childer commit，保存這樣子的一個歷史紀錄是非常有用的。",
               "",
-              "`resolving deltas`",
-              "",
-              "要學的東西有很多，但現在你可以把提交記錄看作是項目的快照。提交記錄非常輕量且可以快速切換！"
+              "要學的東西有很多，但現在你可以把commit當作是當下的project的快照。commit不占空間且可以快速切換！"
             ]
           }
         },
@@ -267,13 +265,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在實踐中學習commit。右邊是一個（小）git代碼庫的圖示。當前有兩個提交記錄—— 初始提交`C0`和其後可能包含有用修改的提交`C1`。",
+              "在實例中學習commit。右邊是一個（小）git repository。當前有兩個commit—— initial commit`C0`以及`C1`這個一個commit來表示之後可能的一些修改。",
               "",
-              "點擊下面的按鈕生成新的提交記錄。"
+              "點擊下面的按鈕生成新的commit。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "看！碉堡吧！我們修改了代碼，並保存為一次提交記錄。剛剛做的提交`C2`有一個父提交（parent）`C1`，代表此次修改的基礎。"
+              "看吧！很厲害！我們對於原始碼做了一些修改，並且把這些修改表示成一個commit。剛剛做的commit `C2`有一個parent commit `C1`，代表此次修改的參考基準點。"
             ],
             "beforeCommand": ""
           }
@@ -282,7 +280,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "接下來你可以隨便測試。當前窗口關閉後，完成兩次提交就可以過關！"
+              "接下來你可以隨便測試。當目前的視窗結束之後，完成兩次commit就可以過關！"
             ]
           }
         }
