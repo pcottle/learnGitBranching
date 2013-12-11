@@ -676,10 +676,10 @@ var IntlHelperBar = HelperBar.extend({
       id: 'korean'
     }, {
       text: '学习 Git 分支',
-      id: 'chinese_s'
+      id: 'simpchinese'
     }, {
       text: 'Git 分支',
-      id: 'chinese_t'
+      id: 'tradchinese'
     }, {
       text: 'français',
       id: 'french'
@@ -714,12 +714,12 @@ var IntlHelperBar = HelperBar.extend({
     this.hide();
   },
 
-  onSimpChineseClick: function() {
+  onSimpchineseClick: function() {
     this.fireCommand('locale zh_CN; levels');
     this.hide();
   },
 
-  onTradChineseClick: function() {
+  onTradchineseClick: function() {
     this.fireCommand('locale zh_TW; levels');
     this.hide();
   }
