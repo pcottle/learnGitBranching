@@ -299,7 +299,7 @@ exports.level = {
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "太好了! Git 把 master 分支簡單地移回到 `C1`；現在在我們的 local端 已經退回到沒有 commit 過 `C2` 的狀態了。"
+              "太好了! Git 把 master 分支簡單地移回到 `C1`；現在在我們的 local 端已經退回到沒有 commit 過 `C2` 的狀態了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -310,7 +310,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "雖然在你的local分支中使用`git reset`很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
+              "雖然在你的 local 分支中使用 `git reset` 很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
               "",
               "為了取消修改並且把這個狀態*分享*給別人，我們需要使用 `git revert`。舉個例子"
             ],
