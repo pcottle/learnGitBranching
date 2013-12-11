@@ -18,7 +18,7 @@ exports.level = {
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
-    "zh_TW": "確保你是按照正確的順序來操作！先操作分支 `one`, 然後 `two`, 最後才是 `three`"
+    "zh_TW": "確認你是按照正確的順序來操作！先操作分支 `one`, 然後 `two`, 最後才是 `three`"
   },
   "startDialog": {
     "en_US": {
@@ -91,11 +91,11 @@ exports.level = {
               "",
               "哇塞大神！這關我們要來點不同的！",
               "",
-              "現在我們的 `master` 分支是比 `one` `two` 和 `three` 要多幾個提交。出於某種原因，我們需要把其他三個分支更新到 master 分支上新近的幾個不同提交上。（update these three other brances with modified versions of the last few commits on master）",
+              "現在我們的 `master` 分支是比 `one` `two` 和 `three` 這三個分支多了幾個 commit。由於某種原因，我們需要將 master 所新增的幾個 commit 套用到其它三個分支上面。",
               "",
-              "分支 `one` 需要重新排序和撤銷， `two` 需要完全重排，而 `three` 只需要提交一次。",
+              "分支 `one` 需要重新排序和取消 `C5` 這一個commit， `two` 需要完全重排，而 `three` 只需要再一個 commit。",
               "",
-              "慢慢摸索會找到答案的 —— 你完事記得用 `show solution` 看看我們的答案哦。"
+              "我們會讓你知道如何解決這個問題 —— 之後請記得用 `show solution` 看看我們的答案喔。"
             ]
           }
         }
