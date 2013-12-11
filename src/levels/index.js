@@ -75,14 +75,14 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Ramping Up',
       'ja': '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
-      'zh_CN': '进阶篇'
+      'zh_CN': '进阶篇',
       'zh_TW': '進階篇'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
-      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下来是git的超讚特性。迫不及待了吧！'
     }
   },
@@ -120,7 +120,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
-      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！'
+      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
       'zh_TW': '大家都在說的rebase究竟是神馬？看看吧！'
     }
   },
@@ -130,7 +130,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '様々なtips',
       'fr_FR': 'Un assortiment',
       'ko': '종합선물세트',
-      'zh_CN': '大杂烩？'
+      'zh_CN': '大杂烩？',
       'zh_TW': '大雜燴？'
     },
     about: {
@@ -138,7 +138,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git技术，技巧与贴士杂烩'
+      'zh_CN': 'Git技术，技巧与贴士杂烩',
       'zh_TW': 'Git技術，技巧與貼士雜燴'
     }
   },
@@ -146,13 +146,13 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Advanced Topics',
       'fr_FR': 'Sujets Avancés',
-      'zh_CN': '高级主题'
+      'zh_CN': '高级主题',
       'zh_TW': '高級主題'
     },
     about: {
       'en_US': 'For the truly brave!',
       'fr_FR': 'Pour les plus courageux !',
-      'zh_CN': '只为真正的勇士！'
+      'zh_CN': '只为真正的勇士！',
       'zh_TW': '只為真正的勇士！'
     }
   }
