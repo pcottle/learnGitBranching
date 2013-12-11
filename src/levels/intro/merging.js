@@ -7,14 +7,14 @@ exports.level = {
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
     "zh_CN": "分支与合并",
-    "zh_TW": "分支與合併"
+    "zh_TW": "Git 中的 合併"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
-    "zh_TW": "記住按指定的順序提交（bugFix先於master）",
+    "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
   "disabledMap": {
@@ -305,11 +305,11 @@ exports.level = {
             "markdowns": [
               "## Branches and Merging",
               "",
-              "Great! 我們已經知道怎麼提交和使用分支了。接下來要學的一招是如何合併兩個不同分支的工作。這讓我們可以新建一個分支，在其上開發新功能，然後合併回主線。",
+              "太好了! 我們已經知道怎麼使用 commit 和分支了。接下來要學的一招是如何合併兩個不同分支的工作。這讓我們可以建立一個新的分支，並且在上面開發新功能，然後合併回主分支。",
               "",
-              "`git merge`是我們要學習的合併工作的第一個方法。合併產生一個特殊的提交記錄，它包含兩個唯一父提交。有兩個父提交的提交記錄本質上是：「我想把這兩個父提交本身及它們的父提交集合都包含進來。」",
+              "`git merge` 是我們要學習合併的第一個方法。該合併會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
               "",
-              "有圖有真相，看看下面的圖示就明白了。"
+              "有圖有真相，看看下面的圖就明白了。"
             ]
           }
         },
@@ -317,17 +317,17 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "當前有兩個分支：各有一個唯一的提交。這意味著沒有一個分支包含我們對代碼庫的所有修改。讓我們合併這兩個分支來解決這個問題。",
+              "在這裡，我們有兩個分支：各自都有一個唯一的 commit。這意味著沒有一個分支包含我們對文件的所有修改。讓我們合併這兩個分支來解決這個問題。",
               "",
               "我們要把 `bugFix` 合併到 `master` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看見木有？首先，`master` 現在指向一個擁有兩個父提交的提交記錄。假如從 `master` 開始沿著箭頭向上遊走，在到達起點的路上會經過所有的提交記錄。這說明有 `master` 包含了對代碼庫的所有修改。",
+              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的提交記錄。這說明了現在 `master` 紀錄了對文件的所有修改。",
               "",
-              "還有，看見各個提交記錄的顏色變化了嗎？為了幫助學習，我使用了顏色混合。每個分支都有特定的顏色。每個提交記錄都變成了含有此提交的所有分支的混合色。",
+              "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個分支都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有分支的混合色。",
               "",
-              "所以，`master` 分支的顏色被混入到所有的提交記錄，但 `bugFix` 沒有。接下來就改一下這裡吧。"
+              "所以，`master` 分支的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -340,9 +340,9 @@ exports.level = {
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因為 `bugFix` 分支在 `master` 分支的下游，git什麼都不用做，只是簡單地把`bugfix`分支移動到`master`指向的提交記錄。",
+              "因為 `bugFix` 分支只是 `master` 分支的 ancestor，git 什麼都不用做，只是簡單地把 `bugfix` 分支移動到 `master` 指向的 commit。",
               "",
-              "現在所有的提交記錄的顏色都是一樣的啦，這表明每一個分支都包含了代碼庫的所有修改！走起！"
+              "現在所有的 commit 的顏色都是一樣的啦，這表示每一個分支都包含了所有文件的修改！太厲害了啦！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
@@ -351,16 +351,16 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此關，執行收下操作：",
+              "想完成這一關，執行以下的操作：",
               "",
-              "* 創建新分支 `bugFix` ",
-              "* 用 `git checkout bugFix` 切換到 `bugFix`分支",
-              "* 提交一次",
-              "* 用 `git checkout` 切換回 `master` ",
-              "* 再提交一次",
-              "* 用 `git merge` 合併 `bugFix`分支進 `master`",
+              "* 建立新的分支 `bugFix` ",
+              "* 用 `git checkout bugFix` 切換到 `bugFix` 分支",
+              "* commit 一次",
+              "* 用 `git checkout` 切換回 `master` 分支 ",
+              "* 再 commit 一次",
+              "* 用 `git merge`  將 `bugFix` 合併到 `master`",
               "",
-              "*記住，總是可以用 \"help level\" 命令來重新顯示這個對話框！*"
+              "*記住，你可以用 \"help level\" 指令來重新顯示這個對話框！*"
             ]
           }
         }
