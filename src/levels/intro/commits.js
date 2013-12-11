@@ -4,7 +4,7 @@ exports.level = {
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': 'Git Commits简介'
+    'zh_CN': 'Git Commits简介',
     'zh_TW': 'Git Commit 簡介'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
