@@ -5,12 +5,12 @@ exports.level = {
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
-    "zh_TW": "這一關至少要用到一次直接參考(hash)"
+    "zh_TW": "這一關至少要用到一次直接參考（hash）"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "zh_CN": "相对引用2(~)",
-    "zh_TW": "相對引用2(~)"
+    "zh_TW": "相對引用二（~）"
   },
   "startDialog": {
     "en_US": {
@@ -144,10 +144,10 @@ exports.level = {
             "markdowns": [
               "### The \"~\" operator",
               "",
-              "假設需要在commit tree中向上移動多個commit。使用多個`^`會非常麻煩，所以Git也加入了波浪(~)的運算符號。",
+              "假設需要在 commit tree 中向上移動多個 commit。使用太多`^`會非常討人厭，所以 Git 也加入了波浪（~）符號。",
               "",
               "",
-              "波浪操作符號後面可以選擇一個數字（你也可以不選擇），該數字可以指定向上移動多少個commit。看個例子"
+              "波浪符號後面可以選擇一個數字（你也可以不選擇），該數字可以告訴 Git 我要向上移動多少個 commit 。舉個例子"
             ]
           }
         },
@@ -155,10 +155,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用`~`一次往上移動多個commit."
+              "使用 `~` 一次往上移動多個 commit。"
             ],
             "afterMarkdowns": [
-              "哇！太簡潔了--相對引用真的很好用！"
+              "哇！太簡潔了 -- 相對引用真的很好用！"
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -170,13 +170,13 @@ exports.level = {
             "markdowns": [
               "### Branch forcing",
               "",
-              "你現在是相對引用的高手了，現在*用*他來實際做點事情。",
+              "你現在是相對引用的高手了，現在 *用* 他來實際做點事情。",
               "",
-              "我使用相對引用最多的就是移動分支。你可以使用`-f`選項直接讓分支指向另一個commit。舉個例子:",
+              "我使用相對引用最多的就是移動分支。你可以使用 `-f` 選項直接讓分支指向另一個 commit。舉個例子:",
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "（強制）移動master指向HEAD往上的第三個parent commit。"
+              "（強制）移動 master 指向從 HEAD 往上數的第三個 parent commit。"
             ]
           }
         },
@@ -184,7 +184,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這一關，移動`HEAD`，`master`和`bugFix`到目標所示的位置。"
+              "要完成這一關，移動 `HEAD`，`master` 和 `bugFix` 到目標所示的位置。"
             ]
           }
         }

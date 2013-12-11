@@ -10,7 +10,7 @@ exports.level = {
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "zh_CN": "使用提交记录上的标签(hash)来求助！",
-    "zh_TW": "使用commit上的標籤(hash)來幫助你！"
+    "zh_TW": "使用 commit 上的標籤（hash）來幫助你！"
   },
   "startDialog": {
     "en_US": {
@@ -175,11 +175,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 在Git中前後移動",
+              "## 在 Git 中前後移動",
               "",
-              "在接觸Git的更多進階的主題之前，我們先學習用不同的方法在代表你的project的commit tree上面移動。",
+              "在接觸 Git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
               "",
-              "一旦能夠熟練地在commit tree中遊走，你使用其他git指令的威力也會更強！",
+              "一旦能夠熟練地在 commit tree 中隨意地移動，你使用其它的 git 指令的也會更厲害！",
               "",
               "",
               "",
@@ -194,11 +194,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我們首先看一下\"HEAD\". HEAD是一個參考，它是指向目前所checkout的commit -- 基本上，其實就是你目前所在的commit。",
+              "我們首先看一下 \"HEAD\"，HEAD 是一個參考，它是指向目前所 checkout 的 commit -- 基本上，其實就是你目前所在的 commit。",
               "",
-              "在working tree中，HEAD總是指向最近的一次commit。大部份git的指令如果要修改working tree的狀態的話，都會先改變HEAD所指向的參考。",
+              "在 working tree 中，HEAD 總是指向最近的一次commit。大部份 git 的指令如果要修改 working tree 的狀態的話，都會先改變 HEAD 所指向的參考。",
               "",
-              "HEAD通常指向一個分支的名稱（比如bugFix）。當你commit的時候，改變了bugFix的狀態，這一個變化可以從HEAD的改變中看到。"
+              "HEAD 通常指向一個分支的名稱（比如 bugFix）。當你 commit 的時候，改變了 bugFix 的狀態，這一個變化可以從 HEAD 的改變中看到。"
             ]
           }
         },
@@ -206,10 +206,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在實際的例子中。我們將會觀察commit前後HEAD的位置。"
+              "在實際的例子中。我們將會觀察 commit 前後 HEAD 的位置。"
             ],
             "afterMarkdowns": [
-              "看吧！ HEAD一直藏在`master`分支的後面。"
+              "看吧！ HEAD 一直藏在 `master` 分支的後面。"
             ],
             "command": "git checkout C1; git checkout master; git commit; git checkout C2",
             "beforeCommand": ""
@@ -221,7 +221,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### 分離 HEAD",
               "",
-              "分離HEAD就是讓其指向一個commit而不是分支的名稱。這是命令執行之前的樣子： ",
+              "分離 HEAD 就是讓其指向一個 commit 而不是分支的名稱。這是命令執行之前的樣子： ",
               "",
               "HEAD -> master -> C1",
               ""
@@ -239,9 +239,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想要完成這一個關卡，從`bugFix`分離出HEAD並且讓它指向一個commit。",
+              "想要完成這一個關卡，從 `bugFix` 分離出HEAD並且讓它指向一個 commit。",
               "",
-              "通過hash值可以指定commit。每個commit的hash值顯示在各自的圓圈中。"
+              "通過 hash 值可以指定 commit。每個 commit 的 hash 值顯示在各自的圓圈中。"
             ]
           }
         }
