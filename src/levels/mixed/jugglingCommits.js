@@ -22,7 +22,7 @@ exports.level = {
     "en_US": "Juggling Commits",
     "ja": "Juggling Commits",
     "zh_CN": "提交变换戏法",
-    "zh_TW": "Commit 的戲法"
+    "zh_TW": "commit 的戲法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -157,11 +157,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Commit 的戲法",
+              "## commit 的戲法",
               "",
-              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` 分支上做了一些 commit，然後又在 `caption` 分支上做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
+              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` 分支上做了一些 commit，然後又開了一個分支叫做 `caption` ，並且在上面做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
               "",
-              "有點棘手的就是有時候你又想在之前的 commit 裡面做一些修改。在這個例子裡面，我們要去稍微改變一下 `newImage` 分支，儘管已經是之前的 commit 了 。"
+              "有點棘手的就是有時候你又想在之前的 commit 裡面做一些修改。在這個例子裡面，我們要去稍微修改一下 `newImage` 所指向的 commit，儘管已經是之前的 commit 了 。"
             ]
           }
         },
@@ -172,11 +172,11 @@ exports.level = {
               "為了克服這個困難，我們可以按照下面的方法來做：",
               "",
               "* 先用 `git rebase -i` 將 commit 重新排序，然後把我們想要修改的 commit 移到最前面",
-              "* 然後用 `commit --amend` 來進行一些小修改",
+              "* 然後用 `commit --amend` 來進行一些修改",
               "* 接著再用 `git rebase -i` 來將他們按照最開始的順序重新排好",
               "* 最後我們把 master 移到這個修改的最前端（用你自己喜歡的方法），就大功告成啦！",
               "",
-              "當然還有許多方法可以完成這個任務（我知道你在看 cherry-pick 啦），之後我們會多點關注這些技巧啦，但現在暫時只注意上面這種方法。"
+              "當然還有許多方法可以完成這個任務（我知道你在想 cherry-pick 啦），之後我們會多點關注這些技巧啦，但現在暫時只注意上面這種方法。"
             ]
           }
         },
@@ -184,7 +184,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "啊!最後還要提醒你一下最後所產生的 commit tree —— 因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
+              "啊!最後還要提醒你一下最後所產生的 commit tree —— 因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
             ]
           }
         }
