@@ -11342,7 +11342,7 @@ var assertNotCheckedOut = function(engine, ref) {
 var assertIsBranch = function(engine, ref) {
   assertIsRef(engine, ref);
   var obj = engine.refs[ref];
-  if (obj.get('type') !== 'branch') {
+  if (!obj || obj.get('type') !== 'branch') {
     throw new GitError({
       msg: intl.todo(
         ref + ' is not a branch'
@@ -28121,7 +28121,7 @@ var assertNotCheckedOut = function(engine, ref) {
 var assertIsBranch = function(engine, ref) {
   assertIsRef(engine, ref);
   var obj = engine.refs[ref];
-  if (obj.get('type') !== 'branch') {
+  if (!obj || obj.get('type') !== 'branch') {
     throw new GitError({
       msg: intl.todo(
         ref + ' is not a branch'
