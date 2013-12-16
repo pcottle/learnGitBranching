@@ -52,7 +52,7 @@ Here is the high level process of the build:
 
 Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
 
-## Building yourself / Contributing Functionality 
+## Building yourself / Contributing Functionality
 
 For contributing core functionality in the app, you'll probably want to test your changes
 at least once before submitting a pull request. That means you'll need the `grunt` build tool. It's a fairly
@@ -72,7 +72,7 @@ git checkout -b newAwesomeFeature
 # after building you can open up your browser to the index.html that is generated and see your changes
 grunt watch # will keep watch over files and fastBuild whenever they change. lot of CPU though
 # more changes
-grunt build # build runs the tests and lint as well
+./node_modules/grunt/bin/grunt build # build runs the tests and lint as well
 git commit -am "My new sweet feature!"
 git push
 # go online and request a pull
@@ -119,6 +119,7 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Max Sikström (pengi) [tag support!!]
 * "rogererens"
 * Emanuel Schorsch
+* Carl X. Su
 
 Or reported an issue that was successfully closed!
 
