@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
+    "de_DE": "Mergen in git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
@@ -10,6 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
+    "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
@@ -83,6 +85,75 @@ exports.level = {
               "* Merge the branch `bugFix` into `master` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"help level\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches und Mergen",
+              "",
+              "Super! Wir wissen jetzt, wie man committet und einen Branch anlegt. Jetzt müssen wir nur noch rauskriegen, wie man die Arbeit, die in verschiedenen Branches steckt, zusammenführen kann. Dann können wir einen neuen Branch erstellen, darin ein neues Feature entwickeln, und das dann in den ursprünglichen Zweig integrieren.",
+              "",
+              "Die einfachste Methode, mit der man Branches zusammenführen kann, ist `git merge`. Das Mergen erzeugt in git einen speziellen Commit, der zwei Vorgänger hat. Ein solcher Commit bedeutet im Prinzip \"ich möchte alle Arbeit von dem Vorgänger hier und dem dort *und* allen ihren jeweiligen Vorgängern miteinander kombinieren\".",
+              "",
+              "Grafisch dargestellt ist es einfacher zu verstehen, lass es uns mal ansehen"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hier haben wir zwei Branches; jeder besteht jeweils aus einem eigenen Commit. Das bedeutet, dass keiner der beiden Branches alle Inhalte des gesamten Repositorys kennt. Das werden wir mit einem Merge ändern.",
+              "",
+              "Wir werden den Branch `bugFix` in `master` integrieren"
+            ],
+            "afterMarkdowns": [
+              "Wow! Hast du das gesehen? Zunächst mal zeigt `master` jetzt auf einen Commit mit zwei Vorgängern. Wenn du den beiden Pfeilen immer weiter folgst, kommst du an jedem Commit im Repository vorbei. Das heißt `master` enthält jetzt alles, was es im Repository gibt.",
+              "",
+              "Siehst du außerdem wie sich die Farben der Commits verändert haben? Um die Vorgänge zu verdeutlichen hab ich etwas Farbe ins Spiel gebracht. Jeder Branch hat seine eindeutige Farbe. Jeder Merge Commit bekommt als Farbe eine Mischung aus den Farben seiner Vorgänger.",
+              "",
+              "Wir sehen also, dass die Farbe des Branch `master` in alle Commits gemischt wurde, die von `bugFix` aber nicht. Ändern wir das ..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mergen wir `master` in `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Da `bugFix` ein Vorgänger von `master` war, musste git hier kaum etwas tun; es verschiebt `bugFix` einfach auf den Commit, auf den auch `master` zeigt.",
+              "",
+              "Jetzt haben alle Commits dieselbe Farbe, das heißt jeder Branch enthält die Informationen des gesamten Repositorys! Juhu!"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Führe folgendes aus, um diesen Level zu schaffen:",
+              "",
+              "* Lege einen neuen Branch `bugFix` an",
+              "* Checke `bugFix` aus mittels `git checkout bugFix`",
+              "* Mach einen Commit",
+              "* Geh mit `git checkout` zum `master` zurück",
+              "* Mach noch einen Commit",
+              "* Merge den Branch `bugFix` in `master` mit `git merge`",
+              "",
+              "*Denk dran, du kannst diese Meldung mit dem Befehl `help level` so oft anzeigen, wie du willst!*"
             ]
           }
         }

@@ -62,7 +62,7 @@ exports.dialog = {
         '## Willkommen bei LearnGitBranching!',
         '',
         'Diese Anwendung wurde geschrieben um die umfangreichen',
-        'Zusammenhänge beim Arbeiten mit Branches in git zu',
+        'Zusammenhänge beim Arbeiten mit Branches in Git zu',
         'verdeutlichen. Wir hoffen du hast Spaß und lernst',
         'vielleicht sogar etwas dabei!',
         '',
@@ -72,7 +72,7 @@ exports.dialog = {
         '',
         '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
         '',
-        'Genervt von diesem Fenster? Häng `?NODEM` an die url um es los zu werden, siehe unten:',
+        'Genervt von diesem Fenster? Häng `?NODEMO` an die URL um es los zu werden, siehe unten:',
         '',
         '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
       ]
@@ -83,7 +83,7 @@ exports.dialog = {
       markdowns: [
         '## Git-Kommandos',
         '',
-        'Dir steht eine große Zahl von git-Kommandos im Sandkasten-Modus zur Verfügung. Unter anderem',
+        'Dir steht eine große Zahl von Git-Befehlen im Sandkasten-Modus zur Verfügung. Unter anderem',
         '',
         ' * commit',
         ' * branch',
@@ -101,9 +101,9 @@ exports.dialog = {
       markdowns: [
         '## Teilen macht Spaß!',
         '',
-        'Teile diese git-Bäume mit deinen Freunden mittels `export tree` und `import tree`',
+        'Teile diese Git-Bäume mit deinen Freunden mittels `export tree` und `import tree`',
         '',
-        'Hast du Wissenswertes zu git zu vermitteln? Versuch einen Level mit `build level` zu bauen oder probier den Level eines Freundes mit `import level` aus',
+        'Hast du Wissenswertes zu Git zu vermitteln? Versuch einen Level mit `build level` zu bauen oder probier den Level eines Freundes mit `import level` aus',
         '',
         'Um alle Kommandos zu sehen, gib `show commands` ein. Darunter gibt\'s kleine Schätze wie `undo` und `reset`',
         '',

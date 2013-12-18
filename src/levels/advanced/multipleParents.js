@@ -4,10 +4,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
+    "de_DE": "Mehrere Vorgänger",
     "zh_CN": "多个父提交记录"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
+    "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
   },
   "startDialog": {
@@ -93,6 +95,93 @@ exports.level = {
               "To complete this level, create a new branch at the specified destination.",
               "",
               "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Vorgänger ansteuern",
+              "",
+              "Wie der Operator `~` akzeptiert auch der Operator `^` eine optionale Anzahl.",
+              "",
+              "Anstatt der Anzahl von Schritten, die zurückgegangen werden soll (das ist das, was man bei `~` angibt), bezeichnet die Anzahl nach `^` welchem Vorgänger bei einem Merge-Commit gefolgt werden soll. Du erinnerst dich, dass ein Merge-Commit mehrere Vorgänger hat; es gilt also aus diesen auszuwählen.",
+              "",
+              "Normalerweise folgt Git dem \"ersten\" Vorgänger des Merge-Commit, aber durch Angabe einer Zahl nach dem `^` lässt sich dieses Verhalten ändern.",
+              "",
+              "Aber genug gequatscht, schauen wir's uns in Aktion an.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+            "Hier sehen wir einen Merge-Commit. Wenn wir einen Checkout von `master^` ohne Zahl machen, wird Git auf den ersten Vorgänger des Commits zurückgehen. ",
+              "",
+              "*(In unserer Darstellung befindet sich der erste Vorgänger direkt über dem Merge-Commit.)*"
+            ],
+            "afterMarkdowns": [
+            "Simpel -- so kennen wir das."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+            "Jetzt versuchen wir mal stattdessen den zweiten Vorgänger anzugeben ..."
+            ],
+            "afterMarkdowns": [
+            "Gesehen? Wir gehen zu dem anderen Vorgänger zurück."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Die Operatoren `^` und `~` geben uns eine Menge Möglichkeiten für das Navigieren durch den Commit-Baum:"
+            ],
+            "afterMarkdowns": [
+            "Bämm!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+            "Noch abgefahrener: die beiden Operatoren können verkettet werden. Aufgepasst:"
+            ],
+            "afterMarkdowns": [
+            "Gleicher Ablauf wie zuvor, nur alles in einem Befehl."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+            "### Setzen wir's um",
+              "",
+              "Erstelle einen neuen Branch an dem angegebenen Ziel, um diesen Level abzuschließen.",
+              "",
+              "Es ist natürlich möglich den Commit einfach direkt anzugeben (also mit sowas wie `C6`), aber ich fordere dich heraus stattdessen die relativen Operatoren zu benutzen!"
             ]
           }
         }
