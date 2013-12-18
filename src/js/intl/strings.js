@@ -268,7 +268,7 @@ exports.strings = {
   'git-error-args-many': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'I expect at most {upper} argument(s) for {what}',
-    'de_DE': 'Ich benötige maximal {upper} Argumente für {what}',
+    'de_DE': 'Ich benötige maximal {upper} Argument(e) für {what}',
     'zh_CN': '{what} 期望最多 {upper} 个参数',
     'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}'
   },
@@ -276,7 +276,7 @@ exports.strings = {
   'git-error-args-few': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'I expect at least {lower} argument(s) for {what}',
-    'de_DE': 'Ich benötige höchstens {lower} Argumente für {what}',
+    'de_DE': 'Ich benötige mindestens {lower} Argument(e) für {what}',
     'zh_CN': '{what} 期望最少 {lower} 个参数',
     'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}'
   },
