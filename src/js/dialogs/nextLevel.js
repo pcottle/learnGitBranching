@@ -10,6 +10,17 @@ exports.dialog = {
       ]
     }
   }],
+  'en_US': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Super gemacht!',
+        '',
+        'Du hast den level in *{numCommands}* command(s) gelöst;',
+        'unsere Lösung braucht {best}.'
+      ]
+    }
+  }],
   'ja': [{
     type: 'ModalAlert',
     options: {
