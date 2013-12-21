@@ -9,11 +9,13 @@ exports.level = {
   "name": {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
+    "de_DE": "Branch-Spaghetti",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`"
@@ -34,6 +36,26 @@ exports.level = {
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch-Spaghetti",
+              "",
+              "Puh! Wir haben ein ganz schön schweres Ziel für dieses Level.",
+              "",
+              "Wir haben hier einen `master`, der ein paar Commits weiter ist als die Branche `one`, `two` und `three`. Aus welchem Grund auch immer müssen wir diese drei anderen Branches mit modifizierten Versionen der paar letzten Commits von `master` aktualisieren.",
+              "",
+              "Branch `one` benötigt eine Umsortierung und `C5` muss gelöscht werden. `two` muss nur umsortiert werden und `three` braucht nur einen Commit!",
+              "",
+              "Ich lass dich diese Aufgabe selbst lösen -- schau dir hinterher auf jeden Fall die Lösung mit `show solution` an."
             ]
           }
         }
