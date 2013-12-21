@@ -111,7 +111,7 @@ exports.level = {
               "Was passiert wohl, wenn wir stattdessen `git pull` benutzen?"
             ],
             "afterMarkdowns": [
-              "Exakt dasselbe! Das sollte recht deutlich machen, dass `git pull` nur eine Abkürzung für `git fetch` gefolgt von einem Merge des gerade aktualisierten Branches ist."
+              "Dasselbe in Pink. Das sollte recht deutlich machen, dass `git pull` nur eine Abkürzung für `git fetch` gefolgt von einem Merge des gerade aktualisierten Branches ist."
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"

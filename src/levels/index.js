@@ -90,7 +90,7 @@ var sequenceInfo = exports.sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
-      'de_DE': 'Push & Pull -- entfernte Repositories'
+      'de_DE': 'Push & Pull -- entfernte Repositorys'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',

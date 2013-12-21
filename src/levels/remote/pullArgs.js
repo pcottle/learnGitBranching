@@ -111,7 +111,7 @@ exports.level = {
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
-              "Unde ...",
+              "Und ...",
               "",
               "`git pull origin bar~1:bugFix` ist dasselbe wie:",
               "",
@@ -140,7 +140,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Funktionniert das auch wenn man Quelle und Ziel angibt? Aber sicher! Das sehen wir hier:"
+              "Funktioniert das auch wenn man Quelle und Ziel angibt? Aber sicher! Das sehen wir hier:"
             ],
             "afterMarkdowns": [
               "Wow, das ist eine Menge in einem einzelnen Befehl. Wir haben lokal einen neuen Branch namens `foo` erstellt, die Commits vom `master` des Servers dorthin heruntergeladen und ihn danach in unseren aktuell ausgecheckten Commit `bar` gemerged."

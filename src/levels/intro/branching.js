@@ -11,7 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
-    "de_DE": 'Lege mit "git branch [Name]" einen neuen Branch an und checke ihn mit "git checkout [Name] aus',
+    "de_DE": 'Lege mit "git branch <Name>" einen neuen Branch an und checke ihn mit "git checkout <Name> aus',
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
@@ -150,7 +150,7 @@ exports.level = {
               "Sagen wir Git also erst mal auf welchem Branch wir arbeiten wollen, und zwar mit",
               "",
               "```",
-              "git checkout [Name]",
+              "git checkout <Name>",
               "```",
               "",
               "Das wird uns auf den neuen Branch bringen bevor wir unsere Änderungen committen."

@@ -61,10 +61,7 @@ exports.dialog = {
       markdowns: [
         '## Willkommen bei LearnGitBranching!',
         '',
-        'Diese Anwendung wurde geschrieben um die umfangreichen',
-        'Zusammenhänge beim Arbeiten mit Branches in Git zu',
-        'verdeutlichen. Wir hoffen du hast Spaß und lernst',
-        'vielleicht sogar etwas dabei!',
+        'Der Sinn dieser Anwendung ist, die umfangreichen und komplexen Zusammenhänge der Prozesse, die bei der Arbeit mit Git ablaufen, zu verdeutlichen. Ich hoffe du hast Spaß dabei und lernst vielleicht sogar etwas!',
         '',
         '# Demo!',
         '',
@@ -72,7 +69,7 @@ exports.dialog = {
         '',
         '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
         '',
-        'Genervt von diesem Fenster? Häng `?NODEMO` an die URL um es los zu werden, siehe unten:',
+        'Genervt von diesem Fenster? Häng `?NODEMO` an die URL um es los zu werden, so wie hier:',
         '',
         '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
       ]
@@ -101,11 +98,11 @@ exports.dialog = {
       markdowns: [
         '## Teilen macht Spaß!',
         '',
-        'Teile diese Git-Bäume mit deinen Freunden mittels `export tree` und `import tree`',
+        'Teile diese Git-Bäume mit deinen Freunden mittels `export tree` und `import tree`.',
         '',
-        'Hast du Wissenswertes zu Git zu vermitteln? Versuch einen Level mit `build level` zu bauen oder probier den Level eines Freundes mit `import level` aus',
+        'Hast du Wissenswertes zu Git zu vermitteln? Versuch einen Level mit `build level` zu bauen oder probier den Level eines Freundes mit `import level` aus.',
         '',
-        'Um alle Kommandos zu sehen, gib `show commands` ein. Darunter gibt\'s kleine Schätze wie `undo` und `reset`',
+        'Um alle Kommandos zu sehen, gib `show commands` ein. Darunter gibt\'s kleine Schätze wie `undo` und `reset`.',
         '',
         'Für\'s Erste lass uns mit `levels` anfangen ...'
       ]

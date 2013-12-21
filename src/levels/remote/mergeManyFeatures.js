@@ -18,6 +18,51 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
+              "## Why not merge?",
+              "",
+              "In order to push new updates to the remote, all you need to do is *incorporate* the latest changes from the remote. That means you can either rebase *or* merge in the remote branch (e.g. `o/master`).",
+              "",
+              "So if you can do either method, why have the lessons focused on rebasing so far? Why is there no love for `merge` when working with remotes?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Theres a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:",
+              "",
+              "Pros:",
+              "",
+              "* Rebasing makes your commit tree look very clean since everything is in a straight line",
+              "",
+              "Cons:",
+              "",
+              "* Rebasing modifies the (apparent) history of the commit tree.",
+              "",
+              "For example, commit `C1` can be rebased *past* `C3`. It then appears that the work for `C1'` came after `C3` when in reality it was completed beforehand.",
+              "",
+              "Some developers love to preserve history and thus prefer merging. Others (like myself) prefer having a clean commit tree and prefer rebasing. It all comes down to preferences :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well"
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Warum nicht Merge?",
               "",
               "Um neue Dinge auf das Remote zu schieben musst du erst alle Änderungen vom Remote holen und bei dir integrieren. Das bedeutet du kannst den entfernten Branch (z.B. `o/master`) entweder Rebasen *oder* Mergen.",

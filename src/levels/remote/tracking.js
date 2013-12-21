@@ -193,7 +193,7 @@ exports.level = {
               "Das gilt auch für `git push`."
             ],
             "afterMarkdowns": [
-              "Bämm. Wir haben unsere Commits auf den `master` auf dem Server geschoben, obwohl unser lokale Branch völlig anders heißt."
+              "Bämm. Wir haben unsere Commits auf den `master` auf dem Server geschoben, obwohl unser lokaler Branch völlig anders heißt."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -220,7 +220,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Schauen wir uns auch diese Meethode noch an ..."
+              "Schauen wir uns auch diese Methode noch an ..."
             ],
             "afterMarkdowns": [
               "Genau wie vorher, nur ein bisschen ausführlicherer Befehl. Schick!"

@@ -96,7 +96,7 @@ exports.level = {
             "markdowns": [
               "### Was heißt `o/`?",
               "",
-              "Du fragst dich vielleicht was das `o/` am Anfang des Namens des Remote Branch bedeuten soll. Nun, Remote Branches folgen einer (zwingenden) Namenskonvention -- sie werden mit diesem Format gebildet:",
+              "Du fragst dich vielleicht was das `o/` am Anfang des Namens des Remote Branch bedeuten soll. Nun, Namen von Remote Branches folgen einer (zwingenden) Konvention -- sie werden mit diesem Format gebildet:",
               "",
               "* `<Name des Remote>/<Name des Branches>`",
               "",
