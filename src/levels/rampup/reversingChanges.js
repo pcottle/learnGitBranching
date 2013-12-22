@@ -5,6 +5,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
+    "de_DE": "Änderungen in Git rückgängig machen",
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
@@ -12,6 +13,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
+    "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "",
     "zh_CN": "注意revert和reset使用不同的参数。",
     "ko": "",
@@ -76,6 +78,69 @@ exports.level = {
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Änderungen in Git rückgängig machen",
+              "",
+              "Es gibt viele Möglichkeiten, Änderungen in Git zurückzunehmen. Und ebenso wie das Committen hat auch das rückgängig Machen eine Basis-Komponente (Dateien und Inhalte vormerken) und einen übergeordneten Aspekt (wie die Änderungen tatsächlich zurückgenommen werden). Diese Applikation beschäftigt sich wiederum mit den übergeordneten Vorgängen.",
+              "",
+              "Es gibt grundsätzlich zwei Arten in Git etwas rückgängig zu machen -- einerseits `git reset` und andererseit `git revert`. Wir schauen uns beide mal an.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` nimm Änderungen zurück, indem es eine Branch-Referenz auf einen anderen Commit setzt. Es ist ein bisschen (aber nicht wirklich) wie \"Geschichte umschreiben\"; `git reset` bewegt einen Branch auf einen anderen Commit, als hätte er nie anders ausgesehen.",
+              "",
+              "Schauen wir, wie das aussieht:"
+            ],
+            "afterMarkdowns": [
+              "Schick! Git hat den `master` einfach auf `C1` gesetzt; unser lokales Repository sieht nun so aus, als hätte `C2` nie stattgefunden."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Obwohl `git reset` super im lokalen Kontext funktioniert, ist der Ansatz vom \"Umschreiben\" der Commit-Geschichte nicht geeignet für Branches, die auf einem Server liegen und auch von anderen benutzt werden.",
+              "",
+              "Um Änderungen rückgängig zu machen und das mit anderen zu *teilen* müssen wir `git revert` benutzen. Schauen wir uns das in Aktion an."
+            ],
+            "afterMarkdowns": [
+              "Komisch, es ist ein neuer Commit entstanden. Das liegt daran, dass `C2'` genau die *Änderungen* enthält, die die Änderungen aus `C2` aufheben.",
+              "",
+              "Durch Reverten kannst du das Zurücknehmen von Änderungen mit anderen teilen."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Um diesen Level abzuschließen musst du sowohl auf `local` also auch auf `pushed` jeweils die zwei letzten Commits zurücknehmen.",
+              "",
+              "Vergiss nicht, dass `pushed` auch auf einem Server liegt und `local` ein rein lokaler Branch ist -- das sollte dir helfen, die richtige Methode zu wählen."
             ]
           }
         }

@@ -16,11 +16,13 @@ exports.level = {
   "name": {
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
+    "de_DE": "Einen Commit pflücken",
     "ja": "Grabbing Just 1 Commit",
     "zh_CN": "只取一个提交"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+    "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
@@ -60,6 +62,44 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Lokale Commit-Haufen",
+              "",
+              "Folgende Situation habe ich beim Entwickeln des öfteren: ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
+              "",
+              "Die committe ich auch immer wieder, je weiter die Suche mich trägt; natürlich in einem lokalen Branch. Schließlich finde ich den Bug, fixe ihn und freue mich!",
+              "",
+              "Einziges Problem ist, dass ich diesen `bugFix` jetzt zurück in den `master` kriegen muss. Wenn ich einfach den `master` vorspule oder meinen Branch hinein merge, bekäme der `master` auch die ganzen Debug-Befehle, was nicht gewünscht ist. Das muss anders gehen ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Wir müssten Git sagen können, dass es nur einen Commit herüber kopieren soll. Das ist genauso wie die Level vorhin zum Code-Verschieben. Wir können dieselben Befehle benutzen:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um da Level zu schaffen musst du irgendwie sicherstellen, dass `maste` den Commit bekommt, auf den `bugFix` zeigt."
             ]
           }
         }

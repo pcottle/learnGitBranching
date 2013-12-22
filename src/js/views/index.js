@@ -681,6 +681,9 @@ var IntlHelperBar = HelperBar.extend({
       text: 'français',
       id: 'french'
     }, {
+      text: 'Deutsch',
+      id: 'german'
+    }, {
       icon: 'signout',
       id: 'exit'
     }];
@@ -708,6 +711,11 @@ var IntlHelperBar = HelperBar.extend({
 
   onFrenchClick: function() {
     this.fireCommand('locale fr_FR; levels');
+    this.hide();
+  },
+
+  onGermanClick: function() {
+    this.fireCommand('locale de_DE; levels');
     this.hide();
   },
 
