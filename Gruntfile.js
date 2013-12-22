@@ -79,40 +79,15 @@ module.exports = function(grunt) {
   });
 
   grunt.initConfig({
-    lint: {
-      files: ['grunt.js', 'src/**/*.js', 'spec/*.js']
-    },
-    compliment: {
-      compliments: [
-        "Wow peter great work!",
-        "Such a professional dev environment",
-        "Can't stop the TRAIN",
-        "git raging"
-      ]
-    },
-    hash: {
-      src: ['build/bundle.min.js', 'src/style/main.css'],
-      dest: 'build/'
-    },
-    watch: {
-      files: '<config:lint.files>',
-      tasks: 'watching'
-    },
-    min: {
-      dist: {
-        src: ['build/bundle.js'],
-        dest: 'build/bundle.min.js'
-      }
-    },
-    rm: {
-      build: 'build/*'
-    },
-    shell: {
-      gitAdd: {
-        command: 'git add build/'
-      }
-    },
+    pkg: grunt.file.readJSON('package.json'),
     jshint: {
+      all: [
+        'Gruntfile.js',
+        'spec/*.js',
+        'src/js/**/*.js',
+        'src/js/**/**/*.js',
+        'src/levels/**/*.js',
+      ],
       options: {
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
@@ -142,21 +117,55 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         browser: true,
-        debug: true
+        debug: true,
+        globals: {
+          Raphael: true,
+          require: true,
+          console: true,
+          describe: true,
+          expect: true,
+          it: true,
+          runs: true,
+          waitsFor: true,
+          exports: true,
+          module: true,
+          prompt: true,
+          process: true
+        }
       },
-      globals: {
-        Raphael: true,
-        require: true,
-        console: true,
-        describe: true,
-        expect: true,
-        it: true,
-        runs: true,
-        waitsFor: true,
-        exports: true,
-        module: true,
-        prompt: true,
-        process: true
+    },
+    compliment: {
+      compliments: [
+        "Wow peter great work!",
+        "Such a professional dev environment",
+        "Can't stop the TRAIN",
+        "git raging"
+      ]
+    },
+    hash: {
+      js: {
+        src: 'build/bundle.min.js',
+        dest: 'build/'
+      },
+      css: {
+        src: 'src/style/main.css',
+        dest: 'build/'
+      }
+    },
+    watch: {
+      files: '<config:lint.files>',
+      tasks: 'watching'
+    },
+    uglify: {
+      build: {
+        src: ['build/bundle.js'],
+        dest: 'build/bundle.min.js'
+      }
+    },
+    clean: ['build/*'],
+    shell: {
+      gitAdd: {
+        command: 'git add build/'
       }
     },
     jasmine_node: {
@@ -167,26 +176,30 @@ module.exports = function(grunt) {
       requirejs: false
     },
     browserify: {
-      'build/bundle.js': {
-        entries: ['src/**/*.js', 'src/js/**/*.js']
-        //prepend: ['<banner:meta.banner>'],
+      dist: {
+        files: {
+          'build/bundle.js': ['src/**/*.js', 'src/js/**/*.js'],
+        },
       }
     }
   });
 
   // all my npm helpers
-  grunt.loadNpmTasks('grunt-jslint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-hash');
-  grunt.loadNpmTasks('grunt-rm');
-  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('build', 'rm browserify min hash buildIndex shell jasmine_node lint lintStrings compliment');
-  grunt.registerTask('fastBuild', 'rm browserify hash buildIndex');
-  grunt.registerTask('watching', 'fastBuild jasmine_node lint lintStrings');
+  grunt.registerTask('build',
+    ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
+  );
+  grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndex']);
+  grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
-  grunt.registerTask('default', 'build');
-  grunt.registerTask('test', 'jasmine_node');
+  grunt.registerTask('default', ['build']);
+  grunt.registerTask('test', ['jasmine_node']);
 };
 

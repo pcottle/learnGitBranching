@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
   "name": {
     "en_US": "Rebase Introduction",
+    "de_DE": "Einführung in Rebase",
     "ja": "Rebaseの解説",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
@@ -10,6 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
+    "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
     "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
@@ -81,6 +83,73 @@ exports.level = {
               "* Check out bugFix again and rebase onto master",
               "",
               "Good luck!"
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Der zweite Weg um Inhalte aus verschiedenen Branches zu kombinieren ist `git rebase`. Rebasen nimmt im Prinzip eine Menge von Commits, \"kopiert\" sie und packt sie auf etwas anderes drauf.",
+              "",
+              "Auch wenn das erst mal komisch klingt liegt der Vorteil von Rebase darin, dass man es benutzen kann um hübsch lineare Abfolgen von Commits zu erhalten. Das Commit-Protokoll des Repositorys wird durch Rebase eine ganze Ecke einfacher aussehen, weil Merge Commits vermieden werden.",
+              "",
+              "Schauen wir's uns mal in Aktion an ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hier haben wir wieder zwei Branches; wie du siehst ist `bugFix` aktuell ausgewählt (sieht man am `*`).",
+              "",
+              "Wir würden jetzt gerne unsere Arbeit aus `bugFix` direkt auf den `master` packen. Das Ergebnis wäre, dass alle aktuellen Änderungen in `master` auch im Branch `bugFix` sind.",
+              "",
+              "Das machen wir mit dem Befehl `git rebase`:"
+            ],
+            "afterMarkdowns": [
+              "Hammer! Was wir in `bugFix` gemacht haben ist jetzt oben auf `master` draufgepackt und wir haben eine schön lineare Abfolge von Commits bekommen.",
+              "",
+              "Commit `C3` existiert immer noch irgendwo (deswegen ist er blaß dargestellt) und `C3'` ist die \"Kopie\" die wir auf den `master` gepackt haben.",
+              "",
+              "Aber `master` ist jetzt nicht aktualisiert worden, lass uns das gerade noch nachholen ..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Jetzt sind wir im `master`. Lass uns den mal auf `bugFix` rebasen ..."
+            ],
+            "afterMarkdowns": [
+              "So! Da `master` ein Vorgänger von `bugFix` war konnte Git hier einfach den Bezeichner `master` auf denselben Commit schieben, auf den auch `bugFix` zeigt."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Um dieses Level abzuschließen musst du folgendes tun:",
+              "",
+              "* Einen neuen Branch namens `bugFix` auschecken",
+              "* Einen Commit machen",
+              "* Zurück zum `master` wechseln und noch einmal committen",
+              "* `bugFix` auschecken und auf den `master` rebasen",
+              "",
+              "Viel Erfolg!"
             ]
           }
         }

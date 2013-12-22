@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
-    "en_US": "Remember you can always use the undo or reset commands"
+    "en_US": "Remember you can always use the undo or reset commands",
+    "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
   },
   "name": {
-    "en_US": "Push Master!"
+    "en_US": "Push Master!",
+    "de_DE": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -58,6 +60,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step"
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Einen Feature Branch reintegrieren",
+              "",
+              "Nun da du mit `fetch`, `pull`, und `push` vertraut bist sollten wir diese Fähigkeiten mit einem neuen Arbeitsablauf auf die Probe stellen.",
+              "",
+              "Für Entwickler in großen Projekten ist es nicht ungewöhnlich ihre Arbeit in Feature Branches (von `master` abgeleitet) zu erledigen und dann diese Inhalte zu reintegrieren, wenn sie fertig sind. Das ist ähnlich dem vorherigen Level (in dem ein Feature Branch auf den Server geschoben wird), nur mit einem zusätzlichen Schritt.",
+              "",
+              "Einige Entwickler pushen und pullen nur auf dem `master` -- dadurch ist `master` immer aktuell zu seinem Gegenstück auf dem Server (`o/master`).",
+              "",
+              "Für diesen Ablauf werden wir also zwei Dinge kombinieren:",
+              "",
+              "* einen Feature Bran in `master` reintegrieren und",
+              "* vom entfernten Server pushen und pullen."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Schauen wir uns zur Erinnerung schnell noch mal an wie man den `master` aktualisiert und seine Commits pusht."
+            ],
+            "afterMarkdowns": [
+              "Wir haben hier zwei Befehle ausgeführt, die:",
+              "",
+              "* unsere Commits auf die neuen Commits vom Server gepackt und",
+              "* unsere Commits zum Server gepusht haben."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dieser Level ist ziemlich heftig -- hier ist im Groben der Weg:",
+              "",
+              "* Es gibt drei Feature Branches -- `side1`, `side2` und `side3`.",
+              "* Wir möchten jedes dieser Features, in dieser Reihenfolge, auf den Server bringen.",
+              "* Der Server hat Commits, die wir noch nicht haben, diese müssen also bei uns integriert werden.",
+              "",
+              ":O Krass! Viel Erfolg, diesen Level zu schaffen ist ein großer Schritt."
             ]
           }
         }
