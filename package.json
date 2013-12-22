@@ -1,23 +1,25 @@
 {
   "name": "LearnGitBranching",
-  "version": "0.5.0",
+  "version": "0.8.0",
   "devDependencies": {
-    "grunt": "~0.3.17",
-    "jasmine-node": "~1.11.0",
-    "grunt-browserify": "0.1.1",
-    "grunt-jslint": "~0.2.2-1",
-    "grunt-jasmine-node": "0.1.0",
-    "grunt-hash": "0.2.2",
-    "grunt-rm": "~0.0.3",
-    "grunt-shell": "0.1.4",
-    "prompt": "0.2.9"
+    "grunt": "~0.4.2",
+    "jasmine-node": "~1.12.0",
+    "grunt-browserify": "~1.3.0",
+    "grunt-jasmine-node": "~0.1.0",
+    "grunt-hash": "~0.5.0",
+    "prompt": "0.2.9",
+    "browserify": "~3.14.0",
+    "grunt-cli": "~0.1.11",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-shell-spawn": "~0.3.0"
   },
   "dependencies": {
     "backbone": "~0.9.9",
     "underscore": "~1.4.3",
     "jquery": "~1.7.3",
     "q": "~0.8.11",
-    "markdown": "~0.4.0",
-    "grunt-shell": "~0.1.4"
+    "markdown": "~0.4.0"
   }
 }
