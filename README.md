@@ -59,7 +59,8 @@ Thus, if you build the app locally, all you have to do in order to run the app i
 ## Building yourself / Contributing Functionality
 
 For contributing core functionality in the app, you'll probably want to test your changes
-at least once before submitting a pull request. That means you'll need the `grunt` build tool:
+at least once before submitting a pull request. That means you'll need the "Grunt.js" build tool to build the app:
+
 http://gruntjs.com/getting-started
 
 You'll also need `npm` to download all the dependencies of the project.
@@ -70,12 +71,17 @@ The general workflow / steps are below:
 git clone <your fork of the repo>
 cd learnGitBranching
 npm install # to install all the node modules I depend on
+
 git checkout -b newAwesomeFeature
-# some changes
-grunt fastBuild
-# after building you can open up your browser to the index.html that is generated and see your changes
-# more changes
-grunt build
+vim ./src/js/git/index.js # some changes
+grunt fastBuild # skips tests and linting, faster build
+
+# after building you can open up your browser to the index.html
+# file generated and see your changes
+
+vim ./src/js/git/index.js # more changes
+grunt build # runs tests and lint
+
 git commit -am "My new sweet feature!"
 git push
 # go online and request a pull
