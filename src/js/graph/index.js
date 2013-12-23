@@ -6,7 +6,14 @@ var Branch = Git.Branch;
 var Tag = Git.Tag;
 var Ref = Git.Ref;
 
+function invariant(truthy, reason) {
+  if (!truthy) {
+    throw new Error(reason);
+  }
+}
+
 var Graph = {
+
   getOrMakeRecursive: function(
     tree,
     createdSoFar,
@@ -116,6 +123,30 @@ var Graph = {
       pQueue = pQueue.concat(popped.get('parents'));
     }
     return result;
+  },
+
+  getUpstreamSet: function(engine, ancestor) {
+    invariant(typeof ancestor === 'string', 'pass in string');
+
+    var commit = engine.getCommitFromRef(ancestor);
+    var ancestorID = commit.get('id');
+    var queue = [commit];
+
+    var exploredSet = {};
+    exploredSet[ancestorID] = true;
+
+    var addToExplored = function(rent) {
+      exploredSet[rent.get('id')] = true;
+      queue.push(rent);
+    };
+
+    while (queue.length) {
+      var here = queue.pop();
+      var rents = here.get('parents');
+
+      _.each(rents, addToExplored);
+    }
+    return exploredSet;
   },
 
   getUniqueObjects: function(objects) {
