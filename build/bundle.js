@@ -29054,11 +29054,13 @@ exports.level = {
               "",
               "You may be wondering how this property got set on the `master` branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically. ",
               "",
-              "During a clone, git creates a remote branch for every branch on the remote (aka branches like `o/master`) and then, for each remote branch, creates a local branch to *track* that remote branch (aka `master`). Thats why you may have seen the following command output:",
+              "During a clone, git creates a remote branch for every branch on the remote (aka branches like `o/master`). It then creates a local branch that tracks the currently active branch on the remote, which is `master` in most cases.",
               "",
-              "    local branch \"master\" set to track remote branch \"o/master\"",
+              "Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!",
               "",
-              "When running `git clone`."
+              "This also explains why you may see the following command output when cloning:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
             ]
           }
         },
