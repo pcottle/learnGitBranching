@@ -1,11 +1,5 @@
 var _ = require('underscore');
 
-var Git = require('../git');
-var Commit = Git.Commit;
-var Branch = Git.Branch;
-var Tag = Git.Tag;
-var Ref = Git.Ref;
-
 function invariant(truthy, reason) {
   if (!truthy) {
     throw new Error(reason);
@@ -88,6 +82,7 @@ var Graph = {
         parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
       }, this);
 
+      var Commit = require('../git').Commit;
       var commit = new Commit(_.extend(
         commitJSON,
         {
