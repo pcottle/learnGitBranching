@@ -7606,6 +7606,7 @@ exports.dialog = {
 var _ = require('underscore');
 var intl = require('../intl');
 
+var Graph = require('../graph');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -7782,7 +7783,7 @@ var commandConfig = {
 
       command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
 
-      var set = engine.getUpstreamSet('HEAD');
+      var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
       var toCherrypick = _.map(generalArgs, function(arg) {
         var commit = engine.getCommitFromRef(arg);
@@ -8403,7 +8404,7 @@ exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
 
 
-},{"../commands":12,"../intl":24,"../util/errors":39,"underscore":10}],18:[function(require,module,exports){
+},{"../commands":12,"../graph":21,"../intl":24,"../util/errors":39,"underscore":10}],18:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 
@@ -8664,12 +8665,6 @@ function catchShortCircuit(err) {
   }
 }
 
-function invariant(truthy, reason) {
-  if (!truthy) {
-    throw new Error(reason);
-  }
-}
-
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -8811,7 +8806,7 @@ GitEngine.prototype.exportTreeForBranch = function(branchName) {
   // is not connected to branchname
   var tree = this.exportTree();
   // get the upstream set
-  var set = this.getUpstreamSet(branchName);
+  var set = Graph.getUpstreamSet(this, branchName);
   // now loop through and delete commits
   var commitsToLoop = tree.commits;
   tree.commits = {};
@@ -9571,7 +9566,7 @@ GitEngine.prototype.checkUpstreamOfSource = function(
   // target. Hence target should be strictly upstream of source
 
   // lets first get the upstream set from source's dest branch
-  var upstream = source.getUpstreamSet(sourceBranch);
+  var upstream = Graph.getUpstreamSet(source, sourceBranch);
 
   var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
   if (!upstream[targetLocationID]) {
@@ -9591,7 +9586,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   options = options || {};
   sourceBranch = source.resolveID(sourceBranch);
 
-  var targetSet = target.getUpstreamSet(targetBranch);
+  var targetSet = Graph.getUpstreamSet(target, targetBranch);
   var sourceStartCommit = source.getCommitFromRef(sourceBranch);
 
   var sourceTree = source.exportTree();
@@ -10344,7 +10339,7 @@ GitEngine.prototype.pruneTreeAndPlay = function() {
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // dont prune commits that HEAD depends on
-  var headSet = this.getUpstreamSet('HEAD');
+  var headSet = Graph.getUpstreamSet(this, 'HEAD');
   _.each(headSet, function(val, commitID) {
     set[commitID] = true;
   });
@@ -10439,7 +10434,7 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 };
 
 GitEngine.prototype.getUpstreamHeadSet = function() {
-  var set = this.getUpstreamSet('HEAD');
+  var set = Graph.getUpstreamSet(this, 'HEAD');
   var including = this.getCommitFromRef('HEAD').get('id');
 
   set[including] = true;
@@ -10587,7 +10582,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   // we need everything BELOW ourselves...
   var downstream = this.getDownstreamSet(base);
   // and we need to go upwards to the stop set
-  var stopSet = this.getUpstreamSet(destination);
+  var stopSet = Graph.getUpstreamSet(this, destination);
   var upstream = this.getUpstreamDiffSetFromSet(stopSet, base);
 
   // and NOWWWwwww get all the descendants of this set
@@ -10669,7 +10664,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
-  var stopSet = this.getUpstreamSet(targetSource);
+  var stopSet = Graph.getUpstreamSet(this, targetSource);
   var toRebaseRough = this.getUpstreamDiffFromSet(stopSet, currentLocation);
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
@@ -10701,7 +10696,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   }
 
   // now get the stop set
-  var stopSet = this.getUpstreamSet(targetSource);
+  var stopSet = Graph.getUpstreamSet(this, targetSource);
 
   var toRebaseRough = [];
   // standard BFS
@@ -11204,7 +11199,7 @@ GitEngine.prototype.status = function() {
 GitEngine.prototype.logWithout = function(ref, omitBranch) {
   // slice off the ^branch
   omitBranch = omitBranch.slice(1);
-  this.log(ref, this.getUpstreamSet(omitBranch));
+  this.log(ref, Graph.getUpstreamSet(this, omitBranch));
 };
 
 GitEngine.prototype.log = function(ref, omitSet) {
@@ -11249,7 +11244,7 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
     throw new Error('Dont use common ancestor if we are upstream!');
   }
 
-  var upstreamSet = this.getUpstreamSet(ancestor);
+  var upstreamSet = Graph.getUpstreamSet(this, ancestor);
   // now BFS off of cousin until you find something
 
   var queue = [this.getCommitFromRef(cousin)];
@@ -11268,7 +11263,7 @@ GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
 
   // basically just do a completely BFS search on ancestor to the root, then
   // check for membership of child in that set of explored nodes
-  var upstream = this.getUpstreamSet(ancestor);
+  var upstream = Graph.getUpstreamSet(this, ancestor);
   return upstream[child.get('id')] !== undefined;
 };
 
@@ -11294,29 +11289,6 @@ GitEngine.prototype.getDownstreamSet = function(ancestor) {
   }
   return exploredSet;
 };
-
-GitEngine.prototype.getUpstreamSet = function(ancestor) {
-  var commit = this.getCommitFromRef(ancestor);
-  var ancestorID = commit.get('id');
-  var queue = [commit];
-
-  var exploredSet = {};
-  exploredSet[ancestorID] = true;
-
-  var addToExplored = function(rent) {
-    exploredSet[rent.get('id')] = true;
-    queue.push(rent);
-  };
-
-  while (queue.length) {
-    var here = queue.pop();
-    var rents = here.get('parents');
-
-    _.each(rents, addToExplored);
-  }
-  return exploredSet;
-};
-
 
 var Ref = Backbone.Model.extend({
   initialize: function() {
@@ -11378,7 +11350,6 @@ var Branch = Ref.extend({
    *
    * With that in mind, we change our branch model to support the following
    */
-
   setRemoteTrackingBranchID: function(id) {
     this.set('remoteTrackingBranchID', id);
   },
@@ -11580,19 +11551,27 @@ exports.Ref = Ref;
 },{"../app":11,"../commands":12,"../graph":21,"../graph/treeCompare":22,"../intl":24,"../util":41,"../util/errors":39,"../util/eventBaton":40,"../views/rebaseView":51,"../visuals/animation":53,"../visuals/animation/animationFactory":52,"backbone":1,"q":9,"underscore":10}],21:[function(require,module,exports){
 var _ = require('underscore');
 
-var Git = require('../git');
-var Commit = Git.Commit;
-var Branch = Git.Branch;
-var Tag = Git.Tag;
-var Ref = Git.Ref;
+function invariant(truthy, reason) {
+  if (!truthy) {
+    throw new Error(reason);
+  }
+}
 
 var Graph = {
+
   getOrMakeRecursive: function(
     tree,
     createdSoFar,
     objID,
     gitVisuals
   ) {
+    // circular dependency, should move these base models OUT of
+    // the git class to resolve this
+    var Git = require('../git');
+    var Commit = Git.Commit;
+    var Ref = Git.Ref;
+    var Branch = Git.Branch;
+    var Tag = Git.Tag;
     if (createdSoFar[objID]) {
       // base case
       return createdSoFar[objID];
@@ -11696,6 +11675,28 @@ var Graph = {
       pQueue = pQueue.concat(popped.get('parents'));
     }
     return result;
+  },
+
+  getUpstreamSet: function(engine, ancestor) {
+    var commit = engine.getCommitFromRef(ancestor);
+    var ancestorID = commit.get('id');
+    var queue = [commit];
+
+    var exploredSet = {};
+    exploredSet[ancestorID] = true;
+
+    var addToExplored = function(rent) {
+      exploredSet[rent.get('id')] = true;
+      queue.push(rent);
+    };
+
+    while (queue.length) {
+      var here = queue.pop();
+      var rents = here.get('parents');
+
+      _.each(rents, addToExplored);
+    }
+    return exploredSet;
   },
 
   getUniqueObjects: function(objects) {
@@ -12136,6 +12137,7 @@ module.exports = TreeCompare;
 
 },{"underscore":10}],23:[function(require,module,exports){
 var sys = require('sys');
+var util = require('../util');
 var _ = require('underscore');
 var child_process = require('child_process');
 var strings = require('../intl/strings').strings;
@@ -12176,14 +12178,16 @@ var processLines = function(lines) {
   });
 };
 
-child_process.exec(
-  searchCommand,
-  function(err, output) {
-    processLines(output.split('\n'));
-});
+if (!util.isBrowser()) {
+  child_process.exec(
+    searchCommand,
+    function(err, output) {
+      processLines(output.split('\n'));
+  });
+}
 
 
-},{"../intl/strings":25,"child_process":2,"sys":6,"underscore":10}],24:[function(require,module,exports){
+},{"../intl/strings":25,"../util":41,"child_process":2,"sys":6,"underscore":10}],24:[function(require,module,exports){
 var _ = require('underscore');
 var constants = require('../util/constants');
 var util = require('../util');
@@ -17654,6 +17658,10 @@ var LevelToolbar = BaseView.extend({
 });
 
 var HelperBar = BaseView.extend({
+  getClassName: function() {
+    return 'BaseHelperBar';
+  },
+
   tagName: 'div',
   className: 'helperBar transitionAll',
   template: _.template($('#helper-bar-template').html()),
@@ -17713,6 +17721,7 @@ var HelperBar = BaseView.extend({
       items: this.getItems()
     };
     this.render();
+    this.$el.addClass(this.getClassName());
     this.setupChildren();
 
     if (!options.wait) {
@@ -17722,6 +17731,10 @@ var HelperBar = BaseView.extend({
 });
 
 var IntlHelperBar = HelperBar.extend({
+  getClassName: function() {
+    return 'IntlHelperBar';
+  },
+
   getItems: function() {
     return [{
       text: 'Git Branching',
@@ -17784,10 +17797,17 @@ var IntlHelperBar = HelperBar.extend({
 });
 
 var CommandsHelperBar = HelperBar.extend({
+  getClassName: function() {
+    return 'CommandsHelperBar';
+  },
+
   getItems: function() {
     return [{
       text: 'Levels',
       id: 'levels'
+    }, {
+      text: 'Solution',
+      id: 'solution'
     }, {
       text: 'Reset',
       id: 'reset'
@@ -17809,6 +17829,10 @@ var CommandsHelperBar = HelperBar.extend({
   fireCommand: function() {
     log.viewInteracted('helperBar');
     HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
+  onSolutionClick: function() {
+    this.fireCommand('show solution');
   },
 
   onObjectiveClick: function() {

@@ -13,7 +13,7 @@
   <meta property="og:image" content="http://pcottle.github.io/learnGitBranching/assets/learnGitBranching.png"/>
   <meta property="og:description" content="A interactive Git visualization tool to educate and challenge!"/>
 
-	<link rel="stylesheet" href="build/main.48c57d4e.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="build/main.e2b998c4.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
@@ -82,7 +82,7 @@
   </div>
 
   <!-- lol inline styles -->
-  <a href="https://github.com/pcottle/learnGitBranching" target="_blank" style="z-index: 99; position: fixed; top: 0; right: 0">
+  <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
     <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
   </a>
 
@@ -121,14 +121,14 @@
   <script type="text/html" id="helper-bar-template">
     <% for(var i = 0; i < items.length; i++) { %>
       <% if (items[i].text) { %>
-        <a data-id="<%= items[i].id %>"><%= items[i].text %></a>
+        <a data-id="<%= items[i].id %>" class="<%=items[i].id%>"><%= items[i].text %></a>
       <% } else if (items[i].newPageLink) { %>
         <a data-id="<%= items[i].id %>" 
-          target="_blank" href="<%= items[i].href %>">
+          target="_blank" href="<%= items[i].href %>"class="<%=items[i].id%>">
           <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
         </a>
       <% } else { %>
-        <a data-id="<%= items[i].id %>">
+        <a data-id="<%= items[i].id %>" class="<%=items[i].id%>">
           <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
         </a>
       <% } %>
@@ -183,8 +183,6 @@
         <div class="inside box flex1">
         </div>
       </div>
-    </div>
-    <div class="box flex3">
     </div>
   </script>
 
@@ -458,7 +456,7 @@
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/bundle.min.e39d4b5d.js"></script>
+  <script src="build/bundle.min.e3701064.js"></script>
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include
