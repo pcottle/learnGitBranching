@@ -568,6 +568,8 @@ li.rebaseEntry,
   border-right: 0;
   box-shadow: -1px -1px 5px rgba(0,0,0,0.3);
   font-weight: bold;
+  max-width: 500px;
+  clear: both;
 }
 
 .helperBar i {
@@ -581,6 +583,10 @@ li.rebaseEntry,
   font-style: italic;
 }
 
+.helperBar a.exit {
+  float: right
+}
+
 .helperBar a:after {
   content: ' \b7';
   font-style: normal;
@@ -590,8 +596,13 @@ li.rebaseEntry,
   padding-right: 10px;
 }
 
+.helperBar a:nth-last-child(2):after,
 .helperBar a:last-child:after {
   content: '';
+}
+
+.helperBar.BaseHelperBar a:nth-last-child(2):after {
+  content: ' \b7';
 }
 
 div.helperBar {
@@ -608,6 +619,11 @@ div.helperBar.show {
   -o-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
+  height: 45px;
+}
+
+div.helperBar.show.BaseHelperBar {
+  height: auto;
 }
 
 #commandLineBar,

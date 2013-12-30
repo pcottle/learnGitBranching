@@ -14,6 +14,13 @@ var Graph = {
     objID,
     gitVisuals
   ) {
+    // circular dependency, should move these base models OUT of
+    // the git class to resolve this
+    var Git = require('../git');
+    var Commit = Git.Commit;
+    var Ref = Git.Ref;
+    var Branch = Git.Branch;
+    var Tag = Git.Tag;
     if (createdSoFar[objID]) {
       // base case
       return createdSoFar[objID];
@@ -82,7 +89,6 @@ var Graph = {
         parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
       }, this);
 
-      var Commit = require('../git').Commit;
       var commit = new Commit(_.extend(
         commitJSON,
         {
@@ -121,8 +127,6 @@ var Graph = {
   },
 
   getUpstreamSet: function(engine, ancestor) {
-    invariant(typeof ancestor === 'string', 'pass in string');
-
     var commit = engine.getCommitFromRef(ancestor);
     var ancestorID = commit.get('id');
     var queue = [commit];

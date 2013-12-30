@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
-var Graph = require('../graph'); 
+var Graph = require('../graph');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
