@@ -1,4 +1,5 @@
 var sys = require('sys');
+var util = require('../util');
 var _ = require('underscore');
 var child_process = require('child_process');
 var strings = require('../intl/strings').strings;
@@ -39,9 +40,11 @@ var processLines = function(lines) {
   });
 };
 
-child_process.exec(
-  searchCommand,
-  function(err, output) {
-    processLines(output.split('\n'));
-});
+if (!util.isBrowser()) {
+  child_process.exec(
+    searchCommand,
+    function(err, output) {
+      processLines(output.split('\n'));
+  });
+}
 

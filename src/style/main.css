@@ -33,6 +33,19 @@ p {
   font-size: 18px;
 }
 
+.githubLink {
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+@media (max-width: 700px) {
+  .githubLink {
+    display: none !important;
+  }
+}
+
 div.modalTerminal a {
   color: rgb(253, 152, 209);
   font-weight: bold;
@@ -211,7 +224,6 @@ body.hgMode #mainVisSpace .modeText.hgMode {
 /* Some interface things */
 
 div.canvasTerminalHolder {
-  width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
@@ -300,6 +312,7 @@ div.canvasTerminalHolder > div.terminal-window-holder div.inside {
 
 div.canvasTerminalHolder > div.terminal-window-holder {
   max-width: 500px;
+  min-width: 500px;
 }
 
 /* Toolbar */
@@ -568,6 +581,8 @@ li.rebaseEntry,
   border-right: 0;
   box-shadow: -1px -1px 5px rgba(0,0,0,0.3);
   font-weight: bold;
+  max-width: 500px;
+  clear: both;
 }
 
 .helperBar i {
@@ -581,6 +596,10 @@ li.rebaseEntry,
   font-style: italic;
 }
 
+.helperBar a.exit {
+  float: right
+}
+
 .helperBar a:after {
   content: ' \b7';
   font-style: normal;
@@ -590,8 +609,13 @@ li.rebaseEntry,
   padding-right: 10px;
 }
 
+.helperBar a:nth-last-child(2):after,
 .helperBar a:last-child:after {
   content: '';
+}
+
+.helperBar.BaseHelperBar a:nth-last-child(2):after {
+  content: ' \b7';
 }
 
 div.helperBar {
@@ -608,6 +632,11 @@ div.helperBar.show {
   -o-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
+  height: 45px;
+}
+
+div.helperBar.show.BaseHelperBar {
+  height: auto;
 }
 
 #commandLineBar,

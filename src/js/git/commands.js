@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
+var Graph = require('../graph');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -177,7 +178,7 @@ var commandConfig = {
 
       command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
 
-      var set = engine.getUpstreamSet('HEAD');
+      var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
       var toCherrypick = _.map(generalArgs, function(arg) {
         var commit = engine.getCommitFromRef(arg);

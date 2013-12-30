@@ -596,6 +596,10 @@ var LevelToolbar = BaseView.extend({
 });
 
 var HelperBar = BaseView.extend({
+  getClassName: function() {
+    return 'BaseHelperBar';
+  },
+
   tagName: 'div',
   className: 'helperBar transitionAll',
   template: _.template($('#helper-bar-template').html()),
@@ -655,6 +659,7 @@ var HelperBar = BaseView.extend({
       items: this.getItems()
     };
     this.render();
+    this.$el.addClass(this.getClassName());
     this.setupChildren();
 
     if (!options.wait) {
@@ -664,6 +669,10 @@ var HelperBar = BaseView.extend({
 });
 
 var IntlHelperBar = HelperBar.extend({
+  getClassName: function() {
+    return 'IntlHelperBar';
+  },
+
   getItems: function() {
     return [{
       text: 'Git Branching',
@@ -726,10 +735,17 @@ var IntlHelperBar = HelperBar.extend({
 });
 
 var CommandsHelperBar = HelperBar.extend({
+  getClassName: function() {
+    return 'CommandsHelperBar';
+  },
+
   getItems: function() {
     return [{
       text: 'Levels',
       id: 'levels'
+    }, {
+      text: 'Solution',
+      id: 'solution'
     }, {
       text: 'Reset',
       id: 'reset'
@@ -751,6 +767,10 @@ var CommandsHelperBar = HelperBar.extend({
   fireCommand: function() {
     log.viewInteracted('helperBar');
     HelperBar.prototype.fireCommand.apply(this, arguments);
+  },
+
+  onSolutionClick: function() {
+    this.fireCommand('show solution');
   },
 
   onObjectiveClick: function() {
