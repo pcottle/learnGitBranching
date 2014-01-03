@@ -197,7 +197,7 @@ module.exports = function(grunt) {
     ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
   );
   grunt.registerTask('lint', ['jshint', 'compliment']);
-  grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndex']);
+  grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndex', 'jshint']);
   grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
   grunt.registerTask('default', ['build']);

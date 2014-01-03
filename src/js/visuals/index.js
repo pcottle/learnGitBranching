@@ -3,7 +3,7 @@ var Q = require('q');
 var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
-var GLOBAL = require('../util/constants').GLOBAL;
+var GlobalState = require('../util/globalState');
 
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
@@ -124,10 +124,13 @@ GitVisuals.prototype.initHeadBranch = function() {
 };
 
 GitVisuals.prototype.getScreenPadding = function() {
+  // if we are flipping the tree, the helper bar gets in the way
+  var topFactor = (GlobalState.flipTreeY) ? 3 : 1.5;
+
   // for now we return the node radius subtracted from the walls
   return {
     widthPadding: GRAPHICS.nodeRadius * 1.5,
-    topHeightPadding: GRAPHICS.nodeRadius * 1.5,
+    topHeightPadding: GRAPHICS.nodeRadius * topFactor,
     // we pad the bottom a lot more so the branches wont go off screen
     bottomHeightPadding: GRAPHICS.nodeRadius * 5
   };
@@ -180,10 +183,15 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
     return paddingTop + frac * (total - paddingBelow - paddingTop);
   };
 
-  return {
-    x: shrink(pos.x, this.paper.width, padding.widthPadding),
-    y: asymShrink(pos.y, this.paper.height, padding.topHeightPadding, padding.bottomHeightPadding)
-  };
+  var x = shrink(pos.x, this.paper.width, padding.widthPadding);
+  var y =
+    asymShrink(pos.y, this.paper.height, padding.topHeightPadding, padding.bottomHeightPadding);
+
+  if (GlobalState.flipTreeY) {
+    y = this.paper.height - y;
+  }
+
+  return {x: x, y: y};
 };
 
 GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
@@ -782,14 +790,7 @@ GitVisuals.prototype.canvasResize = function(width, height) {
 GitVisuals.prototype.genResizeFunc = function() {
   this.resizeFunc = _.debounce(
     _.bind(function(width, height) {
-
-      // refresh when we are ready if we are animating som ething
-      if (false && GLOBAL.isAnimating) {
-        var Main = require('../app');
-        Main.getEventBaton().trigger('commandSubmitted', 'refresh');
-      } else {
-        this.refreshTree();
-      }
+      this.refreshTree();
     }, this),
     200,
     true

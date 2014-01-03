@@ -10,6 +10,7 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var Constants = require('../util/constants');
+var GlobalState = require('../util/globalState');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -365,7 +366,7 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    Constants.GLOBAL.isAnimating = true;
+    GlobalState.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
     if (this.mainVis.originVis) {
@@ -401,7 +402,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
-      Constants.GLOBAL.isAnimating = false;
+      GlobalState.isAnimating = false;
       defer.resolve();
     });
   },
