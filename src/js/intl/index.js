@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var constants = require('../util/constants');
 var util = require('../util');
+var GlobalState = require('../util/globalState');
 
 var strings = require('../intl/strings').strings;
 
@@ -9,8 +10,8 @@ var getDefaultLocale = exports.getDefaultLocale = function() {
 };
 
 var getLocale = exports.getLocale = function() {
-  if (constants.GLOBAL.locale) {
-    return constants.GLOBAL.locale;
+  if (GlobalState.locale) {
+    return GlobalState.locale;
   }
   return getDefaultLocale();
 };

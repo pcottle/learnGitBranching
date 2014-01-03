@@ -1,10 +1,8 @@
 Big Things
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
-
-Origin things:
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-[ ] polish visual layout?? needed?
+[ ] casperjs for visuals regression testing? it works with canvas so
+    it could be a nice way to move super fast with visuals refactoring
 
 Medium things:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,6 +24,7 @@ Ideas for cleaning
 Done things:
 (I only started this on Dec 17th 2012 to get a better sense of what was done)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[x] flip trees upside down from command (look at refresh tree as a way to do this)
 [x] make show solution easier
 [x] make helper bar clickable with goal vis floating
 [x] huge update to level you wrote. that you said is true for

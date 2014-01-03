@@ -2,6 +2,7 @@ var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');
+var GlobalState = require('../util/globalState');
 var intl = require('../intl');
 
 var Commands = require('../commands');
@@ -23,7 +24,7 @@ var instantCommands = [
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
-    constants.GLOBAL.locale = intl.getDefaultLocale();
+    GlobalState.locale = intl.getDefaultLocale();
     var Main = require('../app').getEvents().trigger('localeChanged');
 
     throw new CommandResult({
@@ -47,7 +48,7 @@ var instantCommands = [
     });
   }],
   [/^locale (\w+)$/, function(bits) {
-    constants.GLOBAL.locale = bits[1];
+    GlobalState.locale = bits[1];
 
     var Main = require('../app').getEvents().trigger('localeChanged');
     throw new CommandResult({
@@ -55,6 +56,15 @@ var instantCommands = [
         'locale-command',
         { locale: bits[1] }
       )
+    });
+  }],
+  [/^flip$/, function() {
+    GlobalState.flipTreeY = !GlobalState.flipTreeY;
+
+    var events = require('../app').getEvents();
+    events.trigger('refreshTree');
+    throw new CommandResult({
+      msg: intl.str('flip-tree-command')
     });
   }],
   [/^refresh$/, function() {

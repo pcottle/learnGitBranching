@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
-var GLOBAL = require('../../util/constants').GLOBAL;
+var GlobalState = require('../../util/globalState');
 var GRAPHICS = require('../../util/constants').GRAPHICS;
 
 var Animation = Backbone.Model.extend({
@@ -67,13 +67,13 @@ var AnimationQueue = Backbone.Model.extend({
     this.set('index', 0);
 
     // set the global lock that we are animating
-    GLOBAL.isAnimating = true;
+    GlobalState.isAnimating = true;
     this.next();
   },
 
   finish: function() {
     // release lock here
-    GLOBAL.isAnimating = false;
+    GlobalState.isAnimating = false;
     this.get('callback')();
   },
 

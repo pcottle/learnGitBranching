@@ -377,6 +377,11 @@ exports.strings = {
     'fr_FR': 'Git version PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'flip-tree-command': {
+    '__desc__': 'when the tree is being flipped',
+    'en_US': 'Flipping tree...'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
     '__desc__': 'when the tree is visually refreshed',
     'en_US': 'Refreshing tree...',
