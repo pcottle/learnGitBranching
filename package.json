@@ -8,11 +8,12 @@
     "grunt-jasmine-node": "~0.1.0",
     "grunt-hash": "~0.5.0",
     "prompt": "0.2.9",
-    "browserify": "~3.14.0",
+    "browserify": "~3.14.1",
     "grunt-cli": "~0.1.11",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-lib-phantomjs": "~0.4.0",
     "grunt-shell-spawn": "~0.3.0"
   },
   "dependencies": {
