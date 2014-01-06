@@ -51,7 +51,7 @@ exports.level = {
               "* downloads the commits that the remote has but are missing from our local repository, and...",
               "* updates where our remote branches point (for instance, `o/master`)",
               "",
-              "`git fetch` essentially it brings our _local_ representation of the remote repository into synchronization with what the _actual_ remote repository looks like (right now).",
+              "`git fetch` essentially brings our _local_ representation of the remote repository into synchronization with what the _actual_ remote repository looks like (right now).",
               "",
               "If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories _since_ you last talked to those remotes. `git fetch` is the way you talk to these remotes! Hopefully the connection between remote branches and `git fetch` is apparent now",
               "",
