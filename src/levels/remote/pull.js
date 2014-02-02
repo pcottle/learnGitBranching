@@ -19,14 +19,14 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Now that we've seen how to fetch data from a remote repository with `git fetch`, lets update our work to reflect those changes!",
+              "Now that we've seen how to fetch data from a remote repository with `git fetch`, let's update our work to reflect those changes!",
               "",
               "There are actually many ways to do this -- once you have new commits available locally, you can incorporate them as if they were just normal commits on other branches. This means you could execute commands like:",
               "",
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
               "* `git merge o/master`",
-              "* etc, etc",
+              "* etc., etc.",
               "",
               "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually make a command that does both at once! That command is `git pull`."
             ]

@@ -60,7 +60,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "What if the destination you want to push doesn't exist? No problem! Just give a branch name and git will create the branch on the remote for you"
+              "What if the destination you want to push doesn't exist? No problem! Just give a branch name and git will create the branch on the remote for you."
             ],
             "afterMarkdowns": [
               "Sweet, that's pretty slick :D"
