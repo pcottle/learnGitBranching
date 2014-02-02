@@ -31,7 +31,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Theres a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:",
+              "There's a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:",
               "",
               "Pros:",
               "",
@@ -51,7 +51,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well"
+              "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
             ]
           }
         }

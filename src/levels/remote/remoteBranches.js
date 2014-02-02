@@ -45,7 +45,7 @@ exports.level = {
               "",
               "Unfortunately the full name of `origin` does not fit in our UI, so we use `o` as shorthand :( Just remember when you're using real git, your remote is probably going to be named `origin`!",
               "",
-              "That's a lot to take in, so let's see this all in action."
+              "That's a lot to take in, so let's see all this in action."
             ]
           }
         },
@@ -66,7 +66,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote"
+              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
             ]
           }
         }
