@@ -42,7 +42,7 @@ exports.level = {
               "",
               "translates to this in English:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done*",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done.*",
               "",
               "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
@@ -54,10 +54,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example"
+              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example."
             ],
             "afterMarkdowns": [
-              "There we go! `master` got updated on the remote since we specified those arguments"
+              "There we go! `master` got updated on the remote since we specified those arguments."
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -70,7 +70,7 @@ exports.level = {
               "What if we hadn't specified the arguments? What would happen?"
             ],
             "afterMarkdowns": [
-              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch"
+              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch."
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"

@@ -57,7 +57,7 @@ exports.level = {
             "markdowns": [
               "How do you resolve this situation? It's easy, all you need to do is base your work off of the most recent version of the remote branch.",
               "",
-              "There are a few ways to do this, but the most straightforward is to move your work via rebasing. Let's go ahead and see what that looks like"
+              "There are a few ways to do this, but the most straightforward is to move your work via rebasing. Let's go ahead and see what that looks like."
             ]
           }
         },
@@ -107,7 +107,7 @@ exports.level = {
               "",
               "Of course -- you already know `git pull` is just shorthand for a fetch and a merge. Conveniently enough, `git pull --rebase` is shorthand for a fetch and a rebase!",
               "",
-              "Let's see these shorthand commands at work"
+              "Let's see these shorthand commands at work."
             ]
           }
         },
@@ -118,7 +118,7 @@ exports.level = {
               "First with `--rebase`..."
             ],
             "afterMarkdowns": [
-              "Same as before! Just a lot shorter"
+              "Same as before! Just a lot shorter."
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"

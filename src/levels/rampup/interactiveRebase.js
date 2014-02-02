@@ -51,9 +51,9 @@ exports.level = {
               "",
               "* You can reorder commits simply by changing their order in the UI (in our window this means dragging and dropping with the mouse).",
               "* You can choose to completely omit some commits. This is designated by `pick` -- toggling `pick` off means you want to drop the commit.",
-              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I\"ll skip over the details of this. Long story short though -- it allows you to combine commits.",
+              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I'll skip over the details of this. Long story short, though -- it allows you to combine commits.",
               "",
-              "Great! Lets see an example"
+              "Great! Let's see an example."
             ]
           }
         },

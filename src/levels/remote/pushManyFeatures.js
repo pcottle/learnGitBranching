@@ -37,7 +37,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see a refresher real quick of how to update `master` and push work"
+              "Let's see a refresher real quick of how to update `master` and push work."
             ],
             "afterMarkdowns": [
               "We executed two commands here that:",
@@ -59,7 +59,7 @@ exports.level = {
               "* We want to push each one of these features, in order, to the remote",
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
-              ":O intense! good luck, completing this level is a big step"
+              ":O intense! good luck, completing this level is a big step."
             ]
           }
         }

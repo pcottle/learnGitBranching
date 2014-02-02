@@ -39,7 +39,7 @@ exports.level = {
               "",
               "Git will go to the `foo` branch on the remote, grab all the commits that aren't present locally, and then plop them down onto the `o/foo` branch locally.",
               "",
-              "Let's see this in action (just as a refresher)"
+              "Let's see this in action (just as a refresher)."
             ]
           }
         },
@@ -77,7 +77,7 @@ exports.level = {
               "",
               "Here is the only catch though -- `<source>` is now a place on the *remote* and `<destination>` is a *local* place to put those commits. It's the exact opposite of git push, and that makes sense since we are transferring data in the opposite direction!",
               "",
-              "That being said, developers rarely do this in practice. I'm introducing it mainly as a way to conceptualize how `fetch` and `push` are quite similar, just in opposite directions"
+              "That being said, developers rarely do this in practice. I'm introducing it mainly as a way to conceptualize how `fetch` and `push` are quite similar, just in opposite directions."
             ]
           }
         },
@@ -88,7 +88,7 @@ exports.level = {
               "Let's see this craziness in action:"
             ],
             "afterMarkdowns": [
-              "Wow! See, git resolved `foo~1` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination"
+              "Wow! See, git resolved `foo~1` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -98,10 +98,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "What if the destination doesnt exist before I run the command? Lets see the last slide but without `bar` existing beforehand"
+              "What if the destination doesn't exist before I run the command? Let's see the last slide but without `bar` existing beforehand."
             ],
             "afterMarkdowns": [
-              "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)"
+              "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -116,7 +116,7 @@ exports.level = {
               "If `git fetch` receives no arguments, it just downloads all the commits from the remote onto all the remote branches..."
             ],
             "afterMarkdowns": [
-              "Pretty simple, but worth going over just once"
+              "Pretty simple, but worth going over just once."
             ],
             "command": "git fetch",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
