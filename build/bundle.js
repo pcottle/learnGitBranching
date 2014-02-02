@@ -25252,7 +25252,7 @@ exports.level = {
               "",
               "So far we've covered the basics of git -- committing, branching, and moving around in the source tree. Just these concepts are enough to leverage 90% of the power of git repositories and cover the main needs of developers.",
               "",
-              "That remaining 10%, however, can be quite useful during complex workflows (or when you've gotten yourself into a bind). The next concept we're going to cover is \"moving work around\" -- in other words, its a way for developers to say \"I want this work here and that work here\" in precise, eloquent, flexible ways.",
+              "That remaining 10%, however, can be quite useful during complex workflows (or when you've gotten yourself into a bind). The next concept we're going to cover is \"moving work around\" -- in other words, it's a way for developers to say \"I want this work here and that work there\" in precise, eloquent, flexible ways.",
               "",
               "This may seem like a lot, but it's a simple concept."
             ]
@@ -25666,9 +25666,9 @@ exports.level = {
               "",
               "* You can reorder commits simply by changing their order in the UI (in our window this means dragging and dropping with the mouse).",
               "* You can choose to completely omit some commits. This is designated by `pick` -- toggling `pick` off means you want to drop the commit.",
-              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I\"ll skip over the details of this. Long story short though -- it allows you to combine commits.",
+              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I'll skip over the details of this. Long story short, though -- it allows you to combine commits.",
               "",
-              "Great! Lets see an example"
+              "Great! Let's see an example."
             ]
           }
         },
@@ -26656,7 +26656,7 @@ exports.level = {
               "",
               "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
               "",
-              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
+              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
             ]
@@ -27145,7 +27145,7 @@ exports.level = {
             "markdowns": [
               "## Git Fetch",
               "",
-              "Working with git remotes really just boils down to transferring data _to_ and _from_ other repositories. As long as we can send commits back and forth, we can share any type of update that is tracked by git (and thus share work, new files, new ideas, love letters, etc etc).",
+              "Working with git remotes really just boils down to transferring data _to_ and _from_ other repositories. As long as we can send commits back and forth, we can share any type of update that is tracked by git (and thus share work, new files, new ideas, love letters, etc.).",
               "",
               "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`.",
               "",
@@ -27179,7 +27179,7 @@ exports.level = {
               "",
               "`git fetch` essentially brings our _local_ representation of the remote repository into synchronization with what the _actual_ remote repository looks like (right now).",
               "",
-              "If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories _since_ you last talked to those remotes. `git fetch` is the way you talk to these remotes! Hopefully the connection between remote branches and `git fetch` is apparent now",
+              "If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories _since_ you last talked to those remotes. `git fetch` is the way you talk to these remotes! Hopefully the connection between remote branches and `git fetch` is apparent now.",
               "",
               "`git fetch` usually talks to the remote repository through the Internet (via a protocol like `http://` or `git://`).",
               ""
@@ -27192,7 +27192,7 @@ exports.level = {
             "markdowns": [
               "### What fetch doesn't do",
               "",
-              "`git fetch`, however, does not change anything about _your_ local state. It will not update your `master` branch or change anything about how your filesystem looks right now.",
+              "`git fetch`, however, does not change anything about _your_ local state. It will not update your `master` branch or change anything about how your file system looks right now.",
               "",
               "This is important to understand because a lot of developers think that running `git fetch` will make their local work reflect the state of the remote. It may download all the necessary data to do that, but it does _not_ actually change any of your local files. We will learn commands in later lessons to do just that :D",
               "",
@@ -27328,7 +27328,7 @@ exports.level = {
               "",
               "Git will go to the `foo` branch on the remote, grab all the commits that aren't present locally, and then plop them down onto the `o/foo` branch locally.",
               "",
-              "Let's see this in action (just as a refresher)"
+              "Let's see this in action (just as a refresher)."
             ]
           }
         },
@@ -27366,7 +27366,7 @@ exports.level = {
               "",
               "Here is the only catch though -- `<source>` is now a place on the *remote* and `<destination>` is a *local* place to put those commits. It's the exact opposite of git push, and that makes sense since we are transferring data in the opposite direction!",
               "",
-              "That being said, developers rarely do this in practice. I'm introducing it mainly as a way to conceptualize how `fetch` and `push` are quite similar, just in opposite directions"
+              "That being said, developers rarely do this in practice. I'm introducing it mainly as a way to conceptualize how `fetch` and `push` are quite similar, just in opposite directions."
             ]
           }
         },
@@ -27377,7 +27377,7 @@ exports.level = {
               "Let's see this craziness in action:"
             ],
             "afterMarkdowns": [
-              "Wow! See, git resolved `foo~1` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination"
+              "Wow! See, git resolved `foo~1` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -27387,10 +27387,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "What if the destination doesnt exist before I run the command? Lets see the last slide but without `bar` existing beforehand"
+              "What if the destination doesn't exist before I run the command? Let's see the last slide but without `bar` existing beforehand."
             ],
             "afterMarkdowns": [
-              "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)"
+              "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -27405,7 +27405,7 @@ exports.level = {
               "If `git fetch` receives no arguments, it just downloads all the commits from the remote onto all the remote branches..."
             ],
             "afterMarkdowns": [
-              "Pretty simple, but worth going over just once"
+              "Pretty simple, but worth going over just once."
             ],
             "command": "git fetch",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
@@ -27609,7 +27609,7 @@ exports.level = {
             "markdowns": [
               "How do you resolve this situation? It's easy, all you need to do is base your work off of the most recent version of the remote branch.",
               "",
-              "There are a few ways to do this, but the most straightforward is to move your work via rebasing. Let's go ahead and see what that looks like"
+              "There are a few ways to do this, but the most straightforward is to move your work via rebasing. Let's go ahead and see what that looks like."
             ]
           }
         },
@@ -27659,7 +27659,7 @@ exports.level = {
               "",
               "Of course -- you already know `git pull` is just shorthand for a fetch and a merge. Conveniently enough, `git pull --rebase` is shorthand for a fetch and a rebase!",
               "",
-              "Let's see these shorthand commands at work"
+              "Let's see these shorthand commands at work."
             ]
           }
         },
@@ -27670,7 +27670,7 @@ exports.level = {
               "First with `--rebase`..."
             ],
             "afterMarkdowns": [
-              "Same as before! Just a lot shorter"
+              "Same as before! Just a lot shorter."
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -27886,7 +27886,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Theres a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:",
+              "There's a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:",
               "",
               "Pros:",
               "",
@@ -27906,7 +27906,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well"
+              "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
             ]
           }
         }
@@ -27982,14 +27982,14 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Now that we've seen how to fetch data from a remote repository with `git fetch`, lets update our work to reflect those changes!",
+              "Now that we've seen how to fetch data from a remote repository with `git fetch`, let's update our work to reflect those changes!",
               "",
               "There are actually many ways to do this -- once you have new commits available locally, you can incorporate them as if they were just normal commits on other branches. This means you could execute commands like:",
               "",
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
               "* `git merge o/master`",
-              "* etc, etc",
+              "* etc., etc.",
               "",
               "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually make a command that does both at once! That command is `git pull`."
             ]
@@ -28119,7 +28119,7 @@ exports.level = {
               "",
               "Now that you know pretty much *everything* there is to know about arguments for `git fetch` and `git push`, there's almost really nothing left to cover for git pull :)",
               "",
-              "That's because git pull at the end of the day is *really* just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with SAME arguments specified and then merging in *where* those commits ended up.",
+              "That's because git pull at the end of the day is *really* just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with the *same* arguments specified and then merging in *where* those commits ended up.",
               "",
               "This applies even when you use crazy-complicated arguments as well. Let's see some examples:"
             ]
@@ -28141,7 +28141,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "See? git pull is really just shorthand for fetch + merge, and all git pull cares about is where the commits ended up (the `destination` argument that it figures out during fetch)",
+              "See? git pull is really just shorthand for fetch + merge, and all git pull cares about is where the commits ended up (the `destination` argument that it figures out during fetch).",
               "",
               "Lets see a demo:"
             ]
@@ -28288,7 +28288,7 @@ exports.level = {
               "",
               "`git push` is responsible for uploading _your_ changes to a specified remote and updating that remote to incorporate your new commits. Once `git push` completes, all your friends can then download  your work from the remote.",
               "",
-              "You can think of `git push` as a command to \"publish\" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps"
+              "You can think of `git push` as a command to \"publish\" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps."
             ]
           }
         },
@@ -28404,7 +28404,7 @@ exports.level = {
               "",
               "translates to this in English:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done*",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done.*",
               "",
               "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
@@ -28416,10 +28416,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example"
+              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example."
             ],
             "afterMarkdowns": [
-              "There we go! `master` got updated on the remote since we specified those arguments"
+              "There we go! `master` got updated on the remote since we specified those arguments."
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -28432,7 +28432,7 @@ exports.level = {
               "What if we hadn't specified the arguments? What would happen?"
             ],
             "afterMarkdowns": [
-              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch"
+              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch."
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"
@@ -28586,7 +28586,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "What if the destination you want to push doesn't exist? No problem! Just give a branch name and git will create the branch on the remote for you"
+              "What if the destination you want to push doesn't exist? No problem! Just give a branch name and git will create the branch on the remote for you."
             ],
             "afterMarkdowns": [
               "Sweet, that's pretty slick :D"
@@ -28720,7 +28720,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see a refresher real quick of how to update `master` and push work"
+              "Let's see a refresher real quick of how to update `master` and push work."
             ],
             "afterMarkdowns": [
               "We executed two commands here that:",
@@ -28742,7 +28742,7 @@ exports.level = {
               "* We want to push each one of these features, in order, to the remote",
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
-              ":O intense! good luck, completing this level is a big step"
+              ":O intense! good luck, completing this level is a big step."
             ]
           }
         }
@@ -28852,7 +28852,7 @@ exports.level = {
               "",
               "Unfortunately the full name of `origin` does not fit in our UI, so we use `o` as shorthand :( Just remember when you're using real git, your remote is probably going to be named `origin`!",
               "",
-              "That's a lot to take in, so let's see this all in action."
+              "That's a lot to take in, so let's see all this in action."
             ]
           }
         },
@@ -28873,7 +28873,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote"
+              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
             ]
           }
         }
@@ -29314,4 +29314,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,13,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,49,75,77,78,79,80,81,82,83,84,85,86,87,89,90,91,92,93,94,95,96,88,76])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
