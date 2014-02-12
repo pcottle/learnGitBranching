@@ -9991,7 +9991,24 @@ GitEngine.prototype.pullFinishWithRebase = function(
 
   chain = chain.then(_.bind(function() {
     pendingFetch.dontResolvePromise = true;
-    return this.rebase(remoteBranch, localBranch, pendingFetch);
+
+    try {
+      return this.rebase(remoteBranch, localBranch, pendingFetch);
+    } catch (err) {
+      this.filterError(err);
+      // we make one exception here to match the behavior of
+      // git pull --rebase. If the rebase is empty we just
+      // simply checkout the new location
+      if (err.getMsg() !== intl.str('git-error-rebase-none')) {
+        throw err;
+      }
+      this.setTargetLocation(
+        localBranch,
+        this.getCommitFromRef(remoteBranch)
+      );
+      this.checkout(localBranch);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }
   }, this));
   chain = chain.fail(catchShortCircuit);
 
