@@ -6,7 +6,7 @@ var loadTree = function(json) {
 };
 
 var compareLevelTree = function(headless, levelBlob) {
-  var actualTree = headless.gitEngine.exportTree();
+  var actualTree = headless.gitEngine.printTree();
   return TreeCompare.dispatchFromLevel(levelBlob, actualTree);
 };
 
@@ -30,6 +30,7 @@ var expectLevelAsync = function(headless, levelBlob) {
     return;
   }
 
+  var hasWarned = false;
   var start;
   runs(function() {
     start = Date.now();
@@ -37,8 +38,11 @@ var expectLevelAsync = function(headless, levelBlob) {
   });
   waitsFor(function() {
     var diff = (Date.now() - start);
-    if (diff > TIME - 10) {
-      console.log('not going to match', command);
+    if (diff > TIME - 10 && !hasWarned) {
+      hasWarned = true;
+      console.log('this goal tree', loadTree(levelBlob.goalTreeString));
+      console.log('not going to match with command', command);
+      console.log(getHeadlessSummary(headless));
     }
     var result = compareLevelTree(headless, levelBlob);
     if (result) {
