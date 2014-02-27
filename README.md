@@ -168,5 +168,5 @@ Or reported an issue that was successfully closed!
 * Christian Sauer
 * "alvarogarcia7"
 * Il Memming Park
-* Neil Taft
+* Neil Traft
 
