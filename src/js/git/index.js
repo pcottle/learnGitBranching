@@ -618,6 +618,14 @@ GitEngine.prototype.validateBranchName = function(name) {
       )
     });
   }
+  if (/^[cC]\d+$/.test(name)) {
+    throw new GitError({
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
+    });
+  }
   if (/[hH][eE][aA][dD]/.test(name)) {
     throw new GitError({
       msg: intl.str(
@@ -644,7 +652,7 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
     throw new GitError({
       msg: intl.str(
         'bad-branch-name',
-        { branch: name }
+        { branch: id }
       )
     });
   }

@@ -6,7 +6,8 @@ describe('GitEngine Levels', function() {
     var sequences = require('../src/levels/index').levelSequences;
     _.each(Object.keys(sequences), function(sequenceKey) {
       var levels = sequences[sequenceKey];
-      _.each(levels, function(levelBlob) {
+      _.each(levels, function(levelBlob, index) {
+        console.log('testing level', levelBlob.name.en_US);
         base.expectLevelSolved(levelBlob);
       });
     });

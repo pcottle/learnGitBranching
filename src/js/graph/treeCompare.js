@@ -80,7 +80,7 @@ TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
   treeB = this.convertTreeSafe(treeB);
 
   // also compare tags!! for just one level
-  return treeA.HEAD.target == treeB.HEAD.target &&
+  return treeA.HEAD.target === treeB.HEAD.target &&
     this.compareAllBranchesWithinTrees(treeA, treeB) &&
     this.compareAllTagsWithinTrees(treeA, treeB);
 };
@@ -319,9 +319,31 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
   return recurseCompare;
 };
 
+TreeCompare.lowercaseTree = function(tree) {
+  if (tree.HEAD) {
+    tree.HEAD.target = tree.HEAD.target.toLocaleLowerCase();
+  }
+
+  var branches = tree.branches;
+  tree.branches = {};
+  _.each(branches, function(obj, name) {
+    obj.id = obj.id.toLocaleLowerCase();
+    tree.branches[name.toLocaleLowerCase()] = obj;
+  });
+  return tree;
+};
+
 TreeCompare.convertTreeSafe = function(tree) {
-  if (typeof tree == 'string') {
-    return JSON.parse(unescape(tree));
+  if (typeof tree !== 'string') {
+    return tree;
+  }
+  tree = JSON.parse(unescape(tree));
+  // ok we are almost done -- but we need to case insensitive
+  // certain fields. so go ahead and do that.
+  // handle HEAD target first
+  this.lowercaseTree(tree);
+  if (tree.originTree) {
+    tree.originTree = this.lowercaseTree(tree.originTree);
   }
   return tree;
 };
