@@ -5,6 +5,9 @@ var TreeCompare = {};
 
 TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
   var goalTreeString = levelBlob.goalTreeString;
+  if (typeof treeToCompare !== 'string') {
+    console.warn('NEED to pass in string!! gah');
+  }
   return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
 };
 
