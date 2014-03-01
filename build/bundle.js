@@ -11754,6 +11754,9 @@ var TreeCompare = {};
 
 TreeCompare.dispatchFromLevel = function(levelBlob, treeToCompare) {
   var goalTreeString = levelBlob.goalTreeString;
+  if (typeof treeToCompare !== 'string') {
+    console.warn('NEED to pass in string!! gah');
+  }
   return TreeCompare.dispatch(levelBlob, goalTreeString, treeToCompare);
 };
 
@@ -13917,7 +13920,7 @@ var Level = Sandbox.extend({
       return;
     }
 
-    var current = this.mainVis.gitEngine.exportTree();
+    var current = this.mainVis.gitEngine.printTree();
     var solved = TreeCompare.dispatchFromLevel(this.level, current);
 
     if (!solved) {
