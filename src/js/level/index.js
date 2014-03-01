@@ -327,7 +327,7 @@ var Level = Sandbox.extend({
       return;
     }
 
-    var current = this.mainVis.gitEngine.exportTree();
+    var current = this.mainVis.gitEngine.printTree();
     var solved = TreeCompare.dispatchFromLevel(this.level, current);
 
     if (!solved) {
