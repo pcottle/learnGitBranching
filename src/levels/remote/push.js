@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git clone;git commit;git commit;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Git Pushin'"
+    "en_US": "Git Pushin'",
+    "zh_CN": "Git Pushin'"
   },
   "hint": {
-    "en_US": "Remember you have to clone before you can push!"
+    "en_US": "Remember you have to clone before you can push!",
+    "zh_CN": "push之前你需要先克隆."
   },
   "startDialog": {
     "en_US": {
@@ -45,6 +47,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "太棒了, 我们已经学习了从远端获取|合并工作到我们的本地工作.但是我们如果分享工作呢?",
+              "",
+              "好吧, 上载工作正好同下载工作相反, 那与`git pull`相反的命令是什么? `git push`! ",
+              "",
+              "`git push` 负责将你的提交上传到远端, 一旦`git push`完成, 你的朋友就可以在远端下载你的工作了! ",
+              "",
+              "你可以将`git push`视为发布你工作的命令. 它有一些特别的地方, 稍后我们会了解到, 我们开始吧."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "这里我们有一个变更, 而远端却没有, 我们先上传吧!"
+            ],
+            "afterMarkdowns": [
+              "到了, 远端收到的了`C2`提交, 远端的`master`分支 也被更新并指到了`C2`,我们的远端代表(o/master)也同样被更新了. 所有的东西都被同步了!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成本节, 需要向远端分享两提交. 戒骄戒躁，课程还会更难哦! "
             ]
           }
         }

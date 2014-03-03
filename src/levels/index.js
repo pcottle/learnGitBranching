@@ -85,19 +85,23 @@ var sequenceInfo = exports.sequenceInfo = {
   remote: {
     tab: 'remote',
     displayName: {
-      'en_US': 'Push & Pull -- Git Remotes!'
+      'en_US': 'Push & Pull -- Git Remotes!',
+      'zh_CN': 'Push & Pull -- Git Remotes!'
     },
     about: {
-      'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social'
+      'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
+      'zh_CN': '是时候分享你的编码了'
     }
   },
   remoteAdvanced: {
     tab: 'remote',
     displayName: {
-      'en_US': 'To Origin And Beyond -- Advanced Git Remotes!'
+      'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
+      'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令'
     },
     about: {
-      'en_US': 'And you thought being a benevolent dictator would be fun...'
+      'en_US': 'And you thought being a benevolent dictator would be fun...',
+      'zh_CN': '做一名仁慈的独裁者会很有趣..'
     }
   },
   move: {

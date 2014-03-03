@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git pull",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Git Pullin'"
+    "en_US": "Git Pullin'",
+    "zh_CN": "Git Pullin'"
   },
   "hint": {
-    "en_US": "Just run git pull!"
+    "en_US": "Just run git pull!",
+    "zh_CN": "Just run git pull!"
   },
   "startDialog": {
     "en_US": {
@@ -63,6 +65,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "现在我们已经知道了如何用`git fetch` 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.",
+              "",
+              "其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令: ",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc, etc",
+              "",
+              "实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实际两个功能的命令 -- `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "我们先顺序执行`fetch`,`merge` "
+            ],
+            "afterMarkdowns": [
+              "我们用`fetch`下载了`C3`, 然后通过`git merge o/master`合并了这一提交. 现在我们的`master`分支映射到了远端的新工作"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果使用`git pull`呢?"
+            ],
+            "afterMarkdowns": [
+              "同样的结果! 这清楚的说明了`git pull`就是git fetch再跟一个merge的缩写! "
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "稍后我们会扫一下`git pull`的细节(选项和参数), 现在我们先完成作业.",
+              "",
+              "记住, 你可以用fetch/merge 通过本节, 但是这会增加你的命令.:P"
             ]
           }
         }

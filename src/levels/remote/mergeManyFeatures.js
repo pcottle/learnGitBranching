@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git checkout master;git pull;git merge side1;git merge side2;git merge side3;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Merging with remotes"
+    "en_US": "Merging with remotes",
+    "zh_CN": "Merging with remotes"
   },
   "hint": {
-    "en_US": "Pay attention to the goal tree!"
+    "en_US": "Pay attention to the goal tree!",
+    "zh_CN": "注意目标树!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -50,6 +52,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 为何不merge?",
+              "",
+              "为了push新变更到远端，你要做的就是合并远端最新变更(使用rebase or merge). ",
+              "",
+              "所以你可以使用任意一种方法, 但为何何本节会聚焦于rebasing呢？为会不喜欢用merge 去合并remote呢？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在开发社区，有相当多的关于权衡的讨论。以下是关于rebasing的优点/缺点： ",
+              "",
+              "优点:",
+              "",
+              "* Rebase使你的提交树变得很干净, 所有的提交成了一条线: ",
+              "",
+              "缺点:",
+              "",
+              "* Rebase修改的提交树的父历史",
+              "",
+              "比如, 提交C1 可以被修订到跃过C3. 这看起来C1 是在C3 之后 (而实际上可能在C3之前) ",
+              "",
+              "一些开发者喜欢保留提交历史，更偏爱merging。而其它的人而喜欢拥有更干净的提交树，偏爱rebasing. 这些都依赖于自己的偏爱.  :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本节， 我们要解决前面的单元问题，但是要用merging。 这显得有点那个啥的，但这只是为了更好的说明这一点。 "
             ]
           }
         }

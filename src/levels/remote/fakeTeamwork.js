@@ -3,10 +3,12 @@ exports.level = {
   "solutionCommand": "git clone;git fakeTeamwork 2;git commit ;git pull",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Faking Teamwork"
+    "en_US": "Faking Teamwork",
+    "zh_CN": "Faking Teamwork"
   },
   "hint": {
-    "en_US": "remember you can specify the number of commits to fake"
+    "en_US": "remember you can specify the number of commits to fake",
+    "zh_CN": "记住为fake指定数量"
   },
   "startDialog": {
     "en_US": {
@@ -58,6 +60,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 仿真协同",
+              "",
+              "这里有一件棘手的事 -- 接下来的课程中, 我们需要教你如果从远端拉取变更",
+              "",
+              "这意味着，我们需要假装你的同事、朋友、合作伙伴已经将远端更新到最新了，这些变更有时是一个特别的分支或者确定数目的提交. ",
+              "",
+              "为了做到这点, 我们引入一个自造命令`git fakeTeamwork`. 它是自解释的, 先看演示.."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork` 默认行为就是在在远端master做一个提交."
+            ],
+            "afterMarkdowns": [
+              "成了-- 远端更新了一个新提交. 我们还没有下载它, 因为我们还没有使用`git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你可以指定提交的数量, 只需要在命令后接一个数字!"
+            ],
+            "afterMarkdowns": [
+              "通过一个命令，我们就模拟了队友push 3 个提交到远端的foo分支.  "
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "接下来的学习会相当的困难，所以在本节我们会询问你很多问题. ",
+              "",
+              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再pull一下远端. 这看起来这包含了好几节的课程.  "
             ]
           }
         }
