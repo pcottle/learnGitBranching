@@ -22562,21 +22562,25 @@ var sequenceInfo = exports.sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
-      'de_DE': 'Push & Pull -- entfernte Repositorys'
+      'de_DE': 'Push & Pull -- entfernte Repositorys',
+      'zh_CN': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
-      'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente'
+      'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
+      'zh_CN': '是时候分享你的编码了'
     }
   },
   remoteAdvanced: {
     tab: 'remote',
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
-      'de_DE': 'Bis zum origin und noch weiter'
+      'de_DE': 'Bis zum origin und noch weiter',
+      'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
+      'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'de_DE': 'Git Remotes für Fortgeschrittene'
     }
   },
@@ -25285,11 +25289,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C5\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C1\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Cherry-pick Intro",
-    "de_DE": "Einführung Cherry-picking"
+    "de_DE": "Einführung Cherry-picking",
+    "zh_CN": "Cherry-pick Intro"
   },
   "hint": {
     "en_US": "git cherry-pick followed by commit names!",
-    "de_DE": "git cherry-pick gefolgt von Commit-Namen."
+    "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
+    "zh_CN": "git cherry-pick 跟提交对句名"
   },
   "startDialog": {
     "en_US": {
@@ -25343,6 +25349,61 @@ exports.level = {
           "options": {
             "markdowns": [
               "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 转移工作区",
+              "",
+              "到现在我们已经学习了git的基础命令 -- commit, branch, checkout. 这些概念实现了git 90% 的功能, 同样也满足了开发者的主要需求 ",
+              "",
+              "然而, 剩余的10% 可能在处理复杂的工作流时(或者当你陷入困惑时), 非常的重要. 我们会在下一个概念中涉及'转移工作区', 换句话说, 这是开发者表达'我想要把这个工作放这里, 那个工作也放这里', 精确的说, 这是很灵活的方式    ",
+              "",
+              "看起来内容很多, 其实概念相当简单"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "本系列的第一个命令是`git cherry-pick`, 命令形式为: ",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "这是一种很直接的推进方式 -- 如果你想将一些提交复制到你当前的位置`HEAD`下面, 我个人喜欢`cherry-pick` 的原因是, 其概念非常简单 ",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在有一个仓库, 我们想将`side`分支下的工作复制到`master`分支, 我们可以通过`rebase`完成这一点(已经学过了哈), 但是这里我们想通过`cherry-pick`来完成."
+            ],
+            "afterMarkdowns": [
+              "这是它啦, 我们需要的是提交对象`C2` 和 `C4` ,所以 git 将被它们抓取到当前分支下了. 就是这么简单!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "请完成这节测试, 只需要简单的将分支的工作复制到 master.  如果想看我们所需要的提交对象, 你可以打开虚拟目标窗口(`show goal`)",
               ""
             ]
           }
@@ -25677,7 +25738,8 @@ exports.level = {
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
-    "de_DE": "Einführung Interactive Rebase"
+    "de_DE": "Einführung Interactive Rebase",
+    "zh_CN": "Rebase 交互命令介绍 "
   },
   "startDialog": {
     "en_US": {
@@ -25740,6 +25802,72 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "如果你知道你所需要的提交对象(相应的hash), 那用Git cherry-pick 就非常方便了 -- 很难有简单的方式了",
+              "",
+              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.",
+              "但是如果你不清楚你想要的提交对象的hash呢? 幸好git 帮你想到了这一点, 我们可以利用交互rebase -- 如果你想衍合一系列的提交, 这就是最方便的方法了",
+              "",
+              "让我们看看细节.."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "交互式rebase 指的是rebase 后跟一个参数: `-i`",
+              "",
+              "如果你包含了这个选项, git 会开启一个UI 并 展示出将要被复制到目标的提交对象, 它也会显示它们的提交hash 和 信息",
+              "",
+              "真实的git , UI 窗口指的是在类似于vim的文本编辑器中打开一个文件. 考虑到我们的目标, 我建立了一个小型的会话窗口以完成相同的事儿."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "当rebase会话窗口打开时, 你能做3件事:",
+              "",
+              "* 你可以在UI中做 提交对象的排序(在我们的窗口中, 这意味着你可以拖放完成这点)",
+              "* 你可以忽略某些提交 -- pick 会变暗",
+              "* 最后, 你可以合并提交. 遗憾的是我们的课程不支持此功能.",
+              "",
+              "好! 看看例子"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "当你点这个按钮时, 一个交互式的rebase窗口就会出现. 对提交对象做个排序, 再看看结果"
+            ],
+            "afterMarkdowns": [
+              "按照你指定的方式, git 克隆了这些提交"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成本节, 做一个交互式的rebase , 实现虚拟目标窗口中提示的提交顺序. 记住,  你随时都可以用`undo`, `reset`修复你的错误"
             ]
           }
         }
@@ -26923,11 +27051,13 @@ exports.level = {
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
-    "de_DE": "Clone Einführung"
+    "de_DE": "Clone Einführung",
+    "zh_CN": "Clone Intro"
   },
   "hint": {
     "en_US": "Just git clone!",
-    "de_DE": "Einfach git clone ausführen!"
+    "de_DE": "Einfach git clone ausführen!",
+    "zh_CN": "Just git clone!"
   },
   "startDialog": {
     "en_US": {
@@ -26982,6 +27112,62 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "远程仓库并不复杂, 在如今的云计算的世界 很容易想到 git remotes背后有很多魔幻, 但是它们只是你的仓库到另个一台计算机上的拷贝. 你可以通过因特网与这台计算机通话 -- 传递后退和前进的提交对象",
+              "",
+              "话虽如些, 远程仓库却有一系列强大的属性",
+              "",
+              "- 首先, 远仓是一个强大的备份. 本地仓库也有恢复文件的能力, 但所有的信息都是保存在本地的. 即使你丢失了本地数据, 你仍可以通过远端仓库拷贝拿回你丢失的数据  ",
+              "",
+              "- 更重要的是, 远端让代码社交化了! 现在你的项目被白拷贝到别的地方了, 你的朋友可以更容易的为你的项目做贡献(或者pull 最新的变更)",
+              "",
+              "现在使用网站来可视化远端仓库变得越发流行(像 [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), 但远库是这些工具的基石, 理解其概念非常的重要!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 我们创建远端仓库的命令",
+              "",
+              "直到现在, 教学都聚焦于本地仓库的基本操作. 但我们现在需要学习远端仓库的操作 -- 我们需要一个配置这种环境的命令, 这个命令就是 `git clone`",
+              "技术上, `git clone` 在真实的环境下, 会在本地创建一个远端仓库的拷贝(比如从github.com). 在我们的教学中使用这个命令会有一些不同 -- 它会在远端创建一个你本地的拷贝. 这和真实命令的意思相反",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们看看远端仓库的样子.",
+              ""
+            ],
+            "afterMarkdowns": [
+              "就是它了! 现在我们有了一个远端仓库. 除了视觉上的一点变化, 它们真的太像了 -- 在后面的课程中, 你会知道怎样在不同的仓库间分享工作. "
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成本节, 简单的 `git clone` 下你的仓库. 后续的课程我们会正式的学习"
             ]
           }
         }
@@ -27055,11 +27241,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Faking Teamwork",
-    "de_DE": "Teamarbeit simulieren"
+    "de_DE": "Teamarbeit simulieren",
+    "zh_CN": "Faking Teamwork"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
-    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen."
+    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "zh_CN": "记住为fake指定数量"
   },
   "startDialog": {
     "en_US": {
@@ -27111,6 +27299,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 仿真协同",
+              "",
+              "这里有一件棘手的事 -- 接下来的课程中, 我们需要教你如果从远端拉取变更",
+              "",
+              "这意味着，我们需要假装你的同事、朋友、合作伙伴已经将远端更新到最新了，这些变更有时是一个特别的分支或者确定数目的提交. ",
+              "",
+              "为了做到这点, 我们引入一个自造命令`git fakeTeamwork`. 它是自解释的, 先看演示.."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork` 默认行为就是在在远端master做一个提交."
+            ],
+            "afterMarkdowns": [
+              "成了-- 远端更新了一个新提交. 我们还没有下载它, 因为我们还没有使用`git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你可以指定提交的数量, 只需要在命令后接一个数字!"
+            ],
+            "afterMarkdowns": [
+              "通过一个命令，我们就模拟了队友push 3 个提交到远端的foo分支.  "
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "接下来的学习会相当的困难，所以在本节我们会询问你很多问题. ",
+              "",
+              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再pull一下远端. 这看起来这包含了好几节的课程.  "
             ]
           }
         }
@@ -27180,11 +27422,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Fetchin'",
-    "de_DE": "Git Fetch"
+    "de_DE": "Git Fetch",
+    "zh_CN": "Git Fetchin'"
   },
   "hint": {
     "en_US": "just run git fetch!",
-    "de_DE": "Einfach git fetch ausführen!"
+    "de_DE": "Einfach git fetch ausführen!",
+    "zh_CN": "just run git fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -27255,6 +27499,77 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish the level, simply `git fetch` and download all the commits!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "git remote可以归结为向其它仓库推送/拉取数据. 只要我们能回溯或前推提交, 我们就可以分享任何类型的被git跟踪的更新(工作, 新想法, 情书等等)",
+              "",
+              "本节课我们将学习 如何从远端仓库获取数据 -- 这个命令叫` git fetch`",
+              "",
+              "你会注意到当我们更新远端的仓库时, 我们的远端分支也会更新 并映射到最新的远端仓库."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在解释`git fetch`前, 我们看看实例. 这里我们有一个包含了两个新提交的远端仓库, 这两新提交不存在于本地"
+            ],
+            "afterMarkdowns": [
+              "就是这样了! `C2`,`C3`被下载到了本地仓库, 同时`o/master`被更新并映射到了这一变更 "
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### What fetch does",
+              "",
+              "`git fetch` 完成了两步:",
+              "",
+              "* 下载本地仓库未包含的提交对象",
+              "* 更新我们的远端分支点(如, `o/master`)",
+              "",
+              "`git fetch` 实际上将本地对远端的映射 做了同步更新",
+              "",
+              "如果你还记得之前的课程, 我们说过远端分支映射了远端仓库的状态(你最后与远端通信的那一刻), `git fetch` 是你与远端交流的方式!",
+              "",
+              "`git fetch` 通常通过互联网(像 `http://` or `git://`) 与远端仓库通信.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch 不能做的事",
+              "",
+              "`git fetch`, 不能改变你的本地状态. 你不会更新你的`master` 或者 任何与文件系统相关的东西.",
+              "",
+              "所以, 你可以将`git fetch`的执行 视为下载"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成本节, 只需用`git fetch`下载所有的提交! "
             ]
           }
         }
@@ -27343,10 +27658,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
+    "zh_CN": "Fetch arguments",
     "de_DE": "Optionen für Fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
+    "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
   },
   "startDialog": {
@@ -27468,6 +27785,130 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch arguments",
+              "",
+              "我们刚学习了git push的参数, 特别是`<place>`参数, 更特别的冒号分隔(`<source>:<destination>`). 这写参数可以用于`git fetch`吗?",
+              "",
+              "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是相反相反(因为现在你是下载 而非上传) ",
+              "",
+              "我们过一个概念.."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###  `<place>` 参数",
+              "",
+              "你可以像如下命令这样为git fetch设置<place>",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git 会来到远端的`foo`分支, 然后抓取所有不在本地的新提交, 放到本地的分支`o/foo`",
+              "",
+              "我们看看这个动作(这像是更新器) "
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "通过指定place..."
+            ],
+            "afterMarkdowns": [
+              "我们只下载更新了o/foo"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你可以想知道 -- 为何git 会将新提交压入到o/foo 而不是 压入到我本地的foo. 我想 <place>参数就是同时存在于本地和远端 的 <place> ",
+              "",
+              "好吧, 本例中git 有个特殊例外, 因为你可能位于foo 分支, 你也不想弄乱它. 这得联系之前的课程 -- 它不会更新你的本地工作, 它只是下载提交(这样, 稍后你可以检查 或者 合并之).  ",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Well in that case, what happens if I explicitly define both the source and destination with `<source>:<destination>`?\"",
+              "如果我们设定了 `<source>:<destination>`会发生什么呢?",
+              "",
+              "如果你觉得直接更新本地分支很爽, 那你就用冒号refspec吧. 不过, 你不能在检出的分支上干这个事.",
+              "",
+              "这里只有一个特点 -- `source` 是远端的位置, 而`<destination>`是要放置提交的本地位置, 这真是有趣 -- 这也是传送数据的对立方向! ",
+              "",
+              "话虽如此, 开发者很少这么做. 我已经介绍了, 概念上fetch/push很相似, 只是它们方向相反.  "
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "我们看看更疯狂的例子:"
+            ],
+            "afterMarkdowns": [
+              "哇! 看见了吧, git 将`foo~1` 解析成一个origin的位置, 然后下载到了本地`bar`. 注意foo 和 o/foo都没有得到更新 (因为我们指定了destination)."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果 destination 不存在呢? 我们看看上个幻灯片(不含bar)! "
+            ],
+            "afterMarkdowns": [
+              "看见了吧, 它就像是git push. Git会自己确立本地destination, 就像是git在push时, 会自己确立destination(如果它不存在的话)"
+            ],
+            "command": "git fetch origin foo~1",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "没有参数呢?",
+              "",
+              "如果 `git fetch` 没有参数, 它会下载所有远端分支.."
+            ],
+            "afterMarkdowns": [
+              "相当简单, 但是值得一次更新!"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好, 说得太多了! 要完成本节, 抓取可视窗口指定的提交, 使用这些魔幻的命令吧.",
+              "",
+              "使用fetch时, 你必须指定source/destination. 注意一下可视窗口, 因为提交对象的id可以会被切换哦!"
             ]
           }
         }
@@ -27606,10 +28047,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Diverged History",
+    "zh_CN": "分散的历史",
     "de_DE": "Abweichende History"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
+    "zh_CN": "检出可视化目标中的顺序",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
   },
   "startDialog": {
@@ -27746,6 +28189,149 @@ exports.level = {
               "This workflow of fetching, rebase/merging, and pushing is quite common. In future lessons we will examine more complicated versions of these workflows, but for now let's try this out.",
               "",
               "In order to solve this level, take the following steps:",
+              "",
+              "* Clone your repo",
+              "* Fake some teamwork (1 commit)",
+              "* Commit some work yourself (1 commit)",
+              "* Publish your work via *rebasing*"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 分散工作",
+              "",
+              "到现在我们已经知道了如何从其它地方`pull`,以及如果`push`我们自己的提交对象, 看起来真简单, 但是为何人们还会如此困惑呢?",
+              "",
+              "困难来自于远端库历史的分散. 在讨论这个问题的细节前, 我们看一个例子...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想象一下你周一克隆了一个仓库, 然后在一个特性分支上工作. 到周五时, 你你准备推送你的特性分支 -- 不行的! 你的同事这周写了一堆代码, 使得你的特性分支过期了. 他们已经将代码分享(合并)到远端仓库了, 所以你的工作就变成了基于仓库老版的代码了.",
+              "",
+              "这种情况下, `git push`就变得模糊了, 如果你执行`git push`, git应该让远端仓库回到星期一那天? 还是直接在新代码的基础上添加你的代码? 或者直接忽略你的提交? ",
+              "",
+              "因为这情况让问题变得模糊(因为历史的分散性)了, git 不会允许你`push`. 你只能先合并远端最新的代码, 然后才能分享你的工作."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "废话说得真多, 看看实际案例吧!"
+            ],
+            "afterMarkdowns": [
+              "看见了吧? 什么都没有变, 命令失败了! `git push`的失败是因为你最新提交了`C3`(基于远端的`C1`). 而远端已经更新到了`C2`啦, 所以git 拒绝了你的push"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你如何解决这事儿呢? 很简单, 你需要做的就是使你的工作基于最新的远端分支.",
+              "",
+              "有好些方法做到这一点呢. 不过最直接的方法就是通过rebase修订你的工作. 我们继续向前,看看这是怎么实现的!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果我们在push之前做rebase呢?"
+            ],
+            "afterMarkdowns": [
+              "轰 啊 轰! 我们用`git fetch`更新了远端在本地的副本, 然后衍合我们的工作以映射远端的新变化, 最后再`git push`"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "还有其它的方法应对此种情况吗? 当然了, 我们还可以使用`merge`",
+              "",
+              "尽管`git merge`不会转移你的工作(相反的它会创建新的合并提交), 它会告诉git 你已经合并了远端的所有变更 -- 远端分支就是你自己分支的祖先, 这意味着, 你的提交反映了远端分支的提交.",
+              "",
+              "看下演示..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "那如果我们用merge 替换rebase呢?"
+            ],
+            "afterMarkdowns": [
+              "轰哦轰! 我们用`git fetch`更新了远端副本, 然后合并了新变更到我们的工作, 最后我们用`git push`把工作推送回去."
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "漂亮! 有更简单的命令吗?",
+              "",
+              "当然 -- 就是你所知道`git pull`,  就是fetch 和merge 的简写. 更方便的 -- `git pull --rebase` 就是 fetch 和rebase的简写! ",
+              "",
+              "让我们简写命令是如何工作的."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "First with `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "跟之前结果一样, 就是简写啦."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "换用常规的`pull`"
+            ],
+            "afterMarkdowns": [
+              "还是跟以前一样! "
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "这几个命令 fetching, rebase/merging,  pushing 的工作流很普遍. 后续课程我们会讲解更复杂的工作流, 不过现在我们先尝试下吧.",
+              "",
+              "要完成本节, 你需要完成以下几步: ",
               "",
               "* Clone your repo",
               "* Fake some teamwork (1 commit)",
@@ -27909,10 +28495,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Merging with remotes",
+    "zh_CN": "Merging with remotes",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
+    "zh_CN": "注意目标树!",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
@@ -28006,6 +28594,51 @@ exports.level = {
           }
         }
       ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 为何不merge?",
+              "",
+              "为了push新变更到远端，你要做的就是合并远端最新变更(使用rebase or merge). ",
+              "",
+              "所以你可以使用任意一种方法, 但为何何本节会聚焦于rebasing呢？为会不喜欢用merge 去合并remote呢？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在开发社区，有相当多的关于权衡的讨论。以下是关于rebasing的优点/缺点： ",
+              "",
+              "优点:",
+              "",
+              "* Rebase使你的提交树变得很干净, 所有的提交成了一条线: ",
+              "",
+              "缺点:",
+              "",
+              "* Rebase修改的提交树的父历史",
+              "",
+              "比如, 提交C1 可以被修订到跃过C3. 这看起来C1 是在C3 之后 (而实际上可能在C3之前) ",
+              "",
+              "一些开发者喜欢保留提交历史，更偏爱merging。而其它的人而喜欢拥有更干净的提交树，偏爱rebasing. 这些都依赖于自己的偏爱.  :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本节， 我们要解决前面的单元问题，但是要用merging。 这显得有点那个啥的，但这只是为了更好的说明这一点。 "
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -28017,10 +28650,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Pullin'",
+    "zh_CN": "Git Pullin'",
     "de_DE": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
+    "zh_CN": "Just run git pull!",
     "de_DE": "Führe einfach git pull aus."
   },
   "startDialog": {
@@ -28078,6 +28713,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "现在我们已经知道了如何用`git fetch` 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.",
+              "",
+              "其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令: ",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc, etc",
+              "",
+              "实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实际两个功能的命令 -- `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "我们先顺序执行`fetch`,`merge` "
+            ],
+            "afterMarkdowns": [
+              "我们用`fetch`下载了`C3`, 然后通过`git merge o/master`合并了这一提交. 现在我们的`master`分支映射到了远端的新工作"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果使用`git pull`呢?"
+            ],
+            "afterMarkdowns": [
+              "同样的结果! 这清楚的说明了`git pull`就是git fetch再跟一个merge的缩写! "
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "稍后我们会扫一下`git pull`的细节(选项和参数), 现在我们先完成作业.",
+              "",
+              "记住, 你可以用fetch/merge 通过本节, 但是这会增加你的命令.:P"
             ]
           }
         }
@@ -28152,10 +28846,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Pull arguments",
+    "zh_CN": "Pull arguments",
     "de_DE": "Optionen für Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
+    "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
@@ -28228,6 +28924,82 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull 参数",
+              "",
+              "现在你知道关于fetch/push几乎所有的东西了, 不过pull也有一个\"nothing\"呢!:)",
+              "",
+              "That's because git pull at the end of the day is *really* just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with SAME arguments specified and then merging in *where* those commits ended up.",
+              "因为 git pull 就是fetch后跟merge的缩写. 我可以认为执行git fetch 用了相同的参数, 然后再merge 你所fetch的提交(commit)",
+              "",
+              "这可以和其它更复杂的参数一起使用, 看看例子:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Here are some equivalent commands in git:",
+              "以下命令在git中是等价的:",
+              "",
+              "`git pull  origin foo` is equal to:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "还有...",
+              "",
+              "`git pull  origin bar~1:bugFix` is equal to:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "看到了? git pull 实际上就是fetch + merge的缩写, git pull 在乎的是提交在哪里结束(也就是git fetch所确定的destination)",
+              "",
+              "Lets see a demo:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果我们指定要提取的<place>, 所有的事情都会跟之前一样发生, 除了merge.  "
+            ],
+            "afterMarkdowns": [
+              "看! 通过指定master 我们更新了o/master. 然后我们merge `o/master` 到我们的检出分支(当前检出的任意分支). "
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "这也适用于source / destination 吗? 当然喽, 看看吧:"
+            ],
+            "afterMarkdowns": [
+              " 哇, 这就一个命令. 我们在本地创建了一个叫foo的分支, 远端的master分支, 被下载到了本地foo分支. 然后再merge到我们的当前分支. 终于完啦!9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好啦, 做作业! 请获取虚拟目标.  你需要下载一些提交,然后创建一些新分支, 再合并这些分支到其它分支, 这花不了几个命令 :P "
             ]
           }
         }
@@ -28317,10 +29089,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Pushin'",
+    "zh_CN": "Git Pushin'",
     "de_DE": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
+    "zh_CN": "push之前你需要先克隆.",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
   },
   "startDialog": {
@@ -28360,6 +29134,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "太棒了, 我们已经学习了从远端获取|合并工作到我们的本地工作.但是我们如果分享工作呢?",
+              "",
+              "好吧, 上载工作正好同下载工作相反, 那与`git pull`相反的命令是什么? `git push`! ",
+              "",
+              "`git push` 负责将你的提交上传到远端, 一旦`git push`完成, 你的朋友就可以在远端下载你的工作了! ",
+              "",
+              "你可以将`git push`视为发布你工作的命令. 它有一些特别的地方, 稍后我们会了解到, 我们开始吧."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "这里我们有一个变更, 而远端却没有, 我们先上传吧!"
+            ],
+            "afterMarkdowns": [
+              "到了, 远端收到的了`C2`提交, 远端的`master`分支 也被更新并指到了`C2`,我们的远端代表(o/master)也同样被更新了. 所有的东西都被同步了!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成本节, 需要向远端分享两提交. 戒骄戒躁，课程还会更难哦! "
             ]
           }
         }
@@ -28419,6 +29234,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Git push arguments",
+    "zh_CN": "Git push 参数",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
@@ -28493,6 +29309,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push 参数",
+              "",
+              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
+              "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在git push/pull/fetch背后的秘密. ",
+              "",
+              "首先看看`git push`, 在远端跟踪分支中, 你学到了git 会找出要push的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为push指定参数:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
+              "`<place>` 参数意味什么呢? 我们会深入其中的细节, 先看看例子, 这个命令是:",
+              "",
+              "`git push origin master`",
+              "",
+              "* 切到master分支, 然后抓取所有的提交, 再将新提交推送到远端的master分支!",
+              "",
+              "通过指定`master`为<place>参数, 我们告诉git 提交来自于master, 要推送到远端的master. 这种使用方式基本上用于同步两仓库",
+              "",
+              "谨记, 因为我们通过指定参数告诉了git 所有的事, git 就忽略了我们所检出的分支(转而直接使用参数指定的分支作为source/destination)"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "我们看看指定参数的例子. 注意下我们当前检出的位置."
+            ],
+            "afterMarkdowns": [
+              "好了! 通过指定参数, 远端的`master` 得到了更新"
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "不指定参数会发生什么呢?"
+            ],
+            "afterMarkdowns": [
+              "命令失败了! 因为我们所check out 的HEAD没有跟踪分支.  "
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本节, 我们要更新远端的`foo`和`master`, 在本节中`git checkout` 是被禁用的!"
             ]
           }
         }
@@ -28580,10 +29468,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git push arguments -- Expanded!",
+    "zh_CN": "Git push 参数2!",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
+    "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
   },
   "startDialog": {
@@ -28650,6 +29540,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+      {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` argument details",
+              "",
+              "还记得之前课程说的吧, 当为git push 指定master为place时,我们可以设置 要提交的来源 和 提交到目的地. ",
+              "",
+              "你可能想知道-- 如果来源和目的地不一样呢?  ",
+              "",
+              "好吧, 很不幸git 不可能做到... 只是个玩笑! 当然是可能的啦:)... git拥有超强的灵活性(几乎不能再多了) ",
+              "",
+              "我们看看下一个幻灯片..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要为<place> 指定 source 和 destination, 只需要用冒号`:`将二者联结.",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "这通常被称为<colon refspec>, refspec是一个奇特的名-- 用于git 能识别的位置(比如分支foo 或者 HEAD~1) ",
+              "",
+              "一旦你指定了独立的来源和目的地, 你就可以得到花哨而精确的远程命令, 让我们看看演示! "
+            ]
+          }
+        },
+      {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "记住, `source` 是git 能理解任何位置:"
+            ],
+            "afterMarkdowns": [
+              " 这是个很迷幻的命令, 但它是合理的 --  git 将foo^解析 为位置, 上传新提交到远端的目的地.  "
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果你要push到的destination不存在呢? 没问题! git 会在远端为你创建这个分支!"
+            ],
+            "afterMarkdowns": [
+              "甜蜜吧! 干得漂亮!:D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本节练习, 试着达到可视窗口展示的目标, 记住参数格式哟:",
               "",
               "`<source>:<destination>`"
             ]
@@ -28737,10 +29697,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
     "en_US": "Remember you can always use the undo or reset commands",
+    "zh_CN": "你随时都可以使用undo/reset命令.",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
   },
   "name": {
     "en_US": "Push Master!",
+    "zh_CN": "Push Master!",
     "de_DE": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
@@ -28850,6 +29812,59 @@ exports.level = {
           }
         }
       ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 合并特性分支",
+              "",
+              "现在你应该很熟悉fetch/pull/push了, 现在我们将这些技能用于一种新的工作流.",
+              "",
+              "在一个大型项目中, 这是非常普遍的 -- 开发者在特性分支(不是`master`)上工作, 工作完成后只做一次合并. 这跟前面课程描述很相像, 不过本节我们会深入一些.",
+              "",
+              "一些开发者只在master上做push/pull —— 这样的话master总是最新的,即与远端(o/master)一致. ",
+              "",
+              "对于这样的工作流, 我们合并两个步骤",
+              "",
+              "* 合并特性分支到`master`",
+              "* 推送并更新远端"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们看看更快的推送流程 "
+            ],
+            "afterMarkdowns": [
+              "我们执行了两个命令: ",
+              "",
+              "* 将远端的新提交衍合到我们的工作中",
+              "* 向远端推送我们的工作"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本篇有点儿复杂-- 以下是问题核心",
+              "",
+              "* 这里有三个特性分支 -- `side1` `side2` and `side3`",
+              "* 我需要按顺序将这三分支推送到远端.",
+              "* 因为远端已经被更新过了, 所以我们需要先做合并!",
+              "",
+              ":O 紧张了? 祝好运! 完成了本节, 你就前进了一大步啦! "
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -28861,10 +29876,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Branches",
+    "zh_CN": "Remote Branches",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
+    "zh_CN": "Pay attention to the ordering -- commit on master first!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
   },
   "startDialog": {
@@ -28989,6 +30006,67 @@ exports.level = {
           }
         }
       ]
+    },
+   "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git 远端分支",
+              "",
+              "现在你看过`git clone`的执行了, 让我们深入下去看看发生了什么?",
+              "",
+              "第一件事, 你应该注意到在我们的本地仓库出现了一个新的分支`o/master` , 这种类型的分支叫 _remote_ branch (就叫远端分支好了), 远端分支拥有一些用于特别目的的特殊属性.",
+              "",
+              "远程分支反映了无端仓库的状态(你上次和远端仓库通信的时刻). 这会帮助你理解本地工作与公共工作的不同 -- 这是你与别人分享工作前很重要的一步.",
+              "",
+              "检出远端分支时, 有一个特别的属性 -- 你会被置于一个分离式的`HEAD`. 因为你不能在这些分支上直接操作, 你必须在别的地方完成你的工作, 再与远端分享你的工作. "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### What is `o/`?",
+              "",
+              "你可能想知道这些远端分支的头`o/` 意味着什么. 好吧, 远端分支有一个全名规范 -- 它们以这样的格式显示: ",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "提示, 如果你看到一个分支命名为`o/master`, 那分支名就是`master`, 远端的名就是 `o`. ",
+              "",
+              "大多数的开发者会将它们的远端命名为`origin`, 而非`o`. 这是如此的普遍, 以致于当你用`git clone` 时,得到的仓库名就是 `origin`",
+              "",
+              "不幸的是, 我们的UI不适用`origin`, 我们使用缩写`o`, :) 记住, 当你使用真正的git时, 你的远程仓库很可能被命名为`origin`! ",
+              "",
+              "说了这么多, 让我们看看实例."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果检出remote分支, 会发生什么呢?"
+            ],
+            "afterMarkdowns": [
+              "正如你所见, git 处于了分离`HEAD`, 当添加新的提交时, `o/master`不被更新, 这是因为`o/master` 仅伴随远端更新而更新."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "尝试完成本节, 在`master`上做一个提交, 再检出`o/master`后再做一提交. 这展示了远端分支行为上的不同, 他们的更新只是反映了远端的状态."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29001,10 +30079,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Source of nothing",
+    "zh_CN": "没有source",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
+    "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {
@@ -29056,6 +30136,60 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 奇葩的`<source>`",
+              "",
+              "Git abuses the `<source>` parameter in two weird ways. These two abuses come from the fact that you can technically specify \"nothing\" as a valid `source` for both git push and git fetch. The way you specify nothing is via an empty argument:",
+              "有两种罕见的情况, git 不需要 `<source>`. 这基于这样一个事实-- 技术上说就是你不指定<source>. 这是通过空参数实现的",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "我们看看这是怎么进行的..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果给push传一个空参数会如何呢? 远端会删除分支! "
+            ],
+            "afterMarkdowns": [
+              "就是这样子, 我们通过给push传空值source, 成功删除了远端的`foo`分支, 这真有意思..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果给fetch传空<source>, 那本地会创建一个新分支."
+            ],
+            "afterMarkdowns": [
+              "很神奇吧! 但无论怎么说, 这就是git !"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "快速测试 -- 删除远端的分支, 再在本地创建新的分支! "
             ]
           }
         }
@@ -29124,10 +30258,12 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Tracking",
+    "zh_CN": "Remote Tracking",
     "de_DE": "Remote Tracking"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
+    "zh_CN": "有两种设置无端跟踪的方法!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
   },
   "startDialog": {
@@ -29244,6 +30380,121 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Remote-Tracking branches",
+              "",
+              "在前几节课程中有件事儿挺神奇的, git 好像知道`master`与`o/master`是相关的. 当然, 这些分支的名字是相同的, 所以可能是这种逻辑连接了远端的master分支和本地的master分支, 其实这种连接在以下两种情况下清楚体现: ",
+              "",
+              "* pull操作时, 我们下载提交到o/master并且合并到本地master分支。隐含的合并目标由此连接确定.",
+              "* push操作时, 我们把工作从`master`推到远端的`master`(同时会更新远端的副本`o/master`) 这个推送的目的地也是由这种连接确定的! ",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 远端跟踪",
+              "",
+              "长话短说,  `master` 和 `o/master` 的连接关系就是 分支属性\"remote tracking\" (我们叫远端跟踪好啦). `master` 被设定为跟踪 `o/master` -- 这就是隐含的合并(merge)/推送(push)目的地.",
+              "",
+              "你可以想知道这个属性是怎么被设定的? 你并没有用命令指定过这个属性呀! 好吧, 当你克隆仓库的时候, 这个属性就存在了. ",
+              "",
+              "当你克隆时, git会创建跟踪分支(就像`o/master`), 对于每个远端分支, 创建一个跟踪远端分支的本地分支(`master`), 所以你经常会看到这个的命令输出:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\"",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 我能自己指定这个属性吗?",
+              "",
+              "当然可以啦! 你可以让做生意分支跟踪`o/master`, 然后分支就会隐含push的destination(`o/master`) 以及merge的target (`o/master`). 这意味着你可以在分支`totalllyNotMaster`上执行`git push`, 将工作推送到远端的`master`.",
+              "",
+              "有两种方法设置这个属性, 第一种就是通过远端分支检出一个新的分支, 执行: ",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "这样就创建了一个跟踪 `o/master` 的 新分支`totallyNotMaster`.  "
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "说得够多了, 我们看看演示! 我们检出一个名叫`foo`的新分支, 然后让其跟踪远端的`master`."
+            ],
+            "afterMarkdowns": [
+              "正如你所看到的, 我们使用了隐含的目标`o/master`来更新`foo`分支. 注意, master未被更新!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "git push 同样适用这一原则"
+            ],
+            "afterMarkdowns": [
+              "我们将一个不叫`master`的分支工作 推送到的远端的`master`."
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 方法#2",
+              "",
+              "另一种追踪远端分支的方法就是使用选项 : `git branch -u` . ",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "这样`foo` 就会跟踪`o/master`了. 如果你处于foo分支, 那么可以省略 foo",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "看看实际的效果..."
+            ],
+            "afterMarkdowns": [
+              "结果跟之前一样, 这个命令的意义更精确!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好了! 本节我们在不检出`master`的情况下将工作推送到的远端的`master`. 因为这是高级课程, 我会让你自己摸索出技巧! :P"
             ]
           }
         }
