@@ -7,6 +7,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Git push arguments",
+    "zh_CN": "Git push 参数",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
@@ -81,6 +82,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_CN":{
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push 参数",
+              "",
+              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
+              "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在git push/pull/fetch背后的秘密. ",
+              "",
+              "首先看看`git push`, 在远端跟踪分支中, 你学到了git 会找出要push的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为push指定参数:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
+              "`<place>` 参数意味什么呢? 我们会深入其中的细节, 先看看例子, 这个命令是:",
+              "",
+              "`git push origin master`",
+              "",
+              "* 切到master分支, 然后抓取所有的提交, 再将新提交推送到远端的master分支!",
+              "",
+              "通过指定`master`为<place>参数, 我们告诉git 提交来自于master, 要推送到远端的master. 这种使用方式基本上用于同步两仓库",
+              "",
+              "谨记, 因为我们通过指定参数告诉了git 所有的事, git 就忽略了我们所检出的分支(转而直接使用参数指定的分支作为source/destination)"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "我们看看指定参数的例子. 注意下我们当前检出的位置."
+            ],
+            "afterMarkdowns": [
+              "好了! 通过指定参数, 远端的`master` 得到了更新"
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "不指定参数会发生什么呢?"
+            ],
+            "afterMarkdowns": [
+              "命令失败了! 因为我们所check out 的HEAD没有跟踪分支.  "
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "本节, 我们要更新远端的`foo`和`master`, 在本节中`git checkout` 是被禁用的!"
             ]
           }
         }
