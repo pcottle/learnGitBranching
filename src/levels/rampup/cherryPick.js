@@ -87,7 +87,6 @@ exports.level = {
               "然而, 剩余的10% 可能在处理复杂的工作流时(或者当你陷入困惑时), 非常的重要. 我们会在下一个概念中涉及'转移工作区', 换句话说, 这是开发者表达'我想要把这个工作放这里, 那个工作也放这里', 精确的说, 这是很灵活的方式    ",
               "",
               "看起来内容很多, 其实概念相当简单"
-              "Das klingt vielleicht nach einer Menge, aber es ist sehr einfach."
             ]
           }
         },
@@ -102,8 +101,7 @@ exports.level = {
               "* `git cherry-pick <Commit1> <Commit2> <...>`",
               "",
               "这是一种很直接的推进方式 -- 如果你想将一些提交复制到你当前的位置`HEAD`下面, 我个人喜欢`cherry-pick` 的原因是, 其概念非常简单 ",
-              "",
-              "Let's see a demo!",
+              ""
             ]
           }
         },
