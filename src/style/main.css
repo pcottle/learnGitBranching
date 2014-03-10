@@ -34,7 +34,7 @@ p {
 }
 
 .githubLink {
-  z-index: 99;
+  z-index: 2;
   position: fixed;
   top: 0;
   right: 0;
@@ -224,10 +224,11 @@ body.hgMode #mainVisSpace .modeText.hgMode {
 /* Some interface things */
 
 div.canvasTerminalHolder {
-  height: 100%;
+  height: 0;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 3;
 }
 
 #canvasHolder {
@@ -254,28 +255,8 @@ body.hgMode .visBackgroundColor {
   min-height: 600px;
 }
 
-div.canvasTerminalHolder > div.terminal-window-holder {
-  margin: 100px 0;
-  height: 100%;
-  -webkit-transform: translate3d(0,0,0);
-  -moz-transform: translate3d(0,0,0);
-  -o-transform: translate3d(0,0,0);
-  -ms-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-}
-
-div.canvasTerminalHolder > div.terminal-window-holder.slideOut {
-  -webkit-transform: translate3d(-150%,0,0);
-  -moz-transform: translate3d(-150%,0,0);
-  -o-transform: translate3d(-150%,0,0);
-  -ms-transform: translate3d(-150%,0,0);
-  transform: translate3d(-150%,0,0);
-}
-
-
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
-  margin: 0 20px 0px 20px;
-  height: 80%;
+  height: 100%;
   box-shadow: 0 0 30px rgb(0,0,0);
   cursor: pointer;
   border-radius: 0 0 5px 5px;
@@ -346,6 +327,21 @@ div.toolbar.level-toolbar {
   background-image: linear-gradient(top, #B2FF2E, #8AD247);
   border-radius: 0;
   height: 50px;
+  font-size: 12px;
+}
+
+div.toolbar.level-toolbar button {
+  font-size: 12px;
+  border: 1px solid #888;
+  border-radius: 4px;
+  padding: 4px 8px;
+  background-image: -webkit-linear-gradient(top, #EFEDEE, #C1C1C1);
+}
+
+#show-goal {
+  position: absolute;
+  top: 10px;
+  left: 4px;
 }
 
 span.levelToolbarSpan {
@@ -737,6 +733,10 @@ div.modalView.box.inFront.show {
 
 .modalView.inFront {
   z-index: 100;
+}
+
+.terminal-window-holder {
+  z-index: 3;
 }
 
 .terminal-window .inside {

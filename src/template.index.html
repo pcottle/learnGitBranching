@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div id="mainVisSpace" class="box flex1 horizontal transitionAll visBackgroundColor">
+    <div id="mainVisSpace" class="box flex2 horizontal transitionAll visBackgroundColor">
       <span class="modeText transitionOpacity gitMode">
         Git
       </span>
@@ -75,6 +75,12 @@
         Hg
       </span>
     </div>
+
+    <!-- If you drag the goal window to the right side of the screen, this gets shown and causes
+         the main visualization to squeeze a bit. This way, you could have the goal window hang out
+         on the right side of the screen and still see the repo visualization. -->
+    <div id="goalPlaceholder" class="box flex1 visBackgroundColor" style="display: none;"></div>
+
   </div>
 
   <div id="canvasHolder">
@@ -138,6 +144,7 @@
   <script type="text/html" id="level-toolbar-template">
     <div class="toolbar level-toolbar box vertical center transitionAll hidden">
       <div>
+        <button id="show-goal" type="button">Show Goal</button>
         <i class="icon-bolt"></i>
           Level
             <span class="levelToolbarSpan">
