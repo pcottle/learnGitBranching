@@ -361,8 +361,8 @@ div.toolbar div.levelNameWrapper {
   text-align: center;
   position: relative;
   top: 5px;
-  margin-right: 23%;
-  margin-left: 90px;
+  margin: 0 100px;
+  padding-bottom: 10px;
 }
 
 span.levelToolbarSpan {
