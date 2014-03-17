@@ -195,7 +195,7 @@ var Level = Sandbox.extend({
     // repo visualization a bit to make room. This way, you could have the goal window hang out on
     // the right side of the screen and still see the repo visualization.
     this.goalVis.customEvents.on('drag', _.bind(function(event, ui) {
-      if (ui.position.left > 0.5*$(window).width()) {
+      if (ui.position.left > 0.5 * $(window).width()) {
         if (!$('#goalPlaceholder').is(':visible')) {
           $('#goalPlaceholder').show();
           this.mainVis.myResize();
@@ -216,6 +216,10 @@ var Level = Sandbox.extend({
     this.goalWindowPos = position;
     this.goalWindowSize = size;
     this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
+    if ($('#goalPlaceholder').is(':visible')) {
+      $('#goalPlaceholder').hide();
+      this.mainVis.myResize();
+    }
   },
 
   resizeGoal: function () {
@@ -275,6 +279,11 @@ var Level = Sandbox.extend({
   showGoal: function(command, defer) {
     this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
     this.levelToolbar.$goalButton.text(intl.str('hide-goal-button'));
+    // show the squeezer again we are to the side
+    if ($(this.goalVis.el).offset().left > 0.5 * $(window).width()) {
+      $('#goalPlaceholder').show();
+      this.mainVis.myResize();
+    }
   },
 
   showSideVis: function(command, defer, canvasHolder, initMethod) {
