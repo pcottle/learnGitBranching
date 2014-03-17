@@ -579,6 +579,16 @@ exports.strings = {
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'show-goal-button': {
+    '__desc__': 'button label to show goal',
+    'en_US': 'Show Goal'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hide-goal-button': {
+    '__desc__': 'button label to hide goal',
+    'en_US': 'Hide Goal'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
     'en_US': 'Goal To Reach',

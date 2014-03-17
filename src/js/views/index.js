@@ -558,12 +558,20 @@ var LevelToolbar = BaseView.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.parent = options.parent;
     this.JSON = {
       name: options.name || 'Some level! (unknown name)'
     };
 
     this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
     this.render();
+
+    this.$goalButton = this.$el.find('#show-goal');
+
+    var parent = this.parent;
+    this.$goalButton.on('click', function () {
+      parent.trigger('toggleGoal');
+    });
 
     if (!options.wait) {
       process.nextTick(_.bind(this.show, this));
@@ -840,6 +848,8 @@ var CanvasTerminalHolder = BaseView.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.parent = options.parent;
+    this.minHeight = options.minHeight || 200;
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
@@ -848,6 +858,19 @@ var CanvasTerminalHolder = BaseView.extend({
 
     this.render();
     this.inDom = true;
+
+    this.$terminal = this.$el.find('.terminal-window-holder').first();
+    this.$terminal.height(0.8 * $(window).height());
+    this.$terminal.draggable({
+      cursor: 'move',
+      handle: '.toolbar',
+      containment: '#interfaceWrapper',
+      scroll: false
+    });
+
+    // If the entire window gets resized such that the terminal is outside the view, then
+    // move it back into the view, and expand/shrink it vertically as necessary.
+    $(window).on('resize', _.debounce(_.bind(this.recalcLayout, this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -861,7 +884,7 @@ var CanvasTerminalHolder = BaseView.extend({
   },
 
   die: function() {
-    this.slideOut();
+    this.minimize();
     this.inDom = false;
 
     setTimeout(_.bind(function() {
@@ -869,16 +892,79 @@ var CanvasTerminalHolder = BaseView.extend({
     }, this), this.getAnimationTime());
   },
 
-  slideOut: function() {
-    this.slideToggle(true);
+  minimize: function() {
+    this.parent.trigger('minimizeCanvas', {
+      left: this.$terminal.css('left'),
+      top: this.$terminal.css('top')
+    }, {
+      width: this.$terminal.css('width'),
+      height: this.$terminal.css('height')
+    });
+
+    this.$terminal.animate({
+      height: '0px',
+      opacity: 0
+    }, this.getAnimationTime());
   },
 
-  slideIn: function() {
-    this.slideToggle(false);
+  restore: function (pos, size) {
+    var self = this;
+    pos = pos || { top: this.$terminal.css('top'), left: this.$terminal.css('left') };
+    size = size || { width: this.$terminal.css('width'), height: this.$terminal.css('height') };
+
+    this.$terminal.css({
+      top: pos.top,
+      left: pos.left,
+      width: size.width,
+      height: '0px',
+      opacity: '0'
+    });
+
+    this.$terminal.animate({
+      height: size.height,
+      opacity: 1
+    }, this.getAnimationTime(), function() {
+        self.recalcLayout();
+    });
   },
 
-  slideToggle: function(value) {
-    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
+  recalcLayout: function () {
+    // Resize/reposition self based on the size of the browser window.
+
+    var parent = this.parent,
+        leftOffset = 0,
+        topOffset = 0,
+        heightOffset = 0,
+        width = this.$terminal.outerWidth(),
+        height = this.$terminal.outerHeight(),
+        left = this.$terminal.offset().left,
+        top = this.$terminal.offset().top,
+        right = ($(window).width() - (left + width)),
+        bottom = ($(window).height() - (top + height)),
+        minHeight = 0.75 * $(window).height(),
+        maxHeight = 0.95 * $(window).height();
+
+    // Calculate offsets
+    if (top < 0) { topOffset = -top; }
+    if (left < 0) { leftOffset = -left; }
+    if (right < 0) { leftOffset = right; }
+    if (bottom < 0) { topOffset = bottom; }
+    if (height < minHeight) { heightOffset = minHeight - height; }
+    if (height > maxHeight) { heightOffset = maxHeight - height; }
+
+    // Establish limits
+    left = Math.max(left + leftOffset, 0);
+    top = Math.max(top + topOffset, 0);
+    height = Math.max(height + heightOffset, minHeight);
+
+    // Set the new position/size
+    this.$terminal.animate({
+      left: left + 'px',
+      top: top + 'px',
+      height: height + 'px'
+    }, this.getAnimationTime(), function () {
+        parent.trigger('resizeCanvas');
+    });
   },
 
   getCanvasLocation: function() {
