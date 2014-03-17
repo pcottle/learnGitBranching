@@ -215,7 +215,7 @@ var Level = Sandbox.extend({
     this.goalVis.hide();
     this.goalWindowPos = position;
     this.goalWindowSize = size;
-    this.levelToolbar.$goalButton.text('Show Goal');
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
   },
 
   resizeGoal: function () {
@@ -274,7 +274,7 @@ var Level = Sandbox.extend({
 
   showGoal: function(command, defer) {
     this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
-    this.levelToolbar.$goalButton.text('Hide Goal');
+    this.levelToolbar.$goalButton.text(intl.str('hide-goal-button'));
   },
 
   showSideVis: function(command, defer, canvasHolder, initMethod) {
@@ -291,7 +291,7 @@ var Level = Sandbox.extend({
 
   hideGoal: function(command, defer) {
     this.hideSideVis(command, defer, this.goalCanvasHolder);
-    this.levelToolbar.$goalButton.text('Show Goal');
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
   },
 
   hideSideVis: function(command, defer, canvasHolder, vis) {
