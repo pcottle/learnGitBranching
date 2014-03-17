@@ -12936,6 +12936,16 @@ exports.strings = {
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'show-goal-button': {
+    '__desc__': 'button label to show goal',
+    'en_US': 'Show Goal'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'hide-goal-button': {
+    '__desc__': 'button label to hide goal',
+    'en_US': 'Hide Goal'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
     'en_US': 'Goal To Reach',
@@ -13643,6 +13653,9 @@ var Level = Sandbox.extend({
 
     this.initGoalData(options);
     this.initName(options);
+    this.on('toggleGoal', this.toggleGoal);
+    this.on('minimizeCanvas', this.minimizeGoal);
+    this.on('resizeCanvas', this.resizeGoal);
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
@@ -13721,7 +13734,8 @@ var Level = Sandbox.extend({
     var name = intl.getName(this.level);
 
     this.levelToolbar = new LevelToolbar({
-      name: name
+      name: name,
+      parent: this
     });
   },
 
@@ -13763,7 +13777,8 @@ var Level = Sandbox.extend({
     var onlyMaster = TreeCompare.onlyMasterCompared(this.level);
     // first we make the goal visualization holder
     this.goalCanvasHolder = new CanvasTerminalHolder({
-      text: (onlyMaster) ? intl.str('goal-only-master') : undefined
+      text: (onlyMaster) ? intl.str('goal-only-master') : undefined,
+      parent: this
     });
 
     // then we make a visualization. the "el" here is the element to
@@ -13778,7 +13793,40 @@ var Level = Sandbox.extend({
       levelBlob: this.level,
       noClick: true
     });
+
+    // If the goal visualization gets dragged to the right side of the screen, then squeeze the main
+    // repo visualization a bit to make room. This way, you could have the goal window hang out on
+    // the right side of the screen and still see the repo visualization.
+    this.goalVis.customEvents.on('drag', _.bind(function(event, ui) {
+      if (ui.position.left > 0.5 * $(window).width()) {
+        if (!$('#goalPlaceholder').is(':visible')) {
+          $('#goalPlaceholder').show();
+          this.mainVis.myResize();
+        }
+      } else {
+        if ($('#goalPlaceholder').is(':visible')) {
+          $('#goalPlaceholder').hide();
+          this.mainVis.myResize();
+        }
+      }
+    }, this));
+
     return this.goalCanvasHolder;
+  },
+
+  minimizeGoal: function (position, size) {
+    this.goalVis.hide();
+    this.goalWindowPos = position;
+    this.goalWindowSize = size;
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
+    if ($('#goalPlaceholder').is(':visible')) {
+      $('#goalPlaceholder').hide();
+      this.mainVis.myResize();
+    }
+  },
+
+  resizeGoal: function () {
+    this.goalVis.myResize();
   },
 
   showSolution: function(command, deferred) {
@@ -13823,8 +13871,22 @@ var Level = Sandbox.extend({
     });
   },
 
+  toggleGoal: function () {
+    if (this.goalCanvasHolder && this.goalCanvasHolder.inDom) {
+      this.hideGoal();
+    } else {
+      this.showGoal();
+    }
+  },
+
   showGoal: function(command, defer) {
     this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
+    this.levelToolbar.$goalButton.text(intl.str('hide-goal-button'));
+    // show the squeezer again we are to the side
+    if ($(this.goalVis.el).offset().left > 0.5 * $(window).width()) {
+      $('#goalPlaceholder').show();
+      this.mainVis.myResize();
+    }
   },
 
   showSideVis: function(command, defer, canvasHolder, initMethod) {
@@ -13835,12 +13897,13 @@ var Level = Sandbox.extend({
       canvasHolder = initMethod.apply(this);
     }
 
-    canvasHolder.slideIn();
+    canvasHolder.restore(this.goalWindowPos, this.goalWindowSize);
     setTimeout(safeFinish, canvasHolder.getAnimationTime());
   },
 
   hideGoal: function(command, defer) {
     this.hideSideVis(command, defer, this.goalCanvasHolder);
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
   },
 
   hideSideVis: function(command, defer, canvasHolder, vis) {
@@ -17696,12 +17759,20 @@ var LevelToolbar = BaseView.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.parent = options.parent;
     this.JSON = {
       name: options.name || 'Some level! (unknown name)'
     };
 
     this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
     this.render();
+
+    this.$goalButton = this.$el.find('#show-goal');
+
+    var parent = this.parent;
+    this.$goalButton.on('click', function () {
+      parent.trigger('toggleGoal');
+    });
 
     if (!options.wait) {
       process.nextTick(_.bind(this.show, this));
@@ -17978,6 +18049,8 @@ var CanvasTerminalHolder = BaseView.extend({
 
   initialize: function(options) {
     options = options || {};
+    this.parent = options.parent;
+    this.minHeight = options.minHeight || 200;
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
@@ -17986,6 +18059,19 @@ var CanvasTerminalHolder = BaseView.extend({
 
     this.render();
     this.inDom = true;
+
+    this.$terminal = this.$el.find('.terminal-window-holder').first();
+    this.$terminal.height(0.8 * $(window).height());
+    this.$terminal.draggable({
+      cursor: 'move',
+      handle: '.toolbar',
+      containment: '#interfaceWrapper',
+      scroll: false
+    });
+
+    // If the entire window gets resized such that the terminal is outside the view, then
+    // move it back into the view, and expand/shrink it vertically as necessary.
+    $(window).on('resize', _.debounce(_.bind(this.recalcLayout, this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -17999,7 +18085,7 @@ var CanvasTerminalHolder = BaseView.extend({
   },
 
   die: function() {
-    this.slideOut();
+    this.minimize();
     this.inDom = false;
 
     setTimeout(_.bind(function() {
@@ -18007,16 +18093,79 @@ var CanvasTerminalHolder = BaseView.extend({
     }, this), this.getAnimationTime());
   },
 
-  slideOut: function() {
-    this.slideToggle(true);
+  minimize: function() {
+    this.parent.trigger('minimizeCanvas', {
+      left: this.$terminal.css('left'),
+      top: this.$terminal.css('top')
+    }, {
+      width: this.$terminal.css('width'),
+      height: this.$terminal.css('height')
+    });
+
+    this.$terminal.animate({
+      height: '0px',
+      opacity: 0
+    }, this.getAnimationTime());
   },
 
-  slideIn: function() {
-    this.slideToggle(false);
+  restore: function (pos, size) {
+    var self = this;
+    pos = pos || { top: this.$terminal.css('top'), left: this.$terminal.css('left') };
+    size = size || { width: this.$terminal.css('width'), height: this.$terminal.css('height') };
+
+    this.$terminal.css({
+      top: pos.top,
+      left: pos.left,
+      width: size.width,
+      height: '0px',
+      opacity: '0'
+    });
+
+    this.$terminal.animate({
+      height: size.height,
+      opacity: 1
+    }, this.getAnimationTime(), function() {
+        self.recalcLayout();
+    });
   },
 
-  slideToggle: function(value) {
-    this.$('div.terminal-window-holder').toggleClass('slideOut', value);
+  recalcLayout: function () {
+    // Resize/reposition self based on the size of the browser window.
+
+    var parent = this.parent,
+        leftOffset = 0,
+        topOffset = 0,
+        heightOffset = 0,
+        width = this.$terminal.outerWidth(),
+        height = this.$terminal.outerHeight(),
+        left = this.$terminal.offset().left,
+        top = this.$terminal.offset().top,
+        right = ($(window).width() - (left + width)),
+        bottom = ($(window).height() - (top + height)),
+        minHeight = 0.75 * $(window).height(),
+        maxHeight = 0.95 * $(window).height();
+
+    // Calculate offsets
+    if (top < 0) { topOffset = -top; }
+    if (left < 0) { leftOffset = -left; }
+    if (right < 0) { leftOffset = right; }
+    if (bottom < 0) { topOffset = bottom; }
+    if (height < minHeight) { heightOffset = minHeight - height; }
+    if (height > maxHeight) { heightOffset = maxHeight - height; }
+
+    // Establish limits
+    left = Math.max(left + leftOffset, 0);
+    top = Math.max(top + topOffset, 0);
+    height = Math.max(height + heightOffset, minHeight);
+
+    // Set the new position/size
+    this.$terminal.animate({
+      left: left + 'px',
+      top: top + 'px',
+      height: height + 'px'
+    }, this.getAnimationTime(), function () {
+        parent.trigger('resizeCanvas');
+    });
   },
 
   getCanvasLocation: function() {
@@ -21983,6 +22132,13 @@ var Visualization = Backbone.View.extend({
       this.myResize();
     }, this));
 
+    // If the visualization is within a draggable container, we need to update the
+    // position whenever the container is moved.
+    this.$el.parents('.ui-draggable').on('drag', _.bind(function(event, ui) {
+      this.customEvents.trigger('drag', event, ui);
+      this.myResize();
+    }, this));
+
     this.gitVisuals.drawTreeFirstTime();
     if (this.treeString) {
       this.gitEngine.loadTreeFromString(this.treeString);
@@ -22091,12 +22247,14 @@ var Visualization = Backbone.View.extend({
     $(this.paper.canvas).css('visibility', 'visible');
     setTimeout(_.bind(this.fadeTreeIn, this), 10);
     this.originToo('show', arguments);
+    this.myResize();
   },
 
   showHarsh: function() {
     $(this.paper.canvas).css('visibility', 'visible');
     this.setTreeOpacity(1);
     this.originToo('showHarsh', arguments);
+    this.myResize();
   },
 
   resetFromThisTreeNow: function(treeString) {
@@ -22166,8 +22324,8 @@ var Visualization = Backbone.View.extend({
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
     if (!this.containerElement) {
-      var left = el.offsetLeft;
-      var top = el.offsetTop;
+      var left = this.$el.offset().left;
+      var top = this.$el.offset().top;
 
       $(this.paper.canvas).css({
         position: 'absolute',
@@ -22183,6 +22341,7 @@ var Visualization = Backbone.View.extend({
 
     this.paper.setSize(width, height);
     this.gitVisuals.canvasResize(width, height);
+    this.originToo('myResize', arguments);
   }
 });
 
@@ -30615,4 +30774,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,77])
