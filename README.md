@@ -106,6 +106,7 @@ And the following heroes for assisting in translating:
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
+* Sergey Krilov -- Draggable windows!
 * Aaron Schrab - 5x!!
 * Stephen Cavaliere
 * Andrew Ardill
