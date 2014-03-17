@@ -297,7 +297,6 @@ div.canvasTerminalHolder > div.terminal-window-holder {
 }
 
 /* Toolbar */
-
 div.toolbar {
   /* borrowed from try.github.com along with a bunch of other things */
   background-image: -webkit-linear-gradient(top, #EFEDEE, #C1C1C1);
@@ -326,7 +325,7 @@ div.toolbar.level-toolbar {
   background-image: -ms-linear-gradient(top, #B2FF2E, #8AD247);
   background-image: linear-gradient(top, #B2FF2E, #8AD247);
   border-radius: 0;
-  height: 50px;
+  height: inherit;
   font-size: 12px;
 }
 
@@ -338,10 +337,32 @@ div.toolbar.level-toolbar button {
   background-image: -webkit-linear-gradient(top, #EFEDEE, #C1C1C1);
 }
 
-#show-goal {
-  position: absolute;
-  top: 10px;
-  left: 4px;
+div.toolbar div.clearfix {
+  zoom: 1;
+  margin: 10px 0;
+}
+
+div.toolbar div.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+}
+
+div.toolbar div.showGoalWrapper {
+  float: left;
+  margin-left: 6px;
+}
+
+div.toolbar div.levelNameWrapper {
+  text-align: center;
+  position: relative;
+  top: 5px;
+  margin-right: 23%;
+  margin-left: 90px;
 }
 
 span.levelToolbarSpan {
