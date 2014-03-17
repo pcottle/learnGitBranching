@@ -923,7 +923,7 @@ var CanvasTerminalHolder = BaseView.extend({
     this.$terminal.animate({
       height: size.height,
       opacity: 1
-    }, this.getAnimationTime(), function () {
+    }, this.getAnimationTime(), function() {
         self.recalcLayout();
     });
   },
