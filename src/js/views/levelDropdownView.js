@@ -89,6 +89,7 @@ var LevelDropdownView = ContainedBase.extend({
     if (id === this.JSON.selectedTab) {
       return;
     }
+    this.selectedTab = id;
     this.updateTabTo(id);
   },
 
