@@ -283,6 +283,7 @@ var Visualization = Backbone.View.extend({
 
     this.paper.setSize(width, height);
     this.gitVisuals.canvasResize(width, height);
+    this.originToo('myResize', arguments);
   }
 });
 
