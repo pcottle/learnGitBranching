@@ -11,7 +11,7 @@ exports.level = {
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
-    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
+    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。"
   },
   "startDialog": {

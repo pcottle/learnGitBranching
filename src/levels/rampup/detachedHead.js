@@ -5,13 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "zh_CN": "分离HEAD",
-    "zh_TW": "分離HEAD"
-    "de_DE": "Den Kopf abtrennen",
+    "zh_TW": "分離HEAD",
+    "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
-    "zh_TW": "使用 commit 上的標籤（hash）來幫助你！"
+    "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {

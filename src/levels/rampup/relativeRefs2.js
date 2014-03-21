@@ -5,13 +5,13 @@ exports.level = {
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
-    "zh_TW": "這一關至少要用到一次直接參考（hash）"
-    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
+    "zh_TW": "這一關至少要用到一次直接參考（hash）",
+    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
-    "zh_CN": "相对引用2(~)"
+    "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
   "startDialog": {

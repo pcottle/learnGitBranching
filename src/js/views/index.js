@@ -739,7 +739,7 @@ var IntlHelperBar = HelperBar.extend({
     this.hide();
   },
 
-  onChineseClick: function() {
+  onSimpchineseClick: function() {
     this.fireCommand('locale zh_CN; levels');
     this.hide();
   },

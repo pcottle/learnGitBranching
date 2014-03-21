@@ -5,13 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Relative Refs (^)",
     "zh_CN": "相对引用(^)",
-    "zh_TW": "相對引用（^）"
-    "de_DE": "Relative Referenzen (^)",
+    "zh_TW": "相對引用（^）",
+    "de_DE": "Relative Referenzen (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "de_DE": "Denk an den Dach-Operator (^)!",
-    "zh_CN": "记住插入(^)操作符!"
+    "zh_CN": "记住插入(^)操作符!",
     "zh_TW": "不要忘記插入（^） 符號!"
   },
   "startDialog": {
