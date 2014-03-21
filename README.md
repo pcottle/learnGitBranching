@@ -103,6 +103,7 @@ And the following heroes for assisting in translating:
 * Joël Thieffry
 * Jens Bremmekamp ("nem75")
 * "hilojack"
+* Ming-Hsuan-Tu ("twmht")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
