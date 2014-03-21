@@ -7110,6 +7110,16 @@ exports.dialog = {
       ]
     }
   }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 確定偷看解答嗎？',
+        '',
+        '我相信你！你可以的'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {
@@ -7182,6 +7192,25 @@ exports.dialog = {
       ]
     }
   }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 歡迎使用關卡編輯器！',
+        '',
+        '主要步驟如下：',
+        '',
+        '  * 使用 git 指令建立初始環境',
+        '  * 使用 ```define start``` 指令定義起始樹',
+        '  * 輸入一系列 git 命令，編好答案',
+        '  * 使用 ```define goal``` 指令定義目標樹。定義目標的同時定義答案',
+        '  * 還可以用 ```define hint``` 指令定義一個提示',
+        '  * 用 ```define name``` 修改名稱',
+        '  * 還可以用 ```edit dialog``` 定義一個漂亮的開始對話視窗',
+        '  * 輸入 ```finish``` 即可將您的關卡輸出為 JSON！'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {
@@ -7245,6 +7274,17 @@ exports.dialog = {
         '## 碉堡了！',
         '',
         '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
+      ]
+    }
+  }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 太棒了！',
+        '',
+        '您用了 *{numCommands}* 個指令完成這一關，',
+        '我們的解答用了 {best} 個。'
       ]
     }
   }],
@@ -7476,6 +7516,58 @@ exports.dialog = {
         '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
         '',
         '言归正传，让我们先从 `levels` 开始……'
+      ]
+    }
+  }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 歡迎光臨 LearnGitBranching!',
+        '',
+        '本應用旨在幫助初學者領會 git 分支背後的強大概念。',
+        '希望你能喜歡这个應用，並學到知識！',
+        '',
+        '# 演示!',
+        '',
+        '如果你還沒看過演示，請到此查看：',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        '厭煩這個對話視窗嗎？在 URL 後頭加上 `?NODEMO` 就看不到它了，也可以直接點下邊這個連結：',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Git 命令',
+        '',
+        '在沙盒模式中，你有好多指令可用。 包括：',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 分享即關懷',
+        '',
+        '使用 `export tree` 和 `import tree` 與朋友分享 Git 樹',
+        '',
+        '有個好課程可以分享？試試用 `build level` 創建一個關卡，或者 `import level` 試試朋友的。',
+        '',
+        '言歸正傳，讓我們先從 `levels` 開始……'
       ]
     }
   }],
@@ -12363,6 +12455,7 @@ exports.strings = {
     'en_US': 'Wow! You finished the last level, great!',
     'de_DE': 'Wow! Du hast den letzten Level gelöst, super!',
     'zh_CN': '我的个天！你完成了最后一关，碉堡了！',
+    'zh_TW': '我的天啊！您解開了最後一關，太強了！',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12372,6 +12465,7 @@ exports.strings = {
     'de_DE': 'Möchtest du mit *"{nextLevel}"* weitermachen, dem nächsten Level?',
     'ja': '次の章 *"{nextLevel}"* へ進みますか？',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？',
+    'zh_TW': '下一關是*「{nextLevel}」*，您要繼續闖關嗎？',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12381,6 +12475,7 @@ exports.strings = {
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
     'ja': '素晴らしい！このレベルをクリアしましたね。',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
+    'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12390,6 +12485,7 @@ exports.strings = {
     'de_DE': 'Schau mal ob du es in {best} Schritten hinbekommst :D',
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
     'zh_CN': '试试看你能否在 {best} 之内搞定 :D',
+    'zh_TW': '試試看您是否能在 {best} 步内搞定 :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12428,6 +12524,7 @@ exports.strings = {
     'en_US': 'Detached head!',
     'de_DE': 'Detached head!',
     'zh_CN': '脑袋搬家（Detached head）了！',
+    'zh_TW': '腦袋搬家（Detached head）了！',
     'fr_FR': 'head détaché !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12436,6 +12533,7 @@ exports.strings = {
     'en_US': 'On branch {branch}',
     'de_DE': 'Auf Branch {branch}',
     'zh_CN': '切换到分支 {branch}',
+    'zh_TW': '切換到分支 {branch}',
     'fr_FR': 'Sur la branche {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12444,6 +12542,7 @@ exports.strings = {
     'en_US': 'Ready to commit! (as always in this demo)',
     'de_DE': 'Fertig zum committen! (Wie immer in dieser Demo)',
     'zh_CN': '可以提交啦！（这演示里一直可以提交）',
+    'zh_TW': '可以提交啦！（這演示裡一直可以提交）',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12453,6 +12552,7 @@ exports.strings = {
     'en_US': 'Quick commit. Go Bears!',
     'de_DE': 'Schneller Commit. Eff-Zeh!',
     'zh_CN': '快速提交。上啊月熊！',
+    'zh_TW': '快速提交。上啊月熊！',
     'fr_FR': 'Commit rapide. NoMaN Sux!'
   },
   'git-error-origin-fetch-uptodate': {
@@ -12498,6 +12598,7 @@ exports.strings = {
       'aren\'t branches',
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
     'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
+    'zh_TW': '你不能刪除主分支（master），或者你當前所在的分支，或者其他不是分支也不知道能不能吃的東西。',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12506,6 +12607,7 @@ exports.strings = {
     'en_US': 'Merge {target} into {current}',
     'de_DE': 'Mergen von {target} in {current}',
     'zh_CN': '合并 {target} 到 {current}',
+    'zh_TW': '將 {target} 併入 {current}',
     'fr_FR': 'Merge de {target} dans {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12514,6 +12616,7 @@ exports.strings = {
     'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
     'de_DE': 'Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen',
     'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
+    'zh_TW': '沒有需要 rebase 的提交！每份提交皆已合併或套用變更了',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12522,6 +12625,7 @@ exports.strings = {
     'en_US': 'Nothing to do...',
     'de_DE': 'Nichts zu tun ...',
     'zh_CN': '没啥鸟事……',
+    'zh_TW': '沒啥鳥事……',
     'fr_FR': 'Rien à effectuer…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12530,6 +12634,7 @@ exports.strings = {
     'en_US': 'Fast forwarding...',
     'de_DE': 'Fast forward...',
     'zh_CN': '快速前进……',
+    'zh_TW': '快速前進……',
     'fr_FR': 'En avance rapide…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12538,6 +12643,7 @@ exports.strings = {
     'en_US': 'Branch already up-to-date',
     'de_DE': 'Branch ist bereits aktuell',
     'zh_CN': '分支已经是最新啦',
+    'zh_TW': '分支已經是最新啦',
     'fr_FR': 'Branche déjà à jour'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12546,6 +12652,7 @@ exports.strings = {
     'en_US': 'The ref {ref} does not exist or is unknown',
     'de_DE': 'Die Ref {ref} existiert nicht oder ist unbekannt',
     'zh_CN': '索引 {ref} 不存在，或者找不到。',
+    'zh_TW': '索引 {ref} 不存在，或者找不到。',
     'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12554,6 +12661,7 @@ exports.strings = {
     'en_US': 'Commit {commit} doesnot have a {match}',
     'de_DE': 'Commit {commit} hat kein {match}',
     'zh_CN': '提交 {commit} 并没有 {match}',
+    'zh_TW': '提交 {commit} 並没有 {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12562,6 +12670,7 @@ exports.strings = {
     'en_US': 'Warning!! Detached HEAD state',
     'de_DE': 'Achtung! Detached HEAD Zustand',
     'zh_CN': '警告！脑袋搬家（Detached HEAD）状态',
+    'zh_TW': '警告！腦袋搬家（Detached HEAD）狀態',
     'fr_FR': 'Attention ! HEAD est détaché'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12570,6 +12679,7 @@ exports.strings = {
     'en_US': 'No need to add files in this demo',
     'de_DE': 'In dieser Demo müssen keine Dateien hinzugefügt werden',
     'zh_CN': '此演示中不需要添加文件',
+    'zh_TW': '此演示中不需要添加文件',
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12578,6 +12688,7 @@ exports.strings = {
     'en_US': 'Those options you specified are incompatible or incorrect',
     'de_DE': 'Die angegebenen Optionen sind inkompatibel oder falsch',
     'zh_CN': '你所指定的参数不兼容或者不准确',
+    'zh_TW': '您指定了不相容或錯誤的選項',
     'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12586,6 +12697,7 @@ exports.strings = {
     'en_US': 'The commit {commit} already exists in your changes set, aborting!',
     'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
     'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！',
+    'zh_TW': '提交 {commit} 已經存在於你的改動集裡，正在中止！',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12594,6 +12706,7 @@ exports.strings = {
     'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
     'de_DE': 'Kann im Detached Head Zustand kein reset ausführen! Bitte checkout zum Bewegen benutzen',
     'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧',
+    'zh_TW': '不能在分離的 HEAD 裡重置！用 checkout 吧',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12602,6 +12715,7 @@ exports.strings = {
     'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
     'de_DE': 'Das Standardverhalten in dieser Demo ist --hard, du kannst die Option auch weglassen!',
     'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！',
+    'zh_TW': '默認的行為是 --hard 硬重置，盡管省略掉那個選項吧！',
     'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12611,6 +12725,7 @@ exports.strings = {
       'command is invalid!',
     'de_DE': 'In dieser Demo gibt es kein Hinzufügen / Vormerken von Dateien, dieser Befehl ist daher ungültig!',
     'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。',
+    'zh_TW': '沒有添加、緩存文件的必要，所以改選項或者命令是不合法的。',
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12619,6 +12734,7 @@ exports.strings = {
     'en_US': 'Reverting {oldCommit}: {oldMsg}',
     'de_DE': 'Reverte {oldCommit}: {oldMsg}',
     'zh_CN': '撤销 {oldCommit}：{oldMsg}',
+    'zh_TW': '還原 {oldCommit}：{oldMsg}',
     'fr_FR': 'Revert {oldCommit}: {oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12627,6 +12743,7 @@ exports.strings = {
     'en_US': 'I expect at most {upper} argument(s) for {what}',
     'de_DE': 'Ich benötige maximal {upper} Argument(e) für {what}',
     'zh_CN': '{what} 期望最多 {upper} 个参数',
+    'zh_TW': '{what} 期望最多 {upper} 個參數',
     'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12635,6 +12752,7 @@ exports.strings = {
     'en_US': 'I expect at least {lower} argument(s) for {what}',
     'de_DE': 'Ich benötige mindestens {lower} Argument(e) für {what}',
     'zh_CN': '{what} 期望最少 {lower} 个参数',
+    'zh_TW': '{what} 期望最少 {lower} 個參數',
     'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12643,6 +12761,7 @@ exports.strings = {
     'en_US': 'That command accepts no general arguments',
     'de_DE': 'Dieser Befehl akzeptiert keine allgemeinen Argumente',
     'zh_CN': '该命令不接收参数',
+    'zh_TW': '該指令不接受一般參數',
     'fr_FR': 'Cette commande n\'accepte aucun argument général'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12651,6 +12770,7 @@ exports.strings = {
     'en_US': 'Copy the tree string below',
     'de_DE': 'Kopiere die folgende Baum-Zeichenkette',
     'zh_CN': '拷贝下面的树字符串',
+    'zh_TW': '複製下方的樹狀字串',
     'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12661,6 +12781,7 @@ exports.strings = {
     'ja': '日本語版リポジトリ',
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支',
+    'zh_TW': '學習 Git 分支',
     'fr_FR': 'Apprenez Git Branching'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12669,6 +12790,7 @@ exports.strings = {
     'en_US': 'Select a level',
     'de_DE': 'Level auswählen',
     'zh_CN': '选择一关',
+    'zh_TW': '選擇其中一關',
     'fr_FR': 'Choisissez un niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12677,6 +12799,7 @@ exports.strings = {
     'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
     'de_DE': 'Tut mir leid, aber aus Gründen der Darstellung müssen wir die Branch-Namen kurz halten. Dein Branch-Name wurde auf 9 Zeichen gekürzt und heißt daher jetzt "{branch}"',
     'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"',
+    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短些的分支名稱。您使用的將被截斷到9个字符，即"{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12685,6 +12808,7 @@ exports.strings = {
     'en_US': 'That branch name "{branch}" is not allowed!',
     'de_DE': 'Der Branch-Name "{branch}" ist nicht erlaubt!',
     'zh_CN': '不能给分支起这个名字 "{branch}"',
+    'zh_TW': '不能给分支起這個名字 "{branch}"',
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12699,6 +12823,7 @@ exports.strings = {
     'en_US': 'The option "{option}" is not supported!',
     'de_DE': 'Die  Option "{option}" wird nicht unterstützt!',
     'zh_CN': '不支持选项 "{option}"',
+    'zh_TW': '不支援的選項 "{option}"',
     'fr_FR': 'L\'option "{option}" n\'est pas supportée'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12707,6 +12832,7 @@ exports.strings = {
     'en_US': 'git <command> [<args>]',
     'de_DE': 'git <Befehl> [<Argumente>]',
     'zh_CN': 'git <命令> [<参数>]',
+    'zh_TW': 'git <指令> [<參數>]',
     'fr_FR': 'git <commande> [<arguments>]'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12715,6 +12841,7 @@ exports.strings = {
     'en_US': 'Supported commands:',
     'de_DE': 'Unterstützte Befehle:',
     'zh_CN': '支持的命令有:',
+    'zh_TW': '支援的指令有：',
     'fr_FR': 'Commandes supportées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12723,6 +12850,7 @@ exports.strings = {
     'en_US': 'Usage:',
     'de_DE': 'Benutzung:',
     'zh_CN': '使用:',
+    'zh_TW': '用法:',
     'fr_FR': 'Utilisation :'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12731,6 +12859,7 @@ exports.strings = {
     'en_US': 'Git Version PCOTTLE.1.0',
     'de_DE': 'Git Version PCOTTLE.1.0.jbr',
     'zh_CN': 'Git 版本 PCOTTLE.1.0',
+    'zh_TW': 'Git 版本 PCOTTLE.1.0',
     'fr_FR': 'Git version PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12744,6 +12873,7 @@ exports.strings = {
     'en_US': 'Refreshing tree...',
     'de_DE': 'Aktualisiere Baum ...',
     'zh_CN': '正在刷新树结构...',
+    'zh_TW': '正在更新樹狀結構……',
     'fr_FR': 'Actualisation de l\'arbre…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12752,6 +12882,7 @@ exports.strings = {
     'en_US': 'Locale set to {locale}',
     'de_DE': 'Locale auf {locale} gesetzt',
     'zh_CN': '语言更改为 {locale}',
+    'zh_TW': '語系設為 {locale}',
     'fr_FR': 'Langue changée à {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12760,12 +12891,14 @@ exports.strings = {
     'en_US': 'Locale reset to default, which is {locale}',
     'de_DE': 'Locale auf Standard zurückgesetzt, also {locale}',
     'zh_CN': '语言重置为默认的 {locale}',
+    'zh_TW': '還原為預設語系 {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
     '__desc__': 'command output title from "show"',
     'en_US': 'Please use one of the following commands for more info:',
+    'zh_TW': '請使用下列其中一個指令取得更多資訊：',
     'de_DE': 'Bitte benutze einen der folgenden Befehle um mehr Informationen zu bekommen:',
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info'
   },
@@ -12773,6 +12906,7 @@ exports.strings = {
   'show-all-commands': {
     '__desc__': 'command output title from "show commands"',
     'en_US': 'Here is a list of all the commmands available:',
+    'zh_TW': '這份清單列出所有可用指令：',
     'de_DE': 'Hier ist eine Liste aller verfügbarer Befehle:',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :'
   },
@@ -12782,6 +12916,7 @@ exports.strings = {
     'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
     'de_DE': 'Verzeichnis gewechselt zu "/verzeichnisse/sind/in/dieser/demo/latte"',
     'zh_CN': '目录切换到 "/directories/dont/matter/in/this/demo"',
+    'zh_TW': '目錄切換到 "/directories/dont/matter/in/this/demo"',
     'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12790,6 +12925,7 @@ exports.strings = {
     'en_US': 'DontWorryAboutFilesInThisDemo.txt',
     'de_DE': 'VergissDateienInDieserDemo.txt',
     'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)',
+    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt（譯註：在試驗裡不用擔心檔案.txt）',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)'
   },
   'mobile-alert': {
@@ -12797,6 +12933,7 @@ exports.strings = {
     'en_US': 'LGB can\'t receive input on mobile, visit on desktop! it\'s worth it :D',
     'de_DE': 'LGB ist nicht mit mobilen Endgeräten kompatibel, nutz es vom Desktop! Es lohnt sich :D',
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
+    'zh_TW': '無法在行動裝置上叫出鍵盤，請改用桌面版！',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12805,6 +12942,7 @@ exports.strings = {
     'en_US': 'Share this tree with friends! They can load it with "import tree"',
     'de_DE': 'Teile diesen git-Baum mit Freunden! Sie können ihn mit "import tree" laden',
     'zh_CN': '与你的好友分享提交树！他们可以用 "import tree" 加载它',
+    'zh_TW': '與你的好友分享提交樹！他們可以用 "import tree" 加載它',
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12813,6 +12951,7 @@ exports.strings = {
     'en_US': 'Paste a JSON blob below!',
     'de_DE': 'Füg einen JSON-Blob unten ein!',
     'zh_CN': '在下边粘贴一个JSON串',
+    'zh_TW': '在下方貼上一串 JSON',
     'fr_FR': 'Collez un blob JSON ci-dessous !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12821,6 +12960,7 @@ exports.strings = {
     'en_US': 'Solved map was reset, you are starting from a clean slate!',
     'de_DE': 'Gelöste Karte wurde zurückgesetzt, du fängst mit einem leeren Blatt an!',
     'zh_CN': '解决列表已重置，您现在从零开始了',
+    'zh_TW': '解決列表已重置，您現在從零開始了',
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12829,6 +12969,7 @@ exports.strings = {
     'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"',
     'de_DE': 'Du bist nicht in einem Level! Du bist im Sandkasten-Modus, starte einen Level mit "levels"',
     'zh_CN': '您没在关卡中！您在沙盒中，要开始关卡请输入 "levels"',
+    'zh_TW': '您沒在關卡中！您在沙盒中，要開始關卡請輸入 "levels"',
     'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12837,6 +12978,7 @@ exports.strings = {
     'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
     'de_DE': 'Konnte keinen Level mit der ID "{id}" finden! Öffne einen Level-Auswahldialog',
     'zh_CN': '没找到id为 "{id}" 的关卡！打开关卡选择框',
+    'zh_TW': '找不到 id 為 "{id}" 的關卡！開啟關卡選擇視窗',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12845,6 +12987,7 @@ exports.strings = {
     'en_US': 'The undo stack is empty!',
     'de_DE': 'Die Undo-Liste ist leer!',
     'zh_CN': '还没有什么可以撤销',
+    'zh_TW': '還沒有什麼可以撤銷',
     'fr_FR': 'La pile d\'annulation est vide !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12853,6 +12996,7 @@ exports.strings = {
     'en_US': 'You have already solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
     'de_DE': 'Du hast diesen Level bereits gelöst, probier einen anderen Level mit "levels" aus oder geh in den Sandkasten-Modus mit "sandbox"',
     'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中',
+    'zh_TW': '你已經解决了本關，輸入 "levels" 嘗試其他關卡，或者輸入 "sandbox" 回到沙盒中',
     'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12861,6 +13005,7 @@ exports.strings = {
     'en_US': 'That git command is disabled for this level!',
     'de_DE': 'Dieser git-Befehl ist für diesen Level deaktiviert!',
     'zh_CN': '该命令在本关不允许使用！',
+    'zh_TW': '本關禁止使用該 git 指令！',
     'fr_FR': 'Cette commande git est désactivée pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12869,6 +13014,7 @@ exports.strings = {
     'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
     'de_DE': 'Hier ist das JSON für diesen Level! Teil es mit jemandem or schick es mir über Github',
     'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上',
+    'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 Github 上給我',
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12877,6 +13023,7 @@ exports.strings = {
     'en_US': 'You have not specified a start dialog, would you like to add one?',
     'de_DE': 'Du hast noch keinen Einführungs-Dialog geschrieben, willst du einen hinzufügen?',
     'zh_CN': '您还没有定义一开始的介绍，是否添加一个？',
+    'zh_TW': '尚未指定開始對話視窗，是否立即新增？',
     'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12885,6 +13032,7 @@ exports.strings = {
     'en_US': 'You have not specified a hint, would you like to add one?',
     'de_DE': 'Du hast noch keinen Hinweis geschrieben, magst du einen hinzufügen?',
     'zh_CN': '您还没有定义提示，是否添加一个？',
+    'zh_TW': '尚未指定提示，是否立即新增？',
     'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12893,6 +13041,7 @@ exports.strings = {
     'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one',
     'de_DE': 'Gib den Hinweis für diesen Level an, oder lass es leer wenn du keinen hinzufügen willst',
     'zh_CN': '请输入关卡提示，或者故意留空',
+    'zh_TW': '請輸入關卡提示，或者故意留空',
     'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12901,6 +13050,7 @@ exports.strings = {
     'en_US': 'Enter the name for the level',
     'de_DE': 'Gib den Namen für diesen Level an',
     'zh_CN': '输入关卡名',
+    'zh_TW': '請輸入關卡名稱',
     'fr_FR': 'Entrez le nom pour ce niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12909,6 +13059,7 @@ exports.strings = {
     'en_US': 'Your solution is empty!! Something is amiss',
     'de_DE': 'Deine Auflösung ist leer! Hier fehlt etwas',
     'zh_CN': '你的解法是空的!! 这应该是出错了',
+    'zh_TW': '您的解法是空的！這一定是哪裡出錯了',
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12917,6 +13068,7 @@ exports.strings = {
     'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
     'de_DE': 'Lege Start fest ... Auflösung und Ziel werden gelößcht, falls sie schon festgelegt worden waren',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
+    'zh_TW': '正在定義起始點……先前定義的解法和目標會被覆蓋掉',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12925,6 +13077,7 @@ exports.strings = {
     'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
     'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber diesen Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
+    'zh_TW': '您正在關卡中，這裡有多種形式的幫助，請選擇 "help level" (關卡幫助)或 "help general" (一般幫助)',
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12933,6 +13086,7 @@ exports.strings = {
     'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"',
     'de_DE': 'Du befindest dich im Level-Editor, daher gibt es verschiedene Hilfen. Gib bitte "help general" oder "help builder" ein',
     'zh_CN': '您正在进行关卡构建中，这里有多种形式的帮助，请选择 "help general" (一般帮助)或 "help builder" (关卡构建帮助)',
+    'zh_TW': '您正在進行關卡構建中，這裡有多種形式的幫助，請選擇 "help general" (一般幫助)或 "help builder" (關卡構建幫助)',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12951,6 +13105,7 @@ exports.strings = {
     'en_US': 'Goal To Reach',
     'de_DE': 'Ziel',
     'zh_CN': '目标',
+    'zh_TW': '目標',
     'fr_FR': 'Cible à atteindre'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12965,6 +13120,7 @@ exports.strings = {
     'en_US': 'You can hide this window with "hide goal"',
     'de_DE': 'Du kannst diese Meldung mit "hide goal" ausblenden',
     'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口',
+    'zh_TW': '你可以通過命令 "hide goal" 關閉這個窗口',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12973,6 +13129,7 @@ exports.strings = {
     'en_US': 'You can hide this window with "hide start"',
     'de_DE': 'Du kannst diese Meldung mit "hide start" ausblenden',
     'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口',
+    'zh_TW': '你可以通過命令 "hide start" 關閉這個窗口',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12981,6 +13138,7 @@ exports.strings = {
     'en_US': 'Level Builder',
     'de_DE': 'Level-Editor',
     'zh_CN': '关卡生成器',
+    'zh_TW': '關卡產生器',
     'fr_FR': 'Éditeur de niveaux'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12989,6 +13147,7 @@ exports.strings = {
     'en_US': 'There is no start dialog to show for this level!',
     'de_DE': 'Es gibt keinen Einführungs-Dialog für diesen Level!',
     'zh_CN': '介绍? 这关真没有!',
+    'zh_TW': '介紹? 這關真沒有!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12997,6 +13156,7 @@ exports.strings = {
     'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
     'de_DE': "Hm, es gibt anscheinend keinen Hinweis für diesen Level :-/",
     'zh_CN': "提示？嗯，这关真没有哎~ :-/",
+    'zh_TW': "提示？嗯，這關真沒有哎~ :-/",
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13005,6 +13165,7 @@ exports.strings = {
     'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!',
     'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, bitte teil sie mit auf Github mit!',
     'zh_CN': '还没翻译 {key} :( 请在gitHub上贡献你的翻译!',
+    'zh_TW': '還沒翻譯 {key} :( 請在gitHub上貢獻你的翻譯!',
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13013,6 +13174,7 @@ exports.strings = {
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
     'de_DE': 'Dieser Dialog oder Text ist noch nicht in deine Sprache übersetzt. :( Schau auf Github vorbei um bei der Übersetzung zu helfen!',
     'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!',
+    'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 github 貢獻翻譯！',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
   }
 };
@@ -17893,8 +18055,11 @@ var IntlHelperBar = HelperBar.extend({
       text: 'Git 브랜치 배우기',
       id: 'korean'
     }, {
-      text: '学习Git分支',
-      id: 'chinese'
+      text: '学习 Git 分支',
+      id: 'simpchinese'
+    }, {
+      text: 'Git 分支',
+      id: 'tradchinese'
     }, {
       text: 'français',
       id: 'french'
@@ -17937,8 +18102,13 @@ var IntlHelperBar = HelperBar.extend({
     this.hide();
   },
 
-  onChineseClick: function() {
+  onSimpchineseClick: function() {
     this.fireCommand('locale zh_CN; levels');
+    this.hide();
+  },
+
+  onTradchineseClick: function() {
+    this.fireCommand('locale zh_TW; levels');
     this.hide();
   }
 });
@@ -22356,13 +22526,15 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
+    "zh_CN": "多个父提交记录",
     "de_DE": "Mehrere Vorgänger",
-    "zh_CN": "多个父提交记录"
+    "zh_TW": "多個 parent commit"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
-    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
+    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
+    "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。"
   },
   "startDialog": {
     "en_US": {
@@ -22625,6 +22797,93 @@ exports.level = {
           }
         }
       ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 選擇 parent commit",
+              "",
+              "和`~`符號一樣，`^`符號的後面也可以接一個（可選的）數字。",
+              "",
+              "這不是用來指定往上回去幾代（`~`的作用），`^`後面所跟的數字表示我要選擇哪一個 parent commit。還記得一個 merge commit 可以有多個 parent commit 吧，所以當我們要選擇走到哪一個 parent commit 的時候就會比較麻煩了。",
+              "",
+              "Git 預設會選擇 merge commit 的\"第一個\" parent commit，使用`^`後面接一個數字可以改變這個預設的行為。",
+              "",
+              "廢話不多說，舉一個例子。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡有一個 merge commit。如果後面不加數字的話會直接切換到`master^`，也就是說會回到第一個 parent commit。",
+              "",
+              "(*在我們的圖示中，第一個 parent commit 是指 merge commit 正上方的那一個 parent commit。*)"
+            ],
+            "afterMarkdowns": [
+              "簡單吧--這就是預設的情況。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在來試試選擇第二個 parent commit……"
+            ],
+            "afterMarkdowns": [
+              "看到了嗎？我們回到了第二個 parent commit。"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用`^`和`~`可以自由在 commit tree 中移動："
+            ],
+            "afterMarkdowns": [
+              "簡直就像是電光石火！"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "再瘋狂點，這些符號可以被連在一起！試一下這個："
+            ],
+            "afterMarkdowns": [
+              "和前面的結果一樣，但只用了一條指令。"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 練習一下",
+              "",
+              "要完成這一關，在指定的目標位置上面建立一個新的分支。",
+              "",
+              "很明顯可以直接使用 commit 的 hash 值（比如 `C6`），但我要求你使用剛剛講到的相對引用的符號！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -22691,6 +22950,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
       'zh_CN': '基础篇',
+      'zh_TW': '基礎篇',
       'ko': '기본 명령어'
     },
     about: {
@@ -22699,6 +22959,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
       'zh_CN': '循序渐进介绍git主要命令',
+      'zh_TW': '循序漸進地介绍 git 主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },
@@ -22708,14 +22969,16 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Aufstieg',
       'ja': '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
-      'zh_CN': '进阶篇'
+      'zh_CN': '进阶篇',
+      'zh_TW': '進階篇'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
-      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！'
+      'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
+      'zh_TW': '接下来是 git 非常厲害的地方!相信你已經迫不及待了吧！'
     }
   },
   remote: {
@@ -22752,6 +23015,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
+      'zh_TW': '精通 Rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
@@ -22761,7 +23025,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
-      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！'
+      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
+      'zh_TW': '大家都在說的 rebase 究竟是什麼阿？來看看吧！'
     }
   },
   mixed: {
@@ -22771,7 +23036,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '様々なtips',
       'fr_FR': 'Un assortiment',
       'ko': '종합선물세트',
-      'zh_CN': '大杂烩？'
+      'zh_CN': '大杂烩？',
+      'zh_TW': '活用 git 的指令'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -22779,7 +23045,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git技术，技巧与贴士杂烩'
+      'zh_CN': 'Git技术，技巧与贴士杂烩',
+      'zh_TW': 'Git 的技術，招數與技巧'
     }
   },
   advanced: {
@@ -22787,13 +23054,15 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Advanced Topics',
       'de_DE': 'Themen für Fortgeschrittene',
       'fr_FR': 'Sujets Avancés',
-      'zh_CN': '高级主题'
+      'zh_CN': '高级主题',
+      'zh_TW': '進階主題'
     },
     about: {
       'en_US': 'For the truly brave!',
       'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
       'fr_FR': 'Pour les plus courageux !',
-      'zh_CN': '只为真正的勇士！'
+      'zh_CN': '只为真正的勇士！',
+      'zh_TW': '來成為真正的強者吧！'
     }
   }
 };
@@ -22816,7 +23085,8 @@ exports.level = {
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "zh_CN": "建立Git分支"
+    "zh_CN": "建立Git分支",
+    "zh_TW": "建立 Git 分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -22824,6 +23094,7 @@ exports.level = {
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
+    "zh_TW": "用 'git branch [分支名稱]' 來建立分支，用 'git checkout [分支名稱]' 切換到該分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
   "disabledMap": {
@@ -23215,6 +23486,84 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              " Git 的分支非常不占空間。它們只是一個指向某個 commit 的 reference —— 就這麼簡單。所以許多 Git 的愛好者會建議：",
+              "",
+              "```",
+              "早點建立分支！經常建立分支！",
+              "```",
+              "",
+              "因為建立分支不怎麼會佔用到硬碟空間或者是記憶體，所以你可以把你目前的工作分成好幾個分支，這比只用一個分支要來的好。",
+              "",
+              "同時使用分支和 commit 時，我們待會可以看到兩者如何配合。現在，只要記住使用分支其實就是在說：「我想要包含這一次的 commit 以及它的所有 parent commits。」"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "舉一個例子來看看分支到底是什麼。",
+              "",
+              "這裡，我們建立一個名稱為 `newImage` 的新分支。"
+            ],
+            "command": "git branch newImage",
+            "afterMarkdowns": [
+              "看，這就是建立分支所需的操作啦！ `newImage` 分支現在指向提交記錄 `C1`。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在讓我們這個新分支做一些操作。點擊下面的按鈕。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+              "太奇怪了啦！ `master` 分支前進了，但 `newImage` 分支沒有前進！這是因為我們沒有「在」這個新分支上，這也是為什麼星號（*）會在  `master`  上。"
+            ],
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用如下命令告訴 git 我們想要切換到新的分支",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "這可以讓我們在 commit 之前切換到新的分支。"
+            ],
+            "command": "git checkout newImage; git commit",
+            "afterMarkdowns": [
+              "太好了！新的分支已經記錄了我們的修改。"
+            ],
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好啦，你已經準備好使用分支了。當目前的視窗關閉後，",
+              "建立一個叫 `bugFix` 的新分支，然後切換過去。"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -23304,7 +23653,8 @@ exports.level = {
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': 'Git Commits简介'
+    'zh_CN': 'Git Commits简介',
+    'zh_TW': 'Git Commit 簡介'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -23314,6 +23664,7 @@ exports.level = {
     "de_DE": "Gib einfach zweimal 'git commit' ein um den Level abzuschließen",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
+    "zh_TW": "輸入兩次 'git commit' 就可以完成！",
     "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -23584,6 +23935,48 @@ exports.level = {
           }
         }
       ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "一個 commit 在 git repository 中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
+              "",
+              "Git 希望 commit 儘可能地不占空間，所以每次進行 commit 的時候，它不會單純地複製整個目錄。實際上它把每次 commit 視為從目前的版本到下一個版本的變化量，或者說一個 \"（delta）\"。",
+              "",
+              " Git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 ancestor commits，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
+              "",
+              "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不占空間且可以快速切換！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在實例中學習 commit。右邊是一個（小）git repository。當前有兩個 commit —— initial commit `C0` 以及 `C1` 這一個 commit 來表示之後可能的一些修改。",
+              "",
+              "點擊下面的按鈕生成新的 commit。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+              "看吧！很厲害！我們對於文件做了一些修改，並且把這些修改表示成一個 commit。剛剛做的 commit `C2` 有一個 parent commit `C1`，代表此次修改是從那裡過來的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "接下來你可以隨便測試。當目前的視窗關閉之後，輸入兩次 commit 就可以過關！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -23598,7 +23991,8 @@ exports.level = {
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
-    "zh_CN": "分支与合并"
+    "zh_CN": "分支与合并",
+    "zh_TW": "Git 中的 合併"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -23606,6 +24000,7 @@ exports.level = {
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
+    "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)"
   },
   "disabledMap": {
@@ -23957,6 +24352,75 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches and Merging",
+              "",
+              "太好了! 我們已經知道怎麼使用 commit 和分支了。接下來要學的一招是如何合併兩個不同分支的工作。這讓我們可以建立一個新的分支，並且在上面開發新功能，然後合併回主分支。",
+              "",
+              "`git merge` 是我們要學習合併的第一個方法。該合併會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
+              "",
+              "有圖有真相，看看下面的圖就明白了。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在這裡，我們有兩個分支：各自都有一個唯一的 commit。這意味著沒有一個分支包含我們對文件的所有修改。讓我們合併這兩個分支來解決這個問題。",
+              "",
+              "我們要把 `bugFix` 合併到 `master` "
+            ],
+            "command": "git merge bugFix",
+            "afterMarkdowns": [
+              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的提交記錄。這說明了現在 `master` 紀錄了對文件的所有修改。",
+              "",
+              "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個分支都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有分支的混合色。",
+              "",
+              "所以，`master` 分支的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們把 `master` 分支合併到 `bugFix` 吧。"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "afterMarkdowns": [
+              "因為 `bugFix` 分支只是 `master` 分支的 ancestor，git 什麼都不用做，只是簡單地把 `bugfix` 分支移動到 `master` 指向的 commit。",
+              "",
+              "現在所有的 commit 的顏色都是一樣的啦，這表示每一個分支都包含了所有文件的修改！太厲害了啦！"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想完成這一關，執行以下的操作：",
+              "",
+              "* 建立新的分支 `bugFix` ",
+              "* 用 `git checkout bugFix` 切換到 `bugFix` 分支",
+              "* commit 一次",
+              "* 用 `git checkout` 切換回 `master` 分支 ",
+              "* 再 commit 一次",
+              "* 用 `git merge`  將 `bugFix` 合併到 `master`",
+              "",
+              "*記住，你可以用 \"help level\" 指令來重新顯示這個對話框！*"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -24039,7 +24503,8 @@ exports.level = {
     "ja": "Rebaseの解説",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
-    "zh_CN": "Rebase简介"
+    "zh_CN": "Rebase简介",
+    "zh_TW": "Rebase 簡介"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -24047,7 +24512,8 @@ exports.level = {
     "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
-    "zh_CN": "确保你先在 bugFix 分支进行提交"
+    "zh_CN": "确保你先在 bugFix 分支进行提交",
+    "zh_TW": "你要先在 bugFix 分支進行 commit"
   },
   "disabledMap": {
     "git revert": true
@@ -24386,6 +24852,73 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "*rebasing*是在合併分支的第二種方法。Rebasing 就是取出一系列的 commit，\"複製\"它們，然後把它們接在別的地方。",
+              "",
+              "雖然聽起來難以理解，rebasing 的優點是可以建立更線性的 commit history。假如只允許使用 rebasing 的話，則我們的 repository 中的 commit log 或者是 commit history 會更加簡潔好看。",
+              "",
+              "讓我們親身體會一下……"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡，還是有兩個分支；注意目前我們所在的分支是 bugFix（看那顆星啦）",
+              "",
+              "我們想要把在 bugfix 所做的修改直接移到 master 分支上。使用 rebasing 的話，兩個分支看起來像是依序按順序進行修改，實際上它們的修改是平行進行的。",
+              "",
+              "用 `git rebase` 實現此目標"
+            ],
+            "command": "git rebase master",
+            "afterMarkdowns": [
+              "很厲害吧!現在 bugFix 分支上的工作在 master 的最前端，同時我們也得到了一個更加線性的 commit sequence。",
+              "",
+              "注意，本來的 commit C3 沒有消失（在圖上面呈現陰影），而我們\"複製\" C3，將它的副本 C3' 接在 master 的後面。",
+              "",
+              "現在唯一的問題是 master 分支還沒有更新……我們接下來就更新它吧"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在，切換到 `master` 分支。接下來就把它 rebase 到 `bugFix` 上面吧……"
+            ],
+            "command": "git rebase bugFix",
+            "afterMarkdowns": [
+              "完成！因為 `master` 是 `bugFix` 的 ancestor，所以 git 只是把 `master` 分支往前移動到 `bugFix` 上。"
+            ],
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想完成這一關，執行以下操作：",
+              "",
+              "* 建立 `bugFix` 分支",
+              "* commit 一次",
+              "* 切換回 master 分支再 commit 一次",
+              "* 再次切換到 bugFix 分支，將 bugFix 分支 rebase 到 master 上",
+              "",
+              "祝你好運啦！"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -24620,14 +25153,16 @@ exports.level = {
     "en_US": "Grabbing Just 1 Commit",
     "de_DE": "Einen Commit pflücken",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "只取一个提交"
+    "zh_CN": "只取一个提交",
+    "zh_TW": "只取一個 commit"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
-    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
+    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
+    "zh_TW": "記住，使用 interactive rebase 或者 cherry-pick 會很有幫助"
   },
   "startDialog": {
     "en_US": {
@@ -24790,6 +25325,45 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "有一個經常發生的情況：我在追蹤一個有點棘手的 bug，但是它實在太難抓出來了，在不得已的情況下我加入了一些 debug statement，並且做了一些 commit。",
+              "",
+              "所有的這些 debug statement 都只在 `bugFix` 這個分支裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
+              "",
+              "現在唯一的問題就是要把我在 `bugFix` 分支裡面所做的修改合併回 `master` 分支。我可以簡單地透過 fast-forward 來合併 ，但這樣的話 `master` 分支就會包含這些含有 debug statement 的 commit 了。我相信一定有其它方法..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我們需要告訴 git 只去複製其中一個 commit。 這種情況跟之前的關卡有一點類似，我們可以使用一樣的指令",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "來完成這個目的"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個commit 一定要可以被 `master` 包含到"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -24859,14 +25433,16 @@ exports.level = {
     "en_US": "Juggling Commits",
     "de_DE": "Jonglieren mit Commits",
     "ja": "Juggling Commits",
-    "zh_CN": "提交变换戏法"
+    "zh_CN": "提交变换戏法",
+    "zh_TW": "commit 的戲法"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'"
+    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'",
+    "zh_TW": "第一個命令是 'git rebase -i HEAD~2'"
   },
   "startDialog": {
     "en_US": {
@@ -25029,6 +25605,45 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## commit 的戲法",
+              "",
+              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` 分支上做了一些 commit，然後又開了一個分支叫做 `caption` ，並且在上面做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
+              "",
+              "有點棘手的就是有時候你又想在之前的 commit 裡面做一些修改。在這個例子裡面，我們要去稍微修改一下 `newImage` 所指向的 commit，儘管已經是之前的 commit 了 。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "為了克服這個困難，我們可以按照下面的方法來做：",
+              "",
+              "* 先用 `git rebase -i` 將 commit 重新排序，然後把我們想要修改的 commit 移到最前面",
+              "* 然後用 `commit --amend` 來進行一些修改",
+              "* 接著再用 `git rebase -i` 來將他們按照最開始的順序重新排好",
+              "* 最後我們把 master 移到這個修改的最前端（用你自己喜歡的方法），就大功告成啦！",
+              "",
+              "當然還有許多方法可以完成這個任務（我知道你在想 cherry-pick 啦），之後我們會多點關注這些技巧啦，但現在暫時只注意上面這種方法。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "啊!最後還要提醒你一下最後所產生的 commit tree —— 因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -25095,14 +25710,16 @@ exports.level = {
     "en_US": "Juggling Commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
-    "zh_CN": "提交交换戏法 #2"
+    "zh_CN": "提交交换戏法 #2",
+    "zh_TW": "commit 的戲法 #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-    "zh_CN": "别忘记了将 master 快进到最新的更新上！"
+    "zh_CN": "别忘记了将 master 快进到最新的更新上！",
+    "zh_TW": "別忘記了將 master 推到最新的修改上面！"
   },
   "startDialog": {
     "en_US": {
@@ -25268,6 +25885,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## commit 的戲法 #2",
+              "",
+              "*假如你還沒有完成 commit 的戲法 #1（前面那一個關卡），請先完成之後再來這一關！*",
+              "",
+              "如你在上一個關卡所看到的，我們使用 `rebase -i` 來重新排列那些 commit。只要把我們想要修改的 commit 移到最前面，我們就可以很容易地重新修改它，然後再把它們重新排成我們想要的順序。",
+              "",
+              "但唯一的問題就是這樣做就要排很多次，有可能造成 rebase conflicts。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "要記住喔！ cherry-pick 可以從 commit tree 的任何地方拿一個 commit 來放在 HEAD 上（只要那個 commit 不是 HEAD 的 ancestor）。",
+              "",
+              "下面是一個簡單清楚的 demo："
+            ],
+            "command": "git cherry-pick C2",
+            "afterMarkdowns": [
+              "太棒了，我們繼續吧!"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在這一關和上一關一樣要去修改一個 commit 叫做`C2`，但你要避免使用 `rebase -i`。自己想想看要怎麼解決吧！"
             ]
           }
         }
@@ -25637,12 +26295,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
-    "de_DE": "Den Kopf abtrennen",
-    "zh_CN": "分离HEAD"
+    "zh_CN": "分离HEAD",
+    "zh_TW": "分離HEAD",
+    "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
+    "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {
@@ -25879,6 +26539,84 @@ exports.level = {
           }
         }
       ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 在 Git 中前後移動",
+              "",
+              "在接觸 Git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
+              "",
+              "一旦能夠熟練地在 commit tree 中隨意地移動，你使用其它的 git 指令也會更厲害！",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "我們首先看一下 \"HEAD\"，HEAD 是一個 reference，它是指向目前所 checkout 的 commit -- 基本上，其實就是你目前所在的 commit。",
+              "",
+              "在 working tree 中，HEAD 總是指向最近的一次commit。大部份 git 的指令如果要修改 working tree 的狀態的話，都會先改變 HEAD 所指向的 commit。",
+              "",
+              "HEAD 通常指向一個分支的名稱（比如 bugFix）。當你 commit 的時候，改變了 bugFix 的狀態，這一個變化可以從 HEAD 的改變中看到。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在實際的例子中。我們將會觀察 commit 前後 HEAD 的位置。"
+            ],
+            "afterMarkdowns": [
+              "看吧！HEAD 一直藏在 `master` 分支的後面。"
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### 分離 HEAD",
+              "",
+              "分離 HEAD 就是讓其指向一個 commit 而不是分支的名稱。這是命令執行之前的樣子： ",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "現在變成了",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想要完成這一個關卡，從 `bugFix` 分離出HEAD並且讓它指向一個 commit。",
+              "",
+              "通過 hash 值可以指定 commit。每個 commit 的 hash 值顯示在各自的圓圈中。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -26108,13 +26846,15 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Relative Refs (^)",
-    "de_DE": "Relative Referenzen (^)",
-    "zh_CN": "相对引用(^)"
+    "zh_CN": "相对引用(^)",
+    "zh_TW": "相對引用（^）",
+    "de_DE": "Relative Referenzen (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "de_DE": "Denk an den Dach-Operator (^)!",
-    "zh_CN": "记住插入(^)操作符!"
+    "zh_CN": "记住插入(^)操作符!",
+    "zh_TW": "不要忘記插入（^） 符號!"
   },
   "startDialog": {
     "en_US": {
@@ -26341,6 +27081,81 @@ exports.level = {
           }
         }
       ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 相對引用",
+              "",
+              "如果要在 Git 中移動，透過指定 commit 的 hash 值的方式會變得比較麻煩。在實際例子中，你的終端機上面不會出現漂亮且具備視覺效果的 commit tree，所以你不得不用 `git log` 來查詢 hash 值。",
+              "",
+              "另外，hash 值的長度在真實的 Git 環境中很長。舉個例子，前一個關卡的介紹中的 commit 的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
+              "",
+              "幸運的是， Git 對於處理 hash 很有一套。你只需要提供能夠唯一辨識出該 commit 的前幾個字元就可以了。所以，我可以只輸入 `fed2` 而不是上面的一長串字元。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我說過，透過 hash 來指定 commit 不是很方便，所以 Git 加入了相對引用。這個就很厲害了!",
+              "",
+              "使用相對引用，你可以從一個易於記憶的地方（比如說分支名稱 `bugFix` 或 `HEAD`）開始工作。",
+              "",
+              "相對引用非常好用，這裡我介紹兩個簡單的用法：",
+              "",
+              "* 使用 `^` 向上移動一個 commit",
+              "* 使用 `~<num>` 向上移動多個 commit"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 Git 去找到該 reference 所指向的 commit 的 parent commit。",
+              "",
+              "所以 `master^` 相當於 \"`master` 的 parent commit\"。",
+              "",
+              " `master^^` 是 `master` 的 grandparent commit（往前推兩代）",
+              "",
+              "切換到 master的 parent commit"
+            ],
+            "afterMarkdowns": [
+              "看吧！完成了。這種方式比輸入代表 commit 的 hash 值簡單多了！"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你也可以把 `HEAD` 當作相對引用。以下指令使用 `HEAD` 在 commit tree 中向上移動數次。"
+            ],
+            "afterMarkdowns": [
+              "簡單吧！我們可以一直使用 `HEAD^` 向上移動。"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，切換到 `bugFix` 的 parent commit。這會分離出 `HEAD`。",
+              "",
+              "如果你願意的話，透過直接指定 hash 值的方式也可以過關，但是還是試試看相對引用吧！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -26352,13 +27167,15 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
-    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
-    "zh_CN": "这一关至少要用到一次直接引用(hash)"
+    "zh_CN": "这一关至少要用到一次直接引用(hash)",
+    "zh_TW": "這一關至少要用到一次直接參考（hash）",
+    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
-    "zh_CN": "相对引用2(~)"
+    "zh_CN": "相对引用2(~)",
+    "zh_TW": "相對引用二（~）"
   },
   "startDialog": {
     "en_US": {
@@ -26551,6 +27368,60 @@ exports.level = {
           }
         }
       ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### The \"~\" operator",
+              "",
+              "假設需要在 commit tree 中向上移動多個 commit。使用太多`^`會非常討人厭，所以 Git 也加入了波浪（~）符號。",
+              "",
+              "",
+              "波浪符號後面可以選擇一個數字（你也可以不選擇），該數字可以告訴 Git 我要向上移動多少個 commit 。舉個例子"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用 `~` 一次往上移動多個 commit。"
+            ],
+            "afterMarkdowns": [
+              "哇！太簡潔了 -- 相對引用真的很好用！"
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch forcing",
+              "",
+              "你現在是相對引用的高手了，現在用它來實際做點事情。",
+              "",
+              "我使用相對引用最多的就是移動分支。你可以使用 `-f` 選項直接讓分支指向另一個 commit。舉個例子:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "（強制）移動 master 指向從 HEAD 往上數的第三個 parent commit。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，移動 `HEAD`，`master` 和 `bugFix` 到目標所示的位置。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -26567,13 +27438,15 @@ exports.level = {
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "在Git中撤销更改"
+    "zh_CN": "在Git中撤销更改",
+    "zh_TW": "在 Git 中取消修改 "
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "",
     "zh_CN": "注意revert和reset使用不同的参数。",
+    "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
     "ja": ""
   },
@@ -26893,6 +27766,69 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 取消 Git 的修改",
+              "",
+              "在 Git 裡面取消修改的方法很多。和 commit 一樣，在 Git 裡面取消修改同時具有底層的部份（暫存一些獨立的文件或者片段）和高層的部份（修改是如何被取消）。我們主要講的重點是後者。",
+              "",
+              "在 Git 裡主要用兩種方法來取消修改 —— 一種是 `git reset`，另外一種是 `git revert`。讓我們在下一個對話視窗中逐一瞭解它們。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` 把分支的參考點退回到上一個 commit 來取消修改。你可以認為這是在\"重寫歷史\"。`git reset` 往回移動分支，原來的分支所指向的commit好像從來沒有存在過一樣。",
+              "",
+              "讓我們來看看要怎麼操作："
+            ],
+            "command": "git reset HEAD~1",
+            "afterMarkdowns": [
+              "太好了! Git 把 master 分支簡單地移回到 `C1`；現在在我們的 local 端已經退回到沒有 commit 過 `C2` 的狀態了。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "雖然在你的 local 分支中使用 `git reset` 很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
+              "",
+              "為了取消修改並且把這個狀態*分享*給別人，我們需要使用 `git revert`。舉個例子"
+            ],
+            "command": "git revert HEAD",
+            "afterMarkdowns": [
+              "很奇怪吧！在我們要取消的 commit 後面居然多了一個新的 commit！這是因為新的 commit `C2'` 引入了*修改*——用來表示我們取消 `C2` 這個 commit 的修改。",
+              "",
+              "借助 revert，現在可以把你的修改分享給別人啦。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，分別取消 `local` 分支和 `pushed` 分支上的最近一次提交。",
+              "",
+              "記住 `pushed` 是一個遠端分支，`local` 是一個本地分支 —— 有了這麼明顯的提示應該知道要用哪種方法了吧？"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -26974,14 +27910,16 @@ exports.level = {
     "de_DE": "10000 Rebases unter dem `HEAD`",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
-    "zh_CN": "N次Rebase"
+    "zh_CN": "N次Rebase",
+    "zh_TW": "N次Rebase"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，最后更新master分支可能是最高效的方法。"
+    "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
+    "zh_TW": "要記住喔! 把 master 分支留到最後在更新可能是最有效率的方法。"
   },
   "startDialog": {
     "en_US": {
@@ -27057,6 +27995,24 @@ exports.level = {
         }
       ]
     },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebase 多個 branch",
+              "",
+              "嗨!現在我們有很多分支了啦！讓我們做一下rebase，將這些分支接到 master 分支上吧。",
+              "",
+              "但是你的主管找了點麻煩 —— 他們希望得到有序的 commit history，也就是我們最終的結果是 `C7'` 在最下面，`C6'` 在它上面，以此類推。",
+              "",
+              "假如你搞砸了，沒有關係啦!你用 `reset` 就可以重新開始!。記得看看我們提供的答案，看你是否能夠使用更少的指令完成這一關！"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
@@ -27092,14 +28048,16 @@ exports.level = {
     "en_US": "Branch Spaghetti",
     "de_DE": "Branch-Spaghetti",
     "ja": "ブランチスパゲッティ",
-    "zh_CN": "分支浆糊"
+    "zh_CN": "分支浆糊",
+    "zh_TW": "分支漿糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
-    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`"
+    "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
+    "zh_TW": "確認你是按照正確的順序來操作！先操作分支 `one`, 然後 `two`, 最後才是 `three`"
   },
   "startDialog": {
     "en_US": {
@@ -27177,6 +28135,26 @@ exports.level = {
               "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
               "",
               "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spaghetti",
+              "",
+              "哇塞大神！這關我們要來點不同的！",
+              "",
+              "現在我們的 `master` 分支是比 `one` `two` 和 `three` 這三個分支多了幾個 commit。由於某種原因，我們需要將 master 所新增的幾個 commit 套用到其它三個分支上面。",
+              "",
+              "分支 `one` 需要重新排序和取消 `C5` 這一個commit， `two` 需要完全重排，而 `three` 只需要再一個 commit。",
+              "",
+              "我們會讓你知道如何解決這個問題 —— 之後請記得用 `show solution` 看看我們的答案喔。"
             ]
           }
         }
@@ -30775,4 +31753,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[12,11,13,14,15,16,17,18,19,20,21,22,24,23,25,26,27,28,29,30,31,32,33,34,36,37,35,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,82,81,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
