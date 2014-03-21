@@ -21,14 +21,16 @@ exports.level = {
     "en_US": "Juggling Commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
-    "zh_CN": "提交交换戏法 #2"
+    "zh_CN": "提交交换戏法 #2",
+    "zh_TW": "commit 的戲法 #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-    "zh_CN": "别忘记了将 master 快进到最新的更新上！"
+    "zh_CN": "别忘记了将 master 快进到最新的更新上！",
+    "zh_TW": "別忘記了將 master 推到最新的修改上面！"
   },
   "startDialog": {
     "en_US": {
@@ -194,6 +196,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## commit 的戲法 #2",
+              "",
+              "*假如你還沒有完成 commit 的戲法 #1（前面那一個關卡），請先完成之後再來這一關！*",
+              "",
+              "如你在上一個關卡所看到的，我們使用 `rebase -i` 來重新排列那些 commit。只要把我們想要修改的 commit 移到最前面，我們就可以很容易地重新修改它，然後再把它們重新排成我們想要的順序。",
+              "",
+              "但唯一的問題就是這樣做就要排很多次，有可能造成 rebase conflicts。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "要記住喔！ cherry-pick 可以從 commit tree 的任何地方拿一個 commit 來放在 HEAD 上（只要那個 commit 不是 HEAD 的 ancestor）。",
+              "",
+              "下面是一個簡單清楚的 demo："
+            ],
+            "command": "git cherry-pick C2",
+            "afterMarkdowns": [
+              "太棒了，我們繼續吧!"
+            ],
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在這一關和上一關一樣要去修改一個 commit 叫做`C2`，但你要避免使用 `rebase -i`。自己想想看要怎麼解決吧！"
             ]
           }
         }

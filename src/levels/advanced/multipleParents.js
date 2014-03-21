@@ -4,13 +4,15 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
+    "zh_CN": "多个父提交记录",
     "de_DE": "Mehrere Vorgänger",
-    "zh_CN": "多个父提交记录"
+    "zh_TW": "多個 parent commit"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
-    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。"
+    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
+    "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。"
   },
   "startDialog": {
     "en_US": {
@@ -269,6 +271,93 @@ exports.level = {
               "要完成此关，在指定的目标位置创建一个新的分支。",
               "",
               "很明显可以简单的直接使用提交记录的hash值（比如`C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 選擇 parent commit",
+              "",
+              "和`~`符號一樣，`^`符號的後面也可以接一個（可選的）數字。",
+              "",
+              "這不是用來指定往上回去幾代（`~`的作用），`^`後面所跟的數字表示我要選擇哪一個 parent commit。還記得一個 merge commit 可以有多個 parent commit 吧，所以當我們要選擇走到哪一個 parent commit 的時候就會比較麻煩了。",
+              "",
+              "Git 預設會選擇 merge commit 的\"第一個\" parent commit，使用`^`後面接一個數字可以改變這個預設的行為。",
+              "",
+              "廢話不多說，舉一個例子。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡有一個 merge commit。如果後面不加數字的話會直接切換到`master^`，也就是說會回到第一個 parent commit。",
+              "",
+              "(*在我們的圖示中，第一個 parent commit 是指 merge commit 正上方的那一個 parent commit。*)"
+            ],
+            "afterMarkdowns": [
+              "簡單吧--這就是預設的情況。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在來試試選擇第二個 parent commit……"
+            ],
+            "afterMarkdowns": [
+              "看到了嗎？我們回到了第二個 parent commit。"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用`^`和`~`可以自由在 commit tree 中移動："
+            ],
+            "afterMarkdowns": [
+              "簡直就像是電光石火！"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "再瘋狂點，這些符號可以被連在一起！試一下這個："
+            ],
+            "afterMarkdowns": [
+              "和前面的結果一樣，但只用了一條指令。"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 練習一下",
+              "",
+              "要完成這一關，在指定的目標位置上面建立一個新的分支。",
+              "",
+              "很明顯可以直接使用 commit 的 hash 值（比如 `C6`），但我要求你使用剛剛講到的相對引用的符號！"
             ]
           }
         }

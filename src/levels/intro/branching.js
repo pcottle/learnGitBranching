@@ -7,7 +7,8 @@ exports.level = {
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
-    "zh_CN": "建立Git分支"
+    "zh_CN": "建立Git分支",
+    "zh_TW": "建立 Git 分支"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -15,6 +16,7 @@ exports.level = {
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
+    "zh_TW": "用 'git branch [分支名稱]' 來建立分支，用 'git checkout [分支名稱]' 切換到該分支",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
   "disabledMap": {
@@ -401,6 +403,84 @@ exports.level = {
             "markdowns": [
               "好啦，你已经准备好使用分支了。当前窗口关闭后，",
               "创建一个叫 `bugFix` 的新分支，然后切换过去。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              " Git 的分支非常不占空間。它們只是一個指向某個 commit 的 reference —— 就這麼簡單。所以許多 Git 的愛好者會建議：",
+              "",
+              "```",
+              "早點建立分支！經常建立分支！",
+              "```",
+              "",
+              "因為建立分支不怎麼會佔用到硬碟空間或者是記憶體，所以你可以把你目前的工作分成好幾個分支，這比只用一個分支要來的好。",
+              "",
+              "同時使用分支和 commit 時，我們待會可以看到兩者如何配合。現在，只要記住使用分支其實就是在說：「我想要包含這一次的 commit 以及它的所有 parent commits。」"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "舉一個例子來看看分支到底是什麼。",
+              "",
+              "這裡，我們建立一個名稱為 `newImage` 的新分支。"
+            ],
+            "command": "git branch newImage",
+            "afterMarkdowns": [
+              "看，這就是建立分支所需的操作啦！ `newImage` 分支現在指向提交記錄 `C1`。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在讓我們這個新分支做一些操作。點擊下面的按鈕。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+              "太奇怪了啦！ `master` 分支前進了，但 `newImage` 分支沒有前進！這是因為我們沒有「在」這個新分支上，這也是為什麼星號（*）會在  `master`  上。"
+            ],
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用如下命令告訴 git 我們想要切換到新的分支",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "這可以讓我們在 commit 之前切換到新的分支。"
+            ],
+            "command": "git checkout newImage; git commit",
+            "afterMarkdowns": [
+              "太好了！新的分支已經記錄了我們的修改。"
+            ],
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好啦，你已經準備好使用分支了。當目前的視窗關閉後，",
+              "建立一個叫 `bugFix` 的新分支，然後切換過去。"
             ]
           }
         }

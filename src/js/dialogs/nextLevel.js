@@ -42,6 +42,17 @@ exports.dialog = {
       ]
     }
   }],
+  'zh_TW': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 太棒了！',
+        '',
+        '您用了 *{numCommands}* 個指令完成這一關，',
+        '我們的解答用了 {best} 個。'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

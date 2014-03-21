@@ -18,14 +18,16 @@ exports.level = {
     "en_US": "Grabbing Just 1 Commit",
     "de_DE": "Einen Commit pflücken",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "只取一个提交"
+    "zh_CN": "只取一个提交",
+    "zh_TW": "只取一個 commit"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
-    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助"
+    "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
+    "zh_TW": "記住，使用 interactive rebase 或者 cherry-pick 會很有幫助"
   },
   "startDialog": {
     "en_US": {
@@ -183,6 +185,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "本关是可选关卡，玩不玩随便你。但是如果你坚持要刷，确保 `master` 分支能拿到 `bugFix` 分支的相关提交（references）。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "有一個經常發生的情況：我在追蹤一個有點棘手的 bug，但是它實在太難抓出來了，在不得已的情況下我加入了一些 debug statement，並且做了一些 commit。",
+              "",
+              "所有的這些 debug statement 都只在 `bugFix` 這個分支裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
+              "",
+              "現在唯一的問題就是要把我在 `bugFix` 分支裡面所做的修改合併回 `master` 分支。我可以簡單地透過 fast-forward 來合併 ，但這樣的話 `master` 分支就會包含這些含有 debug statement 的 commit 了。我相信一定有其它方法..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我們需要告訴 git 只去複製其中一個 commit。 這種情況跟之前的關卡有一點類似，我們可以使用一樣的指令",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "來完成這個目的"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個commit 一定要可以被 `master` 包含到"
             ]
           }
         }
