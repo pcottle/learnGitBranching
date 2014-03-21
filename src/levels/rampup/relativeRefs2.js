@@ -4,13 +4,15 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
-    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
-    "zh_CN": "这一关至少要用到一次直接引用(hash)"
+    "zh_CN": "这一关至少要用到一次直接引用(hash)",
+    "zh_TW": "這一關至少要用到一次直接參考（hash）",
+    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
-    "zh_CN": "相对引用2(~)"
+    "zh_CN": "相对引用2(~)",
+    "zh_TW": "相對引用二（~）"
   },
   "startDialog": {
     "en_US": {
@@ -199,6 +201,60 @@ exports.level = {
           "options": {
             "markdowns": [
               "要完成此关，移动`HEAD`，`master`和`bugFix`到目标所示的位置。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### The \"~\" operator",
+              "",
+              "假設需要在 commit tree 中向上移動多個 commit。使用太多`^`會非常討人厭，所以 Git 也加入了波浪（~）符號。",
+              "",
+              "",
+              "波浪符號後面可以選擇一個數字（你也可以不選擇），該數字可以告訴 Git 我要向上移動多少個 commit 。舉個例子"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "使用 `~` 一次往上移動多個 commit。"
+            ],
+            "afterMarkdowns": [
+              "哇！太簡潔了 -- 相對引用真的很好用！"
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch forcing",
+              "",
+              "你現在是相對引用的高手了，現在用它來實際做點事情。",
+              "",
+              "我使用相對引用最多的就是移動分支。你可以使用 `-f` 選項直接讓分支指向另一個 commit。舉個例子:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "（強制）移動 master 指向從 HEAD 往上數的第三個 parent commit。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，移動 `HEAD`，`master` 和 `bugFix` 到目標所示的位置。"
             ]
           }
         }

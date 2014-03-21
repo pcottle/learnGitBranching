@@ -9,13 +9,15 @@ exports.level = {
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "在Git中撤销更改"
+    "zh_CN": "在Git中撤销更改",
+    "zh_TW": "在 Git 中取消修改 "
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "",
     "zh_CN": "注意revert和reset使用不同的参数。",
+    "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
     "ja": ""
   },
@@ -330,6 +332,69 @@ exports.level = {
               "要完成此关，分别撤销`local`分支和`pushed`分支上的最近一次提交。",
               "",
               "记住 `pushed` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 取消 Git 的修改",
+              "",
+              "在 Git 裡面取消修改的方法很多。和 commit 一樣，在 Git 裡面取消修改同時具有底層的部份（暫存一些獨立的文件或者片段）和高層的部份（修改是如何被取消）。我們主要講的重點是後者。",
+              "",
+              "在 Git 裡主要用兩種方法來取消修改 —— 一種是 `git reset`，另外一種是 `git revert`。讓我們在下一個對話視窗中逐一瞭解它們。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` 把分支的參考點退回到上一個 commit 來取消修改。你可以認為這是在\"重寫歷史\"。`git reset` 往回移動分支，原來的分支所指向的commit好像從來沒有存在過一樣。",
+              "",
+              "讓我們來看看要怎麼操作："
+            ],
+            "command": "git reset HEAD~1",
+            "afterMarkdowns": [
+              "太好了! Git 把 master 分支簡單地移回到 `C1`；現在在我們的 local 端已經退回到沒有 commit 過 `C2` 的狀態了。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "雖然在你的 local 分支中使用 `git reset` 很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
+              "",
+              "為了取消修改並且把這個狀態*分享*給別人，我們需要使用 `git revert`。舉個例子"
+            ],
+            "command": "git revert HEAD",
+            "afterMarkdowns": [
+              "很奇怪吧！在我們要取消的 commit 後面居然多了一個新的 commit！這是因為新的 commit `C2'` 引入了*修改*——用來表示我們取消 `C2` 這個 commit 的修改。",
+              "",
+              "借助 revert，現在可以把你的修改分享給別人啦。"
+            ],
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，分別取消 `local` 分支和 `pushed` 分支上的最近一次提交。",
+              "",
+              "記住 `pushed` 是一個遠端分支，`local` 是一個本地分支 —— 有了這麼明顯的提示應該知道要用哪種方法了吧？"
             ]
           }
         }

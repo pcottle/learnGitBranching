@@ -5,7 +5,8 @@ exports.level = {
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': 'Git Commits简介'
+    'zh_CN': 'Git Commits简介',
+    'zh_TW': 'Git Commit 簡介'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -15,6 +16,7 @@ exports.level = {
     "de_DE": "Gib einfach zweimal 'git commit' ein um den Level abzuschließen",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
+    "zh_TW": "輸入兩次 'git commit' 就可以完成！",
     "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!"
   },
@@ -281,6 +283,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "接下来你可以随便测试。当前窗口关闭后，完成两次提交就可以过关！"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "一個 commit 在 git repository 中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
+              "",
+              "Git 希望 commit 儘可能地不占空間，所以每次進行 commit 的時候，它不會單純地複製整個目錄。實際上它把每次 commit 視為從目前的版本到下一個版本的變化量，或者說一個 \"（delta）\"。",
+              "",
+              " Git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 ancestor commits，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
+              "",
+              "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不占空間且可以快速切換！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在實例中學習 commit。右邊是一個（小）git repository。當前有兩個 commit —— initial commit `C0` 以及 `C1` 這一個 commit 來表示之後可能的一些修改。",
+              "",
+              "點擊下面的按鈕生成新的 commit。"
+            ],
+            "command": "git commit",
+            "afterMarkdowns": [
+              "看吧！很厲害！我們對於文件做了一些修改，並且把這些修改表示成一個 commit。剛剛做的 commit `C2` 有一個 parent commit `C1`，代表此次修改是從那裡過來的。"
+            ],
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "接下來你可以隨便測試。當目前的視窗關閉之後，輸入兩次 commit 就可以過關！"
             ]
           }
         }
