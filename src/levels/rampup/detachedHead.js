@@ -6,11 +6,13 @@ exports.level = {
     "en_US": "Detach yo' HEAD",
     "zh_CN": "分离HEAD",
     "zh_TW": "分離HEAD"
+    "de_DE": "Den Kopf abtrennen",
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
-    "zh_CN": "使用提交记录上的标签(hash)来求助！",
+    "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！"
+    "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {
     "en_US": {
@@ -86,6 +88,84 @@ exports.level = {
               "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Navigation durch Git",
+              "",
+              "Bevor wir uns einige fortgeschrittene Konzepte in Git ansehen ist es wichtig, verschiedene Wege zum Navigieren durch den Commit-Baum, der das Projekt enthält, zu kennen.",
+              "",
+              "Sobald du das drauf hast, vergrößern sich deine Möglichkeiten in allen anderen Git-Befehlen.",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Erst mal müssen wir über `HEAD` reden. `HEAD` ist ein Alias für den Commit, der gerade ausgecheckt ist -- es ist im Prinzip der Commit, an den du deinen nächsten Commit hängst.",
+              "",
+              "`HEAD` zeigt immer auf den neuesten Commit. Die meisten Git-Befehle, die den Baum verändern, fangen damit an dass sie `HEAD` verschieben.",
+              "",
+              "Normalerweise zeigt `HEAD` auf einen Branch-Namen (z.B. `bugFix`). Wenn du einen Commit machst, wird `bugFix` auf diesen Commit geschoben, und `HEAD` (da es auf `bugFix` zeigt) automatisch auch."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Schauen wir uns das mal in Aktion an. Wir werden hier `HEAD` vor und nach dem Commit anzeigen."
+            ],
+            "afterMarkdowns": [
+              "Siehst du? `HEAD` war die ganze Zeit unter `master` versteckt."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEAD abkoppeln",
+              "",
+              "`HEAD` abzukoppeln bedeutet, es direkt an einen bestimmten Commit zu hängen, anstatt an einen Branch. Wir gelangen dadurch in den \"detached HEAD state\". So sieht's vorher aus:",
+              "",
+              "`HEAD` -> `master` -> `C1`",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Und jetzt:",
+              "",
+              "`HEAD` -> `C1`"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Um diesen Level abzuschließen, lass uns mal `HEAD` von `bugFix` abkoppeln und an den Commit hängen.",
+              "",
+              "Gib den Commit mit seinem Hash an. Der Hash jedes Commits steht in dem Kreis, der den Commit darstellt."
             ]
           }
         }

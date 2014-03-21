@@ -10,6 +10,7 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var Constants = require('../util/constants');
+var GlobalState = require('../util/globalState');
 
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
@@ -49,6 +50,9 @@ var Level = Sandbox.extend({
 
     this.initGoalData(options);
     this.initName(options);
+    this.on('toggleGoal', this.toggleGoal);
+    this.on('minimizeCanvas', this.minimizeGoal);
+    this.on('resizeCanvas', this.resizeGoal);
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
@@ -127,7 +131,8 @@ var Level = Sandbox.extend({
     var name = intl.getName(this.level);
 
     this.levelToolbar = new LevelToolbar({
-      name: name
+      name: name,
+      parent: this
     });
   },
 
@@ -169,7 +174,8 @@ var Level = Sandbox.extend({
     var onlyMaster = TreeCompare.onlyMasterCompared(this.level);
     // first we make the goal visualization holder
     this.goalCanvasHolder = new CanvasTerminalHolder({
-      text: (onlyMaster) ? intl.str('goal-only-master') : undefined
+      text: (onlyMaster) ? intl.str('goal-only-master') : undefined,
+      parent: this
     });
 
     // then we make a visualization. the "el" here is the element to
@@ -184,7 +190,40 @@ var Level = Sandbox.extend({
       levelBlob: this.level,
       noClick: true
     });
+
+    // If the goal visualization gets dragged to the right side of the screen, then squeeze the main
+    // repo visualization a bit to make room. This way, you could have the goal window hang out on
+    // the right side of the screen and still see the repo visualization.
+    this.goalVis.customEvents.on('drag', _.bind(function(event, ui) {
+      if (ui.position.left > 0.5 * $(window).width()) {
+        if (!$('#goalPlaceholder').is(':visible')) {
+          $('#goalPlaceholder').show();
+          this.mainVis.myResize();
+        }
+      } else {
+        if ($('#goalPlaceholder').is(':visible')) {
+          $('#goalPlaceholder').hide();
+          this.mainVis.myResize();
+        }
+      }
+    }, this));
+
     return this.goalCanvasHolder;
+  },
+
+  minimizeGoal: function (position, size) {
+    this.goalVis.hide();
+    this.goalWindowPos = position;
+    this.goalWindowSize = size;
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
+    if ($('#goalPlaceholder').is(':visible')) {
+      $('#goalPlaceholder').hide();
+      this.mainVis.myResize();
+    }
+  },
+
+  resizeGoal: function () {
+    this.goalVis.myResize();
   },
 
   showSolution: function(command, deferred) {
@@ -229,8 +268,22 @@ var Level = Sandbox.extend({
     });
   },
 
+  toggleGoal: function () {
+    if (this.goalCanvasHolder && this.goalCanvasHolder.inDom) {
+      this.hideGoal();
+    } else {
+      this.showGoal();
+    }
+  },
+
   showGoal: function(command, defer) {
     this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
+    this.levelToolbar.$goalButton.text(intl.str('hide-goal-button'));
+    // show the squeezer again we are to the side
+    if ($(this.goalVis.el).offset().left > 0.5 * $(window).width()) {
+      $('#goalPlaceholder').show();
+      this.mainVis.myResize();
+    }
   },
 
   showSideVis: function(command, defer, canvasHolder, initMethod) {
@@ -241,12 +294,13 @@ var Level = Sandbox.extend({
       canvasHolder = initMethod.apply(this);
     }
 
-    canvasHolder.slideIn();
+    canvasHolder.restore(this.goalWindowPos, this.goalWindowSize);
     setTimeout(safeFinish, canvasHolder.getAnimationTime());
   },
 
   hideGoal: function(command, defer) {
     this.hideSideVis(command, defer, this.goalCanvasHolder);
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
   },
 
   hideSideVis: function(command, defer, canvasHolder, vis) {
@@ -326,7 +380,7 @@ var Level = Sandbox.extend({
       return;
     }
 
-    var current = this.mainVis.gitEngine.exportTree();
+    var current = this.mainVis.gitEngine.printTree();
     var solved = TreeCompare.dispatchFromLevel(this.level, current);
 
     if (!solved) {
@@ -365,7 +419,7 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    Constants.GLOBAL.isAnimating = true;
+    GlobalState.isAnimating = true;
     var skipFinishDialog = this.testOption('noFinishDialog');
     var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
     if (this.mainVis.originVis) {
@@ -401,7 +455,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
-      Constants.GLOBAL.isAnimating = false;
+      GlobalState.isAnimating = false;
       defer.resolve();
     });
   },

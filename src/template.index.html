@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div id="mainVisSpace" class="box flex1 horizontal transitionAll visBackgroundColor">
+    <div id="mainVisSpace" class="box flex2 horizontal transitionAll visBackgroundColor">
       <span class="modeText transitionOpacity gitMode">
         Git
       </span>
@@ -75,6 +75,12 @@
         Hg
       </span>
     </div>
+
+    <!-- If you drag the goal window to the right side of the screen, this gets shown and causes
+         the main visualization to squeeze a bit. This way, you could have the goal window hang out
+         on the right side of the screen and still see the repo visualization. -->
+    <div id="goalPlaceholder" class="box flex1 visBackgroundColor" style="display: none;"></div>
+
   </div>
 
   <div id="canvasHolder">
@@ -82,7 +88,7 @@
   </div>
 
   <!-- lol inline styles -->
-  <a href="https://github.com/pcottle/learnGitBranching" target="_blank" style="z-index: 99; position: fixed; top: 0; right: 0">
+  <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
     <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
   </a>
 
@@ -121,14 +127,14 @@
   <script type="text/html" id="helper-bar-template">
     <% for(var i = 0; i < items.length; i++) { %>
       <% if (items[i].text) { %>
-        <a data-id="<%= items[i].id %>"><%= items[i].text %></a>
+        <a data-id="<%= items[i].id %>" class="<%=items[i].id%>"><%= items[i].text %></a>
       <% } else if (items[i].newPageLink) { %>
         <a data-id="<%= items[i].id %>" 
-          target="_blank" href="<%= items[i].href %>">
+          target="_blank" href="<%= items[i].href %>"class="<%=items[i].id%>">
           <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
         </a>
       <% } else { %>
-        <a data-id="<%= items[i].id %>">
+        <a data-id="<%= items[i].id %>" class="<%=items[i].id%>">
           <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
         </a>
       <% } %>
@@ -137,12 +143,17 @@
 
   <script type="text/html" id="level-toolbar-template">
     <div class="toolbar level-toolbar box vertical center transitionAll hidden">
-      <div>
-        <i class="icon-bolt"></i>
+      <div class="clearfix">
+        <div class="showGoalWrapper">
+          <button id="show-goal" type="button">Show Goal</button>
+        </div>
+        <div class="levelNameWrapper">
+          <i class="icon-bolt"></i>
           Level
-            <span class="levelToolbarSpan">
-              <%= name %>
-            </span>
+          <span class="levelToolbarSpan">
+            <%= name %>
+          </span>
+        </div>
       </div>
     </div>
   </script>
@@ -183,8 +194,6 @@
         <div class="inside box flex1">
         </div>
       </div>
-    </div>
-    <div class="box flex3">
     </div>
   </script>
 

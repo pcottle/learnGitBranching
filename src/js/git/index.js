@@ -27,12 +27,6 @@ function catchShortCircuit(err) {
   }
 }
 
-function invariant(truthy, reason) {
-  if (!truthy) {
-    throw new Error(reason);
-  }
-}
-
 function GitEngine(options) {
   this.rootCommit = null;
   this.refs = {};
@@ -174,7 +168,7 @@ GitEngine.prototype.exportTreeForBranch = function(branchName) {
   // is not connected to branchname
   var tree = this.exportTree();
   // get the upstream set
-  var set = this.getUpstreamSet(branchName);
+  var set = Graph.getUpstreamSet(this, branchName);
   // now loop through and delete commits
   var commitsToLoop = tree.commits;
   tree.commits = {};
@@ -624,6 +618,14 @@ GitEngine.prototype.validateBranchName = function(name) {
       )
     });
   }
+  if (/^[cC]\d+$/.test(name)) {
+    throw new GitError({
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: name }
+      )
+    });
+  }
   if (/[hH][eE][aA][dD]/.test(name)) {
     throw new GitError({
       msg: intl.str(
@@ -650,7 +652,7 @@ GitEngine.prototype.validateAndMakeBranch = function(id, target) {
     throw new GitError({
       msg: intl.str(
         'bad-branch-name',
-        { branch: name }
+        { branch: id }
       )
     });
   }
@@ -934,7 +936,7 @@ GitEngine.prototype.checkUpstreamOfSource = function(
   // target. Hence target should be strictly upstream of source
 
   // lets first get the upstream set from source's dest branch
-  var upstream = source.getUpstreamSet(sourceBranch);
+  var upstream = Graph.getUpstreamSet(source, sourceBranch);
 
   var targetLocationID = target.getCommitFromRef(targetBranch).get('id');
   if (!upstream[targetLocationID]) {
@@ -954,7 +956,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   options = options || {};
   sourceBranch = source.resolveID(sourceBranch);
 
-  var targetSet = target.getUpstreamSet(targetBranch);
+  var targetSet = Graph.getUpstreamSet(target, targetBranch);
   var sourceStartCommit = source.getCommitFromRef(sourceBranch);
 
   var sourceTree = source.exportTree();
@@ -1357,7 +1359,24 @@ GitEngine.prototype.pullFinishWithRebase = function(
 
   chain = chain.then(_.bind(function() {
     pendingFetch.dontResolvePromise = true;
-    return this.rebase(remoteBranch, localBranch, pendingFetch);
+
+    try {
+      return this.rebase(remoteBranch, localBranch, pendingFetch);
+    } catch (err) {
+      this.filterError(err);
+      // we make one exception here to match the behavior of
+      // git pull --rebase. If the rebase is empty we just
+      // simply checkout the new location
+      if (err.getMsg() !== intl.str('git-error-rebase-none')) {
+        throw err;
+      }
+      this.setTargetLocation(
+        localBranch,
+        this.getCommitFromRef(remoteBranch)
+      );
+      this.checkout(localBranch);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }
   }, this));
   chain = chain.fail(catchShortCircuit);
 
@@ -1707,7 +1726,7 @@ GitEngine.prototype.pruneTreeAndPlay = function() {
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // dont prune commits that HEAD depends on
-  var headSet = this.getUpstreamSet('HEAD');
+  var headSet = Graph.getUpstreamSet(this, 'HEAD');
   _.each(headSet, function(val, commitID) {
     set[commitID] = true;
   });
@@ -1802,7 +1821,7 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 };
 
 GitEngine.prototype.getUpstreamHeadSet = function() {
-  var set = this.getUpstreamSet('HEAD');
+  var set = Graph.getUpstreamSet(this, 'HEAD');
   var including = this.getCommitFromRef('HEAD').get('id');
 
   set[including] = true;
@@ -1950,7 +1969,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   // we need everything BELOW ourselves...
   var downstream = this.getDownstreamSet(base);
   // and we need to go upwards to the stop set
-  var stopSet = this.getUpstreamSet(destination);
+  var stopSet = Graph.getUpstreamSet(this, destination);
   var upstream = this.getUpstreamDiffSetFromSet(stopSet, base);
 
   // and NOWWWwwww get all the descendants of this set
@@ -2032,7 +2051,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // then we BFS from currentLocation, using the downstream set as our stopping point.
   // we need to BFS because we need to include all commits below
   // pop these commits on top of targetSource and modify their ids with quotes
-  var stopSet = this.getUpstreamSet(targetSource);
+  var stopSet = Graph.getUpstreamSet(this, targetSource);
   var toRebaseRough = this.getUpstreamDiffFromSet(stopSet, currentLocation);
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
@@ -2064,7 +2083,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   }
 
   // now get the stop set
-  var stopSet = this.getUpstreamSet(targetSource);
+  var stopSet = Graph.getUpstreamSet(this, targetSource);
 
   var toRebaseRough = [];
   // standard BFS
@@ -2567,7 +2586,7 @@ GitEngine.prototype.status = function() {
 GitEngine.prototype.logWithout = function(ref, omitBranch) {
   // slice off the ^branch
   omitBranch = omitBranch.slice(1);
-  this.log(ref, this.getUpstreamSet(omitBranch));
+  this.log(ref, Graph.getUpstreamSet(this, omitBranch));
 };
 
 GitEngine.prototype.log = function(ref, omitSet) {
@@ -2612,7 +2631,7 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
     throw new Error('Dont use common ancestor if we are upstream!');
   }
 
-  var upstreamSet = this.getUpstreamSet(ancestor);
+  var upstreamSet = Graph.getUpstreamSet(this, ancestor);
   // now BFS off of cousin until you find something
 
   var queue = [this.getCommitFromRef(cousin)];
@@ -2631,7 +2650,7 @@ GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
 
   // basically just do a completely BFS search on ancestor to the root, then
   // check for membership of child in that set of explored nodes
-  var upstream = this.getUpstreamSet(ancestor);
+  var upstream = Graph.getUpstreamSet(this, ancestor);
   return upstream[child.get('id')] !== undefined;
 };
 
@@ -2657,29 +2676,6 @@ GitEngine.prototype.getDownstreamSet = function(ancestor) {
   }
   return exploredSet;
 };
-
-GitEngine.prototype.getUpstreamSet = function(ancestor) {
-  var commit = this.getCommitFromRef(ancestor);
-  var ancestorID = commit.get('id');
-  var queue = [commit];
-
-  var exploredSet = {};
-  exploredSet[ancestorID] = true;
-
-  var addToExplored = function(rent) {
-    exploredSet[rent.get('id')] = true;
-    queue.push(rent);
-  };
-
-  while (queue.length) {
-    var here = queue.pop();
-    var rents = here.get('parents');
-
-    _.each(rents, addToExplored);
-  }
-  return exploredSet;
-};
-
 
 var Ref = Backbone.Model.extend({
   initialize: function() {
@@ -2741,7 +2737,6 @@ var Branch = Ref.extend({
    *
    * With that in mind, we change our branch model to support the following
    */
-
   setRemoteTrackingBranchID: function(id) {
     this.set('remoteTrackingBranchID', id);
   },

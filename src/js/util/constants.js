@@ -5,11 +5,6 @@ var TIME = {
   betweenCommandsDelay: 400
 };
 
-// useful for locks, etc
-var GLOBAL = {
-  isAnimating: false
-};
-
 var VIEWPORT = {
   minZoom: 0.55,
   maxZoom: 1.25,
@@ -53,7 +48,6 @@ var GRAPHICS = {
   orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 
-exports.GLOBAL = GLOBAL;
 exports.TIME = TIME;
 exports.GRAPHICS = GRAPHICS;
 exports.VIEWPORT = VIEWPORT;

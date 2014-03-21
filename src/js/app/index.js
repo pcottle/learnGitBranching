@@ -4,6 +4,7 @@ var Backbone = require('backbone');
 var constants = require('../util/constants');
 var util = require('../util');
 var intl = require('../intl');
+var GlobalState = require('../util/globalState');
 
 /**
  * Globals
@@ -195,7 +196,7 @@ var initDemo = function(sandbox) {
   }
 
   if (params.locale !== undefined && params.locale.length) {
-    constants.GLOBAL.locale = params.locale;
+    GlobalState.locale = params.locale;
     events.trigger('localeChanged');
   }
 

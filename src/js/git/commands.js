@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var intl = require('../intl');
 
+var Graph = require('../graph');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
@@ -47,8 +48,8 @@ var assertNotCheckedOut = function(engine, ref) {
 
 var assertIsBranch = function(engine, ref) {
   assertIsRef(engine, ref);
-  var obj = engine.refs[ref];
-  if (obj.get('type') !== 'branch') {
+  var obj = engine.resolveID(ref);
+  if (!obj || obj.get('type') !== 'branch') {
     throw new GitError({
       msg: intl.todo(
         ref + ' is not a branch'
@@ -59,7 +60,7 @@ var assertIsBranch = function(engine, ref) {
 
 var assertIsRemoteBranch = function(engine, ref) {
   assertIsRef(engine, ref);
-  var obj = engine.refs[ref];
+  var obj = engine.resolveID(ref);
 
   if (obj.get('type') !== 'branch' ||
       !obj.getIsRemote()) {
@@ -86,7 +87,7 @@ var assertOriginSpecified = function(generalArgs) {
 
 var assertBranchIsRemoteTracking = function(engine, branchName) {
   branchName = crappyUnescape(branchName);
-  if (!engine.refs[branchName]) {
+  if (!engine.resolveID(branchName)) {
     throw new GitError({
       msg: intl.todo(branchName + ' is not a branch!')
     });
@@ -177,7 +178,7 @@ var commandConfig = {
 
       command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE);
 
-      var set = engine.getUpstreamSet('HEAD');
+      var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
       var toCherrypick = _.map(generalArgs, function(arg) {
         var commit = engine.getCommitFromRef(arg);
@@ -696,7 +697,7 @@ var commandConfig = {
           // can be created on demand but we at least need this to be a source
           // locally otherwise we will fail
           assertIsRef(engine, firstArg);
-          sourceObj = engine.refs[firstArg];
+          sourceObj = engine.resolveID(firstArg);
         } else {
           // since they have not specified a source or destination, then
           // we source from the branch we are on (or HEAD)

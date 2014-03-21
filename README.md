@@ -3,6 +3,8 @@
 LearnGitBranching is a git repository visualizer, sandbox, and series of educational tutorials and challenges. Its primary purpose is to help developers understand git through the power of visualization (something that's absent when working on the command line).
 
 You can input a variety of commands into LearnGitBranching (LGB) -- as commands are processed, the nearby commit tree will dynamically update to reflect the effects of each command:
+
+
 <img src="https://raw.github.com/pcottle/learnGitBranching/master/assets/learnGitBranching.png"/>
 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
@@ -37,6 +39,8 @@ LearnGitBranching is a pretty simple application (from a technical perspective).
 
 Because the app contains a lot of code, I have written everything into Nodejs-style modules. The modules are packaged together with the `Browserify` and then sent down in a format the browser can understand.
 
+As of December 2013, I've migrated the build process to use Grunt >0.4, since the older version was giving a lot of people build headaches. It should be fairly rock solid now!
+
 Here is the high level process of the build:
 
 * Code is written into the node.js modules which require other modules
@@ -55,8 +59,9 @@ Thus, if you build the app locally, all you have to do in order to run the app i
 ## Building yourself / Contributing Functionality
 
 For contributing core functionality in the app, you'll probably want to test your changes
-at least once before submitting a pull request. That means you'll need the `grunt` build tool. It's a fairly
-common tool, however I use a slightly older version.
+at least once before submitting a pull request. That means you'll need the "Grunt.js" build tool to build the app:
+
+http://gruntjs.com/getting-started
 
 You'll also need `npm` to download all the dependencies of the project.
 
@@ -66,13 +71,17 @@ The general workflow / steps are below:
 git clone <your fork of the repo>
 cd learnGitBranching
 npm install # to install all the node modules I depend on
+
 git checkout -b newAwesomeFeature
-# some changes
-./node_modules/grunt/bin/grunt fastBuild # to use the npm version of grunt
-# after building you can open up your browser to the index.html that is generated and see your changes
-grunt watch # will keep watch over files and fastBuild whenever they change. lot of CPU though
-# more changes
-./node_modules/grunt/bin/grunt build # build runs the tests and lint as well
+vim ./src/js/git/index.js # some changes
+grunt fastBuild # skips tests and linting, faster build
+
+# after building you can open up your browser to the index.html
+# file generated and see your changes
+
+vim ./src/js/git/index.js # more changes
+grunt build # runs tests and lint
+
 git commit -am "My new sweet feature!"
 git push
 # go online and request a pull
@@ -92,9 +101,12 @@ And the following heroes for assisting in translating:
 * "scientific-coder"
 * "ace-coder"
 * Joël Thieffry
+* Jens Bremmekamp ("nem75")
+* "hilojack"
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
+* Sergey Krilov -- Draggable windows!
 * Aaron Schrab - 5x!!
 * Stephen Cavaliere
 * Andrew Ardill
@@ -114,11 +126,12 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Allen Guo
 * Timothy Qiu
 * Hyunjin CHA
-* "nem75"
+* Jens Bremmekamp ("nem75")
 * Fabio Crisci (piuccio)
 * Max Sikström (pengi) [tag support!!]
 * "rogererens"
 * Emanuel Schorsch
+* Carl X. Su
 
 Or reported an issue that was successfully closed!
 
@@ -156,4 +169,6 @@ Or reported an issue that was successfully closed!
 * "iplus"
 * Christian Sauer
 * "alvarogarcia7"
+* Il Memming Park
+* Neil Traft
 
