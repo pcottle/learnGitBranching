@@ -75,7 +75,7 @@ exports.strings = {
     'en_US': 'Detached head!',
     'de_DE': 'Detached head!',
     'zh_CN': '脑袋搬家（Detached head）了！',
-    'zh_TW': '腦袋搬家（Detached head）了！',
+    'zh_TW': '分離 Head！',
     'fr_FR': 'head détaché !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ exports.strings = {
     'en_US': 'Ready to commit! (as always in this demo)',
     'de_DE': 'Fertig zum committen! (Wie immer in dieser Demo)',
     'zh_CN': '可以提交啦！（这演示里一直可以提交）',
-    'zh_TW': '可以提交啦！（這演示裡一直可以提交）',
+    'zh_TW': '準備 commit ！（在這個 demo 裡面可以一直 commit）',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -103,14 +103,15 @@ exports.strings = {
     'en_US': 'Quick commit. Go Bears!',
     'de_DE': 'Schneller Commit. Eff-Zeh!',
     'zh_CN': '快速提交。上啊月熊！',
-    'zh_TW': '快速提交。上啊月熊！',
+    'zh_TW': '快速 commit。上啊熊！',
     'fr_FR': 'Commit rapide. NoMaN Sux!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Already up to date!',
     'de_DE': 'Bereits aktuell!',
-    'fr_FR': 'Déjà à jour'
+    'fr_FR': 'Déjà à jour',
+    'zh_TW': '已經是最新的了'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -149,7 +150,7 @@ exports.strings = {
       'aren\'t branches',
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
     'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
-    'zh_TW': '你不能刪除主分支（master），或者你當前所在的分支，或者其他不是分支也不知道能不能吃的東西。',
+    'zh_TW': '你不能刪除 master 分支，或者你當前所在的分支，或者其它連分支都不是的東西。',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -167,7 +168,7 @@ exports.strings = {
     'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
     'de_DE': 'Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen',
     'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
-    'zh_TW': '沒有需要 rebase 的提交！每份提交皆已合併或套用變更了',
+    'zh_TW': '沒有需要 rebase 的 commit！每個都是一個 merge commit 或者修改已經被寫入了',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -176,7 +177,7 @@ exports.strings = {
     'en_US': 'Nothing to do...',
     'de_DE': 'Nichts zu tun ...',
     'zh_CN': '没啥鸟事……',
-    'zh_TW': '沒啥鳥事……',
+    'zh_TW': '沒什麼事情要做‧‧‧',
     'fr_FR': 'Rien à effectuer…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -185,7 +186,7 @@ exports.strings = {
     'en_US': 'Fast forwarding...',
     'de_DE': 'Fast forward...',
     'zh_CN': '快速前进……',
-    'zh_TW': '快速前進……',
+    'zh_TW': '快速前進‧‧‧',
     'fr_FR': 'En avance rapide…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -212,7 +213,7 @@ exports.strings = {
     'en_US': 'Commit {commit} doesnot have a {match}',
     'de_DE': 'Commit {commit} hat kein {match}',
     'zh_CN': '提交 {commit} 并没有 {match}',
-    'zh_TW': '提交 {commit} 並没有 {match}',
+    'zh_TW': 'Commit {commit} 並没有 {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -221,7 +222,7 @@ exports.strings = {
     'en_US': 'Warning!! Detached HEAD state',
     'de_DE': 'Achtung! Detached HEAD Zustand',
     'zh_CN': '警告！脑袋搬家（Detached HEAD）状态',
-    'zh_TW': '警告！腦袋搬家（Detached HEAD）狀態',
+    'zh_TW': '注意喔！現在的狀態是 Detached Head',
     'fr_FR': 'Attention ! HEAD est détaché'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -230,7 +231,7 @@ exports.strings = {
     'en_US': 'No need to add files in this demo',
     'de_DE': 'In dieser Demo müssen keine Dateien hinzugefügt werden',
     'zh_CN': '此演示中不需要添加文件',
-    'zh_TW': '此演示中不需要添加文件',
+    'zh_TW': '此 demo 中不需要再加入檔案',
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -248,7 +249,7 @@ exports.strings = {
     'en_US': 'The commit {commit} already exists in your changes set, aborting!',
     'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
     'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！',
-    'zh_TW': '提交 {commit} 已經存在於你的改動集裡，正在中止！',
+    'zh_TW': 'Commit {commit} 已經在你的修改的集合裡，正在停止！',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -257,7 +258,7 @@ exports.strings = {
     'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
     'de_DE': 'Kann im Detached Head Zustand kein reset ausführen! Bitte checkout zum Bewegen benutzen',
     'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧',
-    'zh_TW': '不能在分離的 HEAD 裡重置！用 checkout 吧',
+    'zh_TW': '不能在 Detached HEAD 中重來！用 checkout 來移動吧',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -266,7 +267,7 @@ exports.strings = {
     'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
     'de_DE': 'Das Standardverhalten in dieser Demo ist --hard, du kannst die Option auch weglassen!',
     'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！',
-    'zh_TW': '默認的行為是 --hard 硬重置，盡管省略掉那個選項吧！',
+    'zh_TW': '預設的行為是 --hard reset，儘量省略掉那個選項吧！',
     'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -276,7 +277,7 @@ exports.strings = {
       'command is invalid!',
     'de_DE': 'In dieser Demo gibt es kein Hinzufügen / Vormerken von Dateien, dieser Befehl ist daher ungültig!',
     'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。',
-    'zh_TW': '沒有添加、緩存文件的必要，所以改選項或者命令是不合法的。',
+    'zh_TW': '沒有加入、或者暫存 (staging) 文件的必要，所以改選項或者命令是不合法的。',
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -350,7 +351,7 @@ exports.strings = {
     'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
     'de_DE': 'Tut mir leid, aber aus Gründen der Darstellung müssen wir die Branch-Namen kurz halten. Dein Branch-Name wurde auf 9 Zeichen gekürzt und heißt daher jetzt "{branch}"',
     'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"',
-    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短些的分支名稱。您使用的將被截斷到9个字符，即"{branch}"',
+    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短一點的分支名稱。您使用的將會被截斷到剩下9個字元，即"{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -476,7 +477,7 @@ exports.strings = {
     'en_US': 'DontWorryAboutFilesInThisDemo.txt',
     'de_DE': 'VergissDateienInDieserDemo.txt',
     'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)',
-    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt（譯註：在試驗裡不用擔心檔案.txt）',
+    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt （譯註：在 demo 裡不用擔心檔案）',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)'
   },
   'mobile-alert': {
@@ -493,7 +494,7 @@ exports.strings = {
     'en_US': 'Share this tree with friends! They can load it with "import tree"',
     'de_DE': 'Teile diesen git-Baum mit Freunden! Sie können ihn mit "import tree" laden',
     'zh_CN': '与你的好友分享提交树！他们可以用 "import tree" 加载它',
-    'zh_TW': '與你的好友分享提交樹！他們可以用 "import tree" 加載它',
+    'zh_TW': '與你的好友分享這棵樹！他們可以用 "import tree" 來載入它',
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -511,7 +512,7 @@ exports.strings = {
     'en_US': 'Solved map was reset, you are starting from a clean slate!',
     'de_DE': 'Gelöste Karte wurde zurückgesetzt, du fängst mit einem leeren Blatt an!',
     'zh_CN': '解决列表已重置，您现在从零开始了',
-    'zh_TW': '解決列表已重置，您現在從零開始了',
+    'zh_TW': '過關地圖已經重新設置，您現在從零開始了',
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -538,7 +539,7 @@ exports.strings = {
     'en_US': 'The undo stack is empty!',
     'de_DE': 'Die Undo-Liste ist leer!',
     'zh_CN': '还没有什么可以撤销',
-    'zh_TW': '還沒有什麼可以撤銷',
+    'zh_TW': '還沒有什麼可以取消',
     'fr_FR': 'La pile d\'annulation est vide !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -619,7 +620,7 @@ exports.strings = {
     'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
     'de_DE': 'Lege Start fest ... Auflösung und Ziel werden gelößcht, falls sie schon festgelegt worden waren',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
-    'zh_TW': '正在定義起始點……先前定義的解法和目標會被覆蓋掉',
+    'zh_TW': '正在定義起始點‧‧‧先前定義的解法和目標會被覆蓋掉',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -628,7 +629,7 @@ exports.strings = {
     'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
     'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber diesen Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
-    'zh_TW': '您正在關卡中，這裡有多種形式的幫助，請選擇 "help level" (關卡幫助)或 "help general" (一般幫助)',
+    'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -637,18 +638,20 @@ exports.strings = {
     'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"',
     'de_DE': 'Du befindest dich im Level-Editor, daher gibt es verschiedene Hilfen. Gib bitte "help general" oder "help builder" ein',
     'zh_CN': '您正在进行关卡构建中，这里有多种形式的帮助，请选择 "help general" (一般帮助)或 "help builder" (关卡构建帮助)',
-    'zh_TW': '您正在進行關卡構建中，這裡有多種形式的幫助，請選擇 "help general" (一般幫助)或 "help builder" (關卡構建幫助)',
+    'zh_TW': '您正在進行關卡構建中，這裡有多種不同型式的幫助，請選擇 "help general" （一般幫助）或 "help builder" （製造關卡的幫助）',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
     '__desc__': 'button label to show goal',
-    'en_US': 'Show Goal'
+    'en_US': 'Show Goal',
+    'zh_TW': '顯示目標'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
-    'en_US': 'Hide Goal'
+    'en_US': 'Hide Goal',
+    'zh_TW': '隱藏目標'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -663,7 +666,8 @@ exports.strings = {
   'goal-only-master': {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
-    'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden'
+    'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
+    'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -671,7 +675,7 @@ exports.strings = {
     'en_US': 'You can hide this window with "hide goal"',
     'de_DE': 'Du kannst diese Meldung mit "hide goal" ausblenden',
     'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口',
-    'zh_TW': '你可以通過命令 "hide goal" 關閉這個窗口',
+    'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -680,7 +684,7 @@ exports.strings = {
     'en_US': 'You can hide this window with "hide start"',
     'de_DE': 'Du kannst diese Meldung mit "hide start" ausblenden',
     'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口',
-    'zh_TW': '你可以通過命令 "hide start" 關閉這個窗口',
+    'zh_TW': '你可以透過 "hide start" 關閉這個視窗',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -698,7 +702,7 @@ exports.strings = {
     'en_US': 'There is no start dialog to show for this level!',
     'de_DE': 'Es gibt keinen Einführungs-Dialog für diesen Level!',
     'zh_CN': '介绍? 这关真没有!',
-    'zh_TW': '介紹? 這關真沒有!',
+    'zh_TW': '這關沒有介紹!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -707,7 +711,7 @@ exports.strings = {
     'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
     'de_DE': "Hm, es gibt anscheinend keinen Hinweis für diesen Level :-/",
     'zh_CN': "提示？嗯，这关真没有哎~ :-/",
-    'zh_TW': "提示？嗯，這關真沒有哎~ :-/",
+    'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
