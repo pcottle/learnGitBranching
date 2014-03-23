@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Remote Branches",
     "zh_CN": "Remote Branches",
+    "zh_TW": "Remote Branches (遠端分支)",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "Pay attention to the ordering -- commit on master first!",
+    "zh_TW": "注意順序的問題喔！先在 master branch 上面 commit",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
   },
   "startDialog": {
@@ -69,6 +71,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote Branches",
+              "",
+              "現在你已經知道 `git clone` 在幹嘛了，讓我們仔細看看到底發生了什麼事。",
+              "",
+              "你首先看到的是在你的本地端 (local repository) 出現了一個新的 branch 叫作 `o/master`，這種型態的 branch 叫作 remote branch (遠端分支)，因為特殊的需求，因此 remote branch 有特殊的性質。",
+              "",
+              "remote branch 反應了 remote repository 的狀態 (因為你最後接觸的是這些 remote repository)，最重要的是，在你想要分享你的工作給其他人時，你必須知道你現在的工作跟 remote repository 有哪些不同，而 remote branch 的狀態就是在告訴你這些資訊。",
+              "",
+              "remote branch 有特別的特性，當你移動到 remote branch 時，你就進入到 detached `HEAD` 狀態，git 這樣做的原因是告訴你不能夠直接影響這些 branch。你必須要在其它的 branch 工作，並且分享到 remote。(分享之後，你的 remote branch 就會被更新)。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 什麼是 `o/`?",
+              "",
+              "你也許會對於 remote branch 前面的 `o/` 感到困惑，喔! remote branch 也 (需要) 一個命名法則，或者是一般表示 remote branch 的格式。",
+              "",
+              "* `<remote 名稱>/<branch 名稱>`",
+              "",
+              "因此，當你看到一個 branch 叫做 `o/master`，就表示這個 branch 叫做 master，而且這個 remote 的名稱叫作 `o`。",
+              "",
+              "很多程式設計師實際上會把他們的 remote 命名為 `origin`，而不是 `o`，這在 git 是很常見的事情，因為當你使用 `git clone` 時，git 會自動把你的 remote 命名為 `origin`。",
+              "",
+              "但是很不幸的是 `origin` 並沒有辦法完全顯示在我們的 UI 上面，所以我們用 `o` 來簡化它 (只要記住當你使用 git 的時候，實際上是命名為 `origin`)。",
+              "",
+              "有很多事情需要說明，現在讓我們來看看吧！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們移動到 (check out) 一個 remote branch 並且看一下會發生什麼事情"
+            ],
+            "afterMarkdowns": [
+              "就像你看到的， git 讓我們進到 detached `HEAD` 狀態，同時，當我們加入一個新的 commit 時，`o/master` 都沒有更新，這是因為只有當 remote 更新的時候，`o/master` 才會更新。"
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，先在 master branch 上面做一次 commit，再移動到 `o/master` 上做一次 commit，這有助於我們了解到 remote branch 的不同，它們只會反應 remote 的狀態。"
             ]
           }
         }

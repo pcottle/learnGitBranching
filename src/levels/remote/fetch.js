@@ -5,12 +5,14 @@ exports.level = {
   "name": {
     "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
-    "zh_CN": "Git Fetchin'"
+    "zh_CN": "Git Fetchin'",
+    "zh_TW": "Git Fetchin'"
   },
   "hint": {
     "en_US": "just run git fetch!",
     "de_DE": "Einfach git fetch ausführen!",
-    "zh_CN": "just run git fetch!"
+    "zh_CN": "just run git fetch!",
+    "zh_TW": "只要下 git fetch 指令"
   },
   "startDialog": {
     "en_US": {
@@ -81,6 +83,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish the level, simply `git fetch` and download all the commits!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "透過 git remotes 其實就是把資料接收或傳送到其它的 repository，只要我們可以將資料傳進及傳出，我們就可以分享任何被 git 所追蹤的 repository 的更新 (例如分享工作進度，新的檔案，新的想法，以及情書等等‧‧‧)。",
+              "",
+              "在這個教學中，我們會學習到如何從 remote repository 來 fetch (抓取) 資料，這個 command 叫作 `git fetch`。",
+              "",
+              "你將會注意到當我們的 remote repository 更新的時候，相對應的 _remote_ branch 也會反應該更新，這個跟我們之前所提到的 remote branch 的特性是吻合的。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在講到 `git fetch` 的細節之前，我們要先來看一下例子! 在這裡我們有一個包含了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
+            ],
+            "afterMarkdowns": [
+              "看吧! commits `C2` and `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/master` 也更新了。"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch 做了什麼",
+              "",
+              "`git fetch` 只有執行了兩個主要步驟。包含:",
+              "",
+              "* 下載 remote 有的 commit，但是在我們的 local repository 是沒有該 commit。還有‧‧‧",
+              "* 更新我們 remote branch 所指向的地方 (例如， `o/master`)",
+              "",
+              "基本上，`git fetch` 同步了我們的 local repository 以及 remote repository 的最新狀態。",
+              "",
+              "假如你還記得之前的教學的話，我們說過 remote branch 反應了 remote repository 的狀態，原因在於說你最後接觸的是這些 remote repository，而你就是利用 `git fetch` 來接觸這些 remote repository! 現在 remote branch 跟 `git fetch` 的關係已經很明顯了。",
+              "",
+              "`git fetch` 通常是透過網路來跟 remote 溝通。(透過一個 protocol (協定)，例如 `http://` 或者是 `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch 沒有做什麼",
+              "",
+              "然而，`git fetch` 並不會影響到在你的 local repository 中的 `master` branch，他並不會將你的 `master` branch 更新到最新的狀態。",
+              "",
+              "這個觀念很重要，因為很多程式設計師以為 `git fetch` 可以讓他們在 local repository 上面的工作跟 remote repository 的工作可以同步。它是會下載同步所需的資料，但是不會更新任何的檔案，我們會在後面的教學中提到如何做到這件事情。:D",
+              "",
+              "因此，你可以把 `git fetch` 想成是在下載資料。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，只要透過 `git fetch` 並且下載全部的 commit 即可!"
             ]
           }
         }
