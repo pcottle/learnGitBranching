@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Git Pullin'",
     "zh_CN": "Git Pullin'",
+    "zh_TW": "Git Pullin'",
     "de_DE": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
     "zh_CN": "Just run git pull!",
+    "zh_TW": "只要下 git pull 這個指令即可",
     "de_DE": "Führe einfach git pull aus."
   },
   "startDialog": {
@@ -67,6 +69,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "現在我們已經知道如何利用 `git fetch` 從 remotre repository 抓取資料，讓我們來看一下如何更新我們的資料!",
+              "",
+              "只要在你的 local repository 有新的 commit，便有很多方法可以做到這件事情，你可以把它們視為在其他 branch 上面的一般的 commit，這表示你可以執行像這樣子的命令:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* 等等‧‧‧",
+              "",
+              "事實上，一次*下載 (fetch)* remote 的更新並且*合併 (merge)* 這些更新在 git 裡面是很常見的事情! 這個命令叫作 `git pull`。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來看循序執行一個 `fetch` 和一個 `merge` 的樣子"
+            ],
+            "afterMarkdowns": [
+              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `master` branch 跟 remote repository 的新的工作進度同步了 (在這個例子中，remote repository 叫作 `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果用 `git pull` 會發生什麼事情?"
+            ],
+            "afterMarkdowns": [
+              "一樣! 很明顯地，`git pull` 其實就是 git fetch 跟 git merge 的循序執行的結果，而且 merge 的 branch 就是 fetch 所更新的 branch。"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我們會解釋 `git pull` 的細節 (包括 options 以及 arguments), 但現在先讓我們在這個關卡試試看！",
+              "",
+              "記住喔，你可以利用循序執行的方式來執行 `fetch` 以及 `merge` 來完成這個關卡，但是相對於 `git pull`，你就得多打一個指令。:P"
             ]
           }
         }
