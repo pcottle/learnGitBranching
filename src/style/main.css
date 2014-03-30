@@ -69,6 +69,7 @@ body,
   display: box;
   display: -moz-box;
   display: -webkit-box;
+  display: -ms-box;
 }
 
 body,
@@ -1063,6 +1064,7 @@ div.gitDemonstrationView {
 .leftRightView div.exit {
   -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
   -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+  -ms-transform: matrix(-1, 0, 0, 1, 0, 0);
 }
 
 .leftRightView div.exit,
@@ -1098,10 +1100,12 @@ div.gitDemonstrationView {
 
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
   border-radius: 8px;
 
   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -ms-box-shadow: rgba(0,0,0,1) 0 1px 0;
   box-shadow: rgba(0,0,0,1) 0 1px 0;
   text-shadow: rgba(0,0,0,.4) 0 1px 0;
   color: white;
