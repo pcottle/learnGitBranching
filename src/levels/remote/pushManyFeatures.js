@@ -5,11 +5,13 @@ exports.level = {
   "hint": {
     "en_US": "Remember you can always use the undo or reset commands",
     "zh_CN": "你随时都可以使用undo/reset命令.",
+    "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
   },
   "name": {
     "en_US": "Push Master!",
     "zh_CN": "Push Master!",
+    "zh_TW": "Push Master!",
     "de_DE": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
@@ -62,6 +64,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Merging feature branches",
+              "",
+              "現在你已經很熟悉 fetch，pull，以及 push，讓我們來針對一個新的問題來應用這些技巧。",
+              "",
+              "在一個大型的專案裡面，程式設計師經常會在 feature branch (有別於 master branch) 上面做開發，之後等開發完之後，在一次 merge 回去。這跟之前的課程是很類似的 (其它的 branch 被 push 到 remote) 上，但是現在我們還要再多介紹一個步驟。",
+              "",
+              "某些程式設計師只針對 `master` branch 進行 push 或者是 pull。這樣子的話 `master` 一直都保持跟 remote (`o/master`) 同步。",
+              "",
+              "所以針對這個問題我們結合了兩件事情:",
+              "",
+              "* 將 feature branch 結合 (merge) 到`master` branch，並且",
+              "* push remote 以及 pull remote"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們馬上來實際看一下如何更新 `master` 並且 push 到 remote。"
+            ],
+            "afterMarkdowns": [
+              "我們在這裡執行兩個指令:",
+              "",
+              "* rebase 我們的 branch 到 remote 的新的 commit 上面，並且",
+              "* 發佈到 remote 上面"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "這個關卡很複雜，這裡有一些提示:",
+              "",
+              "* 總共有三個 feature branch，分別是 `side1`，`side2` 以及 `side3`",
+              "* 我們想要將這三個 branch 分別 push 到 remote。",
+              "* 但是 remote 已經被事先更新過了，所以我們必須要先同步那些更新。",
+              "",
+              ":O 很好! 祝你好運，完成這個關卡是一個很重要的步驟。"
             ]
           }
         }

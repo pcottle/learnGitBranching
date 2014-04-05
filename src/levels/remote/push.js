@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Git Pushin'",
     "zh_CN": "Git Pushin'",
+    "zh_TW": "Git Pushin'",
     "de_DE": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
     "zh_CN": "push之前你需要先克隆.",
+    "zh_TW": "push 之前你需要先 clone.",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
   },
   "startDialog": {
@@ -49,6 +51,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "ok，現在我已經從 remote 那邊下載了一些更新，並且把它們 merge 到我的 local repository 上面的工作，這聽起來實在太讚了‧‧‧，但是我要如何分享_我_所做的更新給其它人呢?",
+              "",
+              "喔，其實上傳並且分享更新跟下載更新並且 merge 是相反的兩件事情，那什麼是 `git pull` 的相反呢? 那就是 `git push`!",
+              "",
+              "`git push` 負責上傳_你的_ commit 到特定 remote 上面並且做出相對應的更新，只要做完了 `git push`，所有你的朋友都可以從 remote 上面下載你所送出去的 commit。",
+              "",
+              "你可以把 `git push` 當作是一個 \"發佈\" 你的工作進度的指令，還有一些我們即將要講到的細節，但是先讓我們從一些簡單的步驟開始。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡我們有了一些 remote 所沒有的 commit。讓我們來上傳它們吧!"
+            ],
+            "afterMarkdowns": [
+              "我說的沒錯吧! remote 收到了 commit `C2`，同時在 remote 上的 `master` branch 也一起更新並且指向 `C2`，同時我們*自己的* `o/master` 也一併更新了!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這個關卡，只要上傳兩個新的 commit 給 remote，不要太得意忘形喔！因為這些課程將會愈來愈難!"
             ]
           }
         }
