@@ -5,13 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Git push arguments -- Expanded!",
     "zh_CN": "Git push 参数2!",
-    "zh_TW": "Git push 的參數 -- 延伸討論!",
+    "zh_TW": "Git push 的參數，延伸討論！",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
-    "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答 :P",
+    "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
   },
   "startDialog": {
@@ -93,11 +93,11 @@ exports.level = {
             "markdowns": [
               "## `<place>` 這個參數的細節",
               "",
-              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `master`  當作 place 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*(來源) 並且要 *往哪裡去*(目的地)。",
+              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `master`  當作 place 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*（source） 並且要 *往哪裡去*（destination）。",
               "",
-              "你可能會很好奇，當我們的來源以及目的地是不同的時候，應該怎麼做? 當你想要 push `foo` branch 上面的 commit 到 remote 的 `bar` branch 的時候，應該怎麼做?",
+              "你可能會很好奇，當我們的 source 以及 destination 是不同的時候，應該怎麼做？當你想要 push `foo` branch 上面的 commit 到 remote 的 `bar` branch 的時候，應該怎麼做？",
               "",
-              "很遺憾地，對於 git 來說這是不可能的...開玩笑的啦! 當然是有可能的 :)... git 有非常非常大的彈性 (太超過了啦)。",
+              "很遺憾地，對於 git 來說這是不可能的...開玩笑的啦！當然是有可能的:)... git 有非常非常大的彈性（太超過了啦）。",
               "",
               "讓我們來看看下一頁..."
             ]
@@ -107,13 +107,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "為了要指定 `<place>` 的來源以及目的地，只要利用一個分號將這兩個連在一起:",
+              "為了要指定 `<place>` 的 source 以及 destination，只要利用一個分號將這兩個連在一起：",
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "這通常被稱為一個 colon (分號) refspec. refspec 只是一個表示 location (位置) 的花俏的名稱，這個位置可以被 git 識別 ( 例如 `foo` branch 或是 `HEAD~1`)。",
+              "這通常被稱為一個 colon （分號） refspec. refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
               "",
-              "一旦你單獨指定了來源以及目的地，你可以看到花俏且準確的指令。讓我來來看一個例子!"
+              "一旦你單獨指定了 source 以及 destination，你可以看到花俏且準確的指令。讓我來來看一個例子！"
             ]
           }
         },
@@ -121,10 +121,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "記住， `來源` 表示任意可以被 git 辨識的 location:"
+              "記住， `source` 表示任意可以被 git 辨識的位置:"
             ],
             "afterMarkdowns": [
-              "哇!這實在是一個很花俏的指令但是確很合理 -- git 把 `foo^` 解讀成一個 location，並且 push 該 location 的 commit 到目前 remote 的 master branch。 "
+              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。 "
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -134,10 +134,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果你想要 push 的目的地 (destination) 不存在怎麼辦？ 沒有問題! 只要給一個 branch 的名稱， git 就會在 remote 幫你建立。"
+              "如果你想要 push 的 destination 不存在怎麼辦？沒有問題！只要給一個 branch 的名稱，git 就會在 remote 幫你建立。"
             ],
             "afterMarkdowns": [
-              "太讚了，實在非常地簡單 :D"
+              "太讚了，實在非常地簡單:D"
             ],
             "command": "git push origin master:newBranch",
             "beforeCommand": "git clone; git commit"
@@ -147,7 +147,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "對於這個關卡，想辦法達到這個視覺化的目標，而且要記得格式:",
+              "對於這個關卡，想辦法達到這個視覺化的目標，而且要記得格式：",
               "",
               "`<來源>:<目的地>`"
             ]

@@ -81,13 +81,13 @@ exports.level = {
               "",
               "Remote (遠端) repository 並不會很難了解. 藉由現在的雲端運算，可以很輕易地了解到在 git remotes 裡面有很多有趣的事情，但它們其實其實就只是你的或者是其它電腦上的 repository 的副本。你可以輕易地透過網路去發送你的 commit 給其它的電腦。",
               "",
-              "也就是說， remote repository 有很多有趣的地方:",
+              "也就是說， remote repository 有很多有趣的地方：",
               "",
               "- 第一，remote 是用來備份的! 本地端的 git 有能力可以回復文件到前一個狀態 (你知道的)，但是全部的資訊還是儲存在本地端。如果你在其它的電腦上面有你的 git repository 的副本，則你可以在資料不小心遺失的時候進行救援備份",
               "",
-              "- 更重要的是, remotes 讓大家一起來 coding! 現在你的 project 放在 remote 上面，你的朋友可以很容易地對你的 project 做出貢獻 (或者是 pull 你最後的修改) 。",
+              "- 更重要的是, remotes 讓大家一起來 coding！現在你的 project 放在 remote 上面，你的朋友可以很容易地對你的 project 做出貢獻（或者是 pull 你最後的修改） 。",
               "",
-              "使用網站去對 remote repository 做視覺化非常流行 (例如 [Github](https://github.com/) 或者是 [Phabricator](http://phabricator.org/))，但這背後最大的功臣是 remote repository，因此我們務必要了解它。"
+              "使用網站去對 remote repository 做視覺化非常流行（例如 [Github](https://github.com/） 或者是 [Phabricator]（http://phabricator.org/）），但這背後最大的功臣是 remote repository，因此我們務必要了解它。"
             ]
           }
         },
@@ -97,9 +97,9 @@ exports.level = {
             "markdowns": [
               "## 我們去建立 remotes 的指令",
               "",
-              "到目前為止，Learn Git Branching 著重在本地端的工作 (branching, merging, rebasing 以及其它指令)， 但是我們現在想要學習針對 remote 的指令，我們需要一個指令去建立環境，`git clone` 就是我們需要的指令",
+              "到目前為止，Learn Git Branching 著重在解釋本地端的工作（branching, merging, rebasing 以及其它指令）， 但是我們現在想要學習針對 remote 的指令，我們需要一個指令去建立環境，`git clone` 就是我們需要的指令",
               "",
-              "技術上來說， `git clone` 表示你想要把遠端的 repository 複製一份下來放在本地端 ( 例如從 github 複製)。 雖然 `git clone` 實際上是把遠端的 repository 複製下來放在本地端，在 Learn Git Branching 中，我們用的這個 command 會有一點不同。雖然他跟真實的 command 的意思相反，但是它可以建立起本地端以及遠端的一個連結，現在讓我們看看如何使用它吧。",
+              "技術上來說， `git clone` 表示你想要把遠端的 repository 複製一份下來放在本地端（ 例如從 github 複製）。 雖然 `git clone` 實際上是把遠端的 repository 複製下來放在本地端，在 Learn Git Branching 中，我們用的這個指令會有一點不同。雖然他跟真實的指令的意思相反，但是它可以建立起本地端以及遠端的一個連結，現在讓我們看看如何使用它吧。",
               ""
             ]
           }
@@ -108,11 +108,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "讓我們慢慢來，並且看看 remote repository 是長什麼樣子 (在我們的視覺化圖形中)。",
+              "讓我們慢慢來，並且看看 remote repository 是長什麼樣子（在我們的視覺化圖形中）。",
               ""
             ],
             "afterMarkdowns": [
-              "就是那樣! 現在我們有了一個放置了我們 project 的 remote repository。除了一些視覺上的改變之外，它們看起來很像，在之後的關卡中你就會看到我們如何分享我們的工作到這些 repository 上面。"
+              "就是那樣！現在我們有了一個放置了我們 project 的 remote repository。除了一些視覺上的改變之外，它們看起來很像，在之後的關卡中你就會看到我們如何分享我們的工作到這些 repository 上面。"
             ],
             "command": "git clone",
             "beforeCommand": ""
@@ -122,7 +122,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這個關卡，只要打 `git clone`。其它的學習會在後面的關卡中出現"
+              "要完成這個關卡，只要打 `git clone，其它的學習會在後面的關卡中出現。"
             ]
           }
         }

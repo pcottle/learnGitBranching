@@ -141,10 +141,10 @@ exports.level = {
             "markdowns": [
               "### Remote-Tracking branches",
               "",
-              "在之前的課程中，有一件事情看起來很\"神奇\"，那就是 git 知道 `master` branch 是對應到 `o/master` branch。當然這些 branch 有類似的名稱，所以可以大概猜到， local 的 `master` branch 可以 connect 到 remote 的 `master branch`，但是我們是在兩種情況下可以確定有這個 connection:",
+              "在之前的課程中，有一件事情看起來很\"神奇\"，那就是 git 知道 `master` branch 是對應到 `o/master` branch。當然這些 branch 有類似的名稱，所以可以大概猜到， local 的 `master` branch 可以對應到 remote 的 `master branch`，但是我們是在兩種情況下可以確定有這個對應關係：",
               "",
-              "* 在使用 `pull` 的時候，下載 commit 到 `o/master`，並且 `merge` 這些 commit 到 `master` branch，這就表示這個 merge 的目標是決定於這個 connection。",
-              "* 在使用 `push` 的時候，在 `master` branch 上面的 commit 被 push 到 remote 上面的 `master` branch (它在 local 端被表示成 `o/master`)，這就表示 push 的目標是決定於 `master` 以及 `o/master` 之間的 connection。",
+              "* 在使用 `pull` 的時候，下載 commit 到 `o/master`，並且 `merge` 這些 commit 到 `master` branch，這就表示這個 merge 的目標是決定於這個對應關係 。",
+              "* 在使用 `push` 的時候，在 `master` branch 上面的 commit 被 push 到 remote 上面的 `master` branch （它在 local 被表示成 `o/master`），這就表示 push 的目標是決定於 `master` 以及 `o/master` 之間的對應關係。",
               ""
             ]
           }
@@ -155,15 +155,15 @@ exports.level = {
             "markdowns": [
               "## Remote tracking",
               "",
-              "長話短說，我們可以用 branch 上面的 \"remote tracking\" 特性來表示介於 `master` 以及 `o/master` 的 connection，`master` branch 被設定用來追蹤 (track) `o/master`，這就表示對於 `master` branch 來說的話，有一個 merge 的目標以及 push 的目標。",
+              "長話短說，我們可以用 branch 上面的 \"remote tracking\" 特性來表示介於 `master` 以及 `o/master` 的 connection，`master` branch 被設定用來追蹤（track） `o/master`，這就表示對於 `master` branch 來說的話，有一個 merge 的目標以及 push 的目標。",
               "",
-              "你可能會覺得很奇怪，當你沒有下任何指令去設定的時候，關於 `master` branch 的 connection 是如何被設定的。喔，其實當你 clone 一個 repo 的時候，其實就已經自動幫你做設定了。 ",
+              "你可能會覺得很奇怪，當你沒有下任何指令去設定的時候，關於 `master` branch 的對應關係是如何被設定的。喔！其實當你 clone 一個 repo 的時候，其實就已經自動幫你做設定了。 ",
               "",
-              "在做 clone 的時候，git 會針對每一個在 remote 上面的 branch 建立一個 branch (例如 `o/master`)，之後它會建立一個 local branch 來追蹤目前在 remote 上面的 active branch，在大部份的情況下，幾乎都是設定 `master` branch。",
+              "在做 clone 的時候，git 會針對每一個在 remote 上面的 branch 建立一個 branch （例如 `o/master`），之後它會建立一個 local branch 來追蹤目前在 remote 上面的 active branch，在大部份的情況下，幾乎都是設定 `master` branch。",
               "",
               "一旦 git 完成這個動作，你就只會有一個 local branch ，但是你可以看到所有在 remote 上面的不同的 branch，對於 local 和 remote 來說的話，這樣子是最好的！",
               "",
-              "這也解釋了為什麼當你 clone 的時候可能會看到以下被輸出的指令:",
+              "這也解釋了為什麼當你 clone 的時候可能會看到以下被輸出的指令：",
               "",
               "    local branch \"master\" set to track remote branch \"o/master\""
             ]
@@ -173,15 +173,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 我可以自己設定嗎?",
+              "### 我可以自己設定嗎？",
               "",
-              "是的你可以! 你可以設定任何的 branch 來 track `o/master`， 假如你真的這麼做的話，那麼該 branch 的 push 及 merge 的目標就會跟 `master` 一樣。這就表示說你可以在 `totallyNotMaster` branch 上面執行 `git push`，並且 push 你的 commit 到 remote 的 `master` branch!",
+              "是的你可以！你可以設定任何的 branch 來 track `o/master`， 假如你真的這麼做的話，那麼該 branch 的 push 及 merge 的目標就會跟 `master` 一樣。這就表示說你可以在 `totallyNotMaster` branch 上面執行 `git push`，並且 push 你的 commit 到 remote 的 `master` branch！",
               "",
               "有兩個方式可以設定，第一個就是藉由參考一個 remote branch 來 checkout 一個新的 branch。執行",
               "",
               "`git checkout -b totallyNotMaster o/master`",
               "",
-              "建立一個新的 `totallyNotMaster` branch 並且它會 track `o/master`."
+              "建立一個新的 `totallyNotMaster` branch 並且它會 track `o/master`。"
             ]
           }
         },
@@ -189,10 +189,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "說的好多，我們現在來看一個例子! 我們會 checkout 一個新的 `foo` branch，而且該 branch 會被用來 track remote 上的 `master` branch。"
+              "說的好多，我們現在來看一個例子！我們會 checkout 一個新的 `foo` branch，而且該 branch 會被用來 track remote 上的 `master` branch。"
             ],
             "afterMarkdowns": [
-              "就像你看到的，當 `o/master` 更新的時候，`foo` branch 也跟著一起被更新，要注意 master 並沒有被更新!"
+              "就像你看到的，當 `o/master` 更新的時候，`foo` branch 也跟著一起被更新，要注意 master 並沒有被更新！"
             ],
             "command": "git checkout -b foo o/master; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
@@ -221,7 +221,7 @@ exports.level = {
               "",
               "`git branch -u o/master foo`",
               "",
-              "你就會看到 `foo` branch 被設定成 track `o/master`，如果你現在已經 checkout 到 foo 這個 branch 上面了，你就可以省略掉它:",
+              "你就會看到 `foo` branch 被設定成 track `o/master`，如果你現在已經 checkout 到 foo 這個 branch 上面了，你就可以省略掉它：",
               "",
               "`git branch -u o/master`",
               ""
@@ -235,7 +235,7 @@ exports.level = {
               "我們來看這個快速設定 remote tracking 的方法..."
             ],
             "afterMarkdowns": [
-              "跟之前一樣，就只是一個更加明確的指令，讚啦!"
+              "跟之前一樣，就只是一個更加明確的指令，讚啦！"
             ],
             "command": "git branch -u o/master foo; git commit; git push",
             "beforeCommand": "git clone; git checkout -b foo"
@@ -245,7 +245,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好! 在這個關卡中，我們要 push 我們的 commit 到 remote 上面的 `master` branch，但是我們*不* checkout 到 local 的 `master` branch。因為這是一個進階的課程，所以我會讓你明白其它的東西。:P"
+              "好！在這個關卡中，我們要 push 我們的 commit 到 remote 上面的 `master` branch，但是我們*不* checkout 到 local 的 `master` branch。因為這是一個進階的課程，所以我會讓你明白其它的東西。:P"
             ]
           }
         }

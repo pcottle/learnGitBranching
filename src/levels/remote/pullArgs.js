@@ -121,7 +121,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "看吧？ `git pull` 真的就只是表示 fetch 跟 merge 的一個簡化後的指令，而且 `git pull` 所根據的是這些 commit 要放置的位置（在 fetch 的時候所指定的`目的地`）。",
+              "看吧？ `git pull` 真的就只是表示 fetch 跟 merge 的一個簡化後的指令，而且 `git pull` 所根據的是這些 commit 要放置的位置（在 fetch 的時候所指定的`destination`）。",
               "",
               "讓我們來看一個例子："
             ]
@@ -144,7 +144,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "他是不是也可以同時指定來源以及目的地？你說對了啦！讓我們來看一下："
+              "他是不是也可以同時指定 source 以及 destination？你說對了啦！讓我們來看一下："
             ],
             "afterMarkdowns": [
                 "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `master` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。 這實在是在超過了！！！"

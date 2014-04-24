@@ -11,7 +11,7 @@ exports.level = {
   "hint": {
     "en_US": "Pay attention to the goal tree!",
     "zh_CN": "注意目标树!",
-    "zh_TW": "注意最後要完成的目標!",
+    "zh_TW": "注意最後要完成的目標！",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
@@ -67,11 +67,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 為何不要 merge?",
+              "## 為何不要 merge？",
               "",
-              "為了要 push 新的 commit 給 remote，你只需要做的是先同步 remote 的更新，那就表示你可以使用 rebase *或者*是 merge remote branch (例如，`o/master`)。",
+              "為了要 push 新的 commit 給 remote，你只需要做的是先同步 remote 的更新，那就表示你可以使用 rebase *或者*是 merge remote branch （例如，`o/master`）。",
               "",
-              "所以假如你已經學會使用其中一個方式了，那為什麼我們到目前為止還在強調 `rebase`? 為什麼當提到 remote 的時候，反而 `merge` 比較沒有受到關注?",
+              "所以假如你已經學會使用其中一個方式了，那為什麼我們到目前為止還在強調 `rebase`？為什麼當提到 remote 的時候，反而 `merge` 比較沒有受到關注？",
               ""
             ]
           }
@@ -82,17 +82,17 @@ exports.level = {
             "markdowns": [
               "在程式發展的社群中，關於 `merge` 以及 `rebase` 的孰優孰劣有很多的爭論。這裡我們會提到關於 `rebase` 的優點及缺點：",
               "",
-              "優點:",
+              "優點：",
               "",
               "* `rebase` 使得你的 commit tree 看起來更為簡潔，因為任何的 commit 都在一條直線上面。",
               "",
-              "缺點:",
+              "缺點：",
               "",
               "* `rebase` 修改了 commit tree 的歷史紀錄。",
               "",
               "舉例來說，我們可以 rebase commit `C1`，將 `C1` 接在*過去的* `C3` 上面，那麼就可以表現出 `C1` 是出現在 `C3` 的後面。",
               "",
-              "有一些程式設計師喜歡保留歷史紀錄，因此他們會比較喜歡 `merge`; 其他人 (例如我自己) 比較喜歡一個簡潔的 commit tree，因此他們比較喜歡 `rebase`。這些都是擇你所愛。:D"
+              "有一些程式設計師喜歡保留歷史紀錄，因此他們會比較喜歡 `merge`; 其他人（例如我自己）比較喜歡一個簡潔的 commit tree，因此他們比較喜歡 `rebase`。這些都是擇你所愛。:D"
             ]
           }
         },

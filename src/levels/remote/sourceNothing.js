@@ -76,7 +76,7 @@ exports.level = {
             "markdowns": [
               "###`<source>` 奇怪的地方",
               "",
-              "在兩個奇怪的情況下，git 不使用 `<source>` 參數，事實上，在`git push`以及`git fetch`的情況下，可以允許你\"不用\"指定`來源`，你可以藉由把參數留空，來表示你不想指定來源：",
+              "在兩個奇怪的情況下，git 不使用 `<source>` 參數，事實上，在`git push`以及`git fetch`的情況下，可以允許你\"不用\"指定` source`，你可以藉由把參數留空，來表示你不想指定 source：",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
@@ -89,10 +89,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "當*沒有*指定來源的時候，`push` 對於 remote branch 做了什麼？`push`把它刪除掉了！"
+              "當*沒有*指定 source 的時候，`push` 對於 remote branch 做了什麼？`push`把它刪除掉了！"
             ],
             "afterMarkdowns": [
-              "看吧，我們藉由把來源\"留空\"，成功用 `push` 刪除了 `foo` branch，這合理吧..."
+              "看吧，我們藉由把 source \"留空\"，成功用 `push` 刪除了 `foo` branch，這合理吧..."
             ],
             "command": "git push origin :foo",
             "beforeCommand": "git clone; git push origin master:foo"
@@ -102,10 +102,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "最後，對於 `fetch` 來說，來源 \"留空\" 表示我們要在 local 上建立一個新的 branch。"
+              "最後，對於 `fetch` 來說，source \"留空\" 表示我們要在 local 上建立一個新的 branch。"
             ],
             "afterMarkdowns": [
-              "很奇怪，但那正是 git 為你做的事情！"
+              "很奇怪吧！但那正是 git 為你做的事情！"
             ],
             "command": "git fetch origin :bar",
             "beforeCommand": "git clone"

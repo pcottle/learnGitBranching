@@ -166,9 +166,9 @@ exports.level = {
             "markdowns": [
               "## Diverged Work",
               "",
-              "到目前為止我們已經知道如何 `pull` 其他人所送的 commit，而且也知道如何 `push` 我們自己的 commit，感覺很簡單，但是為什麼有人看起來很困惑?",
+              "到目前為止我們已經知道如何 `pull` 其他人所送的 commit，而且也知道如何 `push` 我們自己的 commit，感覺很簡單，但是為什麼有人看起來很困惑？",
               "",
-              "當 repo 的歷史紀錄是 *diverge (branch 走向不同)* 的狀態時就會很棘手，在討論這個之前，讓我們先來看一個例子...",
+              "當 repo 的歷史紀錄是 *diverge （branch 走向不同）* 的狀態時就會很棘手，在討論這個之前，讓我們先來看一個例子...",
               ""
             ]
           }
@@ -177,11 +177,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想像一下你在星期一的時候 clone 了一個 repo，並且開始在設計一個功能，在星期五的時候你準備好要發佈你的新功能，但是非常不幸地，你的同事已經寫了一連串的程式碼並且已經將 commit 發佈到 remote，所以現在*你的*進度是在一個比較*舊*的版本的後面 (如果與 remote 比較的話啦！)。",
+              "想像一下你在星期一的時候 clone 了一個 repo，並且開始在設計一個功能，在星期五的時候你準備好要發佈你的新功能，但是非常不幸地，你的同事已經寫了一連串的程式碼並且已經將 commit 發佈到 remote，所以現在*你的*進度是在一個比較*舊*的版本的後面（如果與 remote 比較的話啦！）。",
               "",
-              "在這種情況底下，使用 `git push` 會有問題，如果你使用 `git push`，那麼 git 應該要把 remote 退回到星期一的狀態？ 它應該要把你所寫好的程式碼一起更新進去，同時不會影響你的同事寫好的程式碼? 或者是他應該要因為版本比較舊而完全忽略你的程式碼?",
+              "在這種情況底下，使用 `git push` 會有問題，如果你使用 `git push`，那麼 git 應該要把 remote 退回到星期一的狀態？ 它應該要把你所寫好的程式碼一起更新進去，同時不會影響你的同事寫好的程式碼？ 或者是他應該要因為版本比較舊而完全忽略你的程式碼？",
               "",
-              "因為在這種情況下會很麻煩 (當 git 歷史紀錄被 diverge 了 )， 所以 git 不會允許你 `push` 你的 commit。在你上傳你的 commit 之前，它實際上會先強迫你先跟 remote 同步。"
+              "因為在這種情況下會很麻煩（當 git 歷史紀錄被 diverge 了）， 所以 git 不會允許你 `push` 你的 commit。在你上傳你的 commit 之前，它實際上會先強迫你先跟 remote 同步。"
             ]
           }
         },
@@ -189,10 +189,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "講太多了啦! 讓我們實際看一下這個情況。"
+              "講太多了啦！讓我們實際看一下這個情況。"
             ],
             "afterMarkdowns": [
-              "看到了沒? 因為指令失敗了，所以沒有任何事情發生。 `git push` 失敗的原因是因為你最近的 commit `C3` 是在 `C1` 的後面，但是 remote 那邊是 `C2` 在 `C1` 的後面，所以 git 才會拒絕你的 push。"
+              "看到了沒？因為指令失敗了，所以沒有任何事情發生。 `git push` 失敗的原因是因為你最近的 commit `C3` 是在 `C1` 的後面，但是 remote 那邊是 `C2` 在 `C1` 的後面，所以 git 才會拒絕你的 push。"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -202,7 +202,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "你要如何解決這種情況? 很簡單，你只需要把 `C3` 接在 remote 最新的版本 `C2` 的後面就可以了。",
+              "你要如何解決這種情況？很簡單，你只需要把 `C3` 接在 remote 最新的版本 `C2` 的後面就可以了。",
               "",
               "有一些方法可以做到，但是最直接的方式是用 rebase，我們來做看看。"
             ]
@@ -212,10 +212,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在我們 push 之前，先來做 rebase‧‧‧"
+              "在我們 push 之前，先來做 rebase..."
             ],
             "afterMarkdowns": [
-              "看吧! 我們利用 `git fetch` 下載了 remote 上面的 commit，並且 rebase 我們的 commit 使得我們的 commit 可以接在 remote 上面最新的版本的後面，接著透過 `git push` 就可以上傳更新了。"
+              "看吧！我們利用 `git fetch` 下載了 remote 上面的 commit，並且 rebase 我們的 commit，使得我們的 commit 可以接在 remote 上面最新的版本的後面，接著透過 `git push` 就可以上傳更新了。"
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -225,9 +225,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "在 remote 已經率先更新之後，還有沒有其它方法可以上傳我們的 commit? 當然有阿! 我們這次利用 `merge` 來做看看!",
+              "在 remote 已經率先更新之後，還有沒有其它方法可以上傳我們的 commit？當然有阿！我們這次利用 `merge` 來做看看！",
               "",
-              "雖然 `git merge` 並不會去移動你的 commit (反而會產生一個 merge commit)，這是一個告訴 git 你已經下載了 remote 上面的 commit 並且在 local repo 中已經做完 merge，而因為 remote branch 上的最新的 commit 現在已經是 merge commit 的一個 *ancestor*，這就表示你的 commit 已經包含了在 remote branch 上的所有 commit。",
+              "雖然 `git merge` 並不會去移動你的 commit （反而會產生一個 merge commit），這是一個告訴 git 你已經下載了 remote 上面的 commit 並且在 local repo 中已經做完 merge，而因為 remote branch 上的最新的 commit 現在已經是 merge commit 的一個 *ancestor*，這就表示你的 commit 已經包含了在 remote branch 上的所有 commit。",
               "",
               "讓我們來看一下這種情況..."
             ]
@@ -240,7 +240,7 @@ exports.level = {
               "現在假設我們不是用 rebase，而是用 merge..."
             ],
             "afterMarkdowns": [
-              "看吧!我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch (這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit)，接著再透過 `git push` 上傳到 remote。"
+              "看吧！我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch （這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit），接著再透過 `git push` 上傳到 remote。"
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -250,7 +250,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "太棒了! 有沒有其它可以不用打這麼多指令的方法?",
+              "太棒了! 有沒有其它可以不用打這麼多指令的方法？",
               "",
               "當然有阿！你已經知道 `git pull` 就是表示一個 fetch 跟一個 merge。 有一個指令非常方便，那就是 `git pull --rebase`，它表示的是一個 fetch 以及一個 rebase。",
               "",
@@ -265,7 +265,7 @@ exports.level = {
               "首先 `--rebase`..."
             ],
             "afterMarkdowns": [
-              "跟之前一樣！只是少了很多指令。"
+              "跟之前一樣！只是少打了很多指令。"
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -278,7 +278,7 @@ exports.level = {
               "現在用一般的 `pull`"
             ],
             "afterMarkdowns": [
-              "又來了，剛好跟之前的一樣!"
+              "又來了，剛好跟之前的一樣！"
             ],
             "command": "git pull; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"

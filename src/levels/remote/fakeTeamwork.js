@@ -77,11 +77,11 @@ exports.level = {
             "markdowns": [
               "## 模擬合作",
               "",
-              "接下來的課程有一個很難的事情，我們需要讓你學會如何 pull reomote 上的更新 。",
+              "接下來的課程有一個很難的事情，我們需要讓你學會如何 pull remote 上的更新 。",
               "",
               "這就表示我們必須要 \"假裝\" remote 被你其中一個同事/ 朋友/ 合作的人在某個特定的 branch 上面送了一些特定的 commit。",
               "",
-              "為了要做到這件事情,我們要介紹一個自己設計的指令 `git fakeTeamwork`! 從字面上就可以很容易地看出來它在幹嘛，讓我們來看一個範例‧‧‧"
+              "為了要做到這件事情,我們要介紹一個自己設計的指令 `git fakeTeamwork`！ 從字面上就可以很容易地看出來它在幹嘛，讓我們來看一個範例..."
             ]
           }
         },
@@ -92,7 +92,7 @@ exports.level = {
               "`fakeTeamwork` 的預設行為是在送一個 commit 給 master 分支"
             ],
             "afterMarkdowns": [
-              "我就說吧 -- remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該更新。."
+              "我就說吧！remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該 commit。."
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
@@ -105,7 +105,7 @@ exports.level = {
               "你可以在命令的後面指定你要送幾個 commit 或是要送給哪個 branch。"
             ],
             "afterMarkdowns": [
-              "我們利用一個 command 將三個 commit 送給在 remote 上面的 `foo` branch。"
+              "我們利用一個指令將三個 commit 送給在 remote 上面的 `foo` branch。"
             ],
             "command": "git fakeTeamwork foo 3",
             "beforeCommand": "git branch foo; git clone"
@@ -117,7 +117,7 @@ exports.level = {
             "markdowns": [
               "接下來的關卡會很困難，所以我們在這個關卡中會問你更多問題。",
               "",
-              "現在先把 remote 下載下來 (利用 `git clone`)，假裝送幾個 commit 給 remote 做更新，然後 pull 這些 commit 下來 。這就好像是幾個教學中的命令的總結!"
+              "現在先把 remote 下載下來（利用 `git clone`），假裝送幾個 commit 給 remote 做更新，然後 pull 這些 commit 下來 。這就好像是幾個教學中的指令的總結！"
             ]
           }
         }

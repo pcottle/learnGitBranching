@@ -97,9 +97,9 @@ exports.level = {
             "markdowns": [
               "## Push 的參數",
               "",
-              "太好了! 現在你已經明白了 remote tracking，我們可以開始聊 git push，fetch，以及 pull 的一些有趣的地方，我們一次會講解一個 command，但是它們之間的概念是很類似的。",
+              "太好了！現在你已經明白了 remote tracking，我們可以開始聊 git push，fetch，以及 pull 的一些有趣的地方，我們一次會講解一個指令，但是它們之間的概念是很類似的。",
               "",
-              "首先我們來看一下 `git push`，你已經在 remote tracking 的課程中學習到 git 是根據目前 checkout 的 branch 所 track 的 remote branch 來做 push，這是在沒有任何的參數的情況下的預設動作，但是 git push 允許我們可以加上一些參數:",
+              "首先我們來看一下 `git push`，你已經在 remote tracking 的課程中學習到 git 是根據目前 checkout 的 branch 所 track 的 remote branch 來做 push，這是在沒有任何的參數的情況下的預設動作，但是 git push 允許我們可以加上一些參數：",
               "",
               "`git push <remote> <place>`",
               "",
@@ -121,7 +121,7 @@ exports.level = {
               "",
               "將 `master` 當作 \"place\" 這個參數，我們告訴 git 這些 commit 是*從哪裡來的*，而且它們要*往哪裡去*。對於要同步兩個 repo， \"place\" 或者是 \"location\" 是非常重要的。",
               "",
-              "要記住喔，因為我們告訴 git 它所要知道的 (有兩個參數)，因此它才不會管你現在所 checkout 的 branch!"
+              "要記住喔，因為我們告訴 git 它所要知道的（有兩個參數），因此它才不會管你現在所 checkout 的 branch！"
             ]
           }
         },
@@ -132,7 +132,7 @@ exports.level = {
               "讓我們來看一個有加上參數的例子，在這個例子中，要特別注意到我們所 checkout 的位置。"
             ],
             "afterMarkdowns": [
-              "我說的沒錯吧! 因為我們加上了參數，所以在 remote 上的 `master` branch 更新了"
+              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了"
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -145,7 +145,7 @@ exports.level = {
               "假如我們沒有特別指令參數會發生什麼事情?"
             ],
             "afterMarkdowns": [
-              "指令會失敗 (就像你看到的)，因為 `HEAD` 並沒有指向一個有 track remote branch 的 branch 上面阿。"
+              "指令會失敗（就像你看到的），因為 `HEAD` 並沒有指向一個有 track remote branch 的 branch 上面阿。"
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"
@@ -155,7 +155,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `master` branch，比較遺憾的是 `git checkout` 在這個關卡中是不被允許的喔!"
+              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `master` branch，比較遺憾的是 `git checkout` 在這個關卡中是不被允許的喔！"
             ]
           }
         }

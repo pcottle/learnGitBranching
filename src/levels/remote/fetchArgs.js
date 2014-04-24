@@ -11,7 +11,7 @@ exports.level = {
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
-    "zh_TW": "注意 commit 的 id 是怎麼被交換的! 你可以透過 `help level` 來閱讀對話視窗!",
+    "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
   },
   "startDialog": {
@@ -198,7 +198,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "\"在該例子當中，如果我特別透過 `<source>:<destination>` 來指定來源以及目的地，會發生什麼事情？\"",
+              "\"在該例子當中，如果我特別透過 `<source>:<destination>` 來指定 source 以及 destination，會發生什麼事情？\"",
               "",
               "如果你很想要把 fetch 回來的 commit *直接*放到 local branch，那麼你就可以利用一個 colon refspec 來做到。你不能夠把 fetch 回來的 commit 放到你目前正 checkout 的 branch，如果不是的話，git 就會允許你這麼做。",
               "",
@@ -225,10 +225,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果我在執行這個指令之前，目的地不存在的話會怎樣？我們回到上一個例子，但這一次事前並沒有 `bar` 這個 branch 的存在。"
+              "如果我在執行這個指令之前，destination 不存在的話會怎樣？我們回到上一個例子，但這一次事前並沒有 `bar` 這個 branch 的存在。"
             ],
             "afterMarkdowns": [
-              "看到了吧，這就像是 `git push`，在 fetch 之前，git 會自己建立目的地，就好像是在 push 之前， git 會建立 remote 上的目的地一樣（如果它不存在的話）。"
+              "看到了吧，這就像是 `git push`，在 fetch 之前，git 會自己建立 destination，就好像是在 push 之前， git 會建立 remote 上的 destination 一樣（如果它不存在的話）。"
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -255,7 +255,7 @@ exports.level = {
             "markdowns": [
               "好的，談了好多！要完成這一關，fetch 視覺化的目標所指定的 commit，好好玩這些指令吧！",
               "",
-              "對於兩個 fetch 的指令，你必須要指定來源以及目的地，注意一下視覺化的目標，因為 commit 的 id 可以被交換！"
+              "對於兩個 fetch 的指令，你必須要指定 source 以及 destination，注意一下視覺化的目標，因為 commit 的 id 可以被交換！"
             ]
           }
         }
