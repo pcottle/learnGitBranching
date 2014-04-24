@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Fetch arguments",
     "zh_CN": "Fetch arguments",
+    "zh_TW": "Fetch 的參數",
     "de_DE": "Optionen für Fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
+    "zh_TW": "注意 commit 的 id 是怎麼被交換的! 你可以透過 `help level` 來閱讀對話視窗!",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
   },
   "startDialog": {
@@ -131,6 +133,129 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git fetch 的參數",
+              "",
+              "我們剛學到了所有關於 git push 的參數，有非常棒的 `<place>` 參數，甚至是 colon refspecs（`<source>:<destination>`），我們可不可以也同樣套用到 `git fetch` 上面？",
+              "",
+              "你說得對！`git fetch` 的參數*非常非常*類似 `git push`，一樣的概念，但方向不同（因為你在下載 commit，而不是在上傳 commit）。",
+              "",
+              "讓我們一次講一個概念..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###`<place>` 參數",
+              "",
+              "對於 `git fetch`，如果你特別指定了一個 `<place>`：",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "git 會到 remote 上的 `foo` branch，抓下所有不在 local 上的 commit，然後將它們放到 local 的 `o/foo` branch。",
+              "",
+              "讓我們實際看一下（就只是一個*更新*的方法）。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "指定一個 `<place>`..."
+            ],
+            "afterMarkdowns": [
+              "我們只下載了 `foo` 上的 commit，並且把它們放到 `o/foo`。"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你也許會感到奇怪，為什麼 git 是把這些 commit 放到 `o/foo` branch 而不是放到我的 local 的 `foo` branch？ 我認為，`<place>` 參數是表示一個位置，這個位置同時存在 local 跟 remote 上？",
+              "",
+              "因為你可能已經 checkout 到 `foo` branch 上，而且你不想要打亂上面的 commit，因此 git 才會特別這樣做！！ 這就又回到之前的 `git fetch` 的課程，它並不會放到你的 local 上的 branch (該 branch 沒有對應到任何的 remote branch)，它只會下載 commit 到 local 上且表示 remote 的 branch（所以你之後可以觀察/merge 它們）。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"在該例子當中，如果我特別透過 `<source>:<destination>` 來指定來源以及目的地，會發生什麼事情？\"",
+              "",
+              "如果你很想要把 fetch 回來的 commit *直接*放到 local branch，那麼你就可以利用一個 colon refspec 來做到。你不能夠把 fetch 回來的 commit 放到你目前正 checkout 的 branch，如果不是的話，git 就會允許你這麼做。",
+              "",
+              "這裡只有一個重點，`<source>` 現在是一個在 *remote* 上的 branch，而且 `<destination>` 是一個放置這些 commit 的 *local* 的位置。它剛好就是 `git push` 的相反，而且因為我們在相反方向傳遞資料，所以這也很合理！",
+              "",
+              "其實，程式設計師很少會想要做這個，我主要是強調 `fetch` 以及 `push` 的概念是很類似的，就只是方向相反而已。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來實際看一下這個瘋狂的事情："
+            ],
+            "afterMarkdowns": [
+                "哇！看到了吧，git 把  `foo~1` 解讀成一個在 origin 上的位置，而且把該位置上面的 commit 下載到 `bar`（這是一個 local branch）上面，注意，因為我們有指定目的地，因此 `foo` 跟 `o/foo` 並沒有被更新。"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果我在執行這個指令之前，目的地不存在的話會怎樣？我們回到上一個例子，但這一次事前並沒有 `bar` 這個 branch 的存在。"
+            ],
+            "afterMarkdowns": [
+              "看到了吧，這就像是 `git push`，在 fetch 之前，git 會自己建立目的地，就好像是在 push 之前， git 會建立 remote 上的目的地一樣（如果它不存在的話）。"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "沒有參數的情況?",
+              "",
+              "如果使用 `git fetch` 的時候，沒有指定任何的參數，那就相當於它會下載 remote 上面的所有的 commit，並且把這些 commit 放到 local 上面所有對應到 remote 的 branch..."
+            ],
+            "afterMarkdowns": [
+              "超簡單，但是所有的更新只做一次，很值得。"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好的，談了好多！要完成這一關，fetch 視覺化的目標所指定的 commit，好好玩這些指令吧！",
+              "",
+              "對於兩個 fetch 的指令，你必須要指定來源以及目的地，注意一下視覺化的目標，因為 commit 的 id 可以被交換！"
             ]
           }
         }

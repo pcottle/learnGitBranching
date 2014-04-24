@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Source of nothing",
     "zh_CN": "没有source",
+    "zh_TW": "沒有 source",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
+    "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {
@@ -61,6 +63,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###`<source>` 奇怪的地方",
+              "",
+              "在兩個奇怪的情況下，git 不使用 `<source>` 參數，事實上，在`git push`以及`git fetch`的情況下，可以允許你\"不用\"指定`來源`，你可以藉由把參數留空，來表示你不想指定來源：",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "讓我們來看看這些在做什麼..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "當*沒有*指定來源的時候，`push` 對於 remote branch 做了什麼？`push`把它刪除掉了！"
+            ],
+            "afterMarkdowns": [
+              "看吧，我們藉由把來源\"留空\"，成功用 `push` 刪除了 `foo` branch，這合理吧..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "最後，對於 `fetch` 來說，來源 \"留空\" 表示我們要在 local 上建立一個新的 branch。"
+            ],
+            "afterMarkdowns": [
+              "很奇怪，但那正是 git 為你做的事情！"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "這是一個很簡單的關卡，只需要利用 `git push` 刪除一個 remote 的 branch，並且利用 `git fetch` 建立一個新的 local 的 branch！"
             ]
           }
         }

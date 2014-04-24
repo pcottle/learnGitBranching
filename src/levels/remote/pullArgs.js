@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Pull arguments",
     "zh_CN": "Pull arguments",
+    "zh_TW": "Pull 的參數",
     "de_DE": "Optionen für Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
     "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
+    "zh_TW": "記住，你可以透過 fetch/pull 來建立一個新的 local 的分支",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
@@ -82,6 +84,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git pull 的參數",
+              "",
+              "現在你已經知道關於 `git fetch` 以及 `git push` 的*任何參數*，但是我們還可以再聊聊 `git pull`:)",
+              "",
+              "那是因為 `git pull` 到目前為止*的確*只是表示 fetch 之後再 merge 所 fetch 的 commit， 你可以把它想成，當使用 `git fetch` 時使用*一樣*的參數，之後再從 fetch 下來的 commit *所放置*的位置做 merge。",
+              "",
+              "這同樣也適用於當你指定相當複雜的參數，讓我們來看一些例子："
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "對於 git 來說，有一些意義一樣的指令：",
+              "",
+              "`git pull  origin foo` 相當於：",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "而且...",
+              "",
+              "`git pull  origin bar~1:bugFix` 相當於：",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "看吧？ `git pull` 真的就只是表示 fetch 跟 merge 的一個簡化後的指令，而且 `git pull` 所根據的是這些 commit 要放置的位置（在 fetch 的時候所指定的`目的地`）。",
+              "",
+              "讓我們來看一個例子："
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果我們在 fetch 的時候有指定`位置`的話，跟之前一樣，fetch 所做的事情沒有變，但是我們會 merge 我們剛剛所 fetch 的該`位置`的commit。"
+            ],
+            "afterMarkdowns": [
+              "看吧！ 指定位置為 `master`，跟平常一樣，我們下載了 commit 並且放到 `o/master` 上，接著，我們會 merge `o/master` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "他是不是也可以同時指定來源以及目的地？你說對了啦！讓我們來看一下："
+            ],
+            "afterMarkdowns": [
+                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `master` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。 這實在是在超過了！！！"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，達到視覺化目標的要求，你需要下載一些 commit，建立一些新的 branch，並且 merge 這些 branch 到其他的 branch 上面，這個關卡不需要打太多的指令:P"
             ]
           }
         }
