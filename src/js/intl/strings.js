@@ -5,7 +5,7 @@ exports.strings = {
     'ja': '最後のレベルをクリアしました！すごい！！',
     'en_US': 'Wow! You finished the last level, great!',
     'de_DE': 'Wow! Du hast den letzten Level gelöst, super!',
-    'zh_CN': '哇！你完成了最后一关，太屌了！',
+    'zh_CN': '我的个天！你完成了最后一关，碉堡了！',
     'zh_TW': '我的天啊！您解開了最後一關，太強了！',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !'
   },
@@ -15,7 +15,7 @@ exports.strings = {
     'en_US': 'Would you like to move on to *"{nextLevel}"*, the next level?',
     'de_DE': 'Möchtest du mit *"{nextLevel}"* weitermachen, dem nächsten Level?',
     'ja': '次の章 *"{nextLevel}"* へ進みますか？',
-    'zh_CN': '接着挑战下一关 *“{nextLevel}”*？',
+    'zh_CN': '要不前进到下一关 *“{nextLevel}”*？',
     'zh_TW': '下一關是*「{nextLevel}」*，您要繼續闖關嗎？',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?'
   },
@@ -25,7 +25,7 @@ exports.strings = {
     'en_US': 'Awesome! You matched or exceeded our solution.',
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
     'ja': '素晴らしい！このレベルをクリアしましたね。',
-    'zh_CN': '强悍啊！你的才是正确答案。',
+    'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.'
   },
@@ -35,7 +35,7 @@ exports.strings = {
     'en_US': 'See if you can whittle it down to {best} :D',
     'de_DE': 'Schau mal ob du es in {best} Schritten hinbekommst :D',
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
-    'zh_CN': '试试看你能否在 {best} 步之内搞定 :D',
+    'zh_CN': '试试看你能否在 {best} 之内搞定 :D',
     'zh_TW': '試試看您是否能在 {best} 步内搞定 :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
   },
@@ -74,7 +74,7 @@ exports.strings = {
     '__desc__': 'One of the lines for git status output',
     'en_US': 'Detached head!',
     'de_DE': 'Detached head!',
-    'zh_CN': '分离的HEAD！',
+    'zh_CN': '脑袋搬家（Detached head）了！',
     'zh_TW': '腦袋搬家（Detached head）了！',
     'fr_FR': 'head détaché !'
   },
@@ -102,7 +102,7 @@ exports.strings = {
       'shoutout to your school / city / whatever!',
     'en_US': 'Quick commit. Go Bears!',
     'de_DE': 'Schneller Commit. Eff-Zeh!',
-    'zh_CN': '快速提交。加油！',
+    'zh_CN': '快速提交。上啊月熊！',
     'zh_TW': '快速提交。上啊月熊！',
     'fr_FR': 'Commit rapide. NoMaN Sux!'
   },
@@ -110,35 +110,30 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Already up to date!',
     'de_DE': 'Bereits aktuell!',
-    'zh_CN': '已经是最新的了！',
     'fr_FR': 'Déjà à jour'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
-    'zh_CN': '你的`origin`分支未与远程分支同步，抓取不能执行！',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase',
     'de_DE': 'Das entfernte Repository weicht von deinem lokalen Repository ab, daher können deine Änderungen nicht mit einem einfachen fast forward hochgeladen werden (und daher ist dein push abgelehnt worden). Bitte pull erst die neuen Änderungen in das lokale Repository, integriere sie in den Branch und versuch es nochmal. Das kannst du mit git pull oder git pull --rebase machen',
-    'zh_CN': '远程仓库已经偏离你的本地仓库，此时上传你的更改是合逻辑的(所以你此次push被拒绝了). 请您pull下远程仓库中最新的代码，合并到本地然后再尝试一次。你可以使用`git pull`或`git pull --rebase`',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch',
     'de_DE': 'Du kannst diesen Befehl nicht auf einem Remote Branch ausführen',
-    'zh_CN': '你不能在一个远程分支中执行这个命令。',
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin is required for that command',
     'de_DE': 'Für diesen Befehl wird origin benötigt',
-    'zh_CN': '该命令需要一个`origin`。',
     'fr_FR': 'Une origine est requise pour cette commande'
   },
   'git-error-origin-exists': {
@@ -153,8 +148,8 @@ exports.strings = {
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
       'aren\'t branches',
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
-    'zh_CN': '你不能删除`master`分支，不能删除你当前所在的分支，不能删除不存在的分支。',
-    'zh_TW': '你不能刪除`master`分支，或者你當前所在的分支，或者其他不是分支也不知道能不能吃的東西。',
+    'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
+    'zh_TW': '你不能刪除主分支（master），或者你當前所在的分支，或者其他不是分支也不知道能不能吃的東西。',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -171,7 +166,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
     'de_DE': 'Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen',
-    'zh_CN': '没有需要`rebase`的提交！这是个合并提交，或者已经`rebase`过了。',
+    'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
     'zh_TW': '沒有需要 rebase 的提交！每份提交皆已合併或套用變更了',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées'
   },
@@ -648,14 +643,12 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
     '__desc__': 'button label to show goal',
-    'en_US': 'Show Goal',
-    'zh_CN': '显示目标'
+    'en_US': 'Show Goal'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
-    'en_US': 'Hide Goal',
-    'zh_CN': '隐藏目标'
+    'en_US': 'Hide Goal'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -670,15 +663,14 @@ exports.strings = {
   'goal-only-master': {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
-    'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
-    'zh_CN': '<span class="fwber">注意:</span> 这关只检查`master`分支。其他分支只做引用(显示为虚线下面的标签)。同样，你可以使用命令"hide goal"来关闭这个窗口。'
+    'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
     '__desc__': 'the helper message for the window that shows the goal tree',
     'en_US': 'You can hide this window with "hide goal"',
     'de_DE': 'Du kannst diese Meldung mit "hide goal" ausblenden',
-    'zh_CN': '你可以使用命令 "hide goal" 关闭这个窗口',
+    'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口',
     'zh_TW': '你可以通過命令 "hide goal" 關閉這個窗口',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"'
   },
@@ -687,7 +679,7 @@ exports.strings = {
     '__desc__': 'The helper message for the window that shows the start tree for a level',
     'en_US': 'You can hide this window with "hide start"',
     'de_DE': 'Du kannst diese Meldung mit "hide start" ausblenden',
-    'zh_CN': '你可以使用命令 "hide start" 关闭这个窗口',
+    'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口',
     'zh_TW': '你可以通過命令 "hide start" 關閉這個窗口',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
   },
@@ -705,7 +697,7 @@ exports.strings = {
     '__desc__': 'when the user tries to open a start dialog for a level that does not have one',
     'en_US': 'There is no start dialog to show for this level!',
     'de_DE': 'Es gibt keinen Einführungs-Dialog für diesen Level!',
-    'zh_CN': '这关真没有开头介绍!',
+    'zh_CN': '介绍? 这关真没有!',
     'zh_TW': '介紹? 這關真沒有!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
   },
@@ -714,7 +706,7 @@ exports.strings = {
     '__desc__': 'when no hint is available for a level',
     'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
     'de_DE': "Hm, es gibt anscheinend keinen Hinweis für diesen Level :-/",
-    'zh_CN': "这关没有任何提示！ :-/",
+    'zh_CN': "提示？嗯，这关真没有哎~ :-/",
     'zh_TW': "提示？嗯，這關真沒有哎~ :-/",
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
   },
@@ -732,7 +724,7 @@ exports.strings = {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
     'de_DE': 'Dieser Dialog oder Text ist noch nicht in deine Sprache übersetzt. :( Schau auf Github vorbei um bei der Übersetzung zu helfen!',
-    'zh_CN': '这段对话/文本未被翻译成您的语言 :( 欢迎在gitHub上贡献你的翻译!',
+    'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!',
     'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 github 貢獻翻譯！',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
   }
