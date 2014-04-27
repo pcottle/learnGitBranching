@@ -8,7 +8,7 @@ exports.level = {
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
     "zh_CN": "分支与合并",
-    "zh_TW": "Git 中的 合併"
+    "zh_TW": "git 中的 merge"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -374,11 +374,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Branches and Merging",
+              "## branch 以及 merge",
               "",
-              "太好了! 我們已經知道怎麼使用 commit 和分支了。接下來要學的一招是如何合併兩個不同分支的工作。這讓我們可以建立一個新的分支，並且在上面開發新功能，然後合併回主分支。",
+              "太好了! 我們已經知道怎麼使用 commit 和 branch 了。接下來要學的一招是如何合併（merge）兩個不同 branch 的工作。這讓我們可以建立一個新的 branch ，並且在上面開發新功能，然後合併回 master branch。",
               "",
-              "`git merge` 是我們要學習合併的第一個方法。該合併會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
+              "`git merge` 是我們要學習 merge 的第一個方法。該 merge 會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
               "",
               "有圖有真相，看看下面的圖就明白了。"
             ]
@@ -388,17 +388,17 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在這裡，我們有兩個分支：各自都有一個唯一的 commit。這意味著沒有一個分支包含我們對文件的所有修改。讓我們合併這兩個分支來解決這個問題。",
+              "在這裡，我們有兩個 branch：各自都有一個唯一的 commit。這意味著沒有一個 branch 包含我們對文件的所有修改。讓我們 merge 這兩個 branch 來解決這個問題。",
               "",
-              "我們要把 `bugFix` 合併到 `master` "
+              "我們要 merge `bugFix` 到 `master` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的提交記錄。這說明了現在 `master` 紀錄了對文件的所有修改。",
+              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的 commit。這說明了現在 `master` 紀錄了對文件的所有修改。",
               "",
-              "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個分支都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有分支的混合色。",
+              "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個 branch 都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有 branch 的混合色。",
               "",
-              "所以，`master` 分支的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
+              "所以，`master` branch 的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -407,13 +407,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "讓我們把 `master` 分支合併到 `bugFix` 吧。"
+              "讓我們 merge  `master` branch 到 `bugFix` 吧。"
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因為 `bugFix` 分支只是 `master` 分支的 ancestor，git 什麼都不用做，只是簡單地把 `bugfix` 分支移動到 `master` 指向的 commit。",
+              "因為 `bugFix` branch只是 `master` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `master` 指向的 commit。",
               "",
-              "現在所有的 commit 的顏色都是一樣的啦，這表示每一個分支都包含了所有文件的修改！太厲害了啦！"
+              "現在所有的 commit 的顏色都是一樣的啦，這表示每一個 branch 都包含了所有文件的修改！太厲害了啦！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
@@ -424,12 +424,12 @@ exports.level = {
             "markdowns": [
               "想完成這一關，執行以下的操作：",
               "",
-              "* 建立新的分支 `bugFix` ",
-              "* 用 `git checkout bugFix` 切換到 `bugFix` 分支",
+              "* 建立新的 branch，叫做 `bugFix` ",
+              "* 用 `git checkout bugFix` 切換到 `bugFix` branch",
               "* commit 一次",
-              "* 用 `git checkout` 切換回 `master` 分支 ",
+              "* 用 `git checkout` 切換回 `master` branch",
               "* 再 commit 一次",
-              "* 用 `git merge`  將 `bugFix` 合併到 `master`",
+              "* 用 `git merge`  將 `bugFix` merge 到 `master`",
               "",
               "*記住，你可以用 \"help level\" 指令來重新顯示這個對話框！*"
             ]
