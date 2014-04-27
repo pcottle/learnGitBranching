@@ -43,12 +43,14 @@ exports.strings = {
   'hg-prune-tree': {
     '__desc__': 'warning when pruning tree',
     'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree',
+    'zh_TW': '注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, just commit away!',
+    'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -84,7 +86,7 @@ exports.strings = {
     'en_US': 'On branch {branch}',
     'de_DE': 'Auf Branch {branch}',
     'zh_CN': '切换到分支 {branch}',
-    'zh_TW': '切換到分支 {branch}',
+    'zh_TW': '切換到 branch {branch}',
     'fr_FR': 'Sur la branche {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -93,7 +95,7 @@ exports.strings = {
     'en_US': 'Ready to commit! (as always in this demo)',
     'de_DE': 'Fertig zum committen! (Wie immer in dieser Demo)',
     'zh_CN': '可以提交啦！（这演示里一直可以提交）',
-    'zh_TW': '準備 commit ！（在這個 demo 裡面可以一直 commit）',
+    'zh_TW': '準備 commit！（在這個 demo 裡面可以一直 commit）',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -150,7 +152,7 @@ exports.strings = {
       'aren\'t branches',
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
     'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
-    'zh_TW': '你不能刪除 master 分支，或者你當前所在的分支，或者其它連分支都不是的東西。',
+    'zh_TW': '你不能刪除 master branch，或者你當前所在的 branch，或者其它連 branch 都不是的東西。',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -177,7 +179,7 @@ exports.strings = {
     'en_US': 'Nothing to do...',
     'de_DE': 'Nichts zu tun ...',
     'zh_CN': '没啥鸟事……',
-    'zh_TW': '沒什麼事情要做‧‧‧',
+    'zh_TW': '沒什麼事情要做...',
     'fr_FR': 'Rien à effectuer…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -186,7 +188,7 @@ exports.strings = {
     'en_US': 'Fast forwarding...',
     'de_DE': 'Fast forward...',
     'zh_CN': '快速前进……',
-    'zh_TW': '快速前進‧‧‧',
+    'zh_TW': '快速前進...',
     'fr_FR': 'En avance rapide…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -195,7 +197,7 @@ exports.strings = {
     'en_US': 'Branch already up-to-date',
     'de_DE': 'Branch ist bereits aktuell',
     'zh_CN': '分支已经是最新啦',
-    'zh_TW': '分支已經是最新啦',
+    'zh_TW': 'branch 已經是最新啦',
     'fr_FR': 'Branche déjà à jour'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -213,7 +215,7 @@ exports.strings = {
     'en_US': 'Commit {commit} doesnot have a {match}',
     'de_DE': 'Commit {commit} hat kein {match}',
     'zh_CN': '提交 {commit} 并没有 {match}',
-    'zh_TW': 'Commit {commit} 並没有 {match}',
+    'zh_TW': 'commit {commit} 並沒有 {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -222,7 +224,7 @@ exports.strings = {
     'en_US': 'Warning!! Detached HEAD state',
     'de_DE': 'Achtung! Detached HEAD Zustand',
     'zh_CN': '警告！脑袋搬家（Detached HEAD）状态',
-    'zh_TW': '注意喔！現在的狀態是 Detached Head',
+    'zh_TW': '注意喔！現在的狀態是分離 Head',
     'fr_FR': 'Attention ! HEAD est détaché'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -249,7 +251,7 @@ exports.strings = {
     'en_US': 'The commit {commit} already exists in your changes set, aborting!',
     'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
     'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！',
-    'zh_TW': 'Commit {commit} 已經在你的修改的集合裡，正在停止！',
+    'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -258,7 +260,7 @@ exports.strings = {
     'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
     'de_DE': 'Kann im Detached Head Zustand kein reset ausführen! Bitte checkout zum Bewegen benutzen',
     'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧',
-    'zh_TW': '不能在 Detached HEAD 中重來！用 checkout 來移動吧',
+    'zh_TW': '不能在分離 HEAD 的狀態中重來！用 checkout 來移動吧',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -333,7 +335,7 @@ exports.strings = {
     'ja': '日本語版リポジトリ',
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支',
-    'zh_TW': '學習 Git 分支',
+    'zh_TW': '學習 git 分支',
     'fr_FR': 'Apprenez Git Branching'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -351,7 +353,7 @@ exports.strings = {
     'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
     'de_DE': 'Tut mir leid, aber aus Gründen der Darstellung müssen wir die Branch-Namen kurz halten. Dein Branch-Name wurde auf 9 Zeichen gekürzt und heißt daher jetzt "{branch}"',
     'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"',
-    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短一點的分支名稱。您使用的將會被截斷到剩下9個字元，即"{branch}"',
+    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短一點的 branch 名稱。您使用的將會被截斷到剩下9個字元，即"{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -360,7 +362,7 @@ exports.strings = {
     'en_US': 'That branch name "{branch}" is not allowed!',
     'de_DE': 'Der Branch-Name "{branch}" ist nicht erlaubt!',
     'zh_CN': '不能给分支起这个名字 "{branch}"',
-    'zh_TW': '不能给分支起這個名字 "{branch}"',
+    'zh_TW': '不能给 branch 起這個名字 "{branch}"',
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -425,7 +427,7 @@ exports.strings = {
     'en_US': 'Refreshing tree...',
     'de_DE': 'Aktualisiere Baum ...',
     'zh_CN': '正在刷新树结构...',
-    'zh_TW': '正在更新樹狀結構……',
+    'zh_TW': '正在更新樹狀結構...',
     'fr_FR': 'Actualisation de l\'arbre…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -620,7 +622,7 @@ exports.strings = {
     'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
     'de_DE': 'Lege Start fest ... Auflösung und Ziel werden gelößcht, falls sie schon festgelegt worden waren',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
-    'zh_TW': '正在定義起始點‧‧‧先前定義的解法和目標會被覆蓋掉',
+    'zh_TW': '正在定義起始點...先前定義的解法和目標會被覆蓋掉',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
   },
   ///////////////////////////////////////////////////////////////////////////

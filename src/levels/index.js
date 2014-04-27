@@ -87,7 +87,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
-      'zh_TW': '接下来是 git 非常厲害的地方!相信你已經迫不及待了吧！'
+      'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
     }
   },
   remote: {
@@ -95,12 +95,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
-      'zh_CN': 'Push & Pull -- Git Remotes!'
+      'zh_CN': 'Push & Pull -- Git Remotes!',
+      'zh_TW': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
-      'zh_CN': '是时候分享你的编码了'
+      'zh_CN': '是时候分享你的编码了',
+      'zh_TW': '是時候分享你的程式碼了'
     }
   },
   remoteAdvanced: {
@@ -108,11 +110,13 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
-      'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令'
+      'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
+      'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
+      'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene'
     }
   },
@@ -124,7 +128,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
-      'zh_TW': '精通 Rebase！',
+      'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
@@ -135,7 +139,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
-      'zh_TW': '大家都在說的 rebase 究竟是什麼阿？來看看吧！'
+      'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'
     }
   },
   mixed: {
@@ -155,7 +159,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士杂烩',
-      'zh_TW': 'Git 的技術，招數與技巧'
+      'zh_TW': 'git 的技術，招數與技巧'
     }
   },
   advanced: {
