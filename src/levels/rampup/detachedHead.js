@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "zh_CN": "分离HEAD",
-    "zh_TW": "分離HEAD",
+    "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
@@ -255,9 +255,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 在 Git 中前後移動",
+              "## 在 git 中前後移動",
               "",
-              "在接觸 Git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
+              "在接觸 git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
               "",
               "一旦能夠熟練地在 commit tree 中隨意地移動，你使用其它的 git 指令也會更厲害！",
               "",
@@ -274,11 +274,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我們首先看一下 \"HEAD\"，HEAD 是一個 reference，它是指向目前所 checkout 的 commit -- 基本上，其實就是你目前所在的 commit。",
+              "我們首先看一下 \"HEAD\"，HEAD 是一個 reference，它是指向目前所 checkout 的 commit，基本上，其實就是你目前所在的 commit。",
               "",
-              "在 working tree 中，HEAD 總是指向最近的一次commit。大部份 git 的指令如果要修改 working tree 的狀態的話，都會先改變 HEAD 所指向的 commit。",
+              "在 commit tree 中，HEAD 總是指向最近的一次commit。大部份 git 的指令如果要修改 commit tree 的狀態的話，都會先改變 HEAD 所指向的 commit。",
               "",
-              "HEAD 通常指向一個分支的名稱（比如 bugFix）。當你 commit 的時候，改變了 bugFix 的狀態，這一個變化可以從 HEAD 的改變中看到。"
+              "HEAD 通常指向一個 branch 的名稱（比如 bugFix）。當你 commit 的時候，改變了 bugFix 的狀態，這一個變化可以從 HEAD 的改變中看到。"
             ]
           }
         },
@@ -301,7 +301,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### 分離 HEAD",
               "",
-              "分離 HEAD 就是讓其指向一個 commit 而不是分支的名稱。這是命令執行之前的樣子： ",
+              "分離 HEAD 就是讓其指向一個 commit 而不是 branch 的名稱。這是指令執行之前的樣子：",
               "",
               "HEAD -> master -> C1",
               ""
@@ -319,7 +319,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想要完成這一個關卡，從 `bugFix` 分離出HEAD並且讓它指向一個 commit。",
+              "想要完成這一個關卡，從 `bugFix` 分離出 HEAD 並且讓它指向一個 commit。",
               "",
               "通過 hash 值可以指定 commit。每個 commit 的 hash 值顯示在各自的圓圈中。"
             ]

@@ -86,7 +86,7 @@ exports.level = {
             "markdowns": [
               "你說對了！git tag 可以解決這個問題，它們可以永遠地指向某個特定的 commit，就像是表示一個\"里程碑\"一樣。",
               "",
-              "更重要的是，當有新的 commit 時，它們也不會移動，你可以 \"checkout\" 到 tag 上面，並且在上面 commit，tag 的存在就像是一個在 commit tree 上的表示特定訊息的一個錨。",
+              "更重要的是，當有新的 commit 時，它們也不會移動，你不可以 \"checkout\" 到 tag 上面 commit，tag 的存在就像是一個在 commit tree 上的表示特定訊息的一個錨。",
               "",
               "讓我們來實際看一下 tag 長什麼樣子..."
             ]
@@ -109,7 +109,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "在這個關卡中，建立一個如視覺化目標裡面的 tag，然後 checkout 到 `v1` 上面，要注意你會進到 detached `HEAD` 的狀態，這是因為你不能夠直接在 `v1` 上面做 commit。",
+              "在這個關卡中，建立一個如視覺化目標裡面的 tag，然後 checkout 到 `v1` 上面，要注意你會進到分離 `HEAD` 的狀態，這是因為你不能夠直接在 `v1` 上面做 commit。",
               "",
               "在下個關卡中我們會介紹更多 tag 的應用..."
             ]
