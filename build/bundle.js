@@ -12492,12 +12492,14 @@ exports.strings = {
   'hg-prune-tree': {
     '__desc__': 'warning when pruning tree',
     'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree',
+    'zh_TW': '注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, just commit away!',
+    'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12524,7 +12526,7 @@ exports.strings = {
     'en_US': 'Detached head!',
     'de_DE': 'Detached head!',
     'zh_CN': '脑袋搬家（Detached head）了！',
-    'zh_TW': '腦袋搬家（Detached head）了！',
+    'zh_TW': '分離 Head！',
     'fr_FR': 'head détaché !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12533,7 +12535,7 @@ exports.strings = {
     'en_US': 'On branch {branch}',
     'de_DE': 'Auf Branch {branch}',
     'zh_CN': '切换到分支 {branch}',
-    'zh_TW': '切換到分支 {branch}',
+    'zh_TW': '切換到 branch {branch}',
     'fr_FR': 'Sur la branche {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12542,7 +12544,7 @@ exports.strings = {
     'en_US': 'Ready to commit! (as always in this demo)',
     'de_DE': 'Fertig zum committen! (Wie immer in dieser Demo)',
     'zh_CN': '可以提交啦！（这演示里一直可以提交）',
-    'zh_TW': '可以提交啦！（這演示裡一直可以提交）',
+    'zh_TW': '準備 commit！（在這個 demo 裡面可以一直 commit）',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12552,14 +12554,15 @@ exports.strings = {
     'en_US': 'Quick commit. Go Bears!',
     'de_DE': 'Schneller Commit. Eff-Zeh!',
     'zh_CN': '快速提交。上啊月熊！',
-    'zh_TW': '快速提交。上啊月熊！',
+    'zh_TW': '快速 commit。上啊熊！',
     'fr_FR': 'Commit rapide. NoMaN Sux!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Already up to date!',
     'de_DE': 'Bereits aktuell!',
-    'fr_FR': 'Déjà à jour'
+    'fr_FR': 'Déjà à jour',
+    'zh_TW': '已經是最新的了'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -12598,7 +12601,7 @@ exports.strings = {
       'aren\'t branches',
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
     'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
-    'zh_TW': '你不能刪除主分支（master），或者你當前所在的分支，或者其他不是分支也不知道能不能吃的東西。',
+    'zh_TW': '你不能刪除 master branch，或者你當前所在的 branch，或者其它連 branch 都不是的東西。',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12616,7 +12619,7 @@ exports.strings = {
     'en_US': 'No commits to rebase! Everything is a merge commit or changes already applied',
     'de_DE': 'Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen',
     'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
-    'zh_TW': '沒有需要 rebase 的提交！每份提交皆已合併或套用變更了',
+    'zh_TW': '沒有需要 rebase 的 commit！每個都是一個 merge commit 或者修改已經被寫入了',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12625,7 +12628,7 @@ exports.strings = {
     'en_US': 'Nothing to do...',
     'de_DE': 'Nichts zu tun ...',
     'zh_CN': '没啥鸟事……',
-    'zh_TW': '沒啥鳥事……',
+    'zh_TW': '沒什麼事情要做...',
     'fr_FR': 'Rien à effectuer…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12634,7 +12637,7 @@ exports.strings = {
     'en_US': 'Fast forwarding...',
     'de_DE': 'Fast forward...',
     'zh_CN': '快速前进……',
-    'zh_TW': '快速前進……',
+    'zh_TW': '快速前進...',
     'fr_FR': 'En avance rapide…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12643,7 +12646,7 @@ exports.strings = {
     'en_US': 'Branch already up-to-date',
     'de_DE': 'Branch ist bereits aktuell',
     'zh_CN': '分支已经是最新啦',
-    'zh_TW': '分支已經是最新啦',
+    'zh_TW': 'branch 已經是最新啦',
     'fr_FR': 'Branche déjà à jour'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12661,7 +12664,7 @@ exports.strings = {
     'en_US': 'Commit {commit} doesnot have a {match}',
     'de_DE': 'Commit {commit} hat kein {match}',
     'zh_CN': '提交 {commit} 并没有 {match}',
-    'zh_TW': '提交 {commit} 並没有 {match}',
+    'zh_TW': 'commit {commit} 並沒有 {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12670,7 +12673,7 @@ exports.strings = {
     'en_US': 'Warning!! Detached HEAD state',
     'de_DE': 'Achtung! Detached HEAD Zustand',
     'zh_CN': '警告！脑袋搬家（Detached HEAD）状态',
-    'zh_TW': '警告！腦袋搬家（Detached HEAD）狀態',
+    'zh_TW': '注意喔！現在的狀態是分離 Head',
     'fr_FR': 'Attention ! HEAD est détaché'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12679,7 +12682,7 @@ exports.strings = {
     'en_US': 'No need to add files in this demo',
     'de_DE': 'In dieser Demo müssen keine Dateien hinzugefügt werden',
     'zh_CN': '此演示中不需要添加文件',
-    'zh_TW': '此演示中不需要添加文件',
+    'zh_TW': '此 demo 中不需要再加入檔案',
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12697,7 +12700,7 @@ exports.strings = {
     'en_US': 'The commit {commit} already exists in your changes set, aborting!',
     'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
     'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！',
-    'zh_TW': '提交 {commit} 已經存在於你的改動集裡，正在中止！',
+    'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12706,7 +12709,7 @@ exports.strings = {
     'en_US': 'Can\'t reset in detached head! Use checkout if you want to move',
     'de_DE': 'Kann im Detached Head Zustand kein reset ausführen! Bitte checkout zum Bewegen benutzen',
     'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧',
-    'zh_TW': '不能在分離的 HEAD 裡重置！用 checkout 吧',
+    'zh_TW': '不能在分離 HEAD 的狀態中重來！用 checkout 來移動吧',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12715,7 +12718,7 @@ exports.strings = {
     'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
     'de_DE': 'Das Standardverhalten in dieser Demo ist --hard, du kannst die Option auch weglassen!',
     'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！',
-    'zh_TW': '默認的行為是 --hard 硬重置，盡管省略掉那個選項吧！',
+    'zh_TW': '預設的行為是 --hard reset，儘量省略掉那個選項吧！',
     'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12725,7 +12728,7 @@ exports.strings = {
       'command is invalid!',
     'de_DE': 'In dieser Demo gibt es kein Hinzufügen / Vormerken von Dateien, dieser Befehl ist daher ungültig!',
     'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。',
-    'zh_TW': '沒有添加、緩存文件的必要，所以改選項或者命令是不合法的。',
+    'zh_TW': '沒有加入、或者暫存 (staging) 文件的必要，所以改選項或者命令是不合法的。',
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12781,7 +12784,7 @@ exports.strings = {
     'ja': '日本語版リポジトリ',
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支',
-    'zh_TW': '學習 Git 分支',
+    'zh_TW': '學習 git 分支',
     'fr_FR': 'Apprenez Git Branching'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12799,7 +12802,7 @@ exports.strings = {
     'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
     'de_DE': 'Tut mir leid, aber aus Gründen der Darstellung müssen wir die Branch-Namen kurz halten. Dein Branch-Name wurde auf 9 Zeichen gekürzt und heißt daher jetzt "{branch}"',
     'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"',
-    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短些的分支名稱。您使用的將被截斷到9个字符，即"{branch}"',
+    'zh_TW': '抱歉，為了顯示的需要，我們需要一個短一點的 branch 名稱。您使用的將會被截斷到剩下9個字元，即"{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12808,7 +12811,7 @@ exports.strings = {
     'en_US': 'That branch name "{branch}" is not allowed!',
     'de_DE': 'Der Branch-Name "{branch}" ist nicht erlaubt!',
     'zh_CN': '不能给分支起这个名字 "{branch}"',
-    'zh_TW': '不能给分支起這個名字 "{branch}"',
+    'zh_TW': '不能给 branch 起這個名字 "{branch}"',
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12873,7 +12876,7 @@ exports.strings = {
     'en_US': 'Refreshing tree...',
     'de_DE': 'Aktualisiere Baum ...',
     'zh_CN': '正在刷新树结构...',
-    'zh_TW': '正在更新樹狀結構……',
+    'zh_TW': '正在更新樹狀結構...',
     'fr_FR': 'Actualisation de l\'arbre…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12925,7 +12928,7 @@ exports.strings = {
     'en_US': 'DontWorryAboutFilesInThisDemo.txt',
     'de_DE': 'VergissDateienInDieserDemo.txt',
     'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)',
-    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt（譯註：在試驗裡不用擔心檔案.txt）',
+    'zh_TW': 'DontWorryAboutFilesInThisDemo.txt （譯註：在 demo 裡不用擔心檔案）',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)'
   },
   'mobile-alert': {
@@ -12942,7 +12945,7 @@ exports.strings = {
     'en_US': 'Share this tree with friends! They can load it with "import tree"',
     'de_DE': 'Teile diesen git-Baum mit Freunden! Sie können ihn mit "import tree" laden',
     'zh_CN': '与你的好友分享提交树！他们可以用 "import tree" 加载它',
-    'zh_TW': '與你的好友分享提交樹！他們可以用 "import tree" 加載它',
+    'zh_TW': '與你的好友分享這棵樹！他們可以用 "import tree" 來載入它',
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12960,7 +12963,7 @@ exports.strings = {
     'en_US': 'Solved map was reset, you are starting from a clean slate!',
     'de_DE': 'Gelöste Karte wurde zurückgesetzt, du fängst mit einem leeren Blatt an!',
     'zh_CN': '解决列表已重置，您现在从零开始了',
-    'zh_TW': '解決列表已重置，您現在從零開始了',
+    'zh_TW': '過關地圖已經重新設置，您現在從零開始了',
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12987,7 +12990,7 @@ exports.strings = {
     'en_US': 'The undo stack is empty!',
     'de_DE': 'Die Undo-Liste ist leer!',
     'zh_CN': '还没有什么可以撤销',
-    'zh_TW': '還沒有什麼可以撤銷',
+    'zh_TW': '還沒有什麼可以取消',
     'fr_FR': 'La pile d\'annulation est vide !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13068,7 +13071,7 @@ exports.strings = {
     'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
     'de_DE': 'Lege Start fest ... Auflösung und Ziel werden gelößcht, falls sie schon festgelegt worden waren',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
-    'zh_TW': '正在定義起始點……先前定義的解法和目標會被覆蓋掉',
+    'zh_TW': '正在定義起始點...先前定義的解法和目標會被覆蓋掉',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13077,7 +13080,7 @@ exports.strings = {
     'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
     'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber diesen Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
-    'zh_TW': '您正在關卡中，這裡有多種形式的幫助，請選擇 "help level" (關卡幫助)或 "help general" (一般幫助)',
+    'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13086,18 +13089,20 @@ exports.strings = {
     'en_US': 'You are in a level builder, so multiple forms of help are available. Please select either "help general" or "help builder"',
     'de_DE': 'Du befindest dich im Level-Editor, daher gibt es verschiedene Hilfen. Gib bitte "help general" oder "help builder" ein',
     'zh_CN': '您正在进行关卡构建中，这里有多种形式的帮助，请选择 "help general" (一般帮助)或 "help builder" (关卡构建帮助)',
-    'zh_TW': '您正在進行關卡構建中，這裡有多種形式的幫助，請選擇 "help general" (一般幫助)或 "help builder" (關卡構建幫助)',
+    'zh_TW': '您正在進行關卡構建中，這裡有多種不同型式的幫助，請選擇 "help general" （一般幫助）或 "help builder" （製造關卡的幫助）',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
     '__desc__': 'button label to show goal',
-    'en_US': 'Show Goal'
+    'en_US': 'Show Goal',
+    'zh_TW': '顯示目標'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
-    'en_US': 'Hide Goal'
+    'en_US': 'Hide Goal',
+    'zh_TW': '隱藏目標'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -13112,7 +13117,8 @@ exports.strings = {
   'goal-only-master': {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
-    'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden'
+    'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
+    'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -13120,7 +13126,7 @@ exports.strings = {
     'en_US': 'You can hide this window with "hide goal"',
     'de_DE': 'Du kannst diese Meldung mit "hide goal" ausblenden',
     'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口',
-    'zh_TW': '你可以通過命令 "hide goal" 關閉這個窗口',
+    'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13129,7 +13135,7 @@ exports.strings = {
     'en_US': 'You can hide this window with "hide start"',
     'de_DE': 'Du kannst diese Meldung mit "hide start" ausblenden',
     'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口',
-    'zh_TW': '你可以通過命令 "hide start" 關閉這個窗口',
+    'zh_TW': '你可以透過 "hide start" 關閉這個視窗',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13147,7 +13153,7 @@ exports.strings = {
     'en_US': 'There is no start dialog to show for this level!',
     'de_DE': 'Es gibt keinen Einführungs-Dialog für diesen Level!',
     'zh_CN': '介绍? 这关真没有!',
-    'zh_TW': '介紹? 這關真沒有!',
+    'zh_TW': '這關沒有介紹!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13156,7 +13162,7 @@ exports.strings = {
     'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
     'de_DE': "Hm, es gibt anscheinend keinen Hinweis für diesen Level :-/",
     'zh_CN': "提示？嗯，这关真没有哎~ :-/",
-    'zh_TW': "提示？嗯，這關真沒有哎~ :-/",
+    'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -18058,7 +18064,7 @@ var IntlHelperBar = HelperBar.extend({
       text: '学习 Git 分支',
       id: 'simpchinese'
     }, {
-      text: 'Git 分支',
+      text: '學習 Git 分支',
       id: 'tradchinese'
     }, {
       text: 'français',
@@ -22806,11 +22812,11 @@ exports.level = {
             "markdowns": [
               "### 選擇 parent commit",
               "",
-              "和`~`符號一樣，`^`符號的後面也可以接一個（可選的）數字。",
+              "和 `~` 符號一樣，`^` 符號的後面也可以接一個（可選的）數字。",
               "",
-              "這不是用來指定往上回去幾代（`~`的作用），`^`後面所跟的數字表示我要選擇哪一個 parent commit。還記得一個 merge commit 可以有多個 parent commit 吧，所以當我們要選擇走到哪一個 parent commit 的時候就會比較麻煩了。",
+              "這不是用來指定往上回去幾代（`~` 的作用），`^` 後面所跟的數字表示我要選擇哪一個 parent commit。還記得一個 merge commit 可以有多個 parent commit 吧，所以當我們要選擇走到哪一個 parent commit 的時候就會比較麻煩了。",
               "",
-              "Git 預設會選擇 merge commit 的\"第一個\" parent commit，使用`^`後面接一個數字可以改變這個預設的行為。",
+              "git 預設會選擇 merge commit 的\"第一個\" parent commit，使用 `^` 後面接一個數字可以改變這個預設的行為。",
               "",
               "廢話不多說，舉一個例子。",
               ""
@@ -22826,7 +22832,7 @@ exports.level = {
               "(*在我們的圖示中，第一個 parent commit 是指 merge commit 正上方的那一個 parent commit。*)"
             ],
             "afterMarkdowns": [
-              "簡單吧--這就是預設的情況。"
+              "簡單吧！這就是預設的情況。"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -22836,7 +22842,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "現在來試試選擇第二個 parent commit……"
+              "現在來試試選擇第二個 parent commit..."
             ],
             "afterMarkdowns": [
               "看到了嗎？我們回到了第二個 parent commit。"
@@ -22877,7 +22883,7 @@ exports.level = {
             "markdowns": [
               "### 練習一下",
               "",
-              "要完成這一關，在指定的目標位置上面建立一個新的分支。",
+              "要完成這一關，在指定的目標位置上面建立一個新的 branch。",
               "",
               "很明顯可以直接使用 commit 的 hash 值（比如 `C6`），但我要求你使用剛剛講到的相對引用的符號！"
             ]
@@ -22978,7 +22984,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
-      'zh_TW': '接下来是 git 非常厲害的地方!相信你已經迫不及待了吧！'
+      'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
     }
   },
   remote: {
@@ -22986,12 +22992,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
-      'zh_CN': 'Push & Pull -- Git Remotes!'
+      'zh_CN': 'Push & Pull -- Git Remotes!',
+      'zh_TW': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
-      'zh_CN': '是时候分享你的编码了'
+      'zh_CN': '是时候分享你的编码了',
+      'zh_TW': '是時候分享你的程式碼了'
     }
   },
   remoteAdvanced: {
@@ -22999,11 +23007,13 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
-      'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令'
+      'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
+      'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
+      'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene'
     }
   },
@@ -23015,7 +23025,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
-      'zh_TW': '精通 Rebase！',
+      'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
     },
     about: {
@@ -23026,7 +23036,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
-      'zh_TW': '大家都在說的 rebase 究竟是什麼阿？來看看吧！'
+      'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'
     }
   },
   mixed: {
@@ -23046,7 +23056,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士杂烩',
-      'zh_TW': 'Git 的技術，招數與技巧'
+      'zh_TW': 'git 的技術，招數與技巧'
     }
   },
   advanced: {
@@ -23086,7 +23096,7 @@ exports.level = {
     "ko": "Git에서 브랜치 쓰기",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "建立Git分支",
-    "zh_TW": "建立 Git 分支"
+    "zh_TW": "建立 git branch"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -23094,7 +23104,7 @@ exports.level = {
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
-    "zh_TW": "用 'git branch [分支名稱]' 來建立分支，用 'git checkout [分支名稱]' 切換到該分支",
+    "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
   },
   "disabledMap": {
@@ -23492,17 +23502,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Branches",
+              "## git 的 branch",
               "",
-              " Git 的分支非常不占空間。它們只是一個指向某個 commit 的 reference —— 就這麼簡單。所以許多 Git 的愛好者會建議：",
+              " git 的 branch 非常不占空間。它們只是一個指向某個 commit 的 reference，就這麼簡單。所以許多 git 的愛好者會建議：",
               "",
               "```",
-              "早點建立分支！經常建立分支！",
+              "早點建立 branch！經常建立 branch！",
               "```",
               "",
-              "因為建立分支不怎麼會佔用到硬碟空間或者是記憶體，所以你可以把你目前的工作分成好幾個分支，這比只用一個分支要來的好。",
+              "因為建立 branch 不怎麼會佔用到硬碟空間或者是記憶體，所以你可以把你目前的工作分成好幾個 branch，這比只用一個 branch 要來的好。",
               "",
-              "同時使用分支和 commit 時，我們待會可以看到兩者如何配合。現在，只要記住使用分支其實就是在說：「我想要包含這一次的 commit 以及它的所有 parent commits。」"
+              "同時使用 branch 和 commit 時，我們待會可以看到兩者如何配合。現在，只要記住使用 branch 其實就是在說：「我想要包含這一次的 commit 以及它的所有 parent 的 commit。」"
             ]
           }
         },
@@ -23510,13 +23520,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "舉一個例子來看看分支到底是什麼。",
+              "舉一個例子來看看 branch 到底是什麼。",
               "",
-              "這裡，我們建立一個名稱為 `newImage` 的新分支。"
+              "這裡，我們建立一個名稱為 `newImage` 的新的 branch。"
             ],
             "command": "git branch newImage",
             "afterMarkdowns": [
-              "看，這就是建立分支所需的操作啦！ `newImage` 分支現在指向提交記錄 `C1`。"
+              "看吧！這就是建立 branch 所需的操作啦！ `newImage` branch 現在指向 commit `C1`。"
             ],
             "beforeCommand": ""
           }
@@ -23525,11 +23535,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "現在讓我們這個新分支做一些操作。點擊下面的按鈕。"
+              "現在讓我們這個新的 branch 做一些操作。點擊下面的按鈕。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "太奇怪了啦！ `master` 分支前進了，但 `newImage` 分支沒有前進！這是因為我們沒有「在」這個新分支上，這也是為什麼星號（*）會在  `master`  上。"
+              "太奇怪了啦！ `master` branch 前進了，但 `newImage` branch 沒有前進！這是因為我們沒有「在」這個新的 branch 上，這也是為什麼星號（*）會在 `master` 上。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -23538,17 +23548,17 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用如下命令告訴 git 我們想要切換到新的分支",
+              "使用如下指令告訴 git 我們想要切換到新的 branch",
               "",
               "```",
               "git checkout [name]",
               "```",
               "",
-              "這可以讓我們在 commit 之前切換到新的分支。"
+              "這可以讓我們在 commit 之前切換到新的 branch。"
             ],
             "command": "git checkout newImage; git commit",
             "afterMarkdowns": [
-              "太好了！新的分支已經記錄了我們的修改。"
+              "太好了！新的 branch 已經記錄了我們的修改。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -23557,8 +23567,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦，你已經準備好使用分支了。當目前的視窗關閉後，",
-              "建立一個叫 `bugFix` 的新分支，然後切換過去。"
+              "好啦，你已經準備好使用 branch 了。當目前的視窗關閉後，",
+              "建立一個叫 `bugFix` 的新的 branch，然後切換過去。"
             ]
           }
         }
@@ -23654,7 +23664,7 @@ exports.level = {
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commits简介',
-    'zh_TW': 'Git Commit 簡介'
+    'zh_TW': '介紹 git commit '
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -23942,12 +23952,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Commits",
-              "一個 commit 在 git repository 中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
+              "## git commit",
+              "一個 commit 在 git repo 中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
               "",
-              "Git 希望 commit 儘可能地不占空間，所以每次進行 commit 的時候，它不會單純地複製整個目錄。實際上它把每次 commit 視為從目前的版本到下一個版本的變化量，或者說一個 \"（delta）\"。",
+              "git 希望 commit 儘可能地不占空間，所以每次進行 commit 的時候，它不會單純地複製整個目錄。實際上它把每次 commit 視為從目前的版本到下一個版本的變化量，或者說一個 \"（delta）\"。",
               "",
-              " Git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 ancestor commits，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
+              "git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 parent commit，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
               "",
               "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不占空間且可以快速切換！"
             ]
@@ -23957,7 +23967,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在實例中學習 commit。右邊是一個（小）git repository。當前有兩個 commit —— initial commit `C0` 以及 `C1` 這一個 commit 來表示之後可能的一些修改。",
+              "在實例中學習 commit。右邊是一個（小）git repository。當前有兩個 commit，一開始的 commit `C0` 以及 `C1` 這一個 commit 來表示之後可能的一些修改。",
               "",
               "點擊下面的按鈕生成新的 commit。"
             ],
@@ -23992,7 +24002,7 @@ exports.level = {
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
     "zh_CN": "分支与合并",
-    "zh_TW": "Git 中的 合併"
+    "zh_TW": "git 中的 merge"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -24358,11 +24368,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Branches and Merging",
+              "## branch 以及 merge",
               "",
-              "太好了! 我們已經知道怎麼使用 commit 和分支了。接下來要學的一招是如何合併兩個不同分支的工作。這讓我們可以建立一個新的分支，並且在上面開發新功能，然後合併回主分支。",
+              "太好了! 我們已經知道怎麼使用 commit 和 branch 了。接下來要學的一招是如何合併（merge）兩個不同 branch 的工作。這讓我們可以建立一個新的 branch ，並且在上面開發新功能，然後合併回 master branch。",
               "",
-              "`git merge` 是我們要學習合併的第一個方法。該合併會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
+              "`git merge` 是我們要學習 merge 的第一個方法。該 merge 會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
               "",
               "有圖有真相，看看下面的圖就明白了。"
             ]
@@ -24372,17 +24382,17 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在這裡，我們有兩個分支：各自都有一個唯一的 commit。這意味著沒有一個分支包含我們對文件的所有修改。讓我們合併這兩個分支來解決這個問題。",
+              "在這裡，我們有兩個 branch：各自都有一個唯一的 commit。這意味著沒有一個 branch 包含我們對文件的所有修改。讓我們 merge 這兩個 branch 來解決這個問題。",
               "",
-              "我們要把 `bugFix` 合併到 `master` "
+              "我們要 merge `bugFix` 到 `master` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的提交記錄。這說明了現在 `master` 紀錄了對文件的所有修改。",
+              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的 commit。這說明了現在 `master` 紀錄了對文件的所有修改。",
               "",
-              "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個分支都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有分支的混合色。",
+              "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個 branch 都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有 branch 的混合色。",
               "",
-              "所以，`master` 分支的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
+              "所以，`master` branch 的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -24391,13 +24401,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "讓我們把 `master` 分支合併到 `bugFix` 吧。"
+              "讓我們 merge  `master` branch 到 `bugFix` 吧。"
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因為 `bugFix` 分支只是 `master` 分支的 ancestor，git 什麼都不用做，只是簡單地把 `bugfix` 分支移動到 `master` 指向的 commit。",
+              "因為 `bugFix` branch只是 `master` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `master` 指向的 commit。",
               "",
-              "現在所有的 commit 的顏色都是一樣的啦，這表示每一個分支都包含了所有文件的修改！太厲害了啦！"
+              "現在所有的 commit 的顏色都是一樣的啦，這表示每一個 branch 都包含了所有文件的修改！太厲害了啦！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
           }
@@ -24408,12 +24418,12 @@ exports.level = {
             "markdowns": [
               "想完成這一關，執行以下的操作：",
               "",
-              "* 建立新的分支 `bugFix` ",
-              "* 用 `git checkout bugFix` 切換到 `bugFix` 分支",
+              "* 建立新的 branch，叫做 `bugFix` ",
+              "* 用 `git checkout bugFix` 切換到 `bugFix` branch",
               "* commit 一次",
-              "* 用 `git checkout` 切換回 `master` 分支 ",
+              "* 用 `git checkout` 切換回 `master` branch",
               "* 再 commit 一次",
-              "* 用 `git merge`  將 `bugFix` 合併到 `master`",
+              "* 用 `git merge`  將 `bugFix` merge 到 `master`",
               "",
               "*記住，你可以用 \"help level\" 指令來重新顯示這個對話框！*"
             ]
@@ -24504,7 +24514,7 @@ exports.level = {
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "Rebase简介",
-    "zh_TW": "Rebase 簡介"
+    "zh_TW": "介紹 rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -24513,7 +24523,7 @@ exports.level = {
     "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
-    "zh_TW": "你要先在 bugFix 分支進行 commit"
+    "zh_TW": "你要先在 bugFix branch 進行 commit"
   },
   "disabledMap": {
     "git revert": true
@@ -24858,13 +24868,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Rebase",
+              "## git rebase",
               "",
-              "*rebasing*是在合併分支的第二種方法。Rebasing 就是取出一系列的 commit，\"複製\"它們，然後把它們接在別的地方。",
+              "*rebasing* 是 merge branch 的第二種方法。rebasing 就是取出一連串的 commit，\"複製\"它們，然後把它們接在別的地方。",
               "",
-              "雖然聽起來難以理解，rebasing 的優點是可以建立更線性的 commit history。假如只允許使用 rebasing 的話，則我們的 repository 中的 commit log 或者是 commit history 會更加簡潔好看。",
+              "雖然聽起來難以理解，rebasing 的優點是可以建立更線性的 commit history。假如只允許使用 rebasing 的話，則我們的 repo 中的 commit log 或者是 commit history 會更加簡潔好看。",
               "",
-              "讓我們親身體會一下……"
+              "讓我們親身體會一下..."
             ]
           }
         },
@@ -24872,19 +24882,19 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "這裡，還是有兩個分支；注意目前我們所在的分支是 bugFix（看那顆星啦）",
+              "這裡，還是有兩個 branch；注意目前我們所在的 branch 是 bugFix（看那顆星啦）",
               "",
-              "我們想要把在 bugfix 所做的修改直接移到 master 分支上。使用 rebasing 的話，兩個分支看起來像是依序按順序進行修改，實際上它們的修改是平行進行的。",
+              "我們想要把在 bugfix 所做的修改直接移到 master branch上。使用 rebasing 的話，兩個 branch 看起來像是依序按順序進行修改，實際上它們的修改是平行進行的。",
               "",
-              "用 `git rebase` 實現此目標"
+              "用 `git rebase` 來實現吧"
             ],
             "command": "git rebase master",
             "afterMarkdowns": [
-              "很厲害吧!現在 bugFix 分支上的工作在 master 的最前端，同時我們也得到了一個更加線性的 commit sequence。",
+              "很厲害吧！現在 bugFix branch 上的工作在 master branch 的最前端，同時我們也得到了一個更加線性的 commit 順序。",
               "",
-              "注意，本來的 commit C3 沒有消失（在圖上面呈現陰影），而我們\"複製\" C3，將它的副本 C3' 接在 master 的後面。",
+              "注意，本來的 commit C3 沒有消失（在圖上面呈現陰影），而我們\"複製\" C3，將它的副本 C3' 接在 master branch 的後面。",
               "",
-              "現在唯一的問題是 master 分支還沒有更新……我們接下來就更新它吧"
+              "現在唯一的問題是 master branch 還沒有更新...我們接下來就更新它吧！"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
           }
@@ -24893,11 +24903,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "現在，切換到 `master` 分支。接下來就把它 rebase 到 `bugFix` 上面吧……"
+              "現在，切換到 `master` branch。接下來就把它 rebase 到 `bugFix` 上面吧..."
             ],
             "command": "git rebase bugFix",
             "afterMarkdowns": [
-              "完成！因為 `master` 是 `bugFix` 的 ancestor，所以 git 只是把 `master` 分支往前移動到 `bugFix` 上。"
+              "完成！因為 `master` branch 是 `bugFix` 的 parent，所以 git 只是把 `master` branch 往前移動到 `bugFix` 上。"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
           }
@@ -24908,10 +24918,10 @@ exports.level = {
             "markdowns": [
               "想完成這一關，執行以下操作：",
               "",
-              "* 建立 `bugFix` 分支",
+              "* 建立 `bugFix` branch",
               "* commit 一次",
-              "* 切換回 master 分支再 commit 一次",
-              "* 再次切換到 bugFix 分支，將 bugFix 分支 rebase 到 master 上",
+              "* 切換回 master branch 再 commit 一次",
+              "* 再次切換到 bugFix branch，接著 rebase bugFix 這個 branch  到 master branch 上",
               "",
               "祝你好運啦！"
             ]
@@ -24996,11 +25006,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C6\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Describe",
-    "de_DE": "Git Describe"
+    "de_DE": "Git Describe",
+    "zh_TW": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist"
+    "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
+    "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
   },
   "startDialog": {
     "en_US": {
@@ -25061,6 +25073,69 @@ exports.level = {
               "That's pretty much all there is to git describe! Try describing a few of the locations in this level to get a feel for the command.",
               "",
               "Once you're ready, just go ahead and commit once to finish the level. We're giving you a freebie :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### git describe",
+              "",
+              "因為 tag 在 commit tree 上表示的是一個錨點，git 有一個指令可以用來*顯示*離你最近的錨點（也就是 tag），而且這個指令叫做 `git describe`！",
+              "",
+              "當你已經完成了一個 `git bisect`（一個找尋有 bug 的 commit 的指令），或者是當你使用的是你跑去度假的同事的電腦時， `git describe` 可以幫助你了解你離最近的 tag 差了多少個 commit。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 的使用方式：",
+              "",
+              "`git describe <ref>`",
+              "",
+              "`<ref>` 是任何一個可以被 git 解讀成 commit 的位置，如果你沒有指定的話，git 會以你目前所在的位置為準（`HEAD`）。",
+              "",
+              "指令的輸出就像這樣：",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "`<tag>` 表示的是離 `<ref>` 最近的 tag， `numCommits` 是表示這個 tag 離 `<ref>` 有多少個 commit， `<hash>` 表示的是你所給定的 `<ref>` 所表示的 commit 的前七個 id。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來看一個例子，對於下面的 tree："
+            ],
+            "afterMarkdowns": [
+              "`git describe master` 會輸出：",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "`git describe side` 會輸出：",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 就是這樣了！試著在這個關卡指定幾個位置來感受一下這個指令吧！",
+              "",
+              "當你完成的時候，只要一個 commit 就可以結束這個關卡，我們會給你一個免費贈品:P"
             ]
           }
         }
@@ -25162,7 +25237,7 @@ exports.level = {
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
-    "zh_TW": "記住，使用 interactive rebase 或者 cherry-pick 會很有幫助"
+    "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助"
   },
   "startDialog": {
     "en_US": {
@@ -25331,13 +25406,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Locally stacked commits",
+              "## 在 local 的堆疊的 commit",
               "",
-              "有一個經常發生的情況：我在追蹤一個有點棘手的 bug，但是它實在太難抓出來了，在不得已的情況下我加入了一些 debug statement，並且做了一些 commit。",
+              "有一個經常發生的情況：我在追蹤一個有點棘手的 bug，但是它實在太難抓出來了，在不得已的情況下我加入了一些 debug 的指令，並且做了一些 commit。",
               "",
-              "所有的這些 debug statement 都只在 `bugFix` 這個分支裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
+              "所有的這些 debug 的指令都只在 `bugFix` 這個 branch 裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
               "",
-              "現在唯一的問題就是要把我在 `bugFix` 分支裡面所做的修改合併回 `master` 分支。我可以簡單地透過 fast-forward 來合併 ，但這樣的話 `master` 分支就會包含這些含有 debug statement 的 commit 了。我相信一定有其它方法..."
+              "現在唯一的問題就是要把我在 `bugFix` branch 裡面所做的修改 merge 回 `master` branch。我可以簡單地透過 fast-forward 來 merge ，但這樣的話 `master` branch 就會包含這些含有 debug 指令的 commit 了。我相信一定有其它方法..."
             ]
           }
         },
@@ -25358,7 +25433,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個commit 一定要可以被 `master` 包含到"
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到"
             ]
           }
         }
@@ -25613,7 +25688,7 @@ exports.level = {
             "markdowns": [
               "## commit 的戲法",
               "",
-              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` 分支上做了一些 commit，然後又開了一個分支叫做 `caption` ，並且在上面做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
+              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` branch 上做了一些 commit，然後又開了一個 branch 叫做 `caption` ，並且在上面做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
               "",
               "有點棘手的就是有時候你又想在之前的 commit 裡面做一些修改。在這個例子裡面，我們要去稍微修改一下 `newImage` 所指向的 commit，儘管已經是之前的 commit 了 。"
             ]
@@ -25638,7 +25713,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "啊!最後還要提醒你一下最後所產生的 commit tree —— 因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
+              "啊!最後還要提醒你一下最後所產生的 commit tree，因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
             ]
           }
         }
@@ -25719,7 +25794,7 @@ exports.level = {
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 master 快进到最新的更新上！",
-    "zh_TW": "別忘記了將 master 推到最新的修改上面！"
+    "zh_TW": "別忘記了將 master 推到最新的 commit 上面！"
   },
   "startDialog": {
     "en_US": {
@@ -25902,7 +25977,7 @@ exports.level = {
               "",
               "如你在上一個關卡所看到的，我們使用 `rebase -i` 來重新排列那些 commit。只要把我們想要修改的 commit 移到最前面，我們就可以很容易地重新修改它，然後再把它們重新排成我們想要的順序。",
               "",
-              "但唯一的問題就是這樣做就要排很多次，有可能造成 rebase conflicts。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧!"
+              "但唯一的問題就是這樣做就要排很多次，有可能造成 rebase conflict。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧!"
             ]
           }
         },
@@ -25910,13 +25985,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "要記住喔！ cherry-pick 可以從 commit tree 的任何地方拿一個 commit 來放在 HEAD 上（只要那個 commit 不是 HEAD 的 ancestor）。",
+              "要記住喔！ cherry-pick 可以從 commit tree 的任何地方拿一個 commit 來放在 HEAD 上（只要那個 commit 不是 HEAD 的 parent）。",
               "",
               "下面是一個簡單清楚的 demo："
             ],
             "command": "git cherry-pick C2",
             "afterMarkdowns": [
-              "太棒了，我們繼續吧!"
+              "太棒了，我們繼續吧！"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -25982,11 +26057,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Tags",
-    "de_DE": "Git Tags"
+    "de_DE": "Git Tags",
+    "zh_TW": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
-    "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen."
+    "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
+    "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上"
   },
   "startDialog": {
     "en_US": {
@@ -26036,6 +26113,58 @@ exports.level = {
               "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
               "",
               "In the next level we'll examine a more interesting use case for tags."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git tag",
+              "",
+              "就像你之前學到的一樣，branch 很容易被移動，而且當有新的 commit 時，又會再移動，branch 經常指向不同的 commit，branch 很容易改變。",
+              "",
+              "你可能會有疑問，有沒有什麼方法可以*永遠*有一個指向 commit 的記號，例如，表示重大的軟體釋出，或者是修正很大的 bug，有沒有其它比 branch 更好的方法，可以永遠地指向這些 commit？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你說對了！git tag 可以解決這個問題，它們可以永遠地指向某個特定的 commit，就像是表示一個\"里程碑\"一樣。",
+              "",
+              "更重要的是，當有新的 commit 時，它們也不會移動，你不可以 \"checkout\" 到 tag 上面 commit，tag 的存在就像是一個在 commit tree 上的表示特定訊息的一個錨。",
+              "",
+              "讓我們來實際看一下 tag 長什麼樣子..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們試著建立一個 tag，指向 commit `C1`，表示這是我們第一個版本。"
+            ],
+            "afterMarkdowns": [
+              "看吧！非常容易，我們命名這個 tag 叫做 `v1`，並且讓它指向 commit `C1`，如果你離開了該 commit，git 會根據 `HEAD` 所指向的位置才分辨。"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在這個關卡中，建立一個如視覺化目標裡面的 tag，然後 checkout 到 `v1` 上面，要注意你會進到分離 `HEAD` 的狀態，這是因為你不能夠直接在 `v1` 上面做 commit。",
+              "",
+              "在下個關卡中我們會介紹更多 tag 的應用..."
             ]
           }
         }
@@ -26108,12 +26237,14 @@ exports.level = {
   "name": {
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
-    "zh_CN": "Cherry-pick Intro"
+    "zh_CN": "Cherry-pick Intro",
+    "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
-    "zh_CN": "git cherry-pick 跟提交对句名"
+    "zh_CN": "git cherry-pick 跟提交对句名",
+    "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
   },
   "startDialog": {
     "en_US": {
@@ -26167,6 +26298,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "移動 commit",
+              "",
+              "目前為止我們已經講了 git 的基礎，這些基礎包括 commit、branch 以及在 commit tree 中移動，只要有這些概念你就能發揮 git 90% 的功力，而且對於程式設計師來說，這樣就很夠了。",
+              "",
+              "而剩下的 10%，在很複雜的專案上面，是非常有用的（或者當你陷入困惑時），我們下一個要講的概念是 \"移動 commit\"，換句話說，當你會這個非常有彈性的招數之後，你就可以說\"我想要把這個 commit 放這裡，而那個 commit 放在那裡\"。",
+              "",
+              "這看起來很複雜，但其實它很簡單。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git cherry-pick",
+              "",
+              "我們要講的第一個指令叫作 `git cherry-pick`，它的用法如下：",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "當你想要複製幾個 commit 並且接在你目前的位置（`HEAD`）下面的時候，這會是一個非常直接的方式。我個人非常喜歡用 `cherry-pick`，因為它並不複雜，很容易就可以了解。",
+              "",
+              "讓我們來看一個例子！",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡有一個 repo，在 `side` branch 中，我們有一些 commit 想要複製到 `master` branch 上，這可以透過一個 rebase 來完成（我們之前已經學到了），但是讓我們看看 `git cherry-pick` 怎麼做。"
+            ],
+            "afterMarkdowns": [
+              "就是那樣！我們複製了 `C2` 以及 `C4` 並且把它們放到我們的後面，很簡單吧！"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這個關卡，只需要從三個 branch 複製幾個 commit 到 `master` 下面，你可以從視覺化的目標看到我們需要哪些 commit。",
               ""
             ]
           }
@@ -26296,7 +26484,7 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "zh_CN": "分离HEAD",
-    "zh_TW": "分離HEAD",
+    "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
@@ -26546,9 +26734,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 在 Git 中前後移動",
+              "## 在 git 中前後移動",
               "",
-              "在接觸 Git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
+              "在接觸 git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
               "",
               "一旦能夠熟練地在 commit tree 中隨意地移動，你使用其它的 git 指令也會更厲害！",
               "",
@@ -26565,11 +26753,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我們首先看一下 \"HEAD\"，HEAD 是一個 reference，它是指向目前所 checkout 的 commit -- 基本上，其實就是你目前所在的 commit。",
+              "我們首先看一下 \"HEAD\"，HEAD 是一個 reference，它是指向目前所 checkout 的 commit，基本上，其實就是你目前所在的 commit。",
               "",
-              "在 working tree 中，HEAD 總是指向最近的一次commit。大部份 git 的指令如果要修改 working tree 的狀態的話，都會先改變 HEAD 所指向的 commit。",
+              "在 commit tree 中，HEAD 總是指向最近的一次commit。大部份 git 的指令如果要修改 commit tree 的狀態的話，都會先改變 HEAD 所指向的 commit。",
               "",
-              "HEAD 通常指向一個分支的名稱（比如 bugFix）。當你 commit 的時候，改變了 bugFix 的狀態，這一個變化可以從 HEAD 的改變中看到。"
+              "HEAD 通常指向一個 branch 的名稱（比如 bugFix）。當你 commit 的時候，改變了 bugFix 的狀態，這一個變化可以從 HEAD 的改變中看到。"
             ]
           }
         },
@@ -26592,7 +26780,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### 分離 HEAD",
               "",
-              "分離 HEAD 就是讓其指向一個 commit 而不是分支的名稱。這是命令執行之前的樣子： ",
+              "分離 HEAD 就是讓其指向一個 commit 而不是 branch 的名稱。這是指令執行之前的樣子：",
               "",
               "HEAD -> master -> C1",
               ""
@@ -26610,7 +26798,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想要完成這一個關卡，從 `bugFix` 分離出HEAD並且讓它指向一個 commit。",
+              "想要完成這一個關卡，從 `bugFix` 分離出 HEAD 並且讓它指向一個 commit。",
               "",
               "通過 hash 值可以指定 commit。每個 commit 的 hash 值顯示在各自的圓圈中。"
             ]
@@ -26632,12 +26820,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
-    "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben."
+    "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
+    "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
     "de_DE": "Einführung Interactive Rebase",
-    "zh_CN": "Rebase 交互命令介绍 "
+    "zh_CN": "Rebase 交互命令介绍 ",
+    "zh_TW": "介紹互動式的 rebase"
   },
   "startDialog": {
     "en_US": {
@@ -26700,6 +26890,71 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git interactive rebase",
+              "",
+              "當你知道你要複製哪些 commit（而且你也知道他們所對應的 hash 值），那麼 `git cherry-pick`  很適合你。",
+              "",
+              "但是如果你不知道你要的是哪些 commit 呢？ 很幸運的是，git 也有考慮到這個問題喔！我們可以用互動式的 rebase 來做到，當你想要檢查你想要的 commit 的時候，這會是最好的方法。",
+              "",
+              "讓我們來看一下這些細節..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "互動式的 rebase 相當於使用 rebase 這個指令的時候，後面加上一個 `-i` 的選項。",
+              "",
+              "如果你有包含了這個選項，git 就會打開一個 UI，讓你知道說有哪些 commit 會被複製下來，它也會告訴你它們的 hash 值以及可以讓你知道它們是什麼的訊息。",
+              "",
+              "在\"實務上\"，UI 會利用一個編輯器（例如 vim）打開一個檔案，對於我們來說，我已經設計了一個有同樣功能的對話視窗。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "當互動式的 rebase 的對話視窗打開之後，你就可以做到三件事情：",
+              "",
+              "* 你可以藉由改變這些 commit 在 UI 的位置（在我們的視窗中，可以透過滑鼠去拖拉），來重新排序它們的順序。",
+              "* 你可以選擇完全忽略掉某些 commit，可以用滑鼠按一下，使它變暗，就表示你要忽略掉該 commit。",
+              "* 最後, 你可以把 commit 合併在一起，但基於某些理由，在我們的關卡裡面並沒有這個功能。",
+              "",
+              "太棒了！讓我們來看一個例子！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "當你按下按鈕的時候，一個互動式的 rebase 的視窗就會跳出來，重新排序一些 commit（大膽忽略掉某些 commit），然後看一下結果吧！"
+            ],
+            "afterMarkdowns": [
+              "看吧！ git 根據你所選擇的 commit，把它們複製了下來。"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這個關卡，使用互動式的 rebase，並且完成視覺化目標所表示 commit 的順序，記住！你可以經常使用 `undo` 或者 `reset` 來修正你的一些錯誤:D"
             ]
           }
         }
@@ -26854,7 +27109,7 @@ exports.level = {
     "en_US": "Remember the Caret (^) operator!",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "zh_CN": "记住插入(^)操作符!",
-    "zh_TW": "不要忘記插入（^） 符號!"
+    "zh_TW": "不要忘記插入（^）符號！"
   },
   "startDialog": {
     "en_US": {
@@ -27090,11 +27345,11 @@ exports.level = {
             "markdowns": [
               "## 相對引用",
               "",
-              "如果要在 Git 中移動，透過指定 commit 的 hash 值的方式會變得比較麻煩。在實際例子中，你的終端機上面不會出現漂亮且具備視覺效果的 commit tree，所以你不得不用 `git log` 來查詢 hash 值。",
+              "如果要在 git 中移動，透過指定 commit 的 hash 值的方式會變得比較麻煩。在實際例子中，你的終端機上面不會出現漂亮且具備視覺效果的 commit tree，所以你不得不用 `git log` 來查詢 hash 值。",
               "",
-              "另外，hash 值的長度在真實的 Git 環境中很長。舉個例子，前一個關卡的介紹中的 commit 的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
+              "另外，hash 值的長度在真實的 git 環境中很長。舉個例子，前一個關卡的介紹中的 commit 的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
               "",
-              "幸運的是， Git 對於處理 hash 很有一套。你只需要提供能夠唯一辨識出該 commit 的前幾個字元就可以了。所以，我可以只輸入 `fed2` 而不是上面的一長串字元。"
+              "幸運的是，git 對於處理 hash 值很有一套。你只需要提供能夠唯一辨識出該 commit 的前幾個字元就可以了。所以，我可以只輸入 `fed2` 而不是上面的一長串字元。"
             ]
           }
         },
@@ -27102,9 +27357,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "我說過，透過 hash 來指定 commit 不是很方便，所以 Git 加入了相對引用。這個就很厲害了!",
+              "我說過，透過 hash 值來指定 commit 不是很方便，所以 git 加入了相對引用。這個就很厲害了!",
               "",
-              "使用相對引用，你可以從一個易於記憶的地方（比如說分支名稱 `bugFix` 或 `HEAD`）開始工作。",
+              "使用相對引用，你可以從一個易於記憶的地方（比如說 branch 名稱 `bugFix` 或 `HEAD`）開始工作。",
               "",
               "相對引用非常好用，這裡我介紹兩個簡單的用法：",
               "",
@@ -27117,7 +27372,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 Git 去找到該 reference 所指向的 commit 的 parent commit。",
+              "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 git 去找到該 reference 所指向的 commit 的 parent commit。",
               "",
               "所以 `master^` 相當於 \"`master` 的 parent commit\"。",
               "",
@@ -27375,9 +27630,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### The \"~\" operator",
+              "### \"~\" 符號",
               "",
-              "假設需要在 commit tree 中向上移動多個 commit。使用太多`^`會非常討人厭，所以 Git 也加入了波浪（~）符號。",
+              "假設需要在 commit tree 中向上移動多個 commit。使用太多 `^` 會非常討人厭，所以 git 也加入了波浪（~）符號。",
               "",
               "",
               "波浪符號後面可以選擇一個數字（你也可以不選擇），該數字可以告訴 Git 我要向上移動多少個 commit 。舉個例子"
@@ -27439,7 +27694,7 @@ exports.level = {
     "fr_FR": "Annuler des changements avec Git",
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "在Git中撤销更改",
-    "zh_TW": "在 Git 中取消修改 "
+    "zh_TW": "在 git 中取消修改 "
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -27772,11 +28027,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 取消 Git 的修改",
+              "## 取消 git 的修改",
               "",
-              "在 Git 裡面取消修改的方法很多。和 commit 一樣，在 Git 裡面取消修改同時具有底層的部份（暫存一些獨立的文件或者片段）和高層的部份（修改是如何被取消）。我們主要講的重點是後者。",
+              "在 git 裡面取消修改的方法很多。和 commit 一樣，在 git 裡面取消修改同時具有底層的部份（暫存一些獨立的文件或者片段）和高層的部份（修改是如何被取消）。我們主要講的重點是後者。",
               "",
-              "在 Git 裡主要用兩種方法來取消修改 —— 一種是 `git reset`，另外一種是 `git revert`。讓我們在下一個對話視窗中逐一瞭解它們。",
+              "在 git 裡主要用兩種方法來取消修改，一種是 `git reset`，另外一種是 `git revert`。讓我們在下一個對話視窗中逐一瞭解它們。",
               ""
             ]
           }
@@ -27787,13 +28042,13 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` 把分支的參考點退回到上一個 commit 來取消修改。你可以認為這是在\"重寫歷史\"。`git reset` 往回移動分支，原來的分支所指向的commit好像從來沒有存在過一樣。",
+              "`git reset` 把分支的參考點退回到上一個 commit 來取消修改。你可以認為這是在\"重寫歷史\"。`git reset` 往回移動 branch，原來的 branch 所指向的 commit 好像從來沒有存在過一樣。",
               "",
               "讓我們來看看要怎麼操作："
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "太好了! Git 把 master 分支簡單地移回到 `C1`；現在在我們的 local 端已經退回到沒有 commit 過 `C2` 的狀態了。"
+              "太好了! Git 把 master branch 簡單地移回到 `C1`；現在在我們的 local 已經退回到沒有 commit 過 `C2` 的狀態了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -27804,7 +28059,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "雖然在你的 local 分支中使用 `git reset` 很方便，但是這種「改寫歷史」的方法對別人的遠端分支是無效的哦！",
+              "雖然在你的 local branch 中使用 `git reset` 很方便，但是這種「改寫歷史」的方法對別人的 remote branch 是無效的哦！",
               "",
               "為了取消修改並且把這個狀態*分享*給別人，我們需要使用 `git revert`。舉個例子"
             ],
@@ -27812,7 +28067,7 @@ exports.level = {
             "afterMarkdowns": [
               "很奇怪吧！在我們要取消的 commit 後面居然多了一個新的 commit！這是因為新的 commit `C2'` 引入了*修改*——用來表示我們取消 `C2` 這個 commit 的修改。",
               "",
-              "借助 revert，現在可以把你的修改分享給別人啦。"
+              "多虧了 revert，現在可以把你的修改分享給別人啦。"
             ],
             "beforeCommand": "git commit"
           }
@@ -27821,9 +28076,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這一關，分別取消 `local` 分支和 `pushed` 分支上的最近一次提交。",
+              "要完成這一關，分別取消 `local` branch 和 `pushed` branch 上的最近的一次 commit。",
               "",
-              "記住 `pushed` 是一個遠端分支，`local` 是一個本地分支 —— 有了這麼明顯的提示應該知道要用哪種方法了吧？"
+              "記住 `pushed` 是一個 remote branch，`local` 是一個 local branch，有了這麼明顯的提示應該知道要用哪種方法了吧？"
             ]
           }
         }
@@ -27919,7 +28174,7 @@ exports.level = {
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
-    "zh_TW": "要記住喔! 把 master 分支留到最後在更新可能是最有效率的方法。"
+    "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。"
   },
   "startDialog": {
     "en_US": {
@@ -28001,13 +28256,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Rebase 多個 branch",
+              "### rebase 多個 branch",
               "",
-              "嗨!現在我們有很多分支了啦！讓我們做一下rebase，將這些分支接到 master 分支上吧。",
+              "嗨！現在我們有很多 branch 了啦！讓我們做一下 rebase，將這些分支接到 master branch 上吧。",
               "",
-              "但是你的主管找了點麻煩 —— 他們希望得到有序的 commit history，也就是我們最終的結果是 `C7'` 在最下面，`C6'` 在它上面，以此類推。",
+              "但是你的主管找了點麻煩，他們希望得到有序的 commit history，也就是我們最終的結果是 `C7'` 在最下面，`C6'` 在它上面，以此類推。",
               "",
-              "假如你搞砸了，沒有關係啦!你用 `reset` 就可以重新開始!。記得看看我們提供的答案，看你是否能夠使用更少的指令完成這一關！"
+              "假如你搞砸了，沒有關係啦！你用 `reset` 就可以重新開始！記得看看我們提供的答案，看你是否能夠使用更少的指令完成這一關！"
             ]
           }
         }
@@ -28049,7 +28304,7 @@ exports.level = {
     "de_DE": "Branch-Spaghetti",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
-    "zh_TW": "分支漿糊"
+    "zh_TW": "branch 漿糊"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -28057,7 +28312,7 @@ exports.level = {
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
-    "zh_TW": "確認你是按照正確的順序來操作！先操作分支 `one`, 然後 `two`, 最後才是 `three`"
+    "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`"
   },
   "startDialog": {
     "en_US": {
@@ -28150,11 +28405,11 @@ exports.level = {
               "",
               "哇塞大神！這關我們要來點不同的！",
               "",
-              "現在我們的 `master` 分支是比 `one` `two` 和 `three` 這三個分支多了幾個 commit。由於某種原因，我們需要將 master 所新增的幾個 commit 套用到其它三個分支上面。",
+              "現在我們的 `master` branch 是比 `one` `two` 和 `three` 這三個 branch 多了幾個 commit。由於某種原因，我們需要將 master 所新增的幾個 commit 套用到其它三個 branch 上面。",
               "",
-              "分支 `one` 需要重新排序和取消 `C5` 這一個commit， `two` 需要完全重排，而 `three` 只需要再一個 commit。",
+              "`one` branch 需要重新排序和取消 `C5` 這一個 commit， `two` 需要完全重排，而 `three` 只需要再一個 commit。",
               "",
-              "我們會讓你知道如何解決這個問題 —— 之後請記得用 `show solution` 看看我們的答案喔。"
+              "我們會讓你知道如何解決這個問題，之後請記得用 `show solution` 看看我們的答案喔。"
             ]
           }
         }
@@ -28190,12 +28445,14 @@ exports.level = {
   "name": {
     "en_US": "Clone Intro",
     "de_DE": "Clone Einführung",
-    "zh_CN": "Clone Intro"
+    "zh_CN": "Clone Intro",
+    "zh_TW": "介紹 clone"
   },
   "hint": {
     "en_US": "Just git clone!",
     "de_DE": "Einfach git clone ausführen!",
-    "zh_CN": "Just git clone!"
+    "zh_CN": "Just git clone!",
+    "zh_TW": "只要 git clone 就好了"
   },
   "startDialog": {
     "en_US": {
@@ -28250,6 +28507,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "remote (遠端) repository 並不會很難了解. 藉由現在的雲端運算，可以很輕易地了解到在 git remote 裡面有很多有趣的事情，但它們其實其實就只是你的或者是其它電腦上的 repository 的副本。你可以輕易地透過網路去發送你的 commit 給其它的電腦。",
+              "",
+              "也就是說， remote repository 有很多有趣的地方：",
+              "",
+              "- 第一，remote 是用來備份的! 本地端的 git 有能力可以回復文件到前一個狀態 (你知道的)，但是全部的資訊還是儲存在本地端。如果你在其它的電腦上面有你的 git repository 的副本，則你可以在資料不小心遺失的時候進行救援備份",
+              "",
+              "- 更重要的是, remote 讓大家一起來 coding！現在你的 project 放在 remote 上面，你的朋友可以很容易地對你的 project 做出貢獻（或者是 pull 你最後的修改） 。",
+              "",
+              "使用網站去對 remote repository 做視覺化非常流行（例如 [Github](https://github.com/） 或者是 [Phabricator]（http://phabricator.org/）），但這背後最大的功臣是 remote repository，因此我們務必要了解它。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 我們去建立 remotes 的指令",
+              "",
+              "到目前為止，Learn Git Branching 著重在解釋本地端的工作（branching, merging, rebasing 以及其它指令）， 但是我們現在想要學習針對 remote 的指令，我們需要一個指令去建立環境，`git clone` 就是我們需要的指令",
+              "",
+              "技術上來說， `git clone` 表示你想要把遠端的 repository 複製一份下來放在本地端（ 例如從 github 複製）。 雖然 `git clone` 實際上是把遠端的 repository 複製下來放在本地端，在 Learn Git Branching 中，我們用的這個指令會有一點不同。雖然他跟真實的指令的意思相反，但是它可以建立起本地端以及遠端的一個連結，現在讓我們看看如何使用它吧。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們慢慢來，並且看看 remote repository 是長什麼樣子（在我們的視覺化圖形中）。",
+              ""
+            ],
+            "afterMarkdowns": [
+              "就是那樣！現在我們有了一個放置了我們 project 的 remote repository。除了一些視覺上的改變之外，它們看起來很像，在之後的關卡中你就會看到我們如何分享我們的工作到這些 repository 上面。"
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這個關卡，只要打 `git clone，其它的學習會在後面的關卡中出現。"
             ]
           }
         }
@@ -28380,12 +28694,14 @@ exports.level = {
   "name": {
     "en_US": "Faking Teamwork",
     "de_DE": "Teamarbeit simulieren",
-    "zh_CN": "Faking Teamwork"
+    "zh_CN": "Faking Teamwork",
+    "zh_TW": "模擬團隊合作"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
-    "zh_CN": "记住为fake指定数量"
+    "zh_CN": "记住为fake指定数量",
+    "zh_TW": "你要記得指定要送多少個 commit 出去"
   },
   "startDialog": {
     "en_US": {
@@ -28437,6 +28753,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 模擬合作",
+              "",
+              "接下來的課程有一個很難的事情，我們需要讓你學會如何 pull remote 上的更新 。",
+              "",
+              "這就表示我們必須要 \"假裝\" remote 被你其中一個同事/ 朋友/ 合作的人在某個特定的 branch 上面送了一些特定的 commit。",
+              "",
+              "為了要做到這件事情,我們要介紹一個自己設計的指令 `git fakeTeamwork`！ 從字面上就可以很容易地看出來它在幹嘛，讓我們來看一個範例..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork` 的預設行為是在送一個 commit 給 master 分支"
+            ],
+            "afterMarkdowns": [
+              "我就說吧！remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該 commit。"
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你可以在命令的後面指定你要送幾個 commit 或是要送給哪個 branch。"
+            ],
+            "afterMarkdowns": [
+              "我們利用一個指令將三個 commit 送給在 remote 上面的 `foo` branch。"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "接下來的關卡會很困難，所以我們在這個關卡中會問你更多問題。",
+              "",
+              "現在先把 remote 下載下來（利用 `git clone`），假裝送幾個 commit 給 remote 做更新，然後 pull 這些 commit 下來 。這就好像是幾個教學中的指令的總結！"
             ]
           }
         }
@@ -28561,12 +28931,14 @@ exports.level = {
   "name": {
     "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
-    "zh_CN": "Git Fetchin'"
+    "zh_CN": "Git Fetchin'",
+    "zh_TW": "git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
     "de_DE": "Einfach git fetch ausführen!",
-    "zh_CN": "just run git fetch!"
+    "zh_CN": "just run git fetch!",
+    "zh_TW": "只要下 git fetch 指令"
   },
   "startDialog": {
     "en_US": {
@@ -28637,6 +29009,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish the level, simply `git fetch` and download all the commits!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git fetch",
+              "",
+              "透過 git remote 其實就是把資料接收或傳送到其它的 repository，只要我們可以將資料傳進及傳出，我們就可以分享任何被 git 所追蹤的 repository 的更新（例如分享工作進度，新的檔案，新的想法，以及情書等等...）。",
+              "",
+              "在這個教學中，我們會學習到如何從 remote repository 來 fetch （抓取）資料，這個指令叫作 `git fetch`。",
+              "",
+              "你將會注意到當我們的 remote repository 更新的時候，相對應的 _remote_ branch 也會反應該更新，這個跟我們之前所提到的 remote branch 的特性是吻合的。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在講到 `git fetch` 的細節之前，我們要先來看一下例子! 在這裡我們有一個新增了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
+            ],
+            "afterMarkdowns": [
+              "看吧！commit `C2` 以及 `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/master` 也更新了。"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch 做了什麼",
+              "",
+              "`git fetch` 只有執行了兩個主要步驟，包含：",
+              "",
+              "* 下載 remote 有的 commit，但是在我們的 local repository 是沒有該 commit。還有...",
+              "* 更新我們 remote branch 所指向的地方（例如， `o/master`）",
+              "",
+              "基本上，`git fetch` 同步了我們的 local repository 以及 remote repository 的最新狀態。",
+              "",
+              "假如你還記得之前的教學的話，我們說過 remote branch 反應了 remote repository 的狀態，原因在於說你最後接觸的是這些 remote repository，而你就是利用 `git fetch` 來接觸這些 remote repository！現在 remote branch 跟 `git fetch` 的關係已經很明顯了。",
+              "",
+              "`git fetch` 通常是透過網路來跟 remote 溝通（透過一個 protocol （協定），例如 `http://` 或者是 `git://`）。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch 沒有做的事情",
+              "",
+              "然而，`git fetch` 並不會影響到在你的 local repository 中的 `master` branch，他並不會將你的 `master` branch 更新到最新的狀態。",
+              "",
+              "這個觀念很重要，因為很多程式設計師以為 `git fetch` 可以讓他們在 local repository 上面的工作跟 remote repository 的工作可以同步。它是會下載同步所需的資料，但是不會更新任何的檔案，我們會在後面的教學中提到如何做到這件事情。:D",
+              "",
+              "因此，你可以把 `git fetch` 想成是在下載資料。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，只要透過 `git fetch` 並且下載全部的 commit 即可！"
             ]
           }
         }
@@ -28797,11 +29242,13 @@ exports.level = {
   "name": {
     "en_US": "Fetch arguments",
     "zh_CN": "Fetch arguments",
+    "zh_TW": "fetch 的參數",
     "de_DE": "Optionen für Fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
+    "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
   },
   "startDialog": {
@@ -28923,6 +29370,129 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git fetch 的參數",
+              "",
+              "我們剛學到了所有關於 git push 的參數，有非常棒的 `<place>` 參數，甚至是 colon refspecs（`<source>:<destination>`），我們可不可以也同樣套用到 `git fetch` 上面？",
+              "",
+              "你猜對了！`git fetch` 的參數*非常非常*類似 `git push`，一樣的概念，但方向不同（因為你在下載 commit，而不是在上傳 commit）。",
+              "",
+              "讓我們一次講一個概念..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###`<place>` 參數",
+              "",
+              "對於 `git fetch`，如果你特別指定了一個 `<place>`：",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "git 會到 remote 上的 `foo` branch，抓下所有不在 local 上的 commit，然後將它們放到 local 的 `o/foo` branch。",
+              "",
+              "讓我們實際看一下（就只是一個*更新*的方法）。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "指定一個 `<place>`..."
+            ],
+            "afterMarkdowns": [
+              "我們只下載了 `foo` 上的 commit，並且把它們放到 `o/foo`。"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你也許會感到奇怪，為什麼 git 是把這些 commit 放到 `o/foo` branch 而不是放到我的 local 的 `foo` branch？ 我認為，`<place>` 參數是表示一個位置，這個位置同時存在 local 跟 remote 上？",
+              "",
+              "因為你可能已經 checkout 到 `foo` branch 上，而且你不想要打亂上面的 commit，因此 git 才會特別這樣做！！這就又回到之前的 `git fetch` 的課程，它並不會放到你的 local 上的 branch (該 branch 沒有對應到任何的 remote branch)，它只會下載 commit 到 local 上且表示 remote 的 branch（所以你之後可以觀察或者 merge 它們）。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"在該例子當中，如果我特別透過 `<source>:<destination>` 來指定 source 以及 destination，會發生什麼事情？\"",
+              "",
+              "如果你很想要把 fetch 回來的 commit *直接*放到 local branch，那麼你就可以利用一個 colon refspec 來做到。你不能夠把 fetch 回來的 commit 放到你目前正 checkout 的 branch，如果不是的話，git 就會允許你這麼做。",
+              "",
+              "這裡只有一個重點，`<source>` 現在是一個在 *remote* 上的 branch，而且 `<destination>` 是一個放置這些 commit 的 *local* 的位置。它剛好就是 `git push` 的相反，而且因為我們在相反方向傳遞資料，所以這也很合理！",
+              "",
+              "其實，程式設計師很少會想要做這個，我主要是強調 `fetch` 以及 `push` 的概念是很類似的，就只是方向相反而已。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來實際看一下這個瘋狂的事情："
+            ],
+            "afterMarkdowns": [
+                "哇！看到了吧，git 把  `foo~1` 解讀成一個在 origin 上的位置，而且把該位置上面的 commit 下載到 `bar`（這是一個 local branch）上面，注意，因為我們有指定目的地，因此 `foo` 跟 `o/foo` 並沒有被更新。"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果我在執行這個指令之前，destination 不存在的話會怎樣？我們回到上一個例子，但這一次事前並沒有 `bar` 這個 branch 的存在。"
+            ],
+            "afterMarkdowns": [
+              "看到了吧，這就像是 `git push`，在 fetch 之前，git 會自己建立 destination，就好像是在 push 之前， git 會建立 remote 上的 destination 一樣（如果它不存在的話）。"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "沒有參數的情況？",
+              "",
+              "如果使用 `git fetch` 的時候，沒有指定任何的參數，那就相當於它會下載 remote 上面的所有的 commit，並且把這些 commit 放到 local 上面所有對應到 remote 的 branch..."
+            ],
+            "afterMarkdowns": [
+              "超簡單，但是所有的更新只做一次，很值得。"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好的，講了好多！要完成這一關，fetch 視覺化的目標所指定的 commit，好好玩這些指令吧！",
+              "",
+              "對於兩個 fetch 的指令，你必須要指定 source 以及 destination，注意一下視覺化的目標，因為 commit 的 id 可以被交換！"
             ]
           }
         }
@@ -29186,11 +29756,13 @@ exports.level = {
   "name": {
     "en_US": "Diverged History",
     "zh_CN": "分散的历史",
+    "zh_TW": "diverged history",
     "de_DE": "Abweichende History"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
+    "zh_TW": "確認視覺化的目標中的順序",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
   },
   "startDialog": {
@@ -29332,6 +29904,149 @@ exports.level = {
               "* Fake some teamwork (1 commit)",
               "* Commit some work yourself (1 commit)",
               "* Publish your work via *rebasing*"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Diverged Work",
+              "",
+              "到目前為止我們已經知道如何 `pull` 其他人所送的 commit，而且也知道如何 `push` 我們自己的 commit，感覺很簡單，但是為什麼有人看起來很困惑？",
+              "",
+              "當 repo 的歷史紀錄是 *diverge（branch 走向不同）* 的狀態時就會很棘手，在討論這個之前，讓我們先來看一個例子...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "想像一下你在星期一的時候 clone 了一個 repo，並且開始在設計一個功能，在星期五的時候你準備好要發佈你的新功能，但是非常不幸地，你的同事已經寫了一連串的程式碼並且已經將 commit 發佈到 remote，所以現在*你的*進度是在一個比較*舊*的版本的後面（如果與 remote 比較的話啦！）。",
+              "",
+              "在這種情況底下，使用 `git push` 會有問題，如果你使用 `git push`，那麼 git 應該要把 remote 退回到星期一的狀態？ 它應該要把你所寫好的程式碼一起更新進去，同時不會影響你的同事寫好的程式碼？ 或者是他應該要因為版本比較舊而完全忽略你的程式碼？",
+              "",
+              "因為在這種情況下會很麻煩（當 git 歷史紀錄被 diverge 了）， 所以 git 不會允許你 `push` 你的 commit。在你上傳你的 commit 之前，它實際上會先強迫你先跟 remote 同步。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "講太多了啦！讓我們實際看一下這個情況。"
+            ],
+            "afterMarkdowns": [
+              "看到了沒？因為指令失敗了，所以沒有任何事情發生。 `git push` 失敗的原因是因為你最近的 commit `C3` 是在 `C1` 的後面，但是 remote 那邊是 `C2` 在 `C1` 的後面，所以 git 才會拒絕你的 push。"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你要如何解決這種情況？很簡單，你只需要把 `C3` 接在 remote 最新的版本 `C2` 的後面就可以了。",
+              "",
+              "有一些方法可以做到，但是最直接的方式是用 rebase，我們來做看看。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "在我們 push 之前，先來做 rebase..."
+            ],
+            "afterMarkdowns": [
+              "看吧！我們利用 `git fetch` 下載了 remote 上面的 commit，並且 rebase 我們的 commit，使得我們的 commit 可以接在 remote 上面最新的版本的後面，接著透過 `git push` 就可以上傳更新了。"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在 remote 已經率先更新之後，還有沒有其它方法可以上傳我們的 commit？當然有阿！我們這次利用 `merge` 來做看看！",
+              "",
+              "雖然 `git merge` 並不會去移動你的 commit（反而會產生一個 merge commit），這是一個告訴 git 你已經下載了 remote 上面的 commit 並且在 local repo 中已經做完 merge，而因為 remote branch 上的最新的 commit 現在已經是 merge commit 的一個 *ancestor*，這就表示你的 commit 已經包含了在 remote branch 上的所有 commit。",
+              "",
+              "讓我們來看一下這種情況..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在假設我們不是用 rebase，而是用 merge..."
+            ],
+            "afterMarkdowns": [
+              "看吧！我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch（這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit），接著再透過 `git push` 上傳到 remote。"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "太棒了! 有沒有其它可以不用打這麼多指令的方法？",
+              "",
+              "當然有阿！你已經知道 `git pull` 就是表示一個 fetch 跟一個 merge。 有一個指令非常方便，那就是 `git pull --rebase`，它表示的是一個 fetch 以及一個 rebase。",
+              "",
+              "我們來看如何使用這個簡化後的指令。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "首先 `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "跟之前一樣！只是少打了很多指令。"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "現在用一般的 `pull`"
+            ],
+            "afterMarkdowns": [
+              "又來了，剛好跟之前的一樣！"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "fetch，rebase/merge，以及 push 的流程是幾乎一樣的。在之後的教學中我們會看到比這些流程更複雜的版本。但是現在讓我們先牛刀小試一下。",
+              "",
+              "為了要完成這一關，請按照下面的步驟：",
+              "",
+              "* clone 你的 repo",
+              "* 假裝送一個 commit 給 remote",
+              "* 送一個 commit 給 local repo",
+              "* 透過 *rebase* 送自己的 commit"
             ]
           }
         }
@@ -29634,11 +30349,13 @@ exports.level = {
   "name": {
     "en_US": "Merging with remotes",
     "zh_CN": "Merging with remotes",
+    "zh_TW": "merge with remotes",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
     "zh_CN": "注意目标树!",
+    "zh_TW": "注意最後要完成的目標！",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
@@ -29683,6 +30400,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 為何不要 merge？",
+              "",
+              "為了要 push 新的 commit 給 remote，你只需要做的是先同步 remote 的更新，那就表示你可以使用 rebase *或者*是 merge remote branch （例如，`o/master`）。",
+              "",
+              "所以假如你已經學會使用其中一個方式了，那為什麼我們到目前為止還在強調 `rebase`？為什麼當提到 remote 的時候，反而 `merge` 比較沒有受到關注？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在程式發展的社群中，關於 `merge` 以及 `rebase` 的孰優孰劣有很多的爭論。這裡我們會提到關於 `rebase` 的優點及缺點：",
+              "",
+              "優點：",
+              "",
+              "* `rebase` 使得你的 commit tree 看起來更為簡潔，因為任何的 commit 都在一條直線上面。",
+              "",
+              "缺點：",
+              "",
+              "* `rebase` 修改了 commit tree 的歷史紀錄。",
+              "",
+              "舉例來說，我們可以 rebase commit `C1`，將 `C1` 接在*過去的* `C3` 上面，那麼就可以表現出 `C1` 是出現在 `C3` 的後面。",
+              "",
+              "有一些程式設計師喜歡保留歷史紀錄，因此他們會比較喜歡 `merge`; 其他人（例如我自己）比較喜歡一個簡潔的 commit tree，因此他們比較喜歡 `rebase`。這些都是擇你所愛。:D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在這個關卡中，我們面對的是之前關卡的題目，但是我們採用的是 `merge`，這可能會讓你感覺到有點困難，但是確實有講到重點。"
             ]
           }
         }
@@ -29789,11 +30551,13 @@ exports.level = {
   "name": {
     "en_US": "Git Pullin'",
     "zh_CN": "Git Pullin'",
+    "zh_TW": "git pull'",
     "de_DE": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
     "zh_CN": "Just run git pull!",
+    "zh_TW": "只要下 git pull 這個指令即可",
     "de_DE": "Führe einfach git pull aus."
   },
   "startDialog": {
@@ -29851,6 +30615,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+   "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git pull",
+              "",
+              "現在我們已經知道如何利用 `git fetch` 從 remote 抓取 commit，讓我們來看一下如何將這些 commit 更新到我們的檔案！",
+              "",
+              "只要在你的 local 有 fetch 到新的 commit，便有很多方法可以做到這件事情，你可以把它們視為在其它 branch 上面的一般的 commit，這表示你可以執行像這樣子的指令:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* 等等‧‧‧",
+              "",
+              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！ 這個命令叫作 `git pull`。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來看循序執行一個 `fetch` 和一個 `merge` 的樣子"
+            ],
+            "afterMarkdowns": [
+              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `master` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果用 `git pull` 會發生什麼事情？"
+            ],
+            "afterMarkdowns": [
+              "一樣！很明顯地，`git pull` 其實就是 git fetch 跟 git merge 的循序執行的結果，而且 merge 的 branch 就是 fetch 所更新的 branch。"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我們會解釋 `git pull` 的細節（包括可選擇的參數）, 但現在先讓我們在這個關卡試試看！",
+              "",
+              "記住喔，你可以利用循序執行的方式來執行 `fetch` 以及 `merge` 來完成這個關卡，但是相對於 `git pull`，你就得多打一個指令。:P"
             ]
           }
         }
@@ -29985,11 +30808,13 @@ exports.level = {
   "name": {
     "en_US": "Pull arguments",
     "zh_CN": "Pull arguments",
+    "zh_TW": "pull 的參數",
     "de_DE": "Optionen für Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
     "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
+    "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
@@ -30062,6 +30887,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git pull 的參數",
+              "",
+              "現在你已經知道關於 `git fetch` 以及 `git push` 的*任何參數*，但是我們還可以再聊聊 `git pull`:)",
+              "",
+              "那是因為 `git pull` 到目前為止*的確*只是表示 fetch 之後再 merge 所 fetch 的 commit， 你可以把它想成，當使用 `git fetch` 時使用*一樣*的參數，之後再從 fetch 下來的 commit *所放置*的位置做 merge。",
+              "",
+              "這同樣也適用於當你指定相當複雜的參數，讓我們來看一些例子："
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "對於 git 來說，有一些意義一樣的指令：",
+              "",
+              "`git pull  origin foo` 相當於：",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "而且...",
+              "",
+              "`git pull  origin bar~1:bugFix` 相當於：",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "看吧？`git pull` 真的就只是表示 fetch 跟 merge 的一個簡化後的指令，而且 `git pull` 所根據的是這些 commit 要放置的位置（在 fetch 的時候所指定的`destination`）。",
+              "",
+              "讓我們來看一個例子："
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果我們在 fetch 的時候有指定`位置`的話，跟之前一樣，fetch 所做的事情沒有變，但是我們會 merge 我們剛剛所 fetch 的該`位置`的commit。"
+            ],
+            "afterMarkdowns": [
+              "看吧！ 指定位置為 `master`，跟平常一樣，我們下載了 commit 並且放到 `o/master` 上，接著，我們會 merge `o/master` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "他是不是也可以同時指定 source 以及 destination？你說對了啦！讓我們來看一下："
+            ],
+            "afterMarkdowns": [
+                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `master` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。 這實在是在超過了！！！"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，達到視覺化目標的要求，你需要下載一些 commit，建立一些新的 branch，並且 merge 這些 branch 到其他的 branch 上面，這個關卡不需要打太多的指令:P"
             ]
           }
         }
@@ -30228,11 +31127,13 @@ exports.level = {
   "name": {
     "en_US": "Git Pushin'",
     "zh_CN": "Git Pushin'",
+    "zh_TW": "git push",
     "de_DE": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
     "zh_CN": "push之前你需要先克隆.",
+    "zh_TW": "push 之前你需要先 clone",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
   },
   "startDialog": {
@@ -30272,6 +31173,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "ok，現在我已經從 remote 下載了一些更新，並且把它們 merge 到我的 local 上面的 branch，這聽起來實在太讚了...，但是我要如何分享_我_所做的更新給其它人呢?",
+              "",
+              "喔，其實上傳並且分享更新跟下載更新並且 merge 是相反的兩件事情，那什麼是 `git pull` 的相反呢？ 那就是 `git push`！",
+              "",
+              "`git push` 負責上傳_你的_ commit 到特定 remote 上面並且做出相對應的更新，只要做完了 `git push`，所有你的朋友都可以從 remote 上面下載你所送出去的 commit。",
+              "",
+              "你可以把 `git push` 當作是一個\"發佈\"你的工作進度的指令，還有一些我們即將要講到的細節，但是先讓我們從一些簡單的步驟開始。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡我們有了一些 remote 所沒有的 commit。讓我們來上傳它們吧！"
+            ],
+            "afterMarkdowns": [
+              "我說的沒錯吧！remote 收到了 commit `C2`，同時在 remote 上的 `master` branch 也一起更新並且指向 `C2`，同時我們*自己的* `o/master` 也一併更新了！"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這個關卡，只要上傳兩個新的 commit 給 remote，不要太得意忘形喔！因為這些課程將會愈來愈難！"
             ]
           }
         }
@@ -30373,10 +31315,12 @@ exports.level = {
   "name": {
     "en_US": "Git push arguments",
     "zh_CN": "Git push 参数",
+    "zh_TW": "git push 的參數",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
+    "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
   },
   "startDialog": {
@@ -30447,6 +31391,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## push 的參數",
+              "",
+              "太好了！現在你已經明白了 remote tracking，我們可以開始聊 git push、fetch 以及 pull 的一些有趣的地方，我們一次會講解一個指令，但是它們之間的概念是很類似的。",
+              "",
+              "首先我們來看一下 `git push`，你已經在 remote tracking 的課程中學習到 git 是根據目前 checkout 的 branch 所 track 的 remote branch 來做 push，這是在沒有任何的參數的情況下的預設動作，但是 git push 允許我們可以加上一些參數：",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<place>` 這個參數表示什麼? 我們等一下會提到細節，但是先來看一個例子，執行以下的指令：",
+              "",
+              "`git push origin master`",
+              "",
+              "將這段解釋成中文：",
+              "",
+              "*先到我的 repo 中的 \"master\" branch，抓下所有的 commit，然後到叫作 \"origin\" 的 remote 的 \"master\" branch，檢查 remote 的 commit 有沒有跟我的 repo 一致，如果沒有，就更新。*",
+              "",
+              "將 `master` 當作 \"place\" 這個參數，我們告訴 git 這些 commit 是*從哪裡來的*，而且它們要*往哪裡去*。對於要同步兩個 repo， \"place\" 或者是 \"location\" 是非常重要的。",
+              "",
+              "要記住喔，因為我們告訴 git 它所要知道的（有兩個參數），因此它才不會管你現在所 checkout 的 branch！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來看一個有加上參數的例子，在這個例子中，要特別注意到我們所 checkout 的位置。"
+            ],
+            "afterMarkdowns": [
+              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了"
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "假如我們沒有特別指令參數會發生什麼事情？"
+            ],
+            "afterMarkdowns": [
+              "指令會失敗（就像你看到的），因為 `HEAD` 並沒有指向一個有 track remote branch 的 branch 上面阿。"
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `master` branch，比較遺憾的是 `git checkout` 在這個關卡中是不被允許的喔！"
             ]
           }
         }
@@ -30607,11 +31623,13 @@ exports.level = {
   "name": {
     "en_US": "Git push arguments -- Expanded!",
     "zh_CN": "Git push 参数2!",
+    "zh_TW": "git push 的參數，延伸討論！",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
+    "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
   },
   "startDialog": {
@@ -30678,6 +31696,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` 這個參數的細節",
+              "",
+              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `master`  當作 `<place>` 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*（source） 並且要 *往哪裡去*（destination）。",
+              "",
+              "你可能會很好奇，當我們的 source 以及 destination 是不同的時候，應該怎麼做？當你想要 push `foo` branch 上面的 commit 到 remote 的 `bar` branch 的時候，應該怎麼做？",
+              "",
+              "很遺憾地，對於 git 來說這是不可能的...開玩笑的啦！當然是有可能的:)... git 有非常非常大的彈性（太超過了啦）。",
+              "",
+              "讓我們來看看下一頁..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "為了要指定 `<place>` 的 source 以及 destination，只要利用一個分號將這兩個連在一起：",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "這通常被稱為一個 colon （分號） refspec. refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
+              "",
+              "一旦你單獨指定了 source 以及 destination，你可以看到花俏且準確的指令。讓我來來看一個例子！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "記住， `source` 表示任意可以被 git 辨識的位置："
+            ],
+            "afterMarkdowns": [
+              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。 "
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "如果你想要 push 的 destination 不存在怎麼辦？沒有問題！只要給一個 branch 的名稱，git 就會在 remote 幫你建立。"
+            ],
+            "afterMarkdowns": [
+              "太讚了，實在非常地簡單:D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "對於這個關卡，想辦法達到這個視覺化的目標，而且要記得格式：",
               "",
               "`<source>:<destination>`"
             ]
@@ -30836,11 +31924,13 @@ exports.level = {
   "hint": {
     "en_US": "Remember you can always use the undo or reset commands",
     "zh_CN": "你随时都可以使用undo/reset命令.",
+    "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
   },
   "name": {
     "en_US": "Push Master!",
     "zh_CN": "Push Master!",
+    "zh_TW": "push master！",
     "de_DE": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
@@ -30893,6 +31983,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## merge feature branch",
+              "",
+              "現在你已經很熟悉 fetch、pull 以及 push，讓我們來針對一個新的問題來應用這些技巧。",
+              "",
+              "在一個大型的專案裡面，程式設計師經常會在 feature branch（有別於 master branch） 上面做開發，之後等開發完之後，在一次 merge 回去。這跟之前的課程是很類似的（其它的 branch 被 push 到 remote），但是現在我們還要再多介紹一個步驟。",
+              "",
+              "某些程式設計師只針對 `master` branch 進行 push 或者是 pull。這樣子的話 `master` 一直都保持跟 remote （`o/master`） 同步。",
+              "",
+              "所以針對這個問題我們結合了兩件事情：",
+              "",
+              "* merge feature branch 到`master` branch，並且",
+              "* push remote 以及 pull remote"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們馬上來實際看一下如何更新 `master` 並且 push 到 remote。"
+            ],
+            "afterMarkdowns": [
+              "我們在這裡執行兩個指令:",
+              "",
+              "* rebase 我們的 branch 到 remote 的新的 commit 上面，並且",
+              "* 發佈到 remote 上面"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "這個關卡很複雜，這裡有一些提示：",
+              "",
+              "* 總共有三個 feature branch，分別是 `side1`，`side2` 以及 `side3`",
+              "* 我們想要將這三個 branch 分別 push 到 remote。",
+              "* 但是 remote 已經被事先更新過了，所以我們必須要先同步那些更新。",
+              "",
+              ":O 很好！祝你好運，完成這個關卡是一個很重要的步驟。"
             ]
           }
         }
@@ -31015,11 +32158,13 @@ exports.level = {
   "name": {
     "en_US": "Remote Branches",
     "zh_CN": "Remote Branches",
+    "zh_TW": "remote branch （遠端分支）",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "Pay attention to the ordering -- commit on master first!",
+    "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
   },
   "startDialog": {
@@ -31079,6 +32224,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git remote branch",
+              "",
+              "現在你已經知道 `git clone` 在幹嘛了，讓我們仔細看看到底發生了什麼事。",
+              "",
+              "你首先看到的是在你的本地端（local repository）出現了一個新的 branch 叫作 `o/master`，這種型態的 branch 叫作 remote branch （遠端分支），因為特殊的需求，因此 remote branch 有特殊的性質。",
+              "",
+              "remote branch 反應了 remote repository 的狀態（因為你最後接觸的是這些 remote repository），最重要的是，在你想要分享你的 commit 給其他人時，你必須知道你現在的 commit 跟 remote repository 有哪些不同，而 remote branch 的狀態就是在告訴你這些資訊。",
+              "",
+              "remote branch 有特別的特性，當你移動到 remote branch 時，你就進入到分離 `HEAD` 的狀態，git 這樣做的原因是告訴你不能夠直接影響這些 branch。你必須要在其它的 branch 工作，並且分享到 remote （分享之後，你的 remote branch 就會被更新）。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 什麼是 `o/`?",
+              "",
+              "你也許會對於 remote branch 前面的 `o/` 感到困惑，喔！remote branch 也（需要） 一個命名法則，或者是一般表示 remote branch 的格式。",
+              "",
+              "* `<remote 名稱>/<branch 名稱>`",
+              "",
+              "因此，當你看到一個 branch 叫做 `o/master`，就表示這個 branch 叫做 master，而且這個 remote 的名稱叫作 `o`。",
+              "",
+              "很多程式設計師實際上會把他們的 remote 命名為 `origin`，而不是 `o`，這在 git 是很常見的事情，因為當你使用 `git clone` 時，git 會自動把你的 remote 命名為 `origin`。",
+              "",
+              "但是很不幸的是 `origin` 並沒有辦法完全顯示在我們的 UI 上面，所以我們用 `o` 來簡化它（只要記住當你使用 git 的時候，實際上是命名為 `origin`）。",
+              "",
+              "有很多事情需要說明，現在讓我們來看看吧！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們移動到（checkout）一個 remote branch 並且看一下會發生什麼事情"
+            ],
+            "afterMarkdowns": [
+              "就像你看到的， git 讓我們進到 detached `HEAD` 狀態，同時，當我們加入一個新的 commit 時，`o/master` 都沒有更新，這是因為只有當 remote 更新的時候，`o/master` 才會更新。"
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，先在 master branch 上面做一次 commit，再移動到 `o/master` 上做一次 commit，這有助於我們了解到 remote branch 的不同，它們只會反應 remote 的狀態。"
             ]
           }
         }
@@ -31218,11 +32424,13 @@ exports.level = {
   "name": {
     "en_US": "Source of nothing",
     "zh_CN": "没有source",
+    "zh_TW": "沒有 source",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
+    "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {
@@ -31274,6 +32482,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###`<source>` 奇怪的地方",
+              "",
+              "在兩個奇怪的情況下，git 不使用 `<source>` 參數，事實上，在`git push`以及`git fetch`的情況下，可以允許你\"不用\"指定` source`，你可以藉由把參數留空，來表示你不想指定 source：",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "讓我們來看看這些在做什麼..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "當*沒有*指定 source 的時候，`push` 對於 remote branch 做了什麼？`push`把它刪除掉了！"
+            ],
+            "afterMarkdowns": [
+              "看吧，我們藉由把 source \"留空\"，成功用 `push` 刪除了 `foo` branch，這合理吧..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "最後，對於 `fetch` 來說，source \"留空\" 表示我們要在 local 上建立一個新的 branch。"
+            ],
+            "afterMarkdowns": [
+              "很奇怪吧！但那正是 git 為你做的事情！"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "這是一個很簡單的關卡，只需要利用 `git push` 刪除一個 remote 的 branch，並且利用 `git fetch` 建立一個新的 local 的 branch！"
             ]
           }
         }
@@ -31397,11 +32658,13 @@ exports.level = {
   "name": {
     "en_US": "Remote Tracking",
     "zh_CN": "Remote Tracking",
+    "zh_TW": "remote tracking",
     "de_DE": "Remote Tracking"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "有两种设置无端跟踪的方法!",
+    "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
   },
   "startDialog": {
@@ -31518,6 +32781,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### remote tracking branch",
+              "",
+              "在之前的課程中，有一件事情看起來很\"神奇\"，那就是 git 知道 `master` branch 是對應到 `o/master` branch。當然這些 branch 有類似的名稱，所以可以大概猜到， local 的 `master` branch 可以對應到 remote 的 `master branch`，但是我們是在兩種情況下可以確定有這個對應關係：",
+              "",
+              "* 在使用 `pull` 的時候，下載 commit 到 `o/master`，並且 `merge` 這些 commit 到 `master` branch，這就表示這個 merge 的目標是決定於這個對應關係。",
+              "* 在使用 `push` 的時候，在 `master` branch 上面的 commit 被 push 到 remote 上面的 `master` branch （它在 local 被表示成 `o/master`），這就表示 push 的目標是決定於 `master` 以及 `o/master` 之間的對應關係。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "長話短說，我們可以用 branch 上面的 \"remote tracking\" 特性來表示介於 `master` 以及 `o/master` 的對應關係，`master` branch 被設定用來追蹤（track） `o/master`，這就表示對於 `master` branch 來說的話，有一個 merge 的目標以及 push 的目標。",
+              "",
+              "你可能會覺得很奇怪，當你沒有下任何指令去設定的時候，關於 `master` branch 的對應關係是如何被設定的。喔！其實當你 clone 一個 repo 的時候，其實就已經自動幫你做設定了。 ",
+              "",
+              "在做 clone 的時候，git 會針對每一個在 remote 上面的 branch 建立一個 branch （例如 `o/master`），之後它會建立一個 local branch 來追蹤目前在 remote 上面的 active branch，在大部份的情況下，幾乎都是設定 `master` branch。",
+              "",
+              "一旦 git 完成這個動作，你就只會有一個 local branch ，但是你可以看到所有在 remote 上面的不同的 branch，對於 local 和 remote 來說的話，這樣子是最好的！",
+              "",
+              "這也解釋了為什麼當你 clone 的時候可能會看到以下被輸出的指令：",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 我可以自己設定嗎？",
+              "",
+              "是的你可以！你可以設定任何的 branch 來 track `o/master`， 假如你真的這麼做的話，那麼該 branch 的 push 及 merge 的目標就會跟 `master` 一樣。這就表示說你可以在 `totallyNotMaster` branch 上面執行 `git push`，並且 push 你的 commit 到 remote 的 `master` branch！",
+              "",
+              "有兩個方式可以設定，第一個就是藉由參考一個 remote branch 來 checkout 一個新的 branch。執行",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "建立一個新的 `totallyNotMaster` branch 並且它會 track `o/master`。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "說的好多，我們現在來看一個例子！我們會 checkout 一個新的 `foo` branch，而且該 branch 會被用來 track remote 上的 `master` branch。"
+            ],
+            "afterMarkdowns": [
+              "就像你看到的，當 `o/master` 更新的時候，`foo` branch 也跟著一起被更新，要注意 master 並沒有被更新！"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "同樣適用於 `git push`"
+            ],
+            "afterMarkdowns": [
+              "哇，即使我們的 branch 名稱完全一點關係都沒有，但我們還是 push 了 commit 到 remote 的 `master` branch 上面。"
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 方法 #2",
+              "",
+              "另外一個設定 remote tracking 的方法是使用 `git branch -u` 這一個指令，執行",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "你就會看到 `foo` branch 被設定成 track `o/master`，如果你現在已經 checkout 到 foo 這個 branch 上面了，你就可以省略掉它：",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "我們來看這個快速設定 remote tracking 的方法..."
+            ],
+            "afterMarkdowns": [
+              "跟之前一樣，就只是一個更加明確的指令，讚啦！"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "好！在這個關卡中，我們要 push 我們的 commit 到 remote 上面的 `master` branch，但是我們*不* checkout 到 local 的 `master` branch。因為這是一個進階的課程，所以我會讓你明白其它的東西。:P"
             ]
           }
         }
