@@ -284,11 +284,11 @@ exports.level = {
             "markdowns": [
               "### 選擇 parent commit",
               "",
-              "和`~`符號一樣，`^`符號的後面也可以接一個（可選的）數字。",
+              "和 `~` 符號一樣，`^` 符號的後面也可以接一個（可選的）數字。",
               "",
-              "這不是用來指定往上回去幾代（`~`的作用），`^`後面所跟的數字表示我要選擇哪一個 parent commit。還記得一個 merge commit 可以有多個 parent commit 吧，所以當我們要選擇走到哪一個 parent commit 的時候就會比較麻煩了。",
+              "這不是用來指定往上回去幾代（`~` 的作用），`^` 後面所跟的數字表示我要選擇哪一個 parent commit。還記得一個 merge commit 可以有多個 parent commit 吧，所以當我們要選擇走到哪一個 parent commit 的時候就會比較麻煩了。",
               "",
-              "Git 預設會選擇 merge commit 的\"第一個\" parent commit，使用`^`後面接一個數字可以改變這個預設的行為。",
+              "git 預設會選擇 merge commit 的\"第一個\" parent commit，使用 `^` 後面接一個數字可以改變這個預設的行為。",
               "",
               "廢話不多說，舉一個例子。",
               ""
@@ -304,7 +304,7 @@ exports.level = {
               "(*在我們的圖示中，第一個 parent commit 是指 merge commit 正上方的那一個 parent commit。*)"
             ],
             "afterMarkdowns": [
-              "簡單吧--這就是預設的情況。"
+              "簡單吧！這就是預設的情況。"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -314,7 +314,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "現在來試試選擇第二個 parent commit……"
+              "現在來試試選擇第二個 parent commit..."
             ],
             "afterMarkdowns": [
               "看到了嗎？我們回到了第二個 parent commit。"
@@ -355,7 +355,7 @@ exports.level = {
             "markdowns": [
               "### 練習一下",
               "",
-              "要完成這一關，在指定的目標位置上面建立一個新的分支。",
+              "要完成這一關，在指定的目標位置上面建立一個新的 branch。",
               "",
               "很明顯可以直接使用 commit 的 hash 值（比如 `C6`），但我要求你使用剛剛講到的相對引用的符號！"
             ]

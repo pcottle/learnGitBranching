@@ -695,7 +695,7 @@ var IntlHelperBar = HelperBar.extend({
       text: '学习 Git 分支',
       id: 'simpchinese'
     }, {
-      text: 'Git 分支',
+      text: '學習 Git 分支',
       id: 'tradchinese'
     }, {
       text: 'français',

@@ -6,7 +6,7 @@ exports.level = {
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commits简介',
-    'zh_TW': 'Git Commit 簡介'
+    'zh_TW': '介紹 git commit '
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -294,12 +294,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Commits",
-              "一個 commit 在 git repository 中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
+              "## git commit",
+              "一個 commit 在 git repo 中會記錄目錄下所有文件的快照。感覺像是大量的複製和貼上，但 git 的速度更快！",
               "",
-              "Git 希望 commit 儘可能地不占空間，所以每次進行 commit 的時候，它不會單純地複製整個目錄。實際上它把每次 commit 視為從目前的版本到下一個版本的變化量，或者說一個 \"（delta）\"。",
+              "git 希望 commit 儘可能地不占空間，所以每次進行 commit 的時候，它不會單純地複製整個目錄。實際上它把每次 commit 視為從目前的版本到下一個版本的變化量，或者說一個 \"（delta）\"。",
               "",
-              " Git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 ancestor commits，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
+              "git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 parent commit，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
               "",
               "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不占空間且可以快速切換！"
             ]
@@ -309,7 +309,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在實例中學習 commit。右邊是一個（小）git repository。當前有兩個 commit —— initial commit `C0` 以及 `C1` 這一個 commit 來表示之後可能的一些修改。",
+              "在實例中學習 commit。右邊是一個（小）git repository。當前有兩個 commit，一開始的 commit `C0` 以及 `C1` 這一個 commit 來表示之後可能的一些修改。",
               "",
               "點擊下面的按鈕生成新的 commit。"
             ],

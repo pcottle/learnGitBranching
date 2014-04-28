@@ -4,11 +4,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C6\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Describe",
-    "de_DE": "Git Describe"
+    "de_DE": "Git Describe",
+    "zh_TW": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist"
+    "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
+    "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
   },
   "startDialog": {
     "en_US": {
@@ -69,6 +71,69 @@ exports.level = {
               "That's pretty much all there is to git describe! Try describing a few of the locations in this level to get a feel for the command.",
               "",
               "Once you're ready, just go ahead and commit once to finish the level. We're giving you a freebie :P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### git describe",
+              "",
+              "因為 tag 在 commit tree 上表示的是一個錨點，git 有一個指令可以用來*顯示*離你最近的錨點（也就是 tag），而且這個指令叫做 `git describe`！",
+              "",
+              "當你已經完成了一個 `git bisect`（一個找尋有 bug 的 commit 的指令），或者是當你使用的是你跑去度假的同事的電腦時， `git describe` 可以幫助你了解你離最近的 tag 差了多少個 commit。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 的使用方式：",
+              "",
+              "`git describe <ref>`",
+              "",
+              "`<ref>` 是任何一個可以被 git 解讀成 commit 的位置，如果你沒有指定的話，git 會以你目前所在的位置為準（`HEAD`）。",
+              "",
+              "指令的輸出就像這樣：",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "`<tag>` 表示的是離 `<ref>` 最近的 tag， `numCommits` 是表示這個 tag 離 `<ref>` 有多少個 commit， `<hash>` 表示的是你所給定的 `<ref>` 所表示的 commit 的前七個 id。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "讓我們來看一個例子，對於下面的 tree："
+            ],
+            "afterMarkdowns": [
+              "`git describe master` 會輸出：",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "`git describe side` 會輸出：",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 就是這樣了！試著在這個關卡指定幾個位置來感受一下這個指令吧！",
+              "",
+              "當你完成的時候，只要一個 commit 就可以結束這個關卡，我們會給你一個免費贈品:P"
             ]
           }
         }

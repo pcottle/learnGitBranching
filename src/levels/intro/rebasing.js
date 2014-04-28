@@ -8,7 +8,7 @@ exports.level = {
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "Rebase简介",
-    "zh_TW": "Rebase 簡介"
+    "zh_TW": "介紹 rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -17,7 +17,7 @@ exports.level = {
     "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
-    "zh_TW": "你要先在 bugFix 分支進行 commit"
+    "zh_TW": "你要先在 bugFix branch 進行 commit"
   },
   "disabledMap": {
     "git revert": true
@@ -362,13 +362,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Rebase",
+              "## git rebase",
               "",
-              "*rebasing*是在合併分支的第二種方法。Rebasing 就是取出一系列的 commit，\"複製\"它們，然後把它們接在別的地方。",
+              "*rebasing* 是 merge branch 的第二種方法。rebasing 就是取出一連串的 commit，\"複製\"它們，然後把它們接在別的地方。",
               "",
-              "雖然聽起來難以理解，rebasing 的優點是可以建立更線性的 commit history。假如只允許使用 rebasing 的話，則我們的 repository 中的 commit log 或者是 commit history 會更加簡潔好看。",
+              "雖然聽起來難以理解，rebasing 的優點是可以建立更線性的 commit history。假如只允許使用 rebasing 的話，則我們的 repo 中的 commit log 或者是 commit history 會更加簡潔好看。",
               "",
-              "讓我們親身體會一下……"
+              "讓我們親身體會一下..."
             ]
           }
         },
@@ -376,19 +376,19 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "這裡，還是有兩個分支；注意目前我們所在的分支是 bugFix（看那顆星啦）",
+              "這裡，還是有兩個 branch；注意目前我們所在的 branch 是 bugFix（看那顆星啦）",
               "",
-              "我們想要把在 bugfix 所做的修改直接移到 master 分支上。使用 rebasing 的話，兩個分支看起來像是依序按順序進行修改，實際上它們的修改是平行進行的。",
+              "我們想要把在 bugfix 所做的修改直接移到 master branch上。使用 rebasing 的話，兩個 branch 看起來像是依序按順序進行修改，實際上它們的修改是平行進行的。",
               "",
-              "用 `git rebase` 實現此目標"
+              "用 `git rebase` 來實現吧"
             ],
             "command": "git rebase master",
             "afterMarkdowns": [
-              "很厲害吧!現在 bugFix 分支上的工作在 master 的最前端，同時我們也得到了一個更加線性的 commit sequence。",
+              "很厲害吧！現在 bugFix branch 上的工作在 master branch 的最前端，同時我們也得到了一個更加線性的 commit 順序。",
               "",
-              "注意，本來的 commit C3 沒有消失（在圖上面呈現陰影），而我們\"複製\" C3，將它的副本 C3' 接在 master 的後面。",
+              "注意，本來的 commit C3 沒有消失（在圖上面呈現陰影），而我們\"複製\" C3，將它的副本 C3' 接在 master branch 的後面。",
               "",
-              "現在唯一的問題是 master 分支還沒有更新……我們接下來就更新它吧"
+              "現在唯一的問題是 master branch 還沒有更新...我們接下來就更新它吧！"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
           }
@@ -397,11 +397,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "現在，切換到 `master` 分支。接下來就把它 rebase 到 `bugFix` 上面吧……"
+              "現在，切換到 `master` branch。接下來就把它 rebase 到 `bugFix` 上面吧..."
             ],
             "command": "git rebase bugFix",
             "afterMarkdowns": [
-              "完成！因為 `master` 是 `bugFix` 的 ancestor，所以 git 只是把 `master` 分支往前移動到 `bugFix` 上。"
+              "完成！因為 `master` branch 是 `bugFix` 的 parent，所以 git 只是把 `master` branch 往前移動到 `bugFix` 上。"
             ],
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
           }
@@ -412,10 +412,10 @@ exports.level = {
             "markdowns": [
               "想完成這一關，執行以下操作：",
               "",
-              "* 建立 `bugFix` 分支",
+              "* 建立 `bugFix` branch",
               "* commit 一次",
-              "* 切換回 master 分支再 commit 一次",
-              "* 再次切換到 bugFix 分支，將 bugFix 分支 rebase 到 master 上",
+              "* 切換回 master branch 再 commit 一次",
+              "* 再次切換到 bugFix branch，接著 rebase bugFix 這個 branch  到 master branch 上",
               "",
               "祝你好運啦！"
             ]
