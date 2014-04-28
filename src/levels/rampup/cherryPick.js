@@ -9,12 +9,14 @@ exports.level = {
   "name": {
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
-    "zh_CN": "Cherry-pick Intro"
+    "zh_CN": "Cherry-pick Intro",
+    "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
-    "zh_CN": "git cherry-pick 跟提交对句名"
+    "zh_CN": "git cherry-pick 跟提交对句名",
+    "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
   },
   "startDialog": {
     "en_US": {
@@ -68,6 +70,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "移動 commit",
+              "",
+              "目前為止我們已經講了 git 的基礎，這些基礎包括 commit、branch 以及在 commit tree 中移動，只要有這些概念你就能發揮 git 90% 的功力，而且對於程式設計師來說，這樣就很夠了。",
+              "",
+              "而剩下的 10%，在很複雜的專案上面，是非常有用的（或者當你陷入困惑時），我們下一個要講的概念是 \"移動 commit\"，換句話說，當你會這個非常有彈性的招數之後，你就可以說\"我想要把這個 commit 放這裡，而那個 commit 放在那裡\"。",
+              "",
+              "這看起來很複雜，但其實它很簡單。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git cherry-pick",
+              "",
+              "我們要講的第一個指令叫作 `git cherry-pick`，它的用法如下：",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "當你想要複製幾個 commit 並且接在你目前的位置（`HEAD`）下面的時候，這會是一個非常直接的方式。我個人非常喜歡用 `cherry-pick`，因為它並不複雜，很容易就可以了解。",
+              "",
+              "讓我們來看一個例子！",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "這裡有一個 repo，在 `side` branch 中，我們有一些 commit 想要複製到 `master` branch 上，這可以透過一個 rebase 來完成（我們之前已經學到了），但是讓我們看看 `git cherry-pick` 怎麼做。"
+            ],
+            "afterMarkdowns": [
+              "就是那樣！我們複製了 `C2` 以及 `C4` 並且把它們放到我們的後面，很簡單吧！"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這個關卡，只需要從三個 branch 複製幾個 commit 到 `master` 下面，你可以從視覺化的目標看到我們需要哪些 commit。",
               ""
             ]
           }

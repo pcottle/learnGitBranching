@@ -212,9 +212,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### The \"~\" operator",
+              "### \"~\" 符號",
               "",
-              "假設需要在 commit tree 中向上移動多個 commit。使用太多`^`會非常討人厭，所以 Git 也加入了波浪（~）符號。",
+              "假設需要在 commit tree 中向上移動多個 commit。使用太多 `^` 會非常討人厭，所以 git 也加入了波浪（~）符號。",
               "",
               "",
               "波浪符號後面可以選擇一個數字（你也可以不選擇），該數字可以告訴 Git 我要向上移動多少個 commit 。舉個例子"

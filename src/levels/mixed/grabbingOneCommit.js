@@ -27,7 +27,7 @@ exports.level = {
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
-    "zh_TW": "記住，使用 interactive rebase 或者 cherry-pick 會很有幫助"
+    "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助"
   },
   "startDialog": {
     "en_US": {
@@ -196,13 +196,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Locally stacked commits",
+              "## 在 local 的堆疊的 commit",
               "",
-              "有一個經常發生的情況：我在追蹤一個有點棘手的 bug，但是它實在太難抓出來了，在不得已的情況下我加入了一些 debug statement，並且做了一些 commit。",
+              "有一個經常發生的情況：我在追蹤一個有點棘手的 bug，但是它實在太難抓出來了，在不得已的情況下我加入了一些 debug 的指令，並且做了一些 commit。",
               "",
-              "所有的這些 debug statement 都只在 `bugFix` 這個分支裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
+              "所有的這些 debug 的指令都只在 `bugFix` 這個 branch 裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
               "",
-              "現在唯一的問題就是要把我在 `bugFix` 分支裡面所做的修改合併回 `master` 分支。我可以簡單地透過 fast-forward 來合併 ，但這樣的話 `master` 分支就會包含這些含有 debug statement 的 commit 了。我相信一定有其它方法..."
+              "現在唯一的問題就是要把我在 `bugFix` branch 裡面所做的修改 merge 回 `master` branch。我可以簡單地透過 fast-forward 來 merge ，但這樣的話 `master` branch 就會包含這些含有 debug 指令的 commit 了。我相信一定有其它方法..."
             ]
           }
         },
@@ -223,7 +223,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個commit 一定要可以被 `master` 包含到"
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到"
             ]
           }
         }

@@ -202,7 +202,7 @@ exports.level = {
             "markdowns": [
               "## commit 的戲法",
               "",
-              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` 分支上做了一些 commit，然後又開了一個分支叫做 `caption` ，並且在上面做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
+              "下面這種情況也是經常出現的。例如你之前已經在 `newImage` branch 上做了一些 commit，然後又開了一個 branch 叫做 `caption` ，並且在上面做了一些相關的 commit ，因此它們看起來是一個接著一個的。",
               "",
               "有點棘手的就是有時候你又想在之前的 commit 裡面做一些修改。在這個例子裡面，我們要去稍微修改一下 `newImage` 所指向的 commit，儘管已經是之前的 commit 了 。"
             ]
@@ -227,7 +227,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "啊!最後還要提醒你一下最後所產生的 commit tree —— 因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
+              "啊!最後還要提醒你一下最後所產生的 commit tree，因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
             ]
           }
         }

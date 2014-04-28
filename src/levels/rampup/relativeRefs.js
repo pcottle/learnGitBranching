@@ -12,7 +12,7 @@ exports.level = {
     "en_US": "Remember the Caret (^) operator!",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "zh_CN": "记住插入(^)操作符!",
-    "zh_TW": "不要忘記插入（^） 符號!"
+    "zh_TW": "不要忘記插入（^）符號！"
   },
   "startDialog": {
     "en_US": {
@@ -248,11 +248,11 @@ exports.level = {
             "markdowns": [
               "## 相對引用",
               "",
-              "如果要在 Git 中移動，透過指定 commit 的 hash 值的方式會變得比較麻煩。在實際例子中，你的終端機上面不會出現漂亮且具備視覺效果的 commit tree，所以你不得不用 `git log` 來查詢 hash 值。",
+              "如果要在 git 中移動，透過指定 commit 的 hash 值的方式會變得比較麻煩。在實際例子中，你的終端機上面不會出現漂亮且具備視覺效果的 commit tree，所以你不得不用 `git log` 來查詢 hash 值。",
               "",
-              "另外，hash 值的長度在真實的 Git 環境中很長。舉個例子，前一個關卡的介紹中的 commit 的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
+              "另外，hash 值的長度在真實的 git 環境中很長。舉個例子，前一個關卡的介紹中的 commit 的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
               "",
-              "幸運的是， Git 對於處理 hash 很有一套。你只需要提供能夠唯一辨識出該 commit 的前幾個字元就可以了。所以，我可以只輸入 `fed2` 而不是上面的一長串字元。"
+              "幸運的是，git 對於處理 hash 值很有一套。你只需要提供能夠唯一辨識出該 commit 的前幾個字元就可以了。所以，我可以只輸入 `fed2` 而不是上面的一長串字元。"
             ]
           }
         },
@@ -260,9 +260,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "我說過，透過 hash 來指定 commit 不是很方便，所以 Git 加入了相對引用。這個就很厲害了!",
+              "我說過，透過 hash 值來指定 commit 不是很方便，所以 git 加入了相對引用。這個就很厲害了!",
               "",
-              "使用相對引用，你可以從一個易於記憶的地方（比如說分支名稱 `bugFix` 或 `HEAD`）開始工作。",
+              "使用相對引用，你可以從一個易於記憶的地方（比如說 branch 名稱 `bugFix` 或 `HEAD`）開始工作。",
               "",
               "相對引用非常好用，這裡我介紹兩個簡單的用法：",
               "",
@@ -275,7 +275,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 Git 去找到該 reference 所指向的 commit 的 parent commit。",
+              "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 git 去找到該 reference 所指向的 commit 的 parent commit。",
               "",
               "所以 `master^` 相當於 \"`master` 的 parent commit\"。",
               "",
