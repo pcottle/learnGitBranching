@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Git push arguments -- Expanded!",
     "zh_CN": "Git push 参数2!",
-    "zh_TW": "Git push 的參數，延伸討論！",
+    "zh_TW": "git push 的參數，延伸討論！",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
   },
   "hint": {
@@ -93,7 +93,7 @@ exports.level = {
             "markdowns": [
               "## `<place>` 這個參數的細節",
               "",
-              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `master`  當作 place 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*（source） 並且要 *往哪裡去*（destination）。",
+              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `master`  當作 `<place>` 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*（source） 並且要 *往哪裡去*（destination）。",
               "",
               "你可能會很好奇，當我們的 source 以及 destination 是不同的時候，應該怎麼做？當你想要 push `foo` branch 上面的 commit 到 remote 的 `bar` branch 的時候，應該怎麼做？",
               "",
@@ -121,7 +121,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "記住， `source` 表示任意可以被 git 辨識的位置:"
+              "記住， `source` 表示任意可以被 git 辨識的位置："
             ],
             "afterMarkdowns": [
               "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。 "
@@ -149,7 +149,7 @@ exports.level = {
             "markdowns": [
               "對於這個關卡，想辦法達到這個視覺化的目標，而且要記得格式：",
               "",
-              "`<來源>:<目的地>`"
+              "`<source>:<destination>`"
             ]
           }
         }

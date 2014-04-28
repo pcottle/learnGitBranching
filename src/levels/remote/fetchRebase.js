@@ -5,13 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Diverged History",
     "zh_CN": "分散的历史",
-    "zh_TW": "Diverged History",
+    "zh_TW": "diverged history",
     "de_DE": "Abweichende History"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
-    "zh_TW": "確認目標中的順序",
+    "zh_TW": "確認視覺化的目標中的順序",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
   },
   "startDialog": {
@@ -168,7 +168,7 @@ exports.level = {
               "",
               "到目前為止我們已經知道如何 `pull` 其他人所送的 commit，而且也知道如何 `push` 我們自己的 commit，感覺很簡單，但是為什麼有人看起來很困惑？",
               "",
-              "當 repo 的歷史紀錄是 *diverge （branch 走向不同）* 的狀態時就會很棘手，在討論這個之前，讓我們先來看一個例子...",
+              "當 repo 的歷史紀錄是 *diverge（branch 走向不同）* 的狀態時就會很棘手，在討論這個之前，讓我們先來看一個例子...",
               ""
             ]
           }
@@ -227,7 +227,7 @@ exports.level = {
             "markdowns": [
               "在 remote 已經率先更新之後，還有沒有其它方法可以上傳我們的 commit？當然有阿！我們這次利用 `merge` 來做看看！",
               "",
-              "雖然 `git merge` 並不會去移動你的 commit （反而會產生一個 merge commit），這是一個告訴 git 你已經下載了 remote 上面的 commit 並且在 local repo 中已經做完 merge，而因為 remote branch 上的最新的 commit 現在已經是 merge commit 的一個 *ancestor*，這就表示你的 commit 已經包含了在 remote branch 上的所有 commit。",
+              "雖然 `git merge` 並不會去移動你的 commit（反而會產生一個 merge commit），這是一個告訴 git 你已經下載了 remote 上面的 commit 並且在 local repo 中已經做完 merge，而因為 remote branch 上的最新的 commit 現在已經是 merge commit 的一個 *ancestor*，這就表示你的 commit 已經包含了在 remote branch 上的所有 commit。",
               "",
               "讓我們來看一下這種情況..."
             ]
@@ -240,7 +240,7 @@ exports.level = {
               "現在假設我們不是用 rebase，而是用 merge..."
             ],
             "afterMarkdowns": [
-              "看吧！我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch （這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit），接著再透過 `git push` 上傳到 remote。"
+              "看吧！我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch（這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit），接著再透過 `git push` 上傳到 remote。"
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -290,7 +290,7 @@ exports.level = {
             "markdowns": [
               "fetch，rebase/merge，以及 push 的流程是幾乎一樣的。在之後的教學中我們會看到比這些流程更複雜的版本。但是現在讓我們先牛刀小試一下。",
               "",
-              "為了要完成這一關，請按照下面的步驟:",
+              "為了要完成這一關，請按照下面的步驟：",
               "",
               "* clone 你的 repo",
               "* 假裝送一個 commit 給 remote",

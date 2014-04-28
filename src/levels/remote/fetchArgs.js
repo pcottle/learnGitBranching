@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Fetch arguments",
     "zh_CN": "Fetch arguments",
-    "zh_TW": "Fetch 的參數",
+    "zh_TW": "fetch 的參數",
     "de_DE": "Optionen für Fetch"
   },
   "hint": {
@@ -148,7 +148,7 @@ exports.level = {
               "",
               "我們剛學到了所有關於 git push 的參數，有非常棒的 `<place>` 參數，甚至是 colon refspecs（`<source>:<destination>`），我們可不可以也同樣套用到 `git fetch` 上面？",
               "",
-              "你說得對！`git fetch` 的參數*非常非常*類似 `git push`，一樣的概念，但方向不同（因為你在下載 commit，而不是在上傳 commit）。",
+              "你猜對了！`git fetch` 的參數*非常非常*類似 `git push`，一樣的概念，但方向不同（因為你在下載 commit，而不是在上傳 commit）。",
               "",
               "讓我們一次講一個概念..."
             ]
@@ -189,7 +189,7 @@ exports.level = {
             "markdowns": [
               "你也許會感到奇怪，為什麼 git 是把這些 commit 放到 `o/foo` branch 而不是放到我的 local 的 `foo` branch？ 我認為，`<place>` 參數是表示一個位置，這個位置同時存在 local 跟 remote 上？",
               "",
-              "因為你可能已經 checkout 到 `foo` branch 上，而且你不想要打亂上面的 commit，因此 git 才會特別這樣做！！ 這就又回到之前的 `git fetch` 的課程，它並不會放到你的 local 上的 branch (該 branch 沒有對應到任何的 remote branch)，它只會下載 commit 到 local 上且表示 remote 的 branch（所以你之後可以觀察/merge 它們）。",
+              "因為你可能已經 checkout 到 `foo` branch 上，而且你不想要打亂上面的 commit，因此 git 才會特別這樣做！！這就又回到之前的 `git fetch` 的課程，它並不會放到你的 local 上的 branch (該 branch 沒有對應到任何的 remote branch)，它只會下載 commit 到 local 上且表示 remote 的 branch（所以你之後可以觀察或者 merge 它們）。",
               ""
             ]
           }
@@ -238,7 +238,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "沒有參數的情況?",
+              "沒有參數的情況？",
               "",
               "如果使用 `git fetch` 的時候，沒有指定任何的參數，那就相當於它會下載 remote 上面的所有的 commit，並且把這些 commit 放到 local 上面所有對應到 remote 的 branch..."
             ],
@@ -253,7 +253,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好的，談了好多！要完成這一關，fetch 視覺化的目標所指定的 commit，好好玩這些指令吧！",
+              "好的，講了好多！要完成這一關，fetch 視覺化的目標所指定的 commit，好好玩這些指令吧！",
               "",
               "對於兩個 fetch 的指令，你必須要指定 source 以及 destination，注意一下視覺化的目標，因為 commit 的 id 可以被交換！"
             ]

@@ -8,7 +8,7 @@ exports.level = {
   "name": {
     "en_US": "Git push arguments",
     "zh_CN": "Git push 参数",
-    "zh_TW": "Git push 的參數",
+    "zh_TW": "git push 的參數",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
@@ -95,9 +95,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Push 的參數",
+              "## push 的參數",
               "",
-              "太好了！現在你已經明白了 remote tracking，我們可以開始聊 git push，fetch，以及 pull 的一些有趣的地方，我們一次會講解一個指令，但是它們之間的概念是很類似的。",
+              "太好了！現在你已經明白了 remote tracking，我們可以開始聊 git push、fetch 以及 pull 的一些有趣的地方，我們一次會講解一個指令，但是它們之間的概念是很類似的。",
               "",
               "首先我們來看一下 `git push`，你已經在 remote tracking 的課程中學習到 git 是根據目前 checkout 的 branch 所 track 的 remote branch 來做 push，這是在沒有任何的參數的情況下的預設動作，但是 git push 允許我們可以加上一些參數：",
               "",
@@ -111,7 +111,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "`<place>` 這個參數表示什麼? 我們等一下會提到細節，但是先來看一個例子，執行以下的指令:",
+              "`<place>` 這個參數表示什麼? 我們等一下會提到細節，但是先來看一個例子，執行以下的指令：",
               "",
               "`git push origin master`",
               "",
@@ -142,7 +142,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "假如我們沒有特別指令參數會發生什麼事情?"
+              "假如我們沒有特別指令參數會發生什麼事情？"
             ],
             "afterMarkdowns": [
               "指令會失敗（就像你看到的），因為 `HEAD` 並沒有指向一個有 track remote branch 的 branch 上面阿。"

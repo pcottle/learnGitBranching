@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Git Pushin'",
     "zh_CN": "Git Pushin'",
-    "zh_TW": "Git Pushin'",
+    "zh_TW": "git push",
     "de_DE": "Git Push"
   },
   "hint": {
@@ -70,7 +70,7 @@ exports.level = {
               "",
               "`git push` 負責上傳_你的_ commit 到特定 remote 上面並且做出相對應的更新，只要做完了 `git push`，所有你的朋友都可以從 remote 上面下載你所送出去的 commit。",
               "",
-              "你可以把 `git push` 當作是一個 \"發佈\" 你的工作進度的指令，還有一些我們即將要講到的細節，但是先讓我們從一些簡單的步驟開始。"
+              "你可以把 `git push` 當作是一個\"發佈\"你的工作進度的指令，還有一些我們即將要講到的細節，但是先讓我們從一些簡單的步驟開始。"
             ]
           }
         },

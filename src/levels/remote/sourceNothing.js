@@ -11,7 +11,7 @@ exports.level = {
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
-    "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch!",
+    "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {

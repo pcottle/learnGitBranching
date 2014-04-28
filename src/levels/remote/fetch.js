@@ -6,7 +6,7 @@ exports.level = {
     "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
     "zh_CN": "Git Fetchin'",
-    "zh_TW": "Git Fetchin'"
+    "zh_TW": "git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -94,9 +94,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Fetch",
+              "## git fetch",
               "",
-              "透過 git remotes 其實就是把資料接收或傳送到其它的 repository，只要我們可以將資料傳進及傳出，我們就可以分享任何被 git 所追蹤的 repository 的更新（例如分享工作進度，新的檔案，新的想法，以及情書等等...）。",
+              "透過 git remote 其實就是把資料接收或傳送到其它的 repository，只要我們可以將資料傳進及傳出，我們就可以分享任何被 git 所追蹤的 repository 的更新（例如分享工作進度，新的檔案，新的想法，以及情書等等...）。",
               "",
               "在這個教學中，我們會學習到如何從 remote repository 來 fetch （抓取）資料，這個指令叫作 `git fetch`。",
               "",
@@ -108,10 +108,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在講到 `git fetch` 的細節之前，我們要先來看一下例子! 在這裡我們有一個包含了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
+              "在講到 `git fetch` 的細節之前，我們要先來看一下例子! 在這裡我們有一個新增了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
             ],
             "afterMarkdowns": [
-              "看吧！commits `C2` 以及 `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/master` 也更新了。"
+              "看吧！commit `C2` 以及 `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/master` 也更新了。"
             ],
             "command": "git fetch",
             "beforeCommand": "git clone; git fakeTeamwork 2"
@@ -125,7 +125,7 @@ exports.level = {
               "",
               "`git fetch` 只有執行了兩個主要步驟，包含：",
               "",
-              "* 下載 remote 有的 commit，但是在我們的 local repository 是沒有該 commit。還有‧‧‧",
+              "* 下載 remote 有的 commit，但是在我們的 local repository 是沒有該 commit。還有...",
               "* 更新我們 remote branch 所指向的地方（例如， `o/master`）",
               "",
               "基本上，`git fetch` 同步了我們的 local repository 以及 remote repository 的最新狀態。",

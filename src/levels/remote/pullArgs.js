@@ -5,13 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Pull arguments",
     "zh_CN": "Pull arguments",
-    "zh_TW": "Pull 的參數",
+    "zh_TW": "pull 的參數",
     "de_DE": "Optionen für Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
     "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
-    "zh_TW": "記住，你可以透過 fetch/pull 來建立一個新的 local 的分支",
+    "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
@@ -121,7 +121,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "看吧？ `git pull` 真的就只是表示 fetch 跟 merge 的一個簡化後的指令，而且 `git pull` 所根據的是這些 commit 要放置的位置（在 fetch 的時候所指定的`destination`）。",
+              "看吧？`git pull` 真的就只是表示 fetch 跟 merge 的一個簡化後的指令，而且 `git pull` 所根據的是這些 commit 要放置的位置（在 fetch 的時候所指定的`destination`）。",
               "",
               "讓我們來看一個例子："
             ]

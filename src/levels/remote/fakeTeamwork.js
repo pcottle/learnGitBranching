@@ -92,7 +92,7 @@ exports.level = {
               "`fakeTeamwork` 的預設行為是在送一個 commit 給 master 分支"
             ],
             "afterMarkdowns": [
-              "我就說吧！remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該 commit。."
+              "我就說吧！remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該 commit。"
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"

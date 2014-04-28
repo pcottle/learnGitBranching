@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Git Pullin'",
     "zh_CN": "Git Pullin'",
-    "zh_TW": "Git Pullin'",
+    "zh_TW": "git pull'",
     "de_DE": "Git Pull"
   },
   "hint": {
@@ -80,11 +80,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Pull",
+              "## git pull",
               "",
-              "現在我們已經知道如何利用 `git fetch` 從 remote 抓取資料，讓我們來看一下如何更新我們的資料！",
+              "現在我們已經知道如何利用 `git fetch` 從 remote 抓取 commit，讓我們來看一下如何將這些 commit 更新到我們的檔案！",
               "",
-              "只要在你的 local 有新的 commit，便有很多方法可以做到這件事情，你可以把它們視為在其它 branch 上面的一般的 commit，這表示你可以執行像這樣子的指令:",
+              "只要在你的 local 有 fetch 到新的 commit，便有很多方法可以做到這件事情，你可以把它們視為在其它 branch 上面的一般的 commit，這表示你可以執行像這樣子的指令:",
               "",
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
@@ -102,7 +102,7 @@ exports.level = {
               "讓我們來看循序執行一個 `fetch` 和一個 `merge` 的樣子"
             ],
             "afterMarkdowns": [
-              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `master` branch 跟 remote 的新的工作進度同步了（在這個例子中，remote repository 叫作 `origin`）。"
+              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `master` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"

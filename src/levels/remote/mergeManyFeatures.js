@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Merging with remotes",
     "zh_CN": "Merging with remotes",
-    "zh_TW": "Merging with remotes",
+    "zh_TW": "merge with remotes",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {

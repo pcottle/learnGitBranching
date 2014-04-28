@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Remote Branches",
     "zh_CN": "Remote Branches",
-    "zh_TW": "Remote Branches （遠端分支）",
+    "zh_TW": "remote branch （遠端分支）",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
@@ -82,15 +82,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Remote Branches",
+              "## git remote branch",
               "",
               "現在你已經知道 `git clone` 在幹嘛了，讓我們仔細看看到底發生了什麼事。",
               "",
               "你首先看到的是在你的本地端（local repository）出現了一個新的 branch 叫作 `o/master`，這種型態的 branch 叫作 remote branch （遠端分支），因為特殊的需求，因此 remote branch 有特殊的性質。",
               "",
-              "remote branch 反應了 remote repository 的狀態（因為你最後接觸的是這些 remote repository），最重要的是，在你想要分享你的工作給其他人時，你必須知道你現在的工作跟 remote repository 有哪些不同，而 remote branch 的狀態就是在告訴你這些資訊。",
+              "remote branch 反應了 remote repository 的狀態（因為你最後接觸的是這些 remote repository），最重要的是，在你想要分享你的 commit 給其他人時，你必須知道你現在的 commit 跟 remote repository 有哪些不同，而 remote branch 的狀態就是在告訴你這些資訊。",
               "",
-              "remote branch 有特別的特性，當你移動到 remote branch 時，你就進入到 detached `HEAD` 狀態，git 這樣做的原因是告訴你不能夠直接影響這些 branch。你必須要在其它的 branch 工作，並且分享到 remote （分享之後，你的 remote branch 就會被更新）。"
+              "remote branch 有特別的特性，當你移動到 remote branch 時，你就進入到分離 `HEAD` 的狀態，git 這樣做的原因是告訴你不能夠直接影響這些 branch。你必須要在其它的 branch 工作，並且分享到 remote （分享之後，你的 remote branch 就會被更新）。"
             ]
           }
         },
