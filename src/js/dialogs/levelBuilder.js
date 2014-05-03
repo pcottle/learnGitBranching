@@ -75,6 +75,25 @@ exports.dialog = {
       ]
     }
   }],
+  'es_AR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Bienvenido al constructor de niveles!',
+        '',
+        'Estos son los pasos principales:',
+        '',
+        '  * Prepará el entorno inicial usando comandos de Git',
+        '  * Definí el árbol inicial con ```define start```',
+        '  * Ingresá la serie de comandos de git que representan la solución óptima',
+        '  * Definí el árbol objetivo con ```define goal```. El objetivo también determina la solución',
+        '  * Opcionalmente, definí pistas con ```define hint```',
+        '  * Dale un nombre con ```define name```',
+        '  * Opcionalmente, definí un mensaje inicial con ```edit dialog```',
+        '  * ¡Ingresá el comando ```finish``` para obtener tu nivel en formato JSON!'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

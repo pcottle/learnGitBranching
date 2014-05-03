@@ -10,6 +10,7 @@ exports.level = {
   "name": {
     "en_US": "Rebasing over 9000 times",
     "de_DE": "10000 Rebases unter dem `HEAD`",
+    "es_AR": "Rebaseando más de 9000 veces",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
     "zh_CN": "N次Rebase",
@@ -18,6 +19,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
+    "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
@@ -37,6 +39,24 @@ exports.level = {
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebaseando múltiples ramas",
+              "",
+              "Man, ¡hay un montón de ramas acá! Rebaseemos todo el trabajo de esas ramas sobre master.",
+              "",
+              "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
+              "",
+              "Si hacés líos en el camino, sentite libre de usar `reset` para empezar de nuevo. ¡Asegurate de verificar tu solución y ver si podés hacerla en alguna cantidad menor de commandos!"
             ]
           }
         }

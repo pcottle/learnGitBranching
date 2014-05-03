@@ -6,11 +6,13 @@ exports.level = {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
+    "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
+    "es_AR": "Referencias relativas #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
@@ -79,6 +81,75 @@ exports.level = {
               "Now that you have seen relative refs and branch forcing in combination, lets use them to solve the next level.",
               "",
               "To complete this level, move `HEAD`, `master`, and `bugFix` to their goal destinations shown."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### El operador \"~\"",
+              "",
+              "Digamos que querés moverte un montón de niveles atrás en tu árbol de commits. Podría ser tedioso tipear `^` muchas veces, por lo que git tiene el operador ~.",
+              "",
+              "",
+              "El operador ~ (opcionalmente) toma una cantidad que especifica la cantidad de padres que querés volver hacia atrás. Veámoslo en acción"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Especifiquemos una cantidad de commits hacia atrás con `~`."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Bien consiso -- las referencias relativas la rompen."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forzando los branches",
+              "",
+              "Ahora que sos un experto en las referencias relativas, *usémoslas* para algo.",
+              "",
+              "Una de las formas más comunes en que uso las referencias relativas es para mover las ramas. Podés reasignar directamente una rama a un commit usando la opción `-f`. Así que algo como:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "Mueve (forzadamente) la rama master tres padres atrás de HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos ese comando previo en acción"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí vamos! Las referencias relativas nos dieron una manera consisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
+              "",
+              "Para completar este nivel, mové `HEAD`, `master` y `bugFix` a sus destinos finales."
             ]
           }
         }
