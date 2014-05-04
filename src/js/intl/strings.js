@@ -7,7 +7,8 @@ exports.strings = {
     'de_DE': 'Wow! Du hast den letzten Level gelöst, super!',
     'zh_CN': '我的个天！你完成了最后一关，碉堡了！',
     'zh_TW': '我的天啊！您解開了最後一關，太強了！',
-    'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !'
+    'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !',
+    'ru': 'Вау! Вы прошли последний уровень, отлично!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -17,7 +18,8 @@ exports.strings = {
     'ja': '次の章 *"{nextLevel}"* へ進みますか？',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？',
     'zh_TW': '下一關是*「{nextLevel}」*，您要繼續闖關嗎？',
-    'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?'
+    'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
+    'ru': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -27,7 +29,8 @@ exports.strings = {
     'ja': '素晴らしい！このレベルをクリアしましたね。',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
-    'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.'
+    'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
+    'ru': 'Отлично! Ваше решение соответсвует или превосходит наше.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -37,39 +40,45 @@ exports.strings = {
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
     'zh_CN': '试试看你能否在 {best} 之内搞定 :D',
     'zh_TW': '試試看您是否能在 {best} 步内搞定 :D',
-    'fr_FR': 'Voyons si vous pouvez descendre à {best} :D'
+    'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
+    'ru': 'Попробуйте, может вы сможете уложиться в {best} : D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-prune-tree': {
     '__desc__': 'warning when pruning tree',
     'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree',
     'zh_TW': '注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。',
-    'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren'
+    'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
+    'ru': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, just commit away!',
     'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
-    'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!'
+    'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
+    'ru': 'Опция -A не требуется для этого приложения, просто сделайте коммит.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
-    'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary'
+    'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
+    'ru': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'I need the option {option} for that command!',
-    'de_DE': 'Ich benötige die Option {option} für diesen Befehl!'
+    'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
+    'ru': 'Для этой команды требуется опция {option}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
     '__desc__': 'hg log without -f (--follow)',
     'en_US': 'hg log without -f is currently not supported, use -f',
-    'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f'
+    'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
+    'ru': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -78,7 +87,8 @@ exports.strings = {
     'de_DE': 'Detached head!',
     'zh_CN': '脑袋搬家（Detached head）了！',
     'zh_TW': '分離 Head！',
-    'fr_FR': 'head détaché !'
+    'fr_FR': 'head détaché !',
+    'ru': 'Отделенный HEAD'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
@@ -87,7 +97,8 @@ exports.strings = {
     'de_DE': 'Auf Branch {branch}',
     'zh_CN': '切换到分支 {branch}',
     'zh_TW': '切換到 branch {branch}',
-    'fr_FR': 'Sur la branche {branch}'
+    'fr_FR': 'Sur la branche {branch}',
+    'ru': 'В ветке {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
@@ -96,7 +107,8 @@ exports.strings = {
     'de_DE': 'Fertig zum committen! (Wie immer in dieser Demo)',
     'zh_CN': '可以提交啦！（这演示里一直可以提交）',
     'zh_TW': '準備 commit！（在這個 demo 裡面可以一直 commit）',
-    'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)'
+    'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)',
+    'ru': 'Готово к коммиту! (как и всегда в этом демо)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
@@ -106,26 +118,30 @@ exports.strings = {
     'de_DE': 'Schneller Commit. Eff-Zeh!',
     'zh_CN': '快速提交。上啊月熊！',
     'zh_TW': '快速 commit。上啊熊！',
-    'fr_FR': 'Commit rapide. NoMaN Sux!'
+    'fr_FR': 'Commit rapide. NoMaN Sux!',
+    'ru': 'Быстрый коммит. А надо!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Already up to date!',
     'de_DE': 'Bereits aktuell!',
     'fr_FR': 'Déjà à jour',
-    'zh_TW': '已經是最新的了'
+    'zh_TW': '已經是最新的了',
+    'ru': 'Уже обновлено!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
-    'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force'
+    'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
+    'ru': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase',
     'de_DE': 'Das entfernte Repository weicht von deinem lokalen Repository ab, daher können deine Änderungen nicht mit einem einfachen fast forward hochgeladen werden (und daher ist dein push abgelehnt worden). Bitte pull erst die neuen Änderungen in das lokale Repository, integriere sie in den Branch und versuch es nochmal. Das kannst du mit git pull oder git pull --rebase machen',
-    'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase'
+    'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
+    'ru:': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
