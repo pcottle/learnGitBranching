@@ -147,19 +147,22 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch',
     'de_DE': 'Du kannst diesen Befehl nicht auf einem Remote Branch ausführen',
-    'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante'
+    'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
+    'ru': 'Вы не можете выполнить эту команду на удаленной ветке'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin is required for that command',
     'de_DE': 'Für diesen Befehl wird origin benötigt',
-    'fr_FR': 'Une origine est requise pour cette commande'
+    'fr_FR': 'Une origine est requise pour cette commande',
+    'ru': 'Origin требуется для этой команды'
   },
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin already exists! You cannot make a new one',
     'de_DE': 'origin existiert bereits! Du kannst es nicht nochmal anlegen',
-    'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle'
+    'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
+    'ru': 'Origin уже существует! Невозможно создать еще один'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
@@ -169,7 +172,8 @@ exports.strings = {
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
     'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
     'zh_TW': '你不能刪除 master branch，或者你當前所在的 branch，或者其它連 branch 都不是的東西。',
-    'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche'
+    'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
+    'ru' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -178,7 +182,8 @@ exports.strings = {
     'de_DE': 'Mergen von {target} in {current}',
     'zh_CN': '合并 {target} 到 {current}',
     'zh_TW': '將 {target} 併入 {current}',
-    'fr_FR': 'Merge de {target} dans {current}'
+    'fr_FR': 'Merge de {target} dans {current}',
+    'ru': 'Слияние {target} в {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -187,7 +192,8 @@ exports.strings = {
     'de_DE': 'Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen',
     'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
     'zh_TW': '沒有需要 rebase 的 commit！每個都是一個 merge commit 或者修改已經被寫入了',
-    'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées'
+    'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
+    'ru': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -196,7 +202,8 @@ exports.strings = {
     'de_DE': 'Nichts zu tun ...',
     'zh_CN': '没啥鸟事……',
     'zh_TW': '沒什麼事情要做...',
-    'fr_FR': 'Rien à effectuer…'
+    'fr_FR': 'Rien à effectuer…',
+    'ru': 'Нечего выполнять...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -214,7 +221,8 @@ exports.strings = {
     'de_DE': 'Branch ist bereits aktuell',
     'zh_CN': '分支已经是最新啦',
     'zh_TW': 'branch 已經是最新啦',
-    'fr_FR': 'Branche déjà à jour'
+    'fr_FR': 'Branche déjà à jour',
+    'ru': 'Ветка уже обновлена'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -223,7 +231,8 @@ exports.strings = {
     'de_DE': 'Die Ref {ref} existiert nicht oder ist unbekannt',
     'zh_CN': '索引 {ref} 不存在，或者找不到。',
     'zh_TW': '索引 {ref} 不存在，或者找不到。',
-    'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue'
+    'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue',
+    'ru': 'Ссылка {ref} не существует или неизвестна'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -232,7 +241,8 @@ exports.strings = {
     'de_DE': 'Commit {commit} hat kein {match}',
     'zh_CN': '提交 {commit} 并没有 {match}',
     'zh_TW': 'commit {commit} 並沒有 {match}',
-    'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}'
+    'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
+    'ru': 'Коммит {commit} не содержит {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
