@@ -104,6 +104,7 @@ And the following heroes for assisting in translating:
 * Jens Bremmekamp ("nem75")
 * "hilojack"
 * Ming-Hsuan-Tu ("twmht")
+* Mikhail Usov ("mikhailusov")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
