@@ -7120,6 +7120,16 @@ exports.dialog = {
       ]
     }
   }],
+  'es_AR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¿Estás seguro de que querés ver la solución?',
+        '',
+        '¡Creo en vos! ¡Dale que podés!'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {
@@ -7211,6 +7221,25 @@ exports.dialog = {
       ]
     }
   }],
+  'es_AR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Bienvenido al constructor de niveles!',
+        '',
+        'Estos son los pasos principales:',
+        '',
+        '  * Prepará el entorno inicial usando comandos de Git',
+        '  * Definí el árbol inicial con ```define start```',
+        '  * Ingresá la serie de comandos de git que representan la solución óptima',
+        '  * Definí el árbol objetivo con ```define goal```. El objetivo también determina la solución',
+        '  * Opcionalmente, definí pistas con ```define hint```',
+        '  * Dale un nombre con ```define name```',
+        '  * Opcionalmente, definí un mensaje inicial con ```edit dialog```',
+        '  * ¡Ingresá el comando ```finish``` para obtener tu nivel en formato JSON!'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {
@@ -7288,6 +7317,17 @@ exports.dialog = {
       ]
     }
   }],
+  'es_AR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Buen trabajo!',
+        '',
+        'Resolviste el nivel en *{numCommands}* comandos; ',
+        'nuestra mejor solución usa {best}.'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {
@@ -7357,6 +7397,62 @@ exports.dialog = {
         'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
         '',
         'For now let\'s get you started on the `levels`...'
+      ]
+    }
+  }],
+  'es_AR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Bienvenid@ a LearnGitBranching!',
+        '',
+        'Esta aplicación está diseñada para ayudar a los principantes ',
+        'a manejar los poderosos conceptos que hay detrás del trabajo ',
+        'con ramas (branches) en Git. Esperamos que disfrutes la aplicación ',
+        'y tal vez incluso ¡que aprendas algo! ',
+        '',
+        '# ¡Demo!',
+        '',
+        'Si no viste la demo, mirala en esta dirección:',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        '¿Harto de este mensaje? Agregale `?NODEMO` a la URL para dejar de verlo, como en este link:',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Comandos de Git',
+        '',
+        'Tenés una gran variedad de comandos de git en este sandbox. Estos incluyen: ',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Compartí!',
+        '',
+        'Compartí tus árboles con tus amigos usando `export tree` e `import tree`',
+        '',
+        '¿Tenés una buena lección que compartir? Probá construyendo un nivel con `build level` o probá el nivel de un amigo con `import level`',
+        '',
+        'Para ver todos los comandos disponibles, probá `show commands`. Hay algunas joyitas como `undo` y `reset`',
+        '',
+        'Por ahora, arranquemos con los `levels`...'
       ]
     }
   }],
@@ -12465,6 +12561,7 @@ exports.strings = {
     'de_DE': 'Wow! Du hast den letzten Level gelöst, super!',
     'zh_CN': '我的个天！你完成了最后一关，碉堡了！',
     'zh_TW': '我的天啊！您解開了最後一關，太強了！',
+    'es_AR': '¡Ea! Terminaste el último nivel, ¡genial!',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !',
     'ru': 'Вау! Вы прошли последний уровень, отлично!'
   },
@@ -12476,6 +12573,7 @@ exports.strings = {
     'ja': '次の章 *"{nextLevel}"* へ進みますか？',
     'zh_CN': '要不前进到下一关 *“{nextLevel}”*？',
     'zh_TW': '下一關是*「{nextLevel}」*，您要繼續闖關嗎？',
+    'es_AR': '¿Querés seguir con *"{nextLevel}"*, el próximo nivel?',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
     'ru': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?'
   },
@@ -12487,6 +12585,7 @@ exports.strings = {
     'ja': '素晴らしい！このレベルをクリアしましたね。',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
+    'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
     'ru': 'Отлично! Ваше решение соответсвует или превосходит наше.'
   },
@@ -12498,6 +12597,7 @@ exports.strings = {
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
     'zh_CN': '试试看你能否在 {best} 之内搞定 :D',
     'zh_TW': '試試看您是否能在 {best} 步内搞定 :D',
+    'es_AR': 'Fijate si podés bajarlo a usar sólo {best} comandos :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
     'ru': 'Попробуйте, может вы сможете уложиться в {best} : D'
   },
@@ -12506,6 +12606,7 @@ exports.strings = {
     '__desc__': 'warning when pruning tree',
     'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree',
     'zh_TW': '注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。',
+    'es_AR': '¡Cuidado! Mercurial hace garbage collection agresivamente y necesita eliminar tu árbol',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
     'ru': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево'
   },
@@ -12514,6 +12615,7 @@ exports.strings = {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, just commit away!',
     'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
+    'es_AR': 'La opción -A no es necesaria para esta aplicación, simplemente hacé commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
     'ru': 'Опция -A не требуется для этого приложения, просто сделайте коммит.'
   },
@@ -12521,6 +12623,7 @@ exports.strings = {
   'hg-error-no-status': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
+    'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
   },
@@ -12528,6 +12631,7 @@ exports.strings = {
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'I need the option {option} for that command!',
+    'es_AR': '¡Necesito la opción {opcion} para ese comando!',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
     'ru': 'Для этой команды требуется опция {option}'
   },
@@ -12535,6 +12639,7 @@ exports.strings = {
   'hg-error-log-no-follow': {
     '__desc__': 'hg log without -f (--follow)',
     'en_US': 'hg log without -f is currently not supported, use -f',
+    'es_AR': 'hg log sin el parámetro -f no está soportado, usá -f',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
     'ru': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
   },
@@ -12545,6 +12650,7 @@ exports.strings = {
     'de_DE': 'Detached head!',
     'zh_CN': '脑袋搬家（Detached head）了！',
     'zh_TW': '分離 Head！',
+    'es_AR': '¡Detached HEAD!',
     'fr_FR': 'head détaché !',
     'ru': 'Отделенный HEAD'
   },
@@ -12555,6 +12661,7 @@ exports.strings = {
     'de_DE': 'Auf Branch {branch}',
     'zh_CN': '切换到分支 {branch}',
     'zh_TW': '切換到 branch {branch}',
+    'es_AR': 'En la rama {branch}',
     'fr_FR': 'Sur la branche {branch}',
     'ru': 'В ветке {branch}'
   },
@@ -12565,6 +12672,7 @@ exports.strings = {
     'de_DE': 'Fertig zum committen! (Wie immer in dieser Demo)',
     'zh_CN': '可以提交啦！（这演示里一直可以提交）',
     'zh_TW': '準備 commit！（在這個 demo 裡面可以一直 commit）',
+    'es_AR': '¡Listo para commitear! (como siempre en esta demo ;-) )',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)',
     'ru': 'Готово к коммиту! (как и всегда в этом демо)'
   },
@@ -12576,6 +12684,7 @@ exports.strings = {
     'de_DE': 'Schneller Commit. Eff-Zeh!',
     'zh_CN': '快速提交。上啊月熊！',
     'zh_TW': '快速 commit。上啊熊！',
+    'es_AR': 'Otro commit más, y van...',
     'fr_FR': 'Commit rapide. NoMaN Sux!',
     'ru': 'Быстрый коммит. А надо!'
   },
@@ -12584,6 +12693,7 @@ exports.strings = {
     'en_US': 'Already up to date!',
     'de_DE': 'Bereits aktuell!',
     'fr_FR': 'Déjà à jour',
+    'es_AR': 'Estás en la versión más reciente',
     'zh_TW': '已經是最新的了',
     'ru': 'Уже обновлено!'
   },
@@ -12591,6 +12701,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
+    'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
     'ru': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch'
   },
@@ -12598,6 +12709,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase',
     'de_DE': 'Das entfernte Repository weicht von deinem lokalen Repository ab, daher können deine Änderungen nicht mit einem einfachen fast forward hochgeladen werden (und daher ist dein push abgelehnt worden). Bitte pull erst die neuen Änderungen in das lokale Repository, integriere sie in den Branch und versuch es nochmal. Das kannst du mit git pull oder git pull --rebase machen',
+    'es_AR': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y probá de nuevo. Podés hacerlo con git pull o git pull --rebase',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
     'ru:': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase'
   },
@@ -12605,6 +12717,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch',
     'de_DE': 'Du kannst diesen Befehl nicht auf einem Remote Branch ausführen',
+    'es_AR': 'No podés ejecutar ese comando en una rama remota',
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
     'ru': 'Вы не можете выполнить эту команду на удаленной ветке'
   },
@@ -12612,6 +12725,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin is required for that command',
     'de_DE': 'Für diesen Befehl wird origin benötigt',
+    'es_AR': 'Necesitás un origen para ese comando',
     'fr_FR': 'Une origine est requise pour cette commande',
     'ru': 'Origin требуется для этой команды'
   },
@@ -12619,6 +12733,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin already exists! You cannot make a new one',
     'de_DE': 'origin existiert bereits! Du kannst es nicht nochmal anlegen',
+    'es_AR': '¡Ya existe el origen! No podés crear uno nuevo',
     'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
     'ru': 'Origin уже существует! Невозможно создать еще один'
   },
@@ -12630,6 +12745,7 @@ exports.strings = {
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
     'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
     'zh_TW': '你不能刪除 master branch，或者你當前所在的 branch，或者其它連 branch 都不是的東西。',
+    'es_AR': 'No podés borrar la rama master, la rama en la que estás, o cosas que no son ramas',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
     'ru' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой'
   },
@@ -12640,6 +12756,7 @@ exports.strings = {
     'de_DE': 'Mergen von {target} in {current}',
     'zh_CN': '合并 {target} 到 {current}',
     'zh_TW': '將 {target} 併入 {current}',
+    'es_AR': 'Mergear {target} a {current}',
     'fr_FR': 'Merge de {target} dans {current}',
     'ru': 'Слияние {target} в {current}'
   },
@@ -12650,6 +12767,7 @@ exports.strings = {
     'de_DE': 'Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen',
     'zh_CN': '没有需要 rebase 的提交！都是个合并提交，或者已经 rebase 过了。',
     'zh_TW': '沒有需要 rebase 的 commit！每個都是一個 merge commit 或者修改已經被寫入了',
+    'es_AR': '¡No hay commits para rebasear! Son todos commits de merge o cambios ya aplicados',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
     'ru': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены'
   },
@@ -12660,6 +12778,7 @@ exports.strings = {
     'de_DE': 'Nichts zu tun ...',
     'zh_CN': '没啥鸟事……',
     'zh_TW': '沒什麼事情要做...',
+    'es_AR': 'Nada para hacer...',
     'fr_FR': 'Rien à effectuer…',
     'ru': 'Нечего выполнять...'
   },
@@ -12670,6 +12789,7 @@ exports.strings = {
     'de_DE': 'Fast forward...',
     'zh_CN': '快速前进……',
     'zh_TW': '快速前進...',
+    'es_AR': 'Fast forwardeando...',
     'fr_FR': 'En avance rapide…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12679,6 +12799,7 @@ exports.strings = {
     'de_DE': 'Branch ist bereits aktuell',
     'zh_CN': '分支已经是最新啦',
     'zh_TW': 'branch 已經是最新啦',
+    'es_AR': 'Rama actualmente actualizada',
     'fr_FR': 'Branche déjà à jour',
     'ru': 'Ветка уже обновлена'
   },
@@ -12689,6 +12810,7 @@ exports.strings = {
     'de_DE': 'Die Ref {ref} existiert nicht oder ist unbekannt',
     'zh_CN': '索引 {ref} 不存在，或者找不到。',
     'zh_TW': '索引 {ref} 不存在，或者找不到。',
+    'es_AR': 'La referencia {ref} no existe o es desconocida',
     'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue',
     'ru': 'Ссылка {ref} не существует или неизвестна'
   },
@@ -12699,6 +12821,7 @@ exports.strings = {
     'de_DE': 'Commit {commit} hat kein {match}',
     'zh_CN': '提交 {commit} 并没有 {match}',
     'zh_TW': 'commit {commit} 並沒有 {match}',
+    'es_AR': 'El commit {commit} no tiene un {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
     'ru': 'Коммит {commit} не содержит {match}'
   },
@@ -12709,6 +12832,7 @@ exports.strings = {
     'de_DE': 'Achtung! Detached HEAD Zustand',
     'zh_CN': '警告！脑袋搬家（Detached HEAD）状态',
     'zh_TW': '注意喔！現在的狀態是分離 Head',
+    'es_AR': '¡Cuidado! Modo de detached HEAD',
     'fr_FR': 'Attention ! HEAD est détaché'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12718,6 +12842,7 @@ exports.strings = {
     'de_DE': 'In dieser Demo müssen keine Dateien hinzugefügt werden',
     'zh_CN': '此演示中不需要添加文件',
     'zh_TW': '此 demo 中不需要再加入檔案',
+    'es_AR': 'No es necesario hacer add a los archivos en esta demo',
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12727,6 +12852,7 @@ exports.strings = {
     'de_DE': 'Die angegebenen Optionen sind inkompatibel oder falsch',
     'zh_CN': '你所指定的参数不兼容或者不准确',
     'zh_TW': '您指定了不相容或錯誤的選項',
+    'es_AR': 'Las opciones que especificaste son incompatibles o incorrectas',
     'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12736,6 +12862,7 @@ exports.strings = {
     'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
     'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！',
     'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
+    'es_AR': 'El commit {commit} ya existe en tus cambios, ¡abortando!',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12745,6 +12872,7 @@ exports.strings = {
     'de_DE': 'Kann im Detached Head Zustand kein reset ausführen! Bitte checkout zum Bewegen benutzen',
     'zh_CN': '不能在分离的 HEAD 里重置！用 checkout 吧',
     'zh_TW': '不能在分離 HEAD 的狀態中重來！用 checkout 來移動吧',
+    'es_AR': 'No podés hacer reset en el modo detached. Usá checkout si querés moverte',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12754,6 +12882,7 @@ exports.strings = {
     'de_DE': 'Das Standardverhalten in dieser Demo ist --hard, du kannst die Option auch weglassen!',
     'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！',
     'zh_TW': '預設的行為是 --hard reset，儘量省略掉那個選項吧！',
+    'es_AR': 'El comportamiento default es un --hard reset, sentite libre de omitir esa opción!',
     'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12764,6 +12893,7 @@ exports.strings = {
     'de_DE': 'In dieser Demo gibt es kein Hinzufügen / Vormerken von Dateien, dieser Befehl ist daher ungültig!',
     'zh_CN': '没有添加、缓存文件的必要，所以改选项或者命令是不合法的。',
     'zh_TW': '沒有加入、或者暫存 (staging) 文件的必要，所以改選項或者命令是不合法的。',
+    'es_AR': 'No existe el concepto de agregar/indexar cambios, así que esa opción o comando es inválido',
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12773,6 +12903,7 @@ exports.strings = {
     'de_DE': 'Reverte {oldCommit}: {oldMsg}',
     'zh_CN': '撤销 {oldCommit}：{oldMsg}',
     'zh_TW': '還原 {oldCommit}：{oldMsg}',
+    'es_AR': 'Revirtiendo {oldCommit}: {oldMsg}',
     'fr_FR': 'Revert {oldCommit}: {oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12782,6 +12913,7 @@ exports.strings = {
     'de_DE': 'Ich benötige maximal {upper} Argument(e) für {what}',
     'zh_CN': '{what} 期望最多 {upper} 个参数',
     'zh_TW': '{what} 期望最多 {upper} 個參數',
+    'es_AR': 'Espero como máximo {upper} parámetros para {what}',
     'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12791,6 +12923,7 @@ exports.strings = {
     'de_DE': 'Ich benötige mindestens {lower} Argument(e) für {what}',
     'zh_CN': '{what} 期望最少 {lower} 个参数',
     'zh_TW': '{what} 期望最少 {lower} 個參數',
+    'es_AR': 'Espero al menos {lower} parámetros para {what}',
     'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12800,6 +12933,7 @@ exports.strings = {
     'de_DE': 'Dieser Befehl akzeptiert keine allgemeinen Argumente',
     'zh_CN': '该命令不接收参数',
     'zh_TW': '該指令不接受一般參數',
+    'es_AR': 'Ese comando no acepta parámetros comunes',
     'fr_FR': 'Cette commande n\'accepte aucun argument général'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12809,6 +12943,7 @@ exports.strings = {
     'de_DE': 'Kopiere die folgende Baum-Zeichenkette',
     'zh_CN': '拷贝下面的树字符串',
     'zh_TW': '複製下方的樹狀字串',
+    'es_AR': 'Copiá el código de acá abajo',
     'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12820,6 +12955,7 @@ exports.strings = {
     'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习Git分支',
     'zh_TW': '學習 git 分支',
+    'es_AR': 'Aprendé a Branchear en Git',
     'fr_FR': 'Apprenez Git Branching'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12829,6 +12965,7 @@ exports.strings = {
     'de_DE': 'Level auswählen',
     'zh_CN': '选择一关',
     'zh_TW': '選擇其中一關',
+    'es_AR': 'Seleccioná un nivel',
     'fr_FR': 'Choisissez un niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12838,6 +12975,7 @@ exports.strings = {
     'de_DE': 'Tut mir leid, aber aus Gründen der Darstellung müssen wir die Branch-Namen kurz halten. Dein Branch-Name wurde auf 9 Zeichen gekürzt und heißt daher jetzt "{branch}"',
     'zh_CN': '抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的将被截断到9个字符，即"{branch}"',
     'zh_TW': '抱歉，為了顯示的需要，我們需要一個短一點的 branch 名稱。您使用的將會被截斷到剩下9個字元，即"{branch}"',
+    'es_AR': 'Perdón, necesitamos mantener los nombres de los branches cortos para visualizarlos. El nombre de tu rama se truncó a 9 caracteres, resultando en "{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12847,12 +12985,14 @@ exports.strings = {
     'de_DE': 'Der Branch-Name "{branch}" ist nicht erlaubt!',
     'zh_CN': '不能给分支起这个名字 "{branch}"',
     'zh_TW': '不能给 branch 起這個名字 "{branch}"',
+    'es_AR': 'El nombre "{branch}" no está permitido para los branches',
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
     '__desc__': 'When the user enters a tag name thats not ok',
     'en_US': 'That tag name "{tag}" is not allowed!',
+    'es_AR': 'El nombre "{tag}" no está permitido para los tags',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12862,6 +13002,7 @@ exports.strings = {
     'de_DE': 'Die  Option "{option}" wird nicht unterstützt!',
     'zh_CN': '不支持选项 "{option}"',
     'zh_TW': '不支援的選項 "{option}"',
+    'es_AR': 'La opción {option} no está soportada',
     'fr_FR': 'L\'option "{option}" n\'est pas supportée'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12871,6 +13012,7 @@ exports.strings = {
     'de_DE': 'git <Befehl> [<Argumente>]',
     'zh_CN': 'git <命令> [<参数>]',
     'zh_TW': 'git <指令> [<參數>]',
+    'es_AR': 'git <comando> [<parametros>]',
     'fr_FR': 'git <commande> [<arguments>]'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12880,6 +13022,7 @@ exports.strings = {
     'de_DE': 'Unterstützte Befehle:',
     'zh_CN': '支持的命令有:',
     'zh_TW': '支援的指令有：',
+    'es_AR': 'Comandos soportados:',
     'fr_FR': 'Commandes supportées'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12889,6 +13032,7 @@ exports.strings = {
     'de_DE': 'Benutzung:',
     'zh_CN': '使用:',
     'zh_TW': '用法:',
+    'es_AR': 'Uso:',
     'fr_FR': 'Utilisation :'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12898,12 +13042,14 @@ exports.strings = {
     'de_DE': 'Git Version PCOTTLE.1.0.jbr',
     'zh_CN': 'Git 版本 PCOTTLE.1.0',
     'zh_TW': 'Git 版本 PCOTTLE.1.0',
+    'es_AR': 'Git Versión PCOTTLE.1.0',
     'fr_FR': 'Git version PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
     '__desc__': 'when the tree is being flipped',
-    'en_US': 'Flipping tree...'
+    'en_US': 'Flipping tree...',
+    'es_AR': 'Invirtiendo el árbol...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -12912,6 +13058,7 @@ exports.strings = {
     'de_DE': 'Aktualisiere Baum ...',
     'zh_CN': '正在刷新树结构...',
     'zh_TW': '正在更新樹狀結構...',
+    'es_AR': 'Refrezcando el árbol...',
     'fr_FR': 'Actualisation de l\'arbre…'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12921,6 +13068,7 @@ exports.strings = {
     'de_DE': 'Locale auf {locale} gesetzt',
     'zh_CN': '语言更改为 {locale}',
     'zh_TW': '語系設為 {locale}',
+    'es_AR': 'Localización actualizada a {locale}',
     'fr_FR': 'Langue changée à {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12930,6 +13078,7 @@ exports.strings = {
     'de_DE': 'Locale auf Standard zurückgesetzt, also {locale}',
     'zh_CN': '语言重置为默认的 {locale}',
     'zh_TW': '還原為預設語系 {locale}',
+    'es_AR': 'Localización vuelta al default, que es {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12938,6 +13087,7 @@ exports.strings = {
     'en_US': 'Please use one of the following commands for more info:',
     'zh_TW': '請使用下列其中一個指令取得更多資訊：',
     'de_DE': 'Bitte benutze einen der folgenden Befehle um mehr Informationen zu bekommen:',
+    'es_AR': 'Usá alguno de estos comandos para tener más información:',
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12946,6 +13096,7 @@ exports.strings = {
     'en_US': 'Here is a list of all the commmands available:',
     'zh_TW': '這份清單列出所有可用指令：',
     'de_DE': 'Hier ist eine Liste aller verfügbarer Befehle:',
+    'es_AR': 'Esta es una lista de los comandos disponibles:',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12955,6 +13106,7 @@ exports.strings = {
     'de_DE': 'Verzeichnis gewechselt zu "/verzeichnisse/sind/in/dieser/demo/latte"',
     'zh_CN': '目录切换到 "/directories/dont/matter/in/this/demo"',
     'zh_TW': '目錄切換到 "/directories/dont/matter/in/this/demo"',
+    'es_AR': 'Directorio cambiado a "/los/directorios/no/importan/en/esta/demo"',
     'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12964,6 +13116,7 @@ exports.strings = {
     'de_DE': 'VergissDateienInDieserDemo.txt',
     'zh_CN': 'DontWorryAboutFilesInThisDemo.txt (译: 在试验里不用担心文件.txt)',
     'zh_TW': 'DontWorryAboutFilesInThisDemo.txt （譯註：在 demo 裡不用擔心檔案）',
+    'es_AR': 'NoTePreocupesPorLosArchivosEnEstaDemo.txt',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)'
   },
   'mobile-alert': {
@@ -12972,6 +13125,7 @@ exports.strings = {
     'de_DE': 'LGB ist nicht mit mobilen Endgeräten kompatibel, nutz es vom Desktop! Es lohnt sich :D',
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
     'zh_TW': '無法在行動裝置上叫出鍵盤，請改用桌面版！',
+    'es_AR': 'LGB no puede recibir comandos en dispositivos móviles. Visitanos desde una desktop, ¡lo vale! :D',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12981,6 +13135,7 @@ exports.strings = {
     'de_DE': 'Teile diesen git-Baum mit Freunden! Sie können ihn mit "import tree" laden',
     'zh_CN': '与你的好友分享提交树！他们可以用 "import tree" 加载它',
     'zh_TW': '與你的好友分享這棵樹！他們可以用 "import tree" 來載入它',
+    'es_AR': '¡Compartí este árbol con amigos! Pueden cargarlo con "import tree"',
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12990,6 +13145,7 @@ exports.strings = {
     'de_DE': 'Füg einen JSON-Blob unten ein!',
     'zh_CN': '在下边粘贴一个JSON串',
     'zh_TW': '在下方貼上一串 JSON',
+    'es_AR': '¡Pegá un blob JSON abajo!',
     'fr_FR': 'Collez un blob JSON ci-dessous !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -12999,6 +13155,7 @@ exports.strings = {
     'de_DE': 'Gelöste Karte wurde zurückgesetzt, du fängst mit einem leeren Blatt an!',
     'zh_CN': '解决列表已重置，您现在从零开始了',
     'zh_TW': '過關地圖已經重新設置，您現在從零開始了',
+    'es_AR': 'El mapa resuelto fue eliminado, estás arrancando desde un estado limpio',
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13008,6 +13165,7 @@ exports.strings = {
     'de_DE': 'Du bist nicht in einem Level! Du bist im Sandkasten-Modus, starte einen Level mit "levels"',
     'zh_CN': '您没在关卡中！您在沙盒中，要开始关卡请输入 "levels"',
     'zh_TW': '您沒在關卡中！您在沙盒中，要開始關卡請輸入 "levels"',
+    'es_AR': '¡No estás en un nivel! Estás en el sandbox, comenzá un nivel usando "levels"',
     'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13017,6 +13175,7 @@ exports.strings = {
     'de_DE': 'Konnte keinen Level mit der ID "{id}" finden! Öffne einen Level-Auswahldialog',
     'zh_CN': '没找到id为 "{id}" 的关卡！打开关卡选择框',
     'zh_TW': '找不到 id 為 "{id}" 的關卡！開啟關卡選擇視窗',
+    'es_AR': 'No se encontró ningún nivel {id}. Abriendo la vista de selección de niveles...',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13026,6 +13185,7 @@ exports.strings = {
     'de_DE': 'Die Undo-Liste ist leer!',
     'zh_CN': '还没有什么可以撤销',
     'zh_TW': '還沒有什麼可以取消',
+    'es_AR': 'No hay comandos que deshacer',
     'fr_FR': 'La pile d\'annulation est vide !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13035,6 +13195,7 @@ exports.strings = {
     'de_DE': 'Du hast diesen Level bereits gelöst, probier einen anderen Level mit "levels" aus oder geh in den Sandkasten-Modus mit "sandbox"',
     'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中',
     'zh_TW': '你已經解决了本關，輸入 "levels" 嘗試其他關卡，或者輸入 "sandbox" 回到沙盒中',
+    'es_AR': 'Ya resolviste este nivel, probá otros usando "levels" o volvé al sandbox usando "sandbox"',
     'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13044,6 +13205,7 @@ exports.strings = {
     'de_DE': 'Dieser git-Befehl ist für diesen Level deaktiviert!',
     'zh_CN': '该命令在本关不允许使用！',
     'zh_TW': '本關禁止使用該 git 指令！',
+    'es_AR': '¡Ese comando de git está deshabilitado para este nivel!',
     'fr_FR': 'Cette commande git est désactivée pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13053,6 +13215,7 @@ exports.strings = {
     'de_DE': 'Hier ist das JSON für diesen Level! Teil es mit jemandem or schick es mir über Github',
     'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上',
     'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 Github 上給我',
+    'es_AR': 'Este es el JSON de este nivel. Compartilo con quien quieras o mandámelo por Github',
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13062,6 +13225,7 @@ exports.strings = {
     'de_DE': 'Du hast noch keinen Einführungs-Dialog geschrieben, willst du einen hinzufügen?',
     'zh_CN': '您还没有定义一开始的介绍，是否添加一个？',
     'zh_TW': '尚未指定開始對話視窗，是否立即新增？',
+    'es_AR': 'No especificaste un mensaje de inicio, ¿querés agregar uno?',
     'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13071,6 +13235,7 @@ exports.strings = {
     'de_DE': 'Du hast noch keinen Hinweis geschrieben, magst du einen hinzufügen?',
     'zh_CN': '您还没有定义提示，是否添加一个？',
     'zh_TW': '尚未指定提示，是否立即新增？',
+    'es_AR': 'No especificaste ninguna pista, ¿querés agregar alguna?',
     'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13080,6 +13245,7 @@ exports.strings = {
     'de_DE': 'Gib den Hinweis für diesen Level an, oder lass es leer wenn du keinen hinzufügen willst',
     'zh_CN': '请输入关卡提示，或者故意留空',
     'zh_TW': '請輸入關卡提示，或者故意留空',
+    'es_AR': 'Ingresá una pista para este nivel, o dejalo en blanco si no querés incluir ninguna',
     'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13089,6 +13255,7 @@ exports.strings = {
     'de_DE': 'Gib den Namen für diesen Level an',
     'zh_CN': '输入关卡名',
     'zh_TW': '請輸入關卡名稱',
+    'es_AR': 'Ingresá el nombre del nivel',
     'fr_FR': 'Entrez le nom pour ce niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13098,6 +13265,7 @@ exports.strings = {
     'de_DE': 'Deine Auflösung ist leer! Hier fehlt etwas',
     'zh_CN': '你的解法是空的!! 这应该是出错了',
     'zh_TW': '您的解法是空的！這一定是哪裡出錯了',
+    'es_AR': '¡Tu solución está vacía! Algo hay que hacer',
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13107,6 +13275,7 @@ exports.strings = {
     'de_DE': 'Lege Start fest ... Auflösung und Ziel werden gelößcht, falls sie schon festgelegt worden waren',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
     'zh_TW': '正在定義起始點...先前定義的解法和目標會被覆蓋掉',
+    'es_AR': 'Estableciendo el punto de inicio... La solución y el objetivo serán sobreescritos si ya habían sido definidos',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13116,6 +13285,7 @@ exports.strings = {
     'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber diesen Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
     'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
+    'es_AR': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elegí entre "help level" para aprender algo más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13125,19 +13295,22 @@ exports.strings = {
     'de_DE': 'Du befindest dich im Level-Editor, daher gibt es verschiedene Hilfen. Gib bitte "help general" oder "help builder" ein',
     'zh_CN': '您正在进行关卡构建中，这里有多种形式的帮助，请选择 "help general" (一般帮助)或 "help builder" (关卡构建帮助)',
     'zh_TW': '您正在進行關卡構建中，這裡有多種不同型式的幫助，請選擇 "help general" （一般幫助）或 "help builder" （製造關卡的幫助）',
+    'es_AR': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elegí entre "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
     '__desc__': 'button label to show goal',
     'en_US': 'Show Goal',
-    'zh_TW': '顯示目標'
+    'zh_TW': '顯示目標',
+    'es_AR': 'Mostrar objetivo'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
     'en_US': 'Hide Goal',
-    'zh_TW': '隱藏目標'
+    'zh_TW': '隱藏目標',
+    'es_AR': 'Ocultar obetivo'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -13146,6 +13319,7 @@ exports.strings = {
     'de_DE': 'Ziel',
     'zh_CN': '目标',
     'zh_TW': '目標',
+    'es_AR': 'Objetivo a cumplir',
     'fr_FR': 'Cible à atteindre'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13153,6 +13327,7 @@ exports.strings = {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
+    'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13162,6 +13337,7 @@ exports.strings = {
     'de_DE': 'Du kannst diese Meldung mit "hide goal" ausblenden',
     'zh_CN': '你可以通过命令 "hide goal" 关闭这个窗口',
     'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
+    'es_AR': 'Podés ocultar esta ventana con "hide goal"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13171,6 +13347,7 @@ exports.strings = {
     'de_DE': 'Du kannst diese Meldung mit "hide start" ausblenden',
     'zh_CN': '你可以通过命令 "hide start" 关闭这个窗口',
     'zh_TW': '你可以透過 "hide start" 關閉這個視窗',
+    'es_AR': 'Podés ocultar esta ventana con "hide start"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13180,6 +13357,7 @@ exports.strings = {
     'de_DE': 'Level-Editor',
     'zh_CN': '关卡生成器',
     'zh_TW': '關卡產生器',
+    'es_AR': 'Constructor de niveles',
     'fr_FR': 'Éditeur de niveaux'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13189,6 +13367,7 @@ exports.strings = {
     'de_DE': 'Es gibt keinen Einführungs-Dialog für diesen Level!',
     'zh_CN': '介绍? 这关真没有!',
     'zh_TW': '這關沒有介紹!',
+    'es_AR': '¡No hay mensaje de inicio para este nivel!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13198,6 +13377,7 @@ exports.strings = {
     'de_DE': "Hm, es gibt anscheinend keinen Hinweis für diesen Level :-/",
     'zh_CN': "提示？嗯，这关真没有哎~ :-/",
     'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
+    'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13207,6 +13387,7 @@ exports.strings = {
     'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, bitte teil sie mit auf Github mit!',
     'zh_CN': '还没翻译 {key} :( 请在gitHub上贡献你的翻译!',
     'zh_TW': '還沒翻譯 {key} :( 請在gitHub上貢獻你的翻譯!',
+    'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13216,10 +13397,10 @@ exports.strings = {
     'de_DE': 'Dieser Dialog oder Text ist noch nicht in deine Sprache übersetzt. :( Schau auf Github vorbei um bei der Übersetzung zu helfen!',
     'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!',
     'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 github 貢獻翻譯！',
+    'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
   }
 };
-
 
 },{}],26:[function(require,module,exports){
 var _ = require('underscore');
@@ -18112,6 +18293,9 @@ var IntlHelperBar = HelperBar.extend({
       text: '學習 Git 分支',
       id: 'tradchinese'
     }, {
+      text: 'español',
+      id: 'spanish'
+    }, {
       text: 'français',
       id: 'french'
     }, {
@@ -18140,6 +18324,11 @@ var IntlHelperBar = HelperBar.extend({
 
   onKoreanClick: function() {
     this.fireCommand('locale ko; levels');
+    this.hide();
+  },
+
+  onSpanishClick: function() {
+    this.fireCommand('locale es_AR; levels');
     this.hide();
   },
 
@@ -22579,12 +22768,14 @@ exports.level = {
     "en_US": "Multiple parents",
     "zh_CN": "多个父提交记录",
     "de_DE": "Mehrere Vorgänger",
+    "es_AR": "Múltiples padres",
     "zh_TW": "多個 parent commit"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
+    "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。"
   },
   "startDialog": {
@@ -22849,6 +23040,93 @@ exports.level = {
         }
       ]
     },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Especificando los padres",
+              "",
+              "Como el modificador de `~`, `^` también acepta un número opcional después de él.",
+              "",
+              "En lugar de especificar cuántas generaciones hacia atrás ir (como `~`), el modificador de `^` especifica por cuál de las referencias padres seguir en un commit de merge. Recordá que un commit de merge tiene múltiples padres, por lo que el camino a seguir es ambiguo.",
+              "",
+              "Git normalmente sigue el \"primer\" padre de un commit de merge, pero especificando un número junto con `^` cambia este comportamiento predefinido.",
+              "",
+              "Demasiada charla, veámoslo en acción.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acá tenemos un commit de merge. Si hacemos checkout de `master^`, sin modificadores, vamos a seguir al primer padre después del commit de merge. ",
+              "",
+              "(*En nuestras visualizaciones, el primer padre se ubica directamente arriba del commit de merge.*)"
+            ],
+            "afterMarkdowns": [
+              "Fácil -- esto es a lo que estamos acostumbrados."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ahora tratemos de especificar el segundo padre, en cambio..."
+            ],
+            "afterMarkdowns": [
+              "¿Ves? Seguimos al otro padre hacia arriba."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Los modificadores de `^` y `~` son muy poderosos a la hora de movernos en un árbol:"
+            ],
+            "afterMarkdowns": [
+              "¡Rapidísimo!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Más loco aún, ¡estos modificadores pueden encadenarse entre sí! Mirá esto:"
+            ],
+            "afterMarkdowns": [
+              "El mismo movimiento que antes, pero todo en uno."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ponelo en práctica",
+              "",
+              "Para completar este nivel, creá una nueva rama en la ubicación indicada.",
+              "",
+              "Obviamente sería muy fácil especificar el commit directamente (algo como `C6`), pero te reto a usar los modificadores de los que estuvimos hablando, mejor"
+            ]
+          }
+        }
+      ]
+    },
     "zh_TW": {
       "childViews": [
         {
@@ -23000,6 +23278,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Einführung',
       'ja': 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
+      'es_AR': 'Secuencia introductoria',
       'zh_CN': '基础篇',
       'zh_TW': '基礎篇',
       'ko': '기본 명령어'
@@ -23009,6 +23288,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Eine gut abgestimmte Einführung in die wichtigsten Git-Befehle',
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
+      'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
       'zh_CN': '循序渐进介绍git主要命令',
       'zh_TW': '循序漸進地介绍 git 主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
@@ -23020,6 +23300,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Aufstieg',
       'ja': '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
+      'es_AR': 'Acelerando',
       'zh_CN': '进阶篇',
       'zh_TW': '進階篇'
     },
@@ -23028,6 +23309,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
+      'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
     }
@@ -23037,12 +23319,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
+      'es_AR': 'Push & Pull -- Git Remotes!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
+      'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'zh_CN': '是时候分享你的编码了',
       'zh_TW': '是時候分享你的程式碼了'
     }
@@ -23052,11 +23336,13 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
+      'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
+      'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene'
@@ -23066,6 +23352,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Moving Work Around',
       'de_DE': 'Code Umherschieben',
+      'es_AR': 'Moviendo el trabajo por ahí',
       // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
       'fr_FR': 'Maîtrise Rebase, Luke!',
@@ -23076,6 +23363,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
+      'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
@@ -23090,6 +23378,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Ein Kessel Buntes',
       'ja': '様々なtips',
       'fr_FR': 'Un assortiment',
+      'es_AR': 'Bolsa de gatos',
       'ko': '종합선물세트',
       'zh_CN': '大杂烩？',
       'zh_TW': '活用 git 的指令'
@@ -23099,6 +23388,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Eine bunte Mischung von Techniken, Tipps und Tricks',
       'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
+      'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术，技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧'
@@ -23109,6 +23399,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Advanced Topics',
       'de_DE': 'Themen für Fortgeschrittene',
       'fr_FR': 'Sujets Avancés',
+      'es_AR': 'Temas avanzados',
       'zh_CN': '高级主题',
       'zh_TW': '進階主題'
     },
@@ -23116,6 +23407,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'For the truly brave!',
       'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
       'fr_FR': 'Pour les plus courageux !',
+      'es_AR': '¡Para los verdaderos valientes!',
       'zh_CN': '只为真正的勇士！',
       'zh_TW': '來成為真正的強者吧！'
     }
@@ -23139,6 +23431,7 @@ exports.level = {
     "de_DE": "Branches in Git",
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
+    "es_AR": "Brancheando en Git",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "建立Git分支",
     "zh_TW": "建立 git branch"
@@ -23147,6 +23440,7 @@ exports.level = {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
     "de_DE": 'Lege mit "git branch <Name>" einen neuen Branch an und checke ihn mit "git checkout <Name> aus',
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
+    "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
@@ -23380,6 +23674,84 @@ exports.level = {
             "markdowns": [
               "OK! もうどんなブランチでも切れますね。このウィンドウを閉じて、",
               "`bugFix`という名前のブランチを作成し、そのブランチをチェックアウトしてみましょう。"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramas en Git",
+              "",
+              "Las ramas (branches) en Git son increíblemente livianas. Son sólo referencias a un commit específico - nada más. Por esto es que tantos entusiastas de Git siguen el mantra:",
+              "",
+              "```",
+              "brancheá temprano, y brancheá seguido",
+              "```",
+              "",
+              "Como no hay consumo extra de alamcenamiento ni memoria al hacer varias ramas, es más fácil dividir lógicamente tu trabajo que tener un par de ramas grandes.",
+              "",
+              "Cuando empecemos a mezclar ramas y commits, vamos a ver cómo se combinan estas dos herramientas. Por ahora, en cambio, simplemente recordá que una rama escencialmente dice \"Quiero incluir el trabajo de este commit y todos su ancestros\"."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos cómo se ven las ramas en práctica.",
+              "",
+              "Acá vamos a crear una rama nueva llamada `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Ahí está, ¡eso es todo lo que hay que hacer para branchear! La rama `newImage` ahora referencia al commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pongamos algo de trabajo en esta nueva rama. Apretá el botón de acá abajo"
+            ],
+            "afterMarkdowns": [
+              "¡Uh, no! ¡La rama `master` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Digámosle a git que queremos checkoutear esa rama con",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "Esto va a situarnos en esa rama antes de commitear nuestros cambios"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí estamos! Nuestros cambios se registraron en nuestra nueva rama"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Ok! Ya estás listo para manejar ramas. Cuando se cierre esta ventana,",
+              "creá una nueva rama llamada `bugFix` y cambiate a ella"
             ]
           }
         }
@@ -23705,6 +24077,7 @@ exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
     "de_DE": "Einführung in Git Commits",
+    "es_AR": "Introducción a los commits de Git",
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
@@ -23717,6 +24090,7 @@ exports.level = {
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
     "de_DE": "Gib einfach zweimal 'git commit' ein um den Level abzuschließen",
+    "es_AR": "¡Simplemente tipeá 'git commit' dos veces para terminar!",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
     "zh_TW": "輸入兩次 'git commit' 就可以完成！",
@@ -23852,6 +24226,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "実際に手を動かしてみましょう。このウィンドウを閉じたら、試しに2回コミットをしてみましょう。"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits de Git",
+              "Un commit en un repositorio git registra un snapshot de todos los archivos en tu directorio. Es como un _gran_ copy&paste, ¡pero incluso mejor!",
+              "",
+              "Git pretende mantener los commits tan livianos como sea posible, por lo que no copia ciegamente el directorio completo cada vez que commiteás. Puede (cuando es posible) comprimir un commit como un conjunto de cambios (o un _\"delta\"_) entre una versión de tu repositorio y la siguiente.",
+              "",
+              "Git mantiene, también, un historial de qué commits se hicieron cuándo. Es por eso que la mayoría de los commits tienen commits ancestros arriba suyo -- designamos esto con flechas en nuestra visualización. ¡Mantener el historial es genial para todos los que trabajan en el proyecto!",
+              "",
+              "Hay un montón en lo que ahondar, pero por ahora podés pensar en los commits como snapshots de tu proyecto. Los commits son muy livianos, y ¡cambiar de uno a otro es terriblemente rápido!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos cómo se ve esto en la práctica. A la derecha tenemos una visualización de un (pequeño) repositorio git. Hay dos commits ahora: el commit inicial, `C0`, y un commit que lo sigue, `C1`, que podría tener algunos cambios interesantes.",
+              "",
+              "Dale al botón de abajo para hacer un nuevo commit"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí va! Increíble. Acabamos de hacer cambios al repositorio y los guardamos como un commit. El commit que acabamos de crear tiene un padre, `C1`, que referencia al commit en que se basó este."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Dale, intentalo vos ahora! Cuando se cierre esta ventana, hacé dos commits para completar el nivel."
             ]
           }
         }
@@ -24043,6 +24459,7 @@ exports.level = {
   "name": {
     "en_US": "Merging in Git",
     "de_DE": "Mergen in git",
+    "es_AR": "Mergeando en Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
     "ja": "ブランチとマージ",
@@ -24053,6 +24470,7 @@ exports.level = {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann master)",
     "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
+    "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de master)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
     "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
@@ -24264,6 +24682,75 @@ exports.level = {
               "* `git merge`コマンドを使って、`bugFix`ブランチを`master`ブランチへとマージする",
               "",
               "*注：\"help level\"コマンドでこのヘルプにいつでも戻ってこれます*"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mergeando ramas",
+              "",
+              "¡Genial! Ya sabemos cómo commitear y cómo crear ramas. Ahora tenemos que aprender algún modo de unificar el trabajo de dos ramas diferentes.  Esto nos va a permitir abrir una nueva rama de desarrollo, implementar alguna nueva funcionalidad, y después unirla de nuevo con el trabajo principal.",
+              "",
+              "El primer método para combinarlas que vamos a explorar es `git merge`. Mergear en Git crea un commit especial que tiene dos padres diferentes. Un commit con dos padres escencialmente significa \"Quiero incluir todo el trabajo de este padre de acá y este otro padre de acá, *y* del conjunto de todos sus ancestros\"",
+              "",
+              "Es más simple visualizarlo, veámoslo a continuación"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acá tenemos dos ramas, y cada una tiene un commit que le es único. Esto significa que ninguna de las ramas incluye \"todo el trabajo\" que hay en nuestro repositorio. Hagamos un merge para solucionar eso.",
+              "",
+              "Vamos a `merge`ar la rama `bugFix` a `master`"
+            ],
+            "afterMarkdowns": [
+              "¡Wooow! ¿Viste eso? Primero que nada, `master` ahora apunta a un commit que tiene dos padres. Si seguís las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "",
+              "Además, ¿viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, incluí algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
+              "",
+              "Así que acá vemos que el color de la rama `master` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mergeemos `master` a `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Como `bugFix` era un ancestro de `master`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "",
+              "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Wiii!"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, seguí estos pasos:",
+              "",
+              "* Creá una nueva rama, llamada `bugFix`",
+              "* Checkouteá la rama `bugFix` usando `git checkout bugFix`",
+              "* Hacé un commit",
+              "* Volvé a `master` con `git checkout`",
+              "* Hacé otro commit",
+              "* Mergeá la rama `bugFix` a `master` usando `git merge`",
+              "",
+              "*Acordate: siempre podés volver a ver este mensaje tipeando \"help level\"!*"
             ]
           }
         }
@@ -24556,6 +25043,7 @@ exports.level = {
     "en_US": "Rebase Introduction",
     "de_DE": "Einführung in Rebase",
     "ja": "Rebaseの解説",
+    "es_AR": "Introducción a rebase",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "Rebase简介",
@@ -24566,6 +25054,7 @@ exports.level = {
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
     "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
+    "es_AR": "Asegurate de commitear desde bugFix primero",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit"
@@ -24770,6 +25259,73 @@ exports.level = {
               "* bugFixをもう1回チェックアウトして、master上にリベース",
               "",
               "幸運を祈る！"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "El segundo modo de combinar el trabajo de distintas ramas es el *rebase*. Rebasear escencialmente agarra un conjunto de commits, los \"copia\", y los aplica sobre algún otro lado.",
+              "",
+              "Aunque esto pueda sonar confuso, la ventaja de rebasear es que puede usarse para conseguir una secuencia de commits lineal, más bonita. El historial / log de commits del repositorio va a estar mucho más claro si sólo usás rebase.",
+              "",
+              "Veámoslo en acción..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acá tenemos dos ramas otra vez. Notar que la rama bugFix está actualmente seleccionada (tiene un asterisco)",
+              "",
+              "Nos gustaría mover nuestro trabajo de bugFix directamente sobre el trabajo de master. De ese modo, parecería que esas dos tareas se desarrollaron secuencialmente, cuando en realidad se hicieron en paralelo.",
+              "",
+              "Hagámoslo usando el comando `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "¡Genial! Ahora el trabajo de nuestra rama bugFix está justo encima del de master, y tenemos una secuencia lineal de commits.",
+              "",
+              "Notá que el commit C3 sigue existiendo en algún lado (aparece medio desvanecido en el árbol), y C3' es la \"copia\" que rebaseamos sobre master.",
+              "",
+              "El único problema es que master todavía no se actualizó, resolvámoslo ahora..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ahora estamos parados sobre la rama `master`. Avancemos y rebaseémosla sobre `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Como `master` era un ancestro de `bugFix`, git simplemente movió la referencia de `master` hacia adelante en la historia."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, hacé lo siguiente:",
+              "",
+              "* Checkouteá una nueva rama llamada `bugFix`",
+              "* Commiteá una vez",
+              "* Volvé a master y commiteå de nuevo",
+              "* Checkoutá bugFix otra vez y rebaseala sobre master",
+              "",
+              "¡Éxitos!"
             ]
           }
         }
@@ -25052,11 +25608,13 @@ exports.level = {
   "name": {
     "en_US": "Git Describe",
     "de_DE": "Git Describe",
+    "es_AR": "Git Describe",
     "zh_TW": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
+    "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
   },
   "startDialog": {
@@ -25186,6 +25744,69 @@ exports.level = {
         }
       ]
     },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Como los tags sirven tanto para marcar \"hitos\" en el código, git tiene un comando para *describir* (_describe_) dónde estás relativo al \"hito\" más cercano (digamos, \"tag\"). Y ese comamndo se llama ¡`git describe`!",
+              "",
+              "Git describe puede ayudarte a saber dónde estás después de que te hayas movido varios commits hacia adelante o atrás en la historia. Esto puede pasarte después de que termines un git bisect (una búsqueda que te ayuda a debuggear problemas) o cuando te sentás en la computadora de un compañero de trabajo que recién vuelve de unas vacaciones."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe tiene la siguiente forma:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Donde `<ref>` es cualquier cosa que git puede resolver a un commit. Si no especificás ninguna referencia, git simplemente usa el commit en que estás parado ahora (`HEAD`).",
+              "",
+              "La salida de ese comando se ve así:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Donde `tag` es el tag más cercano en la historia, `numCommits` dice a cuántos commits de ese tag estás, y `<hash>` es el hash del commit que estás describiendo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos un ejemplo breve. Para este árbol de commits:"
+            ],
+            "afterMarkdowns": [
+              "El comando `git describe master` mostraría:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "Mientras que `git describe side` debería mostrar:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Eso es prácticamente todo lo que hay sobre git describe! Probá describiendo algunas referencias en este nivel para amigarte con el comando.",
+              "",
+              "Cuando estés listo, hacé un commit para terminar el nivel. Te estamos dando una gratis :P"
+            ]
+          }
+        }
+      ]
+    },
     "de_DE": {
       "childViews": [
         {
@@ -25272,6 +25893,7 @@ exports.level = {
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
     "de_DE": "Einen Commit pflücken",
+    "es_AR": "Tomando un único commit",
     "ja": "Grabbing Just 1 Commit",
     "zh_CN": "只取一个提交",
     "zh_TW": "只取一個 commit"
@@ -25279,6 +25901,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
+    "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
@@ -25319,6 +25942,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits localmente stackeados",
+              "",
+              "Esta es una escena que suele pasar cuando uno desarrolla: estoy tratando de encontrar un bug bastante escurridizo. Para ayudar en mi tarea de detective, agrego un par de comandos de debug, y algunas sentencias para imprimir el estado de mi sistema.",
+              "",
+              "Todas estas cosas de imprimir y debuggear estan en su propia rama. Finalmente encuentro el problema, lo soluciono, ¡y disfruto!",
+              "",
+              "El único problema es que ahora necesito llear mi `bugFix` a la rama `master`. Si simplemente fast-forwardeo `master`, entonces `master` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Necesitamos decirle a git que sólo copie uno de los commits. Esto es tal como los niveles anteriores de mover commits por ahí -- podemos usar los mismos comandos:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Para conseguir este resultado."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este es un nivel más avanzado, así que está en vos decidir cuál de los dos comandos querés usar, pero para completar el nivel asegurate de que `master` recibe el commit que `bugFix` referencia."
             ]
           }
         }
@@ -25552,6 +26214,7 @@ exports.level = {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
     "de_DE": "Jonglieren mit Commits",
+    "es_AR": "Haciendo malabares con los commits",
     "ja": "Juggling Commits",
     "zh_CN": "提交变换戏法",
     "zh_TW": "commit 的戲法"
@@ -25559,6 +26222,7 @@ exports.level = {
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
+    "es_AR": "El primer comando es git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
     "zh_CN": "第一个命令是 'git rebase -i HEAD~2'",
@@ -25601,6 +26265,47 @@ exports.level = {
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
               "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Haciendo malabares con los commits",
+              "",
+              "Estaes otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
+              "",
+              "El tema es que a veces tenés que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya esté atrás en nuestra historia!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Superaremos esta dificultad haciendo lo siguiente:",
+              "",
+              "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`",
+              "* Vamos a hacer `commit --ammend` para aplicar la ligera modificación",
+              "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
+              "* Finalmente, vamos a mover master a esta parte actualizada de nuestor árbol de commits para terminar el nivel (usando el método que prefieras)",
+              "",
+              "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
+              "",
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"
             ]
           }
         }
@@ -25828,6 +26533,7 @@ exports.level = {
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",
+    "es_AR": "Haciendo malabares con los commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
     "zh_CN": "提交交换戏法 #2",
@@ -25835,6 +26541,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
+    "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
@@ -25880,6 +26587,49 @@ exports.level = {
               "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
               "",
               "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Haciendo malabares con los commits #2",
+              "",
+              "*Si no completaste Haciendo malabares con los commits #1 (el nivel anterior), hacelo antes de continuar*",
+              "",
+              "Como viste en el último nivel, usamos `rebase -i` para reordenar los commits. Una vez que el commit que queríamos cambiar estaba arriba de todo, pudimos `--amend`earlo fácilmente y reordenarlo a como queríamos.",
+              "",
+              "El único problema con esto es que hay mucho reordenamiento, que puede generar conflictos al rebasear. Veamos otro método usando `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acordate de que git cherry-pick va a traer un commit de cualquier parte del árbol sobre HEAD (siempre que ese otro commit no sea un ancestro de HEAD).",
+              "",
+              "Una pequeña demo para refrescar la idea:"
+            ],
+            "afterMarkdowns": [
+              "¡Bien! Sigamos..."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Entonces, en este nivel vamos a lograr el mismo objetivo de corregir `C2`, pero sin usar `rebase -i`. Te dejo a vos el darte cuenta cómo :D",
+              "",
+              "Acordate, la cantidad exacta de apóstrofes (') en el commit no es importante, sólo la diferencia relativa. Por ejemplo, le voy a dar puntaje a un árbol que matchee el objetivo pero cuyos commits tengan todos un apóstrofe extra"
             ]
           }
         }
@@ -26103,11 +26853,13 @@ exports.level = {
   "name": {
     "en_US": "Git Tags",
     "de_DE": "Git Tags",
+    "es_AR": "Tags en git",
     "zh_TW": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
+    "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上"
   },
   "startDialog": {
@@ -26215,6 +26967,58 @@ exports.level = {
         }
       ]
     },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tags en git",
+              "",
+              "Como aprendiste en lecciones anteriores, las ramas pueden moverse fácilmente, y en general van referenciando distintos commits a medida que el trabajo se va completando en ellas. Las ramas cambian fácilmente, suelen ser temporales, y siempre cambiantes.",
+              "",
+              "Si ese es el caso, te podrías estar preguntando si hay una manera de marcar *permanentemente* puntos en la historia de tu proyecto. Para cosas como releases mayores o grandes merges, ¿hay algún modo de marcar esos commits con algo más permanente que un branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Seguro que hay! Los tags de git soportan exactamente este caso de uso -- marcan (bastante) permanentemente determinados commits como \"hitos\" que podés referenciar como a un branch.",
+              "",
+              "Aún más importante, los tags no avanzan cuando se crean nuevos commits. No podés \"checkoutear\" un tag y completar el trabajo en ese tag - los tags son marcas fijas en el árbol de commits que designan ciertos puntos.",
+              "",
+              "Veamos cómo se ven los tags en práctica..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Creemos un tag en `C1`, que es nuestro prototipo de la versión 1"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente al commit `C1`. Si no especificás el commit, git va a usar al apuntado por `HEAD`"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, simplemente creá los tags en la visualización final y después checkouteá `v1`. Notá cómo entrás en el estado detached -- esto es porque no podés commitear directamente sobre el tag `v1`.",
+              "",
+              "En el próximo nivel vamos a examinar un caso de uso más interesante para los tags."
+            ]
+          }
+        }
+      ]
+    },
     "de_DE": {
       "childViews": [
         {
@@ -26282,12 +27086,14 @@ exports.level = {
   "name": {
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
+    "es_AR": "Introducción a cherry-pick",
     "zh_CN": "Cherry-pick Intro",
     "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
+    "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "zh_CN": "git cherry-pick 跟提交对句名",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
   },
@@ -26343,6 +27149,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moviendo el trabajo por ahí",
+              "",
+              "Hasta ahora cubrimos lo básico de git -- commitear, branchear, y movernos por el árbol de commits. Estos conceptos alcanzan para aprovechar el 90% del poder de los repositorios de git y cubrir las necesidades principales de los desarrolladores.",
+              "",
+              "El 10% restante, sin embargo, puede ser bastante útil en flujos de trabajo complejos (o cuando te metiste en algún problema complicado). El próximo concepto que vamos a cubrir es el de \"mover el trabajo por ahí\" -- en otras palabras, una forma que tienen los desarrolladores de decir \"Quiero este trabajo allá y este otro allá\" de una manera precisa, elocuente y flexible.",
+              "",
+              "Puede parecer un montón, pero es un concepto bastante simple."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "El primer comando en esta serie se llama `git cherry-pick`. Tiene la siguiente forma:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Es una manera bastante directa de decir que querés copiar una serie de commits sobre tu ubicación actual (`HEAD`). Personalmente amo `cherry-pick` porque hay muy poca magia involucrada y es bastante simple de entender.",
+              "",
+              "¡Veamos una demo!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acá tenemos un repositorio con algo de trabajo en la rama `side` que queremos copiar a `master`. Podríamos lograrlo con un rebase (y ya aprendimos cómo), pero veamos cómo se comporta cherry-pick."
+            ],
+            "afterMarkdowns": [
+              "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, simplemente copiá algo de trabajo desde otras tres ramas a master. Podés ver qué commits queremos en la visualización del objetivo.",
               ""
             ]
           }
@@ -26528,12 +27391,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
+    "es_AR": "Desatacheá tu HEAD",
     "zh_CN": "分离HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
+    "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
@@ -26612,6 +27477,84 @@ exports.level = {
               "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moviéndose por ahí con Git",
+              "",
+              "Antes de meternos en algunas de las funcionalidades más avanzadas de git, es importante entender las distintas maneras de moverse por el árbol de commits que representa tu proyecto.",
+              "",
+              "Una vez que estés cómodo moviendote por ahí, tus poderes con los otros comandos de git ¡van a amplificarse!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Primero tenemos que hablar de \"HEAD\". HEAD es el nombre simbólico del commit actualmente checkouteado -- es, básicamente, el commit sobre el que estás trabajando.",
+              "",
+              "HEAD siempre apunta al commit más reciente, reflejado en el árbol de commits. La mayoría de los comandos de git que hacen cambios al árbol de commits empiezan modificando HEAD.",
+              "",
+              "Normalmente HEAD apunta al nombre de una rama (como bugFix). Cuando commiteás, el estado de bugFix se altera y este cambio es visible a través de HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamoslo en acción. Acá vamos a ver a HEAD antes y después de un commit."
+            ],
+            "afterMarkdowns": [
+              "¡Ves! HEAD estuvo oculta bajo nuestra rama `master` todo este tiempo."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Detacheando HEAD",
+              "",
+              "Detachear (_des-adjuntar_) HEAD simplemente significa adjuntarla a un commit en lugar de a un branch. Así es como se ve de antemano:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Y así queda ahora:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, detacheemos HEAD de `bugFix` y ataccheemosla al commit, en cambio.",
+              "",
+              "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
             ]
           }
         }
@@ -26865,11 +27808,13 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
+    "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
+    "es_AR": "Introducción al rebase interactivo",
     "de_DE": "Einführung Interactive Rebase",
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase"
@@ -27071,6 +28016,71 @@ exports.level = {
         }
       ]
     },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git rebase interactivo",
+              "",
+              "git cherry-pick es genial cuando sabés cuáles commits querés (_y_ sabés sus hashes) -- es dificil superar la simpleza que provee.",
+              "",
+              "Pero ¿qué pasa cuando no sabés qué commits querés? Por suerte ¡git te cubre en esta situación, también! Podemos usar el rebase interactivo para esto -- es la mejor manera de revisar una serie de commits que estás por rebasear.",
+              "",
+              "Entremos en los detalles..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Todo rebase interactivo significa usar el comando `rebase` con la opción `-i`.",
+              "",
+              "Si incluís esta opción, git abrirá una UI para mostrarte qué commits están a punto de ser copiados sobre el objetivo del rebase. También muestra sus hashes y mensajes, que ayuda mucho para saber qué es cada commit.",
+              "",
+              "Para el git \"de verdad\", la UI signfica abrir un archivo en un editor de textos como `vim`. Para nuestro propósito, hice una pequeña interfaz que se comporta de ese mismo modo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Cuando el diálogo de rebase interactivo se abre, tenés la capacidad de hacer 3 cosas:",
+              "",
+              "* Podés reordenar los commits con solamente cambiar su orden en la UI (en nuestra ventana, eso significa hacer drag & drop con el mouse).",
+              "* Podés elegir ignorar completamente algunos commits. Esto se designa con `pick` -- no hacerle `pick` a algún commit significa que querés ignorarlo.",
+              "* Finalmente, podés _squashear_ commits. Desafortunadamente, nuestros niveles no soportan esto por cuestiones logísticas, por lo que voy a ahorrarte los detalles. Haciéndola corta, te permite combinar varios commits en uno solo.",
+              "",
+              "¡Genial! Veamos un ejemplo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cuando apretes el botón, va a aparecer una ventana de rebase interactivo. Reordená los commits (sentite libre de ignorar alguno, también) ¡y mirá el resultado!"
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar el nivel, hacé un rebase interactivo y alcanzá el orden que se muestra en la visualización objetivo. Acordate que siempre podés hacer `undo` y `reset` para arreglar errores :D"
+            ]
+          }
+        }
+      ]
+    },
     "de_DE": {
       "childViews": [
         {
@@ -27148,11 +28158,13 @@ exports.level = {
     "en_US": "Relative Refs (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
+    "es_AR": "Referencias relativas (^)",
     "de_DE": "Relative Referenzen (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "de_DE": "Denk an den Dach-Operator (^)!",
+    "es_AR": "¡No te olvides del operador ^!",
     "zh_CN": "记住插入(^)操作符!",
     "zh_TW": "不要忘記插入（^）符號！"
   },
@@ -27302,6 +28314,81 @@ exports.level = {
               "Um dieses Level abzuschließen musst du den direkten Vorgänger von `bugFix` auschecken. Dadurch wirst du `HEAD` von `bugFix` abkoppeln.",
               "",
               "Du kannst natürlich den Hash angeben, aber versuch doch relative Referenzen zu benutzen!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referencias relativas",
+              "",
+              "Moverse por git usando los hashes de los commits puede volverse un tanto tedioso. En el mundo real no vas a tener una visualización de commits tan linda en la terminal, así que vas a tener que usar `git log` para ver los hashes.",
+              "",
+              "Peor aún, los hashes en general son mucho más largos en el git real, también. Por ejemplo, el hash del commit que introduje en el nivel anterior es `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. No es algo particularmente fácil de nombrar...",
+              "",
+              "Lo copado es que git es bastante astuto con los hashes. Sólo requiere que especifiques una cantidad de caracteres suficientes para identificar unívocamente al commit. Entonces, yo podría simplemente tipear `fed2` en lugar de esa cadena larga de arriba."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como ya dije, especificar los commits por su hash no es la manera más conveniente, y por eso git tiene referencias relativas. ¡Son geniales!",
+              "",
+              "Con las referencias relativas podés arrancar de algún lugar recordable (como la rama `bugFix`, o `HEAD`) y manejarte desde ahí.",
+              "",
+              "Los commits relativos son poderosos, pero ahora vamos a presentar sólo dos formas simples:",
+              "",
+              "* Moverse un commit atrás con `^`",
+              "* Moverse una cantidad de commits atrás con `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos el operador ^ primero. Cada vez que le agregás eso al nombre de una referencia, le estás diciendo a git que use el padre del commit especificado.",
+              "",
+              "Entonces, decir `master^` es equivalente a \"el primer padre de `master`\".",
+              "",
+              "`master^^` es el _abuelo_ (segunda generación de ancestros) de `master`",
+              "",
+              "Veamos el commit que está antes de master acá"
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Ahí está. Mucho más simple que tipear el hash de ese commit"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También podés referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol"
+            ],
+            "afterMarkdowns": [
+              "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, checkouteá el padre del commit de `bugFix`. Esto va a detachear a `HEAD`.",
+              "",
+              "Podés especificar el hash si querés, pero mejor ¡tratá de usar la referencia relativa!"
             ]
           }
         }
@@ -27469,11 +28556,13 @@ exports.level = {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
+    "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
+    "es_AR": "Referencias relativas #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
@@ -27542,6 +28631,75 @@ exports.level = {
               "Now that you have seen relative refs and branch forcing in combination, lets use them to solve the next level.",
               "",
               "To complete this level, move `HEAD`, `master`, and `bugFix` to their goal destinations shown."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### El operador \"~\"",
+              "",
+              "Digamos que querés moverte un montón de niveles atrás en tu árbol de commits. Podría ser tedioso tipear `^` muchas veces, por lo que git tiene el operador ~.",
+              "",
+              "",
+              "El operador ~ (opcionalmente) toma una cantidad que especifica la cantidad de padres que querés volver hacia atrás. Veámoslo en acción"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Especifiquemos una cantidad de commits hacia atrás con `~`."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Bien consiso -- las referencias relativas la rompen."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forzando los branches",
+              "",
+              "Ahora que sos un experto en las referencias relativas, *usémoslas* para algo.",
+              "",
+              "Una de las formas más comunes en que uso las referencias relativas es para mover las ramas. Podés reasignar directamente una rama a un commit usando la opción `-f`. Así que algo como:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "Mueve (forzadamente) la rama master tres padres atrás de HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos ese comando previo en acción"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí vamos! Las referencias relativas nos dieron una manera consisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
+              "",
+              "Para completar este nivel, mové `HEAD`, `master` y `bugFix` a sus destinos finales."
             ]
           }
         }
@@ -27737,6 +28895,7 @@ exports.level = {
     "de_DE": "Änderungen in Git rückgängig machen",
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
+    "es_AR": "Revirtiendo cambios en git",
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "在Git中撤销更改",
     "zh_TW": "在 git 中取消修改 "
@@ -27745,6 +28904,7 @@ exports.level = {
     "en_US": "Notice that revert and reset take different arguments.",
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "",
+    "es_AR": "Notá que revert y reset toman parámetros distintos",
     "zh_CN": "注意revert和reset使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
@@ -27809,6 +28969,69 @@ exports.level = {
               "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Revirtiendo cambios en git",
+              "",
+              "Hay varias maneras de revertir cambios en git. Y, tal como al commitear, revertir cambios en git tiene tanto un componente de bajo nivel (indexar archivos o fragmentos individualmente) como un componente de alto nivel (cómo son efectivamente revertidos los cambios). Nuestra aplicación se va a concentrar en esto último.",
+              "",
+              "Hay dos formas principales de deshacer cambios en git -- uno es usando `git reset` y el otro es usando `git revert`. Vamos a ver cada uno de esos a continuación",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` revierte los cambios moviendo la referencia de una rama hacia atrás en el tiempo a un commit anterior. En este sentido podés pensarlo como \"reescribir la historia\". `git reset` va a mover la rama hacia atrás, como si el commit nunca se hubiera hecho.",
+              "",
+              "Veamos cómo es eso:"
+            ],
+            "afterMarkdowns": [
+              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Mientras que resetear los cambios funciona genial para ramas locales en tu máquina, su método de \"reescribir la historia\" no funciona para ramas remotas que otros están usando.",
+              "",
+              "Para revertir cambios y *compartir* esa _revertida_ con otros, necesitamos usar `git revert`. Veámoslo en acción"
+            ],
+            "afterMarkdowns": [
+              "Extraño. Hay un nuevo commit aplicado sobre el que queríamos revertir. Eso es porque este nuevo commit `C2'` introduce *cambios* - sólo que esos cambios son exactamente los necesarios para revertir los que introdujo `C2`.",
+              "",
+              "Cuando usás revert, podés pushear ese cambio para compartirlo con otros."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, revertí los dos commits más recientes, tanto en `local` como en `pushed`.",
+              "",
+              "Tené en cuenta que `pushed` es una rama remota y `local` es una rama local -- eso debería ayudarte a elegir qué métodos usar."
             ]
           }
         }
@@ -28208,6 +29431,7 @@ exports.level = {
   "name": {
     "en_US": "Rebasing over 9000 times",
     "de_DE": "10000 Rebases unter dem `HEAD`",
+    "es_AR": "Rebaseando más de 9000 veces",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
     "zh_CN": "N次Rebase",
@@ -28216,6 +29440,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
+    "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
@@ -28235,6 +29460,24 @@ exports.level = {
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebaseando múltiples ramas",
+              "",
+              "Man, ¡hay un montón de ramas acá! Rebaseemos todo el trabajo de esas ramas sobre master.",
+              "",
+              "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
+              "",
+              "Si hacés líos en el camino, sentite libre de usar `reset` para empezar de nuevo. ¡Asegurate de verificar tu solución y ver si podés hacerla en alguna cantidad menor de commandos!"
             ]
           }
         }
@@ -28347,6 +29590,7 @@ exports.level = {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
     "de_DE": "Branch-Spaghetti",
+    "es_AR": "Enslada de branches",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
     "zh_TW": "branch 漿糊"
@@ -28354,6 +29598,7 @@ exports.level = {
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
+    "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
@@ -28375,6 +29620,26 @@ exports.level = {
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ensalada de branches",
+              "",
+              "¡WOAHHHhhh Nelly! Tenemos un _pequeño_ objetivo al que llegar en este nivel.",
+              "",
+              "Tenemos un `master` que está algunos commits adelante de `one`, `two` y `three`. Por alguna razón, necesitamos actualizar esas tres ramas con versiones modificadas de los últimos commits de master.",
+              "",
+              "La rama `one` necesita reordenarse, y eliminar `C5`. `two` necesita sólo reordenamiento, y `three` ¡sólo necesita un commit!",
+              "",
+              "Te vamos a dejar darte cuenta cómo resolver este -- asegurate de mirar la solución, después, usando `show solution`. "
             ]
           }
         }
@@ -28490,6 +29755,7 @@ exports.level = {
   "name": {
     "en_US": "Clone Intro",
     "de_DE": "Clone Einführung",
+    "es_AR": "Introducción a clone",
     "zh_CN": "Clone Intro",
     "zh_TW": "介紹 clone"
   },
@@ -28497,6 +29763,7 @@ exports.level = {
     "en_US": "Just git clone!",
     "de_DE": "Einfach git clone ausführen!",
     "zh_CN": "Just git clone!",
+    "es_AR": "Simplemente hacé git clone!",
     "zh_TW": "只要 git clone 就好了"
   },
   "startDialog": {
@@ -28552,6 +29819,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Los repositorios remotos no son _tan_ complicados. En el mundo actual de la computación en la nube es bastante facil pensar que hay un montón de magia detrás de los remotes de git, pero en realidad sólo son copias de tu repositorio en otra computadora. Típicamente vas a hablar con esta otra computadora a través de Internet, lo que permite transferir commits de un lado a otro.",
+              "",
+              "Habiendo dicho eso, los repositorios remotos tienen un par de propiedades copadas:",
+              "",
+              "- Primero y principal, los remotos ¡son un genial backup! Los repositorios locales de git tienen la habilidad de restaurar archivos a un estado previo (como ya sabés), pero toda esa información está almacenada localmente. Al tener copias de tu repositorio git en otras computadoras, podés perder todos tus datos locales y aún así retomar de donde habías dejado.",
+              "",
+              "- Más importante, ¡los remotos sociabilizan la programación! Ahora que hay una copia de tu proyecto hosteada en otro lugar, tus amigos pueden contribuir a tu proyecto (o bajarse los últimos cambios) de un modo muy sencillo.",
+              "",
+              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), pero esos repositorios remotos _siempre_ sirven como el la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nuestro comando para crear remotos",
+              "",
+              "Hasta este punto, Learn Git Branching se centró en eseñar las bases del trabajo _local_ con repositorios (branchear, mergear, rebasear, etc). Sin embargo, ahora que queremos aprender sobre el trabajo con repositorios remotos, necesitamos un comando para inicializar nuestro entorno para esas lecciones. Ese comando será `git clone`",
+              "",
+              "Técnicamente, `git clone` en el mundo real es el comando que usarías para crear copias _locales_ de un repositorio remoto (uno de GitHub, por ejemplo). Acá usamos este comando de un modo un tanto distinto, en cambio -- `git clone` va a crear un repositorio remoto a partir del tuyo local. Estamos de acuerdo en que es el significado técnicamente opuesto al del comando real, pero ayuda bastante a entender la conexión entre el clonado y el trabajo en un repositorio remoto, así que vamos a vivir con ello por ahora.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Comencemos despacio y simplemente veamos cómo se ve un repositorio remoto en nuestra visualización.",
+              ""
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Ahora tenemos un repositorio remoto de nuestro proyecto. Parece bastante similar, salvando algunos cambios visuales para hacer evidente la distinción -- en niveles posteriores vas a ver cómo compartir trabajo entre estos repositorios."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, simplemente hacé `git clone` de tu repositorio existente. El verdadero aprendizaje viene en las próximas lecciones."
             ]
           }
         }
@@ -28739,12 +30063,14 @@ exports.level = {
   "name": {
     "en_US": "Faking Teamwork",
     "de_DE": "Teamarbeit simulieren",
+    "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "Faking Teamwork",
     "zh_TW": "模擬團隊合作"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"
   },
@@ -28798,6 +30124,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simulando la colaboración",
+              "",
+              "Entonces, hay algo medio tramposo acá -- para algunas de las lecciones siguientes, necesitamos explicarte cómo bajar cambios introducidos en el repositorio remoto.",
+              "",
+              "Eso significa que escencialmente tenemos que \"hacer de cuenta\" que el repositorio remoto fue actualizado por alguún colega, amigo o colaborador tuyo, incluso a veces en alguna rama específica o una cantidad determinada de commits.",
+              "",
+              "Para lograr esto, introdujimos el bien llamado comando ¡`git fakeTeamwork`! Es bastante auto-explicativo: simula trabajo de nuestros colegas. Veamos una demo..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "El comportamiento por default de `fakeTeamwork` es simplemente crear un commit en master"
+            ],
+            "afterMarkdowns": [
+              "Ahí está: el remoto se actualizó con un nuevo commit, y todavía no nos bajamos ese commit porque aún no hicimos `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También podés especificar la cantidad de commits o la ramma agregándolos al comando"
+            ],
+            "afterMarkdowns": [
+              "Con un único comando simulamos que un compañero de equipo pusheó tres commits a la rama `foo` de nuestro remoto"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Los niveles siguientes van a ser algo difíciles, así que vamos a exigirte un poco más en este nivel.",
+              "",
+              "Animate y creá un remoto (con `git clone`), simulá algunos cambios en ese remoto, commiteá en tu repo local, y luego pulleate esos cambios. ¡Es como varias lecciones en una!"
             ]
           }
         }
@@ -28976,12 +30356,14 @@ exports.level = {
   "name": {
     "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
+    "es_AR": "git fetch",
     "zh_CN": "Git Fetchin'",
     "zh_TW": "git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
     "de_DE": "Einfach git fetch ausführen!",
+    "es_AR": "Simplemente ¡hacé git fetch!",
     "zh_CN": "just run git fetch!",
     "zh_TW": "只要下 git fetch 指令"
   },
@@ -29054,6 +30436,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish the level, simply `git fetch` and download all the commits!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Trabajar con remotos en git en realidad se reduce a transferir datos _de_ y _hacia_ otros repositorios. Mientras podamos mandar commits de un lado al otro, podemos compartir cualquier tipo de actualización registrada por git (y, por ende, compartir trabajo, archivos nuevos, ideas nuevas, cartas de amor, etc).",
+              "",
+              "En esta lección aprenderemos cómo traer (hacer `fetch`) datos _desde_ un repositorio remoto - el comando para esto se llama, convenientemente, `git fetch`).",
+              "",
+              "Vas a notar que a medida que actualicemos nuestra representación de nuestro repositorio remoto, nuestras ramas _remotas_ van a actualizarse para reflejar esa nueva representación. Esto está ligado a la lección anterior sobre ramas remotas"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Antes de entrar en los detalles de `git fetch`, veámoslo en acción. Acá tenemos un repositorio remoto que contiene dos commits que nuestro repositorio local no tiene."
+            ],
+            "afterMarkdowns": [
+              "¡Ahí vamos! Bajamos los commits `C2` y `C3` a nuestro repositorio local, y nuestra rama remota `o/master` fue actualizada para reflejar este cambio."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ¿Qué hace fetch?",
+              "",
+              "`git fetch` hace dos simples pasos, y sólo dos simples pasos:",
+              "",
+              "* baja los commits que el remoto tiene pero no están en nuestro repositorio local, y...",
+              "* actualiza a dónde apuntan nuestras ramas remotas (por ejemplo, `o/master`)",
+              "",
+              "`git fetch` escencialmente sincroniza nuestra representación _local_ del repositorio remoto con el _verdadero_ estado del repositorio remoto (en este momento).",
+              "",
+              "Si recordás la lección anterior, dijimos que las ramas remotas reflejan el estado de los repositorios remotos _desde_ la última vez que hablaste con ellos. ¡`git fetch` es la manera en que hablás con esos remotos! Espero que ahora esté clara la conexión entre las ramas remotas y `git fetch`.",
+              "",
+              "Usualmente, `git fetch` habla con el repositorio a través de internet (usando un protocolo como `http://` o `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ¿Qué *no* hace fetch?",
+              "",
+              "Sin embargo, `git fetch` no modifica en absoluto _tu_ estado local. No va a actualizar tu rama `master` ni va a cambiar nada sobre cómo se ve tu sistema de archivos en este momento.",
+              "",
+              "Es importante entender esto, porque un montón de desarrolladores piensan que correr `git fetch` hará que su estado local refleje el estado del remoto. `git fetch` puede descargar los datos necesarios para hacerlo, pero *no* cambia ninguno de tus archivos locales. Vamos a aprender otros comandos para hacer eso más adelante :D",
+              "",
+              "Entonces, después de todo, podés pensar a `git fetch` como un paso de descarga."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, simplemente corré `git fetch` y bajate todos los commits"
             ]
           }
         }
@@ -29288,12 +30743,14 @@ exports.level = {
     "en_US": "Fetch arguments",
     "zh_CN": "Fetch arguments",
     "zh_TW": "fetch 的參數",
+    "es_AR": "Parámetros de fetch",
     "de_DE": "Optionen für Fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
+    "es_AR": "¡Prestá atención a cómo podrían haberse invertido los ids de los commits! Podés volver a leer toda la lección usando \"help level\"",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
   },
   "startDialog": {
@@ -29415,6 +30872,129 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parámetros de git fetch",
+              "",
+              "Entonces, recién aprendimos todo sobre los parámetros de push, este parámetro `<lugar>` copado, e incluso las referencias separadas por dos puntos (`<origen>:<destino>`). ¿Podremos usar todo ese conocimiento para `git fetch`, también?",
+              "",
+              "¡Dalo por hecho! Los parámetros para `git fetch` son realmente *muy, muy* similares a los de `git push`. Es el mismo tipo de conceptos, pero aplicados en la dirección opuesta (dado que ahora estás bajando commits en lugar de subirlos).",
+              "",
+              "Veamos los conceptos de a uno a la vez..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### El parámetro `<lugar>`",
+              "",
+              "Si especificás un lugar con git fetch como en el comando siguiente:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git va a ir a la rama `foo` en el remoto, va a traer todos los commits que no estén presentes localmente, y luego los aplicará sobre la rama `o/foo` localmente.",
+              "",
+              "Veámoslo en acción (refresquemos el concepto)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Especificando un lugar..."
+            ],
+            "afterMarkdowns": [
+              "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Te podrás estar preguntando \"¿Por qué git aplicó esos commits sobre la rama `origin/foo` en lugar de aplicarlos sobre la rama `foo` local? Pensé que el parámetro `<lugar>` era un lugar que existía tanto local como remotamente\"",
+              "",
+              "Bueno, git hace una excepción especial en este caso, porque vos podrías tener trabajo en la rama `foo` que no quieras mezclar. Esto refiere a la lección anterior sobre `git fetch` - no actualiza tus ramas locales no-remotas, sólo descarga los commits (para que pueadas verlos o mergearlos después).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Bueno, y, en ese caso, ¿qué pasa si explícitamente defino el origen y destino con `<origen>:<destino>`?\"",
+              "",
+              "Si te sentís lo suficientemente seguro como para traer commits *directamente* a una rama local, entonces, sí, podés especificarlo usando una referencia con dos puntos. No podés traer commits a una rama que tengas checkouteada, pero en cualquier otro caso git te lo va a permitir.",
+              "",
+              "Este es el único problemita, igual: `<origen>` es ahora un lugar en el *remoto*, y `<destino>` es un lugar *local* en donde poner esos commits. Es exactamente lo opuesto a git push, y eso tiene sentido dado que ¡estamos transfiriendo los datos en la dirección opuesta!",
+              "",
+              "Habiendo dicho esto, dificilmente alguien use esto en la práctica. Lo estoy presentando principalmente como un modo de conceptualizar que `fetch` y `push` son bastante similares, sólo que en direcciones opuestas."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos esta locura en acción:"
+            ],
+            "afterMarkdowns": [
+              "¡Wow! Mirá: git resolvió `foo~1` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local). Notá como `foo` y `o/foo` no fueron actualizados, dado que especificamos un destino."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Qué pasa si el destino no existe antes de que corra este comando? Veamos el último ejemplo pero sin que `bar` exista de antemano."
+            ],
+            "afterMarkdowns": [
+              "Mirá: es IGUAL que git push. Git creó el destino localmente antes de hacer el fetch, tal como git creará el destino en el remoto antes de pushear (si no existiera)."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Sin argumentos?",
+              "",
+              "Si `git fetch` no recibe ningún argumento, simplemente descarga todos los commits del remoto a todas las ramas remotas..."
+            ],
+            "afterMarkdowns": [
+              "Bastante simple, pero vale la pena verlo al menos una vez."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bueno, demasiada charla. Para completar este nivel, fetcheáte sólo los commits especificados en la visualización del objetivo. ¡Amigate con esos comandos!",
+              "",
+              "Vas a tener que especificar el origen y el destino para ambos comandos fetch. Prestá atención al objetivo dado que ¡los IDs pueden estar invertidos!"
             ]
           }
         }
@@ -29802,12 +31382,14 @@ exports.level = {
     "en_US": "Diverged History",
     "zh_CN": "分散的历史",
     "zh_TW": "diverged history",
+    "es_AR": "Historia divergente",
     "de_DE": "Abweichende History"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
+    "es_AR": "Prestá atención al oren del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
   },
   "startDialog": {
@@ -29949,6 +31531,149 @@ exports.level = {
               "* Fake some teamwork (1 commit)",
               "* Commit some work yourself (1 commit)",
               "* Publish your work via *rebasing*"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Trabajo divergente",
+              "",
+              "Hasta acá vimos cómo pullear commits de otros y cómo pushear los nuestros. Parece bastante simple, así que ¿cómo puede confundirse tanto la gente?",
+              "",
+              "La dificultad viene cuando la historia de los repositorios *diverge*. Antes de entrar en detalles, veamos un ejemplo...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Imaginate que clonás un repositorio el lunes y empezás a desarrollar algo. Para el viernes ya estás listo para publicar tu trabajo, pero, ¡oh, oh! Tus colegas también escribieron código durante la semana, haciendo que tu trabajo quede desactualizado (y obsoleto). Además, ellos publicaron esos commits en el repositorio remoto, así que ahora *tu* trabajo está basado en una versión *vieja* del proyecto, que ya no le interesa a nadie.",
+              "",
+              "En este caso, el comando `git push` es ambiguo. Si corrés `git push`, ¿git debería cambiar el repositorio a como estaba el lunes? ¿Debería tratar de agregar tu código sin eliminar el código nuevo? ¿O debería ignorar completamente tus cambios porque están desactualizados?",
+              "",
+              "Como hay tanta ambiguedad en esta situación (en que la historia divirgió), git no te permite pushear tus cambios. En cambio, te fuerza a integrar el último estado del repositorio remoto antes de poder compartir tu trabajo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¡Demasiada charla, veámoslo en acción!"
+            ],
+            "afterMarkdowns": [
+              "¿Ves? No pasó nada, porque el comando falla. `git push` falla porque `C3`, tu commit más reciente, está basado en el remoto sobre `C1`. El remoto fue actualizado a `C2` desde entonces, por lo que git rechaza tu push"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¿Cómo resolvés esta situación? Es fácil, todo lo que tenés que hacer es basar tu trabajo en la versión más reciente de la rama remota.",
+              "",
+              "Hay un par de maneras de hacer esto, pero la más simple es mover tu trabajo haciendo un rebase. Probémoslo a ver cómo se ve."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ahora, si mejor rebaseamos antes de pushear..."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Actualizamos nuestra representación local del remoto con `git fetch`, rebaseamos nuestro trabajo para reflejar los nuevos cambios del remoto, y después los pusheamos con `git push`"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¿Hay otra manera de actualizar mi trabajo si actualizaron el repositorio remoto? ¡Claro que sí! Veamos cómo hacer lo mismo pero usando `merge`.",
+              "",
+              "Por más que `git merge` no mueva tu trabajo (sólo crea un commit de merge), es un modo de decirle a git que integraste todos los cambios del remoto. Esto es porque ahora una rama remota pasó a ser un *ancestro* de tu propia rama, lo que significa que tu commit refleja los cambios de todos los commits de la rama remota.",
+              "",
+              "Veamos una muestra..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Si en lugar de rebasear hacemos un merge..."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Actualizamos nuestra representación local del remoto usando `git fetch`, *mergeamos* el nuevo trabajo junto con el nuestro (para reflejar los nuevos cambios en el remoto), y después los pusheamos usando `git push`"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Asombroso! ¿Hay forma de hacer esto sin tipear tantos comandos?",
+              "",
+              "¡Claro que sí! Ya sabés que `git pull` es simplemente un atajo para hacer fetch y merge. Convenientemente, ¡`git pull --rebase` es un atajo para hacer fetch y rebase!",
+              "",
+              "Veamos estos atajos funcionando."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Primero con `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "¡Igual que antes! Sólo que bastante más corto."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Y ahora un `pull` común"
+            ],
+            "afterMarkdowns": [
+              "Otra vez, ¡exactamente lo mismo que antes!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Toda esta movida de fetchear, rebasear/mergear y pushear es bastante común. En lecciones futuras vamos a ver formas más complejas de estos flujos de trabajo, pero por ahora probemos esto que vimos.",
+              "",
+              "Para resolver este nivel, hacé lo siguiente:",
+              "",
+              "* Cloná tu repositorio",
+              "* Simulá algo de trabajo de un colega (1 commit)",
+              "* Commiteá algo de trabajo propio (1 commit)",
+              "* Publicá tu trabajo *rebaseando*"
             ]
           }
         }
@@ -30395,12 +32120,14 @@ exports.level = {
     "en_US": "Merging with remotes",
     "zh_CN": "Merging with remotes",
     "zh_TW": "merge with remotes",
+    "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
     "zh_CN": "注意目标树!",
     "zh_TW": "注意最後要完成的目標！",
+    "es_AR": "¡Prestá atención al árbol final!",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
@@ -30445,6 +32172,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ¿Por qué no mergear?",
+              "",
+              "Para pushear tus novedades al remoto, todo lo que tenés que hacer es *integrar* los últimos cambios del remoto con los tuyos. Eso significa que podés hacer tanto rebase como merge con la rama remota (por ejemplo, `o/master`).",
+              "",
+              "Así que si podés hacer cualquiera de las dos, ¿por qué las lecciones sólo se centraron en rebasear hasta ahora? ¿Por qué no dedicarle algo de amor al `merge` cuando trabajamos con remotos?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Hay mucho debate entre los desarrolladores sobre los pros y contras de mergear vs rebasear. Acá tenemos los pros y contras de rebasear:",
+              "",
+              "Pros:",
+              "",
+              "* Rebasear hace que tu árbol de commits se vea bastante limpio, porque todos los commits siguen una única línea",
+              "",
+              "Contras:",
+              "",
+              "* Rebasear modifica la historia (aparente) de tu árbol de commits.",
+              "",
+              "Por ejemplo, el commit `C1` puede rebasearse para que aparezca *después* de `C3`. Entonces, parece que el trabajo de `C1'` se hizo después de `C3`, cuando en realizad se había hecho antes.",
+              "",
+              "Algunos desarrolladores aman preservar la historia, por lo que prefieren mergear. Otros (como yo) preferimos tener un árbol de commits limpios, y preferimos rebasear. Todo es una cuestión de preferencias :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, tratemos de resolver el nivel anterior, pero *mergeando*. Puede ponerse un poco oscuro, pero ilustra la idea bastante bien."
             ]
           }
         }
@@ -30597,12 +32369,14 @@ exports.level = {
     "en_US": "Git Pullin'",
     "zh_CN": "Git Pullin'",
     "zh_TW": "git pull'",
+    "es_AR": "git pull",
     "de_DE": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
     "zh_CN": "Just run git pull!",
     "zh_TW": "只要下 git pull 這個指令即可",
+    "es_AR": "Simplemente ¡hacé git pull!",
     "de_DE": "Führe einfach git pull aus."
   },
   "startDialog": {
@@ -30660,6 +32434,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Ahora que vimos cómo traer datos de un repositorio remoto con `git fetch`, ¡actualicemos nuestro trabajo local para reflejar esos cambios!",
+              "",
+              "Realmente hay varias formas de hacer esto: una vez que tenés los commits disponibles localmente, podés integrarlos como si fueran commits comunes de otras ramas. Esto significa que podrías ejecutar comandos como:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc., etc.",
+              "",
+              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente"
+            ],
+            "afterMarkdowns": [
+              "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Qué pasaría si usáramos `git pull` en cambio?"
+            ],
+            "afterMarkdowns": [
+              "¡Lo mismo! Eso debería dejar bien en claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que sea que hayamos bajado."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Exploraremos los detalles de `git pull` después (incluyendo sus opciones y parámetros), pero por ahora probémoslo en este nivel.",
+              "",
+              "Acordate: podés resolver este comando simplemente con `fetch` y `merge`, pero eso te costaría un comando extra :P"
             ]
           }
         }
@@ -30854,12 +32687,14 @@ exports.level = {
     "en_US": "Pull arguments",
     "zh_CN": "Pull arguments",
     "zh_TW": "pull 的參數",
+    "es_AR": "Parámetros de pull",
     "de_DE": "Optionen für Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
     "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
+    "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
@@ -30932,6 +32767,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parámetros de git pull",
+              "",
+              "Ahora que sabés prácticamente *todo* lo que hay que saber sobre los parámetros de `git fetch` y `git push`, casi que no queda nada para cubrir de git pull :)",
+              "",
+              "Eso es porque git pull es simplemente un atajo para hacer un fetch seguido de un merge. Podés pensarlo como correr git fetch con los *mismos* parámetros, y después mergear aquello a donde esos commits hayan ido a parar.",
+              "",
+              "Esto aplica incluso cuando usás parámetros hiper-rebuscados. Veamos algunos ejemplos:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Estos son algunos comandos equivalentes de git:",
+              "",
+              "`git pull  origin foo` equivale a:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Y...",
+              "",
+              "`git pull  origin bar~1:bugFix` equivale a:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "¿Ves? git pull es simplemente un atajo para un fetch + merge, y todo lo que le importa a git pull es dónde terminaron esos commits (el parámetro `destino` que determina durante el fetch).",
+              "",
+              "Veamos una demostración:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Si especificamos el lugar del que hacer fetch, todo ocurre como antes, pero sólo mergeamos lo que se fetcheó"
+            ],
+            "afterMarkdowns": [
+              "¡Ves! Especificando `master` bajamos los commits a `o/master` como siempre. Después mergeamos `o/master` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Esto funciona con origen y destino, también? ¡Más vale! Veámoslo:"
+            ],
+            "afterMarkdowns": [
+              "Wow, eso es un MONTÓN en un único comando. Creamos una nueva rama local llamada `foo`, descargamos los commits del master del remoto a esta rama `foo`, y después mezclamos esa rama a nuestra rama actual `bar`. ¡¡¡Supera los 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "OK: para terminar, alcanzá el estado del objetivo. Vas a necesitar descargar algunos commits, crear algunas ramas nuevas, y mergear esas ramas junto con otras, pero no debería llevar demasiados comandos :P"
             ]
           }
         }
@@ -31173,12 +33082,14 @@ exports.level = {
     "en_US": "Git Pushin'",
     "zh_CN": "Git Pushin'",
     "zh_TW": "git push",
+    "es_AR": "git push",
     "de_DE": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
     "zh_CN": "push之前你需要先克隆.",
     "zh_TW": "push 之前你需要先 clone",
+    "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
   },
   "startDialog": {
@@ -31218,6 +33129,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git push",
+              "",
+              "Ok, entonces ya bajé los cambios de un repositorio remoto y los integré en mi trabajo localmente. Esto es genial y todo... pero ¿cómo comparto _mis_ cambios con el resto?",
+              "",
+              "Bueno, la forma de subir el trabajo compartido es la opuesta a cómo descargar trabajo. Y ¿qué es lo opuesto a `git pull`? ¡`git push`!",
+              "",
+              "`git push` es el responsable de subir _tus_ cambios a un remoto específico y de actualizar ese remoto para incluir tus nuevos commits. Cuando `git push` termina, todos tus amigos pueden descargar tu trabajo del remoto.",
+              "",
+              "Podés pensar en `git push` como un comando para \"publicar\" tu trabajo. Tiene un par de sutilezas con las que vamos a meternos pronto, pero empecemos de a poco."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acá tenemos algunos cambios que nuestro remoto no tiene. ¡Subámoslos!"
+            ],
+            "afterMarkdowns": [
+              "Ahí está: el remoto recibió el commit `C2`, la rama `master` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/master`) también fue actualizado. ¡Todo está en sincronía!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, simplemente compartí dos nuevos commits con el remoto. Igual, no te confíes, ¡ya se van a complicar las lecciones!"
             ]
           }
         }
@@ -31361,11 +33313,13 @@ exports.level = {
     "en_US": "Git push arguments",
     "zh_CN": "Git push 参数",
     "zh_TW": "git push 的參數",
+    "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
+    "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
   },
   "startDialog": {
@@ -31436,6 +33390,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parámetros de push",
+              "",
+              "¡Genial! Ahora que sabés acerca de las ramas que trackean remotos podemos empezar a develar algo del misterio detrás de git push, fetch y pull. Vamos a atacar de a un comando a la vez, pero los conceptos entre ellos son muy similares.",
+              "",
+              "Veamos primero `git push`. Ya aprendiste en la lección sobre ramas remotas que git determinó el remoto *y* la rama a la que pushear mirando las propiedades de la rama actual (el remoto al que \"trackea\"). Este es el comportamiento default para cuando no se especifican parámetros, pero git push toma, opcionalmente, parámetros de la forma:",
+              "",
+              "`git push <remoto> <lugar>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¿Qué será este parámetro `<lugar>`, te preguntarás? Ya vamos a entrar en detalle, pero primero un ejemplo. Correr el comando:",
+              "",
+              "`git push origin master`",
+              "",
+              "se traduce así al español:",
+              "",
+              "*Andá a la rama llamada \"master\" en mi repositorio, agarrá todos los commits, y después andá a la rama \"master\" del remoto llamado \"origin\". Aplicá ahí todos los commits que falten, y avisame cuando termines.*",
+              "",
+              "Especificando `master` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
+              "",
+              "Tené en cuenta que, como le dijimos a git todo lo que necesitaba saber (especificando ambos parámetros), ¡ignora totalmente dónde estamos parados en este momento¡"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos un ejemplo especificando los parámetros. Notá en dónde estamos parados en este ejemplo."
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Se actualizó `master` en el remoto, porque especificamos esos parámetros."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Y si no especificabamos los parámetros? ¿Qué hubiera pasado?"
+            ],
+            "afterMarkdowns": [
+              "El comando falla (como podés ver), porque `HEAD` no está sobre ninguna rama que trackee algún remoto."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok. Para este nivel, actualicemos tanto `foo` como `master` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
             ]
           }
         }
@@ -31669,12 +33695,14 @@ exports.level = {
     "en_US": "Git push arguments -- Expanded!",
     "zh_CN": "Git push 参数2!",
     "zh_TW": "git push 的參數，延伸討論！",
+    "es_AR": "¡Más! Parámetros de git push",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
+    "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
   },
   "startDialog": {
@@ -31743,6 +33771,76 @@ exports.level = {
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
               "",
               "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalles sobre el parámetro `<lugar>`",
+              "",
+              "Acordate de la lección anterior que cuando especificamos `master` como el parámetro lugar de git push, especificamos tanto el *origen* del que sacar los commits como el *destino* al que enviarlos.",
+              "",
+              "Podrías estár preguntándote ¿Y si quisieramos que el origen y el destino sean distintos? ¿Si quisieras pushear los commits de la rama local `foo` a la rama `bar` del remote?",
+              "",
+              "Bueno, lamentablemente eso no se puede hacer en git... ¡Bazinga! Claro que se puede :)... git es extremadísimamente flexible (casi casi que demsiado).",
+              "",
+              "Veamos cómo hacerlo a continuación..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para especificar tanto el origen como el destino de `<lugar>`, simplemente unilos usando un dos puntos:",
+              "",
+              "`git push origin <origen>:<destino>`",
+              "",
+              "Esto se lo suele llamar refspec con dos puntos. Refspec es simplemente un nombre cool para una ubicación que git puede entender (como la rama `foo`, o incluso `HEAD~1`)",
+              "",
+              "Una vez que especificás tanto el origen como el destino independientemente, podés ponerte bastante cómodo y preciso con los comandos remotos. ¡Veámos una demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Recordá: `origen` es cualquier ubicación que git pueda entender:"
+            ],
+            "afterMarkdowns": [
+              "¡Woow! Ese commando es bastante loco, pero tiene sentido: git resolvió `foo^` a una ubicación, subió cualquier commit de ahí que aún no estuviera en el remoto, y luego actualizó el destino."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Y qué hay si el destino que al querés pushear no existe? ¡No hay drama! Simplemente dale un nombre al branch y git se va a encargar de creártelo en el remoto."
+            ],
+            "afterMarkdowns": [
+              "Genial, simplemente fluye :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, tratá de llegar al objetivo final, y acordate del formato:",
+              "",
+              "`<origen>:<destino>`"
             ]
           }
         }
@@ -31970,12 +34068,14 @@ exports.level = {
     "en_US": "Remember you can always use the undo or reset commands",
     "zh_CN": "你随时都可以使用undo/reset命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
+    "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
   },
   "name": {
     "en_US": "Push Master!",
     "zh_CN": "Push Master!",
     "zh_TW": "push master！",
+    "es_AR": "¡Push Master!",
     "de_DE": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
@@ -32028,6 +34128,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mergeando feature branches",
+              "",
+              "Ahora que estás cómodo fetcheando, pulleando y pusheando, pongamos a prueba estas habilidades con un nuevo flujo de trabajo.",
+              "",
+              "Es bastante común que los desarrolladores en los grandes proyectos trabajen sobre ramas específicas para cada tarea (feature branches) basadas en `master`, y que las integren sólo cuando están listas. Esto es similar a la lección anterior, en que pusheabamos las ramas periféricas al remoto, pero acá tenemos un paso más.",
+              "",
+              "Algunos desarrolladores sólo pushean y pullean cuando están en `master`: de ese modo, `master` siempre se mantiene actualizado con el remoto (`o/master`).",
+              "",
+              "Entonces, en este flujo de trabajo combinamos dos cosas:",
+              "",
+              "* integramos el trabajo de las ramas específicas a `master`, y",
+              "* pusheamos y pulleamos del remoto"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Refresquemos un poco cómo actualizar `master` y pushear nuestro trabajo."
+            ],
+            "afterMarkdowns": [
+              "Acá ejecutamos dos comandos que:",
+              "",
+              "* rebasearon nuestro trabajo sobre los nuevos commits del remoto, y",
+              "* publicamos nuestro trabajo en ese remoto"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este nivel es bastante pesado. Acá tenés algunos lineamientos para resolverlo:",
+              "",
+              "* Tenemos tres ramas específicas -- `side1` `side2` and `side3`",
+              "* Queremos pushear cada una de esas ramas, en orden, al remoto",
+              "* El remoto fue actualizado, así que vamos a tener que integrar esos cambios también",
+              "",
+              ":O ¡Intenso! ¡Éxitos! Completar este nivel representa un gran avance."
             ]
           }
         }
@@ -32204,12 +34357,14 @@ exports.level = {
     "en_US": "Remote Branches",
     "zh_CN": "Remote Branches",
     "zh_TW": "remote branch （遠端分支）",
+    "es_AR": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "Pay attention to the ordering -- commit on master first!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
+    "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
   },
   "startDialog": {
@@ -32269,6 +34424,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramas remotas de git",
+              "",
+              "Ahora que viste `git clone` en acción, ahondemos en lo que realmente cambió.",
+              "",
+              "Lo primero que habrás notado es que apareció una nueva rama en tu repositorio local llamada `o/master`. A este tipo de ramas se las llama ramas _remotas_. Las ramas remotas tienen propiedades especiales porque sirven un propósito específico.",
+              "",
+              "Las ramas remotas reflejan el _estado_ de los repositorios remotos (como estaban la última vez que hablaste con ellos). Te ayudan a entender las diferencias entre tu trabajo local y el trabajo que ya está publicado - un paso crítico antes de compartir tu trabajo con los demás.",
+              "",
+              "Las ramas remotas tienen la propiedad especial de que cuando las checkouteás, pasás al modo detached `HEAD`. Git lo hace a propósito porque no podés trabajar en esas ramas directamente: tenés que trabajar en algún otro lado y después compartir tu trabajo con el remoto (tras lo que tus ramas remotas se actualizarán)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ¿Qué es `o/`?",
+              "",
+              "Podrías estar preguntándote qué significa ese `o/` al principio de las ramas remotas. Bueno, las ramas remotas también tienen una convención de nombres obligatoria -- se las muestra con el formato:",
+              "",
+              "* `<nombre del remoto>/<nombre de la rama>`",
+              "",
+              "Entonces, si mirás una rama llamada `o/master`, el nombre de la rama es `master`, y el nombre del remoto es `o`.",
+              "",
+              "La mayoría de los desarrolladores llaman `origin` a su remoto en lugar de `o`. Esto es tan común que git efectivamente crea tu remoto llamándolo `origin` cuando hacés `git clone` de un repositorio.",
+              "",
+              "Desafortunadamente el nombre `origin` completo no entra en nuestra UI, así que usamos `o` para abreviar :( Simplemente recordá que cuando uses el git real, tu remoto ¡probablemente se llame `origin`!",
+              "",
+              "Hay mucho para procesar, así que veámoslo en acción."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Checkouteemos una rama remota a ver qué pasa"
+            ],
+            "afterMarkdowns": [
+              "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/master` cuando creamos un nuevo commit. Esto es porque `o/master` sólo va a actualizarse cuando el remoto se actualice."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, commiteá una vez sobre `master` y una después de checkoutear `o/master`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }
@@ -32470,12 +34686,14 @@ exports.level = {
     "en_US": "Source of nothing",
     "zh_CN": "没有source",
     "zh_TW": "沒有 source",
+    "es_AR": "Origen de nada",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
+    "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {
@@ -32527,6 +34745,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rarezas de `<origen>`",
+              "",
+              "Git abusa del parámetro `<origen>` de dos extrañas maneras. Estos dos abusos vienen del hecho de que tecnicamente podés especificar \"la nada\" como un `origen` válido tanto para git push como para git fetch. El modo de especificar la nada es a través de un parámetro vacío:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Veamos qué hacen estos..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Qué hace el pushear \"nada\" a una rama remota? ¡La elimina!"
+            ],
+            "afterMarkdowns": [
+              "Ahí está, borramos la rama `foo` exitosamente del remoto pusheándole el concepto de \"nada\". Tiene algo de sentido..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Finalmente, fetchear \"nada\" a un lugar local en realidad crea una nueva rama"
+            ],
+            "afterMarkdowns": [
+              "Bastante bizarro, pero, meh, da igual. Así es git."
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este es un nivel rápido: simplemente borrá una rama remota y creá una nueva usando `git fetch` para completarlo."
             ]
           }
         }
@@ -32704,12 +34975,14 @@ exports.level = {
     "en_US": "Remote Tracking",
     "zh_CN": "Remote Tracking",
     "zh_TW": "remote tracking",
+    "es_AR": "Trackeando remotos",
     "de_DE": "Remote Tracking"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "有两种设置无端跟踪的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
+    "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
   },
   "startDialog": {
@@ -32826,6 +35099,126 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ramas que trackean remotos",
+              "",
+              "Una de las cosas que pueden haber parecido \"mágicas\" de las últimas lecciones es que git sabía que la rama `master` estaba relacionada con `o/master`. Obviamente, estas ramas tienen nombres parecidos, y podría parecer lógico conectar la rama `master` del remoto con la rama `master` local, pero esta conexión es bien evidente en dos escenarios:",
+              "",
+              "* Durante una operación de pull, los commits se descargan a `o/master` y después se *mergean* a la rama `master`. El objetivo implícito del merge se determina con esta conexión.",
+              "* Durante un push, el trabajo de la rama `master` se sube a la rama `master` del remoto (que estaba representada localmente por `o/master`). El *destino* del push se determina con esta conexión entre `master` y `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Trackeando remotos",
+              "",
+              "Haciéndola corta, esta conexión entre `master` y `o/master` se explica simplemente por la propiedad de \"trackear (seguir) remotos\" de las ramas. La rama `master` está configurada para trackear `o/master` -- osea, que hay un objetivo implícito para el merge y un destino implícito para de la rama `master`.",
+              "",
+              "Podrías estar pensando cómo esa propiedad apareció en tu rama `master` si vos no corriste ningún comando para especificarlo. Bueno, cuando clonás un repositorio con git, esta propiedad se asigna por vos automáticamente.",
+              "",
+              "Durante un clone, git crea una rama remota por cada rama en el remoto (por ejemplo, ramas como `o/master`). Pero después crea una rama local que trackea la rama activa del remote, que suele ser `master`.",
+              "",
+              "Una vez completado el git clone, sólo tenés una única rama local (para que no te asustes) pero podés ver todas las ramas que del remoto (si fueras tan curioso). ¡Es lo mejor de ambos mundos!",
+              "",
+              "Esto también explica por qué podrías ver un mensaje como este durante la clonación:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\"",
+              "",
+              "    rama local \"master\" establecida para trackear la rama remota \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ¿Puedo especificarlo yo?",
+              "",
+              "¡Claro que sí! Podés hacer que cualquier rama que quieras trackee `o/master`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `master`. Eso signfica que podés correr `git push` en una rama llamada `absolutamenteNoEsMaster` y ¡que tu trabajo se pushee a la rama `master` del remoto!",
+              "",
+              "Hay dos formas de establecer esta propiedad. La primera es checkoutear una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
+              "",
+              "`git checkout -b absolutamenteNoEsMaster o/master`",
+              "",
+              "Crea una nueva rama llamada `absolutamenteNoEsMaster` y la hace trackear a `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Suficiente charla, ¡veamos una demo! Vamos a checkoutear una nueva rama llamada `foo` y hacer que trackee a `master` en el remoto."
+            ],
+            "afterMarkdowns": [
+              "Como podés ver, usamos el objetivo implícito de merge `o/master` para actualizar la rama `foo`. ¡Notá cómo `master` no fue actualizada!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lo mismo aplica para git push"
+            ],
+            "afterMarkdowns": [
+              "Boom. Pusheamos nuestro trabajo a la rama `master` del remoto incluso cuando nuestra rama se llamaba totalmente distinto"
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forma número 2",
+              "",
+              "Otra forma de especificar la rama a trackear es usar la opción `git branch -u`. Ejecutando",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "establecemos que la rama `foo` trackee a `o/master`. Si encima estás parado en `foo`, incluso podés obviarlo:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos rápidamente esta otra forma de especificar la rama a trackear..."
+            ],
+            "afterMarkdowns": [
+              "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Una belleza!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Ok! Para este nivel, pusheá tu trabajo a la rama `master` del remoto *sin* estar parado sobre `master` localmente. Te dejo que te des cuenta del resto solo, que para algo este es el curso avanzado :P"
             ]
           }
         }
@@ -33179,4 +35572,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,56,55,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,77,78,76,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
