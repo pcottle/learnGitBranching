@@ -144,15 +144,20 @@
   <script type="text/html" id="level-toolbar-template">
     <div class="toolbar level-toolbar box vertical center transitionAll hidden">
       <div class="clearfix">
-        <div class="showGoalWrapper">
-          <button id="show-goal" type="button">Show Goal</button>
-        </div>
         <div class="levelNameWrapper">
           <i class="icon-bolt"></i>
           Level
           <span class="levelToolbarSpan">
             <%= name %>
           </span>
+        </div>
+      </div>
+      <div class="buttonsWrapper">
+        <div class="showGoalWrapper">
+          <button id="show-goal" type="button">Show Goal</button>
+        </div>
+        <div class="showObjectiveWrapper">
+          <button id="show-objective" type="button">Objective</button>
         </div>
       </div>
     </div>

@@ -53,6 +53,7 @@ var Level = Sandbox.extend({
     this.on('toggleGoal', this.toggleGoal);
     this.on('minimizeCanvas', this.minimizeGoal);
     this.on('resizeCanvas', this.resizeGoal);
+    this.on('toggleObjective', this.toggleObjective);
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
@@ -92,8 +93,6 @@ var Level = Sandbox.extend({
       return;
     }
 
-    debugger;
-    console.log(intl.getStartDialog(levelObj));
     var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
     dialog.childViews = dialog.childViews.slice(-1);
@@ -266,6 +265,13 @@ var Level = Sandbox.extend({
         command.finishWith(deferred);
       }, confirmView.getAnimationTime());
     });
+  },
+
+  toggleObjective: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'objective'
+    );
   },
 
   toggleGoal: function () {

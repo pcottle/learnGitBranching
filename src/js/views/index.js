@@ -567,10 +567,14 @@ var LevelToolbar = BaseView.extend({
     this.render();
 
     this.$goalButton = this.$el.find('#show-goal');
+    this.$objectiveButton = this.$el.find('#show-objective');
 
     var parent = this.parent;
     this.$goalButton.on('click', function () {
       parent.trigger('toggleGoal');
+    });
+    this.$objectiveButton.on('click', function() {
+      parent.trigger('toggleObjective');
     });
 
     if (!options.wait) {
