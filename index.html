@@ -13,7 +13,7 @@
   <meta property="og:image" content="http://pcottle.github.io/learnGitBranching/assets/learnGitBranching.png"/>
   <meta property="og:description" content="A interactive Git visualization tool to educate and challenge!"/>
 
-	<link rel="stylesheet" href="build/main.b3fa0f54.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="build/main.46b390fb.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
@@ -144,15 +144,20 @@
   <script type="text/html" id="level-toolbar-template">
     <div class="toolbar level-toolbar box vertical center transitionAll hidden">
       <div class="clearfix">
-        <div class="showGoalWrapper">
-          <button id="show-goal" type="button">Show Goal</button>
-        </div>
         <div class="levelNameWrapper">
           <i class="icon-bolt"></i>
           Level
           <span class="levelToolbarSpan">
             <%= name %>
           </span>
+        </div>
+      </div>
+      <div class="buttonsWrapper">
+        <div class="showGoalWrapper">
+          <button id="show-goal" type="button">Show Goal</button>
+        </div>
+        <div class="showObjectiveWrapper">
+          <button id="show-objective" type="button">Objective</button>
         </div>
       </div>
     </div>
@@ -467,7 +472,7 @@
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/bundle.min.d235e002.js"></script>
+  <script src="build/bundle.min.57cff5b1.js"></script>
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include

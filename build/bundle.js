@@ -13859,6 +13859,7 @@ var Level = Sandbox.extend({
     this.on('toggleGoal', this.toggleGoal);
     this.on('minimizeCanvas', this.minimizeGoal);
     this.on('resizeCanvas', this.resizeGoal);
+    this.on('toggleObjective', this.toggleObjective);
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
@@ -13898,8 +13899,6 @@ var Level = Sandbox.extend({
       return;
     }
 
-    debugger;
-    console.log(intl.getStartDialog(levelObj));
     var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
     dialog.childViews = dialog.childViews.slice(-1);
@@ -14072,6 +14071,13 @@ var Level = Sandbox.extend({
         command.finishWith(deferred);
       }, confirmView.getAnimationTime());
     });
+  },
+
+  toggleObjective: function() {
+    Main.getEventBaton().trigger(
+      'commandSubmitted',
+      'objective'
+    );
   },
 
   toggleGoal: function () {
@@ -17971,10 +17977,14 @@ var LevelToolbar = BaseView.extend({
     this.render();
 
     this.$goalButton = this.$el.find('#show-goal');
+    this.$objectiveButton = this.$el.find('#show-objective');
 
     var parent = this.parent;
     this.$goalButton.on('click', function () {
       parent.trigger('toggleGoal');
+    });
+    this.$objectiveButton.on('click', function() {
+      parent.trigger('toggleObjective');
     });
 
     if (!options.wait) {
@@ -33169,4 +33179,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,50,49,51,52,54,53,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,78,77,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])

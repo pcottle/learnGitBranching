@@ -329,6 +329,7 @@ div.toolbar.level-toolbar {
   border-radius: 0;
   height: inherit;
   font-size: 12px;
+  position: relative;
 }
 
 div.toolbar.level-toolbar button {
@@ -357,6 +358,17 @@ div.toolbar div.clearfix:after {
 div.toolbar div.showGoalWrapper {
   float: left;
   margin-left: 6px;
+}
+
+div.toolbar div.showObjectiveWrapper {
+  float: right;
+  margin-right: 6px;
+}
+
+div.toolbar div.buttonsWrapper {
+  position: absolute;
+  width: 100%;
+  top: 10px;
 }
 
 div.toolbar div.levelNameWrapper {
