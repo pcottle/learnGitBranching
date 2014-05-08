@@ -5,12 +5,14 @@ exports.level = {
   "name": {
     "en_US": "Faking Teamwork",
     "de_DE": "Teamarbeit simulieren",
+    "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "Faking Teamwork",
     "zh_TW": "模擬團隊合作"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"
   },
@@ -64,6 +66,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simulando la colaboración",
+              "",
+              "Entonces, hay algo medio tramposo acá -- para algunas de las lecciones siguientes, necesitamos explicarte cómo bajar cambios introducidos en el repositorio remoto.",
+              "",
+              "Eso significa que escencialmente tenemos que \"hacer de cuenta\" que el repositorio remoto fue actualizado por alguún colega, amigo o colaborador tuyo, incluso a veces en alguna rama específica o una cantidad determinada de commits.",
+              "",
+              "Para lograr esto, introdujimos el bien llamado comando ¡`git fakeTeamwork`! Es bastante auto-explicativo: simula trabajo de nuestros colegas. Veamos una demo..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "El comportamiento por default de `fakeTeamwork` es simplemente crear un commit en master"
+            ],
+            "afterMarkdowns": [
+              "Ahí está: el remoto se actualizó con un nuevo commit, y todavía no nos bajamos ese commit porque aún no hicimos `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También podés especificar la cantidad de commits o la ramma agregándolos al comando"
+            ],
+            "afterMarkdowns": [
+              "Con un único comando simulamos que un compañero de equipo pusheó tres commits a la rama `foo` de nuestro remoto"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Los niveles siguientes van a ser algo difíciles, así que vamos a exigirte un poco más en este nivel.",
+              "",
+              "Animate y creá un remoto (con `git clone`), simulá algunos cambios en ese remoto, commiteá en tu repo local, y luego pulleate esos cambios. ¡Es como varias lecciones en una!"
             ]
           }
         }

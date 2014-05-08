@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Git Describe",
     "de_DE": "Git Describe",
+    "es_AR": "Git Describe",
     "zh_TW": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
+    "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
   },
   "startDialog": {
@@ -134,6 +136,69 @@ exports.level = {
               "`git describe` 就是這樣了！試著在這個關卡指定幾個位置來感受一下這個指令吧！",
               "",
               "當你完成的時候，只要一個 commit 就可以結束這個關卡，我們會給你一個免費贈品:P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Como los tags sirven tanto para marcar \"hitos\" en el código, git tiene un comando para *describir* (_describe_) dónde estás relativo al \"hito\" más cercano (digamos, \"tag\"). Y ese comamndo se llama ¡`git describe`!",
+              "",
+              "Git describe puede ayudarte a saber dónde estás después de que te hayas movido varios commits hacia adelante o atrás en la historia. Esto puede pasarte después de que termines un git bisect (una búsqueda que te ayuda a debuggear problemas) o cuando te sentás en la computadora de un compañero de trabajo que recién vuelve de unas vacaciones."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe tiene la siguiente forma:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Donde `<ref>` es cualquier cosa que git puede resolver a un commit. Si no especificás ninguna referencia, git simplemente usa el commit en que estás parado ahora (`HEAD`).",
+              "",
+              "La salida de ese comando se ve así:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Donde `tag` es el tag más cercano en la historia, `numCommits` dice a cuántos commits de ese tag estás, y `<hash>` es el hash del commit que estás describiendo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos un ejemplo breve. Para este árbol de commits:"
+            ],
+            "afterMarkdowns": [
+              "El comando `git describe master` mostraría:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "Mientras que `git describe side` debería mostrar:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Eso es prácticamente todo lo que hay sobre git describe! Probá describiendo algunas referencias en este nivel para amigarte con el comando.",
+              "",
+              "Cuando estés listo, hacé un commit para terminar el nivel. Te estamos dando una gratis :P"
             ]
           }
         }

@@ -6,12 +6,14 @@ exports.level = {
     "en_US": "Merging with remotes",
     "zh_CN": "Merging with remotes",
     "zh_TW": "merge with remotes",
+    "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
     "zh_CN": "注意目标树!",
     "zh_TW": "注意最後要完成的目標！",
+    "es_AR": "¡Prestá atención al árbol final!",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
@@ -56,6 +58,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ¿Por qué no mergear?",
+              "",
+              "Para pushear tus novedades al remoto, todo lo que tenés que hacer es *integrar* los últimos cambios del remoto con los tuyos. Eso significa que podés hacer tanto rebase como merge con la rama remota (por ejemplo, `o/master`).",
+              "",
+              "Así que si podés hacer cualquiera de las dos, ¿por qué las lecciones sólo se centraron en rebasear hasta ahora? ¿Por qué no dedicarle algo de amor al `merge` cuando trabajamos con remotos?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Hay mucho debate entre los desarrolladores sobre los pros y contras de mergear vs rebasear. Acá tenemos los pros y contras de rebasear:",
+              "",
+              "Pros:",
+              "",
+              "* Rebasear hace que tu árbol de commits se vea bastante limpio, porque todos los commits siguen una única línea",
+              "",
+              "Contras:",
+              "",
+              "* Rebasear modifica la historia (aparente) de tu árbol de commits.",
+              "",
+              "Por ejemplo, el commit `C1` puede rebasearse para que aparezca *después* de `C3`. Entonces, parece que el trabajo de `C1'` se hizo después de `C3`, cuando en realizad se había hecho antes.",
+              "",
+              "Algunos desarrolladores aman preservar la historia, por lo que prefieren mergear. Otros (como yo) preferimos tener un árbol de commits limpios, y preferimos rebasear. Todo es una cuestión de preferencias :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, tratemos de resolver el nivel anterior, pero *mergeando*. Puede ponerse un poco oscuro, pero ilustra la idea bastante bien."
             ]
           }
         }

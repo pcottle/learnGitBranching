@@ -5,11 +5,13 @@ exports.level = {
   "name": {
     "en_US": "Git Tags",
     "de_DE": "Git Tags",
+    "es_AR": "Tags en git",
     "zh_TW": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
+    "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上"
   },
   "startDialog": {
@@ -112,6 +114,58 @@ exports.level = {
               "在這個關卡中，建立一個如視覺化目標裡面的 tag，然後 checkout 到 `v1` 上面，要注意你會進到分離 `HEAD` 的狀態，這是因為你不能夠直接在 `v1` 上面做 commit。",
               "",
               "在下個關卡中我們會介紹更多 tag 的應用..."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tags en git",
+              "",
+              "Como aprendiste en lecciones anteriores, las ramas pueden moverse fácilmente, y en general van referenciando distintos commits a medida que el trabajo se va completando en ellas. Las ramas cambian fácilmente, suelen ser temporales, y siempre cambiantes.",
+              "",
+              "Si ese es el caso, te podrías estar preguntando si hay una manera de marcar *permanentemente* puntos en la historia de tu proyecto. Para cosas como releases mayores o grandes merges, ¿hay algún modo de marcar esos commits con algo más permanente que un branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Seguro que hay! Los tags de git soportan exactamente este caso de uso -- marcan (bastante) permanentemente determinados commits como \"hitos\" que podés referenciar como a un branch.",
+              "",
+              "Aún más importante, los tags no avanzan cuando se crean nuevos commits. No podés \"checkoutear\" un tag y completar el trabajo en ese tag - los tags son marcas fijas en el árbol de commits que designan ciertos puntos.",
+              "",
+              "Veamos cómo se ven los tags en práctica..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Creemos un tag en `C1`, que es nuestro prototipo de la versión 1"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente al commit `C1`. Si no especificás el commit, git va a usar al apuntado por `HEAD`"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, simplemente creá los tags en la visualización final y después checkouteá `v1`. Notá cómo entrás en el estado detached -- esto es porque no podés commitear directamente sobre el tag `v1`.",
+              "",
+              "En el próximo nivel vamos a examinar un caso de uso más interesante para los tags."
             ]
           }
         }

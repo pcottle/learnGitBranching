@@ -10,6 +10,7 @@ exports.level = {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
     "de_DE": "Branch-Spaghetti",
+    "es_AR": "Enslada de branches",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
     "zh_TW": "branch 漿糊"
@@ -17,6 +18,7 @@ exports.level = {
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
+    "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
@@ -38,6 +40,26 @@ exports.level = {
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ensalada de branches",
+              "",
+              "¡WOAHHHhhh Nelly! Tenemos un _pequeño_ objetivo al que llegar en este nivel.",
+              "",
+              "Tenemos un `master` que está algunos commits adelante de `one`, `two` y `three`. Por alguna razón, necesitamos actualizar esas tres ramas con versiones modificadas de los últimos commits de master.",
+              "",
+              "La rama `one` necesita reordenarse, y eliminar `C5`. `two` necesita sólo reordenamiento, y `three` ¡sólo necesita un commit!",
+              "",
+              "Te vamos a dejar darte cuenta cómo resolver este -- asegurate de mirar la solución, después, usando `show solution`. "
             ]
           }
         }
