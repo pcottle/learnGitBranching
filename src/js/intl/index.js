@@ -50,7 +50,7 @@ var str = exports.str = function(key, params) {
 
   if (!strings[key][locale]) {
     // try falling back to another locale if in the map
-    locale = fallbackMap[locale] || locale;
+    locale = fallbackMap[locale] || getDefaultLocale();
   }
 
   if (!strings[key][locale]) {
