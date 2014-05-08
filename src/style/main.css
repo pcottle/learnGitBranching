@@ -663,7 +663,7 @@ div.helperBar.show {
   -o-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
-  height: 45px;
+  height: 70px;
 }
 
 div.helperBar.show.BaseHelperBar {
