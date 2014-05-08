@@ -12343,6 +12343,10 @@ var getDefaultLocale = exports.getDefaultLocale = function() {
   return 'en_US';
 };
 
+var fallbackMap = {
+  'zh_TW': 'zh_CN'
+};
+
 var getLocale = exports.getLocale = function() {
   if (GlobalState.locale) {
     return GlobalState.locale;
@@ -12376,6 +12380,11 @@ var str = exports.str = function(key, params) {
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key;
+  }
+
+  if (!strings[key][locale]) {
+    // try falling back to another locale if in the map
+    locale = fallbackMap[locale] || locale;
   }
 
   if (!strings[key][locale]) {
