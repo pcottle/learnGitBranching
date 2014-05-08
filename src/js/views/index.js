@@ -702,6 +702,9 @@ var IntlHelperBar = HelperBar.extend({
       text: '學習 Git 分支',
       id: 'tradchinese'
     }, {
+      text: 'español',
+      id: 'spanish'
+    }, {
       text: 'français',
       id: 'french'
     }, {
@@ -730,6 +733,11 @@ var IntlHelperBar = HelperBar.extend({
 
   onKoreanClick: function() {
     this.fireCommand('locale ko; levels');
+    this.hide();
+  },
+
+  onSpanishClick: function() {
+    this.fireCommand('locale es_AR; levels');
     this.hide();
   },
 

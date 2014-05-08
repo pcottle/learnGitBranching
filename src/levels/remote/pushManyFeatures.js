@@ -6,12 +6,14 @@ exports.level = {
     "en_US": "Remember you can always use the undo or reset commands",
     "zh_CN": "你随时都可以使用undo/reset命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
+    "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
   },
   "name": {
     "en_US": "Push Master!",
     "zh_CN": "Push Master!",
     "zh_TW": "push master！",
+    "es_AR": "¡Push Master!",
     "de_DE": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
@@ -64,6 +66,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mergeando feature branches",
+              "",
+              "Ahora que estás cómodo fetcheando, pulleando y pusheando, pongamos a prueba estas habilidades con un nuevo flujo de trabajo.",
+              "",
+              "Es bastante común que los desarrolladores en los grandes proyectos trabajen sobre ramas específicas para cada tarea (feature branches) basadas en `master`, y que las integren sólo cuando están listas. Esto es similar a la lección anterior, en que pusheabamos las ramas periféricas al remoto, pero acá tenemos un paso más.",
+              "",
+              "Algunos desarrolladores sólo pushean y pullean cuando están en `master`: de ese modo, `master` siempre se mantiene actualizado con el remoto (`o/master`).",
+              "",
+              "Entonces, en este flujo de trabajo combinamos dos cosas:",
+              "",
+              "* integramos el trabajo de las ramas específicas a `master`, y",
+              "* pusheamos y pulleamos del remoto"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Refresquemos un poco cómo actualizar `master` y pushear nuestro trabajo."
+            ],
+            "afterMarkdowns": [
+              "Acá ejecutamos dos comandos que:",
+              "",
+              "* rebasearon nuestro trabajo sobre los nuevos commits del remoto, y",
+              "* publicamos nuestro trabajo en ese remoto"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este nivel es bastante pesado. Acá tenés algunos lineamientos para resolverlo:",
+              "",
+              "* Tenemos tres ramas específicas -- `side1` `side2` and `side3`",
+              "* Queremos pushear cada una de esas ramas, en orden, al remoto",
+              "* El remoto fue actualizado, así que vamos a tener que integrar esos cambios también",
+              "",
+              ":O ¡Intenso! ¡Éxitos! Completar este nivel representa un gran avance."
             ]
           }
         }
