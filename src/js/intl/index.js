@@ -9,6 +9,18 @@ var getDefaultLocale = exports.getDefaultLocale = function() {
   return 'en_US';
 };
 
+// resolve the messy mapping between browser language
+// and our supported locales
+var langLocaleMap = exports.langLocaleMap = {
+  en: 'en_US',
+  zh: 'zh_CN',
+  ja: 'ja',
+  ko: 'ko',
+  es: 'es_AR',
+  fr: 'fr_FR',
+  de: 'de_DE',
+};
+
 var fallbackMap = {
   'zh_TW': 'zh_CN'
 };

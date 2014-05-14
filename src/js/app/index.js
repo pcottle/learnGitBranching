@@ -198,6 +198,8 @@ var initDemo = function(sandbox) {
   if (params.locale !== undefined && params.locale.length) {
     GlobalState.locale = params.locale;
     events.trigger('localeChanged');
+  } else {
+    tryLocaleDetect();
   }
 
   if (params.command) {
@@ -208,6 +210,45 @@ var initDemo = function(sandbox) {
   }
 
 };
+
+function tryLocaleDetect() {
+  // lets fire off a request to get our headers which then
+  // can help us identify what locale the browser is in.
+  // wrap everything in a try since this is a third party service
+  try {
+    $.ajax({
+      url: 'http://ajaxhttpheaders.appspot.com',
+      dataType: 'jsonp',
+      success: function(headers) {
+        changeLocaleFromHeaders(headers['Accept-Language']);
+      }
+    });
+  } catch (e) {
+    console.warn('locale detect fail', e);
+  }
+}
+
+function changeLocaleFromHeaders(langString) {
+  try {
+    var languages = langString.split(',');
+    var desiredLocale;
+    for (var i = 0; i < languages.length; i++) {
+      var lang = languages[i].slice(0, 2);
+      if (intl.langLocaleMap[lang]) {
+        desiredLocale = intl.langLocaleMap[lang];
+        break;
+      }
+    }
+    if (!desiredLocale || desiredLocale == intl.getLocale()) {
+      return;
+    }
+    // actually change it here
+    GlobalState.locale = desiredLocale;
+    events.trigger('localeChanged');
+  } catch (e) {
+    console.warn('locale change fail', e);
+  }
+}
 
 if (require('../util').isBrowser()) {
   // this file gets included via node sometimes as well
