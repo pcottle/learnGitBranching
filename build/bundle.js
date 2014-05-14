@@ -6798,6 +6798,8 @@ var initDemo = function(sandbox) {
   if (params.locale !== undefined && params.locale.length) {
     GlobalState.locale = params.locale;
     events.trigger('localeChanged');
+  } else {
+    tryLocaleDetect();
   }
 
   if (params.command) {
@@ -6808,6 +6810,45 @@ var initDemo = function(sandbox) {
   }
 
 };
+
+function tryLocaleDetect() {
+  // lets fire off a request to get our headers which then
+  // can help us identify what locale the browser is in.
+  // wrap everything in a try since this is a third party service
+  try {
+    $.ajax({
+      url: 'http://ajaxhttpheaders.appspot.com',
+      dataType: 'jsonp',
+      success: function(headers) {
+        changeLocaleFromHeaders(headers['Accept-Language']);
+      }
+    });
+  } catch (e) {
+    console.warn('locale detect fail', e);
+  }
+}
+
+function changeLocaleFromHeaders(langString) {
+  try {
+    var languages = langString.split(',');
+    var desiredLocale;
+    for (var i = 0; i < languages.length; i++) {
+      var lang = languages[i].slice(0, 2);
+      if (intl.langLocaleMap[lang]) {
+        desiredLocale = intl.langLocaleMap[lang];
+        break;
+      }
+    }
+    if (!desiredLocale || desiredLocale == intl.getLocale()) {
+      return;
+    }
+    // actually change it here
+    GlobalState.locale = desiredLocale;
+    events.trigger('localeChanged');
+  } catch (e) {
+    console.warn('locale change fail', e);
+  }
+}
 
 if (require('../util').isBrowser()) {
   // this file gets included via node sometimes as well
@@ -12437,6 +12478,18 @@ var strings = require('../intl/strings').strings;
 
 var getDefaultLocale = exports.getDefaultLocale = function() {
   return 'en_US';
+};
+
+// resolve the messy mapping between browser language
+// and our supported locales
+var langLocaleMap = exports.langLocaleMap = {
+  en: 'en_US',
+  zh: 'zh_CN',
+  ja: 'ja',
+  ko: 'ko',
+  es: 'es_AR',
+  fr: 'fr_FR',
+  de: 'de_DE',
 };
 
 var fallbackMap = {
@@ -35572,4 +35625,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,21,22,24,23,20,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,67,66,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
