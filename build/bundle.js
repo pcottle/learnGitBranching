@@ -13686,7 +13686,8 @@ var LevelBuilder = Level.extend({
 
   initName: function() {
     this.levelToolbar = new LevelToolbar({
-      name: intl.str('level-builder')
+      name: intl.str('level-builder'),
+      parent: this
     });
   },
 
@@ -13697,8 +13698,36 @@ var LevelBuilder = Level.extend({
     LevelBuilder.__super__.initGoalData.apply(this, arguments);
   },
 
+  /**
+   * need custom handlers since we have two visualizations >___<
+   */
+  minimizeGoal: function (position, size) {
+    this.doBothVis('hide');
+    this.goalWindowPos = position;
+    this.goalWindowSize = size;
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
+    if ($('#goalPlaceholder').is(':visible')) {
+      $('#goalPlaceholder').hide();
+      this.mainVis.myResize();
+    }
+  },
+
+  doBothVis: function(method) {
+    if (this.startVis) {
+      this.startVis[method].call(this.startVis);
+    }
+    if (this.goalVis) {
+      this.goalVis[method].call(this.goalVis);
+    }
+  },
+
+  resizeGoal: function () {
+    this.doBothVis('myResize');
+  },
+
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
+      parent: this,
       additionalClass: 'startTree',
       text: intl.str('hide-start')
     });
@@ -35625,4 +35654,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,21,22,24,23,20,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,67,66,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,44,43,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
