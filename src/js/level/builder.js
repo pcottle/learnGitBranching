@@ -62,7 +62,8 @@ var LevelBuilder = Level.extend({
 
   initName: function() {
     this.levelToolbar = new LevelToolbar({
-      name: intl.str('level-builder')
+      name: intl.str('level-builder'),
+      parent: this
     });
   },
 
@@ -73,8 +74,36 @@ var LevelBuilder = Level.extend({
     LevelBuilder.__super__.initGoalData.apply(this, arguments);
   },
 
+  /**
+   * need custom handlers since we have two visualizations >___<
+   */
+  minimizeGoal: function (position, size) {
+    this.doBothVis('hide');
+    this.goalWindowPos = position;
+    this.goalWindowSize = size;
+    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
+    if ($('#goalPlaceholder').is(':visible')) {
+      $('#goalPlaceholder').hide();
+      this.mainVis.myResize();
+    }
+  },
+
+  doBothVis: function(method) {
+    if (this.startVis) {
+      this.startVis[method].call(this.startVis);
+    }
+    if (this.goalVis) {
+      this.goalVis[method].call(this.goalVis);
+    }
+  },
+
+  resizeGoal: function () {
+    this.doBothVis('myResize');
+  },
+
   initStartVisualization: function() {
     this.startCanvasHolder = new CanvasTerminalHolder({
+      parent: this,
       additionalClass: 'startTree',
       text: intl.str('hide-start')
     });
