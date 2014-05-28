@@ -233,7 +233,14 @@ function changeLocaleFromHeaders(langString) {
     var languages = langString.split(',');
     var desiredLocale;
     for (var i = 0; i < languages.length; i++) {
-      var lang = languages[i].slice(0, 2);
+      var header = languages[i].split(';')[0];
+      // first check the full string raw
+      if (intl.headerLocaleMap[header]) {
+        desiredLocale = intl.headerLocaleMap[header];
+        break;
+      }
+
+      var lang = header.slice(0, 2);
       if (intl.langLocaleMap[lang]) {
         desiredLocale = intl.langLocaleMap[lang];
         break;
