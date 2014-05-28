@@ -136,42 +136,4 @@ Also huge shoutout for everyone who has put up a pull request that was pulled:
 * Emanuel Schorsch
 * Carl X. Su
 
-Or reported an issue that was successfully closed!
-
-* Caspar Krieger
-* Stuart Knightley
-* John Gietzen
-* Chris Greene
-* "datton"
-* Jaymes Bearden
-* Jan-Erik Rediger
-* Scott Bigelow
-* "ortin"
-* Dave Myron
-* "chosenken"
-* Mael P ("maelp")
-* "flying-sheep"
-* "arianvp"
-* "MaPePeR"
-* Lutz ("mobilutz")
-* Jan Philipp
-* Jon Frisby
-* Matthew Walker
-* Duane Johnson
-* Neil Chue Hong
-* "Goodwine"
-* Brandon McCaig
-* Borislav Kosharov
-* Ben Heavner
-* Michael (mick-d)
-* Adam Brewer
-* Tobias Pfeiffer
-* Nicholas "LB" Braden
-* Jeffrey Jones
-* Kyle (kyleIDMI)
-* "iplus"
-* Christian Sauer
-* "alvarogarcia7"
-* Il Memming Park
-* Neil Traft
-
+And everyone who has reported an issue that was successfully closed!
