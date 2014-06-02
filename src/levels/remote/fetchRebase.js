@@ -4,19 +4,19 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Diverged History",
-    "zh_CN": "分散的历史",
+    "zh_CN": "分散的历史",//MARCO
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "de_DE": "Abweichende History"
   },
   "hint": {
-    "en_US": "check out the ordering from the goal visualization",
+    "en_US": "check out the ordering from the goal visualization",//MARCO
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al oren del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
   },
-  "startDialog": {
+  "startDialog": {//MARCO
     "en_US": {
       "childViews": [
         {

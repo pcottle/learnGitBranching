@@ -53,13 +53,14 @@ exports.strings = {
     'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree',
     'zh_TW': '注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。',
     'es_AR': '¡Cuidado! Mercurial hace garbage collection agresivamente y necesita eliminar tu árbol',
+    'fr_FR': 'Attention, Mercurial supprime de façon agressive et nécessite un prune du repository',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
     'ru': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
-    'en_US': 'The -A option is not needed for this app, just commit away!',
+    'en_US': 'The -A option is not needed for this app, just commit away!',//MARCO
     'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
     'es_AR': 'La opción -A no es necesaria para esta aplicación, simplemente hacé commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
@@ -68,7 +69,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
     '__desc__': 'One of the errors for hg',
-    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
+    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',//MARCO
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
@@ -76,7 +77,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
-    'en_US': 'I need the option {option} for that command!',
+    'en_US': 'I need the option {option} for that command!',//MARCO
     'es_AR': '¡Necesito la opción {opcion} para ese comando!',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
     'ru': 'Для этой команды требуется опция {option}'
@@ -84,7 +85,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
     '__desc__': 'hg log without -f (--follow)',
-    'en_US': 'hg log without -f is currently not supported, use -f',
+    'en_US': 'hg log without -f is currently not supported, use -f',//MARCO
     'es_AR': 'hg log sin el parámetro -f no está soportado, usá -f',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
     'ru': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
@@ -746,7 +747,7 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
-    '__desc__': 'button label to show goal',
+    '__desc__': 'button label to show goal',//MARCO
     'en_US': 'Show Goal',
     'zh_TW': '顯示目標',
     'es_AR': 'Mostrar objetivo'
@@ -754,7 +755,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
-    'en_US': 'Hide Goal',
+    'en_US': 'Hide Goal',//MARCO
     'zh_TW': '隱藏目標',
     'es_AR': 'Ocultar obetivo'
   },
@@ -770,7 +771,7 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
-    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
+    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',//MARCO
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',

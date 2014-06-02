@@ -19,7 +19,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "커밋들 갖고 놀기",
-    "en_US": "Juggling Commits",
+    "en_US": "Juggling Commits",//MARCO
     "de_DE": "Jonglieren mit Commits",
     "es_AR": "Haciendo malabares con los commits",
     "ja": "Juggling Commits",
@@ -28,7 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
-    "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
+    "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",//MARCO
     "es_AR": "El primer comando es git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
@@ -36,7 +36,7 @@ exports.level = {
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

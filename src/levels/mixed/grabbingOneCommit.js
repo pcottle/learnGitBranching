@@ -16,7 +16,7 @@ exports.level = {
   "name": {
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
-    "de_DE": "Einen Commit pflücken",
+    "de_DE": "Einen Commit pflücken",//MARCO
     "es_AR": "Tomando un único commit",
     "ja": "Grabbing Just 1 Commit",
     "zh_CN": "只取一个提交",
@@ -24,7 +24,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
-    "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
+    "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",//MARCO
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
@@ -32,7 +32,7 @@ exports.level = {
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

@@ -18,7 +18,7 @@ exports.level = {
   },
   "name": {
     "ko": "커밋 갖고 놀기 #2",
-    "en_US": "Juggling Commits #2",
+    "en_US": "Juggling Commits #2",//MARCO
     "es_AR": "Haciendo malabares con los commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
@@ -26,7 +26,7 @@ exports.level = {
     "zh_TW": "commit 的戲法 #2"
   },
   "hint": {
-    "en_US": "Don't forget to forward master to the updated changes!",
+    "en_US": "Don't forget to forward master to the updated changes!",//MARCO
     "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
@@ -35,7 +35,7 @@ exports.level = {
     "zh_TW": "別忘記了將 master 推到最新的 commit 上面！"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",
