@@ -60,33 +60,37 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
     '__desc__': 'warning for when using -A option',
-    'en_US': 'The -A option is not needed for this app, just commit away!',//MARCO
+    'en_US': 'The -A option is not needed for this app, just commit away!',
     'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
     'es_AR': 'La opción -A no es necesaria para esta aplicación, simplemente hacé commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
+    'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
     'ru': 'Опция -A не требуется для этого приложения, просто сделайте коммит.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
     '__desc__': 'One of the errors for hg',
-    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',//MARCO
+    'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
+    'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
-    'en_US': 'I need the option {option} for that command!',//MARCO
+    'en_US': 'I need the option {option} for that command!',
     'es_AR': '¡Necesito la opción {opcion} para ese comando!',
+    'fr_FR': 'J\'ai besoin de l\'option {option} pour cette commande',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
     'ru': 'Для этой команды требуется опция {option}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
     '__desc__': 'hg log without -f (--follow)',
-    'en_US': 'hg log without -f is currently not supported, use -f',//MARCO
+    'en_US': 'hg log without -f is currently not supported, use -f',
     'es_AR': 'hg log sin el parámetro -f no está soportado, usá -f',
+    'fr_FR': 'hg log sans -f n\'est pas supporté',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
     'ru': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
   },
@@ -747,15 +751,17 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
-    '__desc__': 'button label to show goal',//MARCO
+    '__desc__': 'button label to show goal',
     'en_US': 'Show Goal',
     'zh_TW': '顯示目標',
+    'fr_FR': 'Afficher les cibles',
     'es_AR': 'Mostrar objetivo'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
-    'en_US': 'Hide Goal',//MARCO
+    'en_US': 'Hide Goal',
+    'fr_FR': 'Cacher les cibles',
     'zh_TW': '隱藏目標',
     'es_AR': 'Ocultar obetivo'
   },
@@ -771,8 +777,9 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
-    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',//MARCO
+    '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
+    'fr_FR': '<span class="fwber">Note:</span> Seulement la branche master peut être check id à ce niveau. Les autres branches sont simplement une référence (Montré avec un tiret). Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'

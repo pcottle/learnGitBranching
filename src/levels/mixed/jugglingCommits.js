@@ -19,8 +19,9 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "커밋들 갖고 놀기",
-    "en_US": "Juggling Commits",//MARCO
+    "en_US": "Juggling Commits",
     "de_DE": "Jonglieren mit Commits",
+    "fr_FR": "Jongler avec les Commits",
     "es_AR": "Haciendo malabares con los commits",
     "ja": "Juggling Commits",
     "zh_CN": "提交变换戏法",
@@ -28,7 +29,8 @@ exports.level = {
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
-    "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",//MARCO
+    "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
+    "de_DE": "La première commande est git rebase -i HEAD~2",
     "es_AR": "El primer comando es git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
@@ -36,7 +38,7 @@ exports.level = {
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -72,6 +74,47 @@ exports.level = {
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
               "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Jongler avec les Commits",
+              "",
+              "Voici une autre situation commune. Vous avez certain changement (`newImage`) et un autre groupe de changement (`caption`) qui sont relié, ils sont donc empillé un sur l'autre dans votre répertoire Git(aka un après l'autre).",
+              "",
+              "Là ou ca se complique c'est lorsque vous devez faire modification dans un commit antérieure. Dans ce cas, les configuration de  `newImage` devrons changer un peu, même si ce commit est loin dans notre histoire!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Nous allons régler le problème en fesant ceci:",
+              "",
+              "* Nous allons réaligné les commits pour que celui que nous voulions soit sur le dessus `git rebase -i`",
+              "* Nous allons faire `commit --amend` pour faire les modifications",
+              "* Nous allons réaligner les commits dans l'ordre original `git rebase -i`",
+              "* Finalement, nous allons déplacer le HEAD de master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
+              "",
+              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez vous sur cette technique."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour terminer, Faites attentions au but -- Du au fait que nous déplacons les commmits 2 fois, ils se retrouvent les deux avec une apostrophe. une deuxième apostrophe est ajouté sur le commit que nous modifions, ce qui nous donnes l'arbre finale ",
+              "",
+              "Ceci étant dit, Je peux comparer le résultat avec la stuctures et les différentes apostophes. Tant que votre arbre master a la même structure et apostrophe le niveau sera considéré réussi."
             ]
           }
         }
