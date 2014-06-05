@@ -30,7 +30,7 @@ exports.level = {
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
-    "de_DE": "La première commande est git rebase -i HEAD~2",
+    "fr_FR": "La première commande est git rebase -i HEAD~2",
     "es_AR": "El primer comando es git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",

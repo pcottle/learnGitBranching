@@ -11,7 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "en_US": "Faites un commit su bugFix quand vous êtes pret",
+    "fr_FR": "Faites un commit su bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"

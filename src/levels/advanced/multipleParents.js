@@ -221,7 +221,7 @@ exports.level = {
               "(*Dans notre vue, Le premier parent se situe juste au dessus du merge.*)"
             ],
             "afterMarkdowns": [
-              "Facile -- C\est ce que nous faisons toujours.."
+              "Facile -- C\'est ce que nous faisons toujours.."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
