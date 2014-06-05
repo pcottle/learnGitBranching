@@ -6,10 +6,12 @@ exports.level = {
     "en_US": "Git Tags",
     "de_DE": "Git Tags",
     "es_AR": "Tags en git",
+    "fr_FR": "Git Tags",
     "zh_TW": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
+    "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag!",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上"
@@ -62,6 +64,58 @@ exports.level = {
               "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
               "",
               "In the next level we'll examine a more interesting use case for tags."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tags",
+              "",
+              "Comme apris dans les niveau précédent, les branches sont facile et rende le travail avec les commit plus simple. Il est facile de faire des merge sur les branches. Les branches sont donc constament en mouvement.",
+              "",
+              "Dans ce cas, il doit exister une façons de sauvegarder de façon permanente l'état du projet. Pour des choses comme des Release majeur, Il existe une façons plus permanente de garder l'état du code?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "vous l'aurez deviné! Git tags offre cette fonctionnalité -- Les tags garde l'état du code et pointe vers ce commit peux importe comment l'arbre git continue d'évoluer.",
+              "",
+              "encore plus important, il sont définitif. Vous ne pouvez donc pas faire de commit sur un tag -- Les tags sont un peu comme un pointeur définitif dans l'arbre",
+              "",
+              "Voici les tags en pratique."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)"
+            ],
+            "afterMarkdowns": [
+              "Voila, facile non! nous nommons le tag v1 et il pointe vers C1. Si vous ne spécifié pas le commit, le HEAD sera l'endroit ou le tag pointera."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour ce niveau, simplement faire un tag v1 et faire un checkout dessu. Remarqué vous êtes en  detached `HEAD` state -- C'est parceque vous ne pouvez pas commiter sur le tag `v1`.",
+              "",
+              "Dans le défils suivants vous verez des scénarios plus interessant."
             ]
           }
         }

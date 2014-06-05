@@ -5,19 +5,19 @@ exports.level = {
   "name": {
     "en_US": "Source of nothing",
     "zh_CN": "没有source",
-    "zh_TW": "沒有 source",
+    "zh_TW": "沒有 source",//MARCO
     "es_AR": "Origen de nada",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
-    "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
+    "en_US": "The branch command is disabled for this level so you'll have to use fetch!",//MARCO
     "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",
