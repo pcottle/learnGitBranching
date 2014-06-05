@@ -3,20 +3,20 @@ exports.level = {
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
-    "de_DE": "Clone Einführung",
+    "de_DE": "Clone Einführung",//MARCO
     "es_AR": "Introducción a clone",
     "zh_CN": "Clone Intro",
     "zh_TW": "介紹 clone"
   },
   "hint": {
     "en_US": "Just git clone!",
-    "de_DE": "Einfach git clone ausführen!",
+    "de_DE": "Einfach git clone ausführen!",//MARCO
     "zh_CN": "Just git clone!",
     "es_AR": "Simplemente hacé git clone!",
     "zh_TW": "只要 git clone 就好了"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

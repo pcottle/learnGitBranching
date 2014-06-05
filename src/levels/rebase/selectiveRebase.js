@@ -10,13 +10,13 @@ exports.level = {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
     "de_DE": "Branch-Spaghetti",
-    "es_AR": "Enslada de branches",
+    "es_AR": "Enslada de branches",//MARCO
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
     "zh_TW": "branch 漿糊"
   },
   "hint": {
-    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",//MARCO
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
@@ -25,7 +25,7 @@ exports.level = {
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

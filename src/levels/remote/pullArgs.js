@@ -3,7 +3,7 @@ exports.level = {
   "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Pull arguments",
+    "en_US": "Pull arguments",//MARCO
     "zh_CN": "Pull arguments",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
@@ -11,14 +11,14 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
-    "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
+    "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",//MARCO
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
     "en_US": {
-      "childViews": [
+      "childViews": [//MARCO
         {
           "type": "ModalAlert",
           "options": {
