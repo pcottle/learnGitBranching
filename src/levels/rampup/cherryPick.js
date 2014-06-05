@@ -7,20 +7,20 @@ exports.level = {
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C5\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C1\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Cherry-pick Intro",//MARCO
+    "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
     "es_AR": "Introducción a cherry-pick",
     "zh_CN": "Cherry-pick Intro",
     "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
-    "en_US": "git cherry-pick followed by commit names!",//MARCO
+    "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "zh_CN": "git cherry-pick 跟提交对句名",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
   },
-  "startDialog": {//MARCO
+  "startDialog": {
     "en_US": {
       "childViews": [
         {

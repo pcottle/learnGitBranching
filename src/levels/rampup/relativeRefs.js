@@ -3,7 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout bugFix^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Relative Refs (^)",//MARCO
+    "en_US": "Relative Refs (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
@@ -11,13 +11,13 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
-    "de_DE": "Denk an den Dach-Operator (^)!",//MARCO
+    "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "zh_CN": "记住插入(^)操作符!",
     "zh_TW": "不要忘記插入（^）符號！"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
