@@ -5,19 +5,19 @@ exports.level = {
   "name": {
     "en_US": "Faking Teamwork",
     "de_DE": "Teamarbeit simulieren",
-    "es_AR": "Simulando el trabajo en equipo",
+    "es_AR": "Simulando el trabajo en equipo",//MARCO
     "zh_CN": "Faking Teamwork",
     "zh_TW": "模擬團隊合作"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
-    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",//MARCO
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

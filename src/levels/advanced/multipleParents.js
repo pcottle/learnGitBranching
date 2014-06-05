@@ -5,6 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Multiple parents",
     "zh_CN": "多个父提交记录",
+    'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
     "es_AR": "Múltiples padres",
     "zh_TW": "多個 parent commit"
@@ -12,6 +13,7 @@ exports.level = {
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
+    'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。"
@@ -186,6 +188,93 @@ exports.level = {
               "Erstelle einen neuen Branch an dem angegebenen Ziel, um diesen Level abzuschließen.",
               "",
               "Es ist natürlich möglich den Commit einfach direkt anzugeben (also mit sowas wie `C6`), aber ich fordere dich heraus stattdessen die relativen Operatoren zu benutzen!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Determine les Parents",
+              "",
+              "Comme le symbole `~`, le symbole `^` accepte un numéro après lui.",
+              "",
+              "Au lieu d'entrer le nombre de génération à reculer (ce que `~` fait), le symbole `^` détermine quel parent fait le commit. Attention, un merge commit à deux parents ce qui peux porter à confusion.",
+              "",
+              "Normalement Git suit le  \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défault est modifié.",
+              "",
+              "Assez de bla bla, passons à l\'action",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nous avons un commit/merge. Si nous faisons checkout `master^` sans le symbole, on obtient le premier parent suivant ce commit. ",
+              "",
+              "(*Dans notre vue, Le premier parent se situe juste au dessus du merge.*)"
+            ],
+            "afterMarkdowns": [
+              "Facile -- C\'est ce que nous faisons toujours.."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nous allons spécifier le deuxième parent à la place."
+            ],
+            "afterMarkdowns": [
+              "Vous voyez? Nous suivons le second parent."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Le symbole `^` et `~` Permettes de se déplacer de façon très efficace:"
+            ],
+            "afterMarkdowns": [
+              "Boom, vitesse du tonnerre!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Encore plus fou, c'est symboles peuvre être chainés (Inception style):"
+            ],
+            "afterMarkdowns": [
+              "Le même résultat, mais en une seule commande."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Essayez-le",
+              "",
+              "Pour réussir le niveau, créé une nouvelle branche à la bonne destination",
+              "",
+              "Évidement c'est plus rapide de spécifier le commit (C6 par exemple), mais faites le avec les symboles de déplacement."
             ]
           }
         }

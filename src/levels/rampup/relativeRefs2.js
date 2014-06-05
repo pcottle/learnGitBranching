@@ -3,21 +3,21 @@ exports.level = {
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
-    "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
+    "en_US": "You'll need to use at least one direct reference (hash) to complete this level",//MARCO
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
-    "en_US": "Relative Refs #2 (~)",
+    "en_US": "Relative Refs #2 (~)",//MARCO
     "de_DE": "Relative Referenzen #2 (~)",
     "es_AR": "Referencias relativas #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

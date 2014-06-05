@@ -99,12 +99,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
+      'fr_FR': 'Push & Pull -- Git Remotes!',
       'es_AR': 'Push & Pull -- Git Remotes!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
+      'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les envants, le code vient de devenir social.',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'zh_CN': '是时候分享你的编码了',
@@ -116,12 +118,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
+      'fr_FR': 'Vers l\'Orifin et plus loins encore -- Git Remotes avancé',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
+      'fr_FR': 'Et vous pensié que de devenir un dictateur serais amusant...',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
@@ -132,10 +136,10 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Moving Work Around',
       'de_DE': 'Code Umherschieben',
+      'fr_FR': 'Déplacer le travail',
       'es_AR': 'Moviendo el trabajo por ahí',
       // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
-      'fr_FR': 'Maîtrise Rebase, Luke!',
       'zh_CN': '精通Rebase！',
       'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
@@ -143,10 +147,10 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
+      'fr_FR': 'Soyez alaise de modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
-      'fr_FR': 'Qu\'est-ce que ce rebase dont tout le monde parle ? Découvrez-le !',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'

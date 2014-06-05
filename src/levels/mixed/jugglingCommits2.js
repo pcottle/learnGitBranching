@@ -19,6 +19,7 @@ exports.level = {
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",
+    "fr_FR": "Jongler avec les commits #2",
     "es_AR": "Haciendo malabares con los commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
+    "fr_FR": "N'oublier pas de forwardes la branch master dans la nouvelle branch",
     "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
@@ -73,6 +75,49 @@ exports.level = {
               "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
               "",
               "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Jongler avec les commits #2",
+              "",
+              "*Si vous n'avez pas fait le défi Jongler avec les commits #1 (le niveau précédent), vous devriez le faire avant*",
+              "",
+              "Comme fait dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Si le commit a modifier est celui à la tête, faite un --amend et réordonné le dans l'ordre voulu.",
+              "",
+              "La difficulté ici est qu'il y a beaucoup de changement, ce qui peut introduire des conflits de rebase. Essayons avec le `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "N'oublier pas que git cherry-pick va prendre un commit de n'importe ou dans l'arbre de git et le mettre devant le HEAD. Sauf si il est l'ancètre de la branche courante.",
+              "",
+              "Un petit rappel:"
+            ],
+            "afterMarkdowns": [
+              "Maintenant, continuons"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. As vous maintenant de trouver comment! :D",
+              "",
+              "Petit rappel, le nombre exact d'apostrophe (') sur le commit n'est pas important. Par exemple, Nous allons donner les points si la structure est bonne mais qu'il y a une apostrophe de trop."
             ]
           }
         }

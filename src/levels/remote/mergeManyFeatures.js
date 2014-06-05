@@ -5,20 +5,20 @@ exports.level = {
   "name": {
     "en_US": "Merging with remotes",
     "zh_CN": "Merging with remotes",
-    "zh_TW": "merge with remotes",
+    "zh_TW": "merge with remotes",//MARCO
     "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
-    "zh_CN": "注意目标树!",
+    "zh_CN": "注意目标树!",//MARCO
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

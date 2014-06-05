@@ -4,12 +4,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C6\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Describe",
+    "fr_FR": "Git Describe",
     "de_DE": "Git Describe",
     "es_AR": "Git Describe",
     "zh_TW": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
+    "fr_FR": "Faites un commit su bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
@@ -73,6 +75,69 @@ exports.level = {
               "That's pretty much all there is to git describe! Try describing a few of the locations in this level to get a feel for the command.",
               "",
               "Once you're ready, just go ahead and commit once to finish the level. We're giving you a freebie :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Parce ce que les tags sont de très bonne références dans le code, git à une commande pour *describe* la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe`!",
+              "",
+              "Git describe peux vous aider lorsque vous vous êtes beaucoup déplacé; peut être pratique après un git bisect ou lorsque vous revené de vacance après 3 semaines."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe s'écrit comme suit:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Ou `<ref>` est un numéro de commit. Si vous ne specifiez pas de ref, HEAD est pris par défault.",
+              "",
+              "Le résultat de la commande est:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Ou `tag` est le tag le plus proche, `numCommits` le nombre de commit avec le tag, et `<hash>` le hash du commit décris."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Un petit exemple. Prennons cet arbre:"
+            ],
+            "afterMarkdowns": [
+              "La commande`git describe master` donne le résultat:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "et `git describe side` donne:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ceci résume bien git describe! Amusé vous pour bien comprendre describe.",
+              "",
+              "Lorsque vous serez confiant, faite simplement un commit pour finir le niveau. Un petit niveau bonus :P"
             ]
           }
         }

@@ -4,20 +4,20 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
-    "es_AR": "Desatacheá tu HEAD",
+    "es_AR": "Desatacheá tu HEAD",//MARCO
     "zh_CN": "分离HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
-    "en_US": "Use the label (hash) on the commit for help!",
+    "en_US": "Use the label (hash) on the commit for help!",//MARCO
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {
-    "en_US": {
+    "en_US": {//MARCO
       "childViews": [
         {
           "type": "ModalAlert",

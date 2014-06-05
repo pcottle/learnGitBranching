@@ -16,6 +16,7 @@ exports.level = {
   "name": {
     "ko": "딱 한개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
+    "fr_FR": "Choisir seulement 1 commit",
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
     "ja": "Grabbing Just 1 Commit",
@@ -25,6 +26,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
+    "fr_FR": "Souvenez-vous, les rebases interractiv ou cherry-pick est votre amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
@@ -66,6 +68,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les commits stacké localement",
+              "",
+              "Voici une situation qui arrive souvent. J'ai un bug et pour trouver la source je rajoute des commande de debug à travers le code.",
+              "",
+              "Tous ces debug se retrouve dans une branche, je trouve le bug et le répart, comme toujours!",
+              "",
+              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une meilleur façon."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Nous avons besoin de dire à Git quelle commit choisir. Simplement comme le niveau précédent -- nous pouvons utiliser les mêmes commandes:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Pour réussir ce niveau."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "À vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez vous que `master` recois le même commit que `bugFix`."
             ]
           }
         }
