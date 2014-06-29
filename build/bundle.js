@@ -17711,7 +17711,7 @@ var GitDemonstrationView = ContainedBase.extend({
           this.mainVis.setTreeIndex(300);
           this.mainVis.showHarsh();
         }
-      }, this), this.getAnimationTime() * 1);
+      }, this), this.getAnimationTime() * 1.5);
     }
 
     this.shown = true;
