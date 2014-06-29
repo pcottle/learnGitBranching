@@ -6,18 +6,18 @@ exports.level = {
     "en_US": "Remote Tracking",
     "zh_CN": "Remote Tracking",
     "zh_TW": "remote tracking",
-    "es_AR": "Trackeando remotos",//MARCO
+    "es_AR": "Trackeando remotos",
     "de_DE": "Remote Tracking"
   },
   "hint": {
-    "en_US": "Remember there are two ways to set remote tracking!",//MARCO
+    "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "有两种设置无端跟踪的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",

@@ -249,7 +249,8 @@ var Sandbox = Backbone.View.extend({
       'export tree': this.exportTree,
       'import tree': this.importTree,
       'importTreeNow': this.importTreeNow,
-      'import level': this.importLevel
+      'import level': this.importLevel,
+      'importLevelNow': this.importLevelNow,
     };
 
     var method = commandMap[command.get('method')];
@@ -270,23 +271,55 @@ var Sandbox = Backbone.View.extend({
     this.mainVis.show();
   },
 
+  importLevelNow: function(command, deferred) {
+    var options = command.get('regexResults') || [];
+    if (options.length < 2) {
+      command.set('error', new Errors.GitError({
+        msg: intl.str('git-error-options')
+      }));
+      command.finishWith(deferred);
+      return;
+    }
+    var string = options.input.replace(/importLevelNow\s+/g, '');
+    var Level = require('../level').Level;
+    try {
+      var levelJSON = JSON.parse(unescape(string));
+      console.log(levelJSON);
+      var whenLevelOpen = Q.defer();
+      this.currentLevel = new Level({
+        level: levelJSON,
+        deferred: whenLevelOpen,
+        command: command
+      });
+      this.hide();
+
+      whenLevelOpen.promise.then(function() {
+        command.finishWith(deferred);
+      });
+    } catch(e) {
+      command.set('error', new Errors.GitError({
+        msg: 'Something went wrong ' + String(e)
+      }));
+    }
+    command.finishWith(deferred);
+  },
+
   importTreeNow: function(command, deferred) {
     var options = command.get('regexResults') || [];
     if (options.length < 2) {
       command.set('error', new Errors.GitError({
         msg: intl.str('git-error-options')
       }));
-    } else {
-      var string = options.input.replace(/importTreeNow\s+/g, '');
-      try {
-        this.mainVis.gitEngine.loadTreeFromString(string);
-      } catch (e) {
-        command.set('error', new Errors.GitError({
-          msg: String(e)
-        }));
-      }
+      command.finishWith(deferred);
     }
-
+    var string = options.input.replace(/importTreeNow\s+/g, '');
+    try {
+      this.mainVis.gitEngine.loadTreeFromString(string);
+    } catch (e) {
+      command.set('error', new Errors.GitError({
+        msg: String(e)
+      }));
+    }
     command.finishWith(deferred);
   },
 

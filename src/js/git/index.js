@@ -2076,7 +2076,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   // but it will look similar.
 
   // first if we are upstream of the target
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
+  if (this.isUpstreamOf(targetSource, currentLocation)) {
     throw new GitError({
       msg: intl.str('git-result-nothing')
     });

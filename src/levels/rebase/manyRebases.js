@@ -9,7 +9,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Rebasing over 9000 times",
-    "de_DE": "10000 Rebases unter dem `HEAD`",//MARCO
+    "de_DE": "10000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
@@ -17,7 +17,7 @@ exports.level = {
     "zh_TW": "N次Rebase"
   },
   "hint": {
-    "en_US": "Remember, the most efficient way might be to only update master at the end...",//MARCO
+    "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
@@ -26,7 +26,7 @@ exports.level = {
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",

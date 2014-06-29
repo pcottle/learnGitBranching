@@ -5,19 +5,19 @@ exports.level = {
   "name": {
     "en_US": "Remote Branches",
     "zh_CN": "Remote Branches",
-    "zh_TW": "remote branch （遠端分支）",//MARCO
+    "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "Pay attention to the ordering -- commit on master first!",
-    "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",//MARCO
+    "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",

@@ -6,20 +6,20 @@ exports.level = {
     "git checkout": true
   },
   "name": {
-    "en_US": "Git push arguments",//MARCO
+    "en_US": "Git push arguments",
     "zh_CN": "Git push 参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
-    "en_US": "You can always look at the last slide of the dialog with \"objective\"",//MARCO
+    "en_US": "You can always look at the last slide of the dialog with \"objective\"",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
