@@ -284,7 +284,6 @@ var Sandbox = Backbone.View.extend({
     var Level = require('../level').Level;
     try {
       var levelJSON = JSON.parse(unescape(string));
-      console.log(levelJSON);
       var whenLevelOpen = Q.defer();
       this.currentLevel = new Level({
         level: levelJSON,

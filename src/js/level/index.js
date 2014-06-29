@@ -154,7 +154,9 @@ var Level = Sandbox.extend({
   },
 
   startOffCommand: function() {
-    if (!this.testOption('noStartCommand')) {
+    console.log(this.options);
+    var method = this.options.command.get('method');
+    if (!this.testOption('noStartCommand') && method !== 'importLevelNow') {
       Main.getEventBaton().trigger(
         'commandSubmitted',
         'hint; delay 2000; show goal'
