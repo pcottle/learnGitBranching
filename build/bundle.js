@@ -6780,29 +6780,7 @@ var initDemo = function(sandbox) {
       'levels'
     ];
     commands = commands.join(';#').split('#'); // hax
-
-  } else if (!params.hasOwnProperty('NODEMO')) {
-    commands = [
-      "git help;",
-      "delay 1000;",
-      "help;",
-      "levels"
-    ];
-  }
-  if (commands) {
-    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
-      eventBaton.trigger('commandSubmitted', commands.join(''));
-    });
-  }
-
-  if (params.locale !== undefined && params.locale.length) {
-    GlobalState.locale = params.locale;
-    events.trigger('localeChanged');
-  } else {
-    tryLocaleDetect();
-  }
-
-  if (params.gist_level_id) {
+  } else if (params.gist_level_id) {
     $.ajax({
       url: 'https://api.github.com/gists/' + params.gist_level_id,
       type: 'GET',
@@ -6824,6 +6802,25 @@ var initDemo = function(sandbox) {
         );
       }
     });
+  } else if (!params.hasOwnProperty('NODEMO')) {
+    commands = [
+      "git help;",
+      "delay 1000;",
+      "help;",
+      "levels"
+    ];
+  }
+  if (commands) {
+    sandbox.mainVis.customEvents.on('gitEngineReady', function() {
+      eventBaton.trigger('commandSubmitted', commands.join(''));
+    });
+  }
+
+  if (params.locale !== undefined && params.locale.length) {
+    GlobalState.locale = params.locale;
+    events.trigger('localeChanged');
+  } else {
+    tryLocaleDetect();
   }
 
   if (params.command) {
