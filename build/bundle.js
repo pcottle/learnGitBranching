@@ -6802,6 +6802,30 @@ var initDemo = function(sandbox) {
     tryLocaleDetect();
   }
 
+  if (params.gist_level_id) {
+    $.ajax({
+      url: 'https://api.github.com/gists/' + params.gist_level_id,
+      type: 'GET',
+      dataType: 'jsonp',
+      success: function(response) {
+        var data = response.data || {};
+        var files = data.files || {};
+        if (!Object.keys(files).length) {
+          console.warn('no files found');
+          return;
+        }
+        var file = files[Object.keys(files)[0]];
+        if (!file.content) {
+          console.warn('file empty');
+        }
+        eventBaton.trigger(
+          'commandSubmitted',
+          'importLevelNow ' + escape(file.content) + '; clear'
+        );
+      }
+    });
+  }
+
   if (params.command) {
     var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
@@ -10952,7 +10976,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   // but it will look similar.
 
   // first if we are upstream of the target
-  if (this.isUpstreamOf(currentLocation, targetSource)) {
+  if (this.isUpstreamOf(targetSource, currentLocation)) {
     throw new GitError({
       msg: intl.str('git-result-nothing')
     });
@@ -15650,6 +15674,7 @@ var regexMap = {
   'build level': /^build +level($|\s)/,
   'export tree': /^export +tree$/,
   'importTreeNow': /^importTreeNow($|\s)/,
+  'importLevelNow': /^importLevelNow($|\s)/,
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
   'undo': /^undo($|\s)/
@@ -15953,7 +15978,8 @@ var Sandbox = Backbone.View.extend({
       'export tree': this.exportTree,
       'import tree': this.importTree,
       'importTreeNow': this.importTreeNow,
-      'import level': this.importLevel
+      'import level': this.importLevel,
+      'importLevelNow': this.importLevelNow,
     };
 
     var method = commandMap[command.get('method')];
@@ -15974,23 +16000,55 @@ var Sandbox = Backbone.View.extend({
     this.mainVis.show();
   },
 
+  importLevelNow: function(command, deferred) {
+    var options = command.get('regexResults') || [];
+    if (options.length < 2) {
+      command.set('error', new Errors.GitError({
+        msg: intl.str('git-error-options')
+      }));
+      command.finishWith(deferred);
+      return;
+    }
+    var string = options.input.replace(/importLevelNow\s+/g, '');
+    var Level = require('../level').Level;
+    try {
+      var levelJSON = JSON.parse(unescape(string));
+      console.log(levelJSON);
+      var whenLevelOpen = Q.defer();
+      this.currentLevel = new Level({
+        level: levelJSON,
+        deferred: whenLevelOpen,
+        command: command
+      });
+      this.hide();
+
+      whenLevelOpen.promise.then(function() {
+        command.finishWith(deferred);
+      });
+    } catch(e) {
+      command.set('error', new Errors.GitError({
+        msg: 'Something went wrong ' + String(e)
+      }));
+    }
+    command.finishWith(deferred);
+  },
+
   importTreeNow: function(command, deferred) {
     var options = command.get('regexResults') || [];
     if (options.length < 2) {
       command.set('error', new Errors.GitError({
         msg: intl.str('git-error-options')
       }));
-    } else {
-      var string = options.input.replace(/importTreeNow\s+/g, '');
-      try {
-        this.mainVis.gitEngine.loadTreeFromString(string);
-      } catch (e) {
-        command.set('error', new Errors.GitError({
-          msg: String(e)
-        }));
-      }
+      command.finishWith(deferred);
     }
-
+    var string = options.input.replace(/importTreeNow\s+/g, '');
+    try {
+      this.mainVis.gitEngine.loadTreeFromString(string);
+    } catch (e) {
+      command.set('error', new Errors.GitError({
+        msg: String(e)
+      }));
+    }
     command.finishWith(deferred);
   },
 
@@ -27527,20 +27585,20 @@ exports.level = {
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C5\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C1\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Cherry-pick Intro",//MARCO
+    "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
     "es_AR": "Introducción a cherry-pick",
     "zh_CN": "Cherry-pick Intro",
     "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
-    "en_US": "git cherry-pick followed by commit names!",//MARCO
+    "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "zh_CN": "git cherry-pick 跟提交对句名",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
   },
-  "startDialog": {//MARCO
+  "startDialog": {
     "en_US": {
       "childViews": [
         {
@@ -27834,20 +27892,20 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
-    "es_AR": "Desatacheá tu HEAD",//MARCO
+    "es_AR": "Desatacheá tu HEAD",
     "zh_CN": "分离HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
   "hint": {
-    "en_US": "Use the label (hash) on the commit for help!",//MARCO
+    "en_US": "Use the label (hash) on the commit for help!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -28250,20 +28308,20 @@ exports.level = {
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "hint": {
-    "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",//MARCO
+    "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
-    "en_US": "Interactive Rebase Intro",//MARCO
+    "en_US": "Interactive Rebase Intro",
     "es_AR": "Introducción al rebase interactivo",
     "de_DE": "Einführung Interactive Rebase",
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -28598,7 +28656,7 @@ exports.level = {
   "solutionCommand": "git checkout bugFix^",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Relative Refs (^)",//MARCO
+    "en_US": "Relative Refs (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
@@ -28606,13 +28664,13 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
-    "de_DE": "Denk an den Dach-Operator (^)!",//MARCO
+    "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "zh_CN": "记住插入(^)操作符!",
     "zh_TW": "不要忘記插入（^）符號！"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -28996,21 +29054,21 @@ exports.level = {
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
-    "en_US": "You'll need to use at least one direct reference (hash) to complete this level",//MARCO
+    "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
   },
   "name": {
-    "en_US": "Relative Refs #2 (~)",//MARCO
+    "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
     "es_AR": "Referencias relativas #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29873,7 +29931,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Rebasing over 9000 times",
-    "de_DE": "10000 Rebases unter dem `HEAD`",//MARCO
+    "de_DE": "10000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
@@ -29881,7 +29939,7 @@ exports.level = {
     "zh_TW": "N次Rebase"
   },
   "hint": {
-    "en_US": "Remember, the most efficient way might be to only update master at the end...",//MARCO
+    "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
@@ -29890,7 +29948,7 @@ exports.level = {
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -30033,13 +30091,13 @@ exports.level = {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
     "de_DE": "Branch-Spaghetti",
-    "es_AR": "Enslada de branches",//MARCO
+    "es_AR": "Enslada de branches",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
     "zh_TW": "branch 漿糊"
   },
   "hint": {
-    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",//MARCO
+    "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
@@ -30048,7 +30106,7 @@ exports.level = {
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -30197,20 +30255,20 @@ exports.level = {
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
-    "de_DE": "Clone Einführung",//MARCO
+    "de_DE": "Clone Einführung",
     "es_AR": "Introducción a clone",
     "zh_CN": "Clone Intro",
     "zh_TW": "介紹 clone"
   },
   "hint": {
     "en_US": "Just git clone!",
-    "de_DE": "Einfach git clone ausführen!",//MARCO
+    "de_DE": "Einfach git clone ausführen!",
     "zh_CN": "Just git clone!",
     "es_AR": "Simplemente hacé git clone!",
     "zh_TW": "只要 git clone 就好了"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -30506,19 +30564,19 @@ exports.level = {
   "name": {
     "en_US": "Faking Teamwork",
     "de_DE": "Teamarbeit simulieren",
-    "es_AR": "Simulando el trabajo en equipo",//MARCO
+    "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "Faking Teamwork",
     "zh_TW": "模擬團隊合作"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
-    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",//MARCO
+    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -30797,21 +30855,21 @@ exports.level = {
   "solutionCommand": "git fetch",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Git Fetchin'",//MARCO
+    "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
     "es_AR": "git fetch",
     "zh_CN": "Git Fetchin'",
     "zh_TW": "git fetch"
   },
   "hint": {
-    "en_US": "just run git fetch!",//MARCO
+    "en_US": "just run git fetch!",
     "de_DE": "Einfach git fetch ausführen!",
     "es_AR": "Simplemente ¡hacé git fetch!",
     "zh_CN": "just run git fetch!",
     "zh_TW": "只要下 git fetch 指令"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -31183,13 +31241,13 @@ exports.level = {
   "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Fetch arguments",//MARCO
+    "en_US": "Fetch arguments",
     "zh_CN": "Fetch arguments",
     "zh_TW": "fetch 的參數",
     "es_AR": "Parámetros de fetch",
     "de_DE": "Optionen für Fetch"
   },
-  "hint": {//MARCO
+  "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
@@ -31197,7 +31255,7 @@ exports.level = {
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -31823,19 +31881,19 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Diverged History",
-    "zh_CN": "分散的历史",//MARCO
+    "zh_CN": "分散的历史",
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "de_DE": "Abweichende History"
   },
   "hint": {
-    "en_US": "check out the ordering from the goal visualization",//MARCO
+    "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al oren del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
   },
-  "startDialog": {//MARCO
+  "startDialog": {
     "en_US": {
       "childViews": [
         {
@@ -32562,20 +32620,20 @@ exports.level = {
   "name": {
     "en_US": "Merging with remotes",
     "zh_CN": "Merging with remotes",
-    "zh_TW": "merge with remotes",//MARCO
+    "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
-    "zh_CN": "注意目标树!",//MARCO
+    "zh_CN": "注意目标树!",
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
     "de_DE": "Beachte den Ziel-Baum!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -32810,20 +32868,20 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Pullin'",
-    "zh_CN": "Git Pullin'",//MARCO
+    "zh_CN": "Git Pullin'",
     "zh_TW": "git pull'",
     "es_AR": "git pull",
     "de_DE": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
-    "zh_CN": "Just run git pull!",//MARCO
+    "zh_CN": "Just run git pull!",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
     "de_DE": "Führe einfach git pull aus."
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -33127,7 +33185,7 @@ exports.level = {
   "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "name": {
-    "en_US": "Pull arguments",//MARCO
+    "en_US": "Pull arguments",
     "zh_CN": "Pull arguments",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
@@ -33135,14 +33193,14 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
-    "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",//MARCO
+    "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
   },
   "startDialog": {
     "en_US": {
-      "childViews": [//MARCO
+      "childViews": [
         {
           "type": "ModalAlert",
           "options": {
@@ -33523,20 +33581,20 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Pushin'",
-    "zh_CN": "Git Pushin'",//MARCO
+    "zh_CN": "Git Pushin'",
     "zh_TW": "git push",
     "es_AR": "git push",
     "de_DE": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
-    "zh_CN": "push之前你需要先克隆.",//MARCO
+    "zh_CN": "push之前你需要先克隆.",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -33755,20 +33813,20 @@ exports.level = {
     "git checkout": true
   },
   "name": {
-    "en_US": "Git push arguments",//MARCO
+    "en_US": "Git push arguments",
     "zh_CN": "Git push 参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
-    "en_US": "You can always look at the last slide of the dialog with \"objective\"",//MARCO
+    "en_US": "You can always look at the last slide of the dialog with \"objective\"",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -34138,19 +34196,19 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git push arguments -- Expanded!",
-    "zh_CN": "Git push 参数2!",//MARCO
+    "zh_CN": "Git push 参数2!",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
   },
   "hint": {
-    "en_US": "Remember you can admit defeat and type in \"show solution\" :P",//MARCO
+    "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
   },
-  "startDialog": {//MARCO
+  "startDialog": {
     "en_US": {
       "childViews": [
         {
@@ -34510,7 +34568,7 @@ exports.level = {
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
-    "en_US": "Remember you can always use the undo or reset commands",//MARCO
+    "en_US": "Remember you can always use the undo or reset commands",
     "zh_CN": "你随时都可以使用undo/reset命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
@@ -34518,7 +34576,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Push Master!",
-    "zh_CN": "Push Master!",//MARCO
+    "zh_CN": "Push Master!",
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
     "de_DE": "Push Master!"
@@ -34526,7 +34584,7 @@ exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
     "en_US": {
-      "childViews": [//MARCO
+      "childViews": [
         {
           "type": "ModalAlert",
           "options": {
@@ -34801,19 +34859,19 @@ exports.level = {
   "name": {
     "en_US": "Remote Branches",
     "zh_CN": "Remote Branches",
-    "zh_TW": "remote branch （遠端分支）",//MARCO
+    "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "Pay attention to the ordering -- commit on master first!",
-    "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",//MARCO
+    "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -35130,19 +35188,19 @@ exports.level = {
   "name": {
     "en_US": "Source of nothing",
     "zh_CN": "没有source",
-    "zh_TW": "沒有 source",//MARCO
+    "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
-    "en_US": "The branch command is disabled for this level so you'll have to use fetch!",//MARCO
+    "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -35420,18 +35478,18 @@ exports.level = {
     "en_US": "Remote Tracking",
     "zh_CN": "Remote Tracking",
     "zh_TW": "remote tracking",
-    "es_AR": "Trackeando remotos",//MARCO
+    "es_AR": "Trackeando remotos",
     "de_DE": "Remote Tracking"
   },
   "hint": {
-    "en_US": "Remember there are two ways to set remote tracking!",//MARCO
+    "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "有两种设置无端跟踪的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
   },
   "startDialog": {
-    "en_US": {//MARCO
+    "en_US": {
       "childViews": [
         {
           "type": "ModalAlert",
