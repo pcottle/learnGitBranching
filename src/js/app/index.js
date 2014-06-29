@@ -202,6 +202,30 @@ var initDemo = function(sandbox) {
     tryLocaleDetect();
   }
 
+  if (params.gist_level_id) {
+    $.ajax({
+      url: 'https://api.github.com/gists/' + params.gist_level_id,
+      type: 'GET',
+      dataType: 'jsonp',
+      success: function(response) {
+        var data = response.data || {};
+        var files = data.files || {};
+        if (!Object.keys(files).length) {
+          console.warn('no files found');
+          return;
+        }
+        var file = files[Object.keys(files)[0]];
+        if (!file.content) {
+          console.warn('file empty');
+        }
+        eventBaton.trigger(
+          'commandSubmitted',
+          'importLevelNow ' + escape(file.content) + '; clear'
+        );
+      }
+    });
+  }
+
   if (params.command) {
     var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {

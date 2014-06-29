@@ -120,6 +120,7 @@ var regexMap = {
   'build level': /^build +level($|\s)/,
   'export tree': /^export +tree$/,
   'importTreeNow': /^importTreeNow($|\s)/,
+  'importLevelNow': /^importLevelNow($|\s)/,
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
   'undo': /^undo($|\s)/
