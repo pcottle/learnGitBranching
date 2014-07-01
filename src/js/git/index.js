@@ -2075,13 +2075,6 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
   // but it will look similar.
 
-  // first if we are upstream of the target
-  if (this.isUpstreamOf(targetSource, currentLocation)) {
-    throw new GitError({
-      msg: intl.str('git-result-nothing')
-    });
-  }
-
   // now get the stop set
   var stopSet = Graph.getUpstreamSet(this, targetSource);
 
