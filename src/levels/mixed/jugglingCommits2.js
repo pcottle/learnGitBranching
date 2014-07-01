@@ -9,7 +9,7 @@ exports.level = {
   "goalAsserts": {
     "master": [
       function(data) {
-        return data.C2 >= data.C3;
+        return data.C2 > data.C3;
       },
       function(data) {
         return data.C2 > data.C1;
