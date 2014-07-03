@@ -31,7 +31,8 @@ For some added fun, there is a "git golf" concept where we keep track of how man
 
 ### Level Builder
 
-You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level"
+You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level" or simply specify a gist ID in the url params like so:
+http://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
 ## How the app works / contributing functionality
 
@@ -107,6 +108,7 @@ And the following heroes for assisting in translating:
 * Mikhail Usov ("mikhailusov")
 * Matias Garcia Isaia ("mgarciaisaia")
 * Marc-Olivier Arsenault ("marcolivierarsenault")
+* Eroany H Leader ("lhyqy5")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
