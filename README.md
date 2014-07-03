@@ -108,6 +108,7 @@ And the following heroes for assisting in translating:
 * Mikhail Usov ("mikhailusov")
 * Matias Garcia Isaia ("mgarciaisaia")
 * Marc-Olivier Arsenault ("marcolivierarsenault")
+* Eroany H Leader ("lhyqy5")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled:
 
