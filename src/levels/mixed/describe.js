@@ -236,7 +236,7 @@ exports.level = {
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "`<tag>` 表示的是离`<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离`<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的`<ref>` 所表示的commit 的前七个id。"
+              "`<tag>` 表示的是离 `<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离 `<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的 `<ref>` 所表示的commit 的前七个id。"
             ]
           }
         },
