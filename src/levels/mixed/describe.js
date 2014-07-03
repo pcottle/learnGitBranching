@@ -7,14 +7,16 @@ exports.level = {
     "fr_FR": "Git Describe",
     "de_DE": "Git Describe",
     "es_AR": "Git Describe",
-    "zh_TW": "git describe"
+    "zh_TW": "git describe",
+    "zh_CN": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit su bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
-    "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
+    "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
+    "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了"
   },
   "startDialog": {
     "en_US": {
@@ -201,6 +203,69 @@ exports.level = {
               "`git describe` 就是這樣了！試著在這個關卡指定幾個位置來感受一下這個指令吧！",
               "",
               "當你完成的時候，只要一個 commit 就可以結束這個關卡，我們會給你一個免費贈品:P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### git describe",
+              "",
+              "因为 tag 在 commit tree 上表示的是一个锚点，git 有一个指令可以用来*显示*离你最近的锚点（也就是 tag），而且这个指令叫做 `git describe`！",
+              "",
+              "当你已经完成了一个 `git bisect`（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时， `git describe` 可以帮助你了解你离最近的 tag 差了多少个 commit。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 的​​使用方式：",
+              "",
+              "`git describe <ref>`",
+              "",
+              "`<ref>` 是任何一个可以被 git 解读成 commit 的位置，如果你没有指定的话，git 会以你目前所在的位置为准（`HEAD`）。",
+              "",
+              "指令的输出就像这样：",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "`<tag>` 表示的是离`<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离`<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的`<ref>` 所表示的commit 的前七个id。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们来看一个例子，对于下面的 tree："
+            ],
+            "afterMarkdowns": [
+              "`git describe master` 会输出：",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "`git describe side` 会输出：",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 就是这样了！试着在这个关卡指定几个位置来感受一下这个指令吧！",
+              "",
+              "当你完成的时候，只要一个 commit 就可以结束这个关卡，我们会给你一个免费赠品:P"
             ]
           }
         }
