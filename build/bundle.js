@@ -25854,14 +25854,16 @@ exports.level = {
     "fr_FR": "Git Describe",
     "de_DE": "Git Describe",
     "es_AR": "Git Describe",
-    "zh_TW": "git describe"
+    "zh_TW": "git describe",
+    "zh_CN": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit su bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
-    "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了"
+    "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
+    "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了"
   },
   "startDialog": {
     "en_US": {
@@ -26048,6 +26050,69 @@ exports.level = {
               "`git describe` 就是這樣了！試著在這個關卡指定幾個位置來感受一下這個指令吧！",
               "",
               "當你完成的時候，只要一個 commit 就可以結束這個關卡，我們會給你一個免費贈品:P"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### git describe",
+              "",
+              "因为 tag 在 commit tree 上表示的是一个锚点，git 有一个指令可以用来*显示*离你最近的锚点（也就是 tag），而且这个指令叫做 `git describe`！",
+              "",
+              "当你已经完成了一个 `git bisect`（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时， `git describe` 可以帮助你了解你离最近的 tag 差了多少个 commit。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 的​​使用方式：",
+              "",
+              "`git describe <ref>`",
+              "",
+              "`<ref>` 是任何一个可以被 git 解读成 commit 的位置，如果你没有指定的话，git 会以你目前所在的位置为准（`HEAD`）。",
+              "",
+              "指令的输出就像这样：",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "`<tag>` 表示的是离 `<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离 `<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的 `<ref>` 所表示的commit 的前七个id。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们来看一个例子，对于下面的 tree："
+            ],
+            "afterMarkdowns": [
+              "`git describe master` 会输出：",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "`git describe side` 会输出：",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git describe` 就是这样了！试着在这个关卡指定几个位置来感受一下这个指令吧！",
+              "",
+              "当你完成的时候，只要一个 commit 就可以结束这个关卡，我们会给你一个免费赠品:P"
             ]
           }
         }
@@ -27293,6 +27358,7 @@ exports.level = {
     "de_DE": "Git Tags",
     "es_AR": "Tags en git",
     "fr_FR": "Git Tags",
+    "zh_CN": "Git Tags",
     "zh_TW": "git tag"
   },
   "hint": {
@@ -27300,7 +27366,8 @@ exports.level = {
     "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag!",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
-    "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上"
+    "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
   },
   "startDialog": {
     "en_US": {
@@ -27454,6 +27521,58 @@ exports.level = {
               "在這個關卡中，建立一個如視覺化目標裡面的 tag，然後 checkout 到 `v1` 上面，要注意你會進到分離 `HEAD` 的狀態，這是因為你不能夠直接在 `v1` 上面做 commit。",
               "",
               "在下個關卡中我們會介紹更多 tag 的應用..."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git tag",
+              "",
+              "就像你之前学到的一样，branch 很容易被移动，而且当有新的 commit 时，又会再移动，branch 经常指向不同的 commit，branch 很容易改变。",
+              "",
+              "你可能会有疑问，有没有什么方法可以*永远*有一个指向 commit 的记号，例如，表示重大的软体释出，或者是修正很大的 bug，有没有其它比 branch 更好的方法，可以永远地指向这些 commit？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你说对了！git tag 可以解决这个问题，它们可以永远地指向某个特定的 commit，就像是表示一个\"里程碑\"一样。",
+              "",
+              "更重要的是，当有新的 commit 时，它们也不会移动，你不可以 \"checkout\" 到 tag 上面 commit，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。",
+              "",
+              "让我们来实际看一下 tag 长什么样子..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们试着建立一个 tag，指向 commit `C1`，表示这是我们第一个版本。"
+            ],
+            "afterMarkdowns": [
+              "看吧！非常容易，我们命名这个 tag 叫做`v1`，并且让它指向 commit `C1`，如果你离开了该 commit，git 会根据 `HEAD` 所指向的位置才分辨。"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在这个关卡中，建立一个如视觉化目标里面的 tag，然后 checkout 到 `v1` 上面，要注意你会进到分离 `HEAD` 的状态，这是因为你不能够直接在`v1` 上面做 commit。",
+              "",
+              "在下个关卡中我们会介绍更多 tag 的应用..."
             ]
           }
         }
@@ -36066,4 +36185,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,26,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,57,59,61,60,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,20,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
