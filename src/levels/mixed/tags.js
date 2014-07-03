@@ -7,6 +7,7 @@ exports.level = {
     "de_DE": "Git Tags",
     "es_AR": "Tags en git",
     "fr_FR": "Git Tags",
+    "zh_CN": "Git Tags",
     "zh_TW": "git tag"
   },
   "hint": {
@@ -14,7 +15,8 @@ exports.level = {
     "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag!",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
-    "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上"
+    "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
   },
   "startDialog": {
     "en_US": {
@@ -168,6 +170,58 @@ exports.level = {
               "在這個關卡中，建立一個如視覺化目標裡面的 tag，然後 checkout 到 `v1` 上面，要注意你會進到分離 `HEAD` 的狀態，這是因為你不能夠直接在 `v1` 上面做 commit。",
               "",
               "在下個關卡中我們會介紹更多 tag 的應用..."
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git tag",
+              "",
+              "就像你之前学到的一样，branch 很容易被移动，而且当有新的 commit 时，又会再移动，branch 经常指向不同的 commit，branch 很容易改变。",
+              "",
+              "你可能会有疑问，有没有什么方法可以*永远*有一个指向 commit 的记号，例如，表示重大的软体释出，或者是修正很大的 bug，有没有其它比 branch 更好的方法，可以永远地指向这些 commit？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "你说对了！git tag 可以解决这个问题，它们可以永远地指向某个特定的 commit，就像是表示一个\"里程碑\"一样。",
+              "",
+              "更重要的是，当有新的 commit 时，它们也不会移动，你不可以 \"checkout\" 到 tag 上面 commit，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。",
+              "",
+              "让我们来实际看一下 tag 长什么样子..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "让我们试着建立一个 tag，指向 commit `C1`，表示这是我们第一个版本。"
+            ],
+            "afterMarkdowns": [
+              "看吧！非常容易，我们命名这个 tag 叫做`v1`，并且让它指向 commit `C1`，如果你离开了该 commit，git 会根据 `HEAD` 所指向的位置才分辨。"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "在这个关卡中，建立一个如视觉化目标里面的 tag，然后 checkout 到 `v1` 上面，要注意你会进到分离 `HEAD` 的状态，这是因为你不能够直接在`v1` 上面做 commit。",
+              "",
+              "在下个关卡中我们会介绍更多 tag 的应用..."
             ]
           }
         }
