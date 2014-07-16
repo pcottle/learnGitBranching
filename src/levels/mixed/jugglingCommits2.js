@@ -28,7 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
-    "fr_FR": "N'oublier pas de forwardes la branch master dans la nouvelle branch",
+    "fr_FR": "N'oubliez pas de forwarder la branch master dans la nouvelle branch",
     "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
@@ -90,7 +90,7 @@ exports.level = {
               "",
               "*Si vous n'avez pas fait le défi Jongler avec les commits #1 (le niveau précédent), vous devriez le faire avant*",
               "",
-              "Comme fait dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Si le commit a modifier est celui à la tête, faite un --amend et réordonné le dans l'ordre voulu.",
+              "Comme fait dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Si le commit à modifier est celui à la tête, faites un --amend et réordonnez le dans l'ordre voulu.",
               "",
               "La difficulté ici est qu'il y a beaucoup de changement, ce qui peut introduire des conflits de rebase. Essayons avec le `git cherry-pick`"
             ]
@@ -100,7 +100,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "N'oublier pas que git cherry-pick va prendre un commit de n'importe ou dans l'arbre de git et le mettre devant le HEAD. Sauf si il est l'ancètre de la branche courante.",
+              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe ou dans l'arbre de git et le mettre devant le HEAD. Sauf si il est l'ancètre de la branche courante.",
               "",
               "Un petit rappel:"
             ],
@@ -115,9 +115,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. As vous maintenant de trouver comment! :D",
+              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. A vous maintenant de trouver comment! :D",
               "",
-              "Petit rappel, le nombre exact d'apostrophe (') sur le commit n'est pas important. Par exemple, Nous allons donner les points si la structure est bonne mais qu'il y a une apostrophe de trop."
+              "Petit rappel, le nombre exact d'apostrophe (') sur le commit n'est pas important. Par exemple, nous donnerons les points à une structure qui colle au résultat mais a une apostrophe en trop partout."
             ]
           }
         }
