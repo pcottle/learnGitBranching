@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "es_AR": "Desatacheá tu HEAD",
-    "zh_CN": "分离HEAD",
+    "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
@@ -262,10 +262,6 @@ exports.level = {
               "在接触Git的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
               "",
               "一旦能够熟练地在Git中前进后退，你使用其他git命令的威力也会被放大！",
-              "",
-              "",
-              "",
-              "",
               ""
             ]
           }
@@ -340,10 +336,6 @@ exports.level = {
               "在接觸 git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
               "",
               "一旦能夠熟練地在 commit tree 中隨意地移動，你使用其它的 git 指令也會更厲害！",
-              "",
-              "",
-              "",
-              "",
               ""
             ]
           }

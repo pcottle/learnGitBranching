@@ -11,7 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
-    "zh_CN": "Pay attention to the ordering -- commit on master first!",
+    "zh_CN": "注意顺序 -- 先在 master 上 commit!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"

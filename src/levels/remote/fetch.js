@@ -6,14 +6,14 @@ exports.level = {
     "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
     "es_AR": "git fetch",
-    "zh_CN": "Git Fetchin'",
+    "zh_CN": "Git Fetch",
     "zh_TW": "git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
     "de_DE": "Einfach git fetch ausführen!",
     "es_AR": "Simplemente ¡hacé git fetch!",
-    "zh_CN": "just run git fetch!",
+    "zh_CN": "只要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令"
   },
   "startDialog": {
