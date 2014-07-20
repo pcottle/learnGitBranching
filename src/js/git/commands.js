@@ -645,7 +645,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-B']) {
-        args = commandOptions['-B'];
+        args = commandOptions['-B'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-B');
 
         engine.forceBranch(args[0], args[1]);
