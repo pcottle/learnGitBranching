@@ -579,7 +579,7 @@ var commandConfig = {
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
-        var args = commandOptions['-i'];
+        var args = commandOptions['-i'].concat(generalArgs);
         command.twoArgsImpliedHead(args, ' -i');
         engine.rebaseInteractive(
           args[0],
