@@ -8,7 +8,7 @@ exports.level = {
     "es_AR": "Introducción a rebase",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
-    "zh_CN": "Rebase简介",
+    "zh_CN": "介绍 rebase",
     "zh_TW": "介紹 rebase"
   },
   "hint": {

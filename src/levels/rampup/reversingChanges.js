@@ -10,7 +10,7 @@ exports.level = {
     "fr_FR": "Annuler des changements avec Git",
     "es_AR": "Revirtiendo cambios en git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "在Git中撤销更改",
+    "zh_CN": "在 Git 中撤销更改",
     "zh_TW": "在 git 中取消修改 "
   },
   "hint": {
@@ -18,7 +18,7 @@ exports.level = {
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
-    "zh_CN": "注意revert和reset使用不同的参数。",
+    "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
     "ja": ""
@@ -366,7 +366,7 @@ exports.level = {
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "Nice!Git把master分支的指向简单地移回到`C1`；现在我们的本地代码库处于没有提交过`C2`的状态了。"
+              "漂亮! Git把 master 分支的指向简单地移回到`C1`；现在我们的本地代码库处于没有提交过`C2`的状态了。"
             ],
             "beforeCommand": "git commit"
           }

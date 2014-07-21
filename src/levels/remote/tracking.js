@@ -11,7 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
-    "zh_CN": "有两种设置无端跟踪的方法!",
+    "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"

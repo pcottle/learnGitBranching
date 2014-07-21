@@ -160,7 +160,6 @@ exports.level = {
               "",
               "如果你知道你所需要的提交对象(相应的hash), 那用Git cherry-pick 就非常方便了 -- 很难有简单的方式了",
               "",
-              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.",
               "但是如果你不清楚你想要的提交对象的hash呢? 幸好git 帮你想到了这一点, 我们可以利用交互rebase -- 如果你想衍合一系列的提交, 这就是最方便的方法了",
               "",
               "让我们看看细节.."
