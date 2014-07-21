@@ -20,7 +20,7 @@ exports.level = {
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "只取一个提交",
+    "zh_CN": "只取一个 commit",
     "zh_TW": "只取一個 commit"
   },
   "hint": {

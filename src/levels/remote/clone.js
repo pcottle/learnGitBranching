@@ -5,13 +5,13 @@ exports.level = {
     "en_US": "Clone Intro",
     "de_DE": "Clone Einführung",
     "es_AR": "Introducción a clone",
-    "zh_CN": "Clone Intro",
+    "zh_CN": "介绍 Clone",
     "zh_TW": "介紹 clone"
   },
   "hint": {
     "en_US": "Just git clone!",
     "de_DE": "Einfach git clone ausführen!",
-    "zh_CN": "Just git clone!",
+    "zh_CN": "只要 git clone!",
     "es_AR": "Simplemente hacé git clone!",
     "zh_TW": "只要 git clone 就好了"
   },

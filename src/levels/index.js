@@ -109,7 +109,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les envants, le code vient de devenir social.',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
-      'zh_CN': '是时候分享你的编码了',
+      'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了'
     }
   },
@@ -140,7 +140,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Moviendo el trabajo por ahí',
       // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
-      'zh_CN': '精通Rebase！',
+      'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
     },
@@ -152,7 +152,7 @@ var sequenceInfo = exports.sequenceInfo = {
       // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
-      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
+      'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'
     }
   },
@@ -174,7 +174,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git技术，技巧与贴士杂烩',
+      'zh_CN': 'Git技术、技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧'
     }
   },

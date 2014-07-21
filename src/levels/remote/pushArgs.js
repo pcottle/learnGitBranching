@@ -7,13 +7,14 @@ exports.level = {
   },
   "name": {
     "en_US": "Git push arguments",
-    "zh_CN": "Git push 参数",
+    "zh_CN": "Git push 的参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
+    "zh_CN": "你可以利用 \"objective\" 来阅读对话窗口的最后一页",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
@@ -243,7 +244,6 @@ exports.level = {
             "markdowns": [
               "## Push 参数",
               "",
-              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
               "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在git push/pull/fetch背后的秘密. ",
               "",
               "首先看看`git push`, 在远端跟踪分支中, 你学到了git 会找出要push的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为push指定参数:",
@@ -258,7 +258,6 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
               "`<place>` 参数意味什么呢? 我们会深入其中的细节, 先看看例子, 这个命令是:",
               "",
               "`git push origin master`",
