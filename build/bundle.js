@@ -23569,7 +23569,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les envants, le code vient de devenir social.',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
-      'zh_CN': '是时候分享你的编码了',
+      'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了'
     }
   },
@@ -23600,7 +23600,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Moviendo el trabajo por ahí',
       // INTL out of sync :(
       'ja': 'Rebaseをモノにする',
-      'zh_CN': '精通Rebase！',
+      'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
     },
@@ -23612,7 +23612,7 @@ var sequenceInfo = exports.sequenceInfo = {
       // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
-      'zh_CN': '大家都在说的rebase究竟是神马？看看吧！',
+      'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'
     }
   },
@@ -23634,7 +23634,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git技术，技巧与贴士杂烩',
+      'zh_CN': 'Git技术、技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧'
     }
   },
@@ -25290,7 +25290,7 @@ exports.level = {
     "es_AR": "Introducción a rebase",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
-    "zh_CN": "Rebase简介",
+    "zh_CN": "介绍 rebase",
     "zh_TW": "介紹 rebase"
   },
   "hint": {
@@ -26270,7 +26270,7 @@ exports.level = {
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
     "ja": "Grabbing Just 1 Commit",
-    "zh_CN": "只取一个提交",
+    "zh_CN": "只取一个 commit",
     "zh_TW": "只取一個 commit"
   },
   "hint": {
@@ -27698,14 +27698,14 @@ exports.level = {
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
     "es_AR": "Introducción a cherry-pick",
-    "zh_CN": "Cherry-pick Intro",
+    "zh_CN": "介绍 Cherry-pick",
     "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
-    "zh_CN": "git cherry-pick 跟提交对句名",
+    "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
   },
   "startDialog": {
@@ -28003,7 +28003,7 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "es_AR": "Desatacheá tu HEAD",
-    "zh_CN": "分离HEAD",
+    "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
   },
@@ -28260,10 +28260,6 @@ exports.level = {
               "在接触Git的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
               "",
               "一旦能够熟练地在Git中前进后退，你使用其他git命令的威力也会被放大！",
-              "",
-              "",
-              "",
-              "",
               ""
             ]
           }
@@ -28338,10 +28334,6 @@ exports.level = {
               "在接觸 git 的更多進階的主題之前，我們先學習用不同的方法在你的 project 中的 commit tree 上面移動。",
               "",
               "一旦能夠熟練地在 commit tree 中隨意地移動，你使用其它的 git 指令也會更厲害！",
-              "",
-              "",
-              "",
-              "",
               ""
             ]
           }
@@ -28571,7 +28563,6 @@ exports.level = {
               "",
               "如果你知道你所需要的提交对象(相应的hash), 那用Git cherry-pick 就非常方便了 -- 很难有简单的方式了",
               "",
-              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.",
               "但是如果你不清楚你想要的提交对象的hash呢? 幸好git 帮你想到了这一点, 我们可以利用交互rebase -- 如果你想衍合一系列的提交, 这就是最方便的方法了",
               "",
               "让我们看看细节.."
@@ -29508,7 +29499,7 @@ exports.level = {
     "fr_FR": "Annuler des changements avec Git",
     "es_AR": "Revirtiendo cambios en git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "在Git中撤销更改",
+    "zh_CN": "在 Git 中撤销更改",
     "zh_TW": "在 git 中取消修改 "
   },
   "hint": {
@@ -29516,7 +29507,7 @@ exports.level = {
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
-    "zh_CN": "注意revert和reset使用不同的参数。",
+    "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
     "ja": ""
@@ -29864,7 +29855,7 @@ exports.level = {
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "Nice!Git把master分支的指向简单地移回到`C1`；现在我们的本地代码库处于没有提交过`C2`的状态了。"
+              "漂亮! Git把 master 分支的指向简单地移回到`C1`；现在我们的本地代码库处于没有提交过`C2`的状态了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -30367,13 +30358,13 @@ exports.level = {
     "en_US": "Clone Intro",
     "de_DE": "Clone Einführung",
     "es_AR": "Introducción a clone",
-    "zh_CN": "Clone Intro",
+    "zh_CN": "介绍 Clone",
     "zh_TW": "介紹 clone"
   },
   "hint": {
     "en_US": "Just git clone!",
     "de_DE": "Einfach git clone ausführen!",
-    "zh_CN": "Just git clone!",
+    "zh_CN": "只要 git clone!",
     "es_AR": "Simplemente hacé git clone!",
     "zh_TW": "只要 git clone 就好了"
   },
@@ -30675,14 +30666,14 @@ exports.level = {
     "en_US": "Faking Teamwork",
     "de_DE": "Teamarbeit simulieren",
     "es_AR": "Simulando el trabajo en equipo",
-    "zh_CN": "Faking Teamwork",
+    "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
-    "zh_CN": "记住为fake指定数量",
+    "zh_CN": "记住为fake中的commit指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"
   },
   "startDialog": {
@@ -30968,14 +30959,14 @@ exports.level = {
     "en_US": "Git Fetchin'",
     "de_DE": "Git Fetch",
     "es_AR": "git fetch",
-    "zh_CN": "Git Fetchin'",
+    "zh_CN": "Git Fetch",
     "zh_TW": "git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
     "de_DE": "Einfach git fetch ausführen!",
     "es_AR": "Simplemente ¡hacé git fetch!",
-    "zh_CN": "just run git fetch!",
+    "zh_CN": "只要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令"
   },
   "startDialog": {
@@ -31352,7 +31343,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
-    "zh_CN": "Fetch arguments",
+    "zh_CN": "Fetch 的参数",
     "zh_TW": "fetch 的參數",
     "es_AR": "Parámetros de fetch",
     "de_DE": "Optionen für Fetch"
@@ -31794,7 +31785,6 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "\"Well in that case, what happens if I explicitly define both the source and destination with `<source>:<destination>`?\"",
               "如果我们设定了 `<source>:<destination>`会发生什么呢?",
               "",
               "如果你觉得直接更新本地分支很爽, 那你就用冒号refspec吧. 不过, 你不能在检出的分支上干这个事.",
@@ -32729,7 +32719,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Merging with remotes",
-    "zh_CN": "Merging with remotes",
+    "zh_CN": "和远端合并",
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen"
@@ -32978,14 +32968,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Pullin'",
-    "zh_CN": "Git Pullin'",
+    "zh_CN": "Git Pull",
     "zh_TW": "git pull'",
     "es_AR": "git pull",
     "de_DE": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
-    "zh_CN": "Just run git pull!",
+    "zh_CN": "只要运行 git pull 命令!",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
     "de_DE": "Führe einfach git pull aus."
@@ -33296,14 +33286,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Pull arguments",
-    "zh_CN": "Pull arguments",
+    "zh_CN": "Pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
     "de_DE": "Optionen für Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
-    "zh_CN": "记住, 你可以通过fetch/pull创建本地分支",
+    "zh_CN": "记住, 你可以通过 fetch/pull 创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
@@ -33541,7 +33531,6 @@ exports.level = {
               "",
               "现在你知道关于fetch/push几乎所有的东西了, 不过pull也有一个\"nothing\"呢!:)",
               "",
-              "That's because git pull at the end of the day is *really* just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with SAME arguments specified and then merging in *where* those commits ended up.",
               "因为 git pull 就是fetch后跟merge的缩写. 我可以认为执行git fetch 用了相同的参数, 然后再merge 你所fetch的提交(commit)",
               "",
               "这可以和其它更复杂的参数一起使用, 看看例子:"
@@ -33691,14 +33680,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Pushin'",
-    "zh_CN": "Git Pushin'",
+    "zh_CN": "Git Push",
     "zh_TW": "git push",
     "es_AR": "git push",
     "de_DE": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
-    "zh_CN": "push之前你需要先克隆.",
+    "zh_CN": "push 之前你需要先 clone.",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
@@ -33924,13 +33913,14 @@ exports.level = {
   },
   "name": {
     "en_US": "Git push arguments",
-    "zh_CN": "Git push 参数",
+    "zh_CN": "Git push 的参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
+    "zh_CN": "你可以利用 \"objective\" 来阅读对话窗口的最后一页",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
@@ -34160,7 +34150,6 @@ exports.level = {
             "markdowns": [
               "## Push 参数",
               "",
-              "Great! Now that you know about remote tracking branches we can start to uncover some of mystery behind how git push, fetch, and pull work. We're going to tackle one command at a time but the concepts between them are very similar.",
               "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在git push/pull/fetch背后的秘密. ",
               "",
               "首先看看`git push`, 在远端跟踪分支中, 你学到了git 会找出要push的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为push指定参数:",
@@ -34175,7 +34164,6 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
               "`<place>` 参数意味什么呢? 我们会深入其中的细节, 先看看例子, 这个命令是:",
               "",
               "`git push origin master`",
@@ -34306,7 +34294,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git push arguments -- Expanded!",
-    "zh_CN": "Git push 参数2!",
+    "zh_CN": "Git push 参数 2!",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
     "de_DE": "Optionen fü Git Push -- noch mehr!"
@@ -34539,7 +34527,7 @@ exports.level = {
               "",
               "还记得之前课程说的吧, 当为git push 指定master为place时,我们可以设置 要提交的来源 和 提交到目的地. ",
               "",
-              "你可能想知道-- 如果来源和目的地不一样呢?  ",
+              "你可能想知道-- 如果来源和目的地不一样呢? ",
               "",
               "好吧, 很不幸git 不可能做到... 只是个玩笑! 当然是可能的啦:)... git拥有超强的灵活性(几乎不能再多了) ",
               "",
@@ -34581,7 +34569,7 @@ exports.level = {
               "如果你要push到的destination不存在呢? 没问题! git 会在远端为你创建这个分支!"
             ],
             "afterMarkdowns": [
-              "甜蜜吧! 干得漂亮!:D"
+              "很赞吧! 干得漂亮!:D"
             ],
             "command": "git push origin master:newBranch",
             "beforeCommand": "git clone; git commit"
@@ -34679,7 +34667,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
     "en_US": "Remember you can always use the undo or reset commands",
-    "zh_CN": "你随时都可以使用undo/reset命令.",
+    "zh_CN": "你随时都可以使用 undo/reset 命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
@@ -34975,7 +34963,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
-    "zh_CN": "Pay attention to the ordering -- commit on master first!",
+    "zh_CN": "注意顺序 -- 先在 master 上 commit!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
@@ -35297,14 +35285,14 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Source of nothing",
-    "zh_CN": "没有source",
+    "zh_CN": "没有 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
     "de_DE": "Die Quelle des Nichts"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
-    "zh_CN": "本节的分支命令被禁用了, 你只能使用fetch! ",
+    "zh_CN": "本节的 branch 命令被禁用了, 你只能使用 fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
@@ -35477,7 +35465,6 @@ exports.level = {
             "markdowns": [
               "### 奇葩的`<source>`",
               "",
-              "Git abuses the `<source>` parameter in two weird ways. These two abuses come from the fact that you can technically specify \"nothing\" as a valid `source` for both git push and git fetch. The way you specify nothing is via an empty argument:",
               "有两种罕见的情况, git 不需要 `<source>`. 这基于这样一个事实-- 技术上说就是你不指定<source>. 这是通过空参数实现的",
               "",
               "* `git push origin :side`",
@@ -35593,7 +35580,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
-    "zh_CN": "有两种设置无端跟踪的方法!",
+    "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
@@ -36185,4 +36172,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,82,83,81,85,87,84,88,89,86,90,91,92,93,94,95,96])
