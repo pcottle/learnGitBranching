@@ -8443,7 +8443,7 @@ var commandConfig = {
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
-        var args = commandOptions['-i'];
+        var args = commandOptions['-i'].concat(generalArgs);
         command.twoArgsImpliedHead(args, ' -i');
         engine.rebaseInteractive(
           args[0],
@@ -8509,7 +8509,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-B']) {
-        args = commandOptions['-B'];
+        args = commandOptions['-B'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-B');
 
         engine.forceBranch(args[0], args[1]);
@@ -36172,4 +36172,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,82,83,81,85,87,84,88,89,86,90,91,92,93,94,95,96])
+},{}]},{},[12,11,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
