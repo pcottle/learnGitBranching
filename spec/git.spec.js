@@ -198,5 +198,12 @@ describe('Git', function() {
 		);
 	});
 
+	it('should respect second command for -B option', function() {
+		expectTreeAsync(
+			'git commit; git checkout -B side C1',
+			'{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"side":{"target":"C1","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"side","id":"HEAD"}}'
+		);
+	});
+
 });
 
