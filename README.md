@@ -110,6 +110,6 @@ And the following heroes for assisting in translating:
 * Marc-Olivier Arsenault ("marcolivierarsenault")
 * Eroany H Leader ("lhyqy5")
 
-Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](pcottle/learnGitBranching/graphs/contributors)
+Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](graphs/contributors)
 
 And everyone who has reported an issue that was successfully closed!
