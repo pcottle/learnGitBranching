@@ -110,33 +110,6 @@ And the following heroes for assisting in translating:
 * Marc-Olivier Arsenault ("marcolivierarsenault")
 * Eroany H Leader ("lhyqy5")
 
-Also huge shoutout for everyone who has put up a pull request that was pulled:
-
-* Sergey Krilov -- Draggable windows!
-* Aaron Schrab - 5x!!
-* Stephen Cavaliere
-* Andrew Ardill
-* Shao-Chung Chen
-* Tobias Pfeiffer
-* Luke Kysow - 2
-* Adam Brodzinski
-* Hamish Macpherson
-* Cameron Wills
-* Johan ("josso")
-* Frode Austvik
-* Don Kirkby x2
-* "scientific-coder"
-* "ace-coder"
-* Jeffrey Fisher
-* Brad Smith
-* Allen Guo
-* Timothy Qiu
-* Hyunjin CHA
-* Jens Bremmekamp ("nem75")
-* Fabio Crisci (piuccio)
-* Max Sikström (pengi) [tag support!!]
-* "rogererens"
-* Emanuel Schorsch
-* Carl X. Su
+Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 
 And everyone who has reported an issue that was successfully closed!

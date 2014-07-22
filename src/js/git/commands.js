@@ -579,7 +579,7 @@ var commandConfig = {
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
-        var args = commandOptions['-i'];
+        var args = commandOptions['-i'].concat(generalArgs);
         command.twoArgsImpliedHead(args, ' -i');
         engine.rebaseInteractive(
           args[0],
@@ -645,7 +645,7 @@ var commandConfig = {
       }
 
       if (commandOptions['-B']) {
-        args = commandOptions['-B'];
+        args = commandOptions['-B'].concat(generalArgs);
         command.twoArgsImpliedHead(args, '-B');
 
         engine.forceBranch(args[0], args[1]);
