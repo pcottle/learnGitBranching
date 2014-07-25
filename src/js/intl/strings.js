@@ -444,7 +444,8 @@ exports.strings = {
     '__desc__': 'When the user enters a tag name thats not ok',
     'en_US': 'That tag name "{tag}" is not allowed!',
     'es_AR': 'El nombre "{tag}" no está permitido para los tags',
-    'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!'
+    'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
+    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -500,7 +501,8 @@ exports.strings = {
   'flip-tree-command': {
     '__desc__': 'when the tree is being flipped',
     'en_US': 'Flipping tree...',
-    'es_AR': 'Invirtiendo el árbol...'
+    'es_AR': 'Invirtiendo el árbol...',
+    'fr_FR': 'Inversion de l\'arbre...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
