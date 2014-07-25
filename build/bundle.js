@@ -13077,7 +13077,8 @@ exports.strings = {
     '__desc__': 'When the user enters a tag name thats not ok',
     'en_US': 'That tag name "{tag}" is not allowed!',
     'es_AR': 'El nombre "{tag}" no está permitido para los tags',
-    'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!'
+    'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
+    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -13133,7 +13134,8 @@ exports.strings = {
   'flip-tree-command': {
     '__desc__': 'when the tree is being flipped',
     'en_US': 'Flipping tree...',
-    'es_AR': 'Invirtiendo el árbol...'
+    'es_AR': 'Invirtiendo el árbol...',
+    'fr_FR': 'Inversion de l\'arbre...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -36172,4 +36174,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[12,11,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,66,65,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
