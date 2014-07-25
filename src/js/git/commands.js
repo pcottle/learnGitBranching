@@ -569,6 +569,7 @@ var commandConfig = {
     sc: /^gr($|\s)/,
     options: [
       '-i',
+      '--solution-ordering',
       '--interactive-test',
       '--aboveAll',
       '-p',
@@ -595,6 +596,7 @@ var commandConfig = {
             args[0],
             args[1], {
               aboveAll: !!commandOptions['--aboveAll'],
+              initialCommitOrdering: commandOptions['--solution-ordering']
             }
           );
         }

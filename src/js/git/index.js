@@ -2178,12 +2178,43 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     this.animationQueue.start();
   }, this))
   .done();
+  
+  // If we have a solution provided, set up the GUI to display it by default
+  var initialCommitOrdering;
+  if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
+    var rebaseMap = {};
+    _.each(toRebase, function(commit) {
+      var id = commit.get('id');
+      rebaseMap[id] = commit;
+    });
+    
+    // Verify each chosen commit exists in the list of commits given to the user
+    var extraCommits = [];
+    initialCommitOrdering = [];
+    _.each(options.initialCommitOrdering[0].split(','), function(id) {
+      if (id in rebaseMap) {
+        initialCommitOrdering.push(rebaseMap[id]);
+      } else {
+        extraCommits.push(id);
+      }
+    });
+    
+    if (extraCommits.length > 0) {
+      throw new GitError({
+        msg: intl.todo('Hey those commits dont exist in the set!')
+      });
+    }
+  }
+  
+  // The rebase view expects the commits reversed, so do that here
+  toRebase.reverse();
 
   var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
     toRebase: toRebase,
+    initialCommitOrdering: initialCommitOrdering,
     aboveAll: options.aboveAll
   });
 };
