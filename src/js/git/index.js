@@ -2070,15 +2070,10 @@ GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
   return result;
 };
 
-GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
-  options = options || {};
-  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
-  // but it will look similar.
-
-  // now get the stop set
+GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, currentLocation) {
   var stopSet = Graph.getUpstreamSet(this, targetSource);
-
   var toRebaseRough = [];
+  
   // standard BFS
   var pQueue = [this.getCommitFromRef(currentLocation)];
 
@@ -2101,12 +2096,62 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
       toRebase.push(commit);
     }
   });
-
+  
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
     });
   }
+  
+  return toRebase;
+};
+
+GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocation, options) {
+  options = options || {};
+  
+  // Get the list of commits that would be displayed to the user
+  var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
+  
+  var rebaseMap = {};
+  _.each(toRebase, function(commit) {
+    var id = commit.get('id');
+    rebaseMap[id] = commit;
+  });
+  
+  var rebaseOrder;
+  if (options['interactiveTest'].length === 0) {
+    // If no commits were explicitly specified for the rebase, act like the user didn't change anything
+    // in the rebase dialog and hit confirm
+    rebaseOrder = toRebase;
+  } else {
+    // Get the list and order of commits specified
+    var idsToRebase = options['interactiveTest'][0].split(',');
+    
+    // Verify each chosen commit exists in the list of commits given to the user
+    var extraCommits = [];
+    rebaseOrder = [];
+    _.each(idsToRebase, function(id) {
+      if (id in rebaseMap) {
+        rebaseOrder.push(rebaseMap[id]);
+      } else {
+        extraCommits.push(id);
+      }
+    });
+    
+    if (extraCommits.length > 0) {
+      // What to do here?
+    }
+  }
+  
+  this.rebaseFinish(rebaseOrder, {}, targetSource, currentLocation);
+};
+
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
+  options = options || {};
+  
+  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
+  // but it will look similar.
+  var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
 
   // now do stuff :D since all our validation checks have passed, we are going to defer animation
   // and actually launch the dialog
