@@ -240,5 +240,12 @@ describe('Git', function() {
 		);
 	});
 
+	it('will throw error if bad commits given to interactive test', function() {
+		expectTreeAsync(
+			'gc; git rebase HEAD~2 -i --interactive-test C2,C100; gc',
+			'{"branches":{"master":{"target":"C3","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
 });
 

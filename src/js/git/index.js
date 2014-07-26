@@ -2139,7 +2139,9 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
     });
     
     if (extraCommits.length > 0) {
-      // What to do here?
+      throw new GitError({
+        msg: intl.todo('Hey those commits dont exist in the set!')
+      });
     }
   }
   

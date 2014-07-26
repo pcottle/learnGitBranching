@@ -590,8 +590,7 @@ var commandConfig = {
               interactiveTest: commandOptions['--interactive-test']
             }
           );
-        }
-        else {
+        } else {
           engine.rebaseInteractive(
             args[0],
             args[1], {
