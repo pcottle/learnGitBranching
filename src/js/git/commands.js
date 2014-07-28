@@ -569,6 +569,7 @@ var commandConfig = {
     sc: /^gr($|\s)/,
     options: [
       '-i',
+      '--interactive-test',
       '--aboveAll',
       '-p',
       '--preserve-merges'
@@ -581,12 +582,22 @@ var commandConfig = {
       if (commandOptions['-i']) {
         var args = commandOptions['-i'].concat(generalArgs);
         command.twoArgsImpliedHead(args, ' -i');
-        engine.rebaseInteractive(
-          args[0],
-          args[1], {
-            aboveAll: !!commandOptions['--aboveAll']
-          }
-        );
+        
+        if (commandOptions['--interactive-test']) {
+          engine.rebaseInteractiveTest(
+            args[0],
+            args[1], {
+              interactiveTest: commandOptions['--interactive-test']
+            }
+          );
+        } else {
+          engine.rebaseInteractive(
+            args[0],
+            args[1], {
+              aboveAll: !!commandOptions['--aboveAll'],
+            }
+          );
+        }
         return;
       }
 

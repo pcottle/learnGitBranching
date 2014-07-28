@@ -10,12 +10,14 @@ exports.level = {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
+    "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spéficier la cible à rebaser",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
     "es_AR": "Introducción al rebase interactivo",
     "de_DE": "Einführung Interactive Rebase",
+    "fr_FR": "Introduction à rebase",
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase"
   },
@@ -80,6 +82,71 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "Git cherry-pick est pratique quand vous savez exactement quels commits vous voulez (_et_ que vous connaissez leurs identifiants) -- il est difficile de battre la simplicité qu'il procure.",
+              "",
+              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement git a pensé à vous dans pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de reconsidérer une série de commits que vous vous apprêtez à rebaser.",
+              "",
+              "Allons un peu plus dans les détails ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tout rebase interactif signifie utiliser la commande `rebase` avec l'option `-i`.",
+              "",
+              "Si vous mettez cette option, git va ouvrir une interface graphique pour vous montrer quels commits vont être copiés en dessous de la cible sur laquelle vous rebasez. Elle vous montre aussi les identifiants et commentaires des commits, ce qui est pratique pour s'orienter parmi les commits.",
+              "",
+              "Pour le \"vrai\" git, l'interface graphique correspond en fait à ouvrir un fichier dans un éditeur de texte comme `vim`. Pour notre exemple, j'ai construit une petite fenêtre de dialogue qui se comporte de la même façon."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Quand le rebase interactif s'ouvre, vous avez la possibilité de faire 3 choses :",
+              "",
+              "* Vous pouvez réarranger les commits simplement en changeant leur ordre dans l'interface graphique (dans notre fenêtre de dialogue, cela signifie déplacer les objets dedans avec la souris -- drag and drop).",
+              "* Vous pouvez omettre certains commits. Cela est désigné par  `pick` -- cliquer sur `pick` désélectionne/resélectionne le commit.",
+              "* Enfin, vous pouvez écraser des commits. Malheureusement notre niveau ne supporte pas cette option, nous allons donc sauter les détails concernant cette possibilité. Pour faire court, cela vous permet de mélanger des commits.",
+              "",
+              "Super ! Voyons un exemple."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Quand vous activez le bouton, une fenêtre de rebase interactif va s'ouvrir. Reordonnez quelques commits (ou supprimez-en certains) et regardez le résultat !"
+            ],
+            "afterMarkdowns": [
+              "Boum ! Git a copié les commits de la même manière que vous l'aviez spécifié."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, faites un rebase intractif et atteignez l'ordre indiqué dans le fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
             ]
           }
         }
