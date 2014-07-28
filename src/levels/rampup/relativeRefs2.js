@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
+    "fr_FR": "Vous aurez besoin d'utiliser au moins une référence directe (hash) pour compléter ce niveau.",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
@@ -13,6 +14,7 @@ exports.level = {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
     "es_AR": "Referencias relativas #2 (~)",
+    "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
@@ -155,7 +157,76 @@ exports.level = {
         }
       ]
     },
-    "de_DE": {
+   "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### L'opérateur \"~\"",
+              "",
+              "Disons que vous suohaitez remontez beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
+              "",
+              "",
+              "L'opérateur tilde prend optionnellement à sa suite un nombre qui spécifie le nombre de parents que vous souhaitez remonter. Voyons cela en action"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Spécifions le nombre de commits en arrière avec `~`."
+            ],
+            "afterMarkdowns": [
+              "Boum! Tellement rapide -- les références relatices sont géniales."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forcer les branches",
+              "",
+              "Vous êtes maintenant un expert des références relatives, alors servons-nous en.",
+              "",
+              "L'une des principales façons dont j'utilise les références relatives est pour réorganiser les branches. Vous pouvez directement réassigner les branches à un commit avec l'option `-f`. Ainsi quelque chose comme :",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "bouge (de force) la branch master à trois parents derrière HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons l'effet de la précédente commande"
+            ],
+            "afterMarkdowns": [
+              "On y est ! Les références relatives nous donne une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cette emplacement."
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Maintenant que vous avez vu les références relatives et le forçage de branche ensemble mêlés ensemble, utilisons-les pour résoudre le niveau suivant.",
+              "",
+              "Pour compléter ce niveau, bouger `HEAD`, `master`, et `bugFix` à leurs destinations désignées."
+            ]
+          }
+        }
+      ]
+    }, 
+   "de_DE": {
       "childViews": [
         {
           "type": "ModalAlert",

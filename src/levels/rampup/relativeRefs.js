@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Relative Refs (^)",
+    "fr_FR": "Références relatives (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
@@ -11,6 +12,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
+    "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)"
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "zh_CN": "记住插入(^)操作符!",
@@ -87,6 +89,81 @@ exports.level = {
               "To complete this level, check out the parent commit of `bugFix`. This will detach `HEAD`.",
               "",
               "You can specify the hash if you want, but try using relative refs instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Références relatives",
+              "",
+              "Se déplacer dans Git en spécifiant des identifiants de commits (hashes) peut être un peu agaçant. Dans le monde réel vous n'aurez pas une vue sur un joli arbre des commits à côté de votre terminal, ainsi vous aurez à utiliser `git log` pour connaître les identifiants.",
+              "",
+              "De plus, les identifiants sont plus longs dans le vrai monde de Git qu'ici. Par exemple, l'identifiant du commit introduit au précédent niveau était `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Difficilement mémorisable ...",
+              "",
+              "Le côté positif est que Git est intelligent avec les identifiants. Vous avez seulement à spécifier suffisamment de premiers caractères de l'identifiant jusqu'à ce qu'il reconnaisse exactement le commit. Ainsi je peux taper `fed2` au lieu de la longue chaîne ci-dessus."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très convénient, c'est pourquoi Git a des références relatives. Elles sont géniales !",
+              "",
+              "Avec les références relatives vous pouvez commencer un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis ici.",
+              "",
+              "Les commits relatifs sont puissants, et on va en introduire deux simples ici :",
+              "",
+              "* Revenir d'un commit en arrière avec `^`",
+              "* Revenir de plusieurs en arrière avec `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Regardons l'opérateur circonflexe (^) d'abord. Chaque fois que vous le faites suivre un nom de référence, vous êtes en train de demander à Git de trouver le parent du commit spécifié.",
+              "",
+              "Ainsi, `master^` est équivalent à \"le premier parent de `master`\".",
+              "",
+              "`master^^` est le grand-parent (ancêtre de seconde génération) de `master`",
+              "",
+              "Faisons un checkout du commit avant master."
+            ],
+            "afterMarkdowns": [
+              "Boum ! Fini. Bien plus facile qu'écrire l'identifiant du commit."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vous pouvez aussi utiliser `HEAD` comme une référence relative. Utilisons cela plusieurs fois pour remonter l'arbre des commits."
+            ],
+            "afterMarkdowns": [
+              "Facile ! Nous pouvons voyager dans le temps avec `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour compléter ce niveau, faites un checkout du commit parent de `bugFix`. Cela va détacher `HEAD`.",
+              "",
+              "Vous pouvez spécifier l'identifiant du commit si vous voulez, mais essayez plutôt d'utiliser les références relatives !"
             ]
           }
         }
