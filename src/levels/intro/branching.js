@@ -340,13 +340,13 @@ exports.level = {
             "markdowns": [
               "## Branches Git",
               "",
-              "Les branches sous Git sont incroyablement légères aussi. Elles sont simplment des références un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "Les branches sous Git sont incroyablement légères. Elles sont simplment des références sur un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
               "",
               "```",
-              "n'attendez pas pour faire des branches, et faites souvent des branches",
+              "des branches le plus tôt possible, et des branches souvent",
               "```",
               "",
-              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associés aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
+              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associé aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
               "",
               "Nous verrons comment les banches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
             ]
@@ -374,7 +374,7 @@ exports.level = {
               "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
             ],
             "afterMarkdowns": [
-              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce aue nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -390,7 +390,7 @@ exports.level = {
               "git checkout [nom]",
               "```",
               "",
-              "Ceci nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
+              "Cela nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
             ],
             "afterMarkdowns": [
               "C'est parti ! Nos modifications ont été enregistrées sur la nouvelle branche"
