@@ -8433,6 +8433,7 @@ var commandConfig = {
     sc: /^gr($|\s)/,
     options: [
       '-i',
+      '--interactive-test',
       '--aboveAll',
       '-p',
       '--preserve-merges'
@@ -8445,12 +8446,22 @@ var commandConfig = {
       if (commandOptions['-i']) {
         var args = commandOptions['-i'].concat(generalArgs);
         command.twoArgsImpliedHead(args, ' -i');
-        engine.rebaseInteractive(
-          args[0],
-          args[1], {
-            aboveAll: !!commandOptions['--aboveAll']
-          }
-        );
+        
+        if (commandOptions['--interactive-test']) {
+          engine.rebaseInteractiveTest(
+            args[0],
+            args[1], {
+              interactiveTest: commandOptions['--interactive-test']
+            }
+          );
+        } else {
+          engine.rebaseInteractive(
+            args[0],
+            args[1], {
+              aboveAll: !!commandOptions['--aboveAll'],
+            }
+          );
+        }
         return;
       }
 
@@ -10967,15 +10978,10 @@ GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
   return result;
 };
 
-GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
-  options = options || {};
-  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
-  // but it will look similar.
-
-  // now get the stop set
+GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, currentLocation) {
   var stopSet = Graph.getUpstreamSet(this, targetSource);
-
   var toRebaseRough = [];
+  
   // standard BFS
   var pQueue = [this.getCommitFromRef(currentLocation)];
 
@@ -10998,12 +11004,64 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
       toRebase.push(commit);
     }
   });
-
+  
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
     });
   }
+  
+  return toRebase;
+};
+
+GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocation, options) {
+  options = options || {};
+  
+  // Get the list of commits that would be displayed to the user
+  var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
+  
+  var rebaseMap = {};
+  _.each(toRebase, function(commit) {
+    var id = commit.get('id');
+    rebaseMap[id] = commit;
+  });
+  
+  var rebaseOrder;
+  if (options['interactiveTest'].length === 0) {
+    // If no commits were explicitly specified for the rebase, act like the user didn't change anything
+    // in the rebase dialog and hit confirm
+    rebaseOrder = toRebase;
+  } else {
+    // Get the list and order of commits specified
+    var idsToRebase = options['interactiveTest'][0].split(',');
+    
+    // Verify each chosen commit exists in the list of commits given to the user
+    var extraCommits = [];
+    rebaseOrder = [];
+    _.each(idsToRebase, function(id) {
+      if (id in rebaseMap) {
+        rebaseOrder.push(rebaseMap[id]);
+      } else {
+        extraCommits.push(id);
+      }
+    });
+    
+    if (extraCommits.length > 0) {
+      throw new GitError({
+        msg: intl.todo('Hey those commits dont exist in the set!')
+      });
+    }
+  }
+  
+  this.rebaseFinish(rebaseOrder, {}, targetSource, currentLocation);
+};
+
+GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
+  options = options || {};
+  
+  // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
+  // but it will look similar.
+  var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
 
   // now do stuff :D since all our validation checks have passed, we are going to defer animation
   // and actually launch the dialog
@@ -24011,13 +24069,13 @@ exports.level = {
             "markdowns": [
               "## Branches Git",
               "",
-              "Les branches sous Git sont incroyablement légères aussi. Elles sont simplment des références un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "Les branches sous Git sont incroyablement légères. Elles sont simplment des références sur un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
               "",
               "```",
-              "n'attendez pas pour faire des branches, et faites souvent des branches",
+              "des branches le plus tôt possible, et des branches souvent",
               "```",
               "",
-              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associés aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
+              "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associé aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
               "",
               "Nous verrons comment les banches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
             ]
@@ -24045,7 +24103,7 @@ exports.level = {
               "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
             ],
             "afterMarkdowns": [
-              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce aue nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -24061,7 +24119,7 @@ exports.level = {
               "git checkout [nom]",
               "```",
               "",
-              "Ceci nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
+              "Cela nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications"
             ],
             "afterMarkdowns": [
               "C'est parti ! Nos modifications ont été enregistrées sur la nouvelle branche"
@@ -24528,7 +24586,7 @@ exports.level = {
               "## Commits Git",
               "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
               "",
-              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tous le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
+              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tout le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
               "",
               "Pour cloner un dépôt, il faut décompresser (\"résoudre\") tous ces deltas. C'est la raison pour laquelle la commande écrit :",
               "",
@@ -25012,7 +25070,7 @@ exports.level = {
               "",
                 "Super! Nous savons désormais comment faire des commits et de branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
               "",
-              "La première méthode que nous alons voir pour combiner le conenu de deux branches est `git merge`. Faire un 'merge' en git Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le conenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
+              "La première méthode que nous alons voir pour combiner le conenu de deux branches est `git merge`. Faire un 'merge' en Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le conenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
               "",
               "C'est plus facile en visualisant, regardons dans la vue suivante"
             ]
@@ -25022,16 +25080,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "Ici nous avons deux deux branches ; chacune a un commit qui lui est propre. Cela signifie qu'aucune des deux branches n'inclut la totalité du \"travail\" qui a été fait dans le dépôt. Arrangeons-cela avec merge.",
               "",
-              "We will `merge` the branch `bugFix` into `master`"
+              "Nous allons `merge` («fusionner») la branche `bugFix` dans `master`"
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows upstream from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "Youhou! Vous avez vu ça ? Avant tout, `master` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `master`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `master` contient maintenant tout le travail du dépôt.",
               "",
-              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "Par ailleurs, avez-vous remarqué les nouvelles couleurs des commits ? Pour faciliter l'apprentissage, j'ai inclus une certaine logique dans la coloration. Chaque branche a une unique couleur. Chaque commit est de la couleur de toutes les branches qui le contiennent.",
               "",
-              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+              "Ici nous voyons que la couleur de `master` est intégrée à tous les commits, sauf ceux de `bugFix`. Réparons-cela ..."
             ],
             "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
@@ -25299,7 +25357,7 @@ exports.level = {
     "en_US": "Make sure you commit from bugFix first",
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
     "ja": "初めにbugFixを指した状態でコミットする",
-    "fr_FR": "Assurez-vous de bien faire votre en premier votre commit sur bugFix",
+    "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
@@ -25585,7 +25643,7 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "La seconde façon de combiner les contenus de deux branches est *rebase*. Rebase prend un enselble de commits, les \"recopie\", et les ajoute en bout de chaine à un autre endroit.",
+              "La seconde façon de combiner les contenus de deux branches est *rebase*. Rebase prend un ensemble de commits, les \"recopie\", et les ajoute en bout de chaîne à un autre endroit.",
               "",
               "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéeire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
               "",
@@ -25599,14 +25657,14 @@ exports.level = {
             "beforeMarkdowns": [
               "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'asterisque)",
               "",
-              "Nous voudrions transferer notre travail sur la branche 'bugFix' directement sur le travail dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
+              "Nous voudrions transférer notre travail de la branche 'bugFix' directement sur le travail existant dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
               "",
               "Faisons cela avec la commande `git rebase`"
             ],
             "afterMarkdowns": [
-              "Super! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'master' et non avons une belle séquence linéaire de commits.",
+              "Super! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'master' et nous avons une belle séquence linéaire de commits.",
               "",
-              "Notez que le commit C3 existe toujours quelquepart (il est en grisé sur l'arbre), et C3' est la  \"copie\" que nous avons créée sur master avec rebase.",
+              "Notez que le commit C3 existe toujours quelque part (il est en grisé sur l'arbre), et C3' est la  \"copie\" que nous avons créée sur master avec rebase.",
               "",
               "Le seul problème est que master n'a pas été mis à jour, faisons cela maintenant…"
             ],
@@ -27697,6 +27755,7 @@ exports.level = {
   },
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C5\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C1\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
+    "fr_FR": "Introduction à cherry-pick",
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
     "es_AR": "Introducción a cherry-pick",
@@ -27704,6 +27763,7 @@ exports.level = {
     "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
+    "fr_FR": "git cherry-pick suivis par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
@@ -27762,6 +27822,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Déplacer votre travail",
+              "",
+              "Nous avons maintenant pratiqué les bases de git -- commits, branches, et déplacements dans l'arbre des commits. Ces seuls concepts sont suffisants pour utiliser 90% du pouvoir des dépôt git et satisfaire les principaux besoins des développeurs.",
+              "",
+              "Les 10% restants, cependant, peuvent être assez utiles pour systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"le déplacement de travail\" (moving work around) -- en d'autres termes, c'est une façon des développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
+              "",
+              "Cela peut sembler compliqué, mais c'est un concept simple."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "La première commande de cette série est `git cherry-pick`. Elle a le prototype suivant :",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "C'est une manière simple de dire qu'on voudrait copier une série de commits en-dessous de notre emplacement actuel (`HEAD`). Personnellement, j'adore `cherry-pick` parce qu'il y a un petit peu de magie dedans, et parce que c'est facile à comprendre.",
+              "",
+              "Faisons une démonstration !",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ici le dépôt que nous avons contient du travail dans la branche `side`, que nous voulons copier dans `master`. Cela pourrait être fait avec un rebase (que nous avons déjà appris), mais voyons comment cherry-pick fonctionne."
+            ],
+            "afterMarkdowns": [
+              "Voilà ! Nous voulions les commits `C2` et `C4` et git les a fait apparaître juste sous nos jambes. Aussi simple que ça !"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, copiez simplement le travail désigné dans la branche master. Vous pouvez voir les commits que nous souhaitons avoir en regardant dans la fenêtre d'objectif.",
               ""
             ]
           }
@@ -28005,6 +28122,7 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "es_AR": "Desatacheá tu HEAD",
+    "fr_FR": "Détachez votre HEAD",
     "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen"
@@ -28013,6 +28131,7 @@ exports.level = {
     "en_US": "Use the label (hash) on the commit for help!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
+    "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },
@@ -28168,6 +28287,84 @@ exports.level = {
               "Para completar este nivel, detacheemos HEAD de `bugFix` y ataccheemosla al commit, en cambio.",
               "",
               "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Se déplacer dans Git",
+              "",
+              "Avant que nous découvrions quelques unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
+              "",
+              "Une fois que ces déplacements seront aisés, votre puissance avec les autres commandes de git sera amplifiée !",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Premièrement nous avons parlé de \"HEAD\". HEAD est le nom symbolique pour le commit sur lequel nous nous situons actuellement -- plus simplement c'est le commit sur lequel nous travaillons.",
+              "",
+              "HEAD pointe toujours sur le commit le plus récent dans l'arbre des commits. La plupart des commandes git qui modifient l'arbre des commits vont commencer par modifier HEAD.",
+              "",
+              "Normalement HEAD pointe sur le nom d'une branche (comme bugFix). Quand vous effectuez un commit, le statut de bugFix est modifié et ce changement est visible par le biais de HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons cela en action. Ici nous allons indiquer où se situe HEAD avant et après un commit."
+            ],
+            "afterMarkdowns": [
+              "Vous voyez ! HEAD était caché en dessous de la branche `master` tout le long."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Détacher HEAD",
+              "",
+              "Détacher HEAD signifie simplement de l'attacher à un commit instead au lieu d'une branch. Voilà à quoi cela ressemble actuellement :",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Et maintenant c'est",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour terminer ce niveau, détacher HEAD de `bugFix` et attachez-le plutôt au commit.",
+              "",
+              "Spécifiez le commit par son identifiant (hash). Le hash de chaque commit est affiché dans le rond qui représente le commit."
             ]
           }
         }
@@ -28415,12 +28612,14 @@ exports.level = {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
+    "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spéficier la cible à rebaser",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
     "es_AR": "Introducción al rebase interactivo",
     "de_DE": "Einführung Interactive Rebase",
+    "fr_FR": "Introduction à rebase",
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase"
   },
@@ -28485,6 +28684,71 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "Git cherry-pick est pratique quand vous savez exactement quels commits vous voulez (_et_ que vous connaissez leurs identifiants) -- il est difficile de battre la simplicité qu'il procure.",
+              "",
+              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement git a pensé à vous dans pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de reconsidérer une série de commits que vous vous apprêtez à rebaser.",
+              "",
+              "Allons un peu plus dans les détails ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tout rebase interactif signifie utiliser la commande `rebase` avec l'option `-i`.",
+              "",
+              "Si vous mettez cette option, git va ouvrir une interface graphique pour vous montrer quels commits vont être copiés en dessous de la cible sur laquelle vous rebasez. Elle vous montre aussi les identifiants et commentaires des commits, ce qui est pratique pour s'orienter parmi les commits.",
+              "",
+              "Pour le \"vrai\" git, l'interface graphique correspond en fait à ouvrir un fichier dans un éditeur de texte comme `vim`. Pour notre exemple, j'ai construit une petite fenêtre de dialogue qui se comporte de la même façon."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Quand le rebase interactif s'ouvre, vous avez la possibilité de faire 3 choses :",
+              "",
+              "* Vous pouvez réarranger les commits simplement en changeant leur ordre dans l'interface graphique (dans notre fenêtre de dialogue, cela signifie déplacer les objets dedans avec la souris -- drag and drop).",
+              "* Vous pouvez omettre certains commits. Cela est désigné par  `pick` -- cliquer sur `pick` désélectionne/resélectionne le commit.",
+              "* Enfin, vous pouvez écraser des commits. Malheureusement notre niveau ne supporte pas cette option, nous allons donc sauter les détails concernant cette possibilité. Pour faire court, cela vous permet de mélanger des commits.",
+              "",
+              "Super ! Voyons un exemple."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Quand vous activez le bouton, une fenêtre de rebase interactif va s'ouvrir. Reordonnez quelques commits (ou supprimez-en certains) et regardez le résultat !"
+            ],
+            "afterMarkdowns": [
+              "Boum ! Git a copié les commits de la même manière que vous l'aviez spécifié."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, faites un rebase intractif et atteignez l'ordre indiqué dans le fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
             ]
           }
         }
@@ -28760,6 +29024,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Relative Refs (^)",
+    "fr_FR": "Références relatives (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
@@ -28767,6 +29032,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
+    "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "zh_CN": "记住插入(^)操作符!",
@@ -28843,6 +29109,81 @@ exports.level = {
               "To complete this level, check out the parent commit of `bugFix`. This will detach `HEAD`.",
               "",
               "You can specify the hash if you want, but try using relative refs instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Références relatives",
+              "",
+              "Se déplacer dans Git en spécifiant des identifiants de commits (hashes) peut être un peu agaçant. Dans le monde réel vous n'aurez pas une vue sur un joli arbre des commits à côté de votre terminal, ainsi vous aurez à utiliser `git log` pour connaître les identifiants.",
+              "",
+              "De plus, les identifiants sont plus longs dans le vrai monde de Git qu'ici. Par exemple, l'identifiant du commit introduit au précédent niveau était `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Difficilement mémorisable ...",
+              "",
+              "Le côté positif est que Git est intelligent avec les identifiants. Vous avez seulement à spécifier les premiers caractères de l'identifiant jusqu'à ce qu'il reconnaisse exactement le commit. Ainsi je peux taper `fed2` au lieu de la longue chaîne ci-dessus."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très convénient, c'est pourquoi Git a des références relatives. Elles sont géniales !",
+              "",
+              "Avec les références relatives vous pouvez commencer par vous placer à un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis ici.",
+              "",
+              "Les commits relatifs sont puissants, et on va en introduire deux simples ici :",
+              "",
+              "* Revenir d'un commit en arrière avec `^`",
+              "* Revenir de plusieurs en arrière avec `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Regardons l'opérateur circonflexe (^) d'abord. Chaque fois que vous le faites suivre un nom de référence, vous êtes en train de demander à Git de trouver le parent du commit spécifié.",
+              "",
+              "Ainsi, `master^` est équivalent à \"le premier parent de `master`\".",
+              "",
+              "`master^^` est le grand-parent (ancêtre de seconde génération) de `master`",
+              "",
+              "Faisons un checkout du commit avant master."
+            ],
+            "afterMarkdowns": [
+              "Boum ! Fini. Bien plus facile qu'écrire l'identifiant du commit."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vous pouvez aussi utiliser `HEAD` comme une référence relative. Utilisons cela plusieurs fois pour remonter l'arbre des commits."
+            ],
+            "afterMarkdowns": [
+              "Facile ! Nous pouvons voyager dans le temps avec `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour compléter ce niveau, faites un checkout du commit parent de `bugFix`. Cela va détacher `HEAD`.",
+              "",
+              "Vous pouvez spécifier l'identifiant du commit si vous voulez, mais essayez plutôt d'utiliser les références relatives !"
             ]
           }
         }
@@ -29158,6 +29499,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
+    "fr_FR": "Vous aurez besoin d'utiliser au moins une référence directe (hash) pour compléter ce niveau.",
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
@@ -29167,6 +29509,7 @@ exports.level = {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
     "es_AR": "Referencias relativas #2 (~)",
+    "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
   },
@@ -29309,7 +29652,76 @@ exports.level = {
         }
       ]
     },
-    "de_DE": {
+   "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### L'opérateur \"~\"",
+              "",
+              "Disons que vous suohaitez remontez beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
+              "",
+              "",
+              "L'opérateur tilde prend optionnellement à sa suite un nombre qui spécifie le nombre de parents que vous souhaitez remonter. Voyons cela en action"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Spécifions le nombre de commits en arrière avec `~`."
+            ],
+            "afterMarkdowns": [
+              "Boum! Tellement rapide -- les références relatices sont géniales."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forcer les branches",
+              "",
+              "Vous êtes maintenant un expert des références relatives, alors servons-nous en.",
+              "",
+              "L'une des principales façons dont j'utilise les références relatives est pour réorganiser les branches. Vous pouvez directement réassigner les branches à un commit avec l'option `-f`. Ainsi quelque chose comme :",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "bouge (de force) la branch master à trois parents derrière HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons l'effet de la précédente commande"
+            ],
+            "afterMarkdowns": [
+              "On y est ! Les références relatives nous donne une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cette emplacement."
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Maintenant que vous avez vu les références relatives et le forçage de branche ensemble mêlés ensemble, utilisons-les pour résoudre le niveau suivant.",
+              "",
+              "Pour compléter ce niveau, bouger `HEAD`, `master`, et `bugFix` à leurs destinations désignées."
+            ]
+          }
+        }
+      ]
+    },
+   "de_DE": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -29507,7 +29919,7 @@ exports.level = {
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
-    "fr_FR": "",
+    "fr_FR": "Notez que `revert` et `reset` n'ont pas les mêmes arguments.",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
     "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
@@ -29775,9 +30187,9 @@ exports.level = {
             "markdowns": [
               "## Annuler des changements avec Git",
               "",
-              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion dans le 'staging' des fichiers et morceaux de fichiers) et un aspect de plus haut niveau 9comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
               "",
-              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons",
+              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
               ""
             ]
           }
