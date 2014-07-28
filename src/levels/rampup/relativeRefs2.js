@@ -225,7 +225,7 @@ exports.level = {
           }
         }
       ]
-    }, 
+    },
    "de_DE": {
       "childViews": [
         {

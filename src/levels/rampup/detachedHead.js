@@ -14,7 +14,7 @@ exports.level = {
     "en_US": "Use the label (hash) on the commit for help!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
-    "fr_FR": "Utiiser le label (identifiant) du commit pour aider !"
+    "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
   },

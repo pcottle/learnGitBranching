@@ -12,7 +12,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
-    "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)"
+    "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "zh_CN": "记住插入(^)操作符!",
@@ -106,7 +106,7 @@ exports.level = {
               "",
               "De plus, les identifiants sont plus longs dans le vrai monde de Git qu'ici. Par exemple, l'identifiant du commit introduit au précédent niveau était `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Difficilement mémorisable ...",
               "",
-              "Le côté positif est que Git est intelligent avec les identifiants. Vous avez seulement à spécifier suffisamment de premiers caractères de l'identifiant jusqu'à ce qu'il reconnaisse exactement le commit. Ainsi je peux taper `fed2` au lieu de la longue chaîne ci-dessus."
+              "Le côté positif est que Git est intelligent avec les identifiants. Vous avez seulement à spécifier les premiers caractères de l'identifiant jusqu'à ce qu'il reconnaisse exactement le commit. Ainsi je peux taper `fed2` au lieu de la longue chaîne ci-dessus."
             ]
           }
         },
@@ -116,7 +116,7 @@ exports.level = {
             "markdowns": [
               "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très convénient, c'est pourquoi Git a des références relatives. Elles sont géniales !",
               "",
-              "Avec les références relatives vous pouvez commencer un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis ici.",
+              "Avec les références relatives vous pouvez commencer par vous placer à un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis ici.",
               "",
               "Les commits relatifs sont puissants, et on va en introduire deux simples ici :",
               "",

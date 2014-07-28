@@ -15,7 +15,7 @@ exports.level = {
     "zh_TW": "介紹 cherry-pick"
   },
   "hint": {
-    "fr_FR": "git cherry-pick suivis par les noms de commits"
+    "fr_FR": "git cherry-pick suivis par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
