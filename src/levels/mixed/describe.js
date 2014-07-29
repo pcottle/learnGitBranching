@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C6\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Describe",
-    "fr_FR": "Git Describe",
+    "fr_FR": "Git describe",
     "de_DE": "Git Describe",
     "es_AR": "Git Describe",
     "zh_TW": "git describe",
@@ -12,7 +12,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "fr_FR": "Faites un commit su bugFix quand vous êtes pret",
+    "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
@@ -88,11 +88,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Git Describe",
+              "### Git describe",
               "",
-              "Parce ce que les tags sont de très bonne références dans le code, git à une commande pour *describe* la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe`!",
+              "Parce ce que les tags sont de très bonne références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe`!",
               "",
-              "Git describe peux vous aider lorsque vous vous êtes beaucoup déplacé; peut être pratique après un git bisect ou lorsque vous revené de vacance après 3 semaines."
+              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé ; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacance après 3 semaines sur l'ordinateur d'un collègue."
             ]
           }
         },
@@ -100,17 +100,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Git describe s'écrit comme suit:",
+              "Git describe s'écrit comme suit :",
               "",
               "`git describe <ref>`",
               "",
-              "Ou `<ref>` est un numéro de commit. Si vous ne specifiez pas de ref, HEAD est pris par défault.",
+              "où `<ref>` est un n'importe quelle chose que git peut résoudre en un commit. Si vous ne specifiez pas de ref, `HEAD` est pris par défault.",
               "",
-              "Le résultat de la commande est:",
+              "Le résultat de la commande ressemble à :",
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "Ou `tag` est le tag le plus proche, `numCommits` le nombre de commit avec le tag, et `<hash>` le hash du commit décris."
+              "où `tag` est le tag le plus proche dans l'historique, `numCommits` le nombre de commit avec le tag, et `<hash>` le hash/identifiant du commit décrit."
             ]
           }
         },
@@ -118,14 +118,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Un petit exemple. Prennons cet arbre:"
+              "Regardons un petit exemple. Prennons cet arbre :"
             ],
             "afterMarkdowns": [
-              "La commande`git describe master` donne le résultat:",
+              "La commande`git describe master` donne le résultat :",
               "",
               "`v1_2_gC2`",
               "",
-              "et `git describe side` donne:",
+              "alors que `git describe side` donne :",
               "",
               "`v2_1_gC4`"
             ],
@@ -137,9 +137,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ceci résume bien git describe! Amusé vous pour bien comprendre describe.",
+              "Ceci résume bien git describe ! Amusez-vous à utiliser cette commande avec d'autres endroits dans ce niveau pour bien comprendre describe.",
               "",
-              "Lorsque vous serez confiant, faite simplement un commit pour finir le niveau. Un petit niveau bonus :P"
+              "Lorsque vous serez prêt, faites simplement un commit pour finir le niveau. Un petit niveau bonus :P"
             ]
           }
         }

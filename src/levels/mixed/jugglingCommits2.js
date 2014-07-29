@@ -88,11 +88,11 @@ exports.level = {
             "markdowns": [
               "## Jongler avec les commits #2",
               "",
-              "*Si vous n'avez pas fait le défi Jongler avec les commits #1 (le niveau précédent), vous devriez le faire avant*",
+              "*Si vous n'avez pas fait le défi Jongler avec les commits #1 (le niveau précédent), vous devriez le faire avant de continuer*",
               "",
-              "Comme fait dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Si le commit à modifier est celui à la tête, faites un --amend et réordonnez le dans l'ordre voulu.",
+              "Comme vu dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Une fois que le commit à modifier est celui à la tête, nous pouvons facilement faire un --amend et réordonner dans l'ordre voulu.",
               "",
-              "La difficulté ici est qu'il y a beaucoup de changement, ce qui peut introduire des conflits de rebase. Essayons avec le `git cherry-pick`"
+              "La difficulté ici est qu'il y a beaucoup de changements, ce qui peut introduire des conflits de rebase. Essayons avec l'autre méthode `git cherry-pick`"
             ]
           }
         },
@@ -100,12 +100,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe ou dans l'arbre de git et le mettre devant le HEAD. Sauf si il est l'ancètre de la branche courante.",
+              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe où dans l'arbre de git et le mettre devant HEAD (sauf s'il est un ancêtre de HEAD).",
               "",
-              "Un petit rappel:"
+              "Un petit rappel :"
             ],
             "afterMarkdowns": [
-              "Maintenant, continuons"
+              "Bien ! continuons."
             ],
             "command": "git cherry-pick C2",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
@@ -115,9 +115,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. A vous maintenant de trouver comment! :D",
+              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. À vous maintenant de trouver comment ! :D",
               "",
-              "Petit rappel, le nombre exact d'apostrophe (') sur le commit n'est pas important. Par exemple, nous donnerons les points à une structure qui colle au résultat mais a une apostrophe en trop partout."
+              "Petit rappel, le nombre exact d'apostrophes (') sur le commit n'est pas important. Par exemple, nous donnerons les points à une structure qui colle au résultat mais qui a une apostrophe en trop partout."
             ]
           }
         }

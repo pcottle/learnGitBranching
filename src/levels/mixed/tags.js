@@ -12,7 +12,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
-    "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag!",
+    "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag !",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
@@ -79,9 +79,9 @@ exports.level = {
             "markdowns": [
               "## Git Tags",
               "",
-              "Comme apris dans les niveau précédent, les branches sont facile et rende le travail avec les commit plus simple. Il est facile de faire des merge sur les branches. Les branches sont donc constament en mouvement.",
+              "Comme apris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
               "",
-              "Dans ce cas, il doit exister une façons de sauvegarder de façon permanente l'état du projet. Pour des choses comme des Release majeur, Il existe une façons plus permanente de garder l'état du code?",
+              "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des release majeures ou d'importants merge, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
               ""
             ]
           }
@@ -90,11 +90,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "vous l'aurez deviné! Git tags offre cette fonctionnalité -- Les tags garde l'état du code et pointe vers ce commit peux importe comment l'arbre git continue d'évoluer.",
+              "Vous l'avez deviné ! Git tags offre cette fonctionnalité -- les tags marquent à jamais certains commits comme \"milestone\" auxquels vous pouvez vous référez comme à des branches.",
               "",
-              "encore plus important, il sont définitif. Vous ne pouvez donc pas faire de commit sur un tag -- Les tags sont un peu comme un pointeur définitif dans l'arbre",
+              "Encore plus important, il sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag -- les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
               "",
-              "Voici les tags en pratique."
+              "Voyons les tags en pratique."
             ]
           }
         },
@@ -105,7 +105,7 @@ exports.level = {
               "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)"
             ],
             "afterMarkdowns": [
-              "Voila, facile non! nous nommons le tag v1 et il pointe vers C1. Si vous ne spécifié pas le commit, le HEAD sera l'endroit ou le tag pointera."
+              "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit  `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -115,9 +115,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour ce niveau, simplement faire un tag v1 et faire un checkout dessu. Remarqué vous êtes en  detached `HEAD` state -- C'est parceque vous ne pouvez pas commiter sur le tag `v1`.",
+              "Pour ce niveau, créez simplement les tags visibles dans les objectifs puis faites un checkout sur le tag `v1`. Remarquez comment vous vous retrouvez dans l'état `HEAD` détachée -- c'est parce que vous ne pouvez pas commiter sur le tag `v1`.",
               "",
-              "Dans le défils suivants vous verez des scénarios plus interessant."
+              "Dans les niveaux suivants vous verrez un cas plus intéressant d'utilisation des tags."
             ]
           }
         }
