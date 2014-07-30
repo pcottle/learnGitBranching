@@ -26,7 +26,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
-    "fr_FR": "Souvenez-vous, les rebases interractiv ou cherry-pick est votre amis ici.",
+    "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
@@ -79,13 +79,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Les commits stacké localement",
+              "## Les commits empilés localement",
               "",
-              "Voici une situation qui arrive souvent. J'ai un bug et pour trouver la source je rajoute des commande de debug à travers le code.",
+              "Voici une situation qui arrive souvent : j'ai un bug assez caché à corriger. Pour trouver la source je rajoute des commandes et prints de debug à travers le code.",
               "",
-              "Tous ces debug se retrouve dans une branche, je trouve le bug et le répart, comme toujours!",
+              "Tous ces debug se retrouvent dans une branche particulière. Je trouve le bug et le répare, comme toujours !",
               "",
-              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une meilleur façon."
+              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une autre façon..."
             ]
           }
         },
@@ -93,12 +93,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Nous avons besoin de dire à Git quelle commit choisir. Simplement comme le niveau précédent -- nous pouvons utiliser les mêmes commandes:",
+              "Pour réussir ce niveau, nous avons besoin de dire à Git quel commit particulier recopier. C'est comme pour le niveau précédent -- nous pouvons utiliser les mêmes commandes :",
               "",
               "* `git rebase -i`",
-              "* `git cherry-pick`",
-              "",
-              "Pour réussir ce niveau."
+              "* `git cherry-pick`"
             ]
           }
         },
@@ -106,7 +104,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "À vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez vous que `master` recois le même commit que `bugFix`."
+              "C'est un niveau avancé, donc à vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez-vous que `master` reçoive le même commit que `bugFix` référence."
             ]
           }
         }

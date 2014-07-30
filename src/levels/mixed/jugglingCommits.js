@@ -87,9 +87,9 @@ exports.level = {
             "markdowns": [
               "## Jongler avec les Commits",
               "",
-              "Voici une autre situation commune. Vous avez certain changement (`newImage`) et un autre groupe de changement (`caption`) qui sont relié, ils sont donc empillé un sur l'autre dans votre répertoire Git(aka un après l'autre).",
+              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont relié, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. un après l'autre).",
               "",
-              "Là ou ca se complique c'est lorsque vous devez faire modification dans un commit antérieure. Dans ce cas, les configuration de  `newImage` devrons changer un peu, même si ce commit est loin dans notre histoire!!"
+              "Là ou ça se complique c'est lorsque vous devez faire une petite modification dans un commit antérieur. Dans ce cas, les configuration de  `newImage` devront changer un peu, même si ce commit est loin dans notre historique !!"
             ]
           }
         },
@@ -97,14 +97,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Nous allons régler le problème en fesant ceci:",
+              "Nous allons régler le problème en faisant ceci :",
               "",
-              "* Nous allons réaligné les commits pour que celui que nous voulions soit sur le dessus `git rebase -i`",
-              "* Nous allons faire `commit --amend` pour faire les modifications",
-              "* Nous allons réaligner les commits dans l'ordre original `git rebase -i`",
-              "* Finalement, nous allons déplacer le HEAD de master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
+              "* Nous allons réordonner les commits pour que celui que nous voulions changer soit sur le dessus `git rebase -i`",
+              "* Nous allons utiliser `commit --amend` pour faire les petites modifications",
+              "* Nous allons réordonner les commits dans l'ordre original avec `git rebase -i`",
+              "* Finalement, nous allons déplacer master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
               "",
-              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez vous sur cette technique."
+              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique."
             ]
           }
         },
