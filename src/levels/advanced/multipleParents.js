@@ -203,7 +203,7 @@ exports.level = {
               "",
               "Comme le symbole `~`, le symbole `^` accepte un numéro après lui.",
               "",
-              "Au lieu d'entrer le nombre de génération à reculer (ce que `~` fait), le symbole `^` détermine quel parent fait le commit. Attention, un merge commit à deux parents ce qui peux porter à confusion.",
+              "Au lieu d'entrer le nombre de générations à remonter (ce que `~` fait), le symbole `^` détermine quel parent est à remonter. Attention, un merge commit a deux parents ce qui peut porter à confusion.",
               "",
               "Normalement Git suit le  \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défault est modifié.",
               "",
@@ -218,10 +218,10 @@ exports.level = {
             "beforeMarkdowns": [
               "Nous avons un commit/merge. Si nous faisons checkout `master^` sans le symbole, on obtient le premier parent suivant ce commit. ",
               "",
-              "(*Dans notre vue, Le premier parent se situe juste au dessus du merge.*)"
+              "(*Dans notre vue, le premier parent se situe juste au dessus du merge.*)"
             ],
             "afterMarkdowns": [
-              "Facile -- C\'est ce que nous faisons toujours.."
+              "Facile -- C\'est ce que nous faisons tout le temps."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -234,7 +234,7 @@ exports.level = {
               "Nous allons spécifier le deuxième parent à la place."
             ],
             "afterMarkdowns": [
-              "Vous voyez? Nous suivons le second parent."
+              "Vous voyez ? Nous suivons le second parent."
             ],
             "command": "git checkout master^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -244,10 +244,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Le symbole `^` et `~` Permettes de se déplacer de façon très efficace:"
+              "Les symboles `^` et `~` permettent de se déplacer de façon très efficace :"
             ],
             "afterMarkdowns": [
-              "Boom, vitesse du tonnerre!"
+              "Boum, vitesse du tonnerre !"
             ],
             "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -257,7 +257,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Encore plus fou, c'est symboles peuvre être chainés (Inception style):"
+              "Encore plus fou, ces symboles peuvent être enchainés ! Regardez cela :"
             ],
             "afterMarkdowns": [
               "Le même résultat, mais en une seule commande."
@@ -270,11 +270,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Essayez-le",
+              "### Un peu de pratique",
               "",
-              "Pour réussir le niveau, créé une nouvelle branche à la bonne destination",
+              "Pour réussir le niveau, créez une nouvelle branche à la destination indiquée",
               "",
-              "Évidement c'est plus rapide de spécifier le commit (C6 par exemple), mais faites le avec les symboles de déplacement."
+              "Évidement ce serait plus rapide de spécifier le commit (C6 par exemple), mais faites-le plutôt avec les symboles de déplacement dont nous venons de parler !"
             ]
           }
         }
