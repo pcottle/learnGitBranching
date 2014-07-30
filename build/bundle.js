@@ -23176,7 +23176,7 @@ exports.level = {
               "",
               "Comme le symbole `~`, le symbole `^` accepte un numéro après lui.",
               "",
-              "Au lieu d'entrer le nombre de génération à reculer (ce que `~` fait), le symbole `^` détermine quel parent fait le commit. Attention, un merge commit à deux parents ce qui peux porter à confusion.",
+              "Au lieu d'entrer le nombre de générations à remonter (ce que `~` fait), le symbole `^` détermine quel parent est à remonter. Attention, un merge commit a deux parents ce qui peut porter à confusion.",
               "",
               "Normalement Git suit le  \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défault est modifié.",
               "",
@@ -23191,10 +23191,10 @@ exports.level = {
             "beforeMarkdowns": [
               "Nous avons un commit/merge. Si nous faisons checkout `master^` sans le symbole, on obtient le premier parent suivant ce commit. ",
               "",
-              "(*Dans notre vue, Le premier parent se situe juste au dessus du merge.*)"
+              "(*Dans notre vue, le premier parent se situe juste au dessus du merge.*)"
             ],
             "afterMarkdowns": [
-              "Facile -- C\'est ce que nous faisons toujours.."
+              "Facile -- C\'est ce que nous faisons tout le temps."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -23207,7 +23207,7 @@ exports.level = {
               "Nous allons spécifier le deuxième parent à la place."
             ],
             "afterMarkdowns": [
-              "Vous voyez? Nous suivons le second parent."
+              "Vous voyez ? Nous suivons le second parent."
             ],
             "command": "git checkout master^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -23217,10 +23217,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Le symbole `^` et `~` Permettes de se déplacer de façon très efficace:"
+              "Les symboles `^` et `~` permettent de se déplacer de façon très efficace :"
             ],
             "afterMarkdowns": [
-              "Boom, vitesse du tonnerre!"
+              "Boum, vitesse du tonnerre !"
             ],
             "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
@@ -23230,7 +23230,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Encore plus fou, c'est symboles peuvre être chainés (Inception style):"
+              "Encore plus fou, ces symboles peuvent être enchainés ! Regardez cela :"
             ],
             "afterMarkdowns": [
               "Le même résultat, mais en une seule commande."
@@ -23243,11 +23243,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Essayez-le",
+              "### Un peu de pratique",
               "",
-              "Pour réussir le niveau, créé une nouvelle branche à la bonne destination",
+              "Pour réussir le niveau, créez une nouvelle branche à la destination indiquée",
               "",
-              "Évidement c'est plus rapide de spécifier le commit (C6 par exemple), mais faites le avec les symboles de déplacement."
+              "Évidement ce serait plus rapide de spécifier le commit (C6 par exemple), mais faites-le plutôt avec les symboles de déplacement dont nous venons de parler !"
             ]
           }
         }
@@ -25911,7 +25911,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C6\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Describe",
-    "fr_FR": "Git Describe",
+    "fr_FR": "Git describe",
     "de_DE": "Git Describe",
     "es_AR": "Git Describe",
     "zh_TW": "git describe",
@@ -25919,7 +25919,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "fr_FR": "Faites un commit su bugFix quand vous êtes pret",
+    "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
@@ -25995,11 +25995,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Git Describe",
+              "### Git describe",
               "",
-              "Parce ce que les tags sont de très bonne références dans le code, git à une commande pour *describe* la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe`!",
+              "Parce ce que les tags sont de très bonne références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe`!",
               "",
-              "Git describe peux vous aider lorsque vous vous êtes beaucoup déplacé; peut être pratique après un git bisect ou lorsque vous revené de vacance après 3 semaines."
+              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé ; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacance après 3 semaines sur l'ordinateur d'un collègue."
             ]
           }
         },
@@ -26007,17 +26007,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Git describe s'écrit comme suit:",
+              "Git describe s'écrit comme suit :",
               "",
               "`git describe <ref>`",
               "",
-              "Ou `<ref>` est un numéro de commit. Si vous ne specifiez pas de ref, HEAD est pris par défault.",
+              "où `<ref>` est un n'importe quelle chose que git peut résoudre en un commit. Si vous ne specifiez pas de ref, `HEAD` est pris par défault.",
               "",
-              "Le résultat de la commande est:",
+              "Le résultat de la commande ressemble à :",
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "Ou `tag` est le tag le plus proche, `numCommits` le nombre de commit avec le tag, et `<hash>` le hash du commit décris."
+              "où `tag` est le tag le plus proche dans l'historique, `numCommits` le nombre de commit avec le tag, et `<hash>` le hash/identifiant du commit décrit."
             ]
           }
         },
@@ -26025,14 +26025,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Un petit exemple. Prennons cet arbre:"
+              "Regardons un petit exemple. Prennons cet arbre :"
             ],
             "afterMarkdowns": [
-              "La commande`git describe master` donne le résultat:",
+              "La commande`git describe master` donne le résultat :",
               "",
               "`v1_2_gC2`",
               "",
-              "et `git describe side` donne:",
+              "alors que `git describe side` donne :",
               "",
               "`v2_1_gC4`"
             ],
@@ -26044,9 +26044,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ceci résume bien git describe! Amusé vous pour bien comprendre describe.",
+              "Ceci résume bien git describe ! Amusez-vous à utiliser cette commande avec d'autres endroits dans ce niveau pour bien comprendre describe.",
               "",
-              "Lorsque vous serez confiant, faite simplement un commit pour finir le niveau. Un petit niveau bonus :P"
+              "Lorsque vous serez prêt, faites simplement un commit pour finir le niveau. Un petit niveau bonus :P"
             ]
           }
         }
@@ -26336,7 +26336,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
-    "fr_FR": "Souvenez-vous, les rebases interractiv ou cherry-pick est votre amis ici.",
+    "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
@@ -26389,13 +26389,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Les commits stacké localement",
+              "## Les commits empilés localement",
               "",
-              "Voici une situation qui arrive souvent. J'ai un bug et pour trouver la source je rajoute des commande de debug à travers le code.",
+              "Voici une situation qui arrive souvent : j'ai un bug assez caché à corriger. Pour trouver la source je rajoute des commandes et prints de debug à travers le code.",
               "",
-              "Tous ces debug se retrouve dans une branche, je trouve le bug et le répart, comme toujours!",
+              "Tous ces debug se retrouvent dans une branche particulière. Je trouve le bug et le répare, comme toujours !",
               "",
-              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une meilleur façon."
+              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une autre façon..."
             ]
           }
         },
@@ -26403,12 +26403,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Nous avons besoin de dire à Git quelle commit choisir. Simplement comme le niveau précédent -- nous pouvons utiliser les mêmes commandes:",
+              "Pour réussir ce niveau, nous avons besoin de dire à Git quel commit particulier recopier. C'est comme pour le niveau précédent -- nous pouvons utiliser les mêmes commandes :",
               "",
               "* `git rebase -i`",
-              "* `git cherry-pick`",
-              "",
-              "Pour réussir ce niveau."
+              "* `git cherry-pick`"
             ]
           }
         },
@@ -26416,7 +26414,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "À vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez vous que `master` recois le même commit que `bugFix`."
+              "C'est un niveau avancé, donc à vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez-vous que `master` reçoive le même commit que `bugFix` référence."
             ]
           }
         }
@@ -26755,9 +26753,9 @@ exports.level = {
             "markdowns": [
               "## Jongler avec les Commits",
               "",
-              "Voici une autre situation commune. Vous avez certain changement (`newImage`) et un autre groupe de changement (`caption`) qui sont relié, ils sont donc empillé un sur l'autre dans votre répertoire Git(aka un après l'autre).",
+              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont relié, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. un après l'autre).",
               "",
-              "Là ou ca se complique c'est lorsque vous devez faire modification dans un commit antérieure. Dans ce cas, les configuration de  `newImage` devrons changer un peu, même si ce commit est loin dans notre histoire!!"
+              "Là ou ça se complique c'est lorsque vous devez faire une petite modification dans un commit antérieur. Dans ce cas, les configuration de  `newImage` devront changer un peu, même si ce commit est loin dans notre historique !!"
             ]
           }
         },
@@ -26765,14 +26763,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Nous allons régler le problème en fesant ceci:",
+              "Nous allons régler le problème en faisant ceci :",
               "",
-              "* Nous allons réaligné les commits pour que celui que nous voulions soit sur le dessus `git rebase -i`",
-              "* Nous allons faire `commit --amend` pour faire les modifications",
-              "* Nous allons réaligner les commits dans l'ordre original `git rebase -i`",
-              "* Finalement, nous allons déplacer le HEAD de master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
+              "* Nous allons réordonner les commits pour que celui que nous voulions changer soit sur le dessus `git rebase -i`",
+              "* Nous allons utiliser `commit --amend` pour faire les petites modifications",
+              "* Nous allons réordonner les commits dans l'ordre original avec `git rebase -i`",
+              "* Finalement, nous allons déplacer master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
               "",
-              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez vous sur cette technique."
+              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique."
             ]
           }
         },
@@ -27120,11 +27118,11 @@ exports.level = {
             "markdowns": [
               "## Jongler avec les commits #2",
               "",
-              "*Si vous n'avez pas fait le défi Jongler avec les commits #1 (le niveau précédent), vous devriez le faire avant*",
+              "*Si vous n'avez pas fait le défi Jongler avec les commits #1 (le niveau précédent), vous devriez le faire avant de continuer*",
               "",
-              "Comme fait dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Si le commit à modifier est celui à la tête, faites un --amend et réordonnez le dans l'ordre voulu.",
+              "Comme vu dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Une fois que le commit à modifier est celui à la tête, nous pouvons facilement faire un --amend et réordonner dans l'ordre voulu.",
               "",
-              "La difficulté ici est qu'il y a beaucoup de changement, ce qui peut introduire des conflits de rebase. Essayons avec le `git cherry-pick`"
+              "La difficulté ici est qu'il y a beaucoup de changements, ce qui peut introduire des conflits de rebase. Essayons avec l'autre méthode `git cherry-pick`"
             ]
           }
         },
@@ -27132,12 +27130,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe ou dans l'arbre de git et le mettre devant le HEAD. Sauf si il est l'ancètre de la branche courante.",
+              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe où dans l'arbre de git et le mettre devant HEAD (sauf s'il est un ancêtre de HEAD).",
               "",
-              "Un petit rappel:"
+              "Un petit rappel :"
             ],
             "afterMarkdowns": [
-              "Maintenant, continuons"
+              "Bien ! continuons."
             ],
             "command": "git cherry-pick C2",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
@@ -27147,9 +27145,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. A vous maintenant de trouver comment! :D",
+              "Dans ce niveau, nous voulons modifier `C2` sans utiliser `rebase -i`. À vous maintenant de trouver comment ! :D",
               "",
-              "Petit rappel, le nombre exact d'apostrophe (') sur le commit n'est pas important. Par exemple, nous donnerons les points à une structure qui colle au résultat mais a une apostrophe en trop partout."
+              "Petit rappel, le nombre exact d'apostrophes (') sur le commit n'est pas important. Par exemple, nous donnerons les points à une structure qui colle au résultat mais qui a une apostrophe en trop partout."
             ]
           }
         }
@@ -27423,7 +27421,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
-    "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag!",
+    "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag !",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
@@ -27490,9 +27488,9 @@ exports.level = {
             "markdowns": [
               "## Git Tags",
               "",
-              "Comme apris dans les niveau précédent, les branches sont facile et rende le travail avec les commit plus simple. Il est facile de faire des merge sur les branches. Les branches sont donc constament en mouvement.",
+              "Comme apris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
               "",
-              "Dans ce cas, il doit exister une façons de sauvegarder de façon permanente l'état du projet. Pour des choses comme des Release majeur, Il existe une façons plus permanente de garder l'état du code?",
+              "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des release majeures ou d'importants merge, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
               ""
             ]
           }
@@ -27501,11 +27499,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "vous l'aurez deviné! Git tags offre cette fonctionnalité -- Les tags garde l'état du code et pointe vers ce commit peux importe comment l'arbre git continue d'évoluer.",
+              "Vous l'avez deviné ! Git tags offre cette fonctionnalité -- les tags marquent à jamais certains commits comme \"milestone\" auxquels vous pouvez vous référez comme à des branches.",
               "",
-              "encore plus important, il sont définitif. Vous ne pouvez donc pas faire de commit sur un tag -- Les tags sont un peu comme un pointeur définitif dans l'arbre",
+              "Encore plus important, il sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag -- les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
               "",
-              "Voici les tags en pratique."
+              "Voyons les tags en pratique."
             ]
           }
         },
@@ -27516,7 +27514,7 @@ exports.level = {
               "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)"
             ],
             "afterMarkdowns": [
-              "Voila, facile non! nous nommons le tag v1 et il pointe vers C1. Si vous ne spécifié pas le commit, le HEAD sera l'endroit ou le tag pointera."
+              "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit  `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -27526,9 +27524,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour ce niveau, simplement faire un tag v1 et faire un checkout dessu. Remarqué vous êtes en  detached `HEAD` state -- C'est parceque vous ne pouvez pas commiter sur le tag `v1`.",
+              "Pour ce niveau, créez simplement les tags visibles dans les objectifs puis faites un checkout sur le tag `v1`. Remarquez comment vous vous retrouvez dans l'état `HEAD` détachée -- c'est parce que vous ne pouvez pas commiter sur le tag `v1`.",
               "",
-              "Dans le défils suivants vous verez des scénarios plus interessant."
+              "Dans les niveaux suivants vous verrez un cas plus intéressant d'utilisation des tags."
             ]
           }
         }
@@ -30448,6 +30446,7 @@ exports.level = {
     "en_US": "Rebasing over 9000 times",
     "de_DE": "10000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
+    "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
     "ja": "Rebasing over 9000 times",
     "zh_CN": "N次Rebase",
@@ -30457,6 +30456,7 @@ exports.level = {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
+    "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour master seulement à la fin ...",
     "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
@@ -30494,6 +30494,24 @@ exports.level = {
               "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
               "",
               "Si hacés líos en el camino, sentite libre de usar `reset` para empezar de nuevo. ¡Asegurate de verificar tu solución y ver si podés hacerla en alguna cantidad menor de commandos!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebaser plusieurs branches",
+              "",
+              "Dis-donc, nous avons beaucoup de branches par ici ! Rebasons tout le travail de ces branches dans master.",
+              "",
+              "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient fait de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, tout dans cet ordre.",
+              "",
+              "Si vous faites une erreur en chemin, n'hésitez pas à utiliser `reset` pour recommencer. Pensez à comparer votre solution à la notre et voyez si vous pouvez le faire en moins de commandes !"
             ]
           }
         }
@@ -30605,6 +30623,7 @@ exports.level = {
   "name": {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
+    "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
     "es_AR": "Enslada de branches",
     "ja": "ブランチスパゲッティ",
@@ -30613,6 +30632,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "fr_FR": "Faites attention à tout faire dans le bon ordre ! La branche one d'abord, puis la seconde, puis la troisième",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
@@ -30636,6 +30656,26 @@ exports.level = {
               "Branch `one` needs a re-ordering and a deletion of `C5`. `two` needs pure reordering, and `three` only needs one commit!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branche spaghetti",
+              "",
+              "WOAHHHhhh ! Nous avons pas mal d'objectifs dans ce niveau.",
+              "",
+              "Actuellement nous havons `master` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur master.",
+              "",
+              "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être reordonnée, et `three` ne nécessite qu'un commit !",
+              "",
+              "Nous vous laissons imaginer la solution pour ce niveau -- comparer avec notre solution après-coup avec la commande `show solution`. "
             ]
           }
         }
@@ -36586,4 +36626,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,59,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,85,84,86,87,88,89,90,91,92,93,94,95,96])
