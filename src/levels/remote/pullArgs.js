@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "Pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
-    "de_DE": "Optionen für Pull"
+    "de_DE": "Optionen für Pull",
+    "fr_FR": "Arguments de pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
     "zh_CN": "记住, 你可以通过 fetch/pull 创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
-    "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
+    "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
+    "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull"
   },
   "startDialog": {
     "en_US": {
@@ -86,6 +88,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les arguments de git pull",
+              "",
+              "Maintenant que vous savez presque *tout* ce qu'il y a à savoir à propos des arguments de `git fetch` et `git push`, il n'y a presque rien de restant à découvrir avec git pull :)",
+              "",
+              "C'est parce que git pull est au bout du compte *réellement* juste un raccourci pour un merge suivi d'un merge pour tout ce qui vient d'être rapatrié (par le fetch). Vous pouvez y pensez comme exécuter git fetch avec les *mêmes* arguments specifiés et ensuite fusionner avec là où ces commits sont arrivés.",
+              "",
+              "Cela fonctionne même quand vous utilisez des arguments très compliqués. Voyons quelques exemples :"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Voici quelques commandes équivalentes dans git :",
+              "",
+              "`git pull  origin foo` est équivalent à :",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Et ...",
+              "",
+              "`git pull  origin bar~1:bugFix` est équivalent à :",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Vous voyez ? git pull est vraiment simplement un raccourci pour fetch + merge, et tout ce dont git pull s'occupe est la destination des commits (l'argument `destination` qu'il utilise durant le fetch).",
+              "",
+              "Voyons une démonstration :"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Si nous précisons l'emplacement à rappatrier, tout se passe comme avant avec fetch mais nous fusionnons avec tout ce qui a été rapatrié"
+            ],
+            "afterMarkdowns": [
+              "Vu ? en précisant `master` nous avons téléchargé les commits dans `o/master` comme d'habitude. Puis nous avons fusionné `o/master` avec là où nous sommes, *sans se soucier* de la branche courante."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cela fonctionne-t-il avec une source et une destination aussi ? Et oui ! Voyons cela :"
+            ],
+            "afterMarkdowns": [
+              "Wow, c'est énorme en une commande. Nous avons créé une brance locale nommée `foo`, téléchargé les commits depuis la branche master distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail `bar`. It's over 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok pour finir ce niveau, atteignez l'état décrit dans la visualtion de l'objectif. Vous aurez besoin de télécharger quelques commits, de faire quelques nouvelles branches, et de fusionner ces branches dans d'autres branches, mais cela ne devrait pas utiliser trop de commandes :P"
             ]
           }
         }
