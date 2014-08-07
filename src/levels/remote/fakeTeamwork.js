@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Faking Teamwork",
+    "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
     "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "模拟团队合作",
@@ -11,6 +12,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
+    "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake中的commit指定数量",
@@ -66,6 +68,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simuler la collaboration",
+              "",
+              "C'est là que cela devient compliqué -- pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
+              "",
+              "Cela signifie que nous devons \"pretendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
+              "",
+              "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle est assez significative, voyons une démo ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Le comportement par défaut de `fakeTeamwork` est de simplement faire apparaître un commit sur master"
+            ],
+            "afterMarkdowns": [
+              "Voilà -- le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuter la commande `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vous pouvez aussi spécifier le nombre de commits ou la branche en l'ajoutant à la fin de la commande."
+            ],
+            "afterMarkdowns": [
+              "Avec une seule commande, nous avons simulé un collègue ayant pushé 3 commits à la branche `foo` de notre dépôt distant"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Les niveaux suivants vont devenir assez difficiles, donc nous demandons un peu plus que cela dans ce niveau.",
+              "",
+              "Vous devrez créer un dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commit les vôtres, et enfin appliquer ces changements dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
             ]
           }
         }

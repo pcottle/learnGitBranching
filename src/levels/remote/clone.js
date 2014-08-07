@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
+    "fr_FR": "Introduction à clone",
     "de_DE": "Clone Einführung",
     "es_AR": "Introducción a clone",
     "zh_CN": "介绍 Clone",
@@ -10,6 +11,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just git clone!",
+    "fr_FR": "Simplement git clone !",
     "de_DE": "Einfach git clone ausführen!",
     "zh_CN": "只要 git clone!",
     "es_AR": "Simplemente hacé git clone!",
@@ -68,6 +70,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Les dépôts distants (remote repositories) ne sont pas si compliqués que ça. Dans l'ère actuelle du cloud computing il est facile de croire qu'il y a un peu de magie derrière les branches distantes, mais elles sont en fait juste des copies de votre dépôt local sur un autre ordinateur. Vous pouvez donc vous connecter à cet ordinateur par Internet, ce qui vous permet de transférer les commits en retard et en avance.",
+              "",
+              "Cela dit, les branches distantes ont plusieurs propriétés puissantes :",
+              "",
+              "- Avant toute chose, le dépôt distant sert de sauvegarde ! Le dépôt local de git a la capacité de restaurer des fichiers à un état précédent (comme vous le savez), mais toutes les informations sont stockées localement. En ayant des copies de votre dépôt git sur d'autres ordinateurs, vous pouvez perdre vos données et toujours repartir de là où vous en étiez resté.",
+              "",
+              "- Plus important encore, les dépôts distants sociabilisent le projet ! Maintenant qu'il est hébergé quelque part ailleurs, vos amis peuvent y contribuer facilement (ou récupérer vos derniers changements).",
+              "",
+              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (commen [Github](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent  _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les commandes pour créer des dépôts distants",
+              "",
+              "Jusqu'à maintenant, Learn Git Branching s'est surtout concentrésur l'apprentissage des bases du travail sur un dépôt _local_ (branch, merge, rebase, etc). Cependant maintenant nous voulons savoir comment travailler sur les dépôts distants, nous avons besoin d'une commande pour l'environnement de ces leçons. `git clone` sera cette commande",
+              "",
+              "Techniquement, `git clone` dans le monde réel sera la commande que vous utiliserez pour créer des copies _locales_ des dépôts distants (de github par exemple). Nous utilisons cette commande un peu différemment dans Learn Git Branching car `git clone` crée ici un dépôt distant à partir de votre dépôt local. Il est certain qu'il s'agit donc du sens opposé de la commande originale, mais cela aide à construire la connexion entre le clonage et le travail sur le dépôt distant, travaillons donc avec cela pour l'instant.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Commençons doucement et regardons à quoi ressemble un dépôt distant (dans notre visualisation).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Nous y sommes ! Maintenant nous avons un dépôt distant de notre projet. Cela ressemble fortement à d'habitude, en dehors de quelques changements pour rendre compte des différences -- dans les niveaux suivants vous allez voir comment partager le travail entre ces dépôts."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, faites simplement un `git clone` du dépôt existant. Le réel apprentissage arrivera dans les prochaines leçons."
             ]
           }
         }

@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "没有 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
-    "de_DE": "Die Quelle des Nichts"
+    "de_DE": "Die Quelle des Nichts",
+    "fr_FR": "Source de rien du tout"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的 branch 命令被禁用了, 你只能使用 fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
-    "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
+    "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
+    "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !"
   },
   "startDialog": {
     "en_US": {
@@ -65,6 +67,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Les bizarreries de `<source>`",
+              "",
+              "Git maltraite le paramètre `<source>` parameter de deux façons bizarres. Ces deux abus viennent du fait que vous pouvez techniquement ne \"rien spécifier commre `source` valide pour git push et git fetch. Le moyen de ne rien spécifier est un argument vide :",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Voyons ce que cela fait ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Qu'est-ce que produit l'envoi de \"rien\" sur une branche distante ? Cela la détruit !"
+            ],
+            "afterMarkdowns": [
+              "Ici, nous avons brillamment supprimé  la branche `foo` du dépôt distant en lui envoyant le concept de \"rien\". Cela prend du sens ..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Enfin, un fetch de \"rien\" dans un emplacement local crée une nouvelle branche"
+            ],
+            "afterMarkdowns": [
+              "Très étrange, mais peu importe. C'est git !"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "C'est un petit niveau -- supprimez simplement une branche distante et faites-en une nouvelle (locale) avec `git fetch` pour terminer !"
             ]
           }
         }
