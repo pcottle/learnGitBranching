@@ -161,7 +161,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok pour finir ce niveau, atteignez l'état décrit dans la visualtion de l'objectif. Vous aurez besoin de télécharger quelques commits, de faire quelques nouvelles branches, et de fusionner ces branches dans d'autres branches, mais cela ne devrait pas utiliser trop de commandes :P"
+              "Ok pour finir ce niveau, atteignez l'état décrit dans la visualisation de l'objectif. Vous aurez besoin de télécharger quelques commits, de faire quelques nouvelles branches, et de fusionner ces branches dans d'autres branches, mais cela ne devrait pas utiliser trop de commandes :P"
             ]
           }
         }

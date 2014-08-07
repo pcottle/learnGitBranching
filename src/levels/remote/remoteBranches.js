@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "Remote Branches",
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
-    "de_DE": "Branches auf entfernten Servern"
+    "de_DE": "Branches auf entfernten Servern",
+    "fr_FR": "Les branches distantes"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "注意顺序 -- 先在 master 上 commit!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
-    "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
+    "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
+    "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !"
   },
   "startDialog": {
     "en_US": {
@@ -73,6 +75,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les branches distantes de git",
+              "",
+              "Maintenant que nous avons vu `git clone` en action, plongeons dans ce qui a changé.",
+              "",
+              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans vôtre dépôt local appelée `o/master`. Ce type de branche est appelée une branche _distante_; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
+              "",
+              "Les branches distantes reflètent _l'état_ des dépôts distants (depuis que nous avons parlé de ces dépôts distants). Elles vous aident à comprendre les différences entre vôtre travail et le travail public -- une étape critique à effectuer avant de partager son travail avec les autres.",
+              "",
+              "Les branches distantes ont la propriété particulière que quand vous vous rendez dessus (checkout), `HEAD` est détaché. Git fait cela car vous ne pouvez pas travailler sur ces branches directement ; vous devez travailler ailleurs et ensuite partager vôtre travail avec le dépôt distant (après quoi vos branches distantes seront mises à jour)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Qu'est-ce que `o/`?",
+              "",
+              "Vous vous demandez peut-être ce qu'est le préfixe `o/` devant ces branches distantes. En pratique, les branches distantes ont aussi une convention de nommage (obligatoire) -- elles sont affichées avec le format :",
+              "",
+              "* `<nom dépôt distant>/<nom de la branche>`",
+              "",
+              "Donc, si vous regardez une branche nommée `o/master`, le nom de la branche est `master` et le nom du dépôt distant est `o`.",
+              "",
+              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait vôtre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
+              "",
+              "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai git, vôtre dépôt distant est probablement nommé `origin`!",
+              "",
+              "Cela fait beaucoup d'un coup, donc voyons cela en action."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Rendons-nous sur une branche et regardons ce qui se passe"
+            ],
+            "afterMarkdowns": [
+              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" `HEAD` puis n'a pas mis à jour `o/master` quand nous avons ajouté un nouveau commit. C'est parce que `o/master` va se mettre à jour uniquement quand le dépôt distant est mis à jour."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, faîtes un commit en dehors de `master` puis un après s'être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
             ]
           }
         }

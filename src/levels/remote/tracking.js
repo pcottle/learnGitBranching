@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "Remote Tracking",
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
-    "de_DE": "Remote Tracking"
+    "de_DE": "Remote Tracking",
+    "fr_FR": "Suivi de branche distante"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
-    "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
+    "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
+    "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !"
   },
   "startDialog": {
     "en_US": {
@@ -130,6 +132,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Le suivi des branches distantes",
+              "",
+              "Dans les dernières leçons, git savait que la branche `master` était reliée à `o/master`, et cela a pu paraître \"magique\". Il est certain que ces deux branches ont des noms similaires et il peut être logique de croire que la branche locale `master` est liée à la branche distante `master`, mais la relation n'est prouvée que dans deux scénarios :",
+              "",
+              "* Pendant un pull, les commits sont téléchargés dans `o/master` et ensuite *fusionnés* (merge) dans la branche `master`. La cible impliquée dans cette fusion est déterminée par cette relation.",
+              "* Pendant un push, le travail de la branche `master` a été envoyé sur la branche distante `master` (qui est localement représentée par `o/master`). La *destination* du push est déterminée par la relation entre `master` and `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Pour faire court, cette relation entre `master` et `o/master` est simplement expliquée par la propriété \"remote tracking\" (suivi distant) des branches. La branche `master` est configurée pour suivre `o/master` -- cela signifie qu'il y a une cible de fusion et une destination d'envoi pour la branche `master`.",
+              "",
+              "Vous vous demandez peut-être comment cette propriété a été configurée pour la branche `master` alors que vous n'avez exécuté aucune commande pour le faire. Eh bien, quand vous clonez un dépôt avec git, cette propriété est configurée automatiquement. ",
+              "",
+              "Pendant le clonage, git crée une branche distante pour chaque branche du dépôt distant (i.e. des branches comme `o/master`). Il crée ensuite une branche locale qui suit la branche actuellement active sur le dépôt distant, qui se trouve être `master` dans la plupart des cas.",
+              "",
+              "Une fois que git clone est terminé, vous avez seulement une branche locale (comme ça vous n'êtes pas submergé) mais vous pouvez voir toutes les branches distantes (si vous êtes très curieux). C'est le mieux que l'on puisse vouloir !",
+              "",
+              "Cela explique aussi pourquoi vous avez peut-être vu la sortie suivante pendant le clonage :",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Puis-je configurer cela moi-même ?",
+              "",
+              "Oui vous pouvez ! Vous pouvez suivre `o/master` depuis n'importe quelle branche, et si vous le faîtes, cette branche va avoir la même destination de push et cible de merge que pour `master`. Cela signifie que vous pouvez exéctuer `git push` sur une branche nommée `totallyNotMaster` et envoyer vôtre travail sur la branche `master` du dépôt distant!",
+              "",
+              "Il y a deux façons de configurer cette propriété. La première est de se placer (checkout) sur une nouvelle branche en utilisant une branche distante comme argument (ref). Exécutons cela",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "Crée une nouvelle branche nommée `totallyNotMaster` et la configure pour suivre `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Assez parlé, faisons une démonstration ! Nous allons nous placer sur une nouvelle branche nommée `foo` et la configurer pour suivre `master` du dépôt distant."
+            ],
+            "afterMarkdowns": [
+              "Comme vous pouvez le voir, nous avons utilisé la cible de fusion de `o/master` pour mettre à jour la branche `foo`. Remarquez comme master n'a pas été mise à jour !!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cela s'applique aussi pour git push"
+            ],
+            "afterMarkdowns": [
+              "Boum. Nous avons envoyé nôtre travail sur `master` du dépôt distant alors que nôtre branche avait un nom totalement différent."
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Way #2",
+              "",
+              "Une autre façon de configurer le suivi d'une branche est d'utiliser l'option `git branch -u`. Exécuter cela :",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "va configurer la branche `foo` pour suivre `o/master`. Si `foo` est la branche vourante, vous pouvez même ne pas le préciser:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons cette autre manière de paramètrer rapidement le suivi d'une branche distante..."
+            ],
+            "afterMarkdowns": [
+              "Cela se passe comme avant, et c'est plus explicite. Cool !"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok ! Pour ce niveau, envoyons le travail dans la branche distante `master` en ne se trouvant *pas* sur la branche `master` locale. Je vous laisse imaginer comment faire :P"
             ]
           }
         }
