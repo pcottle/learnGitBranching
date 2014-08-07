@@ -23608,7 +23608,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja': '更にgitの素晴らしさを堪能しよう',
-      'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
+      'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
@@ -23619,14 +23619,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
-      'fr_FR': 'Push & Pull -- Git Remotes!',
+      'fr_FR': 'Push & Pull -- dépôts gits distants !',
       'es_AR': 'Push & Pull -- Git Remotes!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
-      'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les envants, le code vient de devenir social.',
+      'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'zh_CN': '是时候分享你的代码了',
@@ -23638,14 +23638,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
-      'fr_FR': 'Vers l\'Orifin et plus loins encore -- Git Remotes avancé',
+      'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
-      'fr_FR': 'Et vous pensié que de devenir un dictateur serais amusant...',
+      'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
@@ -30810,6 +30810,7 @@ exports.level = {
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
+    "fr_FR": "Introduction à clone",
     "de_DE": "Clone Einführung",
     "es_AR": "Introducción a clone",
     "zh_CN": "介绍 Clone",
@@ -30817,6 +30818,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just git clone!",
+    "fr_FR": "Simplement git clone !",
     "de_DE": "Einfach git clone ausführen!",
     "zh_CN": "只要 git clone!",
     "es_AR": "Simplemente hacé git clone!",
@@ -30875,6 +30877,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Les dépôts distants (remote repositories) ne sont pas si compliqués que ça. Dans l'ère actuelle du cloud computing il est facile de croire qu'il y a un peu de magie derrière les branches distantes, mais elles sont en fait juste des copies de votre dépôt local sur un autre ordinateur. Vous pouvez donc vous connecter à cet ordinateur par Internet, ce qui vous permet de transférer les commits en retard et en avance.",
+              "",
+              "Cela dit, les branches distantes ont plusieurs propriétés puissantes :",
+              "",
+              "- Avant toute chose, le dépôt distant sert de sauvegarde ! Le dépôt local de git a la capacité de restaurer des fichiers à un état précédent (comme vous le savez), mais toutes les informations sont stockées localement. En ayant des copies de votre dépôt git sur d'autres ordinateurs, vous pouvez perdre vos données et toujours repartir de là où vous en étiez resté.",
+              "",
+              "- Plus important encore, les dépôts distants sociabilisent le projet ! Maintenant qu'il est hébergé quelque part ailleurs, vos amis peuvent y contribuer facilement (ou récupérer vos derniers changements).",
+              "",
+              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (commen [Github](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent  _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les commandes pour créer des dépôts distants",
+              "",
+              "Jusqu'à maintenant, Learn Git Branching s'est surtout concentrésur l'apprentissage des bases du travail sur un dépôt _local_ (branch, merge, rebase, etc). Cependant maintenant nous voulons savoir comment travailler sur les dépôts distants, nous avons besoin d'une commande pour l'environnement de ces leçons. `git clone` sera cette commande",
+              "",
+              "Techniquement, `git clone` dans le monde réel sera la commande que vous utiliserez pour créer des copies _locales_ des dépôts distants (de github par exemple). Nous utilisons cette commande un peu différemment dans Learn Git Branching car `git clone` crée ici un dépôt distant à partir de votre dépôt local. Il est certain qu'il s'agit donc du sens opposé de la commande originale, mais cela aide à construire la connexion entre le clonage et le travail sur le dépôt distant, travaillons donc avec cela pour l'instant.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Commençons doucement et regardons à quoi ressemble un dépôt distant (dans notre visualisation).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Nous y sommes ! Maintenant nous avons un dépôt distant de notre projet. Cela ressemble fortement à d'habitude, en dehors de quelques changements pour rendre compte des différences -- dans les niveaux suivants vous allez voir comment partager le travail entre ces dépôts."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, faites simplement un `git clone` du dépôt existant. Le réel apprentissage arrivera dans les prochaines leçons."
             ]
           }
         }
@@ -31118,6 +31177,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Faking Teamwork",
+    "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
     "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "模拟团队合作",
@@ -31125,6 +31185,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
+    "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake中的commit指定数量",
@@ -31180,6 +31241,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simuler la collaboration",
+              "",
+              "C'est là que cela devient compliqué -- pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
+              "",
+              "Cela signifie que nous devons \"pretendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
+              "",
+              "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle est assez significative, voyons une démo ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Le comportement par défaut de `fakeTeamwork` est de simplement faire apparaître un commit sur master"
+            ],
+            "afterMarkdowns": [
+              "Voilà -- le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuter la commande `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vous pouvez aussi spécifier le nombre de commits ou la branche en l'ajoutant à la fin de la commande."
+            ],
+            "afterMarkdowns": [
+              "Avec une seule commande, nous avons simulé un collègue ayant pushé 3 commits à la branche `foo` de notre dépôt distant"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Les niveaux suivants vont devenir assez difficiles, donc nous demandons un peu plus que cela dans ce niveau.",
+              "",
+              "Vous devrez créer un dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commit les vôtres, et enfin appliquer ces changements dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
             ]
           }
         }
@@ -31411,6 +31526,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Fetchin'",
+    "fr_FR": "Git fetch",
     "de_DE": "Git Fetch",
     "es_AR": "git fetch",
     "zh_CN": "Git Fetch",
@@ -31418,6 +31534,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "just run git fetch!",
+    "fr_FR": "Exécuter juste git fetch",
     "de_DE": "Einfach git fetch ausführen!",
     "es_AR": "Simplemente ¡hacé git fetch!",
     "zh_CN": "只要运行 git fetch 命令!",
@@ -31492,6 +31609,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish the level, simply `git fetch` and download all the commits!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Travailler avec les dépôts gits distants réduit vraiment les transferts de données _depuis_ et _vers_ les autres dépôts. Du moment que nous pouvons envoyer des commits en avance et en retard, nous pouvons partager tous les types de mise-à-jours qui sont gérées par git (et donc partager le travail, de nouveaux fichiers, de nouvelles idées, des lettres d'amour, etc.).",
+              "",
+              "Dans cette leçon nous allons apprendre comment rapporter (fetch) des données _depuis_ un dépôt distant vers le nôtre -- la commande pour cela est malignement dénommée `git fetch`.",
+              "",
+              "Vous allez remarquer qu'au moment où nous mettons à jour notre version du dépôt distant, nos branches _distantes_ vont se mettre à jour pour refléter cette nouvelle représentation. Cela est lié à la leçon précédente sur les branches distantes."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Avant d'aller dans les détails de `git fetch`, voyons-le en action ! Ici nous avons un dépôt distant qui contient deux commits que notre dépôt local n'a pas."
+            ],
+            "afterMarkdowns": [
+              "Voilà ! Les commits `C2` et `C3` ont été téléchargés dans notre dépôt local, et notre branche distante `o/master` a été mise à jour pour refléter cela."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ce que fetch fait",
+              "",
+              "`git fetch` procède en exactement deux principales étapes. Cela :",
+              "",
+              "* télécharge les commits que le dépôt distant possède mais qui ne sont pas dans le nôtre, et...",
+              "* met-à-jour nos branches distantes (par exemple, `o/master`).",
+              "",
+              "`git fetch` prend en fait notre représentation _locale_ du dépôt distant pour la synchroniser avec ce à quoi le dépôt distant ressemble _réellement_ (à ce moment-là).",
+              "",
+              "Si vous vous rappelez de la précédente leçon, nous avons dit que les branches distantes reflètent l'état du dépôt distant _depuis_ la dernière fois que vous avez parlé à ces branches distantes. `git fetch` est le moyen de parler à ces branches distantes ! Heureusement la relation entre `git fetch` et les branches distantes est maintenant apparue.",
+              "",
+              "`git fetch` contacte le dépôt distant par Internet (via un protocole comme `http://` ou `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ce que fetch ne fait pas",
+              "",
+              "`git fetch`, cependant, ne change rien à propos de _vôtre_ état local. Il ne va pas mettre à jour vôtre branche `master` ou changer quelque chose comme les fichiers la représentation des fichiers.",
+              "",
+              "C'est important à comprendre car un nombre important de développeurs pensent qu'exécuter `git fetch` va rendre leur dépôt local dans le même état que le distant. Cela peut télécharger toutes les données nécessaires pour faire cela, mais cela ne change en réalité _rien_ sur vos fichiers locaux. Nous allons apprendre des commandes dans les niveaux suivants pour faire cela uniquement :D",
+              "",
+              "Ainsi à la fin de la journée, vous pouvez penser à `git fetch` comme une étape de téléchargement."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, exécuter simplement `git fetch` et téléchargez tous les commits !"
             ]
           }
         }
@@ -31797,6 +31987,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
+    "fr_FR": "Arguments de fetch",
     "zh_CN": "Fetch 的参数",
     "zh_TW": "fetch 的參數",
     "es_AR": "Parámetros de fetch",
@@ -31804,6 +31995,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
+    "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez lire une nouvelle fois les slides avec \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "es_AR": "¡Prestá atención a cómo podrían haberse invertido los ids de los commits! Podés volver a leer toda la lección usando \"help level\"",
@@ -31928,6 +32120,129 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les arguments de git fetch",
+              "",
+              "Donc nous venons de tout apprendre sur les arguments de git push, le paramètre cool `<place>`, et même la ponctuation pour refspecs (`<source>:<destination>`). Pouvons-nous utiliser ces connaissances pour  `git fetch` aussi ?",
+              "",
+              "Vous l'avez parié ! Les arguments pour `git fetch` sont en fait *très, très* similaires à ceux de `git push`. Il s'agit du même type de concepts mais simplement appliqués dans une direction différente (puisque maintenant vous téléchargez des commits plutôt que les envoyer).",
+              "",
+              "Voyons ces concepts un par un..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Le paramètre `<place>`",
+              "",
+              "Si vous spécifiez un emplacement avec git fetch dans la commande suivante :",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git va aller à la branche distante `foo`, récupérer tous les commits qui ne sont pas présents localement, et ensuite les faire apparaître dans la branche locale `o/foo`.",
+              "",
+              "Voyons cela en action (juste pour se rappeler)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "En spécifiant un emplacement..."
+            ],
+            "afterMarkdowns": [
+              "Nous téléchargeons uniquement les commits de `foo` et les plaçons dans `o/foo`"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vous vous demandez peut-être -- pourquoi git a fait apparaître ces commits dans la branche distante `o/foo` plutôt que les placer directement dans ma branche locale `foo` ? Je pensais que le paramètre `<place>` était un emplacement qui existait à la fois localement et à distance ?",
+              "",
+              "Eh bien git fait une exception dans ce cas parce que vous pouvez avoir du travail dans la branche `foo` que vous ne voulez pas gâcher !! Cela est lié à la dernière lesson sur `git fetch` -- cela ne met pas à jour vos branches locales, cela télécharge uniquement les commits (ainsi vous pouvez les inspecter / fusionner plus tard).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Dans ce cas, que ce passe-t-il si je spécifie explicitement la source et la destination `<source>:<destination>` ?\"",
+              "",
+              "Si vous vous sentez assez passionnés pour rapatrier (fetch) les commits *directement* dans votre branche locale, alors oui vous pouvez préciser cela avec la notation refspec. Vous ne pouvez cependant pas rapatrier les commits dans la branche courante.",
+              "",
+              "Ici est la seule différence -- à part que `<source>` est maintenant l'emplacement sur le dépôt *distant* et `<destination>` sur le dépôt *local* où rajouter ces commits. C'est l'exact opposé de git push, et cela se tient puisque nous transférons des données dans la direction opposée !",
+              "",
+              "Cela dit, les développeurs l'utilisent rarement en pratique. Je l'introduis principalement pour concrétiser le fait que `fetch` et `push` sont très similaires, simplement dans des directions opposées."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons cette folie en action :"
+            ],
+            "afterMarkdowns": [
+              "Wow ! Voyez, git a résolu `foo~1` comme un emplacement sur origin et a ensuite téléchargé les commits dans `bar` (qui était une branche local). Remarquez comment `foo` et `o/foo` n'ont pas été mises à jour puisque nous avons spécifié une destination."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Que se passe-t-il si l'emplacement n'existe pas avant que j'exécute la commande ? Voyons cela dans le dernier slide quand `bar` n'existe pas encore."
+            ],
+            "afterMarkdowns": [
+              "Vous voyez, c'est COMME un git push. Git a créé la destination localement avant le fetch, simplement comme il va créer la destination à distance avant le push (si elle n'existe pas)."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pas d'arguments ?",
+              "",
+              "Si `git fetch` ne reçoit pas d'arguments, cela télécharge simplement tous les commits dans toutes les branches distantes..."
+            ],
+            "afterMarkdowns": [
+              "Assez simple, mais faisons-le juste une fois."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, assez parlé ! Pour finir ce niveau, faites simplement un fetch des commits indiqués dans le fenêtre de visualisation de l'objectif. Appropriez-vous ces commandes !",
+              "",
+              "Vous allez avoir à préciser la source et la destination pour les deux commandes fetch. Faites attention à la fenêtre de visualisation puisque les IDs peuvent avoir changé de position !"
             ]
           }
         }
@@ -32438,14 +32753,16 @@ exports.level = {
     "zh_CN": "分散的历史",
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
-    "de_DE": "Abweichende History"
+    "de_DE": "Abweichende History",
+    "fr_FR": "Historique divergeant"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al oren del objetivo",
-    "de_DE": "Beachte die Reihenfolge in der Zieldarstellung"
+    "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
+    "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif"
   },
   "startDialog": {
     "en_US": {
@@ -32586,6 +32903,149 @@ exports.level = {
               "* Fake some teamwork (1 commit)",
               "* Commit some work yourself (1 commit)",
               "* Publish your work via *rebasing*"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Travail divergeant",
+              "",
+              "Jusqu'à présent nous avons vu comment rapatrier (`pull`) les commits des collaborateurs et comment envoyer les vôtres (`push`). Cela a l'air simple, alors comment certains peuvent être si perdus ?",
+              "",
+              "La difficulté arrive quand l'historique du dépôt *diverge*. Avant d'aborder les détails de cela, voyons un exemple ...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Imaginez que vous clonez un dépôt le lundi et commencez à bidouiller une nouvelle fonctionnalité. Le vendredi vous êtes prêt à publier votre fonctionnalité -- mais oh nan ! Vos collègues ont écrit une floppée de code durant la semaine ce qui rend votre fonctionnalité désuète (et obsolète). Ils ont aussi publié sur le dépôt distant partagé, donc maintenant *vôtre* travail est basé sur une *vieille* version du projet qui n'est plus viable.",
+              "",
+              "Dans ce cas, la commande `git push` est ambiguë. Si vous exécutez `git push`, git devrait-il remettre le dépôt distant tel qu'il était lundi ? Doit-il essayer d'ajouter vôtre code sans supprimer le nouveau code ? Ou doit-il totalement ignorer vos changements puisqu'ils ne sont plus à jour ?",
+              "",
+              "Comme il y a trop d'ambiguïté dans cette situation (où l'historique a divergé), git ne vous autorise pas à `push` vos changements. Cela vous force en fait à incorporer le dernier état du dépôt distant avnat de pouvoir partager vôtre travail."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Assez parlé ! Observons cette situation en action"
+            ],
+            "afterMarkdowns": [
+              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car vôtre plus récent commit `C3` est basé sur le dépôt distant sur `C1`. Le dépôt distant a depuis été mis à jour avec `C2`, donc git rejette vôtre push."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Comment vous résolvez cette situation ? C'est facile, tout ce que vous avez à faire est de baser vôtre travail sur la dernière version de la branche distante.",
+              "",
+              "Il y a plusieurs façons de faire cela, mais la plus directe est de déplacer vôtre travail avec rebase. Allons voir à quoi cela ressemble."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Maintenant si nous rebasons avant de push ..."
+            ],
+            "afterMarkdowns": [
+              "Boum ! Nous avons mis à jour nôtre représentation locale du dépôt avec `git fetch`, rebasé nôtre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Existe-t-il d'autres façons de mettre à jour nôtre travail quand le répertoire distant a été mis à jour ? Bien sûr ! Faisons la même chose avec `merge` plutôt.",
+              "",
+              "Bien que `git merge` ne déplace pas vôtre travail (et au lieu de cela crée juste un commit de fusion), c'est une façon de dire à git que vous avez incorporé tous les changements du dépôt distant. C'est parce que la branche distante est maitenant une *ancêtre* de vôtre propre branche, ce qui signifie que vos commits reflètent tous les changements faits sur la branche distante.",
+              "",
+              "Voyons une démonstration ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Maintenant si nous mergeons avant de rebaser ..."
+            ],
+            "afterMarkdowns": [
+              "Boum ! Nous avons mis à jour nôtre représentation du dépôt distant avec `git fetch`, *fusionné* le nouveau travail dans nôtre travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Impressionnant ! Existe-t-il une façon de faire sans taper autant de commandes ?",
+              "",
+              "Bien sûr -- vous savez déjà que `git pull` est simplement un raccourci pour un fetch puis un merge. De manière assez pratique, `git pull --rebase` est un raccourci pour un fetch puis un rebase !",
+              "",
+              "Voyons ce raccourci au travail."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Premièrement avec  `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "Comme avant ! Juste un peu plus court."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Et maintenant avec un `pull` normal"
+            ],
+            "afterMarkdowns": [
+              "Encore une fois, exactement la même chose qu'avant !"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Cette succession de fetch, rebase/merge, et push est assez commune. Dans les leçons suivantes, nous allons explorer plus profondément cette façon de d'enchaîner les commandes, mais essayons plutôt cela maintenant.",
+              "",
+              "Pour finir ce niveau, réalisez les étapes suivantes :",
+              "",
+              "* Clonez vôtre dépôt",
+              "* Simuler un travail d'équipe (1 commit)",
+              "* Commitez un peu de vôtre travail (1 commit)",
+              "* Publiez vôtre travail avec *rebase*"
             ]
           }
         }
@@ -33176,14 +33636,16 @@ exports.level = {
     "zh_CN": "和远端合并",
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
-    "de_DE": "Änderungen vom Remote zusammenführen"
+    "de_DE": "Änderungen vom Remote zusammenführen",
+    "fr_FR": "Fusionner avec les branches distantes"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
     "zh_CN": "注意目标树!",
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
-    "de_DE": "Beachte den Ziel-Baum!"
+    "de_DE": "Beachte den Ziel-Baum!",
+    "fr_FR": "Respectez l'arbre représentant l'objectif !"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -33227,6 +33689,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pourquoi pas merge ?",
+              "",
+              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, tout ce que vous avez à faire est *incorporer* les derniers changements dans ce dépôt. Cela signifie que vous pouvez faire un rebase *ou* merge dans la branche distante (e.g. `o/master`).",
+              "",
+              "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont (re)basées (!) sur rebase jusqu'à présent ? Pourquoi n'aime-t-on pas `merge` dans les branches distantes ?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Il y a beaucoup de débats à propos du compromis entre l'utilisation de merge et rebase dans la communauté des développeurs. Voici les principaux arguments pour / contre rebase:",
+              "",
+              "Pour :",
+              "",
+              "* Rebase rend votre arbre de commits très propre puisqu'il ressemble à une ligne droite.",
+              "",
+              "Contre :",
+              "",
+              "* Rebase modifie l'historique (apparent) de l'arbre des commits.",
+              "",
+              "Par exemple, le commit `C1` peut être rebasé *après* `C3`. Cela fait croire que le travail de `C1'` est arrivé après `C3` alors qu'en réalité il était complétement avant.",
+              "",
+              "Certains développeurs aiment préserver l'historique et préfèrent donc merge. Les autres (comme moi) préfèrent avoir un arbre des commits propre et préfèrent rebase. C'est une question de goût :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour ce niveau, essayons de résoudre le niveau précédent, mais avec *merge* plutôt. Cela peut être un peu périlleux mais cela illustre bien le problème."
             ]
           }
         }
@@ -33425,14 +33932,16 @@ exports.level = {
     "zh_CN": "Git Pull",
     "zh_TW": "git pull'",
     "es_AR": "git pull",
-    "de_DE": "Git Pull"
+    "de_DE": "Git Pull",
+    "fr_FR": "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
     "zh_CN": "只要运行 git pull 命令!",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
-    "de_DE": "Führe einfach git pull aus."
+    "de_DE": "Führe einfach git pull aus.",
+    "fr_FR": "Utilisez facilement git pull !"
   },
   "startDialog": {
     "en_US": {
@@ -33489,6 +33998,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Maintenant que vous avez vu comment rapatriez des données depuis un dépôt distant avec `git fetch`, mettons à jour notre copie de travail pour refléter ces changements !",
+              "",
+              "Il existe en fait beaucoup de façons de faire cela -- une fois que vous avez de nouveaux commits disponibles localements, vous pouvez les incorporer comme s'ils étaient des commits normaux d'autres branches. Cela signifie que pourriez juste exécuter des commandes comme :",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc., etc.",
+              "",
+              "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement"
+            ],
+            "afterMarkdowns": [
+              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant nôtre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Que se passerait-il si nous utilisions plutôt `git pull` ?"
+            ],
+            "afterMarkdowns": [
+              "La même chose ! Cela devrait maintenant être clair que `git pull` est surtout un raccourci pour `git fetch` suivi d'un merge de toutes les branches qui viennent d'avoir un fetch."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Nous allons explorer les détails de `git pull` plus tard (y compris options et arguments), mais essayons d'abord cela dans notre niveau.",
+              "",
+              "Rappelez-vous -- vous pouvez aussi résoudre ce niveau avec `fetch` et `merge`, mais cela vous coûtera une commande supplémentaire :P"
             ]
           }
         }
@@ -33743,14 +34311,16 @@ exports.level = {
     "zh_CN": "Pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
-    "de_DE": "Optionen für Pull"
+    "de_DE": "Optionen für Pull",
+    "fr_FR": "Arguments de pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
     "zh_CN": "记住, 你可以通过 fetch/pull 创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
-    "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen"
+    "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
+    "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull"
   },
   "startDialog": {
     "en_US": {
@@ -33822,6 +34392,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les arguments de git pull",
+              "",
+              "Maintenant que vous savez presque *tout* ce qu'il y a à savoir à propos des arguments de `git fetch` et `git push`, il n'y a presque rien de restant à découvrir avec git pull :)",
+              "",
+              "C'est parce que git pull est au bout du compte *réellement* juste un raccourci pour un merge suivi d'un merge pour tout ce qui vient d'être rapatrié (par le fetch). Vous pouvez y pensez comme exécuter git fetch avec les *mêmes* arguments specifiés et ensuite fusionner avec là où ces commits sont arrivés.",
+              "",
+              "Cela fonctionne même quand vous utilisez des arguments très compliqués. Voyons quelques exemples :"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Voici quelques commandes équivalentes dans git :",
+              "",
+              "`git pull  origin foo` est équivalent à :",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Et ...",
+              "",
+              "`git pull  origin bar~1:bugFix` est équivalent à :",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Vous voyez ? git pull est vraiment simplement un raccourci pour fetch + merge, et tout ce dont git pull s'occupe est la destination des commits (l'argument `destination` qu'il utilise durant le fetch).",
+              "",
+              "Voyons une démonstration :"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Si nous précisons l'emplacement à rappatrier, tout se passe comme avant avec fetch mais nous fusionnons avec tout ce qui a été rapatrié"
+            ],
+            "afterMarkdowns": [
+              "Vu ? en précisant `master` nous avons téléchargé les commits dans `o/master` comme d'habitude. Puis nous avons fusionné `o/master` avec là où nous sommes, *sans se soucier* de la branche courante."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cela fonctionne-t-il avec une source et une destination aussi ? Et oui ! Voyons cela :"
+            ],
+            "afterMarkdowns": [
+              "Wow, c'est énorme en une commande. Nous avons créé une brance locale nommée `foo`, téléchargé les commits depuis la branche master distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail `bar`. It's over 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok pour finir ce niveau, atteignez l'état décrit dans la visualisation de l'objectif. Vous aurez besoin de télécharger quelques commits, de faire quelques nouvelles branches, et de fusionner ces branches dans d'autres branches, mais cela ne devrait pas utiliser trop de commandes :P"
             ]
           }
         }
@@ -35413,14 +36057,16 @@ exports.level = {
     "zh_CN": "Remote Branches",
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
-    "de_DE": "Branches auf entfernten Servern"
+    "de_DE": "Branches auf entfernten Servern",
+    "fr_FR": "Les branches distantes"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
     "zh_CN": "注意顺序 -- 先在 master 上 commit!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
-    "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!"
+    "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
+    "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !"
   },
   "startDialog": {
     "en_US": {
@@ -35479,6 +36125,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les branches distantes de git",
+              "",
+              "Maintenant que nous avons vu `git clone` en action, plongeons dans ce qui a changé.",
+              "",
+              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans vôtre dépôt local appelée `o/master`. Ce type de branche est appelée une branche _distante_; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
+              "",
+              "Les branches distantes reflètent _l'état_ des dépôts distants (depuis que nous avons parlé de ces dépôts distants). Elles vous aident à comprendre les différences entre vôtre travail et le travail public -- une étape critique à effectuer avant de partager son travail avec les autres.",
+              "",
+              "Les branches distantes ont la propriété particulière que quand vous vous rendez dessus (checkout), `HEAD` est détaché. Git fait cela car vous ne pouvez pas travailler sur ces branches directement ; vous devez travailler ailleurs et ensuite partager vôtre travail avec le dépôt distant (après quoi vos branches distantes seront mises à jour)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Qu'est-ce que `o/`?",
+              "",
+              "Vous vous demandez peut-être ce qu'est le préfixe `o/` devant ces branches distantes. En pratique, les branches distantes ont aussi une convention de nommage (obligatoire) -- elles sont affichées avec le format :",
+              "",
+              "* `<nom dépôt distant>/<nom de la branche>`",
+              "",
+              "Donc, si vous regardez une branche nommée `o/master`, le nom de la branche est `master` et le nom du dépôt distant est `o`.",
+              "",
+              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait vôtre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
+              "",
+              "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai git, vôtre dépôt distant est probablement nommé `origin`!",
+              "",
+              "Cela fait beaucoup d'un coup, donc voyons cela en action."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Rendons-nous sur une branche et regardons ce qui se passe"
+            ],
+            "afterMarkdowns": [
+              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" `HEAD` puis n'a pas mis à jour `o/master` quand nous avons ajouté un nouveau commit. C'est parce que `o/master` va se mettre à jour uniquement quand le dépôt distant est mis à jour."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, faîtes un commit en dehors de `master` puis un après s'être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
             ]
           }
         }
@@ -35742,14 +36449,16 @@ exports.level = {
     "zh_CN": "没有 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
-    "de_DE": "Die Quelle des Nichts"
+    "de_DE": "Die Quelle des Nichts",
+    "fr_FR": "Source de rien du tout"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
     "zh_CN": "本节的 branch 命令被禁用了, 你只能使用 fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
-    "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen"
+    "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
+    "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !"
   },
   "startDialog": {
     "en_US": {
@@ -35800,6 +36509,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Les bizarreries de `<source>`",
+              "",
+              "Git maltraite le paramètre `<source>` parameter de deux façons bizarres. Ces deux abus viennent du fait que vous pouvez techniquement ne \"rien spécifier commre `source` valide pour git push et git fetch. Le moyen de ne rien spécifier est un argument vide :",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Voyons ce que cela fait ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Qu'est-ce que produit l'envoi de \"rien\" sur une branche distante ? Cela la détruit !"
+            ],
+            "afterMarkdowns": [
+              "Ici, nous avons brillamment supprimé  la branche `foo` du dépôt distant en lui envoyant le concept de \"rien\". Cela prend du sens ..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Enfin, un fetch de \"rien\" dans un emplacement local crée une nouvelle branche"
+            ],
+            "afterMarkdowns": [
+              "Très étrange, mais peu importe. C'est git !"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "C'est un petit niveau -- supprimez simplement une branche distante et faites-en une nouvelle (locale) avec `git fetch` pour terminer !"
             ]
           }
         }
@@ -36030,14 +36792,16 @@ exports.level = {
     "zh_CN": "Remote Tracking",
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
-    "de_DE": "Remote Tracking"
+    "de_DE": "Remote Tracking",
+    "fr_FR": "Suivi de branche distante"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
-    "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!"
+    "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
+    "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !"
   },
   "startDialog": {
     "en_US": {
@@ -36153,6 +36917,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! For this level let's push work onto the `master` branch on remote while *not* checked out on `master` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Le suivi des branches distantes",
+              "",
+              "Dans les dernières leçons, git savait que la branche `master` était reliée à `o/master`, et cela a pu paraître \"magique\". Il est certain que ces deux branches ont des noms similaires et il peut être logique de croire que la branche locale `master` est liée à la branche distante `master`, mais la relation n'est prouvée que dans deux scénarios :",
+              "",
+              "* Pendant un pull, les commits sont téléchargés dans `o/master` et ensuite *fusionnés* (merge) dans la branche `master`. La cible impliquée dans cette fusion est déterminée par cette relation.",
+              "* Pendant un push, le travail de la branche `master` a été envoyé sur la branche distante `master` (qui est localement représentée par `o/master`). La *destination* du push est déterminée par la relation entre `master` and `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Pour faire court, cette relation entre `master` et `o/master` est simplement expliquée par la propriété \"remote tracking\" (suivi distant) des branches. La branche `master` est configurée pour suivre `o/master` -- cela signifie qu'il y a une cible de fusion et une destination d'envoi pour la branche `master`.",
+              "",
+              "Vous vous demandez peut-être comment cette propriété a été configurée pour la branche `master` alors que vous n'avez exécuté aucune commande pour le faire. Eh bien, quand vous clonez un dépôt avec git, cette propriété est configurée automatiquement. ",
+              "",
+              "Pendant le clonage, git crée une branche distante pour chaque branche du dépôt distant (i.e. des branches comme `o/master`). Il crée ensuite une branche locale qui suit la branche actuellement active sur le dépôt distant, qui se trouve être `master` dans la plupart des cas.",
+              "",
+              "Une fois que git clone est terminé, vous avez seulement une branche locale (comme ça vous n'êtes pas submergé) mais vous pouvez voir toutes les branches distantes (si vous êtes très curieux). C'est le mieux que l'on puisse vouloir !",
+              "",
+              "Cela explique aussi pourquoi vous avez peut-être vu la sortie suivante pendant le clonage :",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Puis-je configurer cela moi-même ?",
+              "",
+              "Oui vous pouvez ! Vous pouvez suivre `o/master` depuis n'importe quelle branche, et si vous le faîtes, cette branche va avoir la même destination de push et cible de merge que pour `master`. Cela signifie que vous pouvez exéctuer `git push` sur une branche nommée `totallyNotMaster` et envoyer vôtre travail sur la branche `master` du dépôt distant!",
+              "",
+              "Il y a deux façons de configurer cette propriété. La première est de se placer (checkout) sur une nouvelle branche en utilisant une branche distante comme argument (ref). Exécutons cela",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "Crée une nouvelle branche nommée `totallyNotMaster` et la configure pour suivre `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Assez parlé, faisons une démonstration ! Nous allons nous placer sur une nouvelle branche nommée `foo` et la configurer pour suivre `master` du dépôt distant."
+            ],
+            "afterMarkdowns": [
+              "Comme vous pouvez le voir, nous avons utilisé la cible de fusion de `o/master` pour mettre à jour la branche `foo`. Remarquez comme master n'a pas été mise à jour !!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cela s'applique aussi pour git push"
+            ],
+            "afterMarkdowns": [
+              "Boum. Nous avons envoyé nôtre travail sur `master` du dépôt distant alors que nôtre branche avait un nom totalement différent."
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Way #2",
+              "",
+              "Une autre façon de configurer le suivi d'une branche est d'utiliser l'option `git branch -u`. Exécuter cela :",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "va configurer la branche `foo` pour suivre `o/master`. Si `foo` est la branche vourante, vous pouvez même ne pas le préciser:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons cette autre manière de paramètrer rapidement le suivi d'une branche distante..."
+            ],
+            "afterMarkdowns": [
+              "Cela se passe comme avant, et c'est plus explicite. Cool !"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok ! Pour ce niveau, envoyons le travail dans la branche distante `master` en ne se trouvant *pas* sur la branche `master` locale. Je vous laisse imaginer comment faire :P"
             ]
           }
         }
@@ -36626,4 +37508,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,59,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,85,84,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
