@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "Git Pull",
     "zh_TW": "git pull'",
     "es_AR": "git pull",
-    "de_DE": "Git Pull"
+    "de_DE": "Git Pull",
+    "fr_FR": "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
     "zh_CN": "只要运行 git pull 命令!",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
-    "de_DE": "Führe einfach git pull aus."
+    "de_DE": "Führe einfach git pull aus.",
+    "fr_FR": "Utilisez facilement git pull !"
   },
   "startDialog": {
     "en_US": {
@@ -71,6 +73,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Maintenant que vous avez vu comment rapatriez des données depuis un dépôt distant avec `git fetch`, mettons à jour notre copie de travail pour refléter ces changements !",
+              "",
+              "Il existe en fait beaucoup de façons de faire cela -- une fois que vous avez de nouveaux commits disponibles localements, vous pouvez les incorporer comme s'ils étaient des commits normaux d'autres branches. Cela signifie que pourriez juste exécuter des commandes comme :",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc., etc.",
+              "",
+              "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement"
+            ],
+            "afterMarkdowns": [
+              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant nôtre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Que se passerait-il si nous utilisions plutôt `git pull` ?"
+            ],
+            "afterMarkdowns": [
+              "La même chose ! Cela devrait maintenant être clair que `git pull` est surtout un raccourci pour `git fetch` suivi d'un merge de toutes les branches qui viennent d'avoir un fetch."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Nous allons explorer les détails de `git pull` plus tard (y compris options et arguments), mais essayons d'abord cela dans notre niveau.",
+              "",
+              "Rappelez-vous -- vous pouvez aussi résoudre ce niveau avec `fetch` et `merge`, mais cela vous coûtera une commande supplémentaire :P"
             ]
           }
         }

@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
+    "fr_FR": "Arguments de fetch",
     "zh_CN": "Fetch 的参数",
     "zh_TW": "fetch 的參數",
     "es_AR": "Parámetros de fetch",
@@ -11,6 +12,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
+    "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez lire une nouvelle fois les slides avec \"help level\"",
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "es_AR": "¡Prestá atención a cómo podrían haberse invertido los ids de los commits! Podés volver a leer toda la lección usando \"help level\"",
@@ -135,6 +137,129 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les arguments de git fetch",
+              "",
+              "Donc nous venons de tout apprendre sur les arguments de git push, le paramètre cool `<place>`, et même la ponctuation pour refspecs (`<source>:<destination>`). Pouvons-nous utiliser ces connaissances pour  `git fetch` aussi ?",
+              "",
+              "Vous l'avez parié ! Les arguments pour `git fetch` sont en fait *très, très* similaires à ceux de `git push`. Il s'agit du même type de concepts mais simplement appliqués dans une direction différente (puisque maintenant vous téléchargez des commits plutôt que les envoyer).",
+              "",
+              "Voyons ces concepts un par un..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Le paramètre `<place>`",
+              "",
+              "Si vous spécifiez un emplacement avec git fetch dans la commande suivante :",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git va aller à la branche distante `foo`, récupérer tous les commits qui ne sont pas présents localement, et ensuite les faire apparaître dans la branche locale `o/foo`.",
+              "",
+              "Voyons cela en action (juste pour se rappeler)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "En spécifiant un emplacement..."
+            ],
+            "afterMarkdowns": [
+              "Nous téléchargeons uniquement les commits de `foo` et les plaçons dans `o/foo`"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vous vous demandez peut-être -- pourquoi git a fait apparaître ces commits dans la branche distante `o/foo` plutôt que les placer directement dans ma branche locale `foo` ? Je pensais que le paramètre `<place>` était un emplacement qui existait à la fois localement et à distance ?",
+              "",
+              "Eh bien git fait une exception dans ce cas parce que vous pouvez avoir du travail dans la branche `foo` que vous ne voulez pas gâcher !! Cela est lié à la dernière lesson sur `git fetch` -- cela ne met pas à jour vos branches locales, cela télécharge uniquement les commits (ainsi vous pouvez les inspecter / fusionner plus tard).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Dans ce cas, que ce passe-t-il si je spécifie explicitement la source et la destination `<source>:<destination>` ?\"",
+              "",
+              "Si vous vous sentez assez passionnés pour rapatrier (fetch) les commits *directement* dans votre branche locale, alors oui vous pouvez préciser cela avec la notation refspec. Vous ne pouvez cependant pas rapatrier les commits dans la branche courante.",
+              "",
+              "Ici est la seule différence -- à part que `<source>` est maintenant l'emplacement sur le dépôt *distant* et `<destination>` sur le dépôt *local* où rajouter ces commits. C'est l'exact opposé de git push, et cela se tient puisque nous transférons des données dans la direction opposée !",
+              "",
+              "Cela dit, les développeurs l'utilisent rarement en pratique. Je l'introduis principalement pour concrétiser le fait que `fetch` et `push` sont très similaires, simplement dans des directions opposées."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons cette folie en action :"
+            ],
+            "afterMarkdowns": [
+              "Wow ! Voyez, git a résolu `foo~1` comme un emplacement sur origin et a ensuite téléchargé les commits dans `bar` (qui était une branche local). Remarquez comment `foo` et `o/foo` n'ont pas été mises à jour puisque nous avons spécifié une destination."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Que se passe-t-il si l'emplacement n'existe pas avant que j'exécute la commande ? Voyons cela dans le dernier slide quand `bar` n'existe pas encore."
+            ],
+            "afterMarkdowns": [
+              "Vous voyez, c'est COMME un git push. Git a créé la destination localement avant le fetch, simplement comme il va créer la destination à distance avant le push (si elle n'existe pas)."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pas d'arguments ?",
+              "",
+              "Si `git fetch` ne reçoit pas d'arguments, cela télécharge simplement tous les commits dans toutes les branches distantes..."
+            ],
+            "afterMarkdowns": [
+              "Assez simple, mais faisons-le juste une fois."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, assez parlé ! Pour finir ce niveau, faites simplement un fetch des commits indiqués dans le fenêtre de visualisation de l'objectif. Appropriez-vous ces commandes !",
+              "",
+              "Vous allez avoir à préciser la source et la destination pour les deux commandes fetch. Faites attention à la fenêtre de visualisation puisque les IDs peuvent avoir changé de position !"
             ]
           }
         }

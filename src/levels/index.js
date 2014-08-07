@@ -88,7 +88,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja': '更にgitの素晴らしさを堪能しよう',
-      'fr_FR' : 'Le prochain service git 100% excellence. J\'espère que vous êtes affamés',
+      'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
@@ -99,14 +99,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
-      'fr_FR': 'Push & Pull -- Git Remotes!',
+      'fr_FR': 'Push & Pull -- dépôts gits distants !',
       'es_AR': 'Push & Pull -- Git Remotes!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
-      'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les envants, le code vient de devenir social.',
+      'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'zh_CN': '是时候分享你的代码了',
@@ -118,14 +118,14 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
-      'fr_FR': 'Vers l\'Orifin et plus loins encore -- Git Remotes avancé',
+      'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
-      'fr_FR': 'Et vous pensié que de devenir un dictateur serais amusant...',
+      'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',

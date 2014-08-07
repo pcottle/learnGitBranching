@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "和远端合并",
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
-    "de_DE": "Änderungen vom Remote zusammenführen"
+    "de_DE": "Änderungen vom Remote zusammenführen",
+    "fr_FR": "Fusionner avec les branches distantes"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
     "zh_CN": "注意目标树!",
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
-    "de_DE": "Beachte den Ziel-Baum!"
+    "de_DE": "Beachte den Ziel-Baum!",
+    "fr_FR": "Respectez l'arbre représentant l'objectif !"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -58,6 +60,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pourquoi pas merge ?",
+              "",
+              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, tout ce que vous avez à faire est *incorporer* les derniers changements dans ce dépôt. Cela signifie que vous pouvez faire un rebase *ou* merge dans la branche distante (e.g. `o/master`).",
+              "",
+              "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont (re)basées (!) sur rebase jusqu'à présent ? Pourquoi n'aime-t-on pas `merge` dans les branches distantes ?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Il y a beaucoup de débats à propos du compromis entre l'utilisation de merge et rebase dans la communauté des développeurs. Voici les principaux arguments pour / contre rebase:",
+              "",
+              "Pour :",
+              "",
+              "* Rebase rend votre arbre de commits très propre puisqu'il ressemble à une ligne droite.",
+              "",
+              "Contre :",
+              "",
+              "* Rebase modifie l'historique (apparent) de l'arbre des commits.",
+              "",
+              "Par exemple, le commit `C1` peut être rebasé *après* `C3`. Cela fait croire que le travail de `C1'` est arrivé après `C3` alors qu'en réalité il était complétement avant.",
+              "",
+              "Certains développeurs aiment préserver l'historique et préfèrent donc merge. Les autres (comme moi) préfèrent avoir un arbre des commits propre et préfèrent rebase. C'est une question de goût :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour ce niveau, essayons de résoudre le niveau précédent, mais avec *merge* plutôt. Cela peut être un peu périlleux mais cela illustre bien le problème."
             ]
           }
         }
