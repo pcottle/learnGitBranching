@@ -8,7 +8,7 @@ exports.level = {
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "de_DE": "Abweichende History",
-    "fr_FR": "Historique divergeant"
+    "fr_FR": "Historique divergent"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
