@@ -32754,7 +32754,7 @@ exports.level = {
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "de_DE": "Abweichende History",
-    "fr_FR": "Historique divergeant"
+    "fr_FR": "Historique divergent"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -33702,7 +33702,7 @@ exports.level = {
             "markdowns": [
               "## Pourquoi pas merge ?",
               "",
-              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, tout ce que vous avez à faire est *incorporer* les derniers changements dans ce dépôt. Cela signifie que vous pouvez faire un rebase *ou* merge dans la branche distante (e.g. `o/master`).",
+              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, la seule étape préliminaire est *d'incorporer* les derniers changements de ce dépôt dans le nôtre. Cela signifie qu'après, vous pouvez faire un rebase *ou* merge de la branche distante (e.g. `o/master`).",
               "",
               "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont (re)basées (!) sur rebase jusqu'à présent ? Pourquoi n'aime-t-on pas `merge` dans les branches distantes ?",
               ""
@@ -34781,14 +34781,16 @@ exports.level = {
     "zh_CN": "Git Push",
     "zh_TW": "git push",
     "es_AR": "git push",
-    "de_DE": "Git Push"
+    "de_DE": "Git Push",
+    "fr_FR": "Git push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
     "zh_CN": "push 之前你需要先 clone.",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
-    "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!"
+    "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
+    "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !"
   },
   "startDialog": {
     "en_US": {
@@ -34829,6 +34831,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, donc j'ai rapatrié les changementsdu dépôt distant et les incorporé dans mon travail local. C'est super ... mais comment je partage _mon_ travail génial avec tous les autres ?",
+              "",
+              "En fait, la manière d'envoyer du travail à partager fonctionne à l'opposé du téléchargement de travail partagé. Et quel est l'opposé de `git pull` ? `git push`!",
+              "",
+              "`git push` est responsable de l'envoi de _vos_ changements vers un dépôt distant et de la mise à jour de ce dépôt pour incorporer vos commits. Une fois `git push` terminé, tous vos amis peuvent télécharger vôtre travail depuis le dépôt distant.",
+              "",
+              "Vous pouvez voir `git push` comme une commande qui \"publie\" vôtre travail. Elle a une variété de subtilité que nous allons voir rapidement, mais commençons avec le b.a-ba ...",
+              "",
+              "*note -- le comportement de `git push` avec aucun argument varie avec l'un des réglages de git appelé `push.default`. La valeur par défaut pour ce réglage dépend de la version de git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Ce n'est pas un gros inconvénient, maisvérifiez tout de même vos réglages avant de pusher vos propres projets.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nous avons fait ici quelques changements que le dépôt distant n'a pas. Envoyons-les !"
+            ],
+            "afterMarkdowns": [
+              "Et voilà -- le dépôt distant a reçu le commit `C2`, la branche `master` a été mise à jour sur `C2`, et vôtre *propre* représentation de la branche distante (`o/master`) a aussi été mise à jour. Tout est synchronisé !"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour finir ce niveau, partager simplement des nouveaux commits avec le dépôt distant. Accrochez-vous, parce que ces leçons vont devenir beaucoup plus difficiles !"
             ]
           }
         }
@@ -35014,14 +35059,16 @@ exports.level = {
     "zh_CN": "Git push 的参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
-    "de_DE": "Optionen für Git Push"
+    "de_DE": "Optionen für Git Push",
+    "fr_FR": "Paramètres de git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
     "zh_CN": "你可以利用 \"objective\" 来阅读对话窗口的最后一页",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
-    "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen"
+    "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
+    "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\"."
   },
   "startDialog": {
     "en_US": {
@@ -35091,6 +35138,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Les arguments de push",
+              "",
+              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sontt très similaires.",
+              "",
+              "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches que git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (i.e. la branche qu'elle \"suit\" -- track). C'est le comportement quand aucun argument n'est spécifié, mais git peut optionnellement prendre des arguments de la forme :",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Quel est le paramètre `<place>`? Nous allons voir ces particularités bientôt, mais d'abord un exemple. Exécuter la commande :",
+              "",
+              "`git push origin master`",
+              "",
+              "translates to this in English:",
+              "",
+              "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Cela place tous les commits manquants sur cette branche puis me notifie quand c'est terminé.*",
+              "",
+              "En spécifiant `master` comme argument \"place\", nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacment\" à synchroniser entre les deux dépôts.",
+              "",
+              "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin (en précisant les deux arguments), il ignore totalement quelle est la branche courante !"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Voyons un exemple d'arguments. Notez la branche courante dans cet exemple."
+            ],
+            "afterMarkdowns": [
+              "Voilà ! `master` a été mise à joure puisque nous avons spécifié ces arguments."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Et si nous n'avions pas mis d'arguments ? Que ce serait-il passé ?"
+            ],
+            "afterMarkdowns": [
+              "La commande échoue (comme vous pouvez le voir), car `HEAD` ne se trouve pas sur une branche configurée pour suivre une branche distante."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, pour ce niveau mettez à jour `foo` et `master` sur le dépôt distant. La difficulté est que `git checkout` est désactivée pour ce niveau !"
             ]
           }
         }
@@ -35395,14 +35514,16 @@ exports.level = {
     "zh_CN": "Git push 参数 2!",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
-    "de_DE": "Optionen fü Git Push -- noch mehr!"
+    "de_DE": "Optionen fü Git Push -- noch mehr!",
+    "fr_FR": "Arguments de git push -- toujours plus !"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
-    "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
+    "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
+    "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -35468,6 +35589,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Détails de l'argument `<place>`",
+              "",
+              "Vous vous rappelez de la dernière leçon que quand vous spécifiez `master` comme argument `<place>` place à git push, nous spécifions à la fois la *source* de provenance des commits et leur *destination*.",
+              "",
+              "Vous vous demandez peut-être donc -- et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
+              "",
+              "Malheureusement ce n'est pas possible avec git ... ou pas ! Bien sûr que c'est possible :)... git a des tonnes de flexibilité (presque trop).",
+              "",
+              "Voyons cela au prochain slide ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour spécifier la source et la destination dans `<place>`, on les joint simplement par deux points :",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "On en parle souvent comme un refspec. Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
+              "",
+              "Lorsque vous précisez la source et la destination indémpendamment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Rappelez-vous, `source` peut être n'importe quel emplacement que git peut résoudre :"
+            ],
+            "afterMarkdowns": [
+              "Woahou ! C'est une commande très alambiquée mais qui a du sens -- git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la destination."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Que se passe-t-il quand la destination du push n'existe pas encore ? Pas de problème ! Donnez simplement un nom de branche et git va créer la branche distante pour vous."
+            ],
+            "afterMarkdowns": [
+              "Cool, c'est habile :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour ce niveau, essayez d'atteindre l'état montré dans la fenêtre d'objectif, et souvenez-vous du format :",
               "",
               "`<source>:<destination>`"
             ]
@@ -35768,14 +35959,16 @@ exports.level = {
     "zh_CN": "你随时都可以使用 undo/reset 命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
-    "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
+    "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
+    "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset."
   },
   "name": {
     "en_US": "Push Master!",
     "zh_CN": "Push Master!",
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
-    "de_DE": "Push Master!"
+    "de_DE": "Push Master!",
+    "fr_FR": "Maître du push !"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -35827,6 +36020,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Fusionner les modifications des branches",
+              "",
+              "Maintenant que vous êtes habitué à fetch, pull, et push, utilisons ces compétences dans le test avec un nouveau plan de travail.",
+              "",
+              "Il est commun pour les développeurs de gros projets de faire tout leur travail dans des branches représentant une fonctionnalité (en dehors de `master`) et d'intégrer ce travvail une fois qu'il est prêt. C'est similaire à la leçon précédente (où les branches secondaires étaient pushées sur le dépôt distant), mais ici nous introduisons une étape supplémentaire.",
+              "",
+              "Certains développeurs font un push puis un pull uniquement quand ils sont sur la branche `master` -- de cette manière `master` reste toujours à jour avec ce qu'il y a sur le dépôt distant (`o/master`).",
+              "",
+              "Ainsi pour ce faire nous combinons deux choses :",
+              "",
+              "* intégrer la fonctionnalité de la branche dans `master`, et",
+              "* pusher et puller sur le dépôt distant."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Rappelons-nous rapidement comment mettre à jour `master` et envoyer (push) le travail."
+            ],
+            "afterMarkdowns": [
+              "Nous exécutons ici deux commandes :",
+              "",
+              "* on rebase nôtre travail sur de nouveaux commits, et",
+              "* on publie nôtre travail sur le dépôt distant"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ce niveau est assez gigantesque -- voici l'idée générale de la solution :",
+              "",
+              "* Il y a trois branches de fonctionnalités -- `side1` `side2` et `side3`",
+              "* Nous voulons envoyer chacune de ces modifications, dans l'ordre, sur le dépôt distant",
+              "* Le dépôt distant a été mis à jour entre-temps, donc nous avons aussi besoin d'intégrer ce travail",
+              "",
+              ":O difficile ! bonne chance, finir ce niveau est une grande étape."
             ]
           }
         }
@@ -37508,4 +37754,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,62,61,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
