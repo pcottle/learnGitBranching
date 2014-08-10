@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "Git push 参数 2!",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
-    "de_DE": "Optionen fü Git Push -- noch mehr!"
+    "de_DE": "Optionen fü Git Push -- noch mehr!",
+    "fr_FR": "Arguments de git push -- toujours plus !"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
-    "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P"
+    "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
+    "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -80,6 +82,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Détails de l'argument `<place>`",
+              "",
+              "Vous vous rappelez de la dernière leçon que quand vous spécifiez `master` comme argument `<place>` place à git push, nous spécifions à la fois la *source* de provenance des commits et leur *destination*.",
+              "",
+              "Vous vous demandez peut-être donc -- et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
+              "",
+              "Malheureusement ce n'est pas possible avec git ... ou pas ! Bien sûr que c'est possible :)... git a des tonnes de flexibilité (presque trop).",
+              "",
+              "Voyons cela au prochain slide ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour spécifier la source et la destination dans `<place>`, on les joint simplement par deux points :",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "On en parle souvent comme un refspec. Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
+              "",
+              "Lorsque vous précisez la source et la destination indémpendamment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Rappelez-vous, `source` peut être n'importe quel emplacement que git peut résoudre :"
+            ],
+            "afterMarkdowns": [
+              "Woahou ! C'est une commande très alambiquée mais qui a du sens -- git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la destination."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Que se passe-t-il quand la destination du push n'existe pas encore ? Pas de problème ! Donnez simplement un nom de branche et git va créer la branche distante pour vous."
+            ],
+            "afterMarkdowns": [
+              "Cool, c'est habile :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pour ce niveau, essayez d'atteindre l'état montré dans la fenêtre d'objectif, et souvenez-vous du format :",
               "",
               "`<source>:<destination>`"
             ]

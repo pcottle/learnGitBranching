@@ -7,14 +7,16 @@ exports.level = {
     "zh_CN": "你随时都可以使用 undo/reset 命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
-    "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen."
+    "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
+    "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset."
   },
   "name": {
     "en_US": "Push Master!",
     "zh_CN": "Push Master!",
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
-    "de_DE": "Push Master!"
+    "de_DE": "Push Master!",
+    "fr_FR": "Maître du push !"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -66,6 +68,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Fusionner les modifications des branches",
+              "",
+              "Maintenant que vous êtes habitué à fetch, pull, et push, utilisons ces compétences dans le test avec un nouveau plan de travail.",
+              "",
+              "Il est commun pour les développeurs de gros projets de faire tout leur travail dans des branches représentant une fonctionnalité (en dehors de `master`) et d'intégrer ce travvail une fois qu'il est prêt. C'est similaire à la leçon précédente (où les branches secondaires étaient pushées sur le dépôt distant), mais ici nous introduisons une étape supplémentaire.",
+              "",
+              "Certains développeurs font un push puis un pull uniquement quand ils sont sur la branche `master` -- de cette manière `master` reste toujours à jour avec ce qu'il y a sur le dépôt distant (`o/master`).",
+              "",
+              "Ainsi pour ce faire nous combinons deux choses :",
+              "",
+              "* intégrer la fonctionnalité de la branche dans `master`, et",
+              "* pusher et puller sur le dépôt distant."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Rappelons-nous rapidement comment mettre à jour `master` et envoyer (push) le travail."
+            ],
+            "afterMarkdowns": [
+              "Nous exécutons ici deux commandes :",
+              "",
+              "* on rebase nôtre travail sur de nouveaux commits, et",
+              "* on publie nôtre travail sur le dépôt distant"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ce niveau est assez gigantesque -- voici l'idée générale de la solution :",
+              "",
+              "* Il y a trois branches de fonctionnalités -- `side1` `side2` et `side3`",
+              "* Nous voulons envoyer chacune de ces modifications, dans l'ordre, sur le dépôt distant",
+              "* Le dépôt distant a été mis à jour entre-temps, donc nous avons aussi besoin d'intégrer ce travail",
+              "",
+              ":O difficile ! bonne chance, finir ce niveau est une grande étape."
             ]
           }
         }
