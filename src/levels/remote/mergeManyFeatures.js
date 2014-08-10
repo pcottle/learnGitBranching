@@ -73,7 +73,7 @@ exports.level = {
             "markdowns": [
               "## Pourquoi pas merge ?",
               "",
-              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, tout ce que vous avez à faire est *incorporer* les derniers changements dans ce dépôt. Cela signifie que vous pouvez faire un rebase *ou* merge dans la branche distante (e.g. `o/master`).",
+              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, la seule étape préliminaire est *d'incorporer* les derniers changements de ce dépôt dans le nôtre. Cela signifie qu'après, vous pouvez faire un rebase *ou* merge de la branche distante (e.g. `o/master`).",
               "",
               "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont (re)basées (!) sur rebase jusqu'à présent ? Pourquoi n'aime-t-on pas `merge` dans les branches distantes ?",
               ""
