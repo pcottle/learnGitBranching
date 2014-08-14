@@ -2198,9 +2198,6 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
       initialCommitOrdering.push(id);
     });
   }
-  
-  // The rebase view expects the commits reversed, so do that here
-  toRebase.reverse();
 
   var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
   // interactive rebase view will reject or resolve our promise
