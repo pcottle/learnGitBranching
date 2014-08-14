@@ -2184,26 +2184,19 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
     var rebaseMap = {};
     _.each(toRebase, function(commit) {
-      var id = commit.get('id');
-      rebaseMap[id] = commit;
+      rebaseMap[commit.get('id')] = true;
     });
     
     // Verify each chosen commit exists in the list of commits given to the user
-    var extraCommits = [];
     initialCommitOrdering = [];
     _.each(options.initialCommitOrdering[0].split(','), function(id) {
-      if (id in rebaseMap) {
-        initialCommitOrdering.push(rebaseMap[id]);
-      } else {
-        extraCommits.push(id);
+      if (!rebaseMap[id]) {
+        throw new GitError({
+          msg: intl.todo('Hey those commits dont exist in the set!')
+        });
       }
+      initialCommitOrdering.push(id);
     });
-    
-    if (extraCommits.length > 0) {
-      throw new GitError({
-        msg: intl.todo('Hey those commits dont exist in the set!')
-      });
-    }
   }
   
   // The rebase view expects the commits reversed, so do that here
