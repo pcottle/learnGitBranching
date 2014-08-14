@@ -8433,6 +8433,7 @@ var commandConfig = {
     sc: /^gr($|\s)/,
     options: [
       '-i',
+      '--solution-ordering',
       '--interactive-test',
       '--aboveAll',
       '-p',
@@ -8459,6 +8460,7 @@ var commandConfig = {
             args[0],
             args[1], {
               aboveAll: !!commandOptions['--aboveAll'],
+              initialCommitOrdering: commandOptions['--solution-ordering']
             }
           );
         }
@@ -11086,12 +11088,33 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     this.animationQueue.start();
   }, this))
   .done();
+  
+  // If we have a solution provided, set up the GUI to display it by default
+  var initialCommitOrdering;
+  if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
+    var rebaseMap = {};
+    _.each(toRebase, function(commit) {
+      rebaseMap[commit.get('id')] = true;
+    });
+    
+    // Verify each chosen commit exists in the list of commits given to the user
+    initialCommitOrdering = [];
+    _.each(options.initialCommitOrdering[0].split(','), function(id) {
+      if (!rebaseMap[id]) {
+        throw new GitError({
+          msg: intl.todo('Hey those commits dont exist in the set!')
+        });
+      }
+      initialCommitOrdering.push(id);
+    });
+  }
 
   var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
   // interactive rebase view will reject or resolve our promise
   new InteractiveRebaseView({
     deferred: deferred,
     toRebase: toRebase,
+    initialCommitOrdering: initialCommitOrdering,
     aboveAll: options.aboveAll
   });
 };
@@ -19523,7 +19546,8 @@ var InteractiveRebaseView = ContainedBase.extend({
 
   render: function() {
     var json = {
-      num: _.keys(this.rebaseMap).length
+      num: _.keys(this.rebaseMap).length,
+      solutionOrder: this.options.initialCommitOrdering
     };
 
     var destination = this.container.getInsideElement();
@@ -26681,7 +26705,7 @@ exports.level = {
     ]
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git rebase -i HEAD~2;git commit --amend;git rebase -i HEAD~2;git rebase caption master",
+  "solutionCommand": "git rebase -i HEAD~2 --solution-ordering C3,C2;git commit --amend;git rebase -i HEAD~2 --solution-ordering C2'',C3';git rebase caption master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"newImage\":{\"target\":\"C2\",\"id\":\"newImage\"},\"caption\":{\"target\":\"C3\",\"id\":\"caption\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"caption\",\"id\":\"HEAD\"}}",
   "name": {
     "ko": "커밋들 갖고 놀기",
@@ -28600,7 +28624,7 @@ exports.level = {
 },{}],76:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git rebase -i overHere",
+  "solutionCommand": "git rebase -i overHere --solution-ordering C3,C5,C4",
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
     "git cherry-pick": true
@@ -37754,4 +37778,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,62,61,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])

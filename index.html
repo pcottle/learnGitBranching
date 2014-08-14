@@ -13,7 +13,7 @@
   <meta property="og:image" content="http://pcottle.github.io/learnGitBranching/assets/learnGitBranching.png"/>
   <meta property="og:description" content="A interactive Git visualization tool to educate and challenge!"/>
 
-	<link rel="stylesheet" href="build/main.b2488333.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="build/main.8283dd78.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
 </head>
 <body>
@@ -413,6 +413,12 @@
       <p>
         Rebasing <%= num %> Commits
       </p>
+      <% if (solutionOrder && solutionOrder.length) { %>
+        <p class="solutionText">
+          For the solution, order the commits as
+            <%= solutionOrder.join(', ') %>
+        </p>
+      <% } %>
       <p class="helperText">
         (Drag and drop to re-order. Toggle the "pick" button to omit or re-add a commit)
       </p>
@@ -472,7 +478,7 @@
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/bundle.min.abb74d8d.js"></script>
+  <script src="build/bundle.min.c7d4224d.js"></script>
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include
