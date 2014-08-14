@@ -13,24 +13,54 @@ var InteractiveRebaseView = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
 
-  initialize: function(options) {
-    this.deferred = options.deferred;
+  createRebaseEntries: function() {
     this.rebaseMap = {};
     this.entryObjMap = {};
-    this.options = options;
-
     this.rebaseEntries = new RebaseEntryCollection();
-    options.toRebase.reverse();
-    _.each(options.toRebase, function(commit) {
+    
+    // If we are displaying a solution, we potentially only want to pick certain commits, and reorder
+    // the ones that are picked. The commits we want to pick and the order are contained in the options.initialCommitOrdering,
+    // the list of all the commits that are part of the rebase are in options.toRebase
+    var commitsToUse = this.options.initialCommitOrdering === undefined ? this.options.toRebase
+                                                                        : this.options.initialCommitOrdering;
+
+    _.each(commitsToUse, function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
 
       // make basic models for each commit
       this.entryObjMap[id] = new RebaseEntry({
-        id: id
+        id: id,
+        pick: true
       });
       this.rebaseEntries.add(this.entryObjMap[id]);
     }, this);
+    
+    // If we are using the initialCommitOrdering, we might not have picked all of the commits,
+    // but we would still want to see the other unpicked ones. Just show them as unpicked by default
+    if (this.options.initialCommitOrdering !== undefined) {
+      _.each(this.options.toRebase, function(commit) {
+        var id = commit.get('id');
+        
+        if (!(id in this.rebaseMap)) {
+          this.rebaseMap[id] = commit;
+
+          // make basic models for each commit
+          this.entryObjMap[id] = new RebaseEntry({
+            id: id,
+            pick: false
+          });
+        }
+        this.rebaseEntries.add(this.entryObjMap[id]);
+      }, this);
+    }
+  },
+  
+  initialize: function(options) {
+    this.deferred = options.deferred;
+    this.options = options;
+    
+    this.createRebaseEntries();
 
     this.container = new ModalTerminal({
       title: 'Interactive Rebase'
@@ -170,6 +200,7 @@ var RebaseEntryView = Backbone.View.extend({
 
     // hacky :( who would have known jquery barfs on ids with %'s and quotes
     this.listEntry = this.$el.children(':last');
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
 
     this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
       this.toggle();
