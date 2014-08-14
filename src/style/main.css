@@ -692,6 +692,12 @@ div.terminal-text p.helperText,
   font-size: 10px;
 }
 
+.iRebaseDialog p.solutionText {
+  color: lime;
+  font-weight: bold;
+  margin: 0;
+}
+
 .iRebaseDialog p.helperText {
   color: #999;
   margin: 0;

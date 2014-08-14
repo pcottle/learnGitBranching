@@ -413,6 +413,12 @@
       <p>
         Rebasing <%= num %> Commits
       </p>
+      <% if (solutionOrder && solutionOrder.length) { %>
+        <p class="solutionText">
+          For the solution, order the commits as
+            <%= solutionOrder.join(', ') %>
+        </p>
+      <% } %>
       <p class="helperText">
         (Drag and drop to re-order. Toggle the "pick" button to omit or re-add a commit)
       </p>
