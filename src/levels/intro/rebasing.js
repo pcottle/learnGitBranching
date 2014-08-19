@@ -303,7 +303,7 @@ exports.level = {
               "",
               "La seconde façon de combiner les contenus de deux branches est *rebase*. Rebase prend un ensemble de commits, les \"recopie\", et les ajoute en bout de chaîne à un autre endroit.",
               "",
-              "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéeire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
+              "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéaire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
               "",
               "Voyons rebase en action…"
             ]
@@ -345,7 +345,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour acomplir ce niveau, faites les opérations suivantes",
+              "Pour accomplir ce niveau, faites les opérations suivantes",
               "",
               "* Positionnez-vous (checkout) sur une nouvelle branche nommée `bugFix`",
               "* Faites un commit",
