@@ -165,7 +165,7 @@ exports.level = {
             "markdowns": [
               "### L'opérateur \"~\"",
               "",
-              "Disons que vous suohaitez remontez beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
+              "Disons que vous souhaitez remonter beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
               "",
               "",
               "L'opérateur tilde prend optionnellement à sa suite un nombre qui spécifie le nombre de parents que vous souhaitez remonter. Voyons cela en action"
@@ -179,7 +179,7 @@ exports.level = {
               "Spécifions le nombre de commits en arrière avec `~`."
             ],
             "afterMarkdowns": [
-              "Boum! Tellement rapide -- les références relatices sont géniales."
+              "Boum! Tellement rapide -- les références relatives sont géniales."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -197,7 +197,7 @@ exports.level = {
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "bouge (de force) la branch master à trois parents derrière HEAD."
+              "bouge (de force) la branche master à trois parents derrière HEAD."
             ]
           }
         },
@@ -218,7 +218,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Maintenant que vous avez vu les références relatives et le forçage de branche ensemble mêlés ensemble, utilisons-les pour résoudre le niveau suivant.",
+              "Maintenant que vous avez vu les références relatives et le forçage de branche, utilisons-les pour résoudre le niveau suivant.",
               "",
               "Pour compléter ce niveau, bouger `HEAD`, `master`, et `bugFix` à leurs destinations désignées."
             ]
