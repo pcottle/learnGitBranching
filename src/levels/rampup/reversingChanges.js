@@ -319,7 +319,7 @@ exports.level = {
               "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne"
             ],
             "afterMarkdowns": [
-              "Étrangement, un nouveau commit est appaaru en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
+              "Étrangement, un nouveau commit est apparu en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
               "",
               "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
             ],
