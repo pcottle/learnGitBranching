@@ -227,7 +227,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### Détacher HEAD",
               "",
-              "Détacher HEAD signifie simplement de l'attacher à un commit instead au lieu d'une branch. Voilà à quoi cela ressemble actuellement :",
+              "Détacher HEAD signifie simplement que l'on attache HEAD à un commit au lieu d'une branche. Voilà à quoi cela ressemble actuellement :",
               "",
               "HEAD -> master -> C1",
               ""
