@@ -25669,7 +25669,7 @@ exports.level = {
               "",
               "La seconde façon de combiner les contenus de deux branches est *rebase*. Rebase prend un ensemble de commits, les \"recopie\", et les ajoute en bout de chaîne à un autre endroit.",
               "",
-              "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéeire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
+              "Bien que cela puisse sembler compliqué, l'avantage de rebase est de permettre d'obtenir une simple séquence linéaire de commits. Les logs/l'historique du dépôt seront bien plus propres si seul rebase est autorisé (plutôt que merge).",
               "",
               "Voyons rebase en action…"
             ]
@@ -25711,7 +25711,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour acomplir ce niveau, faites les opérations suivantes",
+              "Pour accomplir ce niveau, faites les opérations suivantes",
               "",
               "* Positionnez-vous (checkout) sur une nouvelle branche nommée `bugFix`",
               "* Faites un commit",
@@ -28366,7 +28366,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### Détacher HEAD",
               "",
-              "Détacher HEAD signifie simplement de l'attacher à un commit instead au lieu d'une branch. Voilà à quoi cela ressemble actuellement :",
+              "Détacher HEAD signifie simplement que l'on attache HEAD à un commit au lieu d'une branche. Voilà à quoi cela ressemble actuellement :",
               "",
               "HEAD -> master -> C1",
               ""
@@ -29682,7 +29682,7 @@ exports.level = {
             "markdowns": [
               "### L'opérateur \"~\"",
               "",
-              "Disons que vous suohaitez remontez beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
+              "Disons que vous souhaitez remonter beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
               "",
               "",
               "L'opérateur tilde prend optionnellement à sa suite un nombre qui spécifie le nombre de parents que vous souhaitez remonter. Voyons cela en action"
@@ -29696,7 +29696,7 @@ exports.level = {
               "Spécifions le nombre de commits en arrière avec `~`."
             ],
             "afterMarkdowns": [
-              "Boum! Tellement rapide -- les références relatices sont géniales."
+              "Boum! Tellement rapide -- les références relatives sont géniales."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -29714,7 +29714,7 @@ exports.level = {
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "bouge (de force) la branch master à trois parents derrière HEAD."
+              "bouge (de force) la branche master à trois parents derrière HEAD."
             ]
           }
         },
@@ -29735,7 +29735,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Maintenant que vous avez vu les références relatives et le forçage de branche ensemble mêlés ensemble, utilisons-les pour résoudre le niveau suivant.",
+              "Maintenant que vous avez vu les références relatives et le forçage de branche, utilisons-les pour résoudre le niveau suivant.",
               "",
               "Pour compléter ce niveau, bouger `HEAD`, `master`, et `bugFix` à leurs destinations désignées."
             ]
@@ -30244,7 +30244,7 @@ exports.level = {
               "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne"
             ],
             "afterMarkdowns": [
-              "Étrangement, un nouveau commit est appaaru en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
+              "Étrangement, un nouveau commit est apparu en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
               "",
               "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
             ],
