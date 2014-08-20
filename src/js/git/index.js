@@ -772,7 +772,6 @@ GitEngine.prototype.printBranches = function(branches) {
 GitEngine.prototype.printTags = function(tags) {
   var result = '';
   _.each(tags, function(tag) {
-    console.log(tag);
     result += tag.id + '\n';
   });
   throw new CommandResult({

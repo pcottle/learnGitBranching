@@ -1,0 +1,65 @@
+/*
+ * CSS animated rainbow dividers of awesome 
+ * by Chris Heilmann @codepo8 and Lea Verou @leaverou 
+**/
+
+/**
+ * From CSS3-Rainbow-Dividers on Github :)
+ */
+
+@-moz-keyframes rainbowanim {
+  from { background-position:top left; } 
+  to {background-position:top right; }
+}
+@-webkit-keyframes rainbowanim { 
+  from { background-position:top left; }  
+  to { background-position:top right; }  
+}
+@-o-keyframes rainbowanim { 
+  from { background-position:top left; }  
+  to { background-position:top right; }  
+}
+@-ms-keyframes rainbowanim { 
+  from { background-position:top left; }  
+  to { background-position:top right; }  
+}
+@-khtml-keyframes rainbowanim { 
+  from { background-position:top left; }  
+  to { background-position:top right; }  
+}
+@keyframes rainbowanim { 
+  from { background-position:top left; }  
+  to { background-position:top right; }  
+}
+
+.catchadream{
+  background-image:-webkit-linear-gradient( left, red, orange, yellow, green,
+                                          blue, indigo, violet, indigo, blue,
+                                          green, yellow, orange, red );
+  background-image:-moz-linear-gradient( left, red, orange, yellow, green,
+                                         blue,indigo, violet, indigo, blue,
+                                         green, yellow, orange,red );
+  background-image:-o-linear-gradient( left, red, orange, yellow, green,
+                                         blue,indigo, violet, indigo, blue,
+                                         green, yellow, orange,red );
+  background-image:-ms-linear-gradient( left, red, orange, yellow, green,
+                                         blue,indigo, violet, indigo, blue,
+                                         green, yellow, orange,red );
+  background-image:-khtml-linear-gradient( left, red, orange, yellow, green,
+                                         blue,indigo, violet, indigo, blue,
+                                         green, yellow, orange,red );
+  background-image:linear-gradient( left, red, orange, yellow, green,
+                                         blue,indigo, violet, indigo, blue,
+                                         green, yellow, orange,red );
+  -moz-animation:rainbowanim 3.5s forwards linear infinite;
+  -webkit-animation:rainbowanim 2.5s forwards linear infinite;
+  -o-animation:rainbowanim 2.5s forwards linear infinite;
+  -khtml-animation:rainbowanim 2.5s forwards linear infinite;
+  -ms-animation:rainbowanim 2.5s forwards linear infinite;
+  -lynx-animation:rainbowanim 2.5s forwards linear infinite;
+  animation:rainbowanim 2.5s forwards linear infinite;
+  background-size:50% auto;
+
+  height: 20px;
+  padding: 12px;
+}
