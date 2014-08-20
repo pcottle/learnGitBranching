@@ -9682,7 +9682,6 @@ GitEngine.prototype.printBranches = function(branches) {
 GitEngine.prototype.printTags = function(tags) {
   var result = '';
   _.each(tags, function(tag) {
-    console.log(tag);
     result += tag.id + '\n';
   });
   throw new CommandResult({
@@ -18180,6 +18179,10 @@ var ModalAlert = ContainedBase.extend({
     var HTML = (this.JSON.markdown) ?
       require('markdown').markdown.toHTML(this.JSON.markdown) :
       this.template(this.JSON);
+    // one more hack -- allow adding custom random HTML if specified
+    if (this.options._dangerouslyInsertHTML) {
+      HTML += this.options._dangerouslyInsertHTML;
+    }
 
     // call to super, not super elegant but better than
     // copy paste code
@@ -18281,16 +18284,22 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
     }
 
     markdown = markdown + '\n\n';
+    var extraHTML;
     if (options.nextLevel) {
       markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
-      markdown = markdown + intl.str('finish-dialog-finished');
+      extraHTML = '<p class="catchadream">' + intl.str('finish-dialog-finished') +
+        ' (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ' +
+        '</p>';
     }
 
     options = _.extend(
       {},
       options,
-      { markdown: markdown }
+      {
+        markdown: markdown,
+        _dangerouslyInsertHTML: extraHTML
+      }
     );
 
     NextLevelConfirm.__super__.initialize.apply(this, [options]);
