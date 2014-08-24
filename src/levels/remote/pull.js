@@ -36,7 +36,7 @@ exports.level = {
               "* `git merge o/master`",
               "* etc., etc.",
               "",
-              "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually make a command that does both at once! That command is `git pull`."
+              "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually provides a command that does both at once! That command is `git pull`."
             ]
           }
         },
