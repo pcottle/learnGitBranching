@@ -66,7 +66,7 @@ div.modalTerminal p {
 html,
 body,
 .box {
-  display: flexbox;
+  display: flex;
   display: -moz-box;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -76,29 +76,29 @@ body,
 .flex1 {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
-  -ms-flex: 1.0;
-  flex: 1;
+  -ms-flex: 1.0 1.0 auto;
+  flex: 1 1 auto;
 }
 
 .flex2 {
   -webkit-box-flex: 2;
   -moz-box-flex: 2;
-  -ms-flex: 2.0;
-  flex: 2;
+  -ms-flex: 2.0 2.0 auto;
+  flex: 2 2 auto;
 }
 
 .flex3 {
   -webkit-box-flex: 3;
   -moz-box-flex: 3;
-  -ms-flex: 3.0;
-  flex: 3;
+  -ms-flex: 3.0 3.0 auto;
+  flex: 3 3 auto;
 }
 
 .flex10 {
   -webkit-box-flex: 10;
   -moz-box-flex: 10;
-  -ms-flex: 10.0;
-  flex: 10;
+  -ms-flex: 10.0 10.0 auto;
+  flex: 10 10 auto;
 }
 
 html,

@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
@@ -203,36 +203,38 @@
     </div>
   </script>
 
-  <script type="text/html" id="terminal-window-template">
-    <div class="terminal-window box horizontal flex3 transitionAll">
-      <div class="box flex3">
-      </div>
+	<script type="text/html" id="terminal-window-template">
+		<div class="terminal-window box horizontal flex3 transitionAll">
+		<div class="box flex3">
+		</div>
 
-      <div class="terminal-window-holder box flex10 vertical transitionTransform">
-        <div class="toolbar box vertical center">
-          <div class="controls box horizontal justify">
-            <div class="box flex1">
-              <div class="close">
-              </div>
-            </div>
-            <div class="box flex1">
-              <div class="minimize">
-              </div>
-            </div>
-            <div class="box flex1">
-              <div class="plus">
-              </div>
-            </div>
-          </div>
-          <div>
-            <i class="icon-cog"></i>
-            <%= title %>
-          </div>
-        </div>
+		<div class="terminal-window-holder box flex10 vertical transitionTransform">
+			<div class="wrapper box vertical">
+				<div class="toolbar box vertical center">
+					<div class="controls box horizontal justify">
+						<div class="box flex1">
+							<div class="close">
+							</div>
+						</div>
+						<div class="box flex1">
+							<div class="minimize">
+							</div>
+						</div>
+						<div class="box flex1">
+							<div class="plus">
+							</div>
+						</div>
+					</div>
+					<div>
+						<i class="icon-cog"></i>
+						<%= title %>
+					</div>
+				</div>
 
-        <div class="inside">
-        </div>
-      </div>
+				<div class="inside">
+				</div>
+			</div>
+		</div>
 
       <div class="box flex2">
       </div>
