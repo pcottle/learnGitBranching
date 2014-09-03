@@ -1,9 +1,3 @@
-/* Partial reset */
-p, div {
-	display: block;
-}
-
-/* Main styles */
 html {
   height: 100%;
 }
