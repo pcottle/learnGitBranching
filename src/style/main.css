@@ -66,39 +66,39 @@ div.modalTerminal p {
 html,
 body,
 .box {
-  display: box;
+  display: flex;
   display: -moz-box;
   display: -webkit-box;
-  display: -ms-box;
+  display: -ms-flexbox;
 }
 
 body,
 .flex1 {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;
+  -ms-flex: 1.0 1.0 auto;
+  flex: 1 1 auto;
 }
 
 .flex2 {
   -webkit-box-flex: 2;
   -moz-box-flex: 2;
-  -ms-box-flex: 2;
-  box-flex: 2;
+  -ms-flex: 2.0 2.0 auto;
+  flex: 2 2 auto;
 }
 
 .flex3 {
   -webkit-box-flex: 3;
   -moz-box-flex: 3;
-  -ms-box-flex: 3;
-  box-flex: 3;
+  -ms-flex: 3.0 3.0 auto;
+  flex: 3 3 auto;
 }
 
 .flex10 {
   -webkit-box-flex: 10;
   -moz-box-flex: 10;
-  -ms-box-flex: 10;
-  box-flex: 10;
+  -ms-flex: 10.0 10.0 auto;
+  flex: 10 10 auto;
 }
 
 html,
@@ -106,43 +106,43 @@ body,
 .vertical {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
-  -ms-box-orient: vertical;
-  box-orient: vertical;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 .horizontal {
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
-  -ms-box-orient: horizontal;
-  box-orient: horizontal;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 .centerAlign {
   -webkit-box-align: center;
   -moz-box-align: center;
-  -ms-box-align: center;
-  box-align: center;
+  -ms-flex-align: center;
+  justify-content	: center;
 }
 
 .startAlign {
   -webkit-box-align: start;
   -moz-box-align: start;
-  -ms-box-align: start;
-  box-align: start;
+  -ms-flex-align: start;
+  justify-content: flex-start;
 }
 
 .center {
   -webkit-box-pack: center;
   -moz-box-pack: center;
-  -ms-box-pack: center;
-  box-pack: center;
+  -ms-flex-pack: center;
+  align-content: center;
 }
 
 .justify {
   -webkit-box-pack: justify;
   -moz-box-pack: justify;
-  -ms-box-pack: justify;
-  box-pack: justify;
+  -ms-flex-pack: justify;
+  align-content: stretch;
 }
 
 /* Transition */
