@@ -33,7 +33,7 @@ exports.level = {
             "markdowns": [
               "## Git Branches",
               "",
-              "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
+              "Branches in Git are incredibly lightweight as well. They are simply pointers to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
               "",
               "```",
               "branch early, and branch often",
