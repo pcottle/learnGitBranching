@@ -50,7 +50,7 @@ exports.level = {
               "Let's see what that looks like:"
             ],
             "afterMarkdowns": [
-              "Nice! Git simply moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened"
+              "Nice! Git moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
