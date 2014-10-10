@@ -725,10 +725,10 @@ exports.level = {
               "",
               "要完成本节, 你需要完成以下几步: ",
               "",
-              "* Clone your repo",
-              "* Fake some teamwork (1 commit)",
-              "* Commit some work yourself (1 commit)",
-              "* Publish your work via *rebasing*"
+              "* Clone 你的仓库",
+              "* 模拟一次远程提交(fakeTeamwork)",
+              "* 本地提交一次",
+              "* 用**变基**提交你的修改(--rebase)"
             ]
           }
         }
