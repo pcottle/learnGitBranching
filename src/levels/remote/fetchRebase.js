@@ -14,7 +14,7 @@ exports.level = {
     "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
-    "es_AR": "Prestá atención al oren del objetivo",
+    "es_AR": "Prestá atención al orden del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif"
   },
@@ -725,10 +725,10 @@ exports.level = {
               "",
               "要完成本节, 你需要完成以下几步: ",
               "",
-              "* Clone your repo",
-              "* Fake some teamwork (1 commit)",
-              "* Commit some work yourself (1 commit)",
-              "* Publish your work via *rebasing*"
+              "* Clone 你的仓库",
+              "* 模拟一次远程提交(fakeTeamwork)",
+              "* 本地提交一次",
+              "* 用**变基**提交你的修改(--rebase)"
             ]
           }
         }

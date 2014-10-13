@@ -335,22 +335,21 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Here are some equivalent commands in git:",
-              "以下命令在git中是等价的:",
+              "以下命令在 git 中是等价的:",
               "",
-              "`git pull  origin foo` is equal to:",
+              "`git pull  origin foo` 相当于：",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "还有...",
               "",
-              "`git pull  origin bar~1:bugFix` is equal to:",
+              "`git pull  origin bar~1:bugFix` 相当于：",
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
               "看到了? git pull 实际上就是fetch + merge的缩写, git pull 在乎的是提交在哪里结束(也就是git fetch所确定的destination)",
               "",
-              "Lets see a demo:"
+              "一起来看个例子吧："
             ]
           }
         },
