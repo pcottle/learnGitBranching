@@ -12764,6 +12764,7 @@ exports.strings = {
   'hg-prune-tree': {
     '__desc__': 'warning when pruning tree',
     'en_US': 'Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree',
+    'zh_CN': '注意！ Mercurial 会进行主动垃圾回收，会导致需要将你的树縮小。',
     'zh_TW': '注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。',
     'es_AR': '¡Cuidado! Mercurial hace garbage collection agresivamente y necesita eliminar tu árbol',
     'fr_FR': 'Attention, Mercurial supprime de façon agressive et nécessite un prune du repository',
@@ -12775,6 +12776,7 @@ exports.strings = {
     '__desc__': 'warning for when using -A option',
     'en_US': 'The -A option is not needed for this app, just commit away!',
     'zh_TW': '對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！',
+    'zh_CN': '对本 app 而言，-A 选项并非必须项，直接 commit 就好！',
     'es_AR': 'La opción -A no es necesaria para esta aplicación, simplemente hacé commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
     'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
@@ -12784,6 +12786,7 @@ exports.strings = {
   'hg-error-no-status': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
+    'zh_CN': '本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用hg summary代替哦',
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
@@ -12793,6 +12796,7 @@ exports.strings = {
   'hg-error-need-option': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'I need the option {option} for that command!',
+    'zh_CN': '我需要该命令使用 {option} 选项呢。',
     'es_AR': '¡Necesito la opción {opcion} para ese comando!',
     'fr_FR': 'J\'ai besoin de l\'option {option} pour cette commande',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
@@ -12802,6 +12806,7 @@ exports.strings = {
   'hg-error-log-no-follow': {
     '__desc__': 'hg log without -f (--follow)',
     'en_US': 'hg log without -f is currently not supported, use -f',
+    'zh_CN': '暂不支持没有-f 选项的 hg log 命令，请补充 -f 选项吧',
     'es_AR': 'hg log sin el parámetro -f no está soportado, usá -f',
     'fr_FR': 'hg log sans -f n\'est pas supporté',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
@@ -12859,11 +12864,13 @@ exports.strings = {
     'fr_FR': 'Déjà à jour',
     'es_AR': 'Estás en la versión más reciente',
     'zh_TW': '已經是最新的了',
+    'zh_CN': '已经是最新的了',
     'ru': 'Уже обновлено!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
+    'zh_CN': '你的 origin 分支已经失去了与 remote 远端分支的同步，所以无法执行 fetch 命令',
     'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
@@ -12872,6 +12879,7 @@ exports.strings = {
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase',
+    'zh_CN': '远端仓库与你的本地仓库产生了分歧，故此上传操作无法通过简单地快进实现（因此你的 push 被拒绝了）。请 pull 下来远端里最新的更改，与本地合并之后再试一次。你可以通过 git pull 或 git pull --rebase 实现。',
     'de_DE': 'Das entfernte Repository weicht von deinem lokalen Repository ab, daher können deine Änderungen nicht mit einem einfachen fast forward hochgeladen werden (und daher ist dein push abgelehnt worden). Bitte pull erst die neuen Änderungen in das lokale Repository, integriere sie in den Branch und versuch es nochmal. Das kannst du mit git pull oder git pull --rebase machen',
     'es_AR': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y probá de nuevo. Podés hacerlo con git pull o git pull --rebase',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
@@ -12880,6 +12888,7 @@ exports.strings = {
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch',
+    'zh_CN': '你不能在远端分支上执行这个命令呀。',
     'de_DE': 'Du kannst diesen Befehl nicht auf einem Remote Branch ausführen',
     'es_AR': 'No podés ejecutar ese comando en una rama remota',
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
@@ -12888,6 +12897,7 @@ exports.strings = {
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin is required for that command',
+    'zh_CN': '该命令需要一个 origin',
     'de_DE': 'Für diesen Befehl wird origin benötigt',
     'es_AR': 'Necesitás un origen para ese comando',
     'fr_FR': 'Une origine est requise pour cette commande',
@@ -12896,6 +12906,7 @@ exports.strings = {
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin already exists! You cannot make a new one',
+    'zh_CN': 'origin 远端已存在。你不能重复创建',
     'de_DE': 'origin existiert bereits! Du kannst es nicht nochmal anlegen',
     'es_AR': '¡Ya existe el origen! No podés crear uno nuevo',
     'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
@@ -12907,7 +12918,7 @@ exports.strings = {
     'en_US': 'You can\'t delete the master branch, the branch you are on, or things that ' +
       'aren\'t branches',
     'de_DE': 'Du kannst nicht den Branch master, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen',
-    'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他不是分支也不知道能不能吃的东西。',
+    'zh_CN': '你不能删除主分支（master），或者你当前所在的分支，或者其他连分支也不是的东西。',
     'zh_TW': '你不能刪除 master branch，或者你當前所在的 branch，或者其它連 branch 都不是的東西。',
     'es_AR': 'No podés borrar la rama master, la rama en la que estás, o cosas que no son ramas',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
@@ -12940,7 +12951,7 @@ exports.strings = {
     '__desc__': 'The message that explains the result of a git command',
     'en_US': 'Nothing to do...',
     'de_DE': 'Nichts zu tun ...',
-    'zh_CN': '没啥鸟事……',
+    'zh_CN': '啥鸟事也木有发生...',
     'zh_TW': '沒什麼事情要做...',
     'es_AR': 'Nada para hacer...',
     'fr_FR': 'Rien à effectuer…',
@@ -12951,7 +12962,7 @@ exports.strings = {
     '__desc__': 'The message that explains the result of a git command',
     'en_US': 'Fast forwarding...',
     'de_DE': 'Fast forward...',
-    'zh_CN': '快速前进……',
+    'zh_CN': '快速前进...',
     'zh_TW': '快速前進...',
     'es_AR': 'Fast forwardeando...',
     'fr_FR': 'En avance rapide…'
@@ -12983,7 +12994,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Commit {commit} doesnot have a {match}',
     'de_DE': 'Commit {commit} hat kein {match}',
-    'zh_CN': '提交 {commit} 并没有 {match}',
+    'zh_CN': '{commit} 号提交并没有 {match}',
     'zh_TW': 'commit {commit} 並沒有 {match}',
     'es_AR': 'El commit {commit} no tiene un {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
@@ -12994,7 +13005,7 @@ exports.strings = {
     '__desc__': 'One of the warning messages for git',
     'en_US': 'Warning!! Detached HEAD state',
     'de_DE': 'Achtung! Detached HEAD Zustand',
-    'zh_CN': '警告！脑袋搬家（Detached HEAD）状态',
+    'zh_CN': '警告！现在是脑袋搬家（Detached HEAD）状态',
     'zh_TW': '注意喔！現在的狀態是分離 Head',
     'es_AR': '¡Cuidado! Modo de detached HEAD',
     'fr_FR': 'Attention ! HEAD est détaché'
@@ -13024,7 +13035,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The commit {commit} already exists in your changes set, aborting!',
     'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
-    'zh_CN': '提交 {commit} 已经存在于你的改动集里，正在中止！',
+    'zh_CN': '{commit} 号提交已经存在于你的改动集里，正在中止！',
     'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
     'es_AR': 'El commit {commit} ya existe en tus cambios, ¡abortando!',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
@@ -13156,6 +13167,7 @@ exports.strings = {
   'bad-tag-name': {
     '__desc__': 'When the user enters a tag name thats not ok',
     'en_US': 'That tag name "{tag}" is not allowed!',
+    'zh_CN': '该标签名 “{tag}” 不被接受。233',
     'es_AR': 'El nombre "{tag}" no está permitido para los tags',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
     'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!'
@@ -13214,6 +13226,7 @@ exports.strings = {
   'flip-tree-command': {
     '__desc__': 'when the tree is being flipped',
     'en_US': 'Flipping tree...',
+    'zh_CN': '翻转树中...',
     'es_AR': 'Invirtiendo el árbol...',
     'fr_FR': 'Inversion de l\'arbre...'
   },
@@ -13252,6 +13265,7 @@ exports.strings = {
     '__desc__': 'command output title from "show"',
     'en_US': 'Please use one of the following commands for more info:',
     'zh_TW': '請使用下列其中一個指令取得更多資訊：',
+    'zh_CN': '请使用以下命令以了解更多',
     'de_DE': 'Bitte benutze einen der folgenden Befehle um mehr Informationen zu bekommen:',
     'es_AR': 'Usá alguno de estos comandos para tener más información:',
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info'
@@ -13261,6 +13275,7 @@ exports.strings = {
     '__desc__': 'command output title from "show commands"',
     'en_US': 'Here is a list of all the commmands available:',
     'zh_TW': '這份清單列出所有可用指令：',
+    'zh_CN': '该列表列出了所有可用的指令：',
     'de_DE': 'Hier ist eine Liste aller verfügbarer Befehle:',
     'es_AR': 'Esta es una lista de los comandos disponibles:',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :'
@@ -13469,6 +13484,7 @@ exports.strings = {
     '__desc__': 'button label to show goal',
     'en_US': 'Show Goal',
     'zh_TW': '顯示目標',
+    'zh_CN': '显示目标',
     'fr_FR': 'Afficher les cibles',
     'es_AR': 'Mostrar objetivo'
   },
@@ -13478,6 +13494,7 @@ exports.strings = {
     'en_US': 'Hide Goal',
     'fr_FR': 'Cacher les cibles',
     'zh_TW': '隱藏目標',
+    'zh_CN': '隐藏目标',
     'es_AR': 'Ocultar obetivo'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -13497,6 +13514,7 @@ exports.strings = {
     'fr_FR': '<span class="fwber">Note:</span> Seulement la branche master peut être check id à ce niveau. Les autres branches sont simplement une référence (Montré avec un tiret). Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
+    'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）照常，你可以用 “hide goal” 来隐藏此窗口。',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -32793,7 +32811,7 @@ exports.level = {
     "en_US": "check out the ordering from the goal visualization",
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
-    "es_AR": "Prestá atención al oren del objetivo",
+    "es_AR": "Prestá atención al orden del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif"
   },
@@ -33504,10 +33522,10 @@ exports.level = {
               "",
               "要完成本节, 你需要完成以下几步: ",
               "",
-              "* Clone your repo",
-              "* Fake some teamwork (1 commit)",
-              "* Commit some work yourself (1 commit)",
-              "* Publish your work via *rebasing*"
+              "* Clone 你的仓库",
+              "* 模拟一次远程提交(fakeTeamwork)",
+              "* 本地提交一次",
+              "* 用**变基**提交你的修改(--rebase)"
             ]
           }
         }
@@ -33917,7 +33935,7 @@ exports.level = {
               "",
               "为了push新变更到远端，你要做的就是合并远端最新变更(使用rebase or merge). ",
               "",
-              "所以你可以使用任意一种方法, 但为何何本节会聚焦于rebasing呢？为会不喜欢用merge 去合并remote呢？",
+              "所以你可以使用任意一种方法, 但为何本节会聚焦于rebasing 呢？为何会不喜欢用merge 去合并remote 呢？",
               ""
             ]
           }
@@ -33926,19 +33944,19 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "在开发社区，有相当多的关于权衡的讨论。以下是关于rebasing的优点/缺点： ",
+              "在开发社区，有相当多的关于权衡的讨论。以下是关于rebasing 的优点/缺点： ",
               "",
               "优点:",
               "",
-              "* Rebase使你的提交树变得很干净, 所有的提交成了一条线: ",
+              "* Rebase 使你的提交树变得很干净, 所有的提交成了一条线: ",
               "",
               "缺点:",
               "",
-              "* Rebase修改的提交树的父历史",
+              "* Rebase 修改的提交树的父历史",
               "",
-              "比如, 提交C1 可以被修订到跃过C3. 这看起来C1 是在C3 之后 (而实际上可能在C3之前) ",
+              "比如, 提交C1 可以被修订到跃过C3。这看起来C1 是在C3 之后 (而实际上可能在C3之前) ",
               "",
-              "一些开发者喜欢保留提交历史，更偏爱merging。而其它的人而喜欢拥有更干净的提交树，偏爱rebasing. 这些都依赖于自己的偏爱.  :D"
+              "一些开发者喜欢保留提交历史，更偏爱merging。而其它的人而喜欢拥有更干净的提交树，偏爱rebasing。这些都依赖于自己的偏爱.  :D"
             ]
           }
         },
@@ -33946,7 +33964,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本节， 我们要解决前面的单元问题，但是要用merging。 这显得有点那个啥的，但这只是为了更好的说明这一点。 "
+              "本节，我们要解决前面的单元问题，但是要用merging。这显得有点那啥了，但这只是为了更好的说明这一点。 "
             ]
           }
         }
@@ -34672,22 +34690,21 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Here are some equivalent commands in git:",
-              "以下命令在git中是等价的:",
+              "以下命令在 git 中是等价的:",
               "",
-              "`git pull  origin foo` is equal to:",
+              "`git pull  origin foo` 相当于：",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "还有...",
               "",
-              "`git pull  origin bar~1:bugFix` is equal to:",
+              "`git pull  origin bar~1:bugFix` 相当于：",
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
               "看到了? git pull 实际上就是fetch + merge的缩写, git pull 在乎的是提交在哪里结束(也就是git fetch所确定的destination)",
               "",
-              "Lets see a demo:"
+              "一起来看个例子吧："
             ]
           }
         },
@@ -36675,7 +36692,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### What is `o/`?",
+              "### 什么是 `o/`？",
               "",
               "你可能想知道这些远端分支的头`o/` 意味着什么. 好吧, 远端分支有一个全名规范 -- 它们以这样的格式显示: ",
               "",
@@ -37787,4 +37804,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,68,69,67,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
