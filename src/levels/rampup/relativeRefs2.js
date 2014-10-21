@@ -110,7 +110,7 @@ exports.level = {
               "Especifiquemos una cantidad de commits hacia atrás con `~`."
             ],
             "afterMarkdowns": [
-              "¡Boom! Bien consiso -- las referencias relativas la rompen."
+              "¡Boom! Bien conciso -- las referencias relativas la rompen."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -139,7 +139,7 @@ exports.level = {
               "Veamos ese comando previo en acción"
             ],
             "afterMarkdowns": [
-              "¡Ahí vamos! Las referencias relativas nos dieron una manera consisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
+              "¡Ahí vamos! Las referencias relativas nos dieron una manera concisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
