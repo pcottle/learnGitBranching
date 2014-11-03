@@ -11,6 +11,7 @@ exports.level = {
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push",
+    "ja"   : "Git pushの引数",
     "fr_FR": "Paramètres de git push"
   },
   "hint": {
@@ -19,6 +20,7 @@ exports.level = {
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
+    "ja"   : "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\"."
   },
   "startDialog": {

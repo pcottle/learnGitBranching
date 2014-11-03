@@ -7,12 +7,14 @@ exports.level = {
     "zh_CN": "多个父提交记录",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
+    "ja"   : "複数のparent commit",
     "es_AR": "Múltiples padres",
     "zh_TW": "多個 parent commit"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
+    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成",
     'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",

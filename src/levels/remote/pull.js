@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "git pull'",
     "es_AR": "git pull",
     "de_DE": "Git Pull",
+    "ja"   : "Git Pull",
     "fr_FR": "Git pull"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
     "de_DE": "Führe einfach git pull aus.",
+    "ja"   : "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !"
   },
   "startDialog": {

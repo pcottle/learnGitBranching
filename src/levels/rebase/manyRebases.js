@@ -13,7 +13,7 @@ exports.level = {
     "es_AR": "Rebaseando más de 9000 veces",
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
-    "ja": "Rebasing over 9000 times",
+    "ja": "9000回以上のrebase",
     "zh_CN": "N次Rebase",
     "zh_TW": "N次Rebase"
   },

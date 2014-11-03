@@ -8,7 +8,8 @@ exports.level = {
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "de_DE": "Abweichende History",
-    "fr_FR": "Historique divergent"
+    "fr_FR": "Historique divergent",
+    "ja"   : "履歴の分岐"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
+    "ja"   : "ゴールのビジュアライズの順番を参照",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif"
   },
   "startDialog": {

@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern",
+    "ja"   : "リモートのブランチ",
     "fr_FR": "Les branches distantes"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
+    "ja"   : "順番に注意 -- まずmasterに対してcommitしましょう",
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !"
   },
   "startDialog": {

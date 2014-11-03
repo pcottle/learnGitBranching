@@ -21,7 +21,7 @@ exports.level = {
     "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
-    "ja": ""
+    "ja"   : "revertとresetとで引数が異なることに注意。"
   },
   "startDialog": {
     "en_US": {

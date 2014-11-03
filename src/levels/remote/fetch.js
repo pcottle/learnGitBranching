@@ -6,6 +6,7 @@ exports.level = {
     "en_US": "Git Fetchin'",
     "fr_FR": "Git fetch",
     "de_DE": "Git Fetch",
+    "ja"   : "Git Fetch",
     "es_AR": "git fetch",
     "zh_CN": "Git Fetch",
     "zh_TW": "git fetch"
@@ -14,6 +15,7 @@ exports.level = {
     "en_US": "just run git fetch!",
     "fr_FR": "Exécuter juste git fetch",
     "de_DE": "Einfach git fetch ausführen!",
+    "ja"   : "単にgit fetchを実行！",
     "es_AR": "Simplemente ¡hacé git fetch!",
     "zh_CN": "只要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令"
