@@ -23031,12 +23031,14 @@ exports.level = {
     "zh_CN": "多个父提交记录",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
+    "ja"   : "複数のparent commit",
     "es_AR": "Múltiples padres",
     "zh_TW": "多個 parent commit"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
+    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成",
     'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
@@ -23670,6 +23672,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
+      'ja'   : 'Push及びPullコマンド -- Gitリモート',
       'fr_FR': 'Push & Pull -- dépôts gits distants !',
       'es_AR': 'Push & Pull -- Git Remotes!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
@@ -23678,6 +23681,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
       'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
+      'ja'   : '自分のコードをより広く公開しましょう',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'zh_CN': '是时候分享你的代码了',
@@ -23689,6 +23693,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
+      'ja'   : 'Originだけではない -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
@@ -23697,6 +23702,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
+      'ja'   : '上級者の仕事は絶えずあり',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
@@ -23709,8 +23715,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Code Umherschieben',
       'fr_FR': 'Déplacer le travail',
       'es_AR': 'Moviendo el trabajo por ahí',
+      'ja'   : 'コードの移動',
       // INTL out of sync :(
-      'ja': 'Rebaseをモノにする',
       'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
@@ -23753,6 +23759,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Advanced Topics',
       'de_DE': 'Themen für Fortgeschrittene',
+      'ja'   : '上級トピック',
       'fr_FR': 'Sujets Avancés',
       'es_AR': 'Temas avanzados',
       'zh_CN': '高级主题',
@@ -23761,6 +23768,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'For the truly brave!',
       'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
+      'ja'   : '勇気ある人のみ！',
       'fr_FR': 'Pour les plus courageux !',
       'es_AR': '¡Para los verdaderos valientes!',
       'zh_CN': '只为真正的勇士！',
@@ -25964,6 +25972,7 @@ exports.level = {
     "en_US": "Git Describe",
     "fr_FR": "Git describe",
     "de_DE": "Git Describe",
+    "ja"   : "Git Describe",
     "es_AR": "Git Describe",
     "zh_TW": "git describe",
     "zh_CN": "git describe"
@@ -25972,6 +25981,7 @@ exports.level = {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
+    "ja"   : "次に進む用意が整えれば、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了"
@@ -26380,7 +26390,7 @@ exports.level = {
     "fr_FR": "Choisir seulement 1 commit",
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
-    "ja": "Grabbing Just 1 Commit",
+    "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个 commit",
     "zh_TW": "只取一個 commit"
   },
@@ -26740,7 +26750,7 @@ exports.level = {
     "de_DE": "Jonglieren mit Commits",
     "fr_FR": "Jongler avec les Commits",
     "es_AR": "Haciendo malabares con los commits",
-    "ja": "Juggling Commits",
+    "ja": "コミットをやりくりする",
     "zh_CN": "提交变换戏法",
     "zh_TW": "commit 的戲法"
   },
@@ -27465,6 +27475,7 @@ exports.level = {
   "name": {
     "en_US": "Git Tags",
     "de_DE": "Git Tags",
+    "ja"   : "Gitのタグ",
     "es_AR": "Tags en git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
@@ -27474,6 +27485,7 @@ exports.level = {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
     "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag !",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
+    "ja"   : "コミットを直接チェックアウトできますが、簡単にタグでチェックアウトすることも可能!",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
@@ -27807,6 +27819,7 @@ exports.level = {
     "fr_FR": "Introduction à cherry-pick",
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
+    "ja"   : "cherry-pick入門",
     "es_AR": "Introducción a cherry-pick",
     "zh_CN": "介绍 Cherry-pick",
     "zh_TW": "介紹 cherry-pick"
@@ -27815,6 +27828,7 @@ exports.level = {
     "fr_FR": "git cherry-pick suivis par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
+    "ja"   : "git cherry-pickの後にコミット名を追加",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
@@ -28174,12 +28188,14 @@ exports.level = {
     "fr_FR": "Détachez votre HEAD",
     "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
-    "de_DE": "Den Kopf abtrennen"
+    "de_DE": "Den Kopf abtrennen",
+    "ja"   : "HEADの分離"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
+    "ja"   : "コミットのラベル（hash）を使用",
     "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！"
@@ -28668,6 +28684,7 @@ exports.level = {
     "en_US": "Interactive Rebase Intro",
     "es_AR": "Introducción al rebase interactivo",
     "de_DE": "Einführung Interactive Rebase",
+    "ja"   : "インタラクティブrebase入門",
     "fr_FR": "Introduction à rebase",
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase"
@@ -29074,6 +29091,7 @@ exports.level = {
   "name": {
     "en_US": "Relative Refs (^)",
     "fr_FR": "Références relatives (^)",
+    "ja"   : "相対リファレンス (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
@@ -29552,11 +29570,13 @@ exports.level = {
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
-    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen"
+    "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
+    "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
     "de_DE": "Relative Referenzen #2 (~)",
+    "ja"   : "相対リファレンス　その２ (~)",
     "es_AR": "Referencias relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
@@ -29973,7 +29993,7 @@ exports.level = {
     "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
-    "ja": ""
+    "ja"   : "revertとresetとで引数が異なることに注意。"
   },
   "startDialog": {
     "en_US": {
@@ -30499,7 +30519,7 @@ exports.level = {
     "es_AR": "Rebaseando más de 9000 veces",
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
-    "ja": "Rebasing over 9000 times",
+    "ja": "9000回以上のrebase",
     "zh_CN": "N次Rebase",
     "zh_TW": "N次Rebase"
   },
@@ -30863,6 +30883,7 @@ exports.level = {
     "en_US": "Clone Intro",
     "fr_FR": "Introduction à clone",
     "de_DE": "Clone Einführung",
+    "ja"   : "Clone入門",
     "es_AR": "Introducción a clone",
     "zh_CN": "介绍 Clone",
     "zh_TW": "介紹 clone"
@@ -30871,6 +30892,7 @@ exports.level = {
     "en_US": "Just git clone!",
     "fr_FR": "Simplement git clone !",
     "de_DE": "Einfach git clone ausführen!",
+    "ja"   : "単にgit clone!",
     "zh_CN": "只要 git clone!",
     "es_AR": "Simplemente hacé git clone!",
     "zh_TW": "只要 git clone 就好了"
@@ -31216,6 +31238,63 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Gitリモート",
+              "",
+              "リモートのレポジトリというのはそんなに複雑なものでもありません。クラウドコンピューティングが普及している現在の世界では、gitリモートの裏には何か不思議な仕組みが動いていると思いやすいのですが、実は別のコンピューター上に保存されているあなたのレポジトリーのコピーにすぎません。普通の場合では、インターネットを媒体に使いこの別のコンピューターと対話し、コミットを交互にやり取りすることができます。",
+              "",
+              "とはいえ、リモートレポジトリにはいくつかの素晴らしい特徴があります:",
+              "",
+              "- まず、リモートはバックアップの役割を果たします。ご存知の通り、ローカルのgitレポジトリは以前の状態にファイルを復帰する機能を持っているのですが、その情報はすべてローカルに保存されています。gitレポジトリを別のコンピューターにも保存することで、ローカルのデーターがすべて失われたとしても、保存状態からコーディングを続けられます。",
+              "",
+              "- それよりも大切に、リモートではコードをよりソーシャル的に公開できます!プロジェクトのコピーが別の場所に保存されているため、友達などが簡単にそのプロジェクトに参加したり最近の変更をpullしたりできます。",
+              "",
+              "最近ではリモートレポジトリに関するデーターをビジュアル的に表示するウェブサイト([Github](https://github.com/)や[Phabricator](http://phabricator.org/)など)の使用が人気を集めていますが、レモートレポジトリは_いつでも_そのウェブサイトの裏に使われています。なので理解する必要があります。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## リモートを作成するコマンド",
+              "",
+              "今までLearn Git Branchingでは_ローカル_レポジトリの様々な作業（branch, merge, rebaseなど）に焦点を当ててきました。しかし、これからはリモートレポジトリの作業を学びますので、レッスンのために環境をセットアップする必要があります。そのコマンドは`git clone`になります。",
+              "",
+              "普通の場合では`git clone`はリモートレポジトリ（githubなどから）を_ローカル_にコピーする時に使います。しかしLearn Git Branchingでは少し違ったように使います -- ここでは`git clone`が_ローカルレポジトリ_をリモートにコピーします。本当のコマンドの逆の動作になっているのですが、このようにcloneとリモートレポジトリのつながりが見えてきますので今のところは例として使いましょう。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "最初の一歩として、ビジュアライズでレモートレポジトリを見てみましょう。",
+              ""
+            ],
+            "afterMarkdowns": [
+              "できました! プロジェクトのリモートレポジトリが保存されました。結構似ているのですが、その違いを明らかにするために少しだけビジュアルを工夫しました -- これからのレベルではこれらのレポジトリの間で作業をどう共有するか見ていきます。"
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするには、`git clone`で既存のレポジトリのクローンを作成します。次のレッスンでより詳細に見ていきます。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -31230,6 +31309,7 @@ exports.level = {
     "en_US": "Faking Teamwork",
     "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
+    "ja"   : "擬似チームワーク",
     "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作"
@@ -31238,6 +31318,7 @@ exports.level = {
     "en_US": "remember you can specify the number of commits to fake",
     "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "ja"   : "擬似で作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake中的commit指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"
@@ -31579,6 +31660,7 @@ exports.level = {
     "en_US": "Git Fetchin'",
     "fr_FR": "Git fetch",
     "de_DE": "Git Fetch",
+    "ja"   : "Git Fetch",
     "es_AR": "git fetch",
     "zh_CN": "Git Fetch",
     "zh_TW": "git fetch"
@@ -31587,6 +31669,7 @@ exports.level = {
     "en_US": "just run git fetch!",
     "fr_FR": "Exécuter juste git fetch",
     "de_DE": "Einfach git fetch ausführen!",
+    "ja"   : "単にgit fetchを実行！",
     "es_AR": "Simplemente ¡hacé git fetch!",
     "zh_CN": "只要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令"
@@ -32042,7 +32125,8 @@ exports.level = {
     "zh_CN": "Fetch 的参数",
     "zh_TW": "fetch 的參數",
     "es_AR": "Parámetros de fetch",
-    "de_DE": "Optionen für Fetch"
+    "de_DE": "Optionen für Fetch",
+    "ja"   : "Fetchの引数"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -32050,7 +32134,8 @@ exports.level = {
     "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "es_AR": "¡Prestá atención a cómo podrían haberse invertido los ids de los commits! Podés volver a leer toda la lección usando \"help level\"",
-    "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen"
+    "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen",
+    "ja"   : "コミットIDの入れ替わりに注意！スライドを復習するには`help level`を実行"
   },
   "startDialog": {
     "en_US": {
@@ -32805,7 +32890,8 @@ exports.level = {
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "de_DE": "Abweichende History",
-    "fr_FR": "Historique divergent"
+    "fr_FR": "Historique divergent",
+    "ja"   : "履歴の分岐"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -32813,6 +32899,7 @@ exports.level = {
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
+    "ja"   : "ゴールのビジュアライズの順番を参照",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif"
   },
   "startDialog": {
@@ -33688,6 +33775,7 @@ exports.level = {
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen",
+    "ja"   : "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes"
   },
   "hint": {
@@ -33696,6 +33784,7 @@ exports.level = {
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
     "de_DE": "Beachte den Ziel-Baum!",
+    "ja"   : "ゴールツリーに注意！",
     "fr_FR": "Respectez l'arbre représentant l'objectif !"
   },
   "compareOnlyMaster": true,
@@ -33984,6 +34073,7 @@ exports.level = {
     "zh_TW": "git pull'",
     "es_AR": "git pull",
     "de_DE": "Git Pull",
+    "ja"   : "Git Pull",
     "fr_FR": "Git pull"
   },
   "hint": {
@@ -33992,6 +34082,7 @@ exports.level = {
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
     "de_DE": "Führe einfach git pull aus.",
+    "ja"   : "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !"
   },
   "startDialog": {
@@ -34363,6 +34454,7 @@ exports.level = {
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
     "de_DE": "Optionen für Pull",
+    "ja"   : "Pullの引数",
     "fr_FR": "Arguments de pull"
   },
   "hint": {
@@ -34371,6 +34463,7 @@ exports.level = {
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
+    "ja"   : "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull"
   },
   "startDialog": {
@@ -34832,6 +34925,7 @@ exports.level = {
     "zh_TW": "git push",
     "es_AR": "git push",
     "de_DE": "Git Push",
+    "ja"   : "Git Push",
     "fr_FR": "Git push"
   },
   "hint": {
@@ -34840,6 +34934,7 @@ exports.level = {
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
+    "ja"   : "Pushできる前にまずレポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !"
   },
   "startDialog": {
@@ -35110,6 +35205,7 @@ exports.level = {
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "de_DE": "Optionen für Git Push",
+    "ja"   : "Git pushの引数",
     "fr_FR": "Paramètres de git push"
   },
   "hint": {
@@ -35118,6 +35214,7 @@ exports.level = {
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
+    "ja"   : "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\"."
   },
   "startDialog": {
@@ -35565,6 +35662,7 @@ exports.level = {
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
     "de_DE": "Optionen fü Git Push -- noch mehr!",
+    "ja"   : "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !"
   },
   "hint": {
@@ -35573,6 +35671,7 @@ exports.level = {
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
+    "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P"
   },
   "startDialog": {
@@ -36010,6 +36109,7 @@ exports.level = {
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
+    "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset."
   },
   "name": {
@@ -36018,6 +36118,7 @@ exports.level = {
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
     "de_DE": "Push Master!",
+    "ja": "Push Master!",
     "fr_FR": "Maître du push !"
   },
   "compareOnlyMasterHashAgnostic": true,
@@ -36354,6 +36455,7 @@ exports.level = {
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern",
+    "ja"   : "リモートのブランチ",
     "fr_FR": "Les branches distantes"
   },
   "hint": {
@@ -36362,6 +36464,7 @@ exports.level = {
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
+    "ja"   : "順番に注意 -- まずmasterに対してcommitしましょう",
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !"
   },
   "startDialog": {
@@ -36746,6 +36849,7 @@ exports.level = {
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
     "de_DE": "Die Quelle des Nichts",
+    "ja"   : "無のsource",
     "fr_FR": "Source de rien du tout"
   },
   "hint": {
@@ -36754,6 +36858,7 @@ exports.level = {
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
+    "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !"
   },
   "startDialog": {
@@ -37089,6 +37194,7 @@ exports.level = {
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
     "de_DE": "Remote Tracking",
+    "ja"   : "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante"
   },
   "hint": {
@@ -37097,6 +37203,7 @@ exports.level = {
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
+    "ja"   : "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !"
   },
   "startDialog": {
@@ -37804,4 +37911,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,59,60,58,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
