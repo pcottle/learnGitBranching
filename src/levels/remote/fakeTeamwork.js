@@ -6,6 +6,7 @@ exports.level = {
     "en_US": "Faking Teamwork",
     "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
+    "ja"   : "擬似チームワーク",
     "es_AR": "Simulando el trabajo en equipo",
     "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作"
@@ -14,6 +15,7 @@ exports.level = {
     "en_US": "remember you can specify the number of commits to fake",
     "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "ja"   : "擬似で作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "zh_CN": "记住为fake中的commit指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去"

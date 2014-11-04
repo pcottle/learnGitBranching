@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
     "de_DE": "Remote Tracking",
+    "ja"   : "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
+    "ja"   : "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !"
   },
   "startDialog": {

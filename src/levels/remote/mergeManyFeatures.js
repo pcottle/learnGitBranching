@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
     "de_DE": "Änderungen vom Remote zusammenführen",
+    "ja"   : "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
     "de_DE": "Beachte den Ziel-Baum!",
+    "ja"   : "ゴールツリーに注意！",
     "fr_FR": "Respectez l'arbre représentant l'objectif !"
   },
   "compareOnlyMaster": true,

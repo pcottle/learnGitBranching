@@ -6,6 +6,7 @@ exports.level = {
     "en_US": "Git Describe",
     "fr_FR": "Git describe",
     "de_DE": "Git Describe",
+    "ja"   : "Git Describe",
     "es_AR": "Git Describe",
     "zh_TW": "git describe",
     "zh_CN": "git describe"
@@ -14,6 +15,7 @@ exports.level = {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
+    "ja"   : "次に進む用意が整えれば、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了"

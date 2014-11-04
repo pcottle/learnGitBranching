@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
     "de_DE": "Die Quelle des Nichts",
+    "ja"   : "無のsource",
     "fr_FR": "Source de rien du tout"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
+    "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !"
   },
   "startDialog": {

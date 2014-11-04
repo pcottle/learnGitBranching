@@ -23,7 +23,7 @@ exports.level = {
     "de_DE": "Jonglieren mit Commits",
     "fr_FR": "Jongler avec les Commits",
     "es_AR": "Haciendo malabares con los commits",
-    "ja": "Juggling Commits",
+    "ja": "コミットをやりくりする",
     "zh_CN": "提交变换戏法",
     "zh_TW": "commit 的戲法"
   },
