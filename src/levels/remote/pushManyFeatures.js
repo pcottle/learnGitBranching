@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
+    "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset."
   },
   "name": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
     "de_DE": "Push Master!",
+    "ja": "Push Master!",
     "fr_FR": "Maître du push !"
   },
   "compareOnlyMasterHashAgnostic": true,

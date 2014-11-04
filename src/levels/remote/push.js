@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "git push",
     "es_AR": "git push",
     "de_DE": "Git Push",
+    "ja"   : "Git Push",
     "fr_FR": "Git push"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
+    "ja"   : "Pushできる前にまずレポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !"
   },
   "startDialog": {

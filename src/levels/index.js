@@ -99,6 +99,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
       'de_DE': 'Push & Pull -- entfernte Repositorys',
+      'ja'   : 'Push及びPullコマンド -- Gitリモート',
       'fr_FR': 'Push & Pull -- dépôts gits distants !',
       'es_AR': 'Push & Pull -- Git Remotes!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
@@ -107,6 +108,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
       'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
+      'ja'   : '自分のコードをより広く公開しましょう',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'zh_CN': '是时候分享你的代码了',
@@ -118,6 +120,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
+      'ja'   : 'Originだけではない -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
@@ -126,6 +129,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
+      'ja'   : '上級者の仕事は絶えずあり',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
@@ -138,8 +142,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Code Umherschieben',
       'fr_FR': 'Déplacer le travail',
       'es_AR': 'Moviendo el trabajo por ahí',
+      'ja'   : 'コードの移動',
       // INTL out of sync :(
-      'ja': 'Rebaseをモノにする',
       'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!'
@@ -182,6 +186,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Advanced Topics',
       'de_DE': 'Themen für Fortgeschrittene',
+      'ja'   : '上級トピック',
       'fr_FR': 'Sujets Avancés',
       'es_AR': 'Temas avanzados',
       'zh_CN': '高级主题',
@@ -190,6 +195,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'For the truly brave!',
       'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
+      'ja'   : '勇気ある人のみ！',
       'fr_FR': 'Pour les plus courageux !',
       'es_AR': '¡Para los verdaderos valientes!',
       'zh_CN': '只为真正的勇士！',

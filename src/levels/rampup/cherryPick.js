@@ -10,6 +10,7 @@ exports.level = {
     "fr_FR": "Introduction à cherry-pick",
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-picking",
+    "ja"   : "cherry-pick入門",
     "es_AR": "Introducción a cherry-pick",
     "zh_CN": "介绍 Cherry-pick",
     "zh_TW": "介紹 cherry-pick"
@@ -18,6 +19,7 @@ exports.level = {
     "fr_FR": "git cherry-pick suivis par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
+    "ja"   : "git cherry-pickの後にコミット名を追加",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"

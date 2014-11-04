@@ -5,6 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Git Tags",
     "de_DE": "Git Tags",
+    "ja"   : "Gitのタグ",
     "es_AR": "Tags en git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
@@ -14,6 +15,7 @@ exports.level = {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
     "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag !",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
+    "ja"   : "コミットを直接チェックアウトできますが、簡単にタグでチェックアウトすることも可能!",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"

@@ -5,6 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Relative Refs (^)",
     "fr_FR": "Références relatives (^)",
+    "ja"   : "相対リファレンス (^)",
     "zh_CN": "相对引用(^)",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",

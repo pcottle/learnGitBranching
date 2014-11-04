@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
     "de_DE": "Optionen für Pull",
+    "ja"   : "Pullの引数",
     "fr_FR": "Arguments de pull"
   },
   "hint": {
@@ -16,6 +17,7 @@ exports.level = {
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
+    "ja"   : "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull"
   },
   "startDialog": {
