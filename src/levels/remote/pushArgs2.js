@@ -253,11 +253,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "為了要指定 `<place>` 的 source 以及 destination，只要利用一個分號將這兩個連在一起：",
+              "為了要指定 `<place>` 的 source 以及 destination，只要利用一個冒號將這兩個連在一起：",
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "這通常被稱為一個 colon （分號） refspec. refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
+              "這通常被稱為一個 colon （冒號） refspec. refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
               "",
               "一旦你單獨指定了 source 以及 destination，你可以看到花俏且準確的指令。讓我來來看一個例子！"
             ]
