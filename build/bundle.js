@@ -25242,7 +25242,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此关，执行收下操作：",
+              "想完成此关，执行以下操作：",
               "",
               "* 创建新分支 `bugFix` ",
               "* 用 `git checkout bugFix` 切换到 `bugFix`分支",
@@ -25781,7 +25781,7 @@ exports.level = {
             "beforeMarkdowns": [
               "这里，还是有两个分支；注意当前分支是 bugFix（看那颗星）",
               "",
-              "我们想要把 bugfix 里面的工作直接移到 master 分支上。使用这个方法，两个分支的功能看起来像是按顺序开发，实际上它们是平行开发的。",
+              "我们想要把 bugFix 里面的工作直接移到 master 分支上。使用这个方法，两个分支的功能看起来像是按顺序开发，实际上它们是平行开发的。",
               "",
               "用 `git rebase`实现此目标"
             ],
