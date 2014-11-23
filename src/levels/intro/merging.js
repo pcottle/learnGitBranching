@@ -424,7 +424,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此关，执行收下操作：",
+              "想完成此关，执行以下操作：",
               "",
               "* 创建新分支 `bugFix` ",
               "* 用 `git checkout bugFix` 切换到 `bugFix`分支",
