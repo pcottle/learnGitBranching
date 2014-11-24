@@ -521,9 +521,9 @@ exports.level = {
             "markdowns": [
               "## Git fetch arguments",
               "",
-              "我们刚学习了git push的参数, 特别是`<place>`参数, 更特别的冒号分隔(`<source>:<destination>`). 这写参数可以用于`git fetch`吗?",
+              "我们刚学习了git push的参数, 特别是`<place>`参数, 更特别的冒号分隔(`<source>:<destination>`). 这些参数可以用于`git fetch`吗?",
               "",
-              "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是相反相反(因为现在你是下载 而非上传) ",
+              "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)",
               "",
               "我们过一个概念.."
             ]
