@@ -364,6 +364,63 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## コードの移動",
+              "",
+              "今まででは、gitの基本をひたすら見てきました -- コミット、ブランチ、そしてソースツリーの中でいろいろなポジションへのアクセス。これらの概念だけで、gitレポジトリの力を90%使いこなすことができ、開発者の主なニーズを満たしています。",
+              "",
+              "しかし最後の10%はより複雑なワークフローやちょっとトラブった時にとても役に立つこともある。これから取り上げる次の課題は「コードの移動」– つまり開発者が、このコードをここに置き、そのコードをそこに置きたい、と安易、かつ具体的に表す方法です。",
+              "",
+              "ちょっと複雑に聞こえるかもしれませんが、概念は簡単です。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "このシリーズの一つ目のコマンドは、`git cherry-pick`。次の形になります:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "現在の位置(`HEAD`)より下の一連のコミットをコピーしたいという意を単純に表す方法です。分かりにくいところが少ないので、個人的に私がとても好きなコマンドです。",
+              "",
+              "デモを見ていきましょう!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "このレポジトリには、現在`side`ブランチから`master`にコピーしたいコードがあります。この前学んできたrebaseコマンドでは実現可能ですが、cherry-pickの動作を見ていきましょう。"
+            ],
+            "afterMarkdowns": [
+              "それだけで終わりです! コミット`C2` と `C4`を取得したかったーそしてgitが現在の位置の直下に落としました。単純ですね!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするには、３つのブランチからmasterにコードをコピーしてください。どのコミットを取得するかについてはゴールのビジュアライズをみてください。",
+              ""
+            ]
+          }
+        }
+      ]
     }
   }
 };
