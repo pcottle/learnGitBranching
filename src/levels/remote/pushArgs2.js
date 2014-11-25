@@ -337,7 +337,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "记住, `source` 是git 能理解任何位置:"
+              "记住, `source` 是git 能理解的任何位置:"
             ],
             "afterMarkdowns": [
               " 这是个很迷幻的命令, 但它是合理的 --  git 将foo^解析 为位置, 上传新提交到远端的目的地.  "

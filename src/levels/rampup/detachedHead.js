@@ -480,6 +480,84 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moving around in Git",
+              "",
+              "Gitの上級機能に進む前に、自分のプロジェクトを表すコミットツリーの中で任意の位置へ移動する様々な方法を知っておく必要があります。",
+              "",
+              "移動方法が身につけば、他のgitコマンドをもよりうまく扱えるようになるでしょう！",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "まずは\"HEAD\"から始めましょう。HEADとは現在チェックアウトされているコミットを指す単語ですーようするに今作業中のコミットを表します。",
+              "",
+              "HEADはいつも、作業中のツリーに反映されている最新のコミットを指します。作業ツリーへ変更を加える多くのgitコマンドはまずHEADから処理を始めます。",
+              "",
+              "HEADは普段、ブランチ名（例えば、bugFixなど）を指します。コミットすれば、bugFixの状態が変更され、その変更がHEADから確認できるようになります。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "実際の動作を見てみましょう。ここでは、コミットの前と後のHEADの状態を確認します。"
+            ],
+            "afterMarkdowns": [
+              "ほら、HEADが元から`master`ブランチの下に隠れていたんですね！"
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEADの分離",
+              "",
+              "HEADの分離とは単に、ブランチではなく特定のコミットにHEADを紐づけることです。実行前の状態は次のようです:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "そして実行後はこう:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするには、HEADを`bugFix`から分離し、その代わりに特定のコミットに紐づけましょう。",
+              "",
+              "このコミットをハッシュで指定します。コミットのハッシュはそのコミットを表す丸の上に表示されています。"
+            ]
+          }
+        }
+      ]
     }
   }
 };

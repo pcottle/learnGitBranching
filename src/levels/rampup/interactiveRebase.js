@@ -11,6 +11,7 @@ exports.level = {
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spéficier la cible à rebaser",
+    "zh_CN": "你可以使用 branch 或者是相对位置（HEAD~）來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
@@ -408,6 +409,71 @@ exports.level = {
           "options": {
             "markdowns": [
               "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau doie Reihenfolge zu erzeugen die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git インタラクティブrebase",
+              "",
+              "どのコミットを操りたいか（そしてそれを指定するハッシュ）がわかる時にGit cherry-pickはとても便利で、その簡単さはとてもありがたいです。 ",
+              "",
+              "しかし、どのコミットを操りたいかがわからない時はどうでしょう？ありがたいことに、そんな時にぴったりのコマンドがgitにその備わっています。このためにgitのインタラクティブrebaseを使えます。rebaseしたい一連のコミットを一括で見るベストな方法です。",
+              "",
+              "具体的に見てみましょう..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "インタラクティブrebaseとは単に、`rebase`コマンドに`-i`オプションを合わせて使うことです。",
+              "",
+              "このオプションをつければ、gitがインタフェースを開き、どのコミットがrebase対象の下にコピーされるかを確認できます。それらのコミットのハッシュやメッセージも表示され、rebaseの概要を一眼で見るのに便利です。",
+              "",
+              "\"ホンモノ\"のgitでは、その「インターフェース」とは`vim`などのテキストエディタの中でファイルが開くだけです。ここでコンセプトを見せるために同じような動作をする小さなダイアログウィンドウを作りました。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "インタラクティブrebaseダイアログが開くと、３つの操作から選べます:",
+              "",
+              "* UIウィンドウのなかで順番を調整するだけでコミットの順番を変えられます（こちらのダイアログでは、マウスでドラッグアンドドロップで操作します）。",
+              "* 特定のコミットを丸ごと除くこともできます。除きたいコミットを指定するには`pick`をオフにします。",
+              "* 最後に、コミットを組み合わせられます。技術的に制限があるため、あいにくこちらのレベルには出てきませんがのでその詳細の説明を省きますが、短く言いますと、複数のコミットを一つにまとめることができる機能です。",
+              "",
+              "さて、例を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ボタンを押せば、インタラクティブrebaseウィンドウが現れます。コミットの順番を変更したり、`pick`を外したりしてみて、その結果を見てみましょう！"
+            ],
+            "afterMarkdowns": [
+              "よっしゃー。gitがUIで指定されたようにコミットをコピーしました！"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするにはインタラクティブrebaseを実行し、ゴールのビジュアライズに表示されている順番を実現しましょう。ミスがあれば`undo`や`reset`で修正できるのをお忘れなく。"
             ]
           }
         }

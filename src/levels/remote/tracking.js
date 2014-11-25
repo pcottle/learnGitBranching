@@ -534,7 +534,7 @@ exports.level = {
             "markdowns": [
               "### 我能自己指定这个属性吗?",
               "",
-              "当然可以啦! 你可以让做生意分支跟踪`o/master`, 然后分支就会隐含push的destination(`o/master`) 以及merge的target (`o/master`). 这意味着你可以在分支`totalllyNotMaster`上执行`git push`, 将工作推送到远端的`master`.",
+              "当然可以啦! 你可以让做任意分支跟踪`o/master`, 然后分支就会隐含push的destination(`o/master`) 以及merge的target (`o/master`). 这意味着你可以在分支`totallyNotMaster`上执行`git push`, 将工作推送到远端的`master`.",
               "",
               "有两种方法设置这个属性, 第一种就是通过远端分支检出一个新的分支, 执行: ",
               "",
