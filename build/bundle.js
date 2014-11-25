@@ -13514,7 +13514,7 @@ exports.strings = {
     'fr_FR': '<span class="fwber">Note:</span> Seulement la branche master peut être check id à ce niveau. Les autres branches sont simplement une référence (Montré avec un tiret). Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
-    'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）照常，你可以用 “hide goal” 来隐藏此窗口。',
+    'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -28173,6 +28173,63 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## コードの移動",
+              "",
+              "今まででは、gitの基本をひたすら見てきました -- コミット、ブランチ、そしてソースツリーの中でいろいろなポジションへのアクセス。これらの概念だけで、gitレポジトリの力を90%使いこなすことができ、開発者の主なニーズを満たしています。",
+              "",
+              "しかし最後の10%はより複雑なワークフローやちょっとトラブった時にとても役に立つこともある。これから取り上げる次の課題は「コードの移動」– つまり開発者が、このコードをここに置き、そのコードをそこに置きたい、と安易、かつ具体的に表す方法です。",
+              "",
+              "ちょっと複雑に聞こえるかもしれませんが、概念は簡単です。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "このシリーズの一つ目のコマンドは、`git cherry-pick`。次の形になります:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "現在の位置(`HEAD`)より下の一連のコミットをコピーしたいという意を単純に表す方法です。分かりにくいところが少ないので、個人的に私がとても好きなコマンドです。",
+              "",
+              "デモを見ていきましょう!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "このレポジトリには、現在`side`ブランチから`master`にコピーしたいコードがあります。この前学んできたrebaseコマンドでは実現可能ですが、cherry-pickの動作を見ていきましょう。"
+            ],
+            "afterMarkdowns": [
+              "それだけで終わりです! コミット`C2` と `C4`を取得したかったーそしてgitが現在の位置の直下に落としました。単純ですね!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするには、３つのブランチからmasterにコードをコピーしてください。どのコミットを取得するかについてはゴールのビジュアライズをみてください。",
+              ""
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -28660,6 +28717,84 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moving around in Git",
+              "",
+              "Gitの上級機能に進む前に、自分のプロジェクトを表すコミットツリーの中で任意の位置へ移動する様々な方法を知っておく必要があります。",
+              "",
+              "移動方法が身につけば、他のgitコマンドをもよりうまく扱えるようになるでしょう！",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "まずは\"HEAD\"から始めましょう。HEADとは現在チェックアウトされているコミットを指す単語ですーようするに今作業中のコミットを表します。",
+              "",
+              "HEADはいつも、作業中のツリーに反映されている最新のコミットを指します。作業ツリーへ変更を加える多くのgitコマンドはまずHEADから処理を始めます。",
+              "",
+              "HEADは普段、ブランチ名（例えば、bugFixなど）を指します。コミットすれば、bugFixの状態が変更され、その変更がHEADから確認できるようになります。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "実際の動作を見てみましょう。ここでは、コミットの前と後のHEADの状態を確認します。"
+            ],
+            "afterMarkdowns": [
+              "ほら、HEADが元から`master`ブランチの下に隠れていたんですね！"
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEADの分離",
+              "",
+              "HEADの分離とは単に、ブランチではなく特定のコミットにHEADを紐づけることです。実行前の状態は次のようです:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "そして実行後はこう:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするには、HEADを`bugFix`から分離し、その代わりに特定のコミットに紐づけましょう。",
+              "",
+              "このコミットをハッシュで指定します。コミットのハッシュはそのコミットを表す丸の上に表示されています。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -28678,6 +28813,7 @@ exports.level = {
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spéficier la cible à rebaser",
+    "zh_CN": "你可以使用 branch 或者是相对位置（HEAD~）來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標"
   },
   "name": {
@@ -29075,6 +29211,71 @@ exports.level = {
           "options": {
             "markdowns": [
               "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau doie Reihenfolge zu erzeugen die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git インタラクティブrebase",
+              "",
+              "どのコミットを操りたいか（そしてそれを指定するハッシュ）がわかる時にGit cherry-pickはとても便利で、その簡単さはとてもありがたいです。 ",
+              "",
+              "しかし、どのコミットを操りたいかがわからない時はどうでしょう？ありがたいことに、そんな時にぴったりのコマンドがgitにその備わっています。このためにgitのインタラクティブrebaseを使えます。rebaseしたい一連のコミットを一括で見るベストな方法です。",
+              "",
+              "具体的に見てみましょう..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "インタラクティブrebaseとは単に、`rebase`コマンドに`-i`オプションを合わせて使うことです。",
+              "",
+              "このオプションをつければ、gitがインタフェースを開き、どのコミットがrebase対象の下にコピーされるかを確認できます。それらのコミットのハッシュやメッセージも表示され、rebaseの概要を一眼で見るのに便利です。",
+              "",
+              "\"ホンモノ\"のgitでは、その「インターフェース」とは`vim`などのテキストエディタの中でファイルが開くだけです。ここでコンセプトを見せるために同じような動作をする小さなダイアログウィンドウを作りました。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "インタラクティブrebaseダイアログが開くと、３つの操作から選べます:",
+              "",
+              "* UIウィンドウのなかで順番を調整するだけでコミットの順番を変えられます（こちらのダイアログでは、マウスでドラッグアンドドロップで操作します）。",
+              "* 特定のコミットを丸ごと除くこともできます。除きたいコミットを指定するには`pick`をオフにします。",
+              "* 最後に、コミットを組み合わせられます。技術的に制限があるため、あいにくこちらのレベルには出てきませんがのでその詳細の説明を省きますが、短く言いますと、複数のコミットを一つにまとめることができる機能です。",
+              "",
+              "さて、例を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ボタンを押せば、インタラクティブrebaseウィンドウが現れます。コミットの順番を変更したり、`pick`を外したりしてみて、その結果を見てみましょう！"
+            ],
+            "afterMarkdowns": [
+              "よっしゃー。gitがUIで指定されたようにコミットをコピーしました！"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするにはインタラクティブrebaseを実行し、ゴールのビジュアライズに表示されている順番を実現しましょう。ミスがあれば`undo`や`reset`で修正できるのをお忘れなく。"
             ]
           }
         }
@@ -29555,6 +29756,81 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 相対リファレンス",
+              "",
+              "コミットのハッシュを利用してgitの中で移動するのも少し疲れる時もあります。現実の世界では、このチュートリアルのようにターミナルの隣に見やすいツリーのビジュアライズがないので、ハッシュを見るには`git log`を使う必要があります。",
+              "",
+              "その上、実際のハッシュはこちらで見たものよりずっと長いです。例えば、先ほどのレベルの紹介のコミットハッシュは`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`です。少し覚えにくいですね...",
+              "",
+              "そのため、gitでは手短くコミットを指定する方法があります。ユニークな存在だと確認できるだけのハッシュの字数を入力すれば良いですー上記の長い文字列の代わりに`fed2`を入力するだけで済みます。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "先ほど言いましたように、ハッシュでコミットを指定するのがめんどくさくなる時もあるので、gitには相対リファレンスという素晴らしい機能があります。",
+              "",
+              "相対リファレンスを使うことで、覚えやすい位置（例えば`bugFix`ブランチや`HEAD`）から始め、そのところから相対的な位置を指定できます。",
+              "",
+              "相対コミットは強力ですが、ここでは二つをご紹介します:",
+              "",
+              "* 一つずつ上へ移動させる`^`（カレット）",
+              "* 複数回上へ移動させる `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "まずはカレット(^)から始めましょう。リファレンス名にカレットを追加すると、指定コミットの親コミットを見つけるようにとgitに命令を出しています。",
+              "",
+              "なので `master^`と記述すれば、\"`master`の一個上の親\"、という意味になります。",
+              "",
+              "そして`master^^`とはその親の一つの上のコミット(２代目の先祖)を指します。",
+              "",
+              "masterの上のコミットをここで見てみましょう"
+            ],
+            "afterMarkdowns": [
+              "やりました！コミットハッシュを書くよりずっと簡単ですね。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`HEAD`を相対リファレンスとして参照することもできます。 ここで数回そのコマンドを使い、コミットツリーの中で上へと移動しましょう。"
+            ],
+            "afterMarkdowns": [
+              "簡単ですね!`HEAD^`で時間を巻き戻せます。"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルをクリアするには、`bugFix`の親コミットをチェックアウトしてください。その操作により`HEAD`が分離されます。",
+              "",
+              "ハッシュを使用してもいいですが、その代わりに相対リファレンスをトライしてみましょう！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -29961,6 +30237,75 @@ exports.level = {
           "options": {
             "markdowns": [
               "要完成這一關，移動 `HEAD`，`master` 和 `bugFix` 到目標所示的位置。"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###\"~\" 演算子",
+              "",
+              "コミットツリーの中で複数の段階上へ移動したいとします。毎回毎回`^`と打つのは面倒くさくなるかもしれませんので、gitにはチルダの演算子も備わっています。",
+              "",
+              "",
+              "チルダ演算子のあとには、上へ移動したい親コミットの数を表す数字もオプションでつけられます。実際の動作を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "遡る前のコミット数を`~`で指定しましょう。"
+            ],
+            "afterMarkdowns": [
+              "よっしゃ！効率が良いですねー相対リファレンスはなんと便利です。"
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###ブランチの強制",
+              "",
+              "今はあなたも相対リファレンスの達人なので、実践的な使い方を覚えましょう。",
+              "",
+              "相対リファレンスのよくある使い方としてあるのは、ブランチの移動です。`-f`オプションを使ってブランチを直接コミットに関連付けられます。次のようになります",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "masterブランチを（強制的に）HEADより親三代前へと移動します。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "先ほどのコマンドの動作を見てみましょう。"
+            ],
+            "afterMarkdowns": [
+              "できました！相対リファレンスを使うことで、手短く`C1`を指定することができ、`-f`でブランチを強制的にそこへ移動することができました。"
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "相対リファレンスとブランチの強制関連付けを見ましたので、いまここでそれらの方法を使ってみましょう。",
+              "",
+              "このレベルをクリアするには`HEAD`、`master`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
             ]
           }
         }
@@ -31140,7 +31485,7 @@ exports.level = {
               "",
               "- 首先, 远仓是一个强大的备份. 本地仓库也有恢复文件的能力, 但所有的信息都是保存在本地的. 即使你丢失了本地数据, 你仍可以通过远端仓库拷贝拿回你丢失的数据  ",
               "",
-              "- 更重要的是, 远端让代码社交化了! 现在你的项目被白拷贝到别的地方了, 你的朋友可以更容易的为你的项目做贡献(或者pull 最新的变更)",
+              "- 更重要的是, 远端让代码社交化了! 现在你的项目被拷贝到别的地方了, 你的朋友可以更容易的为你的项目做贡献(或者pull 最新的变更)",
               "",
               "现在使用网站来可视化远端仓库变得越发流行(像 [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), 但远库是这些工具的基石, 理解其概念非常的重要!"
             ]
@@ -31588,7 +31933,7 @@ exports.level = {
             "markdowns": [
               "接下来的学习会相当的困难，所以在本节我们会询问你很多问题. ",
               "",
-              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再pull一下远端. 这看起来这包含了好几节的课程.  "
+              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再pull一下远端. 这看起来包含了好几节的课程."
             ]
           }
         }
@@ -32638,9 +32983,9 @@ exports.level = {
             "markdowns": [
               "## Git fetch arguments",
               "",
-              "我们刚学习了git push的参数, 特别是`<place>`参数, 更特别的冒号分隔(`<source>:<destination>`). 这写参数可以用于`git fetch`吗?",
+              "我们刚学习了git push的参数, 特别是`<place>`参数, 更特别的冒号分隔(`<source>:<destination>`). 这些参数可以用于`git fetch`吗?",
               "",
-              "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是相反相反(因为现在你是下载 而非上传) ",
+              "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)",
               "",
               "我们过一个概念.."
             ]
@@ -33483,7 +33828,7 @@ exports.level = {
             "markdowns": [
               "## 分散工作",
               "",
-              "到现在我们已经知道了如何从其它地方`pull`,以及如果`push`我们自己的提交对象, 看起来真简单, 但是为何人们还会如此困惑呢?",
+              "到现在我们已经知道了如何从其它地方`pull`,以及如何`push`我们自己的提交对象, 看起来真简单, 但是为何人们还会如此困惑呢?",
               "",
               "困难来自于远端库历史的分散. 在讨论这个问题的细节前, 我们看一个例子...",
               ""
@@ -33494,7 +33839,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想象一下你周一克隆了一个仓库, 然后在一个特性分支上工作. 到周五时, 你你准备推送你的特性分支 -- 不行的! 你的同事这周写了一堆代码, 使得你的特性分支过期了. 他们已经将代码分享(合并)到远端仓库了, 所以你的工作就变成了基于仓库老版的代码了.",
+              "想象一下你周一克隆了一个仓库, 然后在一个特性分支上工作. 到周五时, 你准备推送你的特性分支 -- 不行的! 你的同事这周写了一堆代码, 使得你的特性分支过期了. 他们已经将代码分享(合并)到远端仓库了, 所以你的工作就变成了基于仓库老版的代码了.",
               "",
               "这种情况下, `git push`就变得模糊了, 如果你执行`git push`, git应该让远端仓库回到星期一那天? 还是直接在新代码的基础上添加你的代码? 或者直接忽略你的提交? ",
               "",
@@ -33532,7 +33877,7 @@ exports.level = {
               "如果我们在push之前做rebase呢?"
             ],
             "afterMarkdowns": [
-              "轰 啊 轰! 我们用`git fetch`更新了远端在本地的副本, 然后衍合我们的工作以映射远端的新变化, 最后再`git push`"
+              "轰 啊 轰! 我们用`git fetch`更新了远端在本地的副本, 然后合并我们的工作以映射远端的新变化, 最后再`git push`"
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -33571,7 +33916,7 @@ exports.level = {
               "",
               "当然 -- 就是你所知道`git pull`,  就是fetch 和merge 的简写. 更方便的 -- `git pull --rebase` 就是 fetch 和rebase的简写! ",
               "",
-              "让我们简写命令是如何工作的."
+              "让我们看看简写命令是如何工作的."
             ]
           }
         },
@@ -35141,7 +35486,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成本节, 需要向远端分享两提交. 戒骄戒躁，课程还会更难哦! "
+              "要完成本节, 需要向远端分享两个提交. 戒骄戒躁，课程还会更难哦! "
             ]
           }
         }
@@ -35991,7 +36336,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "记住, `source` 是git 能理解任何位置:"
+              "记住, `source` 是git 能理解的任何位置:"
             ],
             "afterMarkdowns": [
               " 这是个很迷幻的命令, 但它是合理的 --  git 将foo^解析 为位置, 上传新提交到远端的目的地.  "
@@ -37720,7 +38065,7 @@ exports.level = {
             "markdowns": [
               "### 我能自己指定这个属性吗?",
               "",
-              "当然可以啦! 你可以让做生意分支跟踪`o/master`, 然后分支就会隐含push的destination(`o/master`) 以及merge的target (`o/master`). 这意味着你可以在分支`totalllyNotMaster`上执行`git push`, 将工作推送到远端的`master`.",
+              "当然可以啦! 你可以让做任意分支跟踪`o/master`, 然后分支就会隐含push的destination(`o/master`) 以及merge的target (`o/master`). 这意味着你可以在分支`totallyNotMaster`上执行`git push`, 将工作推送到远端的`master`.",
               "",
               "有两种方法设置这个属性, 第一种就是通过远端分支检出一个新的分支, 执行: ",
               "",
@@ -37911,4 +38256,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,27,29,30,32,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
