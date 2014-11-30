@@ -1062,13 +1062,15 @@ GitEngine.prototype.push = function(options) {
   var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
-  this.checkUpstreamOfSource(
-    this,
-    this.origin,
-    branchOnRemote,
-    sourceLocation,
-    intl.str('git-error-origin-push-no-ff')
-  );
+  if (!options.force) {
+    this.checkUpstreamOfSource(
+      this,
+      this.origin,
+      branchOnRemote,
+      sourceLocation,
+      intl.str('git-error-origin-push-no-ff')
+    );
+  }
 
   var commitsToMake = this.getTargetGraphDifference(
     this.origin,

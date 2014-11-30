@@ -674,6 +674,9 @@ var commandConfig = {
 
   push: {
     regex: /^git +push($|\s)/,
+    options: [
+      '--force'
+    ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
         throw new GitError({
@@ -685,6 +688,7 @@ var commandConfig = {
       var destination;
       var source;
       var sourceObj;
+      var commandOptions = command.getOptionsMap();
 
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
@@ -737,7 +741,8 @@ var commandConfig = {
         // NOTE -- very important! destination and source here
         // are always, always strings. very important :D
         destination: destination,
-        source: source
+        source: source,
+        force: !!commandOptions['--force']
       });
     }
   },

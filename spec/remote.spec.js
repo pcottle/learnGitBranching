@@ -381,5 +381,12 @@ describe('Git Remotes', function() {
 		);
 	});
 
+	it('uses git force to bypass upstream check', function() {
+		expectTreeAsync(
+			'git clone; git commit; git push; go C1; git branch -f master C1; go master; git commit; git commit; go C1; git checkout -b side; git commit; go master; git merge side; git push --force',
+			'{"branches":{"master":{"target":"C6","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C6","id":"o/master","remoteTrackingBranchID":null},"side":{"target":"C5","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C1"],"id":"C5"},"C6":{"parents":["C4","C5"],"id":"C6"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C6","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C5":{"parents":["C1"],"id":"C5"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C6":{"parents":["C4","C5"],"id":"C6"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}}'
+		);
+	});
+
 });
 
