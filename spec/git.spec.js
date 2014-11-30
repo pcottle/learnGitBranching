@@ -247,12 +247,5 @@ describe('Git', function() {
 		);
 	});
 
-	it('will correctly resolve the dependency order of commits when fetching or pushing', function() {
-		expectTreeAsync(
-			'git clone; git commit; git commit; git commit; git checkout -b test C2; git commit; git checkout master; git push; git checkout master; git merge test; git commit; git push; git checkout test; git commit; git commit; git checkout -b feat1 master; git commit; git merge test; git checkout master; git merge test; git checkout feat1; git commit; git checkout master; git merge feat1; git push',
-			'{"branches":{"master":{"target":"C7","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C4","id":"o/master","remoteTrackingBranchID":null},"test":{"target":"C5","id":"test","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C2"],"id":"C5"},"C6":{"parents":["C4","C5"],"id":"C6"},"C7":{"parents":["C6"],"id":"C7"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}}'
-		);
-	});
-
 });
 
