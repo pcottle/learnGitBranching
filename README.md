@@ -34,7 +34,11 @@ For some added fun, there is a "git golf" concept where we keep track of how man
 You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level" or simply specify a gist ID in the url params like so:
 http://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
-## How the app works / contributing functionality
+## Reporting Bugs / Opening Issues
+
+When reporting bugs, try running the command `debug_copyTree()` in your JS console when in a state just before reproducing a bug. This can avoid having to copy over all the commands you used to get into a specific state. (I can then use the `importTreeNow` command to get to that exact state)
+
+## How the app works / Contributing functionality
 
 LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in Javascript. The production version (on github.io) literally just serves up an html page with some JS and CSS. The rest of the magic lies in the 9k+ lines of Javascript :P
 
