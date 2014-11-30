@@ -9907,7 +9907,41 @@ GitEngine.prototype.getTargetGraphDifference = function(
 
   // filter because we werent doing graph search
   var differenceUnique = Graph.getUniqueObjects(difference);
-  return Graph.descendSortDepth(differenceUnique);
+  /**
+   * Ok now we have to determine the order in which to make these commits.
+   * We used to just sort by depth because we were lazy but that is incorrect
+   * since it doesnt represent the actual dependency tree of the commits.
+   *
+   * So here is what we are going to do -- loop through the differenceUnique
+   * set and find a commit that has _all_ its parents in the targetSet. Then
+   * decide to make that commit first, expand targetSet, and then rinse & repeat
+   */
+  var inOrder = [];
+  var allParentsMade = function(node) {
+    var allParents = true;
+    node.parents.forEach(function(parent) {
+      allParents = allParents && targetSet[parent];
+    });
+    return allParents;
+  };
+
+  while (differenceUnique.length) {
+    for (var i = 0; i < differenceUnique.length; i++) {
+      if (!allParentsMade(differenceUnique[i])) {
+        // This commit cannot be made since not all of its dependencies are
+        // satisfied.
+        continue;
+      }
+
+      var makeThis = differenceUnique[i];
+      inOrder.push(makeThis);
+      // remove the commit
+      differenceUnique.splice(i, 1);
+      // expand target set
+      targetSet[makeThis.id] = true;
+    }
+  }
+  return inOrder;
 };
 
 GitEngine.prototype.push = function(options) {
@@ -19813,9 +19847,11 @@ AnimationFactory.refreshTree = function(animationQueue, gitVisuals) {
 
 AnimationFactory.genHighlightPromiseAnimation = function(commit, destObj) {
   // could be branch or node
-  var visObj = destObj.get('visBranch') || destObj.get('visNode');
+  var visObj = destObj.get('visBranch') || destObj.get('visNode') ||
+    destObj.get('visTag');
   if (!visObj) {
-    debugger;
+    console.log(destObj);
+    throw new Error('could not find vis object for dest obj');
   }
   var visNode = commit.get('visNode');
   return new PromiseAnimation(makeHighlightAnimation(visNode, visObj));
@@ -38256,4 +38292,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,27,29,30,32,31,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
