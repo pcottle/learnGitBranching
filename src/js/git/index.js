@@ -997,7 +997,41 @@ GitEngine.prototype.getTargetGraphDifference = function(
 
   // filter because we werent doing graph search
   var differenceUnique = Graph.getUniqueObjects(difference);
-  return Graph.descendSortDepth(differenceUnique);
+  /**
+   * Ok now we have to determine the order in which to make these commits.
+   * We used to just sort by depth because we were lazy but that is incorrect
+   * since it doesnt represent the actual dependency tree of the commits.
+   *
+   * So here is what we are going to do -- loop through the differenceUnique
+   * set and find a commit that has _all_ its parents in the targetSet. Then
+   * decide to make that commit first, expand targetSet, and then rinse & repeat
+   */
+  var inOrder = [];
+  var allParentsMade = function(node) {
+    var allParents = true;
+    node.parents.forEach(function(parent) {
+      allParents = allParents && targetSet[parent];
+    });
+    return allParents;
+  };
+
+  while (differenceUnique.length) {
+    for (var i = 0; i < differenceUnique.length; i++) {
+      if (!allParentsMade(differenceUnique[i])) {
+        // This commit cannot be made since not all of its dependencies are
+        // satisfied.
+        continue;
+      }
+
+      var makeThis = differenceUnique[i];
+      inOrder.push(makeThis);
+      // remove the commit
+      differenceUnique.splice(i, 1);
+      // expand target set
+      targetSet[makeThis.id] = true;
+    }
+  }
+  return inOrder;
 };
 
 GitEngine.prototype.push = function(options) {
