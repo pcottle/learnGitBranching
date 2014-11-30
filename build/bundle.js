@@ -8538,6 +8538,9 @@ var commandConfig = {
 
   push: {
     regex: /^git +push($|\s)/,
+    options: [
+      '--force'
+    ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
         throw new GitError({
@@ -8549,6 +8552,7 @@ var commandConfig = {
       var destination;
       var source;
       var sourceObj;
+      var commandOptions = command.getOptionsMap();
 
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
@@ -8601,7 +8605,8 @@ var commandConfig = {
         // NOTE -- very important! destination and source here
         // are always, always strings. very important :D
         destination: destination,
-        source: source
+        source: source,
+        force: !!commandOptions['--force']
       });
     }
   },
@@ -9972,13 +9977,15 @@ GitEngine.prototype.push = function(options) {
   var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
-  this.checkUpstreamOfSource(
-    this,
-    this.origin,
-    branchOnRemote,
-    sourceLocation,
-    intl.str('git-error-origin-push-no-ff')
-  );
+  if (!options.force) {
+    this.checkUpstreamOfSource(
+      this,
+      this.origin,
+      branchOnRemote,
+      sourceLocation,
+      intl.str('git-error-origin-push-no-ff')
+    );
+  }
 
   var commitsToMake = this.getTargetGraphDifference(
     this.origin,
@@ -38292,4 +38299,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,32,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
