@@ -1029,8 +1029,6 @@ GitEngine.prototype.getTargetGraphDifference = function(
       differenceUnique.splice(i, 1);
       // expand target set
       targetSet[makeThis.id] = true;
-      // start over
-      break;
     }
   }
   return inOrder;
