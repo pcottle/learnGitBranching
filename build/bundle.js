@@ -13841,19 +13841,31 @@ var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
 var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
-    options.level = options.level || {};
+    options.level = {};
 
     var locale = intl.getLocale();
     options.level.startDialog = {};
     options.level.startDialog[locale] = {
       childViews: intl.getDialog(require('../dialogs/levelBuilder'))
     };
+
+    // if we are editing a level our behavior is a bit different
+    var editLevelJSON;
+    if (options.editLevel) {
+      editLevelJSON = Main.getLevelArbiter().getLevel(options.editLevel);
+      options.level = editLevelJSON;
+    }
+
     LevelBuilder.__super__.initialize.apply(this, [options]);
+    if (!options.editLevel) {
+      this.startDialogObj = undefined;
+      this.definedGoal = false;
+    } else {
+      this.startDialogObj = editLevelJSON.startDialog[locale];
+      this.definedGoal = true;
+    }
 
-    this.startDialogObj = undefined;
-    this.definedGoal = false;
-
-    // we wont be using this stuff, and its to delete to ensure we overwrite all functions that
+    // we wont be using this stuff, and it is deleted to ensure we overwrite all functions that
     // include that functionality
     delete this.treeCompare;
     delete this.solved;
@@ -13867,9 +13879,11 @@ var LevelBuilder = Level.extend({
   },
 
   initGoalData: function() {
-    // add some default behavior in the beginning
-    this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
-    this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
+    // add some default behavior in the beginning if we are not editing
+    if (!this.options.editLevel) {
+      this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
+      this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
+    }
     LevelBuilder.__super__.initGoalData.apply(this, arguments);
   },
 
@@ -14071,7 +14085,7 @@ var LevelBuilder = Level.extend({
   },
 
   finish: function(command, deferred) {
-    if (!this.gitCommandsIssued.length || !this.definedGoal) {
+    if (!this.options.editLevel && (!this.gitCommandsIssued.length || !this.definedGoal)) {
       command.set('error', new Errors.GitError({
         msg: intl.str('solution-empty')
       }));
@@ -15804,7 +15818,7 @@ var regexMap = {
   'level': /^level\s?([a-zA-Z0-9]*)/,
   'levels': /^levels($|\s)/,
   'mobileAlert': /^mobile alert($|\s)/,
-  'build level': /^build +level($|\s)/,
+  'build level': /^build +level\s?([a-zA-Z0-9]*)$/,
   'export tree': /^export +tree$/,
   'importTreeNow': /^importTreeNow($|\s)/,
   'importLevelNow': /^importLevelNow($|\s)/,
@@ -16056,12 +16070,14 @@ var Sandbox = Backbone.View.extend({
     this.clear();
 
     var whenBuilderOpen = Q.defer();
-
     var LevelBuilder = require('../level/builder').LevelBuilder;
-    this.levelBuilder = new LevelBuilder({
-      deferred: whenBuilderOpen
-    });
 
+    var regexResults = command.get('regexResults') || [];
+    var toEdit = regexResults[1] || false;
+    this.levelBuilder = new LevelBuilder({
+      deferred: whenBuilderOpen,
+      editLevel: toEdit
+    });
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);
     });
@@ -38299,4 +38315,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,32,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
