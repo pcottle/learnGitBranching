@@ -194,12 +194,14 @@ var Sandbox = Backbone.View.extend({
     this.clear();
 
     var whenBuilderOpen = Q.defer();
-
     var LevelBuilder = require('../level/builder').LevelBuilder;
-    this.levelBuilder = new LevelBuilder({
-      deferred: whenBuilderOpen
-    });
 
+    var regexResults = command.get('regexResults') || [];
+    var toEdit = regexResults[1] || false;
+    this.levelBuilder = new LevelBuilder({
+      deferred: whenBuilderOpen,
+      editLevel: toEdit
+    });
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);
     });
