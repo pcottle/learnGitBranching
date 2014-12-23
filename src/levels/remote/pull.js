@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Git Pull",
     "zh_TW": "git pull'",
     "es_AR": "git pull",
+    "pt_BR": "Git Pull",
     "de_DE": "Git Pull",
     "ja"   : "Git Pull",
     "fr_FR": "Git pull"
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "只要运行 git pull 命令!",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
+    "pt_BR": "Basta executar git pull!",
     "de_DE": "Führe einfach git pull aus.",
     "ja"   : "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !"
@@ -193,6 +195,65 @@ exports.level = {
               "Exploraremos los detalles de `git pull` después (incluyendo sus opciones y parámetros), pero por ahora probémoslo en este nivel.",
               "",
               "Acordate: podés resolver este comando simplemente con `fetch` y `merge`, pero eso te costaría un comando extra :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Agora que vimos como baixar dados de um repositório remoto com `git fetch`, vamos atualizar nosso trabalho para refletir essas mudanças!",
+              "",
+              "Há, na verdade, muitas formas de fazê-lo -- uma vez que você tenha os novos commits disponíveis localmente, você pode incorporá-los como se eles fossem commits normais em outros ramos. Isso significa que você pode executar comandos como estes a seguir:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc., etc.",
+              "",
+              "O fluxo de trabalho de executar *fetch* para baixar as mudanças remotas e depois fazer um *merge* delas é tão comum que o Git na verdade fornece um comando que faz ambas as coisas de uma vez só! Esse comando é o `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos primeiro ver um `fetch` e um `merge` executados sequencialmente"
+            ],
+            "afterMarkdowns": [
+              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/master`. Agora o nosso ramo `master` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "O que iria acontecer se, em vez disso, usássemos `git pull`?"
+            ],
+            "afterMarkdowns": [
+              "Exatamente o mesmo! Isso deve tornar bem claro que `git pull` é essencialmente um caminho mais curto para executar um `git fetch` seguido de um merge de seja já qual ramo tiver sido baixado."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vamos explorar os detalhes do `git pull` mais tarde (incluindo opções e parâmetros), mas por enquanto, experimente usá-lo em sua forma mais básica.",
+              "",
+              "Lembre-se -- você também poderia resolver este nível com um `fetch` e um `merge`, mas isso lhe custaria um comando a mais :P"
             ]
           }
         }

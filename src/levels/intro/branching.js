@@ -7,6 +7,7 @@ exports.level = {
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "es_AR": "Brancheando en Git",
+    "pt_BR": "Ramos no Git",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "建立Git分支",
     "zh_TW": "建立 git branch"
@@ -16,6 +17,7 @@ exports.level = {
     "de_DE": 'Lege mit "git branch <Name>" einen neuen Branch an und checke ihn mit "git checkout <Name> aus',
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
+    "pt_BR": "Crie um novo ramo com \"git branch [nome]\" e mude para ele com \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
@@ -327,6 +329,84 @@ exports.level = {
             "markdowns": [
               "¡Ok! Ya estás listo para manejar ramas. Cuando se cierre esta ventana,",
               "creá una nueva rama llamada `bugFix` y cambiate a ella"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramos no Git",
+              "",
+              "Ramos no Git também são incrivelmente leves. Eles são simplesmente referências a um commit específico -- e nada mais. É por isso que muitos entusiastas do Git entoam o mantra:",
+              "",
+              "```",
+              "ramifique cedo, ramifique sempre",
+              "```",
+              "",
+              "Devido a não existir sobrecarga de armazenamento / memória associada à criação de ramos, é mais fácil dividir logicamente o seu trabalho do que ter ramos grandes e gordos.",
+              "",
+              "Quando começarmos a misturar ramos e commits, vamos ver como esses dois recursos combinam bem. Por enquanto, só lembre que um ramo diz essencialmente \"Quero incluir o trabalho deste commit e de todos os seus ancestrais\"."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vejamos como os ramos funcionam na prática.",
+              "",
+              "Aqui vamos criar um novo ramo chamado `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Veja, é só isso que você tem que fazer para ramificar! O ramo `newImage` agora se refere ao commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos tentar colocar algum trabalho neste novo ramo. Clique no botão abaixo"
+            ],
+            "afterMarkdowns": [
+              "Ah não! O ramo `master` se moveu mas o `newImage` não! Isso é porque o novo ramo não era o \"ativo\", e é por isso que o asterisco (*) estava no `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos contar ao git que queremos fazer checkout no ramo com:",
+              "",
+              "```",
+              "git checkout [nome]",
+              "```",
+              "",
+              "Isso vai nos situar no ramo antes de commitarmos nossas mudanças"
+            ],
+            "afterMarkdowns": [
+              "Aqui vamos nós! Nossas mudanças foram gravadas no novo ramo"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Vocês estão todos prontos para ramificar. Assim que esta janela fechar,",
+              "crie um novo ramo chamado `bugFix` e mude para esse ramo"
             ]
           }
         }

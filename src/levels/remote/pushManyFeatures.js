@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "你随时都可以使用 undo/reset 命令.",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
+    "pt_BR": "Lembre-se que você sempre pode usar undo ou reset",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset."
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "Push Master!",
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
+    "pt_BR": "Push Master!",
     "de_DE": "Push Master!",
     "ja": "Push Master!",
     "fr_FR": "Maître du push !"
@@ -176,6 +178,59 @@ exports.level = {
               "* El remoto fue actualizado, así que vamos a tener que integrar esos cambios también",
               "",
               ":O ¡Intenso! ¡Éxitos! Completar este nivel representa un gran avance."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Merge de ramos de funcionalidades",
+              "",
+              "Agora que você está confortável com fetch, pull e push, vamos colocar essas habilidades em teste com um novo fluxo de trabalho.",
+              "",
+              "É comum para desenvolvedores de grande projetos fazer todo o trabalho em ramos de funcionalidades (fora do `master`) e então integrar esse trabalho uma única vez quando ele estiver pronto. Isso é similar à lição anterior (onde ramos laterais eram enviados ao repositório remoto), mas introduzimos mais um passo.",
+              "",
+              "Alguns desenvolvedores só fazem push e pull quando no ramo `master` -- desta forma o `master` sempre se mantém atualizado com aquilo que está no ramo remoto (`o/master`).",
+              "",
+              "Então, para este fluxo de trabalho, combinaremos duas coisas:",
+              "",
+              "* Integrar ramos de funcionalidade no `master`, e",
+              "* Realizar push e pull do repositório remoto"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos refrescar a memória sobre como atualizar o `master` e enviar trabalho."
+            ],
+            "afterMarkdowns": [
+              "Nós executamos dois comandos aqui que:",
+              "",
+              "* Fizeram rebase de nosso trabalho nos novos commits do repositório remoto, e",
+              "* Publicaram nosso trabalho no repositório remoto"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Esse nível é um pouco pesado -- aqui está a linha geral de como resolver:",
+              "",
+              "* Há três ramos de funcionalidades -- `side1`, `side2` e `side3`",
+              "* Queremos enviar cada uma dessas funcionalidades, em ordem, para o repositório remoto",
+              "* O repositório remoto foi atualizado desde então, então também precisaremos incorporar o trabalho realizado lá",
+              "",
+              ":O intenso! boa sorte, completar este nível é um grande passo."
             ]
           }
         }

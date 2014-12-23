@@ -9,6 +9,7 @@ exports.level = {
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "es_AR": "Revirtiendo cambios en git",
+    "pt_BR": "Revertendo mudanças no Git",
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "在 Git 中撤销更改",
     "zh_TW": "在 git 中取消修改 "
@@ -18,6 +19,7 @@ exports.level = {
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "Notez que `revert` et `reset` n'ont pas les mêmes arguments.",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
+    "pt_BR": "Lembre que revert e reset recebem parâmetros diferentes",
     "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
@@ -145,6 +147,69 @@ exports.level = {
               "Para completar este nivel, revertí los dos commits más recientes, tanto en `local` como en `pushed`.",
               "",
               "Tené en cuenta que `pushed` es una rama remota y `local` es una rama local -- eso debería ayudarte a elegir qué métodos usar."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Revertendo Mudanças no Git",
+              "",
+              "Existem várias maneiras de reverter mudanças no Git. E assim como o ato de commitar, reverter mudanças no Git também tem um componente de baixo nível (a preparação, ou staging, de arquivos ou trechos de arquivos individuais) e um componente de alto nível (como as mudanças são, de fato, revertidas). Aqui vamos focar neste último ponto.",
+              "",
+              "Há duas maneiras principais de desfazer mudanças no Git -- uma delas é usando `git reset`, e a outra é usando `git revert`. Vamos olhar cada uma delas na próxima janela",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "O comando `git reset` reverte mudanças movendo para trás no tempo (para um commit mais antigo) a referência do ramo. Desta forma, você pode pensar nessa operação como uma \"reescrita do histórico\"; o `git reset` vai mover o ramo para trás como se o commit nunca tivesse existido.",
+              "",
+              "Vejamos como funciona:"
+            ],
+            "afterMarkdowns": [
+              "Legal! O Git simplesmente moveu a referência do ramo master de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Embora o reset funcione muito bem em ramos locais no seu próprio computador, o método utilizado de \"reescrever o histórico\" não funciona com ramos remotos que outras pessoas estejam usando.",
+              "",
+              "Para reverter mudanças e conseguir *compartilhar* essas mudanças com os outros, precisamos usar o `git revert`. Vejamo-lo em ação"
+            ],
+            "afterMarkdowns": [
+              "Estranho, um novo commit surgiu abaixo do commit que queríamos reverter. Isso é porque o novo commit `C2'` introduz *mudanças* -- acontece que as mudanças que ele introduz revertem exatamente aquelas do commit `C2`.",
+              "",
+              "Com o `revert`, você pode fazer `push` das suas mudanças para compartilhá-las com os outros."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, reverta os dois commits mais recentes tanto em `local` como em `pushed`.",
+              "",
+              "Tenha em mente que `pushed` é um ramo remoto, e `local` é um ramo local -- isso deve ajudá-lo a escolher o método apropriado."
             ]
           }
         }

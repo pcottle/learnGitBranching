@@ -59,6 +59,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
       'es_AR': 'Secuencia introductoria',
+      'pt_BR': 'Sequência introdutória',
       'zh_CN': '基础篇',
       'zh_TW': '基礎篇',
       'ko': '기본 명령어'
@@ -69,6 +70,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
       'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
+      'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
       'zh_CN': '循序渐进介绍git主要命令',
       'zh_TW': '循序漸進地介绍 git 主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
@@ -81,6 +83,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
       'es_AR': 'Acelerando',
+      'pt_BR': 'Acelerando',
       'zh_CN': '进阶篇',
       'zh_TW': '進階篇'
     },
@@ -90,6 +93,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
+      'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
     }
@@ -102,6 +106,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja'   : 'Push及びPullコマンド -- Gitリモート',
       'fr_FR': 'Push & Pull -- dépôts gits distants !',
       'es_AR': 'Push & Pull -- Git Remotes!',
+      'pt_BR': 'Push & Pull -- repositórios remotos no Git!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!'
     },
@@ -111,6 +116,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja'   : '自分のコードをより広く公開しましょう',
       'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
+      'pt_BR': 'Hora de compartilhar seus 1\'s e 0\'s, crianças; programar agora é social!',
       'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了'
     }
@@ -123,6 +129,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja'   : 'Originだけではない -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
+      'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令'
     },
@@ -131,6 +138,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
       'ja'   : '上級者の仕事は絶えずあり',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
+      'pt_BR': 'E você achava que ser um déspota esclarecido seria mais divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene'
@@ -142,6 +150,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Code Umherschieben',
       'fr_FR': 'Déplacer le travail',
       'es_AR': 'Moviendo el trabajo por ahí',
+      'pt_BR': 'Movendo trabalho por aí',
       'ja'   : 'コードの移動',
       // INTL out of sync :(
       'zh_CN': '精通 rebase！',
@@ -153,6 +162,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Soyez alaise de modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
+      'pt_BR': 'Fique confortável em modificar a árvore de códigos',
       // INTL out of sync :(
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
@@ -167,6 +177,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '様々なtips',
       'fr_FR': 'Un assortiment',
       'es_AR': 'Bolsa de gatos',
+      'pt_BR': 'Sortidos',
       'ko': '종합선물세트',
       'zh_CN': '大杂烩？',
       'zh_TW': '活用 git 的指令'
@@ -177,6 +188,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
+      'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术、技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧'
@@ -189,6 +201,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja'   : '上級トピック',
       'fr_FR': 'Sujets Avancés',
       'es_AR': 'Temas avanzados',
+      'pt_BR': 'Temas avançados',
       'zh_CN': '高级主题',
       'zh_TW': '進階主題'
     },
@@ -198,6 +211,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja'   : '勇気ある人のみ！',
       'fr_FR': 'Pour les plus courageux !',
       'es_AR': '¡Para los verdaderos valientes!',
+      'pt_BR': 'Para os verdadeiros valentes!',
       'zh_CN': '只为真正的勇士！',
       'zh_TW': '來成為真正的強者吧！'
     }

@@ -49,6 +49,16 @@ exports.dialog = {
       ]
     }
   }],
+  'pt_BR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Tem certeza que quer ver a solução?',
+        '',
+        'Vamos lá, acredito que você consegue!'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

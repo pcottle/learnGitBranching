@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Remote Tracking",
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
+    "pt_BR": "Seguindo remotos",
     "de_DE": "Remote Tracking",
     "ja"   : "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante"
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
+    "pt_BR": "Lembre-se que há duas formas de seguir um ramo remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
     "ja"   : "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !"
@@ -372,6 +374,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "¡Ok! Para este nivel, pusheá tu trabajo a la rama `master` del remoto *sin* estar parado sobre `master` localmente. Te dejo que te des cuenta del resto solo, que para algo este es el curso avanzado :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Seguindo ramos remotos",
+              "",
+              "Uma coisa que pode ter parecido \"mágica\" nas lições passadas é que o Git sabia que o ramo `master` estava relacionado com o `o/master`. Certamente esses ramos possuem nomes similares, e tem todo sentido lógico conectar o ramo `master` do lado remoto com o ramo `master` local, mas essa conexão é demonstrada claramente em dois cenários:",
+              "",
+              "* Durante uma operação de pull, os commits são baixados em `o/master` e então são *mergidos* no ramo `master`. O alvo do merge é determinado a partir dessa conexão.",
+              "* Durante uma operação de push, o trabalho do ramo `master` local é enviado para o ramo `master` remoto (que é representado localmente por `o/master`). O *destino* do push é determinado da conexão entre `master` e `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Resumindo a história, essa conexão entre `master` e `o/master` é explicada pela propriedade de \"remote tracking\" dos ramos. O ramo `master` é configurado para seguir o ramo `o/master` -- isso significa que existe um alvo implícito de merge e um destino implícito de push para o ramo `master`.",
+              "",
+              "Você pode estar se perguntando como essa propriedade foi configurada no ramo `master` se você não executou nenhum comando ordenando que isso fosse feito. Bem, quando você clona um repositório com o Git, essa propriedade é configurada para você automaticamente. ",
+              "",
+              "Durante a clonagem, o Git cria um ramo remoto para cada ramo que existe no repositório remoto (ou seja, ramos como o `o/master`). Ele cria então um ramo local que segue o ramo atualmente ativo no repositório remoto, que geralmente é o `master`.",
+              "",
+              "Uma vez que a clonagem esteja completa, você terá apenas um único ramo local (para que você não seja sobrecarregado), mas você pode ver todos os ramos diferentes que existem no repositório remoto (caso você esteja curioso). É o melhor dos dois mundos!",
+              "",
+              "Isso também explica porque você vê a seguinte mensagem quando clona um repositório:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Posso eu mesmo especificar isso?",
+              "",
+              "Sim, você pode! Você pode fazer com que qualquer ramo arbitrário siga o `o/master`, e se você fizer isso, esse ramo terá o mesmo destino de push implícito que e o mesmo alvo de merge que o `master`. Isso significa que você pode executar `git push` em um ramo chamado `realmenteNaoSouOMaster` e ainda assim ter seu trabalho enviado ao ramo `master` do repositório remoto!",
+              "",
+              "Há duas formas de configurar essa propriedade. A primeira consiste em fazer checkout de um novo ramo usando o ramo remoto como especificação de referência. Executar",
+              "",
+              "`git checkout -b realmenteNaoSouOMaster o/master`",
+              "",
+              "Cria um novo ramo chamado `realmenteNaoSouOMaster` e o configura para seguir o `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Já foi conversa o suficiente, vamos ver uma demonstração! Vamos fazer checkout de um novo ramo chamado `foo` e configurá-lo para seguir o `master` do repositório remoto."
+            ],
+            "afterMarkdowns": [
+              "Como você pode ver, usamos o alvo implícito de merge do `o/master` para atualizar o ramo `foo`. Veja como o master local não sofreu atualização!!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Isso também se aplica ao git push"
+            ],
+            "afterMarkdowns": [
+              "Boom. Nós enviamos nosso trabalho para o ramo remoto `master` ainda que nosso ramo local tivesse um nome completamente diferente"
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forma #2",
+              "",
+              "Outra maneira de configurar remote tracking em um ramo é utilizando `git branch -u`. Executando",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "configuraremos o ramo local `foo` para seguir o `o/master`. Se `foo` for o que estiver atualmente em checkout, você pode inclusive omiti-lo:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vejamos outra forma realmente rápida de configurar remote tracking..."
+            ],
+            "afterMarkdowns": [
+              "O mesmo de antes, apenas um comando mais explícito. Doce!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Para este nível, vamos fazer push no ramo remoto `master` *sem estar* em um checkout do `master` local. Vou deixar você descobrir o resto, já que isto é um curso avançado :P"
             ]
           }
         }

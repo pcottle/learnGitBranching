@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "分散的历史",
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
+    "pt_BR": "Histórico divergente",
     "de_DE": "Abweichende History",
     "fr_FR": "Historique divergent",
     "ja"   : "履歴の分岐"
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
+    "ot_BR": "Preste atenção na ordem da visualização do objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
     "ja"   : "ゴールのビジュアライズの順番を参照",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif"
@@ -445,6 +447,149 @@ exports.level = {
               "* Simulá algo de trabajo de un colega (1 commit)",
               "* Commiteá algo de trabajo propio (1 commit)",
               "* Publicá tu trabajo *rebaseando*"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Histórico Divergente",
+              "",
+              "Até o momento vimos como fazer `pull` de commits dos outros e como fazer `push` de nossas próprias mudanças. Parece ser tão simples, como será que as pessoas ficam tão confusas?",
+              "",
+              "A dificuldade aparece quando o histórico do repositório *diverge*. Antes de discutir os detalhes disso, vejamos um exemplo...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Imagine que você clonou um repositório na segunda-feira e começou a trabalhar em uma funcionalidade nova. Na sexta-feira você está pronto para publicar a funcionalidade -- mas, ah não! Seus colegas escreveram um bocado de código durante a semana, tornando a sua funcionalidade obsoleta. Eles também publicaram esses commits no repositório remoto que vocês compartilham, então agora o *seu* trabalho é baseado em uma versão *antiga* do projeto, que não é mais relevante.",
+              "",
+              "Neste caso, o comando `git push` é ambíguo. Se você executar `git push`, será que o Git deveria tratar o repositório remoto como se ele ainda estivesse no estado da segunda-feira? Será que ele deveria tentar adicionar seu código dentro do repositório sem tentar remover o código novo? Ou será que ele deveria simplesmente ignorar suas mudanças totalmente, já que elas estão obsoletas?",
+              "",
+              "Devido à grande ambiguidade que surge neste tipo de situação (quando a história divergiu), o Git não permite que você faça `push` das suas mudanças. Ele, de fato, força você a incorporar o último estado do repositório remoto antes de conseguir compartilhar o seu trabalho."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Chega de conversa! Vejamos essa situação na prática"
+            ],
+            "afterMarkdowns": [
+              "Viu? Nada aconteceu porque o comando falhou. O `git push` falha porque o commit mais recente (`C3`) é baseado no remoto em `C1`. Como o remoto foi atualizado no meio tempo, o Git rejeita o push"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como resolver essa situação? É fácil, tudo que você precisa fazer é basear seu trabalho na versão mais recente do ramo remoto.",
+              "",
+              "Existem algumas maneiras de fazer isso, mas a mais direta é mover o seu trabalho usando rebase. Vamos em frente, ver como isso é feito."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Agora se nós fizermos um rebase antes do push..."
+            ],
+            "afterMarkdowns": [
+              "Boom! Nós atualizamos a representação local do repositório remoto com `git fetch`, fizemos rebase do nosso trabalho para refletir as novas mudanças no repositório remoto, e então enviamos nossas mudanças com `git push`"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Será que existem outras formas de compartilhar meu trabalho quando o repositório remoto tiver sido atualizado? Claro! Vamos fazer a mesma tarefa usando `merge` em vez de `rebase`.",
+              "",
+              "Embora o `git merge` não mova o seu trabalho (em vez disso, ele cria um commit de merge), ele é uma forma de contar ao Git que você incorporou todas as mudanças do repositório remoto. Isso acontece porque o ramo remoto passa a ser um *ancestral* do seu próprio ramo, significando que o seu commit reflete todos os commits contidos no ramo remoto.",
+              "",
+              "Vejamos uma demonstração..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Agora se fizermos merge em vez de rebase ..."
+            ],
+            "afterMarkdowns": [
+              "Boom! Atualizamos nossa representação local do repositório remoto com `git fetch`, fizemos *merge* do novo trabalho com o nosso (para refletir as novas mudanças no repositório remoto), e então fizemos push deles com `git push`"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Incrível! Existe alguma forma de fazer isso sem digitar tantos comandos?",
+              "",
+              "É claro -- você já conhece o `git pull` e ele é simplesmente um atalho para um fetch e um merge. Convenientemente, entretanto, o comando `git pull --rebase` é uma abreviação para um fetch e um rebase!",
+              "",
+              "Vejamos esses dois comandos em ação."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Primeiro com `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "Mesma coisa que antes! Porém muito mais curto."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E agora com o `pull` normal"
+            ],
+            "afterMarkdowns": [
+              "De novo, exatamente como antes!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Esse fluxo de trabalho de fazer fetch, rebase/merge, e push é bastante comum. Em lições futuras vamos examinar versões mais complicadas desses fluxos de trabalho, mas por enquanto vamos tentar o seguinte.",
+              "",
+              "Para resolver este nível, faça o seguinte:",
+              "",
+              "* Clone o repositório",
+              "* Simule trabalho de seus colegas (1 commit)",
+              "* Faça um commit seu (1 commit)",
+              "* Publique seu trabalho usando *rebase*"
             ]
           }
         }
