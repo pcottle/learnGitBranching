@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Remote Branches",
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
+    "pt_BR": "Ramos remotos",
     "de_DE": "Branches auf entfernten Servern",
     "ja"   : "リモートのブランチ",
     "fr_FR": "Les branches distantes"
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "注意顺序 -- 先在 master 上 commit!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
+    "pt_BR": "Preste atenção na ordem: commite no master primeiro!",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
     "ja"   : "順番に注意 -- まずmasterに対してcommitしましょう",
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !"
@@ -199,6 +201,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nivel, commiteá una vez sobre `master` y una después de checkoutear `o/master`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramos Remotos no Git",
+              "",
+              "Agora que vimos o `git clone` em ação, vamos estudar aquilo que realmente mudou.",
+              "",
+              "A primeira coisa que você pode ter percebido é que um novo ramo chamado `o/master` aparece no nosso repositório local. Esse tipo de ramo é chamado de ramo _remoto_; ramos remotos possuem propriedades especiais pois eles servem a um propósito único.",
+              "",
+              "Ramos remotos refletem o _estado_ de repositórios remotos (desde a última vez na qual você falou com eles). Eles ajudam a entender as diferenças entre o trabalho local e o trabalho atualmente público -- um passo crítico a ser dado antes de compartilhar seu trabalho com os outros.",
+              "",
+              "Ramos remotos possuem a propriedade especial de, ao sofrerem um checkout, colocarem o repositório em modo \"Detached HEAD\". O Git faz isso de propósito, porque você não pode trabalhar nesses ramos diretamente; você é obrigado a trabalhar em outro lugar e só então compartilhar seu trabalho com o remoto (depois disso, os ramos remotos serão atualizados)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### O que é `o/`?",
+              "",
+              "Você pode estar se perguntando o que o `o/` no início do nome dos ramos remotos significa. Bem, ramos remotos possuem uma convenção obrigatória de nomes -- eles são mostrados no seguinte formato:",
+              "",
+              "* `<nome do repositório remoto>/<nome do ramo>`",
+              "",
+              "Então, se o ramo remoto é chamado `o/master`, o nome do ramo é `master` e o nome do repositório remoto é `o`.",
+              "",
+              "A maioria dos desenvolvedores na verdade chama o repositório remoto principal de `origin`, e não de `o`. Isso é tão comum que o Git define por padrão o nome `origin` para o repositório remoto quando você usa o comando `git clone` para clonar um repositório.",
+              "",
+              "Infelizmente o nome completo `origin` não cabe na nossa tela, então usamos `o` como uma abreviação :( Apenas lembre-se que no Git de verdade, o repositório remoto provavelmente será chamado `origin` em vez de `o`!",
+              "",
+              "É muita informação de uma só vez, então vamos dar uma pausa e ver um pouco de ação."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos fazer checkout de um ramo remoto e ver o que acontece"
+            ],
+            "afterMarkdowns": [
+              "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou o `o/master` quando adicionamos um novo commit. Isso é porque o `o/master` só será atualizado quando o repositório remoto for atualizado."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, commite uma vez em `master`, e outra vez depois de fazer checkout em `o/master`. Isso vai ajudá-lo a sentir como os ramos remotos se comportam de forma diferente, e como eles apenas se atualizam para refletir o estado do repositório remoto."
             ]
           }
         }

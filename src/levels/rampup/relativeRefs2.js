@@ -8,6 +8,7 @@ exports.level = {
     "zh_CN": "这一关至少要用到一次直接引用(hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
+    "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
     "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります"
   },
@@ -16,6 +17,7 @@ exports.level = {
     "de_DE": "Relative Referenzen #2 (~)",
     "ja"   : "相対リファレンス　その２ (~)",
     "es_AR": "Referencias relativas #2 (~)",
+    "pt_BR": "Referências relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）"
@@ -154,6 +156,75 @@ exports.level = {
               "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
               "",
               "Para completar este nivel, mové `HEAD`, `master` y `bugFix` a sus destinos finales."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### O operador \"~\"",
+              "",
+              "Digamos que você queira se mover vários níveis para cima na árvore de commits. Pode ser entediante digitar `^` várias vezes, e por isso o Git possui também o operador til (`~`).",
+              "",
+              "",
+              "Um número pode ser passado (opcionalmente) após o operador til, especificando o número de ancestrais que você deseja subir. Vamos vê-lo em ação"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos especificar um número de commits para trás com `~`."
+            ],
+            "afterMarkdowns": [
+              "Boom! Tão conciso -- referências relativas são incríveis."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forçando os ramos",
+              "",
+              "Agora que você é um especialista em referências relativas, vamos *usá-las* de fato para alguma coisa.",
+              "",
+              "Uma das situações mais comuns na qual eu uso referências relativas é quando quero trocar ramos de lugar. Você pode redefinir diretamente o commit para o qual um ramo aponta com a opção `-f`. Desta forma, o seguinte comando:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "Move (à força) o ramo master 3 ancestrais acima do HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vejamos o comando anterior em ação"
+            ],
+            "afterMarkdowns": [
+              "Aqui vamos nós! As referências relativas nos deram uma forma concisa de nos referirmos ao `C1`, e a movimentação de ramos (com `-f`) nos deu uma forma de apontar rapidamente um ramo para esse local"
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Agora que você viu referências relativas e movimentação de ramos combinadas, vamos usá-las para resolver o próximo nível.",
+              "",
+              "Para completar este nível, mova o `HEAD` e os ramos `master` e `bugFix` para os destinos mostrados no objetivo."
             ]
           }
         }

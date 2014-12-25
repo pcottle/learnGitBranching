@@ -5,6 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "es_AR": "Desatacheá tu HEAD",
+    "pt_BR": "Solte a sua cabeça",
     "fr_FR": "Détachez votre HEAD",
     "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
@@ -14,6 +15,7 @@ exports.level = {
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
+    "pt_BR": "Use o identificador (hash) sobre o commit para te ajudar!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "ja"   : "コミットのラベル（hash）を使用",
     "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
@@ -172,6 +174,84 @@ exports.level = {
               "Para completar este nivel, detacheemos HEAD de `bugFix` y ataccheemosla al commit, en cambio.",
               "",
               "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Movendo-se no Git",
+              "",
+              "Antes de seguirmos para algumas funcionalidades mais avançadas do Git, é importante entender as diferentes formas de se mover através da árvore de commits que representa o seu projeto.",
+              "",
+              "Uma vez que você estiver confortável em se mover ao redor, seus poderes utilizando outros comandos do Git serão amplificados!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Primeiro temos que conversar sobre a \"cabeça\" (\"HEAD\"). HEAD é um nome simbólico para o commit atualmente ativo (que sofreu checkout por último) -- é essencialmente o commit sobre o qual você está trabalhando no momento.",
+              "",
+              "O HEAD sempre aponta para o commit mais recentemente copiado sobre a árvore de trabalho (arquivos do projeto). A maioria dos comandos do git que realizam mudanças sobre a árvore de trabalho começarão mudando o HEAD.",
+              "",
+              "Normalmente o HEAD aponta para o nome de um ramo (por exemplo, bugFix). Quando você commita, o status do bugFix é alterado e essa mudança ocorre também sobre o HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vejamos isto em ação. Aqui vamos mostrar o HEAD antes e depois de um commit."
+            ],
+            "afterMarkdowns": [
+              "Veja! O HEAD estava se escondendo ao lado do nosso `master` esse tempo todo."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Soltando a cabeça",
+              "",
+              "Soltar o HEAD significa anexá-lo a um commit em vez de anexá-lo a um ramo. Antes do estado solto (\"detached\"), é assim como se parece:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "E agora é",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, vamos soltar o HEAD do `bugFix` e em vez disso anexá-lo ao commit.",
+              "",
+              "Especifique o commit por meio do hash correspondente. O hash de cada commit é mostrado dentro do círculo que representa o commit (a letra C seguida de um número)."
             ]
           }
         }

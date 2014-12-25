@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "没有 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
+    "pt_BR": "Origem vazia",
     "de_DE": "Die Quelle des Nichts",
     "ja"   : "無のsource",
     "fr_FR": "Source de rien du tout"
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "本节的 branch 命令被禁用了, 你只能使用 fetch! ",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
+    "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
     "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !"
@@ -175,6 +177,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Este es un nivel rápido: simplemente borrá una rama remota y creá una nueva usando `git fetch` para completarlo."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Coisas estranhas do `<origem>`",
+              "",
+              "O Git abusa do parâmetro `<origem>` de duas formas estranhas. Esses dois abusos vem do fato de que tecnicamente você pode especificar \"nada\" como uma `origem` válida tanto para o git push como para o git fetch. A forma como você especifica \"nada\" é por meio de um argumento vazio:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Vejamos o que esses comandos fazem..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "O que fazer push de \"coisa nenhuma\" para um ramo remoto significa? Deletar o ramo!"
+            ],
+            "afterMarkdowns": [
+              "Aqui, excluímos com sucesso o ramo `foo` do repositório remoto por meio de um push de \"coisa nenhuma\" direcionado a ele. Até que faz sentido..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Finalmente, fazer um fetch de \"coisa nenhuma\" para uma referência local cria um novo ramo"
+            ],
+            "afterMarkdowns": [
+              "Bastante estranho / bizarro, mas de qualquer forma. É assim que o Git é!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este é um nível rápido de resolver -- basta remover um ramo remoto com `git push` e criar um novo ramo local com `git fetch` para terminar!"
             ]
           }
         }
