@@ -12,6 +12,7 @@ exports.level = {
     "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
     "es_AR": "Enslada de branches",
+    "pt_BR": "Espaguete de ramos",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
     "zh_TW": "branch 漿糊"
@@ -21,6 +22,7 @@ exports.level = {
     "fr_FR": "Faites attention à tout faire dans le bon ordre ! La branche one d'abord, puis la seconde, puis la troisième",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
+    "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie o ramo `one` primeiro, depois `two`, depois `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
@@ -82,6 +84,26 @@ exports.level = {
               "La rama `one` necesita reordenarse, y eliminar `C5`. `two` necesita sólo reordenamiento, y `three` ¡sólo necesita un commit!",
               "",
               "Te vamos a dejar darte cuenta cómo resolver este -- asegurate de mirar la solución, después, usando `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Espaguete de ramos",
+              "",
+              "Uhuuuuu Nelly! Temos um belo de um objetivo para alcançar neste nível.",
+              "",
+              "Temos aqui um `master` que está alguns commits atrás dos ramos `one`, `two` e `three`. Seja lá por qual razão, precisamos atualizar esses três outros ramos com versões modificadas dos últimos commits do master.",
+              "",
+              "O ramo `one` precisa de uma reordenação e da exclusão do `C5`. O `two` precisa apenas de reordenação. O `three` precisa de um único commit!",
+              "",
+              "Vamos deixar você descobrir como resolver esta tarefa -- mas não deixe de ver a nossa solução depois com o comando `show solution`. "
             ]
           }
         }

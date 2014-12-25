@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Git push 参数 2!",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
+    "pt_BR": "Parâmetros do git push -- expandido",
     "de_DE": "Optionen für Git Push -- noch mehr!",
     "ja"   : "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !"
@@ -16,6 +17,7 @@ exports.level = {
     "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
+    "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
     "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P"
@@ -226,6 +228,76 @@ exports.level = {
               "Para este nivel, tratá de llegar al objetivo final, y acordate del formato:",
               "",
               "`<origen>:<destino>`"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalhes sobre `<lugar>`",
+              "",
+              "Lembra que na lição anterior especificamos `master` como o parâmetro lugar para o git push? Lá definimos tanto a *origem* de onde os commits viriam quanto o *destino* para onde os commits foram.",
+              "",
+              "Você pode estar se perguntando -- e se eu quisesse que a origem e o destino fossem diferentes? E se eu quisesse enviar commits do ramo local `foo` para o ramo remoto `bar`?",
+              "",
+              "Bem, infelizmente isso é impossível no Git... só brincando! Claro que é possível :)... o Git tem muita flexibilidade (até mais do que deveria).",
+              "",
+              "Veremos como fazê-lo no próximo slide..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para especificar tanto a origem como o destino do `<lugar>`, simplesmente juntamos os dois usando dois-pontos:",
+              "",
+              "`git push origin <origem>:<destino>`",
+              "",
+              "Isso é geralmente chamado de \"colon refspec\" (especificação de referência com dois-pontos). Refspec é só um nome extravagante para um local que o Git consiga entender (como o ramo `foo` ou mesmo `HEAD~1`)",
+              "",
+              "Uma vez que você está especificando tanto a origem como o destino independentemente, você pode ser bastante preciso nos comandos relacionados a repositórios remotos. Vejamos uma demonstração!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lembre-se, `origem` é qualquer lugar que o Git possa entender:"
+            ],
+            "afterMarkdowns": [
+              "Uau! Esse comando é bastante viajado, mas ele faz sentido -- o Git entendeu a referência `foo^`, enviou quaisquer commits que não estavam presentes no repositório remoto, e então atualizou o destino."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E se o destino para o qual você quiser fazer push não existir? Sem problemas! Dê um nome de ramo e o Git criará o ramo no repositório remoto para você."
+            ],
+            "afterMarkdowns": [
+              "Doce, isso é muito bom :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nível, tente chegar ao estado do objetivo mostrado na visualização, e lembre-se do formato:",
+              "",
+              "`<origem>:<destino>`"
             ]
           }
         }

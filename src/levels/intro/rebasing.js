@@ -6,6 +6,7 @@ exports.level = {
     "de_DE": "Einführung in Rebase",
     "ja": "Rebaseの解説",
     "es_AR": "Introducción a rebase",
+    "pt_BR": "Introdução ao rebase",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "介绍 rebase",
@@ -17,6 +18,7 @@ exports.level = {
     "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
+    "pt_BR": "O bugFix precisa ser commitado primeiro",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit"
@@ -288,6 +290,73 @@ exports.level = {
               "* Checkoutá bugFix otra vez y rebaseala sobre master",
               "",
               "¡Éxitos!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rebase no Git",
+              "",
+              "A segunda forma de combinar trabalho entre ramos é o *rebase*. O rebase essencialmente pega um conjunto de commits, \"copia\" os mesmos, e os despeja em outro lugar.",
+              "",
+              "Isso pode parecer confuso, mas a vantagem do rebase é que ele pode ser usado para construir uma sequência mais bonita e linear de commits. O registro de commits (história do repositório) ficará muito mais limpa se for utilizado apenas rebase em vez de merge.",
+              "",
+              "Vejamo-lo em ação..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aqui temos dois ramos novamente; note que o ramo bugFix está atualmente ativo (veja o asterisco)",
+              "",
+              "Queremos mover nosso trabalho do bugFix diretamente dentro do master. Desta forma, vai parecer que esses dois recursos foram desenvolvidos sequencialmente, quando na realidade foram feitos em paralelo.",
+              "",
+              "Vamos fazê-lo com o comando `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "Incrível! Agora o trabalho do nosso ramo bugFix está logo após o do master, e temos uma linda sequência linear de commits.",
+              "",
+              "Perceba que o commit C3 ainda existe em algum lugar (ele está clareado na árvore), e que o C3' é a \"cópia\" que rebaseamos no master.",
+              "",
+              "O único problema é que o master não foi atualizado também, vamos fazê-lo agora..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Agora o ramo `master` está ativo. Vamos em frente, fazer rebase no `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Aí está! Como o `master` era um ancestral do `bugFix`, o git simplesmente moveu a referência do ramo `master` para frente na história."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, faça o seguinte",
+              "",
+              "* Faça checkout de um novo branch chamado `bugFix`",
+              "* Faça um commit",
+              "* Volte ao master e faça um novo commit",
+              "* Faça checkout do bugFix novamente e faça rebase no master",
+              "",
+              "Boa sorte!"
             ]
           }
         }

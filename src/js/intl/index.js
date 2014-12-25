@@ -12,6 +12,7 @@ var getDefaultLocale = exports.getDefaultLocale = function() {
 var headerLocaleMap = exports.headerLocaleMap = {
   'zh-CN': 'zh_CN',
   'zh-TW': 'zh_TW',
+  'pt-BR': 'pt_BR',
 };
 
 // resolve the messy mapping between browser language
@@ -24,6 +25,7 @@ var langLocaleMap = exports.langLocaleMap = {
   es: 'es_AR',
   fr: 'fr_FR',
   de: 'de_DE',
+  pt: 'pt_BR',
 };
 
 var fallbackMap = {

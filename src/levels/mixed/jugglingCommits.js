@@ -23,6 +23,7 @@ exports.level = {
     "de_DE": "Jonglieren mit Commits",
     "fr_FR": "Jongler avec les Commits",
     "es_AR": "Haciendo malabares con los commits",
+    "pt_BR": "Malabarismo com commits",
     "ja": "コミットをやりくりする",
     "zh_CN": "提交变换戏法",
     "zh_TW": "commit 的戲法"
@@ -32,6 +33,7 @@ exports.level = {
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
     "fr_FR": "La première commande est git rebase -i HEAD~2",
     "es_AR": "El primer comando es git rebase -i HEAD~2",
+    "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
     "zh_CN": "第一个命令是 'git rebase -i HEAD~2'",
@@ -156,6 +158,47 @@ exports.level = {
               "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Malabarismo com commits",
+              "",
+              "Aqui está outra situação que acontece com bastante frequência. Você fez algumas mudanças (`newImage`), além de um outro conjunto de mudanças (`caption`) que são relacionadas, de forma que elas estão empilhadas uma após a outra no seu repositório.",
+              "",
+              "O complicado é que algumas vezes você precisa fazer uma pequena modificação em um commit mais antigo. Neste caso, o pessoal do design quer que modifiquemos um pouco as dimensões da imagem introduzida em `newImage`, apesar de esse commit estar mais para trás no nosso histórico!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Superaremos essa dificuldade fazendo o seguinte:",
+              "",
+              "* Reordenaremos os commits de forma que aquele que desejamos esteja no topo, com `git rebase -i`",
+              "* Usaremos o comando `git commit --amend` para fazer uma pequena modificação",
+              "* Vamos, então, reordenar os commits na mesma ordem que estavam anteriormente com `git rebase -i`",
+              "* Finalmente, moveremos o master para essa parte atualizada da árvore para finalizar o nível (usando o método de sua escolha)",
+              "",
+              "Há muitas formas de alcançar o objetivo final (eu vejo o cherry-pick passando pela sua mente), e veremos mais delas depois, mas por enquanto foquemos nesta técnica."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Por último, preste atenção no estado do \"objetivo\" aqui -- como nós movemos os commits duas vezes, ambos ficam com um apóstrofo. Um apóstrofo adicional é colocado no commit que sofreu o \"amend\", o que nos dá a forma final da árvore ",
+              "",
+              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `master` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa"
             ]
           }
         }
