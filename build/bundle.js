@@ -10539,7 +10539,7 @@ GitEngine.prototype.commit = function(options) {
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = null;
 
-  // if we want to ammend, go one above
+  // if we want to amend, go one above
   if (options.isAmend) {
     targetCommit = this.resolveID('HEAD~1');
     id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
@@ -27594,7 +27594,7 @@ exports.level = {
               "Superaremos esta dificultad haciendo lo siguiente:",
               "",
               "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`",
-              "* Vamos a hacer `commit --ammend` para aplicar la ligera modificación",
+              "* Vamos a hacer `commit --amend` para aplicar la ligera modificación",
               "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
               "* Finalmente, vamos a mover master a esta parte actualizada de nuestor árbol de commits para terminar el nivel (usando el método que prefieras)",
               "",
