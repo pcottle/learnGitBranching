@@ -1528,7 +1528,7 @@ GitEngine.prototype.commit = function(options) {
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = null;
 
-  // if we want to ammend, go one above
+  // if we want to amend, go one above
   if (options.isAmend) {
     targetCommit = this.resolveID('HEAD~1');
     id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
