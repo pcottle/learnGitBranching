@@ -124,7 +124,7 @@ exports.level = {
               "",
               "Todas estas cosas de imprimir y debuggear estan en su propia rama. Finalmente encuentro el problema, lo soluciono, ¡y disfruto!",
               "",
-              "El único problema es que ahora necesito llear mi `bugFix` a la rama `master`. Si simplemente fast-forwardeo `master`, entonces `master` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
+              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `master`. Si simplemente fast-forwardeo `master`, entonces `master` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
             ]
           }
         },
