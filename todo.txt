@@ -84,7 +84,7 @@ Done things:
 [x] fix branch -f to not allow moving remote branches?
 [x] fix checkout to: if you go to __remoteBranch, it just goes to the commit since its read-only.
 [x] is remote (custom getter)
-[x] hash agnotisc comparison with asserts for ammends
+[x] hash agnotisc comparison with asserts for amends
 [x] level builder intl aware
 [x] rest of views/index translation
 [x] git/index.js translation -- rest of the strings
