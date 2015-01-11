@@ -335,7 +335,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在講到 `git fetch` 的細節之前，我們要先來看一下例子! 在這裡我們有一個新增了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
+              "在講到 `git fetch` 的細節之前，我們要先來看一下例子！在這裡我們有一個新增了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
             ],
             "afterMarkdowns": [
               "看吧！commit `C2` 以及 `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/master` 也更新了。"

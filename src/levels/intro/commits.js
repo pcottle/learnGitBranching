@@ -389,7 +389,7 @@ exports.level = {
               "",
               "git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 parent commit，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
               "",
-              "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不占空間且可以快速切換！"
+              "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不佔空間且可以快速切換！"
             ]
           }
         },

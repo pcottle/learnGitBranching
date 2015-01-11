@@ -246,7 +246,7 @@ exports.level = {
               "",
               "現在你已經很熟悉 fetch、pull 以及 push，讓我們來針對一個新的問題來應用這些技巧。",
               "",
-              "在一個大型的專案裡面，程式設計師經常會在 feature branch（有別於 master branch） 上面做開發，之後等開發完之後，在一次 merge 回去。這跟之前的課程是很類似的（其它的 branch 被 push 到 remote），但是現在我們還要再多介紹一個步驟。",
+              "在一個大型的專案裡面，程式設計師經常會在 feature branch（有別於 master branch）上面做開發，之後等開發完之後，在一次 merge 回去。這跟之前的課程是很類似的（其它的 branch 被 push 到 remote），但是現在我們還要再多介紹一個步驟。",
               "",
               "某些程式設計師只針對 `master` branch 進行 push 或者是 pull。這樣子的話 `master` 一直都保持跟 remote （`o/master`） 同步。",
               "",
