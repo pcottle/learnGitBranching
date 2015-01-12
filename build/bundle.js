@@ -7787,9 +7787,9 @@ exports.dialog = {
         '## 歡迎光臨 LearnGitBranching!',
         '',
         '本應用旨在幫助初學者領會 git 分支背後的強大概念。',
-        '希望你能喜歡这个應用，並學到知識！',
+        '希望你能喜歡這個應用，並學到知識！',
         '',
-        '# 演示!',
+        '# 演示！',
         '',
         '如果你還沒看過演示，請到此查看：',
         '',
@@ -7806,7 +7806,7 @@ exports.dialog = {
       markdowns: [
         '## Git 命令',
         '',
-        '在沙盒模式中，你有好多指令可用。 包括：',
+        '在沙盒模式中，你有很多指令可用。包括：',
         '',
         ' * commit',
         ' * branch',
@@ -13394,7 +13394,7 @@ exports.strings = {
     'en_US': 'Usage:',
     'de_DE': 'Benutzung:',
     'zh_CN': '使用:',
-    'zh_TW': '用法:',
+    'zh_TW': '用法：',
     'es_AR': 'Uso:',
     'pt_BR': 'Uso:',
     'fr_FR': 'Utilisation :'
@@ -23985,7 +23985,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
       'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
       'zh_CN': '循序渐进介绍git主要命令',
-      'zh_TW': '循序漸進地介绍 git 主要命令',
+      'zh_TW': '循序漸進地介紹 git 主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },
@@ -24008,7 +24008,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
-      'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
+      'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！'
     }
   },
   remote: {
@@ -24080,7 +24080,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
-      'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'
+      'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！'
     }
   },
   mixed: {
@@ -24718,7 +24718,7 @@ exports.level = {
             "markdowns": [
               "## git 的 branch",
               "",
-              " git 的 branch 非常不占空間。它們只是一個指向某個 commit 的 reference，就這麼簡單。所以許多 git 的愛好者會建議：",
+              " git 的 branch 非常不佔空間。它們只是一個指向某個 commit 的 reference，就這麼簡單。所以許多 git 的愛好者會建議：",
               "",
               "```",
               "早點建立 branch！經常建立 branch！",
@@ -25261,7 +25261,7 @@ exports.level = {
               "",
               "git 會保存 commit 的歷史紀錄，所以，絕大部分的 commit 的上面都會有 parent commit，在我們的圖形表示中，箭頭方向表示從 parent commit 到所對應的 child commit，保存這樣子的一個歷史紀錄是非常有用的。",
               "",
-              "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不占空間且可以快速切換！"
+              "要學的東西有很多，但現在你可以把 commit 當作是當下的 project 的快照。commit 不佔空間且可以快速切換！"
             ]
           }
         },
@@ -26503,7 +26503,7 @@ exports.level = {
               "* 建立 `bugFix` branch",
               "* commit 一次",
               "* 切換回 master branch 再 commit 一次",
-              "* 再次切換到 bugFix branch，接著 rebase bugFix 這個 branch  到 master branch 上",
+              "* 再次切換到 bugFix branch，接著 rebase bugFix 這個 branch 到 master branch 上",
               "",
               "祝你好運啦！"
             ]
@@ -27390,7 +27390,7 @@ exports.level = {
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "來完成這個目的"
+              "來完成這個目的。"
             ]
           }
         },
@@ -27398,7 +27398,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到"
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到。"
             ]
           }
         }
@@ -27807,7 +27807,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "啊!最後還要提醒你一下最後所產生的 commit tree，因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
+              "啊！最後還要提醒你一下最後所產生的 commit tree，因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
             ]
           }
         }
@@ -28206,7 +28206,7 @@ exports.level = {
               "",
               "如你在上一個關卡所看到的，我們使用 `rebase -i` 來重新排列那些 commit。只要把我們想要修改的 commit 移到最前面，我們就可以很容易地重新修改它，然後再把它們重新排成我們想要的順序。",
               "",
-              "但唯一的問題就是這樣做就要排很多次，有可能造成 rebase conflict。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧!"
+              "但唯一的問題就是這樣做就要排很多次，有可能造成 rebase conflict。下面就看看用另外一種方法 `git cherry-pick` 是怎麼做的吧！"
             ]
           }
         },
@@ -32810,7 +32810,7 @@ exports.level = {
               "",
               "remote (遠端) repository 並不會很難了解. 藉由現在的雲端運算，可以很輕易地了解到在 git remote 裡面有很多有趣的事情，但它們其實其實就只是你的或者是其它電腦上的 repository 的副本。你可以輕易地透過網路去發送你的 commit 給其它的電腦。",
               "",
-              "也就是說， remote repository 有很多有趣的地方：",
+              "也就是說，remote repository 有很多有趣的地方：",
               "",
               "- 第一，remote 是用來備份的! 本地端的 git 有能力可以回復文件到前一個狀態 (你知道的)，但是全部的資訊還是儲存在本地端。如果你在其它的電腦上面有你的 git repository 的副本，則你可以在資料不小心遺失的時候進行救援備份",
               "",
@@ -33281,7 +33281,7 @@ exports.level = {
             "markdowns": [
               "## 模擬合作",
               "",
-              "接下來的課程有一個很難的事情，我們需要讓你學會如何 pull remote 上的更新 。",
+              "接下來的課程有一個很難的事情，我們需要讓你學會如何 pull remote 上的更新。",
               "",
               "這就表示我們必須要 \"假裝\" remote 被你其中一個同事/ 朋友/ 合作的人在某個特定的 branch 上面送了一些特定的 commit。",
               "",
@@ -33776,7 +33776,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在講到 `git fetch` 的細節之前，我們要先來看一下例子! 在這裡我們有一個新增了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
+              "在講到 `git fetch` 的細節之前，我們要先來看一下例子！在這裡我們有一個新增了兩個 commit 的 remote repository，而且我們的 local repository 並沒有包含這兩個 commit。"
             ],
             "afterMarkdowns": [
               "看吧！commit `C2` 以及 `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/master` 也更新了。"
@@ -35485,9 +35485,9 @@ exports.level = {
             "markdowns": [
               "想像一下你在星期一的時候 clone 了一個 repo，並且開始在設計一個功能，在星期五的時候你準備好要發佈你的新功能，但是非常不幸地，你的同事已經寫了一連串的程式碼並且已經將 commit 發佈到 remote，所以現在*你的*進度是在一個比較*舊*的版本的後面（如果與 remote 比較的話啦！）。",
               "",
-              "在這種情況底下，使用 `git push` 會有問題，如果你使用 `git push`，那麼 git 應該要把 remote 退回到星期一的狀態？ 它應該要把你所寫好的程式碼一起更新進去，同時不會影響你的同事寫好的程式碼？ 或者是他應該要因為版本比較舊而完全忽略你的程式碼？",
+              "在這種情況底下，使用 `git push` 會有問題，如果你使用 `git push`，那麼 git 應該要把 remote 退回到星期一的狀態？它應該要把你所寫好的程式碼一起更新進去，同時不會影響你的同事寫好的程式碼？或者是他應該要因為版本比較舊而完全忽略你的程式碼？",
               "",
-              "因為在這種情況下會很麻煩（當 git 歷史紀錄被 diverge 了）， 所以 git 不會允許你 `push` 你的 commit。在你上傳你的 commit 之前，它實際上會先強迫你先跟 remote 同步。"
+              "因為在這種情況下會很麻煩（當 git 歷史紀錄被 diverge 了），所以 git 不會允許你 `push` 你的 commit。在你上傳你的 commit 之前，它實際上會先強迫你先跟 remote 同步。"
             ]
           }
         },
@@ -36520,7 +36520,7 @@ exports.level = {
               "* `git merge o/master`",
               "* 等等‧‧‧",
               "",
-              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！ 這個命令叫作 `git pull`。"
+              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！這個命令叫作 `git pull`。"
             ]
           }
         },
@@ -37015,7 +37015,7 @@ exports.level = {
               "",
               "現在你已經知道關於 `git fetch` 以及 `git push` 的*任何參數*，但是我們還可以再聊聊 `git pull`:)",
               "",
-              "那是因為 `git pull` 到目前為止*的確*只是表示 fetch 之後再 merge 所 fetch 的 commit， 你可以把它想成，當使用 `git fetch` 時使用*一樣*的參數，之後再從 fetch 下來的 commit *所放置*的位置做 merge。",
+              "那是因為 `git pull` 到目前為止*的確*只是表示 fetch 之後再 merge 所 fetch 的 commit，你可以把它想成，當使用 `git fetch` 時使用*一樣*的參數，之後再從 fetch 下來的 commit *所放置*的位置做 merge。",
               "",
               "這同樣也適用於當你指定相當複雜的參數，讓我們來看一些例子："
             ]
@@ -37050,7 +37050,7 @@ exports.level = {
               "如果我們在 fetch 的時候有指定`位置`的話，跟之前一樣，fetch 所做的事情沒有變，但是我們會 merge 我們剛剛所 fetch 的該`位置`的commit。"
             ],
             "afterMarkdowns": [
-              "看吧！ 指定位置為 `master`，跟平常一樣，我們下載了 commit 並且放到 `o/master` 上，接著，我們會 merge `o/master` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
+              "看吧！指定位置為 `master`，跟平常一樣，我們下載了 commit 並且放到 `o/master` 上，接著，我們會 merge `o/master` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -37063,7 +37063,7 @@ exports.level = {
               "他是不是也可以同時指定 source 以及 destination？你說對了啦！讓我們來看一下："
             ],
             "afterMarkdowns": [
-                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `master` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。 這實在是在超過了！！！"
+                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `master` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。這實在是太超過了！！！"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -37434,7 +37434,7 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "ok，現在我已經從 remote 下載了一些更新，並且把它們 merge 到我的 local 上面的 branch，這聽起來實在太讚了...，但是我要如何分享_我_所做的更新給其它人呢?",
+              "ok，現在我已經從 remote 下載了一些更新，並且把它們 merge 到我的 local 上面的 branch，這聽起來實在太讚了...，但是我要如何分享_我_所做的更新給其它人呢？",
               "",
               "喔，其實上傳並且分享更新跟下載更新並且 merge 是相反的兩件事情，那什麼是 `git pull` 的相反呢？ 那就是 `git push`！",
               "",
@@ -37912,7 +37912,7 @@ exports.level = {
               "讓我們來看一個有加上參數的例子，在這個例子中，要特別注意到我們所 checkout 的位置。"
             ],
             "afterMarkdowns": [
-              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了"
+              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了。"
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -38418,7 +38418,7 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "這通常被稱為一個 colon （冒號） refspec. refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
+              "這通常被稱為一個 colon （冒號） refspec，refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
               "",
               "一旦你單獨指定了 source 以及 destination，你可以看到花俏且準確的指令。讓我來來看一個例子！"
             ]
@@ -38431,7 +38431,7 @@ exports.level = {
               "記住， `source` 表示任意可以被 git 辨識的位置："
             ],
             "afterMarkdowns": [
-              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。 "
+              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。"
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -38854,7 +38854,7 @@ exports.level = {
               "",
               "現在你已經很熟悉 fetch、pull 以及 push，讓我們來針對一個新的問題來應用這些技巧。",
               "",
-              "在一個大型的專案裡面，程式設計師經常會在 feature branch（有別於 master branch） 上面做開發，之後等開發完之後，在一次 merge 回去。這跟之前的課程是很類似的（其它的 branch 被 push 到 remote），但是現在我們還要再多介紹一個步驟。",
+              "在一個大型的專案裡面，程式設計師經常會在 feature branch（有別於 master branch）上面做開發，之後等開發完之後，在一次 merge 回去。這跟之前的課程是很類似的（其它的 branch 被 push 到 remote），但是現在我們還要再多介紹一個步驟。",
               "",
               "某些程式設計師只針對 `master` branch 進行 push 或者是 pull。這樣子的話 `master` 一直都保持跟 remote （`o/master`） 同步。",
               "",
@@ -39881,7 +39881,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
     "zh_CN": "记住，有两种设置 remote tracking 的方法!",
-    "zh_TW": " 記住喔，有兩個方式可以去設定 remote tracking",
+    "zh_TW": "記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "pt_BR": "Lembre-se que há duas formas de seguir um ramo remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
@@ -40711,4 +40711,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,73,72,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
