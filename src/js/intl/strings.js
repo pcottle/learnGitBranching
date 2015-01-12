@@ -542,7 +542,7 @@ exports.strings = {
     'en_US': 'Usage:',
     'de_DE': 'Benutzung:',
     'zh_CN': '使用:',
-    'zh_TW': '用法:',
+    'zh_TW': '用法：',
     'es_AR': 'Uso:',
     'pt_BR': 'Uso:',
     'fr_FR': 'Utilisation :'

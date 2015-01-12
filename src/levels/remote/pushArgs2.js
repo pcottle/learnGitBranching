@@ -329,7 +329,7 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "這通常被稱為一個 colon （冒號） refspec. refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
+              "這通常被稱為一個 colon （冒號） refspec，refspec 只是一個表示 location （位置） 的花俏的名稱，這個位置可以被 git 辨別（例如 `foo` branch 或是 `HEAD~1`）。",
               "",
               "一旦你單獨指定了 source 以及 destination，你可以看到花俏且準確的指令。讓我來來看一個例子！"
             ]
@@ -342,7 +342,7 @@ exports.level = {
               "記住， `source` 表示任意可以被 git 辨識的位置："
             ],
             "afterMarkdowns": [
-              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。 "
+              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。"
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"

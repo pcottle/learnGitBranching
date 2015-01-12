@@ -72,7 +72,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
       'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
       'zh_CN': '循序渐进介绍git主要命令',
-      'zh_TW': '循序漸進地介绍 git 主要命令',
+      'zh_TW': '循序漸進地介紹 git 主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다'
     }
   },
@@ -95,7 +95,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
-      'zh_TW': '接下来是 git 非常厲害的地方！相信你已經迫不及待了吧！'
+      'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！'
     }
   },
   remote: {
@@ -167,7 +167,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
-      'zh_TW': '大家都在說的 rebase 到底是什麼阿？來看看吧！'
+      'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！'
     }
   },
   mixed: {
