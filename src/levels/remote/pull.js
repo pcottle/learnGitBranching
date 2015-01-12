@@ -276,7 +276,7 @@ exports.level = {
               "* `git merge o/master`",
               "* 等等‧‧‧",
               "",
-              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！ 這個命令叫作 `git pull`。"
+              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！這個命令叫作 `git pull`。"
             ]
           }
         },

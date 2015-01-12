@@ -357,7 +357,7 @@ exports.level = {
               "讓我們來看一個有加上參數的例子，在這個例子中，要特別注意到我們所 checkout 的位置。"
             ],
             "afterMarkdowns": [
-              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了"
+              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了。"
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"

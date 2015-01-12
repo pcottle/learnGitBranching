@@ -336,7 +336,7 @@ exports.level = {
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "來完成這個目的"
+              "來完成這個目的。"
             ]
           }
         },
@@ -344,7 +344,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到"
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到。"
             ]
           }
         }

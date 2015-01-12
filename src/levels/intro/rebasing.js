@@ -553,7 +553,7 @@ exports.level = {
               "* 建立 `bugFix` branch",
               "* commit 一次",
               "* 切換回 master branch 再 commit 一次",
-              "* 再次切換到 bugFix branch，接著 rebase bugFix 這個 branch  到 master branch 上",
+              "* 再次切換到 bugFix branch，接著 rebase bugFix 這個 branch 到 master branch 上",
               "",
               "祝你好運啦！"
             ]

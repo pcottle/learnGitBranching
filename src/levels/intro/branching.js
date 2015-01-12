@@ -576,7 +576,7 @@ exports.level = {
             "markdowns": [
               "## git 的 branch",
               "",
-              " git 的 branch 非常不占空間。它們只是一個指向某個 commit 的 reference，就這麼簡單。所以許多 git 的愛好者會建議：",
+              " git 的 branch 非常不佔空間。它們只是一個指向某個 commit 的 reference，就這麼簡單。所以許多 git 的愛好者會建議：",
               "",
               "```",
               "早點建立 branch！經常建立 branch！",
