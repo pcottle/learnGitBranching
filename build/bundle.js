@@ -12931,7 +12931,7 @@ exports.strings = {
   'hg-error-no-status': {
     '__desc__': 'One of the errors for hg',
     'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
-    'zh_CN': '本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用hg summary代替哦',
+    'zh_CN': '本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用 hg summary 代替哦',
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'pt_BR': 'Não existe um comando status para este aplicativo, já que não há staging de arquivos. Tente hg summary',
     'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
@@ -13522,7 +13522,7 @@ exports.strings = {
     '__desc__': 'When you are importing a level or tree',
     'en_US': 'Paste a JSON blob below!',
     'de_DE': 'Füg einen JSON-Blob unten ein!',
-    'zh_CN': '在下边粘贴一个JSON串',
+    'zh_CN': '在下边粘贴一个 JSON 串',
     'zh_TW': '在下方貼上一串 JSON',
     'es_AR': '¡Pegá un blob JSON abajo!',
     'pt_BR': 'Cole o JSON abaixo!',
@@ -13599,7 +13599,7 @@ exports.strings = {
     '__desc__': 'when you have made the level, prompt to share this',
     'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
     'de_DE': 'Hier ist das JSON für diesen Level! Teil es mit jemandem or schick es mir über Github',
-    'zh_CN': '这是一个关卡定义JSON！您可以分享它或者发到我的GitHub上',
+    'zh_CN': '这是一个关卡定义 JSON ！您可以分享它或者发到我的 Github 上',
     'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 Github 上給我',
     'es_AR': 'Este es el JSON de este nivel. Compartilo con quien quieras o mandámelo por Github',
     'pt_BR': 'Aqui está o JSON para este nível! Compartilhe com alguém ou me envie pelo Github',
@@ -13795,8 +13795,8 @@ exports.strings = {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
     'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!',
     'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, bitte teil sie mit auf Github mit!',
-    'zh_CN': '还没翻译 {key} :( 请在gitHub上贡献你的翻译!',
-    'zh_TW': '還沒翻譯 {key} :( 請在gitHub上貢獻你的翻譯!',
+    'zh_CN': '还没翻译 {key} :( 请在 Github 上贡献您的翻译!',
+    'zh_TW': '還沒翻譯 {key} :( 請在 Github 上貢獻您的翻譯!',
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
     'pt_BR': 'Não existe tradução para {key} :( Pule no Github e sugira uma! :)',
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !'
@@ -13806,8 +13806,8 @@ exports.strings = {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
     'de_DE': 'Dieser Dialog oder Text ist noch nicht in deine Sprache übersetzt. :( Schau auf Github vorbei um bei der Übersetzung zu helfen!',
-    'zh_CN': '这段对话还没有被翻译成你的语言 :( 欢迎在gitHub上贡献你的翻译!',
-    'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 github 貢獻翻譯！',
+    'zh_CN': '这段对话还没有被翻译成您的语言 :( 欢迎在 Github 上贡献你的翻译!',
+    'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 Github 貢獻翻譯！',
     'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
     'pt_BR': 'Esta mensagem ou texto não foi traduzida para Português :( Ajude-nos a traduzir no Github!',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
@@ -40711,4 +40711,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,73,72,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
