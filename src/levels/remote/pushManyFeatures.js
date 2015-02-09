@@ -305,7 +305,7 @@ exports.level = {
               "",
               "Für diesen Ablauf werden wir also zwei Dinge kombinieren:",
               "",
-              "* einen Feature Bran in `master` reintegrieren und",
+              "* einen Feature Branch in `master` reintegrieren und",
               "* vom entfernten Server pushen und pullen."
             ]
           }
