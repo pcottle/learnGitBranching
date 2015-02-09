@@ -19,8 +19,9 @@ var indexTemplate = _.template(indexFile);
  * and define the strings here.
  */
 
+// Cant access googleapis in China :-/ 
 var prodDependencies = [
-  '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>',
+  '<script src="lib/jquery-1.8.0.min.js"></script>',
   '<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>',
   '<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>',
   '<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>'
@@ -28,10 +29,8 @@ var prodDependencies = [
 
 var devDependencies = [
   '<script src="lib/jquery-1.8.0.min.js"></script>',
-  '<script src="lib/jquery-ui-1.9.0.custom.min.js"></script>',
   '<script src="lib/underscore-min.js"></script>',
   '<script src="lib/backbone-min.js"></script>',
-  '<script src="lib/backbone.localStorage-min.js"></script>',
   '<script src="lib/raphael-min.js"></script>'
 ];
 
