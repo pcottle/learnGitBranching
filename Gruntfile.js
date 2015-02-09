@@ -13,6 +13,28 @@ _.templateSettings.evaluate = /\{\{-(.*?)\}\}/g;
 var indexFile = fs.readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
 
+/**
+ * This is SUPER jank but I cant get the underscore templating to evaluate
+ * correctly with custom regexes, so I'm just going to use interpolate
+ * and define the strings here.
+ */
+
+var prodDependencies = [
+  '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>',
+  '<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>',
+  '<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>',
+  '<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>'
+];
+
+var devDependencies = [
+  '<script src="lib/jquery-1.8.0.min.js"></script>',
+  '<script src="lib/jquery-ui-1.9.0.custom.min.js"></script>',
+  '<script src="lib/underscore-min.js"></script>',
+  '<script src="lib/backbone-min.js"></script>',
+  '<script src="lib/backbone.localStorage-min.js"></script>',
+  '<script src="lib/raphael-min.js"></script>'
+];
+
 /*global module:false*/
 module.exports = function(grunt) {
   // eventually have sound...?
@@ -32,7 +54,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('buildIndex', 'stick in hashed resources', function() {
+  var buildIndex = function(config) {
     grunt.log.writeln('Building index...');
 
     // first find the one in here that we want
@@ -73,10 +95,16 @@ module.exports = function(grunt) {
     // output these filenames to our index template
     var outputIndex = indexTemplate({
       jsFile: hashedMinFile,
-      styleFile: hashedStyleFile
+      styleFile: hashedStyleFile,
+      jsDependencies: config.isProd ?
+        prodDependencies.join("\n") :
+        devDependencies.join("\n")
     });
     fs.writeFileSync('index.html', outputIndex);
-  });
+  };
+
+  grunt.registerTask('buildIndex', 'stick in hashed resources', buildIndex.bind(null, {isProd: true}));
+  grunt.registerTask('buildIndexDev', 'stick in hashed resources', buildIndex.bind(null, {isProd: false}));
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -197,7 +225,7 @@ module.exports = function(grunt) {
     ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
   );
   grunt.registerTask('lint', ['jshint', 'compliment']);
-  grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndex', 'jshint']);
+  grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndexDev', 'jshint']);
   grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
   grunt.registerTask('default', ['build']);
