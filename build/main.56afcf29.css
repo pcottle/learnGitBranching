@@ -10,7 +10,7 @@ body {
 }
 
 html, body {
-  font-family: Monaco, Courier, font-monospace;
+  font-family: Monaco, Courier, monospace;
   color: #eee;
 }
 
