@@ -88,11 +88,20 @@ exports.level = {
               "This will put us on the new branch before committing our changes"
             ],
             "afterMarkdowns": [
-              "There we go! Our changes were recorded on the new branch"
-            ],
+              "There we go! Our changes were recorded on the new branch.",
+              ""
+             ],
             "command": "git checkout newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
+        },
+         {
+            "type": "ModalAlert",
+            "options": {
+                "markdowns": [
+                  "Here's a shortcut: if you want to create a new branch AND check it out at the same time, you can simply type git checkout -b [yourbranchname].  "
+                ]
+            }
         },
         {
           "type": "ModalAlert",
