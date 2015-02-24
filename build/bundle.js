@@ -25386,7 +25386,7 @@ exports.level = {
               "* Commit another time",
               "* Merge the branch `bugFix` into `master` with `git merge`",
               "",
-              "*Remember, you can always re-display this dialog with \"help level\"!*"
+              "*Remember, you can always re-display this dialog with \"objective\"!*"
             ]
           }
         }
@@ -25455,7 +25455,7 @@ exports.level = {
               "* Mach noch einen Commit",
               "* Merge den Branch `bugFix` in `master` mit `git merge`",
               "",
-              "*Denk dran, du kannst diese Meldung mit dem Befehl `help level` so oft anzeigen, wie du willst!*"
+              "*Denk dran, du kannst diese Meldung mit dem Befehl `objective` so oft anzeigen, wie du willst!*"
             ]
           }
         }
@@ -25524,7 +25524,7 @@ exports.level = {
               "* もう1回コミットする",
               "* `git merge`コマンドを使って、`bugFix`ブランチを`master`ブランチへとマージする",
               "",
-              "*注：\"help level\"コマンドでこのヘルプにいつでも戻ってこれます*"
+              "*注：\"objective\"コマンドでこのヘルプにいつでも戻ってこれます*"
             ]
           }
         }
@@ -25593,7 +25593,7 @@ exports.level = {
               "* Hacé otro commit",
               "* Mergeá la rama `bugFix` a `master` usando `git merge`",
               "",
-              "*Acordate: siempre podés volver a ver este mensaje tipeando \"help level\"!*"
+              "*Acordate: siempre podés volver a ver este mensaje tipeando \"objective\"!*"
             ]
           }
         }
@@ -25662,7 +25662,7 @@ exports.level = {
               "* Faça um novo commit",
               "* Junte o ramo `bugFix` no `master` com `git merge`",
               "",
-              "*Lembre-se, você pode sempre mostrar esta mensagem novamente com o comando \"help level\"!*"
+              "*Lembre-se, você pode sempre mostrar esta mensagem novamente com o comando \"objective\"!*"
             ]
           }
         }
@@ -25676,9 +25676,9 @@ exports.level = {
             "markdowns": [
               "## Branches et Merges",
               "",
-                "Super! Nous savons désormais comment faire des commits et de branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
+                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
               "",
-              "La première méthode que nous alons voir pour combiner le conenu de deux branches est `git merge`. Faire un 'merge' en Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le conenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
+              "La première méthode que nous allons voir pour combiner le contenu de deux branches est `git merge`. Faire un 'merge' avec Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le contenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
               "",
               "C'est plus facile en visualisant, regardons dans la vue suivante"
             ]
@@ -25688,12 +25688,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ici nous avons deux deux branches ; chacune a un commit qui lui est propre. Cela signifie qu'aucune des deux branches n'inclut la totalité du \"travail\" qui a été fait dans le dépôt. Arrangeons-cela avec merge.",
+              "Ici nous avons deux branches ; chacune a un commit qui lui est propre. Cela signifie qu'aucune des deux branches n'inclut la totalité du \"travail\" qui a été fait dans le dépôt. Arrangeons-cela avec merge.",
               "",
               "Nous allons `merge` («fusionner») la branche `bugFix` dans `master`"
             ],
             "afterMarkdowns": [
-              "Youhou! Vous avez vu ça ? Avant tout, `master` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `master`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `master` contient maintenant tout le travail du dépôt.",
+              "Youhou ! Vous avez vu ça ? Avant tout, `master` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `master`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `master` contient maintenant tout le travail du dépôt.",
               "",
               "Par ailleurs, avez-vous remarqué les nouvelles couleurs des commits ? Pour faciliter l'apprentissage, j'ai inclus une certaine logique dans la coloration. Chaque branche a une unique couleur. Chaque commit est de la couleur de toutes les branches qui le contiennent.",
               "",
@@ -25710,7 +25710,7 @@ exports.level = {
               "Faisons un merge  de `master` dans `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer ; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
               "",
               "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],
@@ -25731,7 +25731,7 @@ exports.level = {
               "* Faites un nouveau commit",
               "* Fusionnez la branche `bugFix` dans `master` avec `git merge`",
               "",
-              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"help level\"!*"
+              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"objective\"!*"
             ]
           }
         }
@@ -25800,7 +25800,7 @@ exports.level = {
               "* 再提交一次",
               "* 用 `git merge` 合并 `bugFix`分支进 `master`",
               "",
-              "*记住，总是可以用 \"help level\" 命令来重新显示这个对话框！*"
+              "*记住，总是可以用 \"objective\" 命令来重新显示这个对话框！*"
             ]
           }
         }
@@ -25869,7 +25869,7 @@ exports.level = {
               "* 再 commit 一次",
               "* 用 `git merge`  將 `bugFix` merge 到 `master`",
               "",
-              "*記住，你可以用 \"help level\" 指令來重新顯示這個對話框！*"
+              "*記住，你可以用 \"objective\" 指令來重新顯示這個對話框！*"
             ]
           }
         }
@@ -25938,7 +25938,7 @@ exports.level = {
               "* 커밋 또 하세요",
               "* `git merge` 명령어로 `bugFix`브랜치를 `master`에 합쳐 넣습니다.",
               "",
-              "*아 그리고, \"help level\" 명령어로 이 안내창을 다시 볼 수 있다는 것을 기억해 두세요!*"
+              "*아 그리고, \"objective\" 명령어로 이 안내창을 다시 볼 수 있다는 것을 기억해 두세요!*"
             ]
           }
         }
