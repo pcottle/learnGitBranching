@@ -27100,7 +27100,7 @@ exports.level = {
               "",
               "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
               "",
-              "All of these debugging / print statements are in their own branches. Finally I track down the bug, fix it, and rejoice!",
+              "All of these debugging / print statements are in their own commits. Finally I track down the bug, fix it, and rejoice!",
               "",
               "Only problem is that I now need to get my `bugFix` back into the `master` branch. If I simply fast-forwarded `master`, then `master` would get all my debug statements which is undesirable. There has to be another way..."
             ]
