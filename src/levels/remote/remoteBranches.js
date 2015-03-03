@@ -47,7 +47,7 @@ exports.level = {
             "markdowns": [
               "### What is `o/`?",
               "",
-              "You maybe wondering what the leading `o/` is for on these remote branches. Well, remote branches also have a (required) naming convention -- they are displayed in the format of:",
+              "You may be wondering what the leading `o/` is for on these remote branches. Well, remote branches also have a (required) naming convention -- they are displayed in the format of:",
               "",
               "* `<remote name>/<branch name>`",
               "",
