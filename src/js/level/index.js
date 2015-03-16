@@ -47,6 +47,7 @@ var Level = Sandbox.extend({
 
     this.gitCommandsIssued = [];
     this.solved = false;
+    this.wasResetAfterSolved = false;
 
     this.initGoalData(options);
     this.initName(options);
@@ -427,14 +428,29 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    GlobalState.isAnimating = true;
-    var skipFinishDialog = this.testOption('noFinishDialog');
-    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
-    if (this.mainVis.originVis) {
-      finishAnimationChain = finishAnimationChain.then(
-        this.mainVis.originVis.gitVisuals.finishAnimation()
+    var skipFinishDialog = this.testOption('noFinishDialog') ||
+      this.wasResetAfterSolved;
+    var skipFinishAnimation = this.wasResetAfterSolved;
+
+    var finishAnimationChain = null;
+    if (skipFinishAnimation) {
+      var deferred = Q.defer();
+      deferred.resolve();
+      finishAnimationChain = deferred.promise;
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'echo "level solved!"'
       );
+    } else {
+      GlobalState.isAnimating = true;
+      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+      if (this.mainVis.originVis) {
+        finishAnimationChain = finishAnimationChain.then(
+          this.mainVis.originVis.gitVisuals.finishAnimation()
+        );
+      }
     }
+
     if (!skipFinishDialog) {
       finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
@@ -512,6 +528,9 @@ var Level = Sandbox.extend({
     var commandStr = (command) ? command.get('rawStr') : '';
     if (!this.testOptionOnString(commandStr, 'forSolution')) {
       this.isShowingSolution = false;
+    }
+    if (this.solved) {
+      this.wasResetAfterSolved = true;
     }
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
