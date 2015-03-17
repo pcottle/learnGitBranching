@@ -14489,6 +14489,7 @@ var Level = Sandbox.extend({
 
     this.gitCommandsIssued = [];
     this.solved = false;
+    this.wasResetAfterSolved = false;
 
     this.initGoalData(options);
     this.initName(options);
@@ -14869,14 +14870,29 @@ var Level = Sandbox.extend({
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
-    GlobalState.isAnimating = true;
-    var skipFinishDialog = this.testOption('noFinishDialog');
-    var finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
-    if (this.mainVis.originVis) {
-      finishAnimationChain = finishAnimationChain.then(
-        this.mainVis.originVis.gitVisuals.finishAnimation()
+    var skipFinishDialog = this.testOption('noFinishDialog') ||
+      this.wasResetAfterSolved;
+    var skipFinishAnimation = this.wasResetAfterSolved;
+
+    var finishAnimationChain = null;
+    if (skipFinishAnimation) {
+      var deferred = Q.defer();
+      deferred.resolve();
+      finishAnimationChain = deferred.promise;
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'echo "level solved!"'
       );
+    } else {
+      GlobalState.isAnimating = true;
+      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+      if (this.mainVis.originVis) {
+        finishAnimationChain = finishAnimationChain.then(
+          this.mainVis.originVis.gitVisuals.finishAnimation()
+        );
+      }
     }
+
     if (!skipFinishDialog) {
       finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
@@ -14954,6 +14970,9 @@ var Level = Sandbox.extend({
     var commandStr = (command) ? command.get('rawStr') : '';
     if (!this.testOptionOnString(commandStr, 'forSolution')) {
       this.isShowingSolution = false;
+    }
+    if (this.solved) {
+      this.wasResetAfterSolved = true;
     }
     this.solved = false;
     Level.__super__.reset.apply(this, arguments);
@@ -40711,4 +40730,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,55,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
