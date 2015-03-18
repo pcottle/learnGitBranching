@@ -14,7 +14,8 @@ exports.level = {
     "es_AR": "Introducción a cherry-pick",
     "pt_BR": "Introdução ao cherry-pick",
     "zh_CN": "介绍 Cherry-pick",
-    "zh_TW": "介紹 cherry-pick"
+    "zh_TW": "介紹 cherry-pick",
+    "ru_RU": "Cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivis par les noms de commits",
@@ -24,7 +25,8 @@ exports.level = {
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "pt_BR": "git cherry-pick seguido dos nomes dos commits",
     "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
-    "zh_TW": "git cherry-pick 後面要接著 commit 的名稱"
+    "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
+    "ru_RU": "git cherry-pick основывается на именах коммитов!"
   },
   "startDialog": {
     "en_US": {
@@ -475,6 +477,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルをクリアするには、３つのブランチからmasterにコードをコピーしてください。どのコミットを取得するかについてはゴールのビジュアライズをみてください。",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Поперемещаем изменения",
+              "",
+              "Итак, мы уже освоили основы Git: коммиты, ветки, перемещение по дереву изменений. Уже этих знаний достаточно, чтобы овладеть 90% мощу Git-репозиториев и покрыть нужды разработчиков.",
+              "",
+              "А оставщиеся 10% будут очень полезны при сложных workfow (или если ты попал в сложную ситуацию). Теперь речь пойдёт о перемещении изменений, другими словами, возможности, позволяющие разработчику сказать \"Хочу, чтобы эти изменения были вот тут, а вот эти вот тут\" и получить точные, правильные результаты, не теряя при этому гибкости разработки.",
+              "",
+              "На первый взгляд запутано, но на самом деле всё просто."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Первая из таких команд - это git cherry-pick`. Она выглядит вот так:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Это очень простой и прямолинейный способ сказать, что ты хочешь копировать несколько коммтов на место, где сейчас находишься (`HEAD`). Мы обожаем `cherry-pick` за то, что в нём очень мало магии и его очень просто понять и применять.",
+              "",
+              "Посмотрим на демонстрацию.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Вот репозиторий, где есть некие изменения в ветке `side`, которые мы хотим применить и в ветку `master`. Мы можем сделать это при помощи команды rebase, которую мы уже прошли, но давай посмотрим, как cherry-pick справится с этой задачей."
+            ],
+            "afterMarkdowns": [
+              "Вуаля! Мы хотели перенести коммиты `C2` и `C4`, Git дал нам их там где они нужны. Всё просто!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы пройти этот уровень, просто скопируй изменения из этих трёх веток в мастер. Чтобы понять, какие коммиты копировать, просто посмотри на визуализацию уровня.",
               ""
             ]
           }
