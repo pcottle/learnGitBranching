@@ -195,7 +195,6 @@ module.exports = function(grunt) {
       }
     },
     jasmine_node: {
-      specNameMatcher: 'spec',
       projectRoot: './src/js/__tests__/',
       forceExit: true,
       verbose: true,
