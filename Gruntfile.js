@@ -201,6 +201,11 @@ module.exports = function(grunt) {
       requirejs: false
     },
     browserify: {
+      options: {
+        ignore: [
+          'src/js/__tests__/create.js'
+        ],
+      },
       dist: {
         files: {
           'build/bundle.js': ['src/**/*.js', 'src/js/**/*.js'],
