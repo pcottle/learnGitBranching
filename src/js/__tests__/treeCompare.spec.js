@@ -1,4 +1,4 @@
-var TreeCompare = require('../src/js/graph/treeCompare');
+var TreeCompare = require('../graph/treeCompare');
 var _ = require('underscore');
 
 var loadTree = function(treeString) {
@@ -112,7 +112,7 @@ describe('Tree Compare', function() {
   });
 
   it('compares all branches with hash agnostic', function() {
-    var selectiveRebaseGoal = require('../src/levels/rebase/selectiveRebase').level.goalTreeString;
+    var selectiveRebaseGoal = require('../../levels/rebase/selectiveRebase').level.goalTreeString;
     testMethod(
       { compareAllBranchesHashAgnostic: true },
       selectiveRebaseGoal,
@@ -130,7 +130,7 @@ describe('Tree Compare', function() {
   });
 
   it('compares only master with hash agnostic', function() {
-    var manyRebaseGoal = require('../src/levels/rebase/manyRebases').level.goalTreeString;
+    var manyRebaseGoal = require('../../levels/rebase/manyRebases').level.goalTreeString;
     testMethod(
       { compareOnlyMasterHashAgnostic: true },
       manyRebaseGoal,
@@ -148,7 +148,7 @@ describe('Tree Compare', function() {
   });
 
   it('compares only master with hash agnostic and asserts', function() {
-    var jugglingGoal = require('../src/levels/mixed/jugglingCommits').level.goalTreeString;
+    var jugglingGoal = require('../../levels/mixed/jugglingCommits').level.goalTreeString;
     testMethod(
       {
         compareOnlyMasterHashAgnosticWithAsserts: true,

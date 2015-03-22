@@ -109,7 +109,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'Gruntfile.js',
-        'spec/*.js',
+        'src/__tests__/spec/*.js',
         'src/js/**/*.js',
         'src/js/**/**/*.js',
         'src/levels/**/*.js',
@@ -196,7 +196,7 @@ module.exports = function(grunt) {
     },
     jasmine_node: {
       specNameMatcher: 'spec',
-      projectRoot: '.',
+      projectRoot: './src/js/__tests__/',
       forceExit: true,
       verbose: true,
       requirejs: false
