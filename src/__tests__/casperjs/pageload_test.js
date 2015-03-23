@@ -24,25 +24,21 @@ casper.start(
   function() {
     this.test.assertTitle('Learn Git Branching');
 
-    casper.waitFor(CasperUtils.waits.jsMount, function then() {
-      visibleIDs.forEach(function(id) {
-        this.test.assertVisible('#' + id);
-      }.bind(this));
+    casper.waitFor(
+      CasperUtils.waits.jsMount
+    )
 
-      selectors.forEach(function(selector) {
-        this.test.assertExists(selector);
-      }.bind(this));
+    .then(CasperUtils.multiAssert(
+      CasperUtils.asserts.visibleIDs(visibleIDs),
+      CasperUtils.asserts.visibleSelectors(selectors)
+    ))
 
-    })
-    .waitFor(CasperUtils.waits.allCommandsFinished, function then() {
-      doneSelectors.forEach(function(selector) {
-        this.test.assertExists(selector);
-      }.bind(this));
-    })
-    .then(function() {
-      this.test.done();
-    });
+    .waitFor(CasperUtils.waits.allCommandsFinished)
 
-});
+    .then(
+      CasperUtils.asserts.visibleSelectors(doneSelectors)
+    )
 
-casper.run();
+    .then(CasperUtils.testDone);
+
+}).run();

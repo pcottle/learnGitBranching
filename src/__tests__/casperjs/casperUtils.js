@@ -15,6 +15,44 @@ var CasperUtils = {
     return this.getUrl() + '&command=' + commands.join(';');
   },
 
+  testDone: function() {
+    this.test.done();
+  },
+
+  multiAssert: function() {
+    // Copy the args into a variable we can reference inside
+    // our closure.
+    var asserts = [];
+    for (var i = 0; i < arguments.length; i++) {
+      asserts.push(arguments[i]);
+    }
+
+    return function then() {
+      for (var i = 0; i < asserts.length; i++) {
+        var assert = asserts[i];
+        assert.bind(this)();
+      }
+    };
+  },
+
+  asserts: {
+    visibleIDs: function(visibleIDs) {
+      return function then() {
+        visibleIDs.forEach(function(id) {
+          this.test.assertVisible('#' + id);
+        }.bind(this));
+      };
+    },
+
+    visibleSelectors: function(selectors) {
+      return function then() {
+        selectors.forEach(function(selector) {
+          this.test.assertExists(selector);
+        }.bind(this));
+      };
+    },
+  },
+
   waits: {
     jsMount: function() {
       return this.evaluate(function() {
