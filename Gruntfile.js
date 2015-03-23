@@ -203,7 +203,9 @@ module.exports = function(grunt) {
     browserify: {
       options: {
         ignore: [
-          'src/js/__tests__/create.js'
+          'src/__tests__/casperjs/*.js',
+          'src/js/__tests__/create.js',
+          'src/js/__tests__/*.js'
         ],
       },
       dist: {
@@ -211,7 +213,7 @@ module.exports = function(grunt) {
           'build/bundle.js': ['src/**/*.js', 'src/js/**/*.js'],
         },
       }
-    }
+    },
   });
 
   // all my npm helpers
