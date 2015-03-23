@@ -1,4 +1,4 @@
-var CasperHelp = require('./casperHelp').CasperHelp;
+var CasperUtils = require('./casperUtils').CasperUtils;
 
 var visibleIDs = [
   'commandLineHistory',
@@ -18,13 +18,13 @@ var doneSelectors = [
 ];
 
 casper.start(
-  CasperHelp.getUrlForCommands([
+  CasperUtils.getUrlForCommands([
     'git commit',
   ]),
   function() {
     this.test.assertTitle('Learn Git Branching');
 
-    casper.waitFor(CasperHelp.waits.jsMount, function then() {
+    casper.waitFor(CasperUtils.waits.jsMount, function then() {
       visibleIDs.forEach(function(id) {
         this.test.assertVisible('#' + id);
       }.bind(this));
@@ -34,7 +34,7 @@ casper.start(
       }.bind(this));
 
     })
-    .waitFor(CasperHelp.waits.allCommandsFinished, function then() {
+    .waitFor(CasperUtils.waits.allCommandsFinished, function then() {
       doneSelectors.forEach(function(selector) {
         this.test.assertExists(selector);
       }.bind(this));

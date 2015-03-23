@@ -1,8 +1,9 @@
-var CasperHelp = {
+var CasperUtils = {
 
   getRoot: function() {
     // Unfortunately this is hardcoded for now :*( cant get the path
-    // variable while in a casper context
+    // variable synchronously when running this test, and CasperJS does
+    // not like being started asynchronously.
     return '/Users/pcottle/Dropbox/wip/learnGitBranching/';
   },
 
@@ -17,7 +18,11 @@ var CasperHelp = {
   waits: {
     jsMount: function() {
       return this.evaluate(function() {
-        return document.querySelectorAll('div.BaseHelperBar').length > 0;
+        var hasHelper = document.querySelectorAll('div.BaseHelperBar').length > 0;
+        if (hasHelper) {
+          __utils__.echo('<<< JS mounted >>>');
+        }
+        return hasHelper;
       });
     },
 
@@ -31,4 +36,4 @@ var CasperHelp = {
   
 };
 
-exports.CasperHelp = CasperHelp;
+exports.CasperUtils = CasperUtils;
