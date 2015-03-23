@@ -33,12 +33,14 @@ casper.start(
         this.test.assertExists(selector);
       }.bind(this));
 
-      this.test.done();
     })
     .waitFor(CasperHelp.waits.allCommandsFinished, function then() {
       doneSelectors.forEach(function(selector) {
         this.test.assertExists(selector);
       }.bind(this));
+    })
+    .then(function() {
+      this.test.done();
     });
 
 });
