@@ -1,3 +1,6 @@
+
+var screenshotCounter = 0;
+
 var CasperUtils = {
 
   getRoot: function() {
@@ -47,10 +50,44 @@ var CasperUtils = {
     visibleSelectors: function(selectors) {
       return function then() {
         selectors.forEach(function(selector) {
+          this.test.assertVisible(selector);
+        }.bind(this));
+      };
+    },
+
+    existingIDs: function(existingIDs) {
+      return function then() {
+        existingIDs.forEach(function(id) {
+          this.test.assertExists('#' + id);
+        }.bind(this));
+      };
+    },
+
+    existingSelectors: function(existingSelectors) {
+      return function then() {
+        existingSelectors.forEach(function(selector) {
           this.test.assertExists(selector);
         }.bind(this));
       };
     },
+
+  },
+
+  screenshot: {
+    entirePage: function () {
+      screenshotCounter++;
+
+      var documentBounds = this.evaluate(function() {
+        return __utils__.getElementBounds('body');
+      });
+      casper.capture('screenshots/entirePage' + screenshotCounter + '.png', {
+        top: 0,
+        left: 0,
+        height: documentBounds.height,
+        width: documentBounds.width
+      });
+      casper.echo('<<< Took screenshot ' + screenshotCounter + ' >>>', 'COMMENT');
+    }
   },
 
   waits: {
@@ -64,12 +101,47 @@ var CasperUtils = {
       });
     },
 
-    allCommandsFinished: function () {
+    allCommandsFinished: function() {
       return this.evaluate(function() {
         return document.querySelectorAll('p.commandLine').length ===
           document.querySelectorAll('p.finished').length;
       });
     },
+
+    selectorVisible: function(selector) {
+      return function waitFor() {
+        return this.evaluate(function() {
+          return document.querySelectorAll(selector).length > 0;
+        });
+      };
+    },
+
+    idsVisible: function(ids) {
+      return function waitFor() {
+        return this.evaluate(function() {
+          var allVisible = true;
+          for (var i = 0; i < ids.length; i++) {
+            allVisible = allVisible && __utils__.exists('#' + ids[i]);
+            allVisible = allVisible && __utils__.visible('#' + ids[i]);
+          }
+          return allVisible;
+        });
+      };
+    },
+
+    idVisible: function(id) {
+      return function waitFor() {
+        return this.evaluate(function() {
+          return __utils__.visible(id);
+        });
+      };
+    },
+
+    commandVisible: function() {
+      return this.evaluate(function() {
+        return document.querySelectorAll('p.commandLine').length > 0;
+      });
+    }
   },
   
 };
