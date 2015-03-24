@@ -25,8 +25,9 @@ casper.start(
       var text = this.evaluate(function() {
         return document.querySelector('p.helperText').innerText;
       });
-      this.test.assert(
-        text === 'You can hide this window with "hide goal"'
+      this.test.assertEquals(
+        text,
+        'You can hide this window with "hide goal"'
       );
     })
     .then(CasperUtils.testDone);

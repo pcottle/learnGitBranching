@@ -28,8 +28,9 @@ casper.start(
       var text = this.evaluate(function() {
         return document.querySelector('div.inside > div > p').innerText;
       });
-      this.test.assert(
-        text === "Go ahead and try it out on your own! After this " +
+      this.test.assertEquals(
+        text,
+        "Go ahead and try it out on your own! After this " +
           "window closes, make two commits to complete the level"
       );
     })

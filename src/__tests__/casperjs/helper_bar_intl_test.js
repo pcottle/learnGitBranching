@@ -35,7 +35,10 @@ casper.start(
         return debug_Intl_getLocale();
       });
       // Successfully changed locale
-      this.test.assert(locale === 'ja');
+      this.test.assertEquals(
+        locale,
+        'ja'
+      );
     })
     .then(CasperUtils.testDone);
 }).run();
