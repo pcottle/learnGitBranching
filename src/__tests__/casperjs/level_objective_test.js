@@ -25,11 +25,9 @@ casper.start(
       'div.modalTerminal'
     ]))
     .then(function() {
-      var text = this.evaluate(function() {
+      this.test.assertEvalEquals(function() {
         return document.querySelector('div.inside > div > p').innerText;
-      });
-      this.test.assertEquals(
-        text,
+      },
         "Go ahead and try it out on your own! After this " +
           "window closes, make two commits to complete the level"
       );

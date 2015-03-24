@@ -31,14 +31,10 @@ casper.start(
     })
     .wait(500)
     .then(function() {
-      var locale = this.evaluate(function() {
-        return debug_Intl_getLocale();
-      });
       // Successfully changed locale
-      this.test.assertEquals(
-        locale,
-        'ja'
-      );
+      this.test.assertEvalEquals(function() {
+        return debug_Intl_getLocale();
+      }, 'ja');
     })
     .then(CasperUtils.testDone);
 }).run();
