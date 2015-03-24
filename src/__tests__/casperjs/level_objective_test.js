@@ -13,20 +13,24 @@ casper.start(
     ]))
     .then(CasperUtils.screenshot.entirePage)
     .then(function() {
-      this.mouse.click('#show-goal');
+      this.mouse.click('#show-objective');
     })
     .then(CasperUtils.waits.selectorVisible(
-      'p.helperText'
+      'p.commandLine.processing'
     ))
     .wait(1000)
     .then(CasperUtils.screenshot.entirePage)
-    .then(CasperUtils.asserts.visibleSelector('p.helperText'))
+    .then(CasperUtils.asserts.visibleSelectors([
+      'div.inside',
+      'div.modalTerminal'
+    ]))
     .then(function() {
       var text = this.evaluate(function() {
-        return document.querySelector('p.helperText').innerText;
+        return document.querySelector('div.inside > div > p').innerText;
       });
       this.test.assert(
-        text === 'You can hide this window with "hide goal"'
+        text === "Go ahead and try it out on your own! After this " +
+          "window closes, make two commits to complete the level"
       );
     })
     .then(CasperUtils.testDone);
