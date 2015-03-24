@@ -30,9 +30,9 @@ var toGlobalize = {
   Intl: require('../intl')
 };
 
-_.each(toGlobalize, function(module) {
+_.each(toGlobalize, function(module, moduleName) {
   for (var key in module) {
-    window['debug_' + key] = module[key];
+    window['debug_' + moduleName + '_' + key] = module[key];
   }
 });
 
