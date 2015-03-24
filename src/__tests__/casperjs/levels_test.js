@@ -31,6 +31,7 @@ casper.start(
 
     casper.waitFor(CasperUtils.waits.jsMount)
     .waitFor(CasperUtils.waits.commandVisible)
+    .wait(1000)
     .then(
       CasperUtils.multiAssert(
         CasperUtils.asserts.visibleSelectors([
@@ -46,8 +47,10 @@ casper.start(
       this.mouse.click('div[data-id="remote"]');
     })
     .then(CasperUtils.waits.idVisible('levelIcon-remote1'))
-    .then(CasperUtils.waits.idsVisible(
+    .wait(1000)
+    .then(CasperUtils.asserts.visibleIDs(
       levelIconIDsForPages(5, numLevelSequences)
     ))
+    .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.testDone);
 }).run();

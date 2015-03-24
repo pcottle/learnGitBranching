@@ -55,6 +55,12 @@ var CasperUtils = {
       };
     },
 
+    visibleSelector: function(selector) {
+      return function then() {
+        this.test.assertVisible(selector);
+      };
+    },
+
     existingIDs: function(existingIDs) {
       return function then() {
         existingIDs.forEach(function(id) {
@@ -77,14 +83,12 @@ var CasperUtils = {
     entirePage: function () {
       screenshotCounter++;
 
-      var documentBounds = this.evaluate(function() {
-        return __utils__.getElementBounds('body');
-      });
       casper.capture('screenshots/entirePage' + screenshotCounter + '.png', {
         top: 0,
         left: 0,
-        height: documentBounds.height,
-        width: documentBounds.width
+        // These seem to be the hardcoded viewport dimensions
+        height: 600,
+        width: 1000
       });
       casper.echo('<<< Took screenshot ' + screenshotCounter + ' >>>', 'COMMENT');
     }
@@ -121,7 +125,6 @@ var CasperUtils = {
         return this.evaluate(function() {
           var allVisible = true;
           for (var i = 0; i < ids.length; i++) {
-            allVisible = allVisible && __utils__.exists('#' + ids[i]);
             allVisible = allVisible && __utils__.visible('#' + ids[i]);
           }
           return allVisible;

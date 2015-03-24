@@ -1,0 +1,35 @@
+var CasperUtils = require('./casperUtils').CasperUtils;
+
+casper.start(
+  CasperUtils.getUrlForCommands([
+    'level intro1 --noIntroDialog --noStartCommand',
+  ]),
+  function() {
+    casper.waitFor(CasperUtils.waits.jsMount)
+    .waitFor(CasperUtils.waits.allCommandsFinished)
+    .then(CasperUtils.asserts.visibleSelectors([
+      'p.commandLine.finished',
+      'div.levelNameWrapper'
+    ]))
+    .then(CasperUtils.screenshot.entirePage)
+    .then(function() {
+      this.mouse.click('#show-goal')
+    })
+    .then(CasperUtils.waits.selectorVisible(
+      'p.helperText'
+    ))
+    .wait(1000)
+    .then(CasperUtils.screenshot.entirePage)
+    .then(CasperUtils.asserts.visibleSelector('p.helperText'))
+    .then(function() {
+      var text = this.evaluate(function() {
+        return document.querySelector('p.helperText').innerText;
+      });
+      casper.echo(text);
+      this.test.assert(
+        text === 'You can hide this window with "hide goal"'
+      );
+    })
+    .then(CasperUtils.testDone);
+}).run();
+
