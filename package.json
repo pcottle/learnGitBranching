@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "browserify": "~3.14.1",
+    "flux": "^2.0.1",
     "grunt": "~0.4.2",
     "grunt-browserify": "~1.3.0",
     "grunt-casperjs": "^2.1.0",
