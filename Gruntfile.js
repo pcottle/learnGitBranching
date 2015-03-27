@@ -192,6 +192,10 @@ module.exports = function(grunt) {
     shell: {
       gitAdd: {
         command: 'git add build/'
+      },
+      casperTest: {
+        command: 'casperjs test ./src/__tests__/casperjs/*.js || ' +
+          'open ./src/__tests__/casperjs/screenshots/*.png'
       }
     },
     jasmine_node: {
@@ -226,13 +230,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('build',
-    ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
+    ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell:gitAdd', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
   );
   grunt.registerTask('lint', ['jshint', 'compliment']);
   grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndexDev', 'jshint']);
   grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('test', ['jasmine_node', 'shell:casperTest']);
+  grunt.registerTask('casperTest', ['shell:casperTest']);
 };
 

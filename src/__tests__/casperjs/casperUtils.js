@@ -1,5 +1,6 @@
 
 var screenshotCounter = 0;
+var screenshotRoot = './src/__tests__/casperjs/screenshots/entirePage';
 
 var CasperUtils = {
 
@@ -83,7 +84,7 @@ var CasperUtils = {
     entirePage: function () {
       screenshotCounter++;
 
-      casper.capture('screenshots/entirePage' + screenshotCounter + '.png', {
+      casper.capture(screenshotRoot + screenshotCounter + '.png', {
         top: 0,
         left: 0,
         // These seem to be the hardcoded viewport dimensions
