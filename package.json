@@ -1,6 +1,10 @@
 {
   "name": "LearnGitBranching",
   "version": "0.8.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pcottle/learnGitBranching"
+  },
   "devDependencies": {
     "browserify": "~3.14.1",
     "grunt": "~0.4.2",
