@@ -1,9 +1,5 @@
-var AppConstants = require('../constants/AppConstants');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
 var LocaleActions = require('../actions/LocaleActions');
 var LocaleStore = require('../stores/LocaleStore');
-
-var ActionTypes = AppConstants.ActionTypes;
 
 describe('LocaleStore', function() {
 

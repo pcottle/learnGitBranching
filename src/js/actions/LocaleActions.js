@@ -14,6 +14,13 @@ var LocaleActions = {
     });
   },
 
+  changeLocaleFromURI: function(newLocale) {
+    AppDispatcher.handleURIAction({
+      type: ActionTypes.CHANGE_LOCALE,
+      locale: newLocale
+    });
+  },
+
   changeLocaleFromHeader: function(header) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CHANGE_LOCALE_FROM_HEADER,

@@ -217,7 +217,7 @@ var initDemo = function(sandbox) {
   }
 
   if (params.locale !== undefined && params.locale.length) {
-    LocaleActions.changeLocale(params.locale);
+    LocaleActions.changeLocaleFromURI(params.locale);
   } else {
     tryLocaleDetect();
   }

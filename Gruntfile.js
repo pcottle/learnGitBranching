@@ -149,6 +149,7 @@ module.exports = function(grunt) {
         browser: true,
         debug: true,
         globals: {
+          casper: true,
           Raphael: true,
           require: true,
           console: true,

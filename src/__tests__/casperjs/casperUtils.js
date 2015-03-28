@@ -12,7 +12,15 @@ var CasperUtils = {
   },
 
   getUrl: function () {
-    return 'file://localhost/' + this.getRoot() + '/index.html?NODEMO';
+    return 'file://localhost/' + this.getRoot() + 'index.html?NODEMO';
+  },
+
+  getUrlWithQueryParams: function(params) {
+    var paramsString = '';
+    Object.keys(params).forEach(function(key) {
+      paramsString = paramsString + '&' + key + '=' + params[key];
+    });
+    return this.getUrl() + paramsString;
   },
 
   getUrlForCommands: function(commands) {
@@ -40,6 +48,7 @@ var CasperUtils = {
   },
 
   asserts: {
+
     visibleIDs: function(visibleIDs) {
       return function then() {
         visibleIDs.forEach(function(id) {
@@ -59,6 +68,22 @@ var CasperUtils = {
     visibleSelector: function(selector) {
       return function then() {
         this.test.assertVisible(selector);
+      };
+    },
+
+    selectorContainsText: function(selector, text) {
+      return function then() {
+        this.test.assertEvalEquals(function(selector) {
+            __utils__.echo('hellow');
+            __utils__.echo('hellow' + selector);
+            __utils__.echo(document.querySelector(selector).innerText);
+            return document.querySelector(selector).innerText;
+          },
+          text,
+          'Checking that selector "' + selector + '" contains "' +
+            text + '".',
+          {selector: selector}
+        );
       };
     },
 
