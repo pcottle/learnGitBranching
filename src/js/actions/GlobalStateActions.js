@@ -12,6 +12,13 @@ var GlobalStateActions = {
       type: ActionTypes.CHANGE_IS_ANIMATING,
       isAnimating: isAnimating
     });
+  },
+
+  changeFlipTreeY: function(flipTreeY) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CHANGE_FLIP_TREE_Y,
+      flipTreeY: flipTreeY
+    });
   }
 
 };

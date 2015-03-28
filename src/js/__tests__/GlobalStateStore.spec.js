@@ -10,4 +10,12 @@ describe('this store', function() {
     expect(GlobalStateStore.getIsAnimating()).toEqual(false);
   });
 
+  it('can change flip treey', function() {
+    expect(GlobalStateStore.getFlipTreeY()).toEqual(false);
+    GlobalStateActions.changeFlipTreeY(true);
+    expect(GlobalStateStore.getFlipTreeY()).toEqual(true);
+    GlobalStateActions.changeFlipTreeY(false);
+    expect(GlobalStateStore.getFlipTreeY()).toEqual(false);
+  });
+
 });

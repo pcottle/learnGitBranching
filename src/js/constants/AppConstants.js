@@ -20,6 +20,7 @@ module.exports = {
 
   ActionTypes: keyMirror({
     CHANGE_IS_ANIMATING: null,
+    CHANGE_FLIP_TREE_Y: null,
     SUBMIT_COMMAND: null,
     CHANGE_LOCALE: null,
     CHANGE_LOCALE_FROM_HEADER: null

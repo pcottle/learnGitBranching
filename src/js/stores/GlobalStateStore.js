@@ -9,6 +9,7 @@ var assign = require('object-assign');
 var ActionTypes = AppConstants.ActionTypes;
 
 var _isAnimating = false;
+var _flipTreeY = false;
 
 var GlobalStateStore = assign(
 {},
@@ -17,6 +18,10 @@ AppConstants.StoreSubscribePrototype,
 {
   getIsAnimating: function() {
     return _isAnimating;
+  },
+
+  getFlipTreeY: function() {
+    return _flipTreeY;
   },
 
   dispatchToken: AppDispatcher.register(function(payload) {
@@ -29,6 +34,8 @@ AppConstants.StoreSubscribePrototype,
         shouldInform = true;
         break;
       case ActionTypes.CHANGE_FLIP_TREE_Y:
+        _flipTreeY = action.flipTreeY;
+        shouldInform = true;
         break;
     }
 
