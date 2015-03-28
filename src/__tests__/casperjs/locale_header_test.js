@@ -1,9 +1,22 @@
-//var LocaleStore = require('../../js/stores/LocaleStore');
 var CasperUtils = require('./casperUtils').CasperUtils;
 
-var intl = require('../../js/intl/index.js');
+var langLocaleMap = {
+  en: 'en_US',
+  zh: 'zh_CN',
+  ja: 'ja',
+  ko: 'ko',
+  es: 'es_AR',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  pt: 'pt_BR'
+};
 
-var langLocaleMap = intl.langLocaleMap;
+/*
+var headerLocaleMap = {
+  'zh-CN': 'zh_CN',
+  'zh-TW': 'zh_TW',
+  'pt-BR': 'pt_BR'
+  };*/
 
 casper.start(
   CasperUtils.getUrl(),
@@ -18,16 +31,6 @@ casper.start(
 
       Object.keys(langLocaleMap).forEach(function(lang) {
         var locale = langLocaleMap[lang];
-        this.test.assertEvalEquals(function(lang) {
-          debug_App_changeLocaleFromHeaders(lang);
-          return debug_Intl_getLocale();
-        },
-          locale,
-          'Testing changing the locale from ' + lang + 
-              ' to ' + locale,
-          { lang: lang }
-        );
-
         this.test.assertEvalEquals(function(lang) {
           debug_LocaleActions_changeLocaleFromHeader(lang);
           return debug_LocaleStore_getLocale();

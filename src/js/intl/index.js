@@ -1,42 +1,12 @@
-var _ = require('underscore');
-var constants = require('../util/constants');
-var util = require('../util');
-var GlobalState = require('../util/globalState');
+var LocaleStore = require('../stores/LocaleStore');
 
+var _ = require('underscore');
 var strings = require('../intl/strings').strings;
 
-var getDefaultLocale = exports.getDefaultLocale = function() {
-  return 'en_US';
-};
-
-var headerLocaleMap = exports.headerLocaleMap = {
-  'zh-CN': 'zh_CN',
-  'zh-TW': 'zh_TW',
-  'pt-BR': 'pt_BR',
-};
-
-// resolve the messy mapping between browser language
-// and our supported locales
-var langLocaleMap = exports.langLocaleMap = {
-  en: 'en_US',
-  zh: 'zh_CN',
-  ja: 'ja',
-  ko: 'ko',
-  es: 'es_AR',
-  fr: 'fr_FR',
-  de: 'de_DE',
-  pt: 'pt_BR'
-};
+var getDefaultLocale = LocaleStore.getDefaultLocale;
 
 var fallbackMap = {
   'zh_TW': 'zh_CN'
-};
-
-var getLocale = exports.getLocale = function() {
-  if (GlobalState.locale) {
-    return GlobalState.locale;
-  }
-  return getDefaultLocale();
 };
 
 // lets change underscores template settings so it interpolates
@@ -61,7 +31,7 @@ var str = exports.str = function(key, params) {
   // 'You can not delete the branch bugFix because you are currently on that branch!
   //  This is error number 3'
 
-  var locale = getLocale();
+  var locale = LocaleStore.getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key;
@@ -98,7 +68,7 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
     );
   }
 
-  return obj[key][getLocale()];
+  return obj[key][LocaleStore.getLocale()];
 };
 
 exports.todo = function(str) {
@@ -106,8 +76,7 @@ exports.todo = function(str) {
 };
 
 exports.getDialog = function(obj) {
-  var defaultLocale = getDefaultLocale();
-  return getIntlKey(obj, 'dialog') || obj.dialog[defaultLocale];
+  return getIntlKey(obj, 'dialog') || obj.dialog[getDefaultLocale()];
 };
 
 exports.getHint = function(level) {

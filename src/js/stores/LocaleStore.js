@@ -8,6 +8,7 @@ var assign = require('object-assign');
 
 var ActionTypes = AppConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
+var DEFAULT_LOCALE = 'en_US';
 
 // resolve the messy mapping between browser language
 // and our supported locales
@@ -48,8 +49,12 @@ function _getLocaleFromHeader(langString) {
   return desiredLocale;
 }
 
-var _locale = 'en_US';
+var _locale = DEFAULT_LOCALE;
 var LocaleStore = assign({}, EventEmitter.prototype, {
+
+  getDefaultLocale: function() {
+    return DEFAULT_LOCALE;
+  },
 
   getLangLocaleMap: function() {
     return assign({}, langLocaleMap);

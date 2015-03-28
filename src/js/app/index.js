@@ -1,10 +1,8 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var constants = require('../util/constants');
 var util = require('../util');
 var intl = require('../intl');
-var GlobalState = require('../util/globalState');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
 
@@ -31,7 +29,6 @@ var init = function() {
     *   - handling window.focus and zoom events
   **/
   var Sandbox = require('../sandbox/').Sandbox;
-  var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
   var LevelArbiter = require('../level/arbiter').LevelArbiter;
   var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
@@ -45,7 +42,6 @@ var init = function() {
   });
 
   LocaleStore.subscribe(intlRefresh);
-  events.on('localeChanged', intlRefresh);
   events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
@@ -221,8 +217,7 @@ var initDemo = function(sandbox) {
   }
 
   if (params.locale !== undefined && params.locale.length) {
-    GlobalState.locale = params.locale;
-    events.trigger('localeChanged');
+    LocaleActions.changeLocale(params.locale);
   } else {
     tryLocaleDetect();
   }
@@ -255,8 +250,6 @@ function tryLocaleDetect() {
 
 function changeLocaleFromHeaders(langString) {
   LocaleActions.changeLocaleFromHeader(langString);
-  GlobalState.locale = LocaleStore.getLocale();
-  events.trigger('localeChanged');
 }
 
 if (require('../util').isBrowser()) {
@@ -291,8 +284,6 @@ function CommandUI() {
     collection: this.commandCollection
   });
 }
-
-exports.changeLocaleFromHeaders = changeLocaleFromHeaders;
 
 exports.getEvents = function() {
   return events;

@@ -7,6 +7,11 @@ var ActionTypes = AppConstants.ActionTypes;
 
 describe('LocaleStore', function() {
 
+  it('has default locale', function() {
+    expect(LocaleStore.getLocale())
+      .toEqual(LocaleStore.getDefaultLocale());
+  });
+
   it('changes locales', function() {
     expect(LocaleStore.getLocale()).toEqual('en_US');
     LocaleActions.changeLocale('ja_JP');

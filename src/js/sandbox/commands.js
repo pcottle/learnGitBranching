@@ -8,6 +8,8 @@ var intl = require('../intl');
 var Commands = require('../commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
+var LocaleStore = require('../stores/LocaleStore');
+var LocaleActions = require('../actions/LocaleActions');
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
@@ -24,13 +26,14 @@ var instantCommands = [
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
-    GlobalState.locale = intl.getDefaultLocale();
-    var Main = require('../app').getEvents().trigger('localeChanged');
+    LocaleActions.changeLocale(
+      LocaleStore.getDefaultLocale()
+    );
 
     throw new CommandResult({
       msg: intl.str(
         'locale-reset-command',
-        { locale: intl.getDefaultLocale() }
+        { locale: LocaleStore.getDefaultLocale() }
       )
     });
   }],
@@ -48,9 +51,7 @@ var instantCommands = [
     });
   }],
   [/^locale (\w+)$/, function(bits) {
-    GlobalState.locale = bits[1];
-
-    var Main = require('../app').getEvents().trigger('localeChanged');
+    LocaleActions.changeLocale(bits[1]);
     throw new CommandResult({
       msg: intl.str(
         'locale-command',

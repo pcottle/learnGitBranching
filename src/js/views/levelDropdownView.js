@@ -2,6 +2,7 @@ var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -71,7 +72,7 @@ var LevelDropdownView = ContainedBase.extend({
     this.render();
 
     Main.getEvents().on('resetMapSolved', this.render, this);
-    Main.getEvents().on('localeChanged', this.render, this);
+    LocaleStore.subscribe(this.render.bind(this));
 
     if (!options.wait) {
       this.show();
