@@ -8,7 +8,6 @@ var PayloadSources = AppConstants.PayloadSources;
 var AppDispatcher = new Dispatcher();
 
 AppDispatcher.handleViewAction = function(action) {
-  console.log('dispatching', action);
   this.dispatch({
     source: PayloadSources.VIEW_ACTION,
     action: action
