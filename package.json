@@ -7,7 +7,6 @@
   },
   "devDependencies": {
     "browserify": "~3.14.1",
-    "flux": "^2.0.1",
     "grunt": "~0.4.2",
     "grunt-browserify": "~1.3.0",
     "grunt-casperjs": "^2.1.0",
@@ -24,9 +23,12 @@
   },
   "dependencies": {
     "backbone": "~0.9.9",
-    "underscore": "~1.4.3",
+    "flux": "^2.0.1",
     "jquery": "~1.7.3",
+    "markdown": "~0.4.0",
+    "object-assign": "^2.0.0",
     "q": "~0.8.11",
-    "markdown": "~0.4.0"
+    "react": "^0.13.1",
+    "underscore": "~1.4.3"
   }
 }
