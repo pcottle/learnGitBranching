@@ -10,6 +10,8 @@ var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
+var GlobalStateStore = require('../stores/GlobalStateStore');
+var GlobalStateActions = require('../actions/GlobalStateActions');
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
@@ -60,10 +62,10 @@ var instantCommands = [
     });
   }],
   [/^flip$/, function() {
-    GlobalState.flipTreeY = !GlobalState.flipTreeY;
-
-    var events = require('../app').getEvents();
-    events.trigger('refreshTree');
+    GlobalStateActions.changeFlipTreeY(
+      !GlobalStateStore.getFlipTreeY()
+    );
+    require('../app').getEvents().trigger('refreshTree');
     throw new CommandResult({
       msg: intl.str('flip-tree-command')
     });

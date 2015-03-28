@@ -3,7 +3,7 @@ var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
-var GlobalState = require('../util/globalState');
+var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisEdge = VisBase.extend({
   defaults: {
@@ -52,7 +52,7 @@ var VisEdge = VisBase.extend({
     // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
     // the control points have to be __below__ to get the curve starting off straight.
 
-    var flipFactor = (GlobalState.flipTreeY) ? -1 : 1;
+    var flipFactor = (GlobalStateStore.getFlipTreeY()) ? -1 : 1;
     var coords = function(pos) {
       return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
     };
