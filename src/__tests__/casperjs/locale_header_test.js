@@ -1,31 +1,43 @@
 var CasperUtils = require('./casperUtils').CasperUtils;
 
+var intl = require('../../js/intl/index.js');
+
+var langLocaleMap = intl.langLocaleMap;
+
 casper.start(
   CasperUtils.getUrl(),
   function() {
     this.test.assertTitle('Learn Git Branching');
 
     casper.waitFor(CasperUtils.waits.jsMount)
-    .then(CasperUtils.multiAssert(
-      CasperUtils.asserts.visibleIDs([
-        'commandLineHistory',
-        'terminal',
-        'interfaceWrapper',
-        'mainVisSpace',
-        'commandLineBar'
-      ]),
-      CasperUtils.asserts.visibleSelectors([
-        'div.visBackgroundColor',
-        'p.commandLine'
-      ])
-    ))
+    .then(CasperUtils.asserts.visibleIDs([
+      'commandLineHistory',
+    ]))
+    .then(function() {
 
-    .waitFor(CasperUtils.waits.allCommandsFinished)
+      Object.keys(langLocaleMap).forEach(function(lang) {
+        var locale = langLocaleMap[lang];
+        this.test.assertEvalEquals(function(lang) {
+          debug_App_changeLocaleFromHeaders(lang);
+          return debug_Intl_getLocale();
+        },
+          locale,
+          'Testing changing the locale from ' + lang + 
+              ' to ' + locale,
+          { lang: lang }
+        );
 
-    .then(
-      CasperUtils.asserts.visibleSelectors(['p.finished'])
-    )
-
+        this.test.assertEvalEquals(function(lang) {
+          debug_App_changeLocaleFromHeaders(lang);
+          return debug_Intl_getLocale();
+        },
+          locale,
+          'Testing changing the locale from ' + lang + 
+              ' to ' + locale,
+          { lang: lang }
+        );
+      }.bind(this));
+    })
     .then(CasperUtils.testDone);
 
 }).run();

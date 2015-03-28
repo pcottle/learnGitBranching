@@ -13,6 +13,13 @@ var LocaleActions = {
       locale: newLocale
     });
   },
+
+  changeLocaleFromHeader: function(header) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CHANGE_LOCALE_FROM_HEADER,
+      header: header
+    });
+  }
 };
 
 module.exports = LocaleActions;

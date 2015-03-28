@@ -5,6 +5,8 @@ var constants = require('../util/constants');
 var util = require('../util');
 var intl = require('../intl');
 var GlobalState = require('../util/globalState');
+var LocaleStore = require('../stores/LocaleStore');
+var LocaleActions = require('../actions/LocaleActions');
 
 /**
  * Globals
@@ -42,6 +44,7 @@ var init = function() {
     wait: true
   });
 
+  LocaleStore.subscribe('change', intlRefresh);
   events.on('localeChanged', intlRefresh);
   events.on('vcsModeChange', vcsModeRefresh);
 
@@ -250,32 +253,9 @@ function tryLocaleDetect() {
 }
 
 function changeLocaleFromHeaders(langString) {
-  try {
-    var languages = langString.split(',');
-    var desiredLocale;
-    for (var i = 0; i < languages.length; i++) {
-      var header = languages[i].split(';')[0];
-      // first check the full string raw
-      if (intl.headerLocaleMap[header]) {
-        desiredLocale = intl.headerLocaleMap[header];
-        break;
-      }
-
-      var lang = header.slice(0, 2);
-      if (intl.langLocaleMap[lang]) {
-        desiredLocale = intl.langLocaleMap[lang];
-        break;
-      }
-    }
-    if (!desiredLocale || desiredLocale == intl.getLocale()) {
-      return;
-    }
-    // actually change it here
-    GlobalState.locale = desiredLocale;
-    events.trigger('localeChanged');
-  } catch (e) {
-    console.warn('locale change fail', e);
-  }
+  LocaleActions.changeLocaleFromHeaders(langString);
+  GlobalState.locale = LocaleStore.getLocale();
+  events.trigger('localeChanged');
 }
 
 if (require('../util').isBrowser()) {

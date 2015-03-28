@@ -6,7 +6,8 @@ module.exports = {
 
   ActionTypes: keyMirror({
     SUBMIT_COMMAND: null,
-    CHANGE_LOCALE: null
+    CHANGE_LOCALE: null,
+    CHANGE_LOCALE_FROM_HEADER: null
   }),
 
   PayloadSources: keyMirror({
