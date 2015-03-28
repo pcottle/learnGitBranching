@@ -7,7 +7,6 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var ActionTypes = AppConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
 var DEFAULT_LOCALE = 'en_US';
 
 // resolve the messy mapping between browser language
@@ -50,8 +49,11 @@ function _getLocaleFromHeader(langString) {
 }
 
 var _locale = DEFAULT_LOCALE;
-var LocaleStore = assign({}, EventEmitter.prototype, {
-
+var LocaleStore = assign(
+{},
+EventEmitter.prototype,
+AppConstants.StoreSubscribePrototype,
+{
   getDefaultLocale: function() {
     return DEFAULT_LOCALE;
   },
@@ -62,14 +64,6 @@ var LocaleStore = assign({}, EventEmitter.prototype, {
 
   getHeaderLocaleMap: function() {
     return assign({}, headerLocaleMap);
-  },
-
-  subscribe: function(cb) {
-    this.on(CHANGE_EVENT, cb);
-  },
-
-  unsubscribe: function(cb) {
-    this.removeListener(CHANGE_EVENT, cb);
   },
 
   getLocale: function() {
@@ -95,7 +89,7 @@ var LocaleStore = assign({}, EventEmitter.prototype, {
     }
 
     if (shouldInform) {
-      LocaleStore.emit(CHANGE_EVENT);
+      LocaleStore.emit(AppConstants.CHANGE_EVENT);
     }
   })
 
