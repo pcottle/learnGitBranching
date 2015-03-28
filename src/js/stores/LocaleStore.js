@@ -30,10 +30,13 @@ var LocaleStore = assign({}, EventEmitter.prototype, {
 
     switch (action.type) {
       case ActionTypes.CHANGE_LOCALE:
+        _locale = action.locale;
+        shouldInform = true;
+        break;
     }
 
     if (shouldInform) {
-      this.emit(CHANGE_EVENT);
+      LocaleStore.emit(CHANGE_EVENT);
     }
   })
 
