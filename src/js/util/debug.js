@@ -1,6 +1,7 @@
 var _ = require('underscore');
 
 var toGlobalize = {
+  App: require('../app/index.js'),
   Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),
   Git: require('../git'),

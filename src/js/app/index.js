@@ -311,6 +311,8 @@ function CommandUI() {
   });
 }
 
+exports.changeLocaleFromHeaders = changeLocaleFromHeaders;
+
 exports.getEvents = function() {
   return events;
 };

@@ -105,20 +105,20 @@ exports.todo = function(str) {
   return str;
 };
 
-var getDialog = exports.getDialog = function(obj) {
+exports.getDialog = function(obj) {
   var defaultLocale = getDefaultLocale();
   return getIntlKey(obj, 'dialog') || obj.dialog[defaultLocale];
 };
 
-var getHint = exports.getHint = function(level) {
+exports.getHint = function(level) {
   return getIntlKey(level, 'hint') || str('error-untranslated');
 };
 
-var getName = exports.getName = function(level) {
+exports.getName = function(level) {
   return getIntlKey(level, 'name') || str('error-untranslated');
 };
 
-var getStartDialog = exports.getStartDialog = function(level) {
+exports.getStartDialog = function(level) {
   var startDialog = getIntlKey(level, 'startDialog');
   if (startDialog) { return startDialog; }
 
@@ -137,5 +137,3 @@ var getStartDialog = exports.getStartDialog = function(level) {
 
   return startCopy;
 };
-
-

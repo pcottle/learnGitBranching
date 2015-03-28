@@ -126,6 +126,10 @@ module.exports = function(grunt) {
         latedef: false,
         // use this in mocks
         forin: false,
+        // This gets annoying
+        globalstrict: false,
+        // for use strict warnings
+        node: true,
         ///////////////////////////////
         // All others are true
         //////////////////////////////
