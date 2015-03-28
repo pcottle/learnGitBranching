@@ -1,3 +1,4 @@
+//var LocaleStore = require('../../js/stores/LocaleStore');
 var CasperUtils = require('./casperUtils').CasperUtils;
 
 var intl = require('../../js/intl/index.js');
@@ -28,11 +29,11 @@ casper.start(
         );
 
         this.test.assertEvalEquals(function(lang) {
-          debug_App_changeLocaleFromHeaders(lang);
-          return debug_Intl_getLocale();
+          debug_LocaleActions_changeLocaleFromHeader(lang);
+          return debug_LocaleStore_getLocale();
         },
           locale,
-          'Testing changing the locale from ' + lang + 
+          'Testing changing store locale from ' + lang + 
               ' to ' + locale,
           { lang: lang }
         );

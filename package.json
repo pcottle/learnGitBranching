@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "backbone": "~0.9.9",
+    "events": "^1.0.2",
     "flux": "^2.0.1",
     "jquery": "~1.7.3",
     "markdown": "~0.4.0",

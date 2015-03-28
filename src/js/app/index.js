@@ -44,7 +44,7 @@ var init = function() {
     wait: true
   });
 
-  LocaleStore.subscribe('change', intlRefresh);
+  LocaleStore.subscribe(intlRefresh);
   events.on('localeChanged', intlRefresh);
   events.on('vcsModeChange', vcsModeRefresh);
 
@@ -68,6 +68,7 @@ var vcsModeRefresh = function(eventData) {
 };
 
 var intlRefresh = function() {
+  console.log('refreshing inlt');
   if (!window.$) { return; }
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
@@ -253,7 +254,7 @@ function tryLocaleDetect() {
 }
 
 function changeLocaleFromHeaders(langString) {
-  LocaleActions.changeLocaleFromHeaders(langString);
+  LocaleActions.changeLocaleFromHeader(langString);
   GlobalState.locale = LocaleStore.getLocale();
   events.trigger('localeChanged');
 }
