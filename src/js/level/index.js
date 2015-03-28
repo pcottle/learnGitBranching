@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var Backbone = require('backbone');
 var Q = require('q');
 
 var util = require('../util');
@@ -9,13 +8,10 @@ var log = require('../log');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
-var Constants = require('../util/constants');
-var GlobalState = require('../util/globalState');
+var GlobalStateActions = require('../actions/GlobalStateActions');
 
 var Visualization = require('../visuals/visualization').Visualization;
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
-var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 var Commands = require('../commands');
 
@@ -442,7 +438,7 @@ var Level = Sandbox.extend({
         'echo "level solved!"'
       );
     } else {
-      GlobalState.isAnimating = true;
+      GlobalStateActions.changeIsAnimating(true);
       finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
       if (this.mainVis.originVis) {
         finishAnimationChain = finishAnimationChain.then(
@@ -479,7 +475,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
-      GlobalState.isAnimating = false;
+      GlobalStateActions.changeIsAnimating(false);
       defer.resolve();
     });
   },
