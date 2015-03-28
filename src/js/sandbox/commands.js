@@ -2,7 +2,6 @@ var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');
-var GlobalState = require('../util/globalState');
 var intl = require('../intl');
 
 var Commands = require('../commands');
