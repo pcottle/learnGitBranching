@@ -30,6 +30,7 @@ var toGlobalize = {
   LevelDropdownView: require('../views/levelDropdownView'),
   BuilderViews: require('../views/builderViews'),
   LevelArbiter: require('../level/arbiter'),
+  Util: require('../util/index'),
   Intl: require('../intl')
 };
 

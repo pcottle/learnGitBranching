@@ -8,7 +8,7 @@ var CasperUtils = {
     // Unfortunately this is hardcoded for now :*( cant get the path
     // variable synchronously when running this test, and CasperJS does
     // not like being started asynchronously.
-    return '/Users/pcottle/Dropbox/wip/learnGitBranching/';
+    return '/Users/pcottle/Dropbox (Personal)/wip/learnGitBranching/';
   },
 
   getUrl: function () {
@@ -74,15 +74,25 @@ var CasperUtils = {
     selectorContainsText: function(selector, text) {
       return function then() {
         this.test.assertEvalEquals(function(selector) {
-            __utils__.echo('hellow');
-            __utils__.echo('hellow' + selector);
-            __utils__.echo(document.querySelector(selector).innerText);
             return document.querySelector(selector).innerText;
           },
           text,
           'Checking that selector "' + selector + '" contains "' +
             text + '".',
           {selector: selector}
+        );
+      };
+    },
+
+    intlKeyReturns: function(key, text) {
+      return function then() {
+        this.test.assertEvalEquals(function(key) {
+            return debug_Intl_str(key);
+          },
+          text,
+          'Checking that intl key "' + key + '" contains "' +
+            text + '".',
+          {key: key}
         );
       };
     },
@@ -171,7 +181,7 @@ var CasperUtils = {
         return document.querySelectorAll('p.commandLine').length > 0;
       });
     }
-  },
+  }
   
 };
 

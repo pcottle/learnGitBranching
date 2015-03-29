@@ -199,7 +199,7 @@ module.exports = function(grunt) {
         command: 'git add build/'
       },
       casperTest: {
-        command: 'casperjs test ./src/__tests__/casperjs/*.js || ' +
+        command: 'casperjs test ./src/__tests__/casperjs/*_test.js || ' +
           'open ./src/__tests__/casperjs/screenshots/*.png'
       }
     },

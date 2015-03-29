@@ -69,11 +69,16 @@ var LevelDropdownView = ContainedBase.extend({
       title: intl.str('select-a-level')
     });
 
+    // Lol WTF. For some reason we cant use this.render.bind(this) so
+    // instead setup a lame callback version. The CasperJS tests
+    // fail otherwise.
+    var that = this;
+    LocaleStore.subscribe(function() {
+      that.render.apply(that);
+    });
     this.render();
 
     Main.getEvents().on('resetMapSolved', this.render, this);
-    LocaleStore.subscribe(this.render.bind(this));
-
     if (!options.wait) {
       this.show();
     }

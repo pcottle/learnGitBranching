@@ -41,7 +41,11 @@ var init = function() {
     wait: true
   });
 
-  LocaleStore.subscribe(intlRefresh);
+  LocaleStore.subscribe(function() {
+    if (LocaleStore.getLocale() !== LocaleStore.getDefaultLocale()) {
+      intlRefresh();
+    }
+  });
   events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
@@ -64,7 +68,6 @@ var vcsModeRefresh = function(eventData) {
 };
 
 var intlRefresh = function() {
-  console.log('refreshing inlt');
   if (!window.$) { return; }
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
