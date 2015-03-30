@@ -13,6 +13,8 @@ var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
+var LevelActions = require('../actions/LevelActions');
+var LevelStore = require('../stores/LevelStore');
 
 var Views = require('../views');
 var ModalTerminal = Views.ModalTerminal;
@@ -152,7 +154,7 @@ var Sandbox = Backbone.View.extend({
   startLevel: function(command, deferred) {
     var regexResults = command.get('regexResults') || [];
     var desiredID = regexResults[1] || '';
-    var levelJSON = Main.getLevelArbiter().getLevel(desiredID);
+    var levelJSON = LevelStore.getLevel(desiredID);
 
     // handle the case where that level is not found...
     if (!levelJSON) {
@@ -224,7 +226,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   resetSolved: function(command, deferred) {
-    Main.getLevelArbiter().resetSolvedMap();
+    LevelActions.resetLevelsSolved();
     command.addWarning(
       intl.str('solved-map-reset')
     );

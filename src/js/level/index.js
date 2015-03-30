@@ -10,6 +10,7 @@ var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
 var LevelActions = require('../actions/LevelActions');
+var LevelStore = require('../stores/LevelStore');
 var Visualization = require('../visuals/visualization').Visualization;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var GitShim = require('../git/gitShim').GitShim;
@@ -414,14 +415,13 @@ var Level = Sandbox.extend({
   levelSolved: function(defer) {
     this.solved = true;
     if (!this.isShowingSolution) {
-      Main.getEvents().trigger('levelSolved', this.level.id);
       LevelActions.setLevelSolved(this.level.id);
       log.levelSolved(this.getEnglishName());
     }
 
     this.hideGoal();
 
-    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var nextLevel = LevelStore.getNextLevel(this.level.id);
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 

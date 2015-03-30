@@ -13,7 +13,6 @@ var events = _.clone(Backbone.Events);
 var commandUI;
 var sandbox;
 var eventBaton;
-var levelArbiter;
 var levelDropdown;
 
 ///////////////////////////////////////////////////////////////////////
@@ -30,13 +29,11 @@ var init = function() {
   **/
   var Sandbox = require('../sandbox/').Sandbox;
   var EventBaton = require('../util/eventBaton').EventBaton;
-  var LevelArbiter = require('../level/arbiter').LevelArbiter;
   var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
-  levelArbiter = new LevelArbiter();
   levelDropdown = new LevelDropdownView({
     wait: true
   });
@@ -302,10 +299,6 @@ exports.getEventBaton = function() {
 
 exports.getCommandUI = function() {
   return commandUI;
-};
-
-exports.getLevelArbiter = function() {
-  return levelArbiter;
 };
 
 exports.getLevelDropdown = function() {
