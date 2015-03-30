@@ -46,7 +46,6 @@ casper.start(
     .then(function() {
       this.mouse.click('div[data-id="remote"]');
     })
-    .then(CasperUtils.waits.idVisible('levelIcon-remote1'))
     .wait(1000)
     .then(CasperUtils.asserts.visibleIDs(
       levelIconIDsForPages(5, numLevelSequences)

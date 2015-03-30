@@ -15,9 +15,6 @@ casper.start(
     .then(function() {
       this.mouse.click('#show-goal');
     })
-    .then(CasperUtils.waits.selectorVisible(
-      'p.helperText'
-    ))
     .wait(1000)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.visibleSelector('p.helperText'))

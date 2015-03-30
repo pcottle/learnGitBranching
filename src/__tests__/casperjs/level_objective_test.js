@@ -15,9 +15,6 @@ casper.start(
     .then(function() {
       this.mouse.click('#show-objective');
     })
-    .then(CasperUtils.waits.selectorVisible(
-      'p.commandLine.processing'
-    ))
     .wait(1000)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.visibleSelectors([

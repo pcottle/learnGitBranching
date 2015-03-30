@@ -15,7 +15,7 @@ casper.start(
     .then(function() {
       this.mouse.click('a.intl');
     })
-    .then(CasperUtils.waits.selectorVisible(
+    .waitFor(CasperUtils.waits.selectorVisible(
       'a.english'
     ))
     .wait(1000)
