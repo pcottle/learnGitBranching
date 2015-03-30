@@ -152,7 +152,6 @@ var Level = Sandbox.extend({
   },
 
   startOffCommand: function() {
-    console.log(this.options);
     var method = this.options.command.get('method');
     if (!this.testOption('noStartCommand') && method !== 'importLevelNow') {
       Main.getEventBaton().trigger(

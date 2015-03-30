@@ -3,25 +3,25 @@ var CasperUtils = require('./casperUtils').CasperUtils;
 casper.start(
   CasperUtils.getUrlForCommands([
     'level intro1 --noIntroDialog --noStartCommand',
+    'show goal',
     'git commit',
     'git commit'
   ]),
   function() {
     this.test.assertTitle('Learn Git Branching');
     casper.waitFor(CasperUtils.waits.jsMount)
-    .wait(1000)
+    .wait(2000)
+    .then(CasperUtils.screenshot.entirePage)
     .waitFor(CasperUtils.waits.allCommandsFinished)
-    .wait(500)
+    // Have to wait for balls to stop bouncing
+    .wait(5000)
+    .wait(5000)
+    .wait(5000)
     .then(CasperUtils.screenshot.entirePage)
-    .then(function() {
-      this.test.assertEvalEquals(function() {
-          return debug_LevelStore_isLevelSolved('intro1');
-        },
-        true,
-        'Checking that level is solved'
-      );
-    })
-    .then(CasperUtils.screenshot.entirePage)
+    .then(CasperUtils.asserts.selectorContainsText(
+      'div.modalView div.inside h2',
+      "Great Job!!"
+    ))
     .then(CasperUtils.testDone);
 
 }).run();
