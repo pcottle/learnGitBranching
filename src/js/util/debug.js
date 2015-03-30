@@ -6,6 +6,8 @@ var toGlobalize = {
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
+  LevelActions: require('../actions/LevelActions'),
+  LevelStore: require('../stores/LevelStore'),
   LocaleActions: require('../actions/LocaleActions'),
   LocaleStore: require('../stores/LocaleStore'),
   Levels: require('../graph/treeCompare'),
@@ -36,7 +38,11 @@ var toGlobalize = {
 
 _.each(toGlobalize, function(module, moduleName) {
   for (var key in module) {
-    window['debug_' + moduleName + '_' + key] = module[key];
+    var value = module[key];
+    if (value instanceof Function) {
+      value = value.bind(module);
+    }
+    window['debug_' + moduleName + '_' + key] = value;
   }
 });
 

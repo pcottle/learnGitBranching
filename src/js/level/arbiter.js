@@ -27,7 +27,6 @@ function LevelArbiter() {
 }
 
 LevelArbiter.prototype.init = function() {
-  var previousLevelID;
   _.each(this.levelSequences, function(levels, levelSequenceName) {
     this.sequences.push(levelSequenceName);
     if (!levels || !levels.length) {

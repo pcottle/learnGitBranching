@@ -5,7 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 var ActionTypes = AppConstants.ActionTypes;
 
-var LevelStoreActions = {
+var LevelActions = {
 
   setLevelSolved: function(levelID) {
     AppDispatcher.handleViewAction({
@@ -22,4 +22,4 @@ var LevelStoreActions = {
 
 };
 
-module.exports = LevelStoreActions;
+module.exports = LevelActions;

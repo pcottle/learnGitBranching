@@ -54,6 +54,7 @@ var LocaleStore = assign(
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
 {
+
   getDefaultLocale: function() {
     return DEFAULT_LOCALE;
   },
