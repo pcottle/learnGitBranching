@@ -9,7 +9,7 @@ var log = require('../log');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
-
+var LevelActions = require('../actions/LevelActions');
 var Visualization = require('../visuals/visualization').Visualization;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var GitShim = require('../git/gitShim').GitShim;
@@ -415,6 +415,7 @@ var Level = Sandbox.extend({
     this.solved = true;
     if (!this.isShowingSolution) {
       Main.getEvents().trigger('levelSolved', this.level.id);
+      LevelActions.setLevelSolved(this.level.id);
       log.levelSolved(this.getEnglishName());
     }
 
