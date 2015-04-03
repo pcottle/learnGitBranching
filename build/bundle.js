@@ -1498,9 +1498,311 @@
 
 }).call(this);
 
-},{"underscore":10}],2:[function(require,module,exports){
+},{"underscore":17}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        throw TypeError('Uncaught, unspecified "error" event.');
+      }
+      return false;
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        len = arguments.length;
+        args = new Array(len - 1);
+        for (i = 1; i < len; i++)
+          args[i - 1] = arguments[i];
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    len = arguments.length;
+    args = new Array(len - 1);
+    for (i = 1; i < len; i++)
+      args[i - 1] = arguments[i];
+
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    var m;
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      console.trace();
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  var ret;
+  if (!emitter._events || !emitter._events[type])
+    ret = 0;
+  else if (isFunction(emitter._events[type]))
+    ret = 1;
+  else
+    ret = emitter._events[type].length;
+  return ret;
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],4:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1525,7 +1827,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1580,14 +1882,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var process=require("__browserify_process"),global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2175,12 +2477,331 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-},{"./support/isBuffer":5,"__browserify_process":4,"inherits":3}],7:[function(require,module,exports){
+},{"./support/isBuffer":6,"__browserify_process":5,"inherits":4}],8:[function(require,module,exports){
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+module.exports.Dispatcher = require('./lib/Dispatcher')
+
+},{"./lib/Dispatcher":9}],9:[function(require,module,exports){
+/*
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule Dispatcher
+ * @typechecks
+ */
+
+"use strict";
+
+var invariant = require('./invariant');
+
+var _lastID = 1;
+var _prefix = 'ID_';
+
+/**
+ * Dispatcher is used to broadcast payloads to registered callbacks. This is
+ * different from generic pub-sub systems in two ways:
+ *
+ *   1) Callbacks are not subscribed to particular events. Every payload is
+ *      dispatched to every registered callback.
+ *   2) Callbacks can be deferred in whole or part until other callbacks have
+ *      been executed.
+ *
+ * For example, consider this hypothetical flight destination form, which
+ * selects a default city when a country is selected:
+ *
+ *   var flightDispatcher = new Dispatcher();
+ *
+ *   // Keeps track of which country is selected
+ *   var CountryStore = {country: null};
+ *
+ *   // Keeps track of which city is selected
+ *   var CityStore = {city: null};
+ *
+ *   // Keeps track of the base flight price of the selected city
+ *   var FlightPriceStore = {price: null}
+ *
+ * When a user changes the selected city, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'city-update',
+ *     selectedCity: 'paris'
+ *   });
+ *
+ * This payload is digested by `CityStore`:
+ *
+ *   flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'city-update') {
+ *       CityStore.city = payload.selectedCity;
+ *     }
+ *   });
+ *
+ * When the user selects a country, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'country-update',
+ *     selectedCountry: 'australia'
+ *   });
+ *
+ * This payload is digested by both stores:
+ *
+ *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       CountryStore.country = payload.selectedCountry;
+ *     }
+ *   });
+ *
+ * When the callback to update `CountryStore` is registered, we save a reference
+ * to the returned token. Using this token with `waitFor()`, we can guarantee
+ * that `CountryStore` is updated before the callback that updates `CityStore`
+ * needs to query its data.
+ *
+ *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       // `CountryStore.country` may not be updated.
+ *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+ *       // `CountryStore.country` is now guaranteed to be updated.
+ *
+ *       // Select the default city for the new country
+ *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+ *     }
+ *   });
+ *
+ * The usage of `waitFor()` can be chained, for example:
+ *
+ *   FlightPriceStore.dispatchToken =
+ *     flightDispatcher.register(function(payload) {
+ *       switch (payload.actionType) {
+ *         case 'country-update':
+ *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+ *           FlightPriceStore.price =
+ *             getFlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *
+ *         case 'city-update':
+ *           FlightPriceStore.price =
+ *             FlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *     }
+ *   });
+ *
+ * The `country-update` payload will be guaranteed to invoke the stores'
+ * registered callbacks in order: `CountryStore`, `CityStore`, then
+ * `FlightPriceStore`.
+ */
+
+  function Dispatcher() {
+    this.$Dispatcher_callbacks = {};
+    this.$Dispatcher_isPending = {};
+    this.$Dispatcher_isHandled = {};
+    this.$Dispatcher_isDispatching = false;
+    this.$Dispatcher_pendingPayload = null;
+  }
+
+  /**
+   * Registers a callback to be invoked with every dispatched payload. Returns
+   * a token that can be used with `waitFor()`.
+   *
+   * @param {function} callback
+   * @return {string}
+   */
+  Dispatcher.prototype.register=function(callback) {
+    var id = _prefix + _lastID++;
+    this.$Dispatcher_callbacks[id] = callback;
+    return id;
+  };
+
+  /**
+   * Removes a callback based on its token.
+   *
+   * @param {string} id
+   */
+  Dispatcher.prototype.unregister=function(id) {
+    invariant(
+      this.$Dispatcher_callbacks[id],
+      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
+      id
+    );
+    delete this.$Dispatcher_callbacks[id];
+  };
+
+  /**
+   * Waits for the callbacks specified to be invoked before continuing execution
+   * of the current callback. This method should only be used by a callback in
+   * response to a dispatched payload.
+   *
+   * @param {array<string>} ids
+   */
+  Dispatcher.prototype.waitFor=function(ids) {
+    invariant(
+      this.$Dispatcher_isDispatching,
+      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+    );
+    for (var ii = 0; ii < ids.length; ii++) {
+      var id = ids[ii];
+      if (this.$Dispatcher_isPending[id]) {
+        invariant(
+          this.$Dispatcher_isHandled[id],
+          'Dispatcher.waitFor(...): Circular dependency detected while ' +
+          'waiting for `%s`.',
+          id
+        );
+        continue;
+      }
+      invariant(
+        this.$Dispatcher_callbacks[id],
+        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
+        id
+      );
+      this.$Dispatcher_invokeCallback(id);
+    }
+  };
+
+  /**
+   * Dispatches a payload to all registered callbacks.
+   *
+   * @param {object} payload
+   */
+  Dispatcher.prototype.dispatch=function(payload) {
+    invariant(
+      !this.$Dispatcher_isDispatching,
+      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+    );
+    this.$Dispatcher_startDispatching(payload);
+    try {
+      for (var id in this.$Dispatcher_callbacks) {
+        if (this.$Dispatcher_isPending[id]) {
+          continue;
+        }
+        this.$Dispatcher_invokeCallback(id);
+      }
+    } finally {
+      this.$Dispatcher_stopDispatching();
+    }
+  };
+
+  /**
+   * Is this Dispatcher currently dispatching.
+   *
+   * @return {boolean}
+   */
+  Dispatcher.prototype.isDispatching=function() {
+    return this.$Dispatcher_isDispatching;
+  };
+
+  /**
+   * Call the callback stored with the given id. Also do some internal
+   * bookkeeping.
+   *
+   * @param {string} id
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
+    this.$Dispatcher_isPending[id] = true;
+    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+    this.$Dispatcher_isHandled[id] = true;
+  };
+
+  /**
+   * Set up bookkeeping needed when dispatching.
+   *
+   * @param {object} payload
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
+    for (var id in this.$Dispatcher_callbacks) {
+      this.$Dispatcher_isPending[id] = false;
+      this.$Dispatcher_isHandled[id] = false;
+    }
+    this.$Dispatcher_pendingPayload = payload;
+    this.$Dispatcher_isDispatching = true;
+  };
+
+  /**
+   * Clear bookkeeping used for dispatching.
+   *
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
+    this.$Dispatcher_pendingPayload = null;
+    this.$Dispatcher_isDispatching = false;
+  };
+
+
+module.exports = Dispatcher;
+
+},{"./invariant":10}],10:[function(require,module,exports){
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule invariant
+ */
+
+"use strict";
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (false) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        'Invariant Violation: ' +
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+},{}],11:[function(require,module,exports){
 // super simple module for the most common nodejs use case.
 exports.markdown = require("./markdown");
 exports.parse = exports.markdown.toHTML;
 
-},{"./markdown":8}],8:[function(require,module,exports){
+},{"./markdown":12}],12:[function(require,module,exports){
 // Released under MIT license
 // Copyright (c) 2009-2010 Dominic Baggott
 // Copyright (c) 2009-2010 Ash Berlin
@@ -3798,7 +4419,35 @@ function merge_text_nodes( jsonml ) {
   }
 } )() );
 
-},{"util":6}],9:[function(require,module,exports){
+},{"util":7}],13:[function(require,module,exports){
+'use strict';
+
+function ToObject(val) {
+	if (val == null) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+module.exports = Object.assign || function (target, source) {
+	var from;
+	var keys;
+	var to = ToObject(target);
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = arguments[s];
+		keys = Object.keys(Object(from));
+
+		for (var i = 0; i < keys.length; i++) {
+			to[keys[i]] = from[keys[i]];
+		}
+	}
+
+	return to;
+};
+
+},{}],14:[function(require,module,exports){
 var process=require("__browserify_process");// vim:ts=4:sts=4:sw=4:
 /*!
  *
@@ -5369,7 +6018,115 @@ var qEndingLine = captureLine();
 
 });
 
-},{"__browserify_process":4}],10:[function(require,module,exports){
+},{"__browserify_process":5}],15:[function(require,module,exports){
+var process=require("__browserify_process");/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule invariant
+ */
+
+"use strict";
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if ("production" !== process.env.NODE_ENV) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        'Invariant Violation: ' +
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+},{"__browserify_process":5}],16:[function(require,module,exports){
+var process=require("__browserify_process");/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule keyMirror
+ * @typechecks static-only
+ */
+
+'use strict';
+
+var invariant = require("./invariant");
+
+/**
+ * Constructs an enumeration with keys equal to their value.
+ *
+ * For example:
+ *
+ *   var COLORS = keyMirror({blue: null, red: null});
+ *   var myColor = COLORS.blue;
+ *   var isColorValid = !!COLORS[myColor];
+ *
+ * The last line could not be performed if the values of the generated enum were
+ * not equal to their keys.
+ *
+ *   Input:  {key1: val1, key2: val2}
+ *   Output: {key1: key1, key2: key2}
+ *
+ * @param {object} obj
+ * @return {object}
+ */
+var keyMirror = function(obj) {
+  var ret = {};
+  var key;
+  ("production" !== process.env.NODE_ENV ? invariant(
+    obj instanceof Object && !Array.isArray(obj),
+    'keyMirror(...): Argument must be an object.'
+  ) : invariant(obj instanceof Object && !Array.isArray(obj)));
+  for (key in obj) {
+    if (!obj.hasOwnProperty(key)) {
+      continue;
+    }
+    ret[key] = key;
+  }
+  return ret;
+};
+
+module.exports = keyMirror;
+
+},{"./invariant":15,"__browserify_process":5}],17:[function(require,module,exports){
 //     Underscore.js 1.4.4
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
@@ -6597,14 +7354,103 @@ var qEndingLine = captureLine();
 
 }).call(this);
 
-},{}],11:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
+"use strict";
+
+var AppConstants = require('../constants/AppConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+
+var ActionTypes = AppConstants.ActionTypes;
+
+var GlobalStateActions = {
+
+  changeIsAnimating: function(isAnimating) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CHANGE_IS_ANIMATING,
+      isAnimating: isAnimating
+    });
+  },
+
+  changeFlipTreeY: function(flipTreeY) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CHANGE_FLIP_TREE_Y,
+      flipTreeY: flipTreeY
+    });
+  }
+
+};
+
+module.exports = GlobalStateActions;
+
+},{"../constants/AppConstants":23,"../dispatcher/AppDispatcher":28}],19:[function(require,module,exports){
+"use strict";
+
+var AppConstants = require('../constants/AppConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+
+var ActionTypes = AppConstants.ActionTypes;
+
+var LevelActions = {
+
+  setLevelSolved: function(levelID) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.SET_LEVEL_SOLVED,
+      levelID: levelID
+    });
+  },
+
+  resetLevelsSolved: function() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.RESET_LEVELS_SOLVED
+    });
+  }
+
+};
+
+module.exports = LevelActions;
+
+},{"../constants/AppConstants":23,"../dispatcher/AppDispatcher":28}],20:[function(require,module,exports){
+"use strict";
+
+var AppConstants = require('../constants/AppConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+
+var ActionTypes = AppConstants.ActionTypes;
+
+var LocaleActions = {
+
+  changeLocale: function(newLocale) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CHANGE_LOCALE,
+      locale: newLocale
+    });
+  },
+
+  changeLocaleFromURI: function(newLocale) {
+    AppDispatcher.handleURIAction({
+      type: ActionTypes.CHANGE_LOCALE,
+      locale: newLocale
+    });
+  },
+
+  changeLocaleFromHeader: function(header) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.CHANGE_LOCALE_FROM_HEADER,
+      header: header
+    });
+  }
+};
+
+module.exports = LocaleActions;
+
+},{"../constants/AppConstants":23,"../dispatcher/AppDispatcher":28}],21:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var constants = require('../util/constants');
 var util = require('../util');
 var intl = require('../intl');
-var GlobalState = require('../util/globalState');
+var LocaleStore = require('../stores/LocaleStore');
+var LocaleActions = require('../actions/LocaleActions');
 
 /**
  * Globals
@@ -6613,7 +7459,6 @@ var events = _.clone(Backbone.Events);
 var commandUI;
 var sandbox;
 var eventBaton;
-var levelArbiter;
 var levelDropdown;
 
 ///////////////////////////////////////////////////////////////////////
@@ -6629,20 +7474,21 @@ var init = function() {
     *   - handling window.focus and zoom events
   **/
   var Sandbox = require('../sandbox/').Sandbox;
-  var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
-  var LevelArbiter = require('../level/arbiter').LevelArbiter;
   var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
-  levelArbiter = new LevelArbiter();
   levelDropdown = new LevelDropdownView({
     wait: true
   });
 
-  events.on('localeChanged', intlRefresh);
+  LocaleStore.subscribe(function() {
+    if (LocaleStore.getLocale() !== LocaleStore.getDefaultLocale()) {
+      intlRefresh();
+    }
+  });
   events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
@@ -6817,8 +7663,7 @@ var initDemo = function(sandbox) {
   }
 
   if (params.locale !== undefined && params.locale.length) {
-    GlobalState.locale = params.locale;
-    events.trigger('localeChanged');
+    LocaleActions.changeLocaleFromURI(params.locale);
   } else {
     tryLocaleDetect();
   }
@@ -6850,32 +7695,7 @@ function tryLocaleDetect() {
 }
 
 function changeLocaleFromHeaders(langString) {
-  try {
-    var languages = langString.split(',');
-    var desiredLocale;
-    for (var i = 0; i < languages.length; i++) {
-      var header = languages[i].split(';')[0];
-      // first check the full string raw
-      if (intl.headerLocaleMap[header]) {
-        desiredLocale = intl.headerLocaleMap[header];
-        break;
-      }
-
-      var lang = header.slice(0, 2);
-      if (intl.langLocaleMap[lang]) {
-        desiredLocale = intl.langLocaleMap[lang];
-        break;
-      }
-    }
-    if (!desiredLocale || desiredLocale == intl.getLocale()) {
-      return;
-    }
-    // actually change it here
-    GlobalState.locale = desiredLocale;
-    events.trigger('localeChanged');
-  } catch (e) {
-    console.warn('locale change fail', e);
-  }
+  LocaleActions.changeLocaleFromHeader(langString);
 }
 
 if (require('../util').isBrowser()) {
@@ -6927,10 +7747,6 @@ exports.getCommandUI = function() {
   return commandUI;
 };
 
-exports.getLevelArbiter = function() {
-  return levelArbiter;
-};
-
 exports.getLevelDropdown = function() {
   return levelDropdown;
 };
@@ -6938,7 +7754,7 @@ exports.getLevelDropdown = function() {
 exports.init = init;
 
 
-},{"../intl":24,"../level":29,"../level/arbiter":26,"../models/collections":33,"../sandbox/":36,"../util":42,"../util/constants":37,"../util/eventBaton":40,"../util/globalState":41,"../views":49,"../views/commandViews":47,"../views/levelDropdownView":50,"backbone":1,"underscore":10}],12:[function(require,module,exports){
+},{"../actions/LocaleActions":20,"../intl":36,"../models/collections":44,"../sandbox/":47,"../stores/LocaleStore":50,"../util":55,"../util/eventBaton":54,"../views":62,"../views/commandViews":60,"../views/levelDropdownView":63,"backbone":1,"underscore":17}],22:[function(require,module,exports){
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -7147,7 +7963,44 @@ CommandOptionParser.prototype.explodeAndSet = function() {
 exports.commands = commands;
 exports.parse = parse;
 
-},{"../git/commands":17,"../intl":24,"../mercurial/commands":32,"../util/errors":39,"underscore":10}],13:[function(require,module,exports){
+},{"../git/commands":29,"../intl":36,"../mercurial/commands":43,"../util/errors":53,"underscore":17}],23:[function(require,module,exports){
+"use strict";
+
+var keyMirror = require('react/lib/keyMirror');
+
+var CHANGE_EVENT = 'change';
+
+module.exports = {
+
+  CHANGE_EVENT: CHANGE_EVENT,
+
+  StoreSubscribePrototype: {
+    subscribe: function(cb) {
+      this.on(CHANGE_EVENT, cb);
+    },
+
+    unsubscribe: function(cb) {
+      this.removeListener(CHANGE_EVENT, cb);
+    }
+  },
+
+  ActionTypes: keyMirror({
+    SET_LEVEL_SOLVED: null,
+    RESET_LEVELS_SOLVED: null,
+    CHANGE_IS_ANIMATING: null,
+    CHANGE_FLIP_TREE_Y: null,
+    SUBMIT_COMMAND: null,
+    CHANGE_LOCALE: null,
+    CHANGE_LOCALE_FROM_HEADER: null
+  }),
+
+  PayloadSources: keyMirror({
+    VIEW_ACTION: null,
+    URI_ACTION: null
+  })
+};
+
+},{"react/lib/keyMirror":16}],24:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -7222,7 +8075,7 @@ exports.dialog = {
 };
 
 
-},{}],14:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -7359,7 +8212,7 @@ exports.dialog = {
   }]
 };
 
-},{}],15:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -7451,7 +8304,7 @@ exports.dialog = {
 };
 
 
-},{}],16:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -7957,7 +8810,33 @@ exports.dialog = {
   }]
 };
 
-},{}],17:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
+'use strict';
+
+var AppConstants = require('../constants/AppConstants');
+var Dispatcher = require('flux').Dispatcher;
+
+var PayloadSources = AppConstants.PayloadSources;
+
+var AppDispatcher = new Dispatcher();
+
+AppDispatcher.handleViewAction = function(action) {
+  this.dispatch({
+    source: PayloadSources.VIEW_ACTION,
+    action: action
+  });
+};
+
+AppDispatcher.handleURIAction = function(action) {
+  this.dispatch({
+    source: PayloadSources.URI_ACTION,
+    action: action
+  });
+};
+
+module.exports = AppDispatcher;
+
+},{"../constants/AppConstants":23,"flux":8}],29:[function(require,module,exports){
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -8777,7 +9656,7 @@ exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
 
 
-},{"../commands":12,"../graph":21,"../intl":24,"../util/errors":39,"underscore":10}],18:[function(require,module,exports){
+},{"../commands":22,"../graph":33,"../intl":36,"../util/errors":53,"underscore":17}],30:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 
@@ -8863,7 +9742,7 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
 exports.GitShim = GitShim;
 
 
-},{"../app":11,"../views/multiView":51,"q":9,"underscore":10}],19:[function(require,module,exports){
+},{"../app":21,"../views/multiView":64,"q":14,"underscore":17}],31:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
@@ -9008,7 +9887,7 @@ exports.HeadlessGit = HeadlessGit;
 exports.getTreeQuick = getTreeQuick;
 
 
-},{"../git":20,"../graph/treeCompare":22,"../models/collections":33,"../models/commandModel":34,"../util":42,"../util/eventBaton":40,"../util/mock":44,"../visuals":55,"../visuals/animation/animationFactory":53,"backbone":1,"q":9,"underscore":10}],20:[function(require,module,exports){
+},{"../git":32,"../graph/treeCompare":34,"../models/collections":44,"../models/commandModel":45,"../util":55,"../util/eventBaton":54,"../util/mock":57,"../visuals":68,"../visuals/animation/animationFactory":66,"backbone":1,"q":14,"underscore":17}],32:[function(require,module,exports){
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -12042,7 +12921,7 @@ exports.Tag = Tag;
 exports.Ref = Ref;
 
 
-},{"../app":11,"../commands":12,"../graph":21,"../graph/treeCompare":22,"../intl":24,"../util":42,"../util/errors":39,"../util/eventBaton":40,"../views/rebaseView":52,"../visuals/animation":54,"../visuals/animation/animationFactory":53,"backbone":1,"q":9,"underscore":10}],21:[function(require,module,exports){
+},{"../app":21,"../commands":22,"../graph":33,"../graph/treeCompare":34,"../intl":36,"../util":55,"../util/errors":53,"../util/eventBaton":54,"../views/rebaseView":65,"../visuals/animation":67,"../visuals/animation/animationFactory":66,"backbone":1,"q":14,"underscore":17}],33:[function(require,module,exports){
 var _ = require('underscore');
 
 function invariant(truthy, reason) {
@@ -12213,7 +13092,7 @@ var Graph = {
 
 module.exports = Graph;
 
-},{"../git":20,"underscore":10}],22:[function(require,module,exports){
+},{"../git":32,"underscore":17}],34:[function(require,module,exports){
 var _ = require('underscore');
 
 // static class...
@@ -12654,7 +13533,7 @@ TreeCompare.compareTrees = function(treeA, treeB) {
 
 module.exports = TreeCompare;
 
-},{"underscore":10}],23:[function(require,module,exports){
+},{"underscore":17}],35:[function(require,module,exports){
 var sys = require('sys');
 var util = require('../util');
 var _ = require('underscore');
@@ -12706,46 +13585,16 @@ if (!util.isBrowser()) {
 }
 
 
-},{"../intl/strings":25,"../util":42,"child_process":2,"sys":6,"underscore":10}],24:[function(require,module,exports){
-var _ = require('underscore');
-var constants = require('../util/constants');
-var util = require('../util');
-var GlobalState = require('../util/globalState');
+},{"../intl/strings":37,"../util":55,"child_process":2,"sys":7,"underscore":17}],36:[function(require,module,exports){
+var LocaleStore = require('../stores/LocaleStore');
 
+var _ = require('underscore');
 var strings = require('../intl/strings').strings;
 
-var getDefaultLocale = exports.getDefaultLocale = function() {
-  return 'en_US';
-};
-
-var headerLocaleMap = exports.headerLocaleMap = {
-  'zh-CN': 'zh_CN',
-  'zh-TW': 'zh_TW',
-  'pt-BR': 'pt_BR',
-};
-
-// resolve the messy mapping between browser language
-// and our supported locales
-var langLocaleMap = exports.langLocaleMap = {
-  en: 'en_US',
-  zh: 'zh_CN',
-  ja: 'ja',
-  ko: 'ko',
-  es: 'es_AR',
-  fr: 'fr_FR',
-  de: 'de_DE',
-  pt: 'pt_BR',
-};
+var getDefaultLocale = LocaleStore.getDefaultLocale;
 
 var fallbackMap = {
   'zh_TW': 'zh_CN'
-};
-
-var getLocale = exports.getLocale = function() {
-  if (GlobalState.locale) {
-    return GlobalState.locale;
-  }
-  return getDefaultLocale();
 };
 
 // lets change underscores template settings so it interpolates
@@ -12770,7 +13619,7 @@ var str = exports.str = function(key, params) {
   // 'You can not delete the branch bugFix because you are currently on that branch!
   //  This is error number 3'
 
-  var locale = getLocale();
+  var locale = LocaleStore.getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key;
@@ -12807,27 +13656,26 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
     );
   }
 
-  return obj[key][getLocale()];
+  return obj[key][LocaleStore.getLocale()];
 };
 
 exports.todo = function(str) {
   return str;
 };
 
-var getDialog = exports.getDialog = function(obj) {
-  var defaultLocale = getDefaultLocale();
-  return getIntlKey(obj, 'dialog') || obj.dialog[defaultLocale];
+exports.getDialog = function(obj) {
+  return getIntlKey(obj, 'dialog') || obj.dialog[getDefaultLocale()];
 };
 
-var getHint = exports.getHint = function(level) {
+exports.getHint = function(level) {
   return getIntlKey(level, 'hint') || str('error-untranslated');
 };
 
-var getName = exports.getName = function(level) {
+exports.getName = function(level) {
   return getIntlKey(level, 'name') || str('error-untranslated');
 };
 
-var getStartDialog = exports.getStartDialog = function(level) {
+exports.getStartDialog = function(level) {
   var startDialog = getIntlKey(level, 'startDialog');
   if (startDialog) { return startDialog; }
 
@@ -12847,9 +13695,7 @@ var getStartDialog = exports.getStartDialog = function(level) {
   return startCopy;
 };
 
-
-
-},{"../intl/strings":25,"../util":42,"../util/constants":37,"../util/globalState":41,"underscore":10}],25:[function(require,module,exports){
+},{"../intl/strings":37,"../stores/LocaleStore":50,"underscore":17}],37:[function(require,module,exports){
 exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-finished': {
@@ -13814,173 +14660,7 @@ exports.strings = {
   }
 };
 
-},{}],26:[function(require,module,exports){
-var _ = require('underscore');
-var Backbone = require('backbone');
-
-// Each level is part of a "sequence;" levels within
-// a sequence proceed in order.
-var levelSequences = require('../../levels').levelSequences;
-var sequenceInfo = require('../../levels').sequenceInfo;
-
-var Main = require('../app');
-
-function LevelArbiter() {
-  this.levelMap = {};
-  this.levelSequences = levelSequences;
-  this.sequences = [];
-  this.init();
-
-  var solvedMap;
-  try {
-    solvedMap = JSON.parse(localStorage.getItem('solvedMap') || '{}');
-  } catch (e) {
-    console.warn('local storage failed', e);
-    // throw e;
-  }
-  this.solvedMap = solvedMap || {};
-
-  Main.getEvents().on('levelSolved', this.levelSolved, this);
-}
-
-LevelArbiter.prototype.init = function() {
-  var previousLevelID;
-  _.each(this.levelSequences, function(levels, levelSequenceName) {
-    this.sequences.push(levelSequenceName);
-    if (!levels || !levels.length) {
-      throw new Error('no empty sequences allowed');
-    }
-
-    // for this particular sequence...
-    _.each(levels, function(level, index) {
-      this.validateLevel(level);
-
-      var id = levelSequenceName + String(index + 1);
-      var compiledLevel = _.extend(
-        {},
-        level,
-        {
-          index: index,
-          id: id,
-          sequenceName: levelSequenceName
-        }
-      );
-
-      // update our internal data
-      this.levelMap[id] = compiledLevel;
-      this.levelSequences[levelSequenceName][index] = compiledLevel;
-    }, this);
-  }, this);
-};
-
-LevelArbiter.prototype.isLevelSolved = function(id) {
-  if (!this.levelMap[id]) {
-    throw new Error('that level doesnt exist!');
-  }
-  return Boolean(this.solvedMap[id]);
-};
-
-LevelArbiter.prototype.levelSolved = function(id) {
-  // called without an id when we reset solved status
-  if (!id) { return; }
-
-  this.solvedMap[id] = true;
-  this.syncToStorage();
-};
-
-LevelArbiter.prototype.resetSolvedMap = function() {
-  this.solvedMap = {};
-  this.syncToStorage();
-  Main.getEvents().trigger('levelSolved');
-};
-
-LevelArbiter.prototype.syncToStorage = function() {
-  try {
-    localStorage.setItem('solvedMap', JSON.stringify(this.solvedMap));
-  } catch (e) {
-    console.warn('local storage fialed on set', e);
-  }
-};
-
-LevelArbiter.prototype.validateLevel = function(level) {
-  level = level || {};
-  var requiredFields = [
-    'name',
-    'goalTreeString',
-    //'description',
-    'solutionCommand'
-  ];
-
-  var optionalFields = [
-    'hint',
-    'disabledMap',
-    'startTree'
-  ];
-
-  _.each(requiredFields, function(field) {
-    if (level[field] === undefined) {
-      console.log(level);
-      throw new Error('I need this field for a level: ' + field);
-    }
-  });
-};
-
-LevelArbiter.prototype.getSequenceToLevels = function() {
-  return this.levelSequences;
-};
-
-LevelArbiter.prototype.getSequences = function() {
-  return _.keys(this.levelSequences);
-};
-
-LevelArbiter.prototype.getLevelsInSequence = function(sequenceName) {
-  if (!this.levelSequences[sequenceName]) {
-    throw new Error('that sequecne name ' + sequenceName + 'does not exist');
-  }
-  return this.levelSequences[sequenceName];
-};
-
-LevelArbiter.prototype.getSequenceInfo = function(sequenceName) {
-  return sequenceInfo[sequenceName];
-};
-
-LevelArbiter.prototype.getLevel = function(id) {
-  return this.levelMap[id];
-};
-
-LevelArbiter.prototype.getNextLevel = function(id) {
-  if (!this.levelMap[id]) {
-    console.warn('that level doesnt exist!!!');
-    return null;
-  }
-
-  // meh, this method could be better. It's a tradeoff between
-  // having the sequence structure be really simple JSON
-  // and having no connectivity information between levels, which means
-  // you have to build that up yourself on every query
-  var level = this.levelMap[id];
-  var sequenceName = level.sequenceName;
-  var sequence = this.levelSequences[sequenceName];
-
-  var nextIndex = level.index + 1;
-  if (nextIndex < sequence.length) {
-    return sequence[nextIndex];
-  }
-
-  var nextSequenceIndex = this.sequences.indexOf(sequenceName) + 1;
-  if (nextSequenceIndex < this.sequences.length) {
-    var nextSequenceName = this.sequences[nextSequenceIndex];
-    return this.levelSequences[nextSequenceName][0];
-  }
-
-  // they finished the last level!
-  return null;
-};
-
-exports.LevelArbiter = LevelArbiter;
-
-
-},{"../../levels":64,"../app":11,"backbone":1,"underscore":10}],27:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
@@ -13993,6 +14673,8 @@ var Errors = require('../util/errors');
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var Level = require('../level').Level;
+var LocaleStore = require('../stores/LocaleStore');
+var LevelStore = require('../stores/LevelStore');
 
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
@@ -14027,7 +14709,7 @@ var LevelBuilder = Level.extend({
     options = options || {};
     options.level = {};
 
-    var locale = intl.getLocale();
+    var locale = LocaleStore.getLocale();
     options.level.startDialog = {};
     options.level.startDialog[locale] = {
       childViews: intl.getDialog(require('../dialogs/levelBuilder'))
@@ -14036,7 +14718,7 @@ var LevelBuilder = Level.extend({
     // if we are editing a level our behavior is a bit different
     var editLevelJSON;
     if (options.editLevel) {
-      editLevelJSON = Main.getLevelArbiter().getLevel(options.editLevel);
+      LevelStore.getLevel(options.editLevel);
       options.level = editLevelJSON;
     }
 
@@ -14394,7 +15076,7 @@ var LevelBuilder = Level.extend({
 exports.LevelBuilder = LevelBuilder;
 exports.regexMap = regexMap;
 
-},{"../app":11,"../dialogs/levelBuilder":14,"../git/gitShim":18,"../intl":24,"../level":29,"../level/parseWaterfall":30,"../models/commandModel":34,"../util":42,"../util/errors":39,"../views":49,"../views/builderViews":46,"../views/multiView":51,"../visuals/visualization":62,"backbone":1,"q":9,"underscore":10}],28:[function(require,module,exports){
+},{"../app":21,"../dialogs/levelBuilder":25,"../git/gitShim":30,"../intl":36,"../level":40,"../level/parseWaterfall":41,"../models/commandModel":45,"../stores/LevelStore":49,"../stores/LocaleStore":50,"../util":55,"../util/errors":53,"../views":62,"../views/builderViews":59,"../views/multiView":64,"../visuals/visualization":75,"backbone":1,"q":14,"underscore":17}],39:[function(require,module,exports){
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -14439,9 +15121,8 @@ DisabledMap.prototype.getInstantCommands = function() {
 exports.DisabledMap = DisabledMap;
 
 
-},{"../commands":12,"../intl":24,"../util/errors":39,"underscore":10}],29:[function(require,module,exports){
+},{"../commands":22,"../intl":36,"../util/errors":53,"underscore":17}],40:[function(require,module,exports){
 var _ = require('underscore');
-var Backbone = require('backbone');
 var Q = require('q');
 
 var util = require('../util');
@@ -14451,13 +15132,11 @@ var log = require('../log');
 
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
-var Constants = require('../util/constants');
-var GlobalState = require('../util/globalState');
-
+var GlobalStateActions = require('../actions/GlobalStateActions');
+var LevelActions = require('../actions/LevelActions');
+var LevelStore = require('../stores/LevelStore');
 var Visualization = require('../visuals/visualization').Visualization;
-var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
-var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
 var Commands = require('../commands');
 
@@ -14597,7 +15276,6 @@ var Level = Sandbox.extend({
   },
 
   startOffCommand: function() {
-    console.log(this.options);
     var method = this.options.command.get('method');
     if (!this.testOption('noStartCommand') && method !== 'importLevelNow') {
       Main.getEventBaton().trigger(
@@ -14860,13 +15538,13 @@ var Level = Sandbox.extend({
   levelSolved: function(defer) {
     this.solved = true;
     if (!this.isShowingSolution) {
-      Main.getEvents().trigger('levelSolved', this.level.id);
+      LevelActions.setLevelSolved(this.level.id);
       log.levelSolved(this.getEnglishName());
     }
 
     this.hideGoal();
 
-    var nextLevel = Main.getLevelArbiter().getNextLevel(this.level.id);
+    var nextLevel = LevelStore.getNextLevel(this.level.id);
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
 
@@ -14884,7 +15562,7 @@ var Level = Sandbox.extend({
         'echo "level solved!"'
       );
     } else {
-      GlobalState.isAnimating = true;
+      GlobalStateActions.changeIsAnimating(true);
       finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
       if (this.mainVis.originVis) {
         finishAnimationChain = finishAnimationChain.then(
@@ -14921,7 +15599,7 @@ var Level = Sandbox.extend({
       // nothing to do, we will just close
     })
     .done(function() {
-      GlobalState.isAnimating = false;
+      GlobalStateActions.changeIsAnimating(false);
       defer.resolve();
     });
   },
@@ -15037,7 +15715,7 @@ var Level = Sandbox.extend({
 exports.Level = Level;
 exports.regexMap = regexMap;
 
-},{"../app":11,"../commands":12,"../dialogs/confirmShowSolution":13,"../git/gitShim":18,"../graph/treeCompare":22,"../intl":24,"../level/disabledMap":28,"../level/parseWaterfall":30,"../log":31,"../models/commandModel":34,"../sandbox/":36,"../util":42,"../util/constants":37,"../util/errors":39,"../util/globalState":41,"../views":49,"../views/multiView":51,"../visuals/visualization":62,"backbone":1,"q":9,"underscore":10}],30:[function(require,module,exports){
+},{"../actions/GlobalStateActions":18,"../actions/LevelActions":19,"../app":21,"../commands":22,"../dialogs/confirmShowSolution":24,"../git/gitShim":30,"../graph/treeCompare":34,"../intl":36,"../level/disabledMap":39,"../log":42,"../sandbox/":47,"../stores/LevelStore":49,"../util":55,"../util/errors":53,"../views":62,"../views/multiView":64,"../visuals/visualization":75,"q":14,"underscore":17}],41:[function(require,module,exports){
 var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
@@ -15162,7 +15840,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 exports.ParseWaterfall = ParseWaterfall;
 
 
-},{"../commands":12,"../git/commands":17,"../sandbox/commands":35,"../util":42,"underscore":10}],31:[function(require,module,exports){
+},{"../commands":22,"../git/commands":29,"../sandbox/commands":46,"../util":55,"underscore":17}],42:[function(require,module,exports){
 
 var log = function(category, action, label) {
   window._gaq = window._gaq || [];
@@ -15195,7 +15873,7 @@ exports.commandEntered = function(value) {
 };
 
 
-},{}],32:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -15459,7 +16137,7 @@ var commandConfig = {
 
 exports.commandConfig = commandConfig;
 
-},{"../git/commands":17,"../intl":24,"../util/errors":39,"underscore":10}],33:[function(require,module,exports){
+},{"../git/commands":29,"../intl":36,"../util/errors":53,"underscore":17}],44:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -15597,7 +16275,7 @@ exports.CommandEntryCollection = CommandEntryCollection;
 exports.CommandBuffer = CommandBuffer;
 
 
-},{"../app":11,"../git":20,"../models/commandModel":34,"../util":42,"../util/constants":37,"../util/errors":39,"backbone":1,"q":9,"underscore":10}],34:[function(require,module,exports){
+},{"../app":21,"../git":32,"../models/commandModel":45,"../util":55,"../util/constants":51,"../util/errors":53,"backbone":1,"q":14,"underscore":17}],45:[function(require,module,exports){
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -15901,17 +16579,20 @@ var CommandEntry = Backbone.Model.extend({
 exports.CommandEntry = CommandEntry;
 exports.Command = Command;
 
-},{"../intl":24,"../level/parseWaterfall":30,"../util":42,"../util/errors":39,"backbone":1,"underscore":10}],35:[function(require,module,exports){
+},{"../intl":36,"../level/parseWaterfall":41,"../util":55,"../util/errors":53,"backbone":1,"underscore":17}],46:[function(require,module,exports){
 var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');
-var GlobalState = require('../util/globalState');
 var intl = require('../intl');
 
 var Commands = require('../commands');
 var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
+var LocaleStore = require('../stores/LocaleStore');
+var LocaleActions = require('../actions/LocaleActions');
+var GlobalStateStore = require('../stores/GlobalStateStore');
+var GlobalStateActions = require('../actions/GlobalStateActions');
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
@@ -15928,13 +16609,14 @@ var instantCommands = [
     });
   }],
   [/^(locale|locale reset)$/, function(bits) {
-    GlobalState.locale = intl.getDefaultLocale();
-    var Main = require('../app').getEvents().trigger('localeChanged');
+    LocaleActions.changeLocale(
+      LocaleStore.getDefaultLocale()
+    );
 
     throw new CommandResult({
       msg: intl.str(
         'locale-reset-command',
-        { locale: intl.getDefaultLocale() }
+        { locale: LocaleStore.getDefaultLocale() }
       )
     });
   }],
@@ -15952,9 +16634,7 @@ var instantCommands = [
     });
   }],
   [/^locale (\w+)$/, function(bits) {
-    GlobalState.locale = bits[1];
-
-    var Main = require('../app').getEvents().trigger('localeChanged');
+    LocaleActions.changeLocale(bits[1]);
     throw new CommandResult({
       msg: intl.str(
         'locale-command',
@@ -15963,10 +16643,10 @@ var instantCommands = [
     });
   }],
   [/^flip$/, function() {
-    GlobalState.flipTreeY = !GlobalState.flipTreeY;
-
-    var events = require('../app').getEvents();
-    events.trigger('refreshTree');
+    GlobalStateActions.changeFlipTreeY(
+      !GlobalStateStore.getFlipTreeY()
+    );
+    require('../app').getEvents().trigger('refreshTree');
     throw new CommandResult({
       msg: intl.str('flip-tree-command')
     });
@@ -16076,7 +16756,7 @@ exports.getOptimisticLevelBuilderParse = function() {
   );
 };
 
-},{"../app":11,"../commands":12,"../intl":24,"../level":29,"../level/builder":27,"../util":42,"../util/constants":37,"../util/errors":39,"../util/globalState":41,"underscore":10}],36:[function(require,module,exports){
+},{"../actions/GlobalStateActions":18,"../actions/LocaleActions":20,"../app":21,"../commands":22,"../intl":36,"../level":40,"../level/builder":38,"../stores/GlobalStateStore":48,"../stores/LocaleStore":50,"../util":55,"../util/constants":51,"../util/errors":53,"underscore":17}],47:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -16092,6 +16772,8 @@ var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
+var LevelActions = require('../actions/LevelActions');
+var LevelStore = require('../stores/LevelStore');
 
 var Views = require('../views');
 var ModalTerminal = Views.ModalTerminal;
@@ -16231,7 +16913,7 @@ var Sandbox = Backbone.View.extend({
   startLevel: function(command, deferred) {
     var regexResults = command.get('regexResults') || [];
     var desiredID = regexResults[1] || '';
-    var levelJSON = Main.getLevelArbiter().getLevel(desiredID);
+    var levelJSON = LevelStore.getLevel(desiredID);
 
     // handle the case where that level is not found...
     if (!levelJSON) {
@@ -16303,7 +16985,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   resetSolved: function(command, deferred) {
-    Main.getLevelArbiter().resetSolvedMap();
+    LevelActions.resetLevelsSolved();
     command.addWarning(
       intl.str('solved-map-reset')
     );
@@ -16545,7 +17227,332 @@ var Sandbox = Backbone.View.extend({
 exports.Sandbox = Sandbox;
 
 
-},{"../app":11,"../dialogs/sandbox":16,"../git/gitShim":18,"../intl":24,"../level":29,"../level/builder":27,"../level/disabledMap":28,"../level/parseWaterfall":30,"../models/commandModel":34,"../util":42,"../util/errors":39,"../views":49,"../views/builderViews":46,"../views/multiView":51,"../visuals/visualization":62,"backbone":1,"q":9,"underscore":10}],37:[function(require,module,exports){
+},{"../actions/LevelActions":19,"../app":21,"../dialogs/sandbox":27,"../git/gitShim":30,"../intl":36,"../level":40,"../level/builder":38,"../level/disabledMap":39,"../level/parseWaterfall":41,"../models/commandModel":45,"../stores/LevelStore":49,"../util":55,"../util/errors":53,"../views":62,"../views/builderViews":59,"../views/multiView":64,"../visuals/visualization":75,"backbone":1,"q":14,"underscore":17}],48:[function(require,module,exports){
+"use strict";
+
+var AppConstants = require('../constants/AppConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var EventEmitter = require('events').EventEmitter;
+
+var assign = require('object-assign');
+
+var ActionTypes = AppConstants.ActionTypes;
+
+var _isAnimating = false;
+var _flipTreeY = false;
+
+var GlobalStateStore = assign(
+{},
+EventEmitter.prototype,
+AppConstants.StoreSubscribePrototype,
+{
+  getIsAnimating: function() {
+    return _isAnimating;
+  },
+
+  getFlipTreeY: function() {
+    return _flipTreeY;
+  },
+
+  dispatchToken: AppDispatcher.register(function(payload) {
+    var action = payload.action;
+    var shouldInform = false;
+
+    switch (action.type) {
+      case ActionTypes.CHANGE_IS_ANIMATING:
+        _isAnimating = action.isAnimating;
+        shouldInform = true;
+        break;
+      case ActionTypes.CHANGE_FLIP_TREE_Y:
+        _flipTreeY = action.flipTreeY;
+        shouldInform = true;
+        break;
+    }
+
+    if (shouldInform) {
+      GlobalStateStore.emit(AppConstants.CHANGE_EVENT);
+    }
+  })
+
+});
+
+module.exports = GlobalStateStore;
+
+},{"../constants/AppConstants":23,"../dispatcher/AppDispatcher":28,"events":3,"object-assign":13}],49:[function(require,module,exports){
+"use strict";
+
+var AppConstants = require('../constants/AppConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var EventEmitter = require('events').EventEmitter;
+
+var _ = require('underscore');
+var assign = require('object-assign');
+var levelSequences = require('../../levels').levelSequences;
+var sequenceInfo = require('../../levels').sequenceInfo;
+
+var ActionTypes = AppConstants.ActionTypes;
+var SOLVED_MAP_STORAGE_KEY = 'solvedMap';
+
+var _levelMap = {};
+var _solvedMap = {};
+var _sequences = [];
+
+try {
+  _solvedMap = JSON.parse(
+    localStorage.getItem(SOLVED_MAP_STORAGE_KEY) || '{}'
+  ) || {};
+} catch (e) {
+  console.warn('local storage failed', e);
+}
+
+function _syncToStorage() {
+  try {
+    localStorage.setItem(SOLVED_MAP_STORAGE_KEY, JSON.stringify(_solvedMap));
+  } catch (e) {
+    console.warn('local storage failed on set', e);
+  }
+}
+
+var validateLevel = function(level) {
+  level = level || {};
+  var requiredFields = [
+    'name',
+    'goalTreeString',
+    //'description',
+    'solutionCommand'
+  ];
+
+  _.each(requiredFields, function(field) {
+    if (level[field] === undefined) {
+      console.log(level);
+      throw new Error('I need this field for a level: ' + field);
+    }
+  });
+};
+
+/**
+ * Unpact the level sequences.
+ */
+_.each(levelSequences, function(levels, levelSequenceName) {
+  _sequences.push(levelSequenceName);
+  if (!levels || !levels.length) {
+    throw new Error('no empty sequences allowed');
+  }
+
+  // for this particular sequence...
+  _.each(levels, function(level, index) {
+    validateLevel(level);
+
+    var id = levelSequenceName + String(index + 1);
+    var compiledLevel = assign(
+      {},
+      level,
+      {
+        index: index,
+        id: id,
+        sequenceName: levelSequenceName
+      }
+    );
+
+    // update our internal data
+    _levelMap[id] = compiledLevel;
+    levelSequences[levelSequenceName][index] = compiledLevel;
+  });
+});
+
+var LevelStore = assign(
+{},
+EventEmitter.prototype,
+AppConstants.StoreSubscribePrototype,
+{
+
+  getSequenceToLevels: function() {
+    return levelSequences;
+  },
+
+  getSequences: function() {
+    return _.keys(levelSequences);
+  },
+
+  getLevelsInSequence: function(sequenceName) {
+    if (!levelSequences[sequenceName]) {
+      throw new Error('that sequecne name ' + sequenceName + 'does not exist');
+    }
+    return levelSequences[sequenceName];
+  },
+
+  getSequenceInfo: function(sequenceName) {
+    return sequenceInfo[sequenceName];
+  },
+
+  getLevel: function(id) {
+    return _levelMap[id];
+  },
+
+  getNextLevel: function(id) {
+    if (!_levelMap[id]) {
+      console.warn('that level doesnt exist!!!');
+      return null;
+    }
+
+    // meh, this method could be better. It's a tradeoff between
+    // having the sequence structure be really simple JSON
+    // and having no connectivity information between levels, which means
+    // you have to build that up yourself on every query
+    var level = _levelMap[id];
+    var sequenceName = level.sequenceName;
+    var sequence = levelSequences[sequenceName];
+
+    var nextIndex = level.index + 1;
+    if (nextIndex < sequence.length) {
+      return sequence[nextIndex];
+    }
+
+    var nextSequenceIndex = _sequences.indexOf(sequenceName) + 1;
+    if (nextSequenceIndex < _sequences.length) {
+      var nextSequenceName = _sequences[nextSequenceIndex];
+      return levelSequences[nextSequenceName][0];
+    }
+
+    // they finished the last level!
+    return null;
+  },
+
+  isLevelSolved: function(levelID) {
+    if (!_levelMap[levelID]) {
+      throw new Error('that level doesnt exist!');
+    }
+    return !!_solvedMap[levelID];
+  },
+
+  dispatchToken: AppDispatcher.register(function(payload) {
+    var action = payload.action;
+    var shouldInform = false;
+
+    switch (action.type) {
+      case ActionTypes.RESET_LEVELS_SOLVED:
+        _solvedMap = {};
+        _syncToStorage();
+        shouldInform = true;
+        break;
+      case ActionTypes.SET_LEVEL_SOLVED:
+        _solvedMap[action.levelID] = true;
+        _syncToStorage();
+        shouldInform = true;
+        break;
+    }
+
+    if (shouldInform) {
+      LevelStore.emit(AppConstants.CHANGE_EVENT);
+    }
+  })
+
+});
+
+module.exports = LevelStore;
+
+},{"../../levels":77,"../constants/AppConstants":23,"../dispatcher/AppDispatcher":28,"events":3,"object-assign":13,"underscore":17}],50:[function(require,module,exports){
+"use strict";
+
+var AppConstants = require('../constants/AppConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var EventEmitter = require('events').EventEmitter;
+
+var assign = require('object-assign');
+
+var ActionTypes = AppConstants.ActionTypes;
+var DEFAULT_LOCALE = 'en_US';
+
+// resolve the messy mapping between browser language
+// and our supported locales
+var langLocaleMap = {
+  en: 'en_US',
+  zh: 'zh_CN',
+  ja: 'ja',
+  ko: 'ko',
+  es: 'es_AR',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  pt: 'pt_BR'
+};
+
+var headerLocaleMap = {
+  'zh-CN': 'zh_CN',
+  'zh-TW': 'zh_TW',
+  'pt-BR': 'pt_BR'
+};
+
+function _getLocaleFromHeader(langString) {
+  var languages = langString.split(',');
+  var desiredLocale;
+  for (var i = 0; i < languages.length; i++) {
+    var header = languages[i].split(';')[0];
+    // first check the full string raw
+    if (headerLocaleMap[header]) {
+      desiredLocale = headerLocaleMap[header];
+      break;
+    }
+
+    var lang = header.slice(0, 2);
+    if (langLocaleMap[lang]) {
+      desiredLocale = langLocaleMap[lang];
+      break;
+    }
+  }
+  return desiredLocale;
+}
+
+var _locale = DEFAULT_LOCALE;
+var LocaleStore = assign(
+{},
+EventEmitter.prototype,
+AppConstants.StoreSubscribePrototype,
+{
+
+  getDefaultLocale: function() {
+    return DEFAULT_LOCALE;
+  },
+
+  getLangLocaleMap: function() {
+    return assign({}, langLocaleMap);
+  },
+
+  getHeaderLocaleMap: function() {
+    return assign({}, headerLocaleMap);
+  },
+
+  getLocale: function() {
+    return _locale;
+  },
+
+  dispatchToken: AppDispatcher.register(function(payload) {
+    var action = payload.action;
+    var shouldInform = false;
+
+    switch (action.type) {
+      case ActionTypes.CHANGE_LOCALE:
+        _locale = action.locale;
+        shouldInform = true;
+        break;
+      case ActionTypes.CHANGE_LOCALE_FROM_HEADER:
+        var value = _getLocaleFromHeader(action.header);
+        if (value) {
+          _locale = value;
+          shouldInform = true;
+        }
+        break;
+    }
+
+    if (shouldInform) {
+      LocaleStore.emit(AppConstants.CHANGE_EVENT);
+    }
+  })
+
+});
+
+module.exports = LocaleStore;
+
+},{"../constants/AppConstants":23,"../dispatcher/AppDispatcher":28,"events":3,"object-assign":13}],51:[function(require,module,exports){
 /**
  * Constants....!!!
  */
@@ -16601,14 +17608,19 @@ exports.GRAPHICS = GRAPHICS;
 exports.VIEWPORT = VIEWPORT;
 
 
-},{}],38:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var _ = require('underscore');
 
 var toGlobalize = {
+  App: require('../app/index.js'),
   Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
+  LevelActions: require('../actions/LevelActions'),
+  LevelStore: require('../stores/LevelStore'),
+  LocaleActions: require('../actions/LocaleActions'),
+  LocaleStore: require('../stores/LocaleStore'),
   Levels: require('../graph/treeCompare'),
   Constants: require('../util/constants'),
   Commands: require('../commands'),
@@ -16630,13 +17642,17 @@ var toGlobalize = {
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
   BuilderViews: require('../views/builderViews'),
-  LevelArbiter: require('../level/arbiter'),
+  Util: require('../util/index'),
   Intl: require('../intl')
 };
 
-_.each(toGlobalize, function(module) {
+_.each(toGlobalize, function(module, moduleName) {
   for (var key in module) {
-    window['debug_' + key] = module[key];
+    var value = module[key];
+    if (value instanceof Function) {
+      value = value.bind(module);
+    }
+    window['debug_' + moduleName + '_' + key] = value;
   }
 });
 
@@ -16653,7 +17669,7 @@ $(document).ready(function() {
 });
 
 
-},{"../app":11,"../commands":12,"../git":20,"../git/headless":19,"../graph/treeCompare":22,"../intl":24,"../level":29,"../level/arbiter":26,"../models/collections":33,"../models/commandModel":34,"../sandbox/":36,"../util/constants":37,"../util/zoomLevel":45,"../views":49,"../views/builderViews":46,"../views/gitDemonstrationView":48,"../views/levelDropdownView":50,"../views/multiView":51,"../views/rebaseView":52,"../visuals":55,"../visuals/animation":54,"../visuals/animation/animationFactory":53,"../visuals/tree":56,"../visuals/visBranch":58,"markdown":7,"q":9,"underscore":10}],39:[function(require,module,exports){
+},{"../actions/LevelActions":19,"../actions/LocaleActions":20,"../app":21,"../app/index.js":21,"../commands":22,"../git":32,"../git/headless":31,"../graph/treeCompare":34,"../intl":36,"../level":40,"../models/collections":44,"../models/commandModel":45,"../sandbox/":47,"../stores/LevelStore":49,"../stores/LocaleStore":50,"../util/constants":51,"../util/index":55,"../util/zoomLevel":58,"../views":62,"../views/builderViews":59,"../views/gitDemonstrationView":61,"../views/levelDropdownView":63,"../views/multiView":64,"../views/rebaseView":65,"../visuals":68,"../visuals/animation":67,"../visuals/animation/animationFactory":66,"../visuals/tree":69,"../visuals/visBranch":71,"markdown":11,"q":14,"underscore":17}],53:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -16716,7 +17732,7 @@ var filterError = function(err) {
 
 exports.filterError = filterError;
 
-},{"backbone":1,"underscore":10}],40:[function(require,module,exports){
+},{"backbone":1,"underscore":17}],54:[function(require,module,exports){
 var _ = require('underscore');
 
 function EventBaton(options) {
@@ -16834,20 +17850,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 exports.EventBaton = EventBaton;
 
 
-},{"underscore":10}],41:[function(require,module,exports){
-/**
- * Random grab bag of global state variables so we
- * dont just straight up use window
- */
-
-var GlobalState = {
-  flipTreeY: false,
-  isAnimating: false
-};
-
-module.exports = GlobalState;
-
-},{}],42:[function(require,module,exports){
+},{"underscore":17}],55:[function(require,module,exports){
 var _ = require('underscore');
 var constants = require('../util/constants');
 
@@ -16906,7 +17909,7 @@ exports.genParseCommand = function(regexMap, eventName) {
   };
 };
 
-},{"../util/constants":37,"underscore":10}],43:[function(require,module,exports){
+},{"../util/constants":51,"underscore":17}],56:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -16971,7 +17974,7 @@ exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
 
 
-},{"../app":11,"backbone":1,"underscore":10}],44:[function(require,module,exports){
+},{"../app":21,"backbone":1,"underscore":17}],57:[function(require,module,exports){
 exports.mock = function(Constructor) {
   var dummy = {};
   var stub = function() {};
@@ -16983,7 +17986,7 @@ exports.mock = function(Constructor) {
 };
 
 
-},{}],45:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var _ = require('underscore');
 
 var warnOnce = true;
@@ -17034,7 +18037,7 @@ exports.setupZoomPoll = setupZoomPoll;
 exports.detectZoom = detectZoom;
 
 
-},{"underscore":10}],46:[function(require,module,exports){
+},{"underscore":17}],59:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -17462,7 +18465,7 @@ exports.MultiViewBuilder = MultiViewBuilder;
 exports.MarkdownPresenter = MarkdownPresenter;
 
 
-},{"../intl":24,"../util":42,"../util/keyboard":43,"../views":49,"../views/multiView":51,"backbone":1,"markdown":7,"q":9,"underscore":10}],47:[function(require,module,exports){
+},{"../intl":36,"../util":55,"../util/keyboard":56,"../views":62,"../views/multiView":64,"backbone":1,"markdown":11,"q":14,"underscore":17}],60:[function(require,module,exports){
 var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -17850,7 +18853,7 @@ exports.CommandPromptView = CommandPromptView;
 exports.CommandLineHistoryView = CommandLineHistoryView;
 
 
-},{"../app":11,"../log":31,"../models/collections":33,"../models/commandModel":34,"../util":42,"../util/errors":39,"../util/keyboard":43,"../util/zoomLevel":45,"backbone":1,"underscore":10}],48:[function(require,module,exports){
+},{"../app":21,"../log":42,"../models/collections":44,"../models/commandModel":45,"../util":55,"../util/errors":53,"../util/keyboard":56,"../util/zoomLevel":58,"backbone":1,"underscore":17}],61:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -18099,7 +19102,7 @@ var GitDemonstrationView = ContainedBase.extend({
 exports.GitDemonstrationView = GitDemonstrationView;
 
 
-},{"../git/headless":19,"../models/commandModel":34,"../util":42,"../util/keyboard":43,"../views":49,"../visuals/visualization":62,"backbone":1,"markdown":7,"q":9,"underscore":10}],49:[function(require,module,exports){
+},{"../git/headless":31,"../models/commandModel":45,"../util":55,"../util/keyboard":56,"../views":62,"../visuals/visualization":75,"backbone":1,"markdown":11,"q":14,"underscore":17}],62:[function(require,module,exports){
 var process=require("__browserify_process");var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -19132,17 +20135,19 @@ exports.LevelToolbar = LevelToolbar;
 exports.NextLevelConfirm = NextLevelConfirm;
 
 
-},{"../app":11,"../dialogs/nextLevel":15,"../intl":24,"../log":31,"../util":42,"../util/constants":37,"../util/errors":39,"../util/keyboard":43,"__browserify_process":4,"backbone":1,"markdown":7,"q":9,"underscore":10}],50:[function(require,module,exports){
+},{"../app":21,"../dialogs/nextLevel":26,"../intl":36,"../log":42,"../util":55,"../util/constants":51,"../util/errors":53,"../util/keyboard":56,"__browserify_process":5,"backbone":1,"markdown":11,"q":14,"underscore":17}],63:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
 var intl = require('../intl');
 var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
+var LevelStore = require('../stores/LevelStore');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
@@ -19196,18 +20201,24 @@ var LevelDropdownView = ContainedBase.extend({
       wait: true
     });
 
-    this.sequences = Main.getLevelArbiter().getSequences();
-    this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
+    this.sequences = LevelStore.getSequences();
+    this.sequenceToLevels = LevelStore.getSequenceToLevels();
 
     this.container = new ModalTerminal({
       title: intl.str('select-a-level')
     });
 
+    // Lol WTF. For some reason we cant use this.render.bind(this) so
+    // instead setup a lame callback version. The CasperJS tests
+    // fail otherwise.
+    var that = this;
+    LocaleStore.subscribe(function() {
+      that.render.apply(that);
+    });
+    LevelStore.subscribe(function() {
+      that.render();
+    });
     this.render();
-
-    Main.getEvents().on('resetMapSolved', this.render, this);
-    Main.getEvents().on('localeChanged', this.render, this);
-
     if (!options.wait) {
       this.show();
     }
@@ -19375,7 +20386,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getIndexForID: function(id) {
-    return Main.getLevelArbiter().getLevel(id).index;
+    return LevelStore.getLevel(id).index;
   },
 
   selectFirst: function() {
@@ -19451,7 +20462,7 @@ var LevelDropdownView = ContainedBase.extend({
         'commandSubmitted',
         'level ' + id
       );
-      var level = Main.getLevelArbiter().getLevel(id);
+      var level = LevelStore.getLevel(id);
       var name = level.name.en_US;
       log.levelSelected(name);
     }
@@ -19489,8 +20500,8 @@ var SeriesView = BaseView.extend({
   initialize: function(options) {
     this.name = options.name || 'intro';
     this.navEvents = options.navEvents;
-    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
-    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
+    this.info = LevelStore.getSequenceInfo(this.name);
+    this.levels = LevelStore.getLevelsInSequence(this.name);
 
     this.levelIDs = [];
     _.each(this.levels, function(level) {
@@ -19515,7 +20526,7 @@ var SeriesView = BaseView.extend({
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
       var id = $(el).attr('data-id');
-      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+      $(el).toggleClass('solved', LevelStore.isLevelSolved(id));
     });
   },
 
@@ -19539,7 +20550,7 @@ var SeriesView = BaseView.extend({
   },
 
   updateAboutForLevelID: function(id) {
-    var level = Main.getLevelArbiter().getLevel(id);
+    var level = LevelStore.getLevel(id);
     this.setAbout(intl.getName(level));
   },
 
@@ -19556,7 +20567,7 @@ var SeriesView = BaseView.extend({
 exports.LevelDropdownView = LevelDropdownView;
 
 
-},{"../../levels":64,"../app":11,"../intl":24,"../log":31,"../util":42,"../util/keyboard":43,"../views":49,"backbone":1,"q":9,"underscore":10}],51:[function(require,module,exports){
+},{"../../levels":77,"../app":21,"../intl":36,"../log":42,"../stores/LevelStore":49,"../stores/LocaleStore":50,"../util":55,"../util/keyboard":56,"../views":62,"backbone":1,"q":14,"underscore":17}],64:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 // horrible hack to get localStorage Backbone plugin
@@ -19758,7 +20769,7 @@ var MultiView = Backbone.View.extend({
 exports.MultiView = MultiView;
 
 
-},{"../util":42,"../util/errors":39,"../util/keyboard":43,"../views":49,"../views/builderViews":46,"../views/gitDemonstrationView":48,"backbone":1,"q":9,"underscore":10}],52:[function(require,module,exports){
+},{"../util":55,"../util/errors":53,"../util/keyboard":56,"../views":62,"../views/builderViews":59,"../views/gitDemonstrationView":61,"backbone":1,"q":14,"underscore":17}],65:[function(require,module,exports){
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
@@ -19941,7 +20952,7 @@ var RebaseEntryView = Backbone.View.extend({
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
 
-},{"../util":42,"../util/errors":39,"../views":49,"backbone":1,"q":9,"underscore":10}],53:[function(require,module,exports){
+},{"../util":55,"../util/errors":53,"../views":62,"backbone":1,"q":14,"underscore":17}],66:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
@@ -20114,11 +21125,11 @@ AnimationFactory.delay = function(animationQueue, time) {
 exports.AnimationFactory = AnimationFactory;
 
 
-},{"../../util/constants":37,"./index":54,"backbone":1,"q":9,"underscore":10}],54:[function(require,module,exports){
+},{"../../util/constants":51,"./index":67,"backbone":1,"q":14,"underscore":17}],67:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
-var GlobalState = require('../../util/globalState');
+var GlobalStateActions = require('../../actions/GlobalStateActions');
 var GRAPHICS = require('../../util/constants').GRAPHICS;
 
 var Animation = Backbone.Model.extend({
@@ -20184,13 +21195,13 @@ var AnimationQueue = Backbone.Model.extend({
     this.set('index', 0);
 
     // set the global lock that we are animating
-    GlobalState.isAnimating = true;
+    GlobalStateActions.changeIsAnimating(true);
     this.next();
   },
 
   finish: function() {
     // release lock here
-    GlobalState.isAnimating = false;
+    GlobalStateActions.changeIsAnimating(false);
     this.get('callback')();
   },
 
@@ -20265,18 +21276,12 @@ exports.Animation = Animation;
 exports.PromiseAnimation = PromiseAnimation;
 exports.AnimationQueue = AnimationQueue;
 
-},{"../../util/constants":37,"../../util/globalState":41,"backbone":1,"q":9,"underscore":10}],55:[function(require,module,exports){
+},{"../../actions/GlobalStateActions":18,"../../util/constants":51,"backbone":1,"q":14,"underscore":17}],68:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
-var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
-var GlobalState = require('../util/globalState');
-
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-var TagCollection = Collections.TagCollection;
+var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisNode = require('../visuals/visNode').VisNode;
 var VisBranch = require('../visuals/visBranch').VisBranch;
@@ -20393,7 +21398,7 @@ GitVisuals.prototype.initHeadBranch = function() {
 
 GitVisuals.prototype.getScreenPadding = function() {
   // if we are flipping the tree, the helper bar gets in the way
-  var topFactor = (GlobalState.flipTreeY) ? 3 : 1.5;
+  var topFactor = (GlobalStateStore.getFlipTreeY()) ? 3 : 1.5;
 
   // for now we return the node radius subtracted from the walls
   return {
@@ -20455,7 +21460,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var y =
     asymShrink(pos.y, this.paper.height, padding.topHeightPadding, padding.bottomHeightPadding);
 
-  if (GlobalState.flipTreeY) {
+  if (GlobalStateStore.getFlipTreeY()) {
     y = this.paper.height - y;
   }
 
@@ -21214,7 +22219,7 @@ function blendHueStrings(hueStrings) {
 exports.GitVisuals = GitVisuals;
 
 
-},{"../app":11,"../models/collections":33,"../util/constants":37,"../util/globalState":41,"../visuals/visBranch":58,"../visuals/visEdge":59,"../visuals/visNode":60,"../visuals/visTag":61,"backbone":1,"q":9,"underscore":10}],56:[function(require,module,exports){
+},{"../app":21,"../stores/GlobalStateStore":48,"../util/constants":51,"../visuals/visBranch":71,"../visuals/visEdge":72,"../visuals/visNode":73,"../visuals/visTag":74,"q":14,"underscore":17}],69:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -21261,7 +22266,7 @@ var VisBase = Backbone.Model.extend({
 exports.VisBase = VisBase;
 
 
-},{"backbone":1,"underscore":10}],57:[function(require,module,exports){
+},{"backbone":1,"underscore":17}],70:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -21353,7 +22358,7 @@ var VisBase = Backbone.Model.extend({
 exports.VisBase = VisBase;
 
 
-},{"backbone":1,"underscore":10}],58:[function(require,module,exports){
+},{"backbone":1,"underscore":17}],71:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -21934,13 +22939,13 @@ exports.VisBranch = VisBranch;
 exports.randomHueString = randomHueString;
 
 
-},{"../app":11,"../graph/treeCompare":22,"../util/constants":37,"../visuals/visBase":57,"backbone":1,"underscore":10}],59:[function(require,module,exports){
+},{"../app":21,"../graph/treeCompare":34,"../util/constants":51,"../visuals/visBase":70,"backbone":1,"underscore":17}],72:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
-var GlobalState = require('../util/globalState');
+var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisEdge = VisBase.extend({
   defaults: {
@@ -21989,7 +22994,7 @@ var VisEdge = VisBase.extend({
     // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
     // the control points have to be __below__ to get the curve starting off straight.
 
-    var flipFactor = (GlobalState.flipTreeY) ? -1 : 1;
+    var flipFactor = (GlobalStateStore.getFlipTreeY()) ? -1 : 1;
     var coords = function(pos) {
       return String(Math.round(pos.x)) + ',' + String(Math.round(pos.y));
     };
@@ -22123,7 +23128,7 @@ var VisEdgeCollection = Backbone.Collection.extend({
 exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisEdge = VisEdge;
 
-},{"../util/constants":37,"../util/globalState":41,"../visuals/visBase":57,"backbone":1,"underscore":10}],60:[function(require,module,exports){
+},{"../stores/GlobalStateStore":48,"../util/constants":51,"../visuals/visBase":70,"backbone":1,"underscore":17}],73:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -22588,7 +23593,7 @@ var VisNode = VisBase.extend({
 
 exports.VisNode = VisNode;
 
-},{"../app":11,"../util/constants":37,"../visuals/visBase":57,"backbone":1,"underscore":10}],61:[function(require,module,exports){
+},{"../app":21,"../util/constants":51,"../visuals/visBase":70,"backbone":1,"underscore":17}],74:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -22998,7 +24003,7 @@ exports.VisTag = VisTag;
 exports.randomHueString = randomHueString;
 
 
-},{"../app":11,"../graph/treeCompare":22,"../util/constants":37,"../visuals/visBase":57,"backbone":1,"underscore":10}],62:[function(require,module,exports){
+},{"../app":21,"../graph/treeCompare":34,"../util/constants":51,"../visuals/visBase":70,"backbone":1,"underscore":17}],75:[function(require,module,exports){
 var process=require("__browserify_process");var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
@@ -23291,7 +24296,7 @@ var Visualization = Backbone.View.extend({
 exports.Visualization = Visualization;
 
 
-},{"../app":11,"../git":20,"../models/collections":33,"../util":42,"../util/eventBaton":40,"../visuals":55,"__browserify_process":4,"backbone":1,"underscore":10}],63:[function(require,module,exports){
+},{"../app":21,"../git":32,"../models/collections":44,"../util":55,"../util/eventBaton":54,"../visuals":68,"__browserify_process":5,"backbone":1,"underscore":17}],76:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugWork master^^2^",
@@ -23929,7 +24934,7 @@ exports.level = {
   }
 };
 
-},{}],64:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in the order listed here
 exports.levelSequences = {
@@ -24158,7 +25163,7 @@ exports.getTabForSequence = function(sequenceName) {
 };
 
 
-},{"./advanced/multipleParents":63,"./intro/branching":65,"./intro/commits":66,"./intro/merging":67,"./intro/rebasing":68,"./mixed/describe":69,"./mixed/grabbingOneCommit":70,"./mixed/jugglingCommits":71,"./mixed/jugglingCommits2":72,"./mixed/tags":73,"./rampup/cherryPick":74,"./rampup/detachedHead":75,"./rampup/interactiveRebase":76,"./rampup/relativeRefs":77,"./rampup/relativeRefs2":78,"./rampup/reversingChanges":79,"./rebase/manyRebases":80,"./rebase/selectiveRebase":81,"./remote/clone":82,"./remote/fakeTeamwork":83,"./remote/fetch":84,"./remote/fetchArgs":85,"./remote/fetchRebase":86,"./remote/mergeManyFeatures":87,"./remote/pull":88,"./remote/pullArgs":89,"./remote/push":90,"./remote/pushArgs":91,"./remote/pushArgs2":92,"./remote/pushManyFeatures":93,"./remote/remoteBranches":94,"./remote/sourceNothing":95,"./remote/tracking":96}],65:[function(require,module,exports){
+},{"./advanced/multipleParents":76,"./intro/branching":78,"./intro/commits":79,"./intro/merging":80,"./intro/rebasing":81,"./mixed/describe":82,"./mixed/grabbingOneCommit":83,"./mixed/jugglingCommits":84,"./mixed/jugglingCommits2":85,"./mixed/tags":86,"./rampup/cherryPick":87,"./rampup/detachedHead":88,"./rampup/interactiveRebase":89,"./rampup/relativeRefs":90,"./rampup/relativeRefs2":91,"./rampup/reversingChanges":92,"./rebase/manyRebases":93,"./rebase/selectiveRebase":94,"./remote/clone":95,"./remote/fakeTeamwork":96,"./remote/fetch":97,"./remote/fetchArgs":98,"./remote/fetchRebase":99,"./remote/mergeManyFeatures":100,"./remote/pull":101,"./remote/pullArgs":102,"./remote/push":103,"./remote/pushArgs":104,"./remote/pushArgs2":105,"./remote/pushManyFeatures":106,"./remote/remoteBranches":107,"./remote/sourceNothing":108,"./remote/tracking":109}],78:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
@@ -24888,7 +25893,7 @@ exports.level = {
   }
 };
 
-},{}],66:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
@@ -25312,7 +26317,7 @@ exports.level = {
   }
 };
 
-},{}],67:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
@@ -25966,7 +26971,7 @@ exports.level = {
   }
 };
 
-},{}],68:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
@@ -26600,7 +27605,7 @@ exports.level = {
   }
 };
 
-},{}],69:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit ",
@@ -27070,7 +28075,7 @@ exports.level = {
   }
 };
 
-},{}],70:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnosticWithAsserts": true,
   "goalAsserts": {
@@ -27467,7 +28472,7 @@ exports.level = {
   }
 };
 
-},{}],71:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 exports.level = {
   "disabledMap": {
     "git cherry-pick": true,
@@ -27874,7 +28879,7 @@ exports.level = {
   }
 };
 
-},{}],72:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
@@ -28298,7 +29303,7 @@ exports.level = {
   }
 };
 
-},{}],73:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{\"v1\":{\"target\":\"C2\",\"id\":\"v1\",\"type\":\"tag\"},\"v0\":{\"target\":\"C1\",\"id\":\"v0\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git tag v1 side~1;git tag v0 master~2;git checkout v1",
@@ -28691,7 +29696,7 @@ exports.level = {
   }
 };
 
-},{}],74:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git cherry-pick C3 C4 C7",
@@ -29178,7 +30183,7 @@ exports.level = {
   }
 };
 
-},{}],75:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout C4",
@@ -29823,7 +30828,7 @@ exports.level = {
   }
 };
 
-},{}],76:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i overHere --solution-ordering C3,C5,C4",
@@ -29976,7 +30981,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, faites un rebase intractif et atteignez l'ordre indiqué dans le fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
+              "Pour finir ce niveau, faites un rebase interactif et atteignez l'ordre indiqué dans le fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
             ]
           }
         }
@@ -30375,7 +31380,7 @@ exports.level = {
   }
 };
 
-},{}],77:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout bugFix^",
@@ -31003,7 +32008,7 @@ exports.level = {
   }
 };
 
-},{}],78:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C0\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
@@ -31553,7 +32558,7 @@ exports.level = {
   }
 };
 
-},{}],79:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
@@ -32152,7 +33157,7 @@ exports.level = {
   }
 };
 
-},{}],80:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
@@ -32351,7 +33356,7 @@ exports.level = {
   }
 };
 
-},{}],81:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 exports.level = {
   "compareAllBranchesHashAgnostic": true,
   "disabledMap": {
@@ -32413,7 +33418,7 @@ exports.level = {
               "",
               "WOAHHHhhh ! Nous avons pas mal d'objectifs dans ce niveau.",
               "",
-              "Actuellement nous havons `master` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur master.",
+              "Actuellement nous avons `master` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur master.",
               "",
               "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être reordonnée, et `three` ne nécessite qu'un commit !",
               "",
@@ -32566,7 +33571,7 @@ exports.level = {
   }
 };
 
-},{}],82:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 exports.level = {
   "goalTreeString": '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}',
   "solutionCommand": "git clone",
@@ -32674,7 +33679,7 @@ exports.level = {
             "markdowns": [
               "## Les commandes pour créer des dépôts distants",
               "",
-              "Jusqu'à maintenant, Learn Git Branching s'est surtout concentrésur l'apprentissage des bases du travail sur un dépôt _local_ (branch, merge, rebase, etc). Cependant maintenant nous voulons savoir comment travailler sur les dépôts distants, nous avons besoin d'une commande pour l'environnement de ces leçons. `git clone` sera cette commande",
+              "Jusqu'à maintenant, Learn Git Branching s'est surtout concentré sur l'apprentissage des bases du travail sur un dépôt _local_ (branch, merge, rebase, etc). Cependant maintenant nous voulons savoir comment travailler sur les dépôts distants, nous avons besoin d'une commande pour l'environnement de ces leçons. `git clone` sera cette commande",
               "",
               "Techniquement, `git clone` dans le monde réel sera la commande que vous utiliserez pour créer des copies _locales_ des dépôts distants (de github par exemple). Nous utilisons cette commande un peu différemment dans Learn Git Branching car `git clone` crée ici un dépôt distant à partir de votre dépôt local. Il est certain qu'il s'agit donc du sens opposé de la commande originale, mais cela aide à construire la connexion entre le clonage et le travail sur le dépôt distant, travaillons donc avec cela pour l'instant.",
               ""
@@ -33050,7 +34055,7 @@ exports.level = {
 };
 
 
-},{}],83:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git fakeTeamwork 2;git commit ;git pull",
@@ -33138,9 +34143,9 @@ exports.level = {
             "markdowns": [
               "## Simuler la collaboration",
               "",
-              "C'est là que cela devient compliqué -- pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
+              "C'est là que cela devient compliqué : pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
               "",
-              "Cela signifie que nous devons \"pretendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
+              "Cela signifie que nous devons \"prétendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
               "",
               "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle est assez significative, voyons une démo ..."
             ]
@@ -33153,7 +34158,7 @@ exports.level = {
               "Le comportement par défaut de `fakeTeamwork` est de simplement faire apparaître un commit sur master"
             ],
             "afterMarkdowns": [
-              "Voilà -- le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuter la commande `git fetch`."
+              "Voilà : le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuté la commande `git fetch`."
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
@@ -33457,7 +34462,7 @@ exports.level = {
   }
 };
 
-},{}],84:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C5\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C7\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch",
@@ -33995,7 +35000,7 @@ exports.level = {
   }
 };
 
-},{}],85:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
@@ -34885,7 +35890,7 @@ exports.level = {
   }
 };
 
-},{}],86:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
@@ -35073,11 +36078,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Imaginez que vous clonez un dépôt le lundi et commencez à bidouiller une nouvelle fonctionnalité. Le vendredi vous êtes prêt à publier votre fonctionnalité -- mais oh nan ! Vos collègues ont écrit une floppée de code durant la semaine ce qui rend votre fonctionnalité désuète (et obsolète). Ils ont aussi publié sur le dépôt distant partagé, donc maintenant *vôtre* travail est basé sur une *vieille* version du projet qui n'est plus viable.",
+              "Imaginez que vous clonez un dépôt le lundi et commencez à bidouiller une nouvelle fonctionnalité. Le vendredi vous êtes prêt à publier votre fonctionnalité -- mais oh nan ! Vos collègues ont écrit une floppée de code durant la semaine ce qui rend votre fonctionnalité désuète (et obsolète). Ils ont aussi publié sur le dépôt distant partagé, donc maintenant *votre* travail est basé sur une *vieille* version du projet qui n'est plus viable.",
               "",
-              "Dans ce cas, la commande `git push` est ambiguë. Si vous exécutez `git push`, git devrait-il remettre le dépôt distant tel qu'il était lundi ? Doit-il essayer d'ajouter vôtre code sans supprimer le nouveau code ? Ou doit-il totalement ignorer vos changements puisqu'ils ne sont plus à jour ?",
+              "Dans ce cas, la commande `git push` est ambiguë. Si vous exécutez `git push`, git devrait-il remettre le dépôt distant tel qu'il était lundi ? Doit-il essayer d'ajouter votre code sans supprimer le nouveau code ? Ou doit-il totalement ignorer vos changements puisqu'ils ne sont plus à jour ?",
               "",
-              "Comme il y a trop d'ambiguïté dans cette situation (où l'historique a divergé), git ne vous autorise pas à `push` vos changements. Cela vous force en fait à incorporer le dernier état du dépôt distant avnat de pouvoir partager vôtre travail."
+              "Comme il y a trop d'ambiguïté dans cette situation (où l'historique a divergé), git ne vous autorise pas à `push` vos changements. Cela vous force en fait à incorporer le dernier état du dépôt distant avnat de pouvoir partager votre travail."
             ]
           }
         },
@@ -35088,7 +36093,7 @@ exports.level = {
               "Assez parlé ! Observons cette situation en action"
             ],
             "afterMarkdowns": [
-              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car vôtre plus récent commit `C3` est basé sur le dépôt distant sur `C1`. Le dépôt distant a depuis été mis à jour avec `C2`, donc git rejette vôtre push."
+              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car votre plus récent commit `C3` est basé sur le dépôt distant sur `C1`. Le dépôt distant a depuis été mis à jour avec `C2`, donc git rejette votre push."
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -35098,9 +36103,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Comment vous résolvez cette situation ? C'est facile, tout ce que vous avez à faire est de baser vôtre travail sur la dernière version de la branche distante.",
+              "Comment vous résolvez cette situation ? C'est facile, tout ce que vous avez à faire est de baser votre travail sur la dernière version de la branche distante.",
               "",
-              "Il y a plusieurs façons de faire cela, mais la plus directe est de déplacer vôtre travail avec rebase. Allons voir à quoi cela ressemble."
+              "Il y a plusieurs façons de faire cela, mais la plus directe est de déplacer votre travail avec rebase. Allons voir à quoi cela ressemble."
             ]
           }
         },
@@ -35111,7 +36116,7 @@ exports.level = {
               "Maintenant si nous rebasons avant de push ..."
             ],
             "afterMarkdowns": [
-              "Boum ! Nous avons mis à jour nôtre représentation locale du dépôt avec `git fetch`, rebasé nôtre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`"
+              "Boum ! Nous avons mis à jour notre représentation locale du dépôt avec `git fetch`, rebasé notre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`"
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -35121,7 +36126,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Existe-t-il d'autres façons de mettre à jour nôtre travail quand le répertoire distant a été mis à jour ? Bien sûr ! Faisons la même chose avec `merge` plutôt.",
+              "Existe-t-il d'autres façons de mettre à jour notre travail quand le répertoire distant a été mis à jour ? Bien sûr ! Faisons la même chose avec `merge` plutôt.",
               "",
               "Bien que `git merge` ne déplace pas vôtre travail (et au lieu de cela crée juste un commit de fusion), c'est une façon de dire à git que vous avez incorporé tous les changements du dépôt distant. C'est parce que la branche distante est maitenant une *ancêtre* de vôtre propre branche, ce qui signifie que vos commits reflètent tous les changements faits sur la branche distante.",
               "",
@@ -35133,10 +36138,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Maintenant si nous mergeons avant de rebaser ..."
+              "Maintenant si nous mergeons au lieu de rebaser ..."
             ],
             "afterMarkdowns": [
-              "Boum ! Nous avons mis à jour nôtre représentation du dépôt distant avec `git fetch`, *fusionné* le nouveau travail dans nôtre travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`"
+              "Boum ! Nous avons mis à jour notre représentation du dépôt distant avec `git fetch`, *fusionné* le nouveau travail dans notre travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`"
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -35188,10 +36193,10 @@ exports.level = {
               "",
               "Pour finir ce niveau, réalisez les étapes suivantes :",
               "",
-              "* Clonez vôtre dépôt",
+              "* Clonez votre dépôt",
               "* Simuler un travail d'équipe (1 commit)",
-              "* Commitez un peu de vôtre travail (1 commit)",
-              "* Publiez vôtre travail avec *rebase*"
+              "* Commitez un peu de votre travail (1 commit)",
+              "* Publiez votre travail avec *rebase*"
             ]
           }
         }
@@ -35915,7 +36920,7 @@ exports.level = {
   }
 };
 
-},{}],87:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C11\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git checkout master;git pull;git merge side1;git merge side2;git merge side3;git push",
@@ -36260,7 +37265,7 @@ exports.level = {
   }
 };
 
-},{}],88:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull",
@@ -36702,7 +37707,7 @@ exports.level = {
   }
 };
 
-},{}],89:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C2\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C2\",\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
@@ -37249,7 +38254,7 @@ exports.level = {
   }
 };
 
-},{}],90:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git commit;git commit;git push",
@@ -37326,15 +38331,15 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "Ok, donc j'ai rapatrié les changementsdu dépôt distant et les incorporé dans mon travail local. C'est super ... mais comment je partage _mon_ travail génial avec tous les autres ?",
+              "Ok, donc j'ai rapatrié les changements du dépôt distant et les incorporé dans mon travail local. C'est super ... mais comment je partage _mon_ travail génial avec tous les autres ?",
               "",
               "En fait, la manière d'envoyer du travail à partager fonctionne à l'opposé du téléchargement de travail partagé. Et quel est l'opposé de `git pull` ? `git push`!",
               "",
-              "`git push` est responsable de l'envoi de _vos_ changements vers un dépôt distant et de la mise à jour de ce dépôt pour incorporer vos commits. Une fois `git push` terminé, tous vos amis peuvent télécharger vôtre travail depuis le dépôt distant.",
+              "`git push` est responsable de l'envoi de _vos_ changements vers un dépôt distant et de la mise à jour de ce dépôt pour incorporer vos commits. Une fois `git push` terminé, tous vos amis peuvent télécharger votre travail depuis le dépôt distant.",
               "",
-              "Vous pouvez voir `git push` comme une commande qui \"publie\" vôtre travail. Elle a une variété de subtilité que nous allons voir rapidement, mais commençons avec le b.a-ba ...",
+              "Vous pouvez voir `git push` comme une commande qui \"publie\" votre travail. Elle a une variété de subtilité que nous allons voir rapidement, mais commençons avec le b.a-ba ...",
               "",
-              "*note -- le comportement de `git push` avec aucun argument varie avec l'un des réglages de git appelé `push.default`. La valeur par défaut pour ce réglage dépend de la version de git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Ce n'est pas un gros inconvénient, maisvérifiez tout de même vos réglages avant de pusher vos propres projets.*"
+              "*note : le comportement de `git push` avec aucun argument varie avec l'un des réglages de git appelé `push.default`. La valeur par défaut pour ce réglage dépend de la version de git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Ce n'est pas un gros inconvénient, mais vérifiez tout de même vos réglages avant de pusher vos propres projets.*"
             ]
           }
         },
@@ -37571,7 +38576,7 @@ exports.level = {
   }
 };
 
-},{}],91:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master;git push origin foo",
@@ -37680,7 +38685,7 @@ exports.level = {
             "markdowns": [
               "## Les arguments de push",
               "",
-              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sontt très similaires.",
+              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sont très similaires.",
               "",
               "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches que git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (i.e. la branche qu'elle \"suit\" -- track). C'est le comportement quand aucun argument n'est spécifié, mais git peut optionnellement prendre des arguments de la forme :",
               "",
@@ -37698,11 +38703,11 @@ exports.level = {
               "",
               "`git push origin master`",
               "",
-              "translates to this in English:",
+              "ce qui veut dire :",
               "",
               "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Cela place tous les commits manquants sur cette branche puis me notifie quand c'est terminé.*",
               "",
-              "En spécifiant `master` comme argument \"place\", nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacment\" à synchroniser entre les deux dépôts.",
+              "En spécifiant `master` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
               "",
               "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin (en précisant les deux arguments), il ignore totalement quelle est la branche courante !"
             ]
@@ -37715,7 +38720,7 @@ exports.level = {
               "Voyons un exemple d'arguments. Notez la branche courante dans cet exemple."
             ],
             "afterMarkdowns": [
-              "Voilà ! `master` a été mise à joure puisque nous avons spécifié ces arguments."
+              "Voilà ! `master` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -38105,7 +39110,7 @@ exports.level = {
   }
 };
 
-},{}],92:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 exports.level = {
     "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master^:foo;git push origin foo:master",
@@ -38209,7 +39214,7 @@ exports.level = {
             "markdowns": [
               "## Détails de l'argument `<place>`",
               "",
-              "Vous vous rappelez de la dernière leçon que quand vous spécifiez `master` comme argument `<place>` place à git push, nous spécifions à la fois la *source* de provenance des commits et leur *destination*.",
+              "Vous vous rappelez de la dernière leçon : quand vous passiez `master` comme argument `<place>` à git push, cela spécifiait à la fois la *source* de provenance des commits et leur *destination*.",
               "",
               "Vous vous demandez peut-être donc -- et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
               "",
@@ -38229,7 +39234,7 @@ exports.level = {
               "",
               "On en parle souvent comme un refspec. Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
               "",
-              "Lorsque vous précisez la source et la destination indémpendamment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
+              "Lorsque vous précisez la source et la destination indépendemment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
             ]
           }
         },
@@ -38624,7 +39629,7 @@ exports.level = {
   }
 };
 
-},{}],93:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22side1%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22side1%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side2%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22side2%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side3%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22side3%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
@@ -39025,7 +40030,7 @@ exports.level = {
   }
 };
 
-},{}],94:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git commit;git checkout o/master;git commit",
@@ -39482,7 +40487,7 @@ exports.level = {
 };
 
 
-},{}],95:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C1\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin :foo;git fetch origin :bar",
@@ -39882,7 +40887,7 @@ exports.level = {
   }
 };
 
-},{}],96:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git checkout -b side o/master;git commit;git pull --rebase;git push",
@@ -40114,7 +41119,7 @@ exports.level = {
               "",
               "`git branch -u o/master foo`",
               "",
-              "va configurer la branche `foo` pour suivre `o/master`. Si `foo` est la branche vourante, vous pouvez même ne pas le préciser:",
+              "va configurer la branche `foo` pour suivre `o/master`. Si `foo` est la branche courante, vous pouvez même ne pas le préciser:",
               "",
               "`git branch -u o/master`",
               ""
@@ -40730,4 +41735,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,55,54,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96])
+},{}]},{},[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109])
