@@ -5,4 +5,5 @@ search_replace.sh
 FontAwesome-Vectors.pdf
 *.sw*
 npm-debug.log
+src/__tests__/casperjs/screenshots/*.png
 

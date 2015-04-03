@@ -109,7 +109,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'Gruntfile.js',
-        'spec/*.js',
+        'src/__tests__/spec/*.js',
         'src/js/**/*.js',
         'src/js/**/**/*.js',
         'src/levels/**/*.js',
@@ -126,6 +126,10 @@ module.exports = function(grunt) {
         latedef: false,
         // use this in mocks
         forin: false,
+        // This gets annoying
+        globalstrict: false,
+        // for use strict warnings
+        node: true,
         ///////////////////////////////
         // All others are true
         //////////////////////////////
@@ -145,6 +149,7 @@ module.exports = function(grunt) {
         browser: true,
         debug: true,
         globals: {
+          casper: true,
           Raphael: true,
           require: true,
           console: true,
@@ -192,22 +197,32 @@ module.exports = function(grunt) {
     shell: {
       gitAdd: {
         command: 'git add build/'
+      },
+      casperTest: {
+        command: 'casperjs test ./src/__tests__/casperjs/*_test.js || ' +
+          'open ./src/__tests__/casperjs/screenshots/*.png'
       }
     },
     jasmine_node: {
-      specNameMatcher: 'spec',
-      projectRoot: '.',
+      projectRoot: './src/js/__tests__/',
       forceExit: true,
       verbose: true,
       requirejs: false
     },
     browserify: {
+      options: {
+        ignore: [
+          'src/__tests__/casperjs/*.js',
+          'src/js/__tests__/create.js',
+          'src/js/__tests__/*.js'
+        ],
+      },
       dist: {
         files: {
           'build/bundle.js': ['src/**/*.js', 'src/js/**/*.js'],
         },
       }
-    }
+    },
   });
 
   // all my npm helpers
@@ -220,13 +235,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('build',
-    ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
+    ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell:gitAdd', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
   );
   grunt.registerTask('lint', ['jshint', 'compliment']);
   grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndexDev', 'jshint']);
   grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('test', ['jasmine_node', 'shell:casperTest']);
+  grunt.registerTask('casperTest', ['shell:casperTest']);
 };
 

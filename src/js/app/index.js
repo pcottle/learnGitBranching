@@ -1,10 +1,10 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-var constants = require('../util/constants');
 var util = require('../util');
 var intl = require('../intl');
-var GlobalState = require('../util/globalState');
+var LocaleStore = require('../stores/LocaleStore');
+var LocaleActions = require('../actions/LocaleActions');
 
 /**
  * Globals
@@ -13,7 +13,6 @@ var events = _.clone(Backbone.Events);
 var commandUI;
 var sandbox;
 var eventBaton;
-var levelArbiter;
 var levelDropdown;
 
 ///////////////////////////////////////////////////////////////////////
@@ -29,20 +28,21 @@ var init = function() {
     *   - handling window.focus and zoom events
   **/
   var Sandbox = require('../sandbox/').Sandbox;
-  var Level = require('../level').Level;
   var EventBaton = require('../util/eventBaton').EventBaton;
-  var LevelArbiter = require('../level/arbiter').LevelArbiter;
   var LevelDropdownView = require('../views/levelDropdownView').LevelDropdownView;
 
   eventBaton = new EventBaton();
   commandUI = new CommandUI();
   sandbox = new Sandbox();
-  levelArbiter = new LevelArbiter();
   levelDropdown = new LevelDropdownView({
     wait: true
   });
 
-  events.on('localeChanged', intlRefresh);
+  LocaleStore.subscribe(function() {
+    if (LocaleStore.getLocale() !== LocaleStore.getDefaultLocale()) {
+      intlRefresh();
+    }
+  });
   events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
@@ -217,8 +217,7 @@ var initDemo = function(sandbox) {
   }
 
   if (params.locale !== undefined && params.locale.length) {
-    GlobalState.locale = params.locale;
-    events.trigger('localeChanged');
+    LocaleActions.changeLocaleFromURI(params.locale);
   } else {
     tryLocaleDetect();
   }
@@ -250,32 +249,7 @@ function tryLocaleDetect() {
 }
 
 function changeLocaleFromHeaders(langString) {
-  try {
-    var languages = langString.split(',');
-    var desiredLocale;
-    for (var i = 0; i < languages.length; i++) {
-      var header = languages[i].split(';')[0];
-      // first check the full string raw
-      if (intl.headerLocaleMap[header]) {
-        desiredLocale = intl.headerLocaleMap[header];
-        break;
-      }
-
-      var lang = header.slice(0, 2);
-      if (intl.langLocaleMap[lang]) {
-        desiredLocale = intl.langLocaleMap[lang];
-        break;
-      }
-    }
-    if (!desiredLocale || desiredLocale == intl.getLocale()) {
-      return;
-    }
-    // actually change it here
-    GlobalState.locale = desiredLocale;
-    events.trigger('localeChanged');
-  } catch (e) {
-    console.warn('locale change fail', e);
-  }
+  LocaleActions.changeLocaleFromHeader(langString);
 }
 
 if (require('../util').isBrowser()) {
@@ -325,10 +299,6 @@ exports.getEventBaton = function() {
 
 exports.getCommandUI = function() {
   return commandUI;
-};
-
-exports.getLevelArbiter = function() {
-  return levelArbiter;
 };
 
 exports.getLevelDropdown = function() {

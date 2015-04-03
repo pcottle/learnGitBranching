@@ -106,7 +106,7 @@ exports.level = {
             "markdowns": [
               "## Les arguments de push",
               "",
-              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sontt très similaires.",
+              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sont très similaires.",
               "",
               "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches que git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (i.e. la branche qu'elle \"suit\" -- track). C'est le comportement quand aucun argument n'est spécifié, mais git peut optionnellement prendre des arguments de la forme :",
               "",
@@ -124,11 +124,11 @@ exports.level = {
               "",
               "`git push origin master`",
               "",
-              "translates to this in English:",
+              "ce qui veut dire :",
               "",
               "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Cela place tous les commits manquants sur cette branche puis me notifie quand c'est terminé.*",
               "",
-              "En spécifiant `master` comme argument \"place\", nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacment\" à synchroniser entre les deux dépôts.",
+              "En spécifiant `master` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
               "",
               "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin (en précisant les deux arguments), il ignore totalement quelle est la branche courante !"
             ]
@@ -141,7 +141,7 @@ exports.level = {
               "Voyons un exemple d'arguments. Notez la branche courante dans cet exemple."
             ],
             "afterMarkdowns": [
-              "Voilà ! `master` a été mise à joure puisque nous avons spécifié ces arguments."
+              "Voilà ! `master` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"

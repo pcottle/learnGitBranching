@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var Command = require('../src/js/models/commandModel').Command;
+var Command = require('../models/commandModel').Command;
 
 describe('commands', function() {
   it('replaces . with HEAD correctly', function() {

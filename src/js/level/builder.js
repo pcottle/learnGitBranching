@@ -10,6 +10,8 @@ var Errors = require('../util/errors');
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var Level = require('../level').Level;
+var LocaleStore = require('../stores/LocaleStore');
+var LevelStore = require('../stores/LevelStore');
 
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
@@ -44,7 +46,7 @@ var LevelBuilder = Level.extend({
     options = options || {};
     options.level = {};
 
-    var locale = intl.getLocale();
+    var locale = LocaleStore.getLocale();
     options.level.startDialog = {};
     options.level.startDialog[locale] = {
       childViews: intl.getDialog(require('../dialogs/levelBuilder'))
@@ -53,7 +55,7 @@ var LevelBuilder = Level.extend({
     // if we are editing a level our behavior is a bit different
     var editLevelJSON;
     if (options.editLevel) {
-      editLevelJSON = Main.getLevelArbiter().getLevel(options.editLevel);
+      LevelStore.getLevel(options.editLevel);
       options.level = editLevelJSON;
     }
 

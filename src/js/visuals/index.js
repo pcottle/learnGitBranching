@@ -1,14 +1,8 @@
 var _ = require('underscore');
 var Q = require('q');
-var Backbone = require('backbone');
 
 var GRAPHICS = require('../util/constants').GRAPHICS;
-var GlobalState = require('../util/globalState');
-
-var Collections = require('../models/collections');
-var CommitCollection = Collections.CommitCollection;
-var BranchCollection = Collections.BranchCollection;
-var TagCollection = Collections.TagCollection;
+var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisNode = require('../visuals/visNode').VisNode;
 var VisBranch = require('../visuals/visBranch').VisBranch;
@@ -125,7 +119,7 @@ GitVisuals.prototype.initHeadBranch = function() {
 
 GitVisuals.prototype.getScreenPadding = function() {
   // if we are flipping the tree, the helper bar gets in the way
-  var topFactor = (GlobalState.flipTreeY) ? 3 : 1.5;
+  var topFactor = (GlobalStateStore.getFlipTreeY()) ? 3 : 1.5;
 
   // for now we return the node radius subtracted from the walls
   return {
@@ -187,7 +181,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
   var y =
     asymShrink(pos.y, this.paper.height, padding.topHeightPadding, padding.bottomHeightPadding);
 
-  if (GlobalState.flipTreeY) {
+  if (GlobalStateStore.getFlipTreeY()) {
     y = this.paper.height - y;
   }
 

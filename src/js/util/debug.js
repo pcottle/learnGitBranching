@@ -1,10 +1,15 @@
 var _ = require('underscore');
 
 var toGlobalize = {
+  App: require('../app/index.js'),
   Tree: require('../visuals/tree'),
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
+  LevelActions: require('../actions/LevelActions'),
+  LevelStore: require('../stores/LevelStore'),
+  LocaleActions: require('../actions/LocaleActions'),
+  LocaleStore: require('../stores/LocaleStore'),
   Levels: require('../graph/treeCompare'),
   Constants: require('../util/constants'),
   Commands: require('../commands'),
@@ -26,13 +31,17 @@ var toGlobalize = {
   Markdown: require('markdown'),
   LevelDropdownView: require('../views/levelDropdownView'),
   BuilderViews: require('../views/builderViews'),
-  LevelArbiter: require('../level/arbiter'),
+  Util: require('../util/index'),
   Intl: require('../intl')
 };
 
-_.each(toGlobalize, function(module) {
+_.each(toGlobalize, function(module, moduleName) {
   for (var key in module) {
-    window['debug_' + key] = module[key];
+    var value = module[key];
+    if (value instanceof Function) {
+      value = value.bind(module);
+    }
+    window['debug_' + moduleName + '_' + key] = value;
   }
 });
 

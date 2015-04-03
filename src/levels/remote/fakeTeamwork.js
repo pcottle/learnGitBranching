@@ -85,9 +85,9 @@ exports.level = {
             "markdowns": [
               "## Simuler la collaboration",
               "",
-              "C'est là que cela devient compliqué -- pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
+              "C'est là que cela devient compliqué : pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
               "",
-              "Cela signifie que nous devons \"pretendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
+              "Cela signifie que nous devons \"prétendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
               "",
               "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle est assez significative, voyons une démo ..."
             ]
@@ -100,7 +100,7 @@ exports.level = {
               "Le comportement par défaut de `fakeTeamwork` est de simplement faire apparaître un commit sur master"
             ],
             "afterMarkdowns": [
-              "Voilà -- le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuter la commande `git fetch`."
+              "Voilà : le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuté la commande `git fetch`."
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
