@@ -185,11 +185,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Imaginez que vous clonez un dépôt le lundi et commencez à bidouiller une nouvelle fonctionnalité. Le vendredi vous êtes prêt à publier votre fonctionnalité -- mais oh nan ! Vos collègues ont écrit une floppée de code durant la semaine ce qui rend votre fonctionnalité désuète (et obsolète). Ils ont aussi publié sur le dépôt distant partagé, donc maintenant *vôtre* travail est basé sur une *vieille* version du projet qui n'est plus viable.",
+              "Imaginez que vous clonez un dépôt le lundi et commencez à bidouiller une nouvelle fonctionnalité. Le vendredi vous êtes prêt à publier votre fonctionnalité -- mais oh nan ! Vos collègues ont écrit une floppée de code durant la semaine ce qui rend votre fonctionnalité désuète (et obsolète). Ils ont aussi publié sur le dépôt distant partagé, donc maintenant *votre* travail est basé sur une *vieille* version du projet qui n'est plus viable.",
               "",
-              "Dans ce cas, la commande `git push` est ambiguë. Si vous exécutez `git push`, git devrait-il remettre le dépôt distant tel qu'il était lundi ? Doit-il essayer d'ajouter vôtre code sans supprimer le nouveau code ? Ou doit-il totalement ignorer vos changements puisqu'ils ne sont plus à jour ?",
+              "Dans ce cas, la commande `git push` est ambiguë. Si vous exécutez `git push`, git devrait-il remettre le dépôt distant tel qu'il était lundi ? Doit-il essayer d'ajouter votre code sans supprimer le nouveau code ? Ou doit-il totalement ignorer vos changements puisqu'ils ne sont plus à jour ?",
               "",
-              "Comme il y a trop d'ambiguïté dans cette situation (où l'historique a divergé), git ne vous autorise pas à `push` vos changements. Cela vous force en fait à incorporer le dernier état du dépôt distant avnat de pouvoir partager vôtre travail."
+              "Comme il y a trop d'ambiguïté dans cette situation (où l'historique a divergé), git ne vous autorise pas à `push` vos changements. Cela vous force en fait à incorporer le dernier état du dépôt distant avnat de pouvoir partager votre travail."
             ]
           }
         },
@@ -200,7 +200,7 @@ exports.level = {
               "Assez parlé ! Observons cette situation en action"
             ],
             "afterMarkdowns": [
-              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car vôtre plus récent commit `C3` est basé sur le dépôt distant sur `C1`. Le dépôt distant a depuis été mis à jour avec `C2`, donc git rejette vôtre push."
+              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car votre plus récent commit `C3` est basé sur le dépôt distant sur `C1`. Le dépôt distant a depuis été mis à jour avec `C2`, donc git rejette votre push."
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -210,9 +210,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Comment vous résolvez cette situation ? C'est facile, tout ce que vous avez à faire est de baser vôtre travail sur la dernière version de la branche distante.",
+              "Comment vous résolvez cette situation ? C'est facile, tout ce que vous avez à faire est de baser votre travail sur la dernière version de la branche distante.",
               "",
-              "Il y a plusieurs façons de faire cela, mais la plus directe est de déplacer vôtre travail avec rebase. Allons voir à quoi cela ressemble."
+              "Il y a plusieurs façons de faire cela, mais la plus directe est de déplacer votre travail avec rebase. Allons voir à quoi cela ressemble."
             ]
           }
         },
@@ -223,7 +223,7 @@ exports.level = {
               "Maintenant si nous rebasons avant de push ..."
             ],
             "afterMarkdowns": [
-              "Boum ! Nous avons mis à jour nôtre représentation locale du dépôt avec `git fetch`, rebasé nôtre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`"
+              "Boum ! Nous avons mis à jour notre représentation locale du dépôt avec `git fetch`, rebasé notre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`"
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -233,7 +233,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Existe-t-il d'autres façons de mettre à jour nôtre travail quand le répertoire distant a été mis à jour ? Bien sûr ! Faisons la même chose avec `merge` plutôt.",
+              "Existe-t-il d'autres façons de mettre à jour notre travail quand le répertoire distant a été mis à jour ? Bien sûr ! Faisons la même chose avec `merge` plutôt.",
               "",
               "Bien que `git merge` ne déplace pas vôtre travail (et au lieu de cela crée juste un commit de fusion), c'est une façon de dire à git que vous avez incorporé tous les changements du dépôt distant. C'est parce que la branche distante est maitenant une *ancêtre* de vôtre propre branche, ce qui signifie que vos commits reflètent tous les changements faits sur la branche distante.",
               "",
@@ -245,10 +245,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Maintenant si nous mergeons avant de rebaser ..."
+              "Maintenant si nous mergeons au lieu de rebaser ..."
             ],
             "afterMarkdowns": [
-              "Boum ! Nous avons mis à jour nôtre représentation du dépôt distant avec `git fetch`, *fusionné* le nouveau travail dans nôtre travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`"
+              "Boum ! Nous avons mis à jour notre représentation du dépôt distant avec `git fetch`, *fusionné* le nouveau travail dans notre travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`"
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -300,10 +300,10 @@ exports.level = {
               "",
               "Pour finir ce niveau, réalisez les étapes suivantes :",
               "",
-              "* Clonez vôtre dépôt",
+              "* Clonez votre dépôt",
               "* Simuler un travail d'équipe (1 commit)",
-              "* Commitez un peu de vôtre travail (1 commit)",
-              "* Publiez vôtre travail avec *rebase*"
+              "* Commitez un peu de votre travail (1 commit)",
+              "* Publiez votre travail avec *rebase*"
             ]
           }
         }

@@ -101,7 +101,7 @@ exports.level = {
             "markdowns": [
               "## Détails de l'argument `<place>`",
               "",
-              "Vous vous rappelez de la dernière leçon que quand vous spécifiez `master` comme argument `<place>` place à git push, nous spécifions à la fois la *source* de provenance des commits et leur *destination*.",
+              "Vous vous rappelez de la dernière leçon : quand vous passiez `master` comme argument `<place>` à git push, cela spécifiait à la fois la *source* de provenance des commits et leur *destination*.",
               "",
               "Vous vous demandez peut-être donc -- et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
               "",
@@ -121,7 +121,7 @@ exports.level = {
               "",
               "On en parle souvent comme un refspec. Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
               "",
-              "Lorsque vous précisez la source et la destination indémpendamment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
+              "Lorsque vous précisez la source et la destination indépendemment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
             ]
           }
         },

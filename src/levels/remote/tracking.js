@@ -229,7 +229,7 @@ exports.level = {
               "",
               "`git branch -u o/master foo`",
               "",
-              "va configurer la branche `foo` pour suivre `o/master`. Si `foo` est la branche vourante, vous pouvez même ne pas le préciser:",
+              "va configurer la branche `foo` pour suivre `o/master`. Si `foo` est la branche courante, vous pouvez même ne pas le préciser:",
               "",
               "`git branch -u o/master`",
               ""
