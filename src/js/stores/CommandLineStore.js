@@ -8,6 +8,8 @@ var assign = require('object-assign');
 
 var ActionTypes = AppConstants.ActionTypes;
 var COMMAND_HISTORY_KEY = 'lgb_CommandHistory';
+var COMMAND_HISTORY_MAX_LENGTH = 100;
+var COMMAND_HISTORY_TO_KEEP = 10;
 
 var _commandHistory = [];
 try {
@@ -17,7 +19,16 @@ try {
 } catch (e) {
 }
 
-var _saveToLocalStorage = function() {
+function _checkForSize() {
+  // if our command line history is too big...
+  if (_commandHistory.length > COMMAND_HISTORY_MAX_LENGTH) {
+    // grab the last 10
+    _commandHistory =
+      _commandHistory.slice(0, COMMAND_HISTORY_TO_KEEP);
+  }
+}
+
+function _saveToLocalStorage() {
   try {
     localStorage.setItem(
       COMMAND_HISTORY_KEY,
@@ -25,13 +36,17 @@ var _saveToLocalStorage = function() {
     );
   } catch (e) {
   }
-};
+}
 
 var CommandLineStore = assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
 {
+
+  getMaxHistoryLength: function() {
+    return COMMAND_HISTORY_MAX_LENGTH;
+  },
 
   getCommandHistoryLength: function() {
     return _commandHistory.length;
@@ -47,7 +62,8 @@ AppConstants.StoreSubscribePrototype,
 
     switch (action.type) {
       case ActionTypes.SUBMIT_COMMAND:
-        _commandHistory.push(action.text);
+        _commandHistory.unshift(String(action.text));
+        _checkForSize();
         _saveToLocalStorage();
         shouldInform = true;
         break;

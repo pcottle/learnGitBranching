@@ -2,10 +2,11 @@ var _ = require('underscore');
 // horrible hack to get localStorage Backbone plugin
 var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
 
-var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandEntry = require('../models/commandModel').CommandEntry;
+var CommandLineStore = require('../stores/CommandLineStore');
+var CommandLineActions = require('../actions/CommandLineActions');
 
 var Errors = require('../util/errors');
 var Warning = Errors.Warning;
@@ -17,25 +18,6 @@ var keyboard = require('../util/keyboard');
 var CommandPromptView = Backbone.View.extend({
   initialize: function(options) {
     Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
 
     this.index = -1;
     this.commandParagraph = this.$('#prompt p.command')[0];
@@ -164,21 +146,15 @@ var CommandPromptView = Backbone.View.extend({
 
     // if we are over / under, display blank line. yes this eliminates your
     // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
+    if (this.index >= CommandLineStore.getCommandHistoryLength() || this.index < 0) {
       this.clear();
       this.index = -1;
       return;
     }
 
     // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
+    var commandEntry = CommandLineStore.getCommandHistory()[this.index];
     this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
   },
 
   setTextField: function(value) {
@@ -198,17 +174,15 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    var which = CommandLineStore.getCommandHistory().slice(1, Number(numBack) + 1);
     which.reverse();
 
     var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
+    _.each(which, function(text) {
+      str += text + ';';
     }, this);
 
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
+    CommandLineActions.submitCommand(str);
   },
 
   addToCommandHistory: function(value) {
@@ -217,22 +191,13 @@ var CommandPromptView = Backbone.View.extend({
     // or if we edited the command in place in history
     var shouldAdd = (value.length && this.index === -1) ||
       ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
+      CommandLineStore.getCommandHistory()[this.index] !== value));
 
     if (!shouldAdd) {
       return;
     }
 
-    var commandEntry = new CommandEntry({text: value});
-    this.commands.unshift(commandEntry);
-
-    // store to local storage
-    Backbone.sync('create', commandEntry, function() { });
-
-    // if our length is too egregious, reset
-    if (this.commands.length > 100) {
-      this.clearLocalStorage();
-    }
+    CommandLineActions.submitCommand(value);
     log.commandEntered(value);
   },
 
