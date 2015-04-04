@@ -228,8 +228,8 @@ var CommandView = Backbone.View.extend({
     // for changes that are just comestic, we actually only want to toggle classes
     // with jquery rather than brutally delete a html. doing so allows us
     // to nicely fade things
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
+    var changes = changeEvent.changes || {};
+    var changeKeys = Object.keys(changes);
     if (_.difference(changeKeys, ['status']).length === 0) {
       this.updateStatus();
     } else {

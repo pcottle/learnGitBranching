@@ -328,7 +328,7 @@ var ModalAlert = ContainedBase.extend({
   template: _.template($('#modal-alert-template').html()),
 
   initialize: function(options) {
-    options = options || {};
+    this.options = options || {};
     this.JSON = {
       title: options.title || 'Something to say',
       text: options.text || 'Here is a paragraph',
