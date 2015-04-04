@@ -1,6 +1,5 @@
 var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var Errors = require('../util/errors');
 
@@ -291,12 +290,4 @@ var Command = Backbone.Model.extend({
   }
 });
 
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
-  defaults: {
-    text: ''
-  }
-});
-
-exports.CommandEntry = CommandEntry;
 exports.Command = Command;

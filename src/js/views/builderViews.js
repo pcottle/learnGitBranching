@@ -1,16 +1,9 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
-
-var util = require('../util');
-var intl = require('../intl');
-var KeyboardListener = require('../util/keyboard').KeyboardListener;
 
 var Views = require('../views');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
-
 
 var TextGrabber = ContainedBase.extend({
   tagName: 'div',

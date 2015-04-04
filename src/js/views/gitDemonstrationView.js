@@ -1,7 +1,6 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Backbone = require('backbone');
 
 var util = require('../util');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;

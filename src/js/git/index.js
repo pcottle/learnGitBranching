@@ -1,6 +1,5 @@
 var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 var Q = require('q');
 
 var intl = require('../intl');
@@ -15,7 +14,6 @@ var Main = require('../app');
 var Commands = require('../commands');
 var GitError = Errors.GitError;
 var CommandResult = Errors.CommandResult;
-var EventBaton = require('../util/eventBaton').EventBaton;
 
 var ORIGIN_PREFIX = 'o/';
 var TAB = '&nbsp;&nbsp;&nbsp;';
