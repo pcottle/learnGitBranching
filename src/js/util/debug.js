@@ -6,6 +6,8 @@ var toGlobalize = {
   Visuals: require('../visuals'),
   Git: require('../git'),
   CommandModel: require('../models/commandModel'),
+  CommandLineStore: require('../stores/CommandLineStore'),
+  CommandLineActions: require('../actions/CommandLineActions'),
   LevelActions: require('../actions/LevelActions'),
   LevelStore: require('../stores/LevelStore'),
   LocaleActions: require('../actions/LocaleActions'),
