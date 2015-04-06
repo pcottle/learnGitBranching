@@ -1,10 +1,12 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
+var React = require('react');
 
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
+var Dialog = require('../react_views/TestView.jsx').Dialog;
 
 /**
  * Globals
@@ -213,6 +215,12 @@ var initDemo = function(sandbox) {
       "help;",
       "levels"
     ];
+  }
+  if (params.hasOwnProperty('STARTREACT')) {
+    React.render(
+      React.createElement(Dialog, {}),
+      document.getElementById(params['STARTREACT'])
+    );
   }
   if (commands) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
