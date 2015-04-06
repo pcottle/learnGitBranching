@@ -109,7 +109,7 @@ var CasperUtils = {
     intlKeyReturns: function(key, text) {
       return function then() {
         this.test.assertEvalEquals(function(key) {
-            return debug_Intl_str(key);
+            return intl.str(key);
           },
           text,
           'Checking that intl key "' + key + '" contains "' +

@@ -47,6 +47,10 @@ var init = function() {
 
   initRootEvents(eventBaton);
   initDemo(sandbox);
+  // unfortunate global export for casper tests
+  window.LocaleStore = LocaleStore;
+  window.LocaleActions = LocaleActions;
+  window.intl = intl;
 };
 
 var vcsModeRefresh = function(eventData) {

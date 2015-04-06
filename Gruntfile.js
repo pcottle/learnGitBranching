@@ -195,8 +195,8 @@ module.exports = function(grunt) {
         command: 'git add build/'
       },
       casperTest: {
-        command: 'casperjs test ./src/__tests__/casperjs/*_test.js || ' +
-          'open ./src/__tests__/casperjs/screenshots/*.png'
+        command: 'echo "Running $(ls -1 ./src/__tests__/casperjs/*_test.js | wc -l) tests" && ' +
+          'ls -1 ./src/__tests__/casperjs/*_test.js | while IFS= read -r line; do casperjs test $line; done'
       }
     },
     jasmine_node: {
