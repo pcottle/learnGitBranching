@@ -35,9 +35,7 @@ var devDependencies = [
 module.exports = function(grunt) {
   // eventually have sound...?
   grunt.registerTask('compliment', 'Stay motivated!', function() {
-    var defaults = ['Awesome!!'];
-
-    var compliments = grunt.config('compliment.compliments') || defaults;
+    var compliments = grunt.config('compliment.compliments');
     var index = Math.floor(Math.random() * compliments.length);
 
     grunt.log.writeln(compliments[index]);
@@ -45,7 +43,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lintStrings', 'Find if an INTL string doesnt exist', function() {
     var child_process = require('child_process');
-    var output = child_process.exec('node src/js/intl/checkStrings', function(err, output) {
+    child_process.exec('node src/js/intl/checkStrings', function(err, output) {
       grunt.log.writeln(output);
     });
   });
@@ -110,7 +108,7 @@ module.exports = function(grunt) {
         'src/__tests__/spec/*.js',
         'src/js/**/*.js',
         'src/js/**/**/*.js',
-        'src/levels/**/*.js',
+        'src/levels/**/*.js'
       ],
       options: {
         curly: true,
@@ -209,28 +207,35 @@ module.exports = function(grunt) {
     },
     browserify: {
       options: {
+        transform: [require('grunt-react').browserify],
         ignore: [
           'src/__tests__/casperjs/*.js',
           'src/js/__tests__/create.js',
           'src/js/__tests__/*.js'
-        ],
+        ]
       },
       dist: {
         files: {
-          'build/bundle.js': ['src/**/*.js', 'src/js/**/*.js'],
+          'build/bundle.js': [
+            'src/**/*.js',
+            'src/**/*.jsx',
+            'src/js/**/*.js',
+            'src/js/**/*.jsx'
+          ]
         },
       }
     },
   });
 
   // all my npm helpers
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jsxhint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-react');
 
   grunt.registerTask('build',
     ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell:gitAdd', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
