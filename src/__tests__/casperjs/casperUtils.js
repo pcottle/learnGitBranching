@@ -78,6 +78,20 @@ var CasperUtils = {
       };
     },
 
+    selectorMatchesRegex: function(selector, regex) {
+      return function then() {
+        this.test.assertEvalEquals(function(selector, regex) {
+            return !!document.querySelector(selector).innerText
+              .match(regex);
+          },
+          true,
+          'Checking that selector "' + selector + '" matches regex "' +
+            regex + '".',
+          {selector: selector, regex: regex}
+        );
+      };
+    },
+
     selectorContainsText: function(selector, text) {
       return function then() {
         this.test.assertEvalEquals(function(selector) {
