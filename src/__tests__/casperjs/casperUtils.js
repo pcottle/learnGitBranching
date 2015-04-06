@@ -31,6 +31,13 @@ var CasperUtils = {
     this.test.done();
   },
 
+  enterCommand: function(command) {
+    return function then() {
+      this.sendKeys('#commandTextField', command, { keepFocus: true });
+      this.page.sendEvent('keypress', this.page.event.key.Enter);
+    };
+  },
+
   multiAssert: function() {
     // Copy the args into a variable we can reference inside
     // our closure.
@@ -74,7 +81,8 @@ var CasperUtils = {
     selectorContainsText: function(selector, text) {
       return function then() {
         this.test.assertEvalEquals(function(selector) {
-            return document.querySelector(selector).innerText;
+            return document.querySelector(selector).innerText
+              .replace(/^\s+/g, '').replace(/\s+$/g, '');
           },
           text,
           'Checking that selector "' + selector + '" contains "' +
