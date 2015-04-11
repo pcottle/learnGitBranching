@@ -28,6 +28,15 @@ var CommandView = React.createClass({
   },
 
   onModelDestroy: function() {
+    if (!this.isMounted()) {
+      return;
+    }
+    if (!this.getDOMNode) {
+      // WTF -- only happens in casperjs tests weirdly
+      console.error('this.getDOMNode not a function?');
+      return;
+    }
+
     React.unmountComponentAtNode(this.getDOMNode().parentNode);
   },
 

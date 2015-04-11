@@ -10,6 +10,10 @@ var CasperUtils = {
       casper.echo('Error: ' + msg, 'ERROR');
       casper.echo('Stack: ' + JSON.stringify(trace));
     });
+    casper.on('remote.error', function(msg) {
+      casper.echo('Console Warn: ' + msg, 'ERROR');
+    });
+
     casper.options.logLevel ="debug";
     casper.start(url, callback);
     return casper;
@@ -106,6 +110,9 @@ var CasperUtils = {
     selectorContainsText: function(selector, text) {
       return function then() {
         this.test.assertEvalEquals(function(selector) {
+            if (!document.querySelector(selector)) {
+              return 'Query selector ' + selector + ' did not match!!';
+            }
             return document.querySelector(selector).innerText
               .replace(/^\s+/g, '').replace(/\s+$/g, '');
           },

@@ -11,4 +11,5 @@ index.html
 *.sw*
 npm-debug.log
 src/__tests__/casperjs/screenshots/*.png
+src/__tests__/casperjs/*.js-e
 

@@ -21,7 +21,7 @@ var headerLocaleMap = {
   'pt-BR': 'pt_BR'
 };
 
-casper.start(
+CasperUtils.start(casper,
   CasperUtils.getUrl(),
   function() {
     this.test.assertTitle('Learn Git Branching');

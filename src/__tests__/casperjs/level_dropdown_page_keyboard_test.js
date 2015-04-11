@@ -1,6 +1,6 @@
 var CasperUtils = require('./casperUtils').CasperUtils;
 
-casper.start(
+CasperUtils.start(casper,
   CasperUtils.getUrl(),
   function() {
     this.test.assertTitle('Learn Git Branching');
@@ -51,7 +51,7 @@ casper.start(
     .then(function() {
       this.page.sendEvent('keypress', this.page.event.key.Enter);
     })
-    .wait(1700)
+    .wait(700)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.selectorContainsText(
       'div.levelNameWrapper',
