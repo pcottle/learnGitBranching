@@ -6,7 +6,6 @@ var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
-var Dialog = require('../react_views/TestView.jsx').Dialog;
 
 /**
  * Globals
@@ -217,10 +216,11 @@ var initDemo = function(sandbox) {
     ];
   }
   if (params.hasOwnProperty('STARTREACT')) {
+    /*
     React.render(
-      React.createElement(Dialog, {}),
+      React.createElement(CommandView, {}),
       document.getElementById(params['STARTREACT'])
-    );
+      );*/
   }
   if (commands) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {

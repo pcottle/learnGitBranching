@@ -1,0 +1,114 @@
+var React = require('react');
+
+var reactUtil = require('../util/reactUtil');
+var keyMirror = require('react/lib/keyMirror');
+
+var STATUSES = keyMirror({
+  inqueue: null,
+  processing: null,
+  finished: null
+});
+
+var CommandView = React.createClass({
+
+  propTypes: {
+    // the backbone command model
+    command: React.PropTypes.object.isRequired
+  },
+
+  componentDidMount: function() {
+    this.props.command.on('change', this.updateStateFromModel, this);
+    this.updateStateFromModel();
+  },
+
+  componentWillUnmount: function() {
+    this.props.command.off('change', this.updateStateFromModel, this);
+  },
+
+  updateStateFromModel: function() {
+    var commandJSON = this.props.command.toJSON();
+    this.setState({
+      status: commandJSON.status,
+      rawStr: commandJSON.rawStr,
+      warnings: commandJSON.warnings,
+      result: commandJSON.result
+    });
+  },
+
+  getInitialState: function() {
+    return {
+      status: STATUSES.inqueue,
+      rawStr: 'git commit',
+      warnings: [],
+      result: ''
+    };
+  },
+
+  render: function() {
+    var commandClass = reactUtil.joinClasses([
+      this.state.status,
+      'commandLine',
+      'transitionBackground'
+    ]);
+
+    return (
+      <div className="reactCommandView">
+        <p className={commandClass}>
+          <span className="prompt">{'$'}</span>
+          {' ' + this.state.rawStr}
+          <span className="icons transitionAllSlow">
+            <i className="icon-exclamation-sign"></i>
+            <i className="icon-check-empty"></i>
+            <i className="icon-retweet"></i>
+            <i className="icon-check"></i>
+          </span>
+        </p>
+        {this.renderResult()}
+        <div className="commandLineWarnings">
+          {this.renderFormattedWarnings()}
+        </div>
+      </div>
+    );
+  },
+
+  renderResult: function() {
+    if (!this.state.result) {
+      return null;
+    }
+    // We are going to get a ton of raw markup here
+    // so lets split into paragraphs ourselves
+    var paragraphs = this.state.result.split("\n");
+    var result = [];
+    for (var i = 0; i < paragraphs.length; i++) {
+      result.push(
+        <p
+          key={'paragraph_' + i}
+          dangerouslySetInnerHTML={{
+            __html: paragraphs[i]
+          }}
+        />
+      );
+    }
+    return (
+      <div className={'commandLineResult'}>
+        {result}
+      </div>
+    );
+  },
+
+  renderFormattedWarnings: function() {
+    var warnings = this.state.warnings;
+    var result = [];
+    for (var i = 0; i < warnings.length; i++) {
+      result.push(
+        <p key={'warning_' + i}>
+          <i class="icon-exclamation-sign"></i>
+          {warnings[i]}
+        </p>
+      );
+    }
+    return result;
+  }
+});
+
+module.exports = CommandView;

@@ -12,13 +12,6 @@ var MyError = Backbone.Model.extend({
 
   getMsg: function() {
     return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
-    }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
   }
 });
 

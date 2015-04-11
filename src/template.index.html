@@ -101,27 +101,6 @@
   <!-- Templates from here on out. Someone seriously needs to fix template
        management for node.js apps. I know there is the text plugin
        for requireJS but that's lame. For now, they are all listed here... -->
-  <script type="text/html" id="command-template">
-       <p class="commandLine transitionBackground <%= status %>">
-        <span class="prompt">$</span>
-        <%= rawStr %>
-        <span class="icons transitionAllSlow">
-          <i class="icon-exclamation-sign"></i>
-          <i class="icon-check-empty"></i>
-          <i class="icon-retweet"></i>
-          <i class="icon-check"></i>
-        </span>
-      </p>
-
-      <div class="commandLineResult <%= resultType %>">
-        <%= result %>
-      </div>
-
-      <div class="commandLineWarnings">
-        <%= formattedWarnings %>
-      </div>
-  </script>
-
   <script type="text/html" id="helper-bar-template">
     <% for(var i = 0; i < items.length; i++) { %>
       <% if (items[i].text) { %>

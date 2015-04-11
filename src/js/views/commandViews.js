@@ -1,10 +1,12 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
+var React = require('react');
 
 var Main = require('../app');
 var Command = require('../models/commandModel').Command;
 var CommandLineStore = require('../stores/CommandLineStore');
 var CommandLineActions = require('../actions/CommandLineActions');
+var CommandView = require('../react_views/CommandView.jsx');
 
 var Errors = require('../util/errors');
 var Warning = Errors.Warning;
@@ -203,75 +205,6 @@ var CommandPromptView = Backbone.View.extend({
   }
 });
 
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html. doing so allows us
-    // to nicely fade things
-    var changes = changeEvent.changes || {};
-    var changeKeys = Object.keys(changes);
-    if (_.difference(changeKeys, ['status']).length === 0) {
-      this.updateStatus();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
 var CommandLineHistoryView = Backbone.View.extend({
   initialize: function(options) {
     this.collection = options.collection;
@@ -331,10 +264,13 @@ var CommandLineHistoryView = Backbone.View.extend({
   },
 
   addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
+    var div = document.createElement('div');
+    div.id = command.cid;
+    React.render(
+      React.createElement(CommandView, {command: command}),
+      div
+    );
+    this.$('#commandDisplay').append(div);
     this.scrollDown();
   },
 
