@@ -265,7 +265,7 @@ var CommandLineHistoryView = Backbone.View.extend({
 
   addOne: function(command) {
     var div = document.createElement('div');
-    div.id = command.cid;
+    div.id = 'command_' + command.cid;
     React.render(
       React.createElement(CommandView, {command: command}),
       div
