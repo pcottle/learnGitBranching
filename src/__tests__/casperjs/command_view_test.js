@@ -1,7 +1,15 @@
 var CasperUtils = require('./casperUtils').CasperUtils;
 
+casper.on('page.error', function(msg, trace) {
+  casper.echo('Error: ' + msg, 'ERROR');
+  casper.echo('Stack: ' + JSON.stringify(trace));
+});
+casper.options.logLevel ="debug";
+
 casper.start(
-  CasperUtils.getUrl(),
+  CasperUtils.getUrlForCommands([
+    'asd'
+  ]),
   function() {
     this.test.assertTitle('Learn Git Branching');
 

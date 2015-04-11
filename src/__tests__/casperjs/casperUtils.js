@@ -4,6 +4,15 @@ var screenshotRoot = './src/__tests__/casperjs/screenshots/entirePage';
 
 var CasperUtils = {
 
+  start: function(casper, url, callback) {
+    // Setup some sanity error handling
+    casper.on('page.error', function(msg, trace) {
+      casper.echo('Error: ' + msg, 'ERROR');
+      casper.echo('Stack: ' + trace);
+    });
+    casper.start(url, callback);
+  },
+
   getRoot: function() {
     // Unfortunately this is hardcoded for now :*( cant get the path
     // variable synchronously when running this test, and CasperJS does

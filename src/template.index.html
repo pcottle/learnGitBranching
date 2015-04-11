@@ -97,6 +97,15 @@
   {{jsDependencies}}
 
   <script src="lib/jquery-ui-1.9.0.custom.min.js"></script>
+  <script type="text/javascript">
+    // PhantomJS doesn't support bind yet LOL. polyfill
+    Function.prototype.bind = Function.prototype.bind || function (thisp) {
+      var fn = this;
+      return function () {
+        return fn.apply(thisp, arguments);
+      };
+    };
+  </script>
 
   <!-- Templates from here on out. Someone seriously needs to fix template
        management for node.js apps. I know there is the text plugin
