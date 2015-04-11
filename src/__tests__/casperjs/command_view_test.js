@@ -8,7 +8,8 @@ CasperUtils.start(
   function() {
     this.test.assertTitle('Learn Git Branching');
 
-    casper.wait(700)
+    casper.waitFor(CasperUtils.waits.jsMount)
+    .wait(200)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.selectorContainsText(
       '#command_c32 div.commandLineResult p',
