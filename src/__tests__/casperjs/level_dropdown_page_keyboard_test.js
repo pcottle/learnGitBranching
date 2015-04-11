@@ -51,7 +51,7 @@ casper.start(
     .then(function() {
       this.page.sendEvent('keypress', this.page.event.key.Enter);
     })
-    .wait(700)
+    .wait(1700)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.selectorContainsText(
       'div.levelNameWrapper',

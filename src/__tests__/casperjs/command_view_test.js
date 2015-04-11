@@ -1,12 +1,7 @@
 var CasperUtils = require('./casperUtils').CasperUtils;
 
-casper.on('page.error', function(msg, trace) {
-  casper.echo('Error: ' + msg, 'ERROR');
-  casper.echo('Stack: ' + JSON.stringify(trace));
-});
-casper.options.logLevel ="debug";
-
-casper.start(
+CasperUtils.start(
+  casper,
   CasperUtils.getUrlForCommands([
     'asd'
   ]),
@@ -51,5 +46,4 @@ casper.start(
     ))
     */
     .then(CasperUtils.testDone);
-
 }).run();

@@ -8,9 +8,11 @@ var CasperUtils = {
     // Setup some sanity error handling
     casper.on('page.error', function(msg, trace) {
       casper.echo('Error: ' + msg, 'ERROR');
-      casper.echo('Stack: ' + trace);
+      casper.echo('Stack: ' + JSON.stringify(trace));
     });
+    casper.options.logLevel ="debug";
     casper.start(url, callback);
+    return casper;
   },
 
   getRoot: function() {
