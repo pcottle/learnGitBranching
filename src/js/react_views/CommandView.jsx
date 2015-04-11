@@ -18,11 +18,17 @@ var CommandView = React.createClass({
 
   componentDidMount: function() {
     this.props.command.on('change', this.updateStateFromModel, this);
+    this.props.command.on('destroy', this.onModelDestroy, this);
     this.updateStateFromModel();
   },
 
   componentWillUnmount: function() {
     this.props.command.off('change', this.updateStateFromModel, this);
+    this.props.command.off('destroy', this.onModelDestroy, this);
+  },
+
+  onModelDestroy: function() {
+    React.unmountComponentAtNode(this.getDOMNode().parentNode);
   },
 
   updateStateFromModel: function() {

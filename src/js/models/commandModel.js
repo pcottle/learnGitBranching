@@ -201,7 +201,6 @@ var Command = Backbone.Model.extend({
   },
 
   addWarning: function(msg) {
-    console.log('this is the warning', msg);
     this.get('warnings').push(msg);
     // change numWarnings so the change event fires. This is bizarre -- Backbone can't
     // detect if an array changes, so adding an element does nothing
