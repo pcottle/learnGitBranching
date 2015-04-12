@@ -10,7 +10,8 @@ exports.level = {
     "ja"   : "複数のparent commit",
     "es_AR": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
-    "zh_TW": "多個 parent commit"
+    "zh_TW": "多個 parent commit",
+    "ru_RU": "Здоровая семья или несколько родителей"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -20,7 +21,8 @@ exports.level = {
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
-    "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。"
+    "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
+    "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку."
   },
   "startDialog": {
     "en_US": {
@@ -627,6 +629,93 @@ exports.level = {
               "要完成這一關，在指定的目標位置上面建立一個新的 branch。",
               "",
               "很明顯可以直接使用 commit 的 hash 值（比如 `C6`），但我要求你使用剛剛講到的相對引用的符號！"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Определение родителей",
+              "",
+              "Так же как тильда (~), каретка (^) принимает номер после себя.",
+              "",
+              "Но в отличие от количества коммитов, на которые нужно откатиться назад (как делает `~`), номер после `^` определяет на какого из родителей мерджа надо перейти. Учитывая, что мерджевый коммит имеет двух родителей, просто указать ^ нельзя.",
+              "",
+              "Git по умолчанию перейдёт на \"первого\" родителя коммита, но указание номера после `^` изменяет это поведение.",
+              "",
+              "Посмотрим как это работает.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Вот мерджевый коммит. Если мы перейдём на master^ без номера, то попадём на первого родителя.",
+              "",
+              "(*На нашей визуализации первый родитель находится прямо над коммитом*)"
+            ],
+            "afterMarkdowns": [
+              "Просто -- прямо как мы любим."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Теперь попробуем перейти на второго родителя."
+            ],
+            "afterMarkdowns": [
+              "Вот. Мы на втором родительском коммите."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Модификаторы `^` и `~` сильно помогают перемещаться по дереву коммитов:"
+            ],
+            "afterMarkdowns": [
+              "Быстро как Флэш!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Более того, эти модификаторы можно применять вместе. Например так:"
+            ],
+            "afterMarkdowns": [
+              "Сделаем то же самое, что перед этим, только в одну команду."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### На практике",
+              "",
+              "Чтобы пройти этот уровень, надо создать ветку в указанном месте.",
+              "",
+              "Очевидно, что (в данном случае) будет проще указать коммит напрямую, но для того, чтобы закрепить пройденное, надо использовать модификаторы, о которых мы говорили выше."
             ]
           }
         }
