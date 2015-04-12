@@ -10,7 +10,8 @@ exports.level = {
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
-    "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります"
+    "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
+    "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -539,6 +540,75 @@ exports.level = {
               "相対リファレンスとブランチの強制関連付けを見ましたので、いまここでそれらの方法を使ってみましょう。",
               "",
               "このレベルをクリアするには`HEAD`、`master`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Оператор \"~\"",
+              "",
+              "Предположим, нужно переместиться на много шагов назад по дереву. Было бы неудобно печатать `^` несколько раз (или несколько десятков раз), так что Git поддерживает также оператор тильда (~).",
+              "",
+              "",
+              "К тильде (опционально) можно добавить количество родительских коммитов, через которые нужно пройти. Посмотрим, как это работает."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Укажем после `~` число коммитов, через которые надо пройти."
+            ],
+            "afterMarkdowns": [
+              "Оп! Очевидно, относительные ссылки прекрасны."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Перемещение ветки (branch forcing)",
+              "",
+              "Теперь мы разбираемся в относительных ссылках, так что можно реально использовать их для дела.",
+              "",
+              "Одна из наиболее распространённых целей, для которых используются относительные ссылки - это перемещение веток. Можно напрямую прикрепить ветку к коммиту при помощи опции `-f`. Например команда:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "Переместит (принудительно) ветку master на три родителя назад от HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Посмотрим как работает эта команда"
+            ],
+            "afterMarkdowns": [
+              "Вуаля! Относительная ссылка дала нам возможность просто сослаться на `C1`, а branch forcing (`-f`) дал нам возможность быстро переместить указатель ветки на этот коммит."
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Мы рассмотрели относительные ссылки и branch forcing вкупе, так что теперь пришло время пройти следующий оуровень.",
+              "",
+              "Чтобы пройти этот уровень, передвинь `HEAD`, `master` и `bugFix` так как показано на выизуализации."
             ]
           }
         }
