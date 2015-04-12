@@ -10,7 +10,8 @@ exports.level = {
     "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen",
-    "ja"   : "HEADの分離"
+    "ja"   : "HEADの分離",
+    "ru_RU": "Теряем \"голову\" или detached HEAD"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -20,7 +21,8 @@ exports.level = {
     "ja"   : "コミットのラベル（hash）を使用",
     "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
-    "zh_CN": "使用提交记录上的标签(hash)来求助！"
+    "zh_CN": "使用提交记录上的标签(hash)来求助！",
+    "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов."
   },
   "startDialog": {
     "en_US": {
@@ -634,6 +636,84 @@ exports.level = {
               "このレベルをクリアするには、HEADを`bugFix`から分離し、その代わりに特定のコミットに紐づけましょう。",
               "",
               "このコミットをハッシュで指定します。コミットのハッシュはそのコミットを表す丸の上に表示されています。"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Прогулка по Git",
+              "",
+              "Прежде, чем перейти к более продвинутым фичам Git, важно понять различные способы перемещения по дереву коммитов вашего проекта.",
+              "",
+              "Как только вы научитесь свободно передвигаться по дереву коммитов, ваши возможности в Git преумножатся.",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "В первую очередь, поговорим о \"HEAD\". HEAD - это символическое имя текущего выбранного коммита -- это, по сути, тот коммит, над которым мы в данным момент работаем.",
+              "",
+              "HEAD всегда указывает на последний коммит, из вашего локального дерева. Большинство комманд Git, изменяющих рабочее дерево, начнут с изменения HEAD.",
+              "",
+              "Обычно HEAD указывает на имя ветки (например bigFix). Когда вы делаете коммит, статус ветки bugFix меняется и это изменение видно через HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Посмотрим как это работает. Посмотрим где находится HEAD до и почле коммита."
+            ],
+            "afterMarkdowns": [
+              "Вот! HEAD всё это время скрывался за веткой master."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Detaching HEAD",
+              "",
+              "Отделение (detaching) HEAD означает лишь присвоение его не ветке, а конкретному коммиту. Посмотрим, что было до отделения:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "А вот что получилось теперь",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы пройти уровень, давай отделим HEAD от ветки bugFix и присвоим его последнему коммиту в этой же ветке.",
+              "",
+              "Укажи коммит при помощи его идентификатора (hash). Hash для каждого коммита указан а кружке на схеме."
             ]
           }
         }
