@@ -208,6 +208,7 @@ var CommandPromptView = Backbone.View.extend({
 var CommandLineHistoryView = Backbone.View.extend({
   initialize: function(options) {
     this.collection = options.collection;
+    this.commandNum = 0;
 
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
@@ -265,7 +266,7 @@ var CommandLineHistoryView = Backbone.View.extend({
 
   addOne: function(command) {
     var div = document.createElement('div');
-    div.id = 'command_' + command.cid;
+    div.id = 'command_' + this.commandNum++;
     React.render(
       React.createElement(CommandView, {command: command}),
       div

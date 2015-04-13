@@ -12,13 +12,13 @@ CasperUtils.start(
     .wait(200)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.selectorContainsText(
-      '#command_c32 div.commandLineResult p',
+      '#command_0 div.commandLineResult p',
       'The command "asd" isn\'t supported, sorry!'
     ))
     .then(CasperUtils.enterCommand('git commit'))
     .wait(100)
     .then(CasperUtils.asserts.selectorContainsText(
-      '#command_c34 p.commandLine span:nth-child(2)',
+      '#command_1 p.commandLine span:nth-child(2)',
       'git commit'
     ))
     .wait(700)
