@@ -111,6 +111,9 @@ module.exports = function(grunt) {
         'src/levels/**/*.js'
       ],
       options: {
+        ignores: [
+          'src/js/**/*.ios.js'
+        ],
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
         eqeqeq: false,
@@ -211,7 +214,8 @@ module.exports = function(grunt) {
         ignore: [
           'src/__tests__/casperjs/*.js',
           'src/js/__tests__/create.js',
-          'src/js/__tests__/*.js'
+          'src/js/__tests__/*.js',
+          'src/js/**/*.ios.js'
         ]
       },
       dist: {
