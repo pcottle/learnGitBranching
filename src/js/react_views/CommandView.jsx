@@ -13,7 +13,8 @@ var CommandView = React.createClass({
 
   propTypes: {
     // the backbone command model
-    command: React.PropTypes.object.isRequired
+    command: React.PropTypes.object.isRequired,
+    id: React.PropTypes.string,
   },
 
   componentDidMount: function() {
@@ -67,7 +68,7 @@ var CommandView = React.createClass({
     ]);
 
     return (
-      <div className="reactCommandView">
+      <div id={this.props.id} className="reactCommandView">
         <p className={commandClass}>
           <span className="prompt">{'$'}</span>
           {' ' + this.state.rawStr}

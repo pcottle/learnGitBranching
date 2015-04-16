@@ -48,9 +48,13 @@ var CommandHistoryView = React.createClass({
 
   render: function() {
     var allCommands = [];
-    this.props.commandCollection.each(function(command) {
+    this.props.commandCollection.each(function(command, index) {
       allCommands.push(
-        <CommandView command={command} key={command.cid} />
+        <CommandView
+          id={'command_' + index}
+          command={command}
+          key={command.cid}
+        />
       );
     }, this);
     return (
@@ -61,7 +65,7 @@ var CommandHistoryView = React.createClass({
   },
 
   scrollDown: function() {
-    var cD = this.getDOMNode();
+    var cD = document.getElementById('commandDisplay');
     var t = document.getElementById('terminal');
 
     // firefox hack
@@ -69,7 +73,7 @@ var CommandHistoryView = React.createClass({
       (window.innerHeight < cD.clientHeight);
 
     // ugh sometimes i wish i had toggle class
-    var hasScroll = t.className.match(/shouldScroll/g);
+    var hasScroll = t.className.match(/scrolling/g);
     if (shouldScroll && !hasScroll) {
       t.className += ' scrolling';
     } else if (!shouldScroll && hasScroll) {
