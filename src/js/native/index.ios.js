@@ -12,11 +12,12 @@ var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
+  Image,
   Text,
   View,
 } = React;
 
-var AwesomeProject = React.createClass({
+var LearnGitBranching = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
@@ -83,4 +84,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('LearnGitBranching', () => LearnGitBranching);
