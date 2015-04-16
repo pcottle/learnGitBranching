@@ -13,74 +13,88 @@ var {
   AppRegistry,
   StyleSheet,
   Image,
+  ScrollView,
   Text,
+  TouchableHighlight,
   View,
 } = React;
 
 var LearnGitBranching = React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Yo Whatup Peter
-        </Text>
-        {Object.keys(levelSequences).map(function(sequence) {
-          return (
-            <View key={sequence} style={styles.levelCard}>
-              <Text style={styles.levleCardText}>
-                {sequence}
-              </Text>
-            </View>
-          );
-        })}
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+Control+Z for dev menu
-        </Text>
-      </View>
+      <ScrollView>
+        <View style={styles.headerSpacer} />
+        <View style={styles.container}>
+          <Text style={styles.welcome}>
+            Yo Whatup Peter
+          </Text>
+          {Object.keys(levelSequences).map(function(sequence) {
+            return (
+              <View style={styles.cardContainer}>
+                <TouchableHighlight>
+                  <Image
+                    key={sequence}
+                    source={require('image!test')}
+                    style={styles.logo}>
+                    <View style={styles.levelLabel}>
+                      <Text style={styles.sequenceName}>
+                        {sequence}
+                      </Text>
+                    </View>
+                  </Image>
+                </TouchableHighlight>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
     );
   }
 });
 
 var styles = StyleSheet.create({
+  headerSpacer: {
+    height: 40
+  },
+  logo: {
+    width: 300,
+    borderRadius: 2,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: 100
+  },
+  cardContainer: {
+    shadowColor: '#666',
+    shadowOpacity: 0.7,
+    marginBottom: 16,
+    shadowOffset: {
+      x: 100,
+      y: 100
+    },
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFF',
   },
-  levelCardText: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-  levelCard: {
-    backgroundColor: '#EEE',
+  levelLabel: {
+    flexDirection: 'column',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
-    padding: 10,
-    shadowColor: '#333',
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    width: 200,
-    shadowOffset: {
-      x: 80,
-      y: 80
-    },
     borderRadius: 10
+  },
+  sequenceName: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
