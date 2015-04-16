@@ -29,7 +29,7 @@ var Command = Backbone.Model.extend({
 
   },
 
-  initialize: function(options) {
+  initialize: function() {
     this.initDefaults();
     this.validateAtInit();
 

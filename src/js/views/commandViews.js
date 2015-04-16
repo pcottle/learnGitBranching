@@ -1,21 +1,15 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
-var React = require('react');
 
 var Main = require('../app');
-var Command = require('../models/commandModel').Command;
 var CommandLineStore = require('../stores/CommandLineStore');
 var CommandLineActions = require('../actions/CommandLineActions');
-var CommandView = require('../react_views/CommandView.jsx');
-
-var Errors = require('../util/errors');
-var Warning = Errors.Warning;
 
 var log = require('../log');
 var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
+  initialize: function() {
     Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
 
     this.index = -1;
@@ -205,81 +199,5 @@ var CommandPromptView = Backbone.View.extend({
   }
 });
 
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-    this.commandNum = 0;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-    Main.getEvents().on('clearOldCommands', this.clearOldCommands, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  clearOldCommands: function() {
-    // go through and get rid of every command that is "processed" or done
-    var toDestroy = [];
-
-    this.collection.each(function(command) {
-      if (command.get('status') !== 'inqueue' &&
-          command.get('status') !== 'processing') {
-        toDestroy.push(command);
-      }
-    }, this);
-
-    _.each(toDestroy, function(command) {
-      command.destroy();
-    }, this);
-    this.scrollDown();
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    // firefox hack
-    var shouldScroll = (cD.clientHeight > t.clientHeight) ||
-      ($(window).height() < cD.clientHeight);
-    $(t).toggleClass('scrolling', shouldScroll);
-    if (shouldScroll) {
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var div = document.createElement('div');
-    div.id = 'command_' + this.commandNum++;
-    React.render(
-      React.createElement(CommandView, {command: command}),
-      div
-    );
-    this.$('#commandDisplay').append(div);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
 exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
 

@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var React = require('react');
+var CommandHistoryView = require('../react_views/CommandHistoryView.jsx');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -292,10 +293,13 @@ function CommandUI() {
     el: $('#commandLineBar')
   });
 
-  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
+  React.render(
+    React.createElement(
+      CommandHistoryView,
+      { commandCollection: this.commandCollection }
+    ),
+    document.getElementById('commandDisplay')
+  );
 }
 
 exports.getEvents = function() {
