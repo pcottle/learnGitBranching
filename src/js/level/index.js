@@ -49,15 +49,18 @@ var Level = Sandbox.extend({
 
     this.initGoalData(options);
     this.initName(options);
-    this.on('toggleGoal', this.toggleGoal);
     this.on('minimizeCanvas', this.minimizeGoal);
     this.on('resizeCanvas', this.resizeGoal);
-    this.on('toggleObjective', this.toggleObjective);
+    this.isGoalExpanded = false;
 
     Level.__super__.initialize.apply(this, [options]);
     this.startOffCommand();
 
     this.handleOpen(options.deferred);
+  },
+
+  getIsGoalExpanded: function() {
+    return this.isGoalExpanded;
   },
 
   handleOpen: function(deferred) {
@@ -132,10 +135,10 @@ var Level = Sandbox.extend({
       {
         name: name,
         onGoalClick: this.toggleGoal.bind(this),
-        onObjectiveClick: this.toggleObjective.bind(this)
+        onObjectiveClick: this.toggleObjective.bind(this),
+        parent: this
       }
     );
-    debugger;
     React.render(
       this.levelToolbar,
       document.getElementById('levelToolbarMount')
@@ -219,6 +222,8 @@ var Level = Sandbox.extend({
   },
 
   minimizeGoal: function (position, size) {
+    this.isGoalExpanded = false;
+    this.trigger('goalToggled');
     this.goalVis.hide();
     this.goalWindowPos = position;
     this.goalWindowSize = size;
@@ -229,6 +234,9 @@ var Level = Sandbox.extend({
   },
 
   resizeGoal: function () {
+    if (!this.goalVis) {
+      return;
+    }
     this.goalVis.myResize();
   },
 
@@ -290,6 +298,8 @@ var Level = Sandbox.extend({
   },
 
   showGoal: function(command, defer) {
+    this.isGoalExpanded = true;
+    this.trigger('goalToggled');
     this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
     // show the squeezer again we are to the side
     if ($(this.goalVis.el).offset().left > 0.5 * $(window).width()) {
@@ -311,6 +321,8 @@ var Level = Sandbox.extend({
   },
 
   hideGoal: function(command, defer) {
+    this.isGoalExpanded = false;
+    this.trigger('goalToggled');
     this.hideSideVis(command, defer, this.goalCanvasHolder);
   },
 
@@ -487,7 +499,9 @@ var Level = Sandbox.extend({
   },
 
   die: function() {
-    this.levelToolbar.die();
+    React.unmountComponentAtNode(
+      document.getElementById('levelToolbarMount')
+    );
 
     this.hideGoal();
     this.mainVis.die();
