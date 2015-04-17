@@ -29,7 +29,8 @@ var prodDependencies = [
 var devDependencies = [
   '<script src="lib/jquery-1.8.0.min.js"></script>',
   '<script src="lib/underscore-min.js"></script>',
-  '<script src="lib/raphael-min.js"></script>'
+  '<script src="lib/raphael-min.js"></script>',
+  '<script src="lib/es5-shim.min.js"></script>'
 ];
 
 /*global module:false*/
