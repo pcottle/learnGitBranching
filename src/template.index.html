@@ -52,6 +52,9 @@
               </span>
             </div>
           </div>
+          <div id="levelToolbarMount">
+          </div>
+
         <div id="terminal" class="box flex1 horizontal startAlign">
           <div id="commandDisplay" class="box vertical flex1">
           </div>
@@ -65,6 +68,7 @@
           </div>
           <textarea id="commandTextField"></textarea>
         </div>
+
       </div>
     </div>
 
@@ -85,17 +89,21 @@
   </div>
 
   <div id="canvasHolder">
-
   </div>
 
   <!-- lol inline styles -->
   <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
-    <img style="position: absolute; top: 0; right: 0; border: 0;" src="assets/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    <img
+      style="position: absolute; top: 0; right: 0; border: 0;"
+      src="assets/forkme_right_darkblue_121621.png"
+      alt="Fork me on GitHub"
+    />
   </a>
 
   <!-- Dependencies -->
   <script type="text/javascript">
-    // PhantomJS doesn't support bind yet LOL. polyfill
+    // PhantomJS doesn't support bind yet LOL. polyfill locally so tests
+    // can pass while offline
     Function.prototype.bind = Function.prototype.bind || function (thisp) {
       var fn = this;
       return function () {
@@ -126,28 +134,6 @@
         </a>
       <% } %>
     <% } %>
-  </script>
-
-  <script type="text/html" id="level-toolbar-template">
-    <div class="toolbar level-toolbar box vertical center transitionAll hidden">
-      <div class="clearfix">
-        <div class="levelNameWrapper">
-          <i class="icon-bolt"></i>
-          Level
-          <span class="levelToolbarSpan">
-            <%= name %>
-          </span>
-        </div>
-      </div>
-      <div class="buttonsWrapper">
-        <div class="showGoalWrapper">
-          <button id="show-goal" type="button">Show Goal</button>
-        </div>
-        <div class="showObjectiveWrapper">
-          <button id="show-objective" type="button">Objective</button>
-        </div>
-      </div>
-    </div>
   </script>
 
   <script type="text/html" id="modal-view-template">

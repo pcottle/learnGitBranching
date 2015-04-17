@@ -118,7 +118,7 @@ var CommandView = React.createClass({
     for (var i = 0; i < warnings.length; i++) {
       result.push(
         <p key={'warning_' + i}>
-          <i class="icon-exclamation-sign"></i>
+          <i className="icon-exclamation-sign"></i>
           {warnings[i]}
         </p>
       );

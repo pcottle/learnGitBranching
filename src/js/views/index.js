@@ -559,62 +559,6 @@ var ZoomAlertWindow = ViewportAlert.extend({
   }
 });
 
-var LevelToolbar = BaseView.extend({
-  tagName: 'div',
-  className: 'levelToolbarHolder',
-  template: _.template($('#level-toolbar-template').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.parent = options.parent;
-    this.JSON = {
-      name: options.name || 'Some level! (unknown name)'
-    };
-
-    this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
-    this.render();
-
-    this.$goalButton = this.$el.find('#show-goal');
-    this.$objectiveButton = this.$el.find('#show-objective');
-
-    var parent = this.parent;
-    this.$goalButton.on('click', function () {
-      parent.trigger('toggleGoal');
-    });
-    this.$objectiveButton.on('click', function() {
-      parent.trigger('toggleObjective');
-    });
-
-    if (!options.wait) {
-      process.nextTick(_.bind(this.show, this));
-    }
-  },
-
-  getAnimationTime: function() { return 700; },
-
-  render: function() {
-    var HTML = this.template(this.JSON);
-
-    this.$el.html(HTML);
-    this.beforeDestination.after(this.el);
-  },
-
-  die: function() {
-    this.hide();
-    setTimeout(_.bind(function() {
-      this.tearDown();
-    }, this), this.getAnimationTime());
-  },
-
-  hide: function() {
-    this.$('div.toolbar').toggleClass('hidden', true);
-  },
-
-  show: function() {
-    this.$('div.toolbar').toggleClass('hidden', false);
-  }
-});
-
 var HelperBar = BaseView.extend({
   getClassName: function() {
     return 'BaseHelperBar';
@@ -1024,6 +968,5 @@ exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 exports.MainHelperBar = MainHelperBar;
 
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
-exports.LevelToolbar = LevelToolbar;
 exports.NextLevelConfirm = NextLevelConfirm;
 

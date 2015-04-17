@@ -2,8 +2,6 @@ var CommandView = require('../react_views/CommandView.jsx');
 var Main = require('../app');
 var React = require('react');
 
-var reactUtil = require('../util/reactUtil');
-
 var _subscribeEvents = [
   'add',
   'reset',

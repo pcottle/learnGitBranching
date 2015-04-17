@@ -6,6 +6,7 @@ var Main = require('../app');
 var intl = require('../intl');
 var log = require('../log');
 
+var React = require('react');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
@@ -20,7 +21,7 @@ var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
-var LevelToolbar = require('../views').LevelToolbar;
+var LevelToolbarView = require('../react_views/LevelToolbarView.jsx');
 
 var TreeCompare = require('../graph/treeCompare');
 
@@ -126,11 +127,19 @@ var Level = Sandbox.extend({
 
   initName: function() {
     var name = intl.getName(this.level);
-
-    this.levelToolbar = new LevelToolbar({
-      name: name,
-      parent: this
-    });
+    this.levelToolbar = React.createElement(
+      LevelToolbarView,
+      {
+        name: name,
+        onGoalClick: this.toggleGoal.bind(this),
+        onObjectiveClick: this.toggleObjective.bind(this)
+      }
+    );
+    debugger;
+    React.render(
+      this.levelToolbar,
+      document.getElementById('levelToolbarMount')
+    );
   },
 
   initGoalData: function(options) {
@@ -213,7 +222,6 @@ var Level = Sandbox.extend({
     this.goalVis.hide();
     this.goalWindowPos = position;
     this.goalWindowSize = size;
-    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
     if ($('#goalPlaceholder').is(':visible')) {
       $('#goalPlaceholder').hide();
       this.mainVis.myResize();
@@ -283,7 +291,6 @@ var Level = Sandbox.extend({
 
   showGoal: function(command, defer) {
     this.showSideVis(command, defer, this.goalCanvasHolder, this.initGoalVisualization);
-    this.levelToolbar.$goalButton.text(intl.str('hide-goal-button'));
     // show the squeezer again we are to the side
     if ($(this.goalVis.el).offset().left > 0.5 * $(window).width()) {
       $('#goalPlaceholder').show();
@@ -305,7 +312,6 @@ var Level = Sandbox.extend({
 
   hideGoal: function(command, defer) {
     this.hideSideVis(command, defer, this.goalCanvasHolder);
-    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
   },
 
   hideSideVis: function(command, defer, canvasHolder, vis) {
