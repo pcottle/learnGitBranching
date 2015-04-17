@@ -1,7 +1,6 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var React = require('react');
-var CommandHistoryView = require('../react_views/CommandHistoryView.jsx');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -280,6 +279,7 @@ function CommandUI() {
   var Views = require('../views');
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
+  var CommandHistoryView = require('../react_views/CommandHistoryView.jsx');
 
   var mainHelperBar = new Views.MainHelperBar();
   var backgroundView = new Views.BackgroundView();
