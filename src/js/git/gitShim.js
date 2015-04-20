@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 
 var Main = require('../app');

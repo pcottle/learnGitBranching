@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 var GlobalStateActions = require('../../actions/GlobalStateActions');

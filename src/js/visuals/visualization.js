@@ -91,7 +91,7 @@ var Visualization = Backbone.View.extend({
     this.shown = false;
     this.setTreeOpacity(0);
     // reflow needed
-    process.nextTick(this.fadeTreeIn, this));
+    process.nextTick(this.fadeTreeIn.bind(this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -99,7 +99,7 @@ var Visualization = Backbone.View.extend({
 
   clearOrigin: function() {
     delete this.originVis;
-  }.bind(this)
+  }.bind(this),
 
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
@@ -186,7 +186,7 @@ var Visualization = Backbone.View.extend({
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
-    setTimeout(this.fadeTreeIn, this), 10);
+    setTimeout(this.fadeTreeIn.bind(this), 10);
     this.originToo('show', arguments);
     this.myResize();
   },
@@ -196,7 +196,7 @@ var Visualization = Backbone.View.extend({
     this.setTreeOpacity(1);
     this.originToo('showHarsh', arguments);
     this.myResize();
-  }.bind(this)
+  }.bind(this),
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;

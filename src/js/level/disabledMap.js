@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var intl = require('../intl');
 
 var Commands = require('../commands');
@@ -25,7 +24,7 @@ DisabledMap.prototype.getInstantCommands = function() {
     });
   };
 
-  _.each(this.disabledMap, function(val, disabledCommand) {
+  Object.keys(this.disabledMap).forEach(function(disabledCommand) {
     // XXX get hold of vcs from disabledMap
     var vcs = 'git';
     disabledCommand = disabledCommand.slice(vcs.length + 1);
@@ -35,7 +34,7 @@ DisabledMap.prototype.getInstantCommands = function() {
         ' has no regex matching');
     }
     instants.push([gitRegex, onMatch]);
-  });
+  }.bind(this));
   return instants;
 };
 

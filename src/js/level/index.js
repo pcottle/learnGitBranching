@@ -368,16 +368,16 @@ var Level = Sandbox.extend({
   initGitShim: function(options) {
     // ok we definitely want a shim here
     this.gitShim = new GitShim({
-      beforeCB: this.beforeCommandCB, this),
-      afterCB: this.afterCommandCB, this),
-      afterDeferHandler: this.afterCommandDefer, this)
+      beforeCB: this.beforeCommandCB.bind(this),
+      afterCB: this.afterCommandCB.bind(this),
+      afterDeferHandler: this.afterCommandDefer.bind(this)
     });
   },
 
   undo: function() {
     this.gitCommandsIssued.pop();
     Level.__super__.undo.apply(this, arguments);
-  }.bind(this)
+  }.bind(this),
 
   afterCommandCB: function(command) {
     if (command.get('error')) {

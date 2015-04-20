@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -68,7 +67,7 @@ var Sandbox = Backbone.View.extend({
 
   initGitShim: function(options) {
     this.gitShim = new GitShim({
-      beforeCB: this.beforeCommandCB, this)
+      beforeCB: this.beforeCommandCB.bind(this)
     });
   },
 
@@ -83,7 +82,7 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
 
     this.insertGitShim();
-  }.bind(this)
+  }.bind(this),
 
   releaseControl: function() {
     // we will be handling commands that are submitted, mainly to add the sanadbox

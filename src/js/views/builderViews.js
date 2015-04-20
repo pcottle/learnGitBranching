@@ -68,14 +68,14 @@ var MarkdownGrabber = ContainedBase.extend({
       // do button stuff
       var buttonDefer = Q.defer();
       buttonDefer.promise
-      .then(this.confirmed, this))
-      .fail(this.cancelled, this))
+      .then(this.confirmed.bind(this))
+      .fail(this.cancelled.bind(this))
       .done();
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
         destination: this.getDestination()
-      }.bind(this)
+      }.bind(this));
     }
 
     this.updatePreview();
@@ -98,7 +98,7 @@ var MarkdownGrabber = ContainedBase.extend({
   keyup: function() {
     if (!this.throttledPreview) {
       this.throttledPreview = _.throttle(
-        this.updatePreview, this),
+        this.updatePreview.bind(this),
         500
       );
     }
@@ -107,7 +107,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   getRawText: function() {
     return this.$('textarea').val();
-  }.bind(this)
+  }.bind(this),
 
   exportToArray: function() {
     return this.getRawText().split('\n');
@@ -155,7 +155,7 @@ var MarkdownPresenter = ContainedBase.extend({
       .fail(function() {
         this.deferred.reject();
       }.bind(this))
-      .done(this.die, this));
+      .done(this.die.bind(this));
     }
 
     this.show();
@@ -230,8 +230,8 @@ var DemonstrationBuilder = ContainedBase.extend({
     });
 
     buttonDeferred.promise
-    .then(this.confirmed, this))
-    .fail(this.cancelled, this))
+    .then(this.confirmed.bind(this))
+    .fail(this.cancelled.bind(this))
     .done();
   },
 
@@ -243,7 +243,7 @@ var DemonstrationBuilder = ContainedBase.extend({
         options: this.getExportObj()
       }]
     });
-  }.bind(this)
+  }.bind(this),
 
   getExportObj: function() {
     return {

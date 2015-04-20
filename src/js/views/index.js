@@ -107,7 +107,7 @@ var GeneralButton = ContainedBase.extend({
   click: function() {
     if (!this.clickFunc) {
       this.clickFunc = _.throttle(
-        this.sendClick, this),
+        this.sendClick.bind(this),
         500
       );
     }
@@ -578,11 +578,11 @@ var CanvasTerminalHolder = BaseView.extend({
 
     // If the entire window gets resized such that the terminal is outside the view, then
     // move it back into the view, and expand/shrink it vertically as necessary.
-    $(window).on('resize', _.debounce(this.recalcLayout, this), 300));
+    $(window).on('resize', _.debounce(this.recalcLayout.bind(this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
-    }.bind(this)
+    }
   },
 
   getAnimationTime: function() { return 700; },

@@ -316,7 +316,7 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForHintView.getPromise()
-      .then(this.defineHint, this))
+      .then(this.defineHint.bind(this))
       .fail(function() {
         this.level.hint = {'en_US': ''};
       }.bind(this))

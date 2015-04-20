@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
