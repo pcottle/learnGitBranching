@@ -16,15 +16,19 @@ var LevelToolbarView = React.createClass({
   getInitialState: function() {
     return {
       isHidden: true,
-      isGoalExpanded: false
+      isGoalExpanded: this.props.parent.getIsGoalExpanded()
     };
   },
 
   componentDidMount: function() {
     this.setState({
-      isHidden: false
+      isHidden: this.props.parent.getIsGoalExpanded()
     });
     this.props.parent.on('goalToggled', function() {
+      if (!this.isMounted()) {
+        return;
+      }
+
       this.setState({
         isGoalExpanded: this.props.parent.getIsGoalExpanded()
       });
@@ -57,8 +61,8 @@ var LevelToolbarView = React.createClass({
               onClick={this.props.onGoalClick}
               type="button">
               {this.state.isGoalExpanded ? 
-                intl.str('show-goal-button') :
-                intl.str('hide-goal-button')
+                intl.str('hide-goal-button') :
+                intl.str('show-goal-button')
               }
             </button>
           </div>
