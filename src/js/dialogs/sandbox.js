@@ -3,15 +3,15 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Welcome to LearnGitBranching',
+        '## Welcome to Learn Git Branching',
         '',
         'Interested in learning Git? Well you\'ve come to the right place! ',
-        'LearnGitBranching is the most visual and interactive way to learn git ',
+        '"Learn Git Branching" is the most visual and interactive way to learn Git ',
         'on the web; you\'ll be challenged with exciting levels, given step-by-step ',
         'demonstrations of powerful features, and maybe even have a bit of fun along the way.',
         '',
         'After this dialog you\'ll see the variety of levels we have to offer. If you\'re a ',
-        'beginner, just go ahead and start with the first. If you already know some git basics, ',
+        'beginner, just go ahead and start with the first. If you already know some Git basics, ',
         'try some of our later more challenging levels.',
         '',
         'PS: Want to go straight to a sandbox next time?',
@@ -24,7 +24,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Bienvenid@ a LearnGitBranching!',
+        '## ¡Bienvenid@ a Learn Git Branching!',
         '',
         'Esta aplicación está diseñada para ayudar a los principantes ',
         'a manejar los poderosos conceptos que hay detrás del trabajo ',
@@ -80,7 +80,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bem-vindo ao LearnGitBranching!',
+        '## Bem-vindo ao Learn Git Branching!',
         '',
         'Este aplicativo foi desenvolvido para ajudar os iniciantes a ',
         'aprender os poderosos conceitos por trás do branching com ',
@@ -136,7 +136,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Willkommen bei LearnGitBranching!',
+        '## Willkommen bei Learn Git Branching!',
         '',
         'Der Sinn dieser Anwendung ist, die umfangreichen und komplexen Zusammenhänge der Prozesse, die bei der Arbeit mit Git ablaufen, zu verdeutlichen. Ich hoffe du hast Spaß dabei und lernst vielleicht sogar etwas!',
         '',
@@ -189,7 +189,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## LearnGitBranchingへようこそ',
+        '## Learn Git Branchingへようこそ',
         '',
         'gitのパワフルなブランチ機能のコンセプトが ',
         '学びやすくなるようにこのアプリケーションを作りました。 ',
@@ -243,7 +243,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 欢迎光临 LearnGitBranching!',
+        '## 欢迎光临 Learn Git Branching!',
         '',
         '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
         '希望你能喜欢这个应用，并学到知识！',
@@ -295,7 +295,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 歡迎光臨 LearnGitBranching!',
+        '## 歡迎光臨 Learn Git Branching!',
         '',
         '本應用旨在幫助初學者領會 git 分支背後的強大概念。',
         '希望你能喜歡這個應用，並學到知識！',
@@ -395,7 +395,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bienvenue sur LearnGitBranching!',
+        '## Bienvenue sur Learn Git Branching!',
         '',
         'Cette application a été conçue pour aider les débutants à saisir ',
         'les puissants concepts derrière les branches en travaillant ',
