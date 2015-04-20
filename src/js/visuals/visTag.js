@@ -296,7 +296,7 @@ var VisTag = VisBase.extend({
 
   shouldDisableClick: function() {
     return this.get('isHead') && !this.gitEngine.getDetachedHead();
-  }.bind(this),
+  },
 
   onClick: function() {
     if (this.shouldDisableClick()) {

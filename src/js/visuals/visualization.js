@@ -99,7 +99,7 @@ var Visualization = Backbone.View.extend({
 
   clearOrigin: function() {
     delete this.originVis;
-  }.bind(this),
+  },
 
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
@@ -196,7 +196,7 @@ var Visualization = Backbone.View.extend({
     this.setTreeOpacity(1);
     this.originToo('showHarsh', arguments);
     this.myResize();
-  }.bind(this),
+  },
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;

@@ -107,7 +107,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   getRawText: function() {
     return this.$('textarea').val();
-  }.bind(this),
+  },
 
   exportToArray: function() {
     return this.getRawText().split('\n');
@@ -163,7 +163,7 @@ var MarkdownPresenter = ContainedBase.extend({
 
   grabText: function() {
     return this.$('textarea').val();
-  }.bind(this)
+  }
 });
 
 var DemonstrationBuilder = ContainedBase.extend({
@@ -243,7 +243,7 @@ var DemonstrationBuilder = ContainedBase.extend({
         options: this.getExportObj()
       }]
     });
-  }.bind(this),
+  },
 
   getExportObj: function() {
     return {

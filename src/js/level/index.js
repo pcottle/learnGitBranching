@@ -377,7 +377,7 @@ var Level = Sandbox.extend({
   undo: function() {
     this.gitCommandsIssued.pop();
     Level.__super__.undo.apply(this, arguments);
-  }.bind(this),
+  },
 
   afterCommandCB: function(command) {
     if (command.get('error')) {

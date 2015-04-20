@@ -82,7 +82,7 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
 
     this.insertGitShim();
-  }.bind(this),
+  },
 
   releaseControl: function() {
     // we will be handling commands that are submitted, mainly to add the sanadbox
