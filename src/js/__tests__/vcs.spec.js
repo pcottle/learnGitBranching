@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var Command = require('../models/commandModel').Command;
 
 describe('commands', function() {
@@ -11,10 +9,11 @@ describe('commands', function() {
     };
 
     var c = new Command({rawStr: 'foo'});
-    _.each(testCases, function(expected, input) {
+    Object.keys(testCases).forEach(function(input) {
+      var expected = testCases[input];
       var actual = c.replaceDotWithHead(input);
       expect(actual).toBe(expected);
-    });
+    }.bind(this));
   });
 
   it('maps options and general args', function() {
@@ -32,7 +31,7 @@ describe('commands', function() {
     }];
 
     var c = new Command({rawStr: 'foo'});
-    _.each(testCases, function(tCase) {
+    testCases.forEach(function(tCase) {
       c.setOptionsMap(tCase.options);
       c.setGeneralArgs(tCase.args);
       c.mapDotToHead();
@@ -49,7 +48,7 @@ describe('commands', function() {
       ).toBe(
         j(tCase.gitOptions)
       );
-    });
+    }.bind(this));
   });
 });
 
