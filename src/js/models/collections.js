@@ -55,9 +55,9 @@ var CommandBuffer = Backbone.Model.extend({
 
 
   setTimeout: function() {
-    this.timeout = setTimeout(_.bind(function() {
+    this.timeout = setTimeout(function() {
         this.sipFromBuffer();
-    }, this), TIME.betweenCommandsDelay);
+    }.bind(this), TIME.betweenCommandsDelay);
   },
 
   popAndProcess: function() {
@@ -79,9 +79,9 @@ var CommandBuffer = Backbone.Model.extend({
     command.set('status', 'processing');
 
     var deferred = Q.defer();
-    deferred.promise.then(_.bind(function() {
+    deferred.promise.then(function() {
       this.setTimeout();
-    }, this));
+    }.bind(this));
 
     var eventName = command.get('eventName');
     if (!eventName) {

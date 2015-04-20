@@ -84,15 +84,15 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.debounce(function() {
       this.navForward();
-    }, this), this.navEventDebounce, true);
+    }.bind(this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.debounce(function() {
       this.navBackward();
-    }, this), this.navEventDebounce, true);
+    }.bind(this), this.navEventDebounce, true);
   },
 
   lock: function() {

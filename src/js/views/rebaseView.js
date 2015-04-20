@@ -118,12 +118,12 @@ var InteractiveRebaseView = ContainedBase.extend({
     // control for button
     var deferred = Q.defer();
     deferred.promise
-    .then(_.bind(function() {
+    .then(function() {
       this.confirm();
-    }, this))
-    .fail(_.bind(function() {
+    }.bind(this))
+    .fail(function() {
       this.cancel();
-    }, this))
+    }.bind(this))
     .done();
 
     // finally get our buttons
@@ -170,9 +170,9 @@ var RebaseEntryView = Backbone.View.extend({
     // hacky :( who would have known jquery barfs on ids with %'s and quotes
     this.listEntry = this.$el.children(':last');
 
-    this.listEntry.delegate('#toggleButton', 'click', _.bind(function() {
+    this.listEntry.delegate('#toggleButton', 'click', function() {
       this.toggle();
-    }, this));
+    }.bind(this));
   }
 });
 

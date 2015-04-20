@@ -69,16 +69,16 @@ var Visualization = Backbone.View.extend({
 
     this.myResize();
 
-    $(window).on('resize', _.bind(function() {
+    $(window).on('resize', function() {
       this.myResize();
-    }, this));
+    }.bind(this));
 
     // If the visualization is within a draggable container, we need to update the
     // position whenever the container is moved.
-    this.$el.parents('.ui-draggable').on('drag', _.bind(function(event, ui) {
+    this.$el.parents('.ui-draggable').on('drag', function(event, ui) {
       this.customEvents.trigger('drag', event, ui);
       this.myResize();
-    }, this));
+    }.bind(this));
 
     this.gitVisuals.drawTreeFirstTime();
     if (this.treeString) {
@@ -91,7 +91,7 @@ var Visualization = Backbone.View.extend({
     this.shown = false;
     this.setTreeOpacity(0);
     // reflow needed
-    process.nextTick(_.bind(this.fadeTreeIn, this));
+    process.nextTick(this.fadeTreeIn, this));
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -99,7 +99,7 @@ var Visualization = Backbone.View.extend({
 
   clearOrigin: function() {
     delete this.originVis;
-  },
+  }.bind(this)
 
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
@@ -116,10 +116,10 @@ var Visualization = Backbone.View.extend({
       }
     ));
     // if the z index is set on ours, carry that over
-    this.originVis.customEvents.on('paperReady', _.bind(function() {
+    this.originVis.customEvents.on('paperReady', function() {
       var value = $(this.paper.canvas).css('z-index');
       this.originVis.setTreeIndex(value);
-    }, this));
+    }.bind(this));
 
     // return the newly created visualization which will soon have a git engine
     return this.originVis;
@@ -129,9 +129,9 @@ var Visualization = Backbone.View.extend({
     if (!this.originVis) {
       return;
     }
-    var callMethod = _.bind(function() {
+    var callMethod = function() {
       this.originVis[methodToCall].apply(this.originVis, args);
-    }, this);
+    }.bind(this);
 
     if (this.originVis.paper) {
       callMethod();
@@ -178,15 +178,15 @@ var Visualization = Backbone.View.extend({
   hide: function() {
     this.fadeTreeOut();
     // remove click handlers by toggling visibility
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       $(this.paper.canvas).css('visibility', 'hidden');
-    }, this), this.getAnimationTime());
+    }.bind(this), this.getAnimationTime());
     this.originToo('hide', arguments);
   },
 
   show: function() {
     $(this.paper.canvas).css('visibility', 'visible');
-    setTimeout(_.bind(this.fadeTreeIn, this), 10);
+    setTimeout(this.fadeTreeIn, this), 10);
     this.originToo('show', arguments);
     this.myResize();
   },
@@ -196,7 +196,7 @@ var Visualization = Backbone.View.extend({
     this.setTreeOpacity(1);
     this.originToo('showHarsh', arguments);
     this.myResize();
-  },
+  }.bind(this)
 
   resetFromThisTreeNow: function(treeString) {
     this.treeString = treeString;
@@ -245,11 +245,11 @@ var Visualization = Backbone.View.extend({
 
   die: function() {
     this.fadeTreeOut();
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       if (!this.shown) {
         this.tearDown({fromDie: true});
       }
-    }, this), this.getAnimationTime());
+    }.bind(this), this.getAnimationTime());
     this.originToo('die', arguments);
   },
 

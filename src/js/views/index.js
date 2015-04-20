@@ -70,9 +70,9 @@ var ContainedBase = BaseView.extend({
 
   die: function() {
     this.hide();
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.tearDown();
-    }, this), this.getAnimationTime() * 1.1);
+    }.bind(this), this.getAnimationTime() * 1.1);
   }
 });
 
@@ -107,7 +107,7 @@ var GeneralButton = ContainedBase.extend({
   click: function() {
     if (!this.clickFunc) {
       this.clickFunc = _.throttle(
-        _.bind(this.sendClick, this),
+        this.sendClick, this),
         500
       );
     }
@@ -116,7 +116,7 @@ var GeneralButton = ContainedBase.extend({
 
   sendClick: function() {
     this.navEvents.trigger('click');
-  }
+  }.bind(this)
 });
 
 var ConfirmCancelView = ResolveRejectBase.extend({
@@ -252,19 +252,19 @@ var ModalView = Backbone.View.extend({
     // on reflow, change our class to animate. for whatever
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
-    process.nextTick(_.bind(function() {
+    process.nextTick(function() {
       this.toggleShow(true);
-    }, this));
+    }.bind(this));
   },
 
   hide: function() {
     this.toggleShow(false);
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       // if we are still hidden...
       if (!this.shown) {
         this.toggleZ(false);
       }
-    }, this), this.getAnimationTime());
+    }.bind(this), this.getAnimationTime());
   },
 
   getInsideElement: function() {
@@ -388,9 +388,9 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     buttonDefer.promise
     .then(this.deferred.resolve)
     .fail(this.deferred.reject)
-    .done(_.bind(function() {
+    .done(function() {
       this.close();
-    }, this));
+    }.bind(this));
 
     // also setup keyboard
     this.navEvents = _.clone(Backbone.Events);
@@ -578,11 +578,11 @@ var CanvasTerminalHolder = BaseView.extend({
 
     // If the entire window gets resized such that the terminal is outside the view, then
     // move it back into the view, and expand/shrink it vertically as necessary.
-    $(window).on('resize', _.debounce(_.bind(this.recalcLayout, this), 300));
+    $(window).on('resize', _.debounce(this.recalcLayout, this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
-    }
+    }.bind(this)
   },
 
   getAnimationTime: function() { return 700; },
@@ -595,9 +595,9 @@ var CanvasTerminalHolder = BaseView.extend({
     this.minimize();
     this.inDom = false;
 
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.tearDown();
-    }, this), this.getAnimationTime());
+    }.bind(this), this.getAnimationTime());
   },
 
   minimize: function() {

@@ -290,13 +290,13 @@ var VisTag = VisBase.extend({
     ];
 
     _.each(objs, function(rObj) {
-      rObj.click(_.bind(this.onClick ,this));
+      rObj.click(this.onClick.bind(this));
     }, this);
   },
 
   shouldDisableClick: function() {
     return this.get('isHead') && !this.gitEngine.getDetachedHead();
-  },
+  }.bind(this),
 
   onClick: function() {
     if (this.shouldDisableClick()) {

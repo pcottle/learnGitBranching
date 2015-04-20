@@ -42,7 +42,7 @@ var LevelDropdownView = ContainedBase.extend({
 
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
-      _.bind(this.loadLevelID, this),
+      this.loadLevelID, this),
       300,
       true
     ));
@@ -60,7 +60,7 @@ var LevelDropdownView = ContainedBase.extend({
         enter: 'positive'
       },
       wait: true
-    });
+    }.bind(this)
 
     this.sequences = LevelStore.getSequences();
     this.sequenceToLevels = LevelStore.getSequenceToLevels();

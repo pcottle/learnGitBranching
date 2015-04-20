@@ -68,7 +68,7 @@ var Sandbox = Backbone.View.extend({
 
   initGitShim: function(options) {
     this.gitShim = new GitShim({
-      beforeCB: _.bind(this.beforeCommandCB, this)
+      beforeCB: this.beforeCommandCB, this)
     });
   },
 
@@ -83,7 +83,7 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
 
     this.insertGitShim();
-  },
+  }.bind(this)
 
   releaseControl: function() {
     // we will be handling commands that are submitted, mainly to add the sanadbox
@@ -331,7 +331,7 @@ var Sandbox = Backbone.View.extend({
       fillerText: ' '
     });
     jsonGrabber.deferred.promise
-    .then(_.bind(function(treeJSON) {
+    .then(function(treeJSON) {
       try {
         this.mainVis.gitEngine.loadTree(JSON.parse(treeJSON));
       } catch(e) {
@@ -351,7 +351,7 @@ var Sandbox = Backbone.View.extend({
           }]
         });
       }
-    }, this))
+    }.bind(this))
     .fail(function() { })
     .done(function() {
       command.finishWith(deferred);
@@ -365,7 +365,7 @@ var Sandbox = Backbone.View.extend({
     });
 
     jsonGrabber.deferred.promise
-    .then(_.bind(function(inputText) {
+    .then(function(inputText) {
       var Level = require('../level').Level;
       try {
         var levelJSON = JSON.parse(inputText);
@@ -397,7 +397,7 @@ var Sandbox = Backbone.View.extend({
         });
         command.finishWith(deferred);
       }
-    }, this))
+    }.bind(this))
     .fail(function() {
       command.finishWith(deferred);
     })
@@ -456,10 +456,10 @@ var Sandbox = Backbone.View.extend({
     var helpDialog = new MultiView({
       childViews: intl.getDialog(require('../dialogs/sandbox'))
     });
-    helpDialog.getPromise().then(_.bind(function() {
+    helpDialog.getPromise().then(function() {
       // the view has been closed, lets go ahead and resolve our command
       command.finishWith(deferred);
-    }, this))
+    }.bind(this))
     .done();
   }
 });

@@ -59,15 +59,15 @@ var CommandPromptView = Backbone.View.extend({
 
     // we need to capture some of these events.
     var keyToFuncMap = {
-      enter: _.bind(function() {
+      enter: function() {
         this.submit();
-      }, this),
-      up: _.bind(function() {
+      }.bind(this),
+      up: function() {
         this.commandSelectChange(1);
-      }, this),
-      down: _.bind(function() {
+      }.bind(this),
+      down: function() {
         this.commandSelectChange(-1);
-      }, this)
+      }.bind(this)
     };
 
     var key = keyboard.mapKeycodeToKey(e.which || e.keyCode);

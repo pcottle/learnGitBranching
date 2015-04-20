@@ -159,7 +159,7 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
   this.reduceTreeFields([treeA, treeB]);
 
   // get a function to compare branch objects without hashes
-  var compareBranchObjs = _.bind(function(branchA, branchB) {
+  var compareBranchObjs = function(branchA, branchB) {
     if (!branchA || !branchB) {
       return false;
     }
@@ -171,7 +171,7 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
     branchB.target = this.getBaseRef(branchB.target);
 
     return _.isEqual(branchA, branchB);
-  }, this);
+  }.bind(this);
   // and a function to compare recursively without worrying about hashes
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
@@ -268,7 +268,7 @@ TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   // recursive compare.
 
   // some buildup functions
-  var getStrippedCommitCopy = _.bind(function(commit) {
+  var getStrippedCommitCopy = function(commit) {
     if (!commit) { return {}; }
     return _.extend(
       {},
@@ -278,7 +278,7 @@ TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
         parents: null
       }
     );
-  }, this);
+  }.bind(this);
 
   var isEqual = function(commitA, commitB) {
     return _.isEqual(

@@ -77,12 +77,12 @@ AnimationFactory.highlightEachWithPromise = function(
   destObj
 ) {
   _.each(toHighlight, function(commit) {
-    chain = chain.then(_.bind(function() {
+    chain = chain.then(function() {
       return this.playHighlightPromiseAnimation(
         commit,
         destObj
       );
-    }, this));
+    }.bind(this));
   }, this);
   return chain;
 };

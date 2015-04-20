@@ -217,7 +217,7 @@ GitVisuals.prototype.finishAnimation = function() {
 
   var textString = 'Solved!!\n:D';
   var text = null;
-  var makeText = _.bind(function() {
+  var makeText = function() {
     text = this.paper.text(
       this.paper.width / 2,
       this.paper.height / 2,
@@ -233,7 +233,7 @@ GitVisuals.prototype.finishAnimation = function() {
       fill: '#000'
     });
     text.animate({ opacity: 1 }, defaultTime);
-  }, this);
+  }.bind(this);
 
   // this is a BIG ANIMATION but it ends up just being
   // a sweet chain of promises but is pretty nice. this is
@@ -243,47 +243,47 @@ GitVisuals.prototype.finishAnimation = function() {
 
   deferred.promise
   // first fade out everything but circles
-  .then(_.bind(function() {
+  .then(function() {
     return this.animateAllAttrKeys(
       { exclude: ['circle'] },
       { opacity: 0 },
       defaultTime * 1.1
     );
-  }, this))
+  }.bind(this))
   // then make circle radii bigger
-  .then(_.bind(function() {
+  .then(function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 2 },
       defaultTime * 1.5
     );
-  }, this))
+  }.bind(this))
   // then shrink em super fast
-  .then(_.bind(function() {
+  .then(function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 0.75 },
       defaultTime * 0.5
     );
-  }, this))
+  }.bind(this))
   // then explode them and display text
-  .then(_.bind(function() {
+  .then(function() {
     makeText();
     return this.explodeNodes();
-  }, this))
-  .then(_.bind(function() {
+  }.bind(this))
+  .then(function() {
     return this.explodeNodes();
-  }, this))
+  }.bind(this))
   // then fade circles (aka everything) in and back
-  .then(_.bind(function() {
+  .then(function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       {},
       defaultTime * 1.25
     );
-  }, this))
+  }.bind(this))
   // then fade everything in and remove text
-  .then(_.bind(function() {
+  .then(function() {
     text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
       text.remove();
     });
@@ -291,7 +291,7 @@ GitVisuals.prototype.finishAnimation = function() {
       {},
       {}
     );
-  }, this))
+  }.bind(this))
   .then(function() {
     animationDone.resolve();
   })
@@ -648,9 +648,9 @@ GitVisuals.prototype.animateNodePositions = function(speed) {
 };
 
 GitVisuals.prototype.addBranchFromEvent = function(branch, collection, index) {
-  var action = _.bind(function() {
+  var action = function() {
     this.addBranch(branch);
-  }, this);
+  }.bind(this);
 
   if (!this.gitEngine || !this.gitReady) {
     this.defer(action);
@@ -670,16 +670,16 @@ GitVisuals.prototype.addBranch = function(branch) {
   if (this.gitReady) {
     visBranch.genGraphics(this.paper);
   } else {
-    this.defer(_.bind(function() {
+    this.defer(function() {
       visBranch.genGraphics(this.paper);
-    }, this));
+    }.bind(this));
   }
 };
 
 GitVisuals.prototype.addTagFromEvent = function(tag, collection, index) {
-  var action = _.bind(function() {
+  var action = function() {
     this.addTag(tag);
-  }, this);
+  }.bind(this);
 
   if (!this.gitEngine || !this.gitReady) {
     this.defer(action);
@@ -699,9 +699,9 @@ GitVisuals.prototype.addTag = function(tag) {
   if (this.gitReady) {
     visTag.genGraphics(this.paper);
   } else {
-    this.defer(_.bind(function() {
+    this.defer(function() {
       visTag.genGraphics(this.paper);
-    }, this));
+    }.bind(this));
   }
 };
 
@@ -783,9 +783,9 @@ GitVisuals.prototype.canvasResize = function(width, height) {
 
 GitVisuals.prototype.genResizeFunc = function() {
   this.resizeFunc = _.debounce(
-    _.bind(function(width, height) {
+    function(width, height) {
       this.refreshTree();
-    }, this),
+    }.bind(this),
     200,
     true
   );

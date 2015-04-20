@@ -204,7 +204,7 @@ var Level = Sandbox.extend({
     // If the goal visualization gets dragged to the right side of the screen, then squeeze the main
     // repo visualization a bit to make room. This way, you could have the goal window hang out on
     // the right side of the screen and still see the repo visualization.
-    this.goalVis.customEvents.on('drag', _.bind(function(event, ui) {
+    this.goalVis.customEvents.on('drag', function(event, ui) {
       if (ui.position.left > 0.5 * $(window).width()) {
         if (!$('#goalPlaceholder').is(':visible')) {
           $('#goalPlaceholder').show();
@@ -216,7 +216,7 @@ var Level = Sandbox.extend({
           this.mainVis.myResize();
         }
       }
-    }, this));
+    }.bind(this));
 
     return this.goalCanvasHolder;
   },
@@ -242,14 +242,14 @@ var Level = Sandbox.extend({
 
   showSolution: function(command, deferred) {
     var toIssue = this.level.solutionCommand;
-    var issueFunc = _.bind(function() {
+    var issueFunc = function() {
       this.isShowingSolution = true;
       Main.getEventBaton().trigger(
         'commandSubmitted',
         toIssue
       );
       log.showLevelSolution(this.getEnglishName());
-    }, this);
+    }.bind(this);
 
     var commandStr = command.get('rawStr');
     if (!this.testOptionOnString(commandStr, 'noReset')) {
@@ -368,16 +368,16 @@ var Level = Sandbox.extend({
   initGitShim: function(options) {
     // ok we definitely want a shim here
     this.gitShim = new GitShim({
-      beforeCB: _.bind(this.beforeCommandCB, this),
-      afterCB: _.bind(this.afterCommandCB, this),
-      afterDeferHandler: _.bind(this.afterCommandDefer, this)
+      beforeCB: this.beforeCommandCB, this),
+      afterCB: this.afterCommandCB, this),
+      afterDeferHandler: this.afterCommandDefer, this)
     });
   },
 
   undo: function() {
     this.gitCommandsIssued.pop();
     Level.__super__.undo.apply(this, arguments);
-  },
+  }.bind(this)
 
   afterCommandCB: function(command) {
     if (command.get('error')) {
@@ -516,13 +516,13 @@ var Level = Sandbox.extend({
   },
 
   getInstantCommands: function() {
-    var getHint = _.bind(function() {
+    var getHint = function() {
       var hint = intl.getHint(this.level);
       if (!hint || !hint.length) {
         return intl.str('no-hint');
       }
       return hint;
-    }, this);
+    }.bind(this);
 
     return [
       [/^help$|^\?$/, function() {

@@ -68,14 +68,14 @@ var MarkdownGrabber = ContainedBase.extend({
       // do button stuff
       var buttonDefer = Q.defer();
       buttonDefer.promise
-      .then(_.bind(this.confirmed, this))
-      .fail(_.bind(this.cancelled, this))
+      .then(this.confirmed, this))
+      .fail(this.cancelled, this))
       .done();
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
         destination: this.getDestination()
-      });
+      }.bind(this)
     }
 
     this.updatePreview();
@@ -98,7 +98,7 @@ var MarkdownGrabber = ContainedBase.extend({
   keyup: function() {
     if (!this.throttledPreview) {
       this.throttledPreview = _.throttle(
-        _.bind(this.updatePreview, this),
+        this.updatePreview, this),
         500
       );
     }
@@ -107,7 +107,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   getRawText: function() {
     return this.$('textarea').val();
-  },
+  }.bind(this)
 
   exportToArray: function() {
     return this.getRawText().split('\n');
@@ -149,13 +149,13 @@ var MarkdownPresenter = ContainedBase.extend({
         destination: this.getDestination()
       });
       confirmCancel.deferred.promise
-      .then(_.bind(function() {
+      .then(function() {
         this.deferred.resolve(this.grabText());
-      }, this))
-      .fail(_.bind(function() {
+      }.bind(this))
+      .fail(function() {
         this.deferred.reject();
-      }, this))
-      .done(_.bind(this.die, this));
+      }.bind(this))
+      .done(this.die, this));
     }
 
     this.show();
@@ -163,7 +163,7 @@ var MarkdownPresenter = ContainedBase.extend({
 
   grabText: function() {
     return this.$('textarea').val();
-  }
+  }.bind(this)
 });
 
 var DemonstrationBuilder = ContainedBase.extend({
@@ -230,8 +230,8 @@ var DemonstrationBuilder = ContainedBase.extend({
     });
 
     buttonDeferred.promise
-    .then(_.bind(this.confirmed, this))
-    .fail(_.bind(this.cancelled, this))
+    .then(this.confirmed, this))
+    .fail(this.cancelled, this))
     .done();
   },
 
@@ -243,7 +243,7 @@ var DemonstrationBuilder = ContainedBase.extend({
         options: this.getExportObj()
       }]
     });
-  },
+  }.bind(this)
 
   getExportObj: function() {
     return {
@@ -326,13 +326,13 @@ var MultiViewBuilder = ContainedBase.extend({
       deferred: whenDone
     });
     whenDone.promise
-    .then(_.bind(function() {
+    .then(function() {
       var newView = {
         type: type,
         options: builder.getExportObj()
       };
       this.addChildViewObj(newView);
-    }, this))
+    }.bind(this))
     .fail(function() {
       // they dont want to add the view apparently, so just return
     })
@@ -367,7 +367,7 @@ var MultiViewBuilder = ContainedBase.extend({
       fromObj: this.getChildViews()[index]
     });
     whenDone.promise
-    .then(_.bind(function() {
+    .then(function() {
       var newView = {
         type: type,
         options: builder.getExportObj()
@@ -375,7 +375,7 @@ var MultiViewBuilder = ContainedBase.extend({
       var views = this.getChildViews();
       views[index] = newView;
       this.setChildViews(views);
-    }, this))
+    }.bind(this))
     .fail(function() { })
     .done();
   },
