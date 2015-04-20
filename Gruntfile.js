@@ -251,7 +251,7 @@ module.exports = function(grunt) {
   grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('test', ['jasmine_node', 'shell:casperTest']);
+  grunt.registerTask('test', ['jasmine_node']);
   grunt.registerTask('casperTest', ['shell:casperTest']);
 };
 

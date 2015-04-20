@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var toGlobalize = {
   App: require('../app/index.js'),
   Tree: require('../visuals/tree'),
@@ -37,7 +35,9 @@ var toGlobalize = {
   Intl: require('../intl')
 };
 
-_.each(toGlobalize, function(module, moduleName) {
+Object.keys(toGlobalize).forEach(function(moduleName) {
+  var module = toGlobalize[moduleName];
+
   for (var key in module) {
     var value = module[key];
     if (value instanceof Function) {
@@ -53,7 +53,6 @@ $(document).ready(function() {
   window.debug_sandbox = toGlobalize.Main.getSandbox();
   window.debug_modules = toGlobalize;
   window.debug_levelDropdown = toGlobalize.Main.getLevelDropdown();
-  window.debug_under = _;
   window.debug_copyTree = function() {
     return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
   };

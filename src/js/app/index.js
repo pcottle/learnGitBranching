@@ -1,7 +1,8 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
+var EventEmitter = require('events').EventEmitter;
 var React = require('react');
 
+var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
@@ -10,7 +11,16 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-var events = _.clone(Backbone.Events);
+var events = assign(
+  {},
+  EventEmitter.prototype,
+  {
+    trigger: function() {
+      // alias this for backwards compatibility
+      this.emit.apply(this, arguments);
+    }
+  }
+);
 var commandUI;
 var sandbox;
 var eventBaton;
@@ -118,7 +128,7 @@ var initRootEvents = function(eventBaton) {
   var makeKeyListener = function(name) {
     return function() {
       var args = [name];
-      _.each(arguments, function(arg) {
+      Array.prototype.slice.apply(arguments).forEach(function(arg) {
         args.push(arg);
       });
       eventBaton.trigger.apply(eventBaton, args);

@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var _warnOnce = true;
 function detectZoom() {
   /**

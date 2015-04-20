@@ -113,7 +113,7 @@ var CommandPromptView = Backbone.View.extend({
 
     // 10px for monospaced font at "1" zoom
     var zoom = require('../util/zoomLevel').detectZoom();
-    var widthPerChar = 10 * zoom;
+    var widthPerChar = 9.65 * zoom;
     var heightPerRow = 22 * zoom;
 
     var widthOfParagraph = $(this.commandParagraph).width();
