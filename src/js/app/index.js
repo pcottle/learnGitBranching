@@ -58,6 +58,8 @@ var vcsModeRefresh = function(eventData) {
   if (!window.$) { return; }
 
   var mode = eventData.mode;
+  var isGit = eventData.mode === 'git';
+
   var displayMode = mode.slice(0, 1).toUpperCase() + mode.slice(1);
   var otherMode = (displayMode === 'Git') ? 'Hg' : 'Git';
   var regex = new RegExp(otherMode, 'g');
@@ -67,6 +69,9 @@ var vcsModeRefresh = function(eventData) {
     var text = $(el).text().replace(regex, displayMode);
     $(el).text(text);
   });
+
+  $('body').toggleClass('gitMode', isGit);
+  $('body').toggleClass('hgMode', !isGit);
 };
 
 var intlRefresh = function() {
@@ -279,8 +284,6 @@ function CommandUI() {
   var CommandViews = require('../views/commandViews');
   var CommandHistoryView = require('../react_views/CommandHistoryView.jsx');
   var MainHelperBarView = require('../react_views/MainHelperBarView.jsx');
-
-  var backgroundView = new Views.BackgroundView();
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({

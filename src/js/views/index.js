@@ -481,20 +481,6 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   }
 });
 
-var BackgroundView = Backbone.View.extend({
-  initialize: function() {
-    this.$body = $('body');
-    Main.getEvents().on('vcsModeChange', this.updateMode, this);
-  },
-
-  updateMode: function(eventData) {
-    eventData = eventData || {};
-    var isGit = eventData.mode === 'git';
-    this.$body.toggleClass('gitMode', isGit);
-    this.$body.toggleClass('hgMode', !isGit);
-  }
-});
-
 var ViewportAlert = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -695,7 +681,6 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
-exports.BackgroundView = BackgroundView;
 exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
