@@ -209,8 +209,6 @@ var initDemo = function(sandbox) {
     });
   } else if (!params.hasOwnProperty('NODEMO')) {
     commands = [
-      "git help;",
-      "delay 1000;",
       "help;",
       "levels"
     ];

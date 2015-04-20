@@ -3,55 +3,20 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Welcome to LearnGitBranching!',
+        '## Welcome to LearnGitBranching',
         '',
-        'This application is designed to help beginners grasp ',
-        'the powerful concepts behind branching when working ',
-        'with git. We hope you enjoy this application and maybe ',
-        'even learn something!',
+        'Interested in learning Git? Well you\'ve come to the right place! ',
+        'LearnGitBranching is the most visual and interactive way to learn git ',
+        'on the web; you\'ll be challenged with exciting levels, given step-by-step ',
+        'demonstrations of powerful features, and maybe even have a bit of fun along the way.',
         '',
-        '# Demo!',
+        'After this dialog you\'ll see the variety of levels we have to offer. If you\'re a ',
+        'beginner, just go ahead and start with the first. If you already know some git basics, ',
+        'try some of our later more challenging levels.',
         '',
-        'If you have not seen the demo, please check it out here:',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
-        '',
-        'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Git commands',
-        '',
-        'You have a large variety of git commands available in sandbox mode. These include',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Sharing is caring!',
-        '',
-        'Share trees with your friends via `export tree` and `import tree`',
-        '',
-        'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
-        '',
-        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
-        '',
-        'For now let\'s get you started on the `levels`...'
+        'PS: Want to go straight to a sandbox next time?',
+        'Try out ',
+        '[this special link](http://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
   }],
@@ -382,21 +347,11 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        //'## Welcome to LearnGitBranching!',
         '## Git 브랜치 배우기를 시작합니다!',
         '',
-        // 'This application is designed to help beginners grasp ',
-        // 'the powerful concepts behind branching when working ',
-        // 'with git. We hope you enjoy this application and maybe ',
-        // 'even learn something!',
         '이 애플리케이션은 git을 쓸 때 필요한 브랜치에 대한 개념을',
         '탄탄히 잡게끔 도와드리기 위해 만들었습니다. 재밌게 사용해주시기를',
         '바라며, 무언가를 배워가신다면 더 기쁘겠습니다!',
-        // '',
-        // '# Attention HN!!',
-        // '',
-        // 'Unfortunately this was submitted before I finished all the help ',
-        // 'and tutorial sections, so forgive the scarcity. See the demo here:',
         '',
         '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](http://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
         '아래 데모를 먼저 보셔도 좋습니다.',
@@ -408,10 +363,8 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        // '## Git commands',
         '## Git 명령어',
         '',
-        // 'You have a large variety of git commands available in sandbox mode. These include',
         '연습 모드에서 쓸 수 있는 다양한 git명령어는 다음과 같습니다',
         '',
         ' * commit',
@@ -428,13 +381,6 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        // '## Sharing is caring!',
-        // '',
-        // 'Share trees with your friends via `export tree` and `import tree`',
-        // '',
-        // 'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
-        // '',
-        // 'For now let\'s get you started on the `levels`...'
         '## 공유해주세요!',
         '',
         '`export tree` 와 `import tree`로 여러분의 친구들에게 트리를 공유해주세요',
