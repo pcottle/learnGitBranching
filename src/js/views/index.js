@@ -148,26 +148,6 @@ var LeftRightView = PositiveNegativeBase.extend({
   tagName: 'div',
   className: 'leftRightView box horizontal center',
   template: _.template($('#left-right-template').html()),
-  events: {
-    'click .left': 'negative',
-    'click .exit': 'exit',
-    'click .right': 'positive'
-  },
-
-  exit: function() {
-    this.pipeEvents.trigger('exit');
-    LeftRightView.__super__.exit.apply(this);
-  },
-
-  positive: function() {
-    this.pipeEvents.trigger('positive');
-    LeftRightView.__super__.positive.apply(this);
-  },
-
-  negative: function() {
-    this.pipeEvents.trigger('negative');
-    LeftRightView.__super__.negative.apply(this);
-  },
 
   initialize: function(options) {
     if (!options.destination || !options.events) {
@@ -188,7 +168,28 @@ var LeftRightView = PositiveNegativeBase.extend({
     };
 
     this.render();
+    // For some weird reason backbone events arent working anymore so
+    // im going to just wire this up manually
+    this.$('div.right').click(this.positive.bind(this));
+    this.$('div.left').click(this.negative.bind(this));
+    this.$('div.exit').click(this.exit.bind(this));
+  },
+
+  exit: function() {
+    this.pipeEvents.trigger('exit');
+    LeftRightView.__super__.exit.apply(this);
+  },
+
+  positive: function() {
+    this.pipeEvents.trigger('positive');
+    LeftRightView.__super__.positive.apply(this);
+  },
+
+  negative: function() {
+    this.pipeEvents.trigger('negative');
+    LeftRightView.__super__.negative.apply(this);
   }
+
 });
 
 var ModalView = Backbone.View.extend({
