@@ -278,8 +278,8 @@ function CommandUI() {
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
   var CommandHistoryView = require('../react_views/CommandHistoryView.jsx');
+  var MainHelperBarView = require('../react_views/MainHelperBarView.jsx');
 
-  var mainHelperBar = new Views.MainHelperBar();
   var backgroundView = new Views.BackgroundView();
 
   this.commandCollection = new Collections.CommandCollection();
@@ -291,6 +291,10 @@ function CommandUI() {
     el: $('#commandLineBar')
   });
 
+  React.render(
+    React.createElement(MainHelperBarView),
+    document.getElementById('helperBarMount')
+  );
   React.render(
     React.createElement(
       CommandHistoryView,

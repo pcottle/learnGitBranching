@@ -91,6 +91,12 @@
   <div id="canvasHolder">
   </div>
 
+  <div id="reactMount">
+  </div>
+
+  <div id="helperBarMount">
+  </div>
+
   <!-- lol inline styles -->
   <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
     <img
@@ -116,26 +122,7 @@
 
   <script src="lib/jquery-ui-1.9.0.custom.min.js"></script>
 
-  <!-- Templates from here on out. Someone seriously needs to fix template
-       management for node.js apps. I know there is the text plugin
-       for requireJS but that's lame. For now, they are all listed here... -->
-  <script type="text/html" id="helper-bar-template">
-    <% for(var i = 0; i < items.length; i++) { %>
-      <% if (items[i].text) { %>
-        <a data-id="<%= items[i].id %>" class="<%=items[i].id%>"><%= items[i].text %></a>
-      <% } else if (items[i].newPageLink) { %>
-        <a data-id="<%= items[i].id %>"
-          target="_blank" href="<%= items[i].href %>"class="<%=items[i].id%>">
-          <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
-        </a>
-      <% } else { %>
-        <a data-id="<%= items[i].id %>" class="<%=items[i].id%>">
-          <i data-id="<%= items[i].id %>" class="icon-<%= items[i].icon %>"></i>
-        </a>
-      <% } %>
-    <% } %>
-  </script>
-
+  <!-- Templates from here on out... -->
   <script type="text/html" id="modal-view-template">
     <div class="contentHolder box vertical center flex1">
     </div>
@@ -453,9 +440,6 @@
       </div>
     </li>
   </script>
-
-  <div id="reactMount" />
-
   <!-- The compiled and minified build file (that actually does everything) is below.
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
