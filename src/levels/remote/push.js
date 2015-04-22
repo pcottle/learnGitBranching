@@ -74,7 +74,7 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "Ok, donc j'ai rapatrié les changements du dépôt distant et les incorporé dans mon travail local. C'est super... mais comment je partage _mon_ travail génial avec tous les autres ?",
+              "Ok, donc j'ai rapatrié les changements du dépôt distant et je les ai incorporés dans mon travail local. C'est super... mais comment je partage _mon_ travail génial avec tous les autres ?",
               "",
               "En fait, la manière d'envoyer du travail à partager fonctionne à l'opposé du téléchargement de travail partagé. Et quel est l'opposé de `git pull` (tire) ? `git push` (pousse) !",
               "",

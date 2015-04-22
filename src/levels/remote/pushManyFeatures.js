@@ -83,17 +83,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Fusionner les modifications des branches",
+              "## Fusionner les feature branches",
               "",
-              "Maintenant que vous êtes habitué à fetch, pull, et push, utilisons ces compétences dans le test avec un nouveau plan de travail.",
+              "Maintenant que vous êtes habitué à fetch, pull et push, mettons ces compétences à profit avec une autre approche de travail.",
               "",
-              "Il est commun pour les développeurs de gros projets de faire tout leur travail dans des branches représentant une fonctionnalité (en dehors de `master`) et d'intégrer ce travvail une fois qu'il est prêt. C'est similaire à la leçon précédente (où les branches secondaires étaient pushées sur le dépôt distant), mais ici nous introduisons une étape supplémentaire.",
+              "Il est commun pour les développeurs de gros projets de faire tout leur travail dans des \"feature branches\" dédiées à une fonctionnalité (en dehors de `master`) et d'intégrer ce travail au reste seulement une fois qu'il est prêt. C'est similaire à la leçon précédente (où les branches secondaires étaient pushées sur le dépôt distant), mais ici nous introduisons une étape supplémentaire.",
               "",
-              "Certains développeurs font un push puis un pull uniquement quand ils sont sur la branche `master` -- de cette manière `master` reste toujours à jour avec ce qu'il y a sur le dépôt distant (`o/master`).",
+              "Certains développeurs utilisent la méthode \"push puis pull\" uniquement sur la branche `master` : de cette manière `master` reste toujours à jour avec ce qu'il y a sur le dépôt distant (`o/master`).",
               "",
-              "Ainsi pour ce faire nous combinons deux choses :",
+              "Cette approche combine donc deux choses :",
               "",
-              "* intégrer la fonctionnalité de la branche dans `master`, et",
+              "* intégrer le travail présent depuis la feature branch (la fonctionnalité développée) vers `master`, puis",
               "* pusher et puller sur le dépôt distant."
             ]
           }
@@ -107,8 +107,8 @@ exports.level = {
             "afterMarkdowns": [
               "Nous exécutons ici deux commandes :",
               "",
-              "* on rebase nôtre travail sur de nouveaux commits, et",
-              "* on publie nôtre travail sur le dépôt distant"
+              "* on rebase notre travail sur de nouveaux commits, puis",
+              "* on publie notre travail sur le dépôt distant"
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -118,9 +118,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ce niveau est assez gigantesque -- voici l'idée générale de la solution :",
+              "Ce niveau est assez conséquent ; voici l'idée générale de la solution :",
               "",
-              "* Il y a trois branches de fonctionnalités -- `side1` `side2` et `side3`",
+              "* Il y a trois feature branches : `side1` `side2` et `side3`",
               "* Nous voulons envoyer chacune de ces modifications, dans l'ordre, sur le dépôt distant",
               "* Le dépôt distant a été mis à jour entre-temps, donc nous avons aussi besoin d'intégrer ce travail",
               "",

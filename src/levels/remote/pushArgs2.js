@@ -99,15 +99,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Détails de l'argument `<place>`",
+              "## L'argument `<place>` dans le détail",
               "",
-              "Vous vous rappelez de la dernière leçon : quand vous passiez `master` comme argument `<place>` à git push, cela spécifiait à la fois la *source* de provenance des commits et leur *destination*.",
+              "Rappelez-vous de notre dernière leçon : quand vous passiez `master` comme argument `<place>` à git push, cela spécifiait à la fois la *source* de provenance des commits et leur *destination*.",
               "",
-              "Vous vous demandez peut-être donc -- et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
+              "Vous vous demandez peut-être donc : et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
               "",
-              "Malheureusement ce n'est pas possible avec git ... ou pas ! Bien sûr que c'est possible :)... git a des tonnes de flexibilité (presque trop).",
+              "Malheureusement ce n'est pas possible avec git... Mais non, je plaisante ! Bien sûr que c'est possible :)... git a des tonnes de flexibilité (presque trop).",
               "",
-              "Voyons cela au prochain slide ..."
+              "Voyons cela au prochain slide..."
             ]
           }
         },
@@ -119,9 +119,9 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "On en parle souvent comme un refspec. Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
+              "On en parle souvent comme d'un \"refspec\". Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
               "",
-              "Lorsque vous précisez la source et la destination indépendemment, vous pouvez être original et précis avec les commandes sur les dépôts distants. Faisons une démo !"
+              "Lorsque vous utilisez cette notation permettant de préciser la source et la destination indépendamment, vous pouvez produire des commandes à la fois très sophistiquées et très précises pour travailler avec les dépôts distants. Faisons une démo !"
             ]
           }
         },
@@ -132,7 +132,7 @@ exports.level = {
               "Rappelez-vous, `source` peut être n'importe quel emplacement que git peut résoudre :"
             ],
             "afterMarkdowns": [
-              "Woahou ! C'est une commande très alambiquée mais qui a du sens -- git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la destination."
+              "Woahou ! C'est une commande très alambiquée mais qui a du sens : git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la branche de destination."
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
