@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Main = require('../app');
@@ -17,7 +16,7 @@ var mapKeycodeToKey = function(keycode) {
 };
 
 function KeyboardListener(options) {
-  this.events = options.events || _.clone(Backbone.Events);
+  this.events = options.events;
   this.aliasMap = options.aliasMap || {};
 
   if (!options.wait) {

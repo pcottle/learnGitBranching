@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var escapeString = require('../util/escapeString');
 var constants = require('../util/constants');
 
 exports.parseQueryString = function(uri) {
@@ -17,9 +17,9 @@ exports.isBrowser = function() {
 };
 
 exports.splitTextCommand = function(value, func, context) {
-  func = _.bind(func, context);
-  _.each(value.split(';'), function(command, index) {
-    command = _.escape(command);
+  func = func.bind(context);
+  value.split(';').forEach(function(command, index) {
+    command = escapeString(command);
     command = command
       .replace(/^(\s+)/, '')
       .replace(/(\s+)$/, '')
@@ -38,8 +38,8 @@ exports.genParseCommand = function(regexMap, eventName) {
     var method;
     var regexResults;
 
-    _.each(regexMap, function(regex, _method) {
-      var results = regex.exec(str);
+    Object.keys(regexMap).forEach(function(_method) {
+      var results = regexMap[_method].exec(str);
       if (results) {
         method = _method;
         regexResults = results;

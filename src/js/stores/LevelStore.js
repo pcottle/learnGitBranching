@@ -50,7 +50,7 @@ var validateLevel = function(level) {
 };
 
 /**
- * Unpact the level sequences.
+ * Unpack the level sequences.
  */
 _.each(levelSequences, function(levels, levelSequenceName) {
   _sequences.push(levelSequenceName);
@@ -84,7 +84,6 @@ var LevelStore = assign(
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
 {
-
   getSequenceToLevels: function() {
     return levelSequences;
   },

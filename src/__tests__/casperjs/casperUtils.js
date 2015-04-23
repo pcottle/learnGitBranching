@@ -4,6 +4,21 @@ var screenshotRoot = './src/__tests__/casperjs/screenshots/entirePage';
 
 var CasperUtils = {
 
+  start: function(casper, url, callback) {
+    // Setup some sanity error handling
+    casper.on('page.error', function(msg, trace) {
+      casper.echo('Error: ' + msg, 'ERROR');
+      casper.echo('Stack: ' + JSON.stringify(trace));
+    });
+    casper.on('remote.error', function(msg) {
+      casper.echo('Console Warn: ' + msg, 'ERROR');
+    });
+
+    casper.options.logLevel ="debug";
+    casper.start(url, callback);
+    return casper;
+  },
+
   getRoot: function() {
     // Unfortunately this is hardcoded for now :*( cant get the path
     // variable synchronously when running this test, and CasperJS does
@@ -29,6 +44,13 @@ var CasperUtils = {
 
   testDone: function() {
     this.test.done();
+  },
+
+  enterCommand: function(command) {
+    return function then() {
+      this.sendKeys('#commandTextField', command, { keepFocus: true });
+      this.page.sendEvent('keypress', this.page.event.key.Enter);
+    };
   },
 
   multiAssert: function() {
@@ -71,10 +93,28 @@ var CasperUtils = {
       };
     },
 
+    selectorMatchesRegex: function(selector, regex) {
+      return function then() {
+        this.test.assertEvalEquals(function(selector, regex) {
+            return !!document.querySelector(selector).innerText
+              .match(regex);
+          },
+          true,
+          'Checking that selector "' + selector + '" matches regex "' +
+            regex + '".',
+          {selector: selector, regex: regex}
+        );
+      };
+    },
+
     selectorContainsText: function(selector, text) {
       return function then() {
         this.test.assertEvalEquals(function(selector) {
-            return document.querySelector(selector).innerText;
+            if (!document.querySelector(selector)) {
+              return 'Query selector ' + selector + ' did not match!!';
+            }
+            return document.querySelector(selector).innerText
+              .replace(/^\s+/g, '').replace(/\s+$/g, '');
           },
           text,
           'Checking that selector "' + selector + '" contains "' +
@@ -87,7 +127,7 @@ var CasperUtils = {
     intlKeyReturns: function(key, text) {
       return function then() {
         this.test.assertEvalEquals(function(key) {
-            return debug_Intl_str(key);
+            return intl.str(key);
           },
           text,
           'Checking that intl key "' + key + '" contains "' +

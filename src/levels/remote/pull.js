@@ -90,9 +90,9 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Maintenant que vous avez vu comment rapatriez des données depuis un dépôt distant avec `git fetch`, mettons à jour notre copie de travail pour refléter ces changements !",
+              "Maintenant que vous avez vu comment rapatrier des données depuis un dépôt distant avec `git fetch`, mettons à jour notre copie de travail pour refléter ces changements !",
               "",
-              "Il existe en fait beaucoup de façons de faire cela -- une fois que vous avez de nouveaux commits disponibles localements, vous pouvez les incorporer comme s'ils étaient des commits normaux d'autres branches. Cela signifie que pourriez juste exécuter des commandes comme :",
+              "Il existe en fait beaucoup de façons de faire cela -- une fois que vous avez de nouveaux commits disponibles localement, vous pouvez les incorporer dans votre branche de travail comme s'ils étaient des commits normaux d'autres branches. Cela signifie que pourriez simplement exécuter des commandes comme :",
               "",
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
@@ -110,7 +110,7 @@ exports.level = {
               "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement"
             ],
             "afterMarkdowns": [
-              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant nôtre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
+              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant notre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -133,9 +133,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Nous allons explorer les détails de `git pull` plus tard (y compris options et arguments), mais essayons d'abord cela dans notre niveau.",
+              "Nous allons explorer les détails de `git pull` plus tard (y compris options et arguments), mais pour ce niveau pratiquons d'abord la technique de base.",
               "",
-              "Rappelez-vous -- vous pouvez aussi résoudre ce niveau avec `fetch` et `merge`, mais cela vous coûtera une commande supplémentaire :P"
+              "Rappelez-vous : vous pouvez aussi résoudre ce niveau avec `fetch` et `merge`, mais cela vous coûtera une commande supplémentaire :P"
             ]
           }
         }

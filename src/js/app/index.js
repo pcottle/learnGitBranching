@@ -1,6 +1,8 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
+var EventEmitter = require('events').EventEmitter;
+var React = require('react');
 
+var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
@@ -9,7 +11,16 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-var events = _.clone(Backbone.Events);
+var events = assign(
+  {},
+  EventEmitter.prototype,
+  {
+    trigger: function() {
+      // alias this for backwards compatibility
+      this.emit.apply(this, arguments);
+    }
+  }
+);
 var commandUI;
 var sandbox;
 var eventBaton;
@@ -47,12 +58,18 @@ var init = function() {
 
   initRootEvents(eventBaton);
   initDemo(sandbox);
+  // unfortunate global export for casper tests
+  window.LocaleStore = LocaleStore;
+  window.LocaleActions = LocaleActions;
+  window.intl = intl;
 };
 
 var vcsModeRefresh = function(eventData) {
   if (!window.$) { return; }
 
   var mode = eventData.mode;
+  var isGit = eventData.mode === 'git';
+
   var displayMode = mode.slice(0, 1).toUpperCase() + mode.slice(1);
   var otherMode = (displayMode === 'Git') ? 'Hg' : 'Git';
   var regex = new RegExp(otherMode, 'g');
@@ -62,6 +79,9 @@ var vcsModeRefresh = function(eventData) {
     var text = $(el).text().replace(regex, displayMode);
     $(el).text(text);
   });
+
+  $('body').toggleClass('gitMode', isGit);
+  $('body').toggleClass('hgMode', !isGit);
 };
 
 var intlRefresh = function() {
@@ -108,7 +128,7 @@ var initRootEvents = function(eventBaton) {
   var makeKeyListener = function(name) {
     return function() {
       var args = [name];
-      _.each(arguments, function(arg) {
+      Array.prototype.slice.apply(arguments).forEach(function(arg) {
         args.push(arg);
       });
       eventBaton.trigger.apply(eventBaton, args);
@@ -204,11 +224,16 @@ var initDemo = function(sandbox) {
     });
   } else if (!params.hasOwnProperty('NODEMO')) {
     commands = [
-      "git help;",
-      "delay 1000;",
       "help;",
       "levels"
     ];
+  }
+  if (params.hasOwnProperty('STARTREACT')) {
+    /*
+    React.render(
+      React.createElement(CommandView, {}),
+      document.getElementById(params['STARTREACT'])
+      );*/
   }
   if (commands) {
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
@@ -263,12 +288,12 @@ if (require('../util').isBrowser()) {
   * and simply pipes commands to the main events system
 **/
 function CommandUI() {
+  Backbone.$ = $; // lol WTF BACKBONE MANAGE YOUR DEPENDENCIES
   var Views = require('../views');
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');
-
-  var mainHelperBar = new Views.MainHelperBar();
-  var backgroundView = new Views.BackgroundView();
+  var CommandHistoryView = require('../react_views/CommandHistoryView.jsx');
+  var MainHelperBarView = require('../react_views/MainHelperBarView.jsx');
 
   this.commandCollection = new Collections.CommandCollection();
   this.commandBuffer = new Collections.CommandBuffer({
@@ -279,10 +304,17 @@ function CommandUI() {
     el: $('#commandLineBar')
   });
 
-  this.commandLineHistoryView = new CommandViews.CommandLineHistoryView({
-    el: $('#commandLineHistory'),
-    collection: this.commandCollection
-  });
+  React.render(
+    React.createElement(MainHelperBarView),
+    document.getElementById('helperBarMount')
+  );
+  React.render(
+    React.createElement(
+      CommandHistoryView,
+      { commandCollection: this.commandCollection }
+    ),
+    document.getElementById('commandDisplay')
+  );
 }
 
 exports.getEvents = function() {

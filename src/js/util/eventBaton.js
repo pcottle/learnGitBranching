@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 function EventBaton(options) {
   this.eventMap = {};
   this.options = options || {};
@@ -70,13 +68,13 @@ EventBaton.prototype.passBatonBack = function(name, func, context, args) {
   var listeners = this.getListenersThrow(name);
 
   var indexBefore;
-  _.each(listeners, function(listenerObj, index) {
+  listeners.forEach(function(listenerObj, index) {
     // skip the first
     if (index === 0) { return; }
     if (listenerObj.func === func && listenerObj.context === context) {
       indexBefore = index - 1;
     }
-  }, this);
+  });
   if (indexBefore === undefined) {
     throw new Error('you are the last baton holder! or i didnt find you');
   }
@@ -92,7 +90,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 
   var newListeners = [];
   var found = false;
-  _.each(listeners, function(listenerObj) {
+  listeners.forEach(function(listenerObj) {
     if (listenerObj.func === func && listenerObj.context === context) {
       if (found) {
         console.warn('woah duplicates!!!');
@@ -102,7 +100,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
     } else {
       newListeners.push(listenerObj);
     }
-  }, this);
+  });
 
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
@@ -113,4 +111,3 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 };
 
 exports.EventBaton = EventBaton;
-

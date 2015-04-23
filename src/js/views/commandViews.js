@@ -1,41 +1,16 @@
 var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
-var CommandEntryCollection = require('../models/collections').CommandEntryCollection;
 var Main = require('../app');
-var Command = require('../models/commandModel').Command;
-var CommandEntry = require('../models/commandModel').CommandEntry;
+var CommandLineStore = require('../stores/CommandLineStore');
+var CommandLineActions = require('../actions/CommandLineActions');
 
-var Errors = require('../util/errors');
-var Warning = Errors.Warning;
-
-var util = require('../util');
 var log = require('../log');
 var keyboard = require('../util/keyboard');
 
 var CommandPromptView = Backbone.View.extend({
-  initialize: function(options) {
+  initialize: function() {
     Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
-
-    // uses local storage
-    this.commands = new CommandEntryCollection();
-    this.commands.fetch({
-      success: _.bind(function() {
-        // reverse the commands. this is ugly but needs to be done...
-        var commands = [];
-        this.commands.each(function(c) {
-          commands.push(c);
-        });
-
-        commands.reverse();
-        this.commands.reset();
-
-        _.each(commands, function(c) {
-          this.commands.add(c);
-        }, this);
-      }, this)
-    });
 
     this.index = -1;
     this.commandParagraph = this.$('#prompt p.command')[0];
@@ -84,15 +59,15 @@ var CommandPromptView = Backbone.View.extend({
 
     // we need to capture some of these events.
     var keyToFuncMap = {
-      enter: _.bind(function() {
+      enter: function() {
         this.submit();
-      }, this),
-      up: _.bind(function() {
+      }.bind(this),
+      up: function() {
         this.commandSelectChange(1);
-      }, this),
-      down: _.bind(function() {
+      }.bind(this),
+      down: function() {
         this.commandSelectChange(-1);
-      }, this)
+      }.bind(this)
     };
 
     var key = keyboard.mapKeycodeToKey(e.which || e.keyCode);
@@ -138,7 +113,7 @@ var CommandPromptView = Backbone.View.extend({
 
     // 10px for monospaced font at "1" zoom
     var zoom = require('../util/zoomLevel').detectZoom();
-    var widthPerChar = 10 * zoom;
+    var widthPerChar = 9.65 * zoom;
     var heightPerRow = 22 * zoom;
 
     var widthOfParagraph = $(this.commandParagraph).width();
@@ -164,21 +139,15 @@ var CommandPromptView = Backbone.View.extend({
 
     // if we are over / under, display blank line. yes this eliminates your
     // partially edited command, but i doubt that is much in this demo
-    if (this.index >= this.commands.length || this.index < 0) {
+    if (this.index >= CommandLineStore.getCommandHistoryLength() || this.index < 0) {
       this.clear();
       this.index = -1;
       return;
     }
 
     // yay! we actually can display something
-    var commandEntry = this.commands.toArray()[this.index].get('text');
+    var commandEntry = CommandLineStore.getCommandHistory()[this.index];
     this.setTextField(commandEntry);
-  },
-
-  clearLocalStorage: function() {
-    this.commands.each(function(c) {
-      Backbone.sync('delete', c, function() { });
-    }, this);
   },
 
   setTextField: function(value) {
@@ -198,17 +167,15 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   rollupCommands: function(numBack) {
-    var which = this.commands.toArray().slice(1, Number(numBack) + 1);
+    var which = CommandLineStore.getCommandHistory().slice(1, Number(numBack) + 1);
     which.reverse();
 
     var str = '';
-    _.each(which, function(commandEntry) {
-      str += commandEntry.get('text') + ';';
+    _.each(which, function(text) {
+      str += text + ';';
     }, this);
 
-    var rolled = new CommandEntry({text: str});
-    this.commands.unshift(rolled);
-    Backbone.sync('create', rolled, function() { });
+    CommandLineActions.submitCommand(str);
   },
 
   addToCommandHistory: function(value) {
@@ -217,22 +184,13 @@ var CommandPromptView = Backbone.View.extend({
     // or if we edited the command in place in history
     var shouldAdd = (value.length && this.index === -1) ||
       ((value.length && this.index !== -1 &&
-      this.commands.toArray()[this.index].get('text') !== value));
+      CommandLineStore.getCommandHistory()[this.index] !== value));
 
     if (!shouldAdd) {
       return;
     }
 
-    var commandEntry = new CommandEntry({text: value});
-    this.commands.unshift(commandEntry);
-
-    // store to local storage
-    Backbone.sync('create', commandEntry, function() { });
-
-    // if our length is too egregious, reset
-    if (this.commands.length > 100) {
-      this.clearLocalStorage();
-    }
+    CommandLineActions.submitCommand(value);
     log.commandEntered(value);
   },
 
@@ -241,146 +199,5 @@ var CommandPromptView = Backbone.View.extend({
   }
 });
 
-// This is the view for all commands -- it will represent
-// their status (inqueue, processing, finished, error),
-// their value ("git commit --amend"),
-// and the result (either errors or warnings or whatever)
-var CommandView = Backbone.View.extend({
-  tagName: 'div',
-  model: Command,
-  template: _.template($('#command-template').html()),
-
-  events: {
-    'click': 'clicked'
-  },
-
-  clicked: function(e) {
-  },
-
-  initialize: function() {
-    this.model.bind('change', this.wasChanged, this);
-    this.model.bind('destroy', this.remove, this);
-  },
-
-  wasChanged: function(model, changeEvent) {
-    // for changes that are just comestic, we actually only want to toggle classes
-    // with jquery rather than brutally delete a html. doing so allows us
-    // to nicely fade things
-    var changes = changeEvent.changes;
-    var changeKeys = _.keys(changes);
-    if (_.difference(changeKeys, ['status']).length === 0) {
-      this.updateStatus();
-    } else {
-      this.render();
-    }
-  },
-
-  updateStatus: function() {
-    var statuses = ['inqueue', 'processing', 'finished'];
-    var toggleMap = {};
-    _.each(statuses, function(status) {
-      toggleMap[status] = false;
-    });
-    toggleMap[this.model.get('status')] = true;
-
-    var query = this.$('p.commandLine');
-
-    _.each(toggleMap, function(value, key) {
-      query.toggleClass(key, value);
-    });
-  },
-
-  render: function() {
-    var json = _.extend(
-      {
-        resultType: '',
-        result: '',
-        formattedWarnings: this.model.getFormattedWarnings()
-      },
-      this.model.toJSON()
-    );
-
-    this.$el.html(this.template(json));
-    return this;
-  },
-
-  remove: function() {
-    $(this.el).hide();
-  }
-});
-
-
-var CommandLineHistoryView = Backbone.View.extend({
-  initialize: function(options) {
-    this.collection = options.collection;
-
-    this.collection.on('add', this.addOne, this);
-    this.collection.on('reset', this.addAll, this);
-    this.collection.on('all', this.render, this);
-
-    this.collection.on('change', this.scrollDown, this);
-    Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-    Main.getEvents().on('clearOldCommands', this.clearOldCommands, this);
-  },
-
-  addWarning: function(msg) {
-    var err = new Warning({
-      msg: msg
-    });
-
-    var command = new Command({
-      error: err,
-      rawStr: 'Warning:'
-    });
-
-    this.collection.add(command);
-  },
-
-  clearOldCommands: function() {
-    // go through and get rid of every command that is "processed" or done
-    var toDestroy = [];
-
-    this.collection.each(function(command) {
-      if (command.get('status') !== 'inqueue' &&
-          command.get('status') !== 'processing') {
-        toDestroy.push(command);
-      }
-    }, this);
-
-    _.each(toDestroy, function(command) {
-      command.destroy();
-    }, this);
-    this.scrollDown();
-  },
-
-  scrollDown: function() {
-    // if commandDisplay is ever bigger than #terminal, we need to
-    // add overflow-y to terminal and scroll down
-    var cD = $('#commandDisplay')[0];
-    var t = $('#terminal')[0];
-
-    // firefox hack
-    var shouldScroll = (cD.clientHeight > t.clientHeight) ||
-      ($(window).height() < cD.clientHeight);
-    $(t).toggleClass('scrolling', shouldScroll);
-    if (shouldScroll) {
-      t.scrollTop = t.scrollHeight;
-    }
-  },
-
-  addOne: function(command) {
-    var view = new CommandView({
-      model: command
-    });
-    this.$('#commandDisplay').append(view.render().el);
-    this.scrollDown();
-  },
-
-  addAll: function() {
-    this.collection.each(this.addOne);
-  }
-});
-
 exports.CommandPromptView = CommandPromptView;
-exports.CommandLineHistoryView = CommandLineHistoryView;
 

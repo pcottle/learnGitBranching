@@ -451,7 +451,7 @@ var VisBranch = VisBase.extend({
     ];
 
     _.each(objs, function(rObj) {
-      rObj.click(_.bind(this.onClick ,this));
+      rObj.click(this.onClick.bind(this));
     }, this);
   },
 

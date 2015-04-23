@@ -104,9 +104,9 @@ exports.level = {
             "markdowns": [
               "## Git Fetch",
               "",
-              "Travailler avec les dépôts gits distants réduit vraiment les transferts de données _depuis_ et _vers_ les autres dépôts. Du moment que nous pouvons envoyer des commits en avance et en retard, nous pouvons partager tous les types de mise-à-jours qui sont gérées par git (et donc partager le travail, de nouveaux fichiers, de nouvelles idées, des lettres d'amour, etc.).",
+              "Travailler avec les dépôts gits distants se résume en pratique à transférer nos données _depuis_ et _vers_ ces autres dépôts. Du moment que nous pouvons envoyer des commits en avance et en retard, nous pouvons partager tous les types de mises à jour qui sont gérées par git (et donc partager notre travail, de nouveaux fichiers, de nouvelles idées, des lettres d'amour, etc.).",
               "",
-              "Dans cette leçon nous allons apprendre comment rapporter (fetch) des données _depuis_ un dépôt distant vers le nôtre -- la commande pour cela est malignement dénommée `git fetch`.",
+              "Dans cette leçon nous allons apprendre comment rapporter (fetch) des données _depuis_ un dépôt distant vers le nôtre : la commande pour cela est astucieusement dénommée `git fetch`.",
               "",
               "Vous allez remarquer qu'au moment où nous mettons à jour notre version du dépôt distant, nos branches _distantes_ vont se mettre à jour pour refléter cette nouvelle représentation. Cela est lié à la leçon précédente sur les branches distantes."
             ]
@@ -131,14 +131,14 @@ exports.level = {
             "markdowns": [
               "### Ce que fetch fait",
               "",
-              "`git fetch` procède en exactement deux principales étapes. Cela :",
+              "`git fetch` procède en deux étapes principales, ni plus ni moins. Cela :",
               "",
-              "* télécharge les commits que le dépôt distant possède mais qui ne sont pas dans le nôtre, et...",
-              "* met-à-jour nos branches distantes (par exemple, `o/master`).",
+              "* télécharge les commits que le dépôt distant possède mais qui ne sont pas dans le nôtre, puis...",
+              "* met à jour nos branches distantes (par exemple, `o/master`).",
               "",
               "`git fetch` prend en fait notre représentation _locale_ du dépôt distant pour la synchroniser avec ce à quoi le dépôt distant ressemble _réellement_ (à ce moment-là).",
               "",
-              "Si vous vous rappelez de la précédente leçon, nous avons dit que les branches distantes reflètent l'état du dépôt distant _depuis_ la dernière fois que vous avez parlé à ces branches distantes. `git fetch` est le moyen de parler à ces branches distantes ! Heureusement la relation entre `git fetch` et les branches distantes est maintenant apparue.",
+              "Si vous vous rappelez de la précédente leçon, nous avons dit que les branches distantes reflètent l'état du dépôt distant _depuis_ la dernière fois où vous avez parlé à ces branches distantes. `git fetch` est le moyen de parler à ces branches distantes ! La relation entre `git fetch` et les branches distantes devrait vous apparaître clairement maintenant.",
               "",
               "`git fetch` contacte le dépôt distant par Internet (via un protocole comme `http://` ou `git://`).",
               ""
@@ -151,11 +151,11 @@ exports.level = {
             "markdowns": [
               "### Ce que fetch ne fait pas",
               "",
-              "`git fetch`, cependant, ne change rien à propos de _vôtre_ état local. Il ne va pas mettre à jour vôtre branche `master` ou changer quelque chose comme les fichiers la représentation des fichiers.",
+              "`git fetch`, cependant, ne change rien à _votre_ état local. Il ne met pas à jour votre branche `master` et ne va pas changer quelque chose aux fichiers qui se trouvent actuellement dans votre répertoire de travail.",
               "",
-              "C'est important à comprendre car un nombre important de développeurs pensent qu'exécuter `git fetch` va rendre leur dépôt local dans le même état que le distant. Cela peut télécharger toutes les données nécessaires pour faire cela, mais cela ne change en réalité _rien_ sur vos fichiers locaux. Nous allons apprendre des commandes dans les niveaux suivants pour faire cela uniquement :D",
+              "C'est important à comprendre car un nombre important de développeurs pensent qu'exécuter `git fetch` va mettre leur dépôt local dans le même état que le distant. Cela peut télécharger toutes les données nécessaires pour faire cela, mais cela ne change en réalité _rien_ sur vos fichiers locaux. Les prochains niveaux seront justement dédiés aux commandes qui permettent de faire cela :D",
               "",
-              "Ainsi à la fin de la journée, vous pouvez penser à `git fetch` comme une étape de téléchargement."
+              "Au bout du compte, vous pouvez vous représenter `git fetch` comme une étape de téléchargement."
             ]
           }
         },

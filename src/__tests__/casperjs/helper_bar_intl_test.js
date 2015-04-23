@@ -1,6 +1,6 @@
 var CasperUtils = require('./casperUtils').CasperUtils;
 
-casper.start(
+CasperUtils.start(casper,
   CasperUtils.getUrl(),
   function() {
 
@@ -15,10 +15,7 @@ casper.start(
     .then(function() {
       this.mouse.click('a.intl');
     })
-    .waitFor(CasperUtils.waits.selectorVisible(
-      'a.english'
-    ))
-    .wait(1000)
+    .wait(500)
     .then(CasperUtils.screenshot.entirePage)
     .then(CasperUtils.asserts.visibleSelectors([
       'a.english',
@@ -30,12 +27,11 @@ casper.start(
       this.mouse.click('a.japanese');
     })
     .wait(500)
-    .then(function() {
-      // Successfully changed locale
-      this.test.assertEvalEquals(function() {
-        return debug_Intl_getLocale();
-      }, 'ja');
-    })
+    .then(CasperUtils.screenshot.entirePage)
+    .then(CasperUtils.asserts.selectorContainsText(
+      'span[data-intl="learn-git-branching"]',
+      "日本語版リポジトリ"
+    ))
     .then(CasperUtils.testDone);
 }).run();
 

@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 var GlobalStateActions = require('../../actions/GlobalStateActions');
@@ -42,9 +41,9 @@ var AnimationQueue = Backbone.Model.extend({
   },
 
   thenFinish: function(promise, deferred) {
-    promise.then(_.bind(function() {
+    promise.then(function() {
       this.finish();
-    }, this));
+    }.bind(this));
     promise.fail(function(e) {
       console.log('uncaught error', e);
       throw e;
@@ -97,9 +96,9 @@ var AnimationQueue = Backbone.Model.extend({
     next.run();
 
     this.set('index', index + 1);
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.next();
-    }, this), duration);
+    }.bind(this), duration);
   }
 });
 
@@ -127,9 +126,9 @@ var PromiseAnimation = Backbone.Model.extend({
     // a single animation is just something with a timeout, but now
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.get('deferred').resolve();
-    }, this), this.get('duration'));
+    }.bind(this), this.get('duration'));
   },
 
   then: function(func) {

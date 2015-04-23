@@ -95,7 +95,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour réussir ce niveau, nous avons besoin de dire à Git quel commit particulier recopier. C'est comme pour le niveau précédent -- nous pouvons utiliser les mêmes commandes :",
+              "Pour réussir ce niveau, nous avons besoin de dire à Git quel commit particulier recopier. C'est comme pour le niveau précédent : nous pouvons utiliser les mêmes commandes :",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`"

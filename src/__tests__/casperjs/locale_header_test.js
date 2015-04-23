@@ -21,7 +21,7 @@ var headerLocaleMap = {
   'pt-BR': 'pt_BR'
 };
 
-casper.start(
+CasperUtils.start(casper,
   CasperUtils.getUrl(),
   function() {
     this.test.assertTitle('Learn Git Branching');
@@ -31,8 +31,8 @@ casper.start(
       Object.keys(langLocaleMap).forEach(function(lang) {
           var locale = langLocaleMap[lang];
           this.test.assertEvalEquals(function(lang) {
-            debug_LocaleActions_changeLocaleFromHeader(lang);
-            return debug_LocaleStore_getLocale();
+            window.LocaleActions.changeLocaleFromHeader(lang);
+            return window.LocaleStore.getLocale();
           },
           locale,
           'Testing changing store locale from ' + lang + 
@@ -45,8 +45,8 @@ casper.start(
       Object.keys(headerLocaleMap).forEach(function(header) {
         var locale = headerLocaleMap[header];
         this.test.assertEvalEquals(function(header) {
-            debug_LocaleActions_changeLocaleFromHeader(header);
-            return debug_LocaleStore_getLocale();
+            window.LocaleActions.changeLocaleFromHeader(header);
+            return window.LocaleStore.getLocale();
           },
           locale,
           'Testing changing store locale from ' + header +

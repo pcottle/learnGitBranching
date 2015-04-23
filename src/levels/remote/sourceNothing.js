@@ -84,7 +84,7 @@ exports.level = {
             "markdowns": [
               "### Les bizarreries de `<source>`",
               "",
-              "Git maltraite le paramètre `<source>` parameter de deux façons bizarres. Ces deux abus viennent du fait que vous pouvez techniquement ne \"rien spécifier commre `source` valide pour git push et git fetch. Le moyen de ne rien spécifier est un argument vide :",
+              "Git permet de faire deux choses contre-intuitives avec le paramètre `<source>`. Ces deux astuces viennent du fait que vous pouvez techniquement ne *rien* spécifier comme `source` valide pour git push et git fetch. Autrement dit laisser vide la partie gauche de la refspec (avant le deux-points) :",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
@@ -100,7 +100,7 @@ exports.level = {
               "Qu'est-ce que produit l'envoi de \"rien\" sur une branche distante ? Cela la détruit !"
             ],
             "afterMarkdowns": [
-              "Ici, nous avons brillamment supprimé  la branche `foo` du dépôt distant en lui envoyant le concept de \"rien\". Cela prend du sens ..."
+              "Ici, nous avons brillamment supprimé  la branche `foo` du dépôt distant en lui envoyant le concept de \"rien\". Cela paraît à peu près logique..."
             ],
             "command": "git push origin :foo",
             "beforeCommand": "git clone; git push origin master:foo"
@@ -110,7 +110,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Enfin, un fetch de \"rien\" dans un emplacement local crée une nouvelle branche"
+              "Ensuite, un fetch de \"rien\" dans un emplacement local crée une nouvelle branche."
             ],
             "afterMarkdowns": [
               "Très étrange, mais peu importe. C'est git !"
@@ -123,7 +123,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "C'est un petit niveau -- supprimez simplement une branche distante et faites-en une nouvelle (locale) avec `git fetch` pour terminer !"
+              "L'exercice pour ce niveau est simple : supprimez d'abord une branche distante puis terminez en en créant une nouvelle (locale) avec `git fetch` !"
             ]
           }
         }

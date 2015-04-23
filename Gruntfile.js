@@ -20,26 +20,24 @@ var indexTemplate = _.template(indexFile);
  */
 
 var prodDependencies = [
+  '<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-shim.min.js"></script>',
   '<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>',
   '<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>',
-  '<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>',
   '<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>'
 ];
 
 var devDependencies = [
   '<script src="lib/jquery-1.8.0.min.js"></script>',
   '<script src="lib/underscore-min.js"></script>',
-  '<script src="lib/backbone-min.js"></script>',
-  '<script src="lib/raphael-min.js"></script>'
+  '<script src="lib/raphael-min.js"></script>',
+  '<script src="lib/es5-shim.min.js"></script>'
 ];
 
 /*global module:false*/
 module.exports = function(grunt) {
   // eventually have sound...?
   grunt.registerTask('compliment', 'Stay motivated!', function() {
-    var defaults = ['Awesome!!'];
-
-    var compliments = grunt.config('compliment.compliments') || defaults;
+    var compliments = grunt.config('compliment.compliments');
     var index = Math.floor(Math.random() * compliments.length);
 
     grunt.log.writeln(compliments[index]);
@@ -47,7 +45,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lintStrings', 'Find if an INTL string doesnt exist', function() {
     var child_process = require('child_process');
-    var output = child_process.exec('node src/js/intl/checkStrings', function(err, output) {
+    child_process.exec('node src/js/intl/checkStrings', function(err, output) {
       grunt.log.writeln(output);
     });
   });
@@ -112,9 +110,12 @@ module.exports = function(grunt) {
         'src/__tests__/spec/*.js',
         'src/js/**/*.js',
         'src/js/**/**/*.js',
-        'src/levels/**/*.js',
+        'src/levels/**/*.js'
       ],
       options: {
+        ignores: [
+          'src/js/**/*.ios.js'
+        ],
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
         eqeqeq: false,
@@ -199,8 +200,8 @@ module.exports = function(grunt) {
         command: 'git add build/'
       },
       casperTest: {
-        command: 'casperjs test ./src/__tests__/casperjs/*_test.js || ' +
-          'open ./src/__tests__/casperjs/screenshots/*.png'
+        command: 'echo "Running $(ls -1 ./src/__tests__/casperjs/*_test.js | wc -l) tests" && ' +
+          'ls -1 ./src/__tests__/casperjs/*_test.js | while IFS= read -r line; do casperjs test $line; done'
       }
     },
     jasmine_node: {
@@ -211,28 +212,36 @@ module.exports = function(grunt) {
     },
     browserify: {
       options: {
+        transform: [require('grunt-react').browserify],
         ignore: [
           'src/__tests__/casperjs/*.js',
           'src/js/__tests__/create.js',
-          'src/js/__tests__/*.js'
-        ],
+          'src/js/__tests__/*.js',
+          'src/js/**/*.ios.js'
+        ]
       },
       dist: {
         files: {
-          'build/bundle.js': ['src/**/*.js', 'src/js/**/*.js'],
+          'build/bundle.js': [
+            'src/**/*.js',
+            'src/**/*.jsx',
+            'src/js/**/*.js',
+            'src/js/**/*.jsx'
+          ]
         },
       }
     },
   });
 
   // all my npm helpers
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jsxhint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-react');
 
   grunt.registerTask('build',
     ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell:gitAdd', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
@@ -242,7 +251,7 @@ module.exports = function(grunt) {
   grunt.registerTask('watching', ['fastBuild', 'jasmine_node', 'jshint', 'lintStrings']);
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('test', ['jasmine_node', 'shell:casperTest']);
+  grunt.registerTask('test', ['jasmine_node']);
   grunt.registerTask('casperTest', ['shell:casperTest']);
 };
 

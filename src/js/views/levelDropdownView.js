@@ -1,7 +1,6 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Backbone = require('backbone');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
@@ -43,7 +42,7 @@ var LevelDropdownView = ContainedBase.extend({
 
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
-      _.bind(this.loadLevelID, this),
+      this.loadLevelID.bind(this),
       300,
       true
     ));

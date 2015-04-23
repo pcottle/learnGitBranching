@@ -23,7 +23,7 @@ var levelIconIDsForPages = function(start, end) {
     .reduce(flattenArray);
 };
 
-casper.start(
+CasperUtils.start(casper,
   CasperUtils.getUrlForCommands([
     'levels',
   ]),

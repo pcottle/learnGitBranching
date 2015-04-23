@@ -1,6 +1,6 @@
 var CasperUtils = require('./casperUtils').CasperUtils;
 
-casper.start(
+CasperUtils.start(casper,
   CasperUtils.getUrlForCommands([
     'locale fr_FR',
   ]),

@@ -1,5 +1,4 @@
 var TreeCompare = require('../graph/treeCompare');
-var _ = require('underscore');
 
 var loadTree = function(treeString) {
   return TreeCompare.convertTreeSafe(treeString);
@@ -13,7 +12,8 @@ var testMethod = function(compareMethod, goalTreeString, cases, options) {
     cases[goalTreeString] = true;
   }
 
-  _.each(cases, function(value, actualTree) {
+  Object.keys(cases).forEach(function(actualTree) {
+    var value = cases[actualTree];
     var isEqual = TreeCompare.dispatch(compareMethod, goalTreeString, actualTree);
     if (isEqual !== value) {
       console.log('this goal tree', loadTree(goalTreeString));
@@ -21,7 +21,7 @@ var testMethod = function(compareMethod, goalTreeString, cases, options) {
       console.log('for this value', value);
     }
     expect(isEqual).toBe(value);
-  });
+  }.bind(this));
 };
 
 describe('Tree Compare', function() {

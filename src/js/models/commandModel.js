@@ -1,6 +1,5 @@
 var _ = require('underscore');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? Backbone = require('backbone') : Backbone = window.Backbone;
+var Backbone = require('backbone');
 
 var Errors = require('../util/errors');
 
@@ -30,7 +29,7 @@ var Command = Backbone.Model.extend({
 
   },
 
-  initialize: function(options) {
+  initialize: function() {
     this.initDefaults();
     this.validateAtInit();
 
@@ -208,14 +207,6 @@ var Command = Backbone.Model.extend({
     this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
   },
 
-  getFormattedWarnings: function() {
-    if (!this.get('warnings').length) {
-      return '';
-    }
-    var i = '<i class="icon-exclamation-sign"></i>';
-    return '<p>' + i + this.get('warnings').join('</p><p>' + i) + '</p>';
-  },
-
   parseOrCatch: function() {
     this.expandShortcuts(this.get('rawStr'));
     try {
@@ -254,7 +245,7 @@ var Command = Backbone.Model.extend({
   },
 
   formatError: function() {
-    this.set('result', this.get('error').toResult());
+    this.set('result', this.get('error').getMsg());
   },
 
   expandShortcuts: function(str) {
@@ -291,12 +282,4 @@ var Command = Backbone.Model.extend({
   }
 });
 
-// command entry is for the commandview
-var CommandEntry = Backbone.Model.extend({
-  defaults: {
-    text: ''
-  }
-});
-
-exports.CommandEntry = CommandEntry;
 exports.Command = Command;

@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 
 var Main = require('../app');
@@ -39,20 +38,20 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   // functionality. we give this new deferred to the eventBaton handler
   var newDeferred = Q.defer();
   newDeferred.promise
-  .then(_.bind(function() {
+  .then(function() {
     // give this method the original defer so it can resolve it
     this.afterGitCommandProcessed(command, deferred);
-  }, this))
+  }.bind(this))
   .done();
 
   // now our shim owner might want to launch some kind of deferred beforehand, like
   // a modal or something. in order to do this, we need to defer the passing
   // of the event baton backwards, and either resolve that promise immediately or
   // give it to our shim owner.
-  var passBaton = _.bind(function() {
+  var passBaton = function() {
     // punt to the previous listener
     this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newDeferred]);
-  }, this);
+  }.bind(this);
 
   var beforeDefer = Q.defer();
   beforeDefer.promise

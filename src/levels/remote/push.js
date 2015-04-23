@@ -74,15 +74,15 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "Ok, donc j'ai rapatrié les changements du dépôt distant et les incorporé dans mon travail local. C'est super ... mais comment je partage _mon_ travail génial avec tous les autres ?",
+              "Ok, donc j'ai rapatrié les changements du dépôt distant et je les ai incorporés dans mon travail local. C'est super... mais comment je partage _mon_ travail génial avec tous les autres ?",
               "",
-              "En fait, la manière d'envoyer du travail à partager fonctionne à l'opposé du téléchargement de travail partagé. Et quel est l'opposé de `git pull` ? `git push`!",
+              "En fait, la manière d'envoyer du travail à partager fonctionne à l'opposé du téléchargement de travail partagé. Et quel est l'opposé de `git pull` (tire) ? `git push` (pousse) !",
               "",
               "`git push` est responsable de l'envoi de _vos_ changements vers un dépôt distant et de la mise à jour de ce dépôt pour incorporer vos commits. Une fois `git push` terminé, tous vos amis peuvent télécharger votre travail depuis le dépôt distant.",
               "",
-              "Vous pouvez voir `git push` comme une commande qui \"publie\" votre travail. Elle a une variété de subtilité que nous allons voir rapidement, mais commençons avec le b.a-ba ...",
+              "Vous pouvez voir `git push` comme une commande qui \"publie\" votre travail. Elle présente quelques subtilités que nous allons voir rapidement, mais commençons par le B.A.-BA...",
               "",
-              "*note : le comportement de `git push` avec aucun argument varie avec l'un des réglages de git appelé `push.default`. La valeur par défaut pour ce réglage dépend de la version de git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Ce n'est pas un gros inconvénient, mais vérifiez tout de même vos réglages avant de pusher vos propres projets.*"
+              "*Note : le comportement de `git push` avec aucun argument varie avec l'un des réglages de configuration de git nommé `push.default`. La valeur par défaut de ce réglage dépend de la version de git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Cela ne change pas grand chose pour ces exercices, mais vérifiez tout de même vos réglages avant de pusher vos propres projets.*"
             ]
           }
         },
@@ -93,7 +93,7 @@ exports.level = {
               "Nous avons fait ici quelques changements que le dépôt distant n'a pas. Envoyons-les !"
             ],
             "afterMarkdowns": [
-              "Et voilà -- le dépôt distant a reçu le commit `C2`, la branche `master` a été mise à jour sur `C2`, et vôtre *propre* représentation de la branche distante (`o/master`) a aussi été mise à jour. Tout est synchronisé !"
+              "Et voilà : le dépôt distant a reçu le commit `C2`, la branche `master` a été mise à jour sur `C2`, et votre *propre* représentation de la branche distante (`o/master`) a aussi été mise à jour. Tout est synchronisé !"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -103,7 +103,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, partager simplement des nouveaux commits avec le dépôt distant. Accrochez-vous, parce que ces leçons vont devenir beaucoup plus difficiles !"
+              "Pour finir ce niveau, partagez simplement deux nouveaux commits avec le dépôt distant. Accrochez-vous, parce que ces leçons vont devenir beaucoup plus difficiles !"
             ]
           }
         }

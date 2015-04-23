@@ -1,6 +1,6 @@
 "use strict";
 
-var keyMirror = require('react/lib/keyMirror');
+var keyMirror = require('../util/keyMirror');
 
 var CHANGE_EVENT = 'change';
 

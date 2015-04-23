@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -111,7 +110,7 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
   var startTime = new Date().getTime();
 
   util.splitTextCommand(value, function(commandStr) {
-    chain = chain.then(_.bind(function() {
+    chain = chain.then(function() {
       var commandObj = new Command({
         rawStr: commandStr
       });
@@ -119,7 +118,7 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
       var thisDeferred = Q.defer();
       this.gitEngine.dispatch(commandObj, thisDeferred);
       return thisDeferred.promise;
-    }, this));
+    }.bind(this));
   }, this);
 
   chain.then(function() {

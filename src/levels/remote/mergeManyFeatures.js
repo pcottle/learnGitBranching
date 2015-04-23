@@ -77,9 +77,9 @@ exports.level = {
             "markdowns": [
               "## Pourquoi pas merge ?",
               "",
-              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, la seule étape préliminaire est *d'incorporer* les derniers changements de ce dépôt dans le nôtre. Cela signifie qu'après, vous pouvez faire un rebase *ou* merge de la branche distante (e.g. `o/master`).",
+              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, la seule étape préliminaire est *d'incorporer* les derniers changements de ce dépôt dans le nôtre. Concrètement, vous pouvez faire un rebase *ou* un merge de la branche distante (c'est à dire de `o/master`).",
               "",
-              "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont (re)basées (!) sur rebase jusqu'à présent ? Pourquoi n'aime-t-on pas `merge` dans les branches distantes ?",
+              "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont-elles concentrées sur rebase jusqu'à présent ? Pourquoi préfère-t-on souvent éviter `merge` lorsque l'on travaille avec les branches distantes ?",
               ""
             ]
           }
@@ -88,7 +88,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Il y a beaucoup de débats à propos du compromis entre l'utilisation de merge et rebase dans la communauté des développeurs. Voici les principaux arguments pour / contre rebase:",
+              "Au sein de la communauté des développeurs, il y a beaucoup de débats à propos des avantages et inconvénients de l'utilisation de merge ou de rebase. Voici les principaux arguments pour et contre rebase:",
               "",
               "Pour :",
               "",
@@ -98,7 +98,7 @@ exports.level = {
               "",
               "* Rebase modifie l'historique (apparent) de l'arbre des commits.",
               "",
-              "Par exemple, le commit `C1` peut être rebasé *après* `C3`. Cela fait croire que le travail de `C1'` est arrivé après `C3` alors qu'en réalité il était complétement avant.",
+              "Par exemple, le commit `C1` peut être rebasé *après* `C3`. Cela fait croire que le travail de `C1'` est arrivé après `C3` alors qu'en réalité il était achevé et commité avant.",
               "",
               "Certains développeurs aiment préserver l'historique et préfèrent donc merge. Les autres (comme moi) préfèrent avoir un arbre des commits propre et préfèrent rebase. C'est une question de goût :D"
             ]
@@ -108,7 +108,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour ce niveau, essayons de résoudre le niveau précédent, mais avec *merge* plutôt. Cela peut être un peu périlleux mais cela illustre bien le problème."
+              "Pour ce niveau, essayons de résoudre la même situation qu'au niveau précédent, mais cette fois en utilisant *merge*. Cela peut être un peu périlleux mais cela illustre bien le problème."
             ]
           }
         }
