@@ -442,6 +442,9 @@ div.controls div.box.flex1 div.plus {
 }
 
 /* Command Line */
+div.reactCommandView p.commandLine i {
+  margin: 0 5px;
+}
 
 p.commandLine,
 div.commandLineResult {
@@ -480,6 +483,12 @@ p.commandLine span.icons i:last-child {
 
 p.commandLine span.icons i:first-child {
   margin-left: 5px;
+}
+
+div.reactCommandView p.commandLine span.icons i:first-child {
+  margin-left: 4px;
+  position: relative;
+  left: 1px;
 }
 
 p.commandLine span.icons i {
