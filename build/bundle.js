@@ -37996,12 +37996,12 @@ var HelperBarView = React.createClass({displayName: "HelperBarView",
       React.createElement("div", {className: topClassName}, 
         this.props.items.map(function(item, index) {
           return [
-            this.renderItem(item),
+            this.renderItem(item, index),
             // ugh -- we need this spacer at the end only
             // if we are not the last element
             index === this.props.items.length - 1 ?
               null :
-              React.createElement("span", {key: 'helper_bar_' + index}, ' ')
+              React.createElement("span", {key: 'helper_bar_span_' + index}, ' ')
           ];
         }.bind(this))
       )
@@ -38009,9 +38009,12 @@ var HelperBarView = React.createClass({displayName: "HelperBarView",
   },
 
   renderItem: function(item, index) {
+    var testID = item.icon || item.testID ||
+      item.text.toLowerCase();
     if (item.newPageLink) {
       return (
         React.createElement("a", {
+          "data-testid": testID, 
           key: 'helper_bar_' + index, 
           onClick: item.onClick, 
           target: "_blank", 
@@ -38023,6 +38026,7 @@ var HelperBarView = React.createClass({displayName: "HelperBarView",
     }
     return (
       React.createElement("a", {
+        "data-testid": testID, 
         key: 'helper_bar_' + index, 
         onClick: item.onClick}, 
         item.text ? item.text :
@@ -38069,46 +38073,55 @@ var IntlHelperBarView = React.createClass({displayName: "IntlHelperBarView",
   getItems: function() {
     return [{
       text: 'Git Branching',
+      testID: 'english',
       onClick: function() {
         this.fireCommand('locale en_US; levels');
       }.bind(this)
     }, {
       text: '日本語版リポジトリ',
+      testID: 'japanese',
       onClick: function() {
         this.fireCommand('locale ja; levels');
       }.bind(this)
     }, {
       text: 'Git 브랜치 배우기',
+      testID: 'korean',
       onClick: function() {
         this.fireCommand('locale ko; levels');
       }.bind(this)
     }, {
       text: '学习 Git 分支',
+      testID: 'simplifiedChinese',
       onClick: function() {
         this.fireCommand('locale zh_CN; levels');
       }.bind(this)
     }, {
       text: '學習 Git 分支',
+      testID: 'traditionalChinese',
       onClick: function() {
         this.fireCommand('locale zh_TW; levels');
       }.bind(this)
     }, {
       text: 'español',
+      testID: 'spanish',
       onClick: function() {
         this.fireCommand('locale es_AR; levels');
       }.bind(this)
     }, {
       text: 'português',
+      testID: 'portuguese',
       onClick: function() {
         this.fireCommand('locale pt_BR; levels');
       }.bind(this)
     }, {
       text: 'français',
+      testID: 'french',
       onClick: function() {
         this.fireCommand('locale fr_FR; levels');
       }.bind(this)
     }, {
       text: 'Deutsch',
+      testID: 'german',
       onClick: function() {
         this.fireCommand('locale de_DE; levels');
       }.bind(this)
