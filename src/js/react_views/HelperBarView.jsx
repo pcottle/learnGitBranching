@@ -22,12 +22,12 @@ var HelperBarView = React.createClass({
       <div className={topClassName}>
         {this.props.items.map(function(item, index) {
           return [
-            this.renderItem(item),
+            this.renderItem(item, index),
             // ugh -- we need this spacer at the end only
             // if we are not the last element
             index === this.props.items.length - 1 ?
               null :
-              <span key={'helper_bar_' + index}>{' '}</span>
+              <span key={'helper_bar_span_' + index}>{' '}</span>
           ];
         }.bind(this))}
       </div>
@@ -35,9 +35,12 @@ var HelperBarView = React.createClass({
   },
 
   renderItem: function(item, index) {
+    var testID = item.icon || item.testID ||
+      item.text.toLowerCase();
     if (item.newPageLink) {
       return (
         <a
+          data-testid={testID}
           key={'helper_bar_' + index}
           onClick={item.onClick}
           target="_blank"
@@ -49,6 +52,7 @@ var HelperBarView = React.createClass({
     }
     return (
       <a
+        data-testid={testID}
         key={'helper_bar_' + index}
         onClick={item.onClick}>
         {item.text ? item.text :
