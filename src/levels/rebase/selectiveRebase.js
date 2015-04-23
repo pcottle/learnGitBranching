@@ -63,7 +63,7 @@ exports.level = {
               "",
               "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être reordonnée, et `three` ne nécessite qu'un commit !",
               "",
-              "Nous vous laissons imaginer la solution pour ce niveau -- comparer avec notre solution après-coup avec la commande `show solution`. "
+              "Nous vous laissons imaginer la solution pour ce niveau ; comparez avec notre solution après-coup avec la commande `show solution`. "
             ]
           }
         }

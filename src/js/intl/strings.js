@@ -876,7 +876,7 @@ exports.strings = {
   'goal-only-master': {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
-    'fr_FR': '<span class="fwber">Note:</span> Seulement la branche master peut être check id à ce niveau. Les autres branches sont simplement une référence (Montré avec un tiret). Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
+    'fr_FR': '<span class="fwber">Note:</span> Dans ce niveau on ne doit faire de git checkout que sur la branche master. Les autres branches représentées ici (entourées d\'un cadre en tirets) doivent être utilisées uniquement comme références. Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'pt_BR': '<span class="fwber">Nota:</span> Apenas o ramo master será verificado neste nível. Os outros ramos (dentro das caixas clareadas) são somente para referência. Como sempre, você pode ocultar esta janela com "hide goal"',
@@ -892,7 +892,7 @@ exports.strings = {
     'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
     'es_AR': 'Podés ocultar esta ventana con "hide goal"',
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"'
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {

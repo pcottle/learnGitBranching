@@ -351,7 +351,7 @@ exports.level = {
               "",
               "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
               "",
-              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
+              "Il y a principalement deux façons d'annuler des changements avec Git : l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
               ""
             ]
           }
@@ -398,7 +398,7 @@ exports.level = {
             "markdowns": [
               "Pour accomplir ce niveau, annulez les deux derniers commits à la fois sur `local` et sur `pushed`.",
               "",
-              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale -- cela devrait vous guider dans le choix de la méthode à employer."
+              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale ; cela devrait vous guider dans le choix de la méthode à employer."
             ]
           }
         }
