@@ -31,7 +31,7 @@ exports.strings = {
     'en_US': 'Awesome! You matched or exceeded our solution.',
     'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto ou melhor que a nossa.',
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
-    'ja': '素晴らしい！このレベルをクリアしましたね。',
+    'ja': '素晴らしい！このレベルをクリアしましたね',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
