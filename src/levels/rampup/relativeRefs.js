@@ -15,6 +15,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
+    "ja"   : "相対リファレンス(^)を思い出して！",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
