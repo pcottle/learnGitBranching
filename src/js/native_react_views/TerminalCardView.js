@@ -7,7 +7,7 @@ var {
   View,
 } = React;
 
-var Colors = require('../constants/Colors');
+var AppStyles = require('../constants/AppStyles');
 
 var TerminalCardView = React.createClass({
   propTypes: {
@@ -52,7 +52,7 @@ var buttonStyle = {
 var styles = StyleSheet.create({
   terminalHeader: {
     height: 16,
-    backgroundColor: Colors.terminalHeader,
+    backgroundColor: AppStyles.terminalHeader,
     borderRadius: BORDER_RADIUS,
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -73,7 +73,7 @@ var styles = StyleSheet.create({
   }),
 
   terminalWindow: {
-    backgroundColor: Colors.terminalBackground,
+    backgroundColor: AppStyles.terminalBackground,
     borderRadius: BORDER_RADIUS,
     shadowOpacity: 0.5,
     shadowRadius: 4,
@@ -86,13 +86,13 @@ var styles = StyleSheet.create({
   terminalTextContainer: {
     padding: 12,
     borderWidth: 1 / PixelRatio.get(),
-    borderColor: Colors.terminalBorder,
+    borderColor: AppStyles.terminalBorder,
     borderRadius: BORDER_RADIUS
   },
 
   terminalText: {
-    color: Colors.terminalText,
-    fontFamily: Colors.terminalFontFamily,
+    color: AppStyles.terminalText,
+    fontFamily: AppStyles.terminalFontFamily,
     fontSize: 16,
     fontWeight: 'bold'
   },

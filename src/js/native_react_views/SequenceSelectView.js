@@ -8,7 +8,7 @@ var {
   View,
 } = React;
 
-var Colors = require('../constants/Colors');
+var AppStyles = require('../constants/AppStyles');
 
 var SequenceSelectView = React.createClass({
 
@@ -40,7 +40,7 @@ var SequenceSelectView = React.createClass({
 
 var styles = StyleSheet.create({
   background: {
-    backgroundColor: Colors.blueBackground,
+    backgroundColor: AppStyles.blueBackground,
     flex: 1
   },
   headerSpacer: {

@@ -8,7 +8,7 @@ var {
   View,
 } = React;
 
-var Colors = require('../constants/Colors');
+var AppStyles = require('../constants/AppStyles');
 var TerminalCardView = require('../native_react_views/TerminalCardView');
 var NavButton = require('../native_react_views/NavButton');
 
@@ -56,22 +56,14 @@ var NUXView = React.createClass({
       </View>
     );
   }
-
 });
-
-// TODO -- refactor this somewhere
-var terminalTextStyle = {
-  color: Colors.terminalText,
-  fontFamily: Colors.terminalFontFamily,
-  fontWeight: 'bold',
-};
 
 var styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 40,
   },
   background: {
-    backgroundColor: Colors.blueBackground,
+    backgroundColor: AppStyles.blueBackground,
     flex: 1
   },
   container: {
@@ -85,11 +77,11 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  welcomeText: assign({}, terminalTextStyle, {
+  welcomeText: assign({}, AppStyles.terminalTextStyle, {
     fontSize: 24,
     marginBottom: 8
   }),
-  introText: assign({}, terminalTextStyle, {
+  introText: assign({}, AppStyles.terminalTextStyle, {
     marginTop: 8,
     flex: 1,
     marginBottom: 8
