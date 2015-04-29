@@ -200,11 +200,11 @@ exports.dialog = {
         '',
         '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
         '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo&locale=ja)',
         '',
         'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
         '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO&locale=ja)'
       ]
     }
   }, {
@@ -234,6 +234,8 @@ exports.dialog = {
         '画面左のコマンドプロンプトから`export tree`や`import tree`とタイプすることで、gitのツリー構造を友達に送ることができます',
         '',
         '何か教材になるようなケースはご存知ないでしょうか。`build level`で課題を作成したり、`import level`で他の人の課題に挑戦してみてください。',
+        '',
+        '何か詰まったことがあったら、右下メニューの?ボタンを押してみてください',
         '',
         'それでは教材の選択画面に進んでみることにします。',
         '',

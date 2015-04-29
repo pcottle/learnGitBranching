@@ -849,7 +849,8 @@ exports.strings = {
     'zh_CN': '显示目标',
     'fr_FR': 'Afficher les cibles',
     'pt_BR': 'Mostrar objetivo',
-    'es_AR': 'Mostrar objetivo'
+    'es_AR': 'Mostrar objetivo',
+    'ja'   : 'ゴールを表示',
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -859,7 +860,8 @@ exports.strings = {
     'zh_TW': '隱藏目標',
     'zh_CN': '隐藏目标',
     'pt_BR': 'Ocultar objetivo',
-    'es_AR': 'Ocultar obetivo'
+    'es_AR': 'Ocultar obetivo',
+    'ja'   : 'ゴールを隠す'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -870,7 +872,8 @@ exports.strings = {
     'zh_TW': '目標',
     'es_AR': 'Objetivo a cumplir',
     'pt_BR': 'Objetivo a cumprir',
-    'fr_FR': 'Cible à atteindre'
+    'fr_FR': 'Cible à atteindre',
+    'ja'   : '到達目標'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -881,7 +884,8 @@ exports.strings = {
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'pt_BR': '<span class="fwber">Nota:</span> Apenas o ramo master será verificado neste nível. Os outros ramos (dentro das caixas clareadas) são somente para referência. Como sempre, você pode ocultar esta janela com "hide goal"',
     'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。',
-    'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
+    'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗',
+    'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -892,7 +896,8 @@ exports.strings = {
     'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
     'es_AR': 'Podés ocultar esta ventana con "hide goal"',
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"'
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
+    'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -903,7 +908,8 @@ exports.strings = {
     'zh_TW': '你可以透過 "hide start" 關閉這個視窗',
     'es_AR': 'Podés ocultar esta ventana con "hide start"',
     'pt_BR': 'Você pode ocultar esta janela com "hide start"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
+    'ja'   : 'このウィンドウは"hide start"で閉じれます'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -914,7 +920,8 @@ exports.strings = {
     'zh_TW': '關卡產生器',
     'es_AR': 'Constructor de niveles',
     'pt_BR': 'Construtor de níveis',
-    'fr_FR': 'Éditeur de niveaux'
+    'fr_FR': 'Éditeur de niveaux',
+    'ja'   : 'Levelエディタ'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -925,7 +932,8 @@ exports.strings = {
     'zh_TW': '這關沒有介紹!',
     'es_AR': '¡No hay mensaje de inicio para este nivel!',
     'pt_BR': 'Não há mensagem de início para este nível!',
-    'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
+    'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !',
+    'ja'   : 'このLevelにはスタートダイアログが存在しません'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -936,7 +944,8 @@ exports.strings = {
     'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
     'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
     'pt_BR': 'Hmm, não existe nenhuma pista para este nível :-/',
-    'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
+    'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/',
+    'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -947,7 +956,8 @@ exports.strings = {
     'zh_TW': '還沒翻譯 {key} :( 請在 Github 上貢獻您的翻譯!',
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
     'pt_BR': 'Não existe tradução para {key} :( Pule no Github e sugira uma! :)',
-    'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !'
+    'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !',
+    'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -958,6 +968,7 @@ exports.strings = {
     'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 Github 貢獻翻譯！',
     'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
     'pt_BR': 'Esta mensagem ou texto não foi traduzida para Português :( Ajude-nos a traduzir no Github!',
-    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
+    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
+    'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m'
   }
 };
