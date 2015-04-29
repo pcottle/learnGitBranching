@@ -7,6 +7,7 @@ var {
   View,
 } = React;
 
+// TODO -- style this!
 class NavButton extends React.Component {
   render() {
     return (

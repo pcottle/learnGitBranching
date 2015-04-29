@@ -7,13 +7,7 @@
 var React = require('react-native');
 var {
   AppRegistry,
-  Image,
   Navigator,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
 } = React;
 
 var Routes = require('../constants/Routes');
@@ -44,12 +38,6 @@ var LearnGitBranching = React.createClass({
     );
   },
 
-});
-
-var styles = StyleSheet.create({
-  headerSpacer: {
-    height: 40
-  },
 });
 
 AppRegistry.registerComponent('LearnGitBranching', () => LearnGitBranching);

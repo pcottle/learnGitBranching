@@ -9,6 +9,12 @@ var {
 } = React;
 
 var AppStyles = require('../constants/AppStyles');
+var AppViews = require('../native_react_views/AppViews');
+var {
+  HeaderSpacer,
+} = AppViews;
+var TerminalCardView = require('../native_react_views/TerminalCardView');
+var NavButton = require('../native_react_views/NavButton');
 
 var SequenceSelectView = React.createClass({
 
@@ -19,18 +25,21 @@ var SequenceSelectView = React.createClass({
   render: function() {
     return (
       <View style={styles.background}>
-        <View style={styles.headerSpacer} />
-        <ScrollView>
-          <View>
-            <NavButton
-              text="Level 1"
-              onPress={() => {
-                this.props.navigator.push(
-                  Routes.getRouteForID(Routes.LEVEL_SELECT)
-                );
-              }}
-            />
-          </View>
+        <HeaderSpacer />
+        <ScrollView style={styles.container}>
+          <View style={styles.headerSpacer} />
+          <TerminalCardView>
+            <View>
+              <NavButton
+                text="Level 1"
+                onPress={() => {
+                  this.props.navigator.push(
+                    Routes.getRouteForID(Routes.LEVEL_SELECT)
+                  );
+                }}
+              />
+            </View>
+          </TerminalCardView>
         </ScrollView>
       </View>
     );
@@ -39,13 +48,15 @@ var SequenceSelectView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  container: {
+    padding: 8,
+  },
+  headerSpacer: {
+    height: 24,
+  },
   background: {
     backgroundColor: AppStyles.blueBackground,
     flex: 1
-  },
-  headerSpacer: {
-    height: 20,
-    backgroundColor: '#EFEDEE',
   },
 });
 

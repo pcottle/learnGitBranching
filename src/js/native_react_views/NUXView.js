@@ -9,6 +9,10 @@ var {
 } = React;
 
 var AppStyles = require('../constants/AppStyles');
+var AppViews = require('../native_react_views/AppViews');
+var {
+  HeaderSpacer,
+} = AppViews;
 var TerminalCardView = require('../native_react_views/TerminalCardView');
 var NavButton = require('../native_react_views/NavButton');
 
@@ -21,7 +25,7 @@ var NUXView = React.createClass({
   render: function() {
     return (
       <View style={styles.background}>
-        <View style={styles.headerSpacer} />
+        <HeaderSpacer />
         <View style={styles.container}>
           <TerminalCardView>
             <View style={styles.welcomeTextContainer}>
@@ -47,7 +51,7 @@ var NUXView = React.createClass({
               text="Let's Get Started!"
               onPress={() => {
                 this.props.navigator.push(
-                  Routes.getRouteForID(Routes.LEVEL_SELECT)
+                  Routes.getRouteForID(Routes.SEQUENCE_SELECT)
                 );
               }}
             />
@@ -68,10 +72,6 @@ var styles = StyleSheet.create({
   },
   container: {
     padding: 12,
-  },
-  headerSpacer: {
-    height: 20,
-    backgroundColor: '#FFF'
   },
   welcomeTextContainer: {
     justifyContent: 'center',
