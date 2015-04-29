@@ -406,11 +406,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "それは存在します！Gitのタグは当にそのような場面で最適です。 -- ブランチのように参照でき、「マイルストーン（標識）」のような確かなで（多少）永久的な印をコミットにつけます。",
+              "それは存在します！Gitのタグは当にそのような場面で最適です。 -- ブランチのように参照でき、「マイルストーン（標識）」のような確かで（多少）永久的な印をコミットにつけます。",
               "",
-              "More importantly though, they never move as more commits are created. You can't \"check out\" a tag and then complete work on that tag -- tags exist as anchors in the commit tree that designate certain spots.",
+              "重要なことは、コミットを新たに作ってもタグは動かないということです。あなたは、タグにチェックアウトしてそのタグで作業を完了させるということはできません -- タグは、コミットツリーの特定の地点を指定する錨のようなものとして機能します。",
               "",
-              "Let's see what tags look like in practice."
+              "では、実際にタグがどのように動作するかを見てみましょう。"
             ]
           }
         },
@@ -418,10 +418,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's try making a tag at `C1` which is our version 1 prototype"
+              "私たちのバージョン1の原本となる`C1`にタグを付けてみましょう"
             ],
             "afterMarkdowns": [
-              "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at"
+              "見てください！とても簡単ですね。私たちは、`v1`という名前のタグを明示的に`C1`コミットに付与しました。もし、コミットを指定しなかった場合、`HEAD`にあるものにタグがつけられることになります。"
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -431,9 +431,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
+              "このレベルは、ゴールとして提示されている図のようにタグを作り、`v1`にチェックアウトすることで完了します。そうすると、あなたは`HEAD`分離状態になることに気づくでしょう -- これは、あなたが直接`v1`タグにコミットができないことを意味しています。",
               "",
-              "In the next level we'll examine a more interesting use case for tags."
+              "次のレベルでは、タグのより興味深い使い方について学びます。"
             ]
           }
         }
