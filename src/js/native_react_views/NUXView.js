@@ -9,8 +9,9 @@ var {
 } = React;
 
 var Colors = require('../constants/Colors');
+var TerminalCardView = require('../native_react_views/TerminalCardView');
 
-var SequenceSelectView = React.createClass({
+var NUXView = React.createClass({
 
   propTypes: {
     navigator: React.PropTypes.object.isRequired,
@@ -20,18 +21,15 @@ var SequenceSelectView = React.createClass({
     return (
       <View style={styles.background}>
         <View style={styles.headerSpacer} />
-        <ScrollView>
-          <View>
-            <NavButton
-              text="Level 1"
-              onPress={() => {
-                this.props.navigator.push(
-                  Routes.getRouteForID(Routes.LEVEL_SELECT)
-                );
-              }}
-            />
-          </View>
-        </ScrollView>
+        <TerminalCardView />
+        <NavButton
+          text="Level 1"
+          onPress={() => {
+            this.props.navigator.push(
+              Routes.getRouteForID(Routes.LEVEL_SELECT)
+            );
+          }}
+        />
       </View>
     );
   }
@@ -49,4 +47,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = SequenceSelectView;
+module.exports = NUXView;
