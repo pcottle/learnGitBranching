@@ -114,7 +114,8 @@ module.exports = function(grunt) {
       ],
       options: {
         ignores: [
-          'src/js/**/*.ios.js'
+          'src/js/**/*.ios.js',
+          'src/js/native_react_views/*.js'
         ],
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
@@ -217,6 +218,7 @@ module.exports = function(grunt) {
           'src/__tests__/casperjs/*.js',
           'src/js/__tests__/create.js',
           'src/js/__tests__/*.js',
+          'src/js/native_react_views/*.js',
           'src/js/**/*.ios.js'
         ]
       },
