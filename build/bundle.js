@@ -28466,7 +28466,7 @@ var CommandLineActions = {
 
 module.exports = CommandLineActions;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184}],173:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185}],173:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -28494,7 +28494,7 @@ var GlobalStateActions = {
 
 module.exports = GlobalStateActions;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184}],174:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185}],174:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -28521,7 +28521,7 @@ var LevelActions = {
 
 module.exports = LevelActions;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184}],175:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185}],175:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -28555,7 +28555,7 @@ var LocaleActions = {
 
 module.exports = LocaleActions;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184}],176:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185}],176:[function(require,module,exports){
 var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
@@ -28898,7 +28898,7 @@ exports.getLevelDropdown = function() {
 exports.init = init;
 
 
-},{"../actions/LocaleActions":175,"../intl":192,"../models/collections":200,"../react_views/CommandHistoryView.jsx":202,"../react_views/MainHelperBarView.jsx":208,"../sandbox/":210,"../stores/LocaleStore":214,"../util":220,"../util/eventBaton":219,"../views":229,"../views/commandViews":227,"../views/levelDropdownView":230,"backbone":1,"events":4,"object-assign":14,"react":170}],177:[function(require,module,exports){
+},{"../actions/LocaleActions":175,"../intl":193,"../models/collections":201,"../react_views/CommandHistoryView.jsx":203,"../react_views/MainHelperBarView.jsx":209,"../sandbox/":211,"../stores/LocaleStore":215,"../util":221,"../util/eventBaton":220,"../views":230,"../views/commandViews":228,"../views/levelDropdownView":231,"backbone":1,"events":4,"object-assign":14,"react":170}],177:[function(require,module,exports){
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -29107,7 +29107,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
 exports.commands = commands;
 exports.parse = parse;
 
-},{"../git/commands":185,"../intl":192,"../mercurial/commands":199,"../util/errors":217,"underscore":171}],178:[function(require,module,exports){
+},{"../git/commands":186,"../intl":193,"../mercurial/commands":200,"../util/errors":218,"underscore":171}],178:[function(require,module,exports){
 "use strict";
 
 var keyMirror = require('../util/keyMirror');
@@ -29144,7 +29144,25 @@ module.exports = {
   })
 };
 
-},{"../util/keyMirror":221}],179:[function(require,module,exports){
+},{"../util/keyMirror":222}],179:[function(require,module,exports){
+var AppStyles = {
+  blueBackground: '#5cbcfc',
+  terminalBackground: '#424242',
+  terminalText: 'rgb(238, 238, 238)',
+  terminalHeader: '#EFEDEE',
+  terminalBorder: '#303030',
+  terminalFontFamily: 'Courier',
+};
+
+AppStyles.terminalTextStyle = {
+  color: AppStyles.terminalText,
+  fontFamily: AppStyles.terminalFontFamily,
+  fontWeight: 'bold',
+};
+
+module.exports = AppStyles;
+
+},{}],180:[function(require,module,exports){
 var assign = require('object-assign');
 var keyMirror = require('../util/keyMirror');
 
@@ -29165,7 +29183,7 @@ module.exports.getRouteForID = function(id) {
   };
 };
 
-},{"../util/keyMirror":221,"object-assign":14}],180:[function(require,module,exports){
+},{"../util/keyMirror":222,"object-assign":14}],181:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -29240,7 +29258,7 @@ exports.dialog = {
 };
 
 
-},{}],181:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -29377,7 +29395,7 @@ exports.dialog = {
   }]
 };
 
-},{}],182:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -29469,7 +29487,7 @@ exports.dialog = {
 };
 
 
-},{}],183:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -29921,7 +29939,7 @@ exports.dialog = {
   }]
 };
 
-},{}],184:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 'use strict';
 
 var AppConstants = require('../constants/AppConstants');
@@ -29947,7 +29965,7 @@ AppDispatcher.handleURIAction = function(action) {
 
 module.exports = AppDispatcher;
 
-},{"../constants/AppConstants":178,"flux":9}],185:[function(require,module,exports){
+},{"../constants/AppConstants":178,"flux":9}],186:[function(require,module,exports){
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -30767,7 +30785,7 @@ exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
 
 
-},{"../commands":177,"../graph":189,"../intl":192,"../util/errors":217,"underscore":171}],186:[function(require,module,exports){
+},{"../commands":177,"../graph":190,"../intl":193,"../util/errors":218,"underscore":171}],187:[function(require,module,exports){
 var Q = require('q');
 
 var Main = require('../app');
@@ -30852,7 +30870,7 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
 exports.GitShim = GitShim;
 
 
-},{"../app":176,"../views/multiView":231,"q":15}],187:[function(require,module,exports){
+},{"../app":176,"../views/multiView":232,"q":15}],188:[function(require,module,exports){
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -30996,7 +31014,7 @@ exports.HeadlessGit = HeadlessGit;
 exports.getTreeQuick = getTreeQuick;
 
 
-},{"../git":188,"../graph/treeCompare":190,"../models/collections":200,"../models/commandModel":201,"../util":220,"../util/eventBaton":219,"../util/mock":223,"../visuals":235,"../visuals/animation/animationFactory":233,"backbone":1,"q":15}],188:[function(require,module,exports){
+},{"../git":189,"../graph/treeCompare":191,"../models/collections":201,"../models/commandModel":202,"../util":221,"../util/eventBaton":220,"../util/mock":224,"../visuals":236,"../visuals/animation/animationFactory":234,"backbone":1,"q":15}],189:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
@@ -34028,7 +34046,7 @@ exports.Tag = Tag;
 exports.Ref = Ref;
 
 
-},{"../app":176,"../commands":177,"../graph":189,"../graph/treeCompare":190,"../intl":192,"../util/errors":217,"../views/rebaseView":232,"../visuals/animation":234,"../visuals/animation/animationFactory":233,"backbone":1,"q":15,"underscore":171}],189:[function(require,module,exports){
+},{"../app":176,"../commands":177,"../graph":190,"../graph/treeCompare":191,"../intl":193,"../util/errors":218,"../views/rebaseView":233,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"backbone":1,"q":15,"underscore":171}],190:[function(require,module,exports){
 var _ = require('underscore');
 
 function invariant(truthy, reason) {
@@ -34199,7 +34217,7 @@ var Graph = {
 
 module.exports = Graph;
 
-},{"../git":188,"underscore":171}],190:[function(require,module,exports){
+},{"../git":189,"underscore":171}],191:[function(require,module,exports){
 var _ = require('underscore');
 
 // static class...
@@ -34640,7 +34658,7 @@ TreeCompare.compareTrees = function(treeA, treeB) {
 
 module.exports = TreeCompare;
 
-},{"underscore":171}],191:[function(require,module,exports){
+},{"underscore":171}],192:[function(require,module,exports){
 var sys = require('sys');
 var util = require('../util');
 var child_process = require('child_process');
@@ -34696,7 +34714,7 @@ if (!util.isBrowser()) {
 }
 
 
-},{"../intl/strings":193,"../util":220,"child_process":3,"sys":8}],192:[function(require,module,exports){
+},{"../intl/strings":194,"../util":221,"child_process":3,"sys":8}],193:[function(require,module,exports){
 var LocaleStore = require('../stores/LocaleStore');
 
 var _ = require('underscore');
@@ -34806,7 +34824,7 @@ exports.getStartDialog = function(level) {
   return startCopy;
 };
 
-},{"../intl/strings":193,"../stores/LocaleStore":214,"underscore":171}],193:[function(require,module,exports){
+},{"../intl/strings":194,"../stores/LocaleStore":215,"underscore":171}],194:[function(require,module,exports){
 exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-finished': {
@@ -35771,7 +35789,7 @@ exports.strings = {
   }
 };
 
-},{}],194:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
@@ -36187,7 +36205,7 @@ var LevelBuilder = Level.extend({
 exports.LevelBuilder = LevelBuilder;
 exports.regexMap = regexMap;
 
-},{"../app":176,"../dialogs/levelBuilder":181,"../git/gitShim":186,"../intl":192,"../level":196,"../level/parseWaterfall":197,"../models/commandModel":201,"../stores/LevelStore":213,"../stores/LocaleStore":214,"../util":220,"../util/errors":217,"../views":229,"../views/builderViews":226,"../views/multiView":231,"../visuals/visualization":242,"backbone":1,"q":15,"underscore":171}],195:[function(require,module,exports){
+},{"../app":176,"../dialogs/levelBuilder":182,"../git/gitShim":187,"../intl":193,"../level":197,"../level/parseWaterfall":198,"../models/commandModel":202,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util":221,"../util/errors":218,"../views":230,"../views/builderViews":227,"../views/multiView":232,"../visuals/visualization":243,"backbone":1,"q":15,"underscore":171}],196:[function(require,module,exports){
 var intl = require('../intl');
 
 var Commands = require('../commands');
@@ -36231,7 +36249,7 @@ DisabledMap.prototype.getInstantCommands = function() {
 exports.DisabledMap = DisabledMap;
 
 
-},{"../commands":177,"../intl":192,"../util/errors":217}],196:[function(require,module,exports){
+},{"../commands":177,"../intl":193,"../util/errors":218}],197:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 
@@ -36845,7 +36863,7 @@ var Level = Sandbox.extend({
 exports.Level = Level;
 exports.regexMap = regexMap;
 
-},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":180,"../git/gitShim":186,"../graph/treeCompare":190,"../intl":192,"../level/disabledMap":195,"../log":198,"../react_views/LevelToolbarView.jsx":207,"../sandbox/":210,"../stores/LevelStore":213,"../util":220,"../util/errors":217,"../views":229,"../views/multiView":231,"../visuals/visualization":242,"q":15,"react":170,"underscore":171}],197:[function(require,module,exports){
+},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":181,"../git/gitShim":187,"../graph/treeCompare":191,"../intl":193,"../level/disabledMap":196,"../log":199,"../react_views/LevelToolbarView.jsx":208,"../sandbox/":211,"../stores/LevelStore":214,"../util":221,"../util/errors":218,"../views":230,"../views/multiView":232,"../visuals/visualization":243,"q":15,"react":170,"underscore":171}],198:[function(require,module,exports){
 var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
@@ -36970,7 +36988,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 exports.ParseWaterfall = ParseWaterfall;
 
 
-},{"../commands":177,"../git/commands":185,"../sandbox/commands":209,"../util":220,"underscore":171}],198:[function(require,module,exports){
+},{"../commands":177,"../git/commands":186,"../sandbox/commands":210,"../util":221,"underscore":171}],199:[function(require,module,exports){
 
 var log = function(category, action, label) {
   window._gaq = window._gaq || [];
@@ -37003,7 +37021,7 @@ exports.commandEntered = function(value) {
 };
 
 
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 var intl = require('../intl');
 
 var GitCommands = require('../git/commands');
@@ -37266,7 +37284,7 @@ var commandConfig = {
 
 exports.commandConfig = commandConfig;
 
-},{"../git/commands":185,"../intl":192,"../util/errors":217}],200:[function(require,module,exports){
+},{"../git/commands":186,"../intl":193,"../util/errors":218}],201:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -37395,7 +37413,7 @@ exports.TagCollection = TagCollection;
 exports.CommandBuffer = CommandBuffer;
 
 
-},{"../app":176,"../git":188,"../models/commandModel":201,"../util/constants":215,"../util/errors":217,"backbone":1,"q":15}],201:[function(require,module,exports){
+},{"../app":176,"../git":189,"../models/commandModel":202,"../util/constants":216,"../util/errors":218,"backbone":1,"q":15}],202:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -37682,7 +37700,7 @@ var Command = Backbone.Model.extend({
 
 exports.Command = Command;
 
-},{"../intl":192,"../level/parseWaterfall":197,"../util/errors":217,"backbone":1,"underscore":171}],202:[function(require,module,exports){
+},{"../intl":193,"../level/parseWaterfall":198,"../util/errors":218,"backbone":1,"underscore":171}],203:[function(require,module,exports){
 var CommandView = require('../react_views/CommandView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -37789,7 +37807,7 @@ var CommandHistoryView = React.createClass({displayName: "CommandHistoryView",
 
 module.exports = CommandHistoryView;
 
-},{"../app":176,"../react_views/CommandView.jsx":203,"react":170}],203:[function(require,module,exports){
+},{"../app":176,"../react_views/CommandView.jsx":204,"react":170}],204:[function(require,module,exports){
 var React = require('react');
 
 var reactUtil = require('../util/reactUtil');
@@ -37921,7 +37939,7 @@ var CommandView = React.createClass({displayName: "CommandView",
 
 module.exports = CommandView;
 
-},{"../util/reactUtil":224,"react":170,"react/lib/keyMirror":155}],204:[function(require,module,exports){
+},{"../util/reactUtil":225,"react":170,"react/lib/keyMirror":155}],205:[function(require,module,exports){
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -37992,7 +38010,7 @@ var CommandsHelperBarView = React.createClass({displayName: "CommandsHelperBarVi
 
 module.exports = CommandsHelperBarView;
 
-},{"../app":176,"../log":198,"../react_views/HelperBarView.jsx":205,"react":170}],205:[function(require,module,exports){
+},{"../app":176,"../log":199,"../react_views/HelperBarView.jsx":206,"react":170}],206:[function(require,module,exports){
 var React = require('react');
 
 var reactUtil = require('../util/reactUtil');
@@ -38062,7 +38080,7 @@ var HelperBarView = React.createClass({displayName: "HelperBarView",
 
 module.exports = HelperBarView;
 
-},{"../util/reactUtil":224,"react":170}],206:[function(require,module,exports){
+},{"../util/reactUtil":225,"react":170}],207:[function(require,module,exports){
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -38158,7 +38176,7 @@ var IntlHelperBarView = React.createClass({displayName: "IntlHelperBarView",
 
 module.exports = IntlHelperBarView;
 
-},{"../app":176,"../log":198,"../react_views/HelperBarView.jsx":205,"react":170}],207:[function(require,module,exports){
+},{"../app":176,"../log":199,"../react_views/HelperBarView.jsx":206,"react":170}],208:[function(require,module,exports){
 var React = require('react');
 var PropTypes = React.PropTypes;
 
@@ -38243,7 +38261,7 @@ var LevelToolbarView = React.createClass({displayName: "LevelToolbarView",
 
 module.exports = LevelToolbarView;
 
-},{"../intl":192,"../util/reactUtil":224,"react":170}],208:[function(require,module,exports){
+},{"../intl":193,"../util/reactUtil":225,"react":170}],209:[function(require,module,exports){
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var IntlHelperBarView =
   require('../react_views/IntlHelperBarView.jsx');
@@ -38320,7 +38338,7 @@ var MainHelperBarView = React.createClass({displayName: "MainHelperBarView",
 
 module.exports = MainHelperBarView;
 
-},{"../log":198,"../react_views/CommandsHelperBarView.jsx":204,"../react_views/HelperBarView.jsx":205,"../react_views/IntlHelperBarView.jsx":206,"../util/keyMirror":221,"react":170}],209:[function(require,module,exports){
+},{"../log":199,"../react_views/CommandsHelperBarView.jsx":205,"../react_views/HelperBarView.jsx":206,"../react_views/IntlHelperBarView.jsx":207,"../util/keyMirror":222,"react":170}],210:[function(require,module,exports){
 var _ = require('underscore');
 var util = require('../util');
 
@@ -38497,7 +38515,7 @@ exports.getOptimisticLevelBuilderParse = function() {
   );
 };
 
-},{"../actions/GlobalStateActions":173,"../actions/LocaleActions":175,"../app":176,"../commands":177,"../intl":192,"../level":196,"../level/builder":194,"../stores/GlobalStateStore":212,"../stores/LocaleStore":214,"../util":220,"../util/constants":215,"../util/errors":217,"underscore":171}],210:[function(require,module,exports){
+},{"../actions/GlobalStateActions":173,"../actions/LocaleActions":175,"../app":176,"../commands":177,"../intl":193,"../level":197,"../level/builder":195,"../stores/GlobalStateStore":213,"../stores/LocaleStore":215,"../util":221,"../util/constants":216,"../util/errors":218,"underscore":171}],211:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -38966,7 +38984,7 @@ var Sandbox = Backbone.View.extend({
 exports.Sandbox = Sandbox;
 
 
-},{"../actions/LevelActions":174,"../app":176,"../dialogs/sandbox":183,"../git/gitShim":186,"../intl":192,"../level":196,"../level/builder":194,"../level/disabledMap":195,"../level/parseWaterfall":197,"../models/commandModel":201,"../stores/LevelStore":213,"../util":220,"../util/errors":217,"../views":229,"../views/builderViews":226,"../views/multiView":231,"../visuals/visualization":242,"backbone":1,"q":15}],211:[function(require,module,exports){
+},{"../actions/LevelActions":174,"../app":176,"../dialogs/sandbox":184,"../git/gitShim":187,"../intl":193,"../level":197,"../level/builder":195,"../level/disabledMap":196,"../level/parseWaterfall":198,"../models/commandModel":202,"../stores/LevelStore":214,"../util":221,"../util/errors":218,"../views":230,"../views/builderViews":227,"../views/multiView":232,"../visuals/visualization":243,"backbone":1,"q":15}],212:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -39049,7 +39067,7 @@ AppConstants.StoreSubscribePrototype,
 
 module.exports = CommandLineStore;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184,"events":4,"object-assign":14}],212:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185,"events":4,"object-assign":14}],213:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -39100,7 +39118,7 @@ AppConstants.StoreSubscribePrototype,
 
 module.exports = GlobalStateStore;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184,"events":4,"object-assign":14}],213:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185,"events":4,"object-assign":14}],214:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -39272,7 +39290,7 @@ AppConstants.StoreSubscribePrototype,
 
 module.exports = LevelStore;
 
-},{"../../levels":244,"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184,"events":4,"object-assign":14,"underscore":171}],214:[function(require,module,exports){
+},{"../../levels":245,"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185,"events":4,"object-assign":14,"underscore":171}],215:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -39373,7 +39391,7 @@ AppConstants.StoreSubscribePrototype,
 
 module.exports = LocaleStore;
 
-},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":184,"events":4,"object-assign":14}],215:[function(require,module,exports){
+},{"../constants/AppConstants":178,"../dispatcher/AppDispatcher":185,"events":4,"object-assign":14}],216:[function(require,module,exports){
 /**
  * Constants....!!!
  */
@@ -39429,7 +39447,7 @@ exports.GRAPHICS = GRAPHICS;
 exports.VIEWPORT = VIEWPORT;
 
 
-},{}],216:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 var toGlobalize = {
   App: require('../app/index.js'),
   Tree: require('../visuals/tree'),
@@ -39491,7 +39509,7 @@ $(document).ready(function() {
 });
 
 
-},{"../actions/CommandLineActions":172,"../actions/LevelActions":174,"../actions/LocaleActions":175,"../app":176,"../app/index.js":176,"../commands":177,"../git":188,"../git/headless":187,"../graph/treeCompare":190,"../intl":192,"../level":196,"../models/collections":200,"../models/commandModel":201,"../sandbox/":210,"../stores/CommandLineStore":211,"../stores/LevelStore":213,"../stores/LocaleStore":214,"../util/constants":215,"../util/index":220,"../util/zoomLevel":225,"../views":229,"../views/builderViews":226,"../views/gitDemonstrationView":228,"../views/levelDropdownView":230,"../views/multiView":231,"../views/rebaseView":232,"../visuals":235,"../visuals/animation":234,"../visuals/animation/animationFactory":233,"../visuals/tree":236,"../visuals/visBranch":238,"markdown":12,"q":15}],217:[function(require,module,exports){
+},{"../actions/CommandLineActions":172,"../actions/LevelActions":174,"../actions/LocaleActions":175,"../app":176,"../app/index.js":176,"../commands":177,"../git":189,"../git/headless":188,"../graph/treeCompare":191,"../intl":193,"../level":197,"../models/collections":201,"../models/commandModel":202,"../sandbox/":211,"../stores/CommandLineStore":212,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util/constants":216,"../util/index":221,"../util/zoomLevel":226,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"../views/levelDropdownView":231,"../views/multiView":232,"../views/rebaseView":233,"../visuals":236,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"../visuals/tree":237,"../visuals/visBranch":239,"markdown":12,"q":15}],218:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var MyError = Backbone.Model.extend({
@@ -39549,7 +39567,7 @@ var filterError = function(err) {
 
 exports.filterError = filterError;
 
-},{"backbone":1}],218:[function(require,module,exports){
+},{"backbone":1}],219:[function(require,module,exports){
 var mapping = {
   '&': '&amp;',
   '<': '&lt;',
@@ -39565,7 +39583,7 @@ module.exports = function(string) {
   });
 };
 
-},{}],219:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 function EventBaton(options) {
   this.eventMap = {};
   this.options = options || {};
@@ -39680,7 +39698,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 
 exports.EventBaton = EventBaton;
 
-},{}],220:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 var escapeString = require('../util/escapeString');
 var constants = require('../util/constants');
 
@@ -39739,7 +39757,7 @@ exports.genParseCommand = function(regexMap, eventName) {
   };
 };
 
-},{"../util/constants":215,"../util/escapeString":218}],221:[function(require,module,exports){
+},{"../util/constants":216,"../util/escapeString":219}],222:[function(require,module,exports){
 "use strict";
 
 /**
@@ -39759,7 +39777,7 @@ var keyMirror = function(obj) {
 
 module.exports = keyMirror;
 
-},{}],222:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var Main = require('../app');
@@ -39823,7 +39841,7 @@ exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
 
 
-},{"../app":176,"backbone":1}],223:[function(require,module,exports){
+},{"../app":176,"backbone":1}],224:[function(require,module,exports){
 exports.mock = function(Constructor) {
   var dummy = {};
   var stub = function() {};
@@ -39835,14 +39853,14 @@ exports.mock = function(Constructor) {
 };
 
 
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 var joinClasses = function(classes) {
   return classes.join(' ');
 };
 
 exports.joinClasses = joinClasses;
 
-},{}],225:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 var _warnOnce = true;
 function detectZoom() {
   /**
@@ -39866,7 +39884,7 @@ function detectZoom() {
 exports.detectZoom = detectZoom;
 
 
-},{}],226:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 
@@ -40287,7 +40305,7 @@ exports.MultiViewBuilder = MultiViewBuilder;
 exports.MarkdownPresenter = MarkdownPresenter;
 
 
-},{"../views":229,"../views/multiView":231,"markdown":12,"q":15,"underscore":171}],227:[function(require,module,exports){
+},{"../views":230,"../views/multiView":232,"markdown":12,"q":15,"underscore":171}],228:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -40492,7 +40510,7 @@ var CommandPromptView = Backbone.View.extend({
 exports.CommandPromptView = CommandPromptView;
 
 
-},{"../actions/CommandLineActions":172,"../app":176,"../log":198,"../stores/CommandLineStore":211,"../util/keyboard":222,"../util/zoomLevel":225,"backbone":1,"underscore":171}],228:[function(require,module,exports){
+},{"../actions/CommandLineActions":172,"../app":176,"../log":199,"../stores/CommandLineStore":212,"../util/keyboard":223,"../util/zoomLevel":226,"backbone":1,"underscore":171}],229:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -40740,7 +40758,7 @@ var GitDemonstrationView = ContainedBase.extend({
 exports.GitDemonstrationView = GitDemonstrationView;
 
 
-},{"../git/headless":187,"../models/commandModel":201,"../util":220,"../util/keyboard":222,"../views":229,"../visuals/visualization":242,"backbone":1,"markdown":12,"q":15,"underscore":171}],229:[function(require,module,exports){
+},{"../git/headless":188,"../models/commandModel":202,"../util":221,"../util/keyboard":223,"../views":230,"../visuals/visualization":243,"backbone":1,"markdown":12,"q":15,"underscore":171}],230:[function(require,module,exports){
 var process=require("__browserify_process");var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -41438,7 +41456,7 @@ exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.NextLevelConfirm = NextLevelConfirm;
 
-},{"../app":176,"../dialogs/nextLevel":182,"../intl":192,"../log":198,"../util/constants":215,"../util/keyboard":222,"__browserify_process":6,"backbone":1,"markdown":12,"q":15,"underscore":171}],230:[function(require,module,exports){
+},{"../app":176,"../dialogs/nextLevel":183,"../intl":193,"../log":199,"../util/constants":216,"../util/keyboard":223,"__browserify_process":6,"backbone":1,"markdown":12,"q":15,"underscore":171}],231:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -41869,7 +41887,7 @@ var SeriesView = BaseView.extend({
 exports.LevelDropdownView = LevelDropdownView;
 
 
-},{"../../levels":244,"../app":176,"../intl":192,"../log":198,"../stores/LevelStore":213,"../stores/LocaleStore":214,"../util":220,"../util/keyboard":222,"../views":229,"backbone":1,"q":15,"underscore":171}],231:[function(require,module,exports){
+},{"../../levels":245,"../app":176,"../intl":193,"../log":199,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util":221,"../util/keyboard":223,"../views":230,"backbone":1,"q":15,"underscore":171}],232:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -42066,7 +42084,7 @@ var MultiView = Backbone.View.extend({
 exports.MultiView = MultiView;
 
 
-},{"../util/keyboard":222,"../views":229,"../views/builderViews":226,"../views/gitDemonstrationView":228,"backbone":1,"q":15,"underscore":171}],232:[function(require,module,exports){
+},{"../util/keyboard":223,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"backbone":1,"q":15,"underscore":171}],233:[function(require,module,exports){
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
@@ -42247,7 +42265,7 @@ var RebaseEntryView = Backbone.View.extend({
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
 
-},{"../util/errors":217,"../views":229,"backbone":1,"q":15,"underscore":171}],233:[function(require,module,exports){
+},{"../util/errors":218,"../views":230,"backbone":1,"q":15,"underscore":171}],234:[function(require,module,exports){
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -42419,7 +42437,7 @@ AnimationFactory.delay = function(animationQueue, time) {
 exports.AnimationFactory = AnimationFactory;
 
 
-},{"../../util/constants":215,"./index":234,"backbone":1,"q":15}],234:[function(require,module,exports){
+},{"../../util/constants":216,"./index":235,"backbone":1,"q":15}],235:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 var GlobalStateActions = require('../../actions/GlobalStateActions');
@@ -42569,7 +42587,7 @@ exports.Animation = Animation;
 exports.PromiseAnimation = PromiseAnimation;
 exports.AnimationQueue = AnimationQueue;
 
-},{"../../actions/GlobalStateActions":173,"../../util/constants":215,"backbone":1,"q":15}],235:[function(require,module,exports){
+},{"../../actions/GlobalStateActions":173,"../../util/constants":216,"backbone":1,"q":15}],236:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 
@@ -43512,7 +43530,7 @@ function blendHueStrings(hueStrings) {
 exports.GitVisuals = GitVisuals;
 
 
-},{"../app":176,"../stores/GlobalStateStore":212,"../util/constants":215,"../visuals/visBranch":238,"../visuals/visEdge":239,"../visuals/visNode":240,"../visuals/visTag":241,"q":15,"underscore":171}],236:[function(require,module,exports){
+},{"../app":176,"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBranch":239,"../visuals/visEdge":240,"../visuals/visNode":241,"../visuals/visTag":242,"q":15,"underscore":171}],237:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -43559,7 +43577,7 @@ var VisBase = Backbone.Model.extend({
 exports.VisBase = VisBase;
 
 
-},{"backbone":1,"underscore":171}],237:[function(require,module,exports){
+},{"backbone":1,"underscore":171}],238:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -43651,7 +43669,7 @@ var VisBase = Backbone.Model.extend({
 exports.VisBase = VisBase;
 
 
-},{"backbone":1,"underscore":171}],238:[function(require,module,exports){
+},{"backbone":1,"underscore":171}],239:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -44232,7 +44250,7 @@ exports.VisBranch = VisBranch;
 exports.randomHueString = randomHueString;
 
 
-},{"../app":176,"../graph/treeCompare":190,"../util/constants":215,"../visuals/visBase":237,"backbone":1,"underscore":171}],239:[function(require,module,exports){
+},{"../app":176,"../graph/treeCompare":191,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":171}],240:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -44421,7 +44439,7 @@ var VisEdgeCollection = Backbone.Collection.extend({
 exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisEdge = VisEdge;
 
-},{"../stores/GlobalStateStore":212,"../util/constants":215,"../visuals/visBase":237,"backbone":1,"underscore":171}],240:[function(require,module,exports){
+},{"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":171}],241:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -44886,7 +44904,7 @@ var VisNode = VisBase.extend({
 
 exports.VisNode = VisNode;
 
-},{"../app":176,"../util/constants":215,"../visuals/visBase":237,"backbone":1,"underscore":171}],241:[function(require,module,exports){
+},{"../app":176,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":171}],242:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -45296,7 +45314,7 @@ exports.VisTag = VisTag;
 exports.randomHueString = randomHueString;
 
 
-},{"../app":176,"../graph/treeCompare":190,"../util/constants":215,"../visuals/visBase":237,"backbone":1,"underscore":171}],242:[function(require,module,exports){
+},{"../app":176,"../graph/treeCompare":191,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":171}],243:[function(require,module,exports){
 var process=require("__browserify_process");var _ = require('underscore');
 var Backbone = require('backbone');
 
@@ -45588,7 +45606,7 @@ var Visualization = Backbone.View.extend({
 exports.Visualization = Visualization;
 
 
-},{"../app":176,"../git":188,"../models/collections":200,"../util/eventBaton":219,"../visuals":235,"__browserify_process":6,"backbone":1,"underscore":171}],243:[function(require,module,exports){
+},{"../app":176,"../git":189,"../models/collections":201,"../util/eventBaton":220,"../visuals":236,"__browserify_process":6,"backbone":1,"underscore":171}],244:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugWork master^^2^",
@@ -46226,7 +46244,7 @@ exports.level = {
   }
 };
 
-},{}],244:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in the order listed here
 exports.levelSequences = {
@@ -46455,7 +46473,7 @@ exports.getTabForSequence = function(sequenceName) {
 };
 
 
-},{"./advanced/multipleParents":243,"./intro/branching":245,"./intro/commits":246,"./intro/merging":247,"./intro/rebasing":248,"./mixed/describe":249,"./mixed/grabbingOneCommit":250,"./mixed/jugglingCommits":251,"./mixed/jugglingCommits2":252,"./mixed/tags":253,"./rampup/cherryPick":254,"./rampup/detachedHead":255,"./rampup/interactiveRebase":256,"./rampup/relativeRefs":257,"./rampup/relativeRefs2":258,"./rampup/reversingChanges":259,"./rebase/manyRebases":260,"./rebase/selectiveRebase":261,"./remote/clone":262,"./remote/fakeTeamwork":263,"./remote/fetch":264,"./remote/fetchArgs":265,"./remote/fetchRebase":266,"./remote/mergeManyFeatures":267,"./remote/pull":268,"./remote/pullArgs":269,"./remote/push":270,"./remote/pushArgs":271,"./remote/pushArgs2":272,"./remote/pushManyFeatures":273,"./remote/remoteBranches":274,"./remote/sourceNothing":275,"./remote/tracking":276}],245:[function(require,module,exports){
+},{"./advanced/multipleParents":244,"./intro/branching":246,"./intro/commits":247,"./intro/merging":248,"./intro/rebasing":249,"./mixed/describe":250,"./mixed/grabbingOneCommit":251,"./mixed/jugglingCommits":252,"./mixed/jugglingCommits2":253,"./mixed/tags":254,"./rampup/cherryPick":255,"./rampup/detachedHead":256,"./rampup/interactiveRebase":257,"./rampup/relativeRefs":258,"./rampup/relativeRefs2":259,"./rampup/reversingChanges":260,"./rebase/manyRebases":261,"./rebase/selectiveRebase":262,"./remote/clone":263,"./remote/fakeTeamwork":264,"./remote/fetch":265,"./remote/fetchArgs":266,"./remote/fetchRebase":267,"./remote/mergeManyFeatures":268,"./remote/pull":269,"./remote/pullArgs":270,"./remote/push":271,"./remote/pushArgs":272,"./remote/pushArgs2":273,"./remote/pushManyFeatures":274,"./remote/remoteBranches":275,"./remote/sourceNothing":276,"./remote/tracking":277}],246:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
@@ -47185,7 +47203,7 @@ exports.level = {
   }
 };
 
-},{}],246:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
@@ -47609,7 +47627,7 @@ exports.level = {
   }
 };
 
-},{}],247:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
@@ -48263,7 +48281,7 @@ exports.level = {
   }
 };
 
-},{}],248:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
@@ -48897,7 +48915,7 @@ exports.level = {
   }
 };
 
-},{}],249:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit ",
@@ -49367,7 +49385,7 @@ exports.level = {
   }
 };
 
-},{}],250:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnosticWithAsserts": true,
   "goalAsserts": {
@@ -49764,7 +49782,7 @@ exports.level = {
   }
 };
 
-},{}],251:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 exports.level = {
   "disabledMap": {
     "git cherry-pick": true,
@@ -50171,7 +50189,7 @@ exports.level = {
   }
 };
 
-},{}],252:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
@@ -50595,7 +50613,7 @@ exports.level = {
   }
 };
 
-},{}],253:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{\"v1\":{\"target\":\"C2\",\"id\":\"v1\",\"type\":\"tag\"},\"v0\":{\"target\":\"C1\",\"id\":\"v0\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git tag v1 side~1;git tag v0 master~2;git checkout v1",
@@ -50988,7 +51006,7 @@ exports.level = {
   }
 };
 
-},{}],254:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git cherry-pick C3 C4 C7",
@@ -51475,7 +51493,7 @@ exports.level = {
   }
 };
 
-},{}],255:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout C4",
@@ -52120,7 +52138,7 @@ exports.level = {
   }
 };
 
-},{}],256:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i overHere --solution-ordering C3,C5,C4",
@@ -52672,7 +52690,7 @@ exports.level = {
   }
 };
 
-},{}],257:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout bugFix^",
@@ -53300,7 +53318,7 @@ exports.level = {
   }
 };
 
-},{}],258:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C0\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
@@ -53850,7 +53868,7 @@ exports.level = {
   }
 };
 
-},{}],259:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
@@ -54449,7 +54467,7 @@ exports.level = {
   }
 };
 
-},{}],260:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
@@ -54566,7 +54584,6 @@ exports.level = {
               "",
               "Die Führungsetage macht die Sache allerdings etwas trickreicher -- die möchten, dass alle Commits in aufsteigender Reihenfolge geordnet sind. Das heißt unser fertiger Baum sollte `C7` ganz unten haben, darüber `C6` und so weiter und so fort.",
               "",
-              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "Wenn du irgendwo einen Fehler machst, benutz ruhig `reset` um wieder von vorne anzufangen oder `undo` um einen Schrit zurückzugehen. Schau dir die Lösung an und versuch es in weniger Schritten hinzubekommen, als die."
             ]
           }
@@ -54648,7 +54665,7 @@ exports.level = {
   }
 };
 
-},{}],261:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 exports.level = {
   "compareAllBranchesHashAgnostic": true,
   "disabledMap": {
@@ -54863,7 +54880,7 @@ exports.level = {
   }
 };
 
-},{}],262:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 exports.level = {
   "goalTreeString": '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}',
   "solutionCommand": "git clone",
@@ -55347,7 +55364,7 @@ exports.level = {
 };
 
 
-},{}],263:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git fakeTeamwork 2;git commit ;git pull",
@@ -55754,7 +55771,7 @@ exports.level = {
   }
 };
 
-},{}],264:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C5\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C7\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch",
@@ -56292,7 +56309,7 @@ exports.level = {
   }
 };
 
-},{}],265:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
@@ -57182,7 +57199,7 @@ exports.level = {
   }
 };
 
-},{}],266:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
@@ -58212,7 +58229,7 @@ exports.level = {
   }
 };
 
-},{}],267:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C11\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git checkout master;git pull;git merge side1;git merge side2;git merge side3;git push",
@@ -58557,7 +58574,7 @@ exports.level = {
   }
 };
 
-},{}],268:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull",
@@ -58999,7 +59016,7 @@ exports.level = {
   }
 };
 
-},{}],269:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C2\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C2\",\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
@@ -59546,7 +59563,7 @@ exports.level = {
   }
 };
 
-},{}],270:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git commit;git commit;git push",
@@ -59868,7 +59885,7 @@ exports.level = {
   }
 };
 
-},{}],271:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master;git push origin foo",
@@ -60402,7 +60419,7 @@ exports.level = {
   }
 };
 
-},{}],272:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 exports.level = {
     "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master^:foo;git push origin foo:master",
@@ -60921,7 +60938,7 @@ exports.level = {
   }
 };
 
-},{}],273:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22side1%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22side1%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side2%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22side2%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side3%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22side3%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
@@ -61322,7 +61339,7 @@ exports.level = {
   }
 };
 
-},{}],274:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git commit;git checkout o/master;git commit",
@@ -61779,7 +61796,7 @@ exports.level = {
 };
 
 
-},{}],275:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C1\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin :foo;git fetch origin :bar",
@@ -62179,7 +62196,7 @@ exports.level = {
   }
 };
 
-},{}],276:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git checkout -b side o/master;git commit;git pull --rebase;git push",
@@ -63027,4 +63044,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,202,203,204,205,206,207,208])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
