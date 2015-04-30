@@ -114,7 +114,6 @@ exports.level = {
               "",
               "Die Führungsetage macht die Sache allerdings etwas trickreicher -- die möchten, dass alle Commits in aufsteigender Reihenfolge geordnet sind. Das heißt unser fertiger Baum sollte `C7` ganz unten haben, darüber `C6` und so weiter und so fort.",
               "",
-              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "Wenn du irgendwo einen Fehler machst, benutz ruhig `reset` um wieder von vorne anzufangen oder `undo` um einen Schrit zurückzugehen. Schau dir die Lösung an und versuch es in weniger Schritten hinzubekommen, als die."
             ]
           }
