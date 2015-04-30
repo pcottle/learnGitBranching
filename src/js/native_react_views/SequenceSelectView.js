@@ -6,6 +6,7 @@ var {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } = React;
 
@@ -33,7 +34,7 @@ var SequenceSelectView = React.createClass({
         <ScrollView style={styles.container}>
           <View style={styles.headerSpacer} />
           <TerminalCardView>
-            <View>
+            <View style={styles.terminalContainer}>
               {Object.keys(Levels.levelSequences).map(
                 sequenceID => this.renderSelector(sequenceID)
               )}
@@ -58,20 +59,38 @@ var SequenceSelectView = React.createClass({
     var about = intl.getIntlKey(info, 'about');
 
     return (
-      <View>
-        <Text style={styles.sequenceName}>
-          {name}
-        </Text>
-        <Text style={styles.sequenceAbout}>
-          {about}
-        </Text>
-      </View>
+      <TouchableHighlight underlayColor="#6E6E6E">
+        <View>
+          <View style={styles.textContainer}>
+            <Text style={styles.sequenceName}>
+              {name}
+            </Text>
+            <Text style={styles.sequenceAbout}>
+              {about}
+            </Text>
+          </View>
+          <View style={styles.divider} />
+        </View>
+      </TouchableHighlight>
     );
   }
 
 });
 
 var styles = StyleSheet.create({
+  divider: {
+    height: 1,
+    marginBottom: 8,
+    backgroundColor: '#FFF'
+  },
+  terminalContainer: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  textContainer: {
+    paddingLeft: 8,
+    paddingRight: 8,
+  },
   sequenceName: assign({}, AppStyles.terminalTextStyle, {
     fontSize: 20,
   }),

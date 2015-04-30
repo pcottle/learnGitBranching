@@ -28,23 +28,25 @@ var NUXView = React.createClass({
         <HeaderSpacer />
         <View style={styles.container}>
           <TerminalCardView>
-            <View style={styles.welcomeTextContainer}>
-              <Text style={styles.welcomeText}>
-                Welcome To...
+            <View style={styles.textContainer}>
+              <View style={styles.welcomeTextContainer}>
+                <Text style={styles.welcomeText}>
+                  Welcome To...
+                </Text>
+                <Text style={styles.welcomeText}>
+                  Learn Git Branching!
+                </Text>
+              </View>
+              <Text style={styles.introText}>
+                Learn Git Branching is the most interactive
+                and visual way to master Git. 
               </Text>
-              <Text style={styles.welcomeText}>
-                Learn Git Branching!
+              <Text style={styles.introText}>
+                With over 30 tutorials and levels, everyone from
+                absolute beginners to experienced Git wizards
+                should find something challenging and new.
               </Text>
             </View>
-            <Text style={styles.introText}>
-              Learn Git Branching is the most interactive
-              and visual way to master Git. 
-            </Text>
-            <Text style={styles.introText}>
-              With over 30 tutorials and levels, everyone from
-              absolute beginners to experienced Git wizards
-              should find something challenging and new.
-            </Text>
           </TerminalCardView>
           <View style={styles.buttonContainer}>
             <NavButton
@@ -63,6 +65,9 @@ var NUXView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  textContainer: {
+    padding: 8,
+  },
   buttonContainer: {
     marginTop: 40,
   },

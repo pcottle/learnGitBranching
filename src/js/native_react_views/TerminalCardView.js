@@ -84,7 +84,6 @@ var styles = StyleSheet.create({
   },
 
   terminalTextContainer: {
-    padding: 12,
     borderWidth: 1 / PixelRatio.get(),
     borderColor: AppStyles.terminalBorder,
     borderRadius: BORDER_RADIUS
