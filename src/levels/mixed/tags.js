@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Tags no Git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
-    "zh_TW": "git tag"
+    "zh_TW": "git tag",
+    "ru_RU": "Теги"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -20,7 +21,8 @@ exports.level = {
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
-    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
+    "ru_RU": "Можно делать checkout по хешу коммита или просто по тегу"
   },
   "startDialog": {
     "en_US": {
@@ -382,6 +384,58 @@ exports.level = {
               "Um diesen Level zu schaffen, erstelle einfach die Tags wie sie in der Zielbeschreibung stehen und mach dann einen Checkout auf `v1`. Beachte wie du dabei in den \"Detached HEAD\" Zustand gehst -- das liegt daran, dass du keine Commits direkt auf das `v1` Tag machen kannst.",
               "",
               "Im nächsten Level schauen wir uns dann interessantere Anwendungsfälle für Tags an."
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Теги",
+              "",
+              "В прошлый уроках мы усвоили, что ветки просто двигать туда-сюда и они часто ссылаются на разные коммиты, как на изменения данных в ветке. Ветки просто изменить, они часто временны и постоянно меняют своё состояние.",
+              "",
+              "В таком случае, где взять *постоянную* ссылку на момент в истории изменений? Для таких вещей, как релиз, большие слияния нужно нечто более постоянное, чем ветка.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Такое средство имеется. Git предоставляет нам теги, чья основная задача – ссылаться постоянно на конкретный коммит.",
+              "",
+              "Важно, что после создания они никогда не сменят своего положения, так что можно с лёгкостью сделать checkout конкретного момента в истории изменений",
+              "",
+              "Посмотрим на это на практике."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Создадим тег на `C1`, который бутед нашей версией 1"
+            ],
+            "afterMarkdowns": [
+              "Готово! Всё просто. Мы назвали тег `v1` и заставили его ссылкаться на `C1` явным образом. Если конкретный коммит не указан, гит пометит тегом `HEAD`"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы пройти этот уровень, просто создай теги как показано на визуализации и потом перейди на тег `v1`. Обрати внимание, что ты перейдёшь в состояние `detached HEAD`, так как нельзя сделать коммит прамо в тег v1.",
+              "",
+              "В следующем уровне, мы попробуем более интересные способы применения тегов."
             ]
           }
         }
