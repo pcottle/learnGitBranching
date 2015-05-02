@@ -497,7 +497,7 @@ exports.level = {
               "遡る前のコミット数を`~`で指定しましょう。"
             ],
             "afterMarkdowns": [
-              "よっしゃ！効率が良いですねー相対リファレンスはなんと便利です。"
+              "よっしゃ！効率が良いですね -- 相対リファレンスはなんと便利です。"
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
