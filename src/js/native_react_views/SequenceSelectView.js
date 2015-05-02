@@ -38,14 +38,6 @@ var SequenceSelectView = React.createClass({
               {Object.keys(Levels.levelSequences).map(
                 sequenceID => this.renderSelector(sequenceID)
               )}
-              <NavButton
-                text="Level 1"
-                onPress={() => {
-                  this.props.navigator.push(
-                    Routes.getRouteForID(Routes.LEVEL_SELECT)
-                  );
-                }}
-              />
             </View>
           </TerminalCardView>
         </ScrollView>
@@ -59,7 +51,13 @@ var SequenceSelectView = React.createClass({
     var about = intl.getIntlKey(info, 'about');
 
     return (
-      <TouchableHighlight underlayColor="#6E6E6E">
+      <TouchableHighlight
+        onPress={() => {
+          this.props.navigator.push(
+            Routes.getRouteForID(Routes.LEVEL_SELECT)
+          );
+        }}
+        underlayColor="#6E6E6E">
         <View>
           <View style={styles.textContainer}>
             <Text style={styles.sequenceName}>
