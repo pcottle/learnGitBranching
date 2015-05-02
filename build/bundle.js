@@ -29254,6 +29254,22 @@ exports.dialog = {
         'Je crois en vous ! Vous pouvez le faire'
       ]
     }
+  }],
+  'ja': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## どうしても正解がみたいですか?',
+        '',
+        '頑張れ頑張れできるできる絶対できる頑張れもっとやれるって',
+        '',
+        'やれる気持ちの問題だ頑張れ頑張れそこだ！',
+        '',
+        'そこで諦めるな絶対に頑張れ積極的にポジティブに頑張る頑張る',
+        '',
+        '北京だって頑張ってるんだから！'
+      ]
+    }
   }]
 };
 
@@ -29390,6 +29406,25 @@ exports.dialog = {
         '  * Changez le nom avec ```define name```',
         '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
         '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
+      ]
+    }
+  }],
+  'ja': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Levelエディタへようこそ!',
+        '',
+        'ここでは、以下の主にステップを踏みます:',
+        '',
+        '  * Gitコマンドで初期設定をします',
+        '  * ```define start```で開始時のコミットツリーを定義します',
+        '  * 一連のGitコマンドの（最適な）解答を入力します',
+        '  * ```define goal```でゴールのコミットツリーを定義します（ゴールを定義するということは、解答を定義するということでもあります）',
+        '  * オプションで```define hint```でヒントを定義します',
+        '  * ```define name```で名前を編集します',
+        '  * オプションで```edit dialog```で良い感じに開始時のダイアログを定義します',
+        '  * ```finish```コマンドを打つことであなたのlevelがJSONで出力されます'
       ]
     }
   }]
@@ -29690,11 +29725,11 @@ exports.dialog = {
         '',
         '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
         '',
-        '[http://remore.github.io/learnGitBranching-ja/?demo](http://remore.github.io/learnGitBranching-ja/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo&locale=ja)',
         '',
         'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
         '',
-        '[http://remore.github.io/learnGitBranching-ja/?NODEMO](http://remore.github.io/learnGitBranching-ja/?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO&locale=ja)'
       ]
     }
   }, {
@@ -29725,7 +29760,11 @@ exports.dialog = {
         '',
         '何か教材になるようなケースはご存知ないでしょうか。`build level`で課題を作成したり、`import level`で他の人の課題に挑戦してみてください。',
         '',
-        'それでは教材の選択画面に進んでみることにします。'
+        '何か詰まったことがあったら、右下メニューの?ボタンを押してみてください',
+        '',
+        'それでは教材の選択画面に進んでみることにします。',
+        '',
+        '（なお、日本語版製作者のフォークサイトは[こちら](http://remore.github.io/learnGitBranching-ja/)になります。）'
       ]
     }
   }],
@@ -34858,7 +34897,7 @@ exports.strings = {
     'en_US': 'Awesome! You matched or exceeded our solution.',
     'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto ou melhor que a nossa.',
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
-    'ja': '素晴らしい！このレベルをクリアしましたね。',
+    'ja': '素晴らしい！このレベルをクリアしましたね',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
@@ -35676,7 +35715,8 @@ exports.strings = {
     'zh_CN': '显示目标',
     'fr_FR': 'Afficher les cibles',
     'pt_BR': 'Mostrar objetivo',
-    'es_AR': 'Mostrar objetivo'
+    'es_AR': 'Mostrar objetivo',
+    'ja'   : 'ゴールを表示',
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -35686,7 +35726,8 @@ exports.strings = {
     'zh_TW': '隱藏目標',
     'zh_CN': '隐藏目标',
     'pt_BR': 'Ocultar objetivo',
-    'es_AR': 'Ocultar obetivo'
+    'es_AR': 'Ocultar obetivo',
+    'ja'   : 'ゴールを隠す'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -35697,7 +35738,8 @@ exports.strings = {
     'zh_TW': '目標',
     'es_AR': 'Objetivo a cumplir',
     'pt_BR': 'Objetivo a cumprir',
-    'fr_FR': 'Cible à atteindre'
+    'fr_FR': 'Cible à atteindre',
+    'ja'   : '到達目標'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -35708,7 +35750,8 @@ exports.strings = {
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'pt_BR': '<span class="fwber">Nota:</span> Apenas o ramo master será verificado neste nível. Os outros ramos (dentro das caixas clareadas) são somente para referência. Como sempre, você pode ocultar esta janela com "hide goal"',
     'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。',
-    'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗'
+    'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗',
+    'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -35719,7 +35762,8 @@ exports.strings = {
     'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
     'es_AR': 'Podés ocultar esta ventana con "hide goal"',
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"'
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
+    'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -35730,7 +35774,8 @@ exports.strings = {
     'zh_TW': '你可以透過 "hide start" 關閉這個視窗',
     'es_AR': 'Podés ocultar esta ventana con "hide start"',
     'pt_BR': 'Você pode ocultar esta janela com "hide start"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"'
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
+    'ja'   : 'このウィンドウは"hide start"で閉じれます'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -35741,7 +35786,8 @@ exports.strings = {
     'zh_TW': '關卡產生器',
     'es_AR': 'Constructor de niveles',
     'pt_BR': 'Construtor de níveis',
-    'fr_FR': 'Éditeur de niveaux'
+    'fr_FR': 'Éditeur de niveaux',
+    'ja'   : 'Levelエディタ'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -35752,7 +35798,8 @@ exports.strings = {
     'zh_TW': '這關沒有介紹!',
     'es_AR': '¡No hay mensaje de inicio para este nivel!',
     'pt_BR': 'Não há mensagem de início para este nível!',
-    'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !'
+    'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !',
+    'ja'   : 'このLevelにはスタートダイアログが存在しません'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -35763,7 +35810,8 @@ exports.strings = {
     'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
     'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
     'pt_BR': 'Hmm, não existe nenhuma pista para este nível :-/',
-    'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/'
+    'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/',
+    'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -35774,7 +35822,8 @@ exports.strings = {
     'zh_TW': '還沒翻譯 {key} :( 請在 Github 上貢獻您的翻譯!',
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
     'pt_BR': 'Não existe tradução para {key} :( Pule no Github e sugira uma! :)',
-    'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !'
+    'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !',
+    'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -35785,7 +35834,8 @@ exports.strings = {
     'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 Github 貢獻翻譯！',
     'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
     'pt_BR': 'Esta mensagem ou texto não foi traduzida para Português :( Ajude-nos a traduzir no Github!',
-    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !'
+    'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
+    'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m'
   }
 };
 
@@ -47343,7 +47393,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "これがどういうことか、動きを見ていきましょう。図には（小さな）gitリポジトリが描かれています。コミットが2つあります ― `C0`という名前の初回のコミットがあり、`C1`という名前の次のコミットが続きます。これは何か意味のある変更かもしれません。",
+              "これがどういうことか、動きを見ていきましょう。図には（小さな）gitリポジトリが描かれています。コミットが2つあります ―- `C0`という名前の初回のコミットがあり、`C1`という名前の次のコミットが続きます。これは何か意味のある変更かもしれません。",
               "",
               "下のボタンを押下して新しいコミットを作ってみましょう。"
             ],
@@ -48934,7 +48984,7 @@ exports.level = {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
-    "ja"   : "次に進む用意が整えれば、bugFixに対して一回commitしてください",
+    "ja"   : "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
@@ -49377,6 +49427,69 @@ exports.level = {
               "Das ist so ziemlich alles, was es über `git describe` zu wissen gibt. Versuch ein paar Orte in diesem Level damit auszugeben, um ein Gefühl dafür zu bekommen.",
               "",
               "Sobald du fertig bist, mach einfach einen Commit um den Level abzuschließen. Der geht auf's Haus. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "タグは、ソースリストの優秀な「アンカー（標識）」として作用するので、Gitには最も近く関係のある「アンカー」（タグの別名）を*記述するため*のコマンドがあります。そして、そのコマンドは`git describe`と呼ばれています！",
+              "",
+              "Gitの`describe`は、あなたが大量のコミットの中を移動するとき、今どこにいるかを知るのを助けてくれます（これは、例えばあなたがデバッグ検索コマンドの一つ`git bisect`を終わった後や、同僚が休暇から帰ってきて自分の席に座るときに起こります）。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Gitの`describe`は、以下の形式をとります:",
+              "",
+              "`git describe <参照>`",
+              "",
+              "`<参照>`には、Gitが解釈可能なコミットの参照表現（ブランチやタグの指定、コミットハッシュなど）をいれます。もし、何も入力しなかった場合、Gitは現在の位置のコミット（`HEAD`）を使います。",
+              "",
+              "コマンドの結果は以下のようになります:",
+              "",
+              "`<タグ>_<コミット数>_g<ハッシュ>`",
+              "",
+              "`<タグ>`には履歴の一番最新のタグ名が、`<コミット数>`にはそのタグから幾つのコミットがあったか、`<ハッシュ>`はそのコミットのハッシュがそれぞれ入ります。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "軽い例を見てみましょう。この木においての例は以下のようになります:"
+            ],
+            "afterMarkdowns": [
+              "コマンド`git describe master`の結果は以下のようになります:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "さらに`git describe side`の結果は以下のようになります:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`describe`によってGitの情報が簡潔に全て記述されます！このレベルでは、このコマンドの感触をつかむため幾つかの場所で`describe`をしてみてください。",
+              "",
+              "終わったら、最新のコミットに行き一度コミットを行えばこのレベルを終了することができます。この先では、いくつかの挑戦課題を用意しています :P"
             ]
           }
         }
@@ -51002,6 +51115,58 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Gitのタグ",
+              "",
+              "私たちは、前回、ブランチが簡単に移動でき、またしばしば異なる作業の完了しているコミットを参照できることを学びました。ブランチは、簡単に変化させることができ、しばしば一時的で、いつも移動しています。",
+              "",
+              "そのような場合に、もしプロジェクトの歴史的な点に*恒久的*にマークをつける方法があったならと思うかもしれません。例えば、メジャーリリースや大きなマージを行った時などに、そのコミットにブランチより恒久的な印をつける方法はないのでしょうか？",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "それは存在します！Gitのタグは当にそのような場面で最適です。 -- ブランチのように参照でき、「マイルストーン（標識）」のような確かで（多少）永久的な印をコミットにつけます。",
+              "",
+              "重要なことは、コミットを新たに作ってもタグは動かないということです。あなたは、タグにチェックアウトしてそのタグで作業を完了させるということはできません -- タグは、コミットツリーの特定の地点を指定する錨のようなものとして機能します。",
+              "",
+              "では、実際にタグがどのように動作するかを見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "私たちのバージョン1の原本となる`C1`にタグを付けてみましょう"
+            ],
+            "afterMarkdowns": [
+              "見てください！とても簡単ですね。私たちは、`v1`という名前のタグを明示的に`C1`コミットに付与しました。もし、コミットを指定しなかった場合、`HEAD`にあるものにタグがつけられることになります。"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルは、ゴールとして提示されている図のようにタグを作り、`v1`にチェックアウトすることで完了します。そうすると、あなたは`HEAD`分離状態になることに気づくでしょう -- これは、あなたが直接`v1`タグにコミットができないことを意味しています。",
+              "",
+              "次のレベルでは、タグのより興味深い使い方について学びます。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -51441,9 +51606,9 @@ exports.level = {
             "markdowns": [
               "## コードの移動",
               "",
-              "今まででは、gitの基本をひたすら見てきました -- コミット、ブランチ、そしてソースツリーの中でいろいろなポジションへのアクセス。これらの概念だけで、gitレポジトリの力を90%使いこなすことができ、開発者の主なニーズを満たしています。",
+              "今まででは、gitの基本をひたすら見てきました -- コミット、ブランチ、そしてソースツリーの中でいろいろなポジションへのアクセス。これらの概念だけで、gitリポジトリの力を90%使いこなすことができ、開発者の主なニーズを満たしています。",
               "",
-              "しかし最後の10%はより複雑なワークフローやちょっとトラブった時にとても役に立つこともある。これから取り上げる次の課題は「コードの移動」– つまり開発者が、このコードをここに置き、そのコードをそこに置きたい、と安易、かつ具体的に表す方法です。",
+              "しかし最後の10%はより複雑なワークフローやちょっとトラブった時にとても役に立つこともある。これから取り上げる次の課題は「コードの移動」 –- つまり開発者が、このコードをここに置き、そのコードをそこに置きたい、と安易、かつ具体的に表す方法です。",
               "",
               "ちょっと複雑に聞こえるかもしれませんが、概念は簡単です。"
             ]
@@ -51470,7 +51635,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "このレポジトリには、現在`side`ブランチから`master`にコピーしたいコードがあります。この前学んできたrebaseコマンドでは実現可能ですが、cherry-pickの動作を見ていきましょう。"
+              "このリポジトリには、現在`side`ブランチから`master`にコピーしたいコードがあります。この前学んできたrebaseコマンドでは実現可能ですが、cherry-pickの動作を見ていきましょう。"
             ],
             "afterMarkdowns": [
               "それだけで終わりです! コミット`C2` と `C4`を取得したかったーそしてgitが現在の位置の直下に落としました。単純ですね!"
@@ -52063,7 +52228,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Moving around in Git",
+              "## 任意の位置への移動",
               "",
               "Gitの上級機能に進む前に、自分のプロジェクトを表すコミットツリーの中で任意の位置へ移動する様々な方法を知っておく必要があります。",
               "",
@@ -52082,7 +52247,7 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "まずは\"HEAD\"から始めましょう。HEADとは現在チェックアウトされているコミットを指す単語ですーようするに今作業中のコミットを表します。",
+              "まずは\"HEAD\"から始めましょう。HEADとは現在チェックアウトされているコミットを指す単語です -- ようするに今作業中のコミットを表します。",
               "",
               "HEADはいつも、作業中のツリーに反映されている最新のコミットを指します。作業ツリーへ変更を加える多くのgitコマンドはまずHEADから処理を始めます。",
               "",
@@ -52129,7 +52294,7 @@ exports.level = {
             "markdowns": [
               "このレベルをクリアするには、HEADを`bugFix`から分離し、その代わりに特定のコミットに紐づけましょう。",
               "",
-              "このコミットをハッシュで指定します。コミットのハッシュはそのコミットを表す丸の上に表示されています。"
+              "このコミットをハッシュで指定します。コミットのハッシュはそのコミットを表す丸に刻まれています。"
             ]
           }
         }
@@ -52708,6 +52873,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
+    "ja"   : "相対リファレンス(^)を思い出して！",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
@@ -53252,7 +53418,7 @@ exports.level = {
               "",
               "その上、実際のハッシュはこちらで見たものよりずっと長いです。例えば、先ほどのレベルの紹介のコミットハッシュは`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`です。少し覚えにくいですね...",
               "",
-              "そのため、gitでは手短くコミットを指定する方法があります。ユニークな存在だと確認できるだけのハッシュの字数を入力すれば良いですー上記の長い文字列の代わりに`fed2`を入力するだけで済みます。"
+              "そのため、gitでは手短くコミットを指定する方法があります。ユニークな存在だと確認できるだけのハッシュの字数を入力すれば良いです -- 上記の長い文字列の代わりに`fed2`を入力するだけで済みます。"
             ]
           }
         },
@@ -53279,7 +53445,7 @@ exports.level = {
               "",
               "なので `master^`と記述すれば、\"`master`の一個上の親\"、という意味になります。",
               "",
-              "そして`master^^`とはその親の一つの上のコミット(２代目の先祖)を指します。",
+              "そして`master^^`とはその親の一つの上のコミット(２代前の親)を指します。",
               "",
               "masterの上のコミットをここで見てみましょう"
             ],
@@ -53818,7 +53984,7 @@ exports.level = {
               "遡る前のコミット数を`~`で指定しましょう。"
             ],
             "afterMarkdowns": [
-              "よっしゃ！効率が良いですねー相対リファレンスはなんと便利です。"
+              "よっしゃ！効率が良いですね -- 相対リファレンスはなんと便利です。"
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -54159,7 +54325,7 @@ exports.level = {
               "",
               "Gitでは変更を元に戻す方法がたくさんあります。コミットと同じように、低レベルな動作（ファイル別だったりファイルの中の一部だったり）も高レベルな動作（変更のまとまりのキャンセル）もできます。このアプリケーションでは後者の方法について紹介します。",
               "",
-              "基本的なアンドゥの方法が2つあります - 一つは`git reset`を使う方法で、もう1つは`git revert`を使う方法です。次のダイアログで一つ一つを見ていきます。",
+              "基本的なアンドゥの方法が2つあります -- 一つは`git reset`を使う方法で、もう1つは`git revert`を使う方法です。次のダイアログで一つ一つを見ていきます。",
               ""
             ]
           }
@@ -54600,7 +54766,7 @@ exports.level = {
               "",
               "さあ、いくつものブランチが出てきます。このブランチたち全てをmasterブランチにリベースしましょう。",
               "",
-              "おエライさん方が今回の仕事を少しトリッキーにしてくれました ― コミットはすべて一列のシーケンシャルな状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
+              "おエライさん方が今回の仕事を少しトリッキーにしてくれました -― コミットはすべて一列のシーケンシャルな状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
               "",
               "試行錯誤してツリーが汚くなってきたら、`reset`コマンドを使ってツリーの状態を初期化してください。模範解答をチェックして、それよりも簡単なコマンドで済ませられるかどうか、を考えるのも忘れずに！"
             ]
@@ -55311,15 +55477,15 @@ exports.level = {
             "markdowns": [
               "## Gitリモート",
               "",
-              "リモートのレポジトリというのはそんなに複雑なものでもありません。クラウドコンピューティングが普及している現在の世界では、gitリモートの裏には何か不思議な仕組みが動いていると思いやすいのですが、実は別のコンピューター上に保存されているあなたのレポジトリーのコピーにすぎません。普通の場合では、インターネットを媒体に使いこの別のコンピューターと対話し、コミットを交互にやり取りすることができます。",
+              "リモートのリポジトリというのはそんなに複雑なものでもありません。クラウドコンピューティングが普及している現在の世界では、gitリモートの裏には何か不思議な仕組みが動いていると思いやすいのですが、実は別のコンピューター上に保存されているあなたのリポジトリのコピーにすぎません。普通の場合では、インターネットを媒体に使いこの別のコンピューターと対話し、コミットを交互にやり取りすることができます。",
               "",
-              "とはいえ、リモートレポジトリにはいくつかの素晴らしい特徴があります:",
+              "とはいえ、リモートリポジトリにはいくつかの素晴らしい特徴があります:",
               "",
-              "- まず、リモートはバックアップの役割を果たします。ご存知の通り、ローカルのgitレポジトリは以前の状態にファイルを復帰する機能を持っているのですが、その情報はすべてローカルに保存されています。gitレポジトリを別のコンピューターにも保存することで、ローカルのデーターがすべて失われたとしても、保存状態からコーディングを続けられます。",
+              "- まず、リモートはバックアップの役割を果たします。ご存知の通り、ローカルのgitリポジトリは以前の状態にファイルを復帰する機能を持っているのですが、その情報はすべてローカルに保存されています。gitリポジトリを別のコンピューターにも保存することで、ローカルのデーターがすべて失われたとしても、保存状態からコーディングを続けられます。",
               "",
-              "- それよりも大切に、リモートではコードをよりソーシャル的に公開できます!プロジェクトのコピーが別の場所に保存されているため、友達などが簡単にそのプロジェクトに参加したり最近の変更をpullしたりできます。",
+              "- それよりも大切なこととして、リモートではコードをより一般的に公開できます!プロジェクトのコピーが別の場所に保存されているため、友達などが簡単にそのプロジェクトに参加したり最近の変更をpullしたりできます。",
               "",
-              "最近ではリモートレポジトリに関するデーターをビジュアル的に表示するウェブサイト([Github](https://github.com/)や[Phabricator](http://phabricator.org/)など)の使用が人気を集めていますが、レモートレポジトリは_いつでも_そのウェブサイトの裏に使われています。なので理解する必要があります。"
+              "最近ではリモートリポジトリに関するデータをビジュアル的に表示するウェブサイト([Github](https://github.com/)や[Phabricator](http://phabricator.org/)など)の使用が人気を集めていますが、リモートリポジトリは_そのいずれの_ウェブサイトの裏にも使われています。なので理解する必要があります。"
             ]
           }
         },
@@ -55329,9 +55495,9 @@ exports.level = {
             "markdowns": [
               "## リモートを作成するコマンド",
               "",
-              "今までLearn Git Branchingでは_ローカル_レポジトリの様々な作業（branch, merge, rebaseなど）に焦点を当ててきました。しかし、これからはリモートレポジトリの作業を学びますので、レッスンのために環境をセットアップする必要があります。そのコマンドは`git clone`になります。",
+              "今までLearn Git Branchingでは_ローカル_リポジトリの様々な作業（branch, merge, rebaseなど）に焦点を当ててきました。しかし、これからはリモートリポジトリの作業を学びますので、レッスンのために環境をセットアップする必要があります。そのコマンドは`git clone`になります。",
               "",
-              "普通の場合では`git clone`はリモートレポジトリ（githubなどから）を_ローカル_にコピーする時に使います。しかしLearn Git Branchingでは少し違ったように使います -- ここでは`git clone`が_ローカルレポジトリ_をリモートにコピーします。本当のコマンドの逆の動作になっているのですが、このようにcloneとリモートレポジトリのつながりが見えてきますので今のところは例として使いましょう。",
+              "普通の場合では`git clone`はリモートリポジトリ（githubなどから）を_ローカル_にコピーする時に使います。しかしLearn Git Branchingでは少し違ったように使います -- ここでは`git clone`が_ローカルリポジトリ_をリモートにコピーします。本当のコマンドの逆の動作になっているのですが、このようにcloneとリモートリポジトリのつながりが見えてきますので今のところは例として使いましょう。",
               ""
             ]
           }
@@ -55340,11 +55506,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "最初の一歩として、ビジュアライズでレモートレポジトリを見てみましょう。",
+              "最初の一歩として、ビジュアライズでリモートリポジトリを見てみましょう。",
               ""
             ],
             "afterMarkdowns": [
-              "できました! プロジェクトのリモートレポジトリが保存されました。結構似ているのですが、その違いを明らかにするために少しだけビジュアルを工夫しました -- これからのレベルではこれらのレポジトリの間で作業をどう共有するか見ていきます。"
+              "できました! プロジェクトのリモートリポジトリが保存されました。結構似ているのですが、その違いを明らかにするために少しだけビジュアルを工夫しました -- これからのレベルではこれらのリポジトリの間で作業をどう共有するか見ていきます。"
             ],
             "command": "git clone",
             "beforeCommand": ""
@@ -55354,7 +55520,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルをクリアするには、`git clone`で既存のレポジトリのクローンを作成します。次のレッスンでより詳細に見ていきます。"
+              "このレベルをクリアするには、`git clone`で既存のリポジトリのクローンを作成します。次のレッスンでより詳細に見ていきます。"
             ]
           }
         }
@@ -55362,7 +55528,6 @@ exports.level = {
     }
   }
 };
-
 
 },{}],264:[function(require,module,exports){
 exports.level = {
@@ -59585,7 +59750,7 @@ exports.level = {
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
-    "ja"   : "Pushできる前にまずレポジトリをcloneする必要があるのをお忘れなく",
+    "ja"   : "Pushできる前にまずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !"
   },
   "startDialog": {
@@ -61791,10 +61956,70 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## リモートのブランチ",
+              "",
+              "あなたは今や`git clone`の動作を知ったことでしょうから、次は実際に詳細を見てみましょう。",
+              "",
+              "まず、もしかしたらもう気付いているかもしれないですが、私たちのローカルリポジトリにo/masterという名前の新しいブランチが追加されています。このようなブランチは、_リモート_ブランチと呼ばれます。リモートブランチは、その固有の役割を担うために特別なプロパティを持っています。",
+              "",
+              "リモートブランチは、リモートリポジトリの_状態_を反映します（あなたがそのリモートリポジトリから変更を最後に問い合わせてからの）。",
+              "",
+              "リモートブランチは、あなたがチェックアウトするとき、`HEAD`が分離された状態になるという特殊な性質を持っています。Gitはこの上での動作を保証しません。なぜこのようになるかというと、リモートブランチ上での直接の作業はできないからなのです。あなたは、別の場所で作業をし、その後でリモートブランチに共有するようにしなければなりません（その後であなたのリモートブランチは更新されます）。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `o/`とは何か?",
+              "",
+              "あなたは、リモートブランチが`o/`で始まることに驚くかもしれません。そう、リモートブランチには固有の（必要な）命名規則も存在するのです。 -- これは次のようなフォーマットで表示されます:",
+              "",
+              "* `<リモート名>/<ブランチ名>`",
+              "",
+              "これに基づいて、`o/master`と名付けられたブランチを見てみると、`master`はブランチの名前、`o`はリモートの名前であることが分かります。",
+              "",
+              "多くの開発者は、実際にはメインのリモート名として`o`ではなく`origin`を使います。これは一般的には、Gitが`git clone`した時に`origin`という名前をリモートに付与ためです。",
+              "",
+              "残念ながら、`origin`という長い名前は私たちのUIには合いませんでした。なので、私たちは短い`o`を使っています（覚えておいてもらいたいのは、実際のGitでは、リモートはおそらく`origin`と名付けられるであろうということです！）",
+              "",
+              "理解すべきことはたくさんあるので、ひとまず全ての動作を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "リモートブランチをチェックアウトすると何が起こるかを見てみましょう"
+            ],
+            "afterMarkdowns": [
+              "見ていた通り、`o/master`に移ってから新しいコミットをしても`HEAD`が分離状態になり`o/master`は更新されていません。これは、`o/master`がリモートの更新時のみ更新されるからです。"
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルを終えるには、まずコミットを`master`に一回行い、その後`o/master`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
-
 
 },{}],276:[function(require,module,exports){
 exports.level = {
