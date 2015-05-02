@@ -19,7 +19,7 @@ exports.level = {
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
-    "ja"   : "Pushできる前にまずレポジトリをcloneする必要があるのをお忘れなく",
+    "ja"   : "Pushできる前にまずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !"
   },
   "startDialog": {
