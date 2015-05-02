@@ -7,19 +7,15 @@
 var React = require('react-native');
 var {
   AppRegistry,
-  Image,
   Navigator,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
 } = React;
 
 var Routes = require('../constants/Routes');
 var SequenceSelectView = require('../native_react_views/SequenceSelectView');
 var LevelSelectView = require('../native_react_views/LevelSelectView');
 var NUXView = require('../native_react_views/NUXView');
+
+var INITIAL_ROUTE = Routes.NUX;
 
 var LearnGitBranching = React.createClass({
 
@@ -38,18 +34,12 @@ var LearnGitBranching = React.createClass({
   render: function() {
     return (
       <Navigator
-        initialRoute={Routes.getRouteForID(Routes.NUX)}
+        initialRoute={Routes.getRouteForID(INITIAL_ROUTE)}
         renderScene={this._renderScene}
       />
     );
   },
 
-});
-
-var styles = StyleSheet.create({
-  headerSpacer: {
-    height: 40
-  },
 });
 
 AppRegistry.registerComponent('LearnGitBranching', () => LearnGitBranching);
