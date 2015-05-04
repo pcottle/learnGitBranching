@@ -500,5 +500,61 @@ exports.dialog = {
         'Mais tout de suite commencez sur les `levels`…'
       ]
     }
+  }],
+  'ru_RU': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Добро пожаловать в LearnGitBranching!',
+        '',
+        'Это приложение создано, чтобы помочь новичкам постичь ',
+        'мощные возможности ветвления и работы ',
+        'с git. Мы надеемся, что вам понравится эта игра ',
+        'и может вы что-то усвоите!',
+        '',
+        '# Демо!',
+        '',
+        'Если ты не видел демонстрацию – посмотри её тут:',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        'Достало это сообщение? Добавь `?NODEMO` к адресу и навсегда забудь о нём, ниже ссылка для удобства:',
+        '',
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Команды Git',
+        '',
+        'В нашей песочнице можно использовать множество команд:',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Бог велел – делись!',
+        '',
+        'Ты можешь делиться результатами с друзьями при помощи `export tree` и `import tree`',
+        '',
+        'Хочешь создать классный уровень? Сделай это при помощи `build level` или добавь уровень друга при помощи `import level`',
+        '',
+        'Команда `show commands` покажет все доступные инструкции. Там есть очень полезные, например `undo` и `reset`',
+        '',
+        'А пока просто начни игру при помощи `levels`...'
+      ]
+    }
   }]
 };

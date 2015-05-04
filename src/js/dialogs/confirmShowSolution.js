@@ -68,6 +68,16 @@ exports.dialog = {
         'Je crois en vous ! Vous pouvez le faire'
       ]
     }
+  }],
+  'ru_RU': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Уверен, что хочешь посмотреть решение?',
+        '',
+        'Мы верим в тебя! Не прыгай! Ты сможешь!'
+      ]
+    }
   }]
 };
 

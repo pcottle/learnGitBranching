@@ -26,6 +26,7 @@ var langLocaleMap = exports.langLocaleMap = {
   fr: 'fr_FR',
   de: 'de_DE',
   pt: 'pt_BR',
+  ru: 'ru_RU'
 };
 
 var fallbackMap = {
