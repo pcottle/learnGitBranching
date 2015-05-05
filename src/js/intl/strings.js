@@ -360,7 +360,8 @@ exports.strings = {
     'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
     'es_AR': 'El commit {commit} ya existe en tus cambios, ¡abortando!',
     'pt_BR': 'O commit {commit} já existe nas suas mudanças, abortando!',
-    'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
+    'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !',
+    'ru_RU': 'Коммит {commit} существует, отменяю!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
