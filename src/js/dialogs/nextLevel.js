@@ -85,6 +85,17 @@ exports.dialog = {
         'notre solution le fait en {best}.'
       ]
     }
+  }],
+  'ru_RU': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Супер!',
+        '',
+        'Ты прошёл уровень. Количество использованных команд - *{numCommands}* ; ',
+        'а наше решение состоит из {best}.'
+      ]
+    }
   }]
 };
 
