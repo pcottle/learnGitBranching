@@ -1,11 +1,7 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Backbone = require('backbone');
 
-var ModalTerminal = require('../views').ModalTerminal;
-var ContainedBase = require('../views').ContainedBase;
-var ConfirmCancelView = require('../views').ConfirmCancelView;
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
@@ -14,7 +10,6 @@ var BuilderViews = require('../views/builderViews');
 var MarkdownPresenter = BuilderViews.MarkdownPresenter;
 
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var GitError = require('../util/errors').GitError;
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
@@ -89,15 +84,15 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.debounce(function() {
       this.navForward();
-    }, this), this.navEventDebounce, true);
+    }.bind(this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.debounce(_.bind(function() {
+    return _.debounce(function() {
       this.navBackward();
-    }, this), this.navEventDebounce, true);
+    }.bind(this), this.navEventDebounce, true);
   },
 
   lock: function() {

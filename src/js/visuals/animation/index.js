@@ -1,7 +1,6 @@
-var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
-var GlobalState = require('../../util/globalState');
+var GlobalStateActions = require('../../actions/GlobalStateActions');
 var GRAPHICS = require('../../util/constants').GRAPHICS;
 
 var Animation = Backbone.Model.extend({
@@ -42,9 +41,9 @@ var AnimationQueue = Backbone.Model.extend({
   },
 
   thenFinish: function(promise, deferred) {
-    promise.then(_.bind(function() {
+    promise.then(function() {
       this.finish();
-    }, this));
+    }.bind(this));
     promise.fail(function(e) {
       console.log('uncaught error', e);
       throw e;
@@ -67,13 +66,13 @@ var AnimationQueue = Backbone.Model.extend({
     this.set('index', 0);
 
     // set the global lock that we are animating
-    GlobalState.isAnimating = true;
+    GlobalStateActions.changeIsAnimating(true);
     this.next();
   },
 
   finish: function() {
     // release lock here
-    GlobalState.isAnimating = false;
+    GlobalStateActions.changeIsAnimating(false);
     this.get('callback')();
   },
 
@@ -97,9 +96,9 @@ var AnimationQueue = Backbone.Model.extend({
     next.run();
 
     this.set('index', index + 1);
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.next();
-    }, this), duration);
+    }.bind(this), duration);
   }
 });
 
@@ -127,9 +126,9 @@ var PromiseAnimation = Backbone.Model.extend({
     // a single animation is just something with a timeout, but now
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.get('deferred').resolve();
-    }, this), this.get('duration'));
+    }.bind(this), this.get('duration'));
   },
 
   then: function(func) {

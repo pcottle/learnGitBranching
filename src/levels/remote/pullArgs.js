@@ -105,9 +105,9 @@ exports.level = {
             "markdowns": [
               "## Les arguments de git pull",
               "",
-              "Maintenant que vous savez presque *tout* ce qu'il y a à savoir à propos des arguments de `git fetch` et `git push`, il n'y a presque rien de restant à découvrir avec git pull :)",
+              "Maintenant que vous savez presque *tout* ce qu'il y a à savoir sur les arguments de `git fetch` et `git push`, il n'y a presque plus rien à vous apprendre sur git pull :)",
               "",
-              "C'est parce que git pull est au bout du compte *réellement* juste un raccourci pour un merge suivi d'un merge pour tout ce qui vient d'être rapatrié (par le fetch). Vous pouvez y pensez comme exécuter git fetch avec les *mêmes* arguments specifiés et ensuite fusionner avec là où ces commits sont arrivés.",
+              "C'est parce que git pull est en fait *juste* un raccourci pour un fetch suivi d'un merge de tout ce qui vient d'être rapatrié. Vous pouvez vous représenter git pull comme un git fetch avec les *mêmes* arguments, suivi d'un merge qui aura lieu à l'endroit *exact* où ces commits seront arrivés.",
               "",
               "Cela fonctionne même quand vous utilisez des arguments très compliqués. Voyons quelques exemples :"
             ]
@@ -119,17 +119,17 @@ exports.level = {
             "markdowns": [
               "Voici quelques commandes équivalentes dans git :",
               "",
-              "`git pull  origin foo` est équivalent à :",
+              "`git pull origin foo` est équivalent à :",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
-              "Et ...",
+              "Et :",
               "",
-              "`git pull  origin bar~1:bugFix` est équivalent à :",
+              "`git pull origin bar~1:bugFix` est équivalent à :",
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "Vous voyez ? git pull est vraiment simplement un raccourci pour fetch + merge, et tout ce dont git pull s'occupe est la destination des commits (l'argument `destination` qu'il utilise durant le fetch).",
+              "Vous voyez ? git pull est au fond un simple un raccourci pour fetch + merge, et tout ce qui lui importe est la destination des commits (l'argument `destination` qu'il utilise durant le fetch).",
               "",
               "Voyons une démonstration :"
             ]
@@ -139,10 +139,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Si nous précisons l'emplacement à rappatrier, tout se passe comme avant avec fetch mais nous fusionnons avec tout ce qui a été rapatrié"
+              "Si nous précisons l'emplacement à rapatrier tout se passe comme précédemment, avec fetch, mais en sus nous fusionnons tout ce qui a été rapatrié."
             ],
             "afterMarkdowns": [
-              "Vu ? en précisant `master` nous avons téléchargé les commits dans `o/master` comme d'habitude. Puis nous avons fusionné `o/master` avec là où nous sommes, *sans se soucier* de la branche courante."
+              "Vu ? En précisant `master` nous avons téléchargé les commits dans `o/master` comme d'habitude. Puis nous avons fusionné `o/master` avec là où nous sommes, *sans nous soucier* de la branche courante."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -152,10 +152,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Cela fonctionne-t-il avec une source et une destination aussi ? Et oui ! Voyons cela :"
+              "Cela fonctionne-t-il aussi bien avec une source et une destination ? Et oui ! Voyons cela :"
             ],
             "afterMarkdowns": [
-              "Wow, c'est énorme en une commande. Nous avons créé une brance locale nommée `foo`, téléchargé les commits depuis la branche master distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail `bar`. It's over 9000!!!"
+              "Wow, INCROYABLE tout ce que nous avons fait en une commande. Nous avons créé une brance locale nommée `foo`, téléchargé les commits depuis la branche master distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail (checkoutée) `bar` !!!"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -165,7 +165,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok pour finir ce niveau, atteignez l'état décrit dans la visualisation de l'objectif. Vous aurez besoin de télécharger quelques commits, de faire quelques nouvelles branches, et de fusionner ces branches dans d'autres branches, mais cela ne devrait pas utiliser trop de commandes :P"
+              "Ok, pour finir ce niveau reproduisez l'état de la fenêtre Objectif. Vous aurez besoin de télécharger quelques commits, de créer des branches et de les fusionner dans d'autres branches, mais cela ne devrait pas utiliser trop de commandes :P"
             ]
           }
         }

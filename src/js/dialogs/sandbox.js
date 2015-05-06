@@ -3,55 +3,20 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Welcome to LearnGitBranching!',
+        '## Welcome to Learn Git Branching',
         '',
-        'This application is designed to help beginners grasp ',
-        'the powerful concepts behind branching when working ',
-        'with git. We hope you enjoy this application and maybe ',
-        'even learn something!',
+        'Interested in learning Git? Well you\'ve come to the right place! ',
+        '"Learn Git Branching" is the most visual and interactive way to learn Git ',
+        'on the web; you\'ll be challenged with exciting levels, given step-by-step ',
+        'demonstrations of powerful features, and maybe even have a bit of fun along the way.',
         '',
-        '# Demo!',
+        'After this dialog you\'ll see the variety of levels we have to offer. If you\'re a ',
+        'beginner, just go ahead and start with the first. If you already know some Git basics, ',
+        'try some of our later more challenging levels.',
         '',
-        'If you have not seen the demo, please check it out here:',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
-        '',
-        'Annoyed at this dialog? Append `?NODEMO` to the url to get rid of it, linked below for convenience:',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Git commands',
-        '',
-        'You have a large variety of git commands available in sandbox mode. These include',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Sharing is caring!',
-        '',
-        'Share trees with your friends via `export tree` and `import tree`',
-        '',
-        'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
-        '',
-        'To see the full range of commands, try `show commands`. There are some gems like `undo` and `reset`',
-        '',
-        'For now let\'s get you started on the `levels`...'
+        'PS: Want to go straight to a sandbox next time?',
+        'Try out ',
+        '[this special link](http://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
   }],
@@ -59,7 +24,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Bienvenid@ a LearnGitBranching!',
+        '## ¡Bienvenid@ a Learn Git Branching!',
         '',
         'Esta aplicación está diseñada para ayudar a los principantes ',
         'a manejar los poderosos conceptos que hay detrás del trabajo ',
@@ -115,7 +80,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bem-vindo ao LearnGitBranching!',
+        '## Bem-vindo ao Learn Git Branching!',
         '',
         'Este aplicativo foi desenvolvido para ajudar os iniciantes a ',
         'aprender os poderosos conceitos por trás do branching com ',
@@ -171,7 +136,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Willkommen bei LearnGitBranching!',
+        '## Willkommen bei Learn Git Branching!',
         '',
         'Der Sinn dieser Anwendung ist, die umfangreichen und komplexen Zusammenhänge der Prozesse, die bei der Arbeit mit Git ablaufen, zu verdeutlichen. Ich hoffe du hast Spaß dabei und lernst vielleicht sogar etwas!',
         '',
@@ -224,7 +189,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## LearnGitBranchingへようこそ',
+        '## Learn Git Branchingへようこそ',
         '',
         'gitのパワフルなブランチ機能のコンセプトが ',
         '学びやすくなるようにこのアプリケーションを作りました。 ',
@@ -235,11 +200,11 @@ exports.dialog = {
         '',
         '簡単なデモを用意してあるので、もしよければこちらもご覧ください：',
         '',
-        '[http://remore.github.io/learnGitBranching-ja/?demo](http://remore.github.io/learnGitBranching-ja/?demo)',
+        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo&locale=ja)',
         '',
         'このダイアログ自体を省略するには、以下のようにURLの末尾にクエリストリング`?NODEMO`を付加してアクセスしてください。',
         '',
-        '[http://remore.github.io/learnGitBranching-ja/?NODEMO](http://remore.github.io/learnGitBranching-ja/?NODEMO)'
+        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO&locale=ja)'
       ]
     }
   }, {
@@ -270,7 +235,11 @@ exports.dialog = {
         '',
         '何か教材になるようなケースはご存知ないでしょうか。`build level`で課題を作成したり、`import level`で他の人の課題に挑戦してみてください。',
         '',
-        'それでは教材の選択画面に進んでみることにします。'
+        '何か詰まったことがあったら、右下メニューの?ボタンを押してみてください',
+        '',
+        'それでは教材の選択画面に進んでみることにします。',
+        '',
+        '（なお、日本語版製作者のフォークサイトは[こちら](http://remore.github.io/learnGitBranching-ja/)になります。）'
       ]
     }
   }],
@@ -278,7 +247,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 欢迎光临 LearnGitBranching!',
+        '## 欢迎光临 Learn Git Branching!',
         '',
         '本应用旨在帮助初学者领会 git 分支背后的强大概念。',
         '希望你能喜欢这个应用，并学到知识！',
@@ -330,7 +299,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 歡迎光臨 LearnGitBranching!',
+        '## 歡迎光臨 Learn Git Branching!',
         '',
         '本應用旨在幫助初學者領會 git 分支背後的強大概念。',
         '希望你能喜歡這個應用，並學到知識！',
@@ -382,21 +351,11 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        //'## Welcome to LearnGitBranching!',
         '## Git 브랜치 배우기를 시작합니다!',
         '',
-        // 'This application is designed to help beginners grasp ',
-        // 'the powerful concepts behind branching when working ',
-        // 'with git. We hope you enjoy this application and maybe ',
-        // 'even learn something!',
         '이 애플리케이션은 git을 쓸 때 필요한 브랜치에 대한 개념을',
         '탄탄히 잡게끔 도와드리기 위해 만들었습니다. 재밌게 사용해주시기를',
         '바라며, 무언가를 배워가신다면 더 기쁘겠습니다!',
-        // '',
-        // '# Attention HN!!',
-        // '',
-        // 'Unfortunately this was submitted before I finished all the help ',
-        // 'and tutorial sections, so forgive the scarcity. See the demo here:',
         '',
         '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](http://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
         '아래 데모를 먼저 보셔도 좋습니다.',
@@ -408,10 +367,8 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        // '## Git commands',
         '## Git 명령어',
         '',
-        // 'You have a large variety of git commands available in sandbox mode. These include',
         '연습 모드에서 쓸 수 있는 다양한 git명령어는 다음과 같습니다',
         '',
         ' * commit',
@@ -428,13 +385,6 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        // '## Sharing is caring!',
-        // '',
-        // 'Share trees with your friends via `export tree` and `import tree`',
-        // '',
-        // 'Have a great lesson to share? Try building a level with `build level` or try out a friend\'s level with `import level`',
-        // '',
-        // 'For now let\'s get you started on the `levels`...'
         '## 공유해주세요!',
         '',
         '`export tree` 와 `import tree`로 여러분의 친구들에게 트리를 공유해주세요',
@@ -449,7 +399,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bienvenue sur LearnGitBranching!',
+        '## Bienvenue sur Learn Git Branching!',
         '',
         'Cette application a été conçue pour aider les débutants à saisir ',
         'les puissants concepts derrière les branches en travaillant ',

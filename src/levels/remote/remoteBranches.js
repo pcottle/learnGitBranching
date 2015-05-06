@@ -94,11 +94,11 @@ exports.level = {
               "",
               "Maintenant que nous avons vu `git clone` en action, plongeons dans ce qui a changé.",
               "",
-              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans vôtre dépôt local appelée `o/master`. Ce type de branche est appelée une branche _distante_; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
+              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans votre dépôt local appelée `o/master`. Ce type de branche est appelée une branche _distante_ ; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
               "",
-              "Les branches distantes reflètent _l'état_ des dépôts distants (depuis que nous avons parlé de ces dépôts distants). Elles vous aident à comprendre les différences entre vôtre travail et le travail public -- une étape critique à effectuer avant de partager son travail avec les autres.",
+              "Les branches distantes reflètent _l'état_ des dépôts distants (depuis la dernière fois où vous avez parlé avec ceux-ci). Elles vous aident à comprendre les différences entre votre travail et le travail public -- une étape critique à effectuer avant de partager son travail avec les autres.",
               "",
-              "Les branches distantes ont la propriété particulière que quand vous vous rendez dessus (checkout), `HEAD` est détaché. Git fait cela car vous ne pouvez pas travailler sur ces branches directement ; vous devez travailler ailleurs et ensuite partager vôtre travail avec le dépôt distant (après quoi vos branches distantes seront mises à jour)."
+              "Les branches distantes ont une propriété particulière: quand vous vous rendez dessus (checkout), `HEAD` est détaché. Git fait cela car vous ne pouvez pas travailler sur ces branches directement ; vous devez travailler ailleurs et ensuite partager votre travail avec le dépôt distant (après quoi vos branches distantes seront mises à jour)."
             ]
           }
         },
@@ -114,9 +114,9 @@ exports.level = {
               "",
               "Donc, si vous regardez une branche nommée `o/master`, le nom de la branche est `master` et le nom du dépôt distant est `o`.",
               "",
-              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait vôtre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
+              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait votre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
               "",
-              "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai git, vôtre dépôt distant est probablement nommé `origin`!",
+              "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai git, votre dépôt distant est probablement nommé `origin`!",
               "",
               "Cela fait beaucoup d'un coup, donc voyons cela en action."
             ]
@@ -129,7 +129,7 @@ exports.level = {
               "Rendons-nous sur une branche et regardons ce qui se passe"
             ],
             "afterMarkdowns": [
-              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" `HEAD` puis n'a pas mis à jour `o/master` quand nous avons ajouté un nouveau commit. C'est parce que `o/master` va se mettre à jour uniquement quand le dépôt distant est mis à jour."
+              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/master` quand nous avons ajouté un nouveau commit. C'est parce que `o/master` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
             ],
             "command": "git checkout o/master; git commit",
             "beforeCommand": "git clone"
@@ -139,7 +139,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, faîtes un commit en dehors de `master` puis un après s'être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
+              "Pour finir ce niveau, faîtes un commit en dehors de `master` puis un après vous être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
             ]
           }
         }
@@ -449,7 +449,67 @@ exports.level = {
           }
         }
       ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## リモートのブランチ",
+              "",
+              "あなたは今や`git clone`の動作を知ったことでしょうから、次は実際に詳細を見てみましょう。",
+              "",
+              "まず、もしかしたらもう気付いているかもしれないですが、私たちのローカルリポジトリにo/masterという名前の新しいブランチが追加されています。このようなブランチは、_リモート_ブランチと呼ばれます。リモートブランチは、その固有の役割を担うために特別なプロパティを持っています。",
+              "",
+              "リモートブランチは、リモートリポジトリの_状態_を反映します（あなたがそのリモートリポジトリから変更を最後に問い合わせてからの）。",
+              "",
+              "リモートブランチは、あなたがチェックアウトするとき、`HEAD`が分離された状態になるという特殊な性質を持っています。Gitはこの上での動作を保証しません。なぜこのようになるかというと、リモートブランチ上での直接の作業はできないからなのです。あなたは、別の場所で作業をし、その後でリモートブランチに共有するようにしなければなりません（その後であなたのリモートブランチは更新されます）。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `o/`とは何か?",
+              "",
+              "あなたは、リモートブランチが`o/`で始まることに驚くかもしれません。そう、リモートブランチには固有の（必要な）命名規則も存在するのです。 -- これは次のようなフォーマットで表示されます:",
+              "",
+              "* `<リモート名>/<ブランチ名>`",
+              "",
+              "これに基づいて、`o/master`と名付けられたブランチを見てみると、`master`はブランチの名前、`o`はリモートの名前であることが分かります。",
+              "",
+              "多くの開発者は、実際にはメインのリモート名として`o`ではなく`origin`を使います。これは一般的には、Gitが`git clone`した時に`origin`という名前をリモートに付与ためです。",
+              "",
+              "残念ながら、`origin`という長い名前は私たちのUIには合いませんでした。なので、私たちは短い`o`を使っています（覚えておいてもらいたいのは、実際のGitでは、リモートはおそらく`origin`と名付けられるであろうということです！）",
+              "",
+              "理解すべきことはたくさんあるので、ひとまず全ての動作を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "リモートブランチをチェックアウトすると何が起こるかを見てみましょう"
+            ],
+            "afterMarkdowns": [
+              "見ていた通り、`o/master`に移ってから新しいコミットをしても`HEAD`が分離状態になり`o/master`は更新されていません。これは、`o/master`がリモートの更新時のみ更新されるからです。"
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルを終えるには、まずコミットを`master`に一回行い、その後`o/master`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
+            ]
+          }
+        }
+      ]
     }
   }
 };
-

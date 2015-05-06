@@ -10,8 +10,7 @@ exports.level = {
     "pt_BR": "Tags no Git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
-    "zh_TW": "git tag",
-    "ru_RU": "Теги"
+    "zh_TW": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -21,8 +20,7 @@ exports.level = {
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
-    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
-    "ru_RU": "Можно делать checkout по хешу коммита или просто по тегу"
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
   },
   "startDialog": {
     "en_US": {
@@ -96,9 +94,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Vous l'avez deviné ! Git tags offre cette fonctionnalité -- les tags marquent à jamais certains commits comme \"milestone\" auxquels vous pouvez vous référez comme à des branches.",
+              "Vous l'avez deviné ! Git tags offre cette fonctionnalité : les tags marquent à jamais certains commits comme \"milestone\" auxquels vous pouvez vous référez comme à des branches.",
               "",
-              "Encore plus important, il sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag -- les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
+              "Encore plus important, il sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag : les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
               "",
               "Voyons les tags en pratique."
             ]
@@ -389,17 +387,17 @@ exports.level = {
         }
       ]
     },
-    "ru_RU": {
+    "ja": {
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Теги",
+              "## Gitのタグ",
               "",
-              "В прошлый уроках мы усвоили, что ветки просто двигать туда-сюда и они часто ссылаются на разные коммиты, как на изменения данных в ветке. Ветки просто изменить, они часто временны и постоянно меняют своё состояние.",
+              "私たちは、前回、ブランチが簡単に移動でき、またしばしば異なる作業の完了しているコミットを参照できることを学びました。ブランチは、簡単に変化させることができ、しばしば一時的で、いつも移動しています。",
               "",
-              "В таком случае, где взять *постоянную* ссылку на момент в истории изменений? Для таких вещей, как релиз, большие слияния нужно нечто более постоянное, чем ветка.",
+              "そのような場合に、もしプロジェクトの歴史的な点に*恒久的*にマークをつける方法があったならと思うかもしれません。例えば、メジャーリリースや大きなマージを行った時などに、そのコミットにブランチより恒久的な印をつける方法はないのでしょうか？",
               ""
             ]
           }
@@ -408,11 +406,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Такое средство имеется. Git предоставляет нам теги, чья основная задача – ссылаться постоянно на конкретный коммит.",
+              "それは存在します！Gitのタグは当にそのような場面で最適です。 -- ブランチのように参照でき、「マイルストーン（標識）」のような確かで（多少）永久的な印をコミットにつけます。",
               "",
-              "Важно, что после создания они никогда не сменят своего положения, так что можно с лёгкостью сделать checkout конкретного момента в истории изменений",
+              "重要なことは、コミットを新たに作ってもタグは動かないということです。あなたは、タグにチェックアウトしてそのタグで作業を完了させるということはできません -- タグは、コミットツリーの特定の地点を指定する錨のようなものとして機能します。",
               "",
-              "Посмотрим на это на практике."
+              "では、実際にタグがどのように動作するかを見てみましょう。"
             ]
           }
         },
@@ -420,10 +418,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Создадим тег на `C1`, который бутед нашей версией 1"
+              "私たちのバージョン1の原本となる`C1`にタグを付けてみましょう"
             ],
             "afterMarkdowns": [
-              "Готово! Всё просто. Мы назвали тег `v1` и заставили его ссылкаться на `C1` явным образом. Если конкретный коммит не указан, гит пометит тегом `HEAD`"
+              "見てください！とても簡単ですね。私たちは、`v1`という名前のタグを明示的に`C1`コミットに付与しました。もし、コミットを指定しなかった場合、`HEAD`にあるものにタグがつけられることになります。"
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -433,9 +431,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Чтобы пройти этот уровень, просто создай теги как показано на визуализации и потом перейди на тег `v1`. Обрати внимание, что ты перейдёшь в состояние `detached HEAD`, так как нельзя сделать коммит прамо в тег v1.",
+              "このレベルは、ゴールとして提示されている図のようにタグを作り、`v1`にチェックアウトすることで完了します。そうすると、あなたは`HEAD`分離状態になることに気づくでしょう -- これは、あなたが直接`v1`タグにコミットができないことを意味しています。",
               "",
-              "В следующем уровне, мы попробуем более интересные способы применения тегов."
+              "次のレベルでは、タグのより興味深い使い方について学びます。"
             ]
           }
         }

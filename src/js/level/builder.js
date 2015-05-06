@@ -10,6 +10,8 @@ var Errors = require('../util/errors');
 var Visualization = require('../visuals/visualization').Visualization;
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var Level = require('../level').Level;
+var LocaleStore = require('../stores/LocaleStore');
+var LevelStore = require('../stores/LevelStore');
 
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
@@ -44,7 +46,7 @@ var LevelBuilder = Level.extend({
     options = options || {};
     options.level = {};
 
-    var locale = intl.getLocale();
+    var locale = LocaleStore.getLocale();
     options.level.startDialog = {};
     options.level.startDialog[locale] = {
       childViews: intl.getDialog(require('../dialogs/levelBuilder'))
@@ -53,7 +55,7 @@ var LevelBuilder = Level.extend({
     // if we are editing a level our behavior is a bit different
     var editLevelJSON;
     if (options.editLevel) {
-      editLevelJSON = Main.getLevelArbiter().getLevel(options.editLevel);
+      LevelStore.getLevel(options.editLevel);
       options.level = editLevelJSON;
     }
 
@@ -270,9 +272,9 @@ var LevelBuilder = Level.extend({
       deferred: whenDoneEditing
     });
     whenDoneEditing.promise
-    .then(_.bind(function(levelObj) {
+    .then(function(levelObj) {
       this.startDialogObj = levelObj;
-    }, this))
+    }.bind(this))
     .fail(function() {
       // nothing to do, they dont want to edit it apparently
     })
@@ -314,10 +316,10 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForHintView.getPromise()
-      .then(_.bind(this.defineHint, this))
-      .fail(_.bind(function() {
+      .then(this.defineHint.bind(this))
+      .fail(function() {
         this.level.hint = {'en_US': ''};
-      }, this))
+      }.bind(this))
       .done(function() {
         askForHintDeferred.resolve();
       });
@@ -335,13 +337,13 @@ var LevelBuilder = Level.extend({
         ]
       });
       askForStartView.getPromise()
-      .then(_.bind(function() {
+      .then(function() {
         // oh boy this is complex
         var whenEditedDialog = Q.defer();
         // the undefined here is the command that doesnt need resolving just yet...
         this.editDialog(undefined, whenEditedDialog);
         return whenEditedDialog.promise;
-      }, this))
+      }.bind(this))
       .fail(function() {
         // if they dont want to edit the start dialog, do nothing
       })
@@ -350,14 +352,14 @@ var LevelBuilder = Level.extend({
       });
     }
 
-    chain = chain.done(_.bind(function() {
+    chain = chain.done(function() {
       // ok great! lets just give them the goods
       new MarkdownPresenter({
         fillerText: JSON.stringify(this.getExportObj(), null, 2),
         previewText: intl.str('share-json')
       });
       command.finishWith(deferred);
-    }, this));
+    }.bind(this));
 
     masterDeferred.resolve();
   },

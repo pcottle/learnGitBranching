@@ -61,11 +61,11 @@ exports.level = {
               "",
               "WOAHHHhhh ! Nous avons pas mal d'objectifs dans ce niveau.",
               "",
-              "Actuellement nous havons `master` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur master.",
+              "Actuellement nous avons `master` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur master.",
               "",
               "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être reordonnée, et `three` ne nécessite qu'un commit !",
               "",
-              "Nous vous laissons imaginer la solution pour ce niveau -- comparer avec notre solution après-coup avec la commande `show solution`. "
+              "Nous vous laissons imaginer la solution pour ce niveau ; comparez avec notre solution après-coup avec la commande `show solution`. "
             ]
           }
         }

@@ -1,13 +1,14 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Backbone = require('backbone');
+var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
 var intl = require('../intl');
 var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
+var LevelStore = require('../stores/LevelStore');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
@@ -41,7 +42,7 @@ var LevelDropdownView = ContainedBase.extend({
 
     this.navEvents = _.clone(Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
-      _.bind(this.loadLevelID, this),
+      this.loadLevelID.bind(this),
       300,
       true
     ));
@@ -61,18 +62,24 @@ var LevelDropdownView = ContainedBase.extend({
       wait: true
     });
 
-    this.sequences = Main.getLevelArbiter().getSequences();
-    this.sequenceToLevels = Main.getLevelArbiter().getSequenceToLevels();
+    this.sequences = LevelStore.getSequences();
+    this.sequenceToLevels = LevelStore.getSequenceToLevels();
 
     this.container = new ModalTerminal({
       title: intl.str('select-a-level')
     });
 
+    // Lol WTF. For some reason we cant use this.render.bind(this) so
+    // instead setup a lame callback version. The CasperJS tests
+    // fail otherwise.
+    var that = this;
+    LocaleStore.subscribe(function() {
+      that.render.apply(that);
+    });
+    LevelStore.subscribe(function() {
+      that.render();
+    });
     this.render();
-
-    Main.getEvents().on('resetMapSolved', this.render, this);
-    Main.getEvents().on('localeChanged', this.render, this);
-
     if (!options.wait) {
       this.show();
     }
@@ -240,7 +247,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getIndexForID: function(id) {
-    return Main.getLevelArbiter().getLevel(id).index;
+    return LevelStore.getLevel(id).index;
   },
 
   selectFirst: function() {
@@ -316,7 +323,7 @@ var LevelDropdownView = ContainedBase.extend({
         'commandSubmitted',
         'level ' + id
       );
-      var level = Main.getLevelArbiter().getLevel(id);
+      var level = LevelStore.getLevel(id);
       var name = level.name.en_US;
       log.levelSelected(name);
     }
@@ -354,8 +361,8 @@ var SeriesView = BaseView.extend({
   initialize: function(options) {
     this.name = options.name || 'intro';
     this.navEvents = options.navEvents;
-    this.info = Main.getLevelArbiter().getSequenceInfo(this.name);
-    this.levels = Main.getLevelArbiter().getLevelsInSequence(this.name);
+    this.info = LevelStore.getSequenceInfo(this.name);
+    this.levels = LevelStore.getLevelsInSequence(this.name);
 
     this.levelIDs = [];
     _.each(this.levels, function(level) {
@@ -380,7 +387,7 @@ var SeriesView = BaseView.extend({
     // property changing but it's the 11th hour...
     var toLoop = this.$('div.levelIcon').each(function(index, el) {
       var id = $(el).attr('data-id');
-      $(el).toggleClass('solved', Main.getLevelArbiter().isLevelSolved(id));
+      $(el).toggleClass('solved', LevelStore.isLevelSolved(id));
     });
   },
 
@@ -404,7 +411,7 @@ var SeriesView = BaseView.extend({
   },
 
   updateAboutForLevelID: function(id) {
-    var level = Main.getLevelArbiter().getLevel(id);
+    var level = LevelStore.getLevel(id);
     this.setAbout(intl.getName(level));
   },
 

@@ -290,7 +290,7 @@ exports.level = {
               "",
               "Gitでは変更を元に戻す方法がたくさんあります。コミットと同じように、低レベルな動作（ファイル別だったりファイルの中の一部だったり）も高レベルな動作（変更のまとまりのキャンセル）もできます。このアプリケーションでは後者の方法について紹介します。",
               "",
-              "基本的なアンドゥの方法が2つあります - 一つは`git reset`を使う方法で、もう1つは`git revert`を使う方法です。次のダイアログで一つ一つを見ていきます。",
+              "基本的なアンドゥの方法が2つあります -- 一つは`git reset`を使う方法で、もう1つは`git revert`を使う方法です。次のダイアログで一つ一つを見ていきます。",
               ""
             ]
           }
@@ -353,7 +353,7 @@ exports.level = {
               "",
               "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
               "",
-              "Il y a principalement deux façons d'annuler des changements avec Git -- l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
+              "Il y a principalement deux façons d'annuler des changements avec Git : l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
               ""
             ]
           }
@@ -400,7 +400,7 @@ exports.level = {
             "markdowns": [
               "Pour accomplir ce niveau, annulez les deux derniers commits à la fois sur `local` et sur `pushed`.",
               "",
-              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale -- cela devrait vous guider dans le choix de la méthode à employer."
+              "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale ; cela devrait vous guider dans le choix de la méthode à employer."
             ]
           }
         }

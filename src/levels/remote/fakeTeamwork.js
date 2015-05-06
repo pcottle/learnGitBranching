@@ -85,11 +85,11 @@ exports.level = {
             "markdowns": [
               "## Simuler la collaboration",
               "",
-              "C'est là que cela devient compliqué -- pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
+              "C'est là que cela devient compliqué : pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
               "",
-              "Cela signifie que nous devons \"pretendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, à quelque moment sur une branche spécifique ou sur un certain nombre de commits.",
+              "Cela signifie que nous devons \"prétendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, et parfois même sur une branche spécifique ou avec plusieurs commits.",
               "",
-              "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle est assez significative, voyons une démo ..."
+              "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle devrait vous paraître assez intuitive, voyons une démo..."
             ]
           }
         },
@@ -97,10 +97,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Le comportement par défaut de `fakeTeamwork` est de simplement faire apparaître un commit sur master"
+              "Le comportement par défaut de `fakeTeamwork` est tout simplement de faire apparaître un commit sur le master distant :"
             ],
             "afterMarkdowns": [
-              "Voilà -- le dépôt distant a été mis-à-jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuter la commande `git fetch`."
+              "Voilà : le dépôt distant a été mis à jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuté la commande `git fetch`."
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
@@ -110,10 +110,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vous pouvez aussi spécifier le nombre de commits ou la branche en l'ajoutant à la fin de la commande."
+              "Vous pouvez aussi spécifier le nombre de commits ou la branche en les ajoutant à la fin de la commande."
             ],
             "afterMarkdowns": [
-              "Avec une seule commande, nous avons simulé un collègue ayant pushé 3 commits à la branche `foo` de notre dépôt distant"
+              "Avec une seule commande, nous avons simulé un collègue ayant pushé 3 commits sur la branche `foo` de notre dépôt distant"
             ],
             "command": "git fakeTeamwork foo 3",
             "beforeCommand": "git branch foo; git clone"
@@ -123,9 +123,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Les niveaux suivants vont devenir assez difficiles, donc nous demandons un peu plus que cela dans ce niveau.",
+              "Les niveaux suivants vont devenir assez difficiles, donc nous augmentons un peu la difficulté de cet exercice.",
               "",
-              "Vous devrez créer un dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commit les vôtres, et enfin appliquer ces changements dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
+              "Vous devrez créer un dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commiter les vôtres, et enfin appliquer les changements distants dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
             ]
           }
         }

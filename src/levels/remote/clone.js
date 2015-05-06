@@ -95,7 +95,7 @@ exports.level = {
               "",
               "- Plus important encore, les dépôts distants sociabilisent le projet ! Maintenant qu'il est hébergé quelque part ailleurs, vos amis peuvent y contribuer facilement (ou récupérer vos derniers changements).",
               "",
-              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (commen [Github](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent  _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
+              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (commen [Github](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
             ]
           }
         },
@@ -105,7 +105,7 @@ exports.level = {
             "markdowns": [
               "## Les commandes pour créer des dépôts distants",
               "",
-              "Jusqu'à maintenant, Learn Git Branching s'est surtout concentrésur l'apprentissage des bases du travail sur un dépôt _local_ (branch, merge, rebase, etc). Cependant maintenant nous voulons savoir comment travailler sur les dépôts distants, nous avons besoin d'une commande pour l'environnement de ces leçons. `git clone` sera cette commande",
+              "Jusqu'à maintenant, Learn Git Branching s'est surtout concentré sur l'apprentissage des bases du travail sur un dépôt _local_ (branch, merge, rebase, etc). Cependant maintenant nous voulons savoir comment travailler sur les dépôts distants, nous avons besoin d'une commande pour l'environnement de ces leçons. `git clone` sera cette commande.",
               "",
               "Techniquement, `git clone` dans le monde réel sera la commande que vous utiliserez pour créer des copies _locales_ des dépôts distants (de github par exemple). Nous utilisons cette commande un peu différemment dans Learn Git Branching car `git clone` crée ici un dépôt distant à partir de votre dépôt local. Il est certain qu'il s'agit donc du sens opposé de la commande originale, mais cela aide à construire la connexion entre le clonage et le travail sur le dépôt distant, travaillons donc avec cela pour l'instant.",
               ""
@@ -428,15 +428,15 @@ exports.level = {
             "markdowns": [
               "## Gitリモート",
               "",
-              "リモートのレポジトリというのはそんなに複雑なものでもありません。クラウドコンピューティングが普及している現在の世界では、gitリモートの裏には何か不思議な仕組みが動いていると思いやすいのですが、実は別のコンピューター上に保存されているあなたのレポジトリーのコピーにすぎません。普通の場合では、インターネットを媒体に使いこの別のコンピューターと対話し、コミットを交互にやり取りすることができます。",
+              "リモートのリポジトリというのはそんなに複雑なものでもありません。クラウドコンピューティングが普及している現在の世界では、gitリモートの裏には何か不思議な仕組みが動いていると思いやすいのですが、実は別のコンピューター上に保存されているあなたのリポジトリのコピーにすぎません。普通の場合では、インターネットを媒体に使いこの別のコンピューターと対話し、コミットを交互にやり取りすることができます。",
               "",
-              "とはいえ、リモートレポジトリにはいくつかの素晴らしい特徴があります:",
+              "とはいえ、リモートリポジトリにはいくつかの素晴らしい特徴があります:",
               "",
-              "- まず、リモートはバックアップの役割を果たします。ご存知の通り、ローカルのgitレポジトリは以前の状態にファイルを復帰する機能を持っているのですが、その情報はすべてローカルに保存されています。gitレポジトリを別のコンピューターにも保存することで、ローカルのデーターがすべて失われたとしても、保存状態からコーディングを続けられます。",
+              "- まず、リモートはバックアップの役割を果たします。ご存知の通り、ローカルのgitリポジトリは以前の状態にファイルを復帰する機能を持っているのですが、その情報はすべてローカルに保存されています。gitリポジトリを別のコンピューターにも保存することで、ローカルのデーターがすべて失われたとしても、保存状態からコーディングを続けられます。",
               "",
-              "- それよりも大切に、リモートではコードをよりソーシャル的に公開できます!プロジェクトのコピーが別の場所に保存されているため、友達などが簡単にそのプロジェクトに参加したり最近の変更をpullしたりできます。",
+              "- それよりも大切なこととして、リモートではコードをより一般的に公開できます!プロジェクトのコピーが別の場所に保存されているため、友達などが簡単にそのプロジェクトに参加したり最近の変更をpullしたりできます。",
               "",
-              "最近ではリモートレポジトリに関するデーターをビジュアル的に表示するウェブサイト([Github](https://github.com/)や[Phabricator](http://phabricator.org/)など)の使用が人気を集めていますが、レモートレポジトリは_いつでも_そのウェブサイトの裏に使われています。なので理解する必要があります。"
+              "最近ではリモートリポジトリに関するデータをビジュアル的に表示するウェブサイト([Github](https://github.com/)や[Phabricator](http://phabricator.org/)など)の使用が人気を集めていますが、リモートリポジトリは_そのいずれの_ウェブサイトの裏にも使われています。なので理解する必要があります。"
             ]
           }
         },
@@ -446,9 +446,9 @@ exports.level = {
             "markdowns": [
               "## リモートを作成するコマンド",
               "",
-              "今までLearn Git Branchingでは_ローカル_レポジトリの様々な作業（branch, merge, rebaseなど）に焦点を当ててきました。しかし、これからはリモートレポジトリの作業を学びますので、レッスンのために環境をセットアップする必要があります。そのコマンドは`git clone`になります。",
+              "今までLearn Git Branchingでは_ローカル_リポジトリの様々な作業（branch, merge, rebaseなど）に焦点を当ててきました。しかし、これからはリモートリポジトリの作業を学びますので、レッスンのために環境をセットアップする必要があります。そのコマンドは`git clone`になります。",
               "",
-              "普通の場合では`git clone`はリモートレポジトリ（githubなどから）を_ローカル_にコピーする時に使います。しかしLearn Git Branchingでは少し違ったように使います -- ここでは`git clone`が_ローカルレポジトリ_をリモートにコピーします。本当のコマンドの逆の動作になっているのですが、このようにcloneとリモートレポジトリのつながりが見えてきますので今のところは例として使いましょう。",
+              "普通の場合では`git clone`はリモートリポジトリ（githubなどから）を_ローカル_にコピーする時に使います。しかしLearn Git Branchingでは少し違ったように使います -- ここでは`git clone`が_ローカルリポジトリ_をリモートにコピーします。本当のコマンドの逆の動作になっているのですが、このようにcloneとリモートリポジトリのつながりが見えてきますので今のところは例として使いましょう。",
               ""
             ]
           }
@@ -457,11 +457,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "最初の一歩として、ビジュアライズでレモートレポジトリを見てみましょう。",
+              "最初の一歩として、ビジュアライズでリモートリポジトリを見てみましょう。",
               ""
             ],
             "afterMarkdowns": [
-              "できました! プロジェクトのリモートレポジトリが保存されました。結構似ているのですが、その違いを明らかにするために少しだけビジュアルを工夫しました -- これからのレベルではこれらのレポジトリの間で作業をどう共有するか見ていきます。"
+              "できました! プロジェクトのリモートリポジトリが保存されました。結構似ているのですが、その違いを明らかにするために少しだけビジュアルを工夫しました -- これからのレベルではこれらのリポジトリの間で作業をどう共有するか見ていきます。"
             ],
             "command": "git clone",
             "beforeCommand": ""
@@ -471,7 +471,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルをクリアするには、`git clone`で既存のレポジトリのクローンを作成します。次のレッスンでより詳細に見ていきます。"
+              "このレベルをクリアするには、`git clone`で既存のリポジトリのクローンを作成します。次のレッスンでより詳細に見ていきます。"
             ]
           }
         }
@@ -479,4 +479,3 @@ exports.level = {
     }
   }
 };
-

@@ -116,7 +116,6 @@ exports.level = {
               "",
               "Die Führungsetage macht die Sache allerdings etwas trickreicher -- die möchten, dass alle Commits in aufsteigender Reihenfolge geordnet sind. Das heißt unser fertiger Baum sollte `C7` ganz unten haben, darüber `C6` und so weiter und so fort.",
               "",
-              "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, etc etc, etc all in order.",
               "Wenn du irgendwo einen Fehler machst, benutz ruhig `reset` um wieder von vorne anzufangen oder `undo` um einen Schrit zurückzugehen. Schau dir die Lösung an und versuch es in weniger Schritten hinzubekommen, als die."
             ]
           }
@@ -133,7 +132,7 @@ exports.level = {
               "",
               "さあ、いくつものブランチが出てきます。このブランチたち全てをmasterブランチにリベースしましょう。",
               "",
-              "おエライさん方が今回の仕事を少しトリッキーにしてくれました ― コミットはすべて一列のシーケンシャルな状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
+              "おエライさん方が今回の仕事を少しトリッキーにしてくれました -― コミットはすべて一列のシーケンシャルな状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
               "",
               "試行錯誤してツリーが汚くなってきたら、`reset`コマンドを使ってツリーの状態を初期化してください。模範解答をチェックして、それよりも簡単なコマンドで済ませられるかどうか、を考えるのも忘れずに！"
             ]

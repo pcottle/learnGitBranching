@@ -13,7 +13,7 @@ exports.level = {
     "pt_BR": "Parâmetros do git push",
     "de_DE": "Optionen für Git Push",
     "ja"   : "Git pushの引数",
-    "fr_FR": "Paramètres de git push"
+    "fr_FR": "Arguments de git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -106,9 +106,9 @@ exports.level = {
             "markdowns": [
               "## Les arguments de push",
               "",
-              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sontt très similaires.",
+              "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sont très similaires.",
               "",
-              "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches que git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (i.e. la branche qu'elle \"suit\" -- track). C'est le comportement quand aucun argument n'est spécifié, mais git peut optionnellement prendre des arguments de la forme :",
+              "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches distantes que git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (c'est à dire la branche distante que cette dernière \"suit\" -- track). C'est le comportement rencontré quand aucun argument n'est spécifié, mais git push accepte aussi des arguments de la forme :",
               "",
               "`git push <remote> <place>`",
               "",
@@ -120,17 +120,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Quel est le paramètre `<place>`? Nous allons voir ces particularités bientôt, mais d'abord un exemple. Exécuter la commande :",
+              "Qu'est ce que ce paramètre `<place>` ? Avant de passer à l'explication, voyons d'abord un exemple. La commande suivante :",
               "",
               "`git push origin master`",
               "",
-              "translates to this in English:",
+              "peut se traduire en français par :",
               "",
-              "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Cela place tous les commits manquants sur cette branche puis me notifie quand c'est terminé.*",
+              "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Envoie tous les commits qui lui manquent sur cette branche distante puis préviens-moi quand c'est terminé.*",
               "",
-              "En spécifiant `master` comme argument \"place\", nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacment\" à synchroniser entre les deux dépôts.",
+              "En spécifiant `master` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
               "",
-              "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin (en précisant les deux arguments), il ignore totalement quelle est la branche courante !"
+              "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin pour opérer (en précisant les deux arguments), il n'a donc absolument pas besoin de savoir quelle est la branche courante !"
             ]
           }
         },
@@ -138,10 +138,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Voyons un exemple d'arguments. Notez la branche courante dans cet exemple."
+              "Voyons un exemple d'arguments. Notez bien où se trouve `HEAD` dans cet exemple."
             ],
             "afterMarkdowns": [
-              "Voilà ! `master` a été mise à joure puisque nous avons spécifié ces arguments."
+              "Voilà ! `master` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"

@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -76,14 +75,14 @@ AnimationFactory.highlightEachWithPromise = function(
   toHighlight,
   destObj
 ) {
-  _.each(toHighlight, function(commit) {
-    chain = chain.then(_.bind(function() {
+  toHighlight.forEach(function(commit) {
+    chain = chain.then(function() {
       return this.playHighlightPromiseAnimation(
         commit,
         destObj
       );
-    }, this));
-  }, this);
+    }.bind(this));
+  }.bind(this));
   return chain;
 };
 

@@ -31,7 +31,7 @@ exports.strings = {
     'en_US': 'Awesome! You matched or exceeded our solution.',
     'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto ou melhor que a nossa.',
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
-    'ja': '素晴らしい！このレベルをクリアしましたね。',
+    'ja': '素晴らしい！このレベルをクリアしましたね',
     'zh_CN': '牛鼻啊！你达到或者完爆了我们的答案。',
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
@@ -899,6 +899,7 @@ exports.strings = {
     'fr_FR': 'Afficher les cibles',
     'pt_BR': 'Mostrar objetivo',
     'es_AR': 'Mostrar objetivo',
+    'ja'   : 'ゴールを表示',
     'ru_RU': 'Показать цель уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -910,6 +911,7 @@ exports.strings = {
     'zh_CN': '隐藏目标',
     'pt_BR': 'Ocultar objetivo',
     'es_AR': 'Ocultar obetivo',
+    'ja'   : 'ゴールを隠す',
     'ru_RU': 'Спрятать цель'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -922,18 +924,20 @@ exports.strings = {
     'es_AR': 'Objetivo a cumplir',
     'pt_BR': 'Objetivo a cumprir',
     'fr_FR': 'Cible à atteindre',
+    'ja'   : '到達目標',
     'ru_RU': 'Цель уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the master branch',
     'en_US': '<span class="fwber">Note:</span> Only the master branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
-    'fr_FR': '<span class="fwber">Note:</span> Seulement la branche master peut être check id à ce niveau. Les autres branches sont simplement une référence (Montré avec un tiret). Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
+    'fr_FR': '<span class="fwber">Note:</span> Dans ce niveau on ne doit faire de git checkout que sur la branche master. Les autres branches représentées ici (entourées d\'un cadre en tirets) doivent être utilisées uniquement comme références. Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch master geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama master va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'pt_BR': '<span class="fwber">Nota:</span> Apenas o ramo master será verificado neste nível. Os outros ramos (dentro das caixas clareadas) são somente para referência. Como sempre, você pode ocultar esta janela com "hide goal"',
     'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗',
+    'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': '<span class="fwber">Важно:</span> В этом уровне провреяется только ветка master. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -945,7 +949,8 @@ exports.strings = {
     'zh_TW': '你可以透過 "hide goal" 關閉這個視窗',
     'es_AR': 'Podés ocultar esta ventana con "hide goal"',
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"',
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
+    'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -958,7 +963,8 @@ exports.strings = {
     'es_AR': 'Podés ocultar esta ventana con "hide start"',
     'pt_BR': 'Você pode ocultar esta janela com "hide start"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
-    'ru_RU': 'Можно скрыть это окно при помощи "hide ыефке"'
+    'ja'   : 'このウィンドウは"hide start"で閉じれます',
+    'ru_RU': 'Можно скрыть это окно при помощи "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -970,6 +976,7 @@ exports.strings = {
     'es_AR': 'Constructor de niveles',
     'pt_BR': 'Construtor de níveis',
     'fr_FR': 'Éditeur de niveaux',
+    'ja'   : 'Levelエディタ',
     'ru_RU': 'Редактор уровней'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -982,6 +989,7 @@ exports.strings = {
     'es_AR': '¡No hay mensaje de inicio para este nivel!',
     'pt_BR': 'Não há mensagem de início para este nível!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !',
+    'ja'   : 'このLevelにはスタートダイアログが存在しません',
     'ru_RU': 'Нет стартового сообщение для уровня!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -994,6 +1002,7 @@ exports.strings = {
     'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
     'pt_BR': 'Hmm, não existe nenhuma pista para este nível :-/',
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/',
+    'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/',
     'ru_RU': "Милый мой, хороший, догадайся сам :-/ Подсказка не создана..."
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1006,6 +1015,7 @@ exports.strings = {
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
     'pt_BR': 'Não existe tradução para {key} :( Pule no Github e sugira uma! :)',
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !',
+    'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
     'ru_RU': 'Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1018,6 +1028,7 @@ exports.strings = {
     'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
     'pt_BR': 'Esta mensagem ou texto não foi traduzida para Português :( Ajude-nos a traduzir no Github!',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
+    'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
     'ru_RU': 'Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub'
   }
 };

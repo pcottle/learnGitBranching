@@ -253,7 +253,7 @@ exports.level = {
               "Spécifions le nombre de commits en arrière avec `~`."
             ],
             "afterMarkdowns": [
-              "Boum! Tellement rapide -- les références relatives sont géniales."
+              "Boum! Tellement rapide ! Les références relatives sont géniales."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -404,7 +404,7 @@ exports.level = {
               "",
               "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
               "",
-              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项把直接让分支指向另一个提交。举个例子:",
+              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项直接让分支指向另一个提交。举个例子:",
               "",
               "`git branch -f master HEAD~3`",
               "",
@@ -498,7 +498,7 @@ exports.level = {
               "遡る前のコミット数を`~`で指定しましょう。"
             ],
             "afterMarkdowns": [
-              "よっしゃ！効率が良いですねー相対リファレンスはなんと便利です。"
+              "よっしゃ！効率が良いですね -- 相対リファレンスはなんと便利です。"
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"

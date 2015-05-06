@@ -1,13 +1,60 @@
+# NPM
+npm-debug.log
 node_modules/
+
+# Build artifacts and asset stuff
 build/*
 build/bundle.js
 build/bundle.*.js
 build/main.*.css
 screens
-.DS_STORE
-search_replace.sh
 FontAwesome-Vectors.pdf
 index.html
+
+# Vim swaps
 *.sw*
-npm-debug.log
+
+# Annoying mac stuff
+.DS_STORE
+
+# Casper stuff
+src/__tests__/casperjs/screenshots/*.png
+src/__tests__/casperjs/*.js-e
+
+# Xcode
+*.xcuserstate
+*.xcworkspace
+xcuserdata
+UserInterfaceState.xcuserstate
+xcuserdata/
+
+*.pbxuser
+*.perspective
+*.perspectivev3
+
+*.mode1v3
+*.mode2v3
+
+*.xcodeproj/xcuserdata/*.xcuserdatad
+
+*.xccheckout
+*.xcuserdatad
+
+*.pyc
+
+.User.xcconfig
+
+xcuserdata
+Tools/xctool/build
+Tools/clang/analyzer/build
+Tools/clang/libtooling/build
+Tools/clang/clang-ocaml/build
+Tools/clang/xcode
+VendorLib/Breakpad/src/tools/mac/dump_syms/build
+DerivedData
+VendorLib/clang/lib/arc
+VendorLib/clang/lib/c++
+
+*.swp
+
 

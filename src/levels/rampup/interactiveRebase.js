@@ -128,7 +128,7 @@ exports.level = {
               "Quand le rebase interactif s'ouvre, vous avez la possibilité de faire 3 choses :",
               "",
               "* Vous pouvez réarranger les commits simplement en changeant leur ordre dans l'interface graphique (dans notre fenêtre de dialogue, cela signifie déplacer les objets dedans avec la souris -- drag and drop).",
-              "* Vous pouvez omettre certains commits. Cela est désigné par  `pick` -- cliquer sur `pick` désélectionne/resélectionne le commit.",
+              "* Vous pouvez omettre certains commits. Cela est désigné par `pick` : cliquer sur `pick` désélectionne/resélectionne le commit.",
               "* Enfin, vous pouvez écraser des commits. Malheureusement notre niveau ne supporte pas cette option, nous allons donc sauter les détails concernant cette possibilité. Pour faire court, cela vous permet de mélanger des commits.",
               "",
               "Super ! Voyons un exemple."
@@ -152,7 +152,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, faites un rebase intractif et atteignez l'ordre indiqué dans le fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
+              "Pour finir ce niveau, faites un rebase interactif et atteignez l'ordre indiqué dans le fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
             ]
           }
         }

@@ -1,7 +1,5 @@
-var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Backbone = require('backbone');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -13,6 +11,8 @@ var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
 var DisabledMap = require('../level/disabledMap').DisabledMap;
 var Command = require('../models/commandModel').Command;
 var GitShim = require('../git/gitShim').GitShim;
+var LevelActions = require('../actions/LevelActions');
+var LevelStore = require('../stores/LevelStore');
 
 var Views = require('../views');
 var ModalTerminal = Views.ModalTerminal;
@@ -67,7 +67,7 @@ var Sandbox = Backbone.View.extend({
 
   initGitShim: function(options) {
     this.gitShim = new GitShim({
-      beforeCB: _.bind(this.beforeCommandCB, this)
+      beforeCB: this.beforeCommandCB.bind(this)
     });
   },
 
@@ -152,7 +152,7 @@ var Sandbox = Backbone.View.extend({
   startLevel: function(command, deferred) {
     var regexResults = command.get('regexResults') || [];
     var desiredID = regexResults[1] || '';
-    var levelJSON = Main.getLevelArbiter().getLevel(desiredID);
+    var levelJSON = LevelStore.getLevel(desiredID);
 
     // handle the case where that level is not found...
     if (!levelJSON) {
@@ -224,7 +224,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   resetSolved: function(command, deferred) {
-    Main.getLevelArbiter().resetSolvedMap();
+    LevelActions.resetLevelsSolved();
     command.addWarning(
       intl.str('solved-map-reset')
     );
@@ -330,7 +330,7 @@ var Sandbox = Backbone.View.extend({
       fillerText: ' '
     });
     jsonGrabber.deferred.promise
-    .then(_.bind(function(treeJSON) {
+    .then(function(treeJSON) {
       try {
         this.mainVis.gitEngine.loadTree(JSON.parse(treeJSON));
       } catch(e) {
@@ -350,7 +350,7 @@ var Sandbox = Backbone.View.extend({
           }]
         });
       }
-    }, this))
+    }.bind(this))
     .fail(function() { })
     .done(function() {
       command.finishWith(deferred);
@@ -364,7 +364,7 @@ var Sandbox = Backbone.View.extend({
     });
 
     jsonGrabber.deferred.promise
-    .then(_.bind(function(inputText) {
+    .then(function(inputText) {
       var Level = require('../level').Level;
       try {
         var levelJSON = JSON.parse(inputText);
@@ -396,7 +396,7 @@ var Sandbox = Backbone.View.extend({
         });
         command.finishWith(deferred);
       }
-    }, this))
+    }.bind(this))
     .fail(function() {
       command.finishWith(deferred);
     })
@@ -455,10 +455,10 @@ var Sandbox = Backbone.View.extend({
     var helpDialog = new MultiView({
       childViews: intl.getDialog(require('../dialogs/sandbox'))
     });
-    helpDialog.getPromise().then(_.bind(function() {
+    helpDialog.getPromise().then(function() {
       // the view has been closed, lets go ahead and resolve our command
       command.finishWith(deferred);
-    }, this))
+    }.bind(this))
     .done();
   }
 });

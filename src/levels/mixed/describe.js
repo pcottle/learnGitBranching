@@ -17,7 +17,7 @@ exports.level = {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
-    "ja"   : "次に進む用意が整えれば、bugFixに対して一回commitしてください",
+    "ja"   : "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
@@ -461,6 +461,69 @@ exports.level = {
               "Das ist so ziemlich alles, was es über `git describe` zu wissen gibt. Versuch ein paar Orte in diesem Level damit auszugeben, um ein Gefühl dafür zu bekommen.",
               "",
               "Sobald du fertig bist, mach einfach einen Commit um den Level abzuschließen. Der geht auf's Haus. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "タグは、ソースリストの優秀な「アンカー（標識）」として作用するので、Gitには最も近く関係のある「アンカー」（タグの別名）を*記述するため*のコマンドがあります。そして、そのコマンドは`git describe`と呼ばれています！",
+              "",
+              "Gitの`describe`は、あなたが大量のコミットの中を移動するとき、今どこにいるかを知るのを助けてくれます（これは、例えばあなたがデバッグ検索コマンドの一つ`git bisect`を終わった後や、同僚が休暇から帰ってきて自分の席に座るときに起こります）。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Gitの`describe`は、以下の形式をとります:",
+              "",
+              "`git describe <参照>`",
+              "",
+              "`<参照>`には、Gitが解釈可能なコミットの参照表現（ブランチやタグの指定、コミットハッシュなど）をいれます。もし、何も入力しなかった場合、Gitは現在の位置のコミット（`HEAD`）を使います。",
+              "",
+              "コマンドの結果は以下のようになります:",
+              "",
+              "`<タグ>_<コミット数>_g<ハッシュ>`",
+              "",
+              "`<タグ>`には履歴の一番最新のタグ名が、`<コミット数>`にはそのタグから幾つのコミットがあったか、`<ハッシュ>`はそのコミットのハッシュがそれぞれ入ります。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "軽い例を見てみましょう。この木においての例は以下のようになります:"
+            ],
+            "afterMarkdowns": [
+              "コマンド`git describe master`の結果は以下のようになります:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "さらに`git describe side`の結果は以下のようになります:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`describe`によってGitの情報が簡潔に全て記述されます！このレベルでは、このコマンドの感触をつかむため幾つかの場所で`describe`をしてみてください。",
+              "",
+              "終わったら、最新のコミットに行き一度コミットを行えばこのレベルを終了することができます。この先では、いくつかの挑戦課題を用意しています :P"
             ]
           }
         }

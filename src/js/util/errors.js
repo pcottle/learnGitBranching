@@ -1,24 +1,19 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var MyError = Backbone.Model.extend({
   defaults: {
-    type: 'MyError',
-    msg: 'Unknown Error'
+    type: 'MyError'
   },
   toString: function() {
     return this.get('type') + ': ' + this.get('msg');
   },
 
   getMsg: function() {
-    return this.get('msg') || 'Unknown Error';
-  },
-
-  toResult: function() {
-    if (!this.get('msg').length) {
-      return '';
+    if (!this.get('msg')) {
+      debugger;
+      console.warn('mye rror without message');
     }
-    return '<p>' + this.get('msg').replace(/\n/g, '</p><p>') + '</p>';
+    return this.get('msg');
   }
 });
 

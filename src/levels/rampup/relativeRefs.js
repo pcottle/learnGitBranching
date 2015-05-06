@@ -16,6 +16,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
+    "ja"   : "相対リファレンス(^)を思い出して！",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
@@ -561,7 +562,7 @@ exports.level = {
               "",
               "その上、実際のハッシュはこちらで見たものよりずっと長いです。例えば、先ほどのレベルの紹介のコミットハッシュは`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`です。少し覚えにくいですね...",
               "",
-              "そのため、gitでは手短くコミットを指定する方法があります。ユニークな存在だと確認できるだけのハッシュの字数を入力すれば良いですー上記の長い文字列の代わりに`fed2`を入力するだけで済みます。"
+              "そのため、gitでは手短くコミットを指定する方法があります。ユニークな存在だと確認できるだけのハッシュの字数を入力すれば良いです -- 上記の長い文字列の代わりに`fed2`を入力するだけで済みます。"
             ]
           }
         },
@@ -588,7 +589,7 @@ exports.level = {
               "",
               "なので `master^`と記述すれば、\"`master`の一個上の親\"、という意味になります。",
               "",
-              "そして`master^^`とはその親の一つの上のコミット(２代目の先祖)を指します。",
+              "そして`master^^`とはその親の一つの上のコミット(２代前の親)を指します。",
               "",
               "masterの上のコミットをここで見てみましょう"
             ],

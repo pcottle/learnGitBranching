@@ -1,7 +1,4 @@
-var _ = require('underscore');
-
-var warnOnce = true;
-
+var _warnOnce = true;
 function detectZoom() {
   /**
    * Note: this method has only been tested on Chrome
@@ -11,9 +8,9 @@ function detectZoom() {
    * so I can't use it. The ecosystem for zoom level detection is a mess
    */
   if (!window.outerWidth || !window.innerWidth) {
-    if (warnOnce) {
+    if (_warnOnce) {
       console.warn("Can't detect zoom level correctly :-/");
-      warnOnce = false;
+      _warnOnce = false;
     }
     return 1;
   }
@@ -21,29 +18,5 @@ function detectZoom() {
   return window.outerWidth / window.innerWidth;
 }
 
-var locked = true;
-var setupZoomPoll = function(callback, context) {
-  var currentZoom = 0;
-
-  setInterval(function() {
-    var newZoom = detectZoom();
-
-    if (newZoom !== currentZoom) {
-      // we need to wait one more before issuing callback
-      // to avoid window resize issues
-      if (locked) {
-        locked = false;
-        return;
-      }
-
-      currentZoom = newZoom;
-      callback.apply(context, [newZoom]);
-    } else {
-      locked = true;
-    }
-  }, 500);
-};
-
-exports.setupZoomPoll = setupZoomPoll;
 exports.detectZoom = detectZoom;
 

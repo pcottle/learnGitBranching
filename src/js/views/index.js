@@ -1,14 +1,12 @@
 var _ = require('underscore');
 var Q = require('q');
-// horrible hack to get localStorage Backbone plugin
-var Backbone = (!require('../util').isBrowser()) ? require('backbone') : window.Backbone;
+var Backbone = require('backbone');
 
 var Main = require('../app');
 var intl = require('../intl');
 var log = require('../log');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
-var GitError = require('../util/errors').GitError;
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -72,9 +70,9 @@ var ContainedBase = BaseView.extend({
 
   die: function() {
     this.hide();
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.tearDown();
-    }, this), this.getAnimationTime() * 1.1);
+    }.bind(this), this.getAnimationTime() * 1.1);
   }
 });
 
@@ -109,7 +107,7 @@ var GeneralButton = ContainedBase.extend({
   click: function() {
     if (!this.clickFunc) {
       this.clickFunc = _.throttle(
-        _.bind(this.sendClick, this),
+        this.sendClick.bind(this),
         500
       );
     }
@@ -118,7 +116,7 @@ var GeneralButton = ContainedBase.extend({
 
   sendClick: function() {
     this.navEvents.trigger('click');
-  }
+  }.bind(this)
 });
 
 var ConfirmCancelView = ResolveRejectBase.extend({
@@ -150,26 +148,6 @@ var LeftRightView = PositiveNegativeBase.extend({
   tagName: 'div',
   className: 'leftRightView box horizontal center',
   template: _.template($('#left-right-template').html()),
-  events: {
-    'click .left': 'negative',
-    'click .exit': 'exit',
-    'click .right': 'positive'
-  },
-
-  exit: function() {
-    this.pipeEvents.trigger('exit');
-    LeftRightView.__super__.exit.apply(this);
-  },
-
-  positive: function() {
-    this.pipeEvents.trigger('positive');
-    LeftRightView.__super__.positive.apply(this);
-  },
-
-  negative: function() {
-    this.pipeEvents.trigger('negative');
-    LeftRightView.__super__.negative.apply(this);
-  },
 
   initialize: function(options) {
     if (!options.destination || !options.events) {
@@ -190,7 +168,28 @@ var LeftRightView = PositiveNegativeBase.extend({
     };
 
     this.render();
+    // For some weird reason backbone events arent working anymore so
+    // im going to just wire this up manually
+    this.$('div.right').click(this.positive.bind(this));
+    this.$('div.left').click(this.negative.bind(this));
+    this.$('div.exit').click(this.exit.bind(this));
+  },
+
+  exit: function() {
+    this.pipeEvents.trigger('exit');
+    LeftRightView.__super__.exit.apply(this);
+  },
+
+  positive: function() {
+    this.pipeEvents.trigger('positive');
+    LeftRightView.__super__.positive.apply(this);
+  },
+
+  negative: function() {
+    this.pipeEvents.trigger('negative');
+    LeftRightView.__super__.negative.apply(this);
   }
+
 });
 
 var ModalView = Backbone.View.extend({
@@ -253,19 +252,19 @@ var ModalView = Backbone.View.extend({
     // on reflow, change our class to animate. for whatever
     // reason if this is done immediately, chrome might combine
     // the two changes and lose the ability to animate and it looks bad.
-    process.nextTick(_.bind(function() {
+    process.nextTick(function() {
       this.toggleShow(true);
-    }, this));
+    }.bind(this));
   },
 
   hide: function() {
     this.toggleShow(false);
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       // if we are still hidden...
       if (!this.shown) {
         this.toggleZ(false);
       }
-    }, this), this.getAnimationTime());
+    }.bind(this), this.getAnimationTime());
   },
 
   getInsideElement: function() {
@@ -330,7 +329,7 @@ var ModalAlert = ContainedBase.extend({
   template: _.template($('#modal-alert-template').html()),
 
   initialize: function(options) {
-    options = options || {};
+    this.options = options || {};
     this.JSON = {
       title: options.title || 'Something to say',
       text: options.text || 'Here is a paragraph',
@@ -389,9 +388,9 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     buttonDefer.promise
     .then(this.deferred.resolve)
     .fail(this.deferred.reject)
-    .done(_.bind(function() {
+    .done(function() {
       this.close();
-    }, this));
+    }.bind(this));
 
     // also setup keyboard
     this.navEvents = _.clone(Backbone.Events);
@@ -482,20 +481,6 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
   }
 });
 
-var BackgroundView = Backbone.View.extend({
-  initialize: function() {
-    this.$body = $('body');
-    Main.getEvents().on('vcsModeChange', this.updateMode, this);
-  },
-
-  updateMode: function(eventData) {
-    eventData = eventData || {};
-    var isGit = eventData.mode === 'git';
-    this.$body.toggleClass('gitMode', isGit);
-    this.$body.toggleClass('hgMode', !isGit);
-  }
-});
-
 var ViewportAlert = Backbone.View.extend({
   initialize: function(options) {
     this.grabBatons();
@@ -561,321 +546,6 @@ var ZoomAlertWindow = ViewportAlert.extend({
   }
 });
 
-var LevelToolbar = BaseView.extend({
-  tagName: 'div',
-  className: 'levelToolbarHolder',
-  template: _.template($('#level-toolbar-template').html()),
-
-  initialize: function(options) {
-    options = options || {};
-    this.parent = options.parent;
-    this.JSON = {
-      name: options.name || 'Some level! (unknown name)'
-    };
-
-    this.beforeDestination = $($('#commandLineHistory div.toolbar')[0]);
-    this.render();
-
-    this.$goalButton = this.$el.find('#show-goal');
-    this.$objectiveButton = this.$el.find('#show-objective');
-
-    var parent = this.parent;
-    this.$goalButton.on('click', function () {
-      parent.trigger('toggleGoal');
-    });
-    this.$objectiveButton.on('click', function() {
-      parent.trigger('toggleObjective');
-    });
-
-    if (!options.wait) {
-      process.nextTick(_.bind(this.show, this));
-    }
-  },
-
-  getAnimationTime: function() { return 700; },
-
-  render: function() {
-    var HTML = this.template(this.JSON);
-
-    this.$el.html(HTML);
-    this.beforeDestination.after(this.el);
-  },
-
-  die: function() {
-    this.hide();
-    setTimeout(_.bind(function() {
-      this.tearDown();
-    }, this), this.getAnimationTime());
-  },
-
-  hide: function() {
-    this.$('div.toolbar').toggleClass('hidden', true);
-  },
-
-  show: function() {
-    this.$('div.toolbar').toggleClass('hidden', false);
-  }
-});
-
-var HelperBar = BaseView.extend({
-  getClassName: function() {
-    return 'BaseHelperBar';
-  },
-
-  tagName: 'div',
-  className: 'helperBar transitionAll',
-  template: _.template($('#helper-bar-template').html()),
-  events: {
-    'click a': 'onClick'
-  },
-
-  onClick: function(ev) {
-    var target = ev.target;
-    var id = $(target).attr('data-id');
-    var funcName = 'on' + id[0].toUpperCase() + id.slice(1) + 'Click';
-    this[funcName].call(this);
-  },
-
-  show: function() {
-    this.$el.toggleClass('show', true);
-  },
-
-  hide: function() {
-    this.$el.toggleClass('show', false);
-    if (this.deferred) {
-      this.deferred.resolve();
-    }
-  },
-
-  getItems: function() {
-    return [];
-  },
-
-  setupChildren: function() {
-  },
-
-  fireCommand: function(command) {
-    Main.getEventBaton().trigger('commandSubmitted', command);
-  },
-
-  showDeferMe: function(otherBar) {
-    this.hide();
-
-    var whenClosed = Q.defer();
-    otherBar.deferred = whenClosed;
-    whenClosed.promise.then(_.bind(function() {
-      this.show();
-    }, this));
-    otherBar.show();
-  },
-
-  onExitClick: function() {
-    this.hide();
-  },
-
-  initialize: function(options) {
-    options = options || {};
-    this.destination = $('body');
-
-    this.JSON = {
-      items: this.getItems()
-    };
-    this.render();
-    this.$el.addClass(this.getClassName());
-    this.setupChildren();
-
-    if (!options.wait) {
-      this.show();
-    }
-  }
-});
-
-var IntlHelperBar = HelperBar.extend({
-  getClassName: function() {
-    return 'IntlHelperBar';
-  },
-
-  getItems: function() {
-    return [{
-      text: 'Git Branching',
-      id: 'english'
-    }, {
-      text: '日本語版リポジトリ',
-      id: 'japanese'
-    }, {
-      text: 'Git 브랜치 배우기',
-      id: 'korean'
-    }, {
-      text: '学习 Git 分支',
-      id: 'simpchinese'
-    }, {
-      text: '學習 Git 分支',
-      id: 'tradchinese'
-    }, {
-      text: 'español',
-      id: 'spanish'
-    }, {
-      text: 'português',
-      id: 'portuguese'
-    }, {
-      text: 'français',
-      id: 'french'
-    }, {
-      text: 'Deutsch',
-      id: 'german'
-    }, {
-      icon: 'signout',
-      id: 'exit'
-    }];
-  },
-
-  fireCommand: function() {
-    log.viewInteracted('intlSelect');
-    HelperBar.prototype.fireCommand.apply(this, arguments);
-  },
-
-  onJapaneseClick: function() {
-    this.fireCommand('locale ja; levels');
-    this.hide();
-  },
-
-  onEnglishClick: function() {
-    this.fireCommand('locale en_US; levels');
-    this.hide();
-  },
-
-  onKoreanClick: function() {
-    this.fireCommand('locale ko; levels');
-    this.hide();
-  },
-
-  onSpanishClick: function() {
-    this.fireCommand('locale es_AR; levels');
-    this.hide();
-  },
-  
-  onPortugueseClick: function() {
-    this.fireCommand('locale pt_BR; levels');
-    this.hide();
-  },
-
-  onFrenchClick: function() {
-    this.fireCommand('locale fr_FR; levels');
-    this.hide();
-  },
-
-  onGermanClick: function() {
-    this.fireCommand('locale de_DE; levels');
-    this.hide();
-  },
-
-  onSimpchineseClick: function() {
-    this.fireCommand('locale zh_CN; levels');
-    this.hide();
-  },
-
-  onTradchineseClick: function() {
-    this.fireCommand('locale zh_TW; levels');
-    this.hide();
-  }
-});
-
-var CommandsHelperBar = HelperBar.extend({
-  getClassName: function() {
-    return 'CommandsHelperBar';
-  },
-
-  getItems: function() {
-    return [{
-      text: 'Levels',
-      id: 'levels'
-    }, {
-      text: 'Solution',
-      id: 'solution'
-    }, {
-      text: 'Reset',
-      id: 'reset'
-    }, {
-      text: 'Undo',
-      id: 'undo'
-    }, {
-      text: 'Objective',
-      id: 'objective'
-    }, {
-      text: 'Help',
-      id: 'help'
-    }, {
-      icon: 'signout',
-      id: 'exit'
-    }];
-  },
-
-  fireCommand: function() {
-    log.viewInteracted('helperBar');
-    HelperBar.prototype.fireCommand.apply(this, arguments);
-  },
-
-  onSolutionClick: function() {
-    this.fireCommand('show solution');
-  },
-
-  onObjectiveClick: function() {
-    this.fireCommand('objective');
-  },
-
-  onLevelsClick: function() {
-    this.fireCommand('levels');
-  },
-
-  onResetClick: function() {
-    this.fireCommand('reset');
-  },
-
-  onUndoClick: function() {
-    this.fireCommand('undo');
-  },
-
-  onHelpClick: function() {
-    this.fireCommand('help general; git help');
-  }
-});
-
-var MainHelperBar = HelperBar.extend({
-  getItems: function() {
-    return [{
-      icon: 'question-sign',
-      id: 'commands'
-    }, {
-      icon: 'globe',
-      id: 'intl'
-    }, {
-      newPageLink: true,
-      icon: 'facebook',
-      id: 'fb',
-      href: 'https://www.facebook.com/LearnGitBranching'
-    }];
-  },
-
-  onFbClick: function() {
-    log.viewInteracted('fbPageLink');
-  },
-
-  onIntlClick: function() {
-    this.showDeferMe(this.intlHelper);
-    log.viewInteracted('openIntlBar');
-  },
-
-  onCommandsClick: function() {
-    this.showDeferMe(this.commandsHelper);
-    log.viewInteracted('openCommandsBar');
-  },
-
-  setupChildren: function() {
-    this.commandsHelper = new CommandsHelperBar({ wait: true });
-    this.intlHelper = new IntlHelperBar({ wait: true});
-  }
-});
-
 var CanvasTerminalHolder = BaseView.extend({
   tagName: 'div',
   className: 'canvasTerminalHolder box flex1',
@@ -908,7 +578,7 @@ var CanvasTerminalHolder = BaseView.extend({
 
     // If the entire window gets resized such that the terminal is outside the view, then
     // move it back into the view, and expand/shrink it vertically as necessary.
-    $(window).on('resize', _.debounce(_.bind(this.recalcLayout, this), 300));
+    $(window).on('resize', _.debounce(this.recalcLayout.bind(this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -925,9 +595,9 @@ var CanvasTerminalHolder = BaseView.extend({
     this.minimize();
     this.inDom = false;
 
-    setTimeout(_.bind(function() {
+    setTimeout(function() {
       this.tearDown();
-    }, this), this.getAnimationTime());
+    }.bind(this), this.getAnimationTime());
   },
 
   minimize: function() {
@@ -1011,7 +681,6 @@ var CanvasTerminalHolder = BaseView.extend({
 });
 
 exports.BaseView = BaseView;
-exports.BackgroundView = BackgroundView;
 exports.GeneralButton = GeneralButton;
 exports.ModalView = ModalView;
 exports.ModalTerminal = ModalTerminal;
@@ -1023,9 +692,5 @@ exports.ZoomAlertWindow = ZoomAlertWindow;
 exports.ConfirmCancelTerminal = ConfirmCancelTerminal;
 exports.WindowSizeAlertWindow = WindowSizeAlertWindow;
 
-exports.MainHelperBar = MainHelperBar;
-
 exports.CanvasTerminalHolder = CanvasTerminalHolder;
-exports.LevelToolbar = LevelToolbar;
 exports.NextLevelConfirm = NextLevelConfirm;
-
