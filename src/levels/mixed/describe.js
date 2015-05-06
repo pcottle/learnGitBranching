@@ -10,7 +10,8 @@ exports.level = {
     "es_AR": "Git Describe",
     "pt_BR": "Git Describe",
     "zh_TW": "git describe",
-    "zh_CN": "git describe"
+    "zh_CN": "git describe",
+    "ru_RU": "Git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -20,7 +21,8 @@ exports.level = {
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
-    "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了"
+    "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了",
+    "ru_RU": "Когда закончишь, просто сделай commit"
   },
   "startDialog": {
     "en_US": {
@@ -522,6 +524,70 @@ exports.level = {
               "`describe`によってGitの情報が簡潔に全て記述されます！このレベルでは、このコマンドの感触をつかむため幾つかの場所で`describe`をしてみてください。",
               "",
               "終わったら、最新のコミットに行き一度コミットを行えばこのレベルを終了することができます。この先では、いくつかの挑戦課題を用意しています :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Теги являются прекрасными ориентирами в истории изменений, поэтому в git есть команда, которая показывает как далеко текущее состоянии от ближайшего тега. И эта команда называется `git describe`",
+              "",
+              "Git describe помогает сориентироваться, после отката на много коммитов по истории изменений. Такое может случиться, когда вы сделали git bisect или если вы недавно вернулись из отпуска =)"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe выглядить примерно так:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Где `ref` это что-либо, что указывает на конкретный коммит. Если не указать `ref`, то git будет считать, что указано текущее положение (`HEAD`).",
+              "",
+              "Вывод команды выглядит примерно так:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Где `tag` – это ближайший тег в истории изменений, `numCommits` – это на сколько далеко мы от этого тега, а `hash` – это хеш коммита, который описывается."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Посмотрим на простой пример. Для дерева, показанного ниже:"
+            ],
+            "afterMarkdowns": [
+              "Команда `git describe master` выведет:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "Whereas `git describe side` would output:",
+              "Тогда как `git describe side` выведет:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Это, в общем-то всё, что можно сказать про git describe. Попробуй выполнить команду на нескольких коммитах.",
+              "",
+              "Как только наиграешься, просто сделай один коммит и уровень будет пройден."
             ]
           }
         }

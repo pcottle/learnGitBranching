@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Tags no Git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
-    "zh_TW": "git tag"
+    "zh_TW": "git tag",
+    "ru_RU": "Теги"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -20,7 +21,8 @@ exports.level = {
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
-    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
+    "ru_RU": "Можно делать checkout по хешу коммита или просто по тегу"
   },
   "startDialog": {
     "en_US": {
@@ -393,12 +395,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Gitのタグ",
-              "",
-              "私たちは、前回、ブランチが簡単に移動でき、またしばしば異なる作業の完了しているコミットを参照できることを学びました。ブランチは、簡単に変化させることができ、しばしば一時的で、いつも移動しています。",
-              "",
-              "そのような場合に、もしプロジェクトの歴史的な点に*恒久的*にマークをつける方法があったならと思うかもしれません。例えば、メジャーリリースや大きなマージを行った時などに、そのコミットにブランチより恒久的な印をつける方法はないのでしょうか？",
-              ""
+                "## Gitのタグ",
+                "",
+                "私たちは、前回、ブランチが簡単に移動でき、またしばしば異なる作業の完了しているコミットを参照できることを学びました。ブランチは、簡単に変化させることができ、しばしば一時的で、いつも移動しています。",
+                "",
+                "そのような場合に、もしプロジェクトの歴史的な点に*恒久的*にマークをつける方法があったならと思うかもしれません。例えば、メジャーリリースや大きなマージを行った時などに、そのコミットにブランチより恒久的な印をつける方法はないのでしょうか？",
+                ""
             ]
           }
         },
@@ -406,11 +408,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "それは存在します！Gitのタグは当にそのような場面で最適です。 -- ブランチのように参照でき、「マイルストーン（標識）」のような確かで（多少）永久的な印をコミットにつけます。",
-              "",
-              "重要なことは、コミットを新たに作ってもタグは動かないということです。あなたは、タグにチェックアウトしてそのタグで作業を完了させるということはできません -- タグは、コミットツリーの特定の地点を指定する錨のようなものとして機能します。",
-              "",
-              "では、実際にタグがどのように動作するかを見てみましょう。"
+                "それは存在します！Gitのタグは当にそのような場面で最適です。 -- ブランチのように参照でき、「マイルストーン（標識）」のような確かなで（多少）永久的な印をコミットにつけます。",
+                "",
+                "More importantly though, they never move as more commits are created. You can't \"check out\" a tag and then complete work on that tag -- tags exist as anchors in the commit tree that designate certain spots.",
+                "",
+                "Let's see what tags look like in practice."
             ]
           }
         },
@@ -418,10 +420,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "私たちのバージョン1の原本となる`C1`にタグを付けてみましょう"
+                "Let's try making a tag at `C1` which is our version 1 prototype"
             ],
             "afterMarkdowns": [
-              "見てください！とても簡単ですね。私たちは、`v1`という名前のタグを明示的に`C1`コミットに付与しました。もし、コミットを指定しなかった場合、`HEAD`にあるものにタグがつけられることになります。"
+                "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at"
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -431,9 +433,61 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルは、ゴールとして提示されている図のようにタグを作り、`v1`にチェックアウトすることで完了します。そうすると、あなたは`HEAD`分離状態になることに気づくでしょう -- これは、あなたが直接`v1`タグにコミットができないことを意味しています。",
+                "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
+                "",
+                "In the next level we'll examine a more interesting use case for tags."
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Теги",
               "",
-              "次のレベルでは、タグのより興味深い使い方について学びます。"
+              "В прошлый уроках мы усвоили, что ветки просто двигать туда-сюда и они часто ссылаются на разные коммиты, как на изменения данных в ветке. Ветки просто изменить, они часто временны и постоянно меняют своё состояние.",
+              "",
+              "В таком случае, где взять *постоянную* ссылку на момент в истории изменений? Для таких вещей, как релиз, большие слияния нужно нечто более постоянное, чем ветка.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Такое средство имеется. Git предоставляет нам теги, чья основная задача – ссылаться постоянно на конкретный коммит.",
+              "",
+              "Важно, что после создания они никогда не сменят своего положения, так что можно с лёгкостью сделать checkout конкретного момента в истории изменений",
+              "",
+              "Посмотрим на это на практике."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Создадим тег на `C1`, который бутед нашей версией 1"
+            ],
+            "afterMarkdowns": [
+              "Готово! Всё просто. Мы назвали тег `v1` и заставили его ссылкаться на `C1` явным образом. Если конкретный коммит не указан, гит пометит тегом `HEAD`"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы пройти этот уровень, просто создай теги как показано на визуализации и потом перейди на тег `v1`. Обрати внимание, что ты перейдёшь в состояние `detached HEAD`, так как нельзя сделать коммит прамо в тег v1.",
+              "",
+              "В следующем уровне, мы попробуем более интересные способы применения тегов."
             ]
           }
         }

@@ -10,7 +10,7 @@ exports.strings = {
     'es_AR': '¡Ea! Terminaste el último nivel, ¡genial!',
     'pt_BR': 'Uia! Você terminou o último nível, massa!',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !',
-    'ru': 'Вау! Вы прошли последний уровень, отлично!'
+    'ru_RU': 'Вау! Вы прошли последний уровень, отлично!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -23,7 +23,7 @@ exports.strings = {
     'es_AR': '¿Querés seguir con *"{nextLevel}"*, el próximo nivel?',
     'pt_BR': 'Você gostaria de ir para o próximo nível: *"{nextLevel}"*?',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
-    'ru': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?'
+    'ru_RU': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -36,7 +36,7 @@ exports.strings = {
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
-    'ru': 'Отлично! Ваше решение соответсвует или превосходит наше.'
+    'ru_RU': 'Отлично! Ваше решение соответсвует или превосходит наше.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -49,7 +49,7 @@ exports.strings = {
     'es_AR': 'Fijate si podés bajarlo a usar sólo {best} comandos :D',
     'pt_BR': 'Veja se consegue reduzir para somente {best} :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
-    'ru': 'Попробуйте, может вы сможете уложиться в {best} : D'
+    'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-prune-tree': {
@@ -61,7 +61,7 @@ exports.strings = {
     'pt_BR': 'Cuidado! O Mercurial faz coleção de lixo agressiva e precisa prunar sua árvore',
     'fr_FR': 'Attention, Mercurial supprime de façon agressive et nécessite un prune du repository',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
-    'ru': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево'
+    'ru_RU': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
@@ -73,7 +73,7 @@ exports.strings = {
     'pt_BR': 'A opção -A não é necessária para este aplicativo, simplesmente faça commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
     'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
-    'ru': 'Опция -A не требуется для этого приложения, просто сделайте коммит.'
+    'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -84,7 +84,7 @@ exports.strings = {
     'pt_BR': 'Não existe um comando status para este aplicativo, já que não há staging de arquivos. Tente hg summary',
     'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
-    'ru': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
+    'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
@@ -95,7 +95,7 @@ exports.strings = {
     'pt_BR': 'Eu preciso da opção {option} para esse comando!',
     'fr_FR': 'J\'ai besoin de l\'option {option} pour cette commande',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
-    'ru': 'Для этой команды требуется опция {option}'
+    'ru_RU': 'Для этой команды требуется опция {option}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
@@ -106,7 +106,7 @@ exports.strings = {
     'pt_BR': 'hg log sem -f atualmente não é suportado, use -f',
     'fr_FR': 'hg log sans -f n\'est pas supporté',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
-    'ru': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
+    'ru_RU': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -118,7 +118,7 @@ exports.strings = {
     'es_AR': '¡Detached HEAD!',
     'pt_BR': 'Detached HEAD!',
     'fr_FR': 'head détaché !',
-    'ru': 'Отделенный HEAD'
+    'ru_RU': 'Отделенный HEAD'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
@@ -130,7 +130,7 @@ exports.strings = {
     'es_AR': 'En la rama {branch}',
     'pt_BR': 'No ramo {branch}',
     'fr_FR': 'Sur la branche {branch}',
-    'ru': 'В ветке {branch}'
+    'ru_RU': 'В ветке {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
@@ -142,7 +142,7 @@ exports.strings = {
     'es_AR': '¡Listo para commitear! (como siempre en esta demo ;-) )',
     'pt_BR': 'Pronto para commitar! (como sempre neste demo ;-) )',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)',
-    'ru': 'Готово к коммиту! (как и всегда в этом демо)'
+    'ru_RU': 'Готово к коммиту! (как и всегда в этом демо)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
@@ -155,7 +155,7 @@ exports.strings = {
     'es_AR': 'Otro commit más, y van...',
     'pt_BR': 'Commitando.. Vai Timão!',
     'fr_FR': 'Commit rapide. NoMaN Sux!',
-    'ru': 'Быстрый коммит. А надо!'
+    'ru_RU': 'Быстрый коммит. А надо!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
@@ -166,7 +166,7 @@ exports.strings = {
     'pt_BR': 'Já estamos na versão mais recente!',
     'zh_TW': '已經是最新的了',
     'zh_CN': '已经是最新的了',
-    'ru': 'Уже обновлено!'
+    'ru_RU': 'Уже обновлено!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -176,7 +176,7 @@ exports.strings = {
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
-    'ru': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch'
+    'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -186,7 +186,7 @@ exports.strings = {
     'es_AR': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y probá de nuevo. Podés hacerlo con git pull o git pull --rebase',
     'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não é um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
-    'ru:': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase'
+    'ru_RU:': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
@@ -196,7 +196,7 @@ exports.strings = {
     'es_AR': 'No podés ejecutar ese comando en una rama remota',
     'pt_BR': 'Você não pode executar esse comando em um ramo remoto',
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
-    'ru': 'Вы не можете выполнить эту команду на удаленной ветке'
+    'ru_RU': 'Вы не можете выполнить эту команду на удаленной ветке'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
@@ -206,7 +206,7 @@ exports.strings = {
     'es_AR': 'Necesitás un origen para ese comando',
     'pt_BR': 'É necessário informar uma origem para esse comando',
     'fr_FR': 'Une origine est requise pour cette commande',
-    'ru': 'Origin требуется для этой команды'
+    'ru_RU': 'Origin требуется для этой команды'
   },
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
@@ -216,7 +216,7 @@ exports.strings = {
     'es_AR': '¡Ya existe el origen! No podés crear uno nuevo',
     'pt_BR': 'A origem já existe! Você não pode criar uma nova',
     'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
-    'ru': 'Origin уже существует! Невозможно создать еще один'
+    'ru_RU': 'Origin уже существует! Невозможно создать еще один'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
@@ -229,7 +229,7 @@ exports.strings = {
     'es_AR': 'No podés borrar la rama master, la rama en la que estás, o cosas que no son ramas',
     'pt_BR': 'Você não pode apagar o ramo master, nem o ramo em que você está, nem coisas que não sejam ramos',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
-    'ru' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой'
+    'ru_RU' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -241,7 +241,7 @@ exports.strings = {
     'es_AR': 'Mergear {target} a {current}',
     'pt_BR': 'Merge de {target} em {current}',
     'fr_FR': 'Merge de {target} dans {current}',
-    'ru': 'Слияние {target} в {current}'
+    'ru_RU': 'Слияние {target} в {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -253,7 +253,7 @@ exports.strings = {
     'es_AR': '¡No hay commits para rebasear! Son todos commits de merge o cambios ya aplicados',
     'pt_BR': 'Não há commits para o rebase! São todos commits de merge ou mudanças já aplicadas',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
-    'ru': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены'
+    'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -265,7 +265,7 @@ exports.strings = {
     'es_AR': 'Nada para hacer...',
     'pt_BR': 'Nada a ser feito...',
     'fr_FR': 'Rien à effectuer…',
-    'ru': 'Нечего выполнять...'
+    'ru_RU': 'Нечего выполнять...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -276,7 +276,8 @@ exports.strings = {
     'zh_TW': '快速前進...',
     'es_AR': 'Fast forwardeando...',
     'pt_BR': 'Fast forward...',
-    'fr_FR': 'En avance rapide…'
+    'fr_FR': 'En avance rapide…',
+    'ru_RU': 'Выполняю Fast forward...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
@@ -288,7 +289,7 @@ exports.strings = {
     'es_AR': 'Rama actualmente actualizada',
     'pt_BR': 'Ramo já atualizado',
     'fr_FR': 'Branche déjà à jour',
-    'ru': 'Ветка уже обновлена'
+    'ru_RU': 'Ветка уже обновлена'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -300,7 +301,7 @@ exports.strings = {
     'es_AR': 'La referencia {ref} no existe o es desconocida',
     'pt_BR': 'A referência {ref} não existe ou é desconhecida',
     'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue',
-    'ru': 'Ссылка {ref} не существует или неизвестна'
+    'ru_RU': 'Ссылка {ref} не существует или неизвестна'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -312,7 +313,7 @@ exports.strings = {
     'es_AR': 'El commit {commit} no tiene un {match}',
     'pt_BR': 'O commit {commit} não tem um {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
-    'ru': 'Коммит {commit} не содержит {match}'
+    'ru_RU': 'Коммит {commit} не содержит {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
@@ -323,7 +324,8 @@ exports.strings = {
     'zh_TW': '注意喔！現在的狀態是分離 Head',
     'es_AR': '¡Cuidado! Modo de detached HEAD',
     'pt_BR': 'Cuidado! Modo Detached HEAD',
-    'fr_FR': 'Attention ! HEAD est détaché'
+    'fr_FR': 'Attention ! HEAD est détaché',
+    'ru_RU': 'Внимание! Репозиторий в состоянии detached HEAD, то есть не находится ни на какой ветке!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
@@ -334,7 +336,8 @@ exports.strings = {
     'zh_TW': '此 demo 中不需要再加入檔案',
     'es_AR': 'No es necesario hacer add a los archivos en esta demo',
     'pt_BR': 'Não é necessário adicionar arquivos neste demo',
-    'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo'
+    'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo',
+    'ru_RU': 'Это демо не оперирует файлами'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
@@ -345,7 +348,8 @@ exports.strings = {
     'zh_TW': '您指定了不相容或錯誤的選項',
     'es_AR': 'Las opciones que especificaste son incompatibles o incorrectas',
     'pt_BR': 'As opções que você especificou são incompatíveis ou incorretas',
-    'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes'
+    'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes',
+    'ru_RU': 'Неправильные опции'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -356,7 +360,8 @@ exports.strings = {
     'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
     'es_AR': 'El commit {commit} ya existe en tus cambios, ¡abortando!',
     'pt_BR': 'O commit {commit} já existe nas suas mudanças, abortando!',
-    'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !'
+    'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !',
+    'ru_RU': 'Коммит {commit} существует, отменяю!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
@@ -367,7 +372,8 @@ exports.strings = {
     'zh_TW': '不能在分離 HEAD 的狀態中重來！用 checkout 來移動吧',
     'es_AR': 'No podés hacer reset en el modo detached. Usá checkout si querés moverte',
     'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser se mover',
-    'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer'
+    'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer',
+    'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
@@ -378,7 +384,8 @@ exports.strings = {
     'zh_TW': '預設的行為是 --hard reset，儘量省略掉那個選項吧！',
     'es_AR': 'El comportamiento default es un --hard reset, sentite libre de omitir esa opción!',
     'pt_BR': 'O comportamento padrão é um reset --hard, fique livre para omitir essa opção!',
-    'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !'
+    'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !',
+    'ru_RU': 'По умолчанию будет выполнен --hard reset, эту опцию можно опускать!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
@@ -390,7 +397,8 @@ exports.strings = {
     'zh_TW': '沒有加入、或者暫存 (staging) 文件的必要，所以改選項或者命令是不合法的。',
     'es_AR': 'No existe el concepto de agregar/indexar cambios, así que esa opción o comando es inválido',
     'pt_BR': 'Não existe o conceito de adicionar/indexar mudanças, de forma que essa opção ou comando é inválida',
-    'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide'
+    'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide',
+    'ru_RU': 'Это демо не работает с файлами, так что git add не нужен!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -401,7 +409,8 @@ exports.strings = {
     'zh_TW': '還原 {oldCommit}：{oldMsg}',
     'es_AR': 'Revirtiendo {oldCommit}: {oldMsg}',
     'pt_BR': 'Revertendo {oldCommit}: {oldMsg}',
-    'fr_FR': 'Revert {oldCommit}: {oldMsg}'
+    'fr_FR': 'Revert {oldCommit}: {oldMsg}',
+    'ru_RU': 'Откатываю {oldCommit}: {oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
@@ -412,7 +421,8 @@ exports.strings = {
     'zh_TW': '{what} 期望最多 {upper} 個參數',
     'es_AR': 'Espero como máximo {upper} parámetros para {what}',
     'pt_BR': 'Espero no máximo {upper} parâmetros para {what}',
-    'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}'
+    'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}',
+    'ru_RU': 'Ожидается максимум {upper} аргумент(ов) для {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
@@ -423,7 +433,8 @@ exports.strings = {
     'zh_TW': '{what} 期望最少 {lower} 個參數',
     'es_AR': 'Espero al menos {lower} parámetros para {what}',
     'pt_BR': 'Espero pelo menos {lower} parâmetros para {what}',
-    'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}'
+    'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}',
+    'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
@@ -434,7 +445,8 @@ exports.strings = {
     'zh_TW': '該指令不接受一般參數',
     'es_AR': 'Ese comando no acepta parámetros comunes',
     'pt_BR': 'Este comando não aceita parâmetros gerais',
-    'fr_FR': 'Cette commande n\'accepte aucun argument général'
+    'fr_FR': 'Cette commande n\'accepte aucun argument général',
+    'ru_RU': 'Это команда без аргументов'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -445,7 +457,8 @@ exports.strings = {
     'zh_TW': '複製下方的樹狀字串',
     'es_AR': 'Copiá el código de acá abajo',
     'pt_BR': 'Copie o código abaixo',
-    'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous'
+    'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous',
+    'ru_RU': 'Скопируй текст ниже'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -458,7 +471,8 @@ exports.strings = {
     'zh_TW': '學習 git 分支',
     'es_AR': 'Aprendé a Branchear en Git',
     'pt_BR': 'Learn Git Branching',
-    'fr_FR': 'Apprenez Git Branching'
+    'fr_FR': 'Apprenez Git Branching',
+    'ru_RU': 'Изучаем ветвление в git'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -469,7 +483,8 @@ exports.strings = {
     'zh_TW': '選擇其中一關',
     'es_AR': 'Seleccioná un nivel',
     'pt_BR': 'Selecione um nível',
-    'fr_FR': 'Choisissez un niveau'
+    'fr_FR': 'Choisissez un niveau',
+    'ru_RU': 'Выбери уровень'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
@@ -480,7 +495,8 @@ exports.strings = {
     'zh_TW': '抱歉，為了顯示的需要，我們需要一個短一點的 branch 名稱。您使用的將會被截斷到剩下9個字元，即"{branch}"',
     'es_AR': 'Perdón, necesitamos mantener los nombres de los branches cortos para visualizarlos. El nombre de tu rama se truncó a 9 caracteres, resultando en "{branch}"',
     'pt_BR': 'Desculpe, precisamos manter os nomes dos ramos curtos para visualizá-los. O nome do seu ramo foi truncado para 9 caracteres, resultando em "{branch}"',
-    'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"'
+    'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"',
+    'ru_RU': 'Для наглядности нам нужно сохранять имена веток короткими. Твоё название сокращено до 9 символов и теперь это "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
@@ -491,7 +507,8 @@ exports.strings = {
     'zh_TW': '不能给 branch 起這個名字 "{branch}"',
     'es_AR': 'El nombre "{branch}" no está permitido para los branches',
     'pt_BR': 'Um ramo não pode ser chamado de "{branch}"!',
-    'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé'
+    'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé',
+    'ru_RU': 'Название для ветки "{branch}" недопустимо!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
@@ -501,7 +518,8 @@ exports.strings = {
     'es_AR': 'El nombre "{tag}" no está permitido para los tags',
     'pt_BR': 'Uma tag não pode ser chamada de "{tag}"!',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
-    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!'
+    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!',
+    'ru_RU': 'Название для тега "{tag}" недопустимо!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -512,7 +530,8 @@ exports.strings = {
     'zh_TW': '不支援的選項 "{option}"',
     'es_AR': 'La opción {option} no está soportada',
     'pt_BR': 'A opção {option} não é suportada',
-    'fr_FR': 'L\'option "{option}" n\'est pas supportée'
+    'fr_FR': 'L\'option "{option}" n\'est pas supportée',
+    'ru_RU': 'Опция "{option}" недопустима!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
@@ -523,7 +542,8 @@ exports.strings = {
     'zh_TW': 'git <指令> [<參數>]',
     'es_AR': 'git <comando> [<parametros>]',
     'pt_BR': 'git <comando} [<parâmetros>]',
-    'fr_FR': 'git <commande> [<arguments>]'
+    'fr_FR': 'git <commande> [<arguments>]',
+    'ru_RU': 'git <команда> [<аргументы>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
@@ -534,7 +554,8 @@ exports.strings = {
     'zh_TW': '支援的指令有：',
     'es_AR': 'Comandos soportados:',
     'pt_BR': 'Comandos suportados:',
-    'fr_FR': 'Commandes supportées'
+    'fr_FR': 'Commandes supportées',
+    'ru_RU': 'Поддерживаемые команды'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
@@ -545,7 +566,8 @@ exports.strings = {
     'zh_TW': '用法：',
     'es_AR': 'Uso:',
     'pt_BR': 'Uso:',
-    'fr_FR': 'Utilisation :'
+    'fr_FR': 'Utilisation :',
+    'ru_RU': 'Использование:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
@@ -556,7 +578,8 @@ exports.strings = {
     'zh_TW': 'Git 版本 PCOTTLE.1.0',
     'es_AR': 'Git Versión PCOTTLE.1.0',
     'pt_BR': 'Git versão PCOTTLE.1.0',
-    'fr_FR': 'Git version PCOTTLE.1.0'
+    'fr_FR': 'Git version PCOTTLE.1.0',
+    'ru_RU': 'Версия git PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
@@ -565,7 +588,8 @@ exports.strings = {
     'zh_CN': '翻转树中...',
     'es_AR': 'Invirtiendo el árbol...',
     'pt_BR': 'Invertendo a árvore...',
-    'fr_FR': 'Inversion de l\'arbre...'
+    'fr_FR': 'Inversion de l\'arbre...',
+    'ru_RU': 'Переворачиваю дерево...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -576,7 +600,8 @@ exports.strings = {
     'zh_TW': '正在更新樹狀結構...',
     'es_AR': 'Refrezcando el árbol...',
     'pt_BR': 'Atualizando a árvore...',
-    'fr_FR': 'Actualisation de l\'arbre…'
+    'fr_FR': 'Actualisation de l\'arbre…',
+    'ru_RU': 'Обновляю дерево...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
@@ -587,7 +612,8 @@ exports.strings = {
     'zh_TW': '語系設為 {locale}',
     'es_AR': 'Localización actualizada a {locale}',
     'pt_BR': 'Língua trocada para {locale}',
-    'fr_FR': 'Langue changée à {locale}'
+    'fr_FR': 'Langue changée à {locale}',
+    'ru_RU': 'Локаль теперь равна {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
@@ -598,7 +624,8 @@ exports.strings = {
     'zh_TW': '還原為預設語系 {locale}',
     'es_AR': 'Localización vuelta al default, que es {locale}',
     'pt_BR': 'Língua retornada para a padrão, que é {locale}',
-    'fr_FR': 'Langue remise par défaut, qui est {locale}'
+    'fr_FR': 'Langue remise par défaut, qui est {locale}',
+    'ru_RU': 'Локаль сброшена. Теперь она равна {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
@@ -609,7 +636,8 @@ exports.strings = {
     'de_DE': 'Bitte benutze einen der folgenden Befehle um mehr Informationen zu bekommen:',
     'es_AR': 'Usá alguno de estos comandos para tener más información:',
     'pt_BR': 'Use algum destes comandos para ter mais informações:',
-    'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info'
+    'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info',
+    'ru_RU': 'Для получения большей информации используй следующие команды:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
@@ -620,7 +648,8 @@ exports.strings = {
     'de_DE': 'Hier ist eine Liste aller verfügbarer Befehle:',
     'es_AR': 'Esta es una lista de los comandos disponibles:',
     'pt_BR': 'Esta é uma lista dos comandos disponíveis:',
-    'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :'
+    'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :',
+    'ru_RU': 'Вот все поддерживаемуе команды:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
@@ -631,7 +660,8 @@ exports.strings = {
     'zh_TW': '目錄切換到 "/directories/dont/matter/in/this/demo"',
     'es_AR': 'Directorio cambiado a "/los/directorios/no/importan/en/esta/demo"',
     'pt_BR': 'Diretório mudado para "/diretorios/nao/importam/neste/demo"',
-    'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)'
+    'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)',
+    'ru_RU': 'Директория изменена на "/директории/не/важны/в/этом/демо"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
@@ -642,7 +672,8 @@ exports.strings = {
     'zh_TW': 'DontWorryAboutFilesInThisDemo.txt （譯註：在 demo 裡不用擔心檔案）',
     'es_AR': 'NoTePreocupesPorLosArchivosEnEstaDemo.txt',
     'pt_BR': 'NaoSePreocupeComNomesDeArquivoNesteDemo.txt',
-    'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)'
+    'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)',
+    'ru_RU': 'НеНадоЗаботитьсяОФайлахВЭтомДемо.txt'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
@@ -652,7 +683,8 @@ exports.strings = {
     'zh_TW': '無法在行動裝置上叫出鍵盤，請改用桌面版！',
     'es_AR': 'LGB no puede recibir comandos en dispositivos móviles. Visitanos desde una desktop, ¡lo vale! :D',
     'pt_BR': 'Provavelmente você não vai conseguir digitar comandos no celular, neste caso tente acessar de um computador',
-    'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D'
+    'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D',
+    'ru_RU': 'Мобильные не поддерживаются, зайди с компьютера!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
@@ -663,7 +695,8 @@ exports.strings = {
     'zh_TW': '與你的好友分享這棵樹！他們可以用 "import tree" 來載入它',
     'es_AR': '¡Compartí este árbol con amigos! Pueden cargarlo con "import tree"',
     'pt_BR': 'Compartilhe esta árvore com seus amigos! Eles podem carregá-la com "import tree"',
-    'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"'
+    'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"',
+    'ru_RU': 'Поделись деревом с друзьями! Они могут загрузить его при помощи "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
@@ -674,7 +707,8 @@ exports.strings = {
     'zh_TW': '在下方貼上一串 JSON',
     'es_AR': '¡Pegá un blob JSON abajo!',
     'pt_BR': 'Cole o JSON abaixo!',
-    'fr_FR': 'Collez un blob JSON ci-dessous !'
+    'fr_FR': 'Collez un blob JSON ci-dessous !',
+    'ru_RU': 'Вставь JSON ниже!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
@@ -685,7 +719,8 @@ exports.strings = {
     'zh_TW': '過關地圖已經重新設置，您現在從零開始了',
     'es_AR': 'El mapa resuelto fue eliminado, estás arrancando desde un estado limpio',
     'pt_BR': 'Mapa de resolvidos descartado, você está começando com ficha limpa!',
-    'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !'
+    'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !',
+    'ru_RU': 'Всё сброшено! Можно начать с чистого листа!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
@@ -696,7 +731,8 @@ exports.strings = {
     'zh_TW': '您沒在關卡中！您在沙盒中，要開始關卡請輸入 "levels"',
     'es_AR': '¡No estás en un nivel! Estás en el sandbox, comenzá un nivel usando "levels"',
     'pt_BR': 'Você não está em um nível! Você está no sandbox, comece um nível com "levels"',
-    'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"'
+    'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"',
+    'ru_RU': 'Ты не проходишь уровень! Ты в песочнице! Чтобы начать уровень, используй команду "levels"!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
@@ -707,7 +743,8 @@ exports.strings = {
     'zh_TW': '找不到 id 為 "{id}" 的關卡！開啟關卡選擇視窗',
     'es_AR': 'No se encontró ningún nivel {id}. Abriendo la vista de selección de niveles...',
     'pt_BR': 'O nível "{id}" não existe! Abrindo uma caixa de seleção de nível',
-    'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux'
+    'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux',
+    'ru_RU': 'Уровень с id "{id}" не найде! Открываю выбор уровней'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -718,7 +755,8 @@ exports.strings = {
     'zh_TW': '還沒有什麼可以取消',
     'es_AR': 'No hay comandos que deshacer',
     'pt_BR': 'Você já desfez tudo!',
-    'fr_FR': 'La pile d\'annulation est vide !'
+    'fr_FR': 'La pile d\'annulation est vide !',
+    'ru_RU': 'Некуда откатывать!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
@@ -729,7 +767,8 @@ exports.strings = {
     'zh_TW': '你已經解决了本關，輸入 "levels" 嘗試其他關卡，或者輸入 "sandbox" 回到沙盒中',
     'es_AR': 'Ya resolviste este nivel, probá otros usando "levels" o volvé al sandbox usando "sandbox"',
     'pt_BR': 'Você já resolveu este nível, tente outros com "levels" ou volte ao sandbox com "sandbox"',
-    'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"'
+    'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"',
+    'ru_RU': 'Ты уже прошел этот уровень, попробуй пройти другие при помощи команды "levels" или иди в песочницу "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -740,7 +779,8 @@ exports.strings = {
     'zh_TW': '本關禁止使用該 git 指令！',
     'es_AR': '¡Ese comando de git está deshabilitado para este nivel!',
     'pt_BR': 'Achou que seria fácil assim? Desabilitamos esse comando durante este nível, só para dificultar ;-)',
-    'fr_FR': 'Cette commande git est désactivée pour ce niveau !'
+    'fr_FR': 'Cette commande git est désactivée pour ce niveau !',
+    'ru_RU': 'На этом уровне нельзя использовать эту команду!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
@@ -751,7 +791,8 @@ exports.strings = {
     'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 Github 上給我',
     'es_AR': 'Este es el JSON de este nivel. Compartilo con quien quieras o mandámelo por Github',
     'pt_BR': 'Aqui está o JSON para este nível! Compartilhe com alguém ou me envie pelo Github',
-    'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github'
+    'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github',
+    'ru_RU': 'Вот JSON для этого уровня! Поделись им с кем-нибудь или отправь его нам на GitHub'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
@@ -762,7 +803,8 @@ exports.strings = {
     'zh_TW': '尚未指定開始對話視窗，是否立即新增？',
     'es_AR': 'No especificaste un mensaje de inicio, ¿querés agregar uno?',
     'pt_BR': 'Você não especificou uma mensagem de início, quer colocar uma?',
-    'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?'
+    'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?',
+    'ru_RU': 'Не указано стартово сообщение! Точно продолжаем?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
@@ -773,7 +815,8 @@ exports.strings = {
     'zh_TW': '尚未指定提示，是否立即新增？',
     'es_AR': 'No especificaste ninguna pista, ¿querés agregar alguna?',
     'pt_BR': 'Você não especificou uma dica, quer colocar uma?',
-    'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?'
+    'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?',
+    'ru_RU': 'Не указана подсказка для уровня! Пренебречь? Вальсируем?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
@@ -784,7 +827,8 @@ exports.strings = {
     'zh_TW': '請輸入關卡提示，或者故意留空',
     'es_AR': 'Ingresá una pista para este nivel, o dejalo en blanco si no querés incluir ninguna',
     'pt_BR': 'Colocque uma dica para este nível, ou deixe em branco se não quiser incluir',
-    'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure'
+    'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure',
+    'ru_RU': 'Введи подсказку для уровня, если хочешь.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
@@ -795,7 +839,8 @@ exports.strings = {
     'zh_TW': '請輸入關卡名稱',
     'es_AR': 'Ingresá el nombre del nivel',
     'pt_BR': 'Coloque o nome do nível',
-    'fr_FR': 'Entrez le nom pour ce niveau'
+    'fr_FR': 'Entrez le nom pour ce niveau',
+    'ru_RU': 'Введи название уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
@@ -806,7 +851,8 @@ exports.strings = {
     'zh_TW': '您的解法是空的！這一定是哪裡出錯了',
     'es_AR': '¡Tu solución está vacía! Algo hay que hacer',
     'pt_BR': 'Sua solução está vazia! O aprendiz deveria ter que fazer alguma coisa',
-    'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond'
+    'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond',
+    'ru_RU': 'Решение не указано! Так не годится!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
@@ -817,7 +863,8 @@ exports.strings = {
     'zh_TW': '正在定義起始點...先前定義的解法和目標會被覆蓋掉',
     'es_AR': 'Estableciendo el punto de inicio... La solución y el objetivo serán sobreescritos si ya habían sido definidos',
     'pt_BR': 'Esbelecendo o ponto de início... a solução e o objetivo serão sobrescritos caso já existirem',
-    'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis'
+    'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis',
+    'ru_RU': 'Устанавливаю стартовую точку... Решение и итоговое состояние будут стёрты, если они указаны ранее'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
@@ -828,7 +875,8 @@ exports.strings = {
     'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
     'es_AR': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elegí entre "help level" para aprender algo más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
     'pt_BR': 'Você está em um nível, então há vários tipos de ajuda. Selecione "help level" para aprender mais sobre esta lição, "help general" para aprender a usar o Learn GitBranching, ou "objective" ver como resolver o nível.',
-    'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau'
+    'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau',
+    'ru_RU': 'При прохождении уровня доступны несколько видов помощи. Определить что нужно: "help level" чтобы получить информацию об этом уровне, "help general" для того, чтобы узнать о игре в целом или "objective" чтобы узнать что надо сделать в этом уровне.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
@@ -839,7 +887,8 @@ exports.strings = {
     'zh_TW': '您正在進行關卡構建中，這裡有多種不同型式的幫助，請選擇 "help general" （一般幫助）或 "help builder" （製造關卡的幫助）',
     'es_AR': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elegí entre "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'pt_BR': 'Você está no construtor de nívels, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
-    'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"'
+    'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
+    'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
@@ -851,6 +900,7 @@ exports.strings = {
     'pt_BR': 'Mostrar objetivo',
     'es_AR': 'Mostrar objetivo',
     'ja'   : 'ゴールを表示',
+    'ru_RU': 'Показать цель уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -861,7 +911,8 @@ exports.strings = {
     'zh_CN': '隐藏目标',
     'pt_BR': 'Ocultar objetivo',
     'es_AR': 'Ocultar obetivo',
-    'ja'   : 'ゴールを隠す'
+    'ja'   : 'ゴールを隠す',
+    'ru_RU': 'Спрятать цель'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -873,7 +924,8 @@ exports.strings = {
     'es_AR': 'Objetivo a cumplir',
     'pt_BR': 'Objetivo a cumprir',
     'fr_FR': 'Cible à atteindre',
-    'ja'   : '到達目標'
+    'ja'   : '到達目標',
+    'ru_RU': 'Цель уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -885,7 +937,8 @@ exports.strings = {
     'pt_BR': '<span class="fwber">Nota:</span> Apenas o ramo master será verificado neste nível. Os outros ramos (dentro das caixas clareadas) são somente para referência. Como sempre, você pode ocultar esta janela com "hide goal"',
     'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗',
-    'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます'
+    'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます',
+    'ru_RU': '<span class="fwber">Важно:</span> В этом уровне провреяется только ветка master. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -897,7 +950,8 @@ exports.strings = {
     'es_AR': 'Podés ocultar esta ventana con "hide goal"',
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
-    'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます'
+    'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます',
+    'ru_RU': 'Можно скрыть это окно при помощи "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -909,7 +963,8 @@ exports.strings = {
     'es_AR': 'Podés ocultar esta ventana con "hide start"',
     'pt_BR': 'Você pode ocultar esta janela com "hide start"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
-    'ja'   : 'このウィンドウは"hide start"で閉じれます'
+    'ja'   : 'このウィンドウは"hide start"で閉じれます',
+    'ru_RU': 'Можно скрыть это окно при помощи "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -921,7 +976,8 @@ exports.strings = {
     'es_AR': 'Constructor de niveles',
     'pt_BR': 'Construtor de níveis',
     'fr_FR': 'Éditeur de niveaux',
-    'ja'   : 'Levelエディタ'
+    'ja'   : 'Levelエディタ',
+    'ru_RU': 'Редактор уровней'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -933,7 +989,8 @@ exports.strings = {
     'es_AR': '¡No hay mensaje de inicio para este nivel!',
     'pt_BR': 'Não há mensagem de início para este nível!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !',
-    'ja'   : 'このLevelにはスタートダイアログが存在しません'
+    'ja'   : 'このLevelにはスタートダイアログが存在しません',
+    'ru_RU': 'Нет стартового сообщение для уровня!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -945,7 +1002,8 @@ exports.strings = {
     'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
     'pt_BR': 'Hmm, não existe nenhuma pista para este nível :-/',
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/',
-    'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/'
+    'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/',
+    'ru_RU': "Милый мой, хороший, догадайся сам :-/ Подсказка не создана..."
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -957,7 +1015,8 @@ exports.strings = {
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
     'pt_BR': 'Não existe tradução para {key} :( Pule no Github e sugira uma! :)',
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !',
-    'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m'
+    'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
+    'ru_RU': 'Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -969,6 +1028,7 @@ exports.strings = {
     'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
     'pt_BR': 'Esta mensagem ou texto não foi traduzida para Português :( Ajude-nos a traduzir no Github!',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
-    'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m'
+    'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
+    'ru_RU': 'Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub'
   }
 };

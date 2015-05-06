@@ -10,7 +10,8 @@ exports.level = {
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "介绍 rebase",
-    "zh_TW": "介紹 rebase"
+    "zh_TW": "介紹 rebase",
+    "ru_RU": "Введение в rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -21,7 +22,8 @@ exports.level = {
     "pt_BR": "O bugFix precisa ser commitado primeiro",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
-    "zh_TW": "你要先在 bugFix branch 進行 commit"
+    "zh_TW": "你要先在 bugFix branch 進行 commit",
+    "ru_RU": "Убедись, что сделал коммит в ветке bugFix"
   },
   "disabledMap": {
     "git revert": true
@@ -623,6 +625,73 @@ exports.level = {
               "* bugFix를 다시 선택하고 master에 리베이스 하세요",
               "",
               "화이팅!"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Второй способ объединения изменений в ветках - это *rebasing.* При ребэйзе Git по сути копирует набор коммитов и переносит их в другое место.",
+              "",
+              "Несмотря на то, что это звучит достаточно непонятно, преимущество rebase в том, что при его помощи можно делать чистые и красивые линейные последовательности коммитов. История коммитов будет чище, если вы применяете rebase.",
+              "",
+              "ПОсмотрим, как это работает..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "У нас тут снова две ветки. Обрати внимание, что выбрана ветка bugFix (отмечена звёздочкой)",
+              "",
+              "Хочется сдвинуть наши изменения из bugFix прямо на вершину ветки master. Таким образом всё будет выглядеть, как будто эти изменения делались последовательно, хотя на самом деле - параллельно.",
+              "",
+              "Применим `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "Супер! Теперь изменения из bugFix находятся в конце ветки master и являют собой линейную последовательность коммитов.",
+              "",
+              "Обрати внимание, что коммит С3 до сих пор существует где-то, а С3' - это его \"копия\" в ветке master",
+              "",
+              "Единственная проблема - ветка master не обновлена до последних изнменений. Это легко исправить."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Вот мы выбрали ветку `master`. Вперёд - сделаем rebase на `bugFix`"
+            ],
+            "afterMarkdowns": [
+              "Вуаля! Так как `master` был предком `bugFix`, git просто сдвинул ссылку на `master` вперёд."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы пройти этот уровен, сделай следующее:",
+              "",
+              "* Переключись на ветку `bugFix`",
+              "* Сделай коммит",
+              "* Вернись на `master` и сделай коммит ещё раз",
+              "* Переключись на bugFix и сделай rebase на master",
+              "",
+              "Удачи!"
             ]
           }
         }
