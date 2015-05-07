@@ -4,7 +4,7 @@ exports.level = {
   "name": {
     "en_US": "Rebase Introduction",
     "de_DE": "Einführung in Rebase",
-    "ja": "Rebaseの解説",
+    "ja"   : "Rebaseの解説",
     "es_AR": "Introducción a rebase",
     "pt_BR": "Introdução ao rebase",
     "fr_FR": "Introduction à rebase",
@@ -16,7 +16,7 @@ exports.level = {
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
-    "ja": "初めにbugFixを指した状態でコミットする",
+    "ja"   : "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
     "pt_BR": "O bugFix precisa ser commitado primeiro",
@@ -183,7 +183,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "前回と同様の2つのブランチを考えます：仮にいまbugFixブランチをチェックアウトしているとします。（アスタリスクつきのもの）",
+              "前回と同様の2つのブランチを考えます。仮にいまbugFixブランチをチェックアウトしているとします。（アスタリスクつきのもの）",
               "",
               "bugFixに入ってる作業内容をそのまま直接masterブランチ上の内容に移動したいとします。こうすることで、実際には並行して開発された2つの別々のブランチ上のフィーチャを、あたかも1本のブランチ上でシーケンシャルに開発されていたかのように見せることができます。",
               "",

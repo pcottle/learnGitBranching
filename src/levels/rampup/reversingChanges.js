@@ -6,7 +6,7 @@ exports.level = {
   "name": {
     "en_US": "Reversing Changes in Git",
     "de_DE": "Änderungen in Git rückgängig machen",
-    "ja": "変更を元に戻す",
+    "ja"   : "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "es_AR": "Revirtiendo cambios en git",
     "pt_BR": "Revertendo mudanças no Git",
@@ -24,7 +24,7 @@ exports.level = {
     "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
-    "ja": "revertとresetとで引数が異なることに注意。",
+    "ja"   : "revertとresetとで引数が異なることに注意。",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры."
   },
   "startDialog": {
@@ -301,7 +301,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset`はブランチのポインタを後方に移動することで変更のキャンセルを実現します。履歴を上書きするような動作だと思うと良いでしょうか：`git reset`はそもそも前のコミットなんかなかったかのように、ブランチのポインタを元に戻してくれます。",
+              "`git reset`はブランチのポインタを後方に移動することで変更のキャンセルを実現します。履歴を上書きするような動作だと思うと良いでしょうか。`git reset`はそもそも前のコミットなんかなかったかのように、ブランチのポインタを元に戻してくれます。",
               "",
               "どういう感じか見てみましょう。"
             ],
