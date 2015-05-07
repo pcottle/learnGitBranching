@@ -82,6 +82,12 @@ var IntlHelperBarView = React.createClass({
         this.fireCommand('locale de_DE; levels');
       }.bind(this)
     }, {
+      text: 'Русский',
+      testID: 'russian',
+      onClick: function() {
+        this.fireCommand('locale ru_RU; levels');
+      }.bind(this)
+    }, {
       icon: 'signout',
       onClick: function() {
         this.props.onExit();
