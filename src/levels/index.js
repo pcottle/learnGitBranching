@@ -56,7 +56,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Introduction Sequence',
       'de_DE': 'Einführung',
-      'ja': 'まずはここから',
+      'ja'   : 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
       'es_AR': 'Secuencia introductoria',
       'pt_BR': 'Sequência introdutória',
@@ -68,7 +68,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
       'de_DE': 'Eine gut abgestimmte Einführung in die wichtigsten Git-Befehle',
-      'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
+      'ja'   : 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
       'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
       'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
@@ -82,7 +82,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Ramping Up',
       'de_DE': 'Aufstieg',
-      'ja': '次のレベルに進もう',
+      'ja'   : '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
       'es_AR': 'Acelerando',
       'pt_BR': 'Acelerando',
@@ -132,7 +132,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
-      'ja'   : 'Originだけではない -- Gitリモート上級編',
+      'ja'   : '"origin"とその先へ -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
@@ -143,7 +143,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
-      'ja'   : '上級者の仕事は絶えずあり',
+      'ja'   : '絶えず上級者の仕事は存在する。。。',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'pt_BR': 'E você achava que ser um déspota esclarecido seria mais divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
@@ -184,7 +184,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'A Mixed Bag',
       'de_DE': 'Ein Kessel Buntes',
-      'ja': '様々なtips',
+      'ja'   : '様々なtips',
       'fr_FR': 'Un assortiment',
       'es_AR': 'Bolsa de gatos',
       'pt_BR': 'Sortidos',
@@ -196,7 +196,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
       'de_DE': 'Eine bunte Mischung von Techniken, Tipps und Tricks',
-      'ja': 'gitを使う上での様々なtipsやテクニックなど',
+      'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
