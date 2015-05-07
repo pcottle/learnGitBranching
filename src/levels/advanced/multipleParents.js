@@ -7,7 +7,7 @@ exports.level = {
     "zh_CN": "多个父提交记录",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
-    "ja"   : "複数のparent commit",
+    "ja"   : "複数の親",
     "es_AR": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
     "zh_TW": "多個 parent commit",
@@ -16,7 +16,7 @@ exports.level = {
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
-    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成",
+    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
     'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
@@ -720,6 +720,93 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 親の指定",
+              "",
+              "`~`修飾子と同じように、`^`修飾子も後に任意の番号を置くことができます。",
+              "",
+              "指定した数だけ遡る（これは`~`の場合の機能）のではなく、`^`はマージコミットからどの親を選択するかを指定できます。マージコミットは複数の親で構成されるので、選択する経路が曖昧であることを覚えておいてください。",
+              "",
+              "Gitは通常、マージコミットから「一つ目」の親、マージされた側のブランチの親を選びます。しかし、`^`で数を指定することでこのデフォルトの動作を変えることができます。",
+              "",
+              "では、実際の動作を見ていきましょう。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ここに、マージコミットがあります。もし、指定無しに`master^`でチェックアウトした場合、私たちは一番目の親に移動することになります。",
+              "",
+              "(*私たちのツリーでは、一番目の親はマージコミットのちょうど上に位置しています。*)"
+            ],
+            "afterMarkdowns": [
+              "簡単ですね -- これがデフォルトの動作になります。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "それでは代わりに二つ目の親を指定してみます"
+            ],
+            "afterMarkdowns": [
+              "見ましたか？私たちは他の親に移ることができました。"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^`修飾子と`~`修飾子は、コミット履歴を辿るのを強力に補助してくれます:"
+            ],
+            "afterMarkdowns": [
+              "超高速ですね！"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "より素晴らしいことに、これらの修飾子は連鎖させることができます！これを見てください:"
+            ],
+            "afterMarkdowns": [
+              "前と同じ移動ですが、なんと一つのコマンドでできています。"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 練習課題",
+              "",
+              "このレベルをクリアするためには、まず新しいブランチを指定したように作成します。",
+              "",
+              "明らかに直接コミットを指定した方が（`C6`というように）簡単ですが、私は今まで述べたような修飾子を使う方法で挑戦してもらいたいと思います。"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
