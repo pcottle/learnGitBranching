@@ -744,7 +744,7 @@ exports.strings = {
     'es_AR': 'No se encontró ningún nivel {id}. Abriendo la vista de selección de niveles...',
     'pt_BR': 'O nível "{id}" não existe! Abrindo uma caixa de seleção de nível',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux',
-    'ru_RU': 'Уровень с id "{id}" не найде! Открываю выбор уровней'
+    'ru_RU': 'Уровень с id "{id}" не найден! Открываю выбор уровней'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -900,7 +900,7 @@ exports.strings = {
     'pt_BR': 'Mostrar objetivo',
     'es_AR': 'Mostrar objetivo',
     'ja'   : 'ゴールを表示',
-    'ru_RU': 'Показать цель уровня'
+    'ru_RU': 'Цель уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
