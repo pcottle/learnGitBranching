@@ -34884,7 +34884,7 @@ var str = exports.str = function(key, params) {
   var locale = LocaleStore.getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
-    return 'NO INTL support for key ' + key;
+    return 'NO INTL support for key ' + key + '. this is probably a dev error';
   }
 
   if (!strings[key][locale]) {
@@ -34905,7 +34905,7 @@ var str = exports.str = function(key, params) {
   );
 };
 
-var getIntlKey = exports.getIntlKey = function(obj, key) {
+var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   if (!obj || !obj[key]) {
     throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
   }
@@ -34918,7 +34918,8 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
     );
   }
 
-  return obj[key][LocaleStore.getLocale()];
+  var locale = overrideLocale || LocaleStore.getLocale();
+  return obj[key][locale];
 };
 
 exports.todo = function(str) {
@@ -34930,11 +34931,17 @@ exports.getDialog = function(obj) {
 };
 
 exports.getHint = function(level) {
-  return getIntlKey(level, 'hint') || str('error-untranslated');
+  if (!getIntlKey(level, 'hint')) {
+    return getIntlKey(level, 'hint', getDefaultLocale()) + ' -- ' + str('error-untranslated');
+  }
+  return getIntlKey(level, 'hint');
 };
 
 exports.getName = function(level) {
-  return getIntlKey(level, 'name') || str('error-untranslated');
+  if (!getIntlKey(level, 'name')) {
+    return getIntlKey(level, 'name', getDefaultLocale()) + ' -- ' + str('error-untranslated');
+  }
+  return getIntlKey(level, 'name');
 };
 
 exports.getStartDialog = function(level) {
@@ -35704,7 +35711,7 @@ exports.strings = {
     'es_AR': 'No se encontró ningún nivel {id}. Abriendo la vista de selección de niveles...',
     'pt_BR': 'O nível "{id}" não existe! Abrindo uma caixa de seleção de nível',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux',
-    'ru_RU': 'Уровень с id "{id}" не найде! Открываю выбор уровней'
+    'ru_RU': 'Уровень с id "{id}" не найден! Открываю выбор уровней'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -35860,7 +35867,7 @@ exports.strings = {
     'pt_BR': 'Mostrar objetivo',
     'es_AR': 'Mostrar objetivo',
     'ja'   : 'ゴールを表示',
-    'ru_RU': 'Показать цель уровня'
+    'ru_RU': 'Цель уровня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -46800,7 +46807,8 @@ exports.level = {
     "pt_BR": "Ramos no Git",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "建立Git分支",
-    "zh_TW": "建立 git branch"
+    "zh_TW": "建立 git branch",
+    "ru_RU": "Ветвление в git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -46811,7 +46819,8 @@ exports.level = {
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
-    "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요"
+    "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
+    "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\""
   },
   "disabledMap": {
     "git revert": true
@@ -50117,7 +50126,7 @@ exports.level = {
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个 commit",
     "zh_TW": "只取一個 commit",
-    "кг_КГ": "Выберем один коммит."
+    "ru_RU": "Выберем один коммит."
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -51459,7 +51468,8 @@ exports.level = {
     "pt_BR": "Tags no Git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
-    "zh_TW": "git tag"
+    "zh_TW": "git tag",
+    "ru_RU": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -51469,7 +51479,8 @@ exports.level = {
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
-    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
+    "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег"
   },
   "startDialog": {
     "en_US": {
@@ -54564,7 +54575,8 @@ exports.level = {
     "pt_BR": "Referências relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
-    "zh_TW": "相對引用二（~）"
+    "zh_TW": "相對引用二（~）",
+    "ru_RU": 'Относительные ссылки №2'
   },
   "startDialog": {
     "en_US": {
