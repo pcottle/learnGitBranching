@@ -21,7 +21,8 @@ exports.level = {
     "pt_BR": "Referências relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
-    "zh_TW": "相對引用二（~）"
+    "zh_TW": "相對引用二（~）",
+    "ru_RU": 'Относительные ссылки №2'
   },
   "startDialog": {
     "en_US": {
