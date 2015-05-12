@@ -11,7 +11,7 @@ exports.level = {
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "建立Git分支",
     "zh_TW": "建立 git branch",
-    "ru_RU": "Ветвление в git"
+    "ru_RU": "Ветвление в Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -37,7 +37,7 @@ exports.level = {
             "markdowns": [
               "## Git Branches",
               "",
-              "Branches in Git are incredibly lightweight as well. They are simply references to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
+              "Branches in Git are incredibly lightweight as well. They are simply pointers to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:",
               "",
               "```",
               "branch early, and branch often",
@@ -742,7 +742,7 @@ exports.level = {
               "",
               "Так как создание множества веток никак не отражается на памяти или жестком диске, удобнее и проще разбивать свою работу на много маленьких веток, чем хранить все изменения в одной огромной ветке.",
               "",
-              "Чуть позже мы попробуем использовать ветки и коммиты и вы увидите как две эти возможности сочетаются. Можно сказать, что создание ветка хранит изменения текущих коммитов и всех его родителей."
+              "Чуть позже мы попробуем использовать ветки и коммиты и вы увидите как две эти возможности сочетаются. Можно сказать, что созданная ветка хранит изменения текущих коммитов и всех его родителей."
             ]
           }
         },
@@ -768,7 +768,7 @@ exports.level = {
               "Теперь попробуем сделать некоторые изменения в этой ветке. Для этого нажми кнопку ниже."
             ],
             "afterMarkdowns": [
-              "О-оу! Ветка master сдвинулся тогда как ветка newImage - нет! Всё из-за того, что мы не перешли на новую ветку, на что указывает звёздочка около ветки master"
+              "О-оу! Ветка master сдвинулась тогда как ветка newImage - нет! Всё из-за того, что мы не перешли на новую ветку, на что указывает звёздочка около ветки master"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -797,7 +797,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ну что ж, теперь вы готовы к работе с ветками. Как только это окно закроется,",
+              "Ну что ж, теперь ты готов к работе с ветками. Как только это окно закроется,",
               "создай ветку с именем bugFix и переключись на неё"
             ]
           }
