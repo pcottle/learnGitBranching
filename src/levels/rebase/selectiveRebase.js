@@ -211,7 +211,7 @@ exports.level = {
         }
       ]
     },
-    "ru_Ru": {
+    "ru_RU": {
       "childViews": [
         {
           "type": "ModalAlert",
