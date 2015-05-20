@@ -9,7 +9,8 @@ exports.level = {
     "es_AR": "Introducción a clone",
     "pt_BR": "Introdução à clonagem",
     "zh_CN": "介绍 Clone",
-    "zh_TW": "介紹 clone"
+    "zh_TW": "介紹 clone",
+    "ru_RU": "Введение в клонирование"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -19,7 +20,8 @@ exports.level = {
     "zh_CN": "只要 git clone!",
     "es_AR": "Simplemente hacé git clone!",
     "pt_BR": "Basta fazer um git clone!",
-    "zh_TW": "只要 git clone 就好了"
+    "zh_TW": "只要 git clone 就好了",
+    "ru_RU": "Простой git clone!"
   },
   "startDialog": {
     "en_US": {
@@ -514,7 +516,7 @@ exports.level = {
                 "type": "GitDemonstrationView",
                 "options": {
                     "beforeMarkdowns": [
-                        "Навайте начнём медленно и взглянем на то что собой представляет удалённый репозиторий (в нащем представлении).",
+                        "Давайте начнём постепенное изучение и взглянем на то, что собой представляет удалённый репозиторий (в нащем представлении).",
                         ""
                     ],
                     "afterMarkdowns": [
