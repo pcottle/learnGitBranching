@@ -1,5 +1,8 @@
 # LearnGitBranching
 
+
+[![Build Status](https://travis-ci.org/pcottle/learnGitBranching.svg?branch=master)](https://travis-ci.org/pcottlele/learnGitBranching)
+
 LearnGitBranching is a git repository visualizer, sandbox, and series of educational tutorials and challenges. Its primary purpose is to help developers understand git through the power of visualization (something that's absent when working on the command line).
 
 You can input a variety of commands into LearnGitBranching (LGB) -- as commands are processed, the nearby commit tree will dynamically update to reflect the effects of each command:
@@ -114,6 +117,7 @@ And the following heroes for assisting in translating:
 * Marc-Olivier Arsenault ("marcolivierarsenault")
 * Eroany H Leader ("lhyqy5")
 * Honorat ("ahonorat")
+* Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 

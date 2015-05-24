@@ -65,6 +65,10 @@ var MainHelperBarView = React.createClass({
       }.bind(this)
     }, {
       newPageLink: true,
+      icon: 'twitter',
+      href: 'https://twitter.com/petermcottle'
+    }, {
+      newPageLink: true,
       icon: 'facebook',
       href: 'https://www.facebook.com/LearnGitBranching'
     }];

@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Tags no Git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tags",
-    "zh_TW": "git tag"
+    "zh_TW": "git tag",
+    "ru_RU": "git tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -20,7 +21,8 @@ exports.level = {
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
-    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上"
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
+    "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег"
   },
   "startDialog": {
     "en_US": {

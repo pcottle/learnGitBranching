@@ -34,7 +34,7 @@ var str = exports.str = function(key, params) {
   var locale = LocaleStore.getLocale();
   if (!strings[key]) {
     console.warn('NO INTL support for key ' + key);
-    return 'NO INTL support for key ' + key;
+    return 'NO INTL support for key ' + key + '. this is probably a dev error';
   }
 
   if (!strings[key][locale]) {
@@ -55,7 +55,7 @@ var str = exports.str = function(key, params) {
   );
 };
 
-var getIntlKey = exports.getIntlKey = function(obj, key) {
+var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   if (!obj || !obj[key]) {
     throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
   }
@@ -68,7 +68,8 @@ var getIntlKey = exports.getIntlKey = function(obj, key) {
     );
   }
 
-  return obj[key][LocaleStore.getLocale()];
+  var locale = overrideLocale || LocaleStore.getLocale();
+  return obj[key][locale];
 };
 
 exports.todo = function(str) {
@@ -80,11 +81,17 @@ exports.getDialog = function(obj) {
 };
 
 exports.getHint = function(level) {
-  return getIntlKey(level, 'hint') || str('error-untranslated');
+  if (!getIntlKey(level, 'hint')) {
+    return getIntlKey(level, 'hint', getDefaultLocale()) + ' -- ' + str('error-untranslated');
+  }
+  return getIntlKey(level, 'hint');
 };
 
 exports.getName = function(level) {
-  return getIntlKey(level, 'name') || str('error-untranslated');
+  if (!getIntlKey(level, 'name')) {
+    return getIntlKey(level, 'name', getDefaultLocale()) + ' -- ' + str('error-untranslated');
+  }
+  return getIntlKey(level, 'name');
 };
 
 exports.getStartDialog = function(level) {

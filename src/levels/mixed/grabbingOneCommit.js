@@ -23,7 +23,7 @@ exports.level = {
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个 commit",
     "zh_TW": "只取一個 commit",
-    "кг_КГ": "Выберем один коммит."
+    "ru_RU": "Выберем один коммит."
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
