@@ -35345,7 +35345,9 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
     '__desc__': 'One of the warning messages for git',
-    'en_US': 'The default behavior is a --hard reset, feel free to omit that option!',
+    'en_US': 'The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit ' +
+      'that option if you get tired of typing it out in our lessons. Just remember that the default ' +
+      'behavior on actual Git is --mixed.',
     'de_DE': 'Das Standardverhalten in dieser Demo ist --hard, du kannst die Option auch weglassen!',
     'zh_CN': '默认的行为是 --hard 硬重置，尽管省略掉那个选项吧！',
     'zh_TW': '預設的行為是 --hard reset，儘量省略掉那個選項吧！',
