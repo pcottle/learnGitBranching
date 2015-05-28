@@ -36024,7 +36024,6 @@ var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
-var LevelToolbar = require('../views').LevelToolbar;
 
 var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
 var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
@@ -36048,6 +36047,7 @@ var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
     options.level = {};
+    this.options = options;
 
     var locale = LocaleStore.getLocale();
     options.level.startDialog = {};
@@ -36078,10 +36078,6 @@ var LevelBuilder = Level.extend({
   },
 
   initName: function() {
-    this.levelToolbar = new LevelToolbar({
-      name: intl.str('level-builder'),
-      parent: this
-    });
   },
 
   initGoalData: function() {
@@ -36100,7 +36096,6 @@ var LevelBuilder = Level.extend({
     this.doBothVis('hide');
     this.goalWindowPos = position;
     this.goalWindowSize = size;
-    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
     if ($('#goalPlaceholder').is(':visible')) {
       $('#goalPlaceholder').hide();
       this.mainVis.myResize();
@@ -40184,7 +40179,7 @@ var MarkdownGrabber = ContainedBase.extend({
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
         destination: this.getDestination()
-      }.bind(this));
+      });
     }
 
     this.updatePreview();
@@ -64713,4 +64708,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,213,214,212,215,216,217,218,220,221,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,223,222,219,274,275,276,277,203,204,205,206,207,208,209])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
