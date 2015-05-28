@@ -21,7 +21,6 @@ var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
-var LevelToolbar = require('../views').LevelToolbar;
 
 var MarkdownPresenter = require('../views/builderViews').MarkdownPresenter;
 var MultiViewBuilder = require('../views/builderViews').MultiViewBuilder;
@@ -45,6 +44,7 @@ var LevelBuilder = Level.extend({
   initialize: function(options) {
     options = options || {};
     options.level = {};
+    this.options = options;
 
     var locale = LocaleStore.getLocale();
     options.level.startDialog = {};
@@ -75,10 +75,6 @@ var LevelBuilder = Level.extend({
   },
 
   initName: function() {
-    this.levelToolbar = new LevelToolbar({
-      name: intl.str('level-builder'),
-      parent: this
-    });
   },
 
   initGoalData: function() {
@@ -97,7 +93,6 @@ var LevelBuilder = Level.extend({
     this.doBothVis('hide');
     this.goalWindowPos = position;
     this.goalWindowSize = size;
-    this.levelToolbar.$goalButton.text(intl.str('show-goal-button'));
     if ($('#goalPlaceholder').is(':visible')) {
       $('#goalPlaceholder').hide();
       this.mainVis.myResize();
