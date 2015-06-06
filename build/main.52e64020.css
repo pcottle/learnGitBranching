@@ -865,11 +865,16 @@ div.displayName h3 {
 div.iconHolder {
 }
 
+div.seriesView p.levelInfo,
 div.seriesView p.about {
   margin: 0px;
   padding: 4px;
   font-size: 12px;
   color: #CCC;
+}
+
+div.seriesView p.levelInfo {
+  font-style: italic;
 }
 
 div.levelIcon {
