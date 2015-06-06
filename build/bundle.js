@@ -42044,7 +42044,7 @@ var SeriesView = BaseView.extend({
     var firstLevelInfo = null;
     _.each(this.levels, function(level) {
       if (firstLevelInfo === null) {
-        firstLevelInfo = intl.getName(LevelStore.getLevel(level.id));
+        firstLevelInfo = this.formatLevelAbout(level.id);
       }
       this.levelIDs.push(level.id);
     }, this);
@@ -42087,11 +42087,19 @@ var SeriesView = BaseView.extend({
   },
 
   updateAboutForLevelID: function(id) {
+    this.setAbout(this.formatLevelAbout(id));
+  },
+
+  formatLevelAbout: function(id) {
     var level = LevelStore.getLevel(id);
-    // hack -- parse out the level number from
-    // the ID 
-    var levelNumber = id.replace(/[^0-9]/g, '');
-    this.setAbout(levelNumber + ': ' + intl.getName(level));
+    return this.getLevelNumberFromID(id) +
+      ': ' +
+      intl.getName(level);
+  },
+
+  getLevelNumberFromID: function(id) {
+    // hack -- parse out the level number from the ID
+    return id.replace(/[^0-9]/g, '');
   },
 
   click: function(ev) {
