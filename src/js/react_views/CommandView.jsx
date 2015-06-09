@@ -71,7 +71,11 @@ var CommandView = React.createClass({
       <div id={this.props.id} className="reactCommandView">
         <p className={commandClass}>
           <span className="prompt">{'$'}</span>
-          {' ' + this.state.rawStr}
+          {' '}
+          <span dangerouslySetInnerHTML={{
+              __html: this.state.rawStr
+            }}
+          />
           <span className="icons transitionAllSlow">
             <i className="icon-exclamation-sign"></i>
             <i className="icon-check-empty"></i>
