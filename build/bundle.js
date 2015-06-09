@@ -38089,7 +38089,11 @@ var CommandView = React.createClass({displayName: "CommandView",
       React.createElement("div", {id: this.props.id, className: "reactCommandView"}, 
         React.createElement("p", {className: commandClass}, 
           React.createElement("span", {className: "prompt"}, '$'), 
-          ' ' + this.state.rawStr, 
+          ' ', 
+          React.createElement("span", {dangerouslySetInnerHTML: {
+              __html: this.state.rawStr
+            }}
+          ), 
           React.createElement("span", {className: "icons transitionAllSlow"}, 
             React.createElement("i", {className: "icon-exclamation-sign"}), 
             React.createElement("i", {className: "icon-check-empty"}), 
@@ -61835,7 +61839,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!"
+              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!",
+              "",
+              "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
+              "about this... simply use `origin` as the name of the remote like normal.*"
             ]
           }
         }
