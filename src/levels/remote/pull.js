@@ -496,6 +496,65 @@ exports.level = {
                   }
               }
           ]
-      }
+      },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "今や私たちはリモートリポジトリから`git fetch`でデータを取ってくる方法を知っているので、今度は私たちの作業にその変更を反映することを学びましょう！",
+              "",
+              "実際には多くの方法があり、ローカルで利用可能な新しいコミットがあった場合、あなたはそれらが他のブランチの普通のコミットであるかのようにそれらを組み込むことができます。これは、あなたが次のようなコマンドを実行することで行えます:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* その他",
+              "",
+              "実は、リモートの変更を取ってきてマージするという作業の流れはとてもよく行われるので、gitは実際にはその二つを同時に行うコマンドを提供しているのです！それは、`git pull`というコマンドです。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "まずは、連続して`fetch`して`merge`する流れの方を見てみましょう。"
+            ],
+            "afterMarkdowns": [
+              "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/master`でこれをマージしました。今や私たちの`master`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "では、`git pull`では何が起こるのでしょうか？"
+            ],
+            "afterMarkdowns": [
+              "同じことが起こります！明確に`git pull`は`git fetch`して取ってきたブランチの内容をマージするという流れの短縮系であることが確認できます。"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull`の（オプションや引数を含む）詳細はこの後にやりますが、今、このレベルではただ試してみるだけにしておきましょう。",
+              "",
+              "覚えておいてください。あなたは実際にはこのレベルを`fetch`と`merge`だけでこのレベルを解決することができますが、余計なコマンドのコストがかかるだけです :P"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
