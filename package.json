@@ -29,7 +29,7 @@
     "react-tools": "^0.13.1"
   },
   "dependencies": {
-    "backbone": "^1.1.2",
+    "backbone": "~1.1.2",
     "events": "^1.0.2",
     "flux": "^2.0.1",
     "jquery": "~1.7.3",

@@ -281,7 +281,6 @@ var LevelDropdownView = ContainedBase.extend({
     // also go find the series and update the about
     _.each(this.seriesViews, function(view) {
       if (view.levelIDs.indexOf(id) === -1) {
-        view.resetAbout();
         return;
       }
       view.updateAboutForLevelID(id);
@@ -354,8 +353,7 @@ var SeriesView = BaseView.extend({
   template: _.template($('#series-view').html()),
   events: {
     'click div.levelIcon': 'click',
-    'mouseenter div.levelIcon': 'enterIcon',
-    'mouseleave div.levelIcon': 'leaveIcon'
+    'mouseenter div.levelIcon': 'enterIcon'
   },
 
   initialize: function(options) {
@@ -365,7 +363,11 @@ var SeriesView = BaseView.extend({
     this.levels = LevelStore.getLevelsInSequence(this.name);
 
     this.levelIDs = [];
+    var firstLevelInfo = null;
     _.each(this.levels, function(level) {
+      if (firstLevelInfo === null) {
+        firstLevelInfo = this.formatLevelAbout(level.id);
+      }
       this.levelIDs.push(level.id);
     }, this);
 
@@ -375,6 +377,7 @@ var SeriesView = BaseView.extend({
     this.JSON = {
       displayName: intl.getIntlKey(this.info, 'displayName'),
       about: intl.getIntlKey(this.info, 'about') || "&nbsp;",
+      levelInfo: firstLevelInfo,
       ids: this.levelIDs
     };
 
@@ -396,13 +399,8 @@ var SeriesView = BaseView.extend({
     return $(element).attr('data-id');
   },
 
-  resetAbout: function() {
-    this.$('p.about').text(intl.getIntlKey(this.info, 'about'))
-      .css('font-style', 'inherit');
-  },
-
   setAbout: function(content) {
-    this.$('p.about').text(content).css('font-style', 'italic');
+    this.$('p.levelInfo').text(content);
   },
 
   enterIcon: function(ev) {
@@ -411,12 +409,19 @@ var SeriesView = BaseView.extend({
   },
 
   updateAboutForLevelID: function(id) {
-    var level = LevelStore.getLevel(id);
-    this.setAbout(intl.getName(level));
+    this.setAbout(this.formatLevelAbout(id));
   },
 
-  leaveIcon: function() {
-    this.resetAbout();
+  formatLevelAbout: function(id) {
+    var level = LevelStore.getLevel(id);
+    return this.getLevelNumberFromID(id) +
+      ': ' +
+      intl.getName(level);
+  },
+
+  getLevelNumberFromID: function(id) {
+    // hack -- parse out the level number from the ID
+    return id.replace(/[^0-9]/g, '');
   },
 
   click: function(ev) {

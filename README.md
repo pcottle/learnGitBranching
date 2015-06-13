@@ -118,6 +118,7 @@ And the following heroes for assisting in translating:
 * Eroany H Leader ("lhyqy5")
 * Honorat ("ahonorat")
 * Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
+* Aliaksei Berkau ("alexeiberkov")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 
