@@ -75,7 +75,7 @@ var MarkdownGrabber = ContainedBase.extend({
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
         destination: this.getDestination()
-      }.bind(this));
+      });
     }
 
     this.updatePreview();
