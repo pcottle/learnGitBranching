@@ -4,7 +4,7 @@ exports.level = {
   "name": {
     "en_US": "Branching in Git",
     "de_DE": "Branches in Git",
-    "ja": "Gitのブランチ",
+    "ja"   : "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "es_AR": "Brancheando en Git",
     "pt_BR": "Ramos no Git",
@@ -16,7 +16,7 @@ exports.level = {
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
     "de_DE": 'Lege mit "git branch <Name>" einen neuen Branch an und checke ihn mit "git checkout <Name> aus',
-    "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
+    "ja"   : "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
     "pt_BR": "Crie um novo ramo com \"git branch [nome]\" e mude para ele com \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
@@ -188,7 +188,7 @@ exports.level = {
             "markdowns": [
               "## Gitのブランチ",
               "",
-              "Gitではコミットだけでなく、ブランチもまた信じられないほど軽量です。ブランチとは単に特定のコミットを指示したポインタにしか過ぎません。Gitの達人は決まってこう言うのは、そのためです：",
+              "Gitではコミットだけでなく、ブランチもまた信じられないほど軽量です。ブランチとは単に特定のコミットを指示したポインタにしか過ぎません。Gitの達人が決まってこう言うのは、そのためです：",
               "",
               "```",
               "早めに、かつ頻繁にブランチを切りなさい",
@@ -196,7 +196,7 @@ exports.level = {
               "",
               "どれほど多くのブランチを作ってもストレージやメモリを全然使わないので、ブランチを肥大化させるよりも論理的に分割していく方が簡単なのです。",
               "",
-              "ブランチとコミットをあわせて使い始めると、これら2つのフィーチャがどのように連動して機能するかがわかるでしょう。ここではとりあえず、ブランチは基本的には「あるコミットとその親のコミットたちを含めた全てのコミット」のことを呼ぶと覚えておいてください。"
+              "ブランチとコミットをあわせて使い始めると、これら2つの機能がどのように連動して機能するかがわかるでしょう。ここではとりあえず、ブランチは基本的には「あるコミットとその親のコミットたちを含めた全てのコミット」のことを呼ぶと覚えておいてください。"
             ]
           }
         },
@@ -222,7 +222,7 @@ exports.level = {
               "この新しいブランチに何か変更を加えてみましょう。次のボタンを押してください。"
             ],
             "afterMarkdowns": [
-              "あれ？`newImage`ではなくて`master`ブランチが移動してしまいました。これは、私たちが`newImage`のブランチ上で作業していなかったためです。どのブランチで作業しているかは、アスタリスク(*)がついてるかどうかで分かります。"
+              "あらら、`newImage`ではなくて`master`ブランチが移動してしまいました。これは、私たちが`newImage`のブランチ上で作業していなかったためです。どのブランチで作業しているかは、アスタリスク(*)がついてるかどうかで分かります。"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -251,7 +251,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "OK! もうどんなブランチでも切れますね。このウィンドウを閉じて、",
+              "はい、これでもうどんなブランチでも切れますね。このウィンドウを閉じて、",
               "`bugFix`という名前のブランチを作成し、そのブランチをチェックアウトしてみましょう。"
             ]
           }
