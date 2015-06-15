@@ -29488,7 +29488,9 @@ exports.dialog = {
         '## 完成!',
         '',
         'あなたは*{numCommands}*回のコマンドでこの課題をクリアしました; ',
-        '模範解答では{best}回です。'
+        '模範解答では{best}回です。',
+        '',
+        '模範解答は、右下の`?`メニューの`Solution`から見ることができます。'
       ]
     }
   }],
@@ -45844,7 +45846,7 @@ exports.level = {
     "zh_CN": "多个父提交记录",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
-    "ja"   : "複数のparent commit",
+    "ja"   : "複数の親",
     "es_AR": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
     "zh_TW": "多個 parent commit",
@@ -45853,7 +45855,7 @@ exports.level = {
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
-    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成",
+    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
     'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
     "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
@@ -46557,7 +46559,94 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 親の指定",
+              "",
+              "`~`修飾子と同じように、`^`修飾子も後に任意の番号を置くことができます。",
+              "",
+              "指定した数だけ遡る（これは`~`の場合の機能）のではなく、`^`はマージコミットからどの親を選択するかを指定できます。マージコミットは複数の親で構成されるので、選択する経路が曖昧であることを覚えておいてください。",
+              "",
+              "Gitは通常、マージコミットから「一つ目」の親、マージされた側のブランチの親を選びます。しかし、`^`で数を指定することでこのデフォルトの動作を変えることができます。",
+              "",
+              "では、実際の動作を見ていきましょう。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ここに、マージコミットがあります。もし、指定無しに`master^`でチェックアウトした場合、私たちは一番目の親に移動することになります。",
+              "",
+              "(*私たちのツリーでは、一番目の親はマージコミットのちょうど上に位置しています。*)"
+            ],
+            "afterMarkdowns": [
+              "簡単ですね -- これがデフォルトの動作になります。"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "それでは代わりに二つ目の親を指定してみます"
+            ],
+            "afterMarkdowns": [
+              "見ましたか？私たちは他の親に移ることができました。"
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^`修飾子と`~`修飾子は、コミット履歴を辿るのを強力に補助してくれます:"
+            ],
+            "afterMarkdowns": [
+              "超高速ですね！"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "より素晴らしいことに、これらの修飾子は連鎖させることができます！これを見てください:"
+            ],
+            "afterMarkdowns": [
+              "前と同じ移動ですが、なんと一つのコマンドでできています。"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 練習課題",
+              "",
+              "このレベルをクリアするためには、まず新しいブランチを指定したように作成します。",
+              "",
+              "明らかに直接コミットを指定した方が（`C6`というように）簡単ですが、私は今まで述べたような修飾子を使う方法で挑戦してもらいたいと思います。"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
 
@@ -46620,7 +46709,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Introduction Sequence',
       'de_DE': 'Einführung',
-      'ja': 'まずはここから',
+      'ja'   : 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
       'es_AR': 'Secuencia introductoria',
       'pt_BR': 'Sequência introdutória',
@@ -46632,7 +46721,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
       'de_DE': 'Eine gut abgestimmte Einführung in die wichtigsten Git-Befehle',
-      'ja': 'gitの基本的なコマンド群をほどよいペースで学ぶ',
+      'ja'   : 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes git',
       'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
       'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
@@ -46646,7 +46735,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'Ramping Up',
       'de_DE': 'Aufstieg',
-      'ja': '次のレベルに進もう',
+      'ja'   : '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
       'es_AR': 'Acelerando',
       'pt_BR': 'Acelerando',
@@ -46696,7 +46785,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
       'de_DE': 'Bis zum origin und noch weiter',
-      'ja'   : 'Originだけではない -- Gitリモート上級編',
+      'ja'   : '"origin"とその先へ -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
       'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
@@ -46707,7 +46796,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
-      'ja'   : '上級者の仕事は絶えずあり',
+      'ja'   : '絶えず上級者の仕事は存在する。。。',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
       'pt_BR': 'E você achava que ser um déspota esclarecido seria mais divertido...',
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
@@ -46748,7 +46837,7 @@ var sequenceInfo = exports.sequenceInfo = {
     displayName: {
       'en_US': 'A Mixed Bag',
       'de_DE': 'Ein Kessel Buntes',
-      'ja': '様々なtips',
+      'ja'   : '様々なtips',
       'fr_FR': 'Un assortiment',
       'es_AR': 'Bolsa de gatos',
       'pt_BR': 'Sortidos',
@@ -46760,7 +46849,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
       'de_DE': 'Eine bunte Mischung von Techniken, Tipps und Tricks',
-      'ja': 'gitを使う上での様々なtipsやテクニックなど',
+      'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
@@ -46811,7 +46900,7 @@ exports.level = {
   "name": {
     "en_US": "Branching in Git",
     "de_DE": "Branches in Git",
-    "ja": "Gitのブランチ",
+    "ja"   : "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "es_AR": "Brancheando en Git",
     "pt_BR": "Ramos no Git",
@@ -46823,7 +46912,7 @@ exports.level = {
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
     "de_DE": 'Lege mit "git branch <Name>" einen neuen Branch an und checke ihn mit "git checkout <Name> aus',
-    "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
+    "ja"   : "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
     "pt_BR": "Crie um novo ramo com \"git branch [nome]\" e mude para ele com \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
@@ -46995,7 +47084,7 @@ exports.level = {
             "markdowns": [
               "## Gitのブランチ",
               "",
-              "Gitではコミットだけでなく、ブランチもまた信じられないほど軽量です。ブランチとは単に特定のコミットを指示したポインタにしか過ぎません。Gitの達人は決まってこう言うのは、そのためです：",
+              "Gitではコミットだけでなく、ブランチもまた信じられないほど軽量です。ブランチとは単に特定のコミットを指示したポインタにしか過ぎません。Gitの達人が決まってこう言うのは、そのためです：",
               "",
               "```",
               "早めに、かつ頻繁にブランチを切りなさい",
@@ -47003,7 +47092,7 @@ exports.level = {
               "",
               "どれほど多くのブランチを作ってもストレージやメモリを全然使わないので、ブランチを肥大化させるよりも論理的に分割していく方が簡単なのです。",
               "",
-              "ブランチとコミットをあわせて使い始めると、これら2つのフィーチャがどのように連動して機能するかがわかるでしょう。ここではとりあえず、ブランチは基本的には「あるコミットとその親のコミットたちを含めた全てのコミット」のことを呼ぶと覚えておいてください。"
+              "ブランチとコミットをあわせて使い始めると、これら2つの機能がどのように連動して機能するかがわかるでしょう。ここではとりあえず、ブランチは基本的には「あるコミットとその親のコミットたちを含めた全てのコミット」のことを呼ぶと覚えておいてください。"
             ]
           }
         },
@@ -47029,7 +47118,7 @@ exports.level = {
               "この新しいブランチに何か変更を加えてみましょう。次のボタンを押してください。"
             ],
             "afterMarkdowns": [
-              "あれ？`newImage`ではなくて`master`ブランチが移動してしまいました。これは、私たちが`newImage`のブランチ上で作業していなかったためです。どのブランチで作業しているかは、アスタリスク(*)がついてるかどうかで分かります。"
+              "あらら、`newImage`ではなくて`master`ブランチが移動してしまいました。これは、私たちが`newImage`のブランチ上で作業していなかったためです。どのブランチで作業しているかは、アスタリスク(*)がついてるかどうかで分かります。"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -47058,7 +47147,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "OK! もうどんなブランチでも切れますね。このウィンドウを閉じて、",
+              "はい、これでもうどんなブランチでも切れますね。このウィンドウを閉じて、",
               "`bugFix`という名前のブランチを作成し、そのブランチをチェックアウトしてみましょう。"
             ]
           }
@@ -47756,7 +47845,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "これがどういうことか、動きを見ていきましょう。図には（小さな）gitリポジトリが描かれています。コミットが2つあります ―- `C0`という名前の初回のコミットがあり、`C1`という名前の次のコミットが続きます。これは何か意味のある変更かもしれません。",
+              "これがどういうことか、動きを見ていきましょう。図には（小さな）gitリポジトリが描かれています。コミットが2つあります -- `C0`という名前の初回のコミットがあり、`C1`という名前の次のコミットが続きます。これは何か意味のある変更かもしれません。",
               "",
               "下のボタンを押下して新しいコミットを作ってみましょう。"
             ],
@@ -48093,7 +48182,7 @@ exports.level = {
     "pt_BR": "Merge no Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
-    "ja": "ブランチとマージ",
+    "ja"　　　: "ブランチとマージ",
     "zh_CN": "分支与合并",
     "zh_TW": "git 中的 merge",
     "ru_RU": "Слияния веток в Git"
@@ -48101,7 +48190,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann master)",
-    "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
+    "ja"　　　: "指示された順番でコミットすること（masterの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de master)",
     "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de master)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
@@ -48260,9 +48349,9 @@ exports.level = {
             "markdowns": [
               "## ブランチとマージ",
               "",
-              "いい調子ですね。これまでにコミットとブランチについて学びました。そろそろ2つのブランチを1つにまとめるやり方について見ていきましょう。これができれば新しいフィーチャの開発のために新しいブランチを切って、開発が終わったら変更を元のブランチへ統合することができるようになります。",
+              "いい調子ですね。これまでにコミットとブランチについて学びました。そろそろ2つのブランチを1つにまとめるやり方について見ていきましょう。これができれば新しい機能の開発のために新しいブランチを切って、開発が終わったら変更を元のブランチへ統合することができるようになります。",
               "",
-              "はじめに紹介するのは、`git merge`を使ったマージのやり方です。mergeコマンドによって、2つの独立した親を持つ特別なコミットを作ることができます。2つの親を持つコミットが持つ意味とは、「全く別々の場所にいるこの親とその親（*かつ*、それらの親の祖先全て）が持つ全ての変更を含んでいますよ」ということです。",
+              "はじめに紹介するのは、`git merge`を使ったマージのやり方です。mergeコマンドによって、2つの独立した親を持つ特別なコミットを作ることができます。2つの親を持つコミットが持つ意味とは、「全く別々の場所にいる2つの親（*かつ*、それらの親の祖先全て）が持つ全ての変更を含んでいますよ」ということです。",
               "",
               "見てみた方が早いので、次の画面で確認してみましょう。"
             ]
@@ -48277,7 +48366,7 @@ exports.level = {
               "`bugFix`ブランチを`master`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "わあ。見ましたか？まず初めに、`master`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`master`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`master`が完成しました。",
+              "わあ、見ましたか？まず初めに、`master`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`master`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`master`が完成しました。",
               "",
               "色がどう変わったかにも注目して下さい。学習を助けるために、ブランチ毎に色をつけています。それぞれのブランチは自分の色を持っていて、どのブランチから派生して出てくるか次第でコミットごとの色が決まります。",
               "",
@@ -48294,7 +48383,7 @@ exports.level = {
               "`master`ブランチを`bugFix`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "`bugFix`ブランチは`master`ブランチの派生元だったので、gitは実際大したことはしていません：`bugFix`ブランチを指していたポインタを`master`が指していたコミットへと移動させただけです。",
+              "`bugFix`ブランチは`master`ブランチの派生元だったので、gitは実際大したことはしていません。`bugFix`ブランチを指していたポインタを`master`が指していたコミットへと移動させただけです。",
               "",
               "これで全てのコミットが同じ色になりました。つまり、リポジトリの中の全ての変更をそれぞれのブランチが持ったことになります。やったね！"
             ],
@@ -48306,10 +48395,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "以下の作業で理解度の確認をしてみましょう。 steps:",
+              "以下の作業で理解度の確認をしてみましょう:",
               "",
               "* `bugFix`という名前で新しいブランチを切る",
-              "* `git checkout bugFix`コマンドで`bugFix`ブランチをチェックアウトする",
+              "* `git checkout bugFix`コマンドで`bugFix`ブランチに切り替える",
               "* 一回だけコミット",
               "* `git checkout`で`master`へ戻る",
               "* もう1回コミットする",
@@ -48814,7 +48903,7 @@ exports.level = {
   "name": {
     "en_US": "Rebase Introduction",
     "de_DE": "Einführung in Rebase",
-    "ja": "Rebaseの解説",
+    "ja"   : "Rebaseの解説",
     "es_AR": "Introducción a rebase",
     "pt_BR": "Introdução ao rebase",
     "fr_FR": "Introduction à rebase",
@@ -48826,7 +48915,7 @@ exports.level = {
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
-    "ja": "初めにbugFixを指した状態でコミットする",
+    "ja"   : "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
     "pt_BR": "O bugFix precisa ser commitado primeiro",
@@ -48983,7 +49072,7 @@ exports.level = {
               "",
               "ブランチを一つにまとめる方法として前回はマージを紹介しましたが、今回紹介するリベースを使うこともできます。リベースの動作は、マージするコミットのコピーをとって、どこかにストンと落とすというイメージです。",
               "",
-              "ピンと来ないかもしれませんが、リベースのメリットは一本の連続したシーケンシャルなコミットに整形できることです。リベースだけ使っていると、コミットのログや履歴が非常にクリーンな状態に保たれます。",
+              "ピンと来ないかもしれませんが、リベースのメリットは一本の連続したコミットに整形できることです。リベースだけ使っていると、コミットのログや履歴が非常にクリーンな状態に保たれます。",
               "",
               "早速実際にどう動くのかを見てみましょう。"
             ]
@@ -48993,16 +49082,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "前回と同様の2つのブランチを考えます：仮にいまbugFixブランチをチェックアウトしているとします。（アスタリスクつきのもの）",
+              "前回と同様の2つのブランチを考えます。仮にいまbugFixブランチをチェックアウトしているとします。（アスタリスクつきのもの）",
               "",
-              "bugFixに入ってる作業内容をそのまま直接masterブランチ上の内容に移動したいとします。こうすることで、実際には並行して開発された2つの別々のブランチ上のフィーチャを、あたかも1本のブランチ上でシーケンシャルに開発されていたかのように見せることができます。",
+              "bugFixに入ってる作業内容をそのまま直接masterブランチ上の内容に移動したいとします。こうすることで、実際には並行して開発された2つの別々のブランチ上の機能のソースを、あたかも1本のブランチ上で連続して開発されていたかのように見せることができます。",
               "",
               "`git rebase`コマンドでそれをやってみましょう。"
             ],
             "afterMarkdowns": [
               "できた！これでbugFixブランチの作業内容はmasterブランチのすぐ先に移動したので、見た目が一本になってスッキリしました。",
               "",
-              "気を付けてほしいのは、C3コミットはどこかに残ってるということ（ツリーの中で半透明にしてあります）、そしてC3'は（C3との接続が切れているC3の）コピーがmasterブランチ上に作られているということです。",
+              "気を付けてほしいのは、C3コミットはどこかに残ってるということ（ツリーの中で半透明にしてあります）、そしてC3'は（C1との接続が切れているC3の）コピーがmasterブランチ上に作られているということです。",
               "",
               "一つ問題が残ってて、masterブランチがまだ最新化されていませんね。ちょっと直してみましょう。。"
             ],
@@ -49014,7 +49103,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "masterブランチはチェックアウトしてあります。この状態からmasterブランチを`bugFix`へとリベースしてみましょう。"
+              "masterブランチにチェックアウトしてあります。この状態からmasterブランチを`bugFix`へとリベースしてみましょう。"
             ],
             "afterMarkdowns": [
               "できた！`master`は`bugFix`の直前のコミットだったので、gitは単純に`master`ブランチのポインタを前に進めただけでした。"
@@ -52400,9 +52489,9 @@ exports.level = {
             "markdowns": [
               "## コードの移動",
               "",
-              "今まででは、gitの基本をひたすら見てきました -- コミット、ブランチ、そしてソースツリーの中でいろいろなポジションへのアクセス。これらの概念だけで、gitリポジトリの力を90%使いこなすことができ、開発者の主なニーズを満たしています。",
+              "今まででは、gitの基本をひたすら見てきました -- コミット、ブランチ、そしてソースツリーの中でいろいろなポジションへのアクセスなどです。これらの概念だけで、gitリポジトリの力を90%使いこなすことができ、開発者の主なニーズを満たしています。",
               "",
-              "しかし最後の10%はより複雑なワークフローやちょっとトラブった時にとても役に立つこともある。これから取り上げる次の課題は「コードの移動」 –- つまり開発者が、このコードをここに置き、そのコードをそこに置きたい、と安易、かつ具体的に表す方法です。",
+              "しかし最後の10%はより複雑なワークフローやちょっとトラブった時にとても役に立つこともあります。これから取り上げる次の課題は「コードの移動」 –- つまり開発者が、「このコードをここに置き、そのコードをそこに置きたい」と言うときに、安易かつ具体的に利用できる方法を勉強します。",
               "",
               "ちょっと複雑に聞こえるかもしれませんが、概念は簡単です。"
             ]
@@ -53085,7 +53174,7 @@ exports.level = {
               "",
               "Gitの上級機能に進む前に、自分のプロジェクトを表すコミットツリーの中で任意の位置へ移動する様々な方法を知っておく必要があります。",
               "",
-              "移動方法が身につけば、他のgitコマンドをもよりうまく扱えるようになるでしょう！",
+              "移動方法が身につけば、他のgitコマンドをよりうまく扱えるようになるでしょう！",
               "",
               "",
               "",
@@ -55189,7 +55278,7 @@ exports.level = {
   "name": {
     "en_US": "Reversing Changes in Git",
     "de_DE": "Änderungen in Git rückgängig machen",
-    "ja": "変更を元に戻す",
+    "ja"   : "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
     "es_AR": "Revirtiendo cambios en git",
     "pt_BR": "Revertendo mudanças no Git",
@@ -55207,7 +55296,7 @@ exports.level = {
     "zh_CN": "注意 revert 和 reset 使用不同的参数。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
-    "ja": "revertとresetとで引数が異なることに注意。",
+    "ja"   : "revertとresetとで引数が異なることに注意。",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры."
   },
   "startDialog": {
@@ -55484,7 +55573,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset`はブランチのポインタを後方に移動することで変更のキャンセルを実現します。履歴を上書きするような動作だと思うと良いでしょうか：`git reset`はそもそも前のコミットなんかなかったかのように、ブランチのポインタを元に戻してくれます。",
+              "`git reset`はブランチのポインタを後方に移動することで変更のキャンセルを実現します。履歴を上書きするような動作だと思うと良いでしょうか。`git reset`はそもそも前のコミットなんかなかったかのように、ブランチのポインタを元に戻してくれます。",
               "",
               "どういう感じか見てみましょう。"
             ],
@@ -57836,6 +57925,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "Um diesen Level zu schaffen musst du einfach nur `git fetch` ausführen, um alle Commits herunterzuladen!"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "リモートGitを用いた作業は、本当にただ単なる他のリポジトリ_への_、または他のリポジトリ_からの_データの転送に集約されます。コミットを転送できる限り、Gitで管理されている全ての種類の更新が共有できます（例えば作業や、新しいファイル、新しいアイデア、ラブレターなどです）。",
+              "",
+              "このレベルでは、リモートリポジトリ_から_どうやってデータを取ってくる方法を学びます -- このコマンドは`git fetch`と名付けられています。",
+              "",
+              "リモートリポジトリの情報を私たちが更新するように、_リモート_ブランチも情報を更新することができることが分かるでしょう。これは前のレッスンでのリモートブランチの働きに結びつきます。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch`の説明に入る前に、その動作を見てみましょう。ここに、ローカルリポジトリにない二個のコミットを含んでいるリモートブランチがあります。"
+            ],
+            "afterMarkdowns": [
+              "やりました！`C2`、`C3`コミットがローカルリポジトリにダウンロードされ、`o/master`リモートブランチに反映されました。"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetchとはどのようなものか",
+              "",
+              "`git fetch`は、主に二つのステップだけで動作します。それは以下のようなものです:",
+              "",
+              "* リモートにあってローカルリポジトリにないコミットをダウンロードする",
+              "* リモートブランチの位置を更新する（例えば、`o/master`）",
+              "",
+              "`git fetch`は本質的には、_実際_のリモートリポジトリと同じように見えるような形でリモートリポジトリの_ローカル_の情報に同期します（ちょうど今のように）。",
+              "",
+              "あなたは前のレッスンでのことを覚えていると思いますが、リモートブランチはリモートリポジトリと最後に同期した時での状態を保持しているという話をしました。`git fetch`はそのリモートと同期する方法なのです！これでリモートブランチと`git fetch`の関係性は明らかになったでしょう？",
+              "",
+              "`git fetch`は、通常インターネットを通してリモートリポジトリと対話します（`http://`または`git://`プロトコル経由で）。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetchがしてくれないもの",
+              "",
+              "`git fetch`は、しかしながら、_あなたの_ローカルの状態は変更しません。あなたの`master`ブランチや他のもの、今現在のあなたのファイルシステムが見せているものを更新しないのです。",
+              "",
+              "これは理解する上で重要なことです。なぜなら、多くの技術者は`git fetch`がリモートの状態をローカルの作業場に反映してくれると思っているからです。必要なデータはダウンロードされるかもしれませんが、ローカルのファイルを実際に変更するというようなことは_してくれない_のです。私たちは、この後のレッスンでもこのようなコマンドを学びます:D",
+              "",
+              "なので、この1日が終わる頃には、あなたは`git fetch`のダウンロードステップの動作が分かるようになるでしょう。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルを終えるには、単に`git fetch`を実行し、全てのコミットをダウンロードしてください。"
             ]
           }
         }
@@ -60826,7 +60988,66 @@ exports.level = {
                   }
               }
           ]
-      }
+      },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "今や私たちはリモートリポジトリから`git fetch`でデータを取ってくる方法を知っているので、今度は私たちの作業にその変更を反映することを学びましょう！",
+              "",
+              "実際には多くの方法があり、ローカルで利用可能な新しいコミットがあった場合、あなたはそれらが他のブランチの普通のコミットであるかのようにそれらを組み込むことができます。これは、あなたが次のようなコマンドを実行することで行えます:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* その他",
+              "",
+              "実は、リモートの変更を取ってきてマージするという作業の流れはとてもよく行われるので、gitは実際にはその二つを同時に行うコマンドを提供しているのです！それは、`git pull`というコマンドです。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "まずは、連続して`fetch`して`merge`する流れの方を見てみましょう。"
+            ],
+            "afterMarkdowns": [
+              "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/master`でこれをマージしました。今や私たちの`master`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "では、`git pull`では何が起こるのでしょうか？"
+            ],
+            "afterMarkdowns": [
+              "同じことが起こります！明確に`git pull`は`git fetch`して取ってきたブランチの内容をマージするという流れの短縮系であることが確認できます。"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull`の（オプションや引数を含む）詳細はこの後にやりますが、今、このレベルではただ試してみるだけにしておきましょう。",
+              "",
+              "覚えておいてください。あなたは実際にはこのレベルを`fetch`と`merge`だけでこのレベルを解決することができますが、余計なコマンドのコストがかかるだけです :P"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
 
