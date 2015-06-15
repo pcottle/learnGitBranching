@@ -8,7 +8,7 @@ exports.level = {
     "pt_BR": "Merge no Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
-    "ja": "ブランチとマージ",
+    "ja"　　　: "ブランチとマージ",
     "zh_CN": "分支与合并",
     "zh_TW": "git 中的 merge",
     "ru_RU": "Слияния веток в Git"
@@ -16,7 +16,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann master)",
-    "ja": "指示された順番でコミットすること（masterの前にbugFixで）",
+    "ja"　　　: "指示された順番でコミットすること（masterの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de master)",
     "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de master)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
@@ -175,9 +175,9 @@ exports.level = {
             "markdowns": [
               "## ブランチとマージ",
               "",
-              "いい調子ですね。これまでにコミットとブランチについて学びました。そろそろ2つのブランチを1つにまとめるやり方について見ていきましょう。これができれば新しいフィーチャの開発のために新しいブランチを切って、開発が終わったら変更を元のブランチへ統合することができるようになります。",
+              "いい調子ですね。これまでにコミットとブランチについて学びました。そろそろ2つのブランチを1つにまとめるやり方について見ていきましょう。これができれば新しい機能の開発のために新しいブランチを切って、開発が終わったら変更を元のブランチへ統合することができるようになります。",
               "",
-              "はじめに紹介するのは、`git merge`を使ったマージのやり方です。mergeコマンドによって、2つの独立した親を持つ特別なコミットを作ることができます。2つの親を持つコミットが持つ意味とは、「全く別々の場所にいるこの親とその親（*かつ*、それらの親の祖先全て）が持つ全ての変更を含んでいますよ」ということです。",
+              "はじめに紹介するのは、`git merge`を使ったマージのやり方です。mergeコマンドによって、2つの独立した親を持つ特別なコミットを作ることができます。2つの親を持つコミットが持つ意味とは、「全く別々の場所にいる2つの親（*かつ*、それらの親の祖先全て）が持つ全ての変更を含んでいますよ」ということです。",
               "",
               "見てみた方が早いので、次の画面で確認してみましょう。"
             ]
@@ -192,7 +192,7 @@ exports.level = {
               "`bugFix`ブランチを`master`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "わあ。見ましたか？まず初めに、`master`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`master`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`master`が完成しました。",
+              "わあ、見ましたか？まず初めに、`master`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`master`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`master`が完成しました。",
               "",
               "色がどう変わったかにも注目して下さい。学習を助けるために、ブランチ毎に色をつけています。それぞれのブランチは自分の色を持っていて、どのブランチから派生して出てくるか次第でコミットごとの色が決まります。",
               "",
@@ -209,7 +209,7 @@ exports.level = {
               "`master`ブランチを`bugFix`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "`bugFix`ブランチは`master`ブランチの派生元だったので、gitは実際大したことはしていません：`bugFix`ブランチを指していたポインタを`master`が指していたコミットへと移動させただけです。",
+              "`bugFix`ブランチは`master`ブランチの派生元だったので、gitは実際大したことはしていません。`bugFix`ブランチを指していたポインタを`master`が指していたコミットへと移動させただけです。",
               "",
               "これで全てのコミットが同じ色になりました。つまり、リポジトリの中の全ての変更をそれぞれのブランチが持ったことになります。やったね！"
             ],
@@ -221,10 +221,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "以下の作業で理解度の確認をしてみましょう。 steps:",
+              "以下の作業で理解度の確認をしてみましょう:",
               "",
               "* `bugFix`という名前で新しいブランチを切る",
-              "* `git checkout bugFix`コマンドで`bugFix`ブランチをチェックアウトする",
+              "* `git checkout bugFix`コマンドで`bugFix`ブランチに切り替える",
               "* 一回だけコミット",
               "* `git checkout`で`master`へ戻る",
               "* もう1回コミットする",
