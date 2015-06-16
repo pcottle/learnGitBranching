@@ -20,7 +20,7 @@ exports.level = {
     "es_AR": "Prestá atención al orden del objetivo",
     "ot_BR": "Preste atenção na ordem da visualização do objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
-    "ja"   : "ゴールのビジュアライズの順番を参照",
+    "ja"   : "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели"
   },
@@ -1164,6 +1164,149 @@ exports.level = {
               "* Сфабрикуйте командную работу (1 коммит)",
               "* Сделайте свой собственный коммит (1 commit)",
               "* Опубликуйте свои наработки посредствам *перебазировки rebasing*"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 分かれた作業",
+              "",
+              "これまでは、どのようにして`pull`でコミットを取り込み、`push`で自身の変更を反映するかを見てきました。単純なようにみえます。では何故人々は混乱するのでしょうか？",
+              "",
+              "その難しさは、リポジトリの履歴が*分岐*することに起因します。この詳細について説明する前に、まずは例を見てみましょう。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "月曜日にリポジトリをクローンし、ある表面の機能をちょっと弄ることを想像してみてください。金曜日までに、あなたはその機能を公開する準備ができる -- しかし、ああなんということでしょう！あなたの同僚達は、あなたの機能が依存していた（そして、廃れた）コードの束をその週の内に書き換えていました。彼らはリモートリポジトリのコミットを共有して公開し、今や*あなたの*作業は*古い*バージョンのもはや適切でないプロジェクトに基づいていることになります。",
+              "",
+              "この場合、`git push`コマンドは曖昧になってしまいます。あなたが`git push`を走らせたとき、gitはリモートリポジトリは月曜の状態に変更を戻すべきでしょうか？それとも、新しいコードを取り除かないで追加しようとしてみるべきでしょうか？または、あなたの変更が完全に古いものになってしまったため、全て無視するべきなのでしょうか？",
+              "",
+              "この状況（履歴が分岐をしているとき）ではまったくもって曖昧なので、gitはあなたの変更を`push`することを許可しません。実際には、あなたの作業を共有する前に最新のリモートの状態を取り込むことを強制します。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "話しすぎましたね！この状況での動作をみてみましょう！"
+            ],
+            "afterMarkdowns": [
+              "見ましたか？コマンドが失敗して、何も起こりませんでした。あなたの最近の`C3`コミットはリモートの`C1`コミットに依存しているため、`git push`は失敗しました。リモートには`C2`が更新されているので、gitはあなたのプッシュを拒否します。"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ではこの状況を解決するにはどうしたらいいでしょう？簡単です、リモートブランチの最新の状態にあなたの作業が基づくようにすればいいのです。",
+              "",
+              "いくつか方法はありますが、最も簡単なのはあなたの作業をリベースで移動させることです。それがどのようなものか、さあみてみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "今、プッシュをする前に代わりにリベースをしてみましょう。"
+            ],
+            "afterMarkdowns": [
+              "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業をリベースさせてリモートの新しい変更に適用させ、`git push`でそれをプッシュしました。"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "リモートリポジトリが更新されたとき、他に自身の作業を更新する方法はあるでしょうか？もちろん、あります！今度は同じことを`merge`を代わりに使ってやってみましょう。",
+              "",
+              "`git merge`はあなたの作業を移動しませんが（代わりにマージコミットを作ります）、リモートの変更を全て取り込みgitに通知する方法なのです。この通知とは、リモートブランチが今やあなた自身のブランチの*親*を指していることになるため、あなたのリモートブランチの全ての変更を反映しているコミットを指します。",
+              "",
+              "この状況の例を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "リベースの代わりに今度はマージを用います。"
+            ],
+            "afterMarkdowns": [
+              "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業を*マージ*して（リモートの新しい変更を反映するために）、`git push`でそれをプッシュしました。"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "素晴らしい！多くのコマンドを打たないでこれを実現する方法はあるでしょうか？",
+              "",
+              "もちろん -- あなたが既に知っているコマンドです。`git pull`は、`fetch`して`merge`するためのより短い書き方です。さらに便利なことに、`git pull --rebase`は`fetch`して`rebase`することの省略形です！",
+              "",
+              "コマンドを省略した場合を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "まずは、`--rebase`から"
+            ],
+            "afterMarkdowns": [
+              "前と一緒です！そしてとても短いです。"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "そして通常使う`pull`で試してみましょう"
+            ],
+            "afterMarkdowns": [
+              "ここでも、前と同じです！"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "この取り込み作業の流れ、リベースとマージ、そしてプッシュはとてもよく行います。次回以降のレッスンではより複雑なパターンの作業を学びますが、今は習ったことをとりあえず試してみましょう。",
+              "",
+              "このレベルをクリアするには、以下のステップを踏みます:",
+              "",
+              "* あなたのリポジトリをクローン",
+              "* 擬似的に幾つかの同僚の変更を真似る（1コミット）",
+              "* あなた自身の作業をコミット（1コミット）",
+              "* あなたの作業を*リベース*で公開"
             ]
           }
         }
