@@ -29432,7 +29432,9 @@ exports.dialog = {
         '  * オプションで```define hint```でヒントを定義します',
         '  * ```define name```で名前を編集します',
         '  * オプションで```edit dialog```で良い感じに開始時のダイアログを定義します',
-        '  * ```finish```コマンドを打つことであなたのlevelがJSONで出力されます'
+        '  * ```finish```コマンドを打つことであなたのlevelがJSONで出力されます',
+        '',
+        '*Note: このダイアログは`help builder`で何回でも表示できます！活用してください！*'
       ]
     }
   }],
@@ -35934,7 +35936,7 @@ exports.strings = {
     'es_AR': 'Podés ocultar esta ventana con "hide start"',
     'pt_BR': 'Você pode ocultar esta janela com "hide start"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
-    'ja'   : 'このウィンドウは"hide start"で閉じれます',
+    'ja'   : 'このウィンドウは"hide start"かクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -46746,7 +46748,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
-      'ja': '更にgitの素晴らしさを堪能しよう',
+      'ja'   : '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
@@ -46826,7 +46828,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       'pt_BR': 'Fique confortável em modificar a árvore de códigos',
       // INTL out of sync :(
-      'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
+      'ja'   : '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！',
@@ -46891,7 +46893,6 @@ exports.getTabForSequence = function(sequenceName) {
     info.tab :
     'main';
 };
-
 
 },{"./advanced/multipleParents":244,"./intro/branching":246,"./intro/commits":247,"./intro/merging":248,"./intro/rebasing":249,"./mixed/describe":250,"./mixed/grabbingOneCommit":251,"./mixed/jugglingCommits":252,"./mixed/jugglingCommits2":253,"./mixed/tags":254,"./rampup/cherryPick":255,"./rampup/detachedHead":256,"./rampup/interactiveRebase":257,"./rampup/relativeRefs":258,"./rampup/relativeRefs2":259,"./rampup/reversingChanges":260,"./rebase/manyRebases":261,"./rebase/selectiveRebase":262,"./remote/clone":263,"./remote/fakeTeamwork":264,"./remote/fetch":265,"./remote/fetchArgs":266,"./remote/fetchRebase":267,"./remote/mergeManyFeatures":268,"./remote/pull":269,"./remote/pullArgs":270,"./remote/push":271,"./remote/pushArgs":272,"./remote/pushArgs2":273,"./remote/pushManyFeatures":274,"./remote/remoteBranches":275,"./remote/sourceNothing":276,"./remote/tracking":277}],246:[function(require,module,exports){
 exports.level = {
@@ -56939,7 +56940,7 @@ exports.level = {
     "en_US": "Faking Teamwork",
     "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
-    "ja"   : "擬似チームワーク",
+    "ja"   : "擬似的なチーム作業",
     "es_AR": "Simulando el trabajo en equipo",
     "pt_BR": "Simulando trabalho em equipe",
     "zh_CN": "模拟团队合作",
@@ -56950,7 +56951,7 @@ exports.level = {
     "en_US": "remember you can specify the number of commits to fake",
     "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
-    "ja"   : "擬似で作成するコミット数を指定できるのをお忘れなく",
+    "ja"   : "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "pt_BR": "Lembre-se que você pode especificar quantos commits quer simular",
     "zh_CN": "记住为fake中的commit指定数量",
@@ -57389,6 +57390,62 @@ exports.level = {
                 }
             }
         ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 連携のシミュレーション",
+              "",
+              "ここでは少し奇怪なものを取り扱います -- これは次回以降の幾つかのレッスンのためのもので、リモートセクションで変更点の反映方法を教えるのに必要なものです。",
+              "",
+              "つまり、私たちには時にはリモートの特定のブランチや特定の数のコミットを、同僚/友人/共同開発者の一人が更新した「ふりをする」ことが必要だというわけです。",
+              "",
+              "これを行うために、私たちは適切に選んだ名前のコマンド`git fakeTeamwork`を導入しました！とても明白でしょう？では、デモを見てみましょう。",
+              "",
+              "*Note: もちろん、本当のgit上にこのようなコマンドは存在しません！変更は、「実在する」同僚や友人が行ってくれるでしょうから！ここではレッスンのために「擬似的に」導入しているにすぎません！*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork`のデフォルトの動作は、単にmasterの上にコミットを乗っけるだけです"
+            ],
+            "afterMarkdowns": [
+              "ではいってみましょう -- リモートには新しいコミットが更新され、それはまだ私たちの手元にはダウンロードされていません。なぜなら、`git fetch`を走らせていませんからね。"
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "さらに特定の数のコミット、または追加するブランチをコマンドで指定することもできます。"
+            ],
+            "afterMarkdowns": [
+              "一つのコマンドで、チームメイトが3個のコミットをリモートの`foo`ブランチにプッシュするという動作を再現することができました。"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "今後のレベルはどんどん難しくなっていくでしょうから、このレベルでも私たちはあなたに少々多くのことを求めます。",
+              "",
+              "先に行くには、リモートを作り（`git clone`で）、リモートに幾つかの変更を再現して、自身のリポジトリにコミットし、変更を取り込む必要があります。これは、このリモートのセクションでやった幾つかのレッスンの内容と似ていますね！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -58992,7 +59049,7 @@ exports.level = {
     "es_AR": "Prestá atención al orden del objetivo",
     "ot_BR": "Preste atenção na ordem da visualização do objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
-    "ja"   : "ゴールのビジュアライズの順番を参照",
+    "ja"   : "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели"
   },
@@ -60136,6 +60193,149 @@ exports.level = {
               "* Сфабрикуйте командную работу (1 коммит)",
               "* Сделайте свой собственный коммит (1 commit)",
               "* Опубликуйте свои наработки посредствам *перебазировки rebasing*"
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 分かれた作業",
+              "",
+              "これまでは、どのようにして`pull`でコミットを取り込み、`push`で自身の変更を反映するかを見てきました。単純なようにみえます。では何故人々は混乱するのでしょうか？",
+              "",
+              "その難しさは、リポジトリの履歴が*分岐*することに起因します。この詳細について説明する前に、まずは例を見てみましょう。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "月曜日にリポジトリをクローンし、ある表面の機能をちょっと弄ることを想像してみてください。金曜日までに、あなたはその機能を公開する準備ができる -- しかし、ああなんということでしょう！あなたの同僚達は、あなたの機能が依存していた（そして、廃れた）コードの束をその週の内に書き換えていました。彼らはリモートリポジトリにコミットを共有して公開し、今や*あなたの*作業は*古い*バージョンのもはや適切でないプロジェクトに基づいていることになります。",
+              "",
+              "この場合、`git push`コマンドは曖昧になってしまいます。あなたが`git push`を走らせたとき、gitはリモートリポジトリは月曜の状態に変更を戻すべきでしょうか？それとも、新しいコードを取り除かないで追加しようとしてみるべきでしょうか？または、あなたの変更が完全に古いものになってしまったため、全て無視するべきなのでしょうか？",
+              "",
+              "この状況（履歴が分岐をしているとき）ではまったくもって曖昧なので、gitはあなたの変更を`push`することを許可しません。実際には、あなたの作業を共有する前に最新のリモートの状態を取り込むことを強制します。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "話しすぎましたね！この状況での動作をみてみましょう！"
+            ],
+            "afterMarkdowns": [
+              "見ましたか？コマンドが失敗して、何も起こりませんでした。あなたの最近の`C3`コミットはリモートの`C1`コミットに依存しているため、`git push`は失敗しました。リモートには`C2`が更新されているので、gitはあなたのプッシュを拒否します。"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ではこの状況を解決するにはどうしたらいいでしょう？簡単です、リモートブランチの最新の状態にあなたの作業が基づくようにすればいいのです。",
+              "",
+              "いくつか方法はありますが、最も簡単なのはあなたの作業をリベースで移動させることです。それがどのようなものか、さあみてみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "今、プッシュをする前に代わりにリベースをしてみましょう。"
+            ],
+            "afterMarkdowns": [
+              "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業をリベースさせてリモートの新しい変更に適用させ、`git push`でそれをプッシュしました。"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "リモートリポジトリが更新されたとき、他に自身の作業を更新する方法はあるでしょうか？もちろん、あります！今度は同じことを`merge`を代わりに使ってやってみましょう。",
+              "",
+              "`git merge`はあなたの作業を移動しませんが（代わりにマージコミットを作ります）、リモートの変更を全て取り込みgitに通知する方法なのです。この通知とは、リモートブランチが今やあなた自身のブランチの*親*を指していることになるため、あなたのリモートブランチの全ての変更を反映しているコミットを指します。",
+              "",
+              "この状況の例を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "リベースの代わりに今度はマージを用います。"
+            ],
+            "afterMarkdowns": [
+              "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業を*マージ*して（リモートの新しい変更を反映するために）、`git push`でそれをプッシュしました。"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "素晴らしい！多くのコマンドを打たないでこれを実現する方法はあるでしょうか？",
+              "",
+              "もちろん -- あなたが既に知っているコマンドです。`git pull`は、`fetch`して`merge`するためのより短い書き方です。さらに便利なことに、`git pull --rebase`は`fetch`して`rebase`することの省略形です！",
+              "",
+              "コマンドを省略した場合を見てみましょう。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "まずは、`--rebase`から"
+            ],
+            "afterMarkdowns": [
+              "前と一緒です！そしてとても短いです。"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "そして通常使う`pull`で試してみましょう"
+            ],
+            "afterMarkdowns": [
+              "ここでも、前と同じです！"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "この取り込み作業の流れ、リベースとマージ、そしてプッシュはとてもよく行います。次回以降のレッスンではより複雑なパターンの作業を学びますが、今は習ったことをとりあえず試してみましょう。",
+              "",
+              "このレベルをクリアするには、以下のステップを踏みます:",
+              "",
+              "* あなたのリポジトリをクローン",
+              "* 擬似的に幾つかの同僚の変更を真似る（1コミット）",
+              "* あなた自身の作業をコミット（1コミット）",
+              "* あなたの作業を*リベース*で公開"
             ]
           }
         }
@@ -61621,7 +61821,7 @@ exports.level = {
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
-    "ja"   : "Pushできる前にまずリポジトリをcloneする必要があるのをお忘れなく",
+    "ja"   : "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно сколнировать репозиторий!"
   },
@@ -61960,6 +62160,49 @@ exports.level = {
                   ]
               }
           }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "さて、私たちは変更をリモートからダウンロードしてきて、ローカルの自分の作業に取り込むことができるようになりました。それは素晴らしいことですが、例えば他の誰かに_自分の_作業を共有する場合はどうすればいいでしょう？",
+              "",
+              "そうですね、共有する作業をアップロードする方法は作業をダウンロードするものと対照的です。`git pull`の反対はなんでしょう？ `git push`です！",
+              "",
+              "`git push`は_あなたの_変更をリモートに対話的にアップロードし、リモートにあなたの新しい変更を取り込みます。`git push`が完了すれば、全ての友人たちがあなたの作業をリモートからダウンロードすることができます。",
+              "",
+              "`git push`は、あなたの作業を「公開する」コマンドと考えることができます。このコマンドは微妙な点をいくつか持っていますが、とりあえずは初歩から始めてみましょう。。。",
+              "",
+              "*Note : 引数なしの`git push`の挙動は、`push.default`と呼ばれるgitの設定値によって異なります。この設定のデフォルト値は、使用しているgitのバージョンに依存しますが、私たちのレッスンでは`upstream`という値を使用します。これはあまり大きな問題ではありませんが、あなたのプロジェクトにプッシュする前にあなたのgitの設定を確認する価値はあるでしょう。*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ここにリモートにはないいくつかの変更点があります。これをアップロードしてみましょう！"
+            ],
+            "afterMarkdowns": [
+              "さて、いってみましょう -- リモートはコミット`C2`を受け取り、リモート上の`master`ブランチは`C2`の位置に更新され、私たち*自身*のリモートブランチ(`o/master`)も良い具合に更新されました。全てが同期されました！"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルを終えるには、単純に二つの新しいコミットをリモートに共有してください。けれども覚悟しておいてください。なぜなら、レッスンは少々難しいことを取り扱っているからです。"
+            ]
+          }
+        }
       ]
     }
   }
@@ -65305,4 +65548,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,268,267,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
