@@ -93,7 +93,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
-      'ja': '更にgitの素晴らしさを堪能しよう',
+      'ja'   : '更にgitの素晴らしさを堪能しよう',
       'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
@@ -173,7 +173,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       'pt_BR': 'Fique confortável em modificar a árvore de códigos',
       // INTL out of sync :(
-      'ja': '話題のrebaseってどんなものだろう？って人にオススメ',
+      'ja'   : '話題のrebaseってどんなものだろう？って人にオススメ',
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！',
@@ -238,4 +238,3 @@ exports.getTabForSequence = function(sequenceName) {
     info.tab :
     'main';
 };
-

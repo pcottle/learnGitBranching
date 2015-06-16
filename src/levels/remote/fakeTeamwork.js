@@ -6,7 +6,7 @@ exports.level = {
     "en_US": "Faking Teamwork",
     "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
-    "ja"   : "擬似チームワーク",
+    "ja"   : "擬似的なチーム作業",
     "es_AR": "Simulando el trabajo en equipo",
     "pt_BR": "Simulando trabalho em equipe",
     "zh_CN": "模拟团队合作",
@@ -17,7 +17,7 @@ exports.level = {
     "en_US": "remember you can specify the number of commits to fake",
     "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
-    "ja"   : "擬似で作成するコミット数を指定できるのをお忘れなく",
+    "ja"   : "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "pt_BR": "Lembre-se que você pode especificar quantos commits quer simular",
     "zh_CN": "记住为fake中的commit指定数量",
@@ -456,6 +456,62 @@ exports.level = {
                 }
             }
         ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 連携のシミュレーション",
+              "",
+              "ここでは少し奇怪なものを取り扱います -- これは次回以降の幾つかのレッスンのためのもので、リモートセクションで変更点の反映方法を教えるのに必要なものです。",
+              "",
+              "つまり、私たちには時にはリモートの特定のブランチや特定の数のコミットを、同僚/友人/共同開発者の一人が更新した「ふりをする」ことが必要だというわけです。",
+              "",
+              "これを行うために、私たちは適切に選んだ名前のコマンド`git fakeTeamwork`を導入しました！とても明白でしょう？では、デモを見てみましょう。",
+              "",
+              "*Note: もちろん、本当のgit上にこのようなコマンドは存在しません！変更は、「実在する」同僚や友人が行ってくれるでしょうから！ここではレッスンのために「擬似的に」導入しているにすぎません！*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork`のデフォルトの動作は、単にmasterの上にコミットを乗っけるだけです"
+            ],
+            "afterMarkdowns": [
+              "ではいってみましょう -- リモートには新しいコミットが更新され、それはまだ私たちの手元にはダウンロードされていません。なぜなら、`git fetch`を走らせていませんからね。"
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "さらに特定の数のコミット、または追加するブランチをコマンドで指定することもできます。"
+            ],
+            "afterMarkdowns": [
+              "一つのコマンドで、チームメイトが3個のコミットをリモートの`foo`ブランチにプッシュするという動作を再現することができました。"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "今後のレベルはどんどん難しくなっていくでしょうから、このレベルでも私たちはあなたに少々多くのことを求めます。",
+              "",
+              "先に行くには、リモートを作り（`git clone`で）、リモートに幾つかの変更を再現して、自身のリポジトリにコミットし、変更を取り込む必要があります。これは、このリモートのセクションでやった幾つかのレッスンの内容と似ていますね！"
+            ]
+          }
+        }
+      ]
     }
   }
 };
