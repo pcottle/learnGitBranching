@@ -14,7 +14,7 @@ exports.level = {
     "pt_BR": "Fazendo mais de 9000 rebases",
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
-    "ja": "9000回以上のrebase",
+    "ja"   : "9000回以上のrebase",
     "zh_CN": "N次Rebase",
     "zh_TW": "N次Rebase",
     "ru_RU": "Rebase over 9000 раз"
@@ -25,7 +25,7 @@ exports.level = {
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
     "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o master por último...",
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour master seulement à la fin ...",
-    "ja": "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
+    "ja"   : "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。",
@@ -132,9 +132,9 @@ exports.level = {
               "",
               "さあ、いくつものブランチが出てきます。このブランチたち全てをmasterブランチにリベースしましょう。",
               "",
-              "おエライさん方が今回の仕事を少しトリッキーにしてくれました -― コミットはすべて一列のシーケンシャルな状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
+              "おエライさん方が今回の仕事を少しトリッキーにしてくれました -- コミットはすべて一列の連続した状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
               "",
-              "試行錯誤してツリーが汚くなってきたら、`reset`コマンドを使ってツリーの状態を初期化してください。模範解答をチェックして、それよりも簡単なコマンドで済ませられるかどうか、を考えるのも忘れずに！"
+              "試行錯誤してツリーが汚くなってきたら、`reset`コマンドを使ってツリーの状態を初期化してください。模範解答をチェックして、それよりも簡単なコマンドで済ませられるかどうかを考えるのも忘れずに！"
             ]
           }
         }
