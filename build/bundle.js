@@ -50707,14 +50707,7 @@ exports.level = {
               "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
               "* Finally, we will move master to this updated part of the tree to finish the level (via the method of your choosing)",
               "",
-              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique.",
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
               "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit"
@@ -50748,20 +50741,14 @@ exports.level = {
               "* Nous allons réordonner les commits dans l'ordre original avec `git rebase -i`",
               "* Finalement, nous allons déplacer master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
               "",
-              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique.",
+              "",
               "Pour terminer, Faites attentions au but -- Du au fait que nous déplacons les commmits 2 fois, ils se retrouvent les deux avec une apostrophe. une deuxième apostrophe est ajouté sur le commit que nous modifions, ce qui nous donnes l'arbre finale ",
               "",
               "Ceci étant dit, Je peux comparer le résultat avec la stuctures et les différentes apostophes. Tant que votre arbre master a la même structure et apostrophe le niveau sera considéré réussi."
             ]
           }
-        }
+        },
       ]
     },
     "es_AR": {
@@ -50789,20 +50776,14 @@ exports.level = {
               "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
               "* Finalmente, vamos a mover master a esta parte actualizada de nuestor árbol de commits para terminar el nivel (usando el método que prefieras)",
               "",
-              "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
+              "",
               "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"
             ]
           }
-        }
+        },
       ]
     },
     "pt_BR": {
@@ -50830,20 +50811,14 @@ exports.level = {
               "* Vamos, então, reordenar os commits na mesma ordem que estavam anteriormente com `git rebase -i`",
               "* Finalmente, moveremos o master para essa parte atualizada da árvore para finalizar o nível (usando o método de sua escolha)",
               "",
-              "Há muitas formas de alcançar o objetivo final (eu vejo o cherry-pick passando pela sua mente), e veremos mais delas depois, mas por enquanto foquemos nesta técnica."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "Há muitas formas de alcançar o objetivo final (eu vejo o cherry-pick passando pela sua mente), e veremos mais delas depois, mas por enquanto foquemos nesta técnica.",
+              "",
               "Por último, preste atenção no estado do \"objetivo\" aqui -- como nós movemos os commits duas vezes, ambos ficam com um apóstrofo. Um apóstrofo adicional é colocado no commit que sofreu o \"amend\", o que nos dá a forma final da árvore ",
               "",
               "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `master` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa"
             ]
           }
-        }
+        },
       ]
     },
     "de_DE": {
@@ -50871,20 +50846,14 @@ exports.level = {
               "* Dann sortieren wir die Commit mit einem erneuten `git rebase -i` wieder in die alte Reihenfolge.",
               "* Schließlich aktualisieren wir den `master` auf das Ende unseres fertigen Baums, um diesen Level abzuschließen.",
               "",
-              "Es gibt sehr viele Wege um das Endziel dieses Levels zu erreichen (ich sehe, du schielst auf `cherry-pick`) und wir werden uns später noch andere ansehen. Aber für's erste lass uns diese Methode ausprobieren."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "Es gibt sehr viele Wege um das Endziel dieses Levels zu erreichen (ich sehe, du schielst auf `cherry-pick`) und wir werden uns später noch andere ansehen. Aber für's erste lass uns diese Methode ausprobieren.",
+              "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren bekommen sie jedesmal ein Apostroph hinzugefügt (weil sie jedesmal kopiert werden). Ein weiteres Apostroph entsteht durch den `commit --amend`.",
               "",
               "Zuguterletzt noch eine Bemerkung: ich kann Level nun auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Strukutr und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
             ]
           }
-        }
+        },
       ]
     },
     "ja": {
@@ -50912,18 +50881,12 @@ exports.level = {
               "* `git rebase -i`コマンドを再度使って、先頭に持ってきていたコミットを元に戻す",
               "* 最後に、レベルクリアのためにmasterブランチを先頭に持ってくる",
               "",
-              "クリアのための方法はいくつもありますが（cherry-pickを使うこともできます）、別の回答はまた後程の章で見ることにして、今回は上記の方法でやってみることにしましょう。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "クリアのための方法はいくつもありますが（cherry-pickを使うこともできます）、別の回答はまた後程の章で見ることにして、今回は上記の方法でやってみることにしましょう。",
+              "",
               "最後に、ゴール時点での状態に気を付けてください。今回2回ほどコミットを動かしますから、コミットへのポインタにはアポストロフィ（'）が追加されます。commit --amendコマンドの実行でできたコミットには更にもう1つのアポストロフィが追加されます。 "
             ]
           }
-        }
+        },
       ]
     },
     "zh_CN": {
@@ -50951,18 +50914,12 @@ exports.level = {
               "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
               "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
               "",
-              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。",
+              "",
               "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
             ]
           }
-        }
+        },
       ]
     },
     "zh_TW": {
@@ -50990,18 +50947,12 @@ exports.level = {
               "* 接著再用 `git rebase -i` 來將他們按照最開始的順序重新排好",
               "* 最後我們把 master 移到這個修改的最前端（用你自己喜歡的方法），就大功告成啦！",
               "",
-              "當然還有許多方法可以完成這個任務（我知道你在想 cherry-pick 啦），之後我們會多點關注這些技巧啦，但現在暫時只注意上面這種方法。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "當然還有許多方法可以完成這個任務（我知道你在想 cherry-pick 啦），之後我們會多點關注這些技巧啦，但現在暫時只注意上面這種方法。",
+              "",
               "啊！最後還要提醒你一下最後所產生的 commit tree，因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
             ]
           }
-        }
+        },
       ]
     },
     "ko": {
@@ -51029,18 +50980,12 @@ exports.level = {
               "* 다시 `git rebase -i` 명령으로 이 전의 커밋 순서대로 되돌려 놓습니다",
               "* 마지막으로, master를 지금 트리가 변경된 부분으로 이동합니다. (편하신 방법으로 하세요)",
               "",
-              "이 목표를 달성하기 위해서는 많은 방법이 있는데요(체리픽을 고민중이시죠?), 체리픽은 나중에 더 살펴보기로 하고, 우선은 위의 방법으로 해결해보세요."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "이 목표를 달성하기 위해서는 많은 방법이 있는데요(체리픽을 고민중이시죠?), 체리픽은 나중에 더 살펴보기로 하고, 우선은 위의 방법으로 해결해보세요.",
+              "",
               "최종적으로, 목표 결과를 눈여겨 보세요 -- 우리가 커밋을 두 번 옮겼기 때문에, 두 커밋 모두 따옴표 표시가 붙어있습니다. 정정한(amend) 커밋은 따옴표가 추가로 하나 더 붙어있습니다."
             ]
           }
-        }
+        },
       ]
     },
     "ru_RU": {
@@ -51068,20 +51013,14 @@ exports.level = {
               "* Переставить всё обратно при помощи `git rebase -i`",
               "* И наконец, переместить master на изменённуй часть дерева, чтобы закончить уровень.",
               "",
-              "Этот уровень можно закончить несколькими способами, но в этом уровне нужно сосредоточиться на вышеописанном методе."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+              "Этот уровень можно закончить несколькими способами, но в этом уровне нужно сосредоточиться на вышеописанном методе.",
+              "",
               "Обрати внимание на итоговое состояние в этом уровне – так как мы дважды перемещаем коммиты, они каждый получать по апострофу. Ещё один апостроф добавляется, когда мы делаем commit --amend.",
               "",
               "Важно, чтобы совпадало не только дерево коммитов, но и количество апострофов."
             ]
           }
-        }
+        },
       ]
     }
   }
