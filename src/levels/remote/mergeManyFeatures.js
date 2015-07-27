@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Merge com remotos",
     "de_DE": "Änderungen vom Remote zusammenführen",
     "ja"   : "リモートとのmerge",
-    "fr_FR": "Fusionner avec les branches distantes"
+    "fr_FR": "Fusionner avec les branches distantes",
+    "ru_RU": "Слияние с удалённым репозиторием"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -20,7 +21,8 @@ exports.level = {
     "pt_BR": "Preste atenção na árvore do objetivo!",
     "de_DE": "Beachte den Ziel-Baum!",
     "ja"   : "ゴールツリーをよく見てください！",
-    "fr_FR": "Respectez l'arbre représentant l'objectif !"
+    "fr_FR": "Respectez l'arbre représentant l'objectif !",
+    "ru_RU": "Внимательно посмотрите на цель уровня !"
   },
   "compareOnlyMaster": true,
   "startDialog": {
