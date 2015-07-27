@@ -615,7 +615,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### HEADの分離",
               "",
-              "HEADの分離とは単に、ブランチではなく特定のコミットにHEADを紐づけることです。実行前の状態は次のようです:",
+              "HEADの分離(detached HEAD)とは単に、ブランチではなく特定のコミットにHEADを紐づけることです。実行前の状態は次のようです:",
               "",
               "HEAD -> master -> C1",
               ""

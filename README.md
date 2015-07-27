@@ -1,6 +1,5 @@
 # LearnGitBranching
 
-
 [![Build Status](https://travis-ci.org/pcottle/learnGitBranching.svg?branch=master)](https://travis-ci.org/pcottlele/learnGitBranching)
 
 LearnGitBranching is a git repository visualizer, sandbox, and series of educational tutorials and challenges. Its primary purpose is to help developers understand git through the power of visualization (something that's absent when working on the command line).
@@ -119,6 +118,7 @@ And the following heroes for assisting in translating:
 * Honorat ("ahonorat")
 * Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
 * Aliaksei Berkau ("alexeiberkov")
+* Mizunashi Mana ("mizunashi-mana")
 
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 

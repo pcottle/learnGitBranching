@@ -84,7 +84,7 @@ var expectTreeAsync = function(command, expectedJSON, startJSON) {
       console.log(JSON.stringify(getHeadlessSummary(headless)));
     }
     return compareAnswer(headless, expectedJSON);
-  }, 'trees should be equal', 400);
+  }, 'trees should be equal', 500);
 };
 
 var expectLevelSolved = function(levelBlob) {

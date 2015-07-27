@@ -5,7 +5,7 @@ exports.level = {
     "es_AR": "Introducción a los commits de Git",
     "pt_BR": "Introdução aos commits no Git",
     "fr_FR": "Introduction aux commits avec Git",
-    "ja": "Gitのコミット",
+    "ja"   : "Gitのコミット",
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commits简介',
     'zh_TW': '介紹 git commit ',
@@ -22,7 +22,7 @@ exports.level = {
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "敲两次 'git commit' 就好啦！",
     "zh_TW": "輸入兩次 'git commit' 就可以完成！",
-    "ja": "'git commit'コマンドを2回打てば完成!",
+    "ja"   : "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!",
     "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)"
   },
@@ -121,7 +121,7 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Gitのコミット",
-              "コミットによって、ディレクトリ中の全てのファイルのスナップショットを記録します。巨大なコピー＆ペーストのようなものですが、実はそれよりずっと良いものです。",
+              "コミットによって、ディレクトリ中の全てのファイルのスナップショットを記録します。巨大なコピー＆ペーストのようなものですが、実際にはそれよりずっと良いものです。",
               "",
               "Gitではコミットを可能な限り軽量に保つために、コミット毎にフォルダ全体をコピーしません。実際にはGitは、コミットを直前のバージョンから一つ先のバージョンへの「変更の固まり」あるいは「差分」として記録します。後で出てきますが、ほとんどのコミットが親を持っているのはそういう理由からです。",
               "",
