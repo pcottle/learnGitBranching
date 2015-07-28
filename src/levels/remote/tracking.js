@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Seguindo remotos",
     "de_DE": "Remote Tracking",
     "ja"   : "リモートのトラッキング",
-    "fr_FR": "Suivi de branche distante"
+    "fr_FR": "Suivi de branche distante",
+    "ru_RU": "Слежка за удалённым репозиторием"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -20,7 +21,8 @@ exports.level = {
     "pt_BR": "Lembre-se que há duas formas de seguir um ramo remoto!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
     "ja"   : "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
-    "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !"
+    "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !",
+    "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!"
   },
   "startDialog": {
     "en_US": {
@@ -837,6 +839,126 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok. In diesem Level muss du Commits auf den `master` auf dem Server schieben, *ohne* den lokalen `master` ausgecheckt zu haben. Den Rest kannst du selbst herausfinden, schließlich ist das hier für Fortgeschrittene. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Удалённые-отслеживаемые ветки",
+              "",
+              "Единственное, что могло бы показаться Вам \"магией\" в нескольких предыдущих уроках - это то, как git знает, что ветка `master` соответствует `o/master`. Конечно, эти ветки имеют схожие имена и связь между локальной и удалённой ветками `master` выглядит вполне логично, однако, эта связь наглядно продемонстрирована в двух сценариях:",
+              "",
+              "* Вовремя операции pull, коммиты скачиваются в ветку `o/master` и затем *соединяются* в ветку `master`. Подразумеваемая цель слияния определяется исходя из этой связи.",
+              "* Вовремя операции push, наработки из ветки `master` закачиваются на удалённую ветку `master` (которая в локальном представлении выглядит как `o/master`). *Пункт назначения* операции push определяется исходя из связи между `master` и `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Удалённые-отслеживаемые ветки",
+              "",
+              "Короче, связь между `master` и `o/master` объясняется не инчае как свойство \"удалённое отслеживание\" веток. Ветка `master` настроена так, чтобы следить за `o/master` -- это подразумевает наличие источника для merge и пункта назначения для, в контексте ветки `master`.",
+              "",
+              "Вы должно быть удивлены, как это отслеживание появилось на ветке `master`, если мы не запускали ни одной специфической команды. На самом деле, когда Вы клонируете репозиторий это слежение включается автоматически.",
+              "",
+              "В процессе клонирования, git локально создаёт удалённые ветки для каждой ветки с удалённого репозитория (такие как `o/master`). Затем он - git - создаёт локальные ветки, которые отслеживают текущую, активную ветку на удалённом репозитории. В большинстве случаев - это `master`.",
+              "",
+              "К тому моменту как git clone завершит своё выполнение, у Вас будет лишь одна локальная ветка (так что вы ешё не сильно перегружены), но, если Вам будет интересно Вы сможете увидить все удалённые ветки (при желании).",
+              "",
+              "Именно это объясняет, почему сразу после клонирования Вы видите в консоле надпись:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\"",
+              "",
+              "    (локальная ветка \"master\" теперь следит за удалённой веткой \"o/master\") "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### А могу ли я сделать это самостоятельно ?",
+              "",
+              "Само собой! Вы можете сказать любой из веток, чтобы она отслеживала `o/master`, и если Вы так сделаете, эта ветка будет иметь такой же пункт назначения для push и merge как и локальная ветка `master`. Это значит, что Вы можете выполнить `git push`, находясь на ветке `totallyNotMaster`, и все Ваши наработки с ветки `totallyNotMaster` будут закачены на ветку `master` удалённого репозитория!",
+              "",
+              "Есть два способа сделать это. Первый - это выполнить checkout для новой ветки, указав удалённую ветку в качестве ссылки. Для этого необходимо выполнить команду",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              ", которая создаст новую ветку с именем `totallyNotMaster` и укажет ей следить за `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Хватит болтавни, давайте взглянем на демонстрацию! Мы выполним checkout для новой ветки `foo` и укажем ей, чтобы она отслеживала `master` с удалённого репозитория."
+            ],
+            "afterMarkdowns": [
+              "Как вы увидели, мы использовали `o/master` чтобы обновить ветку `foo`. Обратите внимание, как обновился master!!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Это работает также и для git push"
+            ],
+            "afterMarkdowns": [
+              "Оп! Мы закачали наши наработки на ветку `master` нашего удалённого репозитория. При том, что наша локальная ветка называется асболютно по другому."
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Способ №2",
+              "",
+              "Другой способ указать ветке отслеживать удалённую ветку, это просто использовать команду `git branch -u`. Выполнив команду, ",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "Вы укажите ветке `foo` следить за `o/master`. А если Вы ещё при этом находитесь на ветке `foo`, то её можно не указывать команде:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Как видно, второй способ указать слежение за веткой намного быстрее..."
+            ],
+            "afterMarkdowns": [
+              "Словом, всё как и раньше, просто отдельная, специальная команда. Здорово!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Отлично! Для выполнения этого уровня давайте выполним push наших наработок в ветку `master` на удалённом репозитории при этом *не* скачивая и не создавай ветку `master` локально. Я объясню Вам оставшееся чуть позже, тк это продвинутый курс :P"
             ]
           }
         }
