@@ -13,7 +13,8 @@ exports.level = {
     "pt_BR": "Parâmetros do git push",
     "de_DE": "Optionen für Git Push",
     "ja"   : "Git pushの引数",
-    "fr_FR": "Arguments de git push"
+    "fr_FR": "Arguments de git push",
+    "ru_RU": "Аргументы git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -23,7 +24,8 @@ exports.level = {
     "pt_BR": "Você sempre pode rever o último slide com o comando \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
     "ja"   : "ダイアログの最後のスライドを参照するには\"objective\"を実行",
-    "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\"."
+    "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
+    "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\"."
   },
   "startDialog": {
     "en_US": {
@@ -526,6 +528,81 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, in diesem Level lass und sowohl `foo` als auch `master` auf dem Remote aktualisieren. Um's spannender zu machen, ist `git checkout` in diesem Level deaktiviert."
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Аргументы команды Push",
+              "",
+              "Отлично! Теперь, когда Вы знаете, как следить за удалёнными ветками мы можем начать изучение того, что скрыто под занавесом работы команд git push, fetch, и pull. Мы будем рассматривать одну команду за другой, однако принципы у них очень схожи.",
+              "",
+              "Сперва взглянем на `git push`. В уроке посвящённому слежением за удалённым репозиторием, Вы узнали о том, что git находит удалённый репозиторий *и* ветку, в которую нужно необходимо push-ить, благодаря свойствам текущей ветки, на которой мы находимся. Это так называемое поведение без аргументов, однако команда git push может быть также использована и с аргументами. Вид команды в данном случае:",
+              "",
+              "`git push <удалённый_репозиторий> <целевая_ветка>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Что за такой параметр `<целевая_ветка>`? Мы узнаем об этом через секунду, а пока что рассмотрим пример. Допустим, у мы выполняем такую команду:",
+              "",
+              "`git push origin master`",
+              "",
+              "дословный перевод с английского будет таким:",
+              "",
+              "*Перейди в ветку с именем \"master\" в моём локальном репозитории, возьми все коммиты, и затем перейди на ветку \"master\" на удалённом репозитории \"origin.\". На этоу удалённую ветку скопируй все отсутствующие коммиты, которые есть у меня, и скажи, когда ты закончишь.*",
+              "",
+              "Указывая `master` в качестве аргумента \"целевая_ветка\", мы тем самым говорим git-у откуда будут *приходить* и *уходить* наши коммиты. Аргумент \"целевая_ветка\" или \"местонахождение\" - это синхранизация между двумя репозиториями.",
+              "",
+              "Имейте ввиду, что с тех пор, как мы сказали git-у всё, что ему необходимо (указав оба аргумента), ему - git-у - абсолютно всё равно что Вы зачекаутили до этого!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте взглянем на пример, в котором указаны оба этих аргумента. Обратите внимание на местоположение, в котором мы находимся после чекаута."
+            ],
+            "afterMarkdowns": [
+              "Вот так! Мы обновили `master` на удалённом репозитории, принудительно указав аргументы в push."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "А что бы было, ели бы мы не указывали эти аргументы, при этом используя тот же алгоритм?"
+            ],
+            "afterMarkdowns": [
+              "Как Вы видите, команда не выполнилась, так как `HEAD` потерялся и не находится на удалённо-отслеживаемой ветке."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Хорошо, для выполнения этого уровня давайте обновим обе ветки `foo` и `master` на удалённом репозитории. Фишка в том, что команда `git checkout` не доступна на этом уровне!",
+              "",
+              "*Замечание: Удалённые ветки помечены как `o/`, а не `origin/`. Дело в том, что полная метка не помещается на экране. Не волнуйтесь ",
+              "по этому поводу... просто как всегда используйте знакомый нам `origin` для обращения к удалённому репозиторию.*"
             ]
           }
         }
