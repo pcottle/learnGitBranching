@@ -10,6 +10,7 @@ var ActionTypes = AppConstants.ActionTypes;
 
 var _isAnimating = false;
 var _flipTreeY = false;
+var _numLevelsSolved = 0;
 
 var GlobalStateStore = assign(
 {},
@@ -24,6 +25,10 @@ AppConstants.StoreSubscribePrototype,
     return _flipTreeY;
   },
 
+  getNumLevelsSolved: function() {
+    return _numLevelsSolved;
+  },
+
   dispatchToken: AppDispatcher.register(function(payload) {
     var action = payload.action;
     var shouldInform = false;
@@ -35,6 +40,10 @@ AppConstants.StoreSubscribePrototype,
         break;
       case ActionTypes.CHANGE_FLIP_TREE_Y:
         _flipTreeY = action.flipTreeY;
+        shouldInform = true;
+        break;
+      case ActionTypes.LEVEL_SOLVED:
+        _numLevelsSolved++;
         shouldInform = true;
         break;
     }

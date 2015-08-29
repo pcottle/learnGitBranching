@@ -14,6 +14,12 @@ var GlobalStateActions = {
     });
   },
 
+  levelSolved: function() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.LEVEL_SOLVED,
+    });
+  },
+
   changeFlipTreeY: function(flipTreeY) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CHANGE_FLIP_TREE_Y,

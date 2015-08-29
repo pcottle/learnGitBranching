@@ -208,7 +208,12 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   return deferred.promise;
 };
 
-GitVisuals.prototype.finishAnimation = function() {
+GitVisuals.prototype.finishAnimation = function(speed) {
+  speed = speed || 1.0;
+  if (!speed) {
+    throw new Error('need speed by time i finish animation' + speed);
+  }
+
   var _this = this;
   var deferred = Q.defer();
   var animationDone = Q.defer();
@@ -247,7 +252,7 @@ GitVisuals.prototype.finishAnimation = function() {
     return this.animateAllAttrKeys(
       { exclude: ['circle'] },
       { opacity: 0 },
-      defaultTime * 1.1
+      defaultTime * 1.1 / speed
     );
   }.bind(this))
   // then make circle radii bigger
@@ -255,7 +260,7 @@ GitVisuals.prototype.finishAnimation = function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 2 },
-      defaultTime * 1.5
+      defaultTime * 1.5 / speed
     );
   }.bind(this))
   // then shrink em super fast
@@ -263,16 +268,16 @@ GitVisuals.prototype.finishAnimation = function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 0.75 },
-      defaultTime * 0.5
+      defaultTime * 0.5 / speed
     );
   }.bind(this))
   // then explode them and display text
   .then(function() {
     makeText();
-    return this.explodeNodes();
+    return this.explodeNodes(speed);
   }.bind(this))
   .then(function() {
-    return this.explodeNodes();
+    return this.explodeNodes(speed);
   }.bind(this))
   // then fade circles (aka everything) in and back
   .then(function() {
@@ -305,11 +310,11 @@ GitVisuals.prototype.finishAnimation = function() {
   return animationDone.promise;
 };
 
-GitVisuals.prototype.explodeNodes = function() {
+GitVisuals.prototype.explodeNodes = function(speed) {
   var deferred = Q.defer();
   var funcs = [];
   _.each(this.visNodeMap, function(visNode) {
-    funcs.push(visNode.getExplodeStepFunc());
+    funcs.push(visNode.getExplodeStepFunc(speed));
   });
 
   var interval = setInterval(function() {

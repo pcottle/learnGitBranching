@@ -376,15 +376,18 @@ var VisNode = VisBase.extend({
     }, this);
   },
 
-  getExplodeStepFunc: function() {
+  getExplodeStepFunc: function(speed) {
+    if (!speed) {
+      throw new Error('need speed by now');
+    }
     var circle = this.get('circle');
 
     // decide on a speed
-    var speedMag = 20;
+    var speedMag = 20 / speed;
     // aim upwards
     var angle = Math.PI + Math.random() * 1 * Math.PI;
-    var gravity = 1 / 5;
-    var drag = 1 / 100;
+    var gravity = (1 / 5) * speed;
+    var drag = (1 / 100) * speed;
 
     var vx = speedMag * Math.cos(angle);
     var vy = speedMag * Math.sin(angle);
@@ -393,7 +396,7 @@ var VisNode = VisBase.extend({
 
     var maxWidth = this.gitVisuals.paper.width;
     var maxHeight = this.gitVisuals.paper.height;
-    var elasticity = 0.8;
+    var elasticity = 0.8 / speed;
     var dt = 1.0;
 
     var stepFunc = function() {
@@ -417,7 +420,7 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      if ((vx * vx + vy * vy) < 0.01 && Math.abs(y - maxHeight) === 0) {
+      if ((vx * vx + vy * vy) < 0.1 && Math.abs(y - maxHeight) <= 0.1) {
         // dont need to animate anymore, we are on ground
         return false;
       }
