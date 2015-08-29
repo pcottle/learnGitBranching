@@ -34,8 +34,6 @@ var regexMap = {
   'objective': /^(objective|assignment)$/
 };
 
-var MAX_TIMES_SHOW_ANIMATION = 5;
-
 var parse = util.genParseCommand(regexMap, 'processLevelCommand');
 
 var Level = Sandbox.extend({
@@ -439,8 +437,6 @@ var Level = Sandbox.extend({
     }
 
     this.hideGoal();
-    window.numLevelsSolved = window.numLevelsSolved || 0;
-    window.numLevelsSolved++;
 
     var nextLevel = LevelStore.getNextLevel(this.level.id);
     var numCommands = this.gitCommandsIssued.length;
@@ -448,11 +444,17 @@ var Level = Sandbox.extend({
 
     var skipFinishDialog = this.testOption('noFinishDialog') ||
       this.wasResetAfterSolved;
-    var skipFinishAnimation = this.wasResetAfterSolved ||
-      window.numLevelsSolved > MAX_TIMES_SHOW_ANIMATION;
+    var skipFinishAnimation = this.wasResetAfterSolved;
 
+    if (!skipFinishAnimation) {
+      GlobalStateActions.levelSolved();
+    }
+
+    /**
+     * Speed up the animation each time we see it.
+     */
     var speed = 1.0;
-    switch (window.numLevelsSolved) {
+    switch (GlobalStateStore.getNumLevelsSolved()) {
       case 2:
         speed = 1.5;
         break;
@@ -465,6 +467,9 @@ var Level = Sandbox.extend({
       case 5:
         speed = 2.4;
         break;
+    }
+    if (GlobalStateStore.getNumLevelsSolved() > 5) {
+      speed = 2.5;
     }
 
     var finishAnimationChain = null;
