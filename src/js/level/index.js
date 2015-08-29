@@ -10,6 +10,7 @@ var React = require('react');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
+var GlobalStateStore = require('../stores/GlobalStateStore');
 var LevelActions = require('../actions/LevelActions');
 var LevelStore = require('../stores/LevelStore');
 var Visualization = require('../visuals/visualization').Visualization;
