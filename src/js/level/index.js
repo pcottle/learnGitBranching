@@ -34,6 +34,8 @@ var regexMap = {
   'objective': /^(objective|assignment)$/
 };
 
+var MAX_TIMES_SHOW_ANIMATION = 5;
+
 var parse = util.genParseCommand(regexMap, 'processLevelCommand');
 
 var Level = Sandbox.extend({
@@ -437,6 +439,8 @@ var Level = Sandbox.extend({
     }
 
     this.hideGoal();
+    window.numLevelsSolved = window.numLevelsSolved || 0;
+    window.numLevelsSolved++;
 
     var nextLevel = LevelStore.getNextLevel(this.level.id);
     var numCommands = this.gitCommandsIssued.length;
@@ -444,7 +448,24 @@ var Level = Sandbox.extend({
 
     var skipFinishDialog = this.testOption('noFinishDialog') ||
       this.wasResetAfterSolved;
-    var skipFinishAnimation = this.wasResetAfterSolved;
+    var skipFinishAnimation = this.wasResetAfterSolved ||
+      window.numLevelsSolved > MAX_TIMES_SHOW_ANIMATION;
+
+    var speed = 1.0;
+    switch (window.numLevelsSolved) {
+      case 2:
+        speed = 1.5;
+        break;
+      case 3:
+        speed = 1.8;
+        break;
+      case 4:
+        speed = 2.1;
+        break;
+      case 5:
+        speed = 2.4;
+        break;
+    }
 
     var finishAnimationChain = null;
     if (skipFinishAnimation) {
@@ -457,10 +478,10 @@ var Level = Sandbox.extend({
       );
     } else {
       GlobalStateActions.changeIsAnimating(true);
-      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation(speed);
       if (this.mainVis.originVis) {
         finishAnimationChain = finishAnimationChain.then(
-          this.mainVis.originVis.gitVisuals.finishAnimation()
+          this.mainVis.originVis.gitVisuals.finishAnimation(speed)
         );
       }
     }
