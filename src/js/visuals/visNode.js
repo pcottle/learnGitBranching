@@ -420,7 +420,6 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      console.log('our speed', (vx * vx + vy * vy), 'height', Math.abs(y- maxHeight));
       if ((vx * vx + vy * vy) < 0.1 && Math.abs(y - maxHeight) <= 0.1) {
         // dont need to animate anymore, we are on ground
         return false;
