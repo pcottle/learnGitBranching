@@ -28483,6 +28483,12 @@ var GlobalStateActions = {
     });
   },
 
+  levelSolved: function() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.LEVEL_SOLVED,
+    });
+  },
+
   changeFlipTreeY: function(flipTreeY) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CHANGE_FLIP_TREE_Y,
@@ -29135,7 +29141,13 @@ module.exports = {
     CHANGE_FLIP_TREE_Y: null,
     SUBMIT_COMMAND: null,
     CHANGE_LOCALE: null,
-    CHANGE_LOCALE_FROM_HEADER: null
+    CHANGE_LOCALE_FROM_HEADER: null,
+    /**
+     * only dispatched when you actually
+     * solve the level, not ask for solution
+     * or solve it again.
+     */
+    SOLVE_LEVEL: null
   }),
 
   PayloadSources: keyMirror({
@@ -36476,6 +36488,7 @@ var React = require('react');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
+var GlobalStateStore = require('../stores/GlobalStateStore');
 var LevelActions = require('../actions/LevelActions');
 var LevelStore = require('../stores/LevelStore');
 var Visualization = require('../visuals/visualization').Visualization;
@@ -36912,6 +36925,32 @@ var Level = Sandbox.extend({
       this.wasResetAfterSolved;
     var skipFinishAnimation = this.wasResetAfterSolved;
 
+    if (!skipFinishAnimation) {
+      GlobalStateActions.levelSolved();
+    }
+
+    /**
+     * Speed up the animation each time we see it.
+     */
+    var speed = 1.0;
+    switch (GlobalStateStore.getNumLevelsSolved()) {
+      case 2:
+        speed = 1.5;
+        break;
+      case 3:
+        speed = 1.8;
+        break;
+      case 4:
+        speed = 2.1;
+        break;
+      case 5:
+        speed = 2.4;
+        break;
+    }
+    if (GlobalStateStore.getNumLevelsSolved() > 5) {
+      speed = 2.5;
+    }
+
     var finishAnimationChain = null;
     if (skipFinishAnimation) {
       var deferred = Q.defer();
@@ -36923,10 +36962,10 @@ var Level = Sandbox.extend({
       );
     } else {
       GlobalStateActions.changeIsAnimating(true);
-      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation(speed);
       if (this.mainVis.originVis) {
         finishAnimationChain = finishAnimationChain.then(
-          this.mainVis.originVis.gitVisuals.finishAnimation()
+          this.mainVis.originVis.gitVisuals.finishAnimation(speed)
         );
       }
     }
@@ -37077,7 +37116,7 @@ var Level = Sandbox.extend({
 exports.Level = Level;
 exports.regexMap = regexMap;
 
-},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":181,"../git/gitShim":187,"../graph/treeCompare":191,"../intl":193,"../level/disabledMap":196,"../log":199,"../react_views/LevelToolbarView.jsx":208,"../sandbox/":211,"../stores/LevelStore":214,"../util":221,"../util/errors":218,"../views":230,"../views/multiView":232,"../visuals/visualization":243,"q":15,"react":170,"underscore":171}],198:[function(require,module,exports){
+},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":181,"../git/gitShim":187,"../graph/treeCompare":191,"../intl":193,"../level/disabledMap":196,"../log":199,"../react_views/LevelToolbarView.jsx":208,"../sandbox/":211,"../stores/GlobalStateStore":213,"../stores/LevelStore":214,"../util":221,"../util/errors":218,"../views":230,"../views/multiView":232,"../visuals/visualization":243,"q":15,"react":170,"underscore":171}],198:[function(require,module,exports){
 var _ = require('underscore');
 
 var GitCommands = require('../git/commands');
@@ -39308,6 +39347,7 @@ var ActionTypes = AppConstants.ActionTypes;
 
 var _isAnimating = false;
 var _flipTreeY = false;
+var _numLevelsSolved = 0;
 
 var GlobalStateStore = assign(
 {},
@@ -39322,6 +39362,10 @@ AppConstants.StoreSubscribePrototype,
     return _flipTreeY;
   },
 
+  getNumLevelsSolved: function() {
+    return _numLevelsSolved;
+  },
+
   dispatchToken: AppDispatcher.register(function(payload) {
     var action = payload.action;
     var shouldInform = false;
@@ -39333,6 +39377,10 @@ AppConstants.StoreSubscribePrototype,
         break;
       case ActionTypes.CHANGE_FLIP_TREE_Y:
         _flipTreeY = action.flipTreeY;
+        shouldInform = true;
+        break;
+      case ActionTypes.LEVEL_SOLVED:
+        _numLevelsSolved++;
         shouldInform = true;
         break;
     }
@@ -39688,6 +39736,8 @@ var toGlobalize = {
   LevelActions: require('../actions/LevelActions'),
   LevelStore: require('../stores/LevelStore'),
   LocaleActions: require('../actions/LocaleActions'),
+  GlobalStateActions: require('../actions/GlobalStateActions'),
+  GlobalStateStore: require('../stores/GlobalStateStore'),
   LocaleStore: require('../stores/LocaleStore'),
   Levels: require('../graph/treeCompare'),
   Constants: require('../util/constants'),
@@ -39738,7 +39788,7 @@ $(document).ready(function() {
 });
 
 
-},{"../actions/CommandLineActions":172,"../actions/LevelActions":174,"../actions/LocaleActions":175,"../app":176,"../app/index.js":176,"../commands":177,"../git":189,"../git/headless":188,"../graph/treeCompare":191,"../intl":193,"../level":197,"../models/collections":201,"../models/commandModel":202,"../sandbox/":211,"../stores/CommandLineStore":212,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util/constants":216,"../util/index":221,"../util/zoomLevel":226,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"../views/levelDropdownView":231,"../views/multiView":232,"../views/rebaseView":233,"../visuals":236,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"../visuals/tree":237,"../visuals/visBranch":239,"markdown":12,"q":15}],218:[function(require,module,exports){
+},{"../actions/CommandLineActions":172,"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../actions/LocaleActions":175,"../app":176,"../app/index.js":176,"../commands":177,"../git":189,"../git/headless":188,"../graph/treeCompare":191,"../intl":193,"../level":197,"../models/collections":201,"../models/commandModel":202,"../sandbox/":211,"../stores/CommandLineStore":212,"../stores/GlobalStateStore":213,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util/constants":216,"../util/index":221,"../util/zoomLevel":226,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"../views/levelDropdownView":231,"../views/multiView":232,"../views/rebaseView":233,"../visuals":236,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"../visuals/tree":237,"../visuals/visBranch":239,"markdown":12,"q":15}],218:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var MyError = Backbone.Model.extend({
@@ -43032,7 +43082,12 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   return deferred.promise;
 };
 
-GitVisuals.prototype.finishAnimation = function() {
+GitVisuals.prototype.finishAnimation = function(speed) {
+  speed = speed || 1.0;
+  if (!speed) {
+    throw new Error('need speed by time i finish animation' + speed);
+  }
+
   var _this = this;
   var deferred = Q.defer();
   var animationDone = Q.defer();
@@ -43071,7 +43126,7 @@ GitVisuals.prototype.finishAnimation = function() {
     return this.animateAllAttrKeys(
       { exclude: ['circle'] },
       { opacity: 0 },
-      defaultTime * 1.1
+      defaultTime * 1.1 / speed
     );
   }.bind(this))
   // then make circle radii bigger
@@ -43079,7 +43134,7 @@ GitVisuals.prototype.finishAnimation = function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 2 },
-      defaultTime * 1.5
+      defaultTime * 1.5 / speed
     );
   }.bind(this))
   // then shrink em super fast
@@ -43087,16 +43142,16 @@ GitVisuals.prototype.finishAnimation = function() {
     return this.animateAllAttrKeys(
       { exclude: ['arrow', 'rect', 'path', 'text'] },
       { r: nodeRadius * 0.75 },
-      defaultTime * 0.5
+      defaultTime * 0.5 / speed
     );
   }.bind(this))
   // then explode them and display text
   .then(function() {
     makeText();
-    return this.explodeNodes();
+    return this.explodeNodes(speed);
   }.bind(this))
   .then(function() {
-    return this.explodeNodes();
+    return this.explodeNodes(speed);
   }.bind(this))
   // then fade circles (aka everything) in and back
   .then(function() {
@@ -43129,11 +43184,11 @@ GitVisuals.prototype.finishAnimation = function() {
   return animationDone.promise;
 };
 
-GitVisuals.prototype.explodeNodes = function() {
+GitVisuals.prototype.explodeNodes = function(speed) {
   var deferred = Q.defer();
   var funcs = [];
   _.each(this.visNodeMap, function(visNode) {
-    funcs.push(visNode.getExplodeStepFunc());
+    funcs.push(visNode.getExplodeStepFunc(speed));
   });
 
   var interval = setInterval(function() {
@@ -45052,15 +45107,18 @@ var VisNode = VisBase.extend({
     }, this);
   },
 
-  getExplodeStepFunc: function() {
+  getExplodeStepFunc: function(speed) {
+    if (!speed) {
+      throw new Error('need speed by now');
+    }
     var circle = this.get('circle');
 
     // decide on a speed
-    var speedMag = 20;
+    var speedMag = 20 / speed;
     // aim upwards
     var angle = Math.PI + Math.random() * 1 * Math.PI;
-    var gravity = 1 / 5;
-    var drag = 1 / 100;
+    var gravity = (1 / 5) * speed;
+    var drag = (1 / 100) * speed;
 
     var vx = speedMag * Math.cos(angle);
     var vy = speedMag * Math.sin(angle);
@@ -45069,7 +45127,7 @@ var VisNode = VisBase.extend({
 
     var maxWidth = this.gitVisuals.paper.width;
     var maxHeight = this.gitVisuals.paper.height;
-    var elasticity = 0.8;
+    var elasticity = 0.8 / speed;
     var dt = 1.0;
 
     var stepFunc = function() {
@@ -45093,7 +45151,7 @@ var VisNode = VisBase.extend({
         cy: y
       });
       // continuation calculation
-      if ((vx * vx + vy * vy) < 0.01 && Math.abs(y - maxHeight) === 0) {
+      if ((vx * vx + vy * vy) < 0.1 && Math.abs(y - maxHeight) <= 0.1) {
         // dont need to animate anymore, we are on ground
         return false;
       }
@@ -50615,7 +50673,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Надо заставить git копировать тольк один из коммитов. Это почти как в предыдущем уровне – мы можем использовать уже известные нам команды: ",
+              "Надо заставить git копировать только один из коммитов. Это почти как в предыдущем уровне – мы можем использовать уже известные нам команды: ",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
@@ -52506,7 +52564,7 @@ exports.level = {
               "",
               "* `git cherry-pick <Commit1> <Commit2> <...>`",
               "",
-              "Это очень простой и прямолинейный способ сказать, что ты хочешь копировать несколько коммтов на место, где сейчас находишься (`HEAD`). Мы обожаем `cherry-pick` за то, что в нём очень мало магии и его очень просто понять и применять.",
+              "Это очень простой и прямолинейный способ сказать, что ты хочешь копировать несколько коммитов на место, где сейчас находишься (`HEAD`). Мы обожаем `cherry-pick` за то, что в нём очень мало магии и его очень просто понять и применять.",
               "",
               "Посмотрим на демонстрацию.",
               ""
@@ -54521,7 +54579,7 @@ exports.level = {
             "markdowns": [
               "## Относительные ссылки",
               "",
-              "Передвигаться по дереву Git при помощи указания хешей коммитов немного неудоно. В реальной ситуации у вас вряд ли будет красивая визуализация дерева в терминале, так что придётся каждый раз использовать `git log`, чтобы найти хеш нужного коммита",
+              "Передвигаться по дереву Git при помощи указания хешей коммитов немного неудобно. В реальной ситуации у вас вряд ли будет красивая визуализация дерева в терминале, так что придётся каждый раз использовать `git log`, чтобы найти хеш нужного коммита",
               "",
               "Более того, хеши в реальном репозитории Git сильно более длинные. Например, хеш для коммита, который приведён в предыдущем уровне - `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Не очень просто для произношения =)",
               "",
@@ -65834,4 +65892,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,181,178,182,180,179,183,185,184,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,244,243,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,208,207,209])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,203,204,277,205,206,207,208,209])
