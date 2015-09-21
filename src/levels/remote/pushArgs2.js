@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Parâmetros do git push -- expandido",
     "de_DE": "Optionen für Git Push -- noch mehr!",
     "ja"   : "Git pushの引数 -- 拡張編!",
-    "fr_FR": "Arguments de git push -- toujours plus !"
+    "fr_FR": "Arguments de git push -- toujours plus !",
+    "ru_RU": "Аргументы для push -- расширенная версия!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -20,7 +21,8 @@ exports.level = {
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
     "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
-    "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P"
+    "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
+    "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P"
   },
   "startDialog": {
     "en_US": {
@@ -508,6 +510,76 @@ exports.level = {
               "Um dieses Level zu schaffen versuch den dargestellten Zielzustand zu erreichen und vergiss nicht das Format:",
               "",
               "`<Quelle>:<Ziel>`"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Подробности аргумента `<place>`",
+              "",
+              "Помните, когда в прошлом занятии мы указали в качестве аргумента ветку `master` для команды git push, мы указали совместно *источник* откуда будут приходить коммиты и *пункт назначения (получатель)*, куда  коммиты будут уходить.",
+              "",
+              "Однако, Вы, наверное, задаётесь вопросом -- а что, если я хочу, чтобы мои источник и получатель коммитов были различными? Что если мы хотм запушить коммиты из локальной ветки `foo` в ветку `bar` на удалённом репозитории?",
+              "",
+              "К огромному сожалению, это не возможно сделать средствами git... Да ладно! Я пошутил! Конечно это возможно :)... git сам по себе достаточно гибок (даже слишком).",
+              "",
+              "Мы увидим как на следующем слайде..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "В том случае, когда Вам необходимо разделить источник и получатель аргумента `<place>`, просто соедините их вместе, используя двоеточие:",
+              "",
+              "`git push origin <источник>:<получатель>`",
+              "",
+              "Обычно это называется как refspec. Refspec это всего лишь модное имя для определения местоположения, которое git может распознать (например, ветка `foo` или просто `HEAD~1`)",
+              "",
+              "Как только Вы указали оба источник и получатель независимо друг от друга, Вы можете довольно причудливо и точно использовать команды для работы с удалёнными ветками и репозиториями. Давайте взглянем демонстрацию!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Помните, `источник` всего лишь местоположение, которое git должен понять:"
+            ],
+            "afterMarkdowns": [
+              "Вау! Это довольно нетривиальная команда, однако она имеет смысл -- git распознаёт `foo^` как ни что иное как местоположение, закачивает все коммиты, которые не присутствуют на удалённом репозитории и затем обновляет получателя."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "А что если пункт назначения, в который Вы хотите запушить, не существует? Без проблем! Просто укажите имя ветки и git сам создаст ветку на удалённом репозитории для Вас."
+            ],
+            "afterMarkdowns": [
+              "Класс! Довольно легко! :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Для выполнения данного уровня попытайтесь привести своё дерево к такому же виду, которое представлено на визуализации. И не забудьте о формате:",
+              "",
+              "`<источник>:<получатель>`"
             ]
           }
         }
