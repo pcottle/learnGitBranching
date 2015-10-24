@@ -70,7 +70,7 @@ var LevelToolbarView = React.createClass({
             <button
               onClick={this.props.onObjectiveClick}
               type="button">
-              Objective
+              {intl.str('objective-button')}
             </button>
           </div>
         </div>
