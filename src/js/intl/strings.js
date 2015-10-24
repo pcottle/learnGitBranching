@@ -917,6 +917,12 @@ exports.strings = {
     'ru_RU': 'Спрятать цель'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'objective-button': {
+    '__desc__': 'button label to show objective',
+    'en_US': 'Objective',
+    'ru_RU': 'Задача'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
     'en_US': 'Goal To Reach',
