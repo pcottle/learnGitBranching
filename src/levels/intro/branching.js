@@ -422,7 +422,7 @@ exports.level = {
             "markdowns": [
               "## Branches Git",
               "",
-              "Les branches sous Git sont incroyablement légères. Elles sont simplment des références sur un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "Les branches sous Git sont incroyablement légères. Elles sont simplement des références sur un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
               "",
               "```",
               "des branches le plus tôt possible, et des branches souvent",
