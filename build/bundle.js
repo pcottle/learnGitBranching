@@ -30022,7 +30022,7 @@ exports.dialog = {
       markdowns: [
         '## Partager, c\'est se soucier!',
         '',
-        'Partagez des arbres avec vous amis via `export tree` et `import tree`',
+        'Partagez des arbres avec vos amis via `export tree` et `import tree`',
         '',
         'Vous avez une grande leçon à partager ? Essayez de construire un niveau avec `build level` ou essayez le niveau d\'un ami avec `import level`',
         '',
@@ -47385,7 +47385,7 @@ exports.level = {
             "markdowns": [
               "## Branches Git",
               "",
-              "Les branches sous Git sont incroyablement légères. Elles sont simplment des références sur un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
+              "Les branches sous Git sont incroyablement légères. Elles sont simplement des références sur un commit spécifique -- rien de plus. C'est pourquoi beaucoup d'enthousiastes répètent en cœur :",
               "",
               "```",
               "des branches le plus tôt possible, et des branches souvent",
@@ -47393,7 +47393,7 @@ exports.level = {
               "",
               "Parce qu'il n'y a pas de surcoût (stockage/mémoire) associé aux branches, il est facile de diviser son travail en de nombreuses branches plutôt que d'avoir quelques grosses branches.",
               "",
-              "Nous verrons comment les banches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
+              "Nous verrons comment les branches et les commits interagissent quand nous les utiliserons ensemble. Pour l'instant, souvenez-vous qu'une branche est un moyen d'exprimer \"Je veux inclure le contenu de ce commit et de tous les commits parents.\""
             ]
           }
         },
@@ -66322,4 +66322,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,246,245,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,276,275,203,277,204,205,206,207,208,209])
