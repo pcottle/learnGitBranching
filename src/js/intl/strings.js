@@ -36,7 +36,7 @@ exports.strings = {
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
-    'ru_RU': 'Отлично! Ваше решение соответсвует или превосходит наше.'
+    'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
