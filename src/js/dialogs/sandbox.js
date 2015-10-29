@@ -443,7 +443,7 @@ exports.dialog = {
       markdowns: [
         '## Partager, c\'est se soucier!',
         '',
-        'Partagez des arbres avec vous amis via `export tree` et `import tree`',
+        'Partagez des arbres avec vos amis via `export tree` et `import tree`',
         '',
         'Vous avez une grande leçon à partager ? Essayez de construire un niveau avec `build level` ou essayez le niveau d\'un ami avec `import level`',
         '',

@@ -15,7 +15,8 @@ exports.level = {
     "pt_BR": "Introdução ao cherry-pick",
     "zh_CN": "介绍 Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
-    "ru_RU": "Введение в Cherry-pick"
+    "ru_RU": "Введение в Cherry-pick",
+	"ko": "Cherry-pick 소개"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivis par les noms de commits",
@@ -26,7 +27,8 @@ exports.level = {
     "pt_BR": "git cherry-pick seguido dos nomes dos commits",
     "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
-    "ru_RU": "git cherry-pick основывается на именах коммитов!"
+    "ru_RU": "git cherry-pick основывается на именах коммитов!",
+	"ko": "커밋의 이름들로 git cherry-pick 하세요!"
   },
   "startDialog": {
     "en_US": {
@@ -534,6 +536,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Чтобы пройти этот уровень, просто скопируй изменения из этих трёх веток в мастер. Чтобы понять, какие коммиты копировать, просто посмотри на визуализацию уровня.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+	"ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 작업을 여기저기로 옮기기",
+              "",
+              "지금까지 우리는 git의 기초를 배웠습니다. -- 커밋을하고, 브랜치를 만들고, 소스 트리 여기저기를 돌아다녔습니다. 이런 개념들을 아는 것만으로도 git repository의 힘을 90%이상 사용하고 개발자들이 필요로하는 작업의 대부분을 할 수 있습니다.",
+              "",
+              "그 나머지 10% 기능이, 복잡한 작업(또는 작업중 막혔을때)중에 꽤 유용할 수 있습니다. 이제 배워 볼 다음 개념은 \"작업을 여기저로 올기기\" 다시 말해, 개발자들의 언어로 \"이 일은 여기에 저 일은 저기에 두고 싶어\" 정확하고 우아하고 유연하게.",
+              "",
+              "다소 과해 보일 수 있는데, 간단한 개념입니다."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git 체리-픽 (Cherry-pick)",
+              "",
+              "이 시리즈의 첫 명령어는 `git cherry-pick` 입니다. 다음 과 같은 형태로 사용합니다:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "현재 위치(`HEAD`) 아래에 있는 일련의 커밋들에대한 복사본을 만들겠다는 것을 간단히 줄인 말입니다. 개인적으로 저는 `cherry-pick`을 아주 좋아합니다 왜냐하면 조금의 마법이 첨가되있고 이해하기 쉽기 때문입니다.",
+              "",
+              "데모를 확인해봅시다",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "여기 repository가 있습니다. `master`와 master로 복사하고 싶은 작업이 있는 브랜치 `side`가 있습니다. 이것은 rebase를 통해서 할 수 있습니다(이미 배운), 하지만 체리-픽이 이 작업을 어떻게 수행하는지 확인해 봅시다."
+            ],
+            "afterMarkdowns": [
+              "됬습니다! 우리는 `C2`와 `C4` 커밋을 원했고 git이 우리가 원하는 곳 바로 밑에 톡 떨어뜨려 줬습니다. 아주 간단하죠!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이 레벨을 통과하기 위해서는 몇개의 작업을 세개의 브랜치들에서 master로 복사해와야합니다. 어떤 커밋들이 필요한지는 goal을 보고 확인하면 됩니다.",
               ""
             ]
           }
