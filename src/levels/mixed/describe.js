@@ -11,7 +11,8 @@ exports.level = {
     "pt_BR": "Git Describe",
     "zh_TW": "git describe",
     "zh_CN": "git describe",
-    "ru_RU": "Git describe"
+    "ru_RU": "Git describe",
+	"ko"   : "Git describe(묘사)"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -22,7 +23,8 @@ exports.level = {
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了",
-    "ru_RU": "Когда закончишь, просто сделай commit"
+    "ru_RU": "Когда закончишь, просто сделай commit",
+	"ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다."
   },
   "startDialog": {
     "en_US": {
@@ -587,6 +589,69 @@ exports.level = {
               "Это, в общем-то всё, что можно сказать про git describe. Попробуй выполнить команду на нескольких коммитах.",
               "",
               "Как только наиграешься, просто сделай один коммит и уровень будет пройден."
+            ]
+          }
+        }
+      ]
+    },
+	"ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "커밋 트리에서 태그가 훌륭한 \"닻\"역할을 하기 때문에, git에는 여러분이 가장 가까운 \"닻(태그)\"에 비해 상대적으로 어디에 위치해있는지 *describe(묘사)*해주는 명령어가 있습니다. 이 명령어는 `git describe` 입니다!",
+              "",
+              "Git describe는 커밋 히스토리에서 앞 뒤로 여러 커밋을 이동하고 나서 커밋 트리에서 방향감각을 다시 찾는데 도움을 줍니다; 이런 상황은 git bisect(문제가 되는 커밋을 찾는 명령어라고 간단히 생각하자)를 하고 나서라던가 휴가를 다녀온 동료의 컴퓨터에 앉는경우가 있습니다."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe 는 다음의 형태를 가지고 있습니다:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "`<ref>`에는 commit을 의미하는 그 어떤것이던 쓸 수 있습니다. 만약 ref를 특정 지어주지 않으면, git은 그냥 지금 체크아웃된곳을 사용합니다 (`HEAD`).",
+              "",
+              "명령어의 출력은 다음과 같은 형태로 나타납니다:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "`tag`는 가장 가까운 부모 태그를 나타냅니다. `numCommits`은 그 태그가 몇 커밋 멀리있는지를 나타냅니다. `<hash>`는 묘사하고있는 커밋의 해시를 나타냅니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "간단한 예제를 확인해 봅시다. 아래의 트리에서:"
+            ],
+            "afterMarkdowns": [
+              "`git describe master` 명령은 다음을 출력합니다:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "`git describe side`는 다음을 출력합니다:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이정도면 git describe를 충분히 활용할 수 있습니다! 이 레벨의 몇 지점을 describe 명령어를 통해 확인해보면서 느낌을 익혀 봅시다.",
+              "",
+              "준비가 되면 커밋을 한번해서 레벨을 종료하세요. 자유롭게 연습해보세요 :P"
             ]
           }
         }
