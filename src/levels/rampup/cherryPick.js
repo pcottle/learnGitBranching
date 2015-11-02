@@ -16,7 +16,7 @@ exports.level = {
     "zh_CN": "介绍 Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
-	"ko": "Cherry-pick 소개"
+	"ko"   : "Cherry-pick 소개"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivis par les noms de commits",
@@ -28,7 +28,7 @@ exports.level = {
     "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
-	"ko": "커밋의 이름들로 git cherry-pick 하세요!"
+	"ko"   : "커밋의 이름들로 git cherry-pick 하세요!"
   },
   "startDialog": {
     "en_US": {

@@ -28,7 +28,7 @@ exports.level = {
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase",
     "ru_RU": "Введение в интерактивный Rebase",
-    "ko": "인터랙티브 리베이스 소개"
+    "ko"   : "인터랙티브 리베이스 소개"
   },
   "startDialog": {
     "en_US": {
