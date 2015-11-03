@@ -662,7 +662,7 @@ exports.level = {
               "(*На нашей визуализации первый родитель находится прямо над коммитом*)"
             ],
             "afterMarkdowns": [
-              "Просто -- прямо как мы любим."
+              "Просто - прямо как мы любим."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -698,7 +698,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Более того, эти модификаторы можно применять вместе. Например так:"
+              "Более того, эти модификаторы можно применять вместе. Например, так:"
             ],
             "afterMarkdowns": [
               "Сделаем то же самое, что перед этим, только в одну команду."

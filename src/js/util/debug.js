@@ -9,6 +9,8 @@ var toGlobalize = {
   LevelActions: require('../actions/LevelActions'),
   LevelStore: require('../stores/LevelStore'),
   LocaleActions: require('../actions/LocaleActions'),
+  GlobalStateActions: require('../actions/GlobalStateActions'),
+  GlobalStateStore: require('../stores/GlobalStateStore'),
   LocaleStore: require('../stores/LocaleStore'),
   Levels: require('../graph/treeCompare'),
   Constants: require('../util/constants'),

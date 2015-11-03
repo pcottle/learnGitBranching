@@ -25,7 +25,13 @@ module.exports = {
     CHANGE_FLIP_TREE_Y: null,
     SUBMIT_COMMAND: null,
     CHANGE_LOCALE: null,
-    CHANGE_LOCALE_FROM_HEADER: null
+    CHANGE_LOCALE_FROM_HEADER: null,
+    /**
+     * only dispatched when you actually
+     * solve the level, not ask for solution
+     * or solve it again.
+     */
+    SOLVE_LEVEL: null
   }),
 
   PayloadSources: keyMirror({

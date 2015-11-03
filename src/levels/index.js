@@ -113,7 +113,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Push & Pull -- repositórios remotos no Git!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!',
-      'ru_RU': 'Push & Pull -- Git Remotes!'
+      'ru_RU': 'Push & Pull - удалённые репозитории в Git!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -124,7 +124,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Hora de compartilhar seus 1\'s e 0\'s, crianças; programar agora é social!',
       'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了',
-      'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования.'
+      'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования'
     }
   },
   remoteAdvanced: {
@@ -138,7 +138,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令',
-      'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes.'
+      'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',

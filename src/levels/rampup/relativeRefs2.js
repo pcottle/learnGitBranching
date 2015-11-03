@@ -11,7 +11,8 @@ exports.level = {
     "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
     "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
-    "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень"
+    "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
+	"ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다."
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -22,7 +23,8 @@ exports.level = {
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）",
-    "ru_RU": 'Относительные ссылки №2'
+    "ru_RU": 'Относительные ссылки №2',
+	"ko"   : "상대 참조 #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -610,6 +612,74 @@ exports.level = {
               "Мы рассмотрели относительные ссылки и branch forcing вкупе, так что теперь пришло время пройти следующий уровень.",
               "",
               "Чтобы пройти этот уровень, передвинь `HEAD`, `master` и `bugFix` так как показано на визуализации."
+            ]
+          }
+        }
+      ]
+    },
+	"ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### \"~\" 연산자",
+              "",
+              "커밋트리에서 위로 여러 단계를 올라가고 싶을 수 있습니다. `^`를 계속 입력해서 올라가는것 말고 좋은 방법이 있습니다. Git 에는 틸드 (~) 연산자가 있습니다.",
+              "",
+              "",
+              " (~) 틸드 연산자는 (선택적) 올라가고 싶은 부모의 갯수가 뒤에 숫자가 옵니다. 직접 확인해 보죠."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "돌아가고 싶은 커밋의 갯수를 `~`뒤의 숫자로 명시해 줍시다."
+            ],
+            "afterMarkdowns": [
+              "Boom! 아주 간결합니다. -- 상대 참조는 대단해요."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 브랜치 강제로 옮기기",
+              "",
+              "이제 여러분은 상대 참조의 전문가 입니다. 이제 이걸로 무언가를 해봅시다.",
+              "",
+              "제가 상대 참조를 사용하는 가장 일반적인 방법은 브랜치를 옮길 때 입니다. `-f` 옵션을 이용해서 브랜치를 특정 커밋에 직접적으로 재지정 할 수 있습니다. 이런 식으로 말이죠:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "(강제로) master 브랜치를 HEAD에서 세번 뒤로 옮겼습니다. (three parents behind HEAD)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "방금의 커맨드를 직접 확인해 봅시다."
+            ],
+            "afterMarkdowns": [
+              "됬네요! 우리는 상대 참조를 통해 `C1`을 간결한 방법으로 참조할 수 있었고 브랜치 강제(`-f`)를 통해 브랜치를 저 위치로 빠르게 옮길 수 있었습니다."            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "자 이제 상대 참조와 브랜치 강제의 조합을 봤으니 다음 레벨을 해결해 봅시다.",
+              "",
+              "이 레벨을 통과하기 위해서, `HEAD`와 `master`와 `bugFix`를 제시되는 골지점으로 옮겨 주십시오."
             ]
           }
         }

@@ -10,6 +10,7 @@ var React = require('react');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
+var GlobalStateStore = require('../stores/GlobalStateStore');
 var LevelActions = require('../actions/LevelActions');
 var LevelStore = require('../stores/LevelStore');
 var Visualization = require('../visuals/visualization').Visualization;
@@ -446,6 +447,32 @@ var Level = Sandbox.extend({
       this.wasResetAfterSolved;
     var skipFinishAnimation = this.wasResetAfterSolved;
 
+    if (!skipFinishAnimation) {
+      GlobalStateActions.levelSolved();
+    }
+
+    /**
+     * Speed up the animation each time we see it.
+     */
+    var speed = 1.0;
+    switch (GlobalStateStore.getNumLevelsSolved()) {
+      case 2:
+        speed = 1.5;
+        break;
+      case 3:
+        speed = 1.8;
+        break;
+      case 4:
+        speed = 2.1;
+        break;
+      case 5:
+        speed = 2.4;
+        break;
+    }
+    if (GlobalStateStore.getNumLevelsSolved() > 5) {
+      speed = 2.5;
+    }
+
     var finishAnimationChain = null;
     if (skipFinishAnimation) {
       var deferred = Q.defer();
@@ -457,10 +484,10 @@ var Level = Sandbox.extend({
       );
     } else {
       GlobalStateActions.changeIsAnimating(true);
-      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation();
+      finishAnimationChain = this.mainVis.gitVisuals.finishAnimation(speed);
       if (this.mainVis.originVis) {
         finishAnimationChain = finishAnimationChain.then(
-          this.mainVis.originVis.gitVisuals.finishAnimation()
+          this.mainVis.originVis.gitVisuals.finishAnimation(speed)
         );
       }
     }
