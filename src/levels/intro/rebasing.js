@@ -11,7 +11,8 @@ exports.level = {
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "介绍 rebase",
     "zh_TW": "介紹 rebase",
-    "ru_RU": "Введение в rebase"
+    "ru_RU": "Введение в rebase",
+    "uk": "Знайомство з rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -23,7 +24,8 @@ exports.level = {
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
-    "ru_RU": "Убедись, что сделал коммит в ветке bugFix"
+    "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
+    "uk": "Впевнись, що зробив коміт в гілці bugFix"
   },
   "disabledMap": {
     "git revert": true
@@ -692,6 +694,73 @@ exports.level = {
               "* Переключись на bugFix и сделай rebase на master",
               "",
               "Удачи!"
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Інший спосіб комбінування змін з різних бранчів називається *rebase*. Rebase по суті бере кілька комітів , \"копіює\" їх, й кладе їх в інше місце.",
+              "",
+              "Це може звучати трохи незрозуміло, але основна перевага rebase в тому, що його використовують щоб створити зручну лінійну послідовність комітів. Коміт лог та історія будуть виглядати набагато чистіша, якщо користуватися лише rebase (а не merge)",
+              "",
+              "Спробуємо на практиці..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ми знову маємо дві гілки; зауваж, що наразі вибрана гілка bugFix (вважай зірочку)",
+              "",
+              "Ми хочемо перемістити наші зміни з гілки bugFix прямо до змін з гілки master. Тоді це буде виглядати наче ці зміни були додані одна за одною, коли насправді вони були додані одночасно.",
+              "",
+              "Давайте зробимо це за допомогою команди `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "Файно! Тепер зміни з гілки bugFix знаходяться прямо попереду змін з master й ми отримали зручну лінійну послідовність комітів.",
+              "",
+              "Вважай що коміт C3 досі десь існує (в дереві він тьмяніший за решту), й C3' це \"копія\" яку ми заребейсили в master.",
+              "",
+              "Є лише одна проблема: гілка master також не була оновлена, давайте зробимо це наступним кроком..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тепер ми перейшли (checkout) до гілки `master`. Далі робимо rebase на `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Вуаля! Так як `master` це предок `bugFix`, git просто просунув посилання гілки `master` вперед в історії."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень, зроби наступне:",
+              "",
+              "* Зачекауть (checkout) новий бранч з назвою `bugFix`",
+              "* Зроби один коміт",
+              "* Повернись на master й зроби ще один коміт",
+              "* Зачекауть bugFix знову й заребейсь його на master",
+              "",
+              "Нехай щастить!"
             ]
           }
         }
