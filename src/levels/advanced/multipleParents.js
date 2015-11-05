@@ -11,7 +11,8 @@ exports.level = {
     "es_AR": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
     "zh_TW": "多個 parent commit",
-    "ru_RU": "Здоровая семья или несколько родителей"
+    "ru_RU": "Здоровая семья или несколько родителей",
+    "ko"   : "다수의 부모"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -22,7 +23,8 @@ exports.level = {
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
-    "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку."
+    "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
+    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요"
   },
   "startDialog": {
     "en_US": {
@@ -808,5 +810,92 @@ exports.level = {
         }
       ]
     },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 부모를 선택하기",
+              "",
+              "`~` 수식처럼 `^` 수식 또한 뒤에 숫자를 추가 할 수 있습니다.",
+              "",
+              "몇개의 세대를 돌아갈지 정하는 것 대신(`~`의 기능) `^`수식은 병합이된 커밋에서 어떤 부모를 참조할지 선택할 수 있습니다. 병합된 커밋들은 다수의 부모를 가지고 있다는것을 기억하시나요? 어떤 부모를 선택할지 예측할 수가 없습니다.",
+              "",
+              "Git은 보통 병합된 커밋에서 \"첫\"부모를 따라갑니다. 하지만 `^`수식을 를 숫자와 함께 사용하면 앞의 디폴트 동작대로가 아닌 다른 결과가 나타납니다.",
+              "",
+              "이만 줄이고, 직접 확인해봅시다.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "여기 병합된 커밋이 있습니다. 우리가 `master`를 수식없이 체크아웃한다면 병합된 커밋의 첫 부모를 따라 올라갈 것입니다. ",
+              "",
+              "(*화면에서는 첫 부모는 병합된 커밋 바로 위에 위치해 있습니다.*)"
+            ],
+            "afterMarkdowns": [
+              "간단하죠 -- 우리한테 익숙한 모습입니다."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "자 이제 두번째 부모를 선택해봅시다..."
+            ],
+            "afterMarkdowns": [
+              "보이나요? 다른 부모를 선택해 올라갔습니다."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^`수식과 `~`수식을 이용해 커밋트리에서 효과적으로 움직일 수 있습니다.:"
+            ],
+            "afterMarkdowns": [
+              "빛처럼 빠르게 말이죠!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "더 대단한것은 이 수식들은 같이 사용할 수 있다는 겁니다! 확인해봅시다:"
+            ],
+            "afterMarkdowns": [
+              "앞과 같은 움직임이지만 하나의 명령으로 표현되었습니다."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 직접 확인해봅시다",
+              "",
+              "이 레벨을 완료하기 위해서 정해진 목적지에 새 브랜치를 생성하세요.",
+              "",
+              "물론 커밋을 직접 특정지어주면 아주 쉽겠지만(`C6`과 같이), 수식을 익혀볼겸 배운것을 사용해 도전해 봅시다!"
+            ]
+          }
+        }
+      ]
+    }
   }
 };
