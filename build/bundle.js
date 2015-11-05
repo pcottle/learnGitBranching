@@ -45918,7 +45918,8 @@ exports.level = {
     "es_AR": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
     "zh_TW": "多個 parent commit",
-    "ru_RU": "Здоровая семья или несколько родителей"
+    "ru_RU": "Здоровая семья или несколько родителей",
+    "ko"   : "다수의 부모"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -45929,7 +45930,8 @@ exports.level = {
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
-    "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку."
+    "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
+    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요"
   },
   "startDialog": {
     "en_US": {
@@ -46715,6 +46717,93 @@ exports.level = {
         }
       ]
     },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 부모를 선택하기",
+              "",
+              "`~` 수식처럼 `^` 수식 또한 뒤에 숫자를 추가 할 수 있습니다.",
+              "",
+              "몇개의 세대를 돌아갈지 정하는 것 대신(`~`의 기능) `^`수식은 병합이된 커밋에서 어떤 부모를 참조할지 선택할 수 있습니다. 병합된 커밋들은 다수의 부모를 가지고 있다는것을 기억하시나요? 어떤 부모를 선택할지 예측할 수가 없습니다.",
+              "",
+              "Git은 보통 병합된 커밋에서 \"첫\"부모를 따라갑니다. 하지만 `^`수식을 를 숫자와 함께 사용하면 앞의 디폴트 동작대로가 아닌 다른 결과가 나타납니다.",
+              "",
+              "이만 줄이고, 직접 확인해봅시다.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "여기 병합된 커밋이 있습니다. 우리가 `master`를 수식없이 체크아웃한다면 병합된 커밋의 첫 부모를 따라 올라갈 것입니다. ",
+              "",
+              "(*화면에서는 첫 부모는 병합된 커밋 바로 위에 위치해 있습니다.*)"
+            ],
+            "afterMarkdowns": [
+              "간단하죠 -- 우리한테 익숙한 모습입니다."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "자 이제 두번째 부모를 선택해봅시다..."
+            ],
+            "afterMarkdowns": [
+              "보이나요? 다른 부모를 선택해 올라갔습니다."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^`수식과 `~`수식을 이용해 커밋트리에서 효과적으로 움직일 수 있습니다.:"
+            ],
+            "afterMarkdowns": [
+              "빛처럼 빠르게 말이죠!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "더 대단한것은 이 수식들은 같이 사용할 수 있다는 겁니다! 확인해봅시다:"
+            ],
+            "afterMarkdowns": [
+              "앞과 같은 움직임이지만 하나의 명령으로 표현되었습니다."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 직접 확인해봅시다",
+              "",
+              "이 레벨을 완료하기 위해서 정해진 목적지에 새 브랜치를 생성하세요.",
+              "",
+              "물론 커밋을 직접 특정지어주면 아주 쉽겠지만(`C6`과 같이), 수식을 익혀볼겸 배운것을 사용해 도전해 봅시다!"
+            ]
+          }
+        }
+      ]
+    }
   }
 };
 
@@ -52131,7 +52220,7 @@ exports.level = {
               "",
               "이전 강의에서 배웠듯이, 브랜치는 이동하기 쉽습니다. 작업의 완료, 진행에따라 이리저리 이동하면서 서로다른 커밋을 참조하게 됩니다. 브랜치는 쉽게 변하며 임시적인 것입니다 항상 바뀌고 있죠.",
               "",
-              "이런 상황에서, 여러분은 여러분의 프로젝트의 역사(작업 이력)에서 중요한 지점들에 *영구적으로* 표시를 할 방법이 없을까 궁금할것입니다. 주요 릴리즈나 큰 브랜치 합병(merge)이 있을때가 그런 상황이겠군요. 이런 상황에 커밋들을 표시할 브랜치보다 영구적인 방법이 있을까요?",
+              "이런 상황에서, 여러분은 여러분의 프로젝트의 역사(작업 이력)에서 중요한 지점들에 *영구적으로* 표시를 할 방법이 없을까 궁금할것입니다. 주요 릴리즈나 큰 브랜치 병합(merge)이 있을때가 그런 상황이겠군요. 이런 상황에 커밋들을 표시할 브랜치보다 영구적인 방법이 있을까요?",
               ""
             ]
           }
@@ -66566,4 +66655,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,180,181,179,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,251,250,249,252,253,254,255,256,257,258,259,260,261,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209,264,263,262])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
