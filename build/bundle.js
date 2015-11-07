@@ -59738,7 +59738,7 @@ exports.level = {
     "zh_CN": "检出可视化目标中的顺序",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
-    "ot_BR": "Preste atenção na ordem da visualização do objetivo",
+    "pt_BR": "Preste atenção na ordem da visualização do objetivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
     "ja"   : "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
