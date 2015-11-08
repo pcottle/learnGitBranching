@@ -29290,6 +29290,16 @@ exports.dialog = {
             '',
             'Мы верим в тебя! Не прыгай! Ты сможешь!'
     ]}
+  }],
+  'uk': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Впевнений, що хошеш побачити розв’язок?',
+        '',
+        'Я вірю в тебе! Ти впораєшся!'
+      ]
+    }
   }]
 };
 
@@ -29468,6 +29478,25 @@ exports.dialog = {
         '  * Ввести ```finish``` и получить JSON с описанием уровня!'
       ]
     }
+  }],
+  'uk': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Ласкаво просимо до конструктору рівнів!',
+        '',
+        'Ось основні кроки:',
+        '',
+        '  * Налаштувати початкове середовище за допомогою команд git',
+        '  * Визначити стартове дерево за допомогою ```define start```',
+        '  * Ввести набір команд що описують (оптимальний) розв’язок',
+        '  * Визначити кінцеве дерево за допомогою ```define goal```. Одночасно це визначить розв’язок',
+        '  * Додатково можна задати підказку за допомогою ```define hint```',
+        '  * Редагувати назву рівня за допомогою ```define name```',
+        '  * Додатково можна вказати файний початковий діалог за допомогою ```edit dialog```',
+        '  * Ввести команду ```finish``` й отримати JSON з описом рівня!'
+      ]
+    }
   }]
 };
 
@@ -29572,7 +29601,18 @@ exports.dialog = {
         'а наше решение состоит из {best}.'
       ]
     }
-  }]
+  }],
+  'uk': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Чудово !!',
+        '',
+        'Ти пройшов рівень використавши *{numCommands}* команди; ',
+        'наш розв’язок складається з {best}.'
+      ]
+    }
+  }],
 };
 
 
@@ -30085,6 +30125,28 @@ exports.dialog = {
         'Команда `show commands` покажет все доступные инструкции. Там есть очень полезные, например `undo` и `reset`',
         '',
         'А пока просто начни игру при помощи `levels`...'
+      ]
+    }
+  }],
+  'uk': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Ласкаво просимо до Learn Git Branching',
+        '',
+        'Хочеш вивчити Git? Тоді ти знайшов, що шукав!',
+        '"Learn Git Branching" це найвізуальніший та найінтерактивніший спосіб вивчення Git ',
+        'який можна знайти в інтернеті; ти зможеш проходити захоплюючі рівні, дивитися',
+        'покрокові інструкції використання потужних функцій git, й можливо навіть трохи ',
+        'розважитись в процесі навчання.',
+        '',
+        'Після цього діалогу ти побачиш список доступних рівнів. Якщо ти новачок ',
+        'просто почни з першого рівня. Якщо ти вже знаєш основи Git, ',
+        'спробуй більш складні рівні в кінці.',
+        '',
+        'PS: Хочеш перейти одразу до пісочниці наступного разу?',
+        'Спробуй ',
+        '[це спеціяльне посилання](http://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
   }]
@@ -34995,7 +35057,8 @@ exports.strings = {
     'es_AR': '¡Ea! Terminaste el último nivel, ¡genial!',
     'pt_BR': 'Uia! Você terminou o último nível, massa!',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !',
-    'ru_RU': 'Вау! Вы прошли последний уровень, отлично!'
+    'ru_RU': 'Вау! Вы прошли последний уровень, отлично!',
+    'uk': 'Вау! Ти пройшов останній рівень, круто!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -35008,7 +35071,8 @@ exports.strings = {
     'es_AR': '¿Querés seguir con *"{nextLevel}"*, el próximo nivel?',
     'pt_BR': 'Você gostaria de ir para o próximo nível: *"{nextLevel}"*?',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
-    'ru_RU': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?'
+    'ru_RU': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?',
+    'uk': 'Хочеш перейти на наступний рівень: *"{nextLevel}"*?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -35021,7 +35085,8 @@ exports.strings = {
     'zh_TW': '太強了，您的答案符合我們的預期甚至更好！',
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
-    'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.'
+    'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.',
+    'uk': 'Чудово! Твій розв’язок на рівні чи можливо навіть краще від нашого'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -35034,7 +35099,8 @@ exports.strings = {
     'es_AR': 'Fijate si podés bajarlo a usar sólo {best} comandos :D',
     'pt_BR': 'Veja se consegue reduzir para somente {best} :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
-    'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D'
+    'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D',
+    'uk': 'Спробуй, можливо ти зможете вкластися в {best} кроків :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-prune-tree': {
@@ -35046,7 +35112,8 @@ exports.strings = {
     'pt_BR': 'Cuidado! O Mercurial faz coleção de lixo agressiva e precisa prunar sua árvore',
     'fr_FR': 'Attention, Mercurial supprime de façon agressive et nécessite un prune du repository',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
-    'ru_RU': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево'
+    'ru_RU': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево',
+    'uk': 'Увага! Mercurial агресивно збирає сміття й може обрізати твоє дерево '
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
@@ -35058,7 +35125,8 @@ exports.strings = {
     'pt_BR': 'A opção -A não é necessária para este aplicativo, simplesmente faça commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
     'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
-    'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.'
+    'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.',
+    'uk': 'Опція -A не потрібна для цього застосунку, можна просто комітити!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -35069,7 +35137,8 @@ exports.strings = {
     'pt_BR': 'Não existe um comando status para este aplicativo, já que não há staging de arquivos. Tente hg summary',
     'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
-    'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary'
+    'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary',
+    'uk': 'Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary '
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
@@ -35080,7 +35149,8 @@ exports.strings = {
     'pt_BR': 'Eu preciso da opção {option} para esse comando!',
     'fr_FR': 'J\'ai besoin de l\'option {option} pour cette commande',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
-    'ru_RU': 'Для этой команды требуется опция {option}'
+    'ru_RU': 'Для этой команды требуется опция {option}',
+    'uk': 'Для цієї команди потрібна опція {option}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
@@ -35091,7 +35161,8 @@ exports.strings = {
     'pt_BR': 'hg log sem -f atualmente não é suportado, use -f',
     'fr_FR': 'hg log sans -f n\'est pas supporté',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
-    'ru_RU': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f'
+    'ru_RU': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f',
+    'uk': 'hg log без опції -f в данний момент не підтримується, використовуй -f'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -35103,7 +35174,8 @@ exports.strings = {
     'es_AR': '¡Detached HEAD!',
     'pt_BR': 'Detached HEAD!',
     'fr_FR': 'head détaché !',
-    'ru_RU': 'Отделенный HEAD'
+    'ru_RU': 'Отделенный HEAD',
+    'uk': 'Відокремлений HEAD'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
@@ -35115,7 +35187,8 @@ exports.strings = {
     'es_AR': 'En la rama {branch}',
     'pt_BR': 'No ramo {branch}',
     'fr_FR': 'Sur la branche {branch}',
-    'ru_RU': 'В ветке {branch}'
+    'ru_RU': 'В ветке {branch}',
+    'uk': 'В гілці {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
@@ -35127,7 +35200,8 @@ exports.strings = {
     'es_AR': '¡Listo para commitear! (como siempre en esta demo ;-) )',
     'pt_BR': 'Pronto para commitar! (como sempre neste demo ;-) )',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)',
-    'ru_RU': 'Готово к коммиту! (как и всегда в этом демо)'
+    'ru_RU': 'Готово к коммиту! (как и всегда в этом демо)',
+    'uk': 'Готово до коміту! (як завжди в цьому демо)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
@@ -35140,7 +35214,8 @@ exports.strings = {
     'es_AR': 'Otro commit más, y van...',
     'pt_BR': 'Commitando.. Vai Timão!',
     'fr_FR': 'Commit rapide. NoMaN Sux!',
-    'ru_RU': 'Быстрый коммит. А надо!'
+    'ru_RU': 'Быстрый коммит. А надо!',
+    'uk': 'Швидкий коміт. Динамо!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
@@ -35151,7 +35226,8 @@ exports.strings = {
     'pt_BR': 'Já estamos na versão mais recente!',
     'zh_TW': '已經是最新的了',
     'zh_CN': '已经是最新的了',
-    'ru_RU': 'Уже обновлено!'
+    'ru_RU': 'Уже обновлено!',
+    'uk': 'Вже оновлено!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -35161,7 +35237,8 @@ exports.strings = {
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
-    'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch'
+    'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch',
+    'uk': 'Твоя гілка origin не синхронізована з віддаленою гілкою, неможливо виконати fetch'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -35171,7 +35248,8 @@ exports.strings = {
     'es_AR': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y probá de nuevo. Podés hacerlo con git pull o git pull --rebase',
     'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não é um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
-    'ru_RU:': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase'
+    'ru_RU': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase',
+    'uk': 'Віддалений репозиторій розбігся з твоїм локальным репозиторієм, тому відвантаження твоїх змін не є простим fast forward (й тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
@@ -35181,7 +35259,8 @@ exports.strings = {
     'es_AR': 'No podés ejecutar ese comando en una rama remota',
     'pt_BR': 'Você não pode executar esse comando em um ramo remoto',
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
-    'ru_RU': 'Вы не можете выполнить эту команду на удаленной ветке'
+    'ru_RU': 'Вы не можете выполнить эту команду на удаленной ветке',
+    'uk': 'Ти не можеш виконати цю команду на віддаленій гілці'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
@@ -35191,7 +35270,8 @@ exports.strings = {
     'es_AR': 'Necesitás un origen para ese comando',
     'pt_BR': 'É necessário informar uma origem para esse comando',
     'fr_FR': 'Une origine est requise pour cette commande',
-    'ru_RU': 'Origin требуется для этой команды'
+    'ru_RU': 'Origin требуется для этой команды',
+    'uk': 'Для цієї команди потрібний origin'
   },
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
@@ -35201,7 +35281,8 @@ exports.strings = {
     'es_AR': '¡Ya existe el origen! No podés crear uno nuevo',
     'pt_BR': 'A origem já existe! Você não pode criar uma nova',
     'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
-    'ru_RU': 'Origin уже существует! Невозможно создать еще один'
+    'ru_RU': 'Origin уже существует! Невозможно создать еще один',
+    'uk': 'Origin вже існує! Неможливо створити ще один'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
@@ -35214,7 +35295,8 @@ exports.strings = {
     'es_AR': 'No podés borrar la rama master, la rama en la que estás, o cosas que no son ramas',
     'pt_BR': 'Você não pode apagar o ramo master, nem o ramo em que você está, nem coisas que não sejam ramos',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
-    'ru_RU' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой'
+    'ru_RU' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой',
+    'uk': 'Неможливо видалити гілку master, гілку на якій ти зараз знаходишся чи штуки які не є гілкою'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -35226,7 +35308,8 @@ exports.strings = {
     'es_AR': 'Mergear {target} a {current}',
     'pt_BR': 'Merge de {target} em {current}',
     'fr_FR': 'Merge de {target} dans {current}',
-    'ru_RU': 'Слияние {target} в {current}'
+    'ru_RU': 'Слияние {target} в {current}',
+    'uk': 'Злиття {target} в {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -35238,7 +35321,8 @@ exports.strings = {
     'es_AR': '¡No hay commits para rebasear! Son todos commits de merge o cambios ya aplicados',
     'pt_BR': 'Não há commits para o rebase! São todos commits de merge ou mudanças já aplicadas',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
-    'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены'
+    'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены',
+    'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -35250,7 +35334,8 @@ exports.strings = {
     'es_AR': 'Nada para hacer...',
     'pt_BR': 'Nada a ser feito...',
     'fr_FR': 'Rien à effectuer…',
-    'ru_RU': 'Нечего выполнять...'
+    'ru_RU': 'Нечего выполнять...',
+    'uk': 'Нічого виконувати...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -35262,7 +35347,8 @@ exports.strings = {
     'es_AR': 'Fast forwardeando...',
     'pt_BR': 'Fast forward...',
     'fr_FR': 'En avance rapide…',
-    'ru_RU': 'Выполняю Fast forward...'
+    'ru_RU': 'Выполняю Fast forward...',
+    'uk': 'Виконую Fast forward'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
@@ -35274,7 +35360,8 @@ exports.strings = {
     'es_AR': 'Rama actualmente actualizada',
     'pt_BR': 'Ramo já atualizado',
     'fr_FR': 'Branche déjà à jour',
-    'ru_RU': 'Ветка уже обновлена'
+    'ru_RU': 'Ветка уже обновлена',
+    'uk': 'Гілку вже оновлено'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -35286,7 +35373,8 @@ exports.strings = {
     'es_AR': 'La referencia {ref} no existe o es desconocida',
     'pt_BR': 'A referência {ref} não existe ou é desconhecida',
     'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue',
-    'ru_RU': 'Ссылка {ref} не существует или неизвестна'
+    'ru_RU': 'Ссылка {ref} не существует или неизвестна',
+    'uk': 'Посилання {ref} не існує чи невідоме'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -35298,7 +35386,8 @@ exports.strings = {
     'es_AR': 'El commit {commit} no tiene un {match}',
     'pt_BR': 'O commit {commit} não tem um {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
-    'ru_RU': 'Коммит {commit} не содержит {match}'
+    'ru_RU': 'Коммит {commit} не содержит {match}',
+    'uk': 'Коміт {commit} не містить {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
@@ -35310,7 +35399,8 @@ exports.strings = {
     'es_AR': '¡Cuidado! Modo de detached HEAD',
     'pt_BR': 'Cuidado! Modo Detached HEAD',
     'fr_FR': 'Attention ! HEAD est détaché',
-    'ru_RU': 'Внимание! Репозиторий в состоянии detached HEAD, то есть не находится ни на какой ветке!'
+    'ru_RU': 'Внимание! Репозиторий в состоянии detached HEAD, то есть не находится ни на какой ветке!',
+    'uk': 'Увага! Репозиторій в стані detached HEAD, тобто не знаходиться в жодній гілці!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
@@ -35322,7 +35412,8 @@ exports.strings = {
     'es_AR': 'No es necesario hacer add a los archivos en esta demo',
     'pt_BR': 'Não é necessário adicionar arquivos neste demo',
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo',
-    'ru_RU': 'Это демо не оперирует файлами'
+    'ru_RU': 'Это демо не оперирует файлами',
+    'uk': 'Не потрібно додавати файли для цього демо'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
@@ -35334,7 +35425,8 @@ exports.strings = {
     'es_AR': 'Las opciones que especificaste son incompatibles o incorrectas',
     'pt_BR': 'As opções que você especificou são incompatíveis ou incorretas',
     'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes',
-    'ru_RU': 'Неправильные опции'
+    'ru_RU': 'Неправильные опции',
+    'uk': 'Опції, які ти ввів, або некорректні або не підтримуються'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -35346,7 +35438,8 @@ exports.strings = {
     'es_AR': 'El commit {commit} ya existe en tus cambios, ¡abortando!',
     'pt_BR': 'O commit {commit} já existe nas suas mudanças, abortando!',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !',
-    'ru_RU': 'Коммит {commit} существует, отменяю!'
+    'ru_RU': 'Коммит {commit} существует, отменяю!',
+    'uk': 'Коміт {commit} вже існує в твоєму change set, відміна!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
@@ -35358,7 +35451,8 @@ exports.strings = {
     'es_AR': 'No podés hacer reset en el modo detached. Usá checkout si querés moverte',
     'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser se mover',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer',
-    'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!'
+    'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!',
+    'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
@@ -35372,7 +35466,10 @@ exports.strings = {
     'es_AR': 'El comportamiento default es un --hard reset, sentite libre de omitir esa opción!',
     'pt_BR': 'O comportamento padrão é um reset --hard, fique livre para omitir essa opção!',
     'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !',
-    'ru_RU': 'По умолчанию будет выполнен --hard reset, эту опцию можно опускать!'
+    'ru_RU': 'По умолчанию будет выполнен --hard reset, эту опцию можно опускать!',
+    'uk': 'На LearnGitBranching reset по замовчуванню використовує --hard, тому цю опцію ' +
+      'можна пропустити, якщо ти втомився її набирати щоразу. Тільки запам’ятай, що по замовчуванню ' +
+      'звичайний git reset використовує --mixed'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
@@ -35385,7 +35482,8 @@ exports.strings = {
     'es_AR': 'No existe el concepto de agregar/indexar cambios, así que esa opción o comando es inválido',
     'pt_BR': 'Não existe o conceito de adicionar/indexar mudanças, de forma que essa opção ou comando é inválida',
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide',
-    'ru_RU': 'Это демо не работает с файлами, так что git add не нужен!'
+    'ru_RU': 'Это демо не работает с файлами, так что git add не нужен!',
+    'uk': 'В цьому демо немає можливості додати файл до робочої копії чи до стейджингу, тому ця опція чи команда некоректна чи не підтримується'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -35397,7 +35495,8 @@ exports.strings = {
     'es_AR': 'Revirtiendo {oldCommit}: {oldMsg}',
     'pt_BR': 'Revertendo {oldCommit}: {oldMsg}',
     'fr_FR': 'Revert {oldCommit}: {oldMsg}',
-    'ru_RU': 'Откатываю {oldCommit}: {oldMsg}'
+    'ru_RU': 'Откатываю {oldCommit}: {oldMsg}',
+    'uk': 'Повертаю {oldCommit}: {oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
@@ -35409,7 +35508,8 @@ exports.strings = {
     'es_AR': 'Espero como máximo {upper} parámetros para {what}',
     'pt_BR': 'Espero no máximo {upper} parâmetros para {what}',
     'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}',
-    'ru_RU': 'Ожидается максимум {upper} аргумент(ов) для {what}'
+    'ru_RU': 'Ожидается максимум {upper} аргумент(ов) для {what}',
+    'uk': 'Я очікую максимум {upper} аргумент(ів) для {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
@@ -35421,7 +35521,8 @@ exports.strings = {
     'es_AR': 'Espero al menos {lower} parámetros para {what}',
     'pt_BR': 'Espero pelo menos {lower} parâmetros para {what}',
     'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}',
-    'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}'
+    'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}',
+    'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
@@ -35433,7 +35534,8 @@ exports.strings = {
     'es_AR': 'Ese comando no acepta parámetros comunes',
     'pt_BR': 'Este comando não aceita parâmetros gerais',
     'fr_FR': 'Cette commande n\'accepte aucun argument général',
-    'ru_RU': 'Это команда без аргументов'
+    'ru_RU': 'Это команда без аргументов',
+    'uk': 'Ця команда не приймає загальних аргументів'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -35445,7 +35547,8 @@ exports.strings = {
     'es_AR': 'Copiá el código de acá abajo',
     'pt_BR': 'Copie o código abaixo',
     'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous',
-    'ru_RU': 'Скопируй текст ниже'
+    'ru_RU': 'Скопируй текст ниже',
+    'uk': 'Скопіюй рядок дерева нижче'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -35459,7 +35562,8 @@ exports.strings = {
     'es_AR': 'Aprendé a Branchear en Git',
     'pt_BR': 'Learn Git Branching',
     'fr_FR': 'Apprenez Git Branching',
-    'ru_RU': 'Изучаем ветвление в git'
+    'ru_RU': 'Изучаем ветвление в git',
+    'uk': 'Learn Git Branching'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -35471,7 +35575,8 @@ exports.strings = {
     'es_AR': 'Seleccioná un nivel',
     'pt_BR': 'Selecione um nível',
     'fr_FR': 'Choisissez un niveau',
-    'ru_RU': 'Выбери уровень'
+    'ru_RU': 'Выбери уровень',
+    'uk': 'Обери рівень'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
@@ -35483,7 +35588,8 @@ exports.strings = {
     'es_AR': 'Perdón, necesitamos mantener los nombres de los branches cortos para visualizarlos. El nombre de tu rama se truncó a 9 caracteres, resultando en "{branch}"',
     'pt_BR': 'Desculpe, precisamos manter os nomes dos ramos curtos para visualizá-los. O nome do seu ramo foi truncado para 9 caracteres, resultando em "{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"',
-    'ru_RU': 'Для наглядности нам нужно сохранять имена веток короткими. Твоё название сокращено до 9 символов и теперь это "{branch}"'
+    'ru_RU': 'Для наглядности нам нужно сохранять имена веток короткими. Твоё название сокращено до 9 символов и теперь это "{branch}"',
+    'uk': 'Вибач, нам потрібно щоб ім’я гілок було як можна коротше для наглядності. Твоє ім’я гілки було скорочене до 9 літер й тепер це "{branch}"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
@@ -35495,7 +35601,8 @@ exports.strings = {
     'es_AR': 'El nombre "{branch}" no está permitido para los branches',
     'pt_BR': 'Um ramo não pode ser chamado de "{branch}"!',
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé',
-    'ru_RU': 'Название для ветки "{branch}" недопустимо!'
+    'ru_RU': 'Название для ветки "{branch}" недопустимо!',
+    'uk': 'Назва гілки "{branch}" є недопустимою'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
@@ -35506,7 +35613,8 @@ exports.strings = {
     'pt_BR': 'Uma tag não pode ser chamada de "{tag}"!',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
     'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!',
-    'ru_RU': 'Название для тега "{tag}" недопустимо!'
+    'ru_RU': 'Название для тега "{tag}" недопустимо!',
+    'uk': 'Назва тегу "{tag}" є недопустимою'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -35518,7 +35626,8 @@ exports.strings = {
     'es_AR': 'La opción {option} no está soportada',
     'pt_BR': 'A opção {option} não é suportada',
     'fr_FR': 'L\'option "{option}" n\'est pas supportée',
-    'ru_RU': 'Опция "{option}" недопустима!'
+    'ru_RU': 'Опция "{option}" недопустима!',
+    'uk': 'Опція "{option}" не підтримується!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
@@ -35530,7 +35639,8 @@ exports.strings = {
     'es_AR': 'git <comando> [<parametros>]',
     'pt_BR': 'git <comando} [<parâmetros>]',
     'fr_FR': 'git <commande> [<arguments>]',
-    'ru_RU': 'git <команда> [<аргументы>]'
+    'ru_RU': 'git <команда> [<аргументы>]',
+    'uk': 'git <команда> [<аргументи>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
@@ -35542,7 +35652,8 @@ exports.strings = {
     'es_AR': 'Comandos soportados:',
     'pt_BR': 'Comandos suportados:',
     'fr_FR': 'Commandes supportées',
-    'ru_RU': 'Поддерживаемые команды'
+    'ru_RU': 'Поддерживаемые команды',
+    'uk': 'Допустимі команди'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
@@ -35554,7 +35665,8 @@ exports.strings = {
     'es_AR': 'Uso:',
     'pt_BR': 'Uso:',
     'fr_FR': 'Utilisation :',
-    'ru_RU': 'Использование:'
+    'ru_RU': 'Использование:',
+    'uk': 'Використання:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
@@ -35566,7 +35678,8 @@ exports.strings = {
     'es_AR': 'Git Versión PCOTTLE.1.0',
     'pt_BR': 'Git versão PCOTTLE.1.0',
     'fr_FR': 'Git version PCOTTLE.1.0',
-    'ru_RU': 'Версия git PCOTTLE.1.0'
+    'ru_RU': 'Версия git PCOTTLE.1.0',
+    'uk': 'Версія git PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
@@ -35576,7 +35689,8 @@ exports.strings = {
     'es_AR': 'Invirtiendo el árbol...',
     'pt_BR': 'Invertendo a árvore...',
     'fr_FR': 'Inversion de l\'arbre...',
-    'ru_RU': 'Переворачиваю дерево...'
+    'ru_RU': 'Переворачиваю дерево...',
+    'uk': 'Перевертаю дерево...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -35588,7 +35702,8 @@ exports.strings = {
     'es_AR': 'Refrezcando el árbol...',
     'pt_BR': 'Atualizando a árvore...',
     'fr_FR': 'Actualisation de l\'arbre…',
-    'ru_RU': 'Обновляю дерево...'
+    'ru_RU': 'Обновляю дерево...',
+    'uk': 'Оновлюю дерево...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
@@ -35600,7 +35715,8 @@ exports.strings = {
     'es_AR': 'Localización actualizada a {locale}',
     'pt_BR': 'Língua trocada para {locale}',
     'fr_FR': 'Langue changée à {locale}',
-    'ru_RU': 'Локаль теперь равна {locale}'
+    'ru_RU': 'Локаль теперь равна {locale}',
+    'uk': 'Локаль тепер дорівнює {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
@@ -35612,7 +35728,8 @@ exports.strings = {
     'es_AR': 'Localización vuelta al default, que es {locale}',
     'pt_BR': 'Língua retornada para a padrão, que é {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}',
-    'ru_RU': 'Локаль сброшена. Теперь она равна {locale}'
+    'ru_RU': 'Локаль сброшена. Теперь она равна {locale}',
+    'uk': 'Локаль скинута. Тепер вона дорівнює {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
@@ -35624,7 +35741,8 @@ exports.strings = {
     'es_AR': 'Usá alguno de estos comandos para tener más información:',
     'pt_BR': 'Use algum destes comandos para ter mais informações:',
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info',
-    'ru_RU': 'Для получения большей информации используй следующие команды:'
+    'ru_RU': 'Для получения большей информации используй следующие команды:',
+    'uk': 'Щоб отримати більше інформації використовуй наступні команди:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
@@ -35636,7 +35754,8 @@ exports.strings = {
     'es_AR': 'Esta es una lista de los comandos disponibles:',
     'pt_BR': 'Esta é uma lista dos comandos disponíveis:',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :',
-    'ru_RU': 'Вот все поддерживаемуе команды:'
+    'ru_RU': 'Вот все поддерживаемуе команды:',
+    'uk': 'Ось список всіх можливих команд:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
@@ -35648,7 +35767,8 @@ exports.strings = {
     'es_AR': 'Directorio cambiado a "/los/directorios/no/importan/en/esta/demo"',
     'pt_BR': 'Diretório mudado para "/diretorios/nao/importam/neste/demo"',
     'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)',
-    'ru_RU': 'Директория изменена на "/директории/не/важны/в/этом/демо"'
+    'ru_RU': 'Директория изменена на "/директории/не/важны/в/этом/демо"',
+    'uk': 'Директорія змінена на "/директорії/не/мають/значення/в/цьому/демо"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
@@ -35660,7 +35780,8 @@ exports.strings = {
     'es_AR': 'NoTePreocupesPorLosArchivosEnEstaDemo.txt',
     'pt_BR': 'NaoSePreocupeComNomesDeArquivoNesteDemo.txt',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)',
-    'ru_RU': 'НеНадоЗаботитьсяОФайлахВЭтомДемо.txt'
+    'ru_RU': 'НеНадоЗаботитьсяОФайлахВЭтомДемо.txt',
+    'uk': 'ЗабийНаФайлиВЦьомуДемо.txt'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
@@ -35671,7 +35792,8 @@ exports.strings = {
     'es_AR': 'LGB no puede recibir comandos en dispositivos móviles. Visitanos desde una desktop, ¡lo vale! :D',
     'pt_BR': 'Provavelmente você não vai conseguir digitar comandos no celular, neste caso tente acessar de um computador',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D',
-    'ru_RU': 'Мобильные не поддерживаются, зайди с компьютера!'
+    'ru_RU': 'Мобильные не поддерживаются, зайди с компьютера!',
+    'uk': 'LGB не підтримує ввід тексту з мобільного, зайди з компьютера! Це цього варте!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
@@ -35683,7 +35805,8 @@ exports.strings = {
     'es_AR': '¡Compartí este árbol con amigos! Pueden cargarlo con "import tree"',
     'pt_BR': 'Compartilhe esta árvore com seus amigos! Eles podem carregá-la com "import tree"',
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"',
-    'ru_RU': 'Поделись деревом с друзьями! Они могут загрузить его при помощи "import tree"'
+    'ru_RU': 'Поделись деревом с друзьями! Они могут загрузить его при помощи "import tree"',
+    'uk': 'Поділись цим деревом з друзями! Вони зможуть його завантажити за допомогою "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
@@ -35695,7 +35818,8 @@ exports.strings = {
     'es_AR': '¡Pegá un blob JSON abajo!',
     'pt_BR': 'Cole o JSON abaixo!',
     'fr_FR': 'Collez un blob JSON ci-dessous !',
-    'ru_RU': 'Вставь JSON ниже!'
+    'ru_RU': 'Вставь JSON ниже!',
+    'uk': 'Встав JSON нижче!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
@@ -35707,7 +35831,8 @@ exports.strings = {
     'es_AR': 'El mapa resuelto fue eliminado, estás arrancando desde un estado limpio',
     'pt_BR': 'Mapa de resolvidos descartado, você está começando com ficha limpa!',
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !',
-    'ru_RU': 'Всё сброшено! Можно начать с чистого листа!'
+    'ru_RU': 'Всё сброшено! Можно начать с чистого листа!',
+    'uk': 'Все скинуте! Можна починати з чистого аркушу!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
@@ -35719,7 +35844,8 @@ exports.strings = {
     'es_AR': '¡No estás en un nivel! Estás en el sandbox, comenzá un nivel usando "levels"',
     'pt_BR': 'Você não está em um nível! Você está no sandbox, comece um nível com "levels"',
     'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"',
-    'ru_RU': 'Ты не проходишь уровень! Ты в песочнице! Чтобы начать уровень, используй команду "levels"!'
+    'ru_RU': 'Ты не проходишь уровень! Ты в песочнице! Чтобы начать уровень, используй команду "levels"!',
+    'uk': 'Ти не в рівні! Ти в пісочниці! Почни рівень з "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
@@ -35731,7 +35857,8 @@ exports.strings = {
     'es_AR': 'No se encontró ningún nivel {id}. Abriendo la vista de selección de niveles...',
     'pt_BR': 'O nível "{id}" não existe! Abrindo uma caixa de seleção de nível',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux',
-    'ru_RU': 'Уровень с id "{id}" не найден! Открываю выбор уровней'
+    'ru_RU': 'Уровень с id "{id}" не найден! Открываю выбор уровней',
+    'uk': 'Рівень з id "{id}" не знайдений! Відкриваю вибір рівней'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -35743,7 +35870,8 @@ exports.strings = {
     'es_AR': 'No hay comandos que deshacer',
     'pt_BR': 'Você já desfez tudo!',
     'fr_FR': 'La pile d\'annulation est vide !',
-    'ru_RU': 'Некуда откатывать!'
+    'ru_RU': 'Некуда откатывать!',
+    'uk': 'Нема куди відкатуватися'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
@@ -35755,7 +35883,8 @@ exports.strings = {
     'es_AR': 'Ya resolviste este nivel, probá otros usando "levels" o volvé al sandbox usando "sandbox"',
     'pt_BR': 'Você já resolveu este nível, tente outros com "levels" ou volte ao sandbox com "sandbox"',
     'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"',
-    'ru_RU': 'Ты уже прошел этот уровень, попробуй пройти другие при помощи команды "levels" или иди в песочницу "sandbox"'
+    'ru_RU': 'Ты уже прошел этот уровень, попробуй пройти другие при помощи команды "levels" или иди в песочницу "sandbox"',
+    'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -35767,19 +35896,21 @@ exports.strings = {
     'es_AR': '¡Ese comando de git está deshabilitado para este nivel!',
     'pt_BR': 'Achou que seria fácil assim? Desabilitamos esse comando durante este nível, só para dificultar ;-)',
     'fr_FR': 'Cette commande git est désactivée pour ce niveau !',
-    'ru_RU': 'На этом уровне нельзя использовать эту команду!'
+    'ru_RU': 'На этом уровне нельзя использовать эту команду!',
+    'uk': 'На цьому рівні не можна використовувати цю команду!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
     '__desc__': 'when you have made the level, prompt to share this',
-    'en_US': 'Here is the JSON for this level! Share it with somenoe or send it to me on Github',
+    'en_US': 'Here is the JSON for this level! Share it with someone or send it to me on Github',
     'de_DE': 'Hier ist das JSON für diesen Level! Teil es mit jemandem or schick es mir über Github',
     'zh_CN': '这是一个关卡定义 JSON ！您可以分享它或者发到我的 Github 上',
     'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 Github 上給我',
     'es_AR': 'Este es el JSON de este nivel. Compartilo con quien quieras o mandámelo por Github',
     'pt_BR': 'Aqui está o JSON para este nível! Compartilhe com alguém ou me envie pelo Github',
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github',
-    'ru_RU': 'Вот JSON для этого уровня! Поделись им с кем-нибудь или отправь его нам на GitHub'
+    'ru_RU': 'Вот JSON для этого уровня! Поделись им с кем-нибудь или отправь его нам на GitHub',
+    'uk': 'Ось JSON для цього рівня! Поділись з кимось чи відправ мені його на Github'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
@@ -35791,7 +35922,8 @@ exports.strings = {
     'es_AR': 'No especificaste un mensaje de inicio, ¿querés agregar uno?',
     'pt_BR': 'Você não especificou uma mensagem de início, quer colocar uma?',
     'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?',
-    'ru_RU': 'Не указано стартово сообщение! Точно продолжаем?'
+    'ru_RU': 'Не указано стартово сообщение! Точно продолжаем?',
+    'uk': 'Не вказано стартовий діалог, хочеш додати стартовий діалог?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
@@ -35803,7 +35935,8 @@ exports.strings = {
     'es_AR': 'No especificaste ninguna pista, ¿querés agregar alguna?',
     'pt_BR': 'Você não especificou uma dica, quer colocar uma?',
     'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?',
-    'ru_RU': 'Не указана подсказка для уровня! Пренебречь? Вальсируем?'
+    'ru_RU': 'Не указана подсказка для уровня! Пренебречь? Вальсируем?',
+    'uk': 'Не вказана підказка, хочеш додати підказку?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
@@ -35815,7 +35948,8 @@ exports.strings = {
     'es_AR': 'Ingresá una pista para este nivel, o dejalo en blanco si no querés incluir ninguna',
     'pt_BR': 'Colocque uma dica para este nível, ou deixe em branco se não quiser incluir',
     'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure',
-    'ru_RU': 'Введи подсказку для уровня, если хочешь.'
+    'ru_RU': 'Введи подсказку для уровня, если хочешь.',
+    'uk': 'Додай підказку для рівня, якщо хочеш'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
@@ -35827,7 +35961,8 @@ exports.strings = {
     'es_AR': 'Ingresá el nombre del nivel',
     'pt_BR': 'Coloque o nome do nível',
     'fr_FR': 'Entrez le nom pour ce niveau',
-    'ru_RU': 'Введи название уровня'
+    'ru_RU': 'Введи название уровня',
+    'uk': 'Введи назву рівня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
@@ -35839,7 +35974,8 @@ exports.strings = {
     'es_AR': '¡Tu solución está vacía! Algo hay que hacer',
     'pt_BR': 'Sua solução está vazia! O aprendiz deveria ter que fazer alguma coisa',
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond',
-    'ru_RU': 'Решение не указано! Так не годится!'
+    'ru_RU': 'Решение не указано! Так не годится!',
+    'uk': 'Розв’язок порожній!! Щось не так'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
@@ -35851,7 +35987,8 @@ exports.strings = {
     'es_AR': 'Estableciendo el punto de inicio... La solución y el objetivo serán sobreescritos si ya habían sido definidos',
     'pt_BR': 'Esbelecendo o ponto de início... a solução e o objetivo serão sobrescritos caso já existirem',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis',
-    'ru_RU': 'Устанавливаю стартовую точку... Решение и итоговое состояние будут стёрты, если они указаны ранее'
+    'ru_RU': 'Устанавливаю стартовую точку... Решение и итоговое состояние будут стёрты, если они указаны ранее',
+    'uk': 'Встановлюю стартову точку... розв’язок та ціль будуть переписані якщо вони були задані раніше'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
@@ -35863,7 +36000,8 @@ exports.strings = {
     'es_AR': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elegí entre "help level" para aprender algo más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
     'pt_BR': 'Você está em um nível, então há vários tipos de ajuda. Selecione "help level" para aprender mais sobre esta lição, "help general" para aprender a usar o Learn GitBranching, ou "objective" ver como resolver o nível.',
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau',
-    'ru_RU': 'При прохождении уровня доступны несколько видов помощи. Определить что нужно: "help level" чтобы получить информацию об этом уровне, "help general" для того, чтобы узнать о игре в целом или "objective" чтобы узнать что надо сделать в этом уровне.'
+    'ru_RU': 'При прохождении уровня доступны несколько видов помощи. Определить что нужно: "help level" чтобы получить информацию об этом уровне, "help general" для того, чтобы узнать о игре в целом или "objective" чтобы узнать что надо сделать в этом уровне.',
+    'uk': 'При проходженні рівня доступні декілька різновидів допомоги. Виберіть або "help level" щоб взнати більше про цей рівень, чи "help general" щоб взнати більше про Learn Git Branching, чи "objective" щоб дізнатись більше про проходження цього рівня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
@@ -35875,7 +36013,8 @@ exports.strings = {
     'es_AR': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elegí entre "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'pt_BR': 'Você está no construtor de nívels, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
-    'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"'
+    'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"',
+    'uk': 'При створенні рівня доступні декілька різновидів допомоги. Виберіть або "help general", чи "help builder"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
@@ -35887,7 +36026,8 @@ exports.strings = {
     'pt_BR': 'Mostrar objetivo',
     'es_AR': 'Mostrar objetivo',
     'ja'   : 'ゴールを表示',
-    'ru_RU': 'Цель уровня'
+    'ru_RU': 'Цель уровня',
+    'uk': 'Ціль рівня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -35899,13 +36039,15 @@ exports.strings = {
     'pt_BR': 'Ocultar objetivo',
     'es_AR': 'Ocultar obetivo',
     'ja'   : 'ゴールを隠す',
-    'ru_RU': 'Спрятать цель'
+    'ru_RU': 'Спрятать цель',
+    'uk': 'Сховати ціль'
   },
   ///////////////////////////////////////////////////////////////////////////
   'objective-button': {
     '__desc__': 'button label to show objective',
     'en_US': 'Objective',
-    'ru_RU': 'Задача'
+    'ru_RU': 'Задача',
+    'uk': 'Задача'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -35918,7 +36060,8 @@ exports.strings = {
     'pt_BR': 'Objetivo a cumprir',
     'fr_FR': 'Cible à atteindre',
     'ja'   : '到達目標',
-    'ru_RU': 'Цель уровня'
+    'ru_RU': 'Цель уровня',
+    'uk': 'Ціль рівня'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -35931,7 +36074,8 @@ exports.strings = {
     'zh_CN': '<span class="fwber">注意:</span>本关卡中，只检查 master 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。',
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗',
     'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます',
-    'ru_RU': '<span class="fwber">Важно:</span> В этом уровне проверяется только ветка master. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи "hide goal"'
+    'ru_RU': '<span class="fwber">Важно:</span> В этом уровне проверяется только ветка master. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи "hide goal"',
+    'uk': '<span class="fwber">Важливо:</span> В цьому рівні буде перевірятися тільки гілка master. Решта гілок тільки для наглядності (показані пунктиром нижче). Як завжди, можна сховати цей діалог за допомогою "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -35944,7 +36088,8 @@ exports.strings = {
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
     'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます',
-    'ru_RU': 'Можно скрыть это окно при помощи "hide goal"'
+    'ru_RU': 'Можно скрыть это окно при помощи "hide goal"',
+    'uk': 'Можна сховати це вікно за допомогою "hide goal"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -35957,7 +36102,8 @@ exports.strings = {
     'pt_BR': 'Você pode ocultar esta janela com "hide start"',
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
     'ja'   : 'このウィンドウは"hide start"かクリックで閉じれます',
-    'ru_RU': 'Можно скрыть это окно при помощи "hide start"'
+    'ru_RU': 'Можно скрыть это окно при помощи "hide start"',
+    'uk': 'Можна сховати це вікно за допомогою "hide start"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -35970,7 +36116,8 @@ exports.strings = {
     'pt_BR': 'Construtor de níveis',
     'fr_FR': 'Éditeur de niveaux',
     'ja'   : 'Levelエディタ',
-    'ru_RU': 'Редактор уровней'
+    'ru_RU': 'Редактор уровней',
+    'uk': 'Редактор рівнів'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -35983,7 +36130,8 @@ exports.strings = {
     'pt_BR': 'Não há mensagem de início para este nível!',
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !',
     'ja'   : 'このLevelにはスタートダイアログが存在しません',
-    'ru_RU': 'Нет стартового сообщение для уровня!'
+    'ru_RU': 'Нет стартового сообщение для уровня!',
+    'uk': 'Немає початкового діалогу для цього рівня!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -35996,7 +36144,8 @@ exports.strings = {
     'pt_BR': 'Hmm, não existe nenhuma pista para este nível :-/',
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/',
     'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/',
-    'ru_RU': "Милый мой, хороший, догадайся сам :-/ Подсказка не создана..."
+    'ru_RU': "Милый мой, хороший, догадайся сам :-/ Подсказка не создана...",
+    'uk': 'Хм, схоже для цього рівня немає підказки :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -36009,7 +36158,8 @@ exports.strings = {
     'pt_BR': 'Não existe tradução para {key} :( Pule no Github e sugira uma! :)',
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !',
     'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
-    'ru_RU': 'Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub'
+    'ru_RU': 'Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub',
+    'uk': 'Немає перекладу для {key} :( Будь-ласка, запропонуй переклад на Github'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -36022,7 +36172,8 @@ exports.strings = {
     'pt_BR': 'Esta mensagem ou texto não foi traduzida para Português :( Ajude-nos a traduzir no Github!',
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
     'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
-    'ru_RU': 'Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub'
+    'ru_RU': 'Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub',
+    'uk': 'Для цього повідомлення ще немає перекладу :( Будь-ласка, запропонуй переклад на Github'
   }
 };
 
@@ -38434,6 +38585,12 @@ var IntlHelperBarView = React.createClass({displayName: "IntlHelperBarView",
         this.fireCommand('locale ru_RU; levels');
       }.bind(this)
     }, {
+      text: 'Українська',
+      testID: 'ukrainian',
+      onClick: function() {
+        this.fireCommand('locale uk; levels');
+      }.bind(this)
+    }, {
       icon: 'signout',
       onClick: function() {
         this.props.onExit();
@@ -39595,7 +39752,8 @@ var langLocaleMap = {
   fr: 'fr_FR',
   de: 'de_DE',
   pt: 'pt_BR',
-  ru: 'ru_RU'
+  ru: 'ru_RU',
+  uk: 'uk'
 };
 
 var headerLocaleMap = {
@@ -45919,7 +46077,8 @@ exports.level = {
     "pt_BR": "Múltiplos pais",
     "zh_TW": "多個 parent commit",
     "ru_RU": "Здоровая семья или несколько родителей",
-    "ko"   : "다수의 부모"
+    "ko"   : "다수의 부모",
+    'uk': 'Декілька батьків'
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -45931,7 +46090,8 @@ exports.level = {
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
     "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
-    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요"
+    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
+    'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання'
   },
   "startDialog": {
     "en_US": {
@@ -46803,6 +46963,93 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Вибираємо Попередників",
+              "",
+              "Так само як модифікатор `~`, модифікатор `^` також приймає необов’язкове число після нього.",
+              "",
+              "Замість того щоб вказувати кількість генерацій щоб переміститись назад  (те що робить `~`), число після `^` вказує на яке батьківське посилання мерджу потрібно перейти. Зауважте що так як мерджевий коміт має декілька батьків, використання '^' без числа є неоднозначним.",
+              "",
+              "Git зазвичай перейде на \"першого\" з батьків вверх з мерджевого коміту, але вказання числа після  `^` змінює цю поведінку. ",
+              "",
+              "Досить розмов, давайте перевіримо як це працює на дії.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ось ми маємо мерджевий коміт. Якщо зробимо checkout `master^` без числа, ми потрапимо на першого з предків ",
+              "",
+              "(*В нашій візуалізації, перший предок знаходиться прямо над мержевим комітом*)"
+            ],
+            "afterMarkdowns": [
+              "Легко -- те до чого ми всі звикли."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тепер спробуємо натомість вказати другого батька..."
+            ],
+            "afterMarkdowns": [
+              "Бачиш? Ми перейшли до другого батька вверх."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Модифікатори `^` та `~` дозволяють легко переміщатись по дереву комітів:"
+            ],
+            "afterMarkdowns": [
+              "Суперово швидко!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Більше того, ці модифікатори можна використовувати разом! Заціни:"
+            ],
+            "afterMarkdowns": [
+              "Теж саме, що й перед цим, але одною командою."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Практика",
+              "",
+              "Щоб завершити цей рівень, створи нову гілку на вказаному місці.",
+              "",
+              "Очевидно що в данному випадку досить легко вказати коміт напряму (щось на зразок checkout `C6`), але для закріплення матеріалу, використай модифікатори про які ми щойно говорили!"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -46873,7 +47120,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '基础篇',
       'zh_TW': '基礎篇',
       'ko': '기본 명령어',
-      'ru_RU': 'Введение'
+      'ru_RU': 'Введение',
+      'uk': 'Вступ'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -46885,7 +47133,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '循序渐进介绍git主要命令',
       'zh_TW': '循序漸進地介紹 git 主要命令',
       'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다',
-      'ru_RU': 'Хорошо подобранное введение в основные команды git'
+      'ru_RU': 'Хорошо подобранное введение в основные команды git',
+      'uk': 'Гарно підібране введення в основні команди git'
     }
   },
   rampup: {
@@ -46898,7 +47147,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Acelerando',
       'zh_CN': '进阶篇',
       'zh_TW': '進階篇',
-      'ru_RU': 'Едем дальше'
+      'ru_RU': 'Едем дальше',
+      'uk': 'Їдемо далі'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -46909,7 +47159,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！',
-      'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?'
+      'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?',
+      'uk': 'Наступна порція абсолютної git-дивожнечі. Зголодніли?'
     }
   },
   remote: {
@@ -46923,7 +47174,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Push & Pull -- repositórios remotos no Git!',
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!',
-      'ru_RU': 'Push & Pull - удалённые репозитории в Git!'
+      'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
+      'uk': 'Push & Pull -- віддалені репозиторії в Git!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -46934,7 +47186,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Hora de compartilhar seus 1\'s e 0\'s, crianças; programar agora é social!',
       'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了',
-      'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования'
+      'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования',
+      'uk': 'Настав час поділитися своїми нулями та одиничками; соціальне програмування'
     }
   },
   remoteAdvanced: {
@@ -46948,7 +47201,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令',
-      'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes'
+      'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes',
+      'uk': 'Через origin – до зірок. Продвинуте використання Git Remotes'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -46959,7 +47213,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '做一名仁慈的独裁者会很有趣..',
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene',
-      'ru_RU': 'Весело было быть всесильным мудрым правителем...'
+      'ru_RU': 'Весело было быть всесильным мудрым правителем...',
+      'uk': 'Й ти думав що бути всесильним диктатором буде весело...'
     }
   },
   move: {
@@ -46974,7 +47229,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
       'ko': '리베이스 완전정복!',
-      'ru_RU': 'Перемещаем труды туда-сюда'
+      'ru_RU': 'Перемещаем труды туда-сюда',
+      'uk': 'Переміщуємо роботу туди-сюди'
     },
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
@@ -46987,7 +47243,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！',
-      'ru_RU': 'Не стесняйтесь менять историю'
+      'ru_RU': 'Не стесняйтесь менять историю',
+      'uk': 'Не соромимось змінювати історію'
     }
   },
   mixed: {
@@ -47001,7 +47258,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko': '종합선물세트',
       'zh_CN': '大杂烩？',
       'zh_TW': '活用 git 的指令',
-      'ru_RU': 'Сборная солянка'
+      'ru_RU': 'Сборная солянка',
+      'uk': 'Всяке'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -47013,7 +47271,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术、技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧',
-      'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов'
+      'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
+      'uk': 'Різні прийоми роботи з Git, хитрості та поради'
     }
   },
   advanced: {
@@ -47026,7 +47285,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Temas avançados',
       'zh_CN': '高级主题',
       'zh_TW': '進階主題',
-      'ru_RU': 'Продвинутый уровень'
+      'ru_RU': 'Продвинутый уровень',
+      'uk': 'Досвідчений рівень'
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -47037,7 +47297,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Para os verdadeiros valentes!',
       'zh_CN': '只为真正的勇士！',
       'zh_TW': '來成為真正的強者吧！',
-      'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут'
+      'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
+      'uk': 'Для хоробрих'
     }
   }
 };
@@ -47063,7 +47324,8 @@ exports.level = {
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "建立Git分支",
     "zh_TW": "建立 git branch",
-    "ru_RU": "Ветвление в Git"
+    "ru_RU": "Ветвление в Git",
+    "uk": "Розгалудження в Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch [name]\" and check it out with \"git checkout [name]\"",
@@ -47075,7 +47337,8 @@ exports.level = {
     "zh_CN": "用 'git branch [分支名]' 来创建分支，用 'git checkout [分支名]' 切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
-    "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\""
+    "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
+    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\""
   },
   "disabledMap": {
     "git revert": true
@@ -47855,6 +48118,84 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Гілки в Git",
+              "",
+              "Гілки в Git також є дивовижно легкі. Це просто посилання на конкретний коміт  -- нічого більше. Через це багато Git ентузіастів повторюють мантру:",
+              "",
+              "```",
+              "роби гілки завчасно, роби гілки часто",
+              "```",
+              "",
+              "Через те що сворення нових гілок ніяк не впливає на використання памяті чи дискового простору, набагато простіше розділити свою роботу на кілька гілок, що містять логічно звязаний функціонал, ніж працювати з величезними гілками.",
+              "",
+              "Коли ми почнемо використовувати гілки та коміти ми побачимо як вони поєднуються між собою. Але зараз просто запам’ятай що гілка, в принципі, просто зберігає роботу теперішнього коміту і всіх його попередників."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте на практиці подивимось як вигдядають гілки в Git ",
+              "",
+              "Зараз ми створимо нову гілку, яка звется `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Ось і все що треба знати про гілкування! Гілка `newImage` тепер посилається на коміт `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисни кнопку внизу"
+            ],
+            "afterMarkdowns": [
+              "От халепа! Гілка `master` просунулася вперед але гілка `newImage` ні! Це тому що ми були не \"на\" новій гілці, й тому зірочка (*) була поруч з  `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте вкажемо git що ми хочемо перейти на нову гілку за допомогою",
+              "",
+              "```",
+              "git checkout [ім’я]",
+              "```",
+              "",
+              "Ця команда перекине нас на нову гілку до того як ми закомітимо наші зміни."
+            ],
+            "afterMarkdowns": [
+              "Ось і все! Наші зміни були записані в нову гілку"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ок! Тепер ти готовий до гілкування. Як тільки це вікно зчезне,",
+              "зроби нову гілку з назвою `bugFix` й перейди на нову гілку"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -47871,7 +48212,8 @@ exports.level = {
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commits简介',
     'zh_TW': '介紹 git commit ',
-    'ru_RU': 'Знакомство с Git Commit '
+    'ru_RU': 'Знакомство с Git Commit ',
+    'uk': 'Знайомство з Git Commit'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -47886,7 +48228,8 @@ exports.level = {
     "zh_TW": "輸入兩次 'git commit' 就可以完成！",
     "ja"   : "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!",
-    "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)"
+    "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)",
+    "uk": "Спробуй двічі виконати команду 'git commit' ;)"
   },
   "disabledMap": {
     "git revert": true
@@ -48323,6 +48666,48 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Коміти в Git",
+              "Коміт в git репозиторії зберігає моментальну копію всіх файлів в поточній директорії. Це як гігантська копіпаста, навіть краще!",
+              "",
+              "Git намагається зберігати коміти як можна простіше й ефективніше, тому він не просто втупу копіює всю директорію при кожному коміті. Він може (наскільки це можливо) стиснути коміт як набір правок, чи \"дельту\", між двома версіями репозиторію .",
+              "",
+              "Git також зберігає історію коли і ким був створений тий чи інший коміт. Тому більшість комітів мають комітів-предків, що знаходяться вище в ієрархії -- ми це зоображуємо стрілочками в нашій візуалізації. Історія це необхідна річ для кожного хто працює з конкретним проектом!",
+              "",
+              "Тут є багато над чим подумати, але наразі ти можеш уявляти коміти як моментальні знімки проекту. Коміти майже невагомі й перемикання між ними убер швидке!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давай, подивимось як це виглядає на практиці. Справа зоображена візуалізація (маленького) git репозиторію. Наразі ми бачимо два коміти -- перший початковий коміт, `C0`, й один наступний коміт `C1` який містить якісь змістовні зміни.",
+              "",
+              "Натисни кнопку нижче щоб створити новий коміт"
+            ],
+            "afterMarkdowns": [
+              "Чудово. Ми тіки що зробили деякі зміни з репозиторієм й зберегли їх як новий коміт. Цей коміт має предка `C1`, який вказує на коміт з якого він був створений."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Спробуй! Після того як це вікно закриється зроби два коміти щоб пройти цей рівень."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -48341,7 +48726,8 @@ exports.level = {
     "ja"　　　: "ブランチとマージ",
     "zh_CN": "分支与合并",
     "zh_TW": "git 中的 merge",
-    "ru_RU": "Слияния веток в Git"
+    "ru_RU": "Слияния веток в Git",
+    "uk": "Злиття гілок в Git"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -48353,7 +48739,8 @@ exports.level = {
     "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
-    "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)"
+    "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
+    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)"
   },
   "disabledMap": {
     "git revert": true
@@ -49048,6 +49435,75 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Гілки та їх Злиття",
+              "",
+              "Чудово! Ми знаємо як комітити та створювати гілки. Тепер потрібно навчитися в якийсь спосіб поєднувати інфу з двох чи більше гілок. Це дозволить нам відгілкуватись, зробити нову фічу, й потім інтегрувати її взад.",
+              "",
+              "Перший спосіб об’єднувати робочу інфу з яким ми розберемось це `git merge`. Команда merge (злити) в Git створює спеціяльний коміт який має двох унікальних батьків. Здорова сім’я прям. Коміт з двома батьками в приниципі просто значить що в нього включена інфа з обох батьків і всіх їх попередників.",
+              "",
+              "Це простіше сприймається візуально, тому розберемо це в наступному слайді"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тут ми маємо дві гілки; кожна з них містить унікальний коміт. Це означає що жодна з них не містить повного набору \"робочої інфи\" в цьому репозиторії. Давайте зіллємо всю інфу до купи за допомогою merge.",
+              "",
+              "Ми `змержимо` гілку `bugFix` в `master`"
+            ],
+            "afterMarkdowns": [
+              "Нічосі! Ви то виділи? По-перше, `master` тепер вказує на коміт з двома батьками. Якщо ти піднімешся вверх з цього коміту по дереву, починаючи з `master`, на шляху ти зустрінеш кожен коміт аж до кореневого. Це означає що гілка `master` тепер містить всю інфу в цьому репозиторії.",
+              "",
+              "А ти помітив як змінилися кольори комітів? Для кращого розуміння процесу я додав певну кольорову диференціацію. Кожен бранч виділено окремим кольором. Колір кожного коміту це суміш кольорів всіх гілок що місять цей коміт.",
+              "",
+              "Тож ми бачимо що колір гілки `master` містять всі коміти, але не колір `bugFix`. Давайте виправимо це..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давай змержимо `master` в `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Так як `bugFix` є нащадком `master`, git'у непотрібно нічого робити; він просто пересунув `bugFix` на тей самий коміт, на якому знаходиться `master`.",
+              "",
+              "Тепер всі коміти одного кольору, що означає що кожен бранч включає в собі всю корисну інфу яка є в цьому репозиторії! Ура!"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень виконай наступні кроки:",
+              "",
+              "* Зроби нову гілку (branch) з назвою `bugFix`",
+              "* Перейди на кілку `bugFix` за допомогою `git checkout bugFix`",
+              "* Зроби один коміт",
+              "* Повернись до `master` за допомогою `git checkout`",
+              "* Зроби ще один коміт",
+              "* Змерджи (злий) гілку `bugFix` в `master` за допомогою `git merge`",
+              "",
+              "*Не забувай, ти можеш завжди повернутися до цього діалогу за допомогою \"objective\"!*"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -49066,7 +49522,8 @@ exports.level = {
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "介绍 rebase",
     "zh_TW": "介紹 rebase",
-    "ru_RU": "Введение в rebase"
+    "ru_RU": "Введение в rebase",
+    "uk": "Знайомство з rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -49078,7 +49535,8 @@ exports.level = {
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "确保你先在 bugFix 分支进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
-    "ru_RU": "Убедись, что сделал коммит в ветке bugFix"
+    "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
+    "uk": "Впевнись, що зробив коміт в гілці bugFix"
   },
   "disabledMap": {
     "git revert": true
@@ -49751,6 +50209,73 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Інший спосіб комбінування змін з різних бранчів називається *rebase*. Rebase по суті бере кілька комітів , \"копіює\" їх, й кладе їх в інше місце.",
+              "",
+              "Це може звучати трохи незрозуміло, але основна перевага rebase в тому, що його використовують щоб створити зручну лінійну послідовність комітів. Коміт лог та історія будуть виглядати набагато чистіша, якщо користуватися лише rebase (а не merge)",
+              "",
+              "Спробуємо на практиці..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ми знову маємо дві гілки; зауваж, що наразі вибрана гілка bugFix (вважай зірочку)",
+              "",
+              "Ми хочемо перемістити наші зміни з гілки bugFix прямо до змін з гілки master. Тоді це буде виглядати наче ці зміни були додані одна за одною, коли насправді вони були додані одночасно.",
+              "",
+              "Давайте зробимо це за допомогою команди `git rebase`"
+            ],
+            "afterMarkdowns": [
+              "Файно! Тепер зміни з гілки bugFix знаходяться прямо попереду змін з master й ми отримали зручну лінійну послідовність комітів.",
+              "",
+              "Вважай що коміт C3 досі десь існує (в дереві він тьмяніший за решту), й C3' це \"копія\" яку ми заребейсили в master.",
+              "",
+              "Є лише одна проблема: гілка master також не була оновлена, давайте зробимо це наступним кроком..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тепер ми перейшли (checkout) до гілки `master`. Далі робимо rebase на `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Вуаля! Так як `master` це предок `bugFix`, git просто просунув посилання гілки `master` вперед в історії."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень, зроби наступне:",
+              "",
+              "* Зачекауть (checkout) новий бранч з назвою `bugFix`",
+              "* Зроби один коміт",
+              "* Повернись на master й зроби ще один коміт",
+              "* Зачекауть bugFix знову й заребейсь його на master",
+              "",
+              "Нехай щастить!"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -49770,7 +50295,8 @@ exports.level = {
     "zh_TW": "git describe",
     "zh_CN": "git describe",
     "ru_RU": "Git describe",
-    "ko"   : "Git describe(묘사)"
+    "ko"   : "Git describe(묘사)",
+    "uk"   : "Git Describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -49782,7 +50308,8 @@ exports.level = {
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了",
     "ru_RU": "Когда закончишь, просто сделай commit",
-    "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다."
+    "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
+    "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі"
   },
   "startDialog": {
     "en_US": {
@@ -50414,6 +50941,69 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Через те що таги є такими чудовими \"орієнтирами\" по коду, git також має команду *описати* (describe) де ти є відносно найближчого \"орієнтира\" (тобто тага). Й ця команда називається `git describe`!",
+              "",
+              "Git describe допоможе тобі знайти себе після того як ти перепригнеш на кілька комітів по історії вперед чи назад; це може статися після того як ти закінчив git bisect (пошук-дебаггер) чи коли тебе попросили підійти до колеги котрий щойно прийшов з відпустки."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe має наступну форму:",
+              "",
+              "`git describe <посилання>`",
+              "",
+              "Де `<посилання>` це що завгодно що вказує на конкретний коміт. Якщо ти не вкажеш посилання, git використає поточну локацію (`HEAD`).",
+              "",
+              "Вивід команди виглядає як:",
+              "",
+              "`<таг>_<к-ть комітів>_g<хеш>`",
+              "",
+              "де `таг` це найближчий попередній таг з історії, `к-ть комітів` це на скільки далеко цей таг в історії, а `<хеш>` це хеш коміту який описується."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Розглянемо короткий приклад. Для дерева нижче:"
+            ],
+            "afterMarkdowns": [
+              "Команда `git describe master` виведе:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "коли `git describe side` виведе:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ось і все що ти маєш знати про git describe. Спробуй виконати describe для різних місць в дереві комітів щоб набити руку.",
+              "",
+              "Як будеш готовий, просто закоміть щось щоб закінчити цей рівень. Трохи шари :P"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -50444,7 +51034,8 @@ exports.level = {
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个 commit",
     "zh_TW": "只取一個 commit",
-    "ru_RU": "Выберем один коммит."
+    "ru_RU": "Выберем один коммит.",
+    "uk": "Вибираємо всоьго один коміт."
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -50456,7 +51047,8 @@ exports.level = {
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "记住，交互式 rebase 或者 cherry-pick 会很有帮助",
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
-    "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!"
+    "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
+    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!"
   },
   "startDialog": {
     "en_US": {
@@ -50850,6 +51442,45 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Локально складені коміти",
+              "",
+              "Ось ситуація з життя рядового програміста: я намагаюся відслідкувати баг але це не завжди вдається. Щоб допомогти собі, я додаю кілька дебаг команд та ще кілька println'ів.",
+              "",
+              "Всі ці команди для відладки та виводу данних знаходяться в своїх власних комітах. Врешті-решт я знаходжу баг, фікшу її та щиро радію!",
+              "",
+              "От тіки лишається проблема що потрібно мій фікс перенести з  `bugFix` назад в гілку `master`. Якщо я просто зроблю фастфорвард (fast-forwarded) в `master`, тоді в `master` попадуть всі мої println'и що є зайвим. Має бути інший шлях..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ми маємо сказати гіту скопіювати лише один коміт. Це все те ж саме що в попередніх рівнях, й ми можемо використати ті ж самі команди:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "для досягнення мети."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "На цьому рівні тобі вирішувати якими командами користуватися, але щоб пройти цей рівень, впевнись що в `master` потрапить коміт, на який посилається `bugFix`."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -50884,7 +51515,8 @@ exports.level = {
     "ja": "コミットをやりくりする",
     "zh_CN": "提交变换戏法",
     "zh_TW": "commit 的戲法",
-    "ru_RU": "Жонглируем коммитами"
+    "ru_RU": "Жонглируем коммитами",
+    "uk": "Жонглюємо комітами"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -50896,7 +51528,8 @@ exports.level = {
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
     "zh_CN": "第一个命令是 'git rebase -i HEAD~2'",
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
-    "ru_RU": "Первой командой должна быть git rebase -i HEAD~2"
+    "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
+    "uk": "Перша команда має бути git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -51239,6 +51872,40 @@ exports.level = {
           }
         },
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Жонглюємо комітами",
+              "",
+              "Ось інакша ситуація що доволі часто трапляється. В тебе є якісь зміни (`newImage`) та ще якийсь набір комітів (`caption`) що є зв’язані між собою, тому вони знаходяться один над одним в твоєму репозиториї (або один за одним).",
+              "",
+              "Штука в тому що іноді потрібно зробити невелику модифікацію до попереднього коміту. В цьому випадку, дизайнери хочуть щоб ми трохи змінили розміри `newImage`, не дивлячись на те що цей коміт знаходиться досить глибоко в історії!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ми поборимо цю складність наступним чином:",
+              "",
+              "* Ми відсортуємо коміти таким чином, щоб той який ми хочемо змінити був останнім за допомогою `git rebase -i`",
+              "* Ми виконаємо `commit --amend` щоб внести невелику правку до останнього коміту",
+              "* Тоді ми відсортуємо коміти в попередньому порядку, за допомогою `git rebase -i`",
+              "* І на останок, ми пересунемо master на змінену частину дерева щоб закінчити цей рівень(ти можеш вибрати метод)",
+              "",
+              "Насправді є кілька способів як виконати поставлену задачу (Я бачу ти поглядаєш на cherry-pick), й ми розберемося з ними всіма трохи пізніше, але зараз, давай, скористаємося цим методом.",
+              "Зверни увагу на фінальний стан в цьому рівні -- так як ми перемістили коміти двічі, кожен з них отримає по апострофу. Ще один апостроф додастся коли ми виконаємо commit --amend.",
+              "",
+              "Враховуючи вищесказане, я буду порівнювати дерево як по назві коміта так і за кількістю апострофів. Як тільки дерево цілей та master співпадуть, ти пройдеш цей рівень."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -51272,7 +51939,8 @@ exports.level = {
     "ja": "コミットをやりくりする その2",
     "zh_CN": "提交交换戏法 #2",
     "zh_TW": "commit 的戲法 #2",
-    "ru_RU": "Жонглируем коммитами №2"
+    "ru_RU": "Жонглируем коммитами №2",
+    "uk": "Жонглюємо комітами #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
@@ -51284,7 +51952,8 @@ exports.level = {
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 master 快进到最新的更新上！",
     "zh_TW": "別忘記了將 master 推到最新的 commit 上面！",
-    "ru_RU": "Не забудь переместить master на последние изменения."
+    "ru_RU": "Не забудь переместить master на последние изменения.",
+    "uk": "Не забудь перемістити master на останні зміни!"
   },
   "startDialog": {
     "en_US": {
@@ -51708,6 +52377,49 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Жонглюємо комітами #2",
+              "",
+              "*Якщо ти ще не пройшов Жонглюємо комітами #1 (попередній рівень), будь-ласка, зроби це перед тим як продовжити*",
+              "",
+              "Як ти бачив в попередньому рівні, ми використали `rebase -i` щоб впорядкувати набір комітів. Як тільки потрібний коміт опиняється на горі його досить легко змінити його за допомогою --amend й потім відсортувати коміти в попередньому порядку.",
+              "",
+              "Єдина проблема з таким підходом, що виконується досить багато перестановок комітів, що може призвести до конфліктів при виконанні rebase. Давайте спробуємо інший підхід який використовує `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Не забувай що git cherry-pick втицьне коміт з будь якого місця в HEAD (якщо це не коміт-предок HEAD).",
+              "",
+              "Ось невелике демо, щоб пригадати:"
+            ],
+            "afterMarkdowns": [
+              "Файно! Продовжуємо"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Отже в цьому рівні, давайте досягнемо тієї ж мети модифікації `C2` але не використовуючи `rebase -i`. Я думаю ти розберешся як це зробити! :D",
+              "",
+              "Зверни увагу що точне число апострофів (') в коміті не важливе, важлива тільки відносна різниця. Наприклад, якщо кожен коміт буде містити додатковий апостроф, я все одно зарахую такий розв’язок."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -51727,7 +52439,8 @@ exports.level = {
     "zh_CN": "Git Tags",
     "zh_TW": "git tag",
     "ru_RU": "git tag",
-    "ko"   : "Git 태그"
+    "ko"   : "Git 태그",
+    "uk"   : "Git Tags"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -51739,7 +52452,8 @@ exports.level = {
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
-    "ko"   : "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!"
+    "ko"   : "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
+    "uk"   : "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!"
   },
   "startDialog": {
     "en_US": {
@@ -52261,6 +52975,58 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Таги в Git",
+              "",
+              "Як ти вже знаєш з попередніх уроків, гілки досить просто переносити в інші місця й вони постійно вказують на різні коміти в процесі того як ті в них додаються. Гілки легко модифікувати, часто тимчасово, й вони постійно змінюються.",
+              "",
+              "В такому разі, де взяти *постійне* посилання на момент в історії твого проекту? Для таких речей як релізи чи великі мерджі потрібно щось більш стале ніж гілка.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Єсть один спосіб! Таги в гіт якраз для цього й були створені -- вони (більш-менш) постійно вказують на певні коміти, й відмічають певні \"віхи\" в житті проекту, на які ти можеш потім посилатись так само як на гілки.",
+              "",
+              "Але що важливіше, вони ніколи не переміщуються коли створюються нові коміти. Ти не зможеш  \"зачекаутити\" таг а потім закомітити якісь зміни в цей таг -- таги просто відмічають корисні чи символічні місця в дереві комітів.",
+              "",
+              "Давайте подивимось на практиці"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте спробуємо зробити новий таг на  `C1` що є прототипом нашої першої версії (вигаданого проекту)"
+            ],
+            "afterMarkdowns": [
+              "Ось маєш! Все досить просто. Ми назвали наш таг `v1` й він явно посилається на `C1`. Якщо пропустити коміт, git просто відмітить те на чому знаходиться `HEAD` в данний момент"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Для того щоб пройти цей рівень достатньо створити кілька тагів, як показано на візуалізації цілей й потім зачекаутити `v1`. Зауваж що ти потрапиш в стан detached `HEAD` -- це тому що ти не можеш напряму комітити в таг `v1`.",
+              "",
+              "В наступному рівні ми розглянемо більш цікавий приклад роботи з тагами."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -52284,7 +53050,8 @@ exports.level = {
     "zh_CN": "介绍 Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
-    "ko"   : "Cherry-pick 소개"
+    "ko"   : "Cherry-pick 소개",
+    "uk": "Знайомство з cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivis par les noms de commits",
@@ -52296,7 +53063,8 @@ exports.level = {
     "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
-    "ko"   : "커밋의 이름들로 git cherry-pick 하세요!"
+    "ko"   : "커밋의 이름들로 git cherry-pick 하세요!",
+    "uk": "git cherry-pick базується на іменах комітів!"
   },
   "startDialog": {
     "en_US": {
@@ -52866,6 +53634,63 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Переміщуємо зміни",
+              "",
+              "Поки що ми розrлядали основи git -- як працювати з комітами та гілками й переміщення по дереву комітів. Цього вже достатньо щоб використовувати 90% фунцкій гіт та мати змогу ефективно працювати з гіт як розробник.",
+              "",
+              "Решта 10%, тим не менш, можуть бути надзвичайно корисними при роботі зі складними робочими процесами (workflow), чи коли ти чи ще хтось щось зробили не так і ти хочеш це виправити. Наступна концепція з якою ми познайомимось це \"перенесення змін\" -- іншими словами, це можливість розробника переміщувати коміти між гілками в простий та зручний спосіб.",
+              "",
+              "Це може видаватися складним, але насправді це дуже проста концепція."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Перша команда в цій серії називається `git cherry-pick`. Вона має наступну форму:",
+              "",
+              "* `git cherry-pick <Коміт1> <Коміт2> <...>`",
+              "",
+              "Це надзвичайно простий спосіб вказати гіту що потрібно скопіювати серію комітів до поточного розташування (`HEAD`). Персонально я обожнюю `cherry-pick` за його прямолінійнсть, це дуже зрозуміла концепція що не використовує прихованої магії",
+              "",
+              "Давайте подивимось на практиці!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ми бачимо репозиторій де є певні зміни в гілці `side` які ми хочемо скопіювати в  `master`. Для цього можна використати rebase (який ми вже вивчили), але подивимось як з цим впорається cherry-pick."
+            ],
+            "afterMarkdowns": [
+              "Оба-на! Ми хотіли коміти `C2` та `C4` й git вязв і додав їх до поточного розташування. Просто й доступно!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти це рівень, просто скопіюй якісь зміни з трьох гілок показаних на діаграмі в master. В візуалізації видно які коміти потрібно скопіювати.",
+              ""
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -52885,7 +53710,8 @@ exports.level = {
     "de_DE": "Den Kopf abtrennen",
     "ja"   : "HEADの分離",
     "ru_RU": "Теряем \"голову\" или detached HEAD",
-	"ko"   : "HEAD 분리하기"
+	  "ko"   : "HEAD 분리하기",
+    "uk": "Втрачаємо голову чи detached HEAD"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -52897,7 +53723,8 @@ exports.level = {
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签(hash)来求助！",
     "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов.",
-	"ko"   : "커밋에 있는 라벨(hash)을 활용하세요!"
+    "ko"   : "커밋에 있는 라벨(hash)을 활용하세요!",
+    "uk": "Орієнтуйся по індентифікаторам (hash) комітів."
   },
   "startDialog": {
     "en_US": {
@@ -53671,6 +54498,84 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Прогулянка по Git",
+              "",
+              "Перед тим як ми перейдемо до більш продвинутих фіч гіта, важливо розуміти різни способи переміщення по дереву комітів твого проекту.",
+              "",
+              "Дуже важливо щоб тобі було комфортно переміщатись по репозиторію, так як цей скіл тобі знадобиться для використання в більшості команд git!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD (голова)",
+              "",
+              "Спочатку розберемось з \"HEAD\". HEAD це символьне ім’я поточного вибраного коміта -- по суті це той коміт з яким ти зараз працюєш.",
+              "",
+              "HEAD завжди вказує на найновіший коміт з робочого дерева. Більшість команд що змінюють локальне дерево комітів, також модифікують HEAD.",
+              "",
+              "Зазвичай HEAD вказує на ім’я бранча (наприклад bugFix). Коли ти комітиш, змінюється статус гілки bugFix й це можна побачити подивившись на  HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Розберемось з цим на практиці. Зараз ми перевіримо HEAD до та після коміту."
+            ],
+            "afterMarkdowns": [
+              "Ти диви! HEAD весь цей час ховався за гілкою `master`."
+            ],
+            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Відокремлюємо голову",
+              "",
+              "Detached HEAD (відокремлена голова) просто означає що HEAD посилається на коміт, а не на якусь гілку. Ось як це виглядає спочатку:",
+              "",
+              "HEAD -> master -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Й в стані detached head",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень, давайте відокремимо голову від гілки `bugFix` й натомість спрямуємо її на якийсь коміт.",
+              "",
+              "Вкажи цей коміт за його hash (хеш, ідентифікатором). Хеш кожного коміту відображений в кружочку що символізує коміт."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -53694,7 +54599,8 @@ exports.level = {
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
     "ja"   : "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
-    "ko"   : "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다"
+    "ko"   : "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
+    "uk"   : "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -53706,7 +54612,8 @@ exports.level = {
     "zh_CN": "Rebase 交互命令介绍 ",
     "zh_TW": "介紹互動式的 rebase",
     "ru_RU": "Введение в интерактивный Rebase",
-    "ko"   : "인터랙티브 리베이스 소개"
+    "ko"   : "인터랙티브 리베이스 소개",
+    "uk"   : "Знайомство з інтерактивним rebase"
   },
   "startDialog": {
     "en_US": {
@@ -54358,6 +55265,71 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Інтерактивний Rebase",
+              "",
+              "Git cherry-pick зручно користуватись коли ти знаєш які коміти тобі потрібні (_і_ ти знаєш їхні хеші) -- важко вигадати щось простіше.",
+              "",
+              "Але що робити в ситуації коли ти не знаєш які коміти потрібні? На щастя git може впоратись і з цим! Для цього випадку використовують інтерактивний rebase -- це найкращий спосіб перевірити серію комітів які потрібно заребейсити.",
+              "",
+              "Розглянемо це детальніше..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Інтерактивний rebase це насправді команда  `rebase` з опцією `-i`.",
+              "",
+              "Якщо додати цю опцію, git відкриє діалог в якому покаже які коміти будуть скопійовані до кінцевого призначення. Він також покаже хеші комітів та їхні повідомлення, що допоможе розібратися що й до чого.",
+              "",
+              "В \"справжньому\" git, замість UI вікна відкриється файл в зконфігурованому текстовому редакторі, можливо `vim`. Для цього туторіалу я створив невеличке діалогове вікно що поводиться приблизно так само."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Коли відкриється вікно інтерактивного rebase ти можеш зробити 3 речі:",
+              "",
+              "* Ти можеш переставити коміти між собою просто змінивши їх порядок в діалозі (в нашому вікні ти зможеш перетягнути їх мишкою).",
+              "* Ти можеш повністю пропустити якісь коміти. В туторіалі потрібно вимкнути опцію `pick`, але в справжньому гіт потрібно просто видалити відповідний рядок.",
+              "* Також можна розчавити (squash) якісь коміти. На жаль наш туторіал не підтримує цю фічу (так як ми не підтримуєм роботу з файлами), але це дуже зручна опція в справжньому гіт. За допомогою неї можна декілька різніх комітів об’єднати в один",
+              "",
+              "Чудово! Давайте розбиремо це на прикладі"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Коли ти натиснеш кнопку відкриється вікно інтерактивного rebase. Перестав якісь коміти (можеш пропустити якісь якщо хочеш) і подивись що вийде!"
+            ],
+            "afterMarkdowns": [
+              "Ка-бум! Git зкопіював коміти відповідно до того що було вказано в UI"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень за допомогою інтерактивного rebase впорядкуй коміти як показано на візуалізації. Пам’ятай що ти завжди можеш використати `undo` чи `reset` щоб виправити помилку :D"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -54377,7 +55349,8 @@ exports.level = {
     "pt_BR": "Referências relativas (^)",
     "de_DE": "Relative Referenzen (^)",
     "ru_RU": "Относительные ссылки (^)",
-	"ko"   : "상대 참조 (^) (Relative Refs)"
+    "ko"   : "상대 참조 (^) (Relative Refs)",
+    "uk": "Відносні посилання"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -54389,7 +55362,8 @@ exports.level = {
     "zh_CN": "记住插入(^)操作符!",
     "zh_TW": "不要忘記插入（^）符號！",
     "ru_RU": "Не забудь оператор `^`",
-	"ko"   : "(^)연산자를 기억하세요!"
+    "ko"   : "(^)연산자를 기억하세요!",
+    "uk": "Не забудь оператор `^`"
   },
   "startDialog": {
     "en_US": {
@@ -55141,6 +56115,81 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Відносні посилання",
+              "",
+              "Пересуватися по гіту використовуючи хеш комітів може бути трохи напряжно. В справжньому гіті в тебе не буде візуалізації дерева комітів в терміналі, тому доведеться використовувати `git log` щоб подивится хеші комітів.",
+              "",
+              "Більше того, хеші як правило набагато довші в справньому гіті. Типовий хеш виглядає як `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Без мнемонік не обійтися)...",
+              "",
+              "З іншого боку git дуже інтілігентсько працює з хешами. Він просить вказати рівно стільки літер, скільки потрібно щоб відрізнити один коміт від іншого. Отже, замість довгого хеша зверху можна просто набрати `fed2`."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Як було сказано, вказувати коміти за хешем не найзручніша річ, через це git підтримує відносні посилання. Вони реально круті!",
+              "",
+              "З відносними посиланнями ти можеш почати з якогось зручного місця  (наприклад гілки `bugFix` чи посилання `HEAD`) й вказати потрібний коміт відносно цього посилання",
+              "",
+              "Відносні коміти є дуже потужним інструментом, але ми почнемо з двох простих прикладів:",
+              "",
+              "* Йдемо вверх на один коміт за допомогою `^`",
+              "* Йдемо вверх на кілька комітів за допомогою `~<число>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Розберемось спочатку з оператором каретки (^). Кожна каретка додана до посилання (напр. до імені коміту) вказує git що потрібно знайти батька посилання до якого застосована каретка.",
+              "",
+              "Тож `master^` тотожнє до \"перший предок посилання `master`\".",
+              "",
+              "`master^^` це дідусь (предок другого покоління) посилання `master`",
+              "",
+              "Давайте перейдемо на коміт трохи вище від master:"
+            ],
+            "afterMarkdowns": [
+              "Бум! Готово. Трохи простіше ніж набирати хеш коміту"
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ти також можеш використовувати `HEAD` з відносними посиланнями. Давай використаємо це щоб трошки піднятися по дереву."
+            ],
+            "afterMarkdowns": [
+              "Просто! Ми можемо переміщуватись назад в часі з `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень перемістись на першого предка гілки `bugFix`. Ти опинишся в стані `detach HEAD`.",
+              "",
+              "Ти, звичайно, можеш вказати хеш, але натомість спробуй користуватися відносними посиланнями!"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -55160,7 +56209,8 @@ exports.level = {
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
     "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
     "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
-	"ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다."
+    "ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
+    "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -55172,7 +56222,8 @@ exports.level = {
     "zh_CN": "相对引用2(~)",
     "zh_TW": "相對引用二（~）",
     "ru_RU": 'Относительные ссылки №2',
-	"ko"   : "상대 참조 #2 (~)"
+    "ko"   : "상대 참조 #2 (~)",
+    "uk": "Відносні посилання №2"
   },
   "startDialog": {
     "en_US": {
@@ -55832,6 +56883,75 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Оператор \"~\"",
+              "",
+              "Уявімо, що тобі потрібно піднятися досить високо вгору в дереві комітів. Було б трохи напряжно набирати `^` багато разів, тому Git також має оператор тильда(~).",
+              "",
+              "",
+              "До оператор тильда (не обов’язково) можна дописати справа число, що вказує на яку кількість предків потрібно піднятися вверх. Подивимось на практиці"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте вкажемо на яку кількість комітів повернутися з `~`."
+            ],
+            "afterMarkdowns": [
+              "Ка-бум! Так коротко -- відносні посилання прекрасні."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Форсуємо гілку",
+              "",
+              "Тепер ти експерт в відносних посиланнях, давай же *використаємо* їх для справи.",
+              "",
+              "Один з найуживаніших прийомів де я використовую відносні посилання це переміщення гілок. Ти можеш напряму переспрямувати бранч на якийсь коміт використавши опцію `-f` (force, тобто насильно). Щось на зразок:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "Переміщує (насильно) гілку master на три предки позад HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте подивимось на попередню команду в дії"
+            ],
+            "afterMarkdowns": [
+              "Ось і маєш! Відносні посилання дають нам зручний спосіб доступу до коміту`C1` крім того форсування бранчів (`-f`) дає нам можливість швидко перемістити гілку на цей коміт"
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Тепер, коли ти побачив відносні посилання та форсування гілок в купі, давай використаємо це щоб пройти поточний рівень.",
+              "",
+              "Щоб пройти цей рівень, перемісти `HEAD`, `master` та `bugFix` так як показано в візуалізації."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -55852,7 +56972,8 @@ exports.level = {
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "在 Git 中撤销更改",
     "zh_TW": "在 git 中取消修改 ",
-    "ru_RU": "Отмена изменений в Git"
+    "ru_RU": "Отмена изменений в Git",
+    "uk": "Відміна змін в Git"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -55864,7 +56985,8 @@ exports.level = {
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
     "ja"   : "revertとresetとで引数が異なることに注意。",
-    "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры."
+    "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
+    "uk": "Зверни увагу на те що revert та reset приймають різні параметри"
   },
   "startDialog": {
     "en_US": {
@@ -56496,6 +57618,69 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Відміна змін в Git",
+              "",
+              "Є декілька шляхів відмини змін в Git. Й так само як і коміти, зміни в гіт можна відміняти використовуючи або низькорівневі методи (додавання в коміт окремих файлів) так і високорівневі. Ми зосередемось на останніх.",
+              "",
+              "Є два основні шляхи відмін змін в Git -- перший це використовувати `git reset` й інший це `git revert`. В наступному слайді ми подивимося на кожний з них",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` відміняє зміни переміщуючи вказівник гілки назад в історії на старіший коміт. В принципі, можна вважати що це певне \"переписування історії;\" Коли `git reset` перемістить гілку назад буде здаватися, що відмінений коміт взагалі ніколи не створювався.",
+              "",
+              "Давайте подивимося, як це виглядає:"
+            ],
+            "afterMarkdowns": [
+              "Чудово! Git перемістив посилання гілки master назад до `C1`; тепер наш локальний репозиторій в такому стані, наче коміту `C2` ніколи не було."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Команда reset чудово працює для локальних бранчів на власному комп’ютері, але так як вона спричиняє \"переписування історії\", її не можна використовувати в ситуації коли кілька користувачів працюють з цим бранчем",
+              "",
+              "Для того щоб відкотити зміни й потім *поділитися* цими відкоченими змінами з друзями, потрібно використовувати `git revert`. Давай подивимось на прикладі"
+            ],
+            "afterMarkdowns": [
+              "Дивно, був створений новий коміт, нижче того коміту який ми хотіли відкотити. Це сталося тому що новий коміт `C2'` містить *зміни*  які повністю протилежні змінам `C2`.",
+              "",
+              "Після revert, ти зможеш зробити push щоб поділитися гілкою з іншими."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Щоб пройти цей рівень відміни два останні коміти на гілках `local` та `pushed`.",
+              "",
+              "Зауваж, що `pushed` це віддалена гілка, а `local` це локальна гілка -- це має допомогти з вибором методу."
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -56520,7 +57705,8 @@ exports.level = {
     "ja"   : "9000回以上のrebase",
     "zh_CN": "N次Rebase",
     "zh_TW": "N次Rebase",
-    "ru_RU": "Rebase over 9000 раз"
+    "ru_RU": "Rebase over 9000 раз",
+    "uk"   : "Rebase over 9000 разів"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
@@ -56532,7 +57718,8 @@ exports.level = {
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。",
-    "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце..."
+    "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
+    "uk"   : "Не забвай, що краще всього буде перемістити master  в самому кінці... "
   },
   "startDialog": {
     "en_US": {
@@ -56714,6 +57901,24 @@ exports.level = {
           }
         }
       ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ребейсим кілька гілок",
+              "",
+              "В нас тут до біса гілок! Давай перенесемо всі зміни з різних гілок в master.",
+              "",
+              "Але вищостояще начальство нам не полегшує життя -- вони хочуть щоб всі коміти були по порядку. Це означає що в реузультаті коміт `C7'` має бути з самого низу, `C6'` трохи вище, і так далі, все по порядку.",
+              "",
+              "Якщо ти щось зробиш не так, сміливо використовуй `reset` щоб почати спочатку. Подивись на наш розв’язок й подумай чи ти можеш обійтись меншою кількістю команд!"
+            ]
+          }
+        }
+      ]
     }
   }
 };
@@ -56737,7 +57942,8 @@ exports.level = {
     "ja": "ブランチスパゲッティ",
     "zh_CN": "分支浆糊",
     "zh_TW": "branch 漿糊",
-    "ru_RU": "Спутанные ветки"
+    "ru_RU": "Спутанные ветки",
+    "uk"   : "Макарони з кілок"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -56749,7 +57955,8 @@ exports.level = {
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
-    "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`"
+    "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
+    "uk":    "Впевнись що все йде по порядку! спочатку гілка `one`, потім `two` й тільки потім `three`"
   },
   "startDialog": {
     "en_US": {
@@ -56947,6 +58154,26 @@ exports.level = {
               "Ветка `one` нуждается в изменении порядка и удалении `C5`. `two` требует полного перемешивания, а `three` хочет получить только один коммит",
               "",
               "Как пройти этот уровень – решать тебе, а как найдёшь решение – сравни его с нашим при помощи `show solution`."
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Магарони з гілок",
+              "",
+              "Ооо Неля! Ну й завданнячко.",
+              "",
+              "Ми маємо гілку `master` яка на кілька комітів попереду гілок `one` `two` та `three`. З незрозумілих причин, нам потрібно оновити ці гілки більш пізніми змінами з мастеру.",
+              "",
+              "Гілку `one` портрібно відсортувати по порядоку й видалити `C5`. Гілку `two` потрібно відсортувати, а в гілку `three` потрібно додати ще один коміт!",
+              "",
+              "Ми повністю покладаємось на тебе -- порівняй свій розв’зкок з нашим, який можна подивитись командою `show solution`. "
             ]
           }
         }
