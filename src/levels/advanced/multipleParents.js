@@ -12,7 +12,8 @@ exports.level = {
     "pt_BR": "Múltiplos pais",
     "zh_TW": "多個 parent commit",
     "ru_RU": "Здоровая семья или несколько родителей",
-    "ko"   : "다수의 부모"
+    "ko"   : "다수의 부모",
+    'uk': 'Декілька батьків'
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -24,7 +25,8 @@ exports.level = {
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
     "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
-    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요"
+    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
+    'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання'
   },
   "startDialog": {
     "en_US": {
@@ -892,6 +894,93 @@ exports.level = {
               "이 레벨을 완료하기 위해서 정해진 목적지에 새 브랜치를 생성하세요.",
               "",
               "물론 커밋을 직접 특정지어주면 아주 쉽겠지만(`C6`과 같이), 수식을 익혀볼겸 배운것을 사용해 도전해 봅시다!"
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Вибираємо Попередників",
+              "",
+              "Так само як модифікатор `~`, модифікатор `^` також приймає необов’язкове число після нього.",
+              "",
+              "Замість того щоб вказувати кількість генерацій щоб переміститись назад  (те що робить `~`), число після `^` вказує на яке батьківське посилання мерджу потрібно перейти. Зауважте що так як мерджевий коміт має декілька батьків, використання '^' без числа є неоднозначним.",
+              "",
+              "Git зазвичай перейде на \"першого\" з батьків вверх з мерджевого коміту, але вказання числа після  `^` змінює цю поведінку. ",
+              "",
+              "Досить розмов, давайте перевіримо як це працює на дії.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ось ми маємо мерджевий коміт. Якщо зробимо checkout `master^` без числа, ми потрапимо на першого з предків ",
+              "",
+              "(*В нашій візуалізації, перший предок знаходиться прямо над мержевим комітом*)"
+            ],
+            "afterMarkdowns": [
+              "Легко -- те до чого ми всі звикли."
+            ],
+            "command": "git checkout master^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тепер спробуємо натомість вказати другого батька..."
+            ],
+            "afterMarkdowns": [
+              "Бачиш? Ми перейшли до другого батька вверх."
+            ],
+            "command": "git checkout master^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Модифікатори `^` та `~` дозволяють легко переміщатись по дереву комітів:"
+            ],
+            "afterMarkdowns": [
+              "Суперово швидко!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Більше того, ці модифікатори можна використовувати разом! Заціни:"
+            ],
+            "afterMarkdowns": [
+              "Теж саме, що й перед цим, але одною командою."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Практика",
+              "",
+              "Щоб завершити цей рівень, створи нову гілку на вказаному місці.",
+              "",
+              "Очевидно що в данному випадку досить легко вказати коміт напряму (щось на зразок checkout `C6`), але для закріплення матеріалу, використай модифікатори про які ми щойно говорили!"
             ]
           }
         }
