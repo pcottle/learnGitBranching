@@ -315,6 +315,10 @@ var ModalTerminal = ContainedBase.extend({
     this.render();
   },
 
+  updateTitle: function(/*string*/ title) {
+    this.$('.modal-title').text(title);
+  },
+
   onClick: function() {
     this.navEvents.trigger('click');
   },
