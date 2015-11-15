@@ -41519,6 +41519,10 @@ var ModalTerminal = ContainedBase.extend({
     this.render();
   },
 
+  updateTitle: function(/*string*/ title) {
+    this.$('.modal-title').text(title);
+  },
+
   onClick: function() {
     this.navEvents.trigger('click');
   },
@@ -41988,6 +41992,9 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   render: function() {
+    this.container.updateTitle(
+      intl.str('select-a-level')
+    );
     LevelDropdownView.__super__.render.apply(this, arguments);
     this.buildSequences();
   },
