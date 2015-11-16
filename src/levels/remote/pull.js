@@ -11,7 +11,8 @@ exports.level = {
     "de_DE": "Git Pull",
     "ja"   : "Git Pull",
     "fr_FR": "Git pull",
-    "ru_RU": "Git pull"
+    "ru_RU": "Git pull",
+    "uk"   : "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -22,7 +23,8 @@ exports.level = {
     "de_DE": "Führe einfach git pull aus.",
     "ja"   : "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !",
-    "ru_RU": "Запустите комманду git pull !"
+    "ru_RU": "Запустите комманду git pull !",
+    "uk"   : "Просто виконай git pull !"
   },
   "startDialog": {
     "en_US": {
@@ -556,5 +558,64 @@ exports.level = {
         }
       ]
     },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Тепер, коли ми знаємо як витягувати данні з віддаленого репозиторію за допомогою `git fetch`, давай спробуємо оновити нашу робочу копію відповідно до цих данних!",
+              "",
+              "Насправді є кілька шляхів як це досягнути -- як тільки нові коміти з’явилися локально, ти можеш додавати їх в бранчі так само як звичайні коміти. Це означає що ти можеш виконувати команди:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* і так далі, й тому подібне.",
+              "",
+              "Насправді, процес *витягування* віддалених змін й подальший *мерджинг* їх є настільки популярним, що гіт пропонує спеціяльну команду що виконує ці дві дії за один раз! Ця команда називається `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давай спочатку виконаємо по черзі `fetch` а потім `merge`"
+            ],
+            "afterMarkdowns": [
+              "Ка-бум -- ми завантажили `C3` за допомогою `fetch` й потім змерджили їх з `git merge o/master`. Тепер наша гілка `master` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Що трапится якщо натомість використати `git pull` ?"
+            ],
+            "afterMarkdowns": [
+              "Те ж саме! Тепер очевидно що `git pull` це просто швидкий спосіб зробити `git fetch` а потім змерджити завантажену гілку."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ми розглянемо `git pull` більш детально пізніше (включаючи різні опції та аргументи), наразі просто спробуємо цю команду.",
+              "",
+              "Не забувай -- щоб пройти цей рівень достатньо використати  `fetch` а потім `merge`, але це буде тобі коштувати одну зайву команду :P"
+            ]
+          }
+        }
+      ]
+    }
   }
 };
