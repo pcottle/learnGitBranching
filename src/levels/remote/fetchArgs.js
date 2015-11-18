@@ -652,7 +652,7 @@ exports.level = {
               "",
               "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)",
               "",
-              "我们过一个概念.."
+              "让我们逐个讨论下这些概念.."
             ]
           }
         },
@@ -689,7 +689,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "你可以想知道 -- 为何git 会将新提交压入到o/foo 而不是 压入到我本地的foo. 我想 <place>参数就是同时存在于本地和远端 的 <place> ",
+              "你可能会好奇 -- 为何git 会将新提交压入到o/foo 而不是 压入到我本地的foo. 我想 <place>参数就是同时存在于本地和远端 的 <place> ",
               "",
               "好吧, 本例中git 有个特殊例外, 因为你可能位于foo 分支, 你也不想弄乱它. 这得联系之前的课程 -- 它不会更新你的本地工作, 它只是下载提交(这样, 稍后你可以检查 或者 合并之).  ",
               ""
@@ -730,7 +730,7 @@ exports.level = {
               "如果 destination 不存在呢? 我们看看上个幻灯片(不含bar)! "
             ],
             "afterMarkdowns": [
-              "看见了吧, 它就像是git push. Git会自己确立本地destination, 就像是git在push时, 会自己确立destination(如果它不存在的话)"
+              "看见了吧, 它就像是git push. Git会在fetch前自己确立本地destination, 就像是git在push时, 会自己在remote确立destination(如果它不存在的话)一样"
             ],
             "command": "git fetch origin foo~1",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -745,7 +745,7 @@ exports.level = {
               "如果 `git fetch` 没有参数, 它会下载所有远端分支.."
             ],
             "afterMarkdowns": [
-              "相当简单, 但是值得一次更新!"
+              "相当简单, 但是仅需更新一次，很值!"
             ],
             "command": "git fetch",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
