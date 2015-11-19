@@ -12,7 +12,8 @@ exports.level = {
     "ja"   : "Git Pull",
     "fr_FR": "Git pull",
     "ru_RU": "Git pull",
-    "uk"   : "Git pull"
+    "uk"   : "Git pull",
+    "ko"   : "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -24,7 +25,8 @@ exports.level = {
     "ja"   : "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !",
     "ru_RU": "Запустите комманду git pull !",
-    "uk"   : "Просто виконай git pull !"
+    "uk"   : "Просто виконай git pull !",
+    "ko"   : "그냥 git pull을 하세요!"
   },
   "startDialog": {
     "en_US": {
@@ -612,6 +614,65 @@ exports.level = {
               "Ми розглянемо `git pull` більш детально пізніше (включаючи різні опції та аргументи), наразі просто спробуємо цю команду.",
               "",
               "Не забувай -- щоб пройти цей рівень достатньо використати  `fetch` а потім `merge`, але це буде тобі коштувати одну зайву команду :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "자 우리는 원격 저장소에서 `git fetch`로 어떻게 데이터를 내려 받는지 보았습니다. 이제 우리의 작업을 업데이트해서 변경들을 반영해 봅시다!",
+              "",
+              "사실 이걸 하는 방법은 여러가지 있습니다 -- 새 커밋들을 로컬에 내려받은 이후에는 그냥 다른 브랜치에있는 일반 커밋처럼 활용할 수 있습니다. 이런 명령들을 실행할 수 있다는 뜻 입니다 :",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* 기타 등등",
+              "",
+              "사실 원격 저장소의 변경을 *fetch*하고 그이후에 *merge*하는 작업의 과정이 워낙 자주있는 일이라서 git은 이 두가지를 한번에 하는 명령을 제공합니다! 이 명령어는 `git pull` 입니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "먼저 `fetch` 와 `merge`가 차례로 실행되는것을 확인해 봅시다"
+            ],
+            "afterMarkdowns": [
+              "Boom -- 우리는 `C3`를 `fetch`로 내려 받고 `git merge o/master`로 우리의 작업으로 병합했습니다. 이제 우리의 `master` 브랜치는 원격 저장소의 새 작업들을 반영하게 됩니다(지금 사례에서 `origin`입니다)."
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "대신에 `git pull`을 사용하면 어떻게 될까요?"
+            ],
+            "afterMarkdowns": [
+              "똑같은 일이 일이납니다! 이렇게 `git pull`은 본질적으로 `git fetch`후에 내려받은 브랜치를 병합하는 과정의 단축입니다. 확실하게 느껴지죠?."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull`의 세부적인 사항들은 나중에 알아보겠습니다 (옵션과 매개변수등) 지금은 이 레벨에서 일단 시도부터 해 봅시다.",
+              "",
+              "알고 넘어갑시다 -- 이 레벨을 그냥 `fetch`와 `merge`의 조합으로 해결할 수 있습니다. 하지만 명령어가 추가되겠지요 :P"
             ]
           }
         }
