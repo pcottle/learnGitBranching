@@ -532,6 +532,20 @@ exports.strings = {
     'uk': 'Обери рівень'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'main-levels-tab': {
+    '__desc__': 'The name of main levels tab on the drop down view',
+    'en_US': 'Main',
+    'ru_RU': 'Основы',
+    'uk'   : 'Основи'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'remote-levels-tab': {
+    '__desc__': 'The name of remote levels tab on the drop down view',
+    'en_US': 'Remote',
+    'ru_RU': 'Удаленные репозитории',
+    'uk'   : 'Віддалені репозиторії'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
     '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
     'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
