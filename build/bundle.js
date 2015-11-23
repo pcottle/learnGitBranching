@@ -35579,6 +35579,20 @@ exports.strings = {
     'uk': 'Обери рівень'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'main-levels-tab': {
+    '__desc__': 'The name of main levels tab on the drop down view',
+    'en_US': 'Main',
+    'ru_RU': 'Основы',
+    'uk'   : 'Основи'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'remote-levels-tab': {
+    '__desc__': 'The name of remote levels tab on the drop down view',
+    'en_US': 'Remote',
+    'ru_RU': 'Удаленные репозитории',
+    'uk'   : 'Віддалені репозиторії'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
     '__desc__': 'When branch names get too long, we need to truncate them. This is the warning for that',
     'en_US': 'Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in "{branch}"',
@@ -41939,10 +41953,10 @@ var LevelDropdownView = ContainedBase.extend({
       selectedTab: queryParams.defaultTab || 'main',
       tabs: [{
         id: 'main',
-        name: intl.todo('Main')
+        name: intl.str('main-levels-tab')
       }, {
         id: 'remote',
-        name: intl.todo('Remote')
+        name: intl.str('remote-levels-tab')
       }]
     };
 
@@ -41995,6 +42009,10 @@ var LevelDropdownView = ContainedBase.extend({
     this.container.updateTitle(
       intl.str('select-a-level')
     );
+    this.updateTabNames([
+      intl.str('main-levels-tab'),
+      intl.str('remote-levels-tab')
+    ]);
     LevelDropdownView.__super__.render.apply(this, arguments);
     this.buildSequences();
   },
@@ -42016,6 +42034,12 @@ var LevelDropdownView = ContainedBase.extend({
       this.selectedSequence = this.getSequencesOnTab()[0];
       this.selectedIndex = 0;
       this.updateSelectedIcon();
+    }
+  },
+
+  updateTabNames: function(names) {
+    for(var index = 0; index < names.length; ++index) {
+      this.JSON.tabs[index].name = names[index];
     }
   },
 
@@ -68651,4 +68675,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,258,257,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
