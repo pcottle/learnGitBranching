@@ -33,10 +33,10 @@ var LevelDropdownView = ContainedBase.extend({
       selectedTab: queryParams.defaultTab || 'main',
       tabs: [{
         id: 'main',
-        name: intl.todo('Main')
+        name: intl.str('main-levels-tab')
       }, {
         id: 'remote',
-        name: intl.todo('Remote')
+        name: intl.str('remote-levels-tab')
       }]
     };
 
@@ -89,6 +89,10 @@ var LevelDropdownView = ContainedBase.extend({
     this.container.updateTitle(
       intl.str('select-a-level')
     );
+    this.updateTabNames([
+      intl.str('main-levels-tab'),
+      intl.str('remote-levels-tab')
+    ]);
     LevelDropdownView.__super__.render.apply(this, arguments);
     this.buildSequences();
   },
@@ -110,6 +114,12 @@ var LevelDropdownView = ContainedBase.extend({
       this.selectedSequence = this.getSequencesOnTab()[0];
       this.selectedIndex = 0;
       this.updateSelectedIcon();
+    }
+  },
+
+  updateTabNames: function(names) {
+    for(var index = 0; index < names.length; ++index) {
+      this.JSON.tabs[index].name = names[index];
     }
   },
 
