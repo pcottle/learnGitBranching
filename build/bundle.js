@@ -35901,6 +35901,13 @@ exports.strings = {
     'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'solved-level': {
+    '__desc__': 'When you solved a level',
+    'en_US': 'Solved!!\n:D',
+    'ru_RU': 'Решено!!\n:D',
+    'uk'   : 'Вирішено!!\n:D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
     '__desc__': 'When you try a command that is disabled',
     'en_US': 'That git command is disabled for this level!',
@@ -43070,6 +43077,7 @@ exports.AnimationQueue = AnimationQueue;
 var _ = require('underscore');
 var Q = require('q');
 
+var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
@@ -43289,7 +43297,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
-  var textString = 'Solved!!\n:D';
+  var textString = intl.str('solved-level');
   var text = null;
   var makeText = function() {
     text = this.paper.text(
@@ -44014,7 +44022,7 @@ function blendHueStrings(hueStrings) {
 exports.GitVisuals = GitVisuals;
 
 
-},{"../app":176,"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBranch":239,"../visuals/visEdge":240,"../visuals/visNode":241,"../visuals/visTag":242,"q":15,"underscore":171}],237:[function(require,module,exports){
+},{"../app":176,"../intl":193,"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBranch":239,"../visuals/visEdge":240,"../visuals/visNode":241,"../visuals/visTag":242,"q":15,"underscore":171}],237:[function(require,module,exports){
 var _ = require('underscore');
 var Backbone = require('backbone');
 
