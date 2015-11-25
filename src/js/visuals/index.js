@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var Q = require('q');
 
+var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
@@ -220,7 +221,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
-  var textString = 'Solved!!\n:D';
+  var textString = intl.str('solved-level');
   var text = null;
   var makeText = function() {
     text = this.paper.text(

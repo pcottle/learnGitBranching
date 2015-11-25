@@ -854,6 +854,13 @@ exports.strings = {
     'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'solved-level': {
+    '__desc__': 'When you solved a level',
+    'en_US': 'Solved!!\n:D',
+    'ru_RU': 'Решено!!\n:D',
+    'uk'   : 'Вирішено!!\n:D'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
     '__desc__': 'When you try a command that is disabled',
     'en_US': 'That git command is disabled for this level!',
