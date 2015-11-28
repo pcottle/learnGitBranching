@@ -3,6 +3,7 @@ var Q = require('q');
 var Backbone = require('backbone');
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Command = require('../models/commandModel').Command;
 
@@ -49,7 +50,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
 
     this.container = new ModalTerminal({
-      title: options.title || 'Git Demonstration'
+      title: options.title || intl.str('git-demonstration-title')
     });
     this.render();
     this.checkScroll();
