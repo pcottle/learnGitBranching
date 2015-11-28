@@ -36071,6 +36071,13 @@ exports.strings = {
     'uk': 'Задача'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'git-demonstration-title': {
+    '__desc__': 'title of git demonstration window',
+    'en_US': 'Git Demonstration',
+    'ru_RU': 'Git демо',
+    'uk'   : 'Git демо'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
     'en_US': 'Goal To Reach',
@@ -40980,6 +40987,7 @@ var Q = require('q');
 var Backbone = require('backbone');
 
 var util = require('../util');
+var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Command = require('../models/commandModel').Command;
 
@@ -41026,7 +41034,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.JSON.afterHTML = convert(this.JSON.afterMarkdowns);
 
     this.container = new ModalTerminal({
-      title: options.title || 'Git Demonstration'
+      title: options.title || intl.str('git-demonstration-title')
     });
     this.render();
     this.checkScroll();
@@ -41222,7 +41230,7 @@ var GitDemonstrationView = ContainedBase.extend({
 exports.GitDemonstrationView = GitDemonstrationView;
 
 
-},{"../git/headless":188,"../models/commandModel":202,"../util":221,"../util/keyboard":223,"../views":230,"../visuals/visualization":243,"backbone":1,"markdown":12,"q":15,"underscore":171}],230:[function(require,module,exports){
+},{"../git/headless":188,"../intl":193,"../models/commandModel":202,"../util":221,"../util/keyboard":223,"../views":230,"../visuals/visualization":243,"backbone":1,"markdown":12,"q":15,"underscore":171}],230:[function(require,module,exports){
 var process=require("__browserify_process");var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
