@@ -1024,6 +1024,13 @@ exports.strings = {
     'uk': 'Задача'
   },
   ///////////////////////////////////////////////////////////////////////////
+  'git-demonstration-title': {
+    '__desc__': 'title of git demonstration window',
+    'en_US': 'Git Demonstration',
+    'ru_RU': 'Git демо',
+    'uk'   : 'Git демо'
+  },
+  ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
     'en_US': 'Goal To Reach',
