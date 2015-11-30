@@ -41542,7 +41542,7 @@ var ModalTerminal = ContainedBase.extend({
 
     this.container = new ModalView();
     this.JSON = {
-      title: options.title || 'Heed This Warning!'
+      title: options.title 
     };
 
     this.render();
@@ -41577,9 +41577,7 @@ var ModalAlert = ContainedBase.extend({
       this.JSON.markdown = options.markdowns.join('\n');
     }
 
-    this.container = new ModalTerminal({
-      title: 'Alert!'
-    });
+    this.container = new ModalTerminal({});
     this.render();
 
     if (!options.wait) {
@@ -58904,7 +58902,8 @@ exports.level = {
     "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作",
     "ru_RU": "Коллективная работа",
-    "uk"   : "Симуляція колективної роботи"
+    "uk"   : "Симуляція колективної роботи",
+    "ko"   : "가짜 팀워크"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
@@ -58916,7 +58915,8 @@ exports.level = {
     "zh_CN": "记住为fake中的commit指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
-    "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів"
+    "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
+    "ko"   : "가장할 커밋의 갯수를 조절할 수 있습니다."
   },
   "startDialog": {
     "en_US": {
@@ -59456,6 +59456,60 @@ exports.level = {
               "Наступні рівні мають бути досить складними, тому щоб підготуватись, на цьому рівні теж доведеться не солодко.",
               "",
               "Зроби віддалений репозиторій (за допомогою `git clone`), зроби кілька фіктивних змін, зроби кілька комітів локально, й підвантаж віддалені зміни. Це як кілька уроків в одному!"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 협동 가장하기",
+              "",
+              "조금 곤란한일이 생겨버렸습니다 -- 앞으로 배울 레슨들에서 원격 저장소에서 일어난 변경들을 어떻게 로컬로 가져올것인지에 대해 배워 볼것입입니다.",
+              "",
+              "그런데 여기서 우리는 불가피하게 그 _변경_들을 만들어야 되는데, 원격 저장소가 동료 / 친구 / 협력자등에 의해 특정 브랜치나 여러개의 커밋이 갱신되는 경우를 표현할 필요가 있습니다. 즉 우리는 팀워크를 \"가장\"할 필요가 있는것 입니다.",
+              "",
+              "이런 문제를 해결하기 위해서 `git fakeTeamwork` 명령을 만들었습니다! 이름이 참 적절하죠? 예시를 통해 확인해봅시다..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork`의 기본 행동은 원격 master에 간단히 하나의 커밋을 하는것 입니다."
+            ],
+            "afterMarkdowns": [
+              "자 됬습니다 -- 원격 저장소에 새로운 커밋이 갱신되었습니다. 아직 `git fetch`를 하지 않았기 때문에 로컬로 내려받아지지는 않았습니다."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "명령어에 추가할 커밋의 갯수나 어떤 브랜치에 추가할지 지정하는것도 가능합니다. 다음과 같이 명령어 뒤에 추가하면 됩니다."
+            ],
+            "afterMarkdowns": [
+              "하나의 명령어로 팀원이 원격저장소의 `foo` 브랜치에 세개의 커밋을 push한것처럼 가장했습니다."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "뒤의 레벨들이 조금 어렵기 때문에, 이번 레벨에서 여러분에게 조금 많은것을 요구하려고 합니다.",
+              "",
+              "원격 저장소를 하나 만들고(`git clone`), 원격 저장소에 몇가지 가짜 변경을 만들고 로컬에서 커밋하고 원격의 변경들을 가져오세요. Goal과 같은 결과가 나오면 됩니다. 몇개의 레슨이 하나에 있다고 보면 되겠네요! 도전해봅시다."
             ]
           }
         }
@@ -64461,7 +64515,8 @@ exports.level = {
     "ja"   : "Git Push",
     "fr_FR": "Git push",
     "ru_RU": "Git push",
-    "uk"   : "Git push"
+    "uk"   : "Git push",
+    "ko"   : "Git push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -64473,7 +64528,8 @@ exports.level = {
     "ja"   : "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
-    "uk"   : "Пам’ятай, що перед тим як щось push-нуть потрібно склонувати репозиторій!"
+    "uk"   : "Пам’ятай, що перед тим як щось push-нуть потрібно склонувати репозиторій!",
+    "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!"
   },
   "startDialog": {
     "en_US": {
@@ -64893,6 +64949,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Щоб пройти цей рівень, просто надішли два коміти у віддалений репозиторій. Але пристібнись, скоро наші уроки стануть набагато важчі!"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "좋아요, 원격 저장소에서의 변화들을 가져오는 방법도 알고 로컬의 내 작업과 합칠줄도 알게되었습니다. 아주 좋아요.. 좋은데 이제 _나의_ 훌륭한 작업을 다른 사람들과 공유하려면 어떻게 해야되는거죠?",
+              "",
+              "공유된 작업을 내려받는것의 반대는 작업을 업로드해 공유하는것입니다. 그렇다면 `git pull` 당기기의 반대는? `git push` 미는겁니다!",
+              "",
+              "`git push`는 _여러분의_변경을 정한 원격저장소에 업로드하고 그 원격 저장소가 여러분의 새 커밋들을 합치고 갱신하게 합니다. `git push`가 끝나고 나면, 여러분의 친구들은 원격저장소에서 여러분의 작업을 내려받을수 있게됩니다.",
+              "",
+              "여러분은 `git push`를 작업을 \"공개\"하는 과정이라고 생각해도 될것입니다. 곧 알아볼 중요한 세부 요소들이 잔뜩 있지만, 일단은 아기 걸음으로 시작해봅시다...",
+              "",
+              "*노트 -- `git push`를 매개변수 없이 사용하는 디폴트 행동은 `push.default`라 불리는 git의 설정에 따라 결정 됩니다. 이 설정의 기본값은 여러분이 사용하는 git 버전에 따라 다릅니다만, 우리 강의에서는 `upstream`을 값으로 사용합니다. 대단한것은 아니지만, 여러분이 프로젝트를 push하기전에 한번쯤 확인해볼 가치가 있습니다.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "여기 원격저장소에는 없는 변경이 있습니다. 이것들을 업로드 해 봅시다!"
+            ],
+            "afterMarkdowns": [
+              "자 됬습니다 -- 원격 저장소가 커밋 `C2`를 받았고, 원격 저장소의 브랜치 `master`가 `C2`라는 지점까지 갱신 되었습니다. 그리고 원격 저장소의 반영인 *우리의* 원격 브랜치 (`o/master`)또한 잘 갱신 되었습니다. 모든게 동기화되어 있습니다!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이번 레벨을 마치기 위해, 두개의 새 커밋을 원격 저장소에 공유해봅시다. 마음의 준비를 단단히 하세요, 이제부터 강의들이 훨씬 어려워질거니까요!"
             ]
           }
         }
