@@ -309,7 +309,7 @@ var ModalTerminal = ContainedBase.extend({
 
     this.container = new ModalView();
     this.JSON = {
-      title: options.title || 'Heed This Warning!'
+      title: options.title 
     };
 
     this.render();
@@ -344,9 +344,7 @@ var ModalAlert = ContainedBase.extend({
       this.JSON.markdown = options.markdowns.join('\n');
     }
 
-    this.container = new ModalTerminal({
-      title: 'Alert!'
-    });
+    this.container = new ModalTerminal({});
     this.render();
 
     if (!options.wait) {
