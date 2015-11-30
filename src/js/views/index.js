@@ -345,7 +345,7 @@ var ModalAlert = ContainedBase.extend({
     }
 
     this.container = new ModalTerminal({
-      title: 'Alert!'
+      title: ''
     });
     this.render();
 
