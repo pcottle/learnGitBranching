@@ -39,7 +39,7 @@ exports.strings = {
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
     'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.',
-    'uk': 'Чудово! Твій розв’язок на рівні чи можливо навіть краще від нашого'
+    'uk': 'Чудово! Твій розв’язок на рівні або краще від нашого.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
