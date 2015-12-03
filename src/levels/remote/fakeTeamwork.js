@@ -22,7 +22,7 @@ exports.level = {
     "ja"   : "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "pt_BR": "Lembre-se que você pode especificar quantos commits quer simular",
-    "zh_CN": "记住为fake中的commit指定数量",
+    "zh_CN": "记住为 fake 中的 commit 指定数量",
     "zh_TW": "你要記得指定要送多少個 commit 出去",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
@@ -311,7 +311,7 @@ exports.level = {
               "",
               "这意味着，我们需要假装你的同事、朋友、合作伙伴已经将远端更新到最新了，这些变更有时是一个特别的分支或者确定数目的提交. ",
               "",
-              "为了做到这点, 我们引入一个自造命令`git fakeTeamwork`. 它是自解释的, 先看演示.."
+              "为了做到这点, 我们引入一个自造命令 `git fakeTeamwork`. 它是自解释的, 先看演示.."
             ]
           }
         },
@@ -319,10 +319,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`fakeTeamwork` 默认行为就是在在远端master做一个提交."
+              "`fakeTeamwork` 默认行为就是在在远端 master 做一个提交."
             ],
             "afterMarkdowns": [
-              "成了-- 远端更新了一个新提交. 我们还没有下载它, 因为我们还没有使用`git fetch`."
+              "成了 -- 远端更新了一个新提交. 我们还没有下载它, 因为我们还没有使用 `git fetch`."
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
@@ -335,7 +335,7 @@ exports.level = {
               "你可以指定提交的数量, 只需要在命令后接一个数字!"
             ],
             "afterMarkdowns": [
-              "通过一个命令，我们就模拟了队友push 3 个提交到远端的foo分支.  "
+              "通过一个命令，我们就模拟了队友 push 3 个提交到远端的 foo 分支.  "
             ],
             "command": "git fakeTeamwork foo 3",
             "beforeCommand": "git branch foo; git clone"
@@ -347,7 +347,7 @@ exports.level = {
             "markdowns": [
               "接下来的学习会相当的困难，所以在本节我们会询问你很多问题. ",
               "",
-              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再pull一下远端. 这看起来包含了好几节的课程."
+              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再 pull 一下远端. 这看起来包含了好几节的课程."
             ]
           }
         }

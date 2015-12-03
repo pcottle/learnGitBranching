@@ -226,7 +226,7 @@
             "markdowns": [
               "### git describe",
               "",
-              "因为 tag 在 commit tree 上表示的是一个锚点，git 有一个指令可以用来*显示*离你最近的锚点（也就是 tag），而且这个指令叫做 `git describe`！",
+              "因为 tag 在 commit tree 上表示的是一个锚点，Git 有一个指令可以用来*显示*离你最近的锚点（也就是 tag），而且这个指令叫做 `git describe`！",
               "",
               "当你已经完成了一个 `git bisect`（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时， `git describe` 可以帮助你了解你离最近的 tag 差了多少个 commit。"
             ]
@@ -240,13 +240,13 @@
               "",
               "`git describe <ref>`",
               "",
-              "`<ref>` 是任何一个可以被 git 解读成 commit 的位置，如果你没有指定的话，git 会以你目前所在的位置为准（`HEAD`）。",
+              "`<ref>` 是任何一个可以被 Git 解读成 commit 的位置，如果你没有指定的话，Git 会以你目前所在的位置为准（`HEAD`）。",
               "",
               "指令的输出就像这样：",
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "`<tag>` 表示的是离 `<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离 `<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的 `<ref>` 所表示的commit 的前七个id。"
+              "`<tag>` 表示的是离 `<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离 `<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的 `<ref>` 所表示的 commit 的前七个 id。"
             ]
           }
         },

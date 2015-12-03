@@ -383,11 +383,11 @@ exports.level = {
             "markdowns": [
               "## `<place>` argument details",
               "",
-              "还记得之前课程说的吧, 当为git push 指定master为place时,我们可以设置 要提交的来源 和 提交到目的地. ",
+              "还记得之前课程说的吧, 当为 git push 指定 master 为 place 时, 我们可以设置 要提交的来源 和 提交到目的地. ",
               "",
-              "你可能想知道-- 如果来源和目的地不一样呢? ",
+              "你可能想知道 -- 如果来源和目的地不一样呢? ",
               "",
-              "好吧, 很不幸git 不可能做到... 只是个玩笑! 当然是可能的啦:)... git拥有超强的灵活性(几乎不能再多了) ",
+              "好吧, 很不幸 Git 不可能做到... 只是个玩笑! 当然是可能的啦 :) ... Git 拥有超强的灵活性(几乎不能再多了) ",
               "",
               "我们看看下一个幻灯片..."
             ]
@@ -397,11 +397,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要为<place> 指定 source 和 destination, 只需要用冒号`:`将二者联结.",
+              "要为 <place> 指定 source 和 destination, 只需要用冒号 `:` 将二者联结.",
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "这通常被称为<colon refspec>, refspec是一个奇特的名-- 用于git 能识别的位置(比如分支foo 或者 HEAD~1) ",
+              "这通常被称为 <colon refspec>, refspec 是一个奇特的名 -- 用于 Git 能识别的位置(比如分支 foo 或者 HEAD~1) ",
               "",
               "一旦你指定了独立的来源和目的地, 你就可以得到花哨而精确的远程命令, 让我们看看演示! "
             ]
@@ -411,10 +411,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "记住, `source` 是git 能理解的任何位置:"
+              "记住, `source` 是 Git 能理解的任何位置:"
             ],
             "afterMarkdowns": [
-              " 这是个很迷幻的命令, 但它是合理的 --  git 将foo^解析 为位置, 上传新提交到远端的目的地.  "
+              "这是个很迷幻的命令, 但它是合理的 -- Git 将 foo^ 解析为一个位置, 上传新提交到远端的目的地.  "
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -424,10 +424,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果你要push到的destination不存在呢? 没问题! git 会在远端为你创建这个分支!"
+              "如果你要 push 到的 destination 不存在呢? 没问题! Git 会在远端为你创建这个分支!"
             ],
             "afterMarkdowns": [
-              "很赞吧! 干得漂亮!:D"
+              "很赞吧! 干得漂亮! :D"
             ],
             "command": "git push origin master:newBranch",
             "beforeCommand": "git clone; git commit"
