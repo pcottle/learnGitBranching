@@ -20,7 +20,7 @@ exports.level = {
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
     "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
     'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
-    "zh_CN": "使用`git branch bugWork`加上一个目标提交记录来创建消失的引用。",
+    "zh_CN": "使用 `git branch bugWork` 加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
@@ -298,11 +298,11 @@ exports.level = {
             "markdowns": [
               "### 选择父提交",
               "",
-              "和`~`修改符一样，`^`修改符之后也可以跟一个（可选的）数字。",
+              "和 `~` 修改符一样，`^` 修改符之后也可以跟一个（可选的）数字。",
               "",
-              "这不是用来指定向上返回几代（`~`的作用），`^`后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。",
+              "这不是用来指定向上返回几代（`~` 的作用），`^` 后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。",
               "",
-              "Git默认选择跟随合并提交的\"第一个\"父提交，使用`^`后跟一个数字来改变这一默认行为。",
+              "Git 默认选择跟随合并提交的\"第一个\"父提交，使用 `^` 后跟一个数字来改变这一默认行为。",
               "",
               "废话不多说，举个例子。",
               ""
@@ -313,12 +313,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这里有一个合并提交。如果不加数字修改符直接切换到`master^`，会回到第一个父提交。",
+              "这里有一个合并提交。如果不加数字修改符直接切换到 `master^`，会回到第一个父提交。",
               "",
               "(*在我们的图示中，第一个父提交是指合并提交正上方的那个父提交。*)"
             ],
             "afterMarkdowns": [
-              "OK--这恰好是我们想要的。"
+              "OK -- 这恰好是我们想要的。"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -341,7 +341,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用`^`和`~`可以自由在在提交树中移动："
+              "使用 `^` 和 `~` 可以自由地在提交树中移动："
             ],
             "afterMarkdowns": [
               "快若闪电！"
@@ -371,7 +371,7 @@ exports.level = {
               "",
               "要完成此关，在指定的目标位置创建一个新的分支。",
               "",
-              "很明显可以简单的直接使用提交记录的hash值（比如`C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
+              "很明显可以简单地直接使用提交记录的 hash 值（比如 `C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
             ]
           }
         }

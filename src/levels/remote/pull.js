@@ -332,7 +332,7 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "现在我们已经知道了如何用`git fetch` 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.",
+              "现在我们已经知道了如何用 `git fetch` 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.",
               "",
               "其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令: ",
               "",
@@ -349,10 +349,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "我们先顺序执行`fetch`,`merge` "
+              "我们先顺序执行 `fetch`, `merge` "
             ],
             "afterMarkdowns": [
-              "我们用`fetch`下载了`C3`, 然后通过`git merge o/master`合并了这一提交. 现在我们的`master`分支映射到了远端的新工作"
+              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/master` 合并了这一提交. 现在我们的 `master` 分支映射到了远端的新工作"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -362,10 +362,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果使用`git pull`呢?"
+              "如果使用 `git pull` 呢?"
             ],
             "afterMarkdowns": [
-              "同样的结果! 这清楚的说明了`git pull`就是git fetch再跟一个merge的缩写! "
+              "同样的结果! 这清楚地说明了 `git pull` 就是 git fetch 再跟一个 merge 的缩写! "
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -375,9 +375,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "稍后我们会扫一下`git pull`的细节(选项和参数), 现在我们先完成作业.",
+              "稍后我们会扫一下 `git pull` 的细节(选项和参数), 现在我们先完成作业.",
               "",
-              "记住, 你可以用fetch/merge 通过本节, 但是这会增加你的命令.:P"
+              "记住, 你可以用 fetch/merge 通过本节, 但是这会增加你的命令. :P"
             ]
           }
         }

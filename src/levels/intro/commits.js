@@ -7,7 +7,7 @@ exports.level = {
     "fr_FR": "Introduction aux commits avec Git",
     "ja"   : "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': 'Git Commits简介',
+    'zh_CN': 'Git Commits 简介',
     'zh_TW': '介紹 git commit ',
     'ru_RU': 'Знакомство с Git Commit ',
     'uk': 'Знайомство з комітами в Git'
@@ -343,7 +343,7 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Git Commits",
-              "git仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 git 做的不只这么简单！",
+              "Git 仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 Git 做的不只这么简单！",
               "",
               "Git 希望提交记录尽可能地轻量，所以每次进行提交时，它不会简单地复制整个目录。实际上它把每次提交记录保存为从代码库的一个版本到下一个版本的变化集，或者说一个\"增量（delta）\"。所以，大部分提交记录都有一个父提交（parent commit）-- 我们会很快演示这一点。",
               "",
@@ -359,13 +359,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在实践中学习commit。右边是一个（小）git代码库的图示。当前有两个提交记录—— 初始提交`C0`和其后可能包含有用修改的提交`C1`。",
+              "在实践中学习 commit。右边是一个（小）Git 代码库的图示。当前有两个提交记录—— 初始提交 `C0` 和其后可能包含有用修改的提交 `C1`。",
               "",
               "点击下面的按钮生成新的提交记录。"
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "看！碉堡吧！我们修改了代码，并保存为一次提交记录。刚刚做的提交`C2`有一个父提交（parent）`C1`，代表此次修改的基础。"
+              "看！碉堡吧！我们修改了代码，并保存为一次提交记录。刚刚做的提交 `C2` 有一个父提交（parent）`C1`，代表此次修改的基础。"
             ],
             "beforeCommand": ""
           }

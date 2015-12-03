@@ -425,11 +425,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 在Git中前后移动",
+              "## 在 Git 中前后移动",
               "",
-              "在接触Git的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
+              "在接触 Git 的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
               "",
-              "一旦能够熟练地在Git中前进后退，你使用其他git命令的威力也会被放大！",
+              "一旦能够熟练地在 Git 中前进后退，你使用其他 Git 命令的威力也会被放大！",
               ""
             ]
           }
@@ -440,11 +440,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我们首先看一下\"HEAD\". HEAD是当前提交记录的符号名称 -- 其实就是你正在其基础进行工作的提交记录。",
+              "我们首先看一下\"HEAD\". HEAD 是当前提交记录的符号名称 -- 其实就是你正在其基础进行工作的提交记录。",
               "",
-              "HEAD总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的git命令都开始于改变HEAD指向。",
+              "HEAD 总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的 Git 命令都开始于改变 HEAD 指向。",
               "",
-              "HEAD通常指向分支名（比如bugFix）。你提交时，改变了bugFix的状态，这一变化通过HEAD变得可见。"
+              "HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。"
             ]
           }
         },
@@ -452,10 +452,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在实例中看一下。我们将会观察提交前后HEAD的位置。"
+              "在实例中看一下。我们将会观察提交前后 HEAD 的位置。"
             ],
             "afterMarkdowns": [
-              "看! HEAD一直藏在`master`分支后面。"
+              "看! HEAD 一直藏在 `master` 分支后面。"
             ],
             "command": "git checkout C1; git checkout master; git commit; git checkout C2",
             "beforeCommand": ""
@@ -467,7 +467,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### 分离 HEAD",
               "",
-              "分离HEAD就是让其指向一个提交记录而不是分支名。这是命令执行之前的样子： ",
+              "分离 HEAD 就是让其指向一个提交记录而不是分支名。这是命令执行之前的样子： ",
               "",
               "HEAD -> master -> C1",
               ""
@@ -485,9 +485,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此关，从`bugFix`分离出HEAD并让其指向一个提交记录。",
+              "想完成此关，从 `bugFix` 分离出 HEAD 并让其指向一个提交记录。",
               "",
-              "通过hash值指定提交记录。每个提交记录的hash值显示在代表提交记录的圆圈中。"
+              "通过 hash 值指定提交记录。每个提交记录的 hash 值显示在代表提交记录的圆圈中。"
             ]
           }
         }

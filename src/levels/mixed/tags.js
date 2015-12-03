@@ -23,7 +23,7 @@
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
-    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单的 checkout 到 tag 上",
+    "zh_CN": "你可以直接 checkout 到 commit 上，或是简单地 checkout 到 tag 上",
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
     "ko"   : "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
     "uk"   : "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!"
@@ -219,7 +219,7 @@
               "让我们试着建立一个 tag，指向 commit `C1`，表示这是我们第一个版本。"
             ],
             "afterMarkdowns": [
-              "看吧！非常容易，我们命名这个 tag 叫做`v1`，并且让它指向 commit `C1`，如果你离开了该 commit，git 会根据 `HEAD` 所指向的位置才分辨。"
+              "看吧！非常容易，我们命名这个 tag 叫做 `v1`，并且让它指向 commit `C1`，如果你离开了该 commit，Git 会根据 `HEAD` 所指向的位置才分辨。"
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
