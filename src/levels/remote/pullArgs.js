@@ -401,9 +401,9 @@ exports.level = {
             "markdowns": [
               "## Git pull 参数",
               "",
-              "现在你知道关于fetch/push几乎所有的东西了, 不过pull也有一个\"nothing\"呢!:)",
+              "现在你知道关于 fetch/push 几乎所有的东西了, 不过 pull 也有一个 \"nothing\" 呢! :)",
               "",
-              "因为 git pull 就是fetch后跟merge的缩写. 我可以认为执行git fetch 用了相同的参数, 然后再merge 你所fetch的提交(commit)",
+              "因为 git pull 就是 fetch 后跟 merge 的缩写. 我可以认为执行 git fetch 用了相同的参数, 然后再 merge 你所 fetch 的提交 (commit)",
               "",
               "这可以和其它更复杂的参数一起使用, 看看例子:"
             ]
@@ -413,7 +413,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "以下命令在 git 中是等价的:",
+              "以下命令在 Git 中是等价的:",
               "",
               "`git pull  origin foo` 相当于：",
               "",
@@ -425,7 +425,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "看到了? git pull 实际上就是fetch + merge的缩写, git pull 在乎的是提交在哪里结束(也就是git fetch所确定的destination)",
+              "看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 在乎的是提交在哪里结束(也就是 git fetch 所确定的 destination)",
               "",
               "一起来看个例子吧："
             ]
@@ -435,10 +435,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果我们指定要提取的<place>, 所有的事情都会跟之前一样发生, 除了merge.  "
+              "如果我们指定要提取的 <place>, 所有的事情都会跟之前一样发生, 除了 merge.  "
             ],
             "afterMarkdowns": [
-              "看! 通过指定master 我们更新了o/master. 然后我们merge `o/master` 到我们的检出分支(当前检出的任意分支). "
+              "看! 通过指定 master 我们更新了 o/master. 然后我们 merge `o/master` 到我们的检出分支(当前检出的任意分支). "
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -448,10 +448,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这也适用于source / destination 吗? 当然喽, 看看吧:"
+              "这也适用于 source / destination 吗? 当然喽, 看看吧:"
             ],
             "afterMarkdowns": [
-              " 哇, 这就一个命令. 我们在本地创建了一个叫foo的分支, 远端的master分支, 被下载到了本地foo分支. 然后再merge到我们的当前分支. 终于完啦!9000!!!"
+              " 哇, 这就一个命令. 我们在本地创建了一个叫 foo 的分支, 远端的 master 分支, 被下载到了本地 foo 分支. 然后再 merge 到我们的当前分支. 终于完啦! 9000!!!"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -461,7 +461,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦, 做作业! 请获取虚拟目标.  你需要下载一些提交,然后创建一些新分支, 再合并这些分支到其它分支, 这花不了几个命令 :P "
+              "好啦, 做作业! 请获取虚拟目标.  你需要下载一些提交, 然后创建一些新分支, 再合并这些分支到其它分支, 这花不了几个命令 :P "
             ]
           }
         }

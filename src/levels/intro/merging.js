@@ -21,7 +21,7 @@ exports.level = {
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de master)",
     "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de master)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
-    "zh_CN": "记住按指定的顺序提交（bugFix先于master）",
+    "zh_CN": "记住按指定的顺序提交（bugFix 先于 master）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
@@ -455,7 +455,7 @@ exports.level = {
               "",
               "Great! 我们已经知道怎么提交和使用分支了。接下来要学的一招是如何合并两个不同分支的工作。这让我们可以新建一个分支，在其上开发新功能，然后合并回主线。",
               "",
-              "`git merge`是我们要学习的合并工作的第一个方法。合并产生一个特殊的提交记录，它包含两个唯一父提交。有两个父提交的提交记录本质上是：“我想把这两个父提交本身及它们的父提交集合都包含进来。”",
+              "`git merge` 是我们要学习的合并工作的第一个方法。合并产生一个特殊的提交记录，它包含两个唯一父提交。有两个父提交的提交记录本质上是：“我想把这两个父提交本身及它们的父提交集合都包含进来。”",
               "",
               "有图有真相，看看下面的图示就明白了。"
             ]
@@ -488,7 +488,7 @@ exports.level = {
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因为 `bugFix` 分支在 `master` 分支的下游，git什么都不用做，只是简单地把`bugfix`分支移动到`master`指向的提交记录。",
+              "因为 `bugFix` 分支在 `master` 分支的下游，Git 什么都不用做，只是简单地把 `bugfix` 分支移动到 `master` 指向的提交记录。",
               "",
               "现在所有的提交记录的颜色都是一样的啦，这表明每一个分支都包含了代码库的所有修改！走起！"
             ],
@@ -506,7 +506,7 @@ exports.level = {
               "* 提交一次",
               "* 用 `git checkout` 切换回 `master` ",
               "* 再提交一次",
-              "* 用 `git merge` 合并 `bugFix`分支进 `master`",
+              "* 用 `git merge` 合并 `bugFix` 分支进 `master`",
               "",
               "*记住，总是可以用 \"objective\" 命令来重新显示这个对话框！*"
             ]

@@ -9,7 +9,7 @@ exports.level = {
     "es_AR": "Brancheando en Git",
     "pt_BR": "Ramos no Git",
     "fr_FR": "Gérer les branches avec Git",
-    "zh_CN": "建立Git分支",
+    "zh_CN": "建立 Git 分支",
     "zh_TW": "建立 git branch",
     "ru_RU": "Ветвление в Git",
     "uk": "Розгалуження в Git"
@@ -506,7 +506,7 @@ exports.level = {
             "markdowns": [
               "## Git Branches",
               "",
-              " Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已。所以许多Git爱好者会念叨：",
+              " Git 的分支非常轻量。它们只是简单地指向某个提交纪录——仅此而已。所以许多 Git 爱好者会念叨：",
               "",
               "```",
               "早点建分支！经常建分支！",
@@ -524,11 +524,11 @@ exports.level = {
             "beforeMarkdowns": [
               "举个例子看看分支究竟是什么。",
               "",
-              "这里，我们切换到到名为`newImage`的新分支。"
+              "这里，我们切换到到名为 `newImage` 的新分支。"
             ],
             "command": "git branch newImage",
             "afterMarkdowns": [
-              "看，这就是建立分支所需的操作啦！`newImage`分支现在指向提交记录`C1`。"
+              "看，这就是建立分支所需的操作啦！`newImage` 分支现在指向提交记录 `C1`。"
             ],
             "beforeCommand": ""
           }
@@ -541,7 +541,7 @@ exports.level = {
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "啊摔！`master`分支前进了，但`newImage`分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
+              "啊摔！`master`分支前进了，但 `newImage` 分支没有哇！这是因为我们没有“在”这个新分支上，这也是为什么星号（*）只在 `master` 上。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -550,7 +550,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用如下命令告诉git我们想要切换到新的分支",
+              "使用如下命令告诉 Git 我们想要切换到新的分支",
               "",
               "```",
               "git checkout [name]",

@@ -5,7 +5,7 @@ exports.level = {
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "fr_FR": "Vous aurez besoin d'utiliser au moins une référence directe (hash) pour compléter ce niveau.",
-    "zh_CN": "这一关至少要用到一次直接引用(hash)",
+    "zh_CN": "这一关至少要用到一次直接引用 (hash)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
@@ -381,7 +381,7 @@ exports.level = {
             "markdowns": [
               "### The \"~\" operator",
               "",
-              "假设需要在提交树中向上移动很多步。使用多个`^`非常无聊，所以Git也引入了波浪(~)操作符。",
+              "假设需要在提交树中向上移动很多步。使用多个 `^` 非常无聊，所以 Git 也引入了波浪 (~) 操作符。",
               "",
               "",
               "波浪操作符后面可以（可选地）跟一个数字，指定向上移动多少次。看个例子"
@@ -392,7 +392,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用`~`一次后退多步."
+              "使用 `~` 一次后退多步."
             ],
             "afterMarkdowns": [
               "唰！如此简洁--相对引用就是好啊！"
@@ -409,11 +409,11 @@ exports.level = {
               "",
               "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
               "",
-              "我使用相对引用最多的就是移动分支。你可以使用`-f`选项直接让分支指向另一个提交。举个例子:",
+              "我使用相对引用最多的就是移动分支。你可以使用 `-f` 选项直接让分支指向另一个提交。举个例子:",
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "（强制）移动master指向HEAD的第3级父提交。"
+              "（强制）移动 master 指向 HEAD 的第3级父提交。"
             ]
           }
         },
@@ -421,7 +421,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此关，移动`HEAD`，`master`和`bugFix`到目标所示的位置。"
+              "要完成此关，移动 `HEAD`，`master` 和 `bugFix` 到目标所示的位置。"
             ]
           }
         }
@@ -435,7 +435,7 @@ exports.level = {
             "markdowns": [
               "### \"~\" 符號",
               "",
-              "假設需要在 commit tree 中向上移動多個 commit。使用太多 `^` 會非常討人厭，所以 git 也加入了波浪（~）符號。",
+              "假設需要在 commit tree 中向上移動多個 commit。使用太多 `^` 會非常討人厭，所以 Git 也加入了波浪（~）符號。",
               "",
               "",
               "波浪符號後面可以選擇一個數字（你也可以不選擇），該數字可以告訴 Git 我要向上移動多少個 commit 。舉個例子"
