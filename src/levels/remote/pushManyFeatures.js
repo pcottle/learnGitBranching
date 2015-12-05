@@ -11,7 +11,8 @@ exports.level = {
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
-    "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset"
+    "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
+    "ko"   : "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요"
   },
   "name": {
     "en_US": "Push Master!",
@@ -22,7 +23,8 @@ exports.level = {
     "de_DE": "Push Master!",
     "ja"   : "Push Master!",
     "fr_FR": "Maître du push !",
-    "ru_RU": "Push Мастер!"
+    "ru_RU": "Push Мастер!",
+    "ko"   : "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -498,6 +500,59 @@ exports.level = {
               "* リモートが更新されたなら、次はより良く作業を統合する方法を紹介しましょう。",
               "",
               ":O これはきつそうだ！このレベルを完了させることは大きな一歩となります。幸運を祈ります。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## feature 브랜치 병합하기",
+              "",
+              "이제 여러분은 fetch, pull, push하는데에 익숙해졌을겁니다. 연마한 기술들을 새로운 상황에서 시험 해봅시다.",
+              "",
+              "개발자들은 주로 큰 프로젝트를 개발할때 작업을 feature 브랜치(=토픽브랜치 / `master`브랜치가 아닌 작업을위해 임시로 만든 브랜치를 말합니다)들에 하고 준비가 되면 그 작업을 통합합니다. 이전 강의와 비슷한 모습인데(사이드 브랜치들을 원격저장소로 push한것), 여기서 한 단계 더 나아가 봅시다. ",
+              "",
+              "어떤 개발자들은 `master` 브랜치에 있을때만 push와 pull을 수행합니다 -- 이렇게하면 `master`는 항상 원격 브랜치 (`o/master`)의 상태와 항상 최신의 상태로 유지될 수 있습니다.",
+              "",
+              "이런 작업흐름은 두가지 작업을 같이하게됩니다 :",
+              "",
+              "* feature 브랜치의 작업을 master로 통합하는것과",
+              "* 원격저장소에서 push하고 pull하는 작업입니다"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "다음을 보고 `master`를 갱신하고 작업을 push하는 방법을 다시 떠올려봅시다."
+            ],
+            "afterMarkdowns": [
+              "여기서 우리는 두개의 명령어를 실행 했습니다 :",
+              "",
+              "* 우리의 작업을 원격 저장소의 새 커밋들로 리베이스한 후",
+              "* 우리 작업을 원격저장소로 push했습니다."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이번 레벨은 꽤 덩치가 큽니다 -- 문제에대한 대략적인 설명을 해드리겠습니다 :",
+              "",
+              "* 세개의 feature 브랜치가 있습니다 -- `side1`, `side2` 그리고 `side3` 가 있습니다.",
+              "* 각각의 브랜치를 순서에 맞게 원격 저장소로 push하고 싶습니다.",
+              "* 원격 저장소가 최근에 갱신된적이 있기때문에 그 작업또한 포함시켜야 합니다.",
+              "",
+              ":O 이야 할게 많습니다! 행운을 빕니다, 이번 레벨은 많은걸 요구합니다."
             ]
           }
         }
