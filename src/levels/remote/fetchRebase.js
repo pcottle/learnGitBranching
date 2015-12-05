@@ -752,7 +752,7 @@ exports.level = {
             "markdowns": [
               "## 分散工作",
               "",
-              "到现在我们已经知道了如何从其它地方`pull`,以及如何`push`我们自己的提交对象, 看起来真简单, 但是为何人们还会如此困惑呢?",
+              "到现在我们已经知道了如何从其它地方 `pull`, 以及如何 `push` 我们自己的提交对象, 看起来真简单, 但是为何人们还会如此困惑呢?",
               "",
               "困难来自于远端库历史的分散. 在讨论这个问题的细节前, 我们看一个例子...",
               ""
@@ -765,9 +765,9 @@ exports.level = {
             "markdowns": [
               "想象一下你周一克隆了一个仓库, 然后在一个特性分支上工作. 到周五时, 你准备推送你的特性分支 -- 不行的! 你的同事这周写了一堆代码, 使得你的特性分支过期了. 他们已经将代码分享(合并)到远端仓库了, 所以你的工作就变成了基于仓库老版的代码了.",
               "",
-              "这种情况下, `git push`就变得模糊了, 如果你执行`git push`, git应该让远端仓库回到星期一那天? 还是直接在新代码的基础上添加你的代码? 或者直接忽略你的提交? ",
+              "这种情况下, `git push` 就变得模糊了, 如果你执行 `git push`, Git 应该让远端仓库回到星期一那天? 还是直接在新代码的基础上添加你的代码? 或者直接忽略你的提交? ",
               "",
-              "因为这情况让问题变得模糊(因为历史的分散性)了, git 不会允许你`push`. 你只能先合并远端最新的代码, 然后才能分享你的工作."
+              "因为这情况让问题变得模糊(因为历史的分散性)了, Git 不会允许你 `push`. 你只能先合并远端最新的代码, 然后才能分享你的工作."
             ]
           }
         },
@@ -778,7 +778,7 @@ exports.level = {
               "废话说得真多, 看看实际案例吧!"
             ],
             "afterMarkdowns": [
-              "看见了吧? 什么都没有变, 命令失败了! `git push`的失败是因为你最新提交了`C3`(基于远端的`C1`). 而远端已经更新到了`C2`啦, 所以git 拒绝了你的push"
+              "看见了吧? 什么都没有变, 命令失败了! `git push` 的失败是因为你最新提交了 `C3` (基于远端的 `C1`). 而远端已经更新到了 `C2` 啦, 所以 Git 拒绝了你的 push"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -790,7 +790,7 @@ exports.level = {
             "markdowns": [
               "你如何解决这事儿呢? 很简单, 你需要做的就是使你的工作基于最新的远端分支.",
               "",
-              "有好些方法做到这一点呢. 不过最直接的方法就是通过rebase修订你的工作. 我们继续向前,看看这是怎么实现的!"
+              "有好些方法做到这一点呢. 不过最直接的方法就是通过 rebase 修订你的工作. 我们继续向前,看看这是怎么实现的!"
             ]
           }
         },
@@ -798,10 +798,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果我们在push之前做rebase呢?"
+              "如果我们在 push 之前做 rebase 呢?"
             ],
             "afterMarkdowns": [
-              "轰 啊 轰! 我们用`git fetch`更新了远端在本地的副本, 然后合并我们的工作以映射远端的新变化, 最后再`git push`"
+              "轰 啊 轰! 我们用 `git fetch` 更新了远端在本地的副本, 然后合并我们的工作以映射远端的新变化, 最后再 `git push`"
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -811,9 +811,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "还有其它的方法应对此种情况吗? 当然了, 我们还可以使用`merge`",
+              "还有其它的方法应对此种情况吗? 当然了, 我们还可以使用 `merge`",
               "",
-              "尽管`git merge`不会转移你的工作(相反的它会创建新的合并提交), 它会告诉git 你已经合并了远端的所有变更 -- 远端分支就是你自己分支的祖先, 这意味着, 你的提交反映了远端分支的提交.",
+              "尽管 `git merge` 不会转移你的工作(相反的它会创建新的合并提交), 它会告诉 Git 你已经合并了远端的所有变更 -- 远端分支就是你自己分支的祖先, 这意味着, 你的提交反映了远端分支的提交.",
               "",
               "看下演示..."
             ]
@@ -823,10 +823,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "那如果我们用merge 替换rebase呢?"
+              "那如果我们用 merge 替换 rebase 呢?"
             ],
             "afterMarkdowns": [
-              "轰哦轰! 我们用`git fetch`更新了远端副本, 然后合并了新变更到我们的工作, 最后我们用`git push`把工作推送回去."
+              "轰哦轰! 我们用 `git fetch` 更新了远端副本, 然后合并了新变更到我们的工作, 最后我们用 `git push` 把工作推送回去."
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -838,7 +838,7 @@ exports.level = {
             "markdowns": [
               "漂亮! 有更简单的命令吗?",
               "",
-              "当然 -- 就是你所知道`git pull`,  就是fetch 和merge 的简写. 更方便的 -- `git pull --rebase` 就是 fetch 和rebase的简写! ",
+              "当然 -- 就是你所知道的 `git pull`,  就是 fetch 和 merge 的简写. 更方便的 -- `git pull --rebase` 就是 fetch 和 rebase 的简写! ",
               "",
               "让我们看看简写命令是如何工作的."
             ]
@@ -861,7 +861,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "换用常规的`pull`"
+              "换用常规的 `pull`"
             ],
             "afterMarkdowns": [
               "还是跟以前一样! "
@@ -881,7 +881,7 @@ exports.level = {
               "* Clone 你的仓库",
               "* 模拟一次远程提交(fakeTeamwork)",
               "* 本地提交一次",
-              "* 用**变基**提交你的修改(--rebase)"
+              "* 用**变基**提交你的修改 (--rebase)"
             ]
           }
         }

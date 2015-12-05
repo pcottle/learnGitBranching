@@ -294,9 +294,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 奇葩的`<source>`",
+              "### 奇葩的 `<source>`",
               "",
-              "有两种罕见的情况, git 不需要 `<source>`. 这基于这样一个事实-- 技术上说就是你不指定<source>. 这是通过空参数实现的",
+              "有两种罕见的情况, Git 不需要 `<source>`. 这基于这样一个事实 -- 技术上说就是你不指定 <source>. 这是通过空参数实现的",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
@@ -309,10 +309,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果给push传一个空参数会如何呢? 远端会删除分支! "
+              "如果给 push 传一个空参数会如何呢? 远端会删除分支! "
             ],
             "afterMarkdowns": [
-              "就是这样子, 我们通过给push传空值source, 成功删除了远端的`foo`分支, 这真有意思..."
+              "就是这样子, 我们通过给 push 传空值 source, 成功删除了远端的 `foo` 分支, 这真有意思..."
             ],
             "command": "git push origin :foo",
             "beforeCommand": "git clone; git push origin master:foo"
@@ -322,10 +322,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果给fetch传空<source>, 那本地会创建一个新分支."
+              "如果给 fetch 传空 <source>, 那本地会创建一个新分支."
             ],
             "afterMarkdowns": [
-              "很神奇吧! 但无论怎么说, 这就是git !"
+              "很神奇吧! 但无论怎么说, 这就是 Git !"
             ],
             "command": "git fetch origin :bar",
             "beforeCommand": "git clone"

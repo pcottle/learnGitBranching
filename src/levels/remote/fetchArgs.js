@@ -16,7 +16,7 @@ exports.level = {
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
     "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez lire une nouvelle fois les slides avec \"help level\"",
-    "zh_CN": "注意下提交对象的id是如何交换的! 你可以通过`help level`再次切到幻灯片!",
+    "zh_CN": "注意下提交对象的 id 是如何交换的! 你可以通过 `help level` 再次切到幻灯片!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "es_AR": "¡Prestá atención a cómo podrían haberse invertido los ids de los commits! Podés volver a leer toda la lección usando \"help level\"",
     "pt_BR": "Preste atenção em como os identificadores dos commits podem ter trocado! Você pode ler os slides novamente com \"help level\"",
@@ -648,9 +648,9 @@ exports.level = {
             "markdowns": [
               "## Git fetch arguments",
               "",
-              "我们刚学习了git push的参数, 特别是`<place>`参数, 更特别的冒号分隔(`<source>:<destination>`). 这些参数可以用于`git fetch`吗?",
+              "我们刚学习了 git push 的参数, 特别是 `<place>` 参数, 更特别的冒号分隔(`<source>:<destination>`). 这些参数可以用于 `git fetch` 吗?",
               "",
-              "你猜中了! git fetch的参数和git push相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)",
+              "你猜中了! git fetch 的参数和 git push 相当相似. 都是相同的概念, 但是方向相反(因为现在你是下载 而非上传)",
               "",
               "让我们逐个讨论下这些概念.."
             ]
@@ -662,11 +662,11 @@ exports.level = {
             "markdowns": [
               "###  `<place>` 参数",
               "",
-              "你可以像如下命令这样为git fetch设置<place>",
+              "你可以像如下命令这样为 git fetch 设置 <place>",
               "",
               "`git fetch origin foo`",
               "",
-              "Git 会来到远端的`foo`分支, 然后抓取所有不在本地的新提交, 放到本地的分支`o/foo`",
+              "Git 会来到远端的 `foo` 分支, 然后抓取所有不在本地的新提交, 放到本地的分支 `o/foo`",
               "",
               "我们看看这个动作(这像是更新器) "
             ]
@@ -676,10 +676,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "通过指定place..."
+              "通过指定 place..."
             ],
             "afterMarkdowns": [
-              "我们只下载更新了o/foo"
+              "我们只下载更新了 o/foo"
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -689,9 +689,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "你可能会好奇 -- 为何git 会将新提交压入到o/foo 而不是 压入到我本地的foo. 我想 <place>参数就是同时存在于本地和远端 的 <place> ",
+              "你可能会好奇 -- 为何 Git 会将新提交压入到 o/foo 而不是压入到我本地的 foo. 我想 <place> 参数就是同时存在于本地和远端的 <place> ",
               "",
-              "好吧, 本例中git 有个特殊例外, 因为你可能位于foo 分支, 你也不想弄乱它. 这得联系之前的课程 -- 它不会更新你的本地工作, 它只是下载提交(这样, 稍后你可以检查 或者 合并之).  ",
+              "好吧, 本例中 Git 有个特殊例外, 因为你可能位于 foo 分支, 你也不想弄乱它. 这得联系之前的课程 -- 它不会更新你的本地工作, 它只是下载提交(这样, 稍后你可以检查或者合并之).  ",
               ""
             ]
           }
@@ -700,13 +700,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "如果我们设定了 `<source>:<destination>`会发生什么呢?",
+              "如果我们设定了 `<source>:<destination>` 会发生什么呢?",
               "",
-              "如果你觉得直接更新本地分支很爽, 那你就用冒号refspec吧. 不过, 你不能在检出的分支上干这个事.",
+              "如果你觉得直接更新本地分支很爽, 那你就用冒号 refspec 吧. 不过, 你不能在检出的分支上干这个事.",
               "",
-              "这里只有一个特点 -- `source` 是远端的位置, 而`<destination>`是要放置提交的本地位置, 这真是有趣 -- 这也是传送数据的对立方向! ",
+              "这里只有一个特点 -- `source` 是远端的位置, 而 `<destination>` 是要放置提交的本地位置, 这真是有趣 -- 这也是传送数据的对立方向! ",
               "",
-              "话虽如此, 开发者很少这么做. 我已经介绍了, 概念上fetch/push很相似, 只是它们方向相反.  "
+              "话虽如此, 开发者很少这么做. 我已经介绍了, 概念上 fetch/push 很相似, 只是它们方向相反.  "
             ]
           }
         },
@@ -717,7 +717,7 @@ exports.level = {
               "我们看看更疯狂的例子:"
             ],
             "afterMarkdowns": [
-              "哇! 看见了吧, git 将`foo~1` 解析成一个origin的位置, 然后下载到了本地`bar`. 注意foo 和 o/foo都没有得到更新 (因为我们指定了destination)."
+              "哇! 看见了吧, Git 将 `foo~1` 解析成一个 origin 的位置, 然后下载到了本地 `bar`. 注意 foo 和 o/foo 都没有得到更新 (因为我们指定了 destination)."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -727,10 +727,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果 destination 不存在呢? 我们看看上个幻灯片(不含bar)! "
+              "如果 destination 不存在呢? 我们看看上个幻灯片(不含 bar)! "
             ],
             "afterMarkdowns": [
-              "看见了吧, 它就像是git push. Git会在fetch前自己确立本地destination, 就像是git在push时, 会自己在remote确立destination(如果它不存在的话)一样"
+              "看见了吧, 它就像是 git push. Git 会在 fetch 前自己确立本地 destination, 就像是 Git 在 push 时, 会自己在 remote 确立 destination (如果它不存在的话)一样"
             ],
             "command": "git fetch origin foo~1",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -757,7 +757,7 @@ exports.level = {
             "markdowns": [
               "好, 说得太多了! 要完成本节, 抓取可视窗口指定的提交, 使用这些魔幻的命令吧.",
               "",
-              "使用fetch时, 你必须指定source/destination. 注意一下可视窗口, 因为提交对象的id可以会被切换哦!"
+              "使用 fetch 时, 你必须指定 source/destination. 注意一下可视窗口, 因为提交对象的 id 可以会被切换哦!"
             ]
           }
         }

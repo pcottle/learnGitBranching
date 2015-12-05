@@ -402,9 +402,9 @@ exports.level = {
             "markdowns": [
               "## Git Fetch",
               "",
-              "git remote可以归结为向其它仓库推送/拉取数据. 只要我们能回溯或前推提交, 我们就可以分享任何类型的被git跟踪的更新(工作, 新想法, 情书等等)",
+              "git remote 可以归结为向其它仓库推送/拉取数据. 只要我们能回溯或前推提交, 我们就可以分享任何类型的被 Git 跟踪的更新(工作, 新想法, 情书等等)",
               "",
-              "本节课我们将学习 如何从远端仓库获取数据 -- 这个命令叫` git fetch`",
+              "本节课我们将学习 如何从远端仓库获取数据 -- 这个命令叫 `git fetch`",
               "",
               "你会注意到当我们更新远端的仓库时, 我们的远端分支也会更新 并映射到最新的远端仓库."
             ]
@@ -414,10 +414,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在解释`git fetch`前, 我们看看实例. 这里我们有一个包含了两个新提交的远端仓库, 这两新提交不存在于本地"
+              "在解释 `git fetch` 前, 我们看看实例. 这里我们有一个包含了两个新提交的远端仓库, 这两新提交不存在于本地"
             ],
             "afterMarkdowns": [
-              "就是这样了! `C2`,`C3`被下载到了本地仓库, 同时`o/master`被更新并映射到了这一变更 "
+              "就是这样了! `C2`,`C3` 被下载到了本地仓库, 同时 `o/master` 被更新并映射到了这一变更 "
             ],
             "command": "git fetch",
             "beforeCommand": "git clone; git fakeTeamwork 2"
@@ -449,9 +449,9 @@ exports.level = {
             "markdowns": [
               "### fetch 不能做的事",
               "",
-              "`git fetch`, 不能改变你的本地状态. 你不会更新你的`master` 或者 任何与文件系统相关的东西.",
+              "`git fetch`, 不能改变你的本地状态. 你不会更新你的 `master` 或者 任何与文件系统相关的东西.",
               "",
-              "所以, 你可以将`git fetch`的执行 视为下载"
+              "所以, 你可以将`git fetch` 的执行 视为下载"
             ]
           }
         },
@@ -459,7 +459,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成本节, 只需用`git fetch`下载所有的提交! "
+              "要完成本节, 只需用 `git fetch` 下载所有的提交! "
             ]
           }
         }

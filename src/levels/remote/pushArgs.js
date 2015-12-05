@@ -399,9 +399,9 @@ exports.level = {
             "markdowns": [
               "## Push 参数",
               "",
-              "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在git push/pull/fetch背后的秘密. ",
+              "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在 git push/pull/fetch 背后的秘密. ",
               "",
-              "首先看看`git push`, 在远端跟踪分支中, 你学到了git 会找出要push的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为push指定参数:",
+              "首先看看 `git push`, 在远端跟踪分支中, 你学到了 Git 会找出要 push 的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为 push 指定参数:",
               "",
               "`git push <remote> <place>`",
               "",
@@ -417,11 +417,11 @@ exports.level = {
               "",
               "`git push origin master`",
               "",
-              "* 切到master分支, 然后抓取所有的提交, 再将新提交推送到远端的master分支!",
+              "* 切到 master 分支, 然后抓取所有的提交, 再将新提交推送到远端的 master 分支!",
               "",
-              "通过指定`master`为<place>参数, 我们告诉git 提交来自于master, 要推送到远端的master. 这种使用方式基本上用于同步两仓库",
+              "通过指定 `master` 为 <place> 参数, 我们告诉 Git 提交来自于 master, 要推送到远端的 master. 这种使用方式基本上用于同步两仓库",
               "",
-              "谨记, 因为我们通过指定参数告诉了git 所有的事, git 就忽略了我们所检出的分支(转而直接使用参数指定的分支作为source/destination)"
+              "谨记, 因为我们通过指定参数告诉了 Git 所有的事, Git 就忽略了我们所检出的分支(转而直接使用参数指定的分支作为 source/destination)"
             ]
           }
         },
@@ -432,7 +432,7 @@ exports.level = {
               "我们看看指定参数的例子. 注意下我们当前检出的位置."
             ],
             "afterMarkdowns": [
-              "好了! 通过指定参数, 远端的`master` 得到了更新"
+              "好了! 通过指定参数, 远端的 `master` 得到了更新"
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -445,7 +445,7 @@ exports.level = {
               "不指定参数会发生什么呢?"
             ],
             "afterMarkdowns": [
-              "命令失败了! 因为我们所check out 的HEAD没有跟踪分支.  "
+              "命令失败了! 因为我们所 check out 的 HEAD 没有跟踪分支.  "
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"
@@ -455,7 +455,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本节, 我们要更新远端的`foo`和`master`, 在本节中`git checkout` 是被禁用的!"
+              "本节, 我们要更新远端的 `foo` 和 `master`, 在本节中 `git checkout` 是被禁用的!"
             ]
           }
         }

@@ -15,7 +15,7 @@ exports.level = {
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
     "ja"   : "9000回以上のrebase",
-    "zh_CN": "N次Rebase",
+    "zh_CN": "N 次 Rebase",
     "zh_TW": "N次Rebase",
     "ru_RU": "Rebase over 9000 раз",
     "uk"   : "Rebase over 9000 разів"
@@ -28,7 +28,7 @@ exports.level = {
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour master seulement à la fin ...",
     "ja"   : "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，最后更新master分支可能是最高效的方法。",
+    "zh_CN": "记住，最后更新 master 分支可能是最高效的方法。",
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
     "uk"   : "Не забвай, що краще всього буде перемістити master  в самому кінці... "
@@ -148,9 +148,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 多分支衍合",
+              "### 多分支 rebase",
               "",
-              "呐，现在我们有很多分支啦！让我们rebase这些分支的工作到 master 分支上吧。",
+              "呐，现在我们有很多分支啦！让我们 rebase 这些分支的工作到 master 分支上吧。",
               "",
               "但是你的头头找了点麻烦 —— 他们希望得到有序的提交历史，也就是我们最终的结果是 `C7'` 在最底部，`C6'` 在它上面，以此类推。",
               "",
