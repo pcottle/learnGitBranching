@@ -62,9 +62,9 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Sequência introdutória',
       'zh_CN': '基础篇',
       'zh_TW': '基礎篇',
-      'ko': '기본 명령어',
+      'ko'   : 'git 기본',
       'ru_RU': 'Введение',
-      'uk': 'Вступ'
+      'uk'   : 'Вступ'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -75,7 +75,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
       'zh_CN': '循序渐进介绍git主要命令',
       'zh_TW': '循序漸進地介紹 git 主要命令',
-      'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다',
+      'ko'   : 'git의 주요 명령어를 깔끔하게 알려드립니다',
       'ru_RU': 'Хорошо подобранное введение в основные команды git',
       'uk': 'Гарно підібране введення в основні команди git'
     }
@@ -91,19 +91,21 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '进阶篇',
       'zh_TW': '進階篇',
       'ru_RU': 'Едем дальше',
-      'uk': 'Їдемо далі'
+      'uk'   : 'Їдемо далі',
+      'ko'   : '다음 단계로'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja'   : '更にgitの素晴らしさを堪能しよう',
-      'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
+      'fr_FR': 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
       'zh_CN': '接下来是git的超赞特性。迫不及待了吧！',
       'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！',
       'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?',
-      'uk': 'Наступна порція абсолютної git-дивожнечі. Зголодніли?'
+      'uk'   : 'Наступна порція абсолютної git-дивожнечі. Зголодніли?',
+      'ko'   : 'git은 아주 멋져요. 왜 멋진지 알려드립니다'
     }
   },
   remote: {
@@ -118,7 +120,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!',
       'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
-      'uk': 'Push & Pull -- віддалені репозиторії в Git!'
+      'uk'   : 'Push & Pull -- віддалені репозиторії в Git!',
+      'ko'   : 'Push & Pull -- Git 원격 저장소!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -130,7 +133,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了',
       'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования',
-      'uk': 'Настав час поділитися своїми нулями та одиничками; соціальне програмування'
+      'uk'   : 'Настав час поділитися своїми нулями та одиничками; соціальне програмування',
+      'ko'   : '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!'
     }
   },
   remoteAdvanced: {
@@ -145,7 +149,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '关于origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令',
       'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes',
-      'uk': 'Через origin – до зірок. Продвинуте використання Git Remotes'
+      'uk'   : 'Через origin – до зірок. Продвинуте використання Git Remotes',
+      'ko'   : '"origin"그 너머로 -- 고급 Git 원격 저장소'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -157,7 +162,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene',
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
-      'uk': 'Й ти думав що бути всесильним диктатором буде весело...'
+      'uk'   : 'Й ти думав що бути всесильним диктатором буде весело...'
+      'ko'   : '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...'
     }
   },
   move: {
@@ -168,12 +174,12 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Moviendo el trabajo por ahí',
       'pt_BR': 'Movendo trabalho por aí',
       'ja'   : 'コードの移動',
+      'ko': '코드 이리저리 옮기기',
       // INTL out of sync :(
       'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
-      'ko': '리베이스 완전정복!',
       'ru_RU': 'Перемещаем труды туда-сюда',
-      'uk': 'Переміщуємо роботу туди-сюди'
+      'uk'   : 'Переміщуємо роботу туди-сюди'
     },
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
@@ -181,13 +187,13 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Soyez alaise de modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       'pt_BR': 'Fique confortável em modificar a árvore de códigos',
+      'ko'   : '작업 트리를 수정하는건 식은죽 먹기지요 이제',
       // INTL out of sync :(
       'ja'   : '話題のrebaseってどんなものだろう？って人にオススメ',
-      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！',
       'ru_RU': 'Не стесняйтесь менять историю',
-      'uk': 'Не соромимось змінювати історію'
+      'uk'   : 'Не соромимось змінювати історію'
     }
   },
   mixed: {
@@ -202,7 +208,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '大杂烩？',
       'zh_TW': '活用 git 的指令',
       'ru_RU': 'Сборная солянка',
-      'uk': 'Всяке'
+      'uk'   : 'Всяке'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -211,11 +217,11 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
-      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
+      'ko'   : 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git技术、技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧',
       'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
-      'uk': 'Різні прийоми роботи з Git, хитрості та поради'
+      'uk'   : 'Різні прийоми роботи з Git, хитрості та поради'
     }
   },
   advanced: {
@@ -229,7 +235,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '高级主题',
       'zh_TW': '進階主題',
       'ru_RU': 'Продвинутый уровень',
-      'uk': 'Досвідчений рівень'
+      'uk'   : 'Досвідчений рівень',
+      'ko'   : '고급 문제'
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -241,7 +248,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '只为真正的勇士！',
       'zh_TW': '來成為真正的強者吧！',
       'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
-      'uk': 'Для хоробрих'
+      'uk'   : 'Для хоробрих',
+      'ko'   : '용기있는 도전자를 위해 준비한 문제입니다'
     }
   }
 };
