@@ -162,7 +162,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene',
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
-      'uk'   : 'Й ти думав що бути всесильним диктатором буде весело...'
+      'uk'   : 'Й ти думав що бути всесильним диктатором буде весело...',
       'ko'   : '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...'
     }
   },
@@ -174,7 +174,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Moviendo el trabajo por ahí',
       'pt_BR': 'Movendo trabalho por aí',
       'ja'   : 'コードの移動',
-      'ko': '코드 이리저리 옮기기',
+      'ko'   : '코드 이리저리 옮기기',
       // INTL out of sync :(
       'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
@@ -204,7 +204,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment',
       'es_AR': 'Bolsa de gatos',
       'pt_BR': 'Sortidos',
-      'ko': '종합선물세트',
+      'ko'   : '종합선물세트',
       'zh_CN': '大杂烩？',
       'zh_TW': '活用 git 的指令',
       'ru_RU': 'Сборная солянка',
