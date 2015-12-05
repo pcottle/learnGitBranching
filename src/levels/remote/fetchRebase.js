@@ -12,7 +12,8 @@ exports.level = {
     "fr_FR": "Historique divergent",
     "ja"   : "履歴の分岐",
     "ru_RU": "Расхождение в истории",
-    "uk"   : "Розходження в історії"
+    "uk"   : "Розходження в історії",
+    "ko"   : "엇갈린 히스토리"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -24,7 +25,8 @@ exports.level = {
     "ja"   : "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели",
-    "uk"   : "перевірте порядок в візуалізації цілі"
+    "uk"   : "перевірте порядок в візуалізації цілі",
+    "ko"   : "순서는 goal을 참고하세요"
   },
   "startDialog": {
     "en_US": {
@@ -1452,6 +1454,149 @@ exports.level = {
               "* Зроби симуляцію командної роботи (1 коміт)",
               "* Зроби власний коміт (1 коміт)",
               "* Опублікуй свої напрацювання за допомогою *rebasе*"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 엇갈린 작업",
+              "",
+              "지금까지 우리는 다른곳에서 커밋을 `pull`해서 내려받고 우리가 만든 변경들을 `push`하는 방법을 배웠습니다. 간단해보이는데, 왜 사람들이 이것 때문에 곤란해 할까요?",
+              "",
+              "어려움은 저장소의 히스토리가 *엇갈릴 때* 찾아옵니다. 자세히 살펴보기 전에 예제를 확인해봅시다...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "상상을 해봅시다. 여러분은 월요일에 저장소를 clone해서 부가기능을 만들기 시작했습니다. 금요일쯤 기능을 공개할 준비가 되었습니다 -- 그런데 오 이런! 동료들이 주중에 코딩을 잔뜩해서 여러분이 만든 기능은 프로젝트에 뒤떨어져서 무용지물이 되었습니다. 이 사람들이 그 커밋들을 공유하고있는 원격 저장소에도 공개했습니다, 이제 *여러분의* 작업은 이제 의미가 없는 *구*버전의 프로젝트를 기반으로한 작업이 되어버렸습니다.",
+              "",
+              "이런 경우, 명령어 `git push`가 할 일이 애매해집니다. `git push`를 수행했을때, git은 원격 저장소를 여러분이 작업했던 월요일의 상태로 되돌려야 할까요? 아니면 새 코드를 건들지 않고 여러분의 코드만 추가해야 되나요? 아니면 여러분의 작업은 뒤 떨어졌기 때문에 완전히 무시해야되나요?",
+              "",
+              "이렇게 상황이 애매모호하기 때문에(히스토리가 엇갈렸기 때문이죠), git은 여러분이 `push`하지 못하게 합니다. 사실 여러분이 작업을 공유하기전에 원격 저장소의 최신 상태를 합치도록 강제합니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "너무 떠든거같습니다! 이 상황을 직접 눈으로 확인해봅시다"
+            ],
+            "afterMarkdowns": [
+              "보이죠? 명령어가 실행되지 않아서 아무것도 잃어나지 않습니다. 여러분의 최근 커밋 `C3`가 원격저장소의 `C1`을 기반으로 하기 때문에 `git push`가 실패합니다. 원격 저장소는 `C2`까지 갱신된 상태기때문에 git은 여러분의 push를 거부하게됩니다."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "그러면 이 상황을 어떻게 해결할까요? 쉽습니다, 여러분의 작업을 원격 브랜치의 최신상태를 기반으로 하게 만들면 됩니다.",
+              "",
+              "이렇게 하기위한 방법이 여러가지가 있는데, 가장 간결한 방법은 리베이스를 통해 작업을 옮기는 방법입니다. 예제를 통해 눈으로 확인해 봅시다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "push를 하기전에 리베이스를 하면..."
+            ],
+            "afterMarkdowns": [
+              "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 변경들로 우리 작업을 리베이스 했습니다, 이제 `git push`하면 끝!"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "다른 방법은 없냐고요? 당연히 있습니다! 같은것을 `merge`로 대신 해봅시다.",
+              "",
+              "`git merge`가 여러분의 작업을 옮기지는 않지만(merge 커밋을 생성합니다). git에게 원격 저장소의 변경을 합쳤다고 알려주는 방법중에 하나입니다. 이제 원격 브랜치가 여러분 브랜치의 *부모*기 되었기때문입니다, 여러분의 커밋이 원격 브랜치의 모든 커밋을 반영했다는 뜻이죠.",
+              "",
+              "눈으로 확인해봅시다..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "리베이스대신 병합을하면..."
+            ],
+            "afterMarkdowns": [
+              "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 작업을 우리 작업으로 *병합*했습니다 (원격 저장소의 변경을 반영하기 위해서죠), 이제 `git push`하면 끝!"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "멋집니다! 명령어를 좀더 적게써서 하는 방법은 없나요?",
+              "",
+              "물론 있습니다 -- 여러분은 `git pull`이 fetch와 merge의 줄임 명령어라는 것은 이미 알고 있을 것입니다. 아주 간단하게, `git pull --rebase`를 하면 fetch와 리베이스를 하는 작업의 줄임 명령어 입니다",
+              "",
+              "이 줄임 명령어가 잘 작동하는지 확인해 봅시다"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "먼저 `--rebase`와 함께하면..."
+            ],
+            "afterMarkdowns": [
+              "이전과 같습니다! 간결하고요."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "일반의 `pull`과 사용했을 때는"
+            ],
+            "afterMarkdowns": [
+              "또다시, 이전과 같습니다!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "fetch를 하고 리베이스/병합을 하고 push를 하는 이런 작업흐름은 꽤 흔합니다. 앞으로의 레슨에서는 이런 작업흐름의 복잡한 버전들을 확인해볼 것입니다. 일단은 이것부터 연습해 보죠.",
+              "",
+              "이번 레벨을 통과하려면, 다음의 단계를 거쳐야 합니다:",
+              "",
+              "* 여러분의 저장소를 clone 하세요",
+              "* 가짜 팀워크를 만드세요 (1개의 커밋)",
+              "* 여러분의 작업도 커밋하세요 (1개의 커밋)",
+              "* 여러분의 작업을 *리베이스*를 통해 공유하세요"
             ]
           }
         }
