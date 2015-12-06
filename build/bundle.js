@@ -47164,9 +47164,9 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Sequência introdutória',
       'zh_CN': '基础篇',
       'zh_TW': '基礎篇',
-      'ko': '기본 명령어',
+      'ko'   : 'git 기본',
       'ru_RU': 'Введение',
-      'uk': 'Вступ'
+      'uk'   : 'Вступ'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -47177,7 +47177,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
       'zh_CN': '循序渐进介绍 Git 主要命令',
       'zh_TW': '循序漸進地介紹 git 主要命令',
-      'ko': '브랜치 관련 주요 git 명령어를 깔끔하게 알려드립니다',
+      'ko'   : 'git의 주요 명령어를 깔끔하게 알려드립니다',
       'ru_RU': 'Хорошо подобранное введение в основные команды git',
       'uk': 'Гарно підібране введення в основні команди git'
     }
@@ -47193,19 +47193,21 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '进阶篇',
       'zh_TW': '進階篇',
       'ru_RU': 'Едем дальше',
-      'uk': 'Їдемо далі'
+      'uk'   : 'Їдемо далі',
+      'ko'   : '다음 단계로'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja'   : '更にgitの素晴らしさを堪能しよう',
-      'fr_FR' : 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
+      'fr_FR': 'Le prochain excellent plat de pur git. J\'espère que vous êtes affamés',
       'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
       'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
       'zh_CN': '接下来是 Git 的超赞特性。迫不及待了吧！',
       'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！',
       'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?',
-      'uk': 'Наступна порція абсолютної git-дивожнечі. Зголодніли?'
+      'uk'   : 'Наступна порція абсолютної git-дивожнечі. Зголодніли?',
+      'ko'   : 'git은 아주 멋져요. 왜 멋진지 알려드립니다'
     }
   },
   remote: {
@@ -47220,7 +47222,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': 'Push & Pull -- Git Remotes!',
       'zh_TW': 'Push & Pull -- Git Remotes!',
       'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
-      'uk': 'Push & Pull -- віддалені репозиторії в Git!'
+      'uk'   : 'Push & Pull -- віддалені репозиторії в Git!',
+      'ko'   : 'Push & Pull -- Git 원격 저장소!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -47232,7 +47235,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '是时候分享你的代码了',
       'zh_TW': '是時候分享你的程式碼了',
       'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования',
-      'uk': 'Настав час поділитися своїми нулями та одиничками; соціальне програмування'
+      'uk'   : 'Настав час поділитися своїми нулями та одиничками; соціальне програмування',
+      'ko'   : '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!'
     }
   },
   remoteAdvanced: {
@@ -47247,7 +47251,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '关于 origin 和 其它仓库 -- Git Gemotes 高级命令',
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令',
       'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes',
-      'uk': 'Через origin – до зірок. Продвинуте використання Git Remotes'
+      'uk'   : 'Через origin – до зірок. Продвинуте використання Git Remotes',
+      'ko'   : '"origin"그 너머로 -- 고급 Git 원격 저장소'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -47259,7 +47264,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
       'de_DE': 'Git Remotes für Fortgeschrittene',
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
-      'uk': 'Й ти думав що бути всесильним диктатором буде весело...'
+      'uk'   : 'Й ти думав що бути всесильним диктатором буде весело...',
+      'ko'   : '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...'
     }
   },
   move: {
@@ -47270,12 +47276,12 @@ var sequenceInfo = exports.sequenceInfo = {
       'es_AR': 'Moviendo el trabajo por ahí',
       'pt_BR': 'Movendo trabalho por aí',
       'ja'   : 'コードの移動',
+      'ko'   : '코드 이리저리 옮기기',
       // INTL out of sync :(
       'zh_CN': '精通 rebase！',
       'zh_TW': '精通 rebase！',
-      'ko': '리베이스 완전정복!',
       'ru_RU': 'Перемещаем труды туда-сюда',
-      'uk': 'Переміщуємо роботу туди-сюди'
+      'uk'   : 'Переміщуємо роботу туди-сюди'
     },
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
@@ -47283,13 +47289,13 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Soyez alaise de modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       'pt_BR': 'Fique confortável em modificar a árvore de códigos',
+      'ko'   : '작업 트리를 수정하는건 식은죽 먹기지요 이제',
       // INTL out of sync :(
       'ja'   : '話題のrebaseってどんなものだろう？って人にオススメ',
-      'ko': '그 좋다고들 말하는 rebase에 대해 알아봅시다!',
       'zh_CN': '大家都在说的 rebase 究竟是神马？看看吧！',
       'zh_TW': '大家都在說的 rebase 到底是什麼啊？來看看吧！',
       'ru_RU': 'Не стесняйтесь менять историю',
-      'uk': 'Не соромимось змінювати історію'
+      'uk'   : 'Не соромимось змінювати історію'
     }
   },
   mixed: {
@@ -47300,11 +47306,11 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment',
       'es_AR': 'Bolsa de gatos',
       'pt_BR': 'Sortidos',
-      'ko': '종합선물세트',
+      'ko'   : '종합선물세트',
       'zh_CN': '大杂烩？',
       'zh_TW': '活用 git 的指令',
       'ru_RU': 'Сборная солянка',
-      'uk': 'Всяке'
+      'uk'   : 'Всяке'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -47313,11 +47319,11 @@ var sequenceInfo = exports.sequenceInfo = {
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
       'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
-      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
+      'ko'   : 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
       'zh_CN': 'Git 技术、技巧与贴士杂烩',
       'zh_TW': 'git 的技術，招數與技巧',
       'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
-      'uk': 'Різні прийоми роботи з Git, хитрості та поради'
+      'uk'   : 'Різні прийоми роботи з Git, хитрості та поради'
     }
   },
   advanced: {
@@ -47331,7 +47337,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '高级主题',
       'zh_TW': '進階主題',
       'ru_RU': 'Продвинутый уровень',
-      'uk': 'Досвідчений рівень'
+      'uk'   : 'Досвідчений рівень',
+      'ko'   : '고급 문제'
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -47343,7 +47350,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '只为真正的勇士！',
       'zh_TW': '來成為真正的強者吧！',
       'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
-      'uk': 'Для хоробрих'
+      'uk'   : 'Для хоробрих',
+      'ko'   : '용기있는 도전자를 위해 준비한 문제입니다'
     }
   }
 };
@@ -61388,7 +61396,8 @@ exports.level = {
     "fr_FR": "Historique divergent",
     "ja"   : "履歴の分岐",
     "ru_RU": "Расхождение в истории",
-    "uk"   : "Розходження в історії"
+    "uk"   : "Розходження в історії",
+    "ko"   : "엇갈린 히스토리"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -61400,7 +61409,8 @@ exports.level = {
     "ja"   : "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели",
-    "uk"   : "перевірте порядок в візуалізації цілі"
+    "uk"   : "перевірте порядок в візуалізації цілі",
+    "ko"   : "순서는 goal을 참고하세요"
   },
   "startDialog": {
     "en_US": {
@@ -62828,6 +62838,149 @@ exports.level = {
               "* Зроби симуляцію командної роботи (1 коміт)",
               "* Зроби власний коміт (1 коміт)",
               "* Опублікуй свої напрацювання за допомогою *rebasе*"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 엇갈린 작업",
+              "",
+              "지금까지 우리는 다른곳에서 커밋을 `pull`해서 내려받고 우리가 만든 변경들을 `push`하는 방법을 배웠습니다. 간단해보이는데, 왜 사람들이 이것 때문에 곤란해 할까요?",
+              "",
+              "어려움은 저장소의 히스토리가 *엇갈릴 때* 찾아옵니다. 자세히 살펴보기 전에 예제를 확인해봅시다...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "상상을 해봅시다. 여러분은 월요일에 저장소를 clone해서 부가기능을 만들기 시작했습니다. 금요일쯤 기능을 공개할 준비가 되었습니다 -- 그런데 오 이런! 동료들이 주중에 코딩을 잔뜩해서 여러분이 만든 기능은 프로젝트에 뒤떨어져서 무용지물이 되었습니다. 이 사람들이 그 커밋들을 공유하고있는 원격 저장소에도 공개했습니다, 이제 *여러분의* 작업은 이제 의미가 없는 *구*버전의 프로젝트를 기반으로한 작업이 되어버렸습니다.",
+              "",
+              "이런 경우, 명령어 `git push`가 할 일이 애매해집니다. `git push`를 수행했을때, git은 원격 저장소를 여러분이 작업했던 월요일의 상태로 되돌려야 할까요? 아니면 새 코드를 건들지 않고 여러분의 코드만 추가해야 되나요? 아니면 여러분의 작업은 뒤 떨어졌기 때문에 완전히 무시해야되나요?",
+              "",
+              "이렇게 상황이 애매모호하기 때문에(히스토리가 엇갈렸기 때문이죠), git은 여러분이 `push`하지 못하게 합니다. 사실 여러분이 작업을 공유하기전에 원격 저장소의 최신 상태를 합치도록 강제합니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "너무 떠든거같습니다! 이 상황을 직접 눈으로 확인해봅시다"
+            ],
+            "afterMarkdowns": [
+              "보이죠? 명령어가 실행되지 않아서 아무것도 잃어나지 않습니다. 여러분의 최근 커밋 `C3`가 원격저장소의 `C1`을 기반으로 하기 때문에 `git push`가 실패합니다. 원격 저장소는 `C2`까지 갱신된 상태기때문에 git은 여러분의 push를 거부하게됩니다."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "그러면 이 상황을 어떻게 해결할까요? 쉽습니다, 여러분의 작업을 원격 브랜치의 최신상태를 기반으로 하게 만들면 됩니다.",
+              "",
+              "이렇게 하기위한 방법이 여러가지가 있는데, 가장 간결한 방법은 리베이스를 통해 작업을 옮기는 방법입니다. 예제를 통해 눈으로 확인해 봅시다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "push를 하기전에 리베이스를 하면..."
+            ],
+            "afterMarkdowns": [
+              "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 변경들로 우리 작업을 리베이스 했습니다, 이제 `git push`하면 끝!"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "다른 방법은 없냐고요? 당연히 있습니다! 같은것을 `merge`로 대신 해봅시다.",
+              "",
+              "`git merge`가 여러분의 작업을 옮기지는 않지만(merge 커밋을 생성합니다). git에게 원격 저장소의 변경을 합쳤다고 알려주는 방법중에 하나입니다. 이제 원격 브랜치가 여러분 브랜치의 *부모*기 되었기때문입니다, 여러분의 커밋이 원격 브랜치의 모든 커밋을 반영했다는 뜻이죠.",
+              "",
+              "눈으로 확인해봅시다..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "리베이스대신 병합을하면..."
+            ],
+            "afterMarkdowns": [
+              "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 작업을 우리 작업으로 *병합*했습니다 (원격 저장소의 변경을 반영하기 위해서죠), 이제 `git push`하면 끝!"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "멋집니다! 명령어를 좀더 적게써서 하는 방법은 없나요?",
+              "",
+              "물론 있습니다 -- 여러분은 `git pull`이 fetch와 merge의 줄임 명령어라는 것은 이미 알고 있을 것입니다. 아주 간단하게, `git pull --rebase`를 하면 fetch와 리베이스를 하는 작업의 줄임 명령어 입니다",
+              "",
+              "이 줄임 명령어가 잘 작동하는지 확인해 봅시다"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "먼저 `--rebase`와 함께하면..."
+            ],
+            "afterMarkdowns": [
+              "이전과 같습니다! 간결하고요."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "일반의 `pull`과 사용했을 때는"
+            ],
+            "afterMarkdowns": [
+              "또다시, 이전과 같습니다!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "fetch를 하고 리베이스/병합을 하고 push를 하는 이런 작업흐름은 꽤 흔합니다. 앞으로의 레슨에서는 이런 작업흐름의 복잡한 버전들을 확인해볼 것입니다. 일단은 이것부터 연습해 보죠.",
+              "",
+              "이번 레벨을 통과하려면, 다음의 단계를 거쳐야 합니다:",
+              "",
+              "* 여러분의 저장소를 clone 하세요",
+              "* 가짜 팀워크를 만드세요 (1개의 커밋)",
+              "* 여러분의 작업도 커밋하세요 (1개의 커밋)",
+              "* 여러분의 작업을 *리베이스*를 통해 공유하세요"
             ]
           }
         }
@@ -66223,7 +66376,8 @@ exports.level = {
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
-    "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset"
+    "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
+    "ko"   : "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요"
   },
   "name": {
     "en_US": "Push Master!",
@@ -66234,7 +66388,8 @@ exports.level = {
     "de_DE": "Push Master!",
     "ja"   : "Push Master!",
     "fr_FR": "Maître du push !",
-    "ru_RU": "Push Мастер!"
+    "ru_RU": "Push Мастер!",
+    "ko"   : "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -66710,6 +66865,59 @@ exports.level = {
               "* リモートが更新されたなら、次はより良く作業を統合する方法を紹介しましょう。",
               "",
               ":O これはきつそうだ！このレベルを完了させることは大きな一歩となります。幸運を祈ります。"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## feature 브랜치 병합하기",
+              "",
+              "이제 여러분은 fetch, pull, push하는데에 익숙해졌을겁니다. 연마한 기술들을 새로운 상황에서 시험 해봅시다.",
+              "",
+              "개발자들은 주로 큰 프로젝트를 개발할때 작업을 feature 브랜치(=토픽브랜치 / `master`브랜치가 아닌 작업을위해 임시로 만든 브랜치를 말합니다)들에 하고 준비가 되면 그 작업을 통합합니다. 이전 강의와 비슷한 모습인데(사이드 브랜치들을 원격저장소로 push한것), 여기서 한 단계 더 나아가 봅시다. ",
+              "",
+              "어떤 개발자들은 `master` 브랜치에 있을때만 push와 pull을 수행합니다 -- 이렇게하면 `master`는 항상 원격 브랜치 (`o/master`)의 상태와 항상 최신의 상태로 유지될 수 있습니다.",
+              "",
+              "이런 작업흐름은 두가지 작업을 같이하게됩니다 :",
+              "",
+              "* feature 브랜치의 작업을 master로 통합하는것과",
+              "* 원격저장소에서 push하고 pull하는 작업입니다"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "다음을 보고 `master`를 갱신하고 작업을 push하는 방법을 다시 떠올려봅시다."
+            ],
+            "afterMarkdowns": [
+              "여기서 우리는 두개의 명령어를 실행 했습니다 :",
+              "",
+              "* 우리의 작업을 원격 저장소의 새 커밋들로 리베이스한 후",
+              "* 우리 작업을 원격저장소로 push했습니다."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이번 레벨은 꽤 덩치가 큽니다 -- 문제에대한 대략적인 설명을 해드리겠습니다 :",
+              "",
+              "* 세개의 feature 브랜치가 있습니다 -- `side1`, `side2` 그리고 `side3` 가 있습니다.",
+              "* 각각의 브랜치를 순서에 맞게 원격 저장소로 push하고 싶습니다.",
+              "* 원격 저장소가 최근에 갱신된적이 있기때문에 그 작업또한 포함시켜야 합니다.",
+              "",
+              ":O 이야 할게 많습니다! 행운을 빕니다, 이번 레벨은 많은걸 요구합니다."
             ]
           }
         }
@@ -68794,4 +69002,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,241,240,242,243,245,244,246,247,249,248,250,253,252,251,254,255,256,257,258,259,260,261,263,265,264,262,266,270,271,272,273,274,275,269,268,267,276,277,203,204,205,206,207,208,209])
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,203,204,205,206,207,208,209])
