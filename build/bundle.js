@@ -63003,7 +63003,8 @@ exports.level = {
     "de_DE": "Änderungen vom Remote zusammenführen",
     "ja"   : "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes",
-    "ru_RU": "Слияние с удалённым репозиторием"
+    "ru_RU": "Слияние с удалённым репозиторием",
+    "ko"   : "원격 작업과 merge하기"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -63014,7 +63015,8 @@ exports.level = {
     "de_DE": "Beachte den Ziel-Baum!",
     "ja"   : "ゴールツリーをよく見てください！",
     "fr_FR": "Respectez l'arbre représentant l'objectif !",
-    "ru_RU": "Внимательно посмотрите на цель уровня!"
+    "ru_RU": "Внимательно посмотрите на цель уровня!",
+    "ko"   : "goal을 잘 살펴보세요!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -63418,6 +63420,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Для этого уровня, давайте решим предыдущие задачи, но с помощью *слияния (merging)*. Может быть получится слегка неказисто, однако такое упражнение хорошо отразит суть различий."
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 왜 merge하지 않는거죠?",
+              "",
+              "새로운 작업들을 원격 저장소로 push하기위해서 여러분은 원격 저장소의 최근 변경들을 *합치기*만 하면 됩니다. 이 말은 즉 원격 브랜치로(예:`o/master`) rebase를 할 수도 merge를 할 수도 있다는 것입니다.",
+              "",
+              "두가지를 다 할 수 있다면, 왜 지금까지 배운 레슨들은 rebase를 하는것에 집중한거죠? 원격 저장소와 작업을 할때는 왜 `merge`에게 관심을 가져주지 않는건가요?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "개발 커뮤니티에서 merge를 하는것과 rebase 사이의 트레이드 오프에 대해 많은 논의가 이루어지고 있습니다. 여기 rebase의 일반적인 장 / 단점을 소개하겠습니다:",
+              "",
+              "장점:",
+              "",
+              "* rebase는 여러분의 커밋 트리를 깔끔하게 정리해서 보기가 좋습니다 모든게 한 줄에 있기때문이죠.",
+              "",
+              "단점:",
+              "",
+              "* rebase를 하게 되면 커밋 트리의 (보이는)히스토리를 수정합니다.",
+              "",
+              "예를 들어, 커밋 `C1`는 *과거*의`C3`로 rebase 될 수 있습니다. `C1'`의 작업이 `C3`의 다음에 있는것으로 보이게 되는겁니다. 실제로는 `C1`이 먼저 완료된거인데 말이죠.",
+              "",
+              "어떤 개발자들은 이력이 보존되는것을 좋아하기 때문에 merge를 선호합니다. 그 이외는(저 처럼) 커밋 트리가 깔끔한것을 선호해서 rebase를 선호합니다. 자기 입맛에 맞추면 되겠습니다 :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이번 레벨에서는 이전의 레벨을 해결 해봅시다. 대신 이번에는 *merge*를 사용하겠습니다. 조금 복잡할 수 있지만 지금 배운 내용의 포인트를 파악하기 좋을것 입니다."
             ]
           }
         }
@@ -68046,7 +68093,8 @@ exports.level = {
     "de_DE": "Remote Tracking",
     "ja"   : "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante",
-    "ru_RU": "Слежка за удалённым репозиторием"
+    "ru_RU": "Слежка за удалённым репозиторием",
+    "ko"   : "원격 저장소 추적하기"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -68057,7 +68105,8 @@ exports.level = {
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
     "ja"   : "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !",
-    "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!"
+    "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!",
+    "ko"   : "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!"
   },
   "startDialog": {
     "en_US": {
@@ -68994,6 +69043,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Отлично! Для выполнения этого уровня давайте выполним push наших наработок в ветку `master` на удалённом репозитории при этом *не* скачивая и не создавая ветку `master` локально. Я объясню Вам оставшееся чуть позже, т.к. это продвинутый курс :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 원격-추적 브랜치",
+              "",
+              "지난 몇개의 레슨에서 \"마법\"처럼 보일 수 있는게 하나 있었는데, git이 `master`브랜치가 `o/master`와 연관 되어있는걸 안다는 것입니다. 물론 이 두 브랜치가 이름이 비슷하기 때문에 로컬 `master`브랜치가 원격의 `master`브랜치와 연결 되어있다고 하자면 어찌 논리적으로 말이 되긴 합니다만..., 이 연결은 두가지 시나리오를 통해 뚜렷하게 확인이 됩니다:",
+              "",
+              "* pull 작업을 하는 도중, 커밋들은 `o/master`에 내려받아 지고 그다음 `master` 브랜치로 *merge*됩니다. merge에서 내재된 타겟은 이 연결에서 결정합니다.",
+              "* push 작업을 하는 도중, `master` 브랜치의 작업은 원격의 `master`브랜치(로컬에서 `o/master`로 표현되는)로 push 됩니다. push의 *목적지*는 master와 `o/master`의 연결에서 결정됩니다.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 원격 추적",
+              "",
+              "간단히 말해서, 이 `master`와 `o/master`사이의 연결은 브랜치의 \"원격 추적\" 속성을 통해 간다하게 설명됩니다. `master`브랜치는 `o/master`브랜치를 추적하도록 설정되어 있습니다 -- 이것은 `master`가 merge와 push할 내재된 목적지가 생겼다는 뜻 입니다.",
+              "",
+              "여러분은 어떻게 이 속성을 지정해주는 그 어떤 명령어 없이 `master` 브랜치에 설정되있는지 궁금할것 입니다. 사실, 여러분이 git으로 저장소를 clone할때 이 속성이 여러분을 위해 자동으로 설정 됩니다.",
+              "",
+              "clone을 진행하면서 git은 원격 저장소에있는 모든 브랜치에 대해 로컬에 원격 브랜치를 생성합니다(`o/master`같은것들 말이죠). 그 후 원격 저장소에서 현재 active한 브랜치를 추적하는 로컬 브랜치를 생성합니다, 대부분의 경우 `master`가 됩니다.",
+              "",
+              "git clone이 완료되면, 여러분은 오로지 하나의 로컬 브랜치를 가지게 됩니다(부담스럽지 않도록) 물론 원격 저장소에있는 여러 다른 브랜치도 여전히 확인할 수 있습니다(호기심이 많으시다면). 로컬, 원격 저장소 양쪽에 최적화 되있는거죠!",
+              "",
+              "여러분이 clone을 할 때 아래의 명령어를 볼 수도 있는 이유입니다:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 내 스스로 지정할수도 있나요?",
+              "",
+              "당연하죠! 여러분은 아무 임의의 브랜치를 `o/master`를 추적하게 만들 수 있습니다. 이렇게 하면 이 브랜치 또한 내재된 push,merge 목적지를 `master`로 할 것입니다. 여러분은 이제 `totallyNotMaster`라는 브랜치에서 `git push`를 수행해서 원격 저장소의 브랜치 `master`로 작업을 push할 수 있습니다!",
+              "",
+              "이 속성을 설정하는데에는 두가지 방법이 있습니다. 첫 번째는 지정한 원격 브랜치를 참조해서 새로운 브랜치를 생성하여 checkout 하는 방법 입니다. 다음을 실행하면",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "`totallyNotMaster`라는 이름의 새 브랜치를 생성하고 `o/master`를 추적하게 설정합니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "설명은 충분히 한듯 합니다. 직접 확인해 봅시다! `foo`라는 이름의 새 브랜치를 checkout하고 이것을 원격 저장소의 `master`를 추적하도록 설정하겠습니다."
+            ],
+            "afterMarkdowns": [
+              "보이듯이, 우리는 `o/master`를 `foo` 브랜치를 갱신하기 위한 내재된 merge 타겟으로 사용하고 있습니다. master가 갱신되지 않는다는것을 눈치챘죠?"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "git push에도 적용이 됩니다"
+            ],
+            "afterMarkdowns": [
+              "Boom. 브랜치의 이름을 전혀 다른것으로 지었는데도 불구하고 우리 작업이 `master`로 push 되었습니다."
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 방법 #2",
+              "",
+              "브랜치에 원격 추적 설정을 하는 또 다른 방법으로는 간단하게 `git branch -u` 옵션을 사용하는 방법이 있습니다. 다음을 실행하면",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "가 `foo` 브랜치가 `o/master`를 추적하도록 설정합니다. 만약 `foo`가 현재 작업하고 있는 브랜치라면 생략해도 됩니다:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "자 이 다른 방법이 작동하는 모습을 확인해 봅시다..."
+            ],
+            "afterMarkdowns": [
+              "이전과 같습니다,  좀 더 분명하게 알 수 있느 명령어죠. 좋아요!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              " 이번 레벨에서는 로컬의 `master`브랜치가 아닌 다른 브랜치에서 작업을 원격 저장소의 `master`브랜치로 push하세요. 고급 과정이니 더 길게 설명하지는 않을게요 :p"
             ]
           }
         }
