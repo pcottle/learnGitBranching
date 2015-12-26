@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Parâmetros do pull",
     "de_DE": "Optionen für Pull",
     "ja"   : "Pullの引数",
-    "fr_FR": "Arguments de pull"
+    "fr_FR": "Arguments de pull",
+    "ru_RU": "Аргументы для pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -20,7 +21,8 @@ exports.level = {
     "pt_BR": "Lembre-se que você pode criar novos ramos locais com parâmetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
     "ja"   : "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
-    "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull"
+    "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
+    "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull"
   },
   "startDialog": {
     "en_US": {
@@ -536,6 +538,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, um's zu Ende zu bringen versuch das Ziel aus der Zielgrafik zu erreichen. Du wirst einige Commits herunterladen, einige neue Branches anlegen und diese in andere mergen müssen, aber das sollte nicht allzuviele Befehle benötigen. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Аргументы для pull",
+              "",
+              "Аргументы для `git pull` не покажутся вам чем-то новым, учитывая, что Вы уже знакомы с аргументами для `git fetch` и `git push` :)",
+              "",
+              "Как мы помним `git pull` делает следующее: сначала выполняет `git fetch`, а следом сразу `git merge` с той веткой, в которую притянулись обновления командой fetch. Другими словами, это все равно, что выполнить git fetch с теми-же аргументами, которые Вы указали для pull, а затем выполнить git merge с веткой, указанной в аргументе <приемник> команды pull.",
+              "",
+              "Рассмотрим на примерах:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Вот примеры абсолютно эквивалентных команд в git:",
+              "",
+              "`git pull  origin foo` это то же самое, что сделать:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "И еще...",
+              "",
+              "`git pull  origin bar~1:bugFix` то же, что:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Как видно, git pull используется, чтобы за одну команду выполнить fetch + merge.",
+              "",
+              "Посмотрим демонстрацию:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Здесь, сначала выполнится fetch с аргументом указанным к pull, а merge выполняется с теми измененями которые будут скачаны командой fetch"
+            ],
+            "afterMarkdowns": [
+              "Как видно, мы указали `master`, поэтому как обычно все обновления притянулись на ветку `o/master`. Затем мы слили(merge) обновленную ветку `o/master` с веткой на которой мы находимся."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Будет ли это работать если указать `<источник>` и `<приемник>`? Проверим:"
+            ],
+            "afterMarkdowns": [
+              "Ого, сколько всего выполнено всего одной командой!. Мы создали новую ветку `foo` в локальном репозитории, скачали на неё изменения с ветки master удаленного репозитория, а затем слили эту ветку с веткой `bar` на которой мы находились!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "В последнем упражнении, необходимо привести дерево к аналогичному в примере. Нужно скачать несколько изменений, создать несколько новых веток, слить одни ветки в другие, но постарайтесь использовать как можно меньше команд. Удачи! :P"
             ]
           }
         }
