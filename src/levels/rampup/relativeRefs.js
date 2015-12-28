@@ -458,7 +458,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "你也可以 `HEAD` 把用作相对引用。以下命令使用 `HEAD` 在提交树中向上移动几次。"
+              "你也可以把 `HEAD` 用作相对引用。以下命令使用 `HEAD` 在提交树中向上移动几次。"
             ],
             "afterMarkdowns": [
               "简单！我们可以一直使用 `HEAD^` 向上移动。"
