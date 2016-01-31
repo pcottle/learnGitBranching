@@ -482,7 +482,7 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau doie Reihenfolge zu erzeugen die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
+              "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau die Reihenfolge zu erzeugen die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
             ]
           }
         }
