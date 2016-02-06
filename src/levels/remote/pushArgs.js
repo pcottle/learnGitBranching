@@ -14,7 +14,8 @@ exports.level = {
     "de_DE": "Optionen für Git Push",
     "ja"   : "Git pushの引数",
     "fr_FR": "Arguments de git push",
-    "ru_RU": "Аргументы git push"
+    "ru_RU": "Аргументы git push",
+    "ko"   : "git push의 인수들"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -603,6 +604,81 @@ exports.level = {
               "",
               "*Замечание: Удалённые ветки помечены как `o/`, а не `origin/`. Дело в том, что полная метка не помещается на экране. Не волнуйтесь ",
               "по этому поводу... просто как всегда используйте знакомый нам `origin` для обращения к удалённому репозиторию.*"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push의 인자들",
+              "",
+              "좋습니다! 여러분은 이제 원격 추적 브랜치도 알고 있기 때문에 이제 git push, fetch, pull이 어떻게 작동하는지에 관한 숨겨져있는 미스테리를 풀어나갈 준비가 되었습니다. 한번에 하나의 명령어를 알아보도록하겠는데 이것들이 가지고있는 컨셉은 아주 비슷해요.",
+              "",
+              "먼저 `git push`입니다. 여러분은 push를 하면 git이 push를 할 대상으로 원격저장소, 브랜치를 현재 작업중인 브랜치에 설정된 속성(\"추적\" 대상)을 통해 알아낸다는것을 이전 추적 레슨에서 배웠습니다. 이것은 인수를 넣지않고 실행할 때 일어나는것 입니다, 그런데 git push에 다음과 같은 형식으로 선택적으로 인수를 사용할수도 있습니다:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
+              "",
+              "`git push origin master`",
+              "",
+              "translates to this in English:",
+              "",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done.*",
+              "",
+              "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
+              "",
+              "Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example."
+            ],
+            "afterMarkdowns": [
+              "There we go! `master` got updated on the remote since we specified those arguments."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "What if we hadn't specified the arguments? What would happen?"
+            ],
+            "afterMarkdowns": [
+              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!",
+              "",
+              "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
+              "about this... simply use `origin` as the name of the remote like normal.*"
             ]
           }
         }
