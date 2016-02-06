@@ -15,7 +15,7 @@ exports.level = {
     "ja"   : "Git pushの引数",
     "fr_FR": "Arguments de git push",
     "ru_RU": "Аргументы git push",
-    "ko"   : "git push의 인수들"
+    "ko"   : "git push의 인자들"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -26,7 +26,8 @@ exports.level = {
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
     "ja"   : "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
-    "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\"."
+    "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
+    "ko"   : "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다."
   },
   "startDialog": {
     "en_US": {
@@ -619,7 +620,7 @@ exports.level = {
               "",
               "좋습니다! 여러분은 이제 원격 추적 브랜치도 알고 있기 때문에 이제 git push, fetch, pull이 어떻게 작동하는지에 관한 숨겨져있는 미스테리를 풀어나갈 준비가 되었습니다. 한번에 하나의 명령어를 알아보도록하겠는데 이것들이 가지고있는 컨셉은 아주 비슷해요.",
               "",
-              "먼저 `git push`입니다. 여러분은 push를 하면 git이 push를 할 대상으로 원격저장소, 브랜치를 현재 작업중인 브랜치에 설정된 속성(\"추적\" 대상)을 통해 알아낸다는것을 이전 추적 레슨에서 배웠습니다. 이것은 인수를 넣지않고 실행할 때 일어나는것 입니다, 그런데 git push에 다음과 같은 형식으로 선택적으로 인수를 사용할수도 있습니다:",
+              "먼저 `git push`입니다. 여러분은 push를 하면 git이 push를 할 대상으로 원격저장소, 브랜치를 현재 작업중인 브랜치에 설정된 속성(\"추적\" 대상)을 통해 알아낸다는것을 이전 추적 레슨에서 배웠습니다. 이것은 인자를 넣지않고 실행할 때 일어나는것 입니다, 그런데 git push에 다음과 같은 형식으로 선택적으로 인자를 사용할수도 있습니다:",
               "",
               "`git push <remote> <place>`",
               "",
@@ -631,17 +632,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
+              "`<place>`인자가 무엇을 의미할것 같나요? 세부사항은 알아보기 전에 예시부터 봅시다. 다음 명령어를 보세요:",
               "",
               "`git push origin master`",
               "",
-              "translates to this in English:",
+              "해석해 보면:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done.*",
+              "*내 저장소에 있는 \"master\"라는 이름의 브랜치로 가서 모든 커밋들을 수집합니다, 그다음 \"origin\"의 \"master\"브랜치로 가서 이 브랜치에 부족한 커밋들을 채워 넣고 완료 되면 알려줍니다.*",
               "",
-              "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
+              "`master`를 \"place\"인자로 지정해서 우리가 git에게 *어디서부터* 커밋이 오는지, 그리고 *어디로* 커밋이 가야하는지 알려줍니다. 두 저장소간에 동기화 작업을 할 \"장소\"를 지정해 주는것이라고 볼 수 있습니다.",
               "",
-              "Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!"
+              "git이 알아야 할 것은 다 알려줬기 때문에(두 인자를 모두 지정했죠), git은 현재 우리가 체크아웃한 브랜치는 무시하고 명령을 수행합니다."
             ]
           }
         },
@@ -649,10 +650,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see an example of specifying the arguments. Note the location where we are checked out in this example."
+              "인자를 지정해주는 예제를 눈으로 직접 확인해 봅시다. 이 예제에서 우리가 체크아웃한 곳이 어디인지를 주의하며 봅시다."
             ],
             "afterMarkdowns": [
-              "There we go! `master` got updated on the remote since we specified those arguments."
+              "됬네요! 지정해준 인자들에 의해 원격 저장소의 `master`가 갱신 되었습니다."
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -662,10 +663,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "What if we hadn't specified the arguments? What would happen?"
+              "인자를 지정하지 않으면 어떻게 될까요?"
             ],
             "afterMarkdowns": [
-              "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch."
+              "명령이 실패하며(보시다시피), `HEAD`가 원격저장소를 추적하는 브랜치에 체크아웃 되있지 않기 때문이죠."
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"
@@ -675,10 +676,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!",
+              "좋습니다, 이번 레벨에서는 원격저장소의 `foo`, `master`브랜치 모두 갱신해봅시다. 이번 문제는 `git checkout`이 비활성화 되있다는 점이 특징이죠!",
               "",
-              "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
-              "about this... simply use `origin` as the name of the remote like normal.*"
+              "*노트: 원격 브랜치들은 `o/`접두어로 분류되어 있습니다. `origin/`으로 생략없이 표현하면 UI에 안맞아서 이렇게 표현했어요. ",
+              "그래서... 원격저장소 이름은 원래처럼 `origin`으로 써주세요.*"
             ]
           }
         }
