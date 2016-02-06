@@ -10,7 +10,8 @@ exports.level = {
     "pt_BR": "Origem vazia",
     "de_DE": "Die Quelle des Nichts",
     "ja"   : "無のsource",
-    "fr_FR": "Source de rien du tout"
+    "fr_FR": "Source de rien du tout",
+    "ru_RU": "Пустой источник"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -20,7 +21,8 @@ exports.level = {
     "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
     "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
-    "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !"
+    "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
+    "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -389,6 +391,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Das ist ein kurzer Level -- lösch einfach den Remote Branch und erstelle einen neuen Branch mit `git fetch`, um ihn zu lösen."
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Странный `<источник>`",
+              "",
+              "Git использует параметр `<источник>` странным образом. Странность заключается в том, что Вы можете оставить пустым параметр `<источник>` для команд git push и git fetch:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Посмотрим, что же из этого выйдет..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Что же будет с веткой, на которую мы делаем git push с пустым аргументом `<источник>`? Она будет удалена!"
+            ],
+            "afterMarkdowns": [
+              "Как видите, мы удалили ветку `foo` в удаленном репозитории, попытавшить протолкнуть(git push) в неё \"ничего\"."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Наконец, если мы попытаемся притянуть изменения(git fetch) из \"ничего\" к нам в локальный репозиторий, то это создаст у нас новую ветку"
+            ],
+            "afterMarkdowns": [
+              "Вот такой вот чудной git!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Это легкое упражнение - нужно всего лишь удалить одну ветку в удаленном репозитории и создать новую ветку в локальном, с помощью команд `git push` и `git fetch` соответственно!"
             ]
           }
         }
