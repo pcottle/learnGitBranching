@@ -11,7 +11,8 @@ exports.level = {
     "de_DE": "Optionen für Pull",
     "ja"   : "Pullの引数",
     "fr_FR": "Arguments de pull",
-    "ru_RU": "Аргументы для pull"
+    "ru_RU": "Аргументы для pull",
+    "ko"   : "pull 인자들"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -22,7 +23,8 @@ exports.level = {
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
     "ja"   : "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
-    "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull"
+    "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
+    "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요."
   },
   "startDialog": {
     "en_US": {
@@ -612,6 +614,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "В последнем упражнении необходимо привести дерево к аналогичному в примере. Нужно скачать несколько изменений, создать несколько новых веток, слить одни ветки в другие, но постарайтесь использовать как можно меньше команд. Удачи! :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull의 인자들",
+              "",
+              "`git fetch`와 `git push`의 인자들을 다 알았기 때문에, git pull에서 더 설명할게 사실 없습니다 :)",
+              "",
+              "git pull은 결국 merge가 따라오는 fetch 그 자체이기 때문이죠. git fetch와 *같은* 인자를 사용하며 커밋들을 *어디*로 merge되는지 알면 됩니다.",
+              "",
+              "정신나간것마냥-복잡한 인자들도 기본적으로는 똑같다고 보면 됩니다. 예시를 살펴봅시다:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "git에서 다음 명령어들은 같습니다:",
+              "",
+              "`git pull  origin foo` 는 다음과 같습니다:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "그리고...",
+              "",
+              "`git pull  origin bar~1:bugFix` 는 다음과 같습니다:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "보이죠? git pull은 그저 fetch + merge의 축양형일 뿐이에요, 그리고 git pull은 커밋들이 도착하는곳을 신경씁니다(fetch를 하며 지정된 `destination`인자의 위치로 merge가 수행됩니다).",
+              "",
+              "직접 확인해봅시다:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "place를 지정하면, 이전에 fecth를 하던때와 완전히 똑같이 진행되고 fetch한것을 병합합니다."
+            ],
+            "afterMarkdowns": [
+              "보이죠! `master`를 지정해서 우리는 `o/master`에 평소처럼 커밋들을 내려받았습니다. 그다음 우리가 있는 곳으로 `o/master`를 병합했습니다 현재 체크아웃된 브랜치와 *상관없이* 말이죠"
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "source 와 destination 모두 적용될까요? 추측해보세요! 확인해봅시다:"
+            ],
+            "afterMarkdowns": [
+              "이야, 명령어 하나에 많은게 일어나고있습니다. 로컬에 이름이 `foo`인 새 브랜치를 만들고, 원격 저장소의 master에서 이 브랜치 `foo`에 커밋들을 내려받습니다, 그후 그 브랜치를 우리가 현재 체크아웃한 브랜치 `bar`로 병합했습니다. 오오오!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "좋습니다 마무리하기 위해, 골 시각화와 같은 상태로 만들어 주세요. 커밋을 내려받고, 새 브랜치를 만들고, 그 브랜치들을 다른 브랜치로 병합해야 될겁니다, 하지만 명령어는 그렇게 많이 안써도 되죠 :P"
             ]
           }
         }
