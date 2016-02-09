@@ -2,7 +2,6 @@
   "name": "LearnGitBranching",
   "version": "0.8.0",
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh",
     "test": "grunt test"
   },
   "repository": {
@@ -37,7 +36,6 @@
     "object-assign": "^2.0.0",
     "q": "~0.8.11",
     "react": "^0.13.1",
-    "react-native": "^0.3.11",
     "underscore": "~1.4.3"
   }
 }
