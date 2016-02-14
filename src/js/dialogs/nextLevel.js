@@ -109,6 +109,15 @@ exports.dialog = {
         'наш розв’язок складається з {best}.'
       ]
     }
+  }],'ko': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## 훌륭합니다!!',
+        '',
+        '이 레벨을 *{numCommands}*개의 명렁(들)로 해결했습니다.; ',
+        '저희 답은 {best}개를 사용합니다.'
+      ]
+    }
   }],
 };
-

@@ -11,7 +11,8 @@ exports.level = {
     "de_DE": "Die Quelle des Nichts",
     "ja"   : "無のsource",
     "fr_FR": "Source de rien du tout",
-    "ru_RU": "Пустой источник"
+    "ru_RU": "Пустой источник",
+    "ko"   : "Source가 없다"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -22,7 +23,8 @@ exports.level = {
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
     "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
-    "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!"
+    "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
+    "ko"   : "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!"
   },
   "startDialog": {
     "en_US": {
@@ -444,6 +446,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Это легкое упражнение - нужно всего лишь удалить одну ветку в удаленном репозитории и создать новую ветку в локальном, с помощью команд `git push` и `git fetch` соответственно!"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###`<source>`의 이상함",
+              "",
+              "Git은 `<source>` 인자를 두가지 방법으로 이상하게 사용합니다. 이 두가지 오용은 여러분이 git push와 git fetch에 `source`에 \"없음\"을 지정할 수 있기 때문에 나타납니다. \"없음\"을 지정하는 방법은 인자로 아무것도 안쓰면 됩니다:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "위에 처럼 말이죠, 뭘 할 수 있는지 확인해봅시다..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "\"없음\"을 원격 브랜치로 push하면 무엇을 할까요? 원격저장소의 그 브랜치를 삭제합니다!"
+            ],
+            "afterMarkdowns": [
+              "됬습니다, 원격 저장소의 `foo`브랜치를 성공적으로 삭제했습니다. \"없음\"을 push한다는것이 이것을 이뤘습니다. 흠 말이 되는것 같네요 null을 push했어요..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "마지막으로, \"nothing\"을 fetch하면 로컬에 새 브랜치를 만듭니다"
+            ],
+            "afterMarkdowns": [
+              "기괴합니다... 뭐어때요. git이 이런데요 뭐!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "이번 레벨은 금방 넘어가는 레벨입니다 -- 원격저장소의 브랜치하나를 삭제하고 `git fetch`를 이요해서 새 브랜치를 만들어보세요!"
             ]
           }
         }
