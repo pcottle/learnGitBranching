@@ -199,10 +199,6 @@ module.exports = function(grunt) {
     shell: {
       gitAdd: {
         command: 'git add build/'
-      },
-      casperTest: {
-        command: 'echo "Running $(ls -1 ./src/__tests__/casperjs/*_test.js | wc -l) tests" && ' +
-          'ls -1 ./src/__tests__/casperjs/*_test.js | while IFS= read -r line; do casperjs test $line; done'
       }
     },
     jasmine_node: {
@@ -215,7 +211,6 @@ module.exports = function(grunt) {
       options: {
         transform: [require('grunt-react').browserify],
         ignore: [
-          'src/__tests__/casperjs/*.js',
           'src/js/__tests__/create.js',
           'src/js/__tests__/*.js',
           'src/js/native_react_views/*.js',

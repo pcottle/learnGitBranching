@@ -11,7 +11,8 @@ exports.level = {
     "pt_BR": "Parâmetros do fetch",
     "de_DE": "Optionen für Fetch",
     "ja"   : "Fetchの引数",
-    "ru_RU": "Аргументы для fetch"
+    "ru_RU": "Аргументы для fetch",
+    "ko"   : "Fetch의 인자들"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -22,7 +23,8 @@ exports.level = {
     "pt_BR": "Preste atenção em como os identificadores dos commits podem ter trocado! Você pode ler os slides novamente com \"help level\"",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen",
     "ja"   : "コミットIDの入れ替わりに注意！スライドを復習するには`help level`を実行",
-    "ru_RU": "Обратите внимание на то, как номера коммитов могут меняться! Вы можете прочесть слайды вновь, воспользовавшись командой \"help level\""
+    "ru_RU": "Обратите внимание на то, как номера коммитов могут меняться! Вы можете прочесть слайды вновь, воспользовавшись командой \"help level\"",
+    "ko"   : "커밋 ID가 바뀔수도있으니 주의하세요! \"help level\"을 입력하면 슬라이드들을 다시 읽어볼수 있습니다."
   },
   "startDialog": {
     "en_US": {
@@ -1004,6 +1006,129 @@ exports.level = {
               "Ладно, достаточно болтовни! Чтобы выполнить этот уровень, скачайте лишь определённые коммиты так, как представлено в визуализации цели. Пофантазируйте с этими командами!",
               "",
               "Вам следует явно указывать источник и получателя для обеих команд fetch. Обратите внимание на визуализацию цели, так как ID-шники могут меняться!"
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch 인자들",
+              "",
+              "여태까지 우리는 git push 인자들에 대해 배워봤습니다. 이 멋진 `<place>` 인자 그리고 콜론 참조스펙도 말이죠(`<source>:<destination>`). 우리가 알아낸 이 지식을 `git fetch`에도 적용 할 수 있으려나요?",
+              "",
+              "당연하죠! `git fetch`에 넘기는 인자들은 사실 `git push`의 그것들과 *아주 아주* 비슷합니다. 같은 컨셉으로 적용되지만 방향이 반대일 뿐이죠(커밋을 업로드하는게 아니라 다운받는것이니까요).",
+              "",
+              "하나씩 차근차근 알아봅시다..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<place>` 인자",
+              "",
+              "git fetch에 다음 명령어와 같이 place를 지정해주면:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git은 원격 저장소의 `foo` 브랜치로 가서 현재 로컬에 없는 커밋들을 가져와 로컬의 'o/foo' 브랜치 아래에 추가 할 것입니다.",
+              "",
+              "직접 확인해봅시다(상기해보죠)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "place를 지정해주면..."
+            ],
+            "afterMarkdowns": [
+              "커밋들을 `foo`브랜치에서만 내려받은 후 로컬의 `o/foo`브랜치에만 적용합니다."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "여러분은 분명 궁금할거에요 -- 왜 로컬의 `foo`에 그냥 커밋을 추가하지 않고 로컬의 원격 브랜치 `o/foo`에 커밋들을 추가한거지? <place> 인자는 로컬하고 원격 저장소 모두에 똑같이 있는 곳을 의미한게 아니였나?",
+              "",
+              "음, git이 이번 상황은 특별히 예외적으로 처리하기 때문입니다. 여러분이 `foo`브랜치에 작업을 했을지도 모르는데 이 명령으로 망쳐서 건드릴지도 모르니까요! 이전에 했던 강의 `git fetch`를 떠올려보면 왜 그런지 느낌이 올겁니다 -- `git fetch`는 로컬의 원격 브랜치가 아닌 브랜치는 갱신하지 않습니다, 커밋들을 내려받기만 합니다(여러분이 확인해보고 나중에 병합할 수 있도록 말이죠).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"그렇다면, 이전 강의처럼 source와 destination를 모두 직접 지정해주면 어떻게될까요? 이 명령어로 말이죠 `<source>:<destination>`\"",
+              "",
+              "여러분이 커밋을 *직접* 로컬 브랜치로 fetch할 열의가 있다면, 네 콜론 참조스펙으로 지정해서 할 수 있습니다. 하지만 체크아웃된 브랜치에 fetch할 수 는 없고 체크아웃되지 않은 브랜치만 가능합니다.",
+              "",
+              "주의 할점이 하나 있는데 -- `<source>`는 이제 받아올 커밋이 있는 *원격*에 있는 place를 넣어줘야하고 `<destination>`은 그 커밋들을 받아올 *local*의 place를 인자로 넣어줘야 합니다. git push와 정반대로 하는거죠, 데이터를 반대의 방향으로 옮기는 작업이니 이게 더 납득이 갑니다.",
+              "",
+              "언급한 것 처럼, 실제로 이것을 하는 개발자들은 많지 않습니다. 이것을 소개하는것은 `fetch`와 `push`가 방향이 반대일뿐 컨셉이 비슷하다는것을 표현하기 위해서입니다."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "자 이 해괴한 작업을 직접 확인해봅시다:"
+            ],
+            "afterMarkdowns": [
+              "이야! 보셨습니까, git이 `foo~1`을 origin의 place로 지정하고 커밋들을 내려받아 `bar`(로컬 브랜치)에 추가했습니다. `foo`와 `o/foo`는 갱신되지 않는게 확인되나요? destination을 지정해줬기 때문입니다."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "만약 destination이 될 브랜치가 없는 없는 상태에서 명령을 수행하면 어떻게 될까요? 방금의 슬라이드에서 `bar`브랜치가 없는 상태에서 수행해봅시다."
+            ],
+            "afterMarkdowns": [
+              "보이나요, git push 와 똑같습니다. Git이 fetch를 수행하기전에 destination을 로컬에 만들었습니다. git이 push를 수행하기 전에 원격저장소에 destination을 만드는것과 똑같습니다(없을경우에)."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "인자 없이는?",
+              "",
+              "만약 `git fetch`를 인자없이 수행하면 원격저장소에서 모든 원격 브랜치들로 커밋들을 내려받습니다..."
+            ],
+            "afterMarkdowns": [
+              "간단하지만, 짚고 넘어갑시다."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "좋습니다, 설명은 이정도로 하고! 이번 레벨을 끝내기위해서는 시각화된 골처럼 커밋들을 fetch하면 됩니다. 명령어로 멋지게 해내봅시다!",
+              "",
+              "fetch 명령에 source와 destination을 모두 지정해줘야 할겁니다. 골 시각화를 잘 보세요 fetch를 하다보면 커밋들의 ID가 바뀔수도있어요!"
             ]
           }
         }
