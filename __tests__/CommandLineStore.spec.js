@@ -1,5 +1,5 @@
-var CommandLineActions = require('../actions/CommandLineActions');
-var CommandLineStore = require('../stores/CommandLineStore');
+var CommandLineActions = require('../src/js/actions/CommandLineActions');
+var CommandLineStore = require('../src/js/stores/CommandLineStore');
 
 describe('this store', function() {
 

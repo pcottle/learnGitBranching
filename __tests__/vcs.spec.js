@@ -1,4 +1,4 @@
-var Command = require('../models/commandModel').Command;
+var Command = require('../src/js/models/commandModel').Command;
 
 describe('commands', function() {
   it('replaces . with HEAD correctly', function() {

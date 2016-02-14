@@ -1,5 +1,5 @@
-var LevelActions = require('../actions/LevelActions');
-var LevelStore = require('../stores/LevelStore');
+var LevelActions = require('../src/js/actions/LevelActions');
+var LevelStore = require('../src/js/stores/LevelStore');
 
 describe('this store', function() {
 

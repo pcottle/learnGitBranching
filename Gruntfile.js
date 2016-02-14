@@ -107,7 +107,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'Gruntfile.js',
-        'src/__tests__/spec/*.js',
+        '__tests__/*.spec.js',
         'src/js/**/*.js',
         'src/js/**/**/*.js',
         'src/levels/**/*.js'
@@ -202,32 +202,24 @@ module.exports = function(grunt) {
       }
     },
     jasmine_node: {
-      projectRoot: './src/js/__tests__/',
+      projectRoot: './__tests__/',
       forceExit: true,
       verbose: true,
       requirejs: false
     },
     browserify: {
       options: {
-        transform: [require('grunt-react').browserify],
-        ignore: [
-          'src/js/__tests__/create.js',
-          'src/js/__tests__/*.js',
-          'src/js/native_react_views/*.js',
-          'src/js/**/*.ios.js'
-        ]
+        transform: [require('grunt-react').browserify]
       },
       dist: {
         files: {
           'build/bundle.js': [
             'src/**/*.js',
-            'src/**/*.jsx',
-            'src/js/**/*.js',
-            'src/js/**/*.jsx'
+            'src/**/*.jsx'
           ]
-        },
+        }
       }
-    },
+    }
   });
 
   // all my npm helpers
