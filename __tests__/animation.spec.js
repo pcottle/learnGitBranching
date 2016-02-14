@@ -1,4 +1,4 @@
-var AnimationModule = require('../visuals/animation/index');
+var AnimationModule = require('../src/js/visuals/animation/index');
 var PromiseAnimation = AnimationModule.PromiseAnimation;
 var Animation = AnimationModule.Animation;
 var Q = require('q');

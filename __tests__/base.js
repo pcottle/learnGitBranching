@@ -1,5 +1,5 @@
-var HeadlessGit = require('../git/headless').HeadlessGit;
-var TreeCompare = require('../graph/treeCompare.js');
+var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
+var TreeCompare = require('../src/js/graph/treeCompare.js');
 
 var loadTree = function(json) {
   return JSON.parse(unescape(json));
