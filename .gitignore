@@ -17,10 +17,6 @@ index.html
 # Annoying mac stuff
 .DS_STORE
 
-# Casper stuff
-src/__tests__/casperjs/screenshots/*.png
-src/__tests__/casperjs/*.js-e
-
 # Xcode
 *.xcuserstate
 *.xcworkspace

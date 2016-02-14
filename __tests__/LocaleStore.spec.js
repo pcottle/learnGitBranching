@@ -1,5 +1,5 @@
-var LocaleActions = require('../actions/LocaleActions');
-var LocaleStore = require('../stores/LocaleStore');
+var LocaleActions = require('../src/js/actions/LocaleActions');
+var LocaleStore = require('../src/js/stores/LocaleStore');
 
 describe('LocaleStore', function() {
 
