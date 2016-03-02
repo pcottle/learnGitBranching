@@ -1074,8 +1074,31 @@ GitEngine.prototype.push = function(options) {
     this.origin,
     this,
     branchOnRemote,
-    sourceLocation
+    sourceLocation,
+    /* options */ {
+      dontThrowOnNoFetch: true,
+    }
   );
+  if (!commitsToMake.length) {
+    if (!options.force) {
+      // We are already up to date, and we cant be deleting
+      // either since we dont have --force
+      throw new GitError({
+        msg: intl.str('git-error-origin-fetch-uptodate')
+      });
+    } else {
+      var sourceCommit = this.getCommitFromRef(sourceBranch);
+      var originCommit = this.getCommitFromRef(branchOnRemote);
+      if (sourceCommit.id === originCommit.id) {
+        // This is essentially also being up to date
+        throw new GitError({
+          msg: intl.str('git-error-origin-fetch-uptodate')
+        });
+      }
+      // Otherwise fall through! We will update origin
+      // and essentially delete the commit
+    }
+  }
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but the remote
