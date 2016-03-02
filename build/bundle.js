@@ -32493,8 +32493,31 @@ GitEngine.prototype.push = function(options) {
     this.origin,
     this,
     branchOnRemote,
-    sourceLocation
+    sourceLocation,
+    /* options */ {
+      dontThrowOnNoFetch: true,
+    }
   );
+  if (!commitsToMake.length) {
+    if (!options.force) {
+      // We are already up to date, and we cant be deleting
+      // either since we dont have --force
+      throw new GitError({
+        msg: intl.str('git-error-origin-fetch-uptodate')
+      });
+    } else {
+      var sourceCommit = this.getCommitFromRef(sourceBranch);
+      var originCommit = this.getCommitFromRef(branchOnRemote);
+      if (sourceCommit.id === originCommit.id) {
+        // This is essentially also being up to date
+        throw new GitError({
+          msg: intl.str('git-error-origin-fetch-uptodate')
+        });
+      }
+      // Otherwise fall through! We will update origin
+      // and essentially delete the commit
+    }
+  }
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but the remote
@@ -35322,6 +35345,7 @@ exports.strings = {
     '__desc__': 'One of the errors for hg',
     'en_US': 'There is no status command for this app, since there is no staging of files. Try hg summary instead',
     'zh_CN': '本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用 hg summary 代替哦',
+    'zh_TW': '本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用 hg summary 代替哦',
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'pt_BR': 'Não existe um comando status para este aplicativo, já que não há staging de arquivos. Tente hg summary',
     'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
@@ -35334,6 +35358,7 @@ exports.strings = {
     '__desc__': 'One of the errors for hg',
     'en_US': 'I need the option {option} for that command!',
     'zh_CN': '我需要该命令使用 {option} 选项呢。',
+    'zh_TW': '我需要該命令使用 {option} 選項呢。',
     'es_AR': '¡Necesito la opción {opcion} para ese comando!',
     'pt_BR': 'Eu preciso da opção {option} para esse comando!',
     'fr_FR': 'J\'ai besoin de l\'option {option} pour cette commande',
@@ -35346,6 +35371,7 @@ exports.strings = {
     '__desc__': 'hg log without -f (--follow)',
     'en_US': 'hg log without -f is currently not supported, use -f',
     'zh_CN': '暂不支持没有-f 选项的 hg log 命令，请补充 -f 选项吧',
+    'zh_TW': '暫不支持沒有-f 選項的 hg log 命令，請補充 -f 選項吧',
     'es_AR': 'hg log sin el parámetro -f no está soportado, usá -f',
     'pt_BR': 'hg log sem -f atualmente não é suportado, use -f',
     'fr_FR': 'hg log sans -f n\'est pas supporté',
@@ -35422,6 +35448,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'zh_CN': '你的 origin 分支已经失去了与 remote 远端分支的同步，所以无法执行 fetch 命令',
+    'zh_TW': '你的 origin 分支已經失去了與 remote 遠端分支的同步，所以無法執行 fetch 命令',
     'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
@@ -35433,6 +35460,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase',
     'zh_CN': '远端仓库与你的本地仓库产生了分歧，故此上传操作无法通过简单地快进实现（因此你的 push 被拒绝了）。请 pull 下来远端里最新的更改，与本地合并之后再试一次。你可以通过 git pull 或 git pull --rebase 实现。',
+    'zh_TW': '遠端倉庫與你的本地倉庫產生了分歧，故此上傳操作無法通過簡單地快進實現（因此你的 push 被拒絕了）。請 pull 下來遠端裡最新的更改，與本地合併之後再試一次。你可以通過 git pull 或 git pull --rebase 實現。',
     'de_DE': 'Das entfernte Repository weicht von deinem lokalen Repository ab, daher können deine Änderungen nicht mit einem einfachen fast forward hochgeladen werden (und daher ist dein push abgelehnt worden). Bitte pull erst die neuen Änderungen in das lokale Repository, integriere sie in den Branch und versuch es nochmal. Das kannst du mit git pull oder git pull --rebase machen',
     'es_AR': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y probá de nuevo. Podés hacerlo con git pull o git pull --rebase',
     'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não é um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
@@ -35444,6 +35472,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'You cannot execute that command on a remote branch',
     'zh_CN': '你不能在远端分支上执行这个命令呀。',
+    'zh_TW': '你不能在遠端分支上執行這個命令呀。',
     'de_DE': 'Du kannst diesen Befehl nicht auf einem Remote Branch ausführen',
     'es_AR': 'No podés ejecutar ese comando en una rama remota',
     'pt_BR': 'Você não pode executar esse comando em um ramo remoto',
@@ -35455,6 +35484,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin is required for that command',
     'zh_CN': '该命令需要一个 origin',
+    'zh_TW': '該命令需要一個 origin',
     'de_DE': 'Für diesen Befehl wird origin benötigt',
     'es_AR': 'Necesitás un origen para ese comando',
     'pt_BR': 'É necessário informar uma origem para esse comando',
@@ -35466,6 +35496,7 @@ exports.strings = {
     '__desc__': 'One of the error messages for git',
     'en_US': 'An origin already exists! You cannot make a new one',
     'zh_CN': 'origin 远端已存在。你不能重复创建',
+    'zh_TW': 'origin 遠端已存在。你不能重複創建',
     'de_DE': 'origin existiert bereits! Du kannst es nicht nochmal anlegen',
     'es_AR': '¡Ya existe el origen! No podés crear uno nuevo',
     'pt_BR': 'A origem já existe! Você não pode criar uma nova',
@@ -35771,6 +35802,8 @@ exports.strings = {
   'main-levels-tab': {
     '__desc__': 'The name of main levels tab on the drop down view',
     'en_US': 'Main',
+    'zh_CN': '主要',
+    'zh_TW': '主要',
     'ru_RU': 'Основы',
     'uk'   : 'Основи'
   },
@@ -35778,6 +35811,8 @@ exports.strings = {
   'remote-levels-tab': {
     '__desc__': 'The name of remote levels tab on the drop down view',
     'en_US': 'Remote',
+    'zh_CN': '远端',
+    'zh_TW': '遠端',
     'ru_RU': 'Удаленные репозитории',
     'uk'   : 'Віддалені репозиторії'
   },
@@ -35812,6 +35847,7 @@ exports.strings = {
     '__desc__': 'When the user enters a tag name thats not ok',
     'en_US': 'That tag name "{tag}" is not allowed!',
     'zh_CN': '该标签名 “{tag}” 不被接受。',
+    'zh_TW': '該標籤名 “{tag}” 不被接受。',
     'es_AR': 'El nombre "{tag}" no está permitido para los tags',
     'pt_BR': 'Uma tag não pode ser chamada de "{tag}"!',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
@@ -35889,6 +35925,7 @@ exports.strings = {
     '__desc__': 'when the tree is being flipped',
     'en_US': 'Flipping tree...',
     'zh_CN': '翻转树中...',
+    'zh_TW': '翻轉樹中...',
     'es_AR': 'Invirtiendo el árbol...',
     'pt_BR': 'Invertendo a árvore...',
     'fr_FR': 'Inversion de l\'arbre...',
@@ -36093,6 +36130,8 @@ exports.strings = {
   'solved-level': {
     '__desc__': 'When you solved a level',
     'en_US': 'Solved!!\n:D',
+    'zh_CN': '恭喜，本关解决了！！',
+    'zh_TW': '恭喜，本關解決了！！',
     'ru_RU': 'Решено!!\n:D',
     'uk'   : 'Вирішено!!\n:D'
   },
@@ -36256,6 +36295,8 @@ exports.strings = {
   'objective-button': {
     '__desc__': 'button label to show objective',
     'en_US': 'Objective',
+    'zh_TW': '提示',
+    'zh_CN': '提示',
     'ru_RU': 'Задача',
     'uk': 'Задача'
   },
@@ -36263,6 +36304,8 @@ exports.strings = {
   'git-demonstration-title': {
     '__desc__': 'title of git demonstration window',
     'en_US': 'Git Demonstration',
+    'zh_TW': 'Git示範',
+    'zh_CN': 'Git示范',
     'ru_RU': 'Git демо',
     'uk'   : 'Git демо'
   },
@@ -58536,7 +58579,7 @@ exports.level = {
               "",
               "- Plus important encore, les dépôts distants sociabilisent le projet ! Maintenant qu'il est hébergé quelque part ailleurs, vos amis peuvent y contribuer facilement (ou récupérer vos derniers changements).",
               "",
-              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (commen [Github](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
+              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (comme [Github](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
             ]
           }
         },
