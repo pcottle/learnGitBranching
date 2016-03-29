@@ -85,7 +85,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, reverse the two most recent commits on both `local` and `pushed`.",
+              "To complete this level, reverse the most recent commit on both `local` and `pushed`. You will revert two commits total (one per branch).",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
             ]
