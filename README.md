@@ -1,4 +1,4 @@
-# LearnGitBranching
+# LearnGitBranchingYo
 
 [![Build Status](https://travis-ci.org/pcottle/learnGitBranching.svg?branch=master)](https://travis-ci.org/pcottlele/learnGitBranching)
 
