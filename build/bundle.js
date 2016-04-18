@@ -39509,6 +39509,7 @@ var Sandbox = Backbone.View.extend({
       command.set('error', new Errors.GitError({
         msg: 'Something went wrong ' + String(e)
       }));
+      throw e;
     }
     command.finishWith(deferred);
   },
@@ -46224,7 +46225,9 @@ var Visualization = Backbone.View.extend({
 
   fadeTreeOut: function() {
     this.shown = false;
-    $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+    if (this.paper && this.paper.canvas) {
+      $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
+    }
     this.originToo('fadeTreeOut', arguments);
   },
 
