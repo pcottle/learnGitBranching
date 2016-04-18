@@ -301,6 +301,7 @@ var Sandbox = Backbone.View.extend({
       command.set('error', new Errors.GitError({
         msg: 'Something went wrong ' + String(e)
       }));
+      throw e;
     }
     command.finishWith(deferred);
   },
