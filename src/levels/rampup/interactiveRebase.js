@@ -82,7 +82,9 @@
               "When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!"
             ],
             "afterMarkdowns": [
-              "Boom! Git copied down commits in the exact same way you specified through the UI"
+              "Boom! Git copied down commits in the exact same way you specified through the UI",
+              "",
+              "*PS: Don't worry about the `aboveAll` option, it's a custom flag just for this app*"
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
