@@ -380,10 +380,29 @@ var Level = Sandbox.extend({
     Level.__super__.undo.apply(this, arguments);
   },
 
+  beforeCommandCB: function(command) {
+    // Alright we actually no-op this in the level subclass
+    // so we can tell if the command counted or not... kinda :P
+    // We have to save the state in this method since the git
+    // engine will change by the time afterCommandCB runs
+    this._treeBeforeCommand = this.mainVis.gitEngine.printTree();
+  },
+
   afterCommandCB: function(command) {
+    if (this.doesCommandCountTowardsTotal(command)) {
+      // Count it as a command AND...
+      this.gitCommandsIssued.push(command.get('rawStr'));
+      // add our state for undo since our undo pops a command.
+      //
+      // Ugly inheritance overriding on private implementations ahead!
+      this.undoStack.push(this._treeBeforeCommand);
+    }
+  },
+
+  doesCommandCountTowardsTotal: function(command) {
     if (command.get('error')) {
       // dont count errors towards our count
-      return;
+      return false;
     }
 
     var matched = false;
@@ -392,9 +411,7 @@ var Level = Sandbox.extend({
         matched = matched || regex.test(command.get('rawStr'));
       });
     });
-    if (matched) {
-      this.gitCommandsIssued.push(command.get('rawStr'));
-    }
+    return matched;
   },
 
   afterCommandDefer: function(defer, command) {
