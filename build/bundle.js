@@ -30396,6 +30396,10 @@ var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
 
+var validateOriginBranchName = function(engine, name) {
+  return engine.origin.validateBranchName(name);
+};
+
 var validateBranchNameIfNeeded = function(engine, name) {
   if (engine.refs[name]) {
     return name;
@@ -30649,10 +30653,39 @@ var commandConfig = {
       }
 
       command.validateArgBounds(generalArgs, 0, 2);
-      // allow formats of: git Faketeamwork 2 or git Faketeamwork side 3
-      var branch = (engine.origin.refs[generalArgs[0]]) ?
-        generalArgs[0] : 'master';
-      var numToMake = parseInt(generalArgs[0], 10) || generalArgs[1] || 1;
+      var branch;
+      var numToMake;
+
+      // allow formats of: git fakeTeamwork 2 or git fakeTeamwork side 3
+      switch (generalArgs.length) {
+        // git fakeTeamwork
+        case 0:
+          branch = 'master';
+          numToMake = 1;
+          break;
+
+        // git fakeTeamwork 10 or git fakeTeamwork foo
+        case 1:
+          if (isNaN(parseInt(generalArgs[0], 10))) {
+            branch = validateOriginBranchName(engine, generalArgs[0]);
+            numToMake = 1;
+          } else {
+            numToMake = parseInt(generalArgs[0], 10);
+            branch = 'master';
+          }
+          break;
+
+        case 2:
+          branch = validateOriginBranchName(engine, generalArgs[0]);
+          if (isNaN(parseInt(generalArgs[1], 10))) {
+            throw new GitError({
+              msg: 'Bad numeric argument: ' + generalArgs[1]
+            });
+          }
+          numToMake = parseInt(generalArgs[1], 10);
+          break;
+
+      }
 
       // make sure its a branch and exists
       var destBranch = engine.origin.resolveID(branch);
@@ -30661,7 +30694,7 @@ var commandConfig = {
           msg: intl.str('git-error-options')
         });
       }
-        
+
       engine.fakeTeamwork(numToMake, branch);
     }
   },
@@ -30953,7 +30986,7 @@ var commandConfig = {
       if (commandOptions['-i']) {
         var args = commandOptions['-i'].concat(generalArgs);
         command.twoArgsImpliedHead(args, ' -i');
-        
+
         if (commandOptions['--interactive-test']) {
           engine.rebaseInteractiveTest(
             args[0],
@@ -31136,7 +31169,7 @@ var commandConfig = {
       engine.describe(generalArgs[0]);
     }
   },
-  
+
   tag: {
     regex: /^git +tag($|\s)/,
     execute: function(engine, command) {
@@ -31146,7 +31179,7 @@ var commandConfig = {
         engine.printTags(tags);
         return;
       }
-      
+
       command.twoArgsImpliedHead(generalArgs);
       engine.tag(generalArgs[0], generalArgs[1]);
     }
@@ -51533,7 +51566,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um da Level zu schaffen musst du irgendwie sicherstellen, dass `maste` den Commit bekommt, auf den `bugFix` zeigt."
+              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um da Level zu schaffen musst du irgendwie sicherstellen, dass `master` den Commit bekommt, auf den `bugFix` zeigt."
             ]
           }
         }
@@ -51975,7 +52008,7 @@ exports.level = {
             "markdowns": [
               "## Jonglieren mit Commits",
               "",
-              "Eine weitere häufig vorkommende Situation: du hast einige Änderungen in `newImage` und weitere Änderungen in `caption`. Die Änderungen hängen voneineander ab, das heißt in diesem Fall `caption` ist ein Nachfolger von `newImage`.",
+              "Eine weitere häufig vorkommende Situation: du hast einige Änderungen in `newImage` und weitere Änderungen in `caption`. Die Änderungen hängen voneinander ab, das heißt in diesem Fall `caption` ist ein Nachfolger von `newImage`.",
               "",
               "Nun kann es vorkommen, dass du einen früheren Commit verändern willst. In unserem Fall will die Design-Abteilung, dass die Abmessungen in `newImage` leicht verändert werden, obwohl das mitten in unserer History liegt!"
             ]
@@ -51996,7 +52029,7 @@ exports.level = {
               "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren bekommen sie jedesmal ein Apostroph hinzugefügt (weil sie jedesmal kopiert werden). Ein weiteres Apostroph entsteht durch den `commit --amend`.",
               "",
-              "Zuguterletzt noch eine Bemerkung: ich kann Level nun auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Strukutr und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
+              "Zuguterletzt noch eine Bemerkung: ich kann Level nun auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
             ]
           }
         },
@@ -52461,7 +52494,7 @@ exports.level = {
             "markdowns": [
               "In diesem Level geht es also auch um das Ziel den Commit `C2` zu modifizieren, aber ohne `git rebase -i` zu benutzen. Ich überlass es dir herauszufinden, wie das gehen soll. :D",
               "",
-              "Nicht vergessen, die genaue Anzahl von Kopien (d.h. Apostrophs) ist nicht ausschlaggebend, nur die Differenz. Der Level ist zum Beispiel auch gelöst, wenn dein fertiger Baum dieselbe Struktur wie der Ziel-Baum hat, aber *überall* ein Apostroph mehr aufweist."
+              "Nicht vergessen, die genaue Anzahl von Kopien (d.h. Apostrophen) ist nicht ausschlaggebend, nur die Differenz. Der Level ist zum Beispiel auch gelöst, wenn dein fertiger Baum dieselbe Struktur wie der Ziel-Baum hat, aber *überall* ein Apostroph mehr aufweist."
             ]
           }
         }
