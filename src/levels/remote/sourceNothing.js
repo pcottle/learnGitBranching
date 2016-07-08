@@ -12,7 +12,8 @@ exports.level = {
     "ja"   : "無のsource",
     "fr_FR": "Source de rien du tout",
     "ru_RU": "Пустой источник",
-    "ko"   : "Source가 없다"
+    "ko"   : "Source가 없다",
+    "uk"   : "Нема джерела"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -24,7 +25,8 @@ exports.level = {
     "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
-    "ko"   : "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!"
+    "ko"   : "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
+    "uk"   : "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
   },
   "startDialog": {
     "en_US": {
@@ -499,6 +501,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "이번 레벨은 금방 넘어가는 레벨입니다 -- 원격저장소의 브랜치하나를 삭제하고 `git fetch`를 이요해서 새 브랜치를 만들어보세요!"
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Неочевидні способи використання `<source>`",
+              "",
+              "Git має два хитрі способи використання `<source>`. Оба випливають з факту, що формально (і цілком легально) ти можеш не вказувати джерело (`source`) як для git push так і для git fetch. Ось, як саме ти можеш це зробити:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Давай подивимось, що в результаті вийде..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Що буде, якщо спробувати запушити \"ніщо\" у гілку віддаленого репозиторію? Git її видалить!"
+            ],
+            "afterMarkdowns": [
+              "Ось, ми успішно видалили гілку `foo` на віддаленому сервері запушивши в неї \"ніщо\". Ну, ніби все правильно..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "І останнє, скачування \"ніщо\" в локальний репозиторій створює нову гілку"
+            ],
+            "afterMarkdowns": [
+              "Дуже дивно, але такий він, git!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Це швидкий рівень -- просто видали одну віддалену гілку і створи нову локальну гілку використовуючи `git fetch`!"
             ]
           }
         }

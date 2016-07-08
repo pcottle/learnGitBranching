@@ -12,7 +12,8 @@ exports.level = {
     "ja"   : "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !",
     "ru_RU": "Аргументы для push -- расширенная версия!",
-    "ko"   : "git push 인자 -- 확장판!"
+    "ko"   : "git push 인자 -- 확장판!",
+    "uk"   : "Розширені аргументи git push!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -24,7 +25,8 @@ exports.level = {
     "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
-    "ko"   : "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P"
+    "ko"   : "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
+    "uk"   : "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -650,6 +652,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "이번 레벨에서는, goal 시각화에 나오는 것처럼 만들어 주세요 인자의 형식은 다음과 같다는걸 기억하세요:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Детальніше про аргумент `<place>`",
+              "",
+              "З попереднього уроку нам відомо, що коли ми вказуємо `master` в якості аргумента place для git push, ми задаємо і гілку *звідки* брати нові коміти і гілку *куди* їх буде перенесено.",
+              "",
+              "Тут ти можеш задуматись, а чи можуть гілки звідки беремо і куди переносимо бути різними? Що, коли потрібно коміти з локальної гілки `foo` перенести у віддалену гілку `bar`?",
+              "",
+              "Нажаль в git це неможливо... жартую! Звичайно, що можливо :)... git просто неймовірно гнучкий (іноді аж занадто).",
+              "",
+              "Давай подивимось як це робиться..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Для того, щоб в одному аргументі `<place>` вказати і місце звідки і куди, треба їх просто розділити двокрапкою:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Такий запис називають \"colon refspec\". Тут refspec - це просто зручна назва місця, яке git може ідентифікувати (наприклад, гілка `foo` чи просто `HEAD~1`)",
+              "",
+              "Можливість вказати два різних місця, дає велику свободу і гнучкість в роботі з віддаленим репозиторієм. Давайте подивимось демонстрацію!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Пам'ятай, `source` -- це будь-яка назва місця зрозуміла гіту:"
+            ],
+            "afterMarkdowns": [
+              "Опа! Це доволі незвична команда, але тут все має сенс -- git, знаючи куди вказує `foo^`, завантажив на віддалену сторону ще відсутні там коміти і оновив місце призначення."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "А що, коли вказаного місця призначення не існує? Ніяких проблем! Просто вкажи назву гілки і гіт створить її на віддаленому сервері."
+            ],
+            "afterMarkdowns": [
+              "Спритно, еге-ж? :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "На цьому рівні спробуй досягти стану ропозиторію, показаного у візуалізації і пам'ятай про формат запису з двокрапкою:",
               "",
               "`<source>:<destination>`"
             ]
