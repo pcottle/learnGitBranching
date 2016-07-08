@@ -966,6 +966,124 @@ exports.level = {
         }
       ]
     },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### リモートトラッキングブランチ",
+              "",
+              "もしかしたら直近の幾つかの章で、あることが「魔法」に見えたかもしれません。それは、gitが`master`ブランチは`o/master`に関連していることを知っていたということです。確かにこれらのブランチは似た名前を持っていて、それは、リモートの`master`ブランチとローカルの`master`ブランチを繋ぐ論理的な意味を成すかもしれません。しかし、リモートトラッキングの関係が、次のような2つの手順を明確にしています:",
+              "",
+              "* プルの実行時は、コミットを`o/master`上にダウンロードし、`master`ブランチにそれを*マージ*します。マージの暗黙のターゲットは、リモートトラッキングの関係によって決められます。",
+              "* プッシュの実行時は、`master`ブランチの作業はリモートの`master`ブランチ（ローカルでは`o/master`によって表現されています）にプッシュされます。プッシュ動作の決定は、`master`と`o/master`のリモートトラッキングな関係から決定されます。",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## リモートトラッキング",
+              "",
+              "かいつまんでは、`master`と`o/master`の関係は、単にそれぞれのブランチの\"remote traking\"というプロパティによって説召されます。`master`ブランチには`o/master`を追跡しているというように設定されているのです。これは、`master`ブランチのための暗黙のプッシュ先と暗黙の取り込み先が存在することを意味します。",
+              "",
+              "あなたは特に何も指定せずにコマンドを走らせていたのに、`master`ブランチにこのプロパティが設定されていたことに疑問を持つかもしれません。そう、gitによってリポジトリを複製した時、gitは実はこのプロパティを自動的に設定してくれるのです。",
+              "",
+              "クローンしている間、gitはリモートブランチをリモートのブランチ全てに対して作ります（例えば、`o/master`のような感じです）。その後、現在アクティブなブランチを追跡するローカルブランチを作成します。多くの場合それは`master`ブランチになります。",
+              "",
+              "gitのクローンが完了した時、あなたの手にはたった一つだけローカルブランチがあります（なので、閉口しないでも大丈夫です）。しかし、あなたは全てのリモートのブランチ同士の違いを見ることができるのです（もし、あなたがそれについて非常に好奇心旺盛であるときはいつでもね！）。これは、両方の世界にとってベストです！",
+              "",
+              "これはクローン中に次のようなコマンド出力が表示されることも説明します:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 私は自分でトラッキングを設定できますか？",
+              "",
+              "はい、できます！あなたは、全てのブランチについて`o/master`との追跡を設定でき、もしそうした時は、同じ暗黙のプッシュ先と取り込み先を`master`として設定します。これは、例えば`tottallyNotMaster`という名前のブランチで`git push`を走らせ、作業をリモートの`master`ブランチにプッシュするといったことができるということを意味しています！",
+              "",
+              "このプロパティを設定するには2つの方法があります。一つ目は、リモートブランチのリファレンスを使用して新しいブランチをチェックアウトするというものです。例えば次のコマンドを走らせてます",
+              "",
+              "`git checkout -b totallyNotMaster o/master`",
+              "",
+              "これは`totallyNotMaster`という名前のブランチを新しく作り、`o/master`への追跡プロパティを設定します。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "説明は十分でしょう、デモを見ていきましょう！`foo`という名前の新しいブランチをチェックアウトし、リモートの`master`への追跡プロパティを設定してみます。"
+            ],
+            "afterMarkdowns": [
+              "私たちは暗黙の取り込み先である`o/master`を使って、`foo`ブランチを更新します。`master`は更新されないことに注意してください！！"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "これは`git push`にも適用されます"
+            ],
+            "afterMarkdowns": [
+              "わーお。全く違う名前がつけられているブランチですが、リモートの`master`に私たちの作業をプッシュできました。"
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 二番目の方法",
+              "",
+              "ブランチのリモートトラッキングを設定するもう一つの方法は、単に`git branch -u`オプションを使うというものです。例えば以下のようにです",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "これは、`foo`ブランチを`o/master`を追跡するように設定します。もし、`foo`が現在チェックアウトしているブランチだった場合、以下のように省略することができます:",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "実際に素早く、もう一つの方法でリモートトラッキングを指定する様子を見てみましょう..."
+            ],
+            "afterMarkdowns": [
+              "前回と一緒で、より明示的なコマンドですね。とてもいい感じです！"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "OK！このレベルでは、ローカルで`master`にチェックアウトしていない状態で、リモートの`master`ブランチに作業をプッシュしてみましょう。これは高度な課題ですから、理解するのに少し時間をおく必要があると言っておきます:P"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
