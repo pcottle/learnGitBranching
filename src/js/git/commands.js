@@ -153,8 +153,13 @@ var commandConfig = {
         msg = args[0];
       }
 
+      if (commandOptions['--amend']) {
+        args = commandOptions['--amend'];
+        command.validateArgBounds(args, 0, 0, '--amend');
+      }
+
       var newCommit = engine.commit({
-        isAmend: commandOptions['--amend']
+        isAmend: !!commandOptions['--amend']
       });
       if (msg) {
         msg = msg
@@ -267,7 +272,7 @@ var commandConfig = {
       engine.pull({
         source: source,
         destination: destination,
-        isRebase: commandOptions['--rebase']
+        isRebase: !!commandOptions['--rebase']
       });
     }
   },

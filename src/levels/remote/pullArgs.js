@@ -12,7 +12,8 @@ exports.level = {
     "ja"   : "Pullの引数",
     "fr_FR": "Arguments de pull",
     "ru_RU": "Аргументы для pull",
-    "ko"   : "pull 인자들"
+    "ko"   : "pull 인자들",
+    "uk"   : "Аргументи pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -24,7 +25,8 @@ exports.level = {
     "ja"   : "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
-    "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요."
+    "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
+    "uk"   : "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами"
   },
   "startDialog": {
     "en_US": {
@@ -688,6 +690,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "좋습니다 마무리하기 위해, 골 시각화와 같은 상태로 만들어 주세요. 커밋을 내려받고, 새 브랜치를 만들고, 그 브랜치들을 다른 브랜치로 병합해야 될겁니다, 하지만 명령어는 그렇게 많이 안써도 되죠 :P"
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Аргументи git pull",
+              "",
+              "Зараз, коли ти знаєш майже *все*, що можна знати про аргументи для `git fetch` і `git push`, дійсно майже нема чого розповідати про git pull :)",
+              "",
+              "Це тому, що git pull, зрештою, *просто* зручне об'єднання fetch і merge. Його можна собі уявляти як git fetch і git merge виконані з *однаковими* аргументами.",
+              "",
+              "Це працює незалежно від складності переданих аргументів. Давайте розглянемо:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ось декілька еквівалентних команд git:",
+              "",
+              "`git pull origin foo` це те саме, що й:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "А...",
+              "",
+              "`git pull origin bar~1:bugFix` аналог:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Бачиш? git pull це просто зручне скорочення для fetch + merge. А все, про що дбає git pull, це те, куди в результаті підуть коміти (а про це йому говорить аргумент `destination`).",
+              "",
+              "Давайте подивимось демонстрацію:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Якщо ми вказуємо місце призначення для fetch, fetch виконується як звичайно, але мердж відбудеться з тим, що ми щойно стягнули"
+            ],
+            "afterMarkdowns": [
+              "От бачиш, вказавши `master`, ми скачали коміти в `o/master` як завжди. Потім змерджили `o/master` в поточну гілку."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Чи це працює також при вказанні `source` і `destination`? І не сумнівайся! Ось приклад:"
+            ],
+            "afterMarkdowns": [
+              "Ого, стільки роботи однією командою. Ми створили локальну гілку з назвою `foo`, скачали в неї коміти з віддаленого master, а потім змерджили `foo` в поточну гілку `bar`!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Добре, для завершення, спробуй досягти стану репозиторію показаного на візуалізації. Треба буде скачати відсутні коміти, створити нові гілки і змерджити їх в інші гілки, але не надто великою кількістю команд! :P"
             ]
           }
         }
