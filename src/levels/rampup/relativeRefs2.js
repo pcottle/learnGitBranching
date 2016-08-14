@@ -69,7 +69,7 @@ exports.level = {
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "Moves (by force) the master branch to three parents behind HEAD."
+              "moves (by force) the master branch to three parents behind HEAD."
             ]
           }
         },
@@ -77,10 +77,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see that previous command in action"
+              "Let's see that previous command in action."
             ],
             "afterMarkdowns": [
-              "There we go! Relative refs gave us a concise way to refer to `C1` and branch forcing (`-f`) gave us a way to quickly move a branch to that location"
+              "There we go! Relative refs gave us a concise way to refer to `C1` and branch forcing (`-f`) gave us a way to quickly move a branch to that location."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -90,7 +90,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Now that you have seen relative refs and branch forcing in combination, lets use them to solve the next level.",
+              "Now that you have seen relative refs and branch forcing in combination, let's use them to solve the next level.",
               "",
               "To complete this level, move `HEAD`, `master`, and `bugFix` to their goal destinations shown."
             ]
