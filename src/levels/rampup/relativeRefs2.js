@@ -258,7 +258,7 @@ exports.level = {
               "Spécifions le nombre de commits en arrière avec `~`."
             ],
             "afterMarkdowns": [
-              "Boum! Tellement rapide ! Les références relatives sont géniales."
+              "Boum ! Tellement rapide ! Les références relatives sont géniales."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"

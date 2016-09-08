@@ -89,7 +89,7 @@
             "markdowns": [
               "## Git Tags",
               "",
-              "Comme apris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
+              "Comme appris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
               "",
               "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des release majeures ou d'importants merge, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
               ""
@@ -115,7 +115,7 @@
               "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)"
             ],
             "afterMarkdowns": [
-              "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit  `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
+              "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
