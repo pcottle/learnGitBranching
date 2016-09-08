@@ -98,9 +98,9 @@
             "markdowns": [
               "## Déplacer votre travail",
               "",
-              "Nous avons maintenant pratiqué les bases de git -- commits, branches, et déplacements dans l'arbre des commits. Ces seuls concepts sont suffisants pour utiliser 90% du pouvoir des dépôt git et satisfaire les principaux besoins des développeurs.",
+              "Nous avons maintenant pratiqué les bases de git -- commits, branches, et déplacements dans l'arbre des commits. Ces seuls concepts sont suffisants pour utiliser 90% du pouvoir des dépôts git et satisfaire les principaux besoins des développeurs.",
               "",
-              "Les 10% restants, cependant, peuvent être assez utiles pour systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"le déplacement de travail\" (moving work around) -- en d'autres termes, c'est une façon des développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
+              "Les 10% restants, cependant, peuvent être assez utiles pour les systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"le déplacement de travail\" (moving work around) -- en d'autres termes, c'est une façon pour les développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
               "",
               "Cela peut sembler compliqué, mais c'est un concept simple."
             ]
