@@ -254,5 +254,12 @@ describe('Git', function() {
 		);
   });
 
+  it('the regex allows for multiple dashes but not in a row', function() {
+		expectTreeAsync(
+      'git branch foo-bar-banana-baz; gc; git branch foo----bar//baz',
+      '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"foo-bar-b":{"target":"C1","id":"foo-bar-b","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+  });
+
 });
 
