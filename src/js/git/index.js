@@ -607,8 +607,15 @@ GitEngine.prototype.getDetachedHead = function() {
 };
 
 GitEngine.prototype.validateBranchName = function(name) {
+  // Lets escape some of the nasty characters
+  name = name.replace(/&#x2F;/g,"\/");
   name = name.replace(/\s/g, '');
-  if (!/^[a-zA-Z0-9]+$/.test(name)) {
+  // And then just make sure it starts with alpha-numeric,
+  // can contain a slash or dash, and then ends with alpha
+  if (
+    !/^(\w+[.\/\-]?)+\w+$/.test(name) ||
+    name.search('o/') === 0
+  ) {
     throw new GitError({
       msg: intl.str(
         'bad-branch-name',
@@ -1461,7 +1468,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
   chain = chain.then(function() {
     return this.animationFactory.getDelayedPromise(300);
   }.bind(this));
-  
+
   chain = chain.then(function() {
     // highlight last commit on o/master to color of
     // local branch
@@ -2129,7 +2136,7 @@ GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
 GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, currentLocation) {
   var stopSet = Graph.getUpstreamSet(this, targetSource);
   var toRebaseRough = [];
-  
+
   // standard BFS
   var pQueue = [this.getCommitFromRef(currentLocation)];
 
@@ -2152,28 +2159,28 @@ GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, current
       toRebase.push(commit);
     }
   });
-  
+
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
     });
   }
-  
+
   return toRebase;
 };
 
 GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocation, options) {
   options = options || {};
-  
+
   // Get the list of commits that would be displayed to the user
   var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
-  
+
   var rebaseMap = {};
   _.each(toRebase, function(commit) {
     var id = commit.get('id');
     rebaseMap[id] = commit;
   });
-  
+
   var rebaseOrder;
   if (options['interactiveTest'].length === 0) {
     // If no commits were explicitly specified for the rebase, act like the user didn't change anything
@@ -2182,7 +2189,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
   } else {
     // Get the list and order of commits specified
     var idsToRebase = options['interactiveTest'][0].split(',');
-    
+
     // Verify each chosen commit exists in the list of commits given to the user
     var extraCommits = [];
     rebaseOrder = [];
@@ -2193,20 +2200,20 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
         extraCommits.push(id);
       }
     });
-    
+
     if (extraCommits.length > 0) {
       throw new GitError({
         msg: intl.todo('Hey those commits dont exist in the set!')
       });
     }
   }
-  
+
   this.rebaseFinish(rebaseOrder, {}, targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
   options = options || {};
-  
+
   // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
   // but it will look similar.
   var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
@@ -2234,7 +2241,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     this.animationQueue.start();
   }.bind(this))
   .done();
-  
+
   // If we have a solution provided, set up the GUI to display it by default
   var initialCommitOrdering;
   if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
@@ -2242,7 +2249,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     _.each(toRebase, function(commit) {
       rebaseMap[commit.get('id')] = true;
     });
-    
+
     // Verify each chosen commit exists in the list of commits given to the user
     initialCommitOrdering = [];
     _.each(options.initialCommitOrdering[0].split(','), function(id) {
@@ -2462,7 +2469,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   if (type === 'tag') {
     target = target.get('target');
   }
-  
+
   this.HEAD.set('target', target);
 };
 
