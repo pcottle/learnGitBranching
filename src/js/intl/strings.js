@@ -556,7 +556,6 @@ exports.strings = {
     'en_US': 'Learn Git Branching',
     'de_DE': 'Learn Git Branching',
     'ja': '日本語版リポジトリ',
-    'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习 Git 分支',
     'zh_TW': '學習 git 分支',
     'es_AR': 'Aprendé a Branchear en Git',
