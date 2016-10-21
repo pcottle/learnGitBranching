@@ -108,7 +108,7 @@ exports.level = {
             "markdowns": [
               "## Branches und Mergen",
               "",
-              "Super! Wir wissen jetzt, wie man committet und einen Branch anlegt. Jetzt müssen wir nur noch rauskriegen, wie man die Arbeit, die in verschiedenen Branches steckt, zusammenführen kann. Dann können wir einen neuen Branch erstellen, darin ein neues Feature entwickeln, und das dann in den ursprünglichen Zweig integrieren.",
+              "Super! Wir wissen jetzt, wie man committet und einen Branch anlegt. Jetzt müssen wir nur noch rauskriegen, wie man die Arbeit, die in verschiedenen Branches steckt, zusammenführen kann. Dann können wir einen neuen Branch erstellen, darin ein neues Feature entwickeln, und das dann in den ursprünglichen Branch integrieren.",
               "",
               "Die einfachste Methode, mit der man Branches zusammenführen kann, ist `git merge`. Das Mergen erzeugt in git einen speziellen Commit, der zwei Vorgänger hat. Ein solcher Commit bedeutet im Prinzip \"ich möchte alle Arbeit von dem Vorgänger hier und dem dort *und* allen ihren jeweiligen Vorgängern miteinander kombinieren\".",
               "",

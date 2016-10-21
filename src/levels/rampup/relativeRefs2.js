@@ -355,7 +355,7 @@ exports.level = {
               "Schauen wir uns das mal in Aktion an:"
             ],
             "afterMarkdowns": [
-              "Das war's schon! Relative Referenzen ermüglichen es uns den Commit `C1` sehr einfach anzugeben und `git branch -f` ermöglicht es uns, den Branch sehr schnell auf diesen Commit zu setzen."
+              "Das war's schon! Relative Referenzen ermöglichen es uns den Commit `C1` sehr einfach anzugeben und `git branch -f` ermöglicht es uns, den Branch sehr schnell auf diesen Commit zu setzen."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
