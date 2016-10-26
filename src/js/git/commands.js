@@ -558,7 +558,7 @@ var commandConfig = {
       );
 
       if (newCommit === undefined) {
-        // its just a fast forwrard
+        // its just a fast forward
         engine.animationFactory.refreshTree(
           engine.animationQueue, engine.gitVisuals
         );

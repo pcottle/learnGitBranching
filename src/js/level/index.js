@@ -343,7 +343,7 @@ var Level = Sandbox.extend({
   initParseWaterfall: function(options) {
     Level.__super__.initParseWaterfall.apply(this, [options]);
 
-    // add our specific functionaity
+    // add our specific functionality
     this.parseWaterfall.addFirst(
       'parseWaterfall',
       parse

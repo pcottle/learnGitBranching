@@ -15,7 +15,7 @@ function DisabledMap(options) {
 
 DisabledMap.prototype.getInstantCommands = function() {
   // this produces an array of regex / function pairs that can be
-  // piped into a parse waterfall to disable certain git commmands
+  // piped into a parse waterfall to disable certain git commands
   // :D
   var instants = [];
   var onMatch = function() {
