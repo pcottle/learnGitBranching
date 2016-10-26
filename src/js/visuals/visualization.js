@@ -34,7 +34,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    // if we dont want to receive keyoard input (directly),
+    // if we dont want to receive keyboard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?

@@ -72,7 +72,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   takeControl: function() {
-    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // we will be handling commands that are submitted, mainly to add the sandbox
     // functionality (which is included by default in ParseWaterfall())
     Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
@@ -232,7 +232,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   processSandboxCommand: function(command, deferred) {
-    // I'm tempted to do camcel case conversion, but there are
+    // I'm tempted to do cancel case conversion, but there are
     // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,

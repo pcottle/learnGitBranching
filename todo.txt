@@ -43,7 +43,7 @@ Done things:
     (doesnt update origin/master) and then merges them into banana.
 [x] and then "git pull origin banana:origin/banana"  works because it goes into
     the remote branch and then merges the fetch HEAD with current location
-[x] oh boy heres anothere data point. git fetch banana:banana will actually
+[x] oh boy heres another data point. git fetch banana:banana will actually
     fast-forward banana to what remote has, but not update o/banana. weirdly it
     doesnt let you do this if you are checked out on banana
 [x] furthermore, if banana has commits and its not a FF, it will reject the command. wth??
@@ -181,7 +181,7 @@ Done things:
 [x] markdown parsing yay!!
 [x] check animation for command entry fading nicely wtf
 [x] no more CSS ids in views
-[x] promise-based confirm cnacel
+[x] promise-based confirm cancel
 [x] rebase buttons view & styling
 [x] rebase entries styling
 [x] view for anything above the fold (modal view)
