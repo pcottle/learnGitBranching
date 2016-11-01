@@ -3783,40 +3783,104 @@ module.exports = invariant;
 },{}],7:[function(require,module,exports){
 
 },{}],8:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],9:[function(require,module,exports){
 // shim for using process in browser
-
 var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -3832,7 +3896,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = setTimeout(cleanUpNextTick);
+    var timeout = runTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -3849,7 +3913,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    clearTimeout(timeout);
+    runClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -3861,7 +3925,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        runTimeout(drainQueue);
     }
 };
 
@@ -3899,6 +3963,31 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
+
+},{}],9:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
 
 },{}],10:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
@@ -4497,7 +4586,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":10,"_process":9,"inherits":8}],12:[function(require,module,exports){
+},{"./support/isBuffer":10,"_process":8,"inherits":9}],12:[function(require,module,exports){
 // super simple module for the most common nodejs use case.
 exports.markdown = require("./markdown");
 exports.parse = exports.markdown.toHTML;
@@ -7721,7 +7810,7 @@ var qEndingLine = captureLine();
 });
 
 }).call(this,require('_process'))
-},{"_process":9}],16:[function(require,module,exports){
+},{"_process":8}],16:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8546,7 +8635,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":18,"./ExecutionEnvironment":35,"./camelizeStyleName":123,"./dangerousStyleValue":128,"./hyphenateStyleName":148,"./memoizeStringOnly":158,"./warning":169,"_process":9}],20:[function(require,module,exports){
+},{"./CSSProperty":18,"./ExecutionEnvironment":35,"./camelizeStyleName":123,"./dangerousStyleValue":128,"./hyphenateStyleName":148,"./memoizeStringOnly":158,"./warning":169,"_process":8}],20:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -8646,7 +8735,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./PooledClass":42,"./invariant":150,"_process":9}],21:[function(require,module,exports){
+},{"./Object.assign":41,"./PooledClass":42,"./invariant":150,"_process":8}],21:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9191,7 +9280,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":26,"./ReactMultiChildUpdateTypes":87,"./invariant":150,"./setTextContent":164,"_process":9}],24:[function(require,module,exports){
+},{"./Danger":26,"./ReactMultiChildUpdateTypes":87,"./invariant":150,"./setTextContent":164,"_process":8}],24:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9490,7 +9579,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],25:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9682,7 +9771,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":24,"./quoteAttributeValueForBrowser":162,"./warning":169,"_process":9}],26:[function(require,module,exports){
+},{"./DOMProperty":24,"./quoteAttributeValueForBrowser":162,"./warning":169,"_process":8}],26:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9869,7 +9958,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":35,"./createNodesFromMarkup":127,"./emptyFunction":129,"./getMarkupWrap":142,"./invariant":150,"_process":9}],27:[function(require,module,exports){
+},{"./ExecutionEnvironment":35,"./createNodesFromMarkup":127,"./emptyFunction":129,"./getMarkupWrap":142,"./invariant":150,"_process":8}],27:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10210,7 +10299,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":129,"_process":9}],31:[function(require,module,exports){
+},{"./emptyFunction":129,"_process":8}],31:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10488,7 +10577,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":32,"./EventPluginUtils":33,"./accumulateInto":120,"./forEachAccumulated":135,"./invariant":150,"_process":9}],32:[function(require,module,exports){
+},{"./EventPluginRegistry":32,"./EventPluginUtils":33,"./accumulateInto":120,"./forEachAccumulated":135,"./invariant":150,"_process":8}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10768,7 +10857,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],33:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],33:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10989,7 +11078,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":29,"./invariant":150,"_process":9}],34:[function(require,module,exports){
+},{"./EventConstants":29,"./invariant":150,"_process":8}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11131,7 +11220,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":29,"./EventPluginHub":31,"./accumulateInto":120,"./forEachAccumulated":135,"_process":9}],35:[function(require,module,exports){
+},{"./EventConstants":29,"./EventPluginHub":31,"./accumulateInto":120,"./forEachAccumulated":135,"_process":8}],35:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11627,7 +11716,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":93,"./invariant":150,"_process":9}],39:[function(require,module,exports){
+},{"./ReactPropTypes":93,"./invariant":150,"_process":8}],39:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -11684,7 +11773,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":45,"./accumulateInto":120,"./forEachAccumulated":135,"./invariant":150,"_process":9}],40:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":45,"./accumulateInto":120,"./forEachAccumulated":135,"./invariant":150,"_process":8}],40:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11907,7 +11996,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],43:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],43:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12059,7 +12148,7 @@ React.version = '0.13.1';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./EventPluginUtils":33,"./ExecutionEnvironment":35,"./Object.assign":41,"./ReactChildren":47,"./ReactClass":48,"./ReactComponent":49,"./ReactContext":53,"./ReactCurrentOwner":54,"./ReactDOM":55,"./ReactDOMTextComponent":66,"./ReactDefaultInjection":69,"./ReactElement":72,"./ReactElementValidator":73,"./ReactInstanceHandles":81,"./ReactMount":85,"./ReactPerf":90,"./ReactPropTypes":93,"./ReactReconciler":96,"./ReactServerRendering":99,"./findDOMNode":132,"./onlyChild":159,"_process":9}],44:[function(require,module,exports){
+},{"./EventPluginUtils":33,"./ExecutionEnvironment":35,"./Object.assign":41,"./ReactChildren":47,"./ReactClass":48,"./ReactComponent":49,"./ReactContext":53,"./ReactCurrentOwner":54,"./ReactDOM":55,"./ReactDOMTextComponent":66,"./ReactDefaultInjection":69,"./ReactElement":72,"./ReactElementValidator":73,"./ReactInstanceHandles":81,"./ReactMount":85,"./ReactPerf":90,"./ReactPropTypes":93,"./ReactReconciler":96,"./ReactServerRendering":99,"./findDOMNode":132,"./onlyChild":159,"_process":8}],44:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12723,7 +12812,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":42,"./ReactFragment":78,"./traverseAllChildren":168,"./warning":169,"_process":9}],48:[function(require,module,exports){
+},{"./PooledClass":42,"./ReactFragment":78,"./traverseAllChildren":168,"./warning":169,"_process":8}],48:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13669,7 +13758,7 @@ var ReactClass = {
 module.exports = ReactClass;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./ReactComponent":49,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactErrorUtils":75,"./ReactInstanceMap":82,"./ReactLifeCycle":83,"./ReactPropTypeLocationNames":91,"./ReactPropTypeLocations":92,"./ReactUpdateQueue":101,"./invariant":150,"./keyMirror":155,"./keyOf":156,"./warning":169,"_process":9}],49:[function(require,module,exports){
+},{"./Object.assign":41,"./ReactComponent":49,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactErrorUtils":75,"./ReactInstanceMap":82,"./ReactLifeCycle":83,"./ReactPropTypeLocationNames":91,"./ReactPropTypeLocations":92,"./ReactUpdateQueue":101,"./invariant":150,"./keyMirror":155,"./keyOf":156,"./warning":169,"_process":8}],49:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13805,7 +13894,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactUpdateQueue":101,"./invariant":150,"./warning":169,"_process":9}],50:[function(require,module,exports){
+},{"./ReactUpdateQueue":101,"./invariant":150,"./warning":169,"_process":8}],50:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13913,7 +14002,7 @@ var ReactComponentEnvironment = {
 module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],52:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],52:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14803,7 +14892,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./ReactComponentEnvironment":51,"./ReactContext":53,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactElementValidator":73,"./ReactInstanceMap":82,"./ReactLifeCycle":83,"./ReactNativeComponent":88,"./ReactPerf":90,"./ReactPropTypeLocationNames":91,"./ReactPropTypeLocations":92,"./ReactReconciler":96,"./ReactUpdates":102,"./emptyObject":130,"./invariant":150,"./shouldUpdateReactComponent":166,"./warning":169,"_process":9}],53:[function(require,module,exports){
+},{"./Object.assign":41,"./ReactComponentEnvironment":51,"./ReactContext":53,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactElementValidator":73,"./ReactInstanceMap":82,"./ReactLifeCycle":83,"./ReactNativeComponent":88,"./ReactPerf":90,"./ReactPropTypeLocationNames":91,"./ReactPropTypeLocations":92,"./ReactReconciler":96,"./ReactUpdates":102,"./emptyObject":130,"./invariant":150,"./shouldUpdateReactComponent":166,"./warning":169,"_process":8}],53:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14881,7 +14970,7 @@ var ReactContext = {
 module.exports = ReactContext;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./emptyObject":130,"./warning":169,"_process":9}],54:[function(require,module,exports){
+},{"./Object.assign":41,"./emptyObject":130,"./warning":169,"_process":8}],54:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15093,7 +15182,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":72,"./ReactElementValidator":73,"./mapObject":157,"_process":9}],56:[function(require,module,exports){
+},{"./ReactElement":72,"./ReactElementValidator":73,"./mapObject":157,"_process":8}],56:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15663,7 +15752,7 @@ ReactDOMComponent.injection = {
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":19,"./DOMProperty":24,"./DOMPropertyOperations":25,"./Object.assign":41,"./ReactBrowserEventEmitter":45,"./ReactComponentBrowserEnvironment":50,"./ReactMount":85,"./ReactMultiChild":86,"./ReactPerf":90,"./escapeTextContentForBrowser":131,"./invariant":150,"./isEventSupported":151,"./keyOf":156,"./warning":169,"_process":9}],58:[function(require,module,exports){
+},{"./CSSPropertyOperations":19,"./DOMProperty":24,"./DOMPropertyOperations":25,"./Object.assign":41,"./ReactBrowserEventEmitter":45,"./ReactComponentBrowserEnvironment":50,"./ReactMount":85,"./ReactMultiChild":86,"./ReactPerf":90,"./escapeTextContentForBrowser":131,"./invariant":150,"./isEventSupported":151,"./keyOf":156,"./warning":169,"_process":8}],58:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15880,7 +15969,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":19,"./DOMChildrenOperations":23,"./DOMPropertyOperations":25,"./ReactMount":85,"./ReactPerf":90,"./invariant":150,"./setInnerHTML":163,"_process":9}],60:[function(require,module,exports){
+},{"./CSSPropertyOperations":19,"./DOMChildrenOperations":23,"./DOMPropertyOperations":25,"./ReactMount":85,"./ReactPerf":90,"./invariant":150,"./setInnerHTML":163,"_process":8}],60:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16148,7 +16237,7 @@ var ReactDOMInput = ReactClass.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":16,"./DOMPropertyOperations":25,"./LinkedValueUtils":38,"./Object.assign":41,"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactElement":72,"./ReactMount":85,"./ReactUpdates":102,"./invariant":150,"_process":9}],63:[function(require,module,exports){
+},{"./AutoFocusMixin":16,"./DOMPropertyOperations":25,"./LinkedValueUtils":38,"./Object.assign":41,"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactElement":72,"./ReactMount":85,"./ReactUpdates":102,"./invariant":150,"_process":8}],63:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16200,7 +16289,7 @@ var ReactDOMOption = ReactClass.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactElement":72,"./warning":169,"_process":9}],64:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactElement":72,"./warning":169,"_process":8}],64:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16848,7 +16937,7 @@ var ReactDOMTextarea = ReactClass.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":16,"./DOMPropertyOperations":25,"./LinkedValueUtils":38,"./Object.assign":41,"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactElement":72,"./ReactUpdates":102,"./invariant":150,"./warning":169,"_process":9}],68:[function(require,module,exports){
+},{"./AutoFocusMixin":16,"./DOMPropertyOperations":25,"./LinkedValueUtils":38,"./Object.assign":41,"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactElement":72,"./ReactUpdates":102,"./invariant":150,"./warning":169,"_process":8}],68:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17080,7 +17169,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":17,"./ChangeEventPlugin":21,"./ClientReactRootIndex":22,"./DefaultEventPluginOrder":27,"./EnterLeaveEventPlugin":28,"./ExecutionEnvironment":35,"./HTMLDOMPropertyConfig":37,"./MobileSafariClickEventPlugin":40,"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactComponentBrowserEnvironment":50,"./ReactDOMButton":56,"./ReactDOMComponent":57,"./ReactDOMForm":58,"./ReactDOMIDOperations":59,"./ReactDOMIframe":60,"./ReactDOMImg":61,"./ReactDOMInput":62,"./ReactDOMOption":63,"./ReactDOMSelect":64,"./ReactDOMTextComponent":66,"./ReactDOMTextarea":67,"./ReactDefaultBatchingStrategy":68,"./ReactDefaultPerf":70,"./ReactElement":72,"./ReactEventListener":77,"./ReactInjection":79,"./ReactInstanceHandles":81,"./ReactMount":85,"./ReactReconcileTransaction":95,"./SVGDOMPropertyConfig":103,"./SelectEventPlugin":104,"./ServerReactRootIndex":105,"./SimpleEventPlugin":106,"./createFullPageComponent":126,"_process":9}],70:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":17,"./ChangeEventPlugin":21,"./ClientReactRootIndex":22,"./DefaultEventPluginOrder":27,"./EnterLeaveEventPlugin":28,"./ExecutionEnvironment":35,"./HTMLDOMPropertyConfig":37,"./MobileSafariClickEventPlugin":40,"./ReactBrowserComponentMixin":44,"./ReactClass":48,"./ReactComponentBrowserEnvironment":50,"./ReactDOMButton":56,"./ReactDOMComponent":57,"./ReactDOMForm":58,"./ReactDOMIDOperations":59,"./ReactDOMIframe":60,"./ReactDOMImg":61,"./ReactDOMInput":62,"./ReactDOMOption":63,"./ReactDOMSelect":64,"./ReactDOMTextComponent":66,"./ReactDOMTextarea":67,"./ReactDefaultBatchingStrategy":68,"./ReactDefaultPerf":70,"./ReactElement":72,"./ReactEventListener":77,"./ReactInjection":79,"./ReactInstanceHandles":81,"./ReactMount":85,"./ReactReconcileTransaction":95,"./SVGDOMPropertyConfig":103,"./SelectEventPlugin":104,"./ServerReactRootIndex":105,"./SimpleEventPlugin":106,"./createFullPageComponent":126,"_process":8}],70:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17860,7 +17949,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./ReactContext":53,"./ReactCurrentOwner":54,"./warning":169,"_process":9}],73:[function(require,module,exports){
+},{"./Object.assign":41,"./ReactContext":53,"./ReactCurrentOwner":54,"./warning":169,"_process":8}],73:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -18325,7 +18414,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactFragment":78,"./ReactNativeComponent":88,"./ReactPropTypeLocationNames":91,"./ReactPropTypeLocations":92,"./getIteratorFn":141,"./invariant":150,"./warning":169,"_process":9}],74:[function(require,module,exports){
+},{"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactFragment":78,"./ReactNativeComponent":88,"./ReactPropTypeLocationNames":91,"./ReactPropTypeLocations":92,"./getIteratorFn":141,"./invariant":150,"./warning":169,"_process":8}],74:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -18420,7 +18509,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":72,"./ReactInstanceMap":82,"./invariant":150,"_process":9}],75:[function(require,module,exports){
+},{"./ReactElement":72,"./ReactInstanceMap":82,"./invariant":150,"_process":8}],75:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18870,7 +18959,7 @@ var ReactFragment = {
 module.exports = ReactFragment;
 
 }).call(this,require('_process'))
-},{"./ReactElement":72,"./warning":169,"_process":9}],79:[function(require,module,exports){
+},{"./ReactElement":72,"./warning":169,"_process":8}],79:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19383,7 +19472,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":98,"./invariant":150,"_process":9}],82:[function(require,module,exports){
+},{"./ReactRootIndex":98,"./invariant":150,"_process":8}],82:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20408,7 +20497,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":24,"./ReactBrowserEventEmitter":45,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactElementValidator":73,"./ReactEmptyComponent":74,"./ReactInstanceHandles":81,"./ReactInstanceMap":82,"./ReactMarkupChecksum":84,"./ReactPerf":90,"./ReactReconciler":96,"./ReactUpdateQueue":101,"./ReactUpdates":102,"./containsNode":124,"./emptyObject":130,"./getReactRootElementInContainer":144,"./instantiateReactComponent":149,"./invariant":150,"./setInnerHTML":163,"./shouldUpdateReactComponent":166,"./warning":169,"_process":9}],86:[function(require,module,exports){
+},{"./DOMProperty":24,"./ReactBrowserEventEmitter":45,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactElementValidator":73,"./ReactEmptyComponent":74,"./ReactInstanceHandles":81,"./ReactInstanceMap":82,"./ReactMarkupChecksum":84,"./ReactPerf":90,"./ReactReconciler":96,"./ReactUpdateQueue":101,"./ReactUpdates":102,"./containsNode":124,"./emptyObject":130,"./getReactRootElementInContainer":144,"./instantiateReactComponent":149,"./invariant":150,"./setInnerHTML":163,"./shouldUpdateReactComponent":166,"./warning":169,"_process":8}],86:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20978,7 +21067,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./invariant":150,"_process":9}],89:[function(require,module,exports){
+},{"./Object.assign":41,"./invariant":150,"_process":8}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -21090,7 +21179,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],90:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],90:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -21194,7 +21283,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":9}],91:[function(require,module,exports){
+},{"_process":8}],91:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -21222,7 +21311,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":9}],92:[function(require,module,exports){
+},{"_process":8}],92:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21951,7 +22040,7 @@ var ReactReconciler = {
 module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
-},{"./ReactElementValidator":73,"./ReactRef":97,"_process":9}],97:[function(require,module,exports){
+},{"./ReactElementValidator":73,"./ReactRef":97,"_process":8}],97:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22135,7 +22224,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":72,"./ReactInstanceHandles":81,"./ReactMarkupChecksum":84,"./ReactServerRenderingTransaction":100,"./emptyObject":130,"./instantiateReactComponent":149,"./invariant":150,"_process":9}],100:[function(require,module,exports){
+},{"./ReactElement":72,"./ReactInstanceHandles":81,"./ReactMarkupChecksum":84,"./ReactServerRenderingTransaction":100,"./emptyObject":130,"./instantiateReactComponent":149,"./invariant":150,"_process":8}],100:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -22547,7 +22636,7 @@ var ReactUpdateQueue = {
 module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactInstanceMap":82,"./ReactLifeCycle":83,"./ReactUpdates":102,"./invariant":150,"./warning":169,"_process":9}],102:[function(require,module,exports){
+},{"./Object.assign":41,"./ReactCurrentOwner":54,"./ReactElement":72,"./ReactInstanceMap":82,"./ReactLifeCycle":83,"./ReactUpdates":102,"./invariant":150,"./warning":169,"_process":8}],102:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22829,7 +22918,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":20,"./Object.assign":41,"./PooledClass":42,"./ReactCurrentOwner":54,"./ReactPerf":90,"./ReactReconciler":96,"./Transaction":118,"./invariant":150,"./warning":169,"_process":9}],103:[function(require,module,exports){
+},{"./CallbackQueue":20,"./Object.assign":41,"./PooledClass":42,"./ReactCurrentOwner":54,"./ReactPerf":90,"./ReactReconciler":96,"./Transaction":118,"./invariant":150,"./warning":169,"_process":8}],103:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23575,7 +23664,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":29,"./EventPluginUtils":33,"./EventPropagators":34,"./SyntheticClipboardEvent":107,"./SyntheticDragEvent":109,"./SyntheticEvent":110,"./SyntheticFocusEvent":111,"./SyntheticKeyboardEvent":113,"./SyntheticMouseEvent":114,"./SyntheticTouchEvent":115,"./SyntheticUIEvent":116,"./SyntheticWheelEvent":117,"./getEventCharCode":137,"./invariant":150,"./keyOf":156,"./warning":169,"_process":9}],107:[function(require,module,exports){
+},{"./EventConstants":29,"./EventPluginUtils":33,"./EventPropagators":34,"./SyntheticClipboardEvent":107,"./SyntheticDragEvent":109,"./SyntheticEvent":110,"./SyntheticFocusEvent":111,"./SyntheticKeyboardEvent":113,"./SyntheticMouseEvent":114,"./SyntheticTouchEvent":115,"./SyntheticUIEvent":116,"./SyntheticWheelEvent":117,"./getEventCharCode":137,"./invariant":150,"./keyOf":156,"./warning":169,"_process":8}],107:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24535,7 +24624,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],119:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],119:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24630,7 +24719,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],121:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],121:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24930,7 +25019,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactClass":48,"./ReactElement":72,"./invariant":150,"_process":9}],127:[function(require,module,exports){
+},{"./ReactClass":48,"./ReactElement":72,"./invariant":150,"_process":8}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25020,7 +25109,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":35,"./createArrayFromMixed":125,"./getMarkupWrap":142,"./invariant":150,"_process":9}],128:[function(require,module,exports){
+},{"./ExecutionEnvironment":35,"./createArrayFromMixed":125,"./getMarkupWrap":142,"./invariant":150,"_process":8}],128:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25136,7 +25225,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":9}],131:[function(require,module,exports){
+},{"_process":8}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25249,7 +25338,7 @@ function findDOMNode(componentOrElement) {
 module.exports = findDOMNode;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":54,"./ReactInstanceMap":82,"./ReactMount":85,"./invariant":150,"./isNode":152,"./warning":169,"_process":9}],133:[function(require,module,exports){
+},{"./ReactCurrentOwner":54,"./ReactInstanceMap":82,"./ReactMount":85,"./invariant":150,"./isNode":152,"./warning":169,"_process":8}],133:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25307,7 +25396,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./traverseAllChildren":168,"./warning":169,"_process":9}],134:[function(require,module,exports){
+},{"./traverseAllChildren":168,"./warning":169,"_process":8}],134:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -25792,7 +25881,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":35,"./invariant":150,"_process":9}],143:[function(require,module,exports){
+},{"./ExecutionEnvironment":35,"./invariant":150,"_process":8}],143:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26190,7 +26279,7 @@ function instantiateReactComponent(node, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":41,"./ReactCompositeComponent":52,"./ReactEmptyComponent":74,"./ReactNativeComponent":88,"./invariant":150,"./warning":169,"_process":9}],150:[function(require,module,exports){
+},{"./Object.assign":41,"./ReactCompositeComponent":52,"./ReactEmptyComponent":74,"./ReactNativeComponent":88,"./invariant":150,"./warning":169,"_process":8}],150:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26247,7 +26336,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":9}],151:[function(require,module,exports){
+},{"_process":8}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26462,7 +26551,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],156:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26624,7 +26713,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":72,"./invariant":150,"_process":9}],160:[function(require,module,exports){
+},{"./ReactElement":72,"./invariant":150,"_process":8}],160:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26987,7 +27076,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
-},{"./warning":169,"_process":9}],167:[function(require,module,exports){
+},{"./warning":169,"_process":8}],167:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -27059,7 +27148,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":150,"_process":9}],168:[function(require,module,exports){
+},{"./invariant":150,"_process":8}],168:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27312,7 +27401,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":72,"./ReactFragment":78,"./ReactInstanceHandles":81,"./getIteratorFn":141,"./invariant":150,"./warning":169,"_process":9}],169:[function(require,module,exports){
+},{"./ReactElement":72,"./ReactFragment":78,"./ReactInstanceHandles":81,"./getIteratorFn":141,"./invariant":150,"./warning":169,"_process":8}],169:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -27375,7 +27464,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":129,"_process":9}],170:[function(require,module,exports){
+},{"./emptyFunction":129,"_process":8}],170:[function(require,module,exports){
 module.exports = require('./lib/React');
 
 },{"./lib/React":43}],171:[function(require,module,exports){
@@ -29798,8 +29887,8 @@ exports.dialog = {
       markdowns: [
         '## 훌륭합니다!!',
         '',
-        '이 레벨을 *{numCommands}*개의 명렁(들)로 해결했습니다.; ',
-        '저희 답은 {best}개를 사용합니다.'
+        '*{numCommands}*개의 명렁으로 레벨을 통과했습니다.; ',
+        '모범 답안은 {best}개를 사용합니다.'
       ]
     }
   }],
@@ -30209,7 +30298,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bienvenue sur Learn Git Branching!',
+        '## Bienvenue sur Learn Git Branching !',
         '',
         'Cette application a été conçue pour aider les débutants à saisir ',
         'les puissants concepts derrière les branches en travaillant ',
@@ -30233,7 +30322,7 @@ exports.dialog = {
       markdowns: [
         '## Commandes Git',
         '',
-        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues',
+        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues :',
         '',
         ' * commit',
         ' * branch',
@@ -30249,7 +30338,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Partager, c\'est se soucier!',
+        '## Partager, c\'est se soucier !',
         '',
         'Partagez des arbres avec vos amis via `export tree` et `import tree`',
         '',
@@ -30928,7 +31017,7 @@ var commandConfig = {
       );
 
       if (newCommit === undefined) {
-        // its just a fast forwrard
+        // its just a fast forward
         engine.animationFactory.refreshTree(
           engine.animationQueue, engine.gitVisuals
         );
@@ -32064,8 +32153,15 @@ GitEngine.prototype.getDetachedHead = function() {
 };
 
 GitEngine.prototype.validateBranchName = function(name) {
+  // Lets escape some of the nasty characters
+  name = name.replace(/&#x2F;/g,"\/");
   name = name.replace(/\s/g, '');
-  if (!/^[a-zA-Z0-9]+$/.test(name)) {
+  // And then just make sure it starts with alpha-numeric,
+  // can contain a slash or dash, and then ends with alpha
+  if (
+    !/^(\w+[.\/\-]?)+\w+$/.test(name) ||
+    name.search('o/') === 0
+  ) {
     throw new GitError({
       msg: intl.str(
         'bad-branch-name',
@@ -32918,7 +33014,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
   chain = chain.then(function() {
     return this.animationFactory.getDelayedPromise(300);
   }.bind(this));
-  
+
   chain = chain.then(function() {
     // highlight last commit on o/master to color of
     // local branch
@@ -33586,7 +33682,7 @@ GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
 GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, currentLocation) {
   var stopSet = Graph.getUpstreamSet(this, targetSource);
   var toRebaseRough = [];
-  
+
   // standard BFS
   var pQueue = [this.getCommitFromRef(currentLocation)];
 
@@ -33609,28 +33705,28 @@ GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, current
       toRebase.push(commit);
     }
   });
-  
+
   if (!toRebase.length) {
     throw new GitError({
       msg: intl.str('git-error-rebase-none')
     });
   }
-  
+
   return toRebase;
 };
 
 GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocation, options) {
   options = options || {};
-  
+
   // Get the list of commits that would be displayed to the user
   var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
-  
+
   var rebaseMap = {};
   _.each(toRebase, function(commit) {
     var id = commit.get('id');
     rebaseMap[id] = commit;
   });
-  
+
   var rebaseOrder;
   if (options['interactiveTest'].length === 0) {
     // If no commits were explicitly specified for the rebase, act like the user didn't change anything
@@ -33639,7 +33735,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
   } else {
     // Get the list and order of commits specified
     var idsToRebase = options['interactiveTest'][0].split(',');
-    
+
     // Verify each chosen commit exists in the list of commits given to the user
     var extraCommits = [];
     rebaseOrder = [];
@@ -33650,20 +33746,20 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
         extraCommits.push(id);
       }
     });
-    
+
     if (extraCommits.length > 0) {
       throw new GitError({
         msg: intl.todo('Hey those commits dont exist in the set!')
       });
     }
   }
-  
+
   this.rebaseFinish(rebaseOrder, {}, targetSource, currentLocation);
 };
 
 GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, options) {
   options = options || {};
-  
+
   // there are a reduced set of checks now, so we can't exactly use parts of the rebase function
   // but it will look similar.
   var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
@@ -33691,7 +33787,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     this.animationQueue.start();
   }.bind(this))
   .done();
-  
+
   // If we have a solution provided, set up the GUI to display it by default
   var initialCommitOrdering;
   if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
@@ -33699,7 +33795,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     _.each(toRebase, function(commit) {
       rebaseMap[commit.get('id')] = true;
     });
-    
+
     // Verify each chosen commit exists in the list of commits given to the user
     initialCommitOrdering = [];
     _.each(options.initialCommitOrdering[0].split(','), function(id) {
@@ -33919,7 +34015,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
   if (type === 'tag') {
     target = target.get('target');
   }
-  
+
   this.HEAD.set('target', target);
 };
 
@@ -34934,7 +35030,7 @@ TreeCompare.getNumHashes = function(ref) {
       return func(results);
     }
   }
-  throw new Error('coudlnt parse ref ' + ref);
+  throw new Error('couldnt parse ref ' + ref);
 };
 
 TreeCompare.getBaseRef = function(ref) {
@@ -35308,7 +35404,8 @@ exports.strings = {
     'pt_BR': 'Uia! Você terminou o último nível, massa!',
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !',
     'ru_RU': 'Вау! Вы прошли последний уровень, отлично!',
-    'uk': 'Вау! Ти пройшов останній рівень, круто!'
+    'uk': 'Вау! Ти пройшов останній рівень, круто!',
+    'ko': '와우! 마지막 레벨까지 마쳤습니다. 멋지네요!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -35322,7 +35419,8 @@ exports.strings = {
     'pt_BR': 'Você gostaria de ir para o próximo nível: *"{nextLevel}"*?',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
     'ru_RU': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?',
-    'uk': 'Хочеш перейти на наступний рівень: *"{nextLevel}"*?'
+    'uk': 'Хочеш перейти на наступний рівень: *"{nextLevel}"*?',
+    'ko': '다음 레벨로 넘어갈까요? 레벨 *"{nextLevel}"*'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -35336,7 +35434,8 @@ exports.strings = {
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
     'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.',
-    'uk': 'Чудово! Твій розв’язок на рівні або краще від нашого.'
+    'uk': 'Чудово! Твій розв’язок на рівні або краще від нашого.',
+    'ko': '멋져요! 우리의 해답과 일치하거나 우리보다 좀 더 나은 해답입니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -35350,7 +35449,8 @@ exports.strings = {
     'pt_BR': 'Veja se consegue reduzir para somente {best} :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
     'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D',
-    'uk': 'Спробуй, можливо ти зможете вкластися в {best} кроків :D'
+    'uk': 'Спробуй, можливо ти зможете вкластися в {best} кроків :D',
+    'ko': '{best}회로 줄일 수 있다면 해보세요. :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-prune-tree': {
@@ -35363,7 +35463,8 @@ exports.strings = {
     'fr_FR': 'Attention, Mercurial supprime de façon agressive et nécessite un prune du repository',
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
     'ru_RU': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево',
-    'uk': 'Увага! Mercurial агресивно збирає сміття й може обрізати твоє дерево '
+    'uk': 'Увага! Mercurial агресивно збирає сміття й може обрізати твоє дерево ',
+    'ko': '주의! Mercurial은 공격적으로 가비지 컬렉션을 수행하므로 트리를 정리할 필요가 있습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
@@ -35376,7 +35477,8 @@ exports.strings = {
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
     'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
     'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.',
-    'uk': 'Опція -A не потрібна для цього застосунку, можна просто комітити!'
+    'uk': 'Опція -A не потрібна для цього застосунку, можна просто комітити!',
+    'ko': '이 앱에선 -A 옵션은 필요 없습니다. 그냥 커밋하세요!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -35389,7 +35491,8 @@ exports.strings = {
     'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary',
-    'uk': 'Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary '
+    'uk': 'Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary ',
+    'ko': '이 앱을 위한 상태 명령어는 없습니다. 왜냐하면 파일들의 스테이징이 없기 때문입니다. 대신 hg summary를 시도해보세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
@@ -35402,7 +35505,8 @@ exports.strings = {
     'fr_FR': 'J\'ai besoin de l\'option {option} pour cette commande',
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
     'ru_RU': 'Для этой команды требуется опция {option}',
-    'uk': 'Для цієї команди потрібна опція {option}'
+    'uk': 'Для цієї команди потрібна опція {option}',
+    'ko': '나는 그 명령어를 위한 {option} 옵션이 필요합니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
@@ -35415,7 +35519,8 @@ exports.strings = {
     'fr_FR': 'hg log sans -f n\'est pas supporté',
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
     'ru_RU': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f',
-    'uk': 'hg log без опції -f в данний момент не підтримується, використовуй -f'
+    'uk': 'hg log без опції -f в данний момент не підтримується, використовуй -f',
+    'ko': '-f가 없는 hg log는 현재 지원되지 않습니다. -f를 사용하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -35428,7 +35533,8 @@ exports.strings = {
     'pt_BR': 'Detached HEAD!',
     'fr_FR': 'head détaché !',
     'ru_RU': 'Отделенный HEAD',
-    'uk': 'Відокремлений HEAD'
+    'uk': 'Відокремлений HEAD',
+    'ko': '분리된 HEAD!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
@@ -35441,7 +35547,8 @@ exports.strings = {
     'pt_BR': 'No ramo {branch}',
     'fr_FR': 'Sur la branche {branch}',
     'ru_RU': 'В ветке {branch}',
-    'uk': 'В гілці {branch}'
+    'uk': 'В гілці {branch}',
+    'ko': '분기 지점 {branch}에서'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
@@ -35454,7 +35561,8 @@ exports.strings = {
     'pt_BR': 'Pronto para commitar! (como sempre neste demo ;-) )',
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)',
     'ru_RU': 'Готово к коммиту! (как и всегда в этом демо)',
-    'uk': 'Готово до коміту! (як завжди в цьому демо)'
+    'uk': 'Готово до коміту! (як завжди в цьому демо)',
+    'ko': '커밋을 준비하세요! (이 데모에서는 항상)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
@@ -35468,7 +35576,8 @@ exports.strings = {
     'pt_BR': 'Commitando.. Vai Timão!',
     'fr_FR': 'Commit rapide. NoMaN Sux!',
     'ru_RU': 'Быстрый коммит. А надо!',
-    'uk': 'Швидкий коміт. Динамо!'
+    'uk': 'Швидкий коміт. Динамо!',
+    'ko': '빨리 커밋하세요!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
@@ -35480,7 +35589,8 @@ exports.strings = {
     'zh_TW': '已經是最新的了',
     'zh_CN': '已经是最新的了',
     'ru_RU': 'Уже обновлено!',
-    'uk': 'Вже оновлено!'
+    'uk': 'Вже оновлено!',
+    'ko': '이미 최신 상태입니다!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -35492,7 +35602,8 @@ exports.strings = {
     'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
     'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch',
-    'uk': 'Твоя гілка origin не синхронізована з віддаленою гілкою, неможливо виконати fetch'
+    'uk': 'Твоя гілка origin не синхронізована з віддаленою гілкою, неможливо виконати fetch',
+    'ko': '당신의 오리진 브랜치가 원격 브랜치와 동기화되지 않았고, 패치를 실행할 수 없습니다.'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -35504,7 +35615,8 @@ exports.strings = {
     'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não é um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
     'ru_RU': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase',
-    'uk': 'Віддалений репозиторій розбігся з твоїм локальным репозиторієм, тому відвантаження твоїх змін не є простим fast forward (й тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase'
+    'uk': 'Віддалений репозиторій розбігся з твоїм локальным репозиторієм, тому відвантаження твоїх змін не є простим fast forward (й тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase',
+    'ko': '원격 레포지토리가 당신의 로컬 레포지토리에서 분기하므로, 변경 사항을 업데이트 하는것은 간단한 fast forward가 아닙니다(따라서 push가 거절될 것입니다.). 원격 레포지토리에서의 변경 사항을 내려 받아 이 브랜치에 합쳐라. 그리고 이걸 반복하라. 당신은 git pull 또는 git pull --rebase를 사용해 이를 수행할 수 있다.'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
@@ -35516,7 +35628,8 @@ exports.strings = {
     'pt_BR': 'Você não pode executar esse comando em um ramo remoto',
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
     'ru_RU': 'Вы не можете выполнить эту команду на удаленной ветке',
-    'uk': 'Ти не можеш виконати цю команду на віддаленій гілці'
+    'uk': 'Ти не можеш виконати цю команду на віддаленій гілці',
+    'ko': '당신은 원격 브랜치에서 그 명령어를 실행시킬 수 없다.'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
@@ -35528,7 +35641,8 @@ exports.strings = {
     'pt_BR': 'É necessário informar uma origem para esse comando',
     'fr_FR': 'Une origine est requise pour cette commande',
     'ru_RU': 'Origin требуется для этой команды',
-    'uk': 'Для цієї команди потрібний origin'
+    'uk': 'Для цієї команди потрібний origin',
+    'ko': '그 명령어를 위한 오리진이 필요하다.'
   },
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
@@ -35540,7 +35654,8 @@ exports.strings = {
     'pt_BR': 'A origem já existe! Você não pode criar uma nova',
     'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
     'ru_RU': 'Origin уже существует! Невозможно создать еще один',
-    'uk': 'Origin вже існує! Неможливо створити ще один'
+    'uk': 'Origin вже існує! Неможливо створити ще один',
+    'ko': '오리진이 이미 존재합니다! 당신은 새로 만들 수 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
@@ -35554,7 +35669,8 @@ exports.strings = {
     'pt_BR': 'Você não pode apagar o ramo master, nem o ramo em que você está, nem coisas que não sejam ramos',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
     'ru_RU' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой',
-    'uk': 'Неможливо видалити гілку master, гілку на якій ти зараз знаходишся чи штуки які не є гілкою'
+    'uk': 'Неможливо видалити гілку master, гілку на якій ти зараз знаходишся чи штуки які не є гілкою',
+    'ko': '당신은 마스터 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -35567,7 +35683,8 @@ exports.strings = {
     'pt_BR': 'Merge de {target} em {current}',
     'fr_FR': 'Merge de {target} dans {current}',
     'ru_RU': 'Слияние {target} в {current}',
-    'uk': 'Злиття {target} в {current}'
+    'uk': 'Злиття {target} в {current}',
+    'ko': '{target}을 {current}에 병합하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -35580,7 +35697,8 @@ exports.strings = {
     'pt_BR': 'Não há commits para o rebase! São todos commits de merge ou mudanças já aplicadas',
     'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
     'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены',
-    'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані'
+    'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані',
+    'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -35593,7 +35711,8 @@ exports.strings = {
     'pt_BR': 'Nada a ser feito...',
     'fr_FR': 'Rien à effectuer…',
     'ru_RU': 'Нечего выполнять...',
-    'uk': 'Нічого виконувати...'
+    'uk': 'Нічого виконувати...',
+    'ko': '할게 없습니다 ...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -35606,7 +35725,8 @@ exports.strings = {
     'pt_BR': 'Fast forward...',
     'fr_FR': 'En avance rapide…',
     'ru_RU': 'Выполняю Fast forward...',
-    'uk': 'Виконую Fast forward'
+    'uk': 'Виконую Fast forward',
+    'ko': 'Fast forward 중입니다...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
@@ -35619,7 +35739,8 @@ exports.strings = {
     'pt_BR': 'Ramo já atualizado',
     'fr_FR': 'Branche déjà à jour',
     'ru_RU': 'Ветка уже обновлена',
-    'uk': 'Гілку вже оновлено'
+    'uk': 'Гілку вже оновлено',
+    'ko': '브랜치가 이미 최신 상태입니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -35632,7 +35753,8 @@ exports.strings = {
     'pt_BR': 'A referência {ref} não existe ou é desconhecida',
     'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue',
     'ru_RU': 'Ссылка {ref} не существует или неизвестна',
-    'uk': 'Посилання {ref} не існує чи невідоме'
+    'uk': 'Посилання {ref} не існує чи невідоме',
+    'ko': '{ref} 참조가 존재하지 않거나 알 수 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -35645,7 +35767,8 @@ exports.strings = {
     'pt_BR': 'O commit {commit} não tem um {match}',
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
     'ru_RU': 'Коммит {commit} не содержит {match}',
-    'uk': 'Коміт {commit} не містить {match}'
+    'uk': 'Коміт {commit} не містить {match}',
+    'ko': '커밋 {commit}은 {match}를 가지고 있지 않습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
@@ -35658,7 +35781,8 @@ exports.strings = {
     'pt_BR': 'Cuidado! Modo Detached HEAD',
     'fr_FR': 'Attention ! HEAD est détaché',
     'ru_RU': 'Внимание! Репозиторий в состоянии detached HEAD, то есть не находится ни на какой ветке!',
-    'uk': 'Увага! Репозиторій в стані detached HEAD, тобто не знаходиться в жодній гілці!'
+    'uk': 'Увага! Репозиторій в стані detached HEAD, тобто не знаходиться в жодній гілці!',
+    'ko': '주의! 분리된 HEAD 상태'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
@@ -35671,7 +35795,8 @@ exports.strings = {
     'pt_BR': 'Não é necessário adicionar arquivos neste demo',
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo',
     'ru_RU': 'Это демо не оперирует файлами',
-    'uk': 'Не потрібно додавати файли для цього демо'
+    'uk': 'Не потрібно додавати файли для цього демо',
+    'ko': '이 데모에서는 파일을 추가할 필요가 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
@@ -35684,7 +35809,8 @@ exports.strings = {
     'pt_BR': 'As opções que você especificou são incompatíveis ou incorretas',
     'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes',
     'ru_RU': 'Неправильные опции',
-    'uk': 'Опції, які ти ввів, або некорректні або не підтримуються'
+    'uk': 'Опції, які ти ввів, або некорректні або не підтримуються',
+    'ko': '당신이 지정한 그 옵션들은 호환되지 않거나 올바르지 않습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -35697,7 +35823,8 @@ exports.strings = {
     'pt_BR': 'O commit {commit} já existe nas suas mudanças, abortando!',
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !',
     'ru_RU': 'Коммит {commit} существует, отменяю!',
-    'uk': 'Коміт {commit} вже існує в твоєму change set, відміна!'
+    'uk': 'Коміт {commit} вже існує в твоєму change set, відміна!',
+    'ko': '커밋 {commit}은 이미 당신의 변경 내역에 존재합니다. 중단!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
@@ -35710,7 +35837,8 @@ exports.strings = {
     'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser se mover',
     'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer',
     'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!',
-    'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування'
+    'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування',
+    'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
@@ -35727,7 +35855,8 @@ exports.strings = {
     'ru_RU': 'По умолчанию будет выполнен --hard reset, эту опцию можно опускать!',
     'uk': 'На LearnGitBranching reset по замовчуванню використовує --hard, тому цю опцію ' +
       'можна пропустити, якщо ти втомився її набирати щоразу. Тільки запам’ятай, що по замовчуванню ' +
-      'звичайний git reset використовує --mixed'
+      'звичайний git reset використовує --mixed',
+    'ko': 'LearnGitBranching에서 reset의 기본 설정은 옵션은 --hard입니다. 우리 레슨에서는 이 옵션을 생략해도 됩니다. 다만 실제 Git의 기본 설정 옵션은 --mixed라는것만 기억하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
@@ -35741,7 +35870,8 @@ exports.strings = {
     'pt_BR': 'Não existe o conceito de adicionar/indexar mudanças, de forma que essa opção ou comando é inválida',
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide',
     'ru_RU': 'Это демо не работает с файлами, так что git add не нужен!',
-    'uk': 'В цьому демо немає можливості додати файл до робочої копії чи до стейджингу, тому ця опція чи команда некоректна чи не підтримується'
+    'uk': 'В цьому демо немає можливості додати файл до робочої копії чи до стейджингу, тому ця опція чи команда некоректна чи не підтримується',
+    'ko': '여기엔 파일을 추가하거나 스테이징한다는 개념이 없습니다. 따라서 그 옵션 또는 명령어는 유효하지 않습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -35754,7 +35884,8 @@ exports.strings = {
     'pt_BR': 'Revertendo {oldCommit}: {oldMsg}',
     'fr_FR': 'Revert {oldCommit}: {oldMsg}',
     'ru_RU': 'Откатываю {oldCommit}: {oldMsg}',
-    'uk': 'Повертаю {oldCommit}: {oldMsg}'
+    'uk': 'Повертаю {oldCommit}: {oldMsg}',
+    'ko': '{oldCommit}:{oldMsg}를 복구중입니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
@@ -35767,7 +35898,8 @@ exports.strings = {
     'pt_BR': 'Espero no máximo {upper} parâmetros para {what}',
     'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}',
     'ru_RU': 'Ожидается максимум {upper} аргумент(ов) для {what}',
-    'uk': 'Я очікую максимум {upper} аргумент(ів) для {what}'
+    'uk': 'Я очікую максимум {upper} аргумент(ів) для {what}',
+    'ko': '{what}을 위해 최대 {upper}개의 인자를 받습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
@@ -35780,7 +35912,8 @@ exports.strings = {
     'pt_BR': 'Espero pelo menos {lower} parâmetros para {what}',
     'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}',
     'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}',
-    'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}'
+    'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}',
+    'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
@@ -35793,7 +35926,8 @@ exports.strings = {
     'pt_BR': 'Este comando não aceita parâmetros gerais',
     'fr_FR': 'Cette commande n\'accepte aucun argument général',
     'ru_RU': 'Это команда без аргументов',
-    'uk': 'Ця команда не приймає загальних аргументів'
+    'uk': 'Ця команда не приймає загальних аргументів',
+    'ko': '그 명령어는 일반적으로 인자를 받지 않습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -35806,7 +35940,8 @@ exports.strings = {
     'pt_BR': 'Copie o código abaixo',
     'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous',
     'ru_RU': 'Скопируй текст ниже',
-    'uk': 'Скопіюй рядок дерева нижче'
+    'uk': 'Скопіюй рядок дерева нижче',
+    'ko': '다음 트리 문자열을 복사하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -35814,14 +35949,14 @@ exports.strings = {
     'en_US': 'Learn Git Branching',
     'de_DE': 'Learn Git Branching',
     'ja': '日本語版リポジトリ',
-    'ko': 'Git 브랜치 배우기',
     'zh_CN': '学习 Git 分支',
     'zh_TW': '學習 git 分支',
     'es_AR': 'Aprendé a Branchear en Git',
     'pt_BR': 'Learn Git Branching',
     'fr_FR': 'Apprenez Git Branching',
     'ru_RU': 'Изучаем ветвление в git',
-    'uk': 'Learn Git Branching'
+    'uk': 'Learn Git Branching',
+    'ko': '깃 브랜칭을 배워봅시다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -35834,7 +35969,8 @@ exports.strings = {
     'pt_BR': 'Selecione um nível',
     'fr_FR': 'Choisissez un niveau',
     'ru_RU': 'Выбери уровень',
-    'uk': 'Обери рівень'
+    'uk': 'Обери рівень',
+    'ko': '레벨을 선택하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'main-levels-tab': {
@@ -35843,7 +35979,8 @@ exports.strings = {
     'zh_CN': '主要',
     'zh_TW': '主要',
     'ru_RU': 'Основы',
-    'uk'   : 'Основи'
+    'uk'   : 'Основи',
+    'ko': '메인'
   },
   ///////////////////////////////////////////////////////////////////////////
   'remote-levels-tab': {
@@ -35852,7 +35989,8 @@ exports.strings = {
     'zh_CN': '远端',
     'zh_TW': '遠端',
     'ru_RU': 'Удаленные репозитории',
-    'uk'   : 'Віддалені репозиторії'
+    'uk'   : 'Віддалені репозиторії',
+    'ko'   : '원격'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
@@ -35865,7 +36003,8 @@ exports.strings = {
     'pt_BR': 'Desculpe, precisamos manter os nomes dos ramos curtos para visualizá-los. O nome do seu ramo foi truncado para 9 caracteres, resultando em "{branch}"',
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"',
     'ru_RU': 'Для наглядности нам нужно сохранять имена веток короткими. Твоё название сокращено до 9 символов и теперь это "{branch}"',
-    'uk': 'Вибач, нам потрібно щоб ім’я гілок було як можна коротше для наглядності. Твоє ім’я гілки було скорочене до 9 літер й тепер це "{branch}"'
+    'uk': 'Вибач, нам потрібно щоб ім’я гілок було як можна коротше для наглядності. Твоє ім’я гілки було скорочене до 9 літер й тепер це "{branch}"',
+    'ko': '미안하지만, 우리는 시각적으로 더 좋게 보기위해 짧은 브랜치명이 필요합니다. 당신의 브랜치명은 9자리로 잘라 "{branch}"로 만들었습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
@@ -35878,7 +36017,8 @@ exports.strings = {
     'pt_BR': 'Um ramo não pode ser chamado de "{branch}"!',
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé',
     'ru_RU': 'Название для ветки "{branch}" недопустимо!',
-    'uk': 'Назва гілки "{branch}" є недопустимою'
+    'uk': 'Назва гілки "{branch}" є недопустимою',
+    'ko': '"{branch}"라는 브랜치명은 사용할 수 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
@@ -35891,7 +36031,8 @@ exports.strings = {
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
     'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!',
     'ru_RU': 'Название для тега "{tag}" недопустимо!',
-    'uk': 'Назва тегу "{tag}" є недопустимою'
+    'uk': 'Назва тегу "{tag}" є недопустимою',
+    'ko': '"{tag}"라는 태그명은 사용할 수 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -35904,7 +36045,8 @@ exports.strings = {
     'pt_BR': 'A opção {option} não é suportada',
     'fr_FR': 'L\'option "{option}" n\'est pas supportée',
     'ru_RU': 'Опция "{option}" недопустима!',
-    'uk': 'Опція "{option}" не підтримується!'
+    'uk': 'Опція "{option}" не підтримується!',
+    'ko': '"{option}"(이)라는 옵션은 지원하지 않습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
@@ -35917,7 +36059,8 @@ exports.strings = {
     'pt_BR': 'git <comando} [<parâmetros>]',
     'fr_FR': 'git <commande> [<arguments>]',
     'ru_RU': 'git <команда> [<аргументы>]',
-    'uk': 'git <команда> [<аргументи>]'
+    'uk': 'git <команда> [<аргументи>]',
+    'ko': 'git <명령어> [<인자들>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
@@ -35930,7 +36073,8 @@ exports.strings = {
     'pt_BR': 'Comandos suportados:',
     'fr_FR': 'Commandes supportées',
     'ru_RU': 'Поддерживаемые команды',
-    'uk': 'Допустимі команди'
+    'uk': 'Допустимі команди',
+    'ko': '지원되는 명령어들:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
@@ -35943,7 +36087,8 @@ exports.strings = {
     'pt_BR': 'Uso:',
     'fr_FR': 'Utilisation :',
     'ru_RU': 'Использование:',
-    'uk': 'Використання:'
+    'uk': 'Використання:',
+    'ko': '사용법'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
@@ -35956,7 +36101,8 @@ exports.strings = {
     'pt_BR': 'Git versão PCOTTLE.1.0',
     'fr_FR': 'Git version PCOTTLE.1.0',
     'ru_RU': 'Версия git PCOTTLE.1.0',
-    'uk': 'Версія git PCOTTLE.1.0'
+    'uk': 'Версія git PCOTTLE.1.0',
+    'ko': 'Git Version PCOTILE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
@@ -35968,7 +36114,8 @@ exports.strings = {
     'pt_BR': 'Invertendo a árvore...',
     'fr_FR': 'Inversion de l\'arbre...',
     'ru_RU': 'Переворачиваю дерево...',
-    'uk': 'Перевертаю дерево...'
+    'uk': 'Перевертаю дерево...',
+    'ko': '트리 뒤집는중...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -35981,7 +36128,8 @@ exports.strings = {
     'pt_BR': 'Atualizando a árvore...',
     'fr_FR': 'Actualisation de l\'arbre…',
     'ru_RU': 'Обновляю дерево...',
-    'uk': 'Оновлюю дерево...'
+    'uk': 'Оновлюю дерево...',
+    'ko': '트리 다시 불러오는중...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
@@ -35994,7 +36142,8 @@ exports.strings = {
     'pt_BR': 'Língua trocada para {locale}',
     'fr_FR': 'Langue changée à {locale}',
     'ru_RU': 'Локаль теперь равна {locale}',
-    'uk': 'Локаль тепер дорівнює {locale}'
+    'uk': 'Локаль тепер дорівнює {locale}',
+    'ko': '로케일이 {locale}로 설정되었습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
@@ -36007,7 +36156,8 @@ exports.strings = {
     'pt_BR': 'Língua retornada para a padrão, que é {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}',
     'ru_RU': 'Локаль сброшена. Теперь она равна {locale}',
-    'uk': 'Локаль скинута. Тепер вона дорівнює {locale}'
+    'uk': 'Локаль скинута. Тепер вона дорівнює {locale}',
+    'ko': '로케일이 {locale}로 초기화 되었습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
@@ -36020,7 +36170,8 @@ exports.strings = {
     'pt_BR': 'Use algum destes comandos para ter mais informações:',
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info',
     'ru_RU': 'Для получения большей информации используй следующие команды:',
-    'uk': 'Щоб отримати більше інформації використовуй наступні команди:'
+    'uk': 'Щоб отримати більше інформації використовуй наступні команди:',
+    'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
@@ -36033,7 +36184,8 @@ exports.strings = {
     'pt_BR': 'Esta é uma lista dos comandos disponíveis:',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :',
     'ru_RU': 'Вот все поддерживаемуе команды:',
-    'uk': 'Ось список всіх можливих команд:'
+    'uk': 'Ось список всіх можливих команд:',
+    'ko': '여기에 사용 가능한 모든 명령어들의 리스트가 있습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
@@ -36046,7 +36198,8 @@ exports.strings = {
     'pt_BR': 'Diretório mudado para "/diretorios/nao/importam/neste/demo"',
     'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)',
     'ru_RU': 'Директория изменена на "/директории/не/важны/в/этом/демо"',
-    'uk': 'Директорія змінена на "/директорії/не/мають/значення/в/цьому/демо"'
+    'uk': 'Директорія змінена на "/директорії/не/мають/значення/в/цьому/демо"',
+    'ko': '디렉토리가 "/directories/dont/matter/in/this/demo"로 변경되었습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
@@ -36059,7 +36212,8 @@ exports.strings = {
     'pt_BR': 'NaoSePreocupeComNomesDeArquivoNesteDemo.txt',
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)',
     'ru_RU': 'НеНадоЗаботитьсяОФайлахВЭтомДемо.txt',
-    'uk': 'ЗабийНаФайлиВЦьомуДемо.txt'
+    'uk': 'ЗабийНаФайлиВЦьомуДемо.txt',
+    'ko': 'DontWorryAboutFilesInThisDemo.txt (이_데모에서_파일에_대한_걱정은_하지마세요.txt)'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
@@ -36071,7 +36225,8 @@ exports.strings = {
     'pt_BR': 'Provavelmente você não vai conseguir digitar comandos no celular, neste caso tente acessar de um computador',
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D',
     'ru_RU': 'Мобильные не поддерживаются, зайди с компьютера!',
-    'uk': 'LGB не підтримує ввід тексту з мобільного, зайди з компьютера! Це цього варте!'
+    'uk': 'LGB не підтримує ввід тексту з мобільного, зайди з компьютера! Це цього варте!',
+    'ko': 'LGB는 모바일에서 입력을 받을 수 없습니다. 데스크톱으로 접속하세요! 이것은 가치가 있습니다. :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
@@ -36084,7 +36239,8 @@ exports.strings = {
     'pt_BR': 'Compartilhe esta árvore com seus amigos! Eles podem carregá-la com "import tree"',
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"',
     'ru_RU': 'Поделись деревом с друзьями! Они могут загрузить его при помощи "import tree"',
-    'uk': 'Поділись цим деревом з друзями! Вони зможуть його завантажити за допомогою "import tree"'
+    'uk': 'Поділись цим деревом з друзями! Вони зможуть його завантажити за допомогою "import tree"',
+    'ko': '친구들과 이 트리를 공유하세요! 그들은 "import tree"를 사용해 이를 로드할 수 있습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
@@ -36097,7 +36253,8 @@ exports.strings = {
     'pt_BR': 'Cole o JSON abaixo!',
     'fr_FR': 'Collez un blob JSON ci-dessous !',
     'ru_RU': 'Вставь JSON ниже!',
-    'uk': 'Встав JSON нижче!'
+    'uk': 'Встав JSON нижче!',
+    'ko': '아래에 JSON blob을 붙여넣으세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
@@ -36110,7 +36267,8 @@ exports.strings = {
     'pt_BR': 'Mapa de resolvidos descartado, você está começando com ficha limpa!',
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !',
     'ru_RU': 'Всё сброшено! Можно начать с чистого листа!',
-    'uk': 'Все скинуте! Можна починати з чистого аркушу!'
+    'uk': 'Все скинуте! Можна починати з чистого аркушу!',
+    'ko': '해결된 지도가 초기화 되었습니다. 당신은 깨끗한 상태에서 시작합니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
@@ -36123,7 +36281,8 @@ exports.strings = {
     'pt_BR': 'Você não está em um nível! Você está no sandbox, comece um nível com "levels"',
     'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"',
     'ru_RU': 'Ты не проходишь уровень! Ты в песочнице! Чтобы начать уровень, используй команду "levels"!',
-    'uk': 'Ти не в рівні! Ти в пісочниці! Почни рівень з "levels"'
+    'uk': 'Ти не в рівні! Ти в пісочниці! Почни рівень з "levels"',
+    'ko': '당신은 샌드박스에 있습니다. "levels"를 사용하여 레벨을 시작하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
@@ -36136,7 +36295,8 @@ exports.strings = {
     'pt_BR': 'O nível "{id}" não existe! Abrindo uma caixa de seleção de nível',
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux',
     'ru_RU': 'Уровень с id "{id}" не найден! Открываю выбор уровней',
-    'uk': 'Рівень з id "{id}" не знайдений! Відкриваю вибір рівней'
+    'uk': 'Рівень з id "{id}" не знайдений! Відкриваю вибір рівней',
+    'ko': 'id "{id}"에 대한 레벨이 존재하지 않습니다. 레벨 선택 화면을 열어보세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -36149,7 +36309,8 @@ exports.strings = {
     'pt_BR': 'Você já desfez tudo!',
     'fr_FR': 'La pile d\'annulation est vide !',
     'ru_RU': 'Некуда откатывать!',
-    'uk': 'Нема куди відкатуватися'
+    'uk': 'Нема куди відкатуватися',
+    'ko': '되돌리기 스택이 비었습니다!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
@@ -36162,7 +36323,8 @@ exports.strings = {
     'pt_BR': 'Você já resolveu este nível, tente outros com "levels" ou volte ao sandbox com "sandbox"',
     'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"',
     'ru_RU': 'Ты уже прошел этот уровень, попробуй пройти другие при помощи команды "levels" или иди в песочницу "sandbox"',
-    'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"'
+    'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"',
+    'ko': '당신은 이미 이 레벨을 해결했습니다. "levels"를 사용하여 다른 레벨에 도전하거나 "sandbox"를 사용하여 샌드박스로 돌아가세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-level': {
@@ -36171,7 +36333,8 @@ exports.strings = {
     'zh_CN': '恭喜，本关解决了！！',
     'zh_TW': '恭喜，本關解決了！！',
     'ru_RU': 'Решено!!\n:D',
-    'uk'   : 'Вирішено!!\n:D'
+    'uk'   : 'Вирішено!!\n:D',
+    'ko'   : '해결 완료!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -36184,7 +36347,8 @@ exports.strings = {
     'pt_BR': 'Achou que seria fácil assim? Desabilitamos esse comando durante este nível, só para dificultar ;-)',
     'fr_FR': 'Cette commande git est désactivée pour ce niveau !',
     'ru_RU': 'На этом уровне нельзя использовать эту команду!',
-    'uk': 'На цьому рівні не можна використовувати цю команду!'
+    'uk': 'На цьому рівні не можна використовувати цю команду!',
+    'ko': '그 Git 명령어는 이 레벨에서 사용할 수 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
@@ -36197,7 +36361,8 @@ exports.strings = {
     'pt_BR': 'Aqui está o JSON para este nível! Compartilhe com alguém ou me envie pelo Github',
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github',
     'ru_RU': 'Вот JSON для этого уровня! Поделись им с кем-нибудь или отправь его нам на GitHub',
-    'uk': 'Ось JSON для цього рівня! Поділись з кимось чи відправ мені його на Github'
+    'uk': 'Ось JSON для цього рівня! Поділись з кимось чи відправ мені його на Github',
+    'ko': '이 레벨을 위한 JSON 데이터가 있습니다! 이를 다른 사람들과 공유하거나 Github에서 제게 보내보세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
@@ -36210,7 +36375,8 @@ exports.strings = {
     'pt_BR': 'Você não especificou uma mensagem de início, quer colocar uma?',
     'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?',
     'ru_RU': 'Не указано стартово сообщение! Точно продолжаем?',
-    'uk': 'Не вказано стартовий діалог, хочеш додати стартовий діалог?'
+    'uk': 'Не вказано стартовий діалог, хочеш додати стартовий діалог?',
+    'ko': '당신은 시작 대화창을 지정하지 않았습니다. 추가 하시겠습니까?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
@@ -36223,7 +36389,8 @@ exports.strings = {
     'pt_BR': 'Você não especificou uma dica, quer colocar uma?',
     'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?',
     'ru_RU': 'Не указана подсказка для уровня! Пренебречь? Вальсируем?',
-    'uk': 'Не вказана підказка, хочеш додати підказку?'
+    'uk': 'Не вказана підказка, хочеш додати підказку?',
+    'ko': '당신은 힌트를 지정하지 않았습니다. 추가 하시겠습니까?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
@@ -36236,7 +36403,8 @@ exports.strings = {
     'pt_BR': 'Colocque uma dica para este nível, ou deixe em branco se não quiser incluir',
     'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure',
     'ru_RU': 'Введи подсказку для уровня, если хочешь.',
-    'uk': 'Додай підказку для рівня, якщо хочеш'
+    'uk': 'Додай підказку для рівня, якщо хочеш',
+    'ko': '이 레벨을 위한 힌트를 입력하거나 만약 이를 포함시키고 싶지 않을 경우엔 비워두세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
@@ -36249,7 +36417,8 @@ exports.strings = {
     'pt_BR': 'Coloque o nome do nível',
     'fr_FR': 'Entrez le nom pour ce niveau',
     'ru_RU': 'Введи название уровня',
-    'uk': 'Введи назву рівня'
+    'uk': 'Введи назву рівня',
+    'ko': '레벨 이름을 입력하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
@@ -36262,7 +36431,8 @@ exports.strings = {
     'pt_BR': 'Sua solução está vazia! O aprendiz deveria ter que fazer alguma coisa',
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond',
     'ru_RU': 'Решение не указано! Так не годится!',
-    'uk': 'Розв’язок порожній!! Щось не так'
+    'uk': 'Розв’язок порожній!! Щось не так',
+    'ko': '해답이 비어있습니다. 무언가 잘못되었습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
@@ -36275,7 +36445,8 @@ exports.strings = {
     'pt_BR': 'Esbelecendo o ponto de início... a solução e o objetivo serão sobrescritos caso já existirem',
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis',
     'ru_RU': 'Устанавливаю стартовую точку... Решение и итоговое состояние будут стёрты, если они указаны ранее',
-    'uk': 'Встановлюю стартову точку... розв’язок та ціль будуть переписані якщо вони були задані раніше'
+    'uk': 'Встановлюю стартову точку... розв’язок та ціль будуть переписані якщо вони були задані раніше',
+    'ko': '시작 지점을 정의하세요... 만약 그것이 먼저 정의된다면 해답과 목표가 덮어씌워질 것입니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
@@ -36288,7 +36459,8 @@ exports.strings = {
     'pt_BR': 'Você está em um nível, então há vários tipos de ajuda. Selecione "help level" para aprender mais sobre esta lição, "help general" para aprender a usar o Learn GitBranching, ou "objective" ver como resolver o nível.',
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau',
     'ru_RU': 'При прохождении уровня доступны несколько видов помощи. Определить что нужно: "help level" чтобы получить информацию об этом уровне, "help general" для того, чтобы узнать о игре в целом или "objective" чтобы узнать что надо сделать в этом уровне.',
-    'uk': 'При проходженні рівня доступні декілька різновидів допомоги. Виберіть або "help level" щоб взнати більше про цей рівень, чи "help general" щоб взнати більше про Learn Git Branching, чи "objective" щоб дізнатись більше про проходження цього рівня'
+    'uk': 'При проходженні рівня доступні декілька різновидів допомоги. Виберіть або "help level" щоб взнати більше про цей рівень, чи "help general" щоб взнати більше про Learn Git Branching, чи "objective" щоб дізнатись більше про проходження цього рівня',
+    'ko': '당신은 한 레벨에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. 레슨에 대해 더 알고싶을 땐 "help level", LearnGitBranching을 사용하고 싶을 땐 "help general", 또는 레벨을 어떻게 해결해야할지 알고싶을 땐 "objective"를 선택하세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
@@ -36301,7 +36473,8 @@ exports.strings = {
     'pt_BR': 'Você está no construtor de nívels, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
     'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"',
-    'uk': 'При створенні рівня доступні декілька різновидів допомоги. Виберіть або "help general", чи "help builder"'
+    'uk': 'При створенні рівня доступні декілька різновидів допомоги. Виберіть або "help general", чи "help builder"',
+    'ko': '당신은 한 레벨 생성기에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. "help general" 또는 "help builder"를 선택해주세요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
@@ -36314,7 +36487,8 @@ exports.strings = {
     'es_AR': 'Mostrar objetivo',
     'ja'   : 'ゴールを表示',
     'ru_RU': 'Цель уровня',
-    'uk': 'Ціль рівня'
+    'uk': 'Ціль рівня',
+    'ko': '목표 보기'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -36327,7 +36501,8 @@ exports.strings = {
     'es_AR': 'Ocultar obetivo',
     'ja'   : 'ゴールを隠す',
     'ru_RU': 'Спрятать цель',
-    'uk': 'Сховати ціль'
+    'uk': 'Сховати ціль',
+    'ko': '목표 숨기기'
   },
   ///////////////////////////////////////////////////////////////////////////
   'objective-button': {
@@ -36336,7 +36511,8 @@ exports.strings = {
     'zh_TW': '提示',
     'zh_CN': '提示',
     'ru_RU': 'Задача',
-    'uk': 'Задача'
+    'uk': 'Задача',
+    'ko': '목적'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-demonstration-title': {
@@ -36345,7 +36521,8 @@ exports.strings = {
     'zh_TW': 'Git示範',
     'zh_CN': 'Git示范',
     'ru_RU': 'Git демо',
-    'uk'   : 'Git демо'
+    'uk'   : 'Git демо',
+    'ko'   : 'Git 데모'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -36359,7 +36536,8 @@ exports.strings = {
     'fr_FR': 'Cible à atteindre',
     'ja'   : '到達目標',
     'ru_RU': 'Цель уровня',
-    'uk': 'Ціль рівня'
+    'uk': 'Ціль рівня',
+    'ko': '목표'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -36373,7 +36551,8 @@ exports.strings = {
     'zh_TW': '在這個關卡中，只有 master branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 "hide goal" 來隱藏這個對話視窗',
     'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': '<span class="fwber">Важно:</span> В этом уровне проверяется только ветка master. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи "hide goal"',
-    'uk': '<span class="fwber">Важливо:</span> В цьому рівні буде перевірятися тільки гілка master. Решта гілок тільки для наглядності (показані пунктиром нижче). Як завжди, можна сховати цей діалог за допомогою "hide goal"'
+    'uk': '<span class="fwber">Важливо:</span> В цьому рівні буде перевірятися тільки гілка master. Решта гілок тільки для наглядності (показані пунктиром нижче). Як завжди, можна сховати цей діалог за допомогою "hide goal"',
+    'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 마스터 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨킬 수 있습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -36387,7 +36566,8 @@ exports.strings = {
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
     'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide goal"',
-    'uk': 'Можна сховати це вікно за допомогою "hide goal"'
+    'uk': 'Можна сховати це вікно за допомогою "hide goal"',
+    'ko': '"hide goal"을 사용하여 이 창을 숨길 수 있습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -36401,7 +36581,8 @@ exports.strings = {
     'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide start"',
     'ja'   : 'このウィンドウは"hide start"かクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide start"',
-    'uk': 'Можна сховати це вікно за допомогою "hide start"'
+    'uk': 'Можна сховати це вікно за допомогою "hide start"',
+    'ko': '"hide start"를 사용하여 이 창을 숨길 수 있습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -36415,7 +36596,8 @@ exports.strings = {
     'fr_FR': 'Éditeur de niveaux',
     'ja'   : 'Levelエディタ',
     'ru_RU': 'Редактор уровней',
-    'uk': 'Редактор рівнів'
+    'uk': 'Редактор рівнів',
+    'ko': '레벨 생성기'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -36429,7 +36611,8 @@ exports.strings = {
     'fr_FR': 'Il n\'y a aucun dialogue de départ à afficher pour ce niveau !',
     'ja'   : 'このLevelにはスタートダイアログが存在しません',
     'ru_RU': 'Нет стартового сообщение для уровня!',
-    'uk': 'Немає початкового діалогу для цього рівня!'
+    'uk': 'Немає початкового діалогу для цього рівня!',
+    'ko': '이 레벨을 위한 시작 대화창이 없습니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -36443,7 +36626,8 @@ exports.strings = {
     'fr_FR': 'Hum, il ne semble pas y avoir d\'indice pour ce niveau :-/',
     'ja'   : 'あらら、このLevelでは、残念ながらヒントが存在しません :-/',
     'ru_RU': "Милый мой, хороший, догадайся сам :-/ Подсказка не создана...",
-    'uk': 'Хм, схоже для цього рівня немає підказки :-/'
+    'uk': 'Хм, схоже для цього рівня немає підказки :-/',
+    'ko': '흠, 이 레벨을 위한 힌트가 없어보이는군요.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -36457,7 +36641,8 @@ exports.strings = {
     'fr_FR': 'La traduction pour {key} n\'existe pas encore :( Venez sur Github pour en offrir une !',
     'ja'   : '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
     'ru_RU': 'Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub',
-    'uk': 'Немає перекладу для {key} :( Будь-ласка, запропонуй переклад на Github'
+    'uk': 'Немає перекладу для {key} :( Будь-ласка, запропонуй переклад на Github',
+    'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -36471,7 +36656,8 @@ exports.strings = {
     'fr_FR': 'Ce message n\'a pas encore été traduit dans votre langue :( Venez sur Github aider à la traduction !',
     'ja'   : 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
     'ru_RU': 'Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub',
-    'uk': 'Для цього повідомлення ще немає перекладу :( Будь-ласка, запропонуй переклад на Github'
+    'uk': 'Для цього повідомлення ще немає перекладу :( Будь-ласка, запропонуй переклад на Github',
+    'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!'
   }
 };
 
@@ -36904,7 +37090,7 @@ function DisabledMap(options) {
 
 DisabledMap.prototype.getInstantCommands = function() {
   // this produces an array of regex / function pairs that can be
-  // piped into a parse waterfall to disable certain git commmands
+  // piped into a parse waterfall to disable certain git commands
   // :D
   var instants = [];
   var onMatch = function() {
@@ -37276,7 +37462,7 @@ var Level = Sandbox.extend({
   initParseWaterfall: function(options) {
     Level.__super__.initParseWaterfall.apply(this, [options]);
 
-    // add our specific functionaity
+    // add our specific functionality
     this.parseWaterfall.addFirst(
       'parseWaterfall',
       parse
@@ -39335,7 +39521,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   takeControl: function() {
-    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // we will be handling commands that are submitted, mainly to add the sandbox
     // functionality (which is included by default in ParseWaterfall())
     Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands
@@ -39495,7 +39681,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   processSandboxCommand: function(command, deferred) {
-    // I'm tempted to do camcel case conversion, but there are
+    // I'm tempted to do cancel case conversion, but there are
     // some exceptions to the rule
     var commandMap = {
       'reset solved': this.resetSolved,
@@ -40282,7 +40468,7 @@ var MyError = Backbone.Model.extend({
   getMsg: function() {
     if (!this.get('msg')) {
       debugger;
-      console.warn('mye rror without message');
+      console.warn('my error without message');
     }
     return this.get('msg');
   }
@@ -42220,7 +42406,7 @@ exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.NextLevelConfirm = NextLevelConfirm;
 
 }).call(this,require('_process'))
-},{"../app":176,"../dialogs/nextLevel":183,"../intl":193,"../log":199,"../util/constants":216,"../util/keyboard":223,"_process":9,"backbone":1,"markdown":12,"q":15,"underscore":171}],231:[function(require,module,exports){
+},{"../app":176,"../dialogs/nextLevel":183,"../intl":193,"../log":199,"../util/constants":216,"../util/keyboard":223,"_process":8,"backbone":1,"markdown":12,"q":15,"underscore":171}],231:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -45787,7 +45973,7 @@ var VisTag = VisBase.extend({
 
   getTagStackIndex: function() {
     if (this.get('isHead')) {
-      // head is never stacked with other Tages
+      // head is never stacked with other Tags
       return 0;
     }
 
@@ -46143,7 +46329,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    // if we dont want to receive keyoard input (directly),
+    // if we dont want to receive keyboard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?
@@ -46401,7 +46587,7 @@ exports.Visualization = Visualization;
 
 
 }).call(this,require('_process'))
-},{"../app":176,"../git":189,"../models/collections":201,"../util/eventBaton":220,"../visuals":236,"_process":9,"backbone":1,"underscore":171}],244:[function(require,module,exports){
+},{"../app":176,"../git":189,"../models/collections":201,"../util/eventBaton":220,"../visuals":236,"_process":8,"backbone":1,"underscore":171}],244:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugWork master^^2^",
@@ -48809,7 +48995,7 @@ exports.level = {
               "## Commits Git",
               "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
               "",
-              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tout le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changments (\"delta\") depuis la version précédante du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
+              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tout le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changements (\"delta\") depuis la version précédente du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
               "",
               "Pour cloner un dépôt, il faut décompresser (\"résoudre\") tous ces deltas. C'est la raison pour laquelle la commande écrit :",
               "",
@@ -48840,7 +49026,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Allez-y et essayez par vous-même ! Après la fermeture de cettefenêtre, faites deux commits pour terminer ce niveau."
+              "Allez-y et essayez par vous-même ! Après la fermeture de cette fenêtre, faites deux commits pour terminer ce niveau."
             ]
           }
         }
@@ -48853,15 +49039,15 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Git 커밋",
-              "커밋은 Git 저장소에 여러분의 디렉토리에 있는 모든 파일에 대한 스냅샷을 기록하는 것입니다. 디렉토리 전체에 대한 복사해 붙이기와 비슷하지만 훨씬 유용합니다!",
+              "커밋은 Git 저장소에 여러분의 디렉토리에 있는 모든 파일에 대한 스냅샷을 기록하는 것입니다. 디렉토리 전체를 복사하여 붙여넣는것과 유사하지만, 훨씬 유용한 방법입니다!",
               "",
-              "Git은 커밋을 가능한한 가볍게 유지하고자 해서, 커밋할 때마다 디렉토리 전체를 복사하는 일은 하지 않습니다. 각 커밋은 저장소의 이전 버전과 다음 버전의 변경내역(\"delta\"라고도 함)을 저장합니다. 그래서 대부분의 커밋이 그 커밋 위에 부모 커밋을 가리키고 있게 되는 것입니다. -- 곧 그림으로 된 화면에서 살펴보게 될 것입니다.",
+              "Git은 가능한 한 커밋을 가볍게 유지하고자 하기때문에, 커밋할 때마다 디렉토리 전체를 복사하진 않습니다. 각 커밋은 저장소의 이전 버전과 다음 버전의 변경내역(\"delta\"라고도 함)을 저장합니다. 그래서 대부분의 커밋이 그 커밋 위의 부모 커밋을 가리킵니다. -- 다음 화면에서 곧 살펴보게 될 것입니다.",
               "",
-              "저장소를 복제(clone)하려면, 그 모든 변경분(delta)를 풀어내야하는데, 그 때문에 명령행 결과로 아래와 같이 보게됩니다. ",
+              "저장소를 복제(clone)하려면 모든 변경분(delta)를 풀어내야 하는데, 이 때문에 명령행 결과로 아래 문구를 볼 수 있습니다.",
               "",
               "`resolving deltas`",
               "",
-              "알아야할 것이 꽤 많습니다만, 일단은 커밋을 프로젝트의 각각의 스냅샷들로 생각하시는 걸로 충분합니다. 커밋은 매우 가볍고 커밋 사이의 전환도 매우 빠르다는 것을 기억해주세요!"
+              "알아야 할 것이 꽤 많습니다만, 일단은 커밋을 프로젝트의 스냅샷들로 생각하면 충분합니다. 커밋은 매우 가볍고 커밋 사이의 전환도 매우 빠르다는 것을 기억해주세요!"
             ]
           }
         },
@@ -48869,12 +49055,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "연습할 때 어떻게 보이는지 확인해보죠. 오른쪽 화면에 git 저장소를 그림으로 표현해 놓았습니다. 현재 두번 커밋한 상태입니다 -- 첫번째 커밋으로 `C0`, 그 다음으로 `C1`이라는 어떤 의미있는 변화가 있는 커밋이 있습니다.",
+              "연습할 때 어떻게 보이는지 확인해봅시다. 오른쪽 화면에 git 저장소를 그림으로 표현해 놓았습니다. 현재 두번 커밋한 상태입니다 -- 첫번째 커밋으로 `C0`, 그 다음으로 `C1`이라는 어떤 의미있는 변화가 있는 커밋이 있습니다.",
               "",
-              "아래 버튼을 눌러 새로운 커밋을 만들어보세요"
+              "아래 버튼을 눌러 새로운 커밋을 만들어보세요."
             ],
             "afterMarkdowns": [
-              "이렇게 보입니다! 멋지죠. 우리는 방금 저장소 내용을 변경해서 한번의 커밋으로 저장했습니다. 방금 만든 커밋은 부모는 `C1`이고, 어떤 커밋을 기반으로 변경된 것인지를 가리킵니다."
+              "이렇게 보입니다! 멋지죠. 우리는 방금 저장소 내용을 변경해서 하나의 커밋으로 저장했습니다. 방금 만든 커밋은 부모는 `C1`이고, 어떤 커밋을 기반으로 변경된 것인지를 가리킵니다."
             ],
             "command": "git commit",
             "beforeCommand": ""
@@ -48884,7 +49070,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "계속해서 직접 한번 해보세요! 이 창을 닫고, 커밋을 두 번 하면 다음 레벨로 넘어갑니다"
+              "계속해서 직접 한번 해보세요! 이 창을 닫고, 커밋을 두 번 하면 다음 레벨로 넘어갑니다."
             ]
           }
         }
@@ -49172,7 +49358,7 @@ exports.level = {
             "markdowns": [
               "## Branches und Mergen",
               "",
-              "Super! Wir wissen jetzt, wie man committet und einen Branch anlegt. Jetzt müssen wir nur noch rauskriegen, wie man die Arbeit, die in verschiedenen Branches steckt, zusammenführen kann. Dann können wir einen neuen Branch erstellen, darin ein neues Feature entwickeln, und das dann in den ursprünglichen Zweig integrieren.",
+              "Super! Wir wissen jetzt, wie man committet und einen Branch anlegt. Jetzt müssen wir nur noch rauskriegen, wie man die Arbeit, die in verschiedenen Branches steckt, zusammenführen kann. Dann können wir einen neuen Branch erstellen, darin ein neues Feature entwickeln, und das dann in den ursprünglichen Branch integrieren.",
               "",
               "Die einfachste Methode, mit der man Branches zusammenführen kann, ist `git merge`. Das Mergen erzeugt in git einen speziellen Commit, der zwei Vorgänger hat. Ein solcher Commit bedeutet im Prinzip \"ich möchte alle Arbeit von dem Vorgänger hier und dem dort *und* allen ihren jeweiligen Vorgängern miteinander kombinieren\".",
               "",
@@ -50502,7 +50688,7 @@ exports.level = {
               "",
               "Второй способ объединения изменений в ветках - это *rebasing*. При ребейзе Git по сути копирует набор коммитов и переносит их в другое место.",
               "",
-              "Несмотря на то, что это звучит достаточно непонятно, преимущество `rebase` в том, что при его помощи можно делать чистые и красивые линейные последовательности коммитов. История коммитов будет чище, если вы применяете `rebase`.",
+              "Несмотря на то, что это звучит достаточно непонятно, преимущество `rebase` в том, что c его помощью можно делать чистые и красивые линейные последовательности коммитов. История коммитов будет чище, если вы применяете `rebase`.",
               "",
               "Посмотрим, как это работает..."
             ]
@@ -50732,9 +50918,9 @@ exports.level = {
             "markdowns": [
               "### Git describe",
               "",
-              "Parce ce que les tags sont de très bonne références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe`!",
+              "Parce ce que les tags sont de très bonnes références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe` !",
               "",
-              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé ; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacance après 3 semaines sur l'ordinateur d'un collègue."
+              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé ; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacances après 3 semaines sur l'ordinateur d'un collègue."
             ]
           }
         },
@@ -50752,7 +50938,7 @@ exports.level = {
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "où `tag` est le tag le plus proche dans l'historique, `numCommits` le nombre de commit avec le tag, et `<hash>` le hash/identifiant du commit décrit."
+              "où `tag` est le tag le plus proche dans l'historique, `numCommits` le nombre de commits avec le tag, et `<hash>` le hash/identifiant du commit décrit."
             ]
           }
         },
@@ -51942,9 +52128,9 @@ exports.level = {
               "",
               "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique.",
               "",
-              "Pour terminer, Faites attentions au but -- Du au fait que nous déplacons les commmits 2 fois, ils se retrouvent les deux avec une apostrophe. une deuxième apostrophe est ajouté sur le commit que nous modifions, ce qui nous donnes l'arbre finale ",
+              "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent les deux avec une apostrophe. Une deuxième apostrophe est ajouté sur le commit que nous modifions, ce qui nous donne l'arbre finale ",
               "",
-              "Ceci étant dit, Je peux comparer le résultat avec la stuctures et les différentes apostophes. Tant que votre arbre master a la même structure et apostrophe le niveau sera considéré réussi."
+              "Ceci étant dit, je peux comparer le résultat avec la stucture et les différentes apostophes. Tant que votre arbre master a la même structure et apostrophe le niveau sera considéré réussi."
             ]
           }
         },
@@ -52865,7 +53051,7 @@ exports.level = {
             "markdowns": [
               "## Git Tags",
               "",
-              "Comme apris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
+              "Comme appris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
               "",
               "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des release majeures ou d'importants merge, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
               ""
@@ -52891,7 +53077,7 @@ exports.level = {
               "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)"
             ],
             "afterMarkdowns": [
-              "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit  `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
+              "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -53481,9 +53667,9 @@ exports.level = {
             "markdowns": [
               "## Déplacer votre travail",
               "",
-              "Nous avons maintenant pratiqué les bases de git -- commits, branches, et déplacements dans l'arbre des commits. Ces seuls concepts sont suffisants pour utiliser 90% du pouvoir des dépôt git et satisfaire les principaux besoins des développeurs.",
+              "Nous avons maintenant pratiqué les bases de git -- commits, branches, et déplacements dans l'arbre des commits. Ces seuls concepts sont suffisants pour utiliser 90% du pouvoir des dépôts git et satisfaire les principaux besoins des développeurs.",
               "",
-              "Les 10% restants, cependant, peuvent être assez utiles pour systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"le déplacement de travail\" (moving work around) -- en d'autres termes, c'est une façon des développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
+              "Les 10% restants, cependant, peuvent être assez utiles pour les systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"le déplacement de travail\" (moving work around) -- en d'autres termes, c'est une façon pour les développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
               "",
               "Cela peut sembler compliqué, mais c'est un concept simple."
             ]
@@ -54318,7 +54504,7 @@ exports.level = {
             "markdowns": [
               "## Se déplacer dans Git",
               "",
-              "Avant que nous découvrions quelques unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
+              "Avant que nous découvrions quelques-unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
               "",
               "Une fois que ces déplacements seront aisés, votre puissance avec les autres commandes de git sera amplifiée !",
               "",
@@ -55810,7 +55996,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très convénient, c'est pourquoi Git a des références relatives. Elles sont géniales !",
+              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très pratique, c'est pourquoi Git a des références relatives. Elles sont géniales !",
               "",
               "Avec les références relatives vous pouvez commencer par vous placer à un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis ici.",
               "",
@@ -56615,7 +56801,7 @@ exports.level = {
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "Moves (by force) the master branch to three parents behind HEAD."
+              "moves (by force) the master branch to three parents behind HEAD."
             ]
           }
         },
@@ -56623,10 +56809,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see that previous command in action"
+              "Let's see that previous command in action."
             ],
             "afterMarkdowns": [
-              "There we go! Relative refs gave us a concise way to refer to `C1` and branch forcing (`-f`) gave us a way to quickly move a branch to that location"
+              "There we go! Relative refs gave us a concise way to refer to `C1` and branch forcing (`-f`) gave us a way to quickly move a branch to that location."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -56636,7 +56822,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Now that you have seen relative refs and branch forcing in combination, lets use them to solve the next level.",
+              "Now that you have seen relative refs and branch forcing in combination, let's use them to solve the next level.",
               "",
               "To complete this level, move `HEAD`, `master`, and `bugFix` to their goal destinations shown."
             ]
@@ -56804,7 +56990,7 @@ exports.level = {
               "Spécifions le nombre de commits en arrière avec `~`."
             ],
             "afterMarkdowns": [
-              "Boum! Tellement rapide ! Les références relatives sont géniales."
+              "Boum ! Tellement rapide ! Les références relatives sont géniales."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -56901,7 +57087,7 @@ exports.level = {
               "Schauen wir uns das mal in Aktion an:"
             ],
             "afterMarkdowns": [
-              "Das war's schon! Relative Referenzen ermüglichen es uns den Commit `C1` sehr einfach anzugeben und `git branch -f` ermöglicht es uns, den Branch sehr schnell auf diesen Commit zu setzen."
+              "Das war's schon! Relative Referenzen ermöglichen es uns den Commit `C1` sehr einfach anzugeben und `git branch -f` ermöglicht es uns, den Branch sehr schnell auf diesen Commit zu setzen."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -65524,8 +65710,8 @@ exports.level = {
 },{}],271:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git clone;git commit;git commit;git push",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git commit;git commit;git push",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Pushin'",
     "zh_CN": "Git Push",
