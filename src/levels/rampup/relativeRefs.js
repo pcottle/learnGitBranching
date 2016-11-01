@@ -124,7 +124,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très convénient, c'est pourquoi Git a des références relatives. Elles sont géniales !",
+              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très pratique, c'est pourquoi Git a des références relatives. Elles sont géniales !",
               "",
               "Avec les références relatives vous pouvez commencer par vous placer à un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis ici.",
               "",

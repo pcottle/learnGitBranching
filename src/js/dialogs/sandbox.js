@@ -401,7 +401,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bienvenue sur Learn Git Branching!',
+        '## Bienvenue sur Learn Git Branching !',
         '',
         'Cette application a été conçue pour aider les débutants à saisir ',
         'les puissants concepts derrière les branches en travaillant ',
@@ -425,7 +425,7 @@ exports.dialog = {
       markdowns: [
         '## Commandes Git',
         '',
-        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues',
+        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues :',
         '',
         ' * commit',
         ' * branch',
@@ -441,7 +441,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Partager, c\'est se soucier!',
+        '## Partager, c\'est se soucier !',
         '',
         'Partagez des arbres avec vos amis via `export tree` et `import tree`',
         '',

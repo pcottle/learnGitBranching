@@ -271,7 +271,7 @@ exports.level = {
             "markdowns": [
               "## Se déplacer dans Git",
               "",
-              "Avant que nous découvrions quelques unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
+              "Avant que nous découvrions quelques-unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
               "",
               "Une fois que ces déplacements seront aisés, votre puissance avec les autres commandes de git sera amplifiée !",
               "",

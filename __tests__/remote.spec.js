@@ -79,7 +79,7 @@ describe('Git Remotes', function() {
     );
   });
 
-  it('checks all branhces for fetching', function() {
+  it('checks all branches for fetching', function() {
     expectTreeAsync(
       'git branch bugFix; git clone; git fakeTeamwork; git fetch',
       '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"bugFix":{"target":"C1","id":"bugFix","remoteTrackingBranchID":"o/bugFix"},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null},"o/bugFix":{"target":"C1","id":"o/bugFix","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"bugFix":{"target":"C1","id":"bugFix","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}}'
@@ -275,7 +275,7 @@ describe('Git Remotes', function() {
     );
   });
 
-  it('correclty checks upstream when pushing to a remote where commits already exist but branch is not updated DAYAM dawg', function() {
+  it('correctly checks upstream when pushing to a remote where commits already exist but branch is not updated DAYAM dawg', function() {
     expectTreeAsync(
       'git push origin master^:master',
       '{"branches":{"master":{"target":"C9","id":"master","remoteTrackingBranchID":"o/master"},"foo":{"target":"C8","id":"foo","remoteTrackingBranchID":"o/foo"},"o/master":{"target":"C5","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C5","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C1"],"id":"C4"},"C5":{"parents":["C2","C4"],"id":"C5"},"C6":{"parents":["C4"],"id":"C6"},"C7":{"parents":["C6"],"id":"C7"},"C8":{"parents":["C5","C7"],"id":"C8"},"C9":{"parents":["C5"],"id":"C9"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C5","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C5","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C4":{"parents":["C1"],"id":"C4"},"C5":{"parents":["C2","C4"],"id":"C5"}},"HEAD":{"target":"master","id":"HEAD"}}}',
@@ -297,7 +297,7 @@ describe('Git Remotes', function() {
     );
   });
 
-	it('correctly resolves existing commits and upates', function() {
+	it('correctly resolves existing commits and updates', function() {
     expectTreeAsync(
       'git clone; git push origin master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah;go C0; git fetch origin foo^:master',
       '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null},"blah":{"target":"C2","id":"blah","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"C0","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"foo","id":"HEAD"}}}'

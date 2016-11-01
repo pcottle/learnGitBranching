@@ -89,7 +89,7 @@ var VisTag = VisBase.extend({
 
   getTagStackIndex: function() {
     if (this.get('isHead')) {
-      // head is never stacked with other Tages
+      // head is never stacked with other Tags
       return 0;
     }
 

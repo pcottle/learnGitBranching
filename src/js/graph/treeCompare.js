@@ -251,7 +251,7 @@ TreeCompare.getNumHashes = function(ref) {
       return func(results);
     }
   }
-  throw new Error('coudlnt parse ref ' + ref);
+  throw new Error('couldnt parse ref ' + ref);
 };
 
 TreeCompare.getBaseRef = function(ref) {

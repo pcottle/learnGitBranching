@@ -150,6 +150,7 @@ module.exports = function(grunt) {
         eqnull: true,
         browser: true,
         debug: true,
+        reporterOutput: '',
         globals: {
           casper: true,
           Raphael: true,
@@ -176,6 +177,9 @@ module.exports = function(grunt) {
       ]
     },
     hash: {
+      options: {
+        mapping: ''
+      },
       js: {
         src: 'build/bundle.min.js',
         dest: 'build/'

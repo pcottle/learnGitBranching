@@ -1,0 +1,264 @@
+{
+  "name": "LearnGitBranching",
+  "version": "0.8.0",
+  "dependencies": {
+    "backbone": {
+      "version": "1.1.2",
+      "from": "backbone@*",
+      "resolved": "https://registry.npmjs.org/backbone/-/backbone-1.1.2.tgz",
+      "dependencies": {
+        "underscore": {
+          "version": "1.8.3",
+          "from": "underscore@>=1.5.0",
+          "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz"
+        }
+      }
+    },
+    "events": {
+      "version": "1.0.2",
+      "from": "events@*",
+      "resolved": "https://registry.npmjs.org/events/-/events-1.0.2.tgz"
+    },
+    "flux": {
+      "version": "2.0.1",
+      "from": "flux@*",
+      "resolved": "https://registry.npmjs.org/flux/-/flux-2.0.1.tgz"
+    },
+    "jquery": {
+      "version": "1.7.3",
+      "from": "jquery@~1.7.3",
+      "dependencies": {
+        "jsdom": {
+          "version": "0.2.19",
+          "from": "jsdom@~0.2.14",
+          "dependencies": {
+            "request": {
+              "version": "2.30.0",
+              "from": "request@2.x",
+              "dependencies": {
+                "qs": {
+                  "version": "0.6.6",
+                  "from": "qs@~0.6.0"
+                },
+                "json-stringify-safe": {
+                  "version": "5.0.0",
+                  "from": "json-stringify-safe@~5.0.0"
+                },
+                "forever-agent": {
+                  "version": "0.5.0",
+                  "from": "forever-agent@~0.5.0"
+                },
+                "node-uuid": {
+                  "version": "1.4.1",
+                  "from": "node-uuid@~1.4.0"
+                },
+                "mime": {
+                  "version": "1.2.11",
+                  "from": "mime@~1.2.9"
+                },
+                "tough-cookie": {
+                  "version": "0.9.15",
+                  "from": "tough-cookie@~0.9.15",
+                  "dependencies": {
+                    "punycode": {
+                      "version": "1.2.3",
+                      "from": "punycode@>=0.2.0"
+                    }
+                  }
+                },
+                "form-data": {
+                  "version": "0.1.2",
+                  "from": "form-data@~0.1.0",
+                  "dependencies": {
+                    "combined-stream": {
+                      "version": "0.0.4",
+                      "from": "combined-stream@~0.0.4",
+                      "dependencies": {
+                        "delayed-stream": {
+                          "version": "0.0.5",
+                          "from": "delayed-stream@0.0.5"
+                        }
+                      }
+                    },
+                    "async": {
+                      "version": "0.2.9",
+                      "from": "async@~0.2.9"
+                    }
+                  }
+                },
+                "tunnel-agent": {
+                  "version": "0.3.0",
+                  "from": "tunnel-agent@~0.3.0"
+                },
+                "http-signature": {
+                  "version": "0.10.0",
+                  "from": "http-signature@~0.10.0",
+                  "dependencies": {
+                    "assert-plus": {
+                      "version": "0.1.2",
+                      "from": "assert-plus@0.1.2"
+                    },
+                    "asn1": {
+                      "version": "0.1.11",
+                      "from": "asn1@0.1.11"
+                    },
+                    "ctype": {
+                      "version": "0.5.2",
+                      "from": "ctype@0.5.2"
+                    }
+                  }
+                },
+                "oauth-sign": {
+                  "version": "0.3.0",
+                  "from": "oauth-sign@~0.3.0"
+                },
+                "hawk": {
+                  "version": "1.0.0",
+                  "from": "hawk@~1.0.0",
+                  "dependencies": {
+                    "hoek": {
+                      "version": "0.9.1",
+                      "from": "hoek@0.9.x"
+                    },
+                    "boom": {
+                      "version": "0.4.2",
+                      "from": "boom@0.4.x"
+                    },
+                    "cryptiles": {
+                      "version": "0.2.2",
+                      "from": "cryptiles@0.2.x"
+                    },
+                    "sntp": {
+                      "version": "0.2.4",
+                      "from": "sntp@0.2.x"
+                    }
+                  }
+                },
+                "aws-sign2": {
+                  "version": "0.5.0",
+                  "from": "aws-sign2@~0.5.0"
+                }
+              }
+            },
+            "cssom": {
+              "version": "0.2.5",
+              "from": "cssom@0.2.x"
+            },
+            "cssstyle": {
+              "version": "0.2.9",
+              "from": "cssstyle@>=0.2.3",
+              "dependencies": {
+                "cssom": {
+                  "version": "0.3.0",
+                  "from": "cssom@0.3.x"
+                }
+              }
+            },
+            "contextify": {
+              "version": "0.1.6",
+              "from": "contextify@0.1.x",
+              "dependencies": {
+                "bindings": {
+                  "version": "1.1.1",
+                  "from": "bindings@*"
+                }
+              }
+            }
+          }
+        },
+        "htmlparser": {
+          "version": "1.7.6",
+          "from": "htmlparser@1.7.6"
+        },
+        "xmlhttprequest": {
+          "version": "1.4.2",
+          "from": "xmlhttprequest@~1.4.2"
+        },
+        "location": {
+          "version": "0.0.1",
+          "from": "location@0.0.1"
+        },
+        "navigator": {
+          "version": "1.0.1",
+          "from": "navigator@~1.0.1"
+        }
+      }
+    },
+    "markdown": {
+      "version": "0.4.0",
+      "from": "markdown@~0.4.0",
+      "dependencies": {
+        "nopt": {
+          "version": "1.0.10",
+          "from": "nopt@1",
+          "dependencies": {
+            "abbrev": {
+              "version": "1.0.4",
+              "from": "abbrev@1"
+            }
+          }
+        }
+      }
+    },
+    "object-assign": {
+      "version": "2.0.0",
+      "from": "object-assign@*",
+      "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-2.0.0.tgz"
+    },
+    "q": {
+      "version": "0.8.12",
+      "from": "q@~0.8.11"
+    },
+    "react": {
+      "version": "0.13.1",
+      "from": "react@*",
+      "resolved": "https://registry.npmjs.org/react/-/react-0.13.1.tgz",
+      "dependencies": {
+        "envify": {
+          "version": "3.4.0",
+          "from": "envify@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/envify/-/envify-3.4.0.tgz",
+          "dependencies": {
+            "through": {
+              "version": "2.3.6",
+              "from": "through@>=2.3.4 <2.4.0",
+              "resolved": "https://registry.npmjs.org/through/-/through-2.3.6.tgz"
+            },
+            "jstransform": {
+              "version": "10.1.0",
+              "from": "jstransform@>=10.0.1 <11.0.0",
+              "resolved": "https://registry.npmjs.org/jstransform/-/jstransform-10.1.0.tgz",
+              "dependencies": {
+                "base62": {
+                  "version": "0.1.1",
+                  "from": "base62@0.1.1",
+                  "resolved": "https://registry.npmjs.org/base62/-/base62-0.1.1.tgz"
+                },
+                "esprima-fb": {
+                  "version": "13001.1001.0-dev-harmony-fb",
+                  "from": "esprima-fb@13001.1001.0-dev-harmony-fb",
+                  "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-13001.1001.0-dev-harmony-fb.tgz"
+                },
+                "source-map": {
+                  "version": "0.1.31",
+                  "from": "source-map@0.1.31",
+                  "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.31.tgz",
+                  "dependencies": {
+                    "amdefine": {
+                      "version": "0.1.0",
+                      "from": "amdefine@>=0.0.4"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "underscore": {
+      "version": "1.4.4",
+      "from": "underscore@~1.4.3"
+    }
+  }
+}
