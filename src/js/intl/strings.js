@@ -26,7 +26,7 @@ exports.strings = {
     'pt_BR': 'Você gostaria de ir para o próximo nível: *"{nextLevel}"*?',
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
     'ru_RU': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?',
-    'uk': 'Хочеш перейти на наступний рівень: *"{nextLevel}"*?',
+    'uk': 'Хочеш перейти на наступний рівень -- *"{nextLevel}"*?',
     'ko': '다음 레벨로 넘어갈까요? 레벨 *"{nextLevel}"*'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ exports.strings = {
     'es_AR': '¡Fabuloso! Igualaste o superaste nuestra solución.',
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
     'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.',
-    'uk': 'Чудово! Твій розв’язок на рівні або краще від нашого.',
+    'uk': 'Чудово! Твій розв’язок на рівні або кращий від нашого.',
     'ko': '멋져요! 우리의 해답과 일치하거나 우리보다 좀 더 나은 해답입니다.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ exports.strings = {
     'pt_BR': 'Veja se consegue reduzir para somente {best} :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
     'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D',
-    'uk': 'Спробуй, можливо ти зможете вкластися в {best} кроків :D',
+    'uk': 'Спробуй, можливо ти зможеш вкластися в {best} кроків :D',
     'ko': '{best}회로 줄일 수 있다면 해보세요. :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -222,7 +222,7 @@ exports.strings = {
     'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não é um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
     'ru_RU': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase',
-    'uk': 'Віддалений репозиторій розбігся з твоїм локальным репозиторієм, тому відвантаження твоїх змін не є простим fast forward (й тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase',
+    'uk': 'Віддалений репозиторій розбігся з твоїм локальним репозиторієм, тому відвантаження твоїх змін не є простим fast forward (і тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase',
     'ko': '원격 레포지토리가 당신의 로컬 레포지토리에서 분기하므로, 변경 사항을 업데이트 하는것은 간단한 fast forward가 아닙니다(따라서 push가 거절될 것입니다.). 원격 레포지토리에서의 변경 사항을 내려 받아 이 브랜치에 합쳐라. 그리고 이걸 반복하라. 당신은 git pull 또는 git pull --rebase를 사용해 이를 수행할 수 있다.'
   },
   'git-error-remote-branch': {

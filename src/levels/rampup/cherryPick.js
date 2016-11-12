@@ -641,7 +641,7 @@
               "Ми бачимо репозиторій де є певні зміни в гілці `side` які ми хочемо скопіювати в  `master`. Для цього можна використати rebase (який ми вже вивчили), але подивимось як з цим впорається cherry-pick."
             ],
             "afterMarkdowns": [
-              "Оба-на! Ми хотіли коміти `C2` та `C4` і git додав їх до поточного розташування. Просто й доступно!"
+              "Овва! Ми хотіли коміти `C2` та `C4` і git додав їх до поточного розташування. Просто й доступно!"
             ],
             "command": "git cherry-pick C2 C4",
             "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
