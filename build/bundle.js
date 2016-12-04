@@ -32969,13 +32969,20 @@ GitEngine.prototype.pullFinishWithRebase = function(
   chain = chain.then(function() {
     pendingFetch.dontResolvePromise = true;
 
+    // Lets move the git pull --rebase check up here.
+    if (this.isUpstreamOf(localBranch, remoteBranch)) {
+      this.setTargetLocation(
+        localBranch,
+        this.getCommitFromRef(remoteBranch)
+      );
+      this.checkout(localBranch);
+      return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    }
+
     try {
       return this.rebase(remoteBranch, localBranch, pendingFetch);
     } catch (err) {
       this.filterError(err);
-      // we make one exception here to match the behavior of
-      // git pull --rebase. If the rebase is empty we just
-      // simply checkout the new location
       if (err.getMsg() !== intl.str('git-error-rebase-none')) {
         throw err;
       }
@@ -33633,6 +33640,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // first some conditions
+  debugger;
   if (this.isUpstreamOf(targetSource, currentLocation)) {
     this.command.setResult(intl.str('git-result-uptodate'));
 
@@ -34603,7 +34611,6 @@ exports.Commit = Commit;
 exports.Branch = Branch;
 exports.Tag = Tag;
 exports.Ref = Ref;
-
 
 },{"../app":176,"../commands":177,"../graph":190,"../graph/treeCompare":191,"../intl":193,"../util/errors":218,"../views/rebaseView":233,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"backbone":1,"q":15,"underscore":171}],190:[function(require,module,exports){
 var _ = require('underscore');
