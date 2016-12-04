@@ -120,7 +120,7 @@ describe('Git Remotes', function() {
       '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"side":{"target":"C3","id":"side","remoteTrackingBranchID":"o/side"},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null},"o/side":{"target":"C3","id":"o/side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"side","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"side":{"target":"C3","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"master","id":"HEAD"}}}'
     );
   });
-  
+
   it('sets tracking when checking out remote branch', function() {
     expectTreeAsync(
       'git clone; git checkout -b side o/master;git fakeTeamwork;git pull',
@@ -374,6 +374,13 @@ describe('Git Remotes', function() {
 		);
 	});
 
+	it('pulls with rebase in other weird situation with just fast forward', function() {
+		expectTreeAsync(
+			'git clone; git fakeTeamwork; git pull --rebase',
+      '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C2","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}}'
+		);
+	});
+
   /* TODO -- enable this back when we have better async tree compare, it takes too long right now
 	it('will correctly resolve the dependency order of commits when fetching or pushing', function() {
 		expectTreeAsync(
@@ -405,4 +412,3 @@ describe('Git Remotes', function() {
 
 
 });
-
