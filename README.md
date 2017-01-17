@@ -21,7 +21,7 @@ By default the application launches in "sandbox mode" with a basic repository al
 
 * `undo` to undo the effects of the last command
 * `reset` to start over from a clean slate (works in levels too)
-* `git clone` to play with remote repositories!
+* `git clone` to simulate remote repositories!
 
 Sandbox mode can be great for demonstrating something to a friend, but the real learning is with levels...
 
