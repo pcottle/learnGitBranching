@@ -39,13 +39,13 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Git Commits",
-              "A commit in a git repository records a snapshot of all the files in your directory. It's like a giant copy and paste, but even better!",
+              "A commit in a git repository records a snapshot of all the files in your directory. It's like a giant copy and paste, but better!",
               "",
-              "Git wants to keep commits as lightweight as possible though, so it doesn't just blindly copy the entire directory every time you commit. It can (when possible) compress a commit as a set of changes, or a \"delta\", from one version of the repository to the next.",
+              "Git wants to keep commits as lightweight as possible though, so it doesn't copy the entire directory every time you commit. If possible, git will compress the commit as a set of changes between snapshots. The changeset is called a \"delta\".",
               "",
-              "Git also maintains a history of which commits were made when. That's why most commits have ancestor commits above them -- we designate this with arrows in our visualization. Maintaining history is great for everyone working on the project!",
+              "Git maintains a history of when commits were made. Most commits have ancestor commits above them -- we designate this with arrows in our visualization. The history helps everyone on the team understand what's going on.",
               "",
-              "It's a lot to take in, but for now you can think of commits as snapshots of the project. Commits are very lightweight and switching between them is wicked fast!"
+              "It's a lot to take in. For now you can think of commits as snapshots of the project. Commits are lightweight so switching between them is fast."
             ]
           }
         },
@@ -53,12 +53,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
+              "Let's see what this looks like. On the right is a tiny git repository. There are two commits right now -- the initial commit, `C0`, and one commit after that `C1` which might have some meaningful changes.",
               "",
               "Hit the button below to make a new commit"
             ],
             "afterMarkdowns": [
-              "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
+              "There you go! Awesome. You just made changes to the repository and saved them as a commit. The commit you just made has a parent, `C1`, which means `C2` was based off of `C1`."
             ],
             "command": "git commit",
             "beforeCommand": ""
@@ -68,7 +68,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level."
             ]
           }
         }
