@@ -941,7 +941,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Also wenn wir vor dem Push erst mal einen Rebase mache ..."
+              "Also wenn wir vor dem Push erst mal einen Rebase machen ..."
             ],
             "afterMarkdowns": [
               "Bämm! Wir haben unsere lokale Abbildung des entfernten Repositorys mit `git fetch` auf den neuesten Stand gebracht, unsere Arbeit auf die neueste Version des Remotes drauf gepackt und dann mit `git push` auf den Server geschoben."
