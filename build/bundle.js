@@ -47978,7 +47978,7 @@ exports.level = {
               "",
               "Da das Anlegen von Branches keinen Plattenplatz und Speicher verbraucht, liegt es nahe die Arbeit in kleine logische Häppchen aufzuteilen, anstatt mit wenigen großen, monolithischen Branches zu hantieren.",
               "",
-              "Wir werden sehen wie Commits und Branches zusammengehören sobald wir anfangen mit beiden zu arbeiten. Bis hierhin merk dir einfach, dass ein Branch im Prinzip bedeutet \"ich möchte die Arbeit, die in diesem Commit und seinen Vorgändern steckt, sichern\"."
+              "Wir werden sehen wie Commits und Branches zusammengehören sobald wir anfangen mit beiden zu arbeiten. Bis hierhin merk dir einfach, dass ein Branch im Prinzip bedeutet \"ich möchte die Arbeit, die in diesem Commit und seinen Vorgängern steckt, sichern\"."
             ]
           }
         },
@@ -52242,7 +52242,7 @@ exports.level = {
               "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren bekommen sie jedesmal ein Apostroph hinzugefügt (weil sie jedesmal kopiert werden). Ein weiteres Apostroph entsteht durch den `commit --amend`.",
               "",
-              "Zuguterletzt noch eine Bemerkung: ich kann Level nun auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
+              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
             ]
           }
         },
@@ -56095,7 +56095,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Schauen wir uns zuerst den Dach-Operator (`^`) an. Jedes mal wenn du ihn hinter einen Referenz-Namen setzt, sagst du Git damit, dass es zum Vorgänger des angegebenen Commits gehen soll.",
               "",
-              "Das heißt `master^` ist gleichbedeutend mit \"direkter Vorgänder des Commits, auf den `master` zeigt\".",
+              "Das heißt `master^` ist gleichbedeutend mit \"direkter Vorgänger des Commits, auf den `master` zeigt\".",
               "",
               "`master^^` ist also der Vorgänger des Vorgängers von `master`.",
               "",
@@ -57062,7 +57062,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Geben wir mit `~` an wiviele Commits wir zurückgehen wollen"
+              "Geben wir mit `~` an wieviele Commits wir zurückgehen wollen"
             ],
             "afterMarkdowns": [
               "Peng! So einfach -- relative Referenzen sind super."
@@ -60542,7 +60542,7 @@ exports.level = {
               "",
               "Das ist wichtig zu wissen, denn eine Menge Entwickler glauben, wenn sie `git fetch` ausführen würden ihre lokalen Branches auf den Stand des entfernten Repositorys gebracht. Es lädt zwar alle Daten herunter, damit man diese Aktualisierung durchführen kann, aber es ändert _nichts_ an deinen lokalen Branches. Wir werden in späteren Level Befehle genau dafür kennenlernen. :D",
               "",
-              "Am Ende des Tages kannst du dir `git fetch` also als den Donwload-Schritt vorstellen."
+              "Am Ende des Tages kannst du dir `git fetch` also als den Download-Schritt vorstellen."
             ]
           }
         },
@@ -63060,7 +63060,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Also wenn wir vor dem Push erst mal einen Rebase mache ..."
+              "Also wenn wir vor dem Push erst mal einen Rebase machen ..."
             ],
             "afterMarkdowns": [
               "Bämm! Wir haben unsere lokale Abbildung des entfernten Repositorys mit `git fetch` auf den neuesten Stand gebracht, unsere Arbeit auf die neueste Version des Remotes drauf gepackt und dann mit `git push` auf den Server geschoben."
@@ -68701,7 +68701,7 @@ exports.level = {
               "",
               "* `<Name des Remote>/<Name des Branches>`",
               "",
-              "Wenn du also einen Remote Branch namens `o/master` hast, ist es eine Abbildung des Branches `master` auf dem Server, der in deinem Repository als `origin` bekannt ist.",
+              "Wenn du also einen Remote Branch namens `o/master` hast, ist es eine Abbildung des Branches `master` auf dem Server, der in deinem Repository als `o` bekannt ist.",
               "",
               "Die meisten Entwickler nennen das Haupt-Remote tatsächlich `origin` und nicht `o`. Das ist so verbreitet, dass Git den entfernten Server von dem man ein `git clone` macht tatsächlich als `origin` im Clone speichert.",
               "",
