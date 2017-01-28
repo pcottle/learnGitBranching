@@ -216,7 +216,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Schauen wir uns zuerst den Dach-Operator (`^`) an. Jedes mal wenn du ihn hinter einen Referenz-Namen setzt, sagst du Git damit, dass es zum Vorgänger des angegebenen Commits gehen soll.",
               "",
-              "Das heißt `master^` ist gleichbedeutend mit \"direkter Vorgänder des Commits, auf den `master` zeigt\".",
+              "Das heißt `master^` ist gleichbedeutend mit \"direkter Vorgänger des Commits, auf den `master` zeigt\".",
               "",
               "`master^^` ist also der Vorgänger des Vorgängers von `master`.",
               "",

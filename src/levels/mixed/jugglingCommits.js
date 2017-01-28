@@ -212,7 +212,7 @@ exports.level = {
               "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren bekommen sie jedesmal ein Apostroph hinzugefügt (weil sie jedesmal kopiert werden). Ein weiteres Apostroph entsteht durch den `commit --amend`.",
               "",
-              "Zuguterletzt noch eine Bemerkung: ich kann Level nun auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
+              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
             ]
           }
         },

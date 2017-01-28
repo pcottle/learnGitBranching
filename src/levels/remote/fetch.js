@@ -524,7 +524,7 @@ exports.level = {
               "",
               "Das ist wichtig zu wissen, denn eine Menge Entwickler glauben, wenn sie `git fetch` ausführen würden ihre lokalen Branches auf den Stand des entfernten Repositorys gebracht. Es lädt zwar alle Daten herunter, damit man diese Aktualisierung durchführen kann, aber es ändert _nichts_ an deinen lokalen Branches. Wir werden in späteren Level Befehle genau dafür kennenlernen. :D",
               "",
-              "Am Ende des Tages kannst du dir `git fetch` also als den Donwload-Schritt vorstellen."
+              "Am Ende des Tages kannst du dir `git fetch` also als den Download-Schritt vorstellen."
             ]
           }
         },
