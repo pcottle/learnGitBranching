@@ -323,7 +323,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Geben wir mit `~` an wiviele Commits wir zurückgehen wollen"
+              "Geben wir mit `~` an wieviele Commits wir zurückgehen wollen"
             ],
             "afterMarkdowns": [
               "Peng! So einfach -- relative Referenzen sind super."
