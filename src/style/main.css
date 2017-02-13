@@ -558,6 +558,7 @@ p.commandLine span.prompt {
 }
 
 #commandLineHistory {
+  height: 100%;
   margin: 10px;
   border-radius: 5px;
   box-shadow: 1px 0px 15px rgba(100, 100, 100, 1);
