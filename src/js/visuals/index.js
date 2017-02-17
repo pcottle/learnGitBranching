@@ -39,10 +39,10 @@ function GitVisuals(options) {
 
   this.branchCollection.on('add', this.addBranchFromEvent, this);
   this.branchCollection.on('remove', this.removeBranch, this);
-  
+
   this.tagCollection.on('add', this.addTagFromEvent, this);
   this.tagCollection.on('remove', this.removeTag, this);
-  
+
   this.deferred = [];
 
   this.flipFraction = 0.65;
@@ -96,6 +96,11 @@ GitVisuals.prototype.resetAll = function() {
 GitVisuals.prototype.tearDown = function() {
   this.resetAll();
   this.paper.remove();
+  // Unregister the refresh tree listener so we dont accumulate
+  // these over time. However we aren't calling tearDown in
+  // some places... but this is an improvement
+  var Main = require('../app');
+  Main.getEvents().removeListener('refreshTree', this.refreshTree);
 };
 
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
@@ -520,7 +525,7 @@ GitVisuals.prototype.calcTagStacks = function() {
   var map = {};
   _.each(tags, function(tag) {
       var thisId = tag.target.get('id');
-  
+
       map[thisId] = map[thisId] || [];
       map[thisId].push(tag);
       map[thisId].sort(function(a, b) {
