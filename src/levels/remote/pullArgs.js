@@ -161,7 +161,7 @@ exports.level = {
               "Cela fonctionne-t-il aussi bien avec une source et une destination ? Et oui ! Voyons cela :"
             ],
             "afterMarkdowns": [
-              "Wow, INCROYABLE tout ce que nous avons fait en une commande. Nous avons créé une brance locale nommée `foo`, téléchargé les commits depuis la branche master distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail (checkoutée) `bar` !!!"
+              "Wow, INCROYABLE tout ce que nous avons fait en une commande. Nous avons créé une branche locale nommée `foo`, téléchargé les commits depuis la branche master distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail (checkoutée) `bar` !!!"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
