@@ -14,7 +14,6 @@ var CommandPromptView = Backbone.View.extend({
 
     this.index = -1;
     this.commandParagraph = this.$('#prompt p.command')[0];
-    this.commandCursor = this.$('#prompt span.cursor')[0];
     this.focus();
 
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
@@ -46,7 +45,7 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   toggleCursor: function(state) {
-    $(this.commandCursor).toggleClass('shown', state);
+    $(this.commandParagraph).toggleClass('showCursor', state);
   },
 
   onKeyDown: function(e) {
@@ -96,42 +95,38 @@ var CommandPromptView = Backbone.View.extend({
     // try.github.com also has this, so I'm assuming those engineers gave up as
     // well...
     var text = $('#commandTextField').val();
-    var val = this.badHtmlEncode(text);
-    this.commandParagraph.innerHTML = val;
 
-    // now mutate the cursor...
-    this.cursorUpdate(text.length, el.selectionStart, el.selectionEnd);
-    // and scroll down due to some weird bug
-    Main.getEvents().trigger('commandScrollDown');
-  },
-
-  cursorUpdate: function(commandLength, selectionStart, selectionEnd) {
-    if (selectionStart === undefined || selectionEnd === undefined) {
-      selectionStart = Math.max(commandLength - 1, 0);
-      selectionEnd = commandLength;
+    // Alright so we have our initial value for what we want the
+    // command line to contain. We need to next split into the
+    // parse with the cursor and without
+    var selectionStart = el.selectionStart;
+    var selectionEnd = el.selectionEnd;
+    if (!text.length) {
+      text = ' ';
+      selectionStart = 0;
+      selectionEnd = 1;
+    } else if (selectionStart === selectionEnd) {
+      // Lets pretend they have selected the end character to make the cursor
+      // shown
+      text += ' ';
+      selectionEnd += 1;
+    } else if (selectionStart === undefined || selectionEnd === undefined) {
+      // I donno what this is for
+      selectionStart = Math.max(text.length - 1, 0);
+      selectionEnd = text.length;
     }
 
-    // 10px for monospaced font at "1" zoom
-    var zoom = require('../util/zoomLevel').detectZoom();
-    var widthPerChar = 9.65 * zoom;
-    var heightPerRow = 22 * zoom;
+    var before = text.substring(0, selectionStart);
+    var middle = text.substring(selectionStart, selectionEnd);
+    var end = text.substring(selectionEnd, text.length);
 
-    var widthOfParagraph = $(this.commandParagraph).width();
-    var numCharsPerLine = widthOfParagraph / widthPerChar;
-
-    var numCharsSelected = Math.min(Math.max(1, selectionEnd - selectionStart), numCharsPerLine);
-    var widthOfSelection = String(numCharsSelected * widthPerChar) + 'px';
-
-    // now for positioning
-    var leftOffset = String(widthPerChar * (selectionStart % numCharsPerLine)) + 'px';
-    var topOffset = String(Math.floor(selectionStart / numCharsPerLine) * heightPerRow) + 'px';
-
-    // one reflow? :D
-    $(this.commandCursor).css({
-      width: widthOfSelection,
-      left: leftOffset,
-      top: topOffset
-    });
+    // Then just make three spans and slap it in.
+    var finalHTML = '<span>' + this.badHtmlEncode(before) + '</span>' +
+      '<span class="commandCursor">' + this.badHtmlEncode(middle) + '</span>' +
+      '<span>' + this.badHtmlEncode(end) + '</span>';
+    this.commandParagraph.innerHTML = finalHTML;
+    // and scroll down due to some weird bug
+    Main.getEvents().trigger('commandScrollDown');
   },
 
   commandSelectChange: function(delta) {
