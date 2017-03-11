@@ -579,13 +579,19 @@ p.commandLine span.prompt {
   padding: 0px;
   margin: 0px;
   border: 0px;
-  position: absolute;
 }
 
-#prompt span.cursor {
-  background: #DDD;
-  opacity: 0;
-  margin-left: 12px;
+#prompt span.promptSign {
+  position: absolute;
+  bottom: 0px;
+}
+
+#prompt span.commandCursor {
+  background: #424242;
+}
+
+#prompt p.command.showCursor span.commandCursor {
+  background: #AEAEAE;
 }
 
 #prompt span.cursor.shown {
