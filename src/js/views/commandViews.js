@@ -20,6 +20,7 @@ var CommandPromptView = Backbone.View.extend({
 
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
+    this.updatePrompt(" ");
   },
 
   events: {
