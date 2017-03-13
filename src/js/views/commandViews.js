@@ -50,6 +50,12 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
+    // If its a tab, prevent losing focus
+    if (e.keyCode === 9) {
+      e.preventDefault();
+      // Maybe one day do tab completion or something? :O
+      return;
+    }
     var el = e.target;
     this.updatePrompt(el);
   },
