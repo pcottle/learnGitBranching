@@ -212,7 +212,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "\"Bon, mais dans ce cas, que ce passe-t-il si je spécifie explicitement la source et la destination avec `<source>:<destination>` ?\"",
+              "\"Bon, mais dans ce cas, que se passe-t-il si je spécifie explicitement la source et la destination avec `<source>:<destination>` ?\"",
               "",
               "Si vous vous sentez assez déterminé pour rapatrier (fetch) des commits *directement* dans votre branche locale, alors oui vous pouvez préciser cela avec la notation refspec. Vous ne pouvez cependant pas rapatrier les commits dans la branche courante.",
               "",
