@@ -289,7 +289,7 @@ var VisBranch = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
       var textNode = (visBranch.get('text')) ? visBranch.get('text').node : null;
-      return (textNode === null) ? 0 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.getBoundingClientRect().width;
     };
 
     var firefoxFix = function(obj) {
@@ -502,7 +502,7 @@ var VisBranch = VisBase.extend({
     if (this.getIsGoalAndNotCompared()) {
       return this.get('stroke-width') / 5.0;
     }
-    
+
     return this.get('stroke-width');
   },
 
