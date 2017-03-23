@@ -44951,7 +44951,7 @@ var VisBranch = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visBranch) {
       var textNode = (visBranch.get('text')) ? visBranch.get('text').node : null;
-      return (textNode === null) ? 0 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.getBoundingClientRect().width;
     };
 
     var firefoxFix = function(obj) {
@@ -45164,7 +45164,7 @@ var VisBranch = VisBase.extend({
     if (this.getIsGoalAndNotCompared()) {
       return this.get('stroke-width') / 5.0;
     }
-    
+
     return this.get('stroke-width');
   },
 
@@ -52125,9 +52125,9 @@ exports.level = {
             "markdowns": [
               "## Jongler avec les Commits",
               "",
-              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont relié, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. un après l'autre).",
+              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont reliés, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. un après l'autre).",
               "",
-              "Là ou ça se complique c'est lorsque vous devez faire une petite modification dans un commit antérieur. Dans ce cas, les configuration de  `newImage` devront changer un peu, même si ce commit est loin dans notre historique !!"
+              "Là où ça se complique c'est lorsque vous devez faire une petite modification dans un commit antérieur. Dans ce cas, les configurations de  `newImage` devront changer un peu, même si ce commit est loin dans notre historique !!"
             ]
           }
         },
@@ -53067,9 +53067,9 @@ exports.level = {
             "markdowns": [
               "## Git Tags",
               "",
-              "Comme appris dans les niveaux précédents, les branches sont faciles à manipuler et réfèrent aux commits qui ont été fait pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
+              "Comme appris dans les niveaux précédents, les branches sont faciles à manipuler et se réfèrent aux commits qui ont été faits pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
               "",
-              "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des release majeures ou d'importants merge, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
+              "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des livraisons majeures ou d'importantes fusions, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
               ""
             ]
           }
@@ -53327,7 +53327,7 @@ exports.level = {
             "markdowns": [
               "## Git Tags",
               "",
-              "Wie du aus den vorhergehenden Levels weißt sind Branches einfach durch die Gegend zu schieben und zeigen of auf verschiedene Commits, während die Arbeit in ihnen fortschreitet. Ein Branch wird oft verändert, manchmal nur temporär, und ist ständig in Bewegung.",
+              "Wie du aus den vorhergehenden Levels weißt sind Branches einfach durch die Gegend zu schieben und zeigen auf verschiedene Commits, während die Arbeit in ihnen fortschreitet. Ein Branch wird oft verändert, manchmal nur temporär, und ist ständig in Bewegung.",
               "",
               "Da das so ist fragst du dich vielleicht, ob es nicht eine Möglichkeit gibt, eine bestimmte Stelle in deiner Projekt-History *permanent* zu kennzeichnen. Kann man nicht zum Beispiel für große Releases und Meilensteine nicht einen Commit mit etwas festerem kennzeichnen, als mit einem Branch-Namen?",
               ""
@@ -61075,7 +61075,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "\"Bon, mais dans ce cas, que ce passe-t-il si je spécifie explicitement la source et la destination avec `<source>:<destination>` ?\"",
+              "\"Bon, mais dans ce cas, que se passe-t-il si je spécifie explicitement la source et la destination avec `<source>:<destination>` ?\"",
               "",
               "Si vous vous sentez assez déterminé pour rapatrier (fetch) des commits *directement* dans votre branche locale, alors oui vous pouvez préciser cela avec la notation refspec. Vous ne pouvez cependant pas rapatrier les commits dans la branche courante.",
               "",
@@ -64665,7 +64665,7 @@ exports.level = {
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
               "* `git merge o/master`",
-              "* usw. usf. ausfúhren.",
+              "* usw. usf. ausführen.",
               "",
               "Der Ablauf, die Änderungen vom Server zu holen und dann in die eigene Arbeit zu mergen wird so häufig benötigt, dass Git einen Befehl kennt der beides auf einmal erledigt! Das ist `git pull`."
             ]
