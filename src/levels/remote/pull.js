@@ -398,7 +398,7 @@ exports.level = {
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
               "* `git merge o/master`",
-              "* usw. usf. ausfúhren.",
+              "* usw. usf. ausführen.",
               "",
               "Der Ablauf, die Änderungen vom Server zu holen und dann in die eigene Arbeit zu mergen wird so häufig benötigt, dass Git einen Befehl kennt der beides auf einmal erledigt! Das ist `git pull`."
             ]
