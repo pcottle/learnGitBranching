@@ -22,7 +22,7 @@ exports.level = {
     "ja"   : "単にgit fetchを実行！",
     "es_AR": "Simplemente ¡hacé git fetch!",
     "pt_BR": "Simplesmente chame git fetch!",
-    "zh_CN": "只要运行 git fetch 命令!",
+    "zh_CN": "只需要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令",
     "ru_RU": "Просто выполните git fetch!",
     "uk"   : "Просто виконай git fetch!",
@@ -394,7 +394,7 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -402,11 +402,11 @@ exports.level = {
             "markdowns": [
               "## Git Fetch",
               "",
-              "git remote 可以归结为向其它仓库推送/拉取数据. 只要我们能回溯或前推提交, 我们就可以分享任何类型的被 Git 跟踪的更新(工作, 新想法, 情书等等)",
+              "Git 远程仓库相当的操作实际可以归纳为两点：向远程仓库传输数据以及从远程仓库获取数据。既然我们能与远程仓库同步，那么就可以分享任何能被 Git 管理的更新（因此可以分享代码、文件、想法、情书等等）。",
               "",
-              "本节课我们将学习 如何从远端仓库获取数据 -- 这个命令叫 `git fetch`",
+              "本节课我们将学习如何从远程仓库获取数据 —— 命令如其名，它就是 `git fetch`。",
               "",
-              "你会注意到当我们更新远端的仓库时, 我们的远端分支也会更新 并映射到最新的远端仓库."
+              "你会看到当我们从远程仓库获取数据时, 远程分支也会更新以反映最新的远程仓库。在上一了我们已经提及过这一点了。"
             ]
           }
         },
@@ -414,10 +414,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在解释 `git fetch` 前, 我们看看实例. 这里我们有一个包含了两个新提交的远端仓库, 这两新提交不存在于本地"
+              "在解释 `git fetch` 前，我们先看看实例。这里我们有一个远程仓库, 它有两个我们本地仓库中没有的提交。"
             ],
             "afterMarkdowns": [
-              "就是这样了! `C2`,`C3` 被下载到了本地仓库, 同时 `o/master` 被更新并映射到了这一变更 "
+              "就是这样了! `C2`,`C3` 被下载到了本地仓库，同时远程分支 `o/master` 也被更新，反映到了这一变化"
             ],
             "command": "git fetch",
             "beforeCommand": "git clone; git fakeTeamwork 2"
@@ -427,18 +427,18 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### What fetch does",
+              "### git fetch 做了些什么",
               "",
-              "`git fetch` 完成了两步:",
+              "`git fetch` 完成了仅有的但是很重要的两步:",
               "",
-              "* 下载本地仓库未包含的提交对象",
-              "* 更新我们的远端分支点(如, `o/master`)",
+              "* 从远程仓库下载本地仓库中缺失的提交记录",
+              "* 更新远程分支指针(如 `o/master`)",
               "",
-              "`git fetch` 实际上将本地对远端的映射 做了同步更新",
+              "`git fetch` 实际上将本地仓库中的远程分支更新成了远程仓库相应分支最新的状态。",
               "",
-              "如果你还记得之前的课程, 我们说过远端分支映射了远端仓库的状态(你最后与远端通信的那一刻), `git fetch` 是你与远端交流的方式!",
+              "如果你还记得上一节课程中我们说过的，远程分支反映了远程仓库在你**最后一次与它通信时**的状态，`git fetch` 就是你与远程仓库通信的方式了！希望我说的够明白了，你已经了解 `git fetch` 与远程分支之间的关系了吧。",
               "",
-              "`git fetch` 通常通过互联网(像 `http://` or `git://`) 与远端仓库通信.",
+              "`git fetch` 通常通过互联网（使用 `http://` 或 `git://` 协议) 与远程仓库通信。",
               ""
             ]
           }
@@ -447,11 +447,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### fetch 不能做的事",
+              "### git fetch 不会做的事",
               "",
-              "`git fetch`, 不能改变你的本地状态. 你不会更新你的 `master` 或者 任何与文件系统相关的东西.",
+              "`git fetch` 并不会改变你本地仓库的状态。它不会更新你的 `master` 分支，也不会修改你磁盘上的文件。",
               "",
-              "所以, 你可以将`git fetch` 的执行 视为下载"
+              "理解这一点很重要，因为许多开发人员误以为执行了 `git fetch` 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是**并没有**修改你本地的文件。我们在后面的课程中将会讲解能完成该操作的命令 :D",
+              "",
+              "所以, 你可以将 `git fetch` 的理解为单纯的下载操作。"
             ]
           }
         },
@@ -459,7 +461,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成本节, 只需用 `git fetch` 下载所有的提交! "
+              "要完成本关，只需用 `git fetch` 下载所有的提交！"
             ]
           }
         }

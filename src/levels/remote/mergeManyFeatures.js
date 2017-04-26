@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Merging with remotes",
-    "zh_CN": "和远端合并",
+    "zh_CN": "合并远程仓库",
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
     "pt_BR": "Merge com remotos",
@@ -300,17 +300,17 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 为何不 merge?",
+              "## 为什么不用 merge 呢?",
               "",
-              "为了 push 新变更到远端，你要做的就是合并远端最新变更(使用 rebase or merge). ",
+              "为了 push 新变更到远程仓库，你要做的就是**包含**远程仓库中最新变更。意思就是只要你的本地分支包含了远程分支（如 `o/master`）中的最新变更就可以了，至于具体是用 rebase 还是 merge，并没有限制。",
               "",
-              "所以你可以使用任意一种方法, 但为何本节会聚焦于 rebasing 呢？为何会不喜欢用 merge 去合并 remote 呢？",
+              "那么既然没有规定限制，为何前面几节都在着重于 rebase 呢？为什么在操作远程分支时不喜欢用 `merge` 呢？",
               ""
             ]
           }
@@ -319,19 +319,19 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "在开发社区，有相当多的关于权衡的讨论。以下是关于 rebasing 的优点/缺点： ",
+              "在开发社区里，有许多关于 merge 与 rebase 的讨论。以下是关于 rebase 的优缺点：",
               "",
               "优点:",
               "",
-              "* Rebase 使你的提交树变得很干净, 所有的提交成了一条线: ",
+              "* Rebase 使你的提交树变得很干净, 所有的提交都在一条线上",
               "",
               "缺点:",
               "",
-              "* Rebase 修改的提交树的父历史",
+              "* Rebase 修改了提交树的历史",
               "",
-              "比如, 提交 C1 可以被修订到跃过 C3。这看起来 C1 是在 C3 之后 (而实际上可能在 C3 之前) ",
+              "比如, 提交 C1 可以被 rebase 到 C3 之后。这看起来 C1 中的工作是在 C3 之后进行的，但实际上是在 C3 之前。",
               "",
-              "一些开发者喜欢保留提交历史，更偏爱 merging。而其它的人而喜欢拥有更干净的提交树，偏爱 rebasing。这些都依赖于自己的偏爱. :D"
+              "一些开发人员喜欢保留提交历史，因此更偏爱 merge。而其他人（比如我自己）可能更喜欢干净的提交树，于是偏爱 rebase。仁者见仁，智者见智。 :D"
             ]
           }
         },
@@ -339,7 +339,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本节，我们要解决前面的单元问题，但是要用 merging。这显得有点那啥了，但这只是为了更好的说明这一点。 "
+              "本关，我们还是解决上一关卡中的问题，但是要用 merge 替换 rebase。这显然有点画蛇添足，但这只是为了更好的说明上面的观点。"
             ]
           }
         }

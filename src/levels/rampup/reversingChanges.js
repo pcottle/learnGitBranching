@@ -11,7 +11,7 @@ exports.level = {
     "es_AR": "Revirtiendo cambios en git",
     "pt_BR": "Revertendo mudanças no Git",
     "ko": "Git에서 작업 되돌리기",
-    "zh_CN": "在 Git 中撤销更改",
+    "zh_CN": "撤销变更",
     "zh_TW": "在 git 中取消修改 ",
     "ru_RU": "Отмена изменений в Git",
     "uk": "Відміна змін в Git"
@@ -22,7 +22,7 @@ exports.level = {
     "fr_FR": "Notez que `revert` et `reset` n'ont pas les mêmes arguments.",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
     "pt_BR": "Lembre que revert e reset recebem parâmetros diferentes",
-    "zh_CN": "注意 revert 和 reset 使用不同的参数。",
+    "zh_CN": "注意 revert 和 reset 使用的参数不同。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "",
     "ja"   : "revertとresetとで引数が異なることに注意。",
@@ -414,11 +414,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 撤销 Git 里面的变动",
+              "## 撤销变更",
               "",
-              "在 Git 里撤销修改的方法很多。和 commit 一样，在 Git 里撤销变动同时具有底层部分（暂存一些独立的文件或者片段）和高层部分（具体到变动是究竟怎么被撤销的）。我们这个应用主要关注后者。",
+              "在 Git 里撤销变更的方法很多。和提交一样，撤销变更由底层部分（暂存区的独立文件或者片段）和上层部分（变更到底是通过哪咱方式被撤销的）组成。我们这个应用主要关注的是后者。",
               "",
-              "在 Git 里主要用两种方法来撤销变动 —— 一种是 `git reset`，另外一种是 `git revert`。让我们在下一个窗口逐一了解它们。",
+              "主要有两种方法用来撤销变更 —— 一是 `git reset`，还有就是 `git revert`。接下来咱们逐个进行讲解。",
               ""
             ]
           }
@@ -429,13 +429,15 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` 把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在\"重写历史\"。`git reset` 往回移动分支，原来指向的提交记录好像重来没有提交过一样。",
+              "`git reset` 通过把分支记录回退几个提交记录来实现撤销改动。你可以将这想象成“改写历史”。`git reset` 向上移动分支，原来指向的提交记录就跟从来没有提交过一样。",
               "",
-              "让我们看看具体的操作："
+              "让我们来看看演示："
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "漂亮! Git 把 master 分支的指向简单地移回到 `C1`；现在我们的本地代码库处于没有提交过 `C2` 的状态了。"
+              "漂亮! Git 把 master 分支移回到 `C1`；现在我们的本地代码库根本就不知道有 `C2` 这个提交了。",
+              "",
+              "（译者注：在reset后， `C2` 所做的变更还在，但是处于未加入暂存区状态。）"
             ],
             "beforeCommand": "git commit"
           }
@@ -446,15 +448,15 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "虽然在你的本地分支中使用 `git reset` 很方便，但是这种“改写历史”的方法对别人的远端分支是无效的哦！",
+              "虽然在你的本地分支中使用 `git reset` 很方便，但是这种“改写历史”的方法对大家一起使用的远程分支是无效的哦！",
               "",
-              "为了撤销更改并*传播*给别人，我们需要使用 `git revert`。举个例子"
+              "为了撤销更改并**分享**给别人，我们需要使用 `git revert`。来看演示："
             ],
             "command": "git revert HEAD",
             "afterMarkdowns": [
-              "怪哉！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录 `C2'` 引入了*更改*——刚好是用来撤销 `C2` 这个提交的。",
+              "奇怪！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录 `C2'` 引入了**更改** —— 这些更改刚好是用来撤销 `C2` 这个提交的。也就是说 `C2'` 的状态与 `C1` 是相同的。",
               "",
-              "借助 revert，现在可以把你的更改传递给别人啦。"
+              "revert 之后就可以把你的更改推送到远程仓库与别人分享啦。"
             ],
             "beforeCommand": "git commit"
           }
@@ -463,9 +465,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此关，分别撤销 `local` 分支和 `pushed` 分支上的最近一次提交。",
+              "要完成此关，分别撤销 `local` 分支和 `pushed` 分支上的最近一次提交。共需要撤销两个提交（每个分支一个）。",
               "",
-              "记住 `pushed` 是一个远程分支，`local` 是一个本地分支 —— 有了这么明显的提示应该知道用哪种方法了吧？"
+              "记住 `pushed` 是远程分支，`local` 是本地分支 —— 这么说你应该知道用分别哪种方法了吧？"
             ]
           }
         }

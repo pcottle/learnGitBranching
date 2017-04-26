@@ -20,7 +20,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
-    "zh_CN": "你可以利用 \"objective\" 来阅读对话窗口的最后一页",
+    "zh_CN": "你可以利用“objective”来阅读对话窗口的最后一页",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "pt_BR": "Você sempre pode rever o último slide com o comando \"objective\"",
@@ -395,17 +395,17 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Push 参数",
+              "## Git Push 的参数",
               "",
-              "好! 既然你知道了远端跟踪分支, 我们可以开始揭开隐藏在 git push/pull/fetch 背后的秘密. ",
+              "很好! 既然你知道了远程跟踪分支，我们可以开始揭开 git push、fetch 和 pull 的神秘面纱了。我们会逐个介绍这几个命令，它们在理念上是非常相似的。",
               "",
-              "首先看看 `git push`, 在远端跟踪分支中, 你学到了 Git 会找出要 push 的目的地(通过查看检出的分支, 及分支关联到的跟踪分支). 这是无参数的行为, 不过我们也可以为 push 指定参数:",
+              "首先来看 `git push`。在远程跟踪课程中，你已经学到了 Git 是通过当前检出分支的属性来确定远程仓库以及要 push 的目的地的。这是未指定参数时的行为，我们可以为 push 指定参数，语法是：",
               "",
               "`git push <remote> <place>`",
               "",
@@ -417,15 +417,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "`<place>` 参数意味什么呢? 我们会深入其中的细节, 先看看例子, 这个命令是:",
+              "`<place>` 参数是什么意思呢？我们稍后会深入其中的细节, 先看看例子, 这个命令是:",
               "",
               "`git push origin master`",
               "",
-              "* 切到 master 分支, 然后抓取所有的提交, 再将新提交推送到远端的 master 分支!",
+              "把这个命令翻译过来就是：",
               "",
-              "通过指定 `master` 为 <place> 参数, 我们告诉 Git 提交来自于 master, 要推送到远端的 master. 这种使用方式基本上用于同步两仓库",
+              "*切到本地仓库中的“master”分支，获取所有的提交，再到远程仓库“origin”中找到“master”分支，将远程仓库中没有的提交记录都添加上去，搞定之后告诉我。*",
               "",
-              "谨记, 因为我们通过指定参数告诉了 Git 所有的事, Git 就忽略了我们所检出的分支(转而直接使用参数指定的分支作为 source/destination)"
+              "我们通过“place”参数来告诉 Git 提交记录来自于 master, 要推送到远程仓库中的 master。它实际就是要同步的两个仓库的位置。",
+              "",
+              "需要注意的是，因为我们通过指定参数告诉了 Git 所有它需要的信息, 所以它就忽略了我们所检出的分支的属性！"
             ]
           }
         },
@@ -433,10 +435,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "我们看看指定参数的例子. 注意下我们当前检出的位置."
+              "我们看看指定参数的例子。注意下我们当前检出的位置。"
             ],
             "afterMarkdowns": [
-              "好了! 通过指定参数, 远端的 `master` 得到了更新"
+              "好了! 通过指定参数, 远程仓库中的 `master` 分支得到了更新。"
             ],
             "command": "git checkout C0; git push origin master",
             "beforeCommand": "git clone; git commit"
@@ -446,10 +448,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "不指定参数会发生什么呢?"
+              "如果不指定参数会发生什么呢?"
             ],
             "afterMarkdowns": [
-              "命令失败了! 因为我们所 check out 的 HEAD 没有跟踪分支.  "
+              "命令失败了（正如你看到的，什么也没有发生）! 因为我们所检出的 HEAD 没有跟踪任何分支。"
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"
@@ -459,7 +461,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本节, 我们要更新远端的 `foo` 和 `master`, 在本节中 `git checkout` 是被禁用的!"
+              "本关我们要更新远程仓库中的 `foo` 和 `master`, 但是 `git checkout` 被禁用了！",
+              "",
+              "*注意：远程分支使用 `o/` 开头是因为 `origin/` 对于 UI 来说太长了。不用太在意这个，直接用 `origin` 作为远程仓库的名称就可以了。*",
+              ""
             ]
           }
         }

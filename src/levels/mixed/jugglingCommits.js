@@ -25,7 +25,7 @@ exports.level = {
     "es_AR": "Haciendo malabares con los commits",
     "pt_BR": "Malabarismo com commits",
     "ja": "コミットをやりくりする",
-    "zh_CN": "提交变换戏法",
+    "zh_CN": "提交的技巧 #1",
     "zh_TW": "commit 的戲法",
     "ru_RU": "Жонглируем коммитами",
     "uk": "Жонглюємо комітами"
@@ -38,7 +38,7 @@ exports.level = {
     "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-    "zh_CN": "第一个命令是 'git rebase -i HEAD~2'",
+    "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
     "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
     "uk": "Перша команда має бути git rebase -i HEAD~2"
@@ -257,11 +257,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 提交变换戏法",
+              "## 提交的技巧 #1",
               "",
-              "下面这种情况也是经常出现的。例如你之前已经在 `newImage` 分支上做了一些提交，然后又在 `caption` 分支上做了一些相关的提交，因此它们看起来是一个连一个的（stacked on top of each other in your repository）。",
+              "接下来这种情况也是很常见的：你之前在 `newImage` 分支上进行了一次提交，然后又基于它创建了 `caption` 分支，然后又提交了一次。",
               "",
-              "有点棘手的就是有时候你又想往先前的提交里做些小改动。呐，现在就是设计师想要我们去轻微改变下 `newImage` 的内容（change the dimensions slightly），尽管那个提交是很久很久以前的了。"
+              "此时你想对的某个以前的提交记录进行一些小小的调整。比如设计师想修改一下 `newImage` 中图片的分辨率，尽管那个提交记录并不是最新的了。"
             ]
           }
         },
@@ -269,19 +269,20 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "为了实现他的愿望，我们可以按照下面的方法来做：",
+              "我们可以通过下面的方法来克服困难：",
               "",
-              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交挪到最前",
+              "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交记录挪到最前",
               "* 然后用 `commit --amend` 来进行一些小修改",
-              "* 接着再用 `git rebase -i` 来将他们按最开始的顺序重新排好",
+              "* 接着再用 `git rebase -i` 来将他们调回原来的顺序",
               "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
               "",
-              "当然还有许多方法可以完成这个任务（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。",
+              "当然完成这个任务的方法不止上面提到的一种（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。",
+              "最后有必要说明一下目标状态中的那几个`'` —— 我们把这个提交移动了两次，每移动一次会产生一个 `'`；而 C2 上多出来的那个是我们在使用了 amend 参数提交时产生的，所以最终结果就是这样了。",
               "",
-              "啊最后还要提醒你一下最终的形式 —— 因为我们把这个提交移动了两次，所以会分别产生一个省略提交（both get an apostrophe appended）。还有一个省略提交是因为我们为了实现最终效果去修改提交而添加的。"
+              "也就是说，我在对比结果的时候只会对比提交树的结构，对于 `'` 的数量上的不同，并不纳入对比范围内。只要你的 `master` 分支结构与目标结构相同，我就算你通过。"
             ]
           }
-        },
+        }
       ]
     },
     "zh_TW": {

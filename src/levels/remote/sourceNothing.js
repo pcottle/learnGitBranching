@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Source of nothing",
-    "zh_CN": "没有 source",
+    "zh_CN": "没有 source 的 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
     "pt_BR": "Origem vazia",
@@ -17,7 +17,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
-    "zh_CN": "本节的 branch 命令被禁用了, 你只能使用 fetch! ",
+    "zh_CN": "本关的 branch 命令被禁用了，你只能用 fetch！",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
@@ -294,20 +294,20 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 奇葩的 `<source>`",
+              "### 古怪的 `<source>`",
               "",
-              "有两种罕见的情况, Git 不需要 `<source>`. 这基于这样一个事实 -- 技术上说就是你不指定 <source>. 这是通过空参数实现的",
+              "Git 有两种关于 `<source>` 的用法是比较诡异的，即你可以在 git push 或 git fetch 时不指定任何 `source`，方法就是仅保留冒号和 destination 部分，source 部分留空。",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
               "",
-              "我们看看这是怎么进行的..."
+              "我们分别来看一下这两条命令的作用……"
             ]
           }
         },
@@ -315,10 +315,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果给 push 传一个空参数会如何呢? 远端会删除分支! "
+              "如果 push 空 <source> 到远程仓库会如何呢？它会删除远程仓库中的分支！"
             ],
             "afterMarkdowns": [
-              "就是这样子, 我们通过给 push 传空值 source, 成功删除了远端的 `foo` 分支, 这真有意思..."
+              "就是这样子, 我们通过给 push 传空值 source，成功删除了远程仓库中的 `foo` 分支, 这真有意思..."
             ],
             "command": "git push origin :foo",
             "beforeCommand": "git clone; git push origin master:foo"
@@ -328,10 +328,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果给 fetch 传空 <source>, 那本地会创建一个新分支."
+              "如果 fetch 空 <source> 到本地，会在本地创建一个新分支。"
             ],
             "afterMarkdowns": [
-              "很神奇吧! 但无论怎么说, 这就是 Git !"
+              "很神奇吧！但无论怎么说, 这就是 Git！"
             ],
             "command": "git fetch origin :bar",
             "beforeCommand": "git clone"
@@ -341,7 +341,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "快速测试 -- 删除远端的分支, 再在本地创建新的分支! "
+              "这个关卡很容易 —— 只要删除一个远程的分支, 再用 `git fetch` 在本地创建一个新分支就可以了！"
             ]
           }
         }

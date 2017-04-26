@@ -12,7 +12,7 @@
     "pt_BR": "Você pode usar ou ramos ou referências relativas (HEAD~) para especificar o alvo do rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spéficier la cible à rebaser",
-    "zh_CN": "你可以使用 branch 或者是相对位置（HEAD~）來指定 rebase 的目标",
+    "zh_CN": "branch 或者是相对位置（HEAD~）都可以用來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
     "ja"   : "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
@@ -26,7 +26,7 @@
     "de_DE": "Einführung Interactive Rebase",
     "ja"   : "インタラクティブrebase入門",
     "fr_FR": "Introduction à rebase",
-    "zh_CN": "Rebase 交互命令介绍 ",
+    "zh_CN": "交互式 rebase",
     "zh_TW": "介紹互動式的 rebase",
     "ru_RU": "Введение в интерактивный Rebase",
     "ko"   : "인터랙티브 리베이스 소개",
@@ -228,19 +228,19 @@
         }
       ]
     },
-   "zh_CN": {
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interactive Rebase",
+              "## 交互式的 rebase",
               "",
-              "如果你知道你所需要的提交对象(相应的 hash), 那用 Git cherry-pick 就非常方便了 -- 很难有简单的方式了",
+              "当你你知道你所需要的提交记录（**并且**还知道这些提交记录的哈希值）时, 用 cherry-pick 再好不过了 —— 没有比这更简单的方式了。",
               "",
-              "但是如果你不清楚你想要的提交对象的 hash 呢? 幸好 Git 帮你想到了这一点, 我们可以利用交互 rebase -- 如果你想衍合一系列的提交, 这就是最方便的方法了",
+              "但是如果你不清楚你想要的提交记录的哈希值呢? 幸好 Git 帮你想到了这一点, 我们可以利用交互式的 rebase —— 如果你想从一系列的提交记录中找到想要的记录, 这就是最好的方法了",
               "",
-              "让我们看看细节.."
+              "咱们具体来看一下……"
             ]
           }
         },
@@ -248,11 +248,11 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "交互式 rebase 指的是 rebase 后跟一个参数: `-i`",
+              "交互式 rebase 指的是使用带参数 `--interactive` 的 rebase 命令, 简写为 `-i`",
               "",
-              "如果你包含了这个选项, Git 会开启一个 UI 并 展示出将要被复制到目标的提交对象, 它也会显示它们的提交 hash 和信息",
+              "如果你在命令后增加了这个选项, Git 会打开一个 UI 界面并列出将要被复制到目标分支的备选提交记录，它还会显示每个提交记录的哈希值和提交说明，提交说明有助于你理解这个提交进行了哪些更改。",
               "",
-              "真实的 Git, UI 窗口指的是在类似于 Vim 的文本编辑器中打开一个文件. 考虑到我们的目标, 我建立了一个小型的会话窗口以完成相同的事儿."
+              "在实际使用时，所谓的 UI 窗口一般会在文本编辑器 —— 如 Vim —— 中打开一个文件。 考虑到课程的初衷，我弄了一个对话框来模拟这些操作。"
             ]
           }
         },
@@ -260,13 +260,13 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "当 rebase 会话窗口打开时, 你能做3件事:",
+              "当 rebase UI界面打开时, 你能做3件事:",
               "",
-              "* 你可以在 UI 中做 提交对象的排序(在我们的窗口中, 这意味着你可以拖放完成这点)",
-              "* 你可以忽略某些提交 -- pick 会变暗",
-              "* 最后, 你可以合并提交. 遗憾的是我们的课程不支持此功能.",
+              "* 调整提交记录的顺序（通过鼠标拖放来完成）",
+              "* 删除你不想要的提交（通过切换 `pick` 的状态来完成，关闭就意味着你不想要这个提交记录）",
+              "* 合并提交。 遗憾的是由于某种逻辑的原因，我们的课程不支持此功能，因此我不会详细介绍这个操作。简而言之，它允许你把多个提交记录合并成一个。",
               "",
-              "好! 看看例子"
+              "接下来咱们看个实例"
             ]
           }
         },
@@ -274,12 +274,12 @@
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "当你点这个按钮时, 一个交互式的 rebase 窗口就会出现. 对提交对象做个排序, 再看看结果"
+              "当你点击下面的按钮时，会出现一个交互对话框。对提交记录做个排序（当然你也可以删除某些提交），点击确定看结果"
             ],
             "afterMarkdowns": [
-              "按照你指定的方式, Git 克隆了这些提交"
+              "Git 严格按照你在对话框中指定的方式进行了复制。"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i HEAD~4",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -287,7 +287,7 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成本节, 做一个交互式的 rebase , 实现虚拟目标窗口中提示的提交顺序. 记住,  你随时都可以用 `undo`, `reset` 修复你的错误"
+              "要通过本关, 做一次交互式的 rebase，整理成目标窗口中的提交顺序。 记住，你随时都可以用 `undo`、`reset` 修正错误，这是不会记入步数的 :D"
             ]
           }
         }

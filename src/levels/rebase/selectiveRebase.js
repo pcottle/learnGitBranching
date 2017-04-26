@@ -14,7 +14,7 @@ exports.level = {
     "es_AR": "Enslada de branches",
     "pt_BR": "Espaguete de ramos",
     "ja": "ブランチスパゲッティ",
-    "zh_CN": "分支浆糊",
+    "zh_CN": "纠缠不清的分支",
     "zh_TW": "branch 漿糊",
     "ru_RU": "Спутанные ветки",
     "uk"   : "Макарони з гілок"
@@ -159,15 +159,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Branch Spaghetti",
+              "## 纠缠不清的分支",
               "",
               "哇塞大神！这关我们要来点不同的！",
               "",
-              "现在我们的 `master` 分支是比 `one` `two` 和 `three` 要多几个提交。出于某种原因，我们需要把其他三个分支更新到 master 分支上新近的几个不同提交上。（update these three other brances with modified versions of the last few commits on master）",
+              "现在我们的 `master` 分支是比 `one`、`two` 和 `three` 要多几个提交。出于某种原因，我们需要把 `master` 分支上最近的几次提交做不同的调整后，分别添加到各个的分支上。",
               "",
-              "分支 `one` 需要重新排序和撤销， `two` 需要完全重排，而 `three` 只需要提交一次。",
+              "`one` 需要重新排序并删除 `C5`，`two` 仅需要重排排序，而 `three` 只需要提交一次。",
               "",
-              "慢慢摸索会找到答案的 —— 你完事记得用 `show solution` 看看我们的答案哦。"
+              "慢慢来，你会找到答案的 —— 记得通关之后用 `show solution` 看看我们的答案哦。"
             ]
           }
         }

@@ -17,7 +17,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just run git pull!",
-    "zh_CN": "只要运行 git pull 命令!",
+    "zh_CN": "运行 git pull 命令就可以了！",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
     "pt_BR": "Basta executar git pull!",
@@ -265,7 +265,7 @@ exports.level = {
         }
       ]
     },
-   "zh_TW": {
+    "zh_TW": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -332,16 +332,16 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "现在我们已经知道了如何用 `git fetch` 获取远端的变化, 现在我们学习如果将这些变化更新到我们的工作.",
+              "既然我们已经知道了如何用 `git fetch` 获取远程的数据, 现在我们学习如何将这些变化更新到我们的工作当中。",
               "",
-              "其实有很多方法的 -- 只要我在本地有新的提交, 你可以像合并其它分支那样合并远端分支. 具体说就是你可以执行以下命令: ",
+              "其实有很多方法的 —— 当远程分支中有新的提交时，你可以像合并本地分支那样来合并远程分支。也就是说就是你可以执行以下命令: ",
               "",
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
               "* `git merge o/master`",
-              "* etc, etc",
+              "* 等等",
               "",
-              "实际上, fetch / merge 变更是这样的普通, 以至于git 提供了一个实际两个功能的命令 -- `git pull`."
+              "实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 `git pull`。"
             ]
           }
         },
@@ -349,10 +349,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "我们先顺序执行 `fetch`, `merge` "
+              "我们先来看看 `fetch`、`merge` 依次执行的效果"
             ],
             "afterMarkdowns": [
-              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/master` 合并了这一提交. 现在我们的 `master` 分支映射到了远端的新工作"
+              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/master` 合并了这一提交记录。现在我们的 `master` 分支包含了远程仓库中的更新（在本例中远程仓库名为 `origin`）"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -365,7 +365,7 @@ exports.level = {
               "如果使用 `git pull` 呢?"
             ],
             "afterMarkdowns": [
-              "同样的结果! 这清楚地说明了 `git pull` 就是 git fetch 再跟一个 merge 的缩写! "
+              "同样的结果！这清楚地说明了 `git pull` 就是 git fetch 和 git merge <just-fetched-branch> 的缩写！"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -375,9 +375,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "稍后我们会扫一下 `git pull` 的细节(选项和参数), 现在我们先完成作业.",
+              "稍后我们会探索一下 `git pull` 的细节(包括选项和参数)，现在咱们先解决这个关卡。",
               "",
-              "记住, 你可以用 fetch/merge 通过本节, 但是这会增加你的命令. :P"
+              "实际上你完全可以用 `fetch` 和 `merge` 通过本关，但是这会增加你的命令数。 :P"
             ]
           }
         }

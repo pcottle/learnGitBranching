@@ -22,7 +22,7 @@ exports.level = {
     "ja"   : "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "pt_BR": "Lembre-se que você pode especificar quantos commits quer simular",
-    "zh_CN": "记住为 fake 中的 commit 指定数量",
+    "zh_CN": "记住你可以指定仿真提交的个数",
     "zh_TW": "你要記得指定要送多少個 commit 出去",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
@@ -299,19 +299,19 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 仿真协同",
+              "## 模拟团队合作",
               "",
-              "这里有一件棘手的事 -- 接下来的课程中, 我们需要教你如果从远端拉取变更",
+              "这里有一件棘手的事 —— 为了接下来的课程, 我们需要先教你如何制造远程仓库的变更。",
               "",
-              "这意味着，我们需要假装你的同事、朋友、合作伙伴已经将远端更新到最新了，这些变更有时是一个特别的分支或者确定数目的提交. ",
+              "这意味着，我们需要“假装”你的同事、朋友、合作伙伴更新了远程仓库，有可能是某个特定的分支，或是几个提交记录。",
               "",
-              "为了做到这点, 我们引入一个自造命令 `git fakeTeamwork`. 它是自解释的, 先看演示.."
+              "为了做到这点，我们引入一个自造命令 `git fakeTeamwork`！它的名称已经说明了一切，先看演示.."
             ]
           }
         },
@@ -319,10 +319,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`fakeTeamwork` 默认行为就是在在远端 master 做一个提交."
+              "`fakeTeamwork` 默认操作就是在远程仓库的 master 分支上做一次提交。"
             ],
             "afterMarkdowns": [
-              "成了 -- 远端更新了一个新提交. 我们还没有下载它, 因为我们还没有使用 `git fetch`."
+              "完成了 —— 远程仓库增加了一个新提交，我们还没有下载它，因为我们还没有执行 `git fetch`。"
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
@@ -332,10 +332,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "你可以指定提交的数量, 只需要在命令后接一个数字!"
+              "你还可以指定提交的分支或是数量，只需要在命令后加上它们就可以了。"
             ],
             "afterMarkdowns": [
-              "通过一个命令，我们就模拟了队友 push 3 个提交到远端的 foo 分支.  "
+              "通过一个命令，我们就模拟队友推送了 3 个提交记录到远程仓库的 foo 分支。"
             ],
             "command": "git fakeTeamwork foo 3",
             "beforeCommand": "git branch foo; git clone"
@@ -345,9 +345,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "接下来的学习会相当的困难，所以在本节我们会询问你很多问题. ",
+              "接下来的关卡会相当的困难，所以在本关会让你做许多事情，先来热热身。",
               "",
-              "继续前进 -- 克隆一个远端，再提交一些修改，在你自己的分支上也做一些提交，再 pull 一下远端. 这看起来包含了好几节的课程."
+              "克隆一个远程仓库（用 `git clone`），再在刚创建的远程仓库中模拟一些修改，然后在你自己的本地分支上做一些提交，再拉取远程仓库的变更。这看起来像是包含了好几节的课程。"
             ]
           }
         }

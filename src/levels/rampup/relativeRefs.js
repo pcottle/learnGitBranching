@@ -6,7 +6,7 @@ exports.level = {
     "en_US": "Relative Refs (^)",
     "fr_FR": "Références relatives (^)",
     "ja"   : "相対リファレンス (^)",
-    "zh_CN": "相对引用 (^)",
+    "zh_CN": "相对引用（^）",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
     "pt_BR": "Referências relativas (^)",
@@ -22,7 +22,7 @@ exports.level = {
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
-    "zh_CN": "记住插入 (^) 操作符!",
+    "zh_CN": "记住操作符（^）！",
     "zh_TW": "不要忘記插入（^）符號！",
     "ru_RU": "Не забудь оператор `^`",
     "ko"   : "(^)연산자를 기억하세요!",
@@ -412,11 +412,11 @@ exports.level = {
             "markdowns": [
               "## 相对引用",
               "",
-              "用指定提交记录 hash 值的方式在 Git 中移动会变得比较乏味。在现实中，你不会有漂亮的可视化的提交记录树放在终端旁边，所以你不得不用 `git log` 来查看 hash 值。",
+              "通过指定提交记录哈希值的方式在 Git 中移动不太方便。在实际应用时，并没有像本程序中这么漂亮的可视化提交树供你参考，所以你就不得不用 `git log` 来查查看提交记录的哈希值。",
               "",
-              "另外，hash 值在真实的 Git 环境中也会更长。举个例子，前一关的介绍中的提交记录的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。不要把舌头闪了...",
+              "并且哈希值在真实的 Git 世界中也会更长（译者注：基于 SHA-1，共 40 位）。例如前一关的介绍中的提交记录的哈希值可能是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌头都快打结了吧...",
               "",
-              "好的一面是，Git对hash的处理很智能。你只需要提供能够唯一标识提交记录的前几个字符即可。所以，我可以仅输入`fed2` 而不是上面的一长串字符。"
+              "比较令人欣慰的是，Git 对哈希的处理很智能。你只需要提供能够唯一标识提交记录的前几个字符即可。因此我可以仅输入`fed2` 而不是上面的一长串字符。"
             ]
           }
         },
@@ -424,14 +424,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "我说过，通过 hash 指定提交记录不是很方便，所以 Git 引入了相对引用。这个就很牛掰了!",
+              "正如我前面所说，通过哈希值指定提交记录很不方便，所以 Git 引入了相对引用。这个就很厉害了!",
               "",
-              "使用相对引用，你可以从一个易于记忆的地方（比如分支名 `bugFix` 或 `HEAD`）开始工作。",
+              "使用相对引用的话，你就可以从一个易于记忆的地方（比如 `bugFix` 分支或 `HEAD`）开始计算。",
               "",
               "相对引用非常给力，这里我介绍两个简单的用法：",
               "",
-              "* 使用 `^` 向上移动1个提交记录",
-              "* 使用 `~<num>` 向上移动多个提交记录"
+              "* 使用 `^` 向上移动 1 个提交记录",
+              "* 使用 `~<num>` 向上移动多个提交记录，如 `~3`"
             ]
           }
         },
@@ -439,16 +439,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "首先看看插入 (^) 操作符。把插入符跟在引用名后面，表示让 Git 寻找指定提交记录的父提交。",
+              "首先看看操作符 (^)。把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交。",
               "",
-              "所以 `master^` 相当于 \"`master` 的父提交\"。",
+              "所以 `master^` 相当于“`master` 的父节点”。",
               "",
-              "`master^^` 是 `master` 的父父提交（上上代祖先）",
+              "`master^^` 是 `master` 的第二个父节点",
               "",
-              "切换到 master 的父提交"
+              "现在咱们切换到 master 的父节点"
             ],
             "afterMarkdowns": [
-              "唰！搞定。这种方式比输入提交记录的 hash 值简单多了！"
+              "搞定。这种方式是不是比输入哈希值方便多了？！"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -458,10 +458,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "你也可以把 `HEAD` 用作相对引用。以下命令使用 `HEAD` 在提交树中向上移动几次。"
+              "你也可以将 `HEAD` 作为相对引用的参照。下面咱们就用 `HEAD` 在提交树中向上移动几次。"
             ],
             "afterMarkdowns": [
-              "简单！我们可以一直使用 `HEAD^` 向上移动。"
+              "很简单吧？！我们可以一直使用 `HEAD^` 向上移动。"
             ],
             "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -471,9 +471,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此关，切换到 `bugFix` 的父提交。这会分离出 `HEAD`.",
+              "要完成此关，切换到 `bugFix` 的父节点。这会进入分离 `HEAD` 状态。",
               "",
-              "如果你愿意的话，使用 hash 值也可以过关，但为何不试试使用相对引用呢？"
+              "如果你愿意的话，使用哈希值也可以过关，但请尽量使用相对引用！"
             ]
           }
         }

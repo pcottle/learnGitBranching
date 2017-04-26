@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Diverged History",
-    "zh_CN": "分散的历史",
+    "zh_CN": "偏离的提交历史",
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "pt_BR": "Histórico divergente",
@@ -17,7 +17,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
-    "zh_CN": "检出可视化目标中的顺序",
+    "zh_CN": "按照目标中的提交树的顺序进行检出",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
     "pt_BR": "Preste atenção na ordem da visualização do objetivo",
@@ -744,17 +744,17 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 分散工作",
+              "## 偏离的工作",
               "",
-              "到现在我们已经知道了如何从其它地方 `pull`, 以及如何 `push` 我们自己的提交对象, 看起来真简单, 但是为何人们还会如此困惑呢?",
+              "现在我们已经知道了如何从其它地方 `pull` 提交记录，以及如何 `push` 我们自己的变更。看起来似乎没什么难度，但是为何还会让人们如此困惑呢？",
               "",
-              "困难来自于远端库历史的分散. 在讨论这个问题的细节前, 我们看一个例子...",
+              "困难来自于远程库提交历史的**偏离**。在讨论这个问题的细节前，我们先来看一个例子……",
               ""
             ]
           }
@@ -763,11 +763,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想象一下你周一克隆了一个仓库, 然后在一个特性分支上工作. 到周五时, 你准备推送你的特性分支 -- 不行的! 你的同事这周写了一堆代码, 使得你的特性分支过期了. 他们已经将代码分享(合并)到远端仓库了, 所以你的工作就变成了基于仓库老版的代码了.",
+              "假设你周一克隆了一个仓库，然后开始研发某个新功能。到周五时，你新功能开发测试完毕，可以发布了。但是 —— 天啊！你的同事这周写了一堆代码，还改了许多你的功能中使用的 API，这些变动会导致你新开发的功能变得不可用。但是他们已经将那些提交推送到远程仓库了，因此你的工作就变成了基于项目**旧版**的代码，与远程仓库最新的代码不匹配了。",
               "",
-              "这种情况下, `git push` 就变得模糊了, 如果你执行 `git push`, Git 应该让远端仓库回到星期一那天? 还是直接在新代码的基础上添加你的代码? 或者直接忽略你的提交? ",
+              "这种情况下, `git push` 就不知道该如何操作了。如果你执行 `git push`，Git 应该让远程仓库回到星期一那天的状态吗？还是直接在新代码的基础上添加你的代码，异或由于你的提交已经过时而直接忽略你的提交？",
               "",
-              "因为这情况让问题变得模糊(因为历史的分散性)了, Git 不会允许你 `push`. 你只能先合并远端最新的代码, 然后才能分享你的工作."
+              "因为这情况（历史偏离）有许多的不确定性，Git 是不会允许你 `push` 变更的。实际上它会强制你先合并远程最新的代码，然后才能分享你的工作。"
             ]
           }
         },
@@ -775,10 +775,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "废话说得真多, 看看实际案例吧!"
+              "说了这么多，咱们还是看看实际案例吧！"
             ],
             "afterMarkdowns": [
-              "看见了吧? 什么都没有变, 命令失败了! `git push` 的失败是因为你最新提交了 `C3` (基于远端的 `C1`). 而远端已经更新到了 `C2` 啦, 所以 Git 拒绝了你的 push"
+              "看见了吧？什么都没有变，因为命令失败了！`git push` 失败是因为你最新提交的 `C3` 基于远程分支中的 `C1`。而远程仓库中该分支已经更新到 `C2` 了，所以 Git 拒绝了你的推送请求。"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -788,9 +788,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "你如何解决这事儿呢? 很简单, 你需要做的就是使你的工作基于最新的远端分支.",
+              "那该如何解决这个问题呢？很简单，你需要做的就是使你的工作基于最新的远程分支。",
               "",
-              "有好些方法做到这一点呢. 不过最直接的方法就是通过 rebase 修订你的工作. 我们继续向前,看看这是怎么实现的!"
+              "有许多方法做到这一点呢，不过最直接的方法就是通过 rebase 调整你的工作。咱们继续，看看怎么 rebase！"
             ]
           }
         },
@@ -798,10 +798,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果我们在 push 之前做 rebase 呢?"
+              "如果我们在 push 之前做 rebase 呢？"
             ],
             "afterMarkdowns": [
-              "轰 啊 轰! 我们用 `git fetch` 更新了远端在本地的副本, 然后合并我们的工作以映射远端的新变化, 最后再 `git push`"
+              "我们用 `git fetch` 更新了本地仓库中的远程分支，然后用 rebase 将工们的工作移动到最新的提交记录下，最后再用 `git push` 推送到远程仓库。"
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -811,9 +811,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "还有其它的方法应对此种情况吗? 当然了, 我们还可以使用 `merge`",
+              "还有其它的方法可以在远程仓库变更了以后更新我的工作吗? 当然有，我们还可以使用 `merge`",
               "",
-              "尽管 `git merge` 不会转移你的工作(相反的它会创建新的合并提交), 它会告诉 Git 你已经合并了远端的所有变更 -- 远端分支就是你自己分支的祖先, 这意味着, 你的提交反映了远端分支的提交.",
+              "尽管 `git merge` 不会移动你的工作（它会创建新的合并提交），但是它会告诉 Git 你已经合并了远程仓库的所有变更。这是因为远程分支现在是你本地分支的祖先，也就是说你的提交已经包含了远程分支的所有变化。",
               "",
               "看下演示..."
             ]
@@ -823,10 +823,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "那如果我们用 merge 替换 rebase 呢?"
+              "咱们们用 merge 替换 rebase 来试一下……"
             ],
             "afterMarkdowns": [
-              "轰哦轰! 我们用 `git fetch` 更新了远端副本, 然后合并了新变更到我们的工作, 最后我们用 `git push` 把工作推送回去."
+              "我们用 `git fetch` 更新了本地仓库中的远程分支，然后**合并**了新变更到我们的本地分支（为了包含远程仓库的变更），最后我们用 `git push` 把工作推送到远程仓库"
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -836,11 +836,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "漂亮! 有更简单的命令吗?",
+              "很好！但是要敲那么多命令，有没有更简单一点的？",
               "",
-              "当然 -- 就是你所知道的 `git pull`,  就是 fetch 和 merge 的简写. 更方便的 -- `git pull --rebase` 就是 fetch 和 rebase 的简写! ",
+              "当然 —— 前面已经介绍过 `git pull` 就是 fetch 和 merge 的简写，类似的 `git pull --rebase` 就是 fetch 和 rebase 的简写！",
               "",
-              "让我们看看简写命令是如何工作的."
+              "让我们看看简写命令是如何工作的。"
             ]
           }
         },
@@ -848,10 +848,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "First with `--rebase`..."
+              "这次用 `--rebase`……"
             ],
             "afterMarkdowns": [
-              "跟之前结果一样, 就是简写啦."
+              "跟之前结果一样，但是命令更短了。"
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -874,14 +874,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "这几个命令 fetching, rebase/merging,  pushing 的工作流很普遍. 后续课程我们会讲解更复杂的工作流, 不过现在我们先尝试下吧.",
+              "由 fetch、rebase/merge 和 push 组成的工作流很普遍。后续课程我们会讲解更复杂的工作流，不过现在我们先解决这个关卡吧。",
               "",
-              "要完成本节, 你需要完成以下几步: ",
+              "要完成本关，你需要完成以下几步：",
               "",
-              "* Clone 你的仓库",
-              "* 模拟一次远程提交(fakeTeamwork)",
-              "* 本地提交一次",
-              "* 用**变基**提交你的修改 (--rebase)"
+              "* 克隆你的仓库",
+              "* 模拟一次远程提交（fakeTeamwork）",
+              "* 完成一次本地提交",
+              "* 用 *rebase* 发布你的工作"
             ]
           }
         }
