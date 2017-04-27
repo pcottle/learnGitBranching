@@ -29073,20 +29073,8 @@ var initDemo = function(sandbox) {
 };
 
 function tryLocaleDetect() {
-  // lets fire off a request to get our headers which then
-  // can help us identify what locale the browser is in.
-  // wrap everything in a try since this is a third party service
-  try {
-    $.ajax({
-      url: 'http://ajaxhttpheaders.appspot.com',
-      dataType: 'jsonp',
-      success: function(headers) {
-        changeLocaleFromHeaders(headers['Accept-Language']);
-      }
-    });
-  } catch (e) {
-    console.warn('locale detect fail', e);
-  }
+  // use navigator to get the locale setting
+  changeLocaleFromHeaders(navigator.language || navigator.browserLanguage);
 }
 
 function changeLocaleFromHeaders(langString) {
@@ -61802,7 +61790,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Вы, должно быть, спрашиваете себя — зачем git поместил эти коммиты в ветку `o/foo` вместо того, чтобы разместить из в локальной ветке `foo` ? Ведь я думал о параметре `<пункт назначения>`, как о месте, ветке, которая существует в обоих - локальном и удалённом репозитории. Верно?",
+              "Вы, должно быть, спрашиваете себя — зачем git поместил эти коммиты в ветку `o/foo` вместо того, чтобы разместить их в локальной ветке `foo` ? Ведь я думал о параметре `<пункт назначения>`, как о месте, ветке, которая существует в обоих - локальном и удалённом репозитории. Верно?",
               "",
               "На самом деле, в данном случае git делает исключение, потому что вы, возможно, работаете над веткой `foo`, которую не хотите привести в беспорядок!! Об этом упоминалось в ранних уроках по `git fetch` - эта команда не обновляет ваши локальные 'не удалённые', она лишь скачивает коммиты (соответственно, вы можете инспектировать / объединять их позже).",
               ""
