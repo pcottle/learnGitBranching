@@ -7,7 +7,7 @@ exports.level = {
     "fr_FR": "Introduction aux commits avec Git",
     "ja"   : "Gitのコミット",
     'ko': 'Git 커밋 소개',
-    'zh_CN': 'Git Commits 简介',
+    'zh_CN': 'Git Commit',
     'zh_TW': '介紹 git commit ',
     'ru_RU': 'Знакомство с Git Commit ',
     'uk': 'Знайомство з комітами в Git'
@@ -21,7 +21,7 @@ exports.level = {
     "es_AR": "¡Simplemente tipeá 'git commit' dos veces para terminar!",
     "pt_BR": "Simplesmente digite 'git commit' duas vezes para concluir!",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
-    "zh_CN": "敲两次 'git commit' 就好啦！",
+    "zh_CN": "执行两次 'git commit' 就可以过关了！",
     "zh_TW": "輸入兩次 'git commit' 就可以完成！",
     "ja"   : "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!",
@@ -342,14 +342,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Commits",
-              "Git 仓库中的一次提交（commit）记录目录下所有文件的快照。感觉像是大量的复制和粘贴，但 Git 做的不只这么简单！",
+              "## Git Commit",
+              "Git 仓库中的提交记录保存的是你的目录下所有文件的快照，就像是把整个目录复制，然后再粘贴一样，但比复制粘贴优雅许多！",
               "",
-              "Git 希望提交记录尽可能地轻量，所以每次进行提交时，它不会简单地复制整个目录。条件允许的情况下，Git 会把提交压缩成从代码库的一个版本到下一个版本的变化合集，也叫“增量（delta）”。",
+              "Git 希望提交记录尽可能地轻量，因此在你每次进行提交时，它并不会盲目地复制整个目录。条件允许的情况下，它会将当前版本与仓库中的上一个版本进行对比，并把所有的差异打包到一起作为一个提交记录。",
               "",
-              "Git 还维护了“提交的创建时间”的历史记录，因此，大部分提交都有祖先 -- 我们会在图示中用箭头来表示这种关系。对于项目的成员来说，这份提交历史对大家都有好处。",
+              "Git 还保存了提交的历史记录。这也是为什么大多数提交记录的上面都有父节点的原因 —— 我们会在图示中用箭头来表示这种关系。对于项目组的成员来说，维护提交历史对大家都有好处。",
               "",
-              "要学的东西有很多，但现在你可以把提交记录看作是项目的快照。提交记录非常轻量且可以快速切换！"
+              "关于提交记录太深入的东西咱们就不再继续探讨了，现在你可以把提交记录看作是项目的快照。提交记录非常轻量，可以快速地在这些提交记录之间切换！"
             ]
           }
         },
@@ -357,14 +357,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "我们来看看实际使用中是个什么样子吧。右边是一个（小型）Git 代码库的图示。当前有两个提交记录 -- 初始提交 `C0` 和其后可能包含有用修改的提交 `C1`。",
+              "咱们来实际操作一下，看看提交记录是怎样的。右边展示了一个（小型）Git 代码库。当前有两个提交记录 —— 初始提交 `C0` 和其后可能包含某些有用修改的提交 `C1`。",
               "",
-              "点击下面的按钮生成新的提交记录。"
+              "点击下面的按钮创建一个新的提交记录。"
+            ],
+            "afterMarkdowns": [
+              "好了！非常棒！我们刚才修改了代码库，并把这些修改保存成了一个提交记录 `C2`。`C2` 的父节点是 `C1`，父节点是当前提交中变更的基础。"
             ],
             "command": "git commit",
-            "afterMarkdowns": [
-              "看！碉堡吧！我们修改了代码库，并把这些修改保存成了一次提交记录。刚刚生成的提交 `C2` 有一个父提交（parent）`C1`，父提交是当前提交修改的基础。"
-            ],
             "beforeCommand": ""
           }
         },
@@ -372,7 +372,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "接下来你可以随便测试。当前窗口关闭后，完成两次提交就可以过关！"
+              "接下来自己试一试吧。当前窗口关闭后，完成两次提交就可以过关！"
             ]
           }
         }

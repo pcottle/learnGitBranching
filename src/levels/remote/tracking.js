@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Tracking",
-    "zh_CN": "Remote Tracking",
+    "zh_CN": "远程追踪",
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
     "pt_BR": "Seguindo remotos",
@@ -621,18 +621,18 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Remote-Tracking branches",
+              "### 远程跟踪分支",
               "",
-              "在前几节课程中有件事儿挺神奇的, Git 好像知道 `master` 与 `o/master` 是相关的. 当然, 这些分支的名字是相同的, 所以可能是这种逻辑连接了远端的 master 分支和本地的 master 分支, 其实这种连接在以下两种情况下清楚体现: ",
+              "在前几节课程中有件事儿挺神奇的，Git 好像知道 `master` 与 `o/master` 是相关的。当然这些分支的名字是相似的，可能会让你觉得是依此将远程分支 master 和本地的 master 分支进行了关联。这种关联在以下两种情况下可以清楚地得到展示：",
               "",
-              "* pull 操作时, 我们下载提交到 o/master 并且合并到本地 master 分支。隐含的合并目标由此连接确定.",
-              "* push 操作时, 我们把工作从 `master` 推到远端的 `master`(同时会更新远端的副本 `o/master`) 这个推送的目的地也是由这种连接确定的! ",
+              "* pull 操作时, 提交记录会被先下载到 o/master 上，之后再合并到本地的 master 分支。隐含的合并目标由这个关联确定的。",
+              "* push 操作时, 我们把工作从 `master` 推到远程仓库中的 `master` 分支(同时会更新远程分支 `o/master`) 。这个推送的目的地也是由这种关联确定的！",
               ""
             ]
           }
@@ -641,13 +641,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 远端跟踪",
+              "## 远程跟踪",
               "",
-              "长话短说,  `master` 和 `o/master` 的连接关系就是 分支属性\"remote tracking\" (我们叫远端跟踪好啦). `master` 被设定为跟踪 `o/master` -- 这就是隐含的合并(merge)/推送(push)目的地.",
+              "直接了当地讲，`master` 和 `o/master` 的关联关系就是由分支的“remote tracking”属性决定的。`master` 被设定为跟踪 `o/master` —— 这意味着为 `master` 分支指定了推送的目的地以及拉取后合并的目标。",
               "",
-              "你可能想知道这个属性是怎么被设定的? 你并没有用命令指定过这个属性呀! 好吧, 当你克隆仓库的时候, 这个属性就存在了. ",
+              "你可能想知道 `master` 分支上这个属性是怎么被设定的，你并没有用任何命令指定过这个属性呀！好吧, 当你克隆仓库的时候, Git 就自动帮你把这个属性设置好了。",
               "",
-              "当你克隆时, Git 会创建跟踪分支(就像 `o/master`), 对于每个远端分支, 创建一个跟踪远端分支的本地分支 (`master`), 所以你经常会看到这个的命令输出:",
+              "当你克隆时, Git 会为远程仓库中的每个分支在本地仓库中创建一个远程分支（比如 `o/master`）。然后再创建一个跟踪远程仓库中活动分支的本地分支，默认情况下这个本地分支会被命名为 `master`。",
+              "",
+              "克隆完成后，你会得到一个本地分支（如果没有这个本地分支的话，你的目录就是“空白”的），但是可以查看远程仓库中所有的分支（如果你好奇心很强的话）。这样做对于本地仓库和远程仓库来说，都是最佳选择。",
+              "",
+              "这也解释了为什么会在克隆的时候会看到下面的输出：",
               "",
               "    local branch \"master\" set to track remote branch \"o/master\"",
               ""
@@ -658,15 +662,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 我能自己指定这个属性吗?",
+              "### 我能自己指定这个属性吗？",
               "",
-              "当然可以啦! 你可以让做任意分支跟踪 `o/master`, 然后分支就会隐含 push 的 destination(`o/master`) 以及 merge 的 target (`o/master`). 这意味着你可以在分支 `totallyNotMaster` 上执行 `git push`, 将工作推送到远端的 `master`.",
+              "当然可以啦！你可以让任意分支跟踪 `o/master`, 然后该分支会像 `master` 分支一样得到隐含的 push 目的地以及 merge 的目标。 这意味着你可以在分支 `totallyNotMaster` 上执行 `git push`，将工作推送到远程仓库的 `master` 分支上。",
               "",
-              "有两种方法设置这个属性, 第一种就是通过远端分支检出一个新的分支, 执行: ",
+              "有两种方法设置这个属性，第一种就是通过远程分支检出一个新的分支，执行: ",
               "",
               "`git checkout -b totallyNotMaster o/master`",
               "",
-              "这样就创建了一个跟踪 `o/master` 的 新分支 `totallyNotMaster`.  "
+              "就可以创建一个名为 `totallyNotMaster` 的分支，它跟踪远程分支 `o/master`。"
             ]
           }
         },
@@ -674,10 +678,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "说得够多了, 我们看看演示! 我们检出一个名叫 `foo` 的新分支, 然后让其跟踪远端的 `master`."
+              "闲话少说，咱们先看看演示！我们检出一个名叫 `foo` 的新分支，让其跟踪远程仓库中的 `master`"
             ],
             "afterMarkdowns": [
-              "正如你所看到的, 我们使用了隐含的目标 `o/master` 来更新 `foo` 分支. 注意, master 未被更新!"
+              "正如你所看到的, 我们使用了隐含的目标 `o/master` 来更新 `foo` 分支。需要注意的是 master 并未被更新！"
             ],
             "command": "git checkout -b foo o/master; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
@@ -687,10 +691,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "git push 同样适用这一原则"
+              "git push 同样适用"
             ],
             "afterMarkdowns": [
-              "我们将一个不叫 `master` 的分支工作推送到的远端的 `master`."
+              "我们将一个并不叫 `master` 的分支上的工作推送到了远程仓库中的 `master` 分支上"
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -700,13 +704,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 方法#2",
+              "### 第二种方法",
               "",
-              "另一种追踪远端分支的方法就是使用选项 : `git branch -u` . ",
+              "另一种设置远程追踪分支的方法就是使用：`git branch -u` 命令，执行：",
               "",
               "`git branch -u o/master foo`",
               "",
-              "这样 `foo` 就会跟踪 `o/master` 了. 如果你处于 foo 分支, 那么可以省略 foo",
+              "这样 `foo` 就会跟踪 `o/master` 了。如果当前就在 foo 分支上, 还可以省略 foo：",
               "",
               "`git branch -u o/master`",
               ""
@@ -717,10 +721,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "看看实际的效果..."
+              "看看这种方式的实际的效果..."
             ],
             "afterMarkdowns": [
-              "结果跟之前一样, 这个命令的意义更精确!"
+              "跟之前一样, 但这个命令更明确！"
             ],
             "command": "git branch -u o/master foo; git commit; git push",
             "beforeCommand": "git clone; git checkout -b foo"
@@ -730,7 +734,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好了! 本节我们在不检出 `master` 的情况下将工作推送到的远端的 `master`. 因为这是高级课程, 我会让你自己摸索出技巧! :P"
+              "OK! 本节我们在**不**检出 `master` 分支的情况下将工作推送到的远程仓库中的 `master` 分支上。因为这是高级课程, 就不做过多的提示了! :P"
             ]
           }
         }

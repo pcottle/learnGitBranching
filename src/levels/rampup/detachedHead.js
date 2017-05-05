@@ -23,7 +23,7 @@ exports.level = {
     "ja"   : "コミットのラベル（hash）を使用",
     "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
-    "zh_CN": "使用提交记录上的标签(hash)来求助！",
+    "zh_CN": "使用提交记录上的标签（哈希值）来指定提交记录！",
     "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов.",
     "ko"   : "커밋에 있는 라벨(hash)을 활용하세요!",
     "uk": "Орієнтуйся по індентифікаторам (hash) комітів."
@@ -425,11 +425,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 在 Git 中前后移动",
+              "## 在提交树上移动",
               "",
-              "在接触 Git 的更多高级主题之前，我们先学习用不同的方法在代表你的项目的提交记录树上前后移动。",
+              "在接触 Git 更高级功能之前，我们有必要先学习在你项目的提交树上前后移动的几种方法。",
               "",
-              "一旦能够熟练地在 Git 中前进后退，你使用其他 Git 命令的威力也会被放大！",
+              "一旦熟悉了如何在 Git 提交树上移动，你驾驭其它命令的能力也将水涨船高！",
               ""
             ]
           }
@@ -440,11 +440,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我们首先看一下\"HEAD\". HEAD 是当前提交记录的符号名称 -- 其实就是你正在其基础进行工作的提交记录。",
+              "我们首先看一下 “HEAD”。 HEAD 是一个对当前检出记录的符号引用 —— 也就是指向你正在其基础上进行工作的提交记录。",
               "",
-              "HEAD 总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的 Git 命令都开始于改变 HEAD 指向。",
+              "HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。",
               "",
-              "HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。"
+              "HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。"
             ]
           }
         },
@@ -452,10 +452,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "在实例中看一下。我们将会观察提交前后 HEAD 的位置。"
+              "下面咱们通过实际操作看一下。我们将会观察提交前后 HEAD 的位置。"
             ],
             "afterMarkdowns": [
-              "看! HEAD 一直藏在 `master` 分支后面。"
+              "看到了吗？ HEAD 指向了 `master`，随着提交向前移动。",
+              "",
+              "（译者注：实际这些命令并不是真的在查看 HEAD 指向，看下一屏就了解了。如果想看 HEAD 指向，可以通过 `cat .git/HEAD` 查看，",
+              "如果 HEAD 指向的是一个引用，还可以用 `git symbolic-ref HEAD` 查看它的指向。但是该程序不支持这两个命令）"
             ],
             "command": "git checkout C1; git checkout master; git commit; git checkout C2",
             "beforeCommand": ""
@@ -465,12 +468,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "### 分离 HEAD",
+              "### 分离的 HEAD",
               "",
-              "分离 HEAD 就是让其指向一个提交记录而不是分支名。这是命令执行之前的样子： ",
+              "分离的 HEAD 就是让其指向了某个具体的提交记录而不是分支名。在命令执行之前的状态如下所示： ",
               "",
               "HEAD -> master -> C1",
-              ""
+              "",
+              "HEAD 指向 master， master 指向 C1"
             ],
             "afterMarkdowns": [
               "现在变成了",
@@ -485,9 +489,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此关，从 `bugFix` 分离出 HEAD 并让其指向一个提交记录。",
+              "想完成此关，从 `bugFix` 分支中分离出 HEAD 并让其指向一个提交记录。",
               "",
-              "通过 hash 值指定提交记录。每个提交记录的 hash 值显示在代表提交记录的圆圈中。"
+              "通过哈希值指定提交记录。每个提交记录的哈希值显示在代表提交记录的圆圈中。"
             ]
           }
         }

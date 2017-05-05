@@ -10,7 +10,7 @@
     "es_AR": "Git Describe",
     "pt_BR": "Git Describe",
     "zh_TW": "git describe",
-    "zh_CN": "git describe",
+    "zh_CN": "Git Describe",
     "ru_RU": "Git describe",
     "ko"   : "Git describe(묘사)",
     "uk"   : "Git Describe"
@@ -23,7 +23,7 @@
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
-    "zh_CN": "当你要移动的时候，只要在 bugFix 上面 commit 就好了",
+    "zh_CN": "在 bugFix 上面提交一次就可以了",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі"
@@ -224,11 +224,11 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### git describe",
+              "### Git Describe",
               "",
-              "因为 tag 在 commit tree 上表示的是一个锚点，Git 有一个指令可以用来*显示*离你最近的锚点（也就是 tag），而且这个指令叫做 `git describe`！",
+              "由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来**描述**离你最近的锚点（也就是标签），它就是 `git describe`！",
               "",
-              "当你已经完成了一个 `git bisect`（一个找寻有 bug 的 commit 的指令），或者是当你使用的是你跑去度假的同事的电脑时， `git describe` 可以帮助你了解你离最近的 tag 差了多少个 commit。"
+              "Git Describe 能帮你在提交历史中移动了多次以后找到方向；当你用 `git bisect`（一个查找产生 Bug 的提交记录的指令）找到某个提交记录时，或者是当你坐在你那刚刚度假回来的同事的电脑前时， 可能会用到这个命令。"
             ]
           }
         },
@@ -236,17 +236,19 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "`git describe` 的​​使用方式：",
+              "`git describe` 的​​语法是：",
               "",
               "`git describe <ref>`",
               "",
-              "`<ref>` 是任何一个可以被 Git 解读成 commit 的位置，如果你没有指定的话，Git 会以你目前所在的位置为准（`HEAD`）。",
+              "`<ref>` 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（`HEAD`）。",
               "",
-              "指令的输出就像这样：",
+              "它输出的结果是这样的：",
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "`<tag>` 表示的是离 `<ref>` 最近的 tag， `numCommits` 是表示这个 tag 离 `<ref>` 有多少个 commit， `<hash>` 表示的是你所给定的 `<ref>` 所表示的 commit 的前七个 id。"
+              "`tag` 表示的是离 `ref` 最近的标签， `numCommits` 是表示这个 `ref` 与 `tag` 相差有多少个提交记录， `hash` 表示的是你所给定的 `ref` 所表示的提交记录哈希值的前几位。",
+              "",
+              "当 `ref` 提交记录上有某个标签时，则只输出标签名称"
             ]
           }
         },
@@ -254,7 +256,7 @@
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "让我们来看一个例子，对于下面的 tree："
+              "让我们来看一个例子，对于下面的提交树："
             ],
             "afterMarkdowns": [
               "`git describe master` 会输出：",
@@ -273,9 +275,9 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "`git describe` 就是这样了！试着在这个关卡指定几个位置来感受一下这个指令吧！",
+              "`git describe` 就是这样了！试着在这个关卡指定几个位置来感受一下这个命令吧！",
               "",
-              "当你完成的时候，只要一个 commit 就可以结束这个关卡，我们会给你一个免费赠品:P"
+              "当你准备进行下一关时，只要提交一次就可以通过这个关卡。算是我们送你的一个小礼物吧 :P"
             ]
           }
         }

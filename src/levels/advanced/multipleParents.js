@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
-    "zh_CN": "多个父提交记录",
+    "zh_CN": "两个父节点",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
     "ja"   : "複数の親",
@@ -296,13 +296,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 选择父提交",
+              "### 选择父提交记录",
               "",
-              "和 `~` 修改符一样，`^` 修改符之后也可以跟一个（可选的）数字。",
+              "操作符 `^` 与 `~` 符一样，后面也可以跟一个数字。",
               "",
-              "这不是用来指定向上返回几代（`~` 的作用），`^` 后的数字指定跟随合并提交记录的哪一个父提交。还记得一个合并提交有多个父提交吧，所有选择哪条路径不是那么清晰。",
+              "但是该操作符后面的数字与 `~` 后面的不同，并不是用来指定向上返回几代，而是指定合并提交记录的某个父提交。还记得前面提到过的一个合并提交有两个父提交吧，所以遇到这样的节点时该选择哪条路径就不是很清晰了。",
               "",
-              "Git 默认选择跟随合并提交的\"第一个\"父提交，使用 `^` 后跟一个数字来改变这一默认行为。",
+              "Git 默认选择合并提交的“第一个”父提交，在操作符 `^` 后跟一个数字可以改变这一默认行为。",
               "",
               "废话不多说，举个例子。",
               ""
@@ -313,12 +313,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这里有一个合并提交。如果不加数字修改符直接切换到 `master^`，会回到第一个父提交。",
+              "这里有一个合并提交记录。如果不加数字修改符直接检出 `master^`，会回到第一个父提交记录。",
               "",
-              "(*在我们的图示中，第一个父提交是指合并提交正上方的那个父提交。*)"
+              "(*在我们的图示中，第一个父提交记录是指合并提交记录正上方的那个提交记录。*)"
             ],
             "afterMarkdowns": [
-              "OK -- 这恰好是我们想要的。"
+              "这正是我们都已经习惯的方法。"
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -328,10 +328,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在来试试选择第二个父提交……"
+              "现在来试试选择另一个父提交……"
             ],
             "afterMarkdowns": [
-              "看见了吧？我们回到了第二个父提交。"
+              "看见了吧？我们回到了另外一个父提交上。"
             ],
             "command": "git checkout master^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
@@ -341,7 +341,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用 `^` 和 `~` 可以自由地在提交树中移动："
+              "使用 `^` 和 `~` 可以自由地在提交树中移动，非常给力："
             ],
             "afterMarkdowns": [
               "快若闪电！"
@@ -354,7 +354,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "再疯狂点，这些修改符支持链式操作！试一下这个："
+              "更厉害的是，这些操作符还支持链式操作！试一下这个："
             ],
             "afterMarkdowns": [
               "和前面的结果一样，但只用了一条命令。"
@@ -367,11 +367,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 实践一下",
+              "### 课后小练习",
               "",
               "要完成此关，在指定的目标位置创建一个新的分支。",
               "",
-              "很明显可以简单地直接使用提交记录的 hash 值（比如 `C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
+              "很明显可以简单地直接使用提交记录的哈希值（比如 `C6`），但我要求你使用刚刚讲到的相对引用修饰符！"
             ]
           }
         }

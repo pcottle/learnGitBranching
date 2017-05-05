@@ -13,7 +13,7 @@
     "ja"   : "cherry-pick入門",
     "es_AR": "Introducción a cherry-pick",
     "pt_BR": "Introdução ao cherry-pick",
-    "zh_CN": "介绍 Cherry-pick",
+    "zh_CN": "Git Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
     "ko"   : "Cherry-pick 소개",
@@ -26,7 +26,7 @@
     "ja"   : "git cherry-pickの後にコミット名を追加",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "pt_BR": "git cherry-pick seguido dos nomes dos commits",
-    "zh_CN": "git cherry-pick 后面跟着 commit 的名字",
+    "zh_CN": "git cherry-pick 后面要跟提交的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
     "ko"   : "커밋의 이름들로 git cherry-pick 하세요!",
@@ -324,13 +324,13 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 转移工作区",
+              "## 整理提交记录",
               "",
-              "到现在我们已经学习了 Git 的基础命令 -- commit, branch, checkout. 这些概念实现了 Git 90% 的功能, 同样也满足了开发者的主要需求 ",
+              "到现在我们已经学习了 Git 的基础知识 —— 提交、分支以及在提交树上移动。 这些概念涵盖了 Git 90% 的功能，同样也足够满足开发者的日常需求 ",
               "",
-              "然而, 剩余的 10% 可能在处理复杂的工作流时(或者当你陷入困惑时), 非常的重要. 我们会在下一个概念中涉及'转移工作区', 换句话说, 这是开发者表达'我想要把这个工作放这里, 那个工作也放这里', 精确地说, 这是很灵活的方式    ",
+              "然而, 剩余的 10% 在处理复杂的工作流时(或者当你陷入困惑时）可能就显示尤为重要了。接下来要讨论的这个话题是“整理提交记录” —— 开发人员有时会说“我想要把这个提交放到这里, 那个提交放到刚才那个提交的后面”, 而接下来就讲的就是它的实现方式，非常清晰、灵活，还很生动。",
               "",
-              "看起来内容很多, 其实概念相当简单"
+              "看起来挺复杂, 其实是个很简单的概念。"
             ]
           }
         },
@@ -342,10 +342,11 @@
               "",
               "本系列的第一个命令是 `git cherry-pick`, 命令形式为: ",
               "",
-              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "* `git cherry-pick <提交号>...`",
               "",
-              "这是一种很直接的推进方式 -- 如果你想将一些提交复制到你当前的位置 `HEAD` 下面, 我个人喜欢 `cherry-pick` 的原因是, 其概念非常简单 ",
-              ""
+              "如果你想将一些提交复制到当前所在的位置（`HEAD`）下面的话， Cherry-pick 是最直接的方式了。我个人非常喜欢 `cherry-pick`，因为它特别简单。",
+              "",
+              "咱们还是通过例子来看一下！"
             ]
           }
         },
@@ -353,10 +354,10 @@
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在有一个仓库, 我们想将 `side` 分支下的工作复制到 `master` 分支, 我们可以通过 `rebase` 完成这一点(已经学过了哈), 但是这里我们想通过 `cherry-pick` 来完成."
+              "这里有一个仓库, 我们想将 `side` 分支上的工作复制到 `master` 分支，你立刻想到了之前学过的 `rebase` 了吧？但是咱们还是看看 `cherry-pick` 有什么本领吧。"
             ],
             "afterMarkdowns": [
-              "这是它啦, 我们需要的是提交对象`C2` 和 `C4` ,所以 Git 将被它们抓取到当前分支下了. 就是这么简单!"
+              "这就是了！我们只需要提交记录 `C2` 和 `C4`，所以 Git 就将被它们抓过来放到当前分支下了。 就是这么简单!"
             ],
             "command": "git cherry-pick C2 C4",
             "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
@@ -366,7 +367,7 @@
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "请完成这节测试, 只需要简单的将分支的工作复制到 master.  如果想看我们所需要的提交对象, 你可以打开虚拟目标窗口 (`show goal`)",
+              "要通过此关, 只需要简单的将三个分支中的提交记录复制到 master 上就可以了。目标窗口展示了我们想要哪些提交记录，如果你不小心关掉了的话，通过 `show goal` 命令可以打开，左上角也有“显示目标按钮”",
               ""
             ]
           }

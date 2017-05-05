@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Pull arguments",
-    "zh_CN": "Pull 的参数",
+    "zh_CN": "Git pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
     "pt_BR": "Parâmetros do pull",
@@ -399,7 +399,7 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
@@ -407,11 +407,11 @@ exports.level = {
             "markdowns": [
               "## Git pull 参数",
               "",
-              "现在你知道关于 fetch/push 几乎所有的东西了, 不过 pull 也有一个 \"nothing\" 呢! :)",
+              "既然你已经掌握关于 `git fetch` 和 `git push` 参数的方方面面了，关于 git pull 几乎没有什么可以讲的了 :)",
               "",
-              "因为 git pull 就是 fetch 后跟 merge 的缩写. 我可以认为执行 git fetch 用了相同的参数, 然后再 merge 你所 fetch 的提交 (commit)",
+              "因为 git pull 到头来就是 fetch 后跟 merge 的缩写。你可以理解为用同样的参数执行 git fetch，然后再 merge 你所抓取到的提交记录。",
               "",
-              "这可以和其它更复杂的参数一起使用, 看看例子:"
+              "还可以和其它更复杂的参数一起使用, 来看一些例子:"
             ]
           }
         },
@@ -419,19 +419,19 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "以下命令在 Git 中是等价的:",
+              "以下命令在 Git 中是等效的:",
               "",
-              "`git pull  origin foo` 相当于：",
+              "`git pull origin foo` 相当于：",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "还有...",
               "",
-              "`git pull  origin bar~1:bugFix` 相当于：",
+              "`git pull origin bar~1:bugFix` 相当于：",
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 在乎的是提交在哪里结束(也就是 git fetch 所确定的 destination)",
+              "看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 唯一关注的是提交最终合并到哪里（也就是为 git fetch 所提供的 destination 参数）",
               "",
               "一起来看个例子吧："
             ]
@@ -441,10 +441,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果我们指定要提取的 <place>, 所有的事情都会跟之前一样发生, 除了 merge.  "
+              "如果我们指定要抓取的 place，所有的事情都会跟之前一样发生，只是增加了 merge 操作"
             ],
             "afterMarkdowns": [
-              "看! 通过指定 master 我们更新了 o/master. 然后我们 merge `o/master` 到我们的检出分支(当前检出的任意分支). "
+              "看到了吧! 通过指定 `master` 我们更新了 `o/master`。然后将 `o/master` merge 到我们的检出位置，**无论**我们当前检出的位置是哪。"
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -454,10 +454,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这也适用于 source / destination 吗? 当然喽, 看看吧:"
+              "pull 也可以用 source:destination 吗? 当然喽, 看看吧:"
             ],
             "afterMarkdowns": [
-              " 哇, 这就一个命令. 我们在本地创建了一个叫 foo 的分支, 远端的 master 分支, 被下载到了本地 foo 分支. 然后再 merge 到我们的当前分支. 终于完啦! 9000!!!"
+              " 哇, 这个命令做的事情真多。它先在本地创建了一个叫 `foo` 的分支，从远程仓库中的 master 分支中下载提交记录，并合并到 `foo`，然后再 merge 到我们的当前检出的分支 `bar` 上。操作够多的吧？！"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -467,7 +467,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦, 做作业! 请获取虚拟目标.  你需要下载一些提交, 然后创建一些新分支, 再合并这些分支到其它分支, 这花不了几个命令 :P "
+              "好啦, 该结束了！请按照目标窗口中的状态进行操作。你需要下载一些提交，然后创建一些新分支，再合并这些分支到其它分支, 但这用不了几个命令 :P "
             ]
           }
         }
