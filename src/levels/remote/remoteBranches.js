@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Branches",
-    "zh_CN": "Remote Branches",
+    "zh_CN": "远程分支",
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
     "pt_BR": "Ramos remotos",
@@ -17,7 +17,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
-    "zh_CN": "注意顺序 -- 先在 master 上 commit!",
+    "zh_CN": "注意顺序 —— 先在 master 分支上提交!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
     "pt_BR": "Preste atenção na ordem: commite no master primeiro!",
@@ -401,15 +401,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git 远端分支",
+              "## 远程分支",
               "",
-              "现在你看过 `git clone` 的执行了, 让我们深入下去看看发生了什么?",
+              "既然你已经看过 `git clone` 命令了，咱们深入地看一下发生了什么。",
               "",
-              "第一件事, 你应该注意到在我们的本地仓库出现了一个新的分支 `o/master` , 这种类型的分支叫 _remote_ branch (就叫远端分支好了), 远端分支拥有一些用于特别目的的特殊属性.",
+              "你可能注意到的第一个事就是在我们的本地仓库多了一个名为 `o/master` 的分支, 这种类型的分支就叫**远程**分支。由于远程分支的特性导致其拥有一些特殊属性。",
               "",
-              "远程分支反映了远端仓库的状态(你上次和远端仓库通信的时刻). 这会帮助你理解本地工作与公共工作的不同 -- 这是你与别人分享工作前很重要的一步.",
+              "远程分支反映了远程仓库(在你上次和它通信时)的**状态**。这会有助于你理解本地的工作与公共工作的差别 —— 这是你与别人分享工作成果前至关重要的一步.",
               "",
-              "检出远端分支时, 有一个特别的属性 -- 你会被置于一个分离式的 `HEAD`. 因为你不能在这些分支上直接操作, 你必须在别的地方完成你的工作, 再与远端分享你的工作. "
+              "远程分得有一个特别的属性，在你检出时自动进入分离 HEAD 状态。Git 这么做是出于不能直接在这些分支上进行操作的原因, 你必须在别的地方完成你的工作, （更新了远程分支之后）再用远程分享你的工作成果。"
             ]
           }
         },
@@ -417,19 +417,19 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 什么是 `o/`？",
+              "### 为什么有 `o/`？",
               "",
-              "你可能想知道这些远端分支的头 `o/` 意味着什么. 好吧, 远端分支有一个全名规范 -- 它们以这样的格式显示: ",
+              "你可能想问这些远程分支的前面的 `o/` 是什么意思呢？好吧, 远程分支有一个命名规范 —— 它们的格式是: ",
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "提示, 如果你看到一个分支命名为 `o/master`, 那分支名就是 `master`, 远端的名就是 `o`. ",
+              "因此，如果你看到一个名为 `o/master` 的分支，那么这个分支就叫 `master`，远程仓库的名称就是 `o`。",
               "",
-              "大多数的开发者会将它们的远端命名为 `origin`, 而非 `o`. 这是如此的普遍, 以致于当你用 `git clone` 时,得到的仓库名就是 `origin`",
+              "大多数的开发人员会将它们主要的远程仓库命名为 `origin`，并不是 `o`。这是因为当你用 `git clone` 某个仓库时，Git 已经帮你把远程仓库的名称设置为 `origin` 了",
               "",
-              "不幸的是, 我们的UI不适用 `origin`, 我们使用缩写 `o`, :) 记住, 当你使用真正的 Git 时, 你的远程仓库很可能被命名为 `origin`! ",
+              "不过 `origin` 对于我们的 UI 来说太长了，因此不得不使用简写 `o` :) 但是要记住, 当你使用真正的 Git 时, 你的远程仓库默认为 `origin`! ",
               "",
-              "说了这么多, 让我们看看实例."
+              "说了这么多，让我们看看实例。"
             ]
           }
         },
@@ -437,10 +437,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果检出 remote 分支, 会发生什么呢?"
+              "如果检出远程分支会怎么样呢？"
             ],
             "afterMarkdowns": [
-              "正如你所见, Git 处于了分离 `HEAD`, 当添加新的提交时, `o/master` 不被更新, 这是因为 `o/master` 仅伴随远端更新而更新."
+              "正如你所见，Git 变成了分离 HEAD 状态，当添加新的提交时 `o/master` 也不会更新。这是因为 `o/master` 只有在远程仓库中相应的分支更新了以后才会更新。"
             ],
             "command": "git checkout o/master; git commit",
             "beforeCommand": "git clone"
@@ -450,7 +450,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "尝试完成本节, 在 `master` 上做一个提交, 再检出 `o/master` 后再做一提交. 这展示了远端分支行为上的不同, 他们的更新只是反映了远端的状态."
+              "要通过本关，在 `master` 分支上做一次提交；然后检出 `o/master`，再做一提交。这有助于你理解远程分支的不同，他们的更新只是反映了远程的状态。"
             ]
           }
         }

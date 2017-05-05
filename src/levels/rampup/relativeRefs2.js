@@ -5,7 +5,7 @@ exports.level = {
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
     "fr_FR": "Vous aurez besoin d'utiliser au moins une référence directe (hash) pour compléter ce niveau.",
-    "zh_CN": "这一关至少要用到一次直接引用 (hash)",
+    "zh_CN": "这一关至少要用到一次直接引用 (即哈希值)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
@@ -22,7 +22,7 @@ exports.level = {
     "es_AR": "Referencias relativas #2 (~)",
     "pt_BR": "Referências relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
-    "zh_CN": "相对引用2(~)",
+    "zh_CN": "相对引用2（~）",
     "zh_TW": "相對引用二（~）",
     "ru_RU": 'Относительные ссылки №2',
     "ko"   : "상대 참조 #2 (~)",
@@ -236,7 +236,7 @@ exports.level = {
         }
       ]
     },
-   "fr_FR": {
+    "fr_FR": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -305,7 +305,7 @@ exports.level = {
         }
       ]
     },
-   "de_DE": {
+    "de_DE": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -379,12 +379,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### The \"~\" operator",
+              "### “~”操作符",
               "",
-              "假设需要在提交树中向上移动很多步。使用多个 `^` 非常无聊，所以 Git 也引入了波浪 (~) 操作符。",
+              "如果你想在提交树中向上移动很多步的话，敲那么多 `^` 貌似也挺烦人的，Git 当然也考虑到了这一点，于是又引入了操作符 `~`。",
               "",
               "",
-              "波浪操作符后面可以（可选地）跟一个数字，指定向上移动多少次。看个例子"
+              "该操作符后面可以跟一个数字（可选，不跟数字时与 `^` 相同，向上移动一次），指定向上移动多少次。咱们还是通过实际操作看一下吧"
             ]
           }
         },
@@ -392,10 +392,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "使用 `~` 一次后退多步."
+              "咱们用 `~<num>` 一次后退四步。"
             ],
             "afterMarkdowns": [
-              "唰！如此简洁--相对引用就是好啊！"
+              "多么的简洁 —— 相对引用就是方便啊！"
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -405,22 +405,37 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Branch forcing",
+              "### 强制修改分支位置",
               "",
-              "你现在是相对引用的高手了，现在*用*他来实际做点事情。",
+              "你现在是相对引用的专家了，现在用它来做点实际事情。",
               "",
-              "我使用相对引用最多的就是移动分支。你可以使用 `-f` 选项直接让分支指向另一个提交。举个例子:",
+              "我使用相对引用最多的就是移动分支。可以直接使用 `-f` 选项让分支指向另一个提交。例如:",
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "（强制）移动 master 指向 HEAD 的第3级父提交。"
+              "上面的命令会将 master 分支强制指向 HEAD 的第 3 级父提交。"
             ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "现在咱们来演示一下刚才的命令："
+            ],
+            "afterMarkdowns": [
+              "这就对了! 相对引用为我们提供了一种简洁的引用提交记录 `C1` 的方式， 而 `-f` 则容许我们将分支强制移动到那个位置。"
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
+              "既然你已经看过相对引用与强制移动分支的演示了，那么赶快使用这些技巧来挑战这一关吧！",
+              "",
               "要完成此关，移动 `HEAD`，`master` 和 `bugFix` 到目标所示的位置。"
             ]
           }

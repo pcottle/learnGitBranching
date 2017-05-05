@@ -24,7 +24,7 @@ exports.level = {
     "pt_BR": "Malabarismo com commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
-    "zh_CN": "提交交换戏法 #2",
+    "zh_CN": "提交的技巧 #2",
     "zh_TW": "commit 的戲法 #2",
     "ru_RU": "Жонглируем коммитами №2",
     "uk": "Жонглюємо комітами #2"
@@ -305,13 +305,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## 提交变换戏法 #2",
+              "## 提交的技巧 #2",
               "",
-              "*假如你还没有完成提交变换戏法 #1（前一关），这关不让玩哦！*",
+              "*如果你还没有完成“提交的技巧 #1”（前一关）的话，请选通过以后再来！*",
               "",
-              "如你在上一关所见，我们使用 `rebase -i` 来重排那些提交。只要把我们想要的提交挪到最顶端，我们就可以很容易地改变它，然后把它们重新排成我们想要的顺序。",
+              "正如你在上一关所见到的，我们可以使用 `rebase -i` 对提交记录进行重新排序。只要把我们想要的提交记录挪到最前端，我们就可以很轻松的用 `--amend` 修改它，然后把它们重新排成我们想要的顺序。",
               "",
-              "但唯一的问题就是这样做就要排很多次，有可能造成衍合冲突（rebase conflicts）。下面就看看用另外一种方法 `git cherry-pick` 是怎么做的吧。"
+              "但这样做就唯一的问题就是要进行两次排序，而这有可能造成由 rebase 而导致的冲突。下面还是看看 `git cherry-pick` 是怎么做的吧。"
             ]
           }
         },
@@ -319,13 +319,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "要在心理牢记 cherry-pick 可以从提交树的任何地方拿一个提交来放在 HEAD 上（尽管那个提交不在上游）。",
+              "要在心理牢记 cherry-pick 可以将提交树上任何地方的提交记录取过来追加到 HEAD 上（只要不是 HEAD 上游的提交就没问题）。",
               "",
-              "下面是一个小小的演示："
+              "来看看这个例子："
             ],
             "command": "git cherry-pick C2",
             "afterMarkdowns": [
-              "好滴咧，我们继续"
+              "看到了吧？我们继续"
             ],
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
           }
@@ -334,7 +334,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "那么这关呢，和上一关一样要改变提交 `C2`，但你要避免使用 `rebase -i`。自己想想要怎么解决吧，骚年！ :D"
+              "这一关的目标和上一关一样，通过 `--amend` 改变提交记录 `C2`，但你不能用 `rebase -i`。自己想想要怎么解决吧！ :D",
+              "",
+              "对了，提交记录上面的`'`的数量并不重要，只是引用的不同而已。也就是说如果你的最终结果在某个提交记录上多了个`'`，我也会算你通过的。"
             ]
           }
         }

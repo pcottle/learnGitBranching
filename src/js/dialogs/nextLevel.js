@@ -38,9 +38,10 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 碉堡了！',
+        '## 好样的！',
         '',
-        '你用 *{numCommands}* 条命令搞定了这一关；我们的答案要用 {best}。'
+        '你用 *{numCommands}* 条命令通过了这一关；',
+        '我们的答案要用 {best} 条命令。'
       ]
     }
   }],
@@ -109,7 +110,8 @@ exports.dialog = {
         'наш розв’язок складається з {best}.'
       ]
     }
-  }],'ko': [{
+  }],
+  'ko': [{
     type: 'ModalAlert',
     options: {
       markdowns: [

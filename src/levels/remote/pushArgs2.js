@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git push arguments -- Expanded!",
-    "zh_CN": "Git push 参数 2!",
+    "zh_CN": "Git push 参数 2",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
     "pt_BR": "Parâmetros do git push -- expandido",
@@ -17,7 +17,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
-    "zh_CN": "如果你失败了, 可以通过 \"show solution\" 找到解决方案 :P",
+    "zh_CN": "如果你认输的话，可以通过“show solution”查看解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
@@ -379,21 +379,21 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN": {
       "childViews": [
-      {
+        {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## `<place>` argument details",
+              "## `<place>`参数详解",
               "",
-              "还记得之前课程说的吧, 当为 git push 指定 master 为 place 时, 我们可以设置 要提交的来源 和 提交到目的地. ",
+              "还记得之前课程说的吧，当为 git push 指定 place 参数为 `master` 时，我们同时指定了提交记录的来源和去向。",
               "",
-              "你可能想知道 -- 如果来源和目的地不一样呢? ",
+              "你可能想问 —— 如果来源和去向分支的名称不同呢？比如你想把本地的 `foo` 分支推送到远程仓库中的 `bar` 分支。",
               "",
-              "好吧, 很不幸 Git 不可能做到... 只是个玩笑! 当然是可能的啦 :) ... Git 拥有超强的灵活性(几乎不能再多了) ",
+              "哎，很遗憾 Git 做不到…… 开个玩笑，别当真！当然是可以的啦 :) Git 拥有超强的灵活性（有点过于灵活了）",
               "",
-              "我们看看下一个幻灯片..."
+              "接下来咱们看看是怎么做的……"
             ]
           }
         },
@@ -401,24 +401,24 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要为 <place> 指定 source 和 destination, 只需要用冒号 `:` 将二者联结.",
+              "要同时为源和目的地指定 `<place>` 的话，只需要用冒号 `:` 将二者连起来就可以了：",
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "这通常被称为 <colon refspec>, refspec 是一个奇特的名 -- 用于 Git 能识别的位置(比如分支 foo 或者 HEAD~1) ",
+              "这个参数实际的值是个 refspec，“refspec” 是一个自造的词，意思是 Git 能识别的位置（比如分支 `foo` 或者 `HEAD~1`）",
               "",
-              "一旦你指定了独立的来源和目的地, 你就可以得到花哨而精确的远程命令, 让我们看看演示! "
+              "一旦你指定了独立的来源和目的地，就可以组织出言简意赅的远程操作命令了，让我们看看演示！"
             ]
           }
         },
-      {
+        {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "记住, `source` 是 Git 能理解的任何位置:"
+              "记住，`source` 可以是任何 Git 能识别的位置："
             ],
             "afterMarkdowns": [
-              "这是个很迷幻的命令, 但它是合理的 -- Git 将 foo^ 解析为一个位置, 上传新提交到远端的目的地.  "
+              "这是个另人困惑的命令，但是它确实是可以运行的 —— Git 将 `foo^` 解析为一个位置，上传所有未被包含到远程仓库里 `master` 分支中的提交记录。"
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -428,10 +428,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果你要 push 到的 destination 不存在呢? 没问题! Git 会在远端为你创建这个分支!"
+              "如果你要推送到的目的分支不存在会怎么样呢？没问题！Git 会在远程仓库中根据你提供的名称帮你创建这个分支！"
             ],
             "afterMarkdowns": [
-              "很赞吧! 干得漂亮! :D"
+              "很赞吧！它是不是很聪明？！ :D"
             ],
             "command": "git push origin master:newBranch",
             "beforeCommand": "git clone; git commit"
@@ -441,7 +441,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本节练习, 试着达到可视窗口展示的目标, 记住参数格式哟:",
+              "在这个关卡中，试着完成目标窗口展示的提交树，记住参数格式哟：",
               "",
               "`<source>:<destination>`"
             ]

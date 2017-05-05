@@ -17,7 +17,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
-    "zh_CN": "push 之前你需要先 clone.",
+    "zh_CN": "推送之前需要先克隆",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
@@ -248,13 +248,16 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "太棒了, 我们已经学习了从远端获取/合并工作到我们的本地工作. 但是我们如果分享工作呢?",
+              "OK，我们已经学过了如何从远程仓库获取更新并合并到本地的分支当中。这非常棒……但是我如何与大家分享**我的**成果呢？",
               "",
-              "好吧, 上载工作正好同下载工作相反, 那与 `git pull` 相反的命令是什么? `git push`! ",
+              "嗯，上传自己分享内容与下载他人的分享刚好相反，那与 `git pull` 相反的命令是什么呢？`git push`！",
               "",
-              "`git push` 负责将你的提交上传到远端, 一旦 `git push` 完成, 你的朋友就可以在远端下载你的工作了! ",
+              "`git push` 负责将**你的**变更上传到指定的远程仓库，并在远程仓库上合并你的新提交记录。一旦 `git push` 完成, 你的朋友们就可以从这个远程仓库下载你分享的成果了！",
               "",
-              "你可以将 `git push` 视为发布你工作的命令. 它有一些特别的地方, 稍后我们会了解到, 我们开始吧."
+              "你可以将 `git push` 想象成发布你成果的命令。它有许多应用技巧，稍后我们会了解到，但是咱们还是先从基础的开始吧……",
+              "",
+              "*注意 —— `git push` 不带任何参数时的行为与 Git 的一个名为 `push.default` 的配置有关。它的默认值取决于你正使用的 Git 的版本，但是在教程中我们使用的是 `upstream`。",
+              "这没什么太大的影响，但是在你的项目中进行推送之前，最好检查一下这个配置。*"
             ]
           }
         },
@@ -262,10 +265,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这里我们有一个变更, 而远端却没有, 我们先上传吧!"
+              "这里我们准备了一些远程仓库中没有的提交记录, 咱们开始先上传吧!"
             ],
             "afterMarkdowns": [
-              "到了, 远端收到的了 `C2` 提交, 远端的 `master` 分支 也被更新并指到了 `C2`,我们的远端代表 (o/master) 也同样被更新了. 所有的东西都被同步了!"
+              "过去了, 远程仓库接收了 `C2`，远程仓库中的 `master` 分支也被更新到指向 `C2` 了，我们的远程分支 (o/master) 也同样被更新了。所有的分支都同步了！"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -275,7 +278,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成本节, 需要向远端分享两个提交. 戒骄戒躁，课程还会更难哦! "
+              "要完成本关，需要向远程仓库分享两个提交记录。拿出十二分精神吧，后面的课程还会更难哦！"
             ]
           }
         }

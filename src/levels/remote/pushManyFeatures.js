@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
     "en_US": "Remember you can always use the undo or reset commands",
-    "zh_CN": "你随时都可以使用 undo/reset 命令.",
+    "zh_CN": "你随时都可以使用 undo 或 reset 命令。",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "pt_BR": "Lembre-se que você sempre pode usar undo ou reset",
@@ -17,7 +17,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Push Master!",
-    "zh_CN": "Push Master!",
+    "zh_CN": "推送主分支",
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
     "pt_BR": "Push Master!",
@@ -348,7 +348,7 @@ exports.level = {
         }
       ]
     },
-   "zh_CN":{
+    "zh_CN":{
       "childViews": [
         {
           "type": "ModalAlert",
@@ -356,16 +356,16 @@ exports.level = {
             "markdowns": [
               "## 合并特性分支",
               "",
-              "现在你应该很熟悉 fetch/pull/push 了, 现在我们将这些技能用于一种新的工作流.",
+              "既然你应该很熟悉 fetch、pull、push 了，现在我们要通过一个新的工作流来测试你的这些技能。",
               "",
-              "在一个大型项目中, 这是非常普遍的 -- 开发者在特性分支(不是 `master`)上工作, 工作完成后只做一次合并. 这跟前面课程描述很相像, 不过本节我们会深入一些.",
+              "在大型项目中开发人员通常会在（从 `master` 上分出来的）特性分支上工作，工作完成后只做一次集成。这跟前面课程的描述很相像（把 side 分支推送到远程仓库），不过本节我们会深入一些.",
               "",
-              "一些开发者只在 master 上做 push/pull —— 这样的话 master 总是最新的,即与远端 (o/master) 一致. ",
+              "但是有些开发人员只在 master 上做 push、pull —— 这样的话 master 总是最新的，始终与远程分支 (o/master) 保持一致。",
               "",
-              "对于这样的工作流, 我们合并两个步骤",
+              "对于接下来这个工作流，我们集成了两个步骤：",
               "",
-              "* 合并特性分支到 `master`",
-              "* 推送并更新远端"
+              "* 将特性分支集成到 `master` 上",
+              "* 推送并更新远程分支"
             ]
           }
         },
@@ -373,13 +373,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "让我们看看更快的推送流程 "
+              "让我们看看如何快速的更新 `master` 分支并推送到远程。"
             ],
             "afterMarkdowns": [
               "我们执行了两个命令: ",
               "",
-              "* 将远端的新提交衍合到我们的工作中",
-              "* 向远端推送我们的工作"
+              "* 将我们的工作 rebase 到远程分支的最新提交记录",
+              "* 向远程仓库推送我们的工作"
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -389,13 +389,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本篇有点儿复杂 -- 以下是问题核心",
+              "这个关卡的 Boss 很厉害 —— 以下是通关提示：",
               "",
-              "* 这里有三个特性分支 -- `side1` `side2` 和 `side3`",
-              "* 我需要按顺序将这三分支推送到远端.",
-              "* 因为远端已经被更新过了, 所以我们需要先做合并!",
+              "* 这里共有三个特性分支 —— `side1` `side2` 和 `side3`",
+              "* 我需要将这三分支按顺序推送到远程仓库",
+              "* 因为远程仓库已经被更新过了，所以我们还要把那些工作合并过来",
               "",
-              ":O 紧张了? 祝好运! 完成了本节, 你就前进了一大步啦! "
+              ":O 紧张了？祝你好运！完成了本关, 你就向目标又迈近了一大步啦！"
             ]
           }
         }

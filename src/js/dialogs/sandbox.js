@@ -249,51 +249,20 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 欢迎光临 Learn Git Branching!',
+        '## 欢迎光临 Learn Git Branching',
         '',
-        '本应用旨在帮助初学者领会 Git 分支背后的强大概念。',
-        '希望你能喜欢这个应用，并学到知识！',
+        '你对 Git 感兴趣吗？那么算是来对地方了！',
+        '“Learning Git Branching” 可以说是目前为止最好的教程了，在沙盒里你能执行相应的命令，还能看到每个命令的执行情况；',
+        '通过一系列刺激的关卡挑战，逐步深入的学习 Git 的强大功能，在这个过程中你可能还会发现一些有意思的事情。',
         '',
-        '# 演示!',
+        '关闭这个对话框以后，你会看到我们提供的许多关卡。如果你是初学者，从第一关开始逐个向后挑战就是了。',
+        '而如果你已经入门了，可以略过前面，直接挑战后面更有难度的关卡。',
         '',
-        '如果你还没看过演示，请到此查看：',
+        '### 演示',
         '',
-        '[http://pcottle.github.io/learnGitBranching/?demo](http://pcottle.github.io/learnGitBranching/?demo)',
+        '如果你还没看过演示，请[到此](?demo)查看。',
         '',
-        '厌烦这个对话框？ 在 URL 后头加上 `?NODEMO` 就看不到它了，也可以直接点下边这个链接：',
-        '',
-        '[http://pcottle.github.io/learnGitBranching/?NODEMO](http://pcottle.github.io/learnGitBranching/?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Git 命令',
-        '',
-        '在沙盒模式里，你有好多命令可用。 包括：',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## 分享即关怀',
-        '',
-        '使用 `export tree` 和 `import tree` 与朋友分享 Git 树',
-        '',
-        '有个好课程可以分享？试试用 `build level` 创建一个关卡，或者 `import level` 试试朋友的。',
-        '',
-        '言归正传，让我们先从 `levels` 开始……'
+        'PS：想直接进入沙盒？ 在 URL 后头加上 `?NODEMO` 就可以了，试一下[这个链接](?NODEMO)：'
       ]
     }
   }],
