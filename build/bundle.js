@@ -44924,9 +44924,10 @@ var VisBranch = VisBase.extend({
     var textNode = this.get('text').node;
     if (this.get('isHead')) {
       // HEAD is a special case
+      var size = textNode.getBoundingClientRect();
       return firefoxFix({
-        w: textNode.clientWidth,
-        h: textNode.clientHeight
+        w: size.width,
+        h: size.height
       });
     }
 
@@ -46024,7 +46025,7 @@ var VisTag = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visTag) {
       var textNode = (visTag.get('text')) ? visTag.get('text').node : null;
-      return (textNode === null) ? 0 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.getBoundingClientRect().width;
     };
 
     var firefoxFix = function(obj) {
@@ -46080,7 +46081,7 @@ var VisTag = VisBase.extend({
     var name = this.get('tag').getName();
     var isRemote = this.getIsRemote();
     var isHg = this.gitEngine.getIsHg();
-    
+
     return name;
   },
 
@@ -46202,7 +46203,7 @@ var VisTag = VisBase.extend({
     if (this.getIsGoalAndNotCompared()) {
       return this.get('stroke-width') / 5.0;
     }
-    
+
     return this.get('stroke-width');
   },
 
@@ -46533,8 +46534,9 @@ var Visualization = Backbone.View.extend({
     var smaller = 1;
     var el = this.el;
 
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
+    var elSize = el.getBoundingClientRect();
+    var width = elSize.width - smaller;
+    var height = elSize.height - smaller;
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
