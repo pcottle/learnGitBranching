@@ -301,9 +301,10 @@ var VisBranch = VisBase.extend({
     var textNode = this.get('text').node;
     if (this.get('isHead')) {
       // HEAD is a special case
+      var size = textNode.getBoundingClientRect();
       return firefoxFix({
-        w: textNode.clientWidth,
-        h: textNode.clientHeight
+        w: size.width,
+        h: size.height
       });
     }
 
