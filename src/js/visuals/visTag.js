@@ -163,7 +163,7 @@ var VisTag = VisBase.extend({
   getTextSize: function() {
     var getTextWidth = function(visTag) {
       var textNode = (visTag.get('text')) ? visTag.get('text').node : null;
-      return (textNode === null) ? 0 : textNode.clientWidth;
+      return (textNode === null) ? 0 : textNode.getBoundingClientRect().width;
     };
 
     var firefoxFix = function(obj) {
@@ -219,7 +219,7 @@ var VisTag = VisBase.extend({
     var name = this.get('tag').getName();
     var isRemote = this.getIsRemote();
     var isHg = this.gitEngine.getIsHg();
-    
+
     return name;
   },
 
@@ -341,7 +341,7 @@ var VisTag = VisBase.extend({
     if (this.getIsGoalAndNotCompared()) {
       return this.get('stroke-width') / 5.0;
     }
-    
+
     return this.get('stroke-width');
   },
 

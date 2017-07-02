@@ -261,8 +261,9 @@ var Visualization = Backbone.View.extend({
     var smaller = 1;
     var el = this.el;
 
-    var width = el.clientWidth - smaller;
-    var height = el.clientHeight - smaller;
+    var elSize = el.getBoundingClientRect();
+    var width = elSize.width - smaller;
+    var height = elSize.height - smaller;
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
