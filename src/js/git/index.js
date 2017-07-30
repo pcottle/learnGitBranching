@@ -1052,6 +1052,12 @@ GitEngine.prototype.push = function(options) {
   }
 
   var sourceBranch = this.refs[options.source];
+  if (sourceBranch && sourceBranch.attributes.type === 'tag') {
+    throw new GitError({
+      msg: intl.todo('Tags are not allowed as sources for pushing'),
+    });
+  }
+
   if (!this.origin.refs[options.destination]) {
     this.makeBranchOnOriginAndTrack(
       options.destination,
