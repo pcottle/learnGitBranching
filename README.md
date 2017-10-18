@@ -42,7 +42,7 @@ When reporting bugs, try running the command `debug_copyTree()` in your JS conso
 
 ## How the app works / Contributing functionality
 
-LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in Javascript. The production version (on github.io) literally just serves up an html page with some JS and CSS. The rest of the magic lies in the 9k+ lines of Javascript :P
+LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in JavaScript. The production version (on github.io) literally just serves up an HTML page with some JS and CSS. The rest of the magic lies in the 9k+ lines of JavaScript :P
 
 Because the app contains a lot of code, I have written everything into Nodejs-style modules. The modules are packaged together with the `Browserify` and then sent down in a format the browser can understand.
 
@@ -52,7 +52,7 @@ Here is the high level process of the build:
 
 * Code is written into the node.js modules which require other modules
 * CSS is written into just one stylesheet (theres not a whole ton of styling)
-* New HTML is written into a template html file (`template.index.html`). Only needed
+* New HTML is written into a template HTML file (`template.index.html`). Only needed
   for new views
 * The app is "built", which outputs:
   * `index.html` in the root directory
