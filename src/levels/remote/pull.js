@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Git Pullin'",
     "zh_CN": "Git Pull",
-    "zh_TW": "git pull'",
+    "zh_TW": "git pull",
     "es_AR": "git pull",
     "pt_BR": "Git Pull",
     "de_DE": "Git Pull",
