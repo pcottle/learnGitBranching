@@ -52753,7 +52753,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "要在心理牢记 cherry-pick 可以将提交树上任何地方的提交记录取过来追加到 HEAD 上（只要不是 HEAD 上游的提交就没问题）。",
+              "要在心里牢记 cherry-pick 可以将提交树上任何地方的提交记录取过来追加到 HEAD 上（只要不是 HEAD 上游的提交就没问题）。",
               "",
               "来看看这个例子："
             ],
@@ -57918,7 +57918,7 @@ exports.level = {
             "markdowns": [
               "## 撤销变更",
               "",
-              "在 Git 里撤销变更的方法很多。和提交一样，撤销变更由底层部分（暂存区的独立文件或者片段）和上层部分（变更到底是通过哪咱方式被撤销的）组成。我们这个应用主要关注的是后者。",
+              "在 Git 里撤销变更的方法很多。和提交一样，撤销变更由底层部分（暂存区的独立文件或者片段）和上层部分（变更到底是通过哪种方式被撤销的）组成。我们这个应用主要关注的是后者。",
               "",
               "主要有两种方法用来撤销变更 —— 一是 `git reset`，还有就是 `git revert`。接下来咱们逐个进行讲解。",
               ""
@@ -64268,7 +64268,7 @@ exports.level = {
   "name": {
     "en_US": "Git Pullin'",
     "zh_CN": "Git Pull",
-    "zh_TW": "git pull'",
+    "zh_TW": "git pull",
     "es_AR": "git pull",
     "pt_BR": "Git Pull",
     "de_DE": "Git Pull",
