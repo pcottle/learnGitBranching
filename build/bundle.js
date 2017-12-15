@@ -57038,9 +57038,9 @@ exports.level = {
             "markdowns": [
               "### Der \"~\"-Operator",
               "",
-              "Nehem wir an du willst viele Schritte im Commit-Baum zurückgehen. Dann wird es schnell mühsam immer wieder `^` einzugeben; deswegen gibt es in Git den Tilde-Operator `~`.",
+              "Nehmen wir an du willst viele Schritte im Commit-Baum zurückgehen. Dann wird es schnell mühsam immer wieder `^` einzugeben; deswegen gibt es in Git den Tilde-Operator `~`.",
               "",
-              "Der Tilde-Operator akzeptiert optional eine Zahl, mit der du angeben kannst vieviele Vorgänger zu zurückgehen willst. Keine Anzahl anzugeben bewirkt dasselbe wie `~1`."
+              "Der Tilde-Operator akzeptiert optional eine Zahl, mit der du angeben kannst, wieviele Vorgänger du zurückgehen willst. Keine Anzahl anzugeben, bewirkt dasselbe wie `~1`."
             ]
           }
         },
