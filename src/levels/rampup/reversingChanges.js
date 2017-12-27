@@ -24,7 +24,7 @@ exports.level = {
     "pt_BR": "Lembre que revert e reset recebem parâmetros diferentes",
     "zh_CN": "注意 revert 和 reset 使用的参数不同。",
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
-    "ko": "",
+    "ko": "revert와 reset이 받는 인자가 다름을 기억하세요",
     "ja"   : "revertとresetとで引数が異なることに注意。",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри"
