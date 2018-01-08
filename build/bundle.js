@@ -29905,6 +29905,8 @@ exports.dialog = {
         'beginner, just go ahead and start with the first. If you already know some Git basics, ',
         'try some of our later more challenging levels.',
         '',
+        'You can see all the commands available with `show commands` at the terminal.',
+        '',
         'PS: Want to go straight to a sandbox next time?',
         'Try out ',
         '[this special link](http://pcottle.github.io/learnGitBranching/?NODEMO)'
@@ -39472,7 +39474,8 @@ var regexMap = {
   'importLevelNow': /^importLevelNow($|\s)/,
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
-  'undo': /^undo($|\s)/
+  'undo': /^undo($|\s)/,
+  'share permalink': /^share( +permalink)?$/
 };
 
 var getAllCommands = function() {
@@ -39747,6 +39750,16 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  sharePermalink: function(command, deferred) {
+    var treeJSON = JSON.stringify(this.mainVis.gitEngine.exportTree());
+    var url =
+      'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
+    command.setResult(
+      intl.todo('Here is a link to the current state of the tree: ') + url
+    );
+    command.finishWith(deferred);
+  },
+
   resetSolved: function(command, deferred) {
     LevelActions.resetLevelsSolved();
     command.addWarning(
@@ -39777,6 +39790,7 @@ var Sandbox = Backbone.View.extend({
       'importTreeNow': this.importTreeNow,
       'import level': this.importLevel,
       'importLevelNow': this.importLevelNow,
+      'share permalink': this.sharePermalink,
     };
 
     var method = commandMap[command.get('method')];
