@@ -125,7 +125,8 @@ var regexMap = {
   'importLevelNow': /^importLevelNow($|\s)/,
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
-  'undo': /^undo($|\s)/
+  'undo': /^undo($|\s)/,
+  'share permalink': /^share( +permalink)?$/
 };
 
 var getAllCommands = function() {

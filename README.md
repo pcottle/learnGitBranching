@@ -31,6 +31,10 @@ Type `levels` to see the available lessons / challenges (and which ones you have
 
 For some added fun, there is a "git golf" concept where we keep track of how many commands you use to solve each level. See if you can match all of our records!
 
+### Sharing permalinks
+
+You can share a link to LearnGitBranching with an arbitrary set of commands that will execute upon load by using the `commmand` URL parameter. You will also likely want to disable the intro dialog for this case with the `NODEMO` url param; here is [an example](https://learngitbranching.js.org/?NODEMO&command=echo%20%22hello%22;%20git%20commit) to get started.
+
 ### Level Builder
 
 You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level" or simply specify a gist ID in the url params like so:

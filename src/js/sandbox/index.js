@@ -223,6 +223,16 @@ var Sandbox = Backbone.View.extend({
     });
   },
 
+  sharePermalink: function(command, deferred) {
+    var treeJSON = JSON.stringify(this.mainVis.gitEngine.exportTree());
+    var url =
+      'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
+    command.setResult(
+      intl.todo('Here is a link to the current state of the tree: ') + url
+    );
+    command.finishWith(deferred);
+  },
+
   resetSolved: function(command, deferred) {
     LevelActions.resetLevelsSolved();
     command.addWarning(
@@ -253,6 +263,7 @@ var Sandbox = Backbone.View.extend({
       'importTreeNow': this.importTreeNow,
       'import level': this.importLevel,
       'importLevelNow': this.importLevelNow,
+      'share permalink': this.sharePermalink,
     };
 
     var method = commandMap[command.get('method')];

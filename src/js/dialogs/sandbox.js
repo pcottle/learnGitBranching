@@ -14,6 +14,8 @@ exports.dialog = {
         'beginner, just go ahead and start with the first. If you already know some Git basics, ',
         'try some of our later more challenging levels.',
         '',
+        'You can see all the commands available with `show commands` at the terminal.',
+        '',
         'PS: Want to go straight to a sandbox next time?',
         'Try out ',
         '[this special link](http://pcottle.github.io/learnGitBranching/?NODEMO)'
