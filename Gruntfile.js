@@ -211,6 +211,11 @@ module.exports = function(grunt) {
       verbose: true,
       requirejs: false
     },
+    env: {
+      prod: {
+        NODE_ENV: 'production',
+      },
+    },
     browserify: {
       options: {
         transform: [require('grunt-react').browserify]
@@ -235,9 +240,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-react');
+  grunt.loadNpmTasks('grunt-env');
 
   grunt.registerTask('build',
-    ['clean', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell:gitAdd', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
+    ['clean', 'env', 'browserify', 'uglify', 'hash', 'buildIndex', 'shell:gitAdd', 'jasmine_node', 'jshint', 'lintStrings', 'compliment']
   );
   grunt.registerTask('lint', ['jshint', 'compliment']);
   grunt.registerTask('fastBuild', ['clean', 'browserify', 'hash', 'buildIndexDev', 'jshint']);
