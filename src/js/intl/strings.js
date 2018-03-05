@@ -1200,7 +1200,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'objective-button': {
     '__desc__': 'button label to show objective',
-    'en_US': 'Objective',
+    'en_US': 'Instructions',
     'de_DE': 'Ziel',
     'zh_TW': '提示',
     'zh_CN': '提示',
