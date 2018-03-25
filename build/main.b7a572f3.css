@@ -30,7 +30,7 @@ p {
 
 .fwber {
   font-weight: bolder;
-  font-size: 18px;
+  font-size: 1.125em;
 }
 
 .githubLink {
@@ -316,7 +316,7 @@ div.toolbar {
   position: relative;
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 0.875em;
   color: #333;
 }
 
@@ -328,12 +328,12 @@ div.toolbar.level-toolbar {
   background-image: linear-gradient(top, #B2FF2E, #8AD247);
   border-radius: 0;
   height: inherit;
-  font-size: 12px;
+  font-size: 0.75em;
   position: relative;
 }
 
 div.toolbar.level-toolbar button {
-  font-size: 12px;
+  font-size: 0.75em;
   border: 1px solid #888;
   border-radius: 4px;
   padding: 4px 8px;
@@ -449,7 +449,7 @@ div.reactCommandView p.commandLine i {
 p.commandLine,
 div.commandLineResult {
   opacity: 1;
-  font-size: 16px;
+  font-size: 1em;
   margin: 0px;
 }
 
@@ -705,7 +705,7 @@ div.helperBar.show.BaseHelperBar {
 p.helperText,
 div.terminal-text p.helperText,
 .iRebaseDialog p.helperText {
-  font-size: 10px;
+  font-size: 0.625em;
 }
 
 .iRebaseDialog p.solutionText {
@@ -762,7 +762,7 @@ li.rebaseEntry a#toggleButton {
   cursor: pointer;
   float: right;
   position: relative;
-  font-size: 14px;
+  font-size: 0.875em;
   top: -5px;
   right: -5px;
 }
@@ -876,7 +876,7 @@ div.seriesView p.levelInfo,
 div.seriesView p.about {
   margin: 0px;
   padding: 4px;
-  font-size: 12px;
+  font-size: 0.75em;
   color: #CCC;
 }
 
@@ -940,7 +940,7 @@ div.levelIcon.solved:active {
 div.levelIcon div.index {
   font-weight: 400;
   text-shadow: 1px 1px 2px #CCC, 0 2px 0 #C9C9C9;
-  font-size: 20px;
+  font-size: 1.125em;
   color: #333;
   -webkit-text-stroke: 1px #111;
 }
@@ -954,7 +954,7 @@ div.levelIcon.solved div.index i {
   color: white;
   -webkit-text-stroke: 0;
   text-shadow: none;
-  font-size: 30px;
+  font-size: 2em;
 }
 
 div.levelIcon.solved div.index div.indexNum {
@@ -1092,7 +1092,7 @@ div.gitDemonstrationView {
 /* LeftRightView */
 
 .leftRightView div i {
-  font-size: 45px;
+  font-size: 2.75em;
   cursor: pointer;
 }
 

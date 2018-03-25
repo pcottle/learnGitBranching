@@ -35473,7 +35473,7 @@ exports.strings = {
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
-    'zh_CN': '你的 oringin 仓库中的分支与远程分支的不同步了，无法执行 fetch 命令',
+    'zh_CN': '你的 origin 仓库中的分支与远程分支的不同步了，无法执行 fetch 命令',
     'zh_TW': '你的 origin 分支已經失去了與 remote 遠端分支的同步，所以無法執行 fetch 命令',
     'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
